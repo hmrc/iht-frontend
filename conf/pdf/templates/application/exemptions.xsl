@@ -63,12 +63,12 @@
                                 <xsl:with-param name="value"
                                                 select="allExemptions/partner/nino"/>
                             </xsl:call-template>
-                            <xsl:call-template name="table-row">
+                            <xsl:call-template name="table-row-money">
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.totalAssets.title')"/>
                                 <xsl:with-param name="value">
                                     <xsl:if test="allExemptions/partner/totalAssets">
-                                        &#xA3;<xsl:value-of select='format-number(number(allExemptions/partner/totalAssets), "##,###.00")'/>
+                                        <xsl:value-of select='allExemptions/partner/totalAssets'/>
                                     </xsl:if>
                                 </xsl:with-param>
 
@@ -121,11 +121,11 @@
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.charities.charityNo.question')"/>
                                                 <xsl:with-param name="value" select="number"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row">
+                                            <xsl:call-template name="table-row-money">
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived')"/>
                                                 <xsl:with-param name="value">
                                                     <xsl:if test="totalValue">
-                                                        &#xA3;<xsl:value-of select='format-number(number(totalValue), "##,###.00")'/>
+                                                        <xsl:value-of select='totalValue'/>
                                                     </xsl:if>
                                                 </xsl:with-param>
                                             </xsl:call-template>
@@ -186,11 +186,11 @@
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.qualifyingBodies.qualifyingBodyName')"/>
                                                 <xsl:with-param name="value" select="name"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row">
+                                            <xsl:call-template name="table-row-money">
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title')"/>
                                                 <xsl:with-param name="value">
                                                     <xsl:if test="totalValue">
-                                                        &#xA3;<xsl:value-of select='format-number(number(totalValue), "##,###.00")'/>
+                                                        <xsl:value-of select='totalValue'/>
                                                     </xsl:if>
                                                 </xsl:with-param>
                                             </xsl:call-template>
@@ -224,7 +224,7 @@
                     <xsl:call-template name="table-row-money-border-top-black">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
-                        <xsl:with-param name="value" select='format-number(number($exemptionsTotal), "##,###.00")'/>
+                        <xsl:with-param name="value" select='$exemptionsTotal'/>
                     </xsl:call-template>
 
                     <xsl:comment>Blank row to display line at end of section</xsl:comment>

@@ -332,7 +332,14 @@
             </fo:table-cell>
             <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
                 <fo:block>
-                    &#xA3;<xsl:value-of select='format-number(number($value), "##,###.##")'/>
+                    <xsl:choose>
+                        <xsl:when test="$value &gt; 1">
+                            &#xA3;<xsl:value-of select='format-number(number($value), "##,###.00")'/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            &#xA3;<xsl:value-of select="$value"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </fo:block>
 
             </fo:table-cell>
