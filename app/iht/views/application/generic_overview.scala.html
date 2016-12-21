@@ -1,0 +1,86 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.utils.CommonHelper
+@import iht.utils.CommonHelper.getOrException
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html._
+
+@import iht.utils._
+@import iht.utils.OverviewHelper._
+
+@(registrationDetails:RegistrationDetails,
+seqRows:Seq[Section],
+messagesFileSectionLine1: String,
+messagesFileSectionLine2: String,
+returnToCall: Option[Call],
+returnToMessagesKey: String,
+returnAsButton: Boolean = false
+)(implicit request: Request[_])
+
+<p id="assets-guidance1" class="lede">@Messages(messagesFileSectionLine1)</p>
+@if(Messages.isDefinedAt(messagesFileSectionLine2)) {
+<p id="assets-guidance2">@Messages(messagesFileSectionLine2)</p>
+}
+@seqRows.map{section=>
+<section id="@section.id">
+    @section.title.map{ sectionTitle =>
+
+      <div class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">
+          <div class="grid-layout__column grid-layout__column--3-4">
+              <h2 class="font-xsmall bold">@Messages(sectionTitle)</h2>
+          </div>
+          <div class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right">
+                  @if(section.link.linkText.length>0){
+                      <a class="font-xsmall" id='@{section.id + "-edit"}' href="@section.link.linkUrl">
+                        <span aria-hidden="true">@Messages(section.link.linkText)</span>
+                        <span class="visually-hidden">@Messages(section.link.linkTextAccessibility)</span>
+                      </a>
+                  }
+          </div>
+      </div>
+    }
+
+    <ul>
+    @section.details.map{detail=>
+      <li id="@{detail.id}" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+          <div class="tabular-data__data tabular-data__data--6-12" aria-hidden="true">@{Messages(detail.title)}</div>
+          <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right" aria-hidden="true">
+              @Messages(detail.value)
+          </div>
+          <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+            @if(detail.link.linkText.length>0){
+            <a id='@{detail.id + "-edit"}' href="@detail.link.linkUrl">
+                <span aria-hidden="true">@Messages(detail.link.linkText)</span>
+                <span class="visually-hidden">@Messages(detail.link.linkTextAccessibility, detail.value)</span>
+            </a>
+            }
+          </div>
+      </li>
+    }
+  </ul>
+</section>
+}
+<div class="form-field form-field--submit">
+  @registrationDetails.deceasedDetails.map{ dd=>
+    @if(returnAsButton){
+      @ihtHelpers.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
+    } else {
+        @ihtHelpers.return_link(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
+    }
+  }
+</div>

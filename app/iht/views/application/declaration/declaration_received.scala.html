@@ -1,0 +1,101 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.models.application.ProbateDetails
+
+@import iht.views.html._
+@import iht.utils._
+@import iht.constants.IhtProperties
+
+@(probateDetails: Option[ProbateDetails],
+  registrationDetails: RegistrationDetails)(implicit request:Request[_])
+
+@iht_main_template_application(title = Messages("page.iht.application.declaration_received.title"),
+browserTitle = Some(Messages("page.iht.application.declaration_received.title")),
+isFullWidth=true
+){
+
+<h2>@Messages("page.iht.application.declaration_received.subtitle")</h2>
+
+<div class="panel-indent">
+    @if(probateDetails.isDefined){
+
+    <div class="grid-2-3"> @Messages("page.iht.application.probateDetails.content2")
+    <ul class="bullets">
+        <li>@Messages("page.iht.application.probateDetails.content2.bullet1") @formattedProbateReference(probateDetails.get.probateReference)</li>
+        <li>@Messages("page.iht.application.probateDetails.content2.bullet2",probateDetails.get.grossEstateforProbatePurposes )</li>
+        <li>@Messages("page.iht.application.probateDetails.content2.bullet3",probateDetails.get.netEstateForProbatePurposes)</li>
+    </ul>
+    </div>
+
+    @defining(Html(
+    "<div class='grid-2-3'>"
+        +"<ul class='bullets'>"
+        +"<li>"+Messages("page.iht.application.probateDetails.guidance.bullet1")+"</li>"
+            +"<li>"+Messages("page.iht.application.probateDetails.guidance.bullet2")+"</li>"
+            +"<li>"+Messages("page.iht.application.probateDetails.guidance.bullet3")+"</li>"
+        +"</ul>"
+    +"</div>"
+    )) { slideHTML =>
+    @ihtHelpers.AccordionSliderHelpText(
+    '_helpText -> Messages("page.iht.application.probateDetails.guidance"),
+    '_slideOutText -> slideHTML
+    )
+    }
+
+
+    <p class="grid-2-3"> @Messages("page.iht.application.probateDetails.content4")
+        <a href="javascript:window.print()">@Messages("page.iht.application.probateDetails.content4.print")</a>
+        @Messages("page.iht.application.probateDetails.content5")
+    </p>
+    } else {
+    <p class="grid-2-3">@Messages("page.iht.application.probateDetails.probateDetailsNotAvailableText")</p>
+    }
+</div>
+<h3>@Messages("page.iht.application.declaration_received.subheading1")</h3>
+
+<p>@Messages("page.iht.application.declaration_received.probate.paragraph1")</p>
+
+<p>@Messages("page.iht.application.declaration_received.paragraph2")</p>
+
+<h3>@Messages("page.iht.application.declaration_received.subheading3")</h3>
+<p>
+    <a id="pdfLink" target="_blank" href="@iht.controllers.application.pdf.routes.PDFController.onApplicationPDF(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference))">@Messages("page.iht.application.declaration_received.paragraph5.link")</a>.
+    @Messages("page.iht.application.declaration_received.paragraph5.part2")
+</p>
+
+<h3>@Messages("page.iht.application.declaration_received.subheading2")</h3>
+<p>@Messages("page.iht.application.declaration_received.paragraph3")</p>
+<p>@Messages("page.iht.application.declaration_received.paragraph4")</p>
+
+@defining(Html(Messages("page.iht.application.overview.helptext.part1")
+  +" <a id=\"correctiveAccount\" href="+IhtProperties.correctiveAccountsLink+"> "
+  + Messages("iht.estateReport.correctiveAccountForm")+"</a>"
+  + Messages("page.iht.application.overview.helptext.part2"))) { slideHTML =>
+    @ihtHelpers.AccordionSliderHelpText(
+      '_helpText -> Messages("page.iht.application.declaration_received.hint"),
+      '_slideOutText -> slideHTML,
+      '_needHighlight -> true
+    )
+}
+
+<a class="button" href="@iht.controllers.home.routes.IhtHomeController.onPageLoad"/>
+  @Messages("page.iht.application.declaration_received.continuelink")
+</a>
+
+
+}

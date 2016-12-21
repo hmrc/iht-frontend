@@ -1,0 +1,6 @@
+one message,validation.error.blank.deceased.dateofbirth,error.dateOfBirth.blank
+two message,validation.error.blank.add-exec.dateofbirth,error.dateOfBirth.blank
+three message,validation.error.blank.exemptions.partner.dateofbirth,error.dateOfBirth.blank
+four message,validation.error.invalid.exemptions.partner.last.name,error.lastName.length
+five message,validation.error.invalid.tnrbEligibility.partner.lastName,error.lastName.length
+six message,validation.error.invalid.tnrbEligibility.partner.last.name,error.lastName.length

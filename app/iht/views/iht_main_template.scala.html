@@ -1,0 +1,145 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@(title: String,
+signOutText: String = Messages("site.button.signOut"),
+browserTitle: Option[String] = None,
+stage: Option[String] = None,
+contentHeader: Option[Html] = None,
+appConfig: iht.config.AppConfig = iht.config.ApplicationConfig,
+subTitle: Option[String] = None,
+isFullWidth: Boolean = false,
+backUrl: Option[Call] = None,
+jsFile: Option[String]= None,
+cssFile: Option[String]= None,
+cancelUrl: Option[Call]=None,
+cancelLabel: => Option[String] = Some(Messages("site.link.cancel")),
+saveAndViewAppUrl: Option[Call]= None,
+hasTimeOut:Boolean = true,
+sidebarLinks: Html = HtmlFormat.empty,
+signOutUrl: Option[Call],
+headerTitle: Option[String],
+headingClass: String = "heading-xlarge"
+)(mainContent: Html)
+
+@import uk.gov.hmrc.play.views.html.layouts
+@import iht.config._
+@import iht.config.ApplicationConfig
+@import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
+@import iht.utils.CommonHelper
+
+@navLinks = {
+    @signOutUrl.map{ url =>
+        <li><a id="logOutNavHref" href="@url">@signOutText</a></li>
+    }
+}
+
+@linkElement = {
+    @if(hasTimeOut && appConfig.enableRefresh) {
+        <meta http-equiv="refresh" content="@appConfig.refreshInterval">
+    }
+
+    @cssFile.map{css => <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/" + css)' /> }
+    <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/iht-app.css")' />
+    <!--[if lte IE 8 ]>
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/iht-app-ie.css")" />
+    <![endif]-->
+}
+
+@scriptElement = {
+
+    <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
+    @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
+}
+
+@commonContentHeader = {
+    @subTitle.map{ st =>
+        <h3 class="heading-medium subTitle">@st</h3>
+    }
+    @contentHeader
+}
+
+@insideHeader = {
+    @layouts.header_nav(headerTitle, None, false, Some(navLinks))
+}
+
+@afterHeader = {
+
+}
+
+@mainContentIht = {
+    <h1 class="@headingClass">@title</h1>
+
+    @mainContent
+
+    @backUrl.map{ url =>
+        <a id="back-button" class="back-link" href=@url>@Messages("iht.back")</a>
+    }
+    @cancelUrl.map{ url =>
+        <a id="cancel-button" class="" href=@url>@cancelLabel</a>
+    }
+
+}
+
+@betaBanner = {
+    @layouts.betaBanner(
+        userLoggedIn = false,
+        betaFeedbackUrl = appConfig.betaFeedbackUrl,
+        betaFeedbackUnauthenticatedUrl = appConfig.betaFeedbackUnauthenticatedUrl,
+        showFeedbackLinkInBetaBanner = true)
+}
+
+@serviceInfo = {
+    @layouts.serviceInfo(
+        betaBanner = betaBanner,
+        includeGridWrapper = false,
+        serviceInfoContent = None)
+}
+
+@getHelpForm = @{ihtHelpers.reportAProblemLink(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+
+
+@sidebarIht = @{layouts.sidebar(sidebarLinks, Some("sidebar"))}
+
+
+@content = {
+    @layouts.main_content(
+        article = ihtHelpers.article(content = mainContentIht, includeGridWrapper = false, isFullWidth = isFullWidth),
+        mainContentHeader = commonContentHeader,
+        serviceInfo = serviceInfo,
+        getHelpForm = getHelpForm,
+        sidebar = sidebarIht)
+}
+
+@bodyEnd = {
+    @layouts.footer(
+        analyticsToken = appConfig.analyticsToken,
+        analyticsHost = appConfig.analyticsHost,
+        ssoUrl = None,
+        scriptElem = Some(scriptElement),
+        gaCalls = None)
+}
+
+@views.html.layouts.govuk_template(
+title = if(browserTitle.isDefined) { (browserTitle.map(_ + " " + Messages("site.title.govuk"))) } else Some(title),
+bodyClasses = None)(
+head = layouts.head(linkElem = Some(linkElement), headScripts = None),
+bodyEnd = bodyEnd,
+insideHeader = insideHeader,
+afterHeader = afterHeader,
+footerTop = HtmlFormat.empty,
+footerLinks = Some(layouts.footer_links()),
+nav = true)(content)

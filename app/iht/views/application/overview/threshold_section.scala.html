@@ -1,0 +1,43 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.views.html._
+@import iht.viewmodels.application.overview._
+@import iht.views.html.ihtHelpers._
+@import play.twirl.api.Html
+
+@(model: ThresholdSectionViewModel, sectionClass: String = "")
+
+<section id="threshold-section" class="@sectionClass">
+    <h2 class="visually-hidden">@Messages("iht.estateReport.ihtThreshold")</h2>
+    <ul class="tabular__data">
+        @if(model.increasingThresholdRow.isDefined) {
+            @overview_item(model.increasingThresholdRow.get)
+        }
+
+    @if(model.thresholdIncreased) {
+      </ul>
+      @overview_total(model.thresholdRow)
+    } else {
+      @overview_item_without_link(model.thresholdRow)
+      </ul>
+    }
+    @if(model.showIncreaseThresholdLink) {
+        <a class="font-xsmall" id="tnrb-link" href="@iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad()">
+            @Messages("page.iht.application.estateOverview.increaseThreshold.link")
+        </a>
+    }
+</section>

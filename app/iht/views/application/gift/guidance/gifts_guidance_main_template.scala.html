@@ -1,0 +1,95 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@(title: String,
+backUrl: Option[Call],
+isFullWidth: Boolean,
+ihtReference: String,
+backToLastQuestionUrl: Option[String] = None,
+backToLastQuestionMessageKey: Option[String] = None,
+backToLastQuestionMessageKeyAccessibility: Option[String] = None)(mainContent: Html)(implicit request: Request[_])
+
+@iht_main_template_application(title = Messages("page.iht.application.gifts.guidance.title"),
+    browserTitle = Some(Messages("page.iht.application.gifts.guidance.title")),
+    backUrl = backUrl,
+    isFullWidth = isFullWidth,
+    sidebarLinks =  iht.views.html.application.gift.guidance.guidance_sidebar(ihtReference, backToLastQuestionUrl, backToLastQuestionMessageKey, backToLastQuestionMessageKeyAccessibility)){
+
+
+    <nav class="section divider--bottom two-col-list full-width">
+        <div id="current" class="hidden">@Messages("site.currentPage")</div>
+
+        <div class="two-col-list__col two-col-list__col--left">
+            <ol class="two-col-list--padded">
+                <li class="font-xsmall">
+                  @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad().toString().trim){
+                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.whatsAGift.title")</span>
+                  } else {
+                    <a id="guidance1" href="@iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.whatsAGift.title")</a>
+                  }
+                </li>
+                <li class="font-xsmall">
+                  @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad().toString().trim){
+                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.kindOfGifts.title")</span>
+                  } else {
+                    <a id="guidance2" href="@iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.kindOfGifts.title")</a>
+                  }
+                </li>
+                <li class="font-xsmall">
+                  @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad().toString().trim){
+                    <span aria-describedby="current">@Messages("iht.estateReport.gifts.withReservation.title")</span>
+                  } else {
+                    <a id="guidance3" href="@iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()">@Messages("iht.estateReport.gifts.withReservation.title")</a>
+                  }
+                </li>
+            </ol>
+        </div>
+        <div class="two-col-list__col two-col-list__col--right">
+            <ol start="4" class="two-col-list--padded">
+                <li class="font-xsmall">
+                  @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad().toString().trim){
+                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.claimingExemptions.title")</span>
+                  } else {
+                    <a id="guidance4" href="@iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.claimingExemptions.title")</a>
+                  }
+                </li>
+                <li class="font-xsmall">
+                  @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.IncreasingAnnualLimitController.onPageLoad().toString().trim){
+                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.title")</span>
+                  } else {
+                    <a id="guidance5" href="@iht.controllers.application.gifts.guidance.routes.IncreasingAnnualLimitController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.title")</a>
+                  }
+                </li>
+                <li class="font-xsmall">
+                  @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.GiftsGivenAwayController.onPageLoad().toString().trim){
+                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.giftsGivenAway.title")</span>
+                  } else {
+                    <a id="guidance6" href="@iht.controllers.application.gifts.guidance.routes.GiftsGivenAwayController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.giftsGivenAway.title")</a>
+                  }
+                </li>
+             </ol>
+         </div>
+    </nav>
+
+
+    <h2 class="heading-48">@Messages(title)</h2>
+    @mainContent
+
+
+}

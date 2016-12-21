@@ -1,0 +1,51 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.utils.CommonHelper._
+@(form: Form[_], overrideKeys: Option[Map[String, String]] = None, endLineMessageKey: Option[String] = None)
+
+@*
+* In general this template will be called with a single parameter, the form - which in turn contains the keys of the
+* error messages that must be shown to the customers. In general there are actually two error messages associated with
+* each problem, the error message itself, and a helpful summary message. So if the form contains an error message key
+* error.this.that then we also expect the messages file to contain error.this.that.summary.
+*
+* Occasionally we need to be more flexible about generating summary keys - the optional override map allows an entirely
+* different summary key to be associated with a standard error key.
+*@
+
+@if(form.hasErrors) {
+<div id="errors" role="group" class="validation-summary" aria-labelledby="errors-heading">
+    <h2 class="heading-small" id="errors-heading">@Messages("error.problem")</h2>
+    <p>@Messages("error.checkCorrect")</p>
+    <ul class="error-list">
+        @form.errors.map { error =>
+        @defining(Messages(s"${error.message}.summary", error.args : _*)) { errMsg =>
+            @if(!errMsg.equals(".summary")) {
+                <li class="validation-message" id='@error.key.replaceAll("""[\.\[\]]""", "_")Error'>
+                    <a href='#@error.key.replaceAll("""[\[\]]""", "_")-container'>
+                        @overrideSummaryMessages(overrideKeys, error)
+                    </a>
+                </li>
+            }
+        }
+        }
+    </ul>
+    @endLineMessageKey.map{messageKey =>
+        <p>@Messages(messageKey)</p>
+    }
+</div>
+}

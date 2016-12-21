@@ -1,0 +1,45 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.viewmodels.application.overview.{OverviewRow, PartiallyComplete}
+
+@(model: OverviewRow)
+
+<tr class="overview-normal-row" id="@model.id-row">
+    @if(model.value.isEmpty){
+    <td class="col--5-12">
+                <span id="@model.id-caption">
+                    @model.label
+                </span>
+    </td>
+    <td class="col--4-12"></td>
+    <td class="col--3-12">
+        <a id="@model.id-link-text" href="@model.linkUrl" @if(model.completionStatus == PartiallyComplete) {class="bold"}>@model.linkText</a>
+    </td>
+    }else{
+    <td class="col--5-12">
+            <span id="@model.id-caption">
+                @model.label
+            </span>
+    </td>
+    <td class="col--4-12">
+        <span id="@model.id-value">@model.value</span>
+    </td>
+    <td class="col--3-12">
+        <a id="@model.id-link-text" href="@model.linkUrl" @if(model.completionStatus == PartiallyComplete) {class="bold"}>@model.linkText</a>
+    </td>
+    }
+</tr>

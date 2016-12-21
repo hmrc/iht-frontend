@@ -1,0 +1,65 @@
+/*
+ * Copyright 2016 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package iht.controllers.application.status
+
+import iht.connector.{CachingConnector, IhtConnector}
+import iht.controllers.application.ApplicationControllerTest
+import iht.models.RegistrationDetails
+import iht.models.application.ApplicationDetails
+import iht.testhelpers.CommonBuilder
+import iht.testhelpers.MockObjectBuilder._
+import play.api.i18n.Messages
+import play.api.mvc.Request
+import play.api.test.Helpers._
+
+class ApplicationStatusControllerTest extends ApplicationControllerTest {
+  val mockCachingConnector = mock[CachingConnector]
+  val mockIhtConnector = mock[IhtConnector]
+
+  def applicationStatusController = new ApplicationStatusController {
+    def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
+      iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)(request)
+
+    override val cachingConnector = mockCachingConnector
+    override val ihtConnector = mockIhtConnector
+    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val isWhiteListEnabled = false
+  }
+
+  def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {
+    createMockToGetCaseDetails(mockIhtConnector, rd)
+    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rd)
+    createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
+    createMockToGetApplicationDetails(mockIhtConnector, Some(ad))
+    createMockToGetProbateDetails(mockIhtConnector)
+    createMockToGetProbateDetailsFromCache(mockCachingConnector)
+  }
+
+  "ApplicationStatusController" must {
+    "return the correct page on load" in {
+
+      val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
+      val applicationDetails = CommonBuilder.buildApplicationDetailsWithAllAssets
+
+      createMocksForRegistrationAndApplication(registrationDetails, applicationDetails)
+
+      val result = applicationStatusController.onPageLoad("")(createFakeRequest())
+      status(result) shouldBe OK
+      contentAsString(result) should include(Messages("page.iht.application.overview.inreview.title"))
+    }
+  }
+}

@@ -1,0 +1,77 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit lang: play.api.i18n.Lang)
+
+@import play.api.i18n._
+@import views.html.helper._
+@import iht.utils.CommonHelper
+
+@elements = @{ new FieldElements(field.id, field, null, args.toMap, lang) }
+
+@parentField = @{args.toMap.get('parentField).asInstanceOf[Option[Field]]}
+
+@parentElements = @{parentField.map(pf => new FieldElements(pf.id, pf, null, Map(), lang) )}
+
+@value = @{ field.value match { case Some(x) => x case None => "" case x => x }}
+
+@labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
+
+@labelHighlight = @{ elements.args.get('_labelHighlight).getOrElse(false).asInstanceOf[Boolean] }
+
+
+
+<div class="form-group @if(field.id.contains("year")) {form-group-year}   @if( elements.args.get('_divClass) ){ @elements.args.get('_divClass) }">
+
+    <label for="@elements.field.name" class="
+        @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }
+        @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}"
+    @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)}
+    >
+
+    @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
+
+    @if(parentElements.isDefined) {
+    @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification" id="@elements.args.get('_error_id)" role="tooltip" id="@elements.field.name">@Messages(error)</span>}
+    }
+
+    @if(labelHighlight){<strong>}
+    <span @if(elements.args.contains('_labelTextClass)) { class="@elements.args.get('_labelTextClass)"}>
+    @if(!labelAfter && elements.args.contains('_label)) { @elements.label }
+    </span>
+    @if(labelHighlight){</strong>}
+
+    <input
+    @if(elements.args.contains('_type)){type="@elements.args.get('_type)" min="1" }else{type="text" }
+    @if( elements.args.get('_inputClass) ){ class="@elements.args.get('_inputClass) " }
+    @if( elements.args.get('_autoComplete) ){ autocomplete="@elements.args.get('_autoComplete)" }
+    @if( elements.args.get('_placeholder) ){ placeholder="@elements.args.get('_placeholder)" }
+    @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
+    @if(elements.args.contains('_lengthMax) ){maxlength = "@elements.args.get('_lengthMax)"}
+
+    name="@elements.field.name"
+    id="@elements.field.name"
+    value="@value"
+    />
+
+
+    @if(labelHighlight){<strong>}
+    <span @if(elements.args.contains('_labelTextClass)) { class="@elements.args.get('_labelTextClass)"}>
+    @if(labelAfter && elements.args.contains('_label)) { @elements.label }
+    </span>
+    @if(labelHighlight){</strong>}
+    </label>
+</div>

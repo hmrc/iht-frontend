@@ -1,0 +1,123 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.utils._
+@import iht.models._
+@import iht.controllers.application.exemptions.charity.routes._
+@import iht.constants.FieldMappings
+@import iht.utils.CommonHelper
+@import iht.views.html.ihtHelpers._
+@import iht.utils.OverviewHelper._
+@import iht.models.application.exemptions._
+@(charity:Option[Charity]=None)(implicit request: Request[_])
+
+@iht_main_template_application(title = Messages("page.iht.application.exemptions.overview.charity.detailsOverview.title"),
+browserTitle = Some(Messages("page.iht.application.exemptions.overview.charity.detailsOverview.browserTitle")),
+isFullWidth = false) {
+
+<section>
+    @defining(charity.flatMap(_.id))  { charityId =>
+        @defining(charity.flatMap(_.name))  { charityName =>
+                @ihtHelpers.generic_overview_item(
+                    title = Messages("iht.estateReport.exemptions.charities.charityName.title"),
+                    name = "charity.detailsOverview.name",
+                    id = "charity-name",
+                    value = charityName,
+                    valueScreenReader = "",
+                    link = charityId match {
+                        case Some(name) => Some(CharityNameController.onEditPageLoad(charityId))
+                        case None => Some(CharityNameController.onPageLoad) } ,
+                    linkText=ihtHelpers.generic_overview_link(
+                      isComplete = charityName match {
+                        case Some(name) => Some(true)
+                        case None => None
+                    },
+                      messagesFileGiveAnswer = Messages("site.link.giveName"),
+                      messagesFileViewOrChange = Messages("iht.viewOrChange"),
+                      screenreaderQualifyingText = charityName match {
+                          case Some(id) => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.name.screenreader.link.value")
+                          case None => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.name.screenreader.link.noValue")
+                      }
+                    ),
+                    classValueCell = "",
+                    classAllCells = ""
+                )
+        }
+
+        @defining(charity.flatMap(_.number))  { charityNumber =>
+                @ihtHelpers.generic_overview_item(
+                    title = Messages("iht.estateReport.exemptions.charities.registeredCharityNo"),
+                    name = "charity.detailsOverview.number",
+                    id = "charity-number",
+                    value = charityNumber,
+                    valueScreenReader = "",
+                    link = charityId match {
+                        case Some(id) => Some(CharityNumberController.onEditPageLoad(charityId))
+                        case None => Some(CharityNumberController.onPageLoad) } ,
+                    linkText=ihtHelpers.generic_overview_link(
+                      isComplete = charityNumber match {
+                        case Some(name) => Some(true)
+                        case None => None
+                      },
+                      messagesFileGiveAnswer = Messages("site.link.giveNumber"),
+                      messagesFileViewOrChange = Messages("iht.viewOrChange"),
+                      screenreaderQualifyingText = charityNumber match {
+                          case Some(id) => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.number.screenreader.link.value")
+                          case None => Messages("error.charityNumber.give")
+                      }
+                    ),
+                    classValueCell = "",
+                    classAllCells = "")
+        }
+
+        @defining(charity.flatMap(_.totalValue))  { charityValue =>
+                @ihtHelpers.generic_overview_item(
+                    title = Messages("iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"),
+                    name = "charity.detailsOverview.value",
+                    id = "charity-value",
+                    value = charityValue match {
+                            case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
+                            case None => {""}
+                            },
+                    valueScreenReader = "",
+                    link = charityId match {
+                        case Some(id) => Some(CharityValueController.onEditPageLoad(charityId))
+                        case None => Some(CharityValueController.onPageLoad) } ,
+                    linkText = ihtHelpers.generic_overview_link(
+                      isComplete = charityValue match {
+                        case Some(name) => Some(true)
+                        case None => None
+                      },
+                      messagesFileGiveAnswer = Messages("site.link.giveValue"),
+                      messagesFileViewOrChange = Messages("iht.viewOrChange"),
+                      screenreaderQualifyingText = charityId match {
+                          case Some(x) => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.value.screenreader.link.value")
+                          case None => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.value.screenreader.link.noValue")
+                      }
+                    ),
+                    classValueCell = "",
+                    classAllCells = "")
+        }
+    }
+
+</section>
+<p>
+@ihtHelpers.return_link(label = Some(Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities")),
+    link = Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()))
+</p>
+}

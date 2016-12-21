@@ -1,0 +1,18 @@
+@import 'partials/_tabular-data__mixin';
+@import 'partials/_forms__mixin';
+
+.tabular-data__data {
+  display: table-cell;
+  box-sizing: border-box;
+}
+
+@include tabData;
+
+@include form-control-sizes;
+
+
+input[type="radio"] {border-width: 0; background: none;}
+
+
+#logo img {max-width: none;}
+

@@ -1,0 +1,41 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@(
+sectionName: String,
+question: String,
+inputId: Option[String] = None,
+yesShow: Option[String] = None,
+yesHide: Option[String] = None,
+noShow: Option[String] = None,
+noHide: Option[String] = None,
+clearTarget: Option[String] = None,
+mainQuestion: Boolean = true
+)
+
+<div class="@sectionName-question form-group " id="@inputId-question" data-main-question="@mainQuestion">
+    <fieldset class="inline">
+        <legend class="bold-small" for="radio-inline-@sectionName-Yes">@question</legend>
+        <label class="block-label @sectionName-radio js-clickableElement"  data-show-target="@yesShow" data-hide-target="@yesHide" for="yes">
+            <input id="yes" type="radio" name="radio-inline-@inputId" value="Yes">
+            Yes
+        </label>
+        <label  class="block-label click-trigger @sectionName-radio js-clickableElement" data-show-target="@noShow" data-hide-target="@noHide" data-clear-target="@clearTarget"  for="no">
+            <input id="no" type="radio" name="radio-inline-@inputId" value="No">
+            No
+        </label>
+    </fieldset>
+</div>

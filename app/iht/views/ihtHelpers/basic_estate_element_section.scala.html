@@ -1,0 +1,62 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models.application.assets.AllAssets
+@import iht.models.application.debts.AllLiabilities
+@import iht.views.html._
+@(messagesSectionKey:String, messagesNextSectionKey:String, formObjectName:String,
+allAssetsForm:Option[Form[AllAssets]]=None,
+allLiabilitiesForm:Option[Form[AllLiabilities]]=None)
+
+
+@defining( "page.iht.application." + (if (allAssetsForm.isDefined) "assets" else "liabilities") + "." + messagesSectionKey)  { sectionKeyPrefix =>
+    @defining( Messages(sectionKeyPrefix + ".sectionName"))  { sectionName =>
+        @ihtHelpers.estate_row(
+            sectionName = sectionName,
+            title = Messages(sectionKeyPrefix + ".sectionTitle"),
+            toShowElements  = Some(sectionName + "-question "+ sectionName + "-next")){
+            <div id='@sectionName-description' class="">
+                <p class="standard assetSubtitle">@Messages(sectionKeyPrefix + ".description.p1")</p>
+            </div>
+
+            @allAssetsForm.map { estateElementForm =>
+                @ihtHelpers.inputEstateValue(estateElementForm(formObjectName+".value"),
+                    '_label -> Messages(sectionKeyPrefix + ".inputLabel1"),
+                    '_sectionName -> (sectionName + "1"),
+                    '_currency -> "GBP",
+                    '_divClass -> "form-group",
+                    '_labelTextClass -> "bold",
+                    '_inputClass -> "form-control js-valInput")
+            }
+
+            @allLiabilitiesForm.map { estateElementForm =>
+                @ihtHelpers.inputEstateValue(estateElementForm(formObjectName+".value"),
+                    '_label -> Messages(sectionKeyPrefix + ".inputLabel1"),
+                    '_sectionName -> (sectionName + "1"),
+                    '_currency -> "GBP",
+                    '_divClass -> "form-group",
+                    '_labelTextClass -> "bold",
+                    '_inputClass -> "form-control js-valInput")
+            }
+
+            @defining( "page.iht.application." + (if (allAssetsForm.isDefined) "assets" else "liabilities") + "." + messagesNextSectionKey +".sectionName")  { nextSection =>
+                <div class="form-group nextButton jsShow"    id='@sectionName-next'  next-section='@Messages(nextSection)-label'>
+                    <input   data-show-target="" type="button" class="button js-clickableElement "   value='@Messages("iht.next")'>
+                </div>
+            }
+        }
+    }
+}

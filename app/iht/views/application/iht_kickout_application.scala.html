@@ -1,0 +1,88 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models.application._
+@import iht.utils.{KickOutReason => KickOut}
+@import iht.utils.ApplicationKickOutHelper
+
+@( kickoutReason: String,
+applicationDetails: ApplicationDetails,
+applicationLastSection: Option[String],
+applicationLastID: Option[String],
+summaryParameter1:Option[String]=None)(implicit request:Request[_])
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.controllers.ControllerHelper
+@import iht.utils.{KickOutReason=>KickOut}
+@import iht.utils.CommonHelper
+
+@iht_main_template_application(title = Messages("iht.notPossibleToUseService"),
+    browserTitle = Some(Messages("iht.notPossibleToUseService"))) {
+    <div class="panel-indent">
+        @ApplicationKickOutHelper.summary.find( _._1 == kickoutReason).map{summary =>
+            <p id="kickout-message"><strong>@Messages(summary._2, summaryParameter1.fold("")(identity))</strong></p>}
+        @if(!ApplicationKickOutHelper.summaryBullets(kickoutReason).isEmpty) {
+        <ul class="bullets" id="summary-bullets">
+            @ApplicationKickOutHelper.summaryBullets(kickoutReason).map{txt=>
+            <li><strong>@txt</strong></li>
+            }
+        </ul>
+        }
+    </div>
+
+    @if(ApplicationKickOutHelper.shoulddisplayEstateValueAndThreshold(kickoutReason)){
+        <div class="alert alert--info alert--slim">
+            <div class="grid-layout">
+                <div class="grid-layout__column--3-4">@Messages("page.iht.application.overview.value")
+            </div>
+                <div class="grid-layout__column--1-4">
+                @if(applicationDetails.allAssets.isDefined || applicationDetails.allGifts.isDefined ||
+                applicationDetails.allLiabilities.isDefined || applicationDetails.propertyList.size>0) {
+                    @if(applicationDetails.allExemptions.isDefined && applicationDetails.totalExemptionsValue > 0) {
+                        &pound;@CommonHelper.numberWithCommas(if(applicationDetails.totalNetValue<0) 0 else applicationDetails.totalNetValue)
+                    } else {
+                        &pound;@CommonHelper.numberWithCommas(applicationDetails.totalValue)
+                    }
+                }
+            </div>
+        </div>
+
+            <div class="grid-layout">
+                <div class="grid-layout__column--3-4">@Messages("iht.estateReport.ihtThreshold")</div>
+                <div class="grid-layout__column--1-4">&pound;@Messages("site.threshold.value")</div>
+            </div>
+        </div>
+    }
+
+    <div class="subsection">
+        <h2 id="iht.nextSteps" class="heading-medium">@Messages("iht.nextSteps")</h2>
+        @ApplicationKickOutHelper.nextSteps1.find( _._1 == kickoutReason).map{nextSteps1=><p>@nextSteps1._2</p>}
+        @ApplicationKickOutHelper.nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>@nextSteps2._2</p>}
+        @ApplicationKickOutHelper.returnLinkUrl( kickoutReason, applicationDetails.ihtRef.fold("")(identity), applicationLastSection, applicationLastID ).map{ url=>
+            @ApplicationKickOutHelper.returnLinkLabels.find( _._1 == kickoutReason ).map{ label =>
+                
+                <a id="back-button" href=@url>@label._2</a>
+                
+            }
+        }
+    </div>
+    <div id="continue-button" class="form-field form-field--submit">
+        @helpers.form(action = iht.controllers.application.routes.KickoutController.onSubmit) {
+            <p><input id="finish" class='button' name="action" type='submit' value='@Messages("site.button.details.correct")'></p>
+        }
+    </div>
+}

@@ -1,0 +1,80 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.utils.CommonHelper._
+@import iht.controllers.ControllerHelper
+@import iht.utils._
+@import iht.constants.IhtProperties
+@import iht.models.CoExecutor
+
+@(addMoreCoExecutorsForm: Form[Option[Boolean]],
+  areOthersApplying: Boolean,
+  coExecutors: Seq[CoExecutor],
+  actionCall: Call,
+  cancelCall: Option[Call] = None)(implicit request: Request[_])
+
+@iht_main_template_registration(title = Messages("iht.registration.othersApplyingForProbate"),
+  browserTitle = Some(Messages("page.iht.registration.executor-overview.browserTitle")),
+  isFullWidth = false,
+  cancelUrl = cancelCall,
+  hasTimeOut = true) {
+
+@ihtHelpers.error_summary(addMoreCoExecutorsForm)
+
+@helpers.form(action = actionCall,'autoComplete -> "off") {
+  <p class="lede">@Messages("page.iht.registration.executor-overview.description")</p>
+
+
+  <div class="grid-layout grid-layout--maintain-width grid-layout--nogutter divider--bottom section">
+    <div class="grid-layout__column grid-layout__column--3-4">
+      @Messages("page.iht.registration.executor-overview.othersApplyingStatement.are")
+    </div>
+    <div class="grid-layout__column grid-layout__column--1-4 u-align--right">
+      <a id='edit-others-applying-for-probate' href='@iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview.url'><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("iht.registration.coExecutors.changeIfOthers")</span></a>
+    </div>
+  </div>
+
+  <ul>
+      @for(coExecutor <- coExecutors) {
+      <li class="grid-layout grid-layout--maintain-width grid-layout--nogutter divider--bottom section">
+        <div class="grid-layout__column grid-layout__column--1-2">@coExecutor.name</div>
+        <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.DeleteCoExecutorController.onPageLoad(coExecutor.id.getOrElse("")).url' id='delete-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.delete.screenReader", coExecutor.name)</span></a></div>
+        <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url' id='change-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.change.screenReader", coExecutor.name)</span></a></div>
+      </li>
+      }
+  </ul>
+
+  @if(coExecutors.length < IhtProperties.maximumAdditionalCoExecutors) {
+    @defining( Messages("page.iht.registration.executor-overview.sectionName"))  { sectionName =>
+      @defining( Messages("page.iht.registration.executor-overview.yesnoQuestion")) { legend =>
+
+        @ihtHelpers.inputYesNoRadioGroup(
+          addMoreCoExecutorsForm("addMoreCoExecutors"),
+          '_legend -> Some(legend),
+          '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),
+          '_hiddenElementYes -> Some(sectionName+ "-joint "+ sectionName+ "1-details "+ sectionName+ "2-details"),
+          '_clearTargetYes -> Some(sectionName+ "1-details "+ sectionName+ "-joint "+sectionName+ "2-details " ),
+          '_divClass -> Some("form-group"))
+      }
+    }
+  } else {
+    <input type="hidden" id="addMoreCoExecutors-false" name="addMoreCoExecutors" value="false"/>
+  }
+  @ihtHelpers.save_continue_button()
+}
+}

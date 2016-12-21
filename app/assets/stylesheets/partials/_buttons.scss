@@ -1,0 +1,13 @@
+/*
+====================================
+Allows a button to be full-width in a grid layout on larger screens,
+but standard width on mobile where full width would be too large
+====================================
+*/
+@media (min-width: 641px) {
+  .button--tablet-full-width {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center; /* due to table td style enforcing left */
+  }
+}

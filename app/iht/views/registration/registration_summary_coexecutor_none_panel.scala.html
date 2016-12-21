@@ -1,0 +1,37 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@(role: String)
+
+<section class="section">
+  <h2 class="heading-medium additionalExecutorHeader">
+      @Messages("iht.registration.othersApplyingForProbate")
+  </h2>
+
+  <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+    <div class="tabular-data__heading tabular-data__data-1--2-col">
+      @Messages("page.iht.registration.registrationSummary.coExecutorTable.none", role.toLowerCase)
+    </div>
+    <div class="tabular-data__data-2">
+      <a href="@{iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview}#answer" id="change-others-applying-for-probate">
+          <span aria-hidden="true">@Messages("iht.change")</span>
+          <span class="visually-hidden">
+              @Messages("iht.registration.coExecutors.changeIfOthers")
+          </span>
+      </a>
+    </div>
+  </div>
+</section>

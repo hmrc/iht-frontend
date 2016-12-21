@@ -1,0 +1,41 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+
+@import play.twirl.api.Html
+@import scala.collection.immutable._
+@import iht.utils.OverviewHelper._
+
+@(id: String,
+questionText:String,
+questionScreenReaderText: String,
+link:Option[Call] = None,
+linkScreenReader:String,
+isAnswerValue:Boolean)(implicit lang: play.api.i18n.Lang)
+
+<div id="@id" class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">
+    <div class="grid-layout__column grid-layout__column--3-4">
+        <h2 class="font-xsmall bold">@questionText</h2>
+    </div>
+    <div class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right">
+            @if(isAnswerValue) {
+                <a id="@id-link" href="@link" class="font-xsmall">
+                        <span aria-hidden="true">@Messages("site.link.giveAnswer")</span>
+                        <span class="visually-hidden">@linkScreenReader</span>
+                </a>
+            }
+    </div>
+</div>

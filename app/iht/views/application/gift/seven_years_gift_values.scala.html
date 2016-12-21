@@ -1,0 +1,113 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.models.application.gifts.PreviousYearsGifts
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.utils._
+@import iht.forms.ApplicationForms._
+@import iht.utils.CommonHelper
+
+
+@(
+giftsList: Seq[PreviousYearsGifts],
+registrationDetails: RegistrationDetails,
+totalPastYearsGifts: BigDecimal,
+totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
+totalExemptionsValue: BigDecimal,
+previousYearsGiftsExemptionsIsDefined: Boolean,
+previousYearsGiftsValueIsDefined: Boolean
+)(implicit request: Request[_])
+
+@gifts_main_template(title = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"),
+browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.browserTitle")),
+relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad(),
+messageKeyUrl = "page.iht.application.gifts.guidance.claimingExemptions.title",
+messageKeyAccessibility = "page.iht.application.gifts.guidance.claimingExemptions.title"){
+
+            <div id='gifts-description'>
+                <p class="lede" id="seven-years-guidance">@Messages("page.iht.application.gifts.sevenYears.values.guidance")</p>
+                <p id="iht.estateReport.saved.estate">@Messages("iht.estateReport.saved.estate")</p>
+            </div>
+
+            <table id="gifts-list-table">
+                <tbody>
+                <tr class="table__row--desktop-headings">
+                    <td></td>
+                    <th class="u-align--right">@Messages("page.iht.application.gifts.lastYears.tableTitle1")</th>
+                    <th class="u-align--right">@Messages("page.iht.application.gifts.lastYears.tableTitle2")</th>
+                    <th class="u-align--right">@Messages("page.iht.application.gifts.lastYears.tableTitle3")</th>
+                    <td></td>
+                </tr>
+
+                @for(element <- giftsList){
+                    <tr class="table__row--responsive">
+                        <th class="table__detail--responsive" scope="row">
+                          <span class="no-wrap">@element.startDate</span>
+                          to
+                          <span class="no-wrap">@element.endDate</span>
+                        </th>
+
+                        <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle1")">@element.value.fold("")(xx=>"£" + CommonHelper.numberWithCommas(xx).toString)</td>
+                        <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle2")">@element.exemptions.fold("")(xx=>"£" + CommonHelper.numberWithCommas(xx).toString)</td>
+                        <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle3")">
+
+                                @if((element.value.fold(BigDecimal(0))(identity) - element.exemptions.fold(BigDecimal(0))(identity)) < 0) {
+                                    £0
+                                } else {
+                                   £@CommonHelper.numberWithCommas({element.value.fold(BigDecimal(0))(identity) - element.exemptions.fold(BigDecimal(0))(identity)})
+                                }
+
+                        </td>
+                        <td class="table__detail--responsive">
+
+                                <a id='edit-gift-@element.yearId' href='@iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoad(element.yearId.getOrElse(""))'>
+                                <span aria-hidden="true">
+                                @if(element.value.isDefined || element.exemptions.isDefined){
+                                    @Messages("iht.estateReport.changeValues")}else{@Messages("site.link.giveValues")}
+                                </span>
+                                <span class="visually-hidden">@CommonHelper.previousYearsGiftsAccessibility(element)</span>
+                                </a>
+                        </td>
+                    </tr>
+                }
+                <tr class="table__row--responsive table--font-reset highlight table--spaced-top">
+                @CommonHelper.previousYearsGiftsAccessibilityTotals(totalPastYearsGifts, totalExemptionsValue, totalPastYearsGiftsValueExcludingExemptions, giftsList).map{ totals =>
+                    <td class="table__detail--responsive"><strong>Total over 7 years</strong></td>
+                    <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle1")" id="total-gifts-value"><div aria-hidden="true">@if(previousYearsGiftsValueIsDefined){&pound;@CommonHelper.numberWithCommas(totalPastYearsGifts)}</div>
+                        <span class="visually-hidden">@totals._1</span>
+                    </td>
+                    <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle2")" id="total-gifts-value-exempt"><div aria-hidden="true">@if(previousYearsGiftsExemptionsIsDefined){&pound;@CommonHelper.numberWithCommas(totalExemptionsValue)}</div>
+                        <span class="visually-hidden">@totals._2</span>
+                    </td>
+                    <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle3")"  id="total-gifts-net-value"><div aria-hidden="true">&pound;@CommonHelper.numberWithCommas(totalPastYearsGiftsValueExcludingExemptions)</div>
+                        <span class="visually-hidden">@totals._3</span>
+                    </td>
+                    <td class="table__detail--responsive"></td>
+                }
+                </tr>
+                </tbody>
+            </table>
+
+      
+        @registrationDetails.deceasedDetails.map{ dd=>
+            @ihtHelpers.return_link(Some(Messages("page.iht.application.gifts.return.to.givenAwayBy", dd.name)),
+            Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+        }
+
+}

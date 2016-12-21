@@ -1,0 +1,63 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+
+@import play.twirl.api.Html
+@import scala.collection.immutable._
+@import iht.utils.OverviewHelper._
+
+@(id: String,
+questionText:String,
+questionScreenReaderText: String,
+questionCategory:String,
+answerValue:String = "",
+link:Option[Call] = None,
+linkScreenReader:String
+)(implicit lang: play.api.i18n.Lang)
+
+<li id="@id" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+    <div class="tabular-data__data tabular-data__data--5-12">
+      <span aria-hidden="true">@questionText</span>
+    </div>
+    <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
+        @if(answerValue.nonEmpty){
+        <span aria-hidden="true">@answerValue</span>
+        }
+    </div>
+    <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+        <a id="@id-link" href="@link">
+            @if(answerValue.nonEmpty) {
+                        <span aria-hidden="true">@Messages("iht.change")</span>
+                        <span class="visually-hidden">@linkScreenReader</span>
+            } else {
+                @questionCategory match {
+                case "questionAnswer" => {
+                        <span aria-hidden="true">@Messages("site.link.giveAnswer")</span>
+                        <span class="visually-hidden">@linkScreenReader</span>
+                }
+                case "date" => {
+                       <span aria-hidden="true">@Messages("site.link.giveDate")</span>
+                       <span class="visually-hidden">@linkScreenReader</span>
+                }
+                case "name" => {
+                        <span aria-hidden="true">@Messages("site.link.giveName")</span>
+                        <span class="visually-hidden">@linkScreenReader</span>
+                }
+              }
+            }
+        </a>
+    </div>
+</li>

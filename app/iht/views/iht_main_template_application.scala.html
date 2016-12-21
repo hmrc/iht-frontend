@@ -1,0 +1,54 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import play.api.i18n._
+
+@(title: String,
+browserTitle: Option[String] = None,
+contentHeader: Option[Html] = None,
+appConfig: iht.config.AppConfig = iht.config.ApplicationConfig,
+subTitle: Option[String] = None,
+isFullWidth: Boolean = false,
+backUrl: Option[Call] = None,
+jsFile: Option[String]= None,
+cssFile: Option[String]= None,
+cancelUrl: Option[Call]=None,
+cancelLabel: => Option[String] = Some(Messages("site.link.cancel")),
+hasSignOut: Boolean = true,
+hasTimeOut:Boolean = true,
+sidebarLinks: Html = HtmlFormat.empty,
+headingClass: String = "heading-xlarge"
+)(mainContent: Html)
+
+@iht_main_template(
+    title = title,
+    signOutText = Messages("site.button.signOut"),
+    browserTitle = browserTitle,
+    contentHeader = contentHeader,
+    appConfig = appConfig,
+    subTitle = subTitle,
+    isFullWidth = isFullWidth,
+    backUrl = backUrl,
+    jsFile = jsFile,
+    cssFile = cssFile,
+    cancelUrl = cancelUrl,
+    cancelLabel = cancelLabel,
+    hasTimeOut = hasTimeOut,
+    sidebarLinks = sidebarLinks,
+    signOutUrl = if (hasSignOut) Some(iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()) else None,
+    headerTitle = Some(Messages("site.application.title")),
+    headingClass = headingClass
+)(mainContent)

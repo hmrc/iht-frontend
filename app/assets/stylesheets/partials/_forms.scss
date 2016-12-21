@@ -1,0 +1,61 @@
+@import '_forms__mixin';
+
+/*
+====================================
+Makes relationship between legend and inputs/hint tighter
+.date-of-birth sits in GDS Elements
+Legend in Assets Frontend implements a margin bottom
+====================================
+ */
+.date-of-birth__legend {
+  margin-bottom: 0;
+}
+
+
+
+/*
+====================================
+Aligns inputs with top of label
+Especially important where hints are present
+This is a temporary fix until Assets Frontend aligns with GDS
+====================================
+
+*/
+.block-label--with-hint input[type="checkbox"],
+.block-label--with-hint input[type="radio"] {
+  transform: none;
+  top: 1.6em;
+}
+
+
+/*
+=====================================
+Remove border from radio buttons
+Seen on IE8-9
+=====================================
+*/
+input[type="radio"],
+input[type="radio"]:checked {
+    border-width: 0;
+    background: none;
+}
+
+
+/*
+====================================
+A short form group
+For inputs such as currency (supports up to 1,000,000.00) or Post codes
+Added double-class selectors to by-pass the full-width in panel rule
+Taken from GDS Elements
+====================================
+*/
+.form-control-1-4 {
+  width: 100%;
+}
+.form-control-1-3 {
+  width: 100%;
+}
+
+@media screen and (min-width: 641px) {
+    @include form-control-sizes;
+}

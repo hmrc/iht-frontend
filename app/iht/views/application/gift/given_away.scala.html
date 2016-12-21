@@ -1,0 +1,68 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.models._
+@import iht.models.application.gifts.AllGifts
+@import iht.utils.CommonHelper._
+@import iht.constants.IhtProperties._
+
+@(giftsGivenAwayForm:Form[AllGifts],
+regDetails:RegistrationDetails
+)(implicit request:Request[_])
+
+@gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",getOrException(regDetails.deceasedDetails).name),
+browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
+relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
+messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
+messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title"
+){
+    @ihtHelpers.error_summary(giftsGivenAwayForm)
+
+    @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
+
+    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p1",getDateBeforeSevenYears(getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(dateFormatForDisplay),getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay))</p>
+    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p2")</p>
+
+    @ihtHelpers.inputYesNoRadioGroup(
+    giftsGivenAwayForm("isGivenAway"),
+    '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()),
+    '_divClass -> Some("form-group"),
+    '_legend -> Messages("page.iht.application.gifts.lastYears.givenAway.question")
+)
+
+    <div id="action-button" class="form-field form-field--submit">
+      <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+    </div>
+
+    @giftsGivenAwayForm.data.isEmpty match{
+                case true => {
+                                @ihtHelpers.return_link(Some(Messages("iht.estateReport.returnToEstateOverview")),
+                                    Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
+                                            getOrException(regDetails.ihtReference))))
+                                }
+                case _ => {
+                             @regDetails.deceasedDetails.map{dd=>
+                               @ihtHelpers.return_link(Some(Messages("page.iht.application.gifts.return.to.givenAwayBy", dd.name)),
+                               Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+                              }
+                            }
+      }
+
+   }
+}

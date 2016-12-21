@@ -1,0 +1,295 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models.application.ApplicationDetails
+@import iht.models.application.assets._
+@import iht.utils.CommonHelper
+@import iht.utils.OverviewHelper._
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html._
+
+@import iht.utils._
+@import iht.controllers.application.assets.properties.routes._
+@import iht.controllers.application.assets.pensions.routes._
+@import iht.controllers.application.assets.trusts.routes._
+@import iht.constants.Constants._
+
+@(appDetails:ApplicationDetails,
+assets:AllAssets,
+ihtReference: String,
+deceasedName: String)(implicit request: Request[_])
+
+@getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
+    isComplete match {
+        case Some(false) => moreDetailText
+        case Some(true) => valueText
+        case _ => noValueText
+    }
+}
+
+@iht_main_template_application(title = Messages("page.iht.application.assets.overview.title", deceasedName),
+browserTitle = Some(Messages("iht.estateReport.assets.inEstate")),
+isFullWidth=false) {
+
+<p id="assets-guidance1" class="lede">@Messages("page.iht.application.assets.overview.guidance1")</p>
+<p id="assets-guidance2">@Messages("iht.estateReport.completeEverySection")</p>
+
+<ul id="overview-table">
+
+    @defining(appDetails.isCompleteProperties) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.propertiesBuildingsAndLand"),
+            "properties", "properties",
+            displayValue(appDetails, AppSectionProperties, isComplete),
+            "",
+            Some(if(assets.properties.flatMap(_.isOwned).getOrElse(false)) {
+                PropertiesOverviewController.onPageLoad()
+            } else {
+                PropertiesOwnedQuestionController.onPageLoad()
+            }),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.properties.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.properties.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.properties.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.money.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.money.upperCaseInitial"),
+            "money", "money",
+            displayValue(appDetails, AppSectionMoney, isComplete), "",
+            Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
+                    Messages("page.iht.application.assets.overview.money.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.money.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.money.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.household.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.householdAndPersonalItems.title"),
+            "household", "household",
+            displayValue(appDetails, AppSectionHousehold, isComplete), "",
+            Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+               isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.household.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.household.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.household.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.vehicles.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.vehicles"),
+            "vehicles", "vehicles",
+            displayValue(appDetails, AppSectionVehicles, isComplete), "",
+            Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.vehicles.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.vehicles.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.vehicles.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.privatePension.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.privatePensions"),
+            "privatePension", "private-pension",
+            displayValue(appDetails, AppSectionPrivatePension, isComplete), "",
+            Some(if (assets.privatePension.flatMap(_.isOwned).getOrElse(false)) {
+                PensionsOverviewController.onPageLoad()
+            } else {
+                PensionsOwnedQuestionController.onPageLoad()
+            }),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.privatePension.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.privatePension.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.privatePension.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.stockAndShare.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.stocksAndShares"),
+            "stockAndShare", "stock-and-share",
+            displayValue(appDetails, AppSectionStockAndShare, isComplete), "",
+            Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.stockAndShare.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.stockAndShare.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.stockAndShare.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.insurancePolicy.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.insurancePolicies"),
+            "insurancePolicy", "insurance-policy",
+            displayValue(appDetails, AppSectionInsurancePolicy, isComplete), "",
+            Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.insurancePolicy.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.insurancePolicy.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.insurancePolicy.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.businessInterest.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.businessInterests.title"),
+            "businessInterest", "business-interest",
+            displayValue(appDetails, AppSectionBusinessInterest, isComplete), "",
+            Some(iht.controllers.application.assets.routes.BusinessInterestsController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.businessInterest.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.businessInterest.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.businessInterest.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.nominated.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.nominated"),
+            "nominated", "nominated",
+            displayValue(appDetails, AppSectionNominated, isComplete), "",
+            Some(iht.controllers.application.assets.routes.NominatedController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.nominated.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.nominated.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.nominated.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.heldInTrust.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.heldInATrust.title"),
+            "heldInTrust", "held-in-trust",
+            displayValue(appDetails, AppSectionHeldInTrust, isComplete), "",
+            Some(if(assets.heldInTrust.flatMap(x => x.isOwned).getOrElse(false)) {
+                TrustsOverviewController.onPageLoad()
+            } else {
+                TrustsOwnedQuestionController.onPageLoad()
+            }),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.heldInTrust.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.heldInTrust.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.heldInTrust.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.foreign.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.foreign.title"),
+            "foreign", "foreign",
+            displayValue(appDetails, AppSectionForeign, isComplete), "",
+            Some(iht.controllers.application.assets.routes.ForeignController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.foreign.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.foreign.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.foreign.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.moneyOwed.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.moneyOwed"),
+            "moneyOwed", "money-owed",
+            displayValue(appDetails, AppSectionMoneyOwed, isComplete), "",
+            Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.moneyOwed.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.moneyOwed.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.moneyOwed.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(assets.other.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.other.title"),
+            "other", "other",
+            displayValue(appDetails, AppSectionOther, isComplete), "",
+            Some(iht.controllers.application.assets.routes.OtherController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.other.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.other.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.other.screenReader.link.noValue"))
+            )
+        )
+    }
+
+
+
+</ul>
+
+<section class="subsection">
+    <div id="total-row" class="grid-layout grid-layout--stacked grid-layout--nogutter">
+        <div class="grid-layout__column grid-layout__column--1-2">
+            <h2 class="h3-heading push--top">@Messages("page.iht.application.assets.overview.total")</h2>
+        </div>
+        <div class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right bold">
+            &pound;@CommonHelper.numberWithCommas(appDetails.totalAssetsValue)
+        </div>
+        <div class="grid-layout__column grid-layout__column--1-4"></div>
+    </div>
+</section>
+
+
+
+
+
+<a id ="continue-to-estate-overview-button" class="button" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)'>
+    @Messages("iht.estateReport.returnToEstateOverview")
+</a>
+}

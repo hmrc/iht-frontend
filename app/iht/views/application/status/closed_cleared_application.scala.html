@@ -1,0 +1,44 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.models.application.ProbateDetails
+@import iht.views.html._
+@import uk.gov.hmrc.play.views.html._
+@import iht.utils._
+@import iht.views.html.application.overview._
+
+@(ihtref: String, deceasedName: String, probateDetails: ProbateDetails)(implicit request:Request[_])
+
+@iht_main_template_application(title = Messages("page.iht.application.overview.common.title"),
+isFullWidth=false,
+sidebarLinks=iht.views.html.application.status.post_submission_sidebar(ihtref, probateDetails, "page.iht.application.overview.cleared.sidebartitle")
+) {
+
+
+
+    @post_submit_common(deceasedName, false)
+    <p>@Messages("page.iht.application.overview.cleared.helptext1")</p>
+    <p>@Messages("page.iht.application.overview.cleared.helptext2")</p>
+    <p><a class="button" target="_blank" id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onPDFClearance(ihtref)">
+        @Messages("page.iht.application.overview.common.viewcertificate")
+    </a> </p>
+    
+    <p><a id="return-link" href="@iht.controllers.home.routes.IhtHomeController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a></p>
+
+
+
+}

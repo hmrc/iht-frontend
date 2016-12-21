@@ -1,0 +1,54 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+
+@import iht.models.application.basicElements.ShareableBasicEstateElement
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.utils._
+@import iht.constants.Constants
+
+@(household: Form[ShareableBasicEstateElement], registrationDetails: RegistrationDetails
+)(implicit request: Request[_])
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title"),
+    browserTitle = Some(Messages("page.iht.application.assets.household.deceased.browserTitle")),
+    isFullWidth=false) {
+
+    @ihtHelpers.error_summary_override_keys(household, Constants.AppSectionHousehold)
+
+    @helpers.form(action = iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
+
+@ihtHelpers.generic_estate_element_assets(
+                                    assetType = Constants.AssetTypeSingle,
+                                    questionLabel= Messages("iht.estateReport.assets.household.ownName.question"),
+                                    inputTextLabel = Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
+                                    inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
+                                    sharableElementForm = household,
+                                    clearTargetInput = Some("value")
+                                    )
+
+
+
+  <div id="action-button" class="form-field form-field--submit">
+      <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+  </div>
+}
+    @ihtHelpers.return_link(Some(Messages("site.link.return.household")), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
+
+}

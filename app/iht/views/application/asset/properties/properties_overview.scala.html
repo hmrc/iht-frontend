@@ -1,0 +1,116 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.models._
+@import iht.models.application.assets.Property
+@import iht.models.application.assets.Properties
+@import iht.utils._
+@import iht.views.html.ihtHelpers._
+@import iht.utils.OverviewHelper._
+
+@(propertyList: List[Property] = List.empty[Property],
+    properties:Option[Properties],
+    registrationDetails: RegistrationDetails)(implicit request: Request[_])
+
+@iht_main_template_application(title = Messages("page.iht.application.assets.deceased-permanent-home.sectionTitle"),
+browserTitle = Some(Messages("iht.estateReport.assets.propertiesBuildingsAndLand")),
+isFullWidth=false
+) {
+
+
+    <p class="lede">@Messages("page.iht.application.assets.deceased-permanent-home.description.p1")</p>
+    <p>@Messages("page.iht.application.assets.deceased-permanent-home.description.p2")</p>
+
+
+
+<div id="property-table" @if(propertyList.isEmpty){}>
+        <ul>
+        @generic_overview_table_item(id = "home-in-uk",
+            questionText = Messages("page.iht.application.assets.properties.question.question"),
+            questionScreenReaderText= Messages("page.iht.application.assets.properties.question.question"),
+            questionCategory= "change",
+            answerValue= Messages(getBooleanDisplayValue(properties.flatMap(_.isOwned.map(x=>x)))),
+            link = Some(iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad),
+            linkScreenReader = properties.flatMap(_.isOwned.map(identity)) match {
+                case Some(_) => Messages("page.iht.application.assets.properties.question.change")
+                case None => Messages("page.iht.application.assets.properties.question.noValue")
+            }
+        )
+        </ul>
+
+        <section class="section">
+          <h2 class="heading-small divider--bottom" id="properties-header">@Messages("page.iht.application.assets.deceased-permanent-home.table.header")</h2>
+
+          @if(propertyList.isEmpty){
+          <p id="properties-empty-table-row">@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")</p>
+          }else{
+          <ul>
+          @for((element,i) <- propertyList.zipWithIndex){
+            <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                <div class="tabular-data__data tabular-data__data--4-12">
+                    <div class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.number", (i + 1))</div>
+                    @element.address match{
+                        case Some(x) => {
+                          @x.ukAddressLine1&#44;<br />
+                          @x.ukAddressLine2&#44;<br />
+                          @x.ukAddressLine3.getOrElse("")@if(x.ukAddressLine3.isDefined){&#44;<br />}
+                          @x.ukAddressLine4.getOrElse("")@if(x.ukAddressLine4.isDefined){&#44;<br />}
+                          @if(x.postCode != ""){@x.postCode<br />}
+                          @if(countryName(x.countryCode) != ""){@countryName(x.countryCode)&#46;}
+                        }
+                        case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
+                    }
+                </div>
+                <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
+                    <span class="js-propertyValInput js-toFormat">@element.value.map(x=> "£"+CommonHelper.numberWithCommas(x))</span>
+                </div>
+                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                    <a href='@iht.controllers.application.assets.properties.routes.DeletePropertyController.onPageLoad(element.id.getOrElse("")).url' id='delete-@element.id.getOrElse("")'>
+                        <span aria-hidden="true">
+                        @Messages("iht.delete")
+                        </span>
+                        <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.delete", (i + 1))</span>
+                    </a>
+                </div>
+                <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                    <a href='@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url' id='edit-@element.id.getOrElse("")'>
+                        @if(element.isComplete) {
+                            <span aria-hidden="true">@Messages("iht.change")</span>
+                            <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.change", (i + 1))</span>
+                        } else {
+                            <span aria-hidden="true">@Messages("site.link.giveDetails")</span>
+                            <span class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.givedetails", (i + 1))</span>
+                        }
+                    </a>
+                </div>
+            </li>
+          }
+          </ul>
+          }
+        </section>
+</div>
+
+
+<div class="form-field" id="add-property-link">
+    <a id="add-property" href="@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()"> @Messages("iht.estateReport.assets.propertyAdd") </a>
+</div>
+
+@ihtHelpers.return_link(Some(Messages("site.link.return.assets")), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+
+}

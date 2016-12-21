@@ -1,0 +1,63 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.models.RegistrationDetails
+@import iht.models.application.tnrb._
+@import iht.utils.tnrb.TnrbHelper
+
+@(deceasedWidowCheckDateForm:Form[WidowCheck],
+widowCheckModel: WidowCheck,
+tnrbModel: TnrbEligibiltyModel,
+registrationDetails:RegistrationDetails,
+cancelLinkUrl:Call,
+cancelLinkText:String)(implicit request:Request[_])
+
+@iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
+TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased"))),
+browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
+cancelUrl = Some(cancelLinkUrl),
+cancelLabel=Some(cancelLinkText)){
+
+@ihtHelpers.error_summary(deceasedWidowCheckDateForm, Some(
+    Map(
+      "error.predeceasedDateOfDeath.afterMarriage" -> "error.dateOfDeath.incorrect.summary"
+    )
+  )
+)
+
+@helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onSubmit,'autoComplete -> "off") {
+
+@ihtHelpers.dateFields(
+deceasedWidowCheckDateForm,
+"dateOfPreDeceased",
+"",
+None,
+'_hintText -> Messages("iht.dateExample2"),
+'_labelTextClass -> "bold",
+'_groupId -> "responsibleFromDateFieldSet",
+'_legend -> Messages("iht.estateReport.tnrb.predeceasedDateOfDeath.title"),
+'_legendClass -> Some("visually-hidden")
+)
+<div id="action-button" class="form-field form-field--submit">
+  <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+</div>
+
+
+}
+}

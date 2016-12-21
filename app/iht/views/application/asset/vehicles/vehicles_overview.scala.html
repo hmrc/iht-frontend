@@ -1,0 +1,117 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.models._
+@import iht.models.application.basicElements.ShareableBasicEstateElement
+@import iht.utils._
+@import iht.views.html.ihtHelpers._
+@import iht.utils.OverviewHelper._
+@import scala.collection.immutable.Seq
+
+@(vehicles:Option[ShareableBasicEstateElement],
+    registrationDetails: RegistrationDetails)(implicit request: Request[_])
+
+@getLinkScreenReader(element: Option[_], changeText: String, noValueText: String) = @{
+    element match {
+        case Some(_) => changeText
+        case None => noValueText
+    }
+}
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.vehicles"),
+browserTitle = Some(Messages("iht.estateReport.assets.vehicles")),
+isFullWidth=false
+) {
+
+<div id="property-description">
+    <p class="lede">@Messages("page.iht.application.assets.vehicles.overview.guidance")</p>
+</div>
+
+        @{
+            generic_overview_table_section(
+                    "vehicles-deceased-owned-section",
+                    vehicles.flatMap(_.isOwned),
+                    generic_overview_table_heading_item("deceased-own-heading",
+                        Messages("iht.estateReport.assets.vehiclesOwned"),
+                        Messages("iht.estateReport.assets.vehiclesOwned"),
+                        Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
+                        linkScreenReader = getLinkScreenReader(vehicles.flatMap(_.isOwned.map(identity)),
+                            Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change"),
+                            Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue")),
+                        vehicles.flatMap(_.isOwned).isEmpty
+                        ),
+                        generic_overview_table_item(id = "deceased-own-question",
+                            questionText = Messages("iht.estateReport.assets.vehicles.ownName.question"),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.ownName.question"),
+                            questionCategory= "change",
+                            answerValue=Messages(getBooleanDisplayValue(vehicles.flatMap(_.isOwned.map(x=>x)))),
+                            link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
+                            linkScreenReader = Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change")
+                        ),
+                        generic_overview_table_item(id = "deceased-own-value",
+                            questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
+                            questionCategory= "change",
+                            answerValue= vehicles.flatMap(_.value).fold("")(x=>{"£" + CommonHelper.numberWithCommas(x).toString()}),
+                            link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
+                            linkScreenReader = Messages("page.iht.application.assets.vehicles.deceased.value.screenreader.link.change")
+                        )
+
+            )
+        }
+        @{
+            generic_overview_table_section(
+                    "vehicles-joint-owned-section",
+                    vehicles.flatMap(_.isOwnedShare),
+                    generic_overview_table_heading_item("deceased-shared-heading",
+                        Messages("page.iht.application.assets.vehicles.overview.joint.title"),
+                        Messages("page.iht.application.assets.vehicles.overview.joint.title"),
+                        Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),
+                        getLinkScreenReader(
+                            vehicles.flatMap(_.isOwnedShare.map(identity)),
+                            Messages("page.iht.application.assets.vehicles.jointly.owned.screenreader.link.change"),
+                            Messages("page.iht.application.assets.vehicles.jointly.owned.screenreader.link.noValue")),
+                        vehicles.flatMap(_.isOwnedShare).isEmpty
+                        ),
+                        generic_overview_table_item(id = "deceased-shared-question",
+                            questionText = Messages("iht.estateReport.assets.vehicles.jointly.owned.question"),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.jointly.owned.question"),
+                            questionCategory= "change",
+                            answerValue=Messages(getBooleanDisplayValue(vehicles.flatMap(_.isOwnedShare.map(x=>x)))),
+                            link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),
+                            linkScreenReader = Messages("page.iht.application.assets.vehicles.jointly.owned.screenreader.link.change")
+                        ),
+                        generic_overview_table_item(id = "deceased-share-value",
+                            questionText = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned"),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned"),
+                            questionCategory= "change",
+                            answerValue= vehicles.flatMap(_.shareValue).fold("")(x=>{"£" + CommonHelper.numberWithCommas(x).toString()}),
+                            link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),
+                            linkScreenReader = Messages("page.iht.application.assets.vehicles.jointly.owned.value.screenreader.link.change")
+                        )
+                    )
+        }
+
+        <div class="form-field form-field--submit">
+                @registrationDetails.deceasedDetails.map{ dd=>
+                        @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)),
+                                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+                }
+        </div>
+}

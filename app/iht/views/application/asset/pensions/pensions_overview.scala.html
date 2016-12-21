@@ -1,0 +1,94 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.models.application.assets.PrivatePension
+
+@(pensions:Option[PrivatePension], registrationDetails: RegistrationDetails)(implicit request: Request[_])
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.utils._
+@import iht.views.html.ihtHelpers._
+@import iht.utils.OverviewHelper._
+@import scala.collection.immutable.Seq
+
+@getLinkScreenReader(element: Option[_], changeText: String, noValueText: String) = @{
+    element match {
+        case Some(_) => changeText
+        case None => noValueText
+    }
+}
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.privatePensions"),
+browserTitle = Some(Messages("iht.estateReport.assets.privatePensions")),
+isFullWidth=false
+) {
+
+<div id="pensions-description">
+    <p class="lede">@Messages("page.iht.application.assets.pensions.overview.description.p1")</p>
+    <p>@Messages("page.iht.application.assets.pensions.overview.description.p2")</p>
+</div>
+
+<section id="pensions-section" class="section">
+        <ul>
+            @{
+                generic_overview_table_item(id = "pensions-question",
+                    questionText = Messages("page.iht.application.assets.pensions.question"),
+                    questionScreenReaderText= Messages("page.iht.application.assets.pensions.question"),
+                    questionCategory= "questionAnswer",
+                    answerValue=Messages(getBooleanDisplayValue(pensions.flatMap(_.isOwned.map(x=>x)))),
+                    link = Some(iht.controllers.application.assets.pensions.routes.PensionsOwnedQuestionController.onPageLoad),
+                    linkScreenReader = getLinkScreenReader(
+                        pensions.flatMap(_.isOwned.map(identity)),
+                        Messages("page.iht.application.assets.pensions.question.screenreader.link.change"),
+                        Messages("page.iht.application.assets.pensions.question.screenreader.link.noValue"))
+                )
+            }
+            @{
+                generic_overview_table_item(id = "pensions-more-than-one-question",
+                    questionText = Messages("page.iht.application.assets.pensions.changed.title"),
+                    questionScreenReaderText= Messages("page.iht.application.assets.pensions.changed.question"),
+                    questionCategory= "questionAnswer",
+                    answerValue=Messages(getBooleanDisplayValue(pensions.flatMap(_.isChanged.map(x=>x)))),
+                    link = Some(iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onPageLoad),
+                    linkScreenReader = getLinkScreenReader(
+                        pensions.flatMap(_.isChanged.map(identity)),
+                        Messages("page.iht.application.assets.pensions.changed.screenreader.link.change"),
+                        Messages("page.iht.application.assets.pensions.changed.screenreader.link.noValue"))
+                )
+            }
+            @{
+                generic_overview_table_item(id = "pensions-value",
+                    questionText = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid"),
+                    questionScreenReaderText= Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid"),
+                    questionCategory= "change",
+                    answerValue= pensions.flatMap(_.value).fold("")(x=>{"£" + CommonHelper.numberWithCommas(x).toString()}),
+                    link = Some(iht.controllers.application.assets.pensions.routes.PensionsValueController.onPageLoad),
+                    linkScreenReader = getLinkScreenReader(
+                        pensions.flatMap(_.value.map(identity)),
+                        Messages("page.iht.application.assets.pensions.value.screenreader.link.change"),
+                        Messages("page.iht.application.assets.pensions.value.screenreader.link.noValue"))
+                )
+            }
+        </ul>
+    </section>
+
+      @registrationDetails.deceasedDetails.map{ dd=>
+            @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+         }
+}

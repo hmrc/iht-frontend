@@ -1,0 +1,111 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.views.html._
+@import iht.models.CoExecutor
+@import iht.controllers.registration.executor.{routes => executorRoutes}
+@import iht.utils.CommonHelper
+@import iht.utils.CommonHelper
+@import iht.constants.IhtProperties
+
+@(coExecutors: Seq[CoExecutor])
+<section class="section">
+  <h2 class="heading-medium additionalExecutorHeader">
+      @Messages("iht.registration.othersApplyingForProbate")
+  </h2>
+  <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+    <div class="tabular-data__heading tabular-data__data-1--2-col">
+      @Messages("page.iht.registration.registrationSummary.coExecutorTable.others-are-applying.text")
+    </div>
+    <div class="tabular-data__data-2">
+      <a href="@{iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview}#answer" id="change-others-applying-for-probate">
+        <span aria-hidden="true">@Messages("iht.change")</span>
+        <span class="visually-hidden"> @Messages("iht.registration.coExecutors.changeIfOthers")</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="tabular-data__entry">
+    <a href="@iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad" id="coexecutors-summary">@Messages("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link")</a>
+  </div>
+
+
+
+
+  @for(i <- (0 to (coExecutors.length - 1))) {
+  @defining(coExecutors(i)) { coExecutor =>
+  @defining(CommonHelper.getOrException(coExecutor.id, "CoExecutor Id could not be found") ) { id =>
+    <section class="subsection">
+      <h3 class='heading-medium'>@Messages("page.iht.registration.registrationSummary.coExecutorTable.sectionTitle", i + 1)</h3>
+        <ul>
+
+
+        @ihtHelpers.summary_item(
+            label = Messages("iht.name.upperCaseInitial"),
+            data = (String.format(coExecutor.firstName
+            + "%n" + coExecutor.lastName)),
+            dataScreenReaderText = "",
+            changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#firstName",
+            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader", coExecutor.name),
+            linkId = "change-coexecutor-" + i + "-name"
+        )
+
+        @ihtHelpers.summary_item(
+            label = Messages("iht.dateofbirth"),
+            data = coExecutor.dateOfBirth.toString(IhtProperties.dateFormatForDisplay),
+            dataScreenReaderText = "",
+            changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#date-of-birth",
+            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.dateOfBirth.link.screenReader", coExecutor.name),
+            linkId = "change-coexecutor-" + i + "-date-of-birth"
+        )
+
+        @ihtHelpers.summary_item(
+            label = Messages("iht.nationalInsuranceNo"),
+            data = coExecutor.nino,
+            dataScreenReaderText = "",
+            changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#nino",
+            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.nino.link.screenReader", coExecutor.name),
+            linkId = "change-coexecutor-" + i + "-nino"
+        )
+
+        @ihtHelpers.summary_item(
+            label = Messages("iht.address.upperCaseInitial"),
+            data = CommonHelper.addressFormater(CommonHelper.getOrException(coExecutor.ukAddress)),
+            dataScreenReaderText = "",
+            changeLink = if (CommonHelper.getOrException(coExecutor.isAddressInUk) == true) {
+                executorRoutes.OtherPersonsAddressController.onEditPageLoadUK(id).url + "#details" } else {
+                executorRoutes.OtherPersonsAddressController.onEditPageLoadAbroad(id).url + "#details"
+            },
+            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.address.link.screenReader", coExecutor.name),
+            linkId = "change-coexecutor-" + i + "-address"
+        )
+
+        @ihtHelpers.summary_item(
+            label = Messages("iht.registration.checklist.phoneNo.upperCaseInitial"),
+            data = coExecutor.contactDetails.phoneNo,
+            dataScreenReaderText = "",
+            changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#phoneNo",
+            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.phoneNumber.link.screenReader", coExecutor.name),
+            linkId = "change-coexecutor-" + i + "-phone-number"
+        )
+
+      </ul>
+
+    </section>
+    }
+  }
+}
+</section>

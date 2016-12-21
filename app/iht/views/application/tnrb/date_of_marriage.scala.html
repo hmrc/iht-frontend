@@ -1,0 +1,63 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.models.RegistrationDetails
+@import iht.models.application.tnrb._
+@import iht.utils.CommonHelper
+@import iht.utils.tnrb.TnrbHelper
+
+@(dateOfMarriageForm:Form[TnrbEligibiltyModel],
+widowCheckModel: WidowCheck,
+deceasedName:String)(implicit request:Request[_])
+
+@iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.marriageDate.title",
+    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName),
+browserTitle = Some(Messages("iht.estateReport.tnrb.dateOfMarriage",
+    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))),
+cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
+
+@ihtHelpers.error_summary(dateOfMarriageForm, Some(
+        Map(
+            "error.predeceasedDateOfMarriage.beforeDateOfDeath" -> "error.dateOfMarriage.incorrect.summary"
+        )
+    )
+)
+
+@helpers.form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit,'autoComplete -> "off") {
+
+@ihtHelpers.dateFields(
+     dateOfMarriageForm,
+    "dateOfMarriage",
+    Messages("iht.estateReport.tnrb.dateOfMarriage",
+                TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel)),
+    None,
+    '_hintText -> Messages("iht.dateExample2"),
+    '_labelTextClass -> "bold",
+    '_groupId -> "responsibleFromDateFieldSet",
+    '_legend -> Messages("page.iht.application.tnrbEligibilty.overview.partner.marriageDate.title",TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName),
+    '_legendClass -> Some("visually-hidden")
+    )
+    <div id="action-button" class="form-field form-field--submit">
+      <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+    </div>
+
+
+ }
+}

@@ -1,0 +1,11 @@
+object testfile21 {
+	def blaa = {
+		val aa = 55
+		val bb = Messages("aa.bb.cc")
+		bb + aa
+	}
+	def blaa2 = {
+		val cc = Messages("dd.ee.fff")
+		cc
+	}
+}

@@ -1,0 +1,115 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@(ihtReference: String,
+backToLastQuestionUrl: Option[String] = None,
+backToLastQuestionMessageKey: Option[String] = None,
+backToLastQuestionMessageKeyAccessibility: Option[String])(implicit request: Request[_])
+
+@gifts_guidance_main_template(title = Messages("page.iht.application.gifts.guidance.claimingExemptions.title"),
+backUrl = None,
+isFullWidth = false,
+ihtReference = ihtReference,
+backToLastQuestionUrl,
+backToLastQuestionMessageKey,
+backToLastQuestionMessageKeyAccessibility) {
+
+    <div id="gifts-guidance-page-description">
+        <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.description1")</p>
+        <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.description2")</p>
+        <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.description3")</p>
+
+
+        <details id="small-gifts-exemption-reveal">
+          <summary id="small-gifts-summary-heading" class="summary">@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.heading")</summary>
+          <div id="small-gifts-description" class="panel-indent panel-indent--gutter">
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description1")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description2")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description3")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description4")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description5")</p>
+          </div>
+        </details>
+
+        <details id="marriage-civil-partnership-exemption-reveal">
+          <summary id="marriage-civil-partnership-gifts-summary-heading" class="summary">@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.heading")</summary>
+          <div id="marriage-civil-partnership-gifts-description" class="panel-indent panel-indent--gutter">
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description1")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description2")</p>
+            <div id="gifts-page-four-deceased-could-give-details-list">
+                <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3")</p>
+                <ul class="bullets">
+                    <li>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part1")</li>
+                    <li>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part2")</li>
+                    <li>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part3")</li>
+                </ul>
+            </div>
+            <div id="gifts-page-four-marriage-civil-partner-details-list">
+                <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4")</p>
+                <ul class="bullets">
+                    <li>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part1")</li>
+                    <li>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part2")</li>
+                </ul>
+                <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description5")</p>
+            </div>
+          </div>
+        </details>
+
+        <details id="gifts-out-of-income-exemption-reveal">
+          <summary id="gifts-out-of-income-exemption-summary-heading" class="summary">@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.heading")</summary>
+          <div class="panel-indent panel-indent--gutter">
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description1")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description2")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description3")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description4")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description5")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description6")</p>
+          </div>
+        </details>
+
+        <details id="annual-gift-exemption-reveal">
+          <summary id="annual-gift-exemption-summary-heading" class="summary">@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.heading")</summary>
+          <div class="panel-indent panel-indent--gutter">
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description1")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description2")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description3")</p>
+            <p>@Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description4")</p>
+          </div>
+        </details>
+</div>
+
+
+<nav class="page-navigation--previous-next" aria-label="Page navigation">
+    <ul>
+      <li class="page-nav__item page-nav__item--previous">
+          <a class="page-nav__link page-nav__link--previous" id="continue-to-previous" rel="prev" href="@iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()">
+              <span class="page-nav__label">@Messages("site.previous") </span>
+              <span class="page-nav__title">@Messages("iht.estateReport.gifts.withReservation.title")</span>
+          </a>
+      </li>
+        <li class="page-nav__item page-nav__item--next">
+            <a class="page-nav__link page-nav__link--next" id="continue-to-next" rel="next" href="@iht.controllers.application.gifts.guidance.routes.IncreasingAnnualLimitController.onPageLoad()">
+                <span class="page-nav__label">@Messages("iht.next")</span>
+                <span class="page-nav__title">@Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.title")</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+}

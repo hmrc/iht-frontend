@@ -1,0 +1,52 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.constants.FieldMappings
+@import iht.constants.Constants._
+@import iht.forms.FilterForms._
+
+
+@(form: Form[Option[String]])(implicit request: Request[_])
+
+  @iht_main_template_registration(title = Messages("iht.whatDoYouWantToDo"),
+    browserTitle = Some(Messages("iht.whatDoYouWantToDo")),
+    isFullWidth = false,
+    hasSignOut = false,
+    hasTimeOut = false){
+
+
+  @helpers.form(action = iht.controllers.filter.routes.FilterController.onSubmit,'autoComplete -> "off") {
+
+      @ihtHelpers.error_summary(form)
+
+      @ihtHelpers.inputRadioGroupWithHints(
+          form(filterChoices),
+          FieldMappings.filterChoices.toSeq,
+          '_legendClass -> "visually-hidden",
+          '_legend -> Html(Messages("iht.whatDoYouWantToDo")),
+          '_fieldsetId -> "role1",
+          '_groupClass -> "form-group",
+          '_labelClass -> "block-label radio-label",
+          '_labelTextClass -> "form-label-bold",
+          '_labelAfter -> false)
+
+      <div id="continue-button" class="form-field form-field--submit">
+          <input id='continue' class='button' type='submit' value='@Messages("iht.continue")'>
+      </div>
+      }
+  }

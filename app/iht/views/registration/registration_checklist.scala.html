@@ -1,0 +1,113 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@()(implicit request: Request[_])
+
+@iht_main_template_registration(title = Messages("page.iht.registration.checklist.title"),
+isFullWidth = false, hasSignOut=false, hasTimeOut=false) {
+
+<div id="checklist-introduction">
+    <p>@Messages("page.iht.registration.checklist.label1")</p>
+    <p>@Messages("page.iht.registration.checklist.label2")</p>
+    <p>@Messages("page.iht.registration.checklist.label3")</p>
+</div>
+
+<div id="deceased-details-list" class="subsection">
+    <p><strong>@Messages("page.iht.registration.checklist.deceased.title")</strong></p>
+    <ul class="bullets">
+        <li>@Messages("iht.name.lowerCaseInitial")</li>
+        <li>@Messages("iht.registration.checklist.dateOfBirth")</li>
+        <li>@Messages("page.iht.registration.checklist.deceased.label3")</li>
+        <li>@Messages("iht.nationalInsuranceNo")</li>
+        <li>@Messages("page.iht.registration.checklist.deceased.label5")</li>
+        <li>@Messages("page.iht.registration.checklist.deceased.label6")</li>
+        <li>@Messages("page.iht.registration.checklist.deceased.label7")</li>
+    </ul>
+
+    <details id="deceased-details-reveal">
+      <summary class="summary">@Messages("page.iht.registration.checklist.revealText")</summary>
+      <div class="panel-indent panel-indent--gutter">
+        <p>@Messages("page.iht.registration.checklist.deceased.reveal.label1")</p>
+        <p>@Messages("page.iht.registration.checklist.deceased.reveal.label2")</p>
+        <p>@Messages("iht.registration.ninoNotOnPayslip")</p>
+                <p>@Messages("page.iht.registration.checklist.deceased.reveal.label4")</p>
+           
+      </div>
+    </details>
+
+</div>
+
+<div id="applicant-details-list" class="subsection">
+    <p><strong>@Messages("page.iht.registration.checklist.applicant.title")</strong></p>
+    <ul class="bullets">
+        <li>@Messages("iht.address.lowerCaseInitial")</li>
+        <li>@Messages("iht.nationalInsuranceNo")</li>
+        <li>@Messages("iht.registration.checklist.phoneNo.lowerCaseInitial")</li>
+        <li>@Messages("page.iht.registration.checklist.applicant.label4")</li>
+        <li>@Messages("page.iht.registration.checklist.applicant.label5")</li>
+    </ul>
+
+    <details id="application-details-reveal">
+      <summary class="summary">@Messages("page.iht.registration.checklist.revealText")</summary>
+      <div class="panel-indent panel-indent--gutter">
+        <p>@Messages("page.iht.registration.checklist.applicant.reveal.label1")</p>
+        <p>@Messages("page.iht.registration.checklist.applicant.reveal.label2")</p>
+        <p>@Messages("page.iht.registration.checklist.applicant.reveal.label3")</p>
+                <p>@Messages("page.iht.registration.checklist.applicant.reveal.label4")</p>
+           
+      </div>
+    </details>
+</div>
+
+<div id="co-execs-details-list" class="subsection">
+    <p><strong>@Messages("page.iht.registration.checklist.exec.title")</strong></p>
+    <ul class="bullets">
+        <li>@Messages("iht.name.lowerCaseInitial")</li>
+        <li>@Messages("iht.registration.checklist.dateOfBirth")</li>
+        <li>@Messages("iht.nationalInsuranceNo")</li>
+        <li>@Messages("iht.address.lowerCaseInitial")</li>
+        <li>@Messages("iht.registration.checklist.phoneNo.lowerCaseInitial")</li>
+    </ul>
+
+    <details id="co-execs-details-reveal">
+      <summary class="summary">@Messages("page.iht.registration.checklist.revealText")</summary>
+      <div class="panel-indent panel-indent--gutter">
+        <p>@Messages("page.iht.registration.checklist.exec.reveal.label1")</p>
+        <p>@Messages("page.iht.registration.checklist.exec.reveal.label2")</p>
+        <p>@Messages("page.iht.registration.checklist.exec.reveal.label3")</p>
+        <p>@Messages("iht.registration.ninoNotOnPayslip")</p>
+      </div>
+    </details>
+
+</div>
+
+<div id="start-registration-button" class="form-field form-field--submit">
+    <a id="start-registration" href="@iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()" class="button">
+        @Messages("page.iht.registration.checklist.startRegistrationButton")
+    </a>
+</div>
+
+<div id="return-to-what-do-you-want-to-do">
+    <a id="leave-page" href="@iht.controllers.filter.routes.FilterController.onPageLoad()" class="backButton">
+        @Messages("page.iht.registration.checklist.leaveLink")
+    </a>
+</div>
+
+}
+

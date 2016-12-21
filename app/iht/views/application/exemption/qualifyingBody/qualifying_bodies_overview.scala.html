@@ -1,0 +1,112 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.views.html._
+@import iht.utils._
+@import ihtHelpers._
+@import iht.utils.OverviewHelper._
+@import iht.models.application.exemptions._
+@(qualifyingBodies: Seq[QualifyingBody],
+registrationDetails: RegistrationDetails,
+isAssetLeftToQualifyingBody: Boolean)(implicit request: Request[_])
+
+
+@iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title",
+CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
+browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyOverview.browserTitle")),
+isFullWidth=false
+) {
+
+<p class="lede">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.lede")</p>
+
+@progressive_disclosure(Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies"), Seq(Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext")))
+
+
+    <section id="qualifyingBody-table">
+        <ul>
+        @generic_overview_table_item(id = "qualifying-bodies",
+            questionText = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question"),
+            questionScreenReaderText= Messages("page.iht.application.exemptions.qualifyingBodyOverview.question"),
+            questionCategory= "change",
+            answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToQualifyingBody)),
+            link = Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad),
+            linkScreenReader = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link"))
+        </ul>
+        <div class="subsection">
+        <h2>@Messages("page.iht.application.exemptions.qualifyingBodyOverviewTable.header")</h2>
+        <ul>
+        @for((element,i) <- qualifyingBodies.zipWithIndex){
+        <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+            <div class="tabular-data__data tabular-data__data--4-12">
+                <span class="visually-hidden">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.screenreader.ident", (i + 1)) </span>
+                @(element.name) match {
+                    case (None) => { @Messages("iht.estateReport.exemptions.charities.noNameAdded") }
+                    case (Some(name)) => { @name }
+                }
+            </div>
+            <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
+                <span id="qualifying-body-total">&pound;@CommonHelper.numberWithCommas(element.totalValue.getOrElse(BigDecimal(0)))</span>
+            </div>
+            <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+               <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url"
+               id="edit-@element.id.getOrElse("")">
+                <span aria-hidden="true">@Messages("iht.change")</span>
+                <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.edit.screenReader", element.name match {
+                        case Some(name) => {name}
+                        case _ => {""}
+                    }, (i + 1))</span>
+                </a>
+            </div>
+            <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
+                <!--@* TODO Change link to correct edit link when implemented
+                <a href='@iht.controllers.application.exemptions.routes.AddQualifyingBodyController.onEditPageLoad(element.id.getOrElse("")).url' *@-->
+                <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDeleteConfirmController.onPageLoad(element.id.getOrElse("")).url"
+                   id="delete-@element.id.getOrElse("")">
+                    <span aria-hidden="true">@Messages("iht.delete")</span>
+                    <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.delete.screenReader", element.name match {
+                        case Some(name) => {name}
+                        case _ => {""}
+                    }, (i + 1))</span>
+                </a>
+            </div>
+        </li>
+        }
+        </ul>
+      </div>
+    </section>
+
+
+<p>
+    @if(qualifyingBodies.isEmpty){
+    @Messages("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text")
+    }
+</p>
+
+
+<p id="add-qualifyingBody-link">
+    <!-- TODO: Change route to add a qualifying body -->
+    <a id="add-qualifyingBody" href='@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url'>
+        @Messages("iht.estateReport.assets.qualifyingBodyAdd") </a>
+</p>
+
+<p>
+    @registrationDetails.deceasedDetails.map{ dd=>
+    @ihtHelpers.return_link(Some(Messages("site.link.return.exemptions")),
+    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
+    }
+</p>
+}

@@ -1,0 +1,35 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+
+@import play.twirl.api.Html
+@import scala.collection.immutable._
+
+@(label:String,
+    data:String,
+    dataScreenReaderText:String,
+    hasChangeLink:Boolean = true,
+    changeLink:String="",
+    changeLinkHiddenText:String="",
+    linkId: String="")(implicit lang: play.api.i18n.Lang)
+
+<tr>
+    <td class="u-w--30"> @Html(label.replace("\n", "<br/>"))</td>
+    <td class="u-w--50">
+        <span>@{data.split("\n").map{x => HtmlFormat.fill(Seq(HtmlFormat.escape(x), HtmlFormat.raw("<br />")))}}</span>
+    </td>
+    <td class="u-w--20">@if(hasChangeLink){<a href="@changeLink" id="@linkId"><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@changeLinkHiddenText</span></a>}</td>
+</tr>

@@ -1,0 +1,82 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.models._
+@import iht.models.application.exemptions._
+@import iht.utils._
+
+@(qualifyingBodies: Seq[QualifyingBody]= Seq(),
+registrationDetails:RegistrationDetails)(implicit request:Request[_])
+@*
+@iht_main_template_application(title = Messages("page.iht.application.exemptions.assetLeftToGncp.sectionTitle"),
+isFullWidth=true) {
+
+<p class="standard exemptionsSubtitle grid-2-3">@Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities")</p>
+<p class="standard exemptionsSubtitle grid-2-3">@Messages("page.iht.application.exemptions.assetLeftToGncp.description.p2")</p>
+
+<div class="accordionHelp grid-2-3">
+    <summary class="helpSlider" role="button">
+        <div class="js-arrow-reveal helpSlider__indicator helpSlider__indicator--expanded"></div>
+        <span class="slidingHint" >@Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies")</span>
+        <span aria-labelledby="assets-left-to-gncp-help-text"></span>
+    </summary>
+    <div class="js-hidden panel-indent" aria-hidden="true">
+        <span id="assets-left-to-gncp-help-text">@Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext")</span>
+    </div>
+</div>
+
+
+@if(qualifyingBodies.length != 0){
+<div class="grid">
+    <table id="qualifying-body-table" class="grid-2-3">
+        <tbody class="summaryQualifyingBodyTable">
+        @for(element <- qualifyingBodies){
+        <tr>
+            <td>@element.name</td>
+            <td>&pound;@CommonHelper.numberWithCommas(element.totalValue)</td>
+            <td>
+                <a href='@iht.controllers.application.exemptions.routes.AddGNCPController.onEditPageLoad(element.id.getOrElse("")).url' id='edit-@element.id.getOrElse("")'>
+                    <span aria-hidden="true">@Messages("iht.change")</span>
+                    <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.edit.screenReader", element.name)</span>
+                </a>
+            </td>
+            <td>
+                <a href='@iht.controllers.application.exemptions.routes.DeleteGNCPController.onPageLoad(element.id.getOrElse("")).url' id='delete-@element.id.getOrElse("")'>
+                    <span aria-hidden="true">@Messages("iht.delete")</span>
+                    <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.delete.screenReader", element.name)</span>
+                </a>
+            </td>
+        </tr>
+
+        }
+
+        </tbody>
+    </table>
+</div>
+}
+
+
+<p class="grid" id="add-qualifying-body-link" >
+    <p class="grid-2-3">@Messages("page.iht.application.exemptions.assetLeftToGncp.question1.hint")</p>
+    <a class="button" id="add-qualifying-body" href="@iht.controllers.application.exemptions.routes.AddGNCPController.onPageLoad().url"> @Messages("page.iht.application.exemptions.assetLeftToGncp.addGNCP") </a>
+</p>
+
+@ihtHelpers.return_link(Some(Messages("site.link.return.exemptions")), Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
+
+}
+    *@

@@ -1,0 +1,41 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@(applications:Seq[iht.viewmodels.application.home.IhtHomeRowViewModel])(implicit request:Request[_])
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@iht_main_template_application(title = Messages("page.iht.home.title"),
+browserTitle=Some(Messages("page.iht.home.browserTitle")),
+isFullWidth=true) {
+
+@if(applications.isEmpty){
+
+  <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.label.empty")</p>
+
+} else {
+   <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.label")</p>
+
+   @ihtHelpers.ihtHome_application_table(applications)
+}
+<a id="start-new-registration" href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()">@Messages("site.link.startNewRegistration")</a>
+
+@if(applications.isEmpty){
+   <p class="grid-2-3">@Messages("page.iht.home.applicationList.table.guidance.p2.empty")</p>
+}
+
+}

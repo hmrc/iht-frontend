@@ -1,0 +1,192 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.models.{RegistrationDetails, UkAddress}
+@import iht.constants.IhtProperties
+@import iht.utils.CommonHelper
+@import iht.utils.StringHelper
+@import iht.constants.FieldMappings
+@import iht.controllers.ControllerHelper
+@import iht.utils.CommonHelper
+@import iht.utils.CommonHelper._
+@import iht.controllers.registration.applicant.{routes => applicantRoutes}
+@import iht.controllers.registration.deceased.{routes => deceasedRoutes}
+
+@(registrationDetails: RegistrationDetails, role:String)(implicit request:Request[_])
+
+@iht_main_template_registration(title = Messages("iht.registration.checkYourAnswers"),
+                   browserTitle = Some(Messages("iht.registration.checkYourAnswers")),
+                   isFullWidth=false,
+                   hasTimeOut=true) {
+
+    <p class="lede">@Messages("page.iht.registration.registrationSummary.subTitle")</p>
+
+    <section class="section">
+        <h2>@Messages("page.iht.registration.registrationSummary.deceasedTable.title")</h2>
+        <ul>
+            @defining(CommonHelper.getOrException(registrationDetails.deceasedDetails, "Deceased Details could not be found")) { deceasedDetails=>
+
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.name.upperCaseInitial"),
+                    data = (String.format(CommonHelper.getOrException(deceasedDetails.firstName)
+                    + "%n" + CommonHelper.getOrException(deceasedDetails.lastName))),
+                    dataScreenReaderText = "",
+                    changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#firstName",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader"),
+                    linkId="change-deceased-name"
+                )
+
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.dateOfDeath"),
+                    data = registrationDetails.deceasedDateOfDeath.getOrElse(throw new RuntimeException("Deceased Date of death could not be found"))
+                    .dateOfDeath.toString(IhtProperties.dateFormatForDisplay),
+                    dataScreenReaderText = "",
+                    changeLink = deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad.url + "#date-of-death",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader"),
+                    linkId="change-date-of-death"
+                )
+
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.dateofbirth"),
+                    data = CommonHelper.getOrException(deceasedDetails.dateOfBirth).toString(IhtProperties.dateFormatForDisplay),
+                    dataScreenReaderText = "",
+                    changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.toString + "#date-of-birth",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader"),
+                    linkId="change-deceased-date-of-birth"
+                )
+
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.nationalInsuranceNo"),
+                    data = deceasedDetails.nino.getOrElse(""),
+                    dataScreenReaderText = "",
+                    changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#nino",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader"),
+                    linkId="change-deceased-nino"
+                )
+
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.registration.contactAddress"),
+                    data = CommonHelper.addressFormater(CommonHelper.getOrException(deceasedDetails.ukAddress)),
+                    dataScreenReaderText = "",
+                    changeLink = if(CommonHelper.getOrException(deceasedDetails.isAddressInUK) == true) {
+                        deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad.url + "#details" } else {
+                        deceasedRoutes.DeceasedAddressDetailsOutsideUKController.onEditPageLoad.url + "#details"
+                    },
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader"),
+                    linkId="change-contact-address"
+                )
+
+
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.registration.deceased.locationOfPermanentHome"),
+                    data = FieldMappings.domicileMap(CommonHelper.getOrException(deceasedDetails.domicile)).toString,
+                    dataScreenReaderText = "",
+                    changeLink = deceasedRoutes.DeceasedPermanentHomeController.onEditPageLoad.url + "#country",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader"),
+                    linkId="change-location-of-deceaseds-permanent-home"
+                )
+
+                @ihtHelpers.summary_item(
+                    label = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
+                    data = FieldMappings.maritalStatusMap(CommonHelper.getOrException(deceasedDetails.maritalStatus)).toString,
+                    dataScreenReaderText = "",
+                    changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#relationship-status",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader"),
+                    linkId="change-relationship-status"
+                )
+            }
+        </ul>
+      </section>
+
+
+      <section class="section">
+        <h2>@Messages("page.iht.registration.registrationSummary.applicantTable.title")</h2>
+        <ul>
+            @defining( CommonHelper.getOrException(registrationDetails.applicantDetails, "Applicant Details could not be found") ) { applicantDetails=>
+
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.name.upperCaseInitial"),
+                    data = (String.format(CommonHelper.getOrException(applicantDetails.firstName)
+                    + "%n" + CommonHelper.getOrException(applicantDetails.lastName))),
+                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.name.data.screenReader", CommonHelper.getOrException(applicantDetails.firstName) + " " + CommonHelper.getOrException(applicantDetails.lastName)),
+                    hasChangeLink = false
+                )
+                    @ihtHelpers.summary_item(
+                    label = Messages("iht.dateofbirth"),
+                    data = CommonHelper.getOrException(applicantDetails.dateOfBirth).toString(IhtProperties.dateFormatForDisplay),
+                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.dateOfBirth.data.screenReader", CommonHelper.getOrException(applicantDetails.dateOfBirth).toString),
+                    hasChangeLink = false
+                )
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.nationalInsuranceNo"),
+                    data = applicantDetails.nino.getOrElse(""),
+                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.nino.data.screenReader", applicantDetails.ninoFormatted),
+                    hasChangeLink = false
+                )
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.address.upperCaseInitial"),
+                    data = CommonHelper.addressFormater(CommonHelper.getOrException(applicantDetails.ukAddress)),
+                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.address.data.screenReader", CommonHelper.addressFormater(CommonHelper.getOrException(applicantDetails.ukAddress))),
+                    changeLink = if (CommonHelper.getOrException(applicantDetails.doesLiveInUK) == true) {
+                        applicantRoutes.ApplicantAddressController.onEditPageLoadUk.url + "#details" } else {
+                        applicantRoutes.ApplicantAddressController.onEditPageLoadAbroad.url + "#details"
+                    },
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.address.link.screenReader"),
+                    linkId="change-address"
+                )
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.registration.checklist.phoneNo.upperCaseInitial"),
+                    data = CommonHelper.getOrException(applicantDetails.phoneNo),
+                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.phoneNumber.data.screenReader", CommonHelper.getOrException(applicantDetails.phoneNo)),
+                    changeLink = applicantRoutes.ApplicantTellUsAboutYourselfController.onEditPageLoad.url + "#phoneNo",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.phoneNumber.link.screenReader"),
+                    linkId="change-phone-number"
+                )
+                @ihtHelpers.summary_item(
+                    label = Messages("iht.registration.applicant.applyingForProbate"),
+                    data = StringHelper.yesNoFormat(applicantDetails.isApplyingForProbate),
+                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.data.screenReader", StringHelper.yesNoFormat(applicantDetails.isApplyingForProbate)),
+                    changeLink = applicantRoutes.ApplyingForProbateController.onEditPageLoad.url + "#applying-for-probate",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader"),
+                    linkId="change-applying-for-probate"
+                )
+                @ihtHelpers.summary_item(
+                    label = Messages("page.iht.registration.registrationSummary.applicantInfo.country.label"),
+                    data = CommonHelper.getOrException(applicantDetails.country),
+                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.data.screenReader", CommonHelper.getOrException(applicantDetails.country)),
+                    changeLink = applicantRoutes.ProbateLocationController.onEditPageLoad.url + "#country",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.link.screenReader"),
+                    linkId="change-probate-location"
+                )
+            }
+        </ul>
+      </section>
+
+
+        @if(registrationDetails.coExecutors.isEmpty) {
+            @registration_summary_coexecutor_none_panel(role)
+        } else {
+            @registration_summary_coexecutor_panel(registrationDetails.coExecutors)
+        }
+
+    <div class="form-field form-field--submit">
+        @helpers.form(action = iht.controllers.registration.routes.RegistrationSummaryController.onSubmit) {
+        <input class='button' type='submit' value='@Messages("page.iht.registration.registrationSummary.button")' />
+        }
+    </div>
+}

@@ -1,0 +1,102 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.utils._
+@import iht.models._
+@import iht.controllers.application.exemptions.qualifyingBody.routes._
+@import iht.constants.FieldMappings
+@import iht.utils.CommonHelper
+@import iht.views.html.ihtHelpers._
+@import iht.utils.OverviewHelper._
+@import iht.models.application.exemptions._
+@(qualifyingBody:Option[QualifyingBody]=None)(implicit request: Request[_])
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.qualifyingBodyAdd"),
+browserTitle = Some(Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.browserTitle")),
+isFullWidth = false) {
+
+<p class="lede" id="qb-guidance-1">@Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities")</p>
+
+<section>
+    @defining(qualifyingBody.flatMap(_.id))  { qualifyingBodyId =>
+
+        @defining(qualifyingBody.flatMap(_.name))  { qualifyingBodyName =>
+
+                @ihtHelpers.generic_overview_item(
+                    title = Messages("iht.estateReport.qualifyingBodies.qualifyingBodyName"),
+                    name = "qualifyingBody.detailsOverview.name",
+                    id = "qualifyingBody-name",
+                    value = qualifyingBodyName,
+                    valueScreenReader = "",
+                    link = qualifyingBodyId match {
+                        case Some(id) => Some(QualifyingBodyNameController.onEditPageLoad(qualifyingBodyId))
+                        case None => Some(QualifyingBodyNameController.onPageLoad)
+                    },
+                    linkText=ihtHelpers.generic_overview_link(
+                        isComplete = qualifyingBodyName match {
+                            case Some(name) => Some(true)
+                            case None => None
+                        },
+                        messagesFileGiveAnswer = Messages("site.link.giveDetails"),
+                        messagesFileViewOrChange = Messages("iht.change"),
+                        screenreaderQualifyingText = qualifyingBodyName match {
+                            case Some(id) => Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.link.screenreader.value")
+                            case None => Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.link.screenreader.noValue")
+                        }
+                    ),
+                    classValueCell = "",
+                    classAllCells = "")
+        }
+
+        @defining(qualifyingBody.flatMap(_.totalValue))  { qualifyingBodyValue =>
+
+                @ihtHelpers.generic_overview_item(
+                    title = Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title"),
+                    name = "qualifyingBody.detailsOverview.value",
+                    id = "qualifyingBody-value",
+                    value = qualifyingBodyValue match {
+                            case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
+                            case None => {""}
+                            },
+                    valueScreenReader = "",
+                    link = qualifyingBodyId match {
+                        case Some(id) => Some(QualifyingBodyValueController.onEditPageLoad(qualifyingBodyId))
+                        case None => Some(QualifyingBodyValueController.onPageLoad) } ,
+                    linkText=ihtHelpers.generic_overview_link(
+                        isComplete = qualifyingBodyValue match {
+                            case Some(name) => Some(true)
+                            case None => None
+                        },
+                        messagesFileGiveAnswer = Messages("site.link.giveValue"),
+                        messagesFileViewOrChange = Messages("iht.change"),
+                        screenreaderQualifyingText = qualifyingBodyValue match {
+                            case Some(id) => Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.link.screenreader.value")
+                            case None => Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.link.screenreader.noValue")
+                        }
+                    ),
+                    classValueCell = "",
+                    classAllCells = "")
+        }
+    }
+
+</section>
+<p>
+@ihtHelpers.return_link(label = Some(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies")),
+    link = Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()))
+</p>
+}

@@ -1,0 +1,60 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@(propertyTenure:Form[iht.models.application.assets.Property],
+submitUrl:Call,
+cancelUrl:Call
+)(implicit request:Request[_])
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.utils._
+@import iht.constants.FieldMappings
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.properties.freeholdOrLeasehold"),
+browserTitle = Some(Messages("page.iht.application.assets.property.tenure.browserTitle")),
+cancelUrl=Some(cancelUrl),
+cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))) {
+
+@ihtHelpers.error_summary(propertyTenure)
+
+<p id="tenure-guidance">@Messages("iht.estateReport.assets.property.youCan")
+<span id="land-registry"><a href="https://www.gov.uk/search-property-information-land-registry">
+    @Messages("iht.estateReport.assets.property.findOutFromLandRegistry")</a></span>
+@Messages("page.iht.application.assets.property.tenure.guidance1b")</p>
+
+@helpers.form(action = submitUrl,'autoComplete -> "off") {
+
+@ihtHelpers.inputRadioGroupWithHints(
+propertyTenure("tenure"),
+FieldMappings.tenures.toSeq,
+'_fieldsetId -> "role2",
+'_groupClass -> "form-group",
+'_labelClass -> "block-label",
+'_labelTextClass -> "bold",
+'_labelAfter -> false,
+'_legend -> Some(Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")),
+'_legendClass -> Some("visually-hidden")
+)
+
+
+
+<div class="form-field form-field--submit" id='save-property-button'>
+    <input id='save-continue' class='button' type='submit' value='@Messages("iht.saveAndContinue")'>
+</div>
+
+}
+}

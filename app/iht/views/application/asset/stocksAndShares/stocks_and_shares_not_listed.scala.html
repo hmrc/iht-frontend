@@ -1,0 +1,66 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.models.application.assets.StockAndShare
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.utils._
+@import iht.constants.Constants
+
+@(stockAndSharesNotListed: Form[StockAndShare],
+registrationDetails: RegistrationDetails
+)(implicit request: Request[_])
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.stocksAndSharesNotListed"),
+    browserTitle = Some(Messages("page.iht.application.assets.stocksAndSharesNotListed.browserTitle")),
+    isFullWidth=false) {
+
+    @ihtHelpers.error_summary_override_keys(stockAndSharesNotListed, Constants.AppSectionStockAndShare)
+
+    @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onSubmit(),'autoComplete -> "off") {
+
+        @ihtHelpers.inputYesNoRadioGroup(stockAndSharesNotListed("isNotListed"),
+            '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.notListed.question")),
+            '_shownElementNo -> None,
+            '_shownElementYes -> Some("stocks-and-shares-value"),
+            '_hiddenElementYes -> None,
+            '_hiddenElementNo -> Some("stocks-and-shares-value"),
+            '_divClass -> Some("form-group"),
+            '_clearTargetNo -> Some("indeceasednamevalue"),
+            '_mainQuestion -> true)
+
+        <div class="js-hidden panel-indent panel-indent--gutter" id="stocks-and-shares-value">
+            @ihtHelpers.inputEstateValue(stockAndSharesNotListed("valueNotListed"),
+            '_label -> Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed"),
+            '_help -> "",
+            '_sectionName -> ("1"),
+            '_currency -> "GBP",
+            '_divClass -> "form-group",
+            '_labelTextClass -> "bold",
+            '_inputClass -> "form-control js-valInput")
+        </div>
+
+
+
+    <div id="action-button" class="form-field form-field--submit">
+        <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+    </div>
+}
+    @ihtHelpers.return_link(Some(Messages("site.link.return.stocksAndShares")), Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()))
+
+}

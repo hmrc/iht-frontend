@@ -1,0 +1,53 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models.application.ApplicationDetails
+@import iht.utils.{KickOutReason => KickOut}
+@import iht.utils.ApplicationKickOutHelper
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.controllers.ControllerHelper
+@import iht.utils.{KickOutReason=>KickOut}
+@import iht.utils.CommonHelper
+
+@(implicit request:Request[_])
+
+@iht_main_template_application(title = Messages("page.iht.application.kickout.final.browserTitle"),
+    browserTitle = Some(Messages("page.iht.application.kickout.final.browserTitle"))) {
+    <div class="panel-indent">
+        <strong>@Messages("page.iht.application.kickout.final.summary")</strong>
+    </div>
+<br>
+    <h2 class="heading-medium">@Messages("page.iht.application.kickout.final.getCopy.title")</h2>
+    <p>@Messages("page.iht.application.kickout.final.getCopy1")</p>
+    <div class="panel-indent">
+        <p>
+          <strong>@Messages("page.iht.application.kickout.final.getCopy2")
+            <a class="backButton" target="_blank" href="@iht.controllers.application.pdf.routes.PDFController.onPDFSummary">
+                @Messages("page.iht.application.kickout.final.getCopy3")</a>@Messages("page.iht.application.kickout.final.getCopy4")</strong>
+        </p>
+    </div>
+
+    <p><strong>@Messages("page.iht.application.kickout.final.last")</strong></p>
+
+    <div id="continue-button">
+        @helpers.form(action = iht.controllers.application.routes.KickoutController.onSubmit) {
+        <p><input id="finish" class='button' name="action" type='submit' value='@Messages("site.button.finish")'></p>
+        }
+    </div>
+
+}

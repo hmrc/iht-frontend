@@ -1,0 +1,53 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.models._
+@import iht.models.application.assets.HeldInTrust
+@import iht.utils.CommonHelper._
+
+@(trustsOwnedQuestionForm: Form[HeldInTrust],
+registrationDetails:RegistrationDetails)(implicit request:Request[_])
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question"),
+browserTitle = Some(Messages("page.iht.application.assets.trusts.isOwned.browserTitle")),
+isFullWidth=false){
+    @ihtHelpers.error_summary(trustsOwnedQuestionForm)
+    @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
+
+            <p class="lede" id="trusts-question-description1">@Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust")</p>
+      <p id="trusts-question-description2">@Messages("iht.estateReport.assets.trusts.needInclusion")</p>
+      <p id="trusts-question-description3">@Messages("iht.estateReport.assets.heldInTrust.needInclusion")</p>
+
+            @ihtHelpers.inputYesNoRadioGroup(
+            trustsOwnedQuestionForm("isOwned"),
+            '_legend -> Html(Messages("iht.estateReport.assets.trusts.question")),
+            '_shownElementNo -> Some("mortgage-guidance-panel"),
+            '_hiddenElementYes -> Some("mortgage-guidance-panel"),
+      '_divClass -> Some("form-group"))
+
+      <div id="action-button" class="form-field form-field--submit">
+        <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+      </div>
+
+        @registrationDetails.deceasedDetails.map{ dd=>
+        @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)),
+        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+        }
+}
+}

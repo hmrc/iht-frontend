@@ -1,0 +1,57 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@(propertyModel: iht.models.application.assets.Property)(implicit request:Request[_])
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.utils._
+
+@iht_main_template_application(title = Messages("page.iht.application.propertyDetails.deleteProperty.title"),
+isFullWidth=true,
+cancelUrl=Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad)) {
+
+@helpers.form(action = iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit(propertyModel.id.getOrElse(""))) {
+
+<div class="panel-indent">
+    <strong>
+        @defining(propertyModel.address)  { propertyAddress =>
+
+        @propertyAddress match {
+            case Some(x) => {
+              @x.ukAddressLine1&#44;<br />
+              @x.ukAddressLine2&#44;<br />
+              @x.ukAddressLine3.getOrElse("")@if(x.ukAddressLine3.isDefined){&#44;<br />}
+              @x.ukAddressLine4.getOrElse("")@if(x.ukAddressLine4.isDefined){&#44;<br />}
+              @if(x.postCode != ""){@x.postCode<br />}
+              @if(countryName(x.countryCode) != ""){@countryName(x.countryCode)&#46;}
+               }
+            case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
+        }
+        }
+    </strong>
+</div>
+
+<p>
+@Messages("page.iht.application.assets.main-section.properties.delete.warning")
+</p>
+
+<div class="form-field form-field--submit">
+<input id="delete" class='button' type='submit' value='@Messages("site.button.confirmDelete")' aria-label='@Messages("page.iht.application.propertyDetails.deleteProperty.button.screenReader")'>
+</div>
+
+}
+}

@@ -1,0 +1,76 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.views.html._
+@import iht.constants.Constants
+@(
+assetType: String,
+questionLabel: String,
+legendClass: String = "",
+inputTextLabel: String,
+inputTextHelp: String = "",
+sharableElementForm:Form[_],
+questionHint:Option[Html] = None,
+clearTargetInput: Option[String] = None
+)
+    @defining(if(assetType==Constants.AssetTypeSingle) "isOwned" else "isOwnedShare") { assetOwnedType =>
+
+            @{
+
+                questionHint.fold(
+                    ihtHelpers.inputYesNoRadioGroup(sharableElementForm(assetOwnedType),
+                    '_legend -> Html(questionLabel),
+                    '_legendClass -> legendClass,
+                    '_shownElementNo -> None,
+                    '_shownElementYes -> Some("asset-value-type"),
+                    '_hiddenElementYes -> None,
+                    '_hiddenElementNo -> Some("asset-value-type"),
+                    '_divClass -> Some("form-group"),
+                    '_clearTargetNo -> clearTargetInput,
+                    '_mainQuestion -> true)
+                )(hintText =>
+                    ihtHelpers.inputYesNoRadioGroup(sharableElementForm(assetOwnedType),
+                    '_legend -> Html(questionLabel),
+                    '_legendClass -> legendClass,
+                    '_hintText -> hintText,
+                    '_shownElementNo -> None,
+                    '_shownElementYes -> Some("asset-value-type"),
+                    '_hiddenElementYes -> None,
+                    '_hiddenElementNo -> Some("asset-value-type"),
+                    '_divClass -> Some("form-group"),
+                    '_clearTargetNo -> clearTargetInput,
+                    '_mainQuestion -> true)
+
+                )
+            }
+
+      }
+
+    @defining( if(assetType==Constants.AssetTypeSingle) "value" else "shareValue") { assetValueType =>
+
+                <div class="js-hidden panel-indent panel-indent--gutter" id="asset-value-type">
+                    @ihtHelpers.inputEstateValue(sharableElementForm(assetValueType),
+                    '_label -> inputTextLabel,
+                    '_help -> inputTextHelp,
+                    '_sectionName -> ("1"),
+                    '_currency -> "GBP",
+                    '_divClass -> "form-group",
+                    '_labelTextClass -> "bold",
+                    '_inputClass -> "form-control js-valInput")
+                </div>
+
+            }

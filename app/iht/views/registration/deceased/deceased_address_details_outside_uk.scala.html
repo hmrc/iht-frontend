@@ -1,0 +1,100 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.utils.CommonHelper
+@import iht.controllers.ControllerHelper._
+@import iht.utils._
+
+@(deceasedAddressDetailsOutsideUKForm:Form[iht.models.DeceasedDetails],
+    actionLocation: Call,
+    changeNationalityLocation: Call,
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang)
+
+@iht_main_template_registration(title = Messages("iht.registration.deceased.lastContactAddress"),
+    browserTitle = Some(Messages("iht.registration.contactAddress")),
+    isFullWidth=false,
+    cancelUrl=cancelLocation,
+    hasTimeOut=true,
+    jsFile=Some("iht-autocomplete.min.js"),
+    cssFile=Some("iht-autocomplete.css")) {
+
+
+    @ihtHelpers.error_summary(deceasedAddressDetailsOutsideUKForm)
+
+    <p class="lede">@Messages("page.iht.registration.deceasedDetails.addressheader.abroad.hint")</p>
+
+    @helpers.form(action = actionLocation,'autoComplete -> "off") {
+
+    <fieldset id="details">
+        <legend class="visually-hidden">
+            @Messages("iht.registration.deceased.lastContactAddress")
+        </legend>
+
+    @ihtHelpers.inputWithHelp(
+    deceasedAddressDetailsOutsideUKForm("ukAddress.addressLine1"),
+    '_divClass -> "form-group ",
+    '_inputClass -> "form-control",
+    '_labelTextClass -> "form-label ",
+    '_label -> Html(Messages("iht.address.line1")))
+
+    @ihtHelpers.inputWithHelp(
+    deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine2"),
+    '_divClass -> "form-group ",
+    '_inputClass -> "form-control",
+    '_labelTextClass -> "form-label ",
+    '_label -> Html(Messages("iht.address.line2")))
+
+    @ihtHelpers.inputWithHelp(
+    deceasedAddressDetailsOutsideUKForm("ukAddress.addressLine3"),
+    '_divClass -> "form-group ",
+    '_inputClass -> "form-control",
+    '_labelTextClass -> "form-label ",
+    '_label -> Html(Messages("iht.address.line3")))
+
+    @ihtHelpers.inputWithHelp(
+    deceasedAddressDetailsOutsideUKForm("ukAddress.addressLine4"),
+    '_divClass -> "form-group ",
+    '_inputClass -> "form-control",
+    '_labelTextClass -> "form-label",
+    '_label -> Html(Messages("iht.address.line4")))
+
+
+    @ihtHelpers.dropdown(deceasedAddressDetailsOutsideUKForm("ukAddress.countryCode"),
+    countryCodes,
+    true,
+    true,
+    '_divClass -> "form-group ",
+    '_inputClass -> "form-control",
+    '_label -> Html(Messages("iht.country")),
+    '_labelTextClass -> "form-label",
+    '_id -> Messages("page.iht.registration.registrationSummary.deceasedInfo.countryCode.id"),
+    '_labelid -> "ukAddress.countryCode-container",
+    '_emptyValueText -> ""
+    )
+
+
+    </fieldset>
+
+
+    <p>@ihtHelpers.return_link(Some(Messages("iht.registration.changeAddressToUK")),
+    Some(changeNationalityLocation))</p>
+
+    @ihtHelpers.save_continue_button()
+    }
+
+}

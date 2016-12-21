@@ -1,0 +1,73 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.models.application.assets._
+
+@(insurancePolicyForm: Form[InsurancePolicy], registrationDetails: RegistrationDetails
+)(implicit request: Request[_])
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+@import iht.utils._
+
+@iht_main_template_application(title = Messages("page.iht.application.insurance.policies.section2.title"),
+    browserTitle = Some(Messages("page.iht.application.insurance.policies.section2.browserTitle")),
+    isFullWidth=false
+    ) {
+
+    @ihtHelpers.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
+
+    @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onSubmit,'autoComplete -> "off") {
+
+          <p class="lede" id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section2.guidance")</p>
+
+
+
+
+         @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
+
+            @ihtHelpers.inputYesNoRadioGroup(
+                insurancePolicyForm("isJointlyOwned"),
+                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question")),
+                '_shownElementNo -> None,
+                '_shownElementYes -> Some("deceaseds-policy"),
+                '_hiddenElementYes -> None,
+                '_hiddenElementNo -> Some("deceaseds-policy"),
+                '_divClass -> Some(sectionName+"4-change form-group indeceasedsname"),
+                '_clearTargetNo -> Some("indeceasednamevalue"),
+                '_mainQuestion -> true)
+
+            <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
+                @ihtHelpers.inputEstateValue(insurancePolicyForm("shareValue"),
+                '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"),
+                '_help -> Messages("page.iht.application.insurance.policies.section2.guidance2"),
+                '_sectionName -> (sectionName + "1"),
+                '_currency -> "GBP",
+                '_divClass -> "form-group",
+                '_labelTextClass -> "form-label bold",
+                '_inputClass -> "form-control form-control-1-3 js-valInput")
+            </div>
+
+    }
+
+    <div id="action-button" class="form-field form-field--submit">
+      <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+    </div>
+
+    @ihtHelpers.return_link(Some(Messages("site.link.return.insurance.policies")), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
+    }
+}

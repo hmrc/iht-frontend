@@ -1,0 +1,167 @@
+@*
+* Copyright 2016 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import iht.models._
+@import iht.models.application.ApplicationDetails
+@import iht.utils.CommonHelper
+@import iht.utils.OverviewHelper._
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import iht.models.application.debts._
+
+@import iht.utils._
+@import iht.constants.Constants._
+
+@(appDetails: ApplicationDetails, debts: AllLiabilities, registrationDetails: RegistrationDetails)(implicit request: Request[_])
+
+@getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
+    isComplete match {
+        case Some(false) => moreDetailText
+        case Some(true) => valueText
+        case _ => noValueText
+    }
+}
+
+@iht_main_template_application(title = Messages("iht.estateReport.debts.owedFromEstate"),
+browserTitle = Some(Messages("iht.estateReport.debts.owedFromEstate")),
+isFullWidth=false) {
+
+<div id="debts-overview-subtitle">
+    <p class="lede">@Messages("page.iht.application.debts.subtitle1")</p>
+    <p>@Messages("page.iht.application.debts.subtitle2")</p>
+    <p>@Messages("iht.estateReport.completeEverySection")</p>
+</div>
+
+<div id="table-overview" class="section">
+    <ul>
+    @defining(appDetails.isCompleteMortgages) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.mortgages"),
+            "mortgages", "mortgages",
+            displayValue(appDetails, AppSectionMortgages, isComplete, Some("site.noDebts")), "",
+            Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(debts.funeralExpenses.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.funeralExpenses.title"),
+    "funeralExpenses", "funeralExpenses",
+            displayValue(appDetails, AppSectionFuneralExpenses, isComplete, Some("site.noDebts")), "",
+            Some(iht.controllers.application.debts.routes.FuneralExpensesController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
+                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(debts.trust.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.debtsTrust.title"),
+    "debtsFromTrust", "debtsFromTrust",
+            displayValue(appDetails, AppSectionDebtsOwedFromTrust, isComplete, Some("site.noDebts")), "",
+            Some(iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(debts.debtsOutsideUk.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.owedOutsideUK"),
+    "debtsOutsideUk", "debtsOutsideUk",
+            displayValue(appDetails, AppSectionDebtsOwedToAnyoneOutsideUK, isComplete, Some("site.noDebts")), "",
+            Some(iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(debts.jointlyOwned.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.owedOnJointAssets"),
+    "jointlyOwned", "jointlyOwned",
+            displayValue(appDetails, AppSectionDebtsOwedOnJointAssets, isComplete, Some("site.noDebts")), "",
+            Some(iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.noValue"))
+            )
+        )
+    }
+
+    @defining(debts.other.flatMap(_.isComplete)) { isComplete =>
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.other.title"),
+    "other", "other",
+            displayValue(appDetails, AppSectionDebtsOther, isComplete, Some("site.noDebts")), "",
+            Some(iht.controllers.application.debts.routes.AnyOtherDebtsController.onPageLoad()),
+            ihtHelpers.generic_overview_link(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.other.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.other.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.other.screenReader.link.noValue"))
+            )
+        )
+    }
+    </ul>
+    <section class="subsection">
+        <div id="total-row" class="grid-layout grid-layout--stacked grid-layout--nogutter">
+            <div class="grid-layout__column grid-layout__column--1-2">
+                <h2 class="h3-heading push-top">@Messages("page.iht.application.debts.overview.total")</h2>
+            </div>
+            <div class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right bold">
+                &pound;@CommonHelper.numberWithCommas(debts.totalValue)
+            </div>
+            <div class="grid-layout__column grid-layout__column--1-4"></div>
+        </div>
+    </section>
+</div>
+
+
+
+
+
+<div id="action-button" class="form-field form-field--submit">
+    <a id="continue-to-estate-overview-button" class="button" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference))'>
+        @Messages("iht.estateReport.returnToEstateOverview")
+    </a>
+</div>
+}
