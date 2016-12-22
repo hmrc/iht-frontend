@@ -164,7 +164,7 @@
                                                                             </xsl:otherwise>
                                                                         </xsl:choose>
                                                                     </xsl:when>
-                                                                    <xsl:when test="value">
+                                                                    <xsl:when test="value and value &gt; 1">
                                                                         &#xA3;<xsl:value-of
                                                                             select='format-number(number(value), "##,###.00")'/>
                                                                     </xsl:when>
