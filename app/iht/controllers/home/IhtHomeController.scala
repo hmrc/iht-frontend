@@ -42,9 +42,6 @@ trait IhtHomeController extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
 
-      // Make sure no registration details uncommitted.
-      cachingConnector.rollbackRegistrationDetails
-
       val nino = CommonHelper.getNino(user)
       ihtConnector.getCaseList(nino).map {
         case listOfCases if listOfCases.nonEmpty => {

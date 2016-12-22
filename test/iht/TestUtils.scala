@@ -43,9 +43,8 @@ trait TestUtils {
 
   def verifyAndReturnStoredRegistationDetails(mockCachingConnector: CachingConnector): RegistrationDetails = {
     val captor = ArgumentCaptor.forClass(classOf[RegistrationDetails])
-    val boolnapper = ArgumentCaptor.forClass(classOf[Boolean])
     verify(mockCachingConnector)
-      .storeRegistrationDetails(captor.capture, boolnapper.capture)(headnapper.capture, exenapper.capture)
+      .storeRegistrationDetails(captor.capture)(headnapper.capture, exenapper.capture)
     captor.getValue
   }
 
