@@ -21,10 +21,22 @@
 
 @(model: EstateOverviewViewModel)
 
+@checkNameSize(name: String) = @{
+  var nameislong = false;
+  var nameParts = name.split(" ");
+  for (name <- nameParts) {
+    if(name.length() > 15){
+      nameislong = true;
+    }
+  }
+  nameislong;  
+}
+
 @iht_main_template_application(title = Messages("page.iht.application.overview.title2", model.deceasedName),
     browserTitle = Some(Messages("page.iht.application.overview.browserTitle")),
     isFullWidth=false,
-    sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline)
+    sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline),
+    headingClass = if(checkNameSize(model.deceasedName)){"heading-xlarge heading--restricted"} else {"heading-xlarge"}
 ){
   <section id="assets-gifts-section" @if(model.reducingEstateValueSection.isDefined) {class="section"}>
     @assets_and_gifts_section(model.assetsAndGiftsSection)
@@ -51,6 +63,6 @@
         }
     }
 
-    
+
    @declaration_section(model.declarationSection)
 }

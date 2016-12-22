@@ -25,3 +25,18 @@ p.font-xsmall{
     line-height:1.14286
     }
 }
+
+
+
+/*
+====================================
+restricts heading to lower size when character limit is reached
+prevents long names from overrunning bounds of layout
+====================================
+*/
+@media (min-width: 641px){
+  .heading--restricted {
+    font-size: 36px;
+    margin-top: .836em;
+  }
+}
