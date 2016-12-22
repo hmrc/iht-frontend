@@ -59,7 +59,15 @@ isFullWidth=false) {
             } else {
                 PropertiesOwnedQuestionController.onPageLoad()
             }),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                isComplete,
+                Messages("page.iht.application.assets.overview.properties.screenReader.link.moreDetail"),
+                Messages("page.iht.application.assets.overview.properties.screenReader.link.value"),
+                Messages("page.iht.application.assets.overview.properties.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -75,7 +83,14 @@ isFullWidth=false) {
             "money", "money",
             displayValue(appDetails, AppSectionMoney, isComplete), "",
             Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+             ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
+                    Messages("page.iht.application.assets.overview.money.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.money.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.money.screenReader.link.noValue"))
+                ),
+             ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
                     Messages("page.iht.application.assets.overview.money.screenReader.link.moreDetail"),
@@ -90,7 +105,15 @@ isFullWidth=false) {
             "household", "household",
             displayValue(appDetails, AppSectionHousehold, isComplete), "",
             Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.household.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.household.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.household.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -106,7 +129,15 @@ isFullWidth=false) {
             "vehicles", "vehicles",
             displayValue(appDetails, AppSectionVehicles, isComplete), "",
             Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+        ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.vehicles.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.vehicles.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.vehicles.screenReader.link.noValue"))
+        ),
+        ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -126,7 +157,15 @@ isFullWidth=false) {
             } else {
                 PensionsOwnedQuestionController.onPageLoad()
             }),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.privatePension.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.privatePension.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.privatePension.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -142,7 +181,15 @@ isFullWidth=false) {
             "stockAndShare", "stock-and-share",
             displayValue(appDetails, AppSectionStockAndShare, isComplete), "",
             Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.stockAndShare.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.stockAndShare.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.stockAndShare.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -158,7 +205,15 @@ isFullWidth=false) {
             "insurancePolicy", "insurance-policy",
             displayValue(appDetails, AppSectionInsurancePolicy, isComplete), "",
             Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.insurancePolicy.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.insurancePolicy.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.insurancePolicy.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -174,7 +229,15 @@ isFullWidth=false) {
             "businessInterest", "business-interest",
             displayValue(appDetails, AppSectionBusinessInterest, isComplete), "",
             Some(iht.controllers.application.assets.routes.BusinessInterestsController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.businessInterest.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.businessInterest.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.businessInterest.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -190,7 +253,15 @@ isFullWidth=false) {
             "nominated", "nominated",
             displayValue(appDetails, AppSectionNominated, isComplete), "",
             Some(iht.controllers.application.assets.routes.NominatedController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.nominated.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.nominated.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.nominated.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -210,7 +281,15 @@ isFullWidth=false) {
             } else {
                 TrustsOwnedQuestionController.onPageLoad()
             }),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.heldInTrust.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.heldInTrust.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.heldInTrust.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -226,7 +305,15 @@ isFullWidth=false) {
             "foreign", "foreign",
             displayValue(appDetails, AppSectionForeign, isComplete), "",
             Some(iht.controllers.application.assets.routes.ForeignController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.foreign.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.foreign.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.foreign.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -242,7 +329,15 @@ isFullWidth=false) {
             "moneyOwed", "money-owed",
             displayValue(appDetails, AppSectionMoneyOwed, isComplete), "",
             Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.moneyOwed.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.moneyOwed.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.moneyOwed.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -258,7 +353,15 @@ isFullWidth=false) {
             "other", "other",
             displayValue(appDetails, AppSectionOther, isComplete), "",
             Some(iht.controllers.application.assets.routes.OtherController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.assets.overview.other.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.assets.overview.other.screenReader.link.value"),
+                    Messages("page.iht.application.assets.overview.other.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -268,8 +371,6 @@ isFullWidth=false) {
             )
         )
     }
-
-
 
 </ul>
 
@@ -284,9 +385,6 @@ isFullWidth=false) {
         <div class="grid-layout__column grid-layout__column--1-4"></div>
     </div>
 </section>
-
-
-
 
 
 <a id ="continue-to-estate-overview-button" class="button" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)'>

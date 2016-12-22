@@ -64,7 +64,15 @@ isFullWidth = false) {
                 } else {
                   Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad())
                 },
-                linkText = ihtHelpers.generic_overview_link(
+            itemStatus = ihtHelpers.generic_overview_status_label(
+                        isComplete = isComplete,
+                        screenreaderQualifyingText = getScreenReaderQualifyingText(
+                            isComplete,
+                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.moreDetail"),
+                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.value"),
+                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.noValue"))
+            ),
+            linkText = ihtHelpers.generic_overview_status_link(
                   isComplete = isComplete,
                   screenreaderQualifyingText = getScreenReaderQualifyingText(
                       isComplete,
@@ -89,7 +97,15 @@ isFullWidth = false) {
             link = if(exemptions.charity.flatMap(x=>x.isSelected).contains(true))
                 Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad())
                 else Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad()),
-            linkText = ihtHelpers.generic_overview_link(
+            itemStatus = ihtHelpers.generic_overview_status_label(
+                        isComplete = isComplete,
+                            screenreaderQualifyingText = getScreenReaderQualifyingText(
+                                isComplete,
+                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.moreDetail"),
+                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.value"),
+                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.noValue"))
+            ),
+            linkText = ihtHelpers.generic_overview_status_link(
               isComplete = isComplete,
               screenreaderQualifyingText = getScreenReaderQualifyingText(
                   isComplete,
@@ -113,7 +129,15 @@ isFullWidth = false) {
             link = if(exemptions.qualifyingBody.flatMap(x=>x.isSelected).contains(true))
             Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad())
             else Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad()),
-            linkText = ihtHelpers.generic_overview_link(
+            itemStatus = ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.value"),
+                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.noValue"))
+            ),
+            linkText = ihtHelpers.generic_overview_status_link(
               isComplete = isComplete,
               screenreaderQualifyingText = getScreenReaderQualifyingText(
                   isComplete,
