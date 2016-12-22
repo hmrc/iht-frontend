@@ -41,6 +41,9 @@ object OverviewHelper {
   val messageFileStartSection = "site.link.startSection"
   val messageFileStart = "iht.start"
   val messageFileViewOrChange = "iht.viewOrChange"
+  val messageNotStarted = "iht.notStarted"
+  val messageInComplete = "iht.inComplete"
+  val messageComplete = "iht.complete"
 
   case class QuestionAnswer(answer: Option[Boolean],
                             url: Call,

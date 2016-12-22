@@ -14,22 +14,27 @@
 * limitations under the License.
 *@
 
+@import iht.utils.CommonHelper
+
 @(title: String,
 name: String,
 id: String,
 value: String,
 valueScreenReader:String,
 link: Option[Call] = None,
+itemStatus: Html = Html("??"),
 linkText: Html = Html("??"),
 classValueCell: String = "",
 classAllCells: String = ""
 )(implicit lang: play.api.i18n.Lang)
-@import iht.utils.CommonHelper
 
 <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom" id="@id">
-    <div class="tabular-data__data tabular-data__data--6-12 @classAllCells">@title</div>
+    <div class="tabular-data__data tabular-data__data--4-12 @classAllCells">@title</div>
     <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right @classValueCell @classAllCells">
         @value
+    </div>
+    <div id="@id-status" class="tabular-data__data tabular-data__data--2-12 @classAllCells">
+        @itemStatus
     </div>
     <div class="tabular-data__data tabular-data__data--3-12 @classAllCells">
         <a id="@id-link" href="@link">
