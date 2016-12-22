@@ -43,7 +43,6 @@ object CachingConnector extends CachingConnector
 trait CachingConnector {
 
   val registrationDetailsFormKey = "registrationDetails"
-  val registrationDetailsUncommittedChangesKey = "uncommittedRegistrationDetails"
   val applicationDetailsFormKey = "applicationDetails"
   val kickoutDetailsKey = "kickoutDetails"
   val allAssetsKey = "allAssets"
@@ -87,62 +86,13 @@ trait CachingConnector {
     }
   }
 
-  /**
-   * Store registration details in key store. If autoCommit is false then delays
-   * storing until commitRegistrationDetails is called. If autoCommit is true
-   * then stores straight away and any uncommitted changes are lost.
-   * @return
-   */
-  def storeRegistrationDetails(data: RegistrationDetails, autoCommit: Boolean = true)
+  def storeRegistrationDetails(data: RegistrationDetails)
                               (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[RegistrationDetails]] = {
-    uncommittedChangesCacheRemove
-    if (autoCommit) {
-      storeChangeData[RegistrationDetails](registrationDetailsFormKey, data)
-    } else {
-      uncommittedChangesCacheSet(data)
-      Future.successful(Some(data))
-    }
+    storeChangeData[RegistrationDetails] (registrationDetailsFormKey, data)
   }
 
-  /**
-   * Commit uncommitted registration details to key store. If there are no uncommitted registration
-   * details to commit then do nothing and return None.
-   */
-  def commitRegistrationDetails()(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[RegistrationDetails]] = {
-    uncommittedChangesCacheGet match {
-      case None => {
-        Future.successful(None)
-      }
-      case Some(rd) => {
-        uncommittedChangesCacheRemove
-        storeChangeData[RegistrationDetails](registrationDetailsFormKey, rd)
-      }
-    }
-  }
-
-  /**
-   * Roll back uncommitted registration details, i.e. don't commit to
-   * keystore.
-   */
-  def rollbackRegistrationDetails()(implicit hc: HeaderCarrier, ec: ExecutionContext) = {
-    uncommittedChangesCacheRemove
-  }
-
-  /**
-   * True if there are any uncommitted registration details.
-   * @return
-   */
-  def isAnyUncommittedChanges()(implicit hc: HeaderCarrier, ec: ExecutionContext) = uncommittedChangesCacheGet.isDefined
-
-  /**
-   * Get registration details from key store, or gets uncommitted registration details
-   * if any not committed yet.
-   */
   def getRegistrationDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[RegistrationDetails]] = {
-    uncommittedChangesCacheGet match {
-      case None => getChangeData[RegistrationDetails](registrationDetailsFormKey)
-      case Some(rd) => Future.successful(Some(rd))
-    }
+    getChangeData[RegistrationDetails](registrationDetailsFormKey)
   }
 
   def storeApplicationDetails(data: ApplicationDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] = {
@@ -215,42 +165,6 @@ trait CachingConnector {
                                 (implicit hc: HeaderCarrier, writes: Writes[A], reads: Reads[A], ec: ExecutionContext) = {
     SessionHttpCaching.cache[A](formKey, clearedData)
   }
-
-  // The following three methods together provide an interface to a
-  // simple cache, to store the uncommitted changes to registration details
-  // when the store/ commit/ rollback pattern is used.
-
-  /**
-   * Stores registration details to the uncommitted changes cache.
-   */
-  private def uncommittedChangesCacheSet(data: RegistrationDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext) = {
-    val key = registrationDetailsUncommittedChangesKey
-    Logger.debug("   *** uncommittedChangesCacheSet with key: " + key)
-    storeSync[RegistrationDetails](key, data)
-  }
-
-  /**
-   * Remove registration details from the uncommitted changes cache.
-   */
-  private def uncommittedChangesCacheRemove()(implicit hc: HeaderCarrier, ec: ExecutionContext) = {
-    val key = registrationDetailsUncommittedChangesKey
-    Logger.debug("   *** uncommittedChangesCacheRemove with key: " + key)
-    deleteSync[RegistrationDetails](key)
-  }
-
-  /**
-   * Get registration details from the uncommitted changes cache.
-   */
-  private def uncommittedChangesCacheGet()(implicit hc: HeaderCarrier, ec: ExecutionContext): Option[RegistrationDetails] = {
-    val key = registrationDetailsUncommittedChangesKey
-    Logger.debug("   *** uncommittedChangesCacheGet with key: " + key)
-    getSync[RegistrationDetails](key)
-  }
-
-  //
-  // The following three synchronous methods store, get and delete String values
-  // to or from from keystore.
-  //
 
   /**
    * Store a string value in keystore an item using the specified key.
