@@ -23,27 +23,27 @@
                     <xsl:call-template name="table-row-money">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
-                        <xsl:with-param name="value" select='format-number(number($assetsTotal), "##,###.00")'/>
+                        <xsl:with-param name="value" select="$assetsTotal"/>
                     </xsl:call-template>
                     <xsl:call-template name="table-row-money">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.givenAway.title')"/>
-                        <xsl:with-param name="value" select='format-number(number($giftsTotal), "##,###.00")'/>
+                        <xsl:with-param name="value" select="$giftsTotal"/>
                     </xsl:call-template>
                     <xsl:call-template name="table-row-money">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
-                        <xsl:with-param name="value" select='format-number(number($debtsTotal), "##,###.00")'/>
+                        <xsl:with-param name="value" select="$debtsTotal"/>
                     </xsl:call-template>
                     <xsl:call-template name="table-row-money">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
-                        <xsl:with-param name="value" select='format-number(number($exemptionsTotal), "##,###.00")'/>
+                        <xsl:with-param name="value" select="$exemptionsTotal"/>
                     </xsl:call-template>
                     <xsl:call-template name="table-row-money">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'page.iht.application.overview.value')"/>
-                        <xsl:with-param name="value" select='format-number(number($estateValue), "##,###.00")'/>
+                        <xsl:with-param name="value" select="$estateValue"/>
                     </xsl:call-template>
                     <xsl:call-template name="table-row-bottom-blank"/>
                 </fo:table-body>
