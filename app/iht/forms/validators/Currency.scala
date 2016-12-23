@@ -38,7 +38,7 @@ trait Currency {
   protected lazy val hasSpaces: String => Boolean = s => stringWithSpacesRegEx.findFirstIn(s.trim).fold(false)(_ => true)
 
   protected def cleanMoneyString(moneyString: String) =
-    moneyFormatSimple.findFirstIn(moneyString.replace(",", "").replace("-", "")).getOrElse("")
+    moneyFormatSimple.findFirstIn(convertToValidCurrencyValue(moneyString.trim.replace(",", "").replace("-", ""))).getOrElse("")
 
   protected def validationErrors(key: String,
                                  value: String,
@@ -53,5 +53,27 @@ trait Currency {
     case v if hasSpaces(v) => Some(Seq(FormError(key, errorInvalidSpacesKey)))
     case v if isInvalidCommaPosition(v) => Some(Seq(FormError(key, errorInvalidCommaPositionKey)))
     case _ => None
+  }
+
+  /**
+    * Convert the value like dd. to dd.00
+    * @param moneyValue
+    * @return
+    */
+  private def convertToValidCurrencyValue(moneyValue: String) = {
+    val hasDecimal = moneyValue.contains('.')
+    hasDecimal match {
+      case true => {
+        val index = moneyValue.indexOf(".")
+        val stringAfterDecimal = moneyValue.substring(index + 1)
+        if (stringAfterDecimal.isEmpty) {
+          moneyValue.replace(".", ".00")
+        } else {
+          moneyValue
+        }
+      }
+      case _ => moneyValue
+    }
+
   }
 }
