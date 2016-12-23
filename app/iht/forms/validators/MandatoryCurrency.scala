@@ -51,5 +51,9 @@ object MandatoryCurrency extends Currency {
             errorInvalidPenceKey: String = "error.estateReport.value.giveCorrectNumberOfPence",
             errorInvalidSpacesKey: String = "error.estateReport.value.giveWithNoSpaces",
             errorBlankKey: String = "error.estateReport.value.give") =
-    Forms.of(mandatoryCurrencyFormatter(errorLengthKey, errorInvalidCharsKey, errorInvalidPenceKey, errorInvalidSpacesKey, errorBlankKey))
+    Forms.of(mandatoryCurrencyFormatter(errorLengthKey,
+                                        errorInvalidCharsKey,
+                                        errorInvalidPenceKey,
+                                        errorInvalidSpacesKey,
+                                        errorBlankKey))
 }

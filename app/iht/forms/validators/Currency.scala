@@ -31,7 +31,8 @@ trait Currency {
       case numberDecimalPoints if numberDecimalPoints == 1 && s.substring(s.indexOf(".") + 1).length > 2 => true
       case _ => false
     }
-  protected lazy val isInvalidNumericCharacters: String => Boolean = s => s.exists(c => c != '.' && !c.isDigit && c != ' ')
+  protected lazy val isInvalidNumericCharacters: String => Boolean = s => s.exists(c => c != '.' && !c.isDigit && c != ' ' && c!=',')
+  protected lazy val isInvalidCommaPosition = """/^\\d{1,3}(,\\d{3})*(\\.\\d+)?$/""".r
   protected lazy val hasSpaces: String => Boolean = s => stringWithSpacesRegEx.findFirstIn(s.trim).fold(false)(_ => true)
 
   protected def cleanMoneyString(moneyString: String) =

@@ -2420,6 +2420,7 @@ error.estateReport.value.giveLessThanEleven = Give the value using 10 characters
 error.estateReport.value.giveValueUsingNumbers = Give the value only using numbers
 error.estateReport.value.giveCorrectNumberOfPence = Give the value with the correct number of pence
 error.estateReport.value.giveWithNoSpaces = Give the value without any spaces between numbers
+error.estateReport.value.giveWithCorrectComma = Give the correct value with no comma or with the comma in the right place
 error.estateReport.value.give = Give the value
 ## Value related error messages end
 

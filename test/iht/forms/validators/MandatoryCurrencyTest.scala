@@ -73,5 +73,9 @@ class MandatoryCurrencyTest extends UnitSpec with FakeIhtApp {
       mandatoryCurrency.bind(Map("" -> "2000")) shouldBe Right(Some(2000))
     }
 
+    "give no error if the value has comma" in {
+      mandatoryCurrency.bind(Map("" -> "2,000.00")) shouldBe Right(Some(2000))
+    }
+
   }
 }

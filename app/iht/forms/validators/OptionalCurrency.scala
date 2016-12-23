@@ -48,5 +48,8 @@ object OptionalCurrency extends Currency {
             errorInvalidCharsKey: String = "error.estateReport.value.giveValueUsingNumbers",
             errorInvalidPenceKey: String = "error.estateReport.value.giveCorrectNumberOfPence",
             errorInvalidSpacesKey: String = "error.estateReport.value.giveWithNoSpaces") =
-    Forms.of(optionalCurrencyFormatter(errorLengthKey, errorInvalidCharsKey, errorInvalidPenceKey, errorInvalidSpacesKey))
+    Forms.of(optionalCurrencyFormatter(errorLengthKey,
+                                      errorInvalidCharsKey,
+                                      errorInvalidPenceKey,
+                                      errorInvalidSpacesKey))
 }

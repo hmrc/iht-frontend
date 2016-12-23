@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 class OptionalCurrencyTest extends UnitSpec with FakeIhtApp {
 
   "OptionalCurrency" must {
-    val optionalCurrency = OptionalCurrency("length","invalidChars","incorrectPence","hasSpaces")
+    val optionalCurrency = OptionalCurrency("length", "invalidChars", "incorrectPence", "hasSpaces")
     "give error message if more than 10 characters" in {
       optionalCurrency.bind(Map("" -> "12345678901")) shouldBe Left(List(FormError("", "length")))
     }
@@ -68,6 +68,10 @@ class OptionalCurrencyTest extends UnitSpec with FakeIhtApp {
 
     "give no error if the value is valid" in {
       optionalCurrency.bind(Map("" -> "2000")) shouldBe Right(Some(2000))
+    }
+
+    "give no error if the value has comma" in {
+      optionalCurrency.bind(Map("" -> "2,000.00")) shouldBe Right(Some(2000))
     }
 
   }
