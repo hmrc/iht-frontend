@@ -75,6 +75,10 @@ class MandatoryCurrencyTest extends UnitSpec with FakeIhtApp {
       mandatoryCurrency.bind(Map("" -> "1.99")) shouldBe Right(Some(1.99))
     }
 
+    "give no error if the value has no digits after decimal, also append two additional zeros" in {
+      mandatoryCurrency.bind(Map("" -> "100.")) shouldBe Right(Some(100.00))
+    }
+
     "give no error if the value is valid" in {
       mandatoryCurrency.bind(Map("" -> "2000")) shouldBe Right(Some(2000))
     }

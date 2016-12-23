@@ -62,6 +62,10 @@ class OptionalCurrencyTest extends UnitSpec with FakeIhtApp {
       optionalCurrency.bind(Map("" -> ".99")) shouldBe Right(Some(0.99))
     }
 
+    "give no error if the value has no digits after decimal, also append two additional zeros" in {
+      optionalCurrency.bind(Map("" -> "100.")) shouldBe Right(Some(100.00))
+    }
+
     "give no error if the value is with 2 decimal points" in {
       optionalCurrency.bind(Map("" -> "1.99")) shouldBe Right(Some(1.99))
     }
