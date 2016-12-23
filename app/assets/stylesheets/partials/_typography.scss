@@ -34,6 +34,14 @@ restricts heading to lower size when character limit is reached
 prevents long names from overrunning bounds of layout
 ====================================
 */
+.heading--restricted {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
 @media (min-width: 641px){
   .heading--restricted {
     font-size: 36px;
