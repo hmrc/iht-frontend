@@ -24,6 +24,8 @@ import play.api.data.FormError
 trait Currency {
   protected lazy val moneyFormatSimple = """^(\d*+([.]\d{1,2})?)$""".r
   protected lazy val stringWithSpacesRegEx = "\\s+".r
+  protected lazy val valueWithCommaFormatRegEx =
+                              """(^(\d*)(\.\d{0,2})?$)|(^(\d{1,3},(\d{3},)*\d{3}(\.\d{1,2})?|\d{1,3}(\.\d{1,2})?)$)""".r
   protected lazy val isInvalidLength: String => Boolean = _.length > 10
   protected lazy val isInvalidPence: String => Boolean = s =>
     s.count(_ == '.') match {
@@ -32,7 +34,7 @@ trait Currency {
       case _ => false
     }
   protected lazy val isInvalidNumericCharacters: String => Boolean = s => s.exists(c => c != '.' && !c.isDigit && c != ' ' && c!=',')
-  protected lazy val isInvalidCommaPosition = """/^\\d{1,3}(,\\d{3})*(\\.\\d+)?$/""".r
+  protected lazy val isInvalidCommaPosition:String => Boolean = s => valueWithCommaFormatRegEx.findFirstMatchIn(s.trim).fold(true)(_ => false)
   protected lazy val hasSpaces: String => Boolean = s => stringWithSpacesRegEx.findFirstIn(s.trim).fold(false)(_ => true)
 
   protected def cleanMoneyString(moneyString: String) =
@@ -43,11 +45,13 @@ trait Currency {
                                  errorLengthKey: String,
                                  errorInvalidCharsKey: String,
                                  errorInvalidPenceKey: String,
-                                 errorInvalidSpacesKey: String): Option[Seq[FormError]] = value match {
+                                 errorInvalidSpacesKey: String,
+                                 errorInvalidCommaPositionKey: String): Option[Seq[FormError]] = value match {
     case v if isInvalidLength(v) => Some(Seq(FormError(key, errorLengthKey)))
     case v if isInvalidNumericCharacters(v) => Some(Seq(FormError(key, errorInvalidCharsKey)))
     case v if isInvalidPence(v) => Some(Seq(FormError(key, errorInvalidPenceKey)))
     case v if hasSpaces(v) => Some(Seq(FormError(key, errorInvalidSpacesKey)))
+    case v if isInvalidCommaPosition(v) => Some(Seq(FormError(key, errorInvalidCommaPositionKey)))
     case _ => None
   }
 }
