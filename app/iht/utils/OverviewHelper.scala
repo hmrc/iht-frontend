@@ -56,7 +56,7 @@ object OverviewHelper {
 
   case class Section(id: String, title: Option[String], link: Link, details: Seq[Question])
 
-  case class Question(id: String, title: String, link: Link, value: String)
+  case class Question(id: String, title: String, link: Link, value: String, status: String = "")
 
   private val overviewDisplayValues: ListMap[String, ApplicationDetails => String] = ListMap(
     AppSectionProperties -> { (ad) =>
@@ -181,7 +181,8 @@ object OverviewHelper {
               answerPlusLink.linkAccessibilityTextNo,
               answerPlusLink.linkAccessibilityTextNone),
             answerPlusLink.url),
-          value = questionDisplayValue))
+          value = questionDisplayValue,
+          status = if (questionDisplayValue.length == 0) messageNotStarted else messageComplete))
       } else {
         Nil
       }
@@ -273,9 +274,9 @@ object OverviewHelper {
                                 id = id + "-value",
                                 title = s"$questionTitlesMessagesFilePrefix.question1",
                                 link = Link(messagesFileChangeValues, questionLevelLinkAccessibilityTextValue, linkUrl),
-                                value = getBigDecimalDisplayValue(questionAnswerExprValue)))
-                       } else {
-                              Nil
-                       }
+                                value = getBigDecimalDisplayValue(questionAnswerExprValue),
+                                status = if(getBigDecimalDisplayValue(questionAnswerExprValue) == "") {
+                                              messageNotStarted } else { messageComplete }))
+                       } else { Nil }
     )
 }
