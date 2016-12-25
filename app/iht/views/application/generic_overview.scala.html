@@ -45,7 +45,7 @@ returnAsButton: Boolean = false
               <h2 class="font-xsmall bold">@Messages(sectionTitle)</h2>
           </div>
           @if(section.link.linkText.length>0){
-          <div class = "status status--not-started">@Messages("iht.notStarted")</div>
+          <div id="@{section.id}-section-status" class = "status status--not-started">@Messages("iht.notStarted")</div>
           <div class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right">
                       <a class="font-xsmall" id='@{section.id + "-edit"}' href="@section.link.linkUrl">
                         <span aria-hidden="true">@Messages(section.link.linkText)</span>
@@ -65,7 +65,8 @@ returnAsButton: Boolean = false
               @Messages(detail.value)
           </div>
           @if(detail.status.nonEmpty){
-          <div class = "status @if(detail.status == messageNotStarted) {status--not-started} else {status--complete}">
+          <div id="@{detail.id}-section-details-status"
+               class = "status @if(detail.status == messageNotStarted) {status--not-started} else {status--complete}">
               @Messages(detail.status)
           </div>
           }
