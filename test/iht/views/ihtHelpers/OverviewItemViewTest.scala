@@ -26,7 +26,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 
 class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
   "OverviewItem helper" must {
-    "show the correct label" in {
+    "show the correct label and row id" in {
       val overviewRow = OverviewRow("assets",
         Messages("iht.estateReport.assets.inEstate"),
         "",
@@ -37,6 +37,7 @@ class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
       assertEqualsValue(doc, "div#assets-caption", Messages("iht.estateReport.assets.inEstate"))
+      assertRenderedById(doc, "assets-row")
     }
 
     "show the correct value" in {
@@ -105,7 +106,6 @@ class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       assertRenderedById(doc, "assets-status")
       assertContainsText(doc, Messages("iht.complete"))
     }
-
-
   }
+
 }
