@@ -52,7 +52,7 @@ class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       assertEqualsValue(doc, "div#assets-value", CommonHelper.escapePound("£2,000"))
     }
 
-    "show the link with correct text" in {
+    "show the link with correct text and status label where Item has not been started" in {
       val overviewRow = OverviewRow("assets",
         Messages("iht.estateReport.assets.inEstate"),
         "£2,000",
@@ -62,7 +62,50 @@ class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
+
+      val link = doc.getElementById("assets-link-text")
+      link.text shouldBe Messages("iht.start")
+      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      assertRenderedById(doc, "assets-status")
+      assertContainsText(doc, Messages("iht.notStarted"))
     }
+
+    "show the link with correct text and status label where Item has been started but not completed" in {
+      val overviewRow = OverviewRow("assets",
+        Messages("iht.estateReport.assets.inEstate"),
+        "£2,000",
+        PartiallyComplete,
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        "")
+
+      val view = overview_item(overviewRow)
+      val doc = asDocument(view)
+
+      val link = doc.getElementById("assets-link-text")
+      link.text shouldBe Messages("iht.giveMoreDetails")
+      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      assertRenderedById(doc, "assets-status")
+      assertContainsText(doc, Messages("iht.inComplete"))
+    }
+
+    "show the link with correct text and status label where Item has been completed" in {
+      val overviewRow = OverviewRow("assets",
+        Messages("iht.estateReport.assets.inEstate"),
+        "£2,000",
+        Complete,
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        "")
+
+      val view = overview_item(overviewRow)
+      val doc = asDocument(view)
+
+      val link = doc.getElementById("assets-link-text")
+      link.text shouldBe Messages("iht.viewOrChange")
+      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      assertRenderedById(doc, "assets-status")
+      assertContainsText(doc, Messages("iht.complete"))
+    }
+
 
   }
 }

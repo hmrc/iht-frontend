@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@import iht.viewmodels.application.overview.{OverviewRow, PartiallyComplete}
+@import iht.viewmodels.application.overview._
 
 @(model: OverviewRow, customClass: Option[String] = Some(""))
 
@@ -26,6 +26,19 @@
       @if(!model.value.isEmpty){
         @model.value
       }
+    </div>
+    <div id = "@model.id-status" class="tabular-data__data tabular-data__data--3-12">
+        @model.completionStatus match{
+            case NotStarted => {
+                    <span aria-hidden="true" class = "status status--not-started">@Messages("iht.notStarted")</span>
+                 }
+            case PartiallyComplete => {
+                    <span aria-hidden="true" class = "status status--incomplete">@Messages("iht.inComplete")</span>
+            }
+            case _ => {
+                    <span aria-hidden="true" class="status status--complete">@Messages("iht.complete")</span>
+                 }
+        }
     </div>
     <div class="tabular-data__data tabular-data__data--3-12">
         <a id="@model.id-link-text" href="@model.linkUrl" @if(model.completionStatus == PartiallyComplete) {class="bold"}>
