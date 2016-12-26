@@ -26,9 +26,6 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_overview
 import play.api.i18n.Messages
 
-//TODO Need to add tests cases to check all the Gifts question.Can be done once we start working on new Acceptance Test framework
-
-
 class GiftsOverviewViewTest extends ViewTestHelper {
 
   lazy val ihtRef = "ABC123"
@@ -81,6 +78,51 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       val returnLink = view.getElementById("return-button")
       returnLink.attr("href") shouldBe estateOverviewPageUrl.url
       returnLink.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
+    }
+
+    "have all question labels and the correct target links" in {
+      implicit val request = createFakeRequest()
+      val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true),
+                                                      isReservation = Some(false),
+                                                      isToTrust = Some(false),
+                                                      isGivenInLast7Years = Some(true),
+                                                      action = None)
+
+      val giftsList = CommonBuilder.buildGiftsList
+
+      val appDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(allGifts), giftsList = giftsList)
+      val seqOfQuestions = createSeqOfQuestions(regDetails, appDetails, allGifts)
+
+      val view = gifts_overview(regDetails,
+                                seqOfQuestions,
+                                Some(estateOverviewPageUrl),
+                                "iht.estateReport.returnToEstateOverview")
+
+      val doc = asDocument(view)
+
+      assertRenderedById(doc, "givenAway")
+      messagesShouldBePresent(doc.toString, CommonHelper.escapePound(Messages("page.iht.application.gifts.overview.givenAway.question1")))
+      val givenAwayLink = doc.getElementById("givenAway-question-1-edit")
+      givenAwayLink.text shouldBe Messages("iht.change")
+      givenAwayLink.attr("href") shouldBe giftGivenAwayPageUrl.url
+
+      assertRenderedById(doc, "reservation")
+      messagesShouldBePresent(doc.toString, Messages("iht.estateReport.gifts.reservation.question"))
+      val reservationLink = doc.getElementById("reservation-question-1-edit")
+      reservationLink.text shouldBe Messages("iht.change")
+      reservationLink.attr("href") shouldBe giftWithReservationUrl.url
+
+      assertRenderedById(doc, "sevenYear")
+      messagesShouldBePresent(doc.toString, Messages("page.iht.application.gifts.overview.sevenYears.question1"))
+      val sevenYearsLink = doc.getElementById("sevenYear-question-1-edit")
+      sevenYearsLink.text shouldBe Messages("iht.change")
+      sevenYearsLink.attr("href") shouldBe giftGivenInLastSevenYearsPageUrl.url
+
+      assertRenderedById(doc, "value")
+      messagesShouldBePresent(doc.toString, Messages("page.iht.application.gifts.overview.value.question1"))
+      val valueLink = doc.getElementById("value-value-edit")
+      valueLink.text shouldBe Messages("iht.estateReport.changeValues")
+      valueLink.attr("href") shouldBe giftSevenYearsValuesPageUrl.url
     }
 
   }
