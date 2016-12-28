@@ -33,9 +33,11 @@ classAllCells: String = ""
     <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right @classValueCell @classAllCells">
         @value
     </div>
+    @if(itemStatus!= Html("??")){
     <div id="@id-status" class="tabular-data__data tabular-data__data--2-12 @classAllCells">
         @itemStatus
     </div>
+    }
     <div class="tabular-data__data tabular-data__data--3-12 @classAllCells">
         <a id="@id-link" href="@link">
             @linkText
