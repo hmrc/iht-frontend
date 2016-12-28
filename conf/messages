@@ -198,7 +198,7 @@ page.iht.registration.applicant.probateLocation.title = Where are you going to a
 page.iht.registration.applicant.probateLocation.browserTitle = Probate location
 
 page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
-page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 probate application form.
+page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 - Probate application form.
 page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if the deceased left a will. If there wasn’t a will, you would’ve been named as the administrator of the estate by a court.
 
 #Applicant tell us about yourself
@@ -369,7 +369,7 @@ page.iht.registration.duplicateRegistration.ref.text = If any details have chang
 page.iht.registration.others-applying-for-probate.sectionName = others-applying-for-probate
 page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other people applying for probate for this estate?
 page.iht.registration.others-applying-for-probate.browserTitle = Other probate applicants
-page.iht.registration.others-applying-for-probate.description = If you’re filling in a PA1 probate application form, you can add up to 3 other people on the form. These people will also apply for a grant of representation.
+page.iht.registration.others-applying-for-probate.description = If you’re filling in a PA1 – Probate application form, you can add up to 3 other people on the form. These people will also apply for a grant of representation.
 
 page.iht.registration.executor-overview.sectionName = executor-overview
 page.iht.registration.executor-overview.browserTitle = Other applicants
