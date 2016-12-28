@@ -29,12 +29,14 @@ object OptionalCurrency extends Currency {
   private def optionalCurrencyFormatter(errorLengthKey: String,
                                         errorInvalidCharsKey: String,
                                         errorInvalidPenceKey: String,
-                                        errorInvalidSpacesKey: String) = new Formatter[Option[BigDecimal]] {
+                                        errorInvalidSpacesKey: String,
+                                        errorInvalidCommaPositionKey: String) = new Formatter[Option[BigDecimal]] {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[BigDecimal]] =
       data.get(key).fold("")(identity) match {
         case v if v.isEmpty => Right(None)
         case v =>
-          validationErrors(key, v, errorLengthKey, errorInvalidCharsKey, errorInvalidPenceKey, errorInvalidSpacesKey) match {
+          validationErrors(key, v, errorLengthKey, errorInvalidCharsKey, errorInvalidPenceKey,
+                                    errorInvalidSpacesKey, errorInvalidCommaPositionKey: String) match {
             case Some(s) => Left(s)
             case None => Right(Option(BigDecimal(cleanMoneyString(v))))
           }
@@ -47,9 +49,11 @@ object OptionalCurrency extends Currency {
   def apply(errorLengthKey: String = "error.estateReport.value.giveLessThanEleven",
             errorInvalidCharsKey: String = "error.estateReport.value.giveValueUsingNumbers",
             errorInvalidPenceKey: String = "error.estateReport.value.giveCorrectNumberOfPence",
-            errorInvalidSpacesKey: String = "error.estateReport.value.giveWithNoSpaces") =
+            errorInvalidSpacesKey: String = "error.estateReport.value.giveWithNoSpaces",
+            errorInvalidCommaPositionKey: String  = "error.estateReport.value.giveWithCorrectComma") =
     Forms.of(optionalCurrencyFormatter(errorLengthKey,
                                       errorInvalidCharsKey,
                                       errorInvalidPenceKey,
-                                      errorInvalidSpacesKey))
+                                      errorInvalidSpacesKey,
+                                      errorInvalidCommaPositionKey))
 }
