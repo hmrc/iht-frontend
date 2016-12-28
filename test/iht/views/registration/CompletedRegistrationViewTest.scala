@@ -43,8 +43,18 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.ref.text"))
       messagesShouldBePresent(view, Messages("iht.nextSteps"))
       messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p1"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p1"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p1"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p2"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p2.bullet1"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p2.bullet2"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p2.bullet3"))
+    }
+
+    "contain the second paragraph with bullets" in {
+      implicit val request = createFakeRequest()
+      val view = completed_registration(ihtRef).toString
+      val doc = asDocument(view)
+
+      val paragraphWithBullets = doc.getElementById("second-paragraph-bullets")
     }
 
     "contain correct formatted reference number" in {
@@ -60,9 +70,9 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       val view = completed_registration(ihtRef).toString
       val doc = asDocument(view)
 
-      val link = doc.getElementById("go-to-inheritance-tax-report")
-      link.text shouldBe Messages("site.button.continue.iht.app.page")
-      link.attr("href") shouldBe iht.controllers.home.routes.IhtHomeController.onPageLoad.url
+      val button = doc.getElementById("go-to-inheritance-tax-report")
+      button.text shouldBe Messages("site.button.continue.iht.app.page")
+      button.attr("href") shouldBe iht.controllers.home.routes.IhtHomeController.onPageLoad.url
 
     }
 

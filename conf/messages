@@ -357,9 +357,11 @@ page.iht.registration.registrationSummary.coExecutorTable.email.data.screenReade
 #Reference Page
 page.iht.registration.completedRegistration.ref.title = The reference for your Inheritance Tax estate report is:
 page.iht.registration.completedRegistration.ref.text = If any of the details change, phone the Inheritance Tax helpline on 0300 123 1072. You’ll need the reference to change any details. If you’re outside of the UK, call +44 300 123 1072.
-page.iht.registration.completedRegistration.p1 = When you’re ready to start the estate report, you can do this from your Inheritance Tax estate reports page. You’ll be able to save your progress and return whenever you want to add any more details.
-page.iht.registration.completedRegistration.p2 = You’ll need to give what the deceased owned as well as any debts owed from their estate.
-page.iht.registration.completedRegistration.p3 = Once you’ve given all of these details, including what they were worth, the service will calculate the total value of the estate to see if there’s any Inheritance Tax to pay.
+page.iht.registration.completedRegistration.p1 = You can start to complete the estate report by selecting it on the next page from the list of Inheritance Tax estate reports you have created.
+page.iht.registration.completedRegistration.p2 = You will be able to:
+page.iht.registration.completedRegistration.p2.bullet1 = save your progress and return whenever you want
+page.iht.registration.completedRegistration.p2.bullet2 = give details about what the deceased owned as well as any debts being paid from their estate
+page.iht.registration.completedRegistration.p2.bullet3 = find out what the value of the estate is when you’ve given all of the details about what was owned and owed – this will tell you if there is any Inheritance Tax to pay
 
 page.iht.registration.duplicateRegistration.title = You have already registered these details
 page.iht.registration.duplicateRegistration.ref.title = You can start this estate report on your Inheritance Tax reports page.
