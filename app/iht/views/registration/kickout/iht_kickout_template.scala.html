@@ -26,7 +26,7 @@ hasTimeOut:Boolean = false)(nextStepsContent: Html)(implicit request:Request[_])
 hasTimeOut=hasTimeOut) {
 
     <div class="panel-indent">
-        <p id="kickout-message"><strong>@summaryMessage</strong></p>
+        <p id="kickout-message">@summaryMessage</p>
     </div>
 
     
@@ -40,7 +40,7 @@ hasTimeOut=hasTimeOut) {
 
     <div id="continue-button" class="form-field form-field--submit">
         @helpers.form(action = iht.controllers.registration.routes.KickoutController.onSubmit) {
-            <input id="finish" class='button' type='submit' value='@Messages("site.button.details.correct")'>
+            <input id="finish" class='button' type='submit' value='@Messages("site.button.details.correct.exitToGovK")'>
         }
     </div>
 

@@ -23,6 +23,7 @@ site.currentPage = This is the current page
 site.button.continue.iht.app.page = Go to your Inheritance Tax estate reports
 site.button.finish = Finish
 site.button.details.correct = The details given are correct
+site.button.details.correct.exitToGovK = The details given are correct – exit to GOV.UK
 site.button.declare = Accept and send
 site.link.edit = Edit
 site.button.confirmDelete = Confirm and delete
