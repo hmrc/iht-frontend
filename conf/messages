@@ -20,7 +20,7 @@ site.button.save = Save
 site.button.continueToDeclaration = Continue to declaration
 site.currentPage = This is the current page
 
-site.button.continue.iht.app.page = Continue to your Inheritance Tax estate reports page
+site.button.continue.iht.app.page = Go to your Inheritance Tax estate reports
 site.button.finish = Finish
 site.button.details.correct = The details given are correct
 site.button.declare = Accept and send
