@@ -55,6 +55,8 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       val doc = asDocument(view)
 
       val paragraphWithBullets = doc.getElementById("second-paragraph-bullets")
+      val bulletTags = paragraphWithBullets.getElementsByTag("li")
+      bulletTags.size() shouldEqual 3
     }
 
     "contain correct formatted reference number" in {
