@@ -23,6 +23,7 @@ import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.testhelpers._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.Messages
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
@@ -535,13 +536,12 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     val regDetails = CommonBuilder.buildRegistrationDetails.copy(deceasedDetails = Some(deceasedDetails))
 
     "return Deceased name where deceased details exists " in {
-      CommonHelper.getDeceasedNameOrDefaultString(regDetails) shouldBe Some(firstName+" "+lastName)
+      CommonHelper.getDeceasedNameOrDefaultString(regDetails) shouldBe firstName+" "+lastName
     }
 
     "return default string where deceased details does not exists " in {
       val regDetailsWithNODeceasedDetails = regDetails.copy(deceasedDetails = None)
-      val defaultString = "the deceased"
-      CommonHelper.getDeceasedNameOrDefaultString(regDetails) shouldBe Some(defaultString)
+      CommonHelper.getDeceasedNameOrDefaultString(regDetailsWithNODeceasedDetails) shouldBe Messages("iht.the.deceased")
     }
   }
 }

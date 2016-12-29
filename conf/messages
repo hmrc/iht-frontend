@@ -862,9 +862,9 @@ page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.gif
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.exemptions.screenReader = The total value of gift exemptions between {0} and {1} is £{2}.
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.estate.screenReader = The amount added to the estate value is £{2}.
 
-page.iht.application.gifts.overview.guidance1 = A gift is an asset given away by the deceased before they died. These might be added to the estate value. You only need to provide details of any gifts given away in the 7 years before the deceased died.
+page.iht.application.gifts.overview.guidance1 = A gift is an asset given away by {0} before they died. These might be added to the estate value. You only need to provide details of any gifts given away in the 7 years before {1} died.
 page.iht.application.gifts.overview.givenAway.title = If the value of gifts given away is less than £3,000 in every year, you don’t need to give any gift details
-page.iht.application.gifts.overview.givenAway.question1 = Did the deceased give away more than £3,000 of gifts in any of the 7 years before they died?
+page.iht.application.gifts.overview.givenAway.question1 = Did {0} give away more than £3,000 of gifts in any of the 7 years before they died?
 page.iht.application.gifts.overview.givenAway.question1.yes.screenReader.link.value = Yes, the deceased gave away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 page.iht.application.gifts.overview.givenAway.question1.no.screenReader.link.value = No, the deceased didn’t give away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 
@@ -1325,7 +1325,6 @@ page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label = m
 page.iht.application.tnrbEligibilty.partner.married.label = married
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label = married or in a civil partnership
 
-page.iht.application.tnrbEligibilty.theDeceased.label = the deceased
 page.iht.application.tnrbEligibilty.partner.additional.label.the = the
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased = the deceased’s
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = the deceased’s previous
@@ -2063,6 +2062,7 @@ iht.dateExample2 = For example, 21 3 1990
 iht.dateOfDeath = Date of death
 iht.dateofbirth = Date of birth
 iht.delete = Delete
+iht.the.deceased = the deceased
 iht.estateReport.assets.businessInterests.title = Business interests
 iht.estateReport.assets.foreign.title = Foreign assets
 iht.estateReport.assets.getProfessionalValuation = HMRC recommend that you get a professional valuation for anything that might be worth more than £500. Any estimates should be made on an open market value and not an insurance or replacement value.

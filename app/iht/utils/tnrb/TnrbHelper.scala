@@ -77,7 +77,7 @@ object TnrbHelper {
     if(tnrbModel.Name.toString.trim!=""){
       tnrbModel.Name.toString + " " + Messages("page.iht.application.tnrbEligibilty.partner.married.label")
     } else {
-      Messages("page.iht.application.tnrbEligibilty.theDeceased.label") + " " +
+      Messages("iht.the.deceased") + " " +
         preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased)
     }
   }

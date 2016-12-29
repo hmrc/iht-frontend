@@ -127,7 +127,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.preDeceasedMaritalStatusLabel(tnrbModel, widowCheck)
-      result should be(Messages("page.iht.application.tnrbEligibilty.theDeceased.label") + " "  +
+      result should be(Messages("iht.the.deceased") + " "  +
         Messages(marriedOrInCivilPartnershipMessageKey))
     }
 
@@ -136,7 +136,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDateMinusOne))
       val result = TnrbHelper.preDeceasedMaritalStatusLabel(tnrbModel, widowCheck)
-      result should be(Messages("page.iht.application.tnrbEligibilty.theDeceased.label") + " " +
+      result should be(Messages("iht.the.deceased") + " " +
         Messages(marriedMessageKey))
     }
   }
