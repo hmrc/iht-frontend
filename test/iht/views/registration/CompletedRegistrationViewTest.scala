@@ -73,7 +73,7 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       val doc = asDocument(view)
 
       val button = doc.getElementById("go-to-inheritance-tax-report")
-      button.text shouldBe Messages("site.button.continue.iht.app.page")
+      button.text shouldBe Messages("iht.estateReport.goToEstateReports")
       button.attr("href") shouldBe iht.controllers.home.routes.IhtHomeController.onPageLoad.url
 
     }
