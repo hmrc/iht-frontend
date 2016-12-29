@@ -59,6 +59,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails),
                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       assertNotContainsText(view, Messages("iht.estateReport.saved.estate"))
+      assertContainsText(view, Messages("iht.estateReport.completeEverySection"))
     }
 
     "have the 'What a gift' link with correct text" in {

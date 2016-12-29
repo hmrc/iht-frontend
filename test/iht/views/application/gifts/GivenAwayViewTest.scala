@@ -16,9 +16,10 @@
 
 package iht.views.application.gifts
 
+import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.CommonHelper._
 import iht.views.HtmlSpec
 import iht.views.html.application.gift.given_away
 import iht.{FakeIhtApp, TestUtils}
@@ -51,16 +52,25 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
       val title = doc.getElementsByTag("h1").first
 
       title.text should include(Messages("iht.estateReport.gifts.givenAwayBy",
-        CommonHelper.getOrException(regDetails.deceasedDetails).name))
+        getOrException(regDetails.deceasedDetails).name))
 
       val saveAndContinueLink = doc.getElementById("save-continue")
       saveAndContinueLink.text shouldBe Messages("iht.saveAndContinue")
     }
 
-    "show the correct question" in {
+    "show the correct question and guidance" in {
       implicit val request = createFakeRequest()
-      val view = given_away(giftsGivenAwayForm, CommonBuilder.buildRegistrationDetailsWithDeceasedDetails)
-      view.toString should include(Messages("page.iht.application.gifts.lastYears.givenAway.question"))
+      val view = given_away(giftsGivenAwayForm, regDetails)
+      view.toString should include(Messages("page.iht.application.gifts.lastYears.givenAway.question",
+                                              getDeceasedNameOrDefaultString(regDetails)))
+
+      view.toString should include(Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+        getDeceasedNameOrDefaultString(regDetails),
+        getDateBeforeSevenYears(getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
+        getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)))
+
+      view.toString should include(Messages("page.iht.application.gifts.lastYears.givenAway.p2",
+        getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "show return to estate overview link when user land on the page first time" in {
@@ -83,7 +93,7 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
 
       val link = doc.getElementById("return-button")
       link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
-        CommonHelper.getOrException(regDetails.deceasedDetails).name)
+        getOrException(regDetails.deceasedDetails).name)
       link.attr("href") shouldBe
         iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url
 

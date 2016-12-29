@@ -104,7 +104,7 @@ trait GiftsOverviewController extends EstateController {
                   sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value",
                   questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails),
                   questionTitlesMessagesFileItems = Seq(
-                    Messages("iht.estateReport.gifts.reservation.question")),
+                    Messages("iht.estateReport.gifts.reservation.question", Messages("iht.the.deceased"))),
                   ad, regDetails)
                 lazy val sectionSevenYears = createSectionFromYesNoQuestions(
                   id = "sevenYear",

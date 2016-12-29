@@ -19,21 +19,17 @@ package iht.views.application.gifts
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import iht.views.HtmlSpec
-import iht.views.html.application.gift.with_reservation_of_benefit
-import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
+import iht.views.ViewTestHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
+import iht.views.html.application.gift.seven_years_to_trust
 
 /**
   * Created by vineet on 15/11/16.
   */
-class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter{
+class SevenYearsToTrustViewTest extends ViewTestHelper{
 
-  val ihtReference = Some("ABC1234567890")
+  val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
@@ -42,33 +38,34 @@ class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with Moc
   val allGifts = CommonBuilder.buildAllGifts.copy(isReservation = Some(false))
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
-  "WithReservationOfBenefit Page" must {
+  "SevenYearsToTrust Page" must {
 
-    "contain the title and save and continue button " in {
-      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest)
+    "contain the title, browser title and save and continue button " in {
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
+      val viewAsString = contentAsString(view)
+      val doc = asDocument(viewAsString)
 
-      val doc = asDocument(contentAsString(view))
-      val title = doc.getElementsByTag("h1").first
-
-      title.text should include(Messages("iht.estateReport.gifts.withReservation.title"))
+      titleShouldBeCorrect(viewAsString, Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
+      browserTitleShouldBeCorrect(viewAsString, Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
 
       val saveAndContinueLink = doc.getElementById("save-continue")
       saveAndContinueLink.text shouldBe Messages("iht.saveAndContinue")
+
     }
 
     "contain the correct question" in {
-      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
 
-      contentAsString(view) should include(Messages("iht.estateReport.gifts.reservation.question",
-                                            CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+      messagesShouldBePresent(contentAsString(view), Messages("page.iht.application.gifts.trust.question",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
 
     }
 
     "show the correct text and link for the return link" in {
-      val view = with_reservation_of_benefit(giftsGivenAwayForm, regDetails)(fakeRequest)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
+      val viewAsString = contentAsString(view)
 
-      val doc = asDocument(contentAsString(view))
-
+      val doc = asDocument(viewAsString)
       val link = doc.getElementById("return-button")
       link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name)

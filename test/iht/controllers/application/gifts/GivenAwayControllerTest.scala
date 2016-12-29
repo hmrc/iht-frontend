@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 
@@ -97,7 +98,8 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
 
       val result = givenAwayController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.givenAway.p2"))
+      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.givenAway.p2",
+                                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "save application and go to Gifts Overview page on submit if answered Yes" in {

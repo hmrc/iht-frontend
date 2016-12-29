@@ -36,14 +36,17 @@ messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title"
 
     @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
-    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p1",getDateBeforeSevenYears(getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(dateFormatForDisplay),getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay))</p>
-    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p2")</p>
+    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+                        getDeceasedNameOrDefaultString(regDetails),
+                        getDateBeforeSevenYears(getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(dateFormatForDisplay),
+                        getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay))</p>
+    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p2", getDeceasedNameOrDefaultString(regDetails))</p>
 
     @ihtHelpers.inputYesNoRadioGroup(
     giftsGivenAwayForm("isGivenAway"),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()),
     '_divClass -> Some("form-group"),
-    '_legend -> Messages("page.iht.application.gifts.lastYears.givenAway.question")
+    '_legend -> Messages("page.iht.application.gifts.lastYears.givenAway.question", getDeceasedNameOrDefaultString(regDetails))
 )
 
     <div id="action-button" class="form-field form-field--submit">
