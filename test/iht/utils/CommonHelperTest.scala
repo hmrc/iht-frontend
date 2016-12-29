@@ -527,4 +527,21 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       CommonHelper.convertToNumbers(Seq("1", "2", "5"), "1", "2") shouldBe Right(Seq(1,2,5))
     }
   }
+
+  "getDeceasedNameOrDefaultString" must {
+    val firstName = "first"
+    val lastName = "last"
+    val deceasedDetails = CommonBuilder.buildDeceasedDetails.copy(firstName = Some(firstName), lastName = Some(lastName))
+    val regDetails = CommonBuilder.buildRegistrationDetails.copy(deceasedDetails = Some(deceasedDetails))
+
+    "return Deceased name where deceased details exists " in {
+      CommonHelper.getDeceasedNameOrDefaultString(regDetails) shouldBe Some(firstName+" "+lastName)
+    }
+
+    "return default string where deceased details does not exists " in {
+      val regDetailsWithNODeceasedDetails = regDetails.copy(deceasedDetails = None)
+      val defaultString = "the deceased"
+      CommonHelper.getDeceasedNameOrDefaultString(regDetails) shouldBe Some(defaultString)
+    }
+  }
 }

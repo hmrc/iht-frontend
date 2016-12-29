@@ -454,4 +454,9 @@ object CommonHelper {
     }
   }
 
+  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails):Option[String] = {
+
+    None
+  }
+
 }
