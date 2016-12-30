@@ -32,7 +32,7 @@ class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour{
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = "iht.estateReport.debts.other.title"
+  override def pageTitle = Messages("iht.estateReport.debts.other.title")
   override def browserTitle = "page.iht.application.debts.other.browserTitle"
   override def guidanceParagraphs = Set(Messages("page.iht.application.debts.other.description.p1"),
                                         Messages("page.iht.application.debts.other.description.p2"),

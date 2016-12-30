@@ -19,8 +19,10 @@ package iht.controllers.application.debts
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
+import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
@@ -84,8 +86,11 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
 
+      val regDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails
+
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails= true,
@@ -93,7 +98,8 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
       val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.debts.mortgageValue.title"))
+      contentAsString(result) should include (Messages("page.iht.application.debts.mortgageValue.title",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "redirect to Mortgage overview page on submit" in {

@@ -33,7 +33,7 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour{
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = "iht.estateReport.debts.owedOutsideUK"
+  override def pageTitle = Messages("iht.estateReport.debts.owedOutsideUK")
   override def browserTitle = "page.iht.application.debts.debtsOutsideUk.browserTitle"
   override def guidanceParagraphs = Set(Messages("page.iht.application.debts.debtsOutsideUk.description.p1"))
   override def yesNoQuestionText = Messages("page.iht.application.debts.debtsOutsideUk.isOwned")

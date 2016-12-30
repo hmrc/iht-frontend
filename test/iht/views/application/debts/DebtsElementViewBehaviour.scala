@@ -34,7 +34,6 @@ trait DebtsElementViewBehaviour extends ViewTestHelper {
   def returnLinkText: String = Messages("site.link.return.debts")
   def returnLinkTargetUrl: Call = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
 
-
   def fixture() = new {
     implicit val request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
     val view: String = ""
@@ -44,7 +43,10 @@ trait DebtsElementViewBehaviour extends ViewTestHelper {
   def debtsElement() = {
     "have the correct title" in {
       val f = fixture()
-      titleShouldBeCorrect(f.view, pageTitle)
+      val doc = asDocument(f.view)
+      val headers = doc.getElementsByTag("h1")
+      headers.size shouldBe 1
+      headers.first.text() shouldBe pageTitle
     }
 
     "have the correct browser title" in {

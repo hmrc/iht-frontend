@@ -18,6 +18,7 @@ package iht.views.application.debts
 
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import iht.views.html.application.debts.mortgage_value
 /**
@@ -27,14 +28,14 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour{
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
-      maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+                                    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
+                                                            maritalStatus = Some(TestHelper.MaritalStatusMarried))),
+                                    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = "page.iht.application.debts.mortgageValue.title"
+  override def pageTitle = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def browserTitle = "page.iht.application.debts.mortgageValue.browserTitle"
   override def guidanceParagraphs = Set()
-  override def yesNoQuestionText = Messages("page.iht.application.debts.mortgageValue.title")
+  override def yesNoQuestionText = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = Messages("page.iht.application.debts.mortgage.inputText.value")
   override def returnLinkId = "cancel-button"
   override def returnLinkText = Messages("site.link.return.mortgage.overview")
@@ -44,8 +45,8 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour{
     implicit val request = createFakeRequest()
     val view = mortgage_value(mortgagesForm,
                               CommonBuilder.buildProperty.copy(id = Some("1"), typeOfOwnership = Some("Deceased only")),
-                              iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1")
-                             ).toString
+                              iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1"),
+                              regDetails).toString
     val doc = asDocument(view)
   }
 
