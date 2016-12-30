@@ -34,7 +34,7 @@ trait DebtsOwedFromATrustController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](debtsTrustForm,
-        debts_trust.apply, _.allLiabilities.flatMap(_.trust))
+        owed_from_trust.apply, _.allLiabilities.flatMap(_.trust))
   }
 
   def onSubmit = authorisedForIht {
@@ -55,7 +55,7 @@ trait DebtsOwedFromATrustController extends EstateController {
         }
 
       estateElementOnSubmit[BasicEstateElementLiabilities](debtsTrustForm,
-        debts_trust.apply,
+        owed_from_trust.apply,
         updateApplicationDetails,
         debtsRedirectLocation,
         Some(createValidationFunction("isOwned", _.isDefined, "error.debts.trusts.select"))

@@ -23,7 +23,7 @@ import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
 import iht.utils.{ApplicationStatus => AppStatus}
-import iht.views.html.application.debts.jointly_owned_debts
+import iht.views.html.application.debts.jointly_owned
 
 object JointlyOwnedDebtsController extends JointlyOwnedDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -33,7 +33,7 @@ trait JointlyOwnedDebtsController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](jointlyOwnedDebts,
-        jointly_owned_debts.apply, _.allLiabilities.flatMap(_.jointlyOwned))
+        jointly_owned.apply, _.allLiabilities.flatMap(_.jointlyOwned))
   }
 
   def onSubmit = authorisedForIht {
@@ -54,7 +54,7 @@ trait JointlyOwnedDebtsController extends EstateController {
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
       jointlyOwnedDebts,
-      jointly_owned_debts.apply,
+      jointly_owned.apply,
       updateApplicationDetails,
       debtsRedirectLocation,
       Some(createValidationFunction("isOwned", _.isDefined, "error.debts.jointlyOwned.select")))

@@ -995,27 +995,29 @@ page.iht.application.debts.mortgages.table.value.screenReader = The value of {0}
 page.iht.application.debts.mortgages.table.mortgageValue.screenReader = Enter the value of the deceased’s share of mortgage for {0} {1}
 
 page.iht.application.debts.funeralExpenses.description.p1 = You can deduct some funeral expenses. Things that could be claimed as an expense are flowers, refreshments for mourners and any necessary expenses to cover the funeral arrangements and the cost of a headstone or plaque to mark the deceased’s grave. This will come out of the estate as a debt.
-page.iht.application.debts.funeralExpenses.description.p2 = If the deceased paid for a funeral plan before they died, this wouldn’t be a funeral expense. Any travelling or accommodation costs for mourners, or any flowers or refreshments that they gave, can’t be claimed as a funeral expense.
-page.iht.application.debts.funeralExpenses.isOwned = Were there any funeral expenses being paid out of the estate?
+page.iht.application.debts.funeralExpenses.description.p2 = If {0} paid for a funeral plan before they died, this wouldn’t be a funeral expense. Any travelling or accommodation costs for mourners, or any flowers or refreshments that they gave, can’t be claimed as a funeral expense.
+page.iht.application.debts.funeralExpenses.isOwned = Are there any funeral expenses being paid out of the estate?
 
 
 page.iht.application.debts.debtsTrust.browserTitle = Debts owed from trust
-page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that the deceased was benefitting from. If the trustees only gave you the value of a trust after deducting any debts then you shouldn’t include a value here.
-page.iht.application.debts.debtsTrust.isOwned = Did the deceased have any debts from a trust that they benefitted from?
+page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that {0} was benefitting from. If the trustees only gave you the value of a trust after deducting any debts then you shouldn’t include a value here.
+page.iht.application.debts.debtsTrust.isOwned = Are there any debts being paid out of the estate that are owed from a trust that {0} benefitted from?
 
 
 page.iht.application.debts.debtsOutsideUk.browserTitle = Foreign debts
 page.iht.application.debts.debtsOutsideUk.description.p1 = This is the value of all debts owed to anyone outside of the UK including anything owed on any foreign assets.
-page.iht.application.debts.debtsOutsideUk.isOwned = Did the deceased have any debts owed to anyone outside of the UK?
+page.iht.application.debts.debtsOutsideUk.isOwned = Are there any debts being paid out of the estate that are owed to anyone outside of the UK?
 
 page.iht.application.debts.jointlyOwned.browserTitle = Joint debts
-page.iht.application.debts.jointlyOwned.description.p1 = This is if the deceased jointly owned any assets and there are debts owed on them. This does not include the mortgage on any jointly owned properties.
+page.iht.application.debts.jointlyOwned.description.p1 = This is if {0} jointly owned any assets and there are debts owed on them. This does not include the mortgage on any jointly owned properties.
 page.iht.application.debts.jointlyOwned.description.p2 = You should only include the deceased’s share of any debts owed on jointly owned assets.
-page.iht.application.debts.jointlyOwned.isOwned = Did the deceased have any debts on any jointly owned assets?
+page.iht.application.debts.jointlyOwned.isOwned = Are there any debts being paid out of the estate that are owed on any jointly owned assets?
 
 page.iht.application.debts.other.browserTitle = Other debts
-page.iht.application.debts.other.description.p1 = This is the total value of any other UK debts that are being paid from the estate that aren’t listed above. This includes any loans the deceased was paying, including those they were guaranteeing and had been asked to pay when they died. You should also include any outstanding credit card debts and money owed on any insurance policies and household bills.
-page.iht.application.debts.other.isOwned = Did the deceased have any other debts?
+page.iht.application.debts.other.description.p1 = This is the total value of any other debts that are being paid from the estate that are not included in any other section.
+page.iht.application.debts.other.description.p2 = This includes any loans the deceased was paying, including those they were guaranteeing and had been asked to pay when they died.
+page.iht.application.debts.other.description.p3 = Any outstanding credit cards debts and money owed on any insurance policies and household bills are included here.
+page.iht.application.debts.other.isOwned = Are there any other debts to be paid out of the estate?
 page.iht.application.debts.other.inputLabel1 = Value of any other debts
 
 #Exemptions partner overview

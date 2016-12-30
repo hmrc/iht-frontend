@@ -38,7 +38,6 @@ class MortgagesOverviewViewTest extends ViewTestHelper{
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val debtsOverviewPageUrl= iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
 
-
   private def mortgageOverview() = {
     val returnLinkText = Messages("site.link.return.debts")
     val view = mortgages_overview(Nil, Nil, FieldMappings.typesOfOwnership,
@@ -65,18 +64,15 @@ class MortgagesOverviewViewTest extends ViewTestHelper{
                                                 CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       messagesShouldBePresent(view, Messages("page.iht.application.debts.mortgages.description.p3",
                                                 CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-
     }
 
    "show the correct text and link for the return link" in {
       val view = mortgageOverview
-
       val doc = asDocument(view)
 
       val link = doc.getElementById("return-button")
       link.text shouldBe Messages("site.link.return.debts")
       link.attr("href") shouldBe debtsOverviewPageUrl.url
-
     }
   }
 }

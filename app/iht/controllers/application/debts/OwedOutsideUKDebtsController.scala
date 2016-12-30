@@ -22,7 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
-import iht.views.html.application.debts.owed_outside_uk_debts
+import iht.views.html.application.debts.owed_outside_uk
 
 object OwedOutsideUKDebtsController extends OwedOutsideUKDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -32,7 +32,7 @@ trait OwedOutsideUKDebtsController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](debtsOutsideUkForm,
-        owed_outside_uk_debts.apply, _.allLiabilities.flatMap(_.debtsOutsideUk))
+        owed_outside_uk.apply, _.allLiabilities.flatMap(_.debtsOutsideUk))
   }
 
   def onSubmit = authorisedForIht {
@@ -53,7 +53,7 @@ trait OwedOutsideUKDebtsController extends EstateController {
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
       debtsOutsideUkForm,
-      owed_outside_uk_debts.apply,
+      owed_outside_uk.apply,
       updateApplicationDetails,
       debtsRedirectLocation,
       Some(createValidationFunction("isOwned", _.isDefined, "error.debts.debtsOutsideUk.select")))
