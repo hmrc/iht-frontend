@@ -984,12 +984,12 @@ page.iht.application.debts.mortgageValue.title = Did the deceased have a mortgag
 page.iht.application.debts.mortgageValue.browserTitle = Any mortgage on property
 
 page.iht.application.debts.mortgages.description.p1 = You should use the outstanding balance remaining to pay off a mortgage as the value. Some providers might describe this differently so check with them if you’re unsure of how much is outstanding on a mortgage.
-page.iht.application.debts.mortgages.description.p3 = If the deceased had a mortgage protection policy which paid out after they died, you should include that value as an asset under insurance policies owned.
+page.iht.application.debts.mortgages.description.p3 = If {0} had a mortgage protection policy which paid out after they died, you should include that value as an asset under insurance policies owned.
 
 page.iht.application.debts.mortgages.noProperties.warning.text = If you haven’t added a property, building or land as an asset, or the one that you want to add a mortgage against, then you’ll need to add it as an asset before you can give the mortgage value.
 
 page.iht.application.debts.mortgages.noProperties.description = You haven’t added any properties, buildings or land as an asset.
-page.iht.application.debts.mortgages.description = If the deceased had a loan secured against a property they owned, include that value here.
+page.iht.application.debts.mortgages.description = If {0} had a loan secured against a property they owned, include that value here.
 page.iht.application.debts.mortgages.table.owned.screenReader = {0} {1} is owned by {2}
 page.iht.application.debts.mortgages.table.value.screenReader = The value of {0} {1} is £{2}
 page.iht.application.debts.mortgages.table.mortgageValue.screenReader = Enter the value of the deceased’s share of mortgage for {0} {1}
