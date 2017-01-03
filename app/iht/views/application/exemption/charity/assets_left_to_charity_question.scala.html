@@ -38,7 +38,8 @@ cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", regis
 
             @ihtHelpers.inputYesNoRadioGroup(
             assetsLeftToCharityQuestionForm("isAssetForCharity"),
-            '_legend -> Some(Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question")),
+            '_legend -> Some(Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+                                      getDeceasedNameOrDefaultString(registrationDetails))),
             '_divClass -> Some("-change form-group"))
 
          <div id="action-button" class="form-field form-field--submit">

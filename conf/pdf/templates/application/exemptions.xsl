@@ -26,7 +26,7 @@
                     <fo:table-body font-size="12pt">
                         <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.spouse.assetLeftToSpouse.question')"/>
+                                            select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.spouse.assetLeftToSpouse.question', $deceasedName)"/>
                             <xsl:with-param name="value">
                                 <xsl:if test="allExemptions/partner/isAssetForDeceasedPartner='true'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/></xsl:if>
                                 <xsl:if test="allExemptions/partner/isAssetForDeceasedPartner='false'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/></xsl:if>
