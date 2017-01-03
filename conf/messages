@@ -1272,7 +1272,7 @@ page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title = The threshold
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle = Threshold increased
 page.iht.application.tnrbEligibilty.returnToTnrbEligibilty = Return to increasing the Inheritance Tax threshold page
 
-page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you’ve given, it might be possible to increase the deceased’s threshold.
+page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you’ve given, it might be possible to increase {0}’s threshold.
 page.iht.application.tnrbEligibilty.overview.guidance2 = You can answer these questions in any order. You should get any paperwork that you can from the person who was responsible for the estate of {0} who died in {1}. The paperwork you need might include an IHT-205 or 400 form or the will. Family members might also have these.
 page.iht.application.tnrbEligibilty.overview.guidance3 = All of the details on this page have been saved to the estate report.
 page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading = Questions about the estate of {0} who died in {1}
@@ -1328,7 +1328,7 @@ page.iht.application.tnrbEligibilty.partner.married.label = married
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label = married or in a civil partnership
 
 page.iht.application.tnrbEligibilty.partner.additional.label.the = the
-page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased = the deceased’s
+page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased = {0}’s
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = the deceased’s previous
 page.iht.application.tnrbEligibilty.partner.additional.label.name.of.the = Name of the
 page.iht.application.tnrbEligibilty.partner.additional.label.their = their
@@ -2217,7 +2217,7 @@ iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax th
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
 iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. You’ll also need to complete an IHT-402 paper form to increase the threshold.
 iht.estateReport.tnrb.kickout.returnToIHTThreshold = If you want to change your answer, you can return to the increasing the Inheritance Tax threshold page.
-iht.estateReport.tnrb.partner.married = Was the deceased {0} at any point in their life and {1} died?
+iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and {2} died?
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
 iht.exitToGovUK = Exit to GOV.UK

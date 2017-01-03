@@ -36,17 +36,20 @@ browserTitle = Some(Messages("iht.estateReport.tnrb.increasingThreshold")),
 isFullWidth=false,
 hasTimeOut=true) {
 
-  <p class="lede" id="tnrb-guidance1">@Messages("page.iht.application.tnrbEligibilty.overview.guidance1")</p>
+  <p class="lede" id="tnrb-guidance1">@Messages("page.iht.application.tnrbEligibilty.overview.guidance1", getDeceasedNameOrDefaultString(registrationDetails))</p>
 
   <p id="tnrb-guidance2">@Messages("page.iht.application.tnrbEligibilty.overview.guidance2",
-      TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")),
+      TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
+                                            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased", getDeceasedNameOrDefaultString(registrationDetails))),
       CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString )</p>
 
   <p id="tnrb-guidance3">@Messages("page.iht.application.tnrbEligibilty.overview.guidance3")</p>
 
   <section class="section">
 <h2 id="tnrb-partner-estate">@Messages("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading",
-    TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")),
+    TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
+                                            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                                      getDeceasedNameOrDefaultString(registrationDetails))),
     CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString)</h2>
 
     <ul id="tnrb-overview-partner-estate-table">
@@ -149,13 +152,16 @@ hasTimeOut=true) {
       <section class="section">
            <h2 id="tnrb-partner-personal-details">
              @Messages("page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading",
-                   TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")))
+                   TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
+                                                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                                                    getDeceasedNameOrDefaultString(registrationDetails))))
            </h2>
 
          <ul>
             @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(IhtProperties.statusWidowed)){
                 @tnrb_overview_table_row(id = "partner-marital-status",
                                     questionText = Messages("iht.estateReport.tnrb.partner.married",
+                                                   getDeceasedNameOrDefaultString(registrationDetails),
                                                    TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
                                                    TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"))),
                                     questionScreenReaderText= Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text"),
@@ -172,7 +178,9 @@ hasTimeOut=true) {
                 @defining(widowCheckModel.dateOfPreDeceased.map(x=>x.toString(IhtProperties.dateFormatForDisplay)).fold("")(identity)) { answerValue =>
                     @tnrb_overview_table_row(id = "date-of-preDeceased",
                                             questionText = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-                                                            TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased"))),
+                                                            TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
+                                                                                                 Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                                                                                            getDeceasedNameOrDefaultString(registrationDetails)))),
                                             questionScreenReaderText= Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question.screenReader.text"),
                                             questionCategory= "date",
                                             answerValue= answerValue,
