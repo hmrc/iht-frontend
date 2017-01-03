@@ -25,8 +25,9 @@
 @(checkedEverythingQuestionForm: Form[Option[Boolean]],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.declaration.checkedEverything.question"),
-browserTitle = Some(Messages("iht.estateReport.declaration.checkedEverything.question")),
+@iht_main_template_application(
+title = Messages("iht.estateReport.declaration.checkedEverything.question",getOrException(registrationDetails.deceasedDetails.map(_.name))),
+browserTitle = Some(Messages("iht.estateReport.declaration.checkedEverything.question",getOrException(registrationDetails.deceasedDetails.map(_.name)))),
 isFullWidth=false){
     @ihtHelpers.error_summary(checkedEverythingQuestionForm)
 
