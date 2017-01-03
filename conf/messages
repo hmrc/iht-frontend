@@ -2159,6 +2159,11 @@ iht.estateReport.declaration.haveProvidedNonMatchingDetails = have provided any 
 iht.estateReport.declaration.title = Declaration
 iht.estateReport.declaration.withholdInformation = withhold or give false information
 iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or have to pay a penalty if you:
+
+iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in {0}’s estate?
+iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview
+iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration
+
 iht.estateReport.exemptions.charities.assetLeftToCharity.question = Did the deceased leave any assets to a charity?
 iht.estateReport.exemptions.charities.assetsLeftToACharity.title = Assets left to a charity
 iht.estateReport.exemptions.charities.assetsLeftToCharities.title = Assets left to charities
