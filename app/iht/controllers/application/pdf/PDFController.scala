@@ -40,6 +40,7 @@ object PDFController extends PDFController {
 }
 
 trait PDFController extends ApplicationController with IhtActions {
+  private val pdfHeaders = ("Content-type", "application/pdf")
 
   def cachingConnector: CachingConnector
 
@@ -56,7 +57,7 @@ trait PDFController extends ApplicationController with IhtActions {
           applicationDetails,
           DeclarationHelper.getDeclarationType(applicationDetails)
         )
-        Future.successful(Ok(pdfByteArray).withHeaders(("Content-type", "application/pdf")))
+        Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders))
       }
     }
   }
@@ -73,12 +74,11 @@ trait PDFController extends ApplicationController with IhtActions {
             val pdfByteArray = xmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
               ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
               throw new RuntimeException("Declaration Date not available")))
-            Ok(pdfByteArray).withHeaders(("Content-type", "application/pdf"))
+            Ok(pdfByteArray).withHeaders(pdfHeaders)
           case _ =>
             Logger.warn("There has been a problem retrieving the details for the Application PDF. Redirecting" +
               " to internalServerError")
-            InternalServerError("There has been a problem retrieving the details for the " +
-              "Application PDF")
+            InternalServerError("There has been a problem retrieving the details for the Application PDF")
         }
       )
     }
@@ -86,21 +86,24 @@ trait PDFController extends ApplicationController with IhtActions {
 
   def onApplicationPDF(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
+      Logger.info("Generating Application PDF")
       val nino = CommonHelper.getNino(user)
-
       ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
         getSubmittedApplicationDetails(nino, ihtReference, regDetails.updatedReturnId) map {
           case Some(ihtReturn) =>
             val pdfByteArray = xmlFoToPDF.createApplicationReturnPDF(regDetails, ihtReturn)
-            Ok(pdfByteArray).withHeaders(("Content-type", "application/pdf"))
+            Ok(pdfByteArray).withHeaders(pdfHeaders)
           case _ =>
-            Logger.warn("There has been a problem retrieving the details for the Application PDF. Redirecting" +
-              " to internalServerError")
-            InternalServerError("There has been a problem retrieving the details for the " +
-              "Application PDF")
+            internalServerError
         }
       )
     }
+  }
+
+  private def internalServerError = {
+    Logger.warn("There has been a problem retrieving the details for the Application PDF. Redirecting" +
+      " to internalServerError")
+    InternalServerError("There has been a problem retrieving the details for the Application PDF")
   }
 
   /**

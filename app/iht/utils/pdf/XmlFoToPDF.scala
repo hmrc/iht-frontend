@@ -39,13 +39,16 @@ import play.api.{Logger, Play}
 object XmlFoToPDF extends XmlFoToPDF
 
 trait XmlFoToPDF {
+  private val filePathForFOPConfig = "pdf/fop.xconf"
+  private val folderForPDFTemplates = "pdf/templates"
+
   def generateSummaryPDF(regDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                          declarationType: String) = {
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
     val template: StreamSource = new StreamSource(Play.classloader
-      .getResourceAsStream("pdf/templates/pre-submission-estate-report.xsl"))
+      .getResourceAsStream(s"$folderForPDFTemplates/pre-submission-estate-report.xsl"))
     val streamSource: StreamSource = new StreamSource(new ByteArrayInputStream(
       ModelToXMLSource.getPreSubmissionXMLSource(regDetails, applicationDetails)))
 
@@ -64,7 +67,7 @@ trait XmlFoToPDF {
                                      kickout: Boolean): Array[Byte] = {
     val BASEURI = new File(".").toURI
     val fopURIResolver = new FopURIResolver
-    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream("pdf/fop.xconf"),
+    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream(filePathForFOPConfig),
       EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder
     val fopFactory: FopFactory = confBuilder.build
 
@@ -104,16 +107,19 @@ trait XmlFoToPDF {
 
   def createClearancePDF(registrationDetails: RegistrationDetails, declarationDate: LocalDate): Array[Byte] = {
 
-    val templateFile: StreamSource = new StreamSource(Play.classloader.getResourceAsStream("pdf/templates/clearance-certificate.xsl"))
+    val templateFile: StreamSource = new StreamSource(
+      Play.classloader.getResourceAsStream(s"$folderForPDFTemplates/clearance-certificate.xsl"))
     val streamSource: StreamSource = new StreamSource(
       new ByteArrayInputStream(ModelToXMLSource.getClearanceCertificateXMLSource(registrationDetails)))
     createClearancePDFFile(streamSource, templateFile, declarationDate)
   }
 
-  private def createClearancePDFFile(streamSource: StreamSource, templateFileSource: StreamSource, declarationDate: LocalDate): Array[Byte] = {
+  private def createClearancePDFFile(streamSource: StreamSource,
+                                     templateFileSource: StreamSource,
+                                     declarationDate: LocalDate): Array[Byte] = {
     val BASEURI = new File(".").toURI
     val fopURIResolver = new FopURIResolver
-    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream("pdf/fop.xconf"),
+    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream(filePathForFOPConfig),
       EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder
     val fopFactory: FopFactory = confBuilder.build
 
@@ -140,7 +146,7 @@ trait XmlFoToPDF {
   //TODO  - Modify below implementatin once template is ready
   def createApplicationReturnPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
     val templateFile: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(
-      "pdf/templates/post-submission-estate-report.xsl"))
+      s"$folderForPDFTemplates/post-submission-estate-report.xsl"))
 
     val streamSource: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
       getPostSubmissionDetailsXMLSource(registrationDetails, ihtReturn)))
@@ -151,14 +157,14 @@ trait XmlFoToPDF {
                                                registrationDetails: RegistrationDetails): Array[Byte] = {
     val BASEURI = new File(".").toURI
     val fopURIResolver = new FopURIResolver
-    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream("pdf/fop.xconf"),
+    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream(filePathForFOPConfig),
       EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder
     val fopFactory: FopFactory = confBuilder.build
 
     val foUserAgent: FOUserAgent = fopFactory.newFOUserAgent
 
     val templateSrc: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(
-      "pdf/templates/post-submission-estate-report.xsl"))
+      s"$folderForPDFTemplates/post-submission-estate-report.xsl"))
     val pdfoutStream = new ByteArrayOutputStream()
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
