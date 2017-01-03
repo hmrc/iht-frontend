@@ -486,7 +486,7 @@ object ApplicationForms {
 
   val checkedEverythingQuestionForm = Form(
     single(
-      "hasChecked" -> boolean
+      "hasChecked" -> yesNoQuestion("error.hasCheckedEverything.select")
     )
   )
 }

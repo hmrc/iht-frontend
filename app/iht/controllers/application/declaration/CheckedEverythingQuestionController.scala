@@ -30,7 +30,6 @@ object CheckedEverythingQuestionController extends CheckedEverythingQuestionCont
 }
 
 trait CheckedEverythingQuestionController extends EstateController {
-  val declarationPage = iht.controllers.application.declaration.routes.DeclarationController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
@@ -47,13 +46,16 @@ trait CheckedEverythingQuestionController extends EstateController {
         boundForm.fold(
           formWithErrors => {
             LogHelper.logFormError(formWithErrors)
-            Future.successful(BadRequest(iht.views.html.application.declaration.checked_everything_question(checkedEverythingQuestionForm, rd)))
-          }, {
-            case true =>
-              Future.successful(Redirect(declarationPage))
-            case _ =>
-              Future.successful(Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
-                CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference))))
+            Future.successful(BadRequest(iht.views.html.application.declaration.checked_everything_question(formWithErrors, rd)))
+          }, optionBoolean => {
+            val redirectLocation = CommonHelper.getOrException(optionBoolean) match {
+              case true =>
+                Redirect(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad())
+              case _ =>
+                Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
+                  CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)))
+            }
+            Future.successful(redirectLocation)
           }
         )
       }

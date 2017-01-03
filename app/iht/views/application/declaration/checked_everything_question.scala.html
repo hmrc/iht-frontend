@@ -22,7 +22,7 @@
 @import iht.utils.CommonHelper._
 @import iht.constants.Constants
 
-@(checkedEverythingQuestionForm: Form[Boolean],
+@(checkedEverythingQuestionForm: Form[Option[Boolean]],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.declaration.checkedEverything.question"),
