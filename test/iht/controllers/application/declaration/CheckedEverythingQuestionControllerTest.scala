@@ -65,7 +65,7 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
     "respond with OK on page load" in {
       createMockForRegistration(mockCachingConnector,
-        regDetails = Option(CommonBuilder.buildRegistrationDetails),
+        regDetails = Option(CommonBuilder.buildRegistrationDetails1),
         getRegDetailsFromCache = true)
       val result = checkedEverythingQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
@@ -85,13 +85,13 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
     }
 
     "save application and go to declaration page on submit when yes is chosen" in {
-      val result = answerAndSubmit(booleanValue=true, CommonBuilder.buildRegistrationDetails)
+      val result = answerAndSubmit(booleanValue=true, CommonBuilder.buildRegistrationDetails1)
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad().url)
     }
 
     "save application and go to declaration page on submit when no is chosen" in {
-      val rd = CommonBuilder.buildRegistrationDetails
+      val rd = CommonBuilder.buildRegistrationDetails1
       val result = answerAndSubmit(booleanValue=false, rd)
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) shouldBe Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
@@ -102,7 +102,7 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
       implicit val request = createFakeRequest()
 
       createMockForRegistration(mockCachingConnector,
-        regDetails = Option(CommonBuilder.buildRegistrationDetails),
+        regDetails = Option(CommonBuilder.buildRegistrationDetails1),
         getRegDetailsFromCache = true)
 
       val result = checkedEverythingQuestionController.onSubmit()(request)

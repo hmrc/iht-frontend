@@ -25,26 +25,33 @@
 @(checkedEverythingQuestionForm: Form[Option[Boolean]],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(
-title = Messages("iht.estateReport.declaration.checkedEverything.question",getOrException(registrationDetails.deceasedDetails.map(_.name))),
-browserTitle = Some(Messages("iht.estateReport.declaration.checkedEverything.question",getOrException(registrationDetails.deceasedDetails.map(_.name)))),
-isFullWidth=false){
-    @ihtHelpers.error_summary(checkedEverythingQuestionForm)
+@defining(
+        Messages(
+            "iht.estateReport.declaration.checkedEverything.question",
+            getOrException(registrationDetails.deceasedDetails.map(_.name))
+        )
+    ){ fullTitle =>
+        @iht_main_template_application(
+            title = fullTitle,
+            browserTitle = Some(fullTitle),
+            isFullWidth=false){
+                @ihtHelpers.error_summary(checkedEverythingQuestionForm)
 
-    @helpers.form(action = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onSubmit,'autoComplete -> "off") {
+                @helpers.form(action = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onSubmit,'autoComplete -> "off") {
 
-            <p>@Messages("iht.estateReport.declaration.checkedEverything.p1")</p>
+                        <p>@Messages("iht.estateReport.declaration.checkedEverything.p1")</p>
 
-            <p>@Messages("iht.estateReport.declaration.checkedEverything.p2")</p>
+                        <p>@Messages("iht.estateReport.declaration.checkedEverything.p2")</p>
 
-            @ihtHelpers.inputYesNoRadioGroup(
-                checkedEverythingQuestionForm("hasChecked"),
-                '_shownElementNo -> Some("mortgage-guidance-panel"),
-                '_hiddenElementYes -> Some("mortgage-guidance-panel"),
-                '_divClass -> Some("form-group"))
+                        @ihtHelpers.inputYesNoRadioGroup(
+                            checkedEverythingQuestionForm("hasChecked"),
+                            '_shownElementNo -> Some("mortgage-guidance-panel"),
+                            '_hiddenElementYes -> Some("mortgage-guidance-panel"),
+                            '_divClass -> Some("form-group"))
 
-          <div id="action-button" class="form-field form-field--submit">
-            <button class="button" id="save-continue" name="action" value="save">@Messages("iht.continue")</button>
-          </div>
-    }
+                      <div id="action-button" class="form-field form-field--submit">
+                        <button class="button" id="save-continue" name="action" value="save">@Messages("iht.continue")</button>
+                      </div>
+                }
+        }
 }

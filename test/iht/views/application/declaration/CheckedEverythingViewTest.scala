@@ -17,31 +17,34 @@
 package iht.views.application.declaration
 
 import iht.forms.ApplicationForms._
+import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import play.api.i18n.Messages
-
+import iht.utils.CommonHelper._
 
 class CheckedEverythingViewTest extends ViewTestHelper {
 
-  lazy val page:String = {
-    lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  def page(regDetails: RegistrationDetails):String = {
     implicit val request = createFakeRequest()
     iht.views.html.application.declaration.checked_everything_question(checkedEverythingQuestionForm, regDetails).toString
   }
 
   "Checked everything page" must {
     "show correct title and browserTitle" in {
-      titleShouldBeCorrect(page, Messages("iht.estateReport.declaration.checkedEverything.question"))
-      browserTitleShouldBeCorrect(page, Messages("iht.estateReport.declaration.checkedEverything.question"))
+      val rd = CommonBuilder.buildRegistrationDetails1
+      val deceasedName = getOrException(rd.deceasedDetails.map(_.name))
+      titleShouldBeCorrect(page(rd), Messages("iht.estateReport.declaration.checkedEverything.question", deceasedName))
+      browserTitleShouldBeCorrect(page(CommonBuilder.buildRegistrationDetails1),
+        Messages("iht.estateReport.declaration.checkedEverything.question", deceasedName))
     }
 
     "show correct paragraph 1" in {
-      messagesShouldBePresent(page, Messages("iht.estateReport.declaration.checkedEverything.p1"))
+      messagesShouldBePresent(page(CommonBuilder.buildRegistrationDetails1), Messages("iht.estateReport.declaration.checkedEverything.p1"))
     }
 
     "show correct paragraph 2" in {
-      messagesShouldBePresent(page, Messages("iht.estateReport.declaration.checkedEverything.p2"))
+      messagesShouldBePresent(page(CommonBuilder.buildRegistrationDetails1), Messages("iht.estateReport.declaration.checkedEverything.p2"))
     }
   }
 }
