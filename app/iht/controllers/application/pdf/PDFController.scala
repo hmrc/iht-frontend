@@ -76,9 +76,7 @@ trait PDFController extends ApplicationController with IhtActions {
               throw new RuntimeException("Declaration Date not available")))
             Ok(pdfByteArray).withHeaders(pdfHeaders)
           case _ =>
-            Logger.warn("There has been a problem retrieving the details for the Application PDF. Redirecting" +
-              " to internalServerError")
-            InternalServerError("There has been a problem retrieving the details for the Application PDF")
+            internalServerError
         }
       )
     }
