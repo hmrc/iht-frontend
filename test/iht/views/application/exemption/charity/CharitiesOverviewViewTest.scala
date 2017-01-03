@@ -31,6 +31,7 @@ class CharitiesOverviewViewTest extends ViewTestHelper {
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
   lazy val appDetails = CommonBuilder.buildApplicationDetails
   lazy val exemptionsOverviewPageUrl = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
+  lazy val  charityDetailsPageUrl= iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad()
 
   def charitiesOverviewView() = {
     implicit val request = createFakeRequest()
@@ -56,8 +57,16 @@ class CharitiesOverviewViewTest extends ViewTestHelper {
 
     "have Add a charity link with correct target" in {
       val view = charitiesOverviewView()
-      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+
+      val returnLink = view.getElementById("add-charity")
+      returnLink.attr("href") shouldBe charityDetailsPageUrl.url
+      returnLink.text() shouldBe Messages("page.iht.application.exemptions.assetLeftToCharity.addCharity")
+    }
+
+    "show no charities added message when the is no charity present" in {
+      val view = charitiesOverviewView()
+
+      messagesShouldBePresent(view.toString, Messages("page.iht.application.exemptions.charityOverview.noCharities.text"))
     }
 
     "have the return link with correct text" in {
