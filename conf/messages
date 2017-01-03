@@ -1244,7 +1244,8 @@ page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question = Did all of 
 page.iht.application.tnrb.benefitFromTrust.browserTitle = Any trust benefitted from in estate
 
 page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle = Any non-exempt gifts given away
-page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1 = On the deceased’s spouse’s or civil partner’s estate report, IHT-205 or 400, you need to check the value of gifts given away in each year and the amount of exemptions claimed against those gifts.
+page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1 = On {0}’s estate report, IHT-205 or 400, you need to check the value of gifts given away in each year and the amount of exemptions claimed against those gifts.
+page.iht.application.tnrb.spouseOrCivilPartner.hint = the deceased’s spouse’s or civil partner
 page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2 = Answer yes if the value of gifts is more than the amount of exemptions that were claimed.
 
 page.iht.application.tnrb.stateClaim.browserTitle = Any relief claimed in estate

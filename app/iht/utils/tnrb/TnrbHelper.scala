@@ -57,6 +57,19 @@ object TnrbHelper {
     }
   }
 
+  /**
+    * Returns the Spouse name (if exists) otherwise returns the pretext string
+    */
+  def spouseOrCivilPartnerName(tnrbModel: TnrbEligibiltyModel,
+                                prefixText: String=""): String  = {
+    if(tnrbModel.Name.toString.trim!=""){
+      tnrbModel.Name.toString
+    } else {
+      prefixText
+    }
+  }
+
+
   def marriageOrCivilPartnerShipLabel(widowCheck: WidowCheck): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.tnrbEligibilty.partner.marriage.label",
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label",

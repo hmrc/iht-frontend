@@ -335,4 +335,19 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     }
   }
 
+  "spouseOrCivilPartnerName" must {
+    "return the spouse name" in {
+      val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName),
+                                                              lastName = Some(spouseOrCivilPartnerLastName))
+
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext") shouldBe
+                      spouseOrCivilPartnerFirstName+" "+spouseOrCivilPartnerLastName
+    }
+    "return the pretext string when there is no spouse name" in {
+      val tnrbModel = CommonBuilder.buildTnrbEligibility.copy(firstName = None, lastName = None)
+
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext") shouldBe "pretext"
+    }
+  }
+
 }
