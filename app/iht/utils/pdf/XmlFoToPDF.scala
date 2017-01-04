@@ -20,7 +20,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
 import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{Transformer, TransformerFactory}
-
+import iht.utils._
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -88,7 +88,7 @@ trait XmlFoToPDF {
 
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", MessagesTranslator)
-    transformer.setParameter("ihtReference", registrationDetails.ihtReference.fold("")(identity))
+    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("pdfFormatter", PdfFormatter)
     transformer.setParameter("assetsTotal", applicationDetails.totalAssetsValue)
     transformer.setParameter("debtsTotal", applicationDetails.totalLiabilitiesValue)
