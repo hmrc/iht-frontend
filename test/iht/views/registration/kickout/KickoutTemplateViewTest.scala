@@ -19,52 +19,54 @@ package iht.views.registration.kickout
 import iht.views.ViewTestHelper
 import play.api.i18n.Messages
 import play.twirl.api.Html
-import iht.views.html.registration.kickout.iht_kickout_template
-
+import iht.views.html.registration.kickout.kickout_template
 /**
   * Created by vineet on 15/11/16.
   */
-class IhtKickoutTemplateViewTest extends ViewTestHelper{
+class KickoutTemplateViewTest extends ViewTestHelper{
 
-  val title = "selected title"
   val summaryMessage = "kickout summary message"
   val returnLinkUrl = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad
+  val seqOfContents = Seq("lineOne", "lineTwo")
 
-  def ihtKickOutTemplateView() = {
+  def kickOutTemplateView() = {
     implicit val request = createFakeRequest()
 
-    val view = iht_kickout_template(title,
-                        summaryMessage,
-                        returnLinkUrl,
-                        false)(Html("")).toString()
+    val view = kickout_template(summaryMessage,
+                        returnLinkUrl)(seqOfContents).toString()
     asDocument(view)
   }
 
-  "IhtKickoutApplication View" must {
+  "KickoutTemplateView View" must {
     "have the correct title and summary message" in {
-      val view = ihtKickOutTemplateView()
+      val view = kickOutTemplateView()
 
-      titleShouldBeCorrect(view.toString, title)
-      //browserTitleShouldBeCorrect(view.toString, title)
+      titleShouldBeCorrect(view.toString, Messages("iht.notPossibleToUseService"))
       messagesShouldBePresent(view.toString, summaryMessage)
     }
 
     "have 'Next steps' heading" in {
-      val view = ihtKickOutTemplateView
+      val view = kickOutTemplateView
       val headers = view.getElementsByTag("h2")
 
       headers.first.text() shouldBe Messages("iht.nextSteps")
     }
 
+    "have the sequence of contents" in {
+      val view = kickOutTemplateView
+      for (content <- seqOfContents) view.toString should include(content)
+
+    }
+
     "have details are correct button " in {
-      val view = ihtKickOutTemplateView
+      val view = kickOutTemplateView
 
       val detailsAreCorrectButton = view.getElementById("finish")
       detailsAreCorrectButton.attr("value") shouldBe Messages("site.button.details.correct.exitToGovK")
     }
 
     "have return link with correct text" in {
-      val view = ihtKickOutTemplateView
+      val view = kickOutTemplateView
 
       val detailsAreCorrectButton = view.getElementById("return-button")
       detailsAreCorrectButton.attr("href") shouldBe returnLinkUrl.url
