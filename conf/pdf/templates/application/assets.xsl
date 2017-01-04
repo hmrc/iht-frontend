@@ -127,15 +127,25 @@
                                         </xsl:with-param>
                                     </xsl:call-template>
                                     <xsl:if test="allAssets/money/isOwned='true'">
-                                        <xsl:call-template name="table-row-money">
-                                            <xsl:with-param name="label"
-                                                            select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.inputLabel1')"/>
-                                            <xsl:with-param name="value">
-                                                <xsl:if test="allAssets/money/value">
-                                                    <xsl:value-of select='allAssets/money/value'/>
-                                                </xsl:if>
-                                            </xsl:with-param>
-                                        </xsl:call-template>
+
+                                        <xsl:choose>
+                                            <xsl:when test="allAssets/money/value='£'">
+                                                <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.application.estateOverview.noValue')"/>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+
+                                                <xsl:call-template name="table-row-money">
+                                                    <xsl:with-param name="label"
+                                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.inputLabel1')"/>
+                                                    <xsl:with-param name="value">
+                                                        <xsl:value-of select='allAssets/money/value'/>
+                                                    </xsl:with-param>
+                                                </xsl:call-template>
+
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+
+
                                     </xsl:if>
                                 </fo:table-body>
                             </fo:table>
