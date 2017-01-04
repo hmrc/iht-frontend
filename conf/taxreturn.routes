@@ -368,7 +368,6 @@ POST        /declaration                                                        
 GET         /checked-everything                                                                 iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
 POST        /checked-everything                                                                 iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
 
-
 GET         /sent-to-hmrc                                                                       iht.controllers.application.declaration.DeclarationReceivedController.onPageLoad
 
 GET         /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onPageLoad
