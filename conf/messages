@@ -2152,6 +2152,7 @@ iht.estateReport.declaration.completedAllReasonableEnquiries = you have complete
 iht.estateReport.declaration.correctAndComplete = the information you have supplied, including all valuations, is correct and complete to the best of your knowledge and belief
 iht.estateReport.declaration.deceasedMarriedWhenPartnerDied = the deceased was married or in a civil partnership at the date when their previous spouse or civil partner died
 iht.estateReport.declaration.declaringThat = By sending this estate report you’re declaring that:
+iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
 iht.estateReport.declaration.didntUseAnyOfThreshold = the previous spouse or civil partner didn’t use any of their Inheritance Tax threshold
 iht.estateReport.declaration.dontTellHMRC = don’t tell HMRC within 6 months of any changes to the estate that increase the value over the Inheritance Tax threshold
 iht.estateReport.declaration.estateValueBeforeExemptionsLessThan1Million = the estate’s value before any exemptions are applied is less than or equal to £1,000,000
