@@ -95,6 +95,7 @@ trait XmlFoToPDF {
     transformer.setParameter("exemptionsTotal", applicationDetails.totalExemptionsValue)
     transformer.setParameter("giftsTotal", applicationDetails.totalGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
+    transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
     transformer.setParameter("estateValue", applicationDetails.totalNetValue)
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
     transformer.setParameter("preDeceasedName", preDeceasedName)

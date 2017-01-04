@@ -1977,7 +1977,6 @@ page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.
 page.iht.sign-out.p2 = Use the link in your Inheritance Tax email that you were sent if you want to sign back in.
 page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
 
-pdf.applicationSummary.summary.text = This document contains the summarised details of {0}’s Inheritance Tax Application. You should keep a copy of this document as HMRC may ask to see it in the future. Do not send this form to HMRC unless you are asked to do so.
 pdf.applicantDetails.summary = Summary of the applicant’s details
 pdf.coexecutorsDetails.summary = Summary of the Co-Executors’ details
 pdf.totalassets.text = Total Assets
@@ -2000,7 +1999,12 @@ pdf.signatures.heading = Co-Executors’ Signatures
 
 pdf.clearanceCertificate.title = Clearance certificate
 pdf.inheritance.tax.submitted.title = Inheritance Tax Submitted Application
-pdf.inheritance.tax.application.summary.title = Inheritance Tax Application Summary
+
+pdf.inheritance.tax.application.summary.title = Inheritance Tax estate report
+pdf.inheritance.tax.application.summary.referenceNumber = Inheritance Tax reference:
+pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritance Tax estate report completed by {1}. HMRC recommend that you keep a copy of this report for your personal use.
+pdf.inheritance.tax.application.summary.p2 = Do not send this document to HMRC.
+
 pdf.inheritance.tax.referenceNumber = Inheritance Tax reference number:
 pdf.clearanceCertificate.summary = This is in relation to the Inheritance Tax Act 1984 s239(2)
 pdf.clearanceCertificate.estateReport.date.label = Estate report sent to HMRC
