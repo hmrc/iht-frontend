@@ -66,6 +66,17 @@
         </fo:table-row>
     </xsl:template>
 
+    <xsl:template name="table-row-none-in-estate">
+        <xsl:param name="translator"/>
+        <fo:table-row border-top="solid 0.1mm gray" border-bottom="solid 0.2mm gray" line-height="30pt">
+            <fo:table-cell text-align="left" padding-left="4pt">
+                <fo:block>
+                    <xsl:value-of select="i18n:getMessagesText($translator, 'site.noneInEstate')"/>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+    </xsl:template>
+
     <xsl:template name="table-row-money-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
