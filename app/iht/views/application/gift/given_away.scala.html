@@ -19,14 +19,14 @@
 
 @import iht.models._
 @import iht.models.application.gifts.AllGifts
-@import iht.utils.CommonHelper._
+@import iht.utils.CommonHelper
 @import iht.constants.IhtProperties._
 
 @(giftsGivenAwayForm:Form[AllGifts],
 regDetails:RegistrationDetails
 )(implicit request:Request[_])
 
-@gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",getOrException(regDetails.deceasedDetails).name),
+@gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",CommonHelper.getOrException(regDetails.deceasedDetails).name),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
 relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
 messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
@@ -37,16 +37,16 @@ messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title"
     @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
     <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-                        getDeceasedNameOrDefaultString(regDetails),
-                        getDateBeforeSevenYears(getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(dateFormatForDisplay),
-                        getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay))</p>
-    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p2", getDeceasedNameOrDefaultString(regDetails))</p>
+             CommonHelper.getDeceasedNameOrDefaultString(regDetails),
+             CommonHelper.getDateBeforeSevenYears(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(dateFormatForDisplay),
+             CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay))</p>
+    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p2", CommonHelper.getDeceasedNameOrDefaultString(regDetails))</p>
 
     @ihtHelpers.inputYesNoRadioGroup(
     giftsGivenAwayForm("isGivenAway"),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()),
     '_divClass -> Some("form-group"),
-    '_legend -> Messages("page.iht.application.gifts.lastYears.givenAway.question", getDeceasedNameOrDefaultString(regDetails))
+    '_legend -> Messages("page.iht.application.gifts.lastYears.givenAway.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
 )
 
     <div id="action-button" class="form-field form-field--submit">
@@ -57,7 +57,7 @@ messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title"
                 case true => {
                                 @ihtHelpers.return_link(Some(Messages("iht.estateReport.returnToEstateOverview")),
                                     Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
-                                            getOrException(regDetails.ihtReference))))
+                                        CommonHelper.getOrException(regDetails.ihtReference))))
                                 }
                 case _ => {
                              @regDetails.deceasedDetails.map{dd=>

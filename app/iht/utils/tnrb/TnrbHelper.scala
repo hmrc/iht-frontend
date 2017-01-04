@@ -62,10 +62,9 @@ object TnrbHelper {
     */
   def spouseOrCivilPartnerName(tnrbModel: TnrbEligibiltyModel,
                                 prefixText: String=""): String  = {
-    if(tnrbModel.Name.toString.trim!=""){
-      tnrbModel.Name.toString
-    } else {
-      prefixText
+    CommonHelper.withValue(tnrbModel.Name.toString.trim) {
+      case name if name.isEmpty => prefixText
+      case name => name
     }
   }
 

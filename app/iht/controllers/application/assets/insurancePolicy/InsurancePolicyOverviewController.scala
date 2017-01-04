@@ -103,8 +103,8 @@ trait InsurancePolicyOverviewController extends EstateController {
           questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value",
           questionAnswerExprYesNo = insurancePolicy.policyInDeceasedName,
           questionAnswerExprValue = insurancePolicy.value,
-          questionTitleYesNoMessageKey = Messages("iht.estateReport.insurancePolicies.ownName.question"),
-          questionTitleValueMessageKey = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
+          questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.ownName.question"),
+          questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
         )
         val seqSection2 = createSectionFromYesNoValueQuestions(
           id = "joint",
@@ -116,8 +116,8 @@ trait InsurancePolicyOverviewController extends EstateController {
           questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value",
           questionAnswerExprYesNo = insurancePolicy.isJointlyOwned,
           questionAnswerExprValue = insurancePolicy.shareValue,
-          questionTitleYesNoMessageKey = Messages("iht.estateReport.insurancePolicies.jointlyHeld.question"),
-          questionTitleValueMessageKey = Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare")
+          questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.jointlyHeld.question"),
+          questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare")
         )
         val seqSection3 = createSectionFromYesNoQuestions(
           id = "other",
@@ -132,7 +132,6 @@ trait InsurancePolicyOverviewController extends EstateController {
             Messages("page.iht.application.assets.insurance.policies.overview.other.question4")
           ),
           ad, regDetails)
-//          //s"$questionTitlesMessagesFilePrefix.question$index"
 
         Ok(iht.views.html.application.asset.insurancePolicy.insurance_policies_overview(regDetails,
           Seq(seqSection1, seqSection2, seqSection3),
