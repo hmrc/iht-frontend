@@ -18,12 +18,13 @@ package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import play.api.i18n.Messages
-import iht.views.html.application.tnrb.gifts_with_reservation_of_benefit
+import iht.views.html.application.tnrb.deceased_widow_check_question
 
-class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour {
+class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour {
 
   val ihtReference = Some("ABC1A1A1A")
   val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -32,16 +33,17 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour {
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
   val tnrbModel = CommonBuilder.buildTnrbEligibility
+  val widowCheckModel = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetails.name)
+  override def pageTitle = Messages("iht.estateReport.tnrb.partner.married",
+                              CommonHelper.getDeceasedNameOrDefaultString(regDetails),
+                             TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
+                             TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
+                                     Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their")))
 
-  override def browserTitle = "page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle"
-  override def guidanceParagraphs = Set(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
-                                              TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-                                                  Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetails.name,
-                                              TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-                                                  Messages("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
-  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetails.name)
+  override def browserTitle = "iht.estateReport.tnrb.increasingIHTThreshold"
+  override def guidanceParagraphs = Set()
+  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.partner.married")
 
   override def returnLinkId = "cancel-button"
   override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
@@ -49,11 +51,14 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour {
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = gifts_with_reservation_of_benefit(partnerGiftWithResToOtherForm, tnrbModel, deceasedDetails.name).toString
+
+    val view = deceased_widow_check_question(deceasedWidowCheckQuestionForm,
+                                              widowCheckModel, tnrbModel, regDetails,
+                                              returnLinkTargetUrl, returnLinkText).toString
     val doc = asDocument(view)
   }
 
-  "GiftsWithReservationOfBenefitView " must {
+  "DeceasedWidowCheckQuestionView " must {
     behave like yesNoQuestion
   }
 

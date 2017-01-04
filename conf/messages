@@ -1251,8 +1251,8 @@ page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2 = Answer yes if th
 page.iht.application.tnrb.stateClaim.browserTitle = Any relief claimed in estate
 
 page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle = Type of gifts given away
-page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint = Answer yes if the spouse or civil partner gave a gift with reservation of benefit to anyone apart from {0}. This could’ve been a house given to a child that the spouse or civil partner continued to live in free of charge.
-
+page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint = Answer yes if {0} gave a gift with reservation of benefit to anyone apart from {1}. This could’ve been a house given to a child that {2} continued to live in free of charge.
+iht.estateReport.tnrb.thSouseAndCivilPartner = the spouse or civil partner
 page.iht.application.tnrb.deceasedWidowCheck.question = Was the deceased married or in a civil partnership at any point in their life and their {0} died?
 
 page.iht.application.tnrb.returnToIncreasingThreshold = Return to increasing the threshold
