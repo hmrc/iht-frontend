@@ -70,7 +70,7 @@ class KickoutTemplateViewTest extends ViewTestHelper{
 
       val detailsAreCorrectButton = view.getElementById("return-button")
       detailsAreCorrectButton.attr("href") shouldBe returnLinkUrl.url
-      detailsAreCorrectButton.text shouldBe Messages("iht.registration.kickout.message.returnToLast")
+      detailsAreCorrectButton.text shouldBe Messages("iht.registration.kickout.returnToTheLastPageVisited")
     }
   }
 
