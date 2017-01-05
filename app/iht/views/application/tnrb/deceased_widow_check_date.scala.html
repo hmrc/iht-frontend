@@ -20,6 +20,7 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.tnrb._
 @import iht.utils.tnrb.TnrbHelper
+@import iht.utils.CommonHelper
 
 @(deceasedWidowCheckDateForm:Form[WidowCheck],
 widowCheckModel: WidowCheck,
@@ -29,7 +30,9 @@ cancelLinkUrl:Call,
 cancelLinkText:String)(implicit request:Request[_])
 
 @iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased"))),
+TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
+            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))),
 browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
 cancelUrl = Some(cancelLinkUrl),
 cancelLabel=Some(cancelLinkText)){

@@ -14,45 +14,38 @@
  * limitations under the License.
  */
 
-package iht.views.application.exemption.partner
+package iht.views.application.exemption.charity
 
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
-import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.i18n.Messages
+import iht.views.html.application.exemption.charity.assets_left_to_charity_question
 
 /**
  * Created by vineet on 29/11/16.
  */
-class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
+class AssetsLeftToCharityQuestionViewTest extends ViewTestHelper{
 
   val regDetails = CommonBuilder.buildRegistrationDetails1
-  val returnLinkLabelMsgKey = "iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"
-  val returnLocation = iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()
 
   def assetsLeftToPartnerQuestionView() = {
     implicit val request = createFakeRequest()
 
-    val partnerExemption = CommonBuilder.buildPartnerExemption
-    val assetsLeftToPartnerQuestionForm = assetsLeftToSpouseQuestionForm.fill(partnerExemption)
+    val basicExemptionElement = CommonBuilder.buildBasicExemptionElement
+    val assetsLeftToPartnerQuestionForm = assetsLeftToCharityQuestionForm.fill(basicExemptionElement)
 
-    val view = assets_left_to_partner_question(assetsLeftToPartnerQuestionForm,
-      regDetails,
-      Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
-      returnLocation)
-
+    val view = assets_left_to_charity_question(assetsLeftToPartnerQuestionForm,regDetails)
     asDocument(view)
   }
 
-  "AssetsLeftToPartnerQuestion View" must {
+  "AssetsLeftToCharityQuestion View" must {
     "have correct title and browser title " in {
       val view = assetsLeftToPartnerQuestionView().toString
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
-                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      browserTitleShouldBeCorrect(view, Messages("page.iht.application.exemptions.assetLeftToPartner.browserTitle"))
+      titleShouldBeCorrect(view, Messages("iht.estateReport.exemptions.charities.assetsLeftToACharity.title"))
+      browserTitleShouldBeCorrect(view, Messages("page.iht.application.exemptions.assetLeftToCharity.browserTitle"))
     }
 
     "have 'Save and continue' button" in {
@@ -63,6 +56,11 @@ class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
     }
 
     "have the return link with correct text" in {
+      val returnLinkLabelMsgKey  = Messages("page.iht.application.return.to.exemptionsOf",
+                                            regDetails.deceasedDetails.map(_.name).fold("")(identity))
+
+      val returnLocation = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
+
       val view = assetsLeftToPartnerQuestionView()
 
       val returnLink = view.getElementById("cancel-button")
@@ -73,7 +71,7 @@ class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
     "have the question with the right text" in {
       val view = assetsLeftToPartnerQuestionView()
 
-      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
+      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 

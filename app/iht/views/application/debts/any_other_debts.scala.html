@@ -34,7 +34,8 @@
     @helpers.form(action = iht.controllers.application.debts.routes.AnyOtherDebtsController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Messages("page.iht.application.debts.other.description.p1")</p>
-
+        <p>@Messages("page.iht.application.debts.other.description.p2")</p>
+        <p>@Messages("page.iht.application.debts.other.description.p3")</p>
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.other.isOwned"),
