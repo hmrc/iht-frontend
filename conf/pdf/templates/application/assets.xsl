@@ -127,10 +127,13 @@
                                         </xsl:with-param>
                                     </xsl:call-template>
                                     <xsl:if test="allAssets/money/isOwned='true'">
-
                                         <xsl:choose>
-                                            <xsl:when test="allAssets/money/value='£'">
-                                                <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.application.estateOverview.noValue')"/>
+                                            <xsl:when test="not(allAssets/money/value)">
+                                                <xsl:call-template name="table-row-no-value-given">
+                                                    <xsl:with-param name="translator"
+                                                                    select="$translator"/>
+                                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.inputLabel1')"/>
+                                                </xsl:call-template>
                                             </xsl:when>
                                             <xsl:otherwise>
 
@@ -144,8 +147,6 @@
 
                                             </xsl:otherwise>
                                         </xsl:choose>
-
-
                                     </xsl:if>
                                 </fo:table-body>
                             </fo:table>

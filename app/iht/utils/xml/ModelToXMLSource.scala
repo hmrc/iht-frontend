@@ -56,6 +56,7 @@ trait ModelToXMLSource {
   def getPreSubmissionXMLSource(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails): Array[Byte] = {
     val regDetailsXML = getXMLSource(registrationDetails)
     val applicationDetailsXML = getXMLSource(applicationDetails)
+    println( "\n***********" + applicationDetailsXML)
     val preSubmissionXML = s"<$XMLRootPreSubmission>" + regDetailsXML + applicationDetailsXML + s"</$XMLRootPreSubmission>"
 
     preSubmissionXML.getBytes
