@@ -12,9 +12,8 @@
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.title')"/>
         </fo:block>
-        <xsl:comment>Co executors Signatures</xsl:comment>
         <xsl:comment>First bullet block starts</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
+        <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before=".5cm">
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.youMayFaceProsecution')" />
         </fo:block>
 
@@ -47,7 +46,7 @@
         <xsl:comment>First bullet block ends</xsl:comment>
 
         <xsl:comment>Second bullet block starts</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
+        <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before=".5cm">
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.pdf.declaration.declaringThat')" />
         </fo:block>
 
@@ -61,6 +60,18 @@
                 <fo:list-item-body start-indent="2em">
                     <fo:block>
                         <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.completedAllReasonableEnquiries')" />
+                    </fo:block>
+                </fo:list-item-body>
+            </fo:list-item>
+            <fo:list-item space-after="0.5em">
+                <fo:list-item-label start-indent="1em">
+                    <fo:block>
+                        &#x2022;
+                    </fo:block>
+                </fo:list-item-label>
+                <fo:list-item-body start-indent="2em">
+                    <fo:block>
+                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.correctAndComplete')" />
                     </fo:block>
                 </fo:list-item-body>
             </fo:list-item>
@@ -79,6 +90,11 @@
         </fo:list-block>
         <xsl:comment>Second bullet block ends</xsl:comment>
 
+        <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
+            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.iht.estateReport.declaration.acceptanceOfDeclaration')" />
+        </fo:block>
+
+        <xsl:comment>Co executors Signatures</xsl:comment>
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular">
             <xsl:for-each select="../RegistrationDetails/coExecutors">
             <fo:table space-before="0.5cm">
@@ -88,7 +104,7 @@
                         <fo:table-row line-height="30pt">
                             <fo:table-cell>
                                 <fo:block>
-                                    <xsl:value-of select="i18n:getMessagesText($translator, 'iht.name.upperCaseInitial')"/>
+                                    <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.name.text')"/>
                                 </fo:block>
                             </fo:table-cell>
                             <fo:table-cell>
@@ -112,7 +128,7 @@
                         <fo:table-row line-height="30pt">
                             <fo:table-cell>
                                 <fo:block>
-                                    <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.signature.signed.text')"/>
+                                    <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.signature.signature.text')"/>
                                 </fo:block>
                             </fo:table-cell>
                             <fo:table-cell>

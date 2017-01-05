@@ -32,7 +32,7 @@
                 </fo:static-content>
 
                 <fo:static-content flow-name="xsl-region-after" font-family="OpenSans" font-size="12pt">
-                    <fo:block text-align="center" border-top-style="solid" padding-top="6pt">
+                    <fo:block text-align="right" border-top-style="solid" padding-top="6pt">
                         Page
                         <fo:page-number/>
                     </fo:block>
