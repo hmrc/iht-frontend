@@ -49,7 +49,7 @@
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesTextWithTwoParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
+                        <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
