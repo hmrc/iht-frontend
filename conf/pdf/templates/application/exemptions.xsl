@@ -14,7 +14,7 @@
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
         </fo:block>
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.exemptions.summary.p1')"/>
+            <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.guidance1')"/>
         </fo:block>
         <xsl:comment>Exemptions Left to spouse or partner section starts only if if maried or civil partnership</xsl:comment>
         <xsl:if test="allExemptions/partner">
