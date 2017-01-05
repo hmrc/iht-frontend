@@ -2242,6 +2242,7 @@ iht.ninoExample = For example, QQ 12 34 56 C
 iht.no = No
 iht.noChangeToHowReportToHMRC = There’s no change to how you report to HMRC
 iht.notPossibleToUseService = It’s not possible for you to use this service
+iht.inheritanceTaxEstateReport = Inheritance Tax estate report
 iht.postcode = Postcode
 iht.registration.applicant.applyingForProbate = Are you applying for probate for the deceased’s estate?
 iht.registration.applicant.tellUsAboutYourself = Your contact details

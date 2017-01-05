@@ -32,9 +32,19 @@
                 </fo:static-content>
 
                 <fo:static-content flow-name="xsl-region-after" font-family="OpenSans" font-size="12pt">
-                    <fo:block text-align="right" border-top-style="solid" padding-top="6pt">
-                        Page
-                        <fo:page-number/>
+                    <fo:block text-align="right" padding-top="6pt">
+                        <fo:table>
+                            <fo:table-body font-size="8pt">
+                                <fo:table-row>
+                                    <fo:table-cell text-align= "left">
+                                        <fo:block><xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></fo:block>
+                                    </fo:table-cell>
+                                    <fo:table-cell>
+                                        <fo:block>Page <fo:page-number format="1"/></fo:block>
+                                    </fo:table-cell>
+                                </fo:table-row>
+                            </fo:table-body>
+                        </fo:table>
                     </fo:block>
                 </fo:static-content>
 
