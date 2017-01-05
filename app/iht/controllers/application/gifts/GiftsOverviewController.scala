@@ -26,6 +26,7 @@ import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.utils.ExemptionsGuidanceHelper._
 import iht.utils.OverviewHelper._
+import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
@@ -94,7 +95,7 @@ trait GiftsOverviewController extends EstateController {
                   sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.givenAway.giveAnswer.screenReader.link.value",
                   questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
                   questionTitlesMessagesFileItems = Seq(
-                    "page.iht.application.gifts.overview.givenAway.question1"),
+                    Messages("page.iht.application.gifts.overview.givenAway.question1", CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
                   ad, regDetails)
                 lazy val sectionReservation = createSectionFromYesNoQuestions(
                   id = "reservation",
@@ -103,7 +104,7 @@ trait GiftsOverviewController extends EstateController {
                   sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value",
                   questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails),
                   questionTitlesMessagesFileItems = Seq(
-                    "iht.estateReport.gifts.reservation.question"),
+                    Messages("iht.estateReport.gifts.reservation.question", Messages("iht.the.deceased"))),
                   ad, regDetails)
                 lazy val sectionSevenYears = createSectionFromYesNoQuestions(
                   id = "sevenYear",
@@ -112,8 +113,8 @@ trait GiftsOverviewController extends EstateController {
                   sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value",
                   questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
                   questionTitlesMessagesFileItems = Seq(
-                    "page.iht.application.gifts.overview.sevenYears.question1",
-                    "page.iht.application.gifts.overview.sevenYears.question2"
+                    Messages("page.iht.application.gifts.overview.sevenYears.question1"),
+                    Messages("page.iht.application.gifts.overview.sevenYears.question2")
                   ),
                   ad, regDetails)
                 lazy val sectionValueGivenAway = createSectionFromValueQuestions(

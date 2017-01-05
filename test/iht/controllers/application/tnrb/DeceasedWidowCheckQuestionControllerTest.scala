@@ -198,6 +198,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
     "show the correct title" in {
       val ad = setupMocksForTitleTests
+      val regDetails = CommonBuilder.buildRegistrationDetails1
       val widowCheckModel = CommonHelper.getOrException(ad.widowCheck)
       val tnrbModel = CommonHelper.getOrException(ad.increaseIhtThreshold)
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
@@ -205,6 +206,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() shouldBe 1
       val expectedTitle = Messages("iht.estateReport.tnrb.partner.married",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails),
         TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
         TnrbHelper.spouseOrCivilPartnerLabel(
           tnrbModel,

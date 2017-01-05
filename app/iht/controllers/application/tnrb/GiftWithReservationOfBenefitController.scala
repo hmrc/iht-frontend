@@ -51,11 +51,14 @@ trait GiftsWithReservationOfBenefitController extends EstateController{
         applicationDetails match {
           case Some(appDetails) => {
 
-            val filledForm = partnerGiftWithResToOtherForm.fill(appDetails.increaseIhtThreshold.getOrElse(
-              TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
+            val tnrbModel = appDetails.increaseIhtThreshold.getOrElse(
+              TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))
+
+            val filledForm = partnerGiftWithResToOtherForm.fill(tnrbModel)
 
             Ok(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(
               filledForm,
+              tnrbModel,
               deceasedName))
           }
           case _ => InternalServerError("Application details not found")
@@ -77,9 +80,14 @@ trait GiftsWithReservationOfBenefitController extends EstateController{
 
       applicationDetailsFuture.flatMap {
         case Some(appDetails) => {
+
+          val tnrbModel = appDetails.increaseIhtThreshold.getOrElse(
+            TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))
+
           boundForm.fold(
             formWithErrors=> {
-              Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(formWithErrors, deceasedName)))
+              Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(formWithErrors,
+                                                                                             tnrbModel, deceasedName)))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
