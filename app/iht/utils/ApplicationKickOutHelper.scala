@@ -413,6 +413,61 @@ object ApplicationKickOutHelper {
   )
 
   /**
+    * Second paragraph of the "Next steps" section.
+    */
+  lazy val nextSteps2LinkText = ListMap(
+    /* Assets */
+    TrustsMoreThanOne -> Messages("iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText"),
+    ForeignAssetsValueMoreThanMax -> Messages("iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.nextSteps3"),
+    TrustValueMoreThanMax -> Messages("iht.estateReport.assets.trusts.kickout.returnToHeldInTrust"),
+    AnnuitiesOnInsurance -> Messages("iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies"),
+    PensionDisposedLastTwoYears -> Messages("page.iht.application.assets.kickout.pensionDisposedLastTwoYears.nextSteps2"),
+    PensionsValueMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+    InTrustLessThanSevenYears -> Messages("iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies"),
+    SingleSectionMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+    AssetsTotalValueMoreThanMax -> Messages("iht.estateReport.kickout.returnToEstateOverview"),
+    InsuranceMoreThanMax -> Messages("iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies"),
+    AssetsMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+    AssetsDeceasedMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+    AssetsMoneyJointlyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+    AssetsHouseholdDeceasedOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+    AssetsHouseholdJointlyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+    AssetsVehiclesDeceasedOwned -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+    AssetsVehiclesJointlyOwned -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
+
+    /* Exemptions */
+    PartnerHomeInUK -> Messages("page.iht.application.exemptions.kickout.homeNotInUK.nextSteps2"),
+
+    /* Gifts */
+    GiftsWithReservationOfBenefit -> Messages("page.iht.application.gifts.kickout.withReservationOfBenefit.nextSteps2"),
+    GiftsGivenInPast -> Messages("iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway"),
+    GiftsToTrust -> Messages("iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway"),
+    GiftsMaxValue -> Messages("page.iht.application.gifts.kickout.maxValue.nextSteps2"),
+
+    /* Pre-pre TNRB Eligibility */
+    TnrbEstateMoreThanThreshold -> Messages("iht.estateReport.kickout.returnToEstateOverview"),
+
+    /* Pre-TNRB Eligibility */
+    WidowedCheckNotWidowed -> Messages("iht.estateReport.kickout.returnToEstateOverview"),
+    PartnerDiedBeforeMinDate -> Messages("iht.estateReport.kickout.returnToEstateOverview"),
+
+    /* Pre-TNRB Eligibility */
+    PartnerDiedBeforeMinDateOpc -> Messages("page.iht.application.tnrb.kickout.partnerDiedBeforeMinDateOPC.nextSteps2"),
+
+    /* TNRB Eligibility */
+    PartnerNotLivingInUk -> Messages("iht.estateReport.tnrb.kickout.returnToIHTThreshold"),
+    GiftMadeBeforeDeath -> Messages("iht.estateReport.tnrb.kickout.returnToIHTThreshold"),
+    StateClaimAnyBusiness -> Messages("iht.estateReport.tnrb.kickout.returnToIHTThreshold"),
+    PartnerGiftWithResToOther -> Messages("iht.estateReport.tnrb.kickout.returnToIHTThreshold"),
+    PartnerBenFromTrust -> Messages("iht.estateReport.tnrb.kickout.returnToIHTThreshold"),
+    EstateBelowIhtThresholdApplied -> Messages("iht.estateReport.tnrb.kickout.returnToIHTThreshold"),
+    JointAssetPassed -> Messages("iht.estateReport.tnrb.kickout.returnToIHTThreshold"),
+
+    /*Backend */
+    AssetsTotalValueMoreThanThresholdAfterExemption -> Messages("iht.estateReport.kickout.returnToEstateOverview")
+  )
+
+  /**
    * The text displayed for the "return" link.
    */
   lazy val returnLinkLabels = ListMap(

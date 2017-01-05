@@ -71,14 +71,11 @@ summaryParameter1:Option[String]=None)(implicit request:Request[_])
     <div class="subsection">
         <h2 id="iht.nextSteps" class="heading-medium">@Messages("iht.nextSteps")</h2>
         @ApplicationKickOutHelper.nextSteps1.find( _._1 == kickoutReason).map{nextSteps1=><p>@nextSteps1._2</p>}
-        @ApplicationKickOutHelper.nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>@nextSteps2._2</p>}
-        @ApplicationKickOutHelper.returnLinkUrl( kickoutReason, applicationDetails.ihtRef.fold("")(identity), applicationLastSection, applicationLastID ).map{ url=>
-            @ApplicationKickOutHelper.returnLinkLabels.find( _._1 == kickoutReason ).map{ label =>
-                
-                <a id="back-button" href=@url>@label._2</a>
-                
-            }
-        }
+        @ApplicationKickOutHelper.nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>
+        @nextSteps2._2 @ApplicationKickOutHelper.returnLinkUrl( kickoutReason, applicationDetails.ihtRef.fold("")(identity), applicationLastSection, applicationLastID ).map{ url=>
+        <a id="back-button" href=@url>@ApplicationKickOutHelper.nextSteps2LinkText.find( _._1 == kickoutReason).map{linkText => @linkText._2}</a>
+        }</p>}
+
     </div>
     <div id="continue-button" class="form-field form-field--submit">
         @helpers.form(action = iht.controllers.application.routes.KickoutController.onSubmit) {
