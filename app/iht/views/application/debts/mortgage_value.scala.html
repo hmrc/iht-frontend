@@ -27,9 +27,10 @@
 
 @(mortgagesForm: Form[iht.models.application.debts.Mortgage],
 property: Property,
-submitUrl: Call)(implicit request: Request[_])
+submitUrl: Call,
+regDetails: RegistrationDetails)(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title"),
+@iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
     browserTitle = Some(Messages("page.iht.application.debts.mortgageValue.browserTitle")),
     cancelUrl = Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad),
     cancelLabel = Some(Messages("site.link.return.mortgage.overview")),
@@ -62,7 +63,7 @@ submitUrl: Call)(implicit request: Request[_])
     @ihtHelpers.inputWithHelp(mortgagesForm("id"),'_type -> "hidden")
     @ihtHelpers.generic_estate_element_assets(
         assetType = Constants.AssetTypeSingle,
-        questionLabel= Messages("page.iht.application.debts.mortgageValue.title"),
+        questionLabel= Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
         legendClass = "visually-hidden",
         inputTextLabel = if(property.typeOfOwnership.getOrElse(IhtProperties.ownershipDeceasedOnly)== IhtProperties.ownershipDeceasedOnly)
                                  Messages("page.iht.application.debts.mortgage.inputText.value")

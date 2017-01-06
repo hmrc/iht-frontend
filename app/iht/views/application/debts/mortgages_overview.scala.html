@@ -35,8 +35,8 @@ onCancelMessageKey: String)(implicit request: Request[_])
 browserTitle = Some(Messages("iht.estateReport.debts.mortgages")),
 isFullWidth= false) {
     <p class="lede">@Messages("page.iht.application.debts.mortgages.description.p1")</p>
-    <p>@Messages("page.iht.application.debts.mortgages.description")</p>
-    <p>@Messages("page.iht.application.debts.mortgages.description.p3")</p>
+    <p>@Messages("page.iht.application.debts.mortgages.description", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p>@Messages("page.iht.application.debts.mortgages.description.p3", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
     @if(propertyList.isEmpty){
         <div class="panel-indent panel-indent--gutter">

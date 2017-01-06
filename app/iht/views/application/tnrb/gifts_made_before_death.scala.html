@@ -36,7 +36,9 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 
         @ihtHelpers.inputYesNoRadioGroup(
         giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),
-        '_hintText -> Html("<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1") + "</p><p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"),
+        '_hintText -> Html("<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
+                                    TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint")))
+                                 + "</p><p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"),
         '_divClass -> Some("form-group"),
         '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"))),
         '_legendClass -> Some("visually-hidden")

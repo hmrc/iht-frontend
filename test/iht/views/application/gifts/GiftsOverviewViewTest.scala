@@ -60,8 +60,11 @@ class GiftsOverviewViewTest extends ViewTestHelper {
 
     "have correct guidance paragraphs" in {
       val view = giftsOverviewView()
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.gifts.overview.guidance1"))
+      messagesShouldBePresent(view.toString, Messages("page.iht.application.gifts.overview.guidance1",
+                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails),
+                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       assertNotContainsText(view, Messages("iht.estateReport.saved.estate"))
+      assertContainsText(view, Messages("iht.estateReport.completeEverySection"))
     }
 
     "have the 'What a gift' link with correct text" in {

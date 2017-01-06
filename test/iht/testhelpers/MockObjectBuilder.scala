@@ -82,7 +82,7 @@ object MockObjectBuilder {
     */
   def createMockToStoreRegDetailsInCache(cachingConnector: CachingConnector,
                                          regDetails: Option[RegistrationDetails] = Some(buildRegistrationDetails)) = {
-    when(cachingConnector.storeRegistrationDetails(any(), any())(any(), any()))
+    when(cachingConnector.storeRegistrationDetails(any())(any(), any()))
       .thenReturn(Future.successful(regDetails))
   }
 
@@ -91,7 +91,7 @@ object MockObjectBuilder {
     */
   def createMockToStoreRegDetailsInCacheWithFailure(cachingConnector: CachingConnector,
                                          regDetails: Option[RegistrationDetails] = Some(buildRegistrationDetails)) = {
-    when(cachingConnector.storeRegistrationDetails(any(), any())(any(), any()))
+    when(cachingConnector.storeRegistrationDetails(any())(any(), any()))
       .thenReturn(Future.successful(None))
   }
 

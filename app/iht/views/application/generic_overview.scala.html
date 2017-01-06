@@ -29,7 +29,8 @@ messagesFileSectionLine1: String,
 messagesFileSectionLine2: String,
 returnToCall: Option[Call],
 returnToMessagesKey: String,
-returnAsButton: Boolean = false
+returnAsButton: Boolean = false,
+showStatus: Boolean = true
 )(implicit request: Request[_])
 
 <p id="assets-guidance1" class="lede">@Messages(messagesFileSectionLine1)</p>
@@ -38,19 +39,17 @@ returnAsButton: Boolean = false
 }
 @seqRows.map{section=>
 <section id="@section.id">
-
-
-
-
     @section.title.map{ sectionTitle =>
     <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
         <div class="tabular-data__data tabular-data__data--7-12">
             <h2 class="font-xsmall bold">@Messages(sectionTitle)</h2>
         </div>
         @if(section.link.linkText.length>0){
-        <div id="@{section.id}-section-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
-            <span aria-hidden="true" class="progress-status progress-status--not-started">@Messages("iht.notStarted")</span>
-        </div>
+            @if(showStatus){
+                <div id="@{section.id}-section-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+                    <span aria-hidden="true" class="progress-status progress-status--not-started">@Messages("iht.notStarted")</span>
+                </div>
+            }
         <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
             <a class="font-xsmall" id='@{section.id + "-edit"}' href="@section.link.linkUrl">
                 <span aria-hidden="true">@Messages(section.link.linkText)</span>
@@ -61,7 +60,6 @@ returnAsButton: Boolean = false
     </div>
     }
 
-
     <ul>
     @section.details.map{detail=>
       <li id="@{detail.id}" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
@@ -69,16 +67,17 @@ returnAsButton: Boolean = false
           <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right" aria-hidden="true">
               @Messages(detail.value)
           </div>
-
-          <div id="@{detail.id}-section-details-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
-              @if(detail.status.nonEmpty){
-                  @if(detail.status == messageNotStarted) {
-                    <span class="progress-status progress-status--not-started">@Messages("iht.notStarted")</span>
-                  } else {
-                    <span class="progress-status progress-status--complete">@Messages("iht.complete")</span>
+          @if(showStatus){
+              <div id="@{detail.id}-section-details-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+                  @if(detail.status.nonEmpty){
+                      @if(detail.status == messageNotStarted) {
+                        <span class="progress-status progress-status--not-started">@Messages("iht.notStarted")</span>
+                      } else {
+                        <span class="progress-status progress-status--complete">@Messages("iht.complete")</span>
+                      }
                   }
-              }
-          </div>
+              </div>
+          }
 
           <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
             @if(detail.link.linkText.length>0){

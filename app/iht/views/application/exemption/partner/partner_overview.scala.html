@@ -34,7 +34,8 @@ isFullWidth=false) {
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner).map(_=>true)) { isComplete =>
                 ihtHelpers.generic_overview_item(
-                    title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"),
+                    title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
+                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
                     name="partner.assetsLeftForPartner",
                     id="assetsLeftForPartner",
                     value=displayValue(appDetails, AppSectionExemptionsPartnerIsAssetForDeceasedPartner, isComplete),

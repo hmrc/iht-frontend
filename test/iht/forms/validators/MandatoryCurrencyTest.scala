@@ -23,7 +23,12 @@ import uk.gov.hmrc.play.test.UnitSpec
 class MandatoryCurrencyTest extends UnitSpec with FakeIhtApp {
 
   "MandatoryCurrency" must {
-    val mandatoryCurrency = MandatoryCurrency("length","invalidChars","incorrectPence","hasSpaces","blankValue")
+    val mandatoryCurrency = MandatoryCurrency("length",
+                                              "invalidChars",
+                                              "incorrectPence",
+                                              "hasSpaces",
+                                              "blankValue",
+                                              "hasCommaAtInvalidPosition")
 
     "give error message if there is no value given" in {
       mandatoryCurrency.bind(Map("" -> "")) shouldBe Left(List(FormError("", "blankValue")))
@@ -43,6 +48,7 @@ class MandatoryCurrencyTest extends UnitSpec with FakeIhtApp {
 
     "give error message if incorrect number of digits after point" in {
       mandatoryCurrency.bind(Map("" -> "444.444")) shouldBe Left(List(FormError("", "incorrectPence")))
+      mandatoryCurrency.bind(Map("" -> "200.0,0")) shouldBe Left(List(FormError("", "incorrectPence")))
     }
 
     "give error message if too many decimal points" in {
@@ -69,8 +75,21 @@ class MandatoryCurrencyTest extends UnitSpec with FakeIhtApp {
       mandatoryCurrency.bind(Map("" -> "1.99")) shouldBe Right(Some(1.99))
     }
 
+    "give no error if the value has no digits after decimal, also append two additional zeros" in {
+      mandatoryCurrency.bind(Map("" -> "100.")) shouldBe Right(Some(100.00))
+    }
+
     "give no error if the value is valid" in {
       mandatoryCurrency.bind(Map("" -> "2000")) shouldBe Right(Some(2000))
+    }
+
+    "give no error if the value has comma" in {
+      mandatoryCurrency.bind(Map("" -> "2,000.00")) shouldBe Right(Some(2000))
+    }
+
+    "give error if the value has comma at wrong position" in {
+      mandatoryCurrency.bind(Map("" -> "220,00.00")) shouldBe Left(List(FormError("", "hasCommaAtInvalidPosition")))
+      mandatoryCurrency.bind(Map("" -> "2,00.00")) shouldBe Left(List(FormError("", "hasCommaAtInvalidPosition")))
     }
 
   }

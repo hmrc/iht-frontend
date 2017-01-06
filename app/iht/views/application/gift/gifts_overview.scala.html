@@ -38,9 +38,11 @@ returnToMessagesKey: String
     relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
     messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
     messageKeyAccessibility = "page.iht.application.gifts.guidance.whatsAGift.title")(generic_overview(registrationDetails,
-                                                                                                    seqRows,
-                                                                                                    "page.iht.application.gifts.overview.guidance1",
-                                                                                                    "",
-                                                                                                    returnToCall,
-                                                                                                    returnToMessagesKey,
-                                                                                                    true))
+                                       seqRows,
+                                       Messages("page.iht.application.gifts.overview.guidance1",
+                                                   CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
+                                                   CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                       "iht.estateReport.completeEverySection",
+                                       returnToCall,
+                                       returnToMessagesKey,
+                                       true))

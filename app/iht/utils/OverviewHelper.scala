@@ -223,8 +223,8 @@ object OverviewHelper {
                                            questionLevelLinkAccessibilityTextValue: String,
                                            questionAnswerExprYesNo: Option[Boolean],
                                            questionAnswerExprValue: Option[BigDecimal],
-                                           questionTitleYesNoMessageKey: String,
-                                           questionTitleValueMessageKey: String): Section =
+                                           questionTitleYesNoMessage: String,
+                                           questionTitleValueMessage: String): Section =
     Section(id = id,
       title = title,
       link = Link(getEmptyStringOrElse(questionAnswerExprYesNo, messagesFileGiveAnswer),
@@ -237,7 +237,7 @@ object OverviewHelper {
           questionLevelLinkAccessibilityTextNo, "")
         val booleanElement = Seq(Question(
           id = id + "-yes-no-question",
-          title = questionTitleYesNoMessageKey,
+          title = questionTitleYesNoMessage,
           link = Link(messagesFileChangeAnswer, accessibilityValue, linkUrl),
           value = displayValue))
 
@@ -245,7 +245,7 @@ object OverviewHelper {
           if (bool) {
             Seq(Question(
               id = id + "-value",
-              title = questionTitleValueMessageKey,
+              title = questionTitleValueMessage,
               link = Link(messagesFileChangeInput, questionLevelLinkAccessibilityTextValue, linkUrl),
               value = getBigDecimalDisplayValue(questionAnswerExprValue)))
           } else {
@@ -272,7 +272,7 @@ object OverviewHelper {
             details = if (shouldDisplay(ad)) {
                               Seq(Question(
                                 id = id + "-value",
-                                title = s"$questionTitlesMessagesFilePrefix.question1",
+                                title = Messages(s"$questionTitlesMessagesFilePrefix.question1"),
                                 link = Link(messagesFileChangeValues, questionLevelLinkAccessibilityTextValue, linkUrl),
                                 value = getBigDecimalDisplayValue(questionAnswerExprValue),
                                 status = if(getBigDecimalDisplayValue(questionAnswerExprValue) == "") {

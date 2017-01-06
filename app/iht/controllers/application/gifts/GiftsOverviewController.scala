@@ -26,6 +26,7 @@ import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.utils.ExemptionsGuidanceHelper._
 import iht.utils.OverviewHelper._
+import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
