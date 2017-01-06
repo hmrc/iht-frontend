@@ -504,8 +504,8 @@ page.iht.application.assets.deceased-permanent-home.editOrDelete.screenReader = 
 page.iht.application.assets.deceased-permanent-home.value.input-footer-label = If the other joint owner wasn’t the deceased’s spouse or civil partner, you should reduce the value of their share by 10%.
 page.iht.application.assets.deceased-permanent-home.sectionName = property
 page.iht.application.assets.deceased-permanent-home.sectionTitle = Properties, buildings and land owned
-page.iht.application.assets.deceased-permanent-home.description.p1 = This includes the deceased’s main address before they died if they owned that property and any other properties that they owned.
-page.iht.application.assets.deceased-permanent-home.description.p2 = These could also be any non-residential buildings or any land owned by the deceased. This could be business properties such as a shop or a farm. You should also include the value of anything attached to land, such as fishing or shooting rights.
+page.iht.application.assets.deceased-permanent-home.description.p1 = This includes {0}’s main address before they died if they owned that property and any other properties that they owned.
+page.iht.application.assets.deceased-permanent-home.description.p2 = These could also be any non-residential buildings or any land owned by {0}. This could be business properties such as a shop or a farm. You should also include the value of anything attached to land, such as fishing or shooting rights.
 page.iht.application.assets.deceased-permanent-home.typeofownership.label = How was this owned?
 page.iht.application.assets.deceased-permanent-home.question2.hint = You can find out how a property was owned from the Land Registry. Joint tenants and tenants in common are names that describe how a property is owned with another person.
 page.iht.application.assets.deceased-permanent-home.question3 = Was this a freehold or a leasehold property?
@@ -626,7 +626,7 @@ page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenRea
 page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue = Give details about the value of this property
 page.iht.application.assets.property.detailsOverview.value.screenReader.link.change = Change the value of the property
 page.iht.application.assets.property.detailsOverview.returnLink = Return to properties, buildings and land
-page.iht.application.assets.property.detailsOverview.mortgage.text = If you want to add a mortgage for this property, building, or land you can do this in debts owed from the estate.
+page.iht.application.assets.property.detailsOverview.mortgage.text = If you want to add a mortgage for this property, building or land you can do this in debts owed from the estate.
 
 #Property pages
 
@@ -1392,7 +1392,7 @@ page.iht.application.estateOverview.claimExemptions.link = I want to claim exemp
 page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text = You can continue once you’re sure you’ve given all of the details that you need to for this estate report. You should check each section before continuing.
 page.iht.application.estateOverview.declaration.continue.guidance.text = The estate value is over the threshold. Continue when you’ve given all of the estate details that you know about.
 page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1 = You haven’t given enough details to finish this estate report
-page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2 = You should give an answer for every part of the estate report.
+page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2 = You must give an answer for every part of the estate report.
 
 page.iht.application.liabilities.funeral-expenses.description.p1 = If the estate is paying for the funeral, you should provide the full value in this section. This should cover flowers, refreshments for mourners, expenses to cover the funeral arrangements and the cost of a headstone to mark their grave. If the deceased paid for a funeral plan before they died, this wouldn’t be classed as a funeral expense paid from the estate.
 page.iht.application.liabilities.funeral-expenses.question1 = Are there any funeral expenses to be paid from the estate?
@@ -2046,8 +2046,8 @@ page.iht.iv.failure.preconditionFailed.p1 = You’ve already registered with ano
 page.iht.iv.failure.preconditionFailed.p1.link.text = Contact HMRC to get help
 
 #properties question page
-page.iht.application.assets.properties.question.p1 = These are all UK properties, buildings or land owned by the deceased, either on their own or jointly with other people. This also includes any business properties, buildings or land.
-page.iht.application.assets.properties.question.question = Did the deceased own any properties, buildings or land in the UK?
+page.iht.application.assets.properties.question.p1 = These are all UK properties, buildings or land owned by {0}, either on their own or jointly with other people. This also includes any business properties, buildings or land.
+page.iht.application.assets.properties.question.question = Did {0} own any properties, buildings or land in the UK?
 page.iht.application.assets.properties.question.noValue = Give an answer for did the deceased own any properties, buildings or land in the UK
 page.iht.application.assets.properties.question.change = Change the answer for did the deceased own any properties, buildings or land in the UK
 
@@ -2087,7 +2087,7 @@ iht.estateReport.assets.household.valueOfJointlyOwned = Value of the deceased’
 iht.estateReport.assets.householdAndPersonalItems.title = Household and personal items
 iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title = Household and personal items the deceased owned jointly with other people
 iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title = Household and personal items owned only by the deceased
-iht.estateReport.assets.howOwnedByDeceased = How was this owned by the deceased?
+iht.estateReport.assets.howOwnedByDeceased = How was this owned by {0}?
 iht.estateReport.assets.inEstate = Assets in the estate
 iht.estateReport.assets.insurancePolicies = Insurance policies
 iht.estateReport.assets.insurancePolicies.buyAnnuity.question = Did the deceased buy an annuity at any time in their life?

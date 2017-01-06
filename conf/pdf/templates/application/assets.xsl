@@ -29,7 +29,7 @@
                                     <fo:table-body font-size="12pt">
                                         <xsl:call-template name="table-row">
                                             <xsl:with-param name="label"
-                                                            select="i18n:getMessagesText($translator, 'page.iht.application.assets.properties.question.question')"/>
+                                                            select="i18n:getMessagesText($translator, 'page.iht.application.assets.properties.question.question', 'iht.the.deceased')"/>
                                             <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.yes')"/>
                                         </xsl:call-template>
                                     </fo:table-body>
@@ -54,7 +54,7 @@
                                             </xsl:call-template>
                                             <xsl:call-template name="table-row">
                                                 <xsl:with-param name="label"
-                                                                select="i18n:getMessagesText($translator, 'iht.estateReport.assets.howOwnedByDeceased')"/>
+                                                                select="i18n:getMessagesText($translator, 'iht.estateReport.assets.howOwnedByDeceased', 'iht.the.deceased')"/>
                                                 <xsl:with-param name="value" select="typeOfOwnership"/>
                                             </xsl:call-template>
                                             <xsl:call-template name="table-row">
