@@ -225,7 +225,6 @@ page.iht.registration.applicantDetails.kickout.probateRole.summary = This is bec
 
 page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for the deceased’s estate.
 page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for the deceased’s estate should complete an Inheritance Tax estate report.
-page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer,
 
 #Multiple executors
 page.iht.registration.multipleExecutors.title = Add more {0}s
@@ -1157,7 +1156,7 @@ page.iht.application.exemptions.deleteGNCP.screenReader = The name of the qualif
 page.iht.application.exemptions.partnerPermanentHome.browserTitle = Partner’s residence
 
 page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because the deceased’s spouse or civil partner didn’t have their permanent home in the UK.
-page.iht.application.exemptions.kickout.homeNotInUK.nextSteps2 = If you want to change your answer, you can return to the assets left to a spouse or civil partner page.
+page.iht.application.exemptions.kickout.homeNotInUK.returnLinkText = you can return to the assets left to a spouse or civil partner page.
 page.iht.application.exemptions.kickout.back.homeNotInUK = Return to assets left to a spouse or civil partner
 
 page.iht.application.exemptions.partner.dateOfBirth.question.title = What is the spouse’s or civil partner’s date of birth?
@@ -1428,14 +1427,14 @@ page.iht.application.assets.kickout.trustlessthansevenyears.summary = This is be
 page.iht.application.assets.kickout.trustsMoreThanOne.summary = This is because the deceased was able to benefit from more than 1 trust.
 page.iht.application.assets.kickout.trustValueMoreThanMax.summary = This is because the value of the trust that the deceased was able to benefit from was worth more than £150,000.
 page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary = This is because the value of the deceased’s foreign assets was more than £100,000.
-page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.nextSteps2 = If you want to change your answer,
-iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.nextSteps3 =  you can return to the foreign assets page.
+iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText =  you can return to the foreign assets page.
 page.iht.application.assets.kickout.annuitiesOnInsurance.summary = This is because the deceased bought an annuity during their lifetime.
 page.iht.application.assets.kickout.premiumsPaidForOtherPersonsPolicy.summary = It’s not possible to use Inheritance Tax Online because the deceased’s insurance policy paid out to someone else
 page.iht.application.assets.kickout.premiumsPaidForOtherPersonsPolicy.nextSteps1 = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. This is because you need to provide more details about the insurance policy and who it paid out to.
 page.iht.application.assets.kickout.pensionDisposedLastTwoYears.summary = This is because the deceased’s private pension was changed or disposed of in the 2 years before they died.
-page.iht.application.assets.kickout.pensionDisposedLastTwoYears.nextSteps2 = If you want to change your answer, you can return to the private pensions page.
-page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2 = If you want to change this value, you can return to the last page you were on.
+page.iht.application.assets.kickout.pensionDisposedLastTwoYears.returnLinkText = you can return to the private pensions page.
+page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2 = If you want to change this value
+page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText = you can return to the last page you were on.
 page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1 = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. This is because you need to provide more details about the estate.
 page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is because the value of the insurance premiums paid by the deceased for a policy that wasn’t paying to their estate was more than £3,000 in any year.
 
@@ -1445,7 +1444,8 @@ page.iht.application.tnrb.threshold.screenReader = The inheritance tax threshold
 
 page.iht.application.tnrb.kickout.estateMoreThanThreshold.summary = This is because the estate value is over the Inheritance Tax threshold.
 
-page.iht.application.tnrb.kickout.partnerDiedBeforeMinDateOPC.nextSteps2 = If you want to change the last answer you gave, you can go back to that last question
+page.iht.application.tnrb.kickout.partnerDiedBeforeMinDateOPC.nextSteps2 = If you want to change the last answer you gave
+page.iht.application.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText = you can go back to that last question.
 
 page.iht.application.tnrb.kickout.estateValueNotInLimit.summary = It’s not possible to use the Inheritance Tax Online Service because Estate value is more than the limit.
 page.iht.application.tnrb.kickout.estateValueNotInLimit.nextSteps = You should complete the Inheritance Tax return using an IHT-400 paper form.
@@ -1464,7 +1464,7 @@ page.iht.application.exemptions.kickout.estateMoreThanThreshold.nextSteps = To b
 
 # Gifts KickOuts
 page.iht.application.gifts.kickout.withReservationOfBenefit.summary = This is because the deceased gave away gifts with the reservation of benefit.
-page.iht.application.gifts.kickout.withReservationOfBenefit.nextSteps2 = If you want to change your answer, you can return to the gifts with reservation of benefit page.
+page.iht.application.gifts.kickout.withReservationOfBenefit.returnLinkText = you can return to the gifts with reservation of benefit page.
 
 page.iht.application.gifts.kickout.givenInPast.summary = This is because the deceased gave away a gift that wasn’t:
 page.iht.application.gifts.kickout.givenInPast.summary.bullet3 = a household or personal item
@@ -1473,7 +1473,8 @@ page.iht.application.gifts.kickout.givenInPast.summary.bullet4 = a house, land o
 page.iht.application.gifts.kickout.toTrust.summary = This is because the deceased gave away a house, building or land to anything that isn’t a person.
 
 page.iht.application.gifts.kickout.maxValue.summary = This is because the deceased gave gifts away worth more than £150,000 in the 7 years before they died.
-page.iht.application.gifts.kickout.maxValue.nextSteps2 = If you want to change the value of gifts, you can return to the value of gifts given away in the 7 years before death page.
+page.iht.application.gifts.kickout.maxValue.nextSteps2 = If you want to change the value of gifts
+page.iht.application.gifts.kickout.maxValue.returnLinkText = you can return to the value of gifts given away in the 7 years before death page.
 
 #Application overview
 page.iht.application.overview.title = Application progress for {0} is now {1}
@@ -2065,6 +2066,7 @@ iht.dateExample2 = For example, 21 3 1990
 iht.dateOfDeath = Date of death
 iht.dateofbirth = Date of birth
 iht.delete = Delete
+iht.ifYouWantToChangeYOurAnswer = If you want to change your answer
 iht.estateReport.goToEstateReports = Go to your Inheritance Tax estate reports
 iht.estateReport.assets.businessInterests.title = Business interests
 iht.estateReport.assets.foreign.title = Foreign assets
@@ -2084,7 +2086,7 @@ iht.estateReport.assets.howOwnedByDeceased = How was this owned by the deceased?
 iht.estateReport.assets.inEstate = Assets in the estate
 iht.estateReport.assets.insurancePolicies = Insurance policies
 iht.estateReport.assets.insurancePolicies.buyAnnuity.question = Did the deceased buy an annuity at any time in their life?
-iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies = If you want to change your answer, you can return to the insurance policies page.
+iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText = you can return to the insurance policies page.
 iht.estateReport.assets.insurancePolicies.payingOutToDeceased = Policies that are paying out to the deceased
 iht.estateReport.assets.insurancePolicies.premiumsPaidByOther = Insurance premiums paid by the deceased for someone else
 iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare = Total value of the deceased’s share of all jointly held policies
@@ -2120,7 +2122,6 @@ iht.estateReport.assets.stocksAndShares.valueOfNotListed = Value of stocks and s
 iht.estateReport.assets.stocksAndSharesListed = Stocks and shares listed on an exchange
 iht.estateReport.assets.stocksAndSharesNotListed = Stocks and shares not listed on an exchange
 iht.estateReport.assets.trusts.benefittedFromHeldInTrust = These are all the assets that the deceased benefitted from, or had the right to benefit from, that were held in trust.
-iht.estateReport.assets.trusts.kickout.returnToHeldInTrust = If you want to change your answer,
 iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText = you can return to the assets held in a trust page.
 iht.estateReport.assets.trusts.moreThanOne.question = Was the deceased benefitting from, or have the right to benefit from, more than 1 trust?
 iht.estateReport.assets.trusts.needInclusion = If the deceased benefitted from a trust during their lifetime, such as getting regular payments or dividends from shares, these need to be included in the value of the estate.
@@ -2191,7 +2192,7 @@ iht.estateReport.exemptions.title = Estate exemptions
 iht.estateReport.gifts.givenAway.title = Gifts given away
 iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
 iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Gifts given away in the 7 years before death
-iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway = If you want to change your answer, you can return to the gifts given away in the 7 years before death page.
+iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText = you can return to the gifts given away in the 7 years before death page.
 iht.estateReport.gifts.reservation.question = Did the deceased give any gifts away with reservation of benefit?
 iht.estateReport.gifts.returnToGiftsGivenAway = Return to gifts given away in the 7 years before death
 iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to value of gifts given away in the 7 years before death
@@ -2206,7 +2207,8 @@ iht.estateReport.insurancePolicies.premiumsNotPayingOut.question = Did the decea
 iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1 = This could have been at any point in their life and the insurance policy shouldn’t have been due to pay out to the deceased or to their estate.
 iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2 = You can answer no if the policy was due to pay out to the deceased’s spouse or civil partner.
 iht.estateReport.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing  an IHT-400 paper form.
-iht.estateReport.kickout.returnToEstateOverview = If you want to change any value, you can return to the estate overview page.
+iht.estateReport.kickout.returnToEstateOverview = If you want to change any value
+iht.estateReport.kickout.returnToEstateOverview.linkText = you can return to the estate overview page.
 iht.estateReport.noInheritanceTaxPayable = no Inheritance Tax is payable
 iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
 iht.estateReport.returnToEstateOverview = Return to estate overview
@@ -2218,7 +2220,7 @@ iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts wi
 iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
 iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. You’ll also need to complete an IHT-402 paper form to increase the threshold.
-iht.estateReport.tnrb.kickout.returnToIHTThreshold = If you want to change your answer, you can return to the increasing the Inheritance Tax threshold page.
+iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = you can return to the increasing the Inheritance Tax threshold page.
 iht.estateReport.tnrb.partner.married = Was the deceased {0} at any point in their life and {1} died?
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
@@ -2260,13 +2262,13 @@ iht.registration.deceased.locationOfPermanentHome = Location of deceased’s per
 iht.registration.deceased.permanentHome.where.question = Where did the deceased have their permanent home?
 iht.registration.deceasedDetails.title = About the deceased
 iht.registration.kickout.content = You should complete the Inheritance Tax estate report by completing either an IHT-205 or an IHT-400 paper form.
-iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home,
-iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate,
+iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
+iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
 iht.registration.kickout.returnToTheLastPageVisited = you can return to the last page you visited.
 iht.registration.kickout.message.MinDOD = If the date of death was between 13 March 1975 to 18 March 1986, Capital Transfer Tax applied to the deceased’s estate. Estate Duty was in place before 13 March 1975.
-iht.registration.kickout.message.form2 = If you want to change this date,
+iht.registration.kickout.message.form2 = If you want to change this date
 iht.registration.kickout.message.phone = Call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
-iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report.
+iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report
 iht.registration.kickout.message.returnToLast = Return to the last page you visited
 iht.registration.kickout.probateLocation.scotland = You should complete the Inheritance Tax estate report by completing either a C1 or a C5 paper form.
 iht.registration.ninoNotOnPayslip = Their National Insurance number could be found on a payslip.
@@ -2285,6 +2287,7 @@ iht.usePaperForm = You should use a paper form
 iht.viewOrChange = View or change
 iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
+iht.comma = ,
 
 error.address.blank = Enter an address
 error.address.blank.summary = enter an address

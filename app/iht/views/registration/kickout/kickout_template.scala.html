@@ -29,7 +29,7 @@ hasTimeOut=true) {
 </div>
 
     <h2 class="heading-medium">@Messages("iht.nextSteps")</h2>
-    @contentLines.map { line => <p>@line @if(line == contentLines.last){<a id="return-button" href="@returnToUrl">
+    @contentLines.map { line => <p>@line@if(line == contentLines.last){@Messages("iht.comma")<a id="return-button" href="@returnToUrl">
                                         @Messages("iht.registration.kickout.returnToTheLastPageVisited")</a>}</p> }
 
 
