@@ -421,28 +421,28 @@ object ApplicationKickOutHelper {
     ForeignAssetsValueMoreThanMax -> Messages("iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText"),
     TrustValueMoreThanMax -> Messages("iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText"),
     AnnuitiesOnInsurance -> Messages("iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText"),
-    PensionDisposedLastTwoYears -> Messages("page.iht.application.assets.kickout.pensionDisposedLastTwoYears.returnLinkText"),
-    PensionsValueMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
-    InTrustLessThanSevenYears -> Messages("iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText "),
-    SingleSectionMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    PensionDisposedLastTwoYears -> Messages("iht.estateReport.assets.kickout.pensionDisposedLastTwoYears.returnLinkText"),
+    PensionsValueMoreThanMax -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    InTrustLessThanSevenYears -> Messages("iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText"),
+    SingleSectionMoreThanMax -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
     AssetsTotalValueMoreThanMax -> Messages("iht.estateReport.kickout.returnToEstateOverview.linkText"),
-    InsuranceMoreThanMax -> Messages("iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText "),
-    AssetsMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
-    AssetsDeceasedMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
-    AssetsMoneyJointlyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
-    AssetsHouseholdDeceasedOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
-    AssetsHouseholdJointlyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
-    AssetsVehiclesDeceasedOwned -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
-    AssetsVehiclesJointlyOwned -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    InsuranceMoreThanMax -> Messages("iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText"),
+    AssetsMoneyOwed -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    AssetsDeceasedMoneyOwed -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    AssetsMoneyJointlyOwed -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    AssetsHouseholdDeceasedOwed -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    AssetsHouseholdJointlyOwed -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    AssetsVehiclesDeceasedOwned -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
+    AssetsVehiclesJointlyOwned -> Messages("iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText"),
 
     /* Exemptions */
-    PartnerHomeInUK -> Messages("page.iht.application.exemptions.kickout.homeNotInUK.returnLinkText"),
+    PartnerHomeInUK -> Messages("iht.estateReport.exemptions.kickout.homeNotInUK.returnLinkText"),
 
     /* Gifts */
-    GiftsWithReservationOfBenefit -> Messages("page.iht.application.gifts.kickout.withReservationOfBenefit.returnLinkText"),
+    GiftsWithReservationOfBenefit -> Messages("iht.estateReport.gifts.kickout.withReservationOfBenefit.returnLinkText"),
     GiftsGivenInPast -> Messages("iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText"),
     GiftsToTrust -> Messages("iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText"),
-    GiftsMaxValue -> Messages("page.iht.application.gifts.kickout.maxValue.returnLinkText"),
+    GiftsMaxValue -> Messages("iht.estateReport.gifts.kickout.maxValue.returnLinkText"),
 
     /* Pre-pre TNRB Eligibility */
     TnrbEstateMoreThanThreshold -> Messages("iht.estateReport.kickout.returnToEstateOverview.linkText"),
@@ -452,7 +452,7 @@ object ApplicationKickOutHelper {
     PartnerDiedBeforeMinDate -> Messages("iht.estateReport.kickout.returnToEstateOverview.linkText"),
 
     /* Pre-TNRB Eligibility */
-    PartnerDiedBeforeMinDateOpc -> Messages("page.iht.application.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText"),
+    PartnerDiedBeforeMinDateOpc -> Messages("iht.estateReport.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText"),
 
     /* TNRB Eligibility */
     PartnerNotLivingInUk -> Messages("iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText"),
