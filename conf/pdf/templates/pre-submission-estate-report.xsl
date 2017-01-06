@@ -7,6 +7,7 @@
 
     <xsl:param name="translator"/>
     <xsl:param name="versionParam" select="'1.0'"/>
+    <xsl:param name="applicantName"/>
 
     <xsl:include href="pdf/templates/registration/case-details.xsl"/>
     <xsl:include href="pdf/templates/application/application-details.xsl"/>
@@ -50,14 +51,19 @@
 
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block font-family="OpenSans-Bold" font-size="24" font-weight="bold">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.title')"/>
+                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="12" font-weight="normal" space-before="0.5cm">
                         <xsl:value-of
-                                select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.referenceNumber'), ' ', $ihtReference)"/>
+                                select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.referenceNumber'), ' ', $ihtReference)"/>
                     </fo:block>
+
                     <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'pdf.applicationSummary.summary.text', $deceasedName)"/>
+                        <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
+                    </fo:block>
+
+                    <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.p2')"/>
                     </fo:block>
                     <xsl:apply-templates/>
                 </fo:flow>

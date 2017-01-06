@@ -11,7 +11,10 @@
 
     <xsl:template name="pre-exemptions">
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
-            <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.exemptions.deceasedName.title', $deceasedName)"/>
+            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
+        </fo:block>
+        <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
+            <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.guidance1')"/>
         </fo:block>
         <xsl:comment>Exemptions Left to spouse or partner section starts only if if maried or civil partnership</xsl:comment>
         <xsl:if test="allExemptions/partner">

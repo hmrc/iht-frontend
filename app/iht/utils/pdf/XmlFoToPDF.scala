@@ -20,7 +20,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
 import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{Transformer, TransformerFactory}
-
+import iht.utils._
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -89,13 +89,14 @@ trait XmlFoToPDF {
 
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", MessagesTranslator)
-    transformer.setParameter("ihtReference", registrationDetails.ihtReference.fold("")(identity))
+    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("pdfFormatter", PdfFormatter)
     transformer.setParameter("assetsTotal", applicationDetails.totalAssetsValue)
     transformer.setParameter("debtsTotal", applicationDetails.totalLiabilitiesValue)
     transformer.setParameter("exemptionsTotal", applicationDetails.totalExemptionsValue)
     transformer.setParameter("giftsTotal", applicationDetails.totalGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
+    transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
     transformer.setParameter("estateValue", applicationDetails.totalNetValue)
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
     transformer.setParameter("preDeceasedName", preDeceasedName)
