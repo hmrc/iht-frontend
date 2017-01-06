@@ -41,7 +41,7 @@
 
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block font-family="OpenSans-Bold" font-size="24" font-weight="bold">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.inheritance.tax.submitted.title')"/>
+                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="12" font-weight="normal" space-before="0.5cm">
                         <xsl:value-of
