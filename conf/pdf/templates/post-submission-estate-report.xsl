@@ -7,6 +7,7 @@
 
     <xsl:param name="translator"/>
     <xsl:param name="versionParam" select="'1.0'"/>
+    <xsl:param name="declarationDate"/>
 
     <xsl:include href="pdf/templates/registration/case-details.xsl"/>
     <xsl:include href="pdf/templates/application/return/iht-return.xsl"/>
@@ -45,6 +46,9 @@
                     <fo:block font-family="OpenSans" font-size="12" font-weight="normal" space-before="0.5cm">
                         <xsl:value-of
                                 select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.referenceNumber'),' ', $ihtReference)"/>
+                        <fo:block space-before="0.5cm">
+                            <xsl:value-of select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.declaration.date.text'),' ', $declarationDate)"/>
+                        </fo:block>
                     </fo:block>
                     <xsl:apply-templates/>
                 </fo:flow>

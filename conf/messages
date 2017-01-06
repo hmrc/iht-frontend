@@ -2004,6 +2004,7 @@ pdf.name.text = Name:
 pdf.clearanceCertificate.title = Clearance certificate
 pdf.inheritance.tax.submitted.title = Inheritance Tax Submitted Application
 pdf.inheritance.tax.application.summary.title = Inheritance Tax Application Summary
+pdf.inheritance.tax.declaration.date.text = Date of declaration:
 pdf.inheritance.tax.referenceNumber = Inheritance Tax reference number:
 pdf.clearanceCertificate.summary = This is in relation to the Inheritance Tax Act 1984 s239(2)
 pdf.clearanceCertificate.estateReport.date.label = Estate report sent to HMRC
