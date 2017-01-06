@@ -1,26 +1,8 @@
 /*
 ====================================
-JQuery UI Country Code combo box
-Used as it supports a select input as a fallback and source for data
+Hide the clear icon for the autocomplete
 ====================================
 */
-  .ui-autocomplete{
-      background:white;
-      border-left: 1px solid #bfc1c3;
-      border-right: 1px solid #bfc1c3;
-      border-top: 1px solid #bfc1c3;
-  }
-
-  .ui-autocomplete > li {
-      border-bottom: #bfc1c3 1px solid;
-      word-wrap: break-word;
-  }
-
-  .ui-autocomplete > li.ui-state-focus {
-      border:1px solid black;
-  }
-/*
-====================================
-end YUI combo
-====================================
-*/
+.suggestions-clear {
+    display: none;
+}
