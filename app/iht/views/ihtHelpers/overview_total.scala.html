@@ -20,12 +20,12 @@
 
 <div class="divider--top--thick box--shaded box--shaded--wide" id="@model.id-row" data--iht-role="ledger">
     <div class="grid-layout grid-layout--stacked grid-layout--nogutter">
-        <div id="@model.id-caption" class="grid-layout__column grid-layout__column--1-2">
+        <div id="@model.id-caption" class="grid-layout__column grid-layout__column--4-12">
             <@model.headingLevel class="h3-heading push--top @model.headingClass">@model.label</@model.headingLevel>
         </div>
-        <div id="@model.id-value" class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right bold">
+        <div id="@model.id-value" class="grid-layout__column grid-layout__column--3-12 u-align--tablet-right bold">
             @model.value
         </div>
-        <div class="grid-layout__column grid-layout__column--1-4"></div>
+        <div class="grid-layout__column grid-layout__column--5-12"></div>
     </div>
 </div>

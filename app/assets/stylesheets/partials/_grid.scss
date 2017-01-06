@@ -1,3 +1,4 @@
+@import '_grid__mixin';
 /*
 ====================================
 Removes left+right margins from grids
@@ -6,4 +7,10 @@ Removes left+right margins from grids
 .grid-layout--nogutter {
   margin-left: 0;
   margin-right: 0;
+}
+
+/* grid to allow more flexible usage than the standard 4-col allows */
+
+@media screen and (min-width: 641px){
+@include gridLayout;
 }
