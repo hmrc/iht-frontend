@@ -185,7 +185,7 @@ trait XmlFoToPDF {
 
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", MessagesTranslator)
-    transformer.setParameter("ihtReference", registrationDetails.ihtReference.fold("")(identity))
+    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer.setParameter("pdfFormatter", PdfFormatter)
     transformer.setParameter("assetsTotal", ihtReturn.totalAssetsValue)
