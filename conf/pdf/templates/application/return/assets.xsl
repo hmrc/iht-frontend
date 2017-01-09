@@ -75,7 +75,6 @@
                         <xsl:call-template name="trusts">
                             <xsl:with-param name="value" select="trusts"></xsl:with-param>
                         </xsl:call-template>
-
                         <xsl:comment>Trust section ends</xsl:comment>
 
                         <!-- Total Assets row-->
