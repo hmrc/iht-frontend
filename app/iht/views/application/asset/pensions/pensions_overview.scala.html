@@ -17,7 +17,8 @@
 @import iht.models._
 @import iht.models.application.assets.PrivatePension
 
-@(pensions:Option[PrivatePension], registrationDetails: RegistrationDetails)(implicit request: Request[_])
+@(pensions:Option[PrivatePension],
+  registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._

@@ -462,7 +462,7 @@ page.iht.application.assets.household.inputLabel1 = Value of what the deceased o
 page.iht.application.assets.vehicles.sectionName = vehicles
 
 ## Private pensions section ##
-page.iht.application.pensions.isOwned.title = Did the deceased have a private pension?
+page.iht.application.pensions.isOwned.title = Did {0} have a private pension?
 page.iht.application.pensions.isOwned.browserTitle = Any private pensions
 page.iht.application.assets.pensions.isOwned.p1 = This does not include their state pension.
 page.iht.application.assets.pensions.overview.description.p1 = These are any private pensions that the deceased had. This doesn’t include the deceased’s state pension.
@@ -657,8 +657,8 @@ page.iht.application.property.value.browserTitle = Property value
 page.iht.application.property.value.question.hint = Only include {0}’s share of the value if they jointly owned the property, building or land with someone else. HMRC recommend that you get a professional valuation.
 
 #Vehicles overview page
-page.iht.application.assets.vehicles.overview.joint.title = Motor vehicles the deceased owned with other people
-page.iht.application.assets.vehicles.overview.guidance = These are all cars and motorbikes that the deceased owned. You should also include any caravans or boats that the deceased owned.
+page.iht.application.assets.vehicles.overview.joint.title = Motor vehicles {0} owned with other people
+page.iht.application.assets.vehicles.overview.guidance = These are all cars and motorbikes that {0} owned. You must also include any caravans or boats that {1} had.
 
 #Vehicles details page for deceased
 page.iht.application.assets.vehicles.deceased.browserTitle = Motor vehicles owned
@@ -2129,10 +2129,10 @@ iht.estateReport.assets.trusts.needInclusion = If the deceased benefitted from a
 iht.estateReport.assets.trusts.question = Did the deceased benefit from, or have the right to benefit from, a trust during their lifetime?
 iht.estateReport.assets.trusts.returnToHeldInTrust = Return to assets held in a trust
 iht.estateReport.assets.vehicles = Motor vehicles
-iht.estateReport.assets.vehicles.jointly.owned.question = Did the deceased jointly own any motor vehicles with any other people?
-iht.estateReport.assets.vehicles.ownName.question = Did the deceased own any motor vehicles in their own name?
+iht.estateReport.assets.vehicles.jointly.owned.question = Did {0} jointly own any motor vehicles with any other people?
+iht.estateReport.assets.vehicles.ownName.question = Did {0} own any motor vehicles in their own name?
 iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned motor vehicles
-iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by the deceased
+iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by {0}
 iht.estateReport.changeValues = Change values
 iht.estateReport.completeEverySection = Every section must be completed.
 iht.estateReport.correctiveAccountForm = Corrective Account form
