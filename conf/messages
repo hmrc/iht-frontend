@@ -862,9 +862,9 @@ page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.gif
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.exemptions.screenReader = The total value of gift exemptions between {0} and {1} is £{2}.
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.estate.screenReader = The amount added to the estate value is £{2}.
 
-page.iht.application.gifts.overview.guidance1 = A gift is an asset given away by the deceased before they died. These might be added to the estate value. You only need to provide details of any gifts given away in the 7 years before the deceased died.
+page.iht.application.gifts.overview.guidance1 = A gift is an asset given away by {0} before they died. These might be added to the estate value. You only need to give details of any gifts given away in the 7 years before {1} died.
 page.iht.application.gifts.overview.givenAway.title = If the value of gifts given away is less than £3,000 in every year, you don’t need to give any gift details
-page.iht.application.gifts.overview.givenAway.question1 = Did the deceased give away more than £3,000 of gifts in any of the 7 years before they died?
+page.iht.application.gifts.overview.givenAway.question1 = Did {0} give away more than £3,000 of gifts in any of the 7 years before they died?
 page.iht.application.gifts.overview.givenAway.question1.yes.screenReader.link.value = Yes, the deceased gave away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 page.iht.application.gifts.overview.givenAway.question1.no.screenReader.link.value = No, the deceased didn’t give away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 
@@ -911,23 +911,23 @@ page.iht.application.gifts.reservation.description.p3 = If the deceased gave awa
 page.iht.application.gifts.trust.sectionTitle = Gifts given away to a trust or organisation
 page.iht.application.gifts.trust.description.p1 = This is where the deceased gave gifts to anything that isn’t a person in the 7 tax years before they died. This could be a gift to a company or to a trust.
 page.iht.application.gifts.trust.description.p2 = If any gifts of a house, land or buildings were given to a trust, you’ll need to complete an IHT-400 paper form to give more details to HMRC.
-page.iht.application.gifts.trust.question = Did the deceased gift any property, land or buildings to anything that isn’t a person, like a trust, a company or a charity?
+page.iht.application.gifts.trust.question = Did {0} gift any property, land or buildings to anything that isn’t a person, like a trust, a company or a charity?
 page.iht.application.gifts.trust.inputLabel1 = Total value of gifts given away to trusts
 
 page.iht.application.gifts.lastYears.sectionName = lastYears
 page.iht.application.gifts.lastYears.description.p1 = The gifts that can be included on this estate report are:
-page.iht.application.gifts.lastYears.description.p3 = If the deceased gave anything else away that isn’t on this list, you’ll need to give us more details about those gifts on a paper form.
+page.iht.application.gifts.lastYears.description.p3 = If {0} gave anything else away that isn’t on this list, you’ll need to give us more details about those gifts on a paper form.
 page.iht.application.gifts.lastYears.description.e3 = household and personal goods
 page.iht.application.gifts.lastYears.description.e4 = houses, land and buildings
-page.iht.application.gifts.lastYears.question = Did the deceased give anything else away that isn’t listed above in the 7 years before they died?
+page.iht.application.gifts.lastYears.question = Did {0} give anything else away that isn’t listed above in the 7 years before they died?
 
 page.iht.application.gifts.lastYears.tableTitle1 = Total value of gifts
 page.iht.application.gifts.lastYears.tableTitle2 = Total value of exemptions
 page.iht.application.gifts.lastYears.tableTitle3 = Amount added to estate value
 
-page.iht.application.gifts.lastYears.givenAway.question = Did the deceased give gifts away of more than £3,000 in total in any of the 7 years before they died?
-page.iht.application.gifts.lastYears.givenAway.p1 = You need to work out what gifts the deceased gave away in each of the 7 years before they died. This will be between {0} and {1}.
-page.iht.application.gifts.lastYears.givenAway.p2 = If the deceased gave away gifts of less than £3,000 in each of the 7 years before they died, you’ll not need to give these values or any details of gift exemptions.
+page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
+page.iht.application.gifts.lastYears.givenAway.p1 = You need to work out what gifts {0} gave away in each of the 7 years before they died. This will be between {1} and {2}.
+page.iht.application.gifts.lastYears.givenAway.p2 = If {0} gave away gifts of less than £3,000 in each of the 7 years before they died, you’ll not need to give these values or any details of gift exemptions.
 
 page.iht.application.giftsDetails.browserTitle = Value of gifts for year
 page.iht.application.giftsDetails.subtitle = {0} to {1}
@@ -936,7 +936,7 @@ page.iht.application.giftsDetails.exemptions.label = Total value of exemptions b
 page.iht.application.giftsDetails.amountAdded = Amount added to the estate value is £
 
 #Debts
-page.iht.application.debts.subtitle1 = A debt is anything that the deceased was responsible for paying. Only include debts that are being paid out of the deceased’s estate.
+page.iht.application.debts.subtitle1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of the deceased’s estate.
 page.iht.application.debts.subtitle2 = You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
 
 page.iht.application.debts.overview.mortgages.screenReader.value = The value of mortgages is £{0}
@@ -980,42 +980,44 @@ page.iht.application.debts.overview.total = Total value of debts owed from the e
 page.iht.application.debts.overview.screenReader.total = The total value of debts owed from the estate is £{0}
 
 page.iht.application.debts.mortgageValue.sectionTitle = Did the deceased have any mortgages on this property?
-page.iht.application.debts.mortgageValue.title = Did the deceased have a mortgage on this property?
+page.iht.application.debts.mortgageValue.title = Did {0} have a mortgage on this property?
 page.iht.application.debts.mortgageValue.browserTitle = Any mortgage on property
 
 page.iht.application.debts.mortgages.description.p1 = You should use the outstanding balance remaining to pay off a mortgage as the value. Some providers might describe this differently so check with them if you’re unsure of how much is outstanding on a mortgage.
-page.iht.application.debts.mortgages.description.p3 = If the deceased had a mortgage protection policy which paid out after they died, you should include that value as an asset under insurance policies owned.
+page.iht.application.debts.mortgages.description.p3 = If {0} had a mortgage protection policy which paid out after they died, you should include that value as an asset under insurance policies owned.
 
 page.iht.application.debts.mortgages.noProperties.warning.text = If you haven’t added a property, building or land as an asset, or the one that you want to add a mortgage against, then you’ll need to add it as an asset before you can give the mortgage value.
 
 page.iht.application.debts.mortgages.noProperties.description = You haven’t added any properties, buildings or land as an asset.
-page.iht.application.debts.mortgages.description = If the deceased had a loan secured against a property they owned, include that value here.
+page.iht.application.debts.mortgages.description = If {0} had a loan secured against a property they owned, include that value here.
 page.iht.application.debts.mortgages.table.owned.screenReader = {0} {1} is owned by {2}
 page.iht.application.debts.mortgages.table.value.screenReader = The value of {0} {1} is £{2}
 page.iht.application.debts.mortgages.table.mortgageValue.screenReader = Enter the value of the deceased’s share of mortgage for {0} {1}
 
 page.iht.application.debts.funeralExpenses.description.p1 = You can deduct some funeral expenses. Things that could be claimed as an expense are flowers, refreshments for mourners and any necessary expenses to cover the funeral arrangements and the cost of a headstone or plaque to mark the deceased’s grave. This will come out of the estate as a debt.
-page.iht.application.debts.funeralExpenses.description.p2 = If the deceased paid for a funeral plan before they died, this wouldn’t be a funeral expense. Any travelling or accommodation costs for mourners, or any flowers or refreshments that they gave, can’t be claimed as a funeral expense.
-page.iht.application.debts.funeralExpenses.isOwned = Were there any funeral expenses being paid out of the estate?
+page.iht.application.debts.funeralExpenses.description.p2 = If {0} paid for a funeral plan before they died, this wouldn’t be a funeral expense. Any travelling or accommodation costs for mourners, or any flowers or refreshments that they gave, can’t be claimed as a funeral expense.
+page.iht.application.debts.funeralExpenses.isOwned = Are there any funeral expenses being paid out of the estate?
 
 
 page.iht.application.debts.debtsTrust.browserTitle = Debts owed from trust
-page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that the deceased was benefitting from. If the trustees only gave you the value of a trust after deducting any debts then you shouldn’t include a value here.
-page.iht.application.debts.debtsTrust.isOwned = Did the deceased have any debts from a trust that they benefitted from?
+page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that {0} was benefitting from. If the trustees only gave you the value of a trust after deducting any debts then you shouldn’t include a value here.
+page.iht.application.debts.debtsTrust.isOwned = Are there any debts being paid out of the estate that are owed from a trust that {0} benefitted from?
 
 
 page.iht.application.debts.debtsOutsideUk.browserTitle = Foreign debts
 page.iht.application.debts.debtsOutsideUk.description.p1 = This is the value of all debts owed to anyone outside of the UK including anything owed on any foreign assets.
-page.iht.application.debts.debtsOutsideUk.isOwned = Did the deceased have any debts owed to anyone outside of the UK?
+page.iht.application.debts.debtsOutsideUk.isOwned = Are there any debts being paid out of the estate that are owed to anyone outside of the UK?
 
 page.iht.application.debts.jointlyOwned.browserTitle = Joint debts
-page.iht.application.debts.jointlyOwned.description.p1 = This is if the deceased jointly owned any assets and there are debts owed on them. This does not include the mortgage on any jointly owned properties.
+page.iht.application.debts.jointlyOwned.description.p1 = This is if {0} jointly owned any assets and there are debts owed on them. This does not include the mortgage on any jointly owned properties.
 page.iht.application.debts.jointlyOwned.description.p2 = You should only include the deceased’s share of any debts owed on jointly owned assets.
-page.iht.application.debts.jointlyOwned.isOwned = Did the deceased have any debts on any jointly owned assets?
+page.iht.application.debts.jointlyOwned.isOwned = Are there any debts being paid out of the estate that are owed on any jointly owned assets?
 
 page.iht.application.debts.other.browserTitle = Other debts
-page.iht.application.debts.other.description.p1 = This is the total value of any other UK debts that are being paid from the estate that aren’t listed above. This includes any loans the deceased was paying, including those they were guaranteeing and had been asked to pay when they died. You should also include any outstanding credit card debts and money owed on any insurance policies and household bills.
-page.iht.application.debts.other.isOwned = Did the deceased have any other debts?
+page.iht.application.debts.other.description.p1 = This is the total value of any other debts that are being paid from the estate that are not included in any other section.
+page.iht.application.debts.other.description.p2 = This includes any loans the deceased was paying, including those they were guaranteeing and had been asked to pay when they died.
+page.iht.application.debts.other.description.p3 = Any outstanding credit cards debts and money owed on any insurance policies and household bills are included here.
+page.iht.application.debts.other.isOwned = Are there any other debts to be paid out of the estate?
 page.iht.application.debts.other.inputLabel1 = Value of any other debts
 
 #Exemptions partner overview
@@ -1242,14 +1244,15 @@ page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question = Did all of 
 page.iht.application.tnrb.benefitFromTrust.browserTitle = Any trust benefitted from in estate
 
 page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle = Any non-exempt gifts given away
-page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1 = On the deceased’s spouse’s or civil partner’s estate report, IHT-205 or 400, you need to check the value of gifts given away in each year and the amount of exemptions claimed against those gifts.
+page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1 = On {0}’s estate report, IHT-205 or 400, you need to check the value of gifts given away in each year and the amount of exemptions claimed against those gifts.
+page.iht.application.tnrb.spouseOrCivilPartner.hint = the deceased’s spouse’s or civil partner
 page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2 = Answer yes if the value of gifts is more than the amount of exemptions that were claimed.
 
 page.iht.application.tnrb.stateClaim.browserTitle = Any relief claimed in estate
 
 page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle = Type of gifts given away
-page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint = Answer yes if the spouse or civil partner gave a gift with reservation of benefit to anyone apart from {0}. This could’ve been a house given to a child that the spouse or civil partner continued to live in free of charge.
-
+page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint = Answer yes if {0} gave a gift with reservation of benefit to anyone apart from {1}. This could’ve been a house given to a child that {2} continued to live in free of charge.
+iht.estateReport.tnrb.thSouseAndCivilPartner = the spouse or civil partner
 page.iht.application.tnrb.deceasedWidowCheck.question = Was the deceased married or in a civil partnership at any point in their life and their {0} died?
 
 page.iht.application.tnrb.returnToIncreasingThreshold = Return to increasing the threshold
@@ -1270,7 +1273,7 @@ page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title = The threshold
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle = Threshold increased
 page.iht.application.tnrbEligibilty.returnToTnrbEligibilty = Return to increasing the Inheritance Tax threshold page
 
-page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you’ve given, it might be possible to increase the deceased’s threshold.
+page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you’ve given, it might be possible to increase {0}’s threshold.
 page.iht.application.tnrbEligibilty.overview.guidance2 = You can answer these questions in any order. You should get any paperwork that you can from the person who was responsible for the estate of {0} who died in {1}. The paperwork you need might include an IHT-205 or 400 form or the will. Family members might also have these.
 page.iht.application.tnrbEligibilty.overview.guidance3 = All of the details on this page have been saved to the estate report.
 page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading = Questions about the estate of {0} who died in {1}
@@ -1325,9 +1328,8 @@ page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label = m
 page.iht.application.tnrbEligibilty.partner.married.label = married
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label = married or in a civil partnership
 
-page.iht.application.tnrbEligibilty.theDeceased.label = the deceased
 page.iht.application.tnrbEligibilty.partner.additional.label.the = the
-page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased = the deceased’s
+page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased = {0}’s
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = the deceased’s previous
 page.iht.application.tnrbEligibilty.partner.additional.label.name.of.the = Name of the
 page.iht.application.tnrbEligibilty.partner.additional.label.their = their
@@ -1977,9 +1979,7 @@ page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.
 page.iht.sign-out.p2 = Use the link in your Inheritance Tax email that you were sent if you want to sign back in.
 page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
 
-pdf.applicationSummary.summary.text = This document contains the summarised details of {0}’s Inheritance Tax Application. You should keep a copy of this document as HMRC may ask to see it in the future. Do not send this form to HMRC unless you are asked to do so.
-pdf.applicantDetails.summary = Summary of the applicant’s details
-pdf.coexecutorsDetails.summary = Summary of the Co-Executors’ details
+pdf.coexecutorsDetails.summary = Other people applying to the Probate Service
 pdf.totalassets.text = Total Assets
 pdf.totalexemptions.text = Total of Exemptions
 pdf.totalTrusts.text = Total of Trusts
@@ -1989,18 +1989,27 @@ pdf.assetTotal.text = Asset Total
 pdf.assetDescription.text = Asset description
 pdf.liabilityType.text = Liability Type
 pdf.liabilityAmount.text = Liability Amount
+pdf.debts.summary.p1 = A debt is anything that the deceased was responsible for paying. Only include debts that are being paid out of the deceased’s estate. You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
+pdf.gifts.summary.p1 = A gift is an asset given away by the deceased before they died. These are added to the value of the estate.
 pdf.exemptions.type.text = Exemption Type
 pdf.gifts.total.title = Total of all gifts given away
 pdf.tnrb.domicileUK.text = Domiciled in UK
 pdf.clearanceCertificate.taxableProperty.title.text = the assets passing under the Will and/or Intestacy
 pdf.signature.date.text = Date:
-pdf.signature.signed.text = Signed:
+pdf.signature.signature.text = Signature:
 pdf.waterMark.text = For Personal Record
 pdf.signatures.heading = Co-Executors’ Signatures
+pdf.name.text = Name:
 
 pdf.clearanceCertificate.title = Clearance certificate
 pdf.inheritance.tax.submitted.title = Inheritance Tax Submitted Application
-pdf.inheritance.tax.application.summary.title = Inheritance Tax Application Summary
+
+pdf.inheritance.tax.application.summary.referenceNumber = Inheritance Tax reference:
+pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritance Tax estate report completed by {1}. HMRC recommend that you keep a copy of this report for your personal use.
+pdf.inheritance.tax.application.summary.p2 = Do not send this document to HMRC.
+pdf.inheritance.tax.application.summary.tnrb.title = Increasing the Inheritance Tax threshold by transferring {0}’s unused threshold
+pdf.inheritance.tax.application.summary.tnrb.personalDetails.title = {0}’s details
+
 pdf.inheritance.tax.referenceNumber = Inheritance Tax reference number:
 pdf.clearanceCertificate.summary = This is in relation to the Inheritance Tax Act 1984 s239(2)
 pdf.clearanceCertificate.estateReport.date.label = Estate report sent to HMRC
@@ -2063,6 +2072,7 @@ iht.dateExample2 = For example, 21 3 1990
 iht.dateOfDeath = Date of death
 iht.dateofbirth = Date of birth
 iht.delete = Delete
+iht.the.deceased = the deceased
 iht.estateReport.assets.businessInterests.title = Business interests
 iht.estateReport.assets.foreign.title = Foreign assets
 iht.estateReport.assets.getProfessionalValuation = HMRC recommend that you get a professional valuation for anything that might be worth more than £500. Any estimates should be made on an open market value and not an insurance or replacement value.
@@ -2128,7 +2138,7 @@ iht.estateReport.assets.vehicles.ownName.question = Did the deceased own any mot
 iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned motor vehicles
 iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by the deceased
 iht.estateReport.changeValues = Change values
-iht.estateReport.completeEverySection = Every section should be completed.
+iht.estateReport.completeEverySection = Every section must be completed.
 iht.estateReport.correctiveAccountForm = Corrective Account form
 iht.estateReport.debts.debtsTrust.title = Debts owed from a trust
 iht.estateReport.debts.debtsTrust.value = Value of any debts owed from a trust
@@ -2152,6 +2162,7 @@ iht.estateReport.declaration.completedAllReasonableEnquiries = you have complete
 iht.estateReport.declaration.correctAndComplete = the information you have supplied, including all valuations, is correct and complete to the best of your knowledge and belief
 iht.estateReport.declaration.deceasedMarriedWhenPartnerDied = the deceased was married or in a civil partnership at the date when their previous spouse or civil partner died
 iht.estateReport.declaration.declaringThat = By sending this estate report you’re declaring that:
+iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
 iht.estateReport.declaration.didntUseAnyOfThreshold = the previous spouse or civil partner didn’t use any of their Inheritance Tax threshold
 iht.estateReport.declaration.dontTellHMRC = don’t tell HMRC within 6 months of any changes to the estate that increase the value over the Inheritance Tax threshold
 iht.estateReport.declaration.estateValueBeforeExemptionsLessThan1Million = the estate’s value before any exemptions are applied is less than or equal to £1,000,000
@@ -2164,7 +2175,9 @@ iht.estateReport.declaration.checkedEverything.question = Have you finished find
 iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview
 iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration
 
-iht.estateReport.exemptions.charities.assetLeftToCharity.question = Did the deceased leave any assets to a charity?
+iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you’re accepting this.
+iht.estateReport.exemptions.charities.assetLeftToCharity.question = Did {0} leave any assets to a charity?
+
 iht.estateReport.exemptions.charities.assetsLeftToACharity.title = Assets left to a charity
 iht.estateReport.exemptions.charities.assetsLeftToCharities.title = Assets left to charities
 iht.estateReport.exemptions.charities.charityName.title = Charity name
@@ -2187,13 +2200,13 @@ iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody = Confi
 iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies = How to find out if another body qualifies
 iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies = Return to assets left to other qualifying bodies
 iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to assets left to other qualifying body
-iht.estateReport.exemptions.spouse.assetLeftToSpouse.question = Did the deceased leave any assets to their spouse or civil partner?
+iht.estateReport.exemptions.spouse.assetLeftToSpouse.question = Did {0} leave any assets to their spouse or civil partner?
 iht.estateReport.exemptions.title = Estate exemptions
 iht.estateReport.gifts.givenAway.title = Gifts given away
 iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
 iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Gifts given away in the 7 years before death
 iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway = If you want to change your answer, you can return to the gifts given away in the 7 years before death page.
-iht.estateReport.gifts.reservation.question = Did the deceased give any gifts away with reservation of benefit?
+iht.estateReport.gifts.reservation.question = Did {0} give any gifts away with reservation of benefit?
 iht.estateReport.gifts.returnToGiftsGivenAway = Return to gifts given away in the 7 years before death
 iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to value of gifts given away in the 7 years before death
 iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the London Stock Exchange
@@ -2220,7 +2233,7 @@ iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax th
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
 iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. You’ll also need to complete an IHT-402 paper form to increase the threshold.
 iht.estateReport.tnrb.kickout.returnToIHTThreshold = If you want to change your answer, you can return to the increasing the Inheritance Tax threshold page.
-iht.estateReport.tnrb.partner.married = Was the deceased {0} at any point in their life and {1} died?
+iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and {2} died?
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
 iht.exitToGovUK = Exit to GOV.UK
@@ -2244,6 +2257,7 @@ iht.ninoExample = For example, QQ 12 34 56 C
 iht.no = No
 iht.noChangeToHowReportToHMRC = There’s no change to how you report to HMRC
 iht.notPossibleToUseService = It’s not possible for you to use this service
+iht.inheritanceTaxEstateReport = Inheritance Tax estate report
 iht.postcode = Postcode
 iht.registration.applicant.applyingForProbate = Are you applying for probate for the deceased’s estate?
 iht.registration.applicant.tellUsAboutYourself = Your contact details

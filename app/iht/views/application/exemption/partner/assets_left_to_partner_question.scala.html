@@ -26,7 +26,8 @@ cancelLabel: String,
 cancelUrl: Call
 )(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"),
+@iht_main_template_application(title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
+                                                    getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetLeftToPartner.browserTitle")),
 isFullWidth=false,
 cancelUrl = Some(cancelUrl),

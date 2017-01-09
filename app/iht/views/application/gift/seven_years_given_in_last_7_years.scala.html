@@ -45,13 +45,13 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
         <li>@Messages("page.iht.application.gifts.lastYears.description.e3")</li>
         <li>@Messages("page.iht.application.gifts.lastYears.description.e4")</li>
     </ul>
-    <p>@Messages("page.iht.application.gifts.lastYears.description.p3")</p>
+    <p>@Messages("page.iht.application.gifts.lastYears.description.p3", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 </div>
 
 <div id="seven-years-gifts-question">
     @ihtHelpers.inputYesNoRadioGroup(
     SevenYearsGiftsForm("givenInPast.isGivenInLast7Years"),
-    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question")),
+    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()),
     '_divClass -> Some("form-group"))
 </div>
