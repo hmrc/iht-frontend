@@ -29,11 +29,9 @@ hasTimeOut=hasTimeOut) {
         <p id="kickout-message">@summaryMessage</p>
     </div>
 
-    
     <h2 class="heading-medium">@Messages("iht.nextSteps")</h2>
 
     @nextStepsContent
-    
 
     @ihtHelpers.return_link(Some(Messages("iht.registration.kickout.message.returnToLast")),
         Some(returnToUrl))
@@ -43,5 +41,4 @@ hasTimeOut=hasTimeOut) {
             <input id="finish" class='button' type='submit' value='@Messages("site.button.details.correct.exitToGovK")'>
         }
     </div>
-
 }
