@@ -1,8 +1,26 @@
 /*
 ====================================
-Hide the clear icon for the autocomplete
+Align clear icon
 ====================================
 */
 .suggestions-clear {
-    display: none;
+    right: -30px;
+}
+/*
+====================================
+Restricting the suggestions list to the input width
+====================================
+*/
+@media screen and (min-width: 641px){
+    .suggestions-input-container {
+        width: 50%;
+    }
+}
+
+.suggestions {
+    width: 100%;
+}
+
+.suggestions-input-container .form-control {
+    width: 100%;
 }

@@ -58,12 +58,18 @@ showHideContent.init()
 
 
 // =====================================================
-// kick off Jquery UI component
+// Patch to update autocomplete suggestions
+// This updates the standard template used for the component in favour of the basic title
 // =====================================================
-if($('.to-combobox').length > 0){
-  countryCodeAutoComplete();
+$('#country-code-auto-complete').on('keyup', function(){
+    $('.suggestions-list li').each(function(){
+        $(this).html($(this).attr('data-suggestion-title'));
+    });
+});
+// hide clear icon if there is no initial value selected
+if($('#countryCode').val() == "GB" || $('#countryCode').val() == undefined) {
+    $('.js-suggestions-clear').addClass('hidden');
 }
-
 
 // =====================================================
 // Submit trigger
