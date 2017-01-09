@@ -465,14 +465,14 @@ page.iht.application.assets.vehicles.sectionName = vehicles
 page.iht.application.pensions.isOwned.title = Did {0} have a private pension?
 page.iht.application.pensions.isOwned.browserTitle = Any private pensions
 page.iht.application.assets.pensions.isOwned.p1 = This does not include their state pension.
-page.iht.application.assets.pensions.overview.description.p1 = These are any private pensions that the deceased had. This doesn’t include the deceased’s state pension.
-page.iht.application.assets.pensions.overview.description.p2 = A private pension could be a personal pension or a pension from the deceased’s employer.
+page.iht.application.assets.pensions.overview.description.p1 = These are any private pensions that {0} had. This doesn’t include {1}’s state pension.
+page.iht.application.assets.pensions.overview.description.p2 = A private pension could be a personal pension or a pension from {0}’s employer.
 
-page.iht.application.assets.pensions.question = Did the deceased have any private pensions?
+page.iht.application.assets.pensions.question = Did {0} have any private pensions?
 page.iht.application.assets.pensions.question.screenreader.link.noValue = Give an answer for any private pensions the deceased had
 page.iht.application.assets.pensions.question.screenreader.link.change = Change the answer for private pensions the deceased had
 page.iht.application.assets.pensions.changed.question = This includes a transfer of any benefits or disposing of any part of a private pension in the 2 years before they died.
-page.iht.application.assets.pensions.changed.title = Did the deceased make any changes to their private pension in the 2 years before they died?
+page.iht.application.assets.pensions.changed.title = Did {0} make any changes to their private pension in the 2 years before they died?
 page.iht.application.assets.pensions.changed.browserTitle = Changes to pension
 page.iht.application.assets.pensions.changed.screenreader.link.change = Change the answer for did the deceased make any changes to a private pension, transfer any of its benefits or dispose of any part of their pensions in the 2 years before they died
 page.iht.application.assets.pensions.changed.screenreader.link.noValue = Give an answer for did the deceased make any changes to a private pension, transfer any of its benefits or dispose of any part of their pensions in the 2 years before they died
@@ -706,7 +706,7 @@ page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.noValue = Give an answer for stocks and shares not listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.value = Change the value given for stocks and shares not listed on an exchange
 
-page.iht.application.assets.stocksAndShares.overview.guidance = These are any UK stocks and shares that the deceased owned when they died.
+page.iht.application.assets.stocksAndShares.overview.guidance = These are any UK stocks and shares that {0} owned when they died.
 page.iht.application.assets.stocksAndShares.overview.guidance2 = You’ll need to split any stocks and shares listed on an exchange from those that were unlisted.
 
 #trusts overview
@@ -2116,8 +2116,8 @@ iht.estateReport.assets.property.youCan = You can
 iht.estateReport.assets.propertyAdd = Add a property, building or land
 iht.estateReport.assets.qualifyingBodyAdd = Add another qualifying body
 iht.estateReport.assets.stocksAndShares = Stocks and shares
-iht.estateReport.assets.stocksAndShares.listed.question = Did the deceased own any stocks and shares that were listed on an exchange?
-iht.estateReport.assets.stocksAndShares.notListed.question = Did the deceased own any stocks and shares that were not listed on an exchange?
+iht.estateReport.assets.stocksAndShares.listed.question = Did {0} own any stocks and shares that were listed on an exchange?
+iht.estateReport.assets.stocksAndShares.notListed.question = Did {0} own any stocks and shares that were not listed on an exchange?
 iht.estateReport.assets.stocksAndShares.valueOfListed = Value of listed stocks and shares
 iht.estateReport.assets.stocksAndShares.valueOfNotListed = Value of stocks and shares not listed
 iht.estateReport.assets.stocksAndSharesListed = Stocks and shares listed on an exchange

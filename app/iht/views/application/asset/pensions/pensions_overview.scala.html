@@ -41,16 +41,20 @@ isFullWidth=false
 ) {
 
 <div id="pensions-description">
-    <p class="lede">@Messages("page.iht.application.assets.pensions.overview.description.p1")</p>
-    <p>@Messages("page.iht.application.assets.pensions.overview.description.p2")</p>
+    <p class="lede">@Messages("page.iht.application.assets.pensions.overview.description.p1",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p>@Messages("page.iht.application.assets.pensions.overview.description.p2",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 </div>
 
 <section id="pensions-section" class="section">
         <ul>
             @{
                 generic_overview_table_item(id = "pensions-question",
-                    questionText = Messages("page.iht.application.assets.pensions.question"),
-                    questionScreenReaderText= Messages("page.iht.application.assets.pensions.question"),
+                    questionText = Messages("page.iht.application.assets.pensions.question",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                    questionScreenReaderText= Messages("page.iht.application.assets.pensions.question", Messages("iht.the.deceased")),
                     questionCategory= "questionAnswer",
                     answerValue=Messages(getBooleanDisplayValue(pensions.flatMap(_.isOwned.map(x=>x)))),
                     link = Some(iht.controllers.application.assets.pensions.routes.PensionsOwnedQuestionController.onPageLoad),
@@ -62,8 +66,10 @@ isFullWidth=false
             }
             @{
                 generic_overview_table_item(id = "pensions-more-than-one-question",
-                    questionText = Messages("page.iht.application.assets.pensions.changed.title"),
-                    questionScreenReaderText= Messages("page.iht.application.assets.pensions.changed.question"),
+                    questionText = Messages("page.iht.application.assets.pensions.changed.title",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                    questionScreenReaderText= Messages("page.iht.application.assets.pensions.changed.question",
+                                                Messages("iht.the.deceased")),
                     questionCategory= "questionAnswer",
                     answerValue=Messages(getBooleanDisplayValue(pensions.flatMap(_.isChanged.map(x=>x)))),
                     link = Some(iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onPageLoad),
