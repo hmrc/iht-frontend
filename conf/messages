@@ -2020,6 +2020,8 @@ pdf.clearanceCertificate.lastParagraph.line1 = This certificate does not itself 
 pdf.clearanceCertificate.lastParagraph.line2 = . In particular, the issue of the certificate does not necessarily mean that values have been “ascertained” or that values may be taken as market values for capital gains tax within the provisions of section 274 and paragraph 9, schedule 11, Taxation of Chargeable Gains Act 1992
 pdf.clearanceCertificate.lastParagraph.line3 = . This certificate is not valid in certain circumstances, such as in the case of fraud or failure to disclose material facts or if further tax becomes payable as a result of an instrument of variation – see section 239 (4) Inheritance Tax Act 1984.
 
+pdf.postSubmission.trusts.assetDescription = Trusts
+
 page.iht.registration.timeout.p2 = You’ll need to sign back in to Government Gateway and start to register to use Inheritance Tax Online again.
 page.iht.application.timeout.p2 = You’ll need to sign back in to Government Gateway and then choose what you want to do next from your Inheritance Tax estate reports page.
 

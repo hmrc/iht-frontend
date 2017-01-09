@@ -9,11 +9,11 @@
     <xsl:param name="pdfFormatter"/>
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="assetsTotal"/>
-
+    <xsl:include href="pdf/templates/application/return/trusts.xsl"/>
     <xsl:template name="assets">
         <xsl:param name="value"/>
         <xsl:choose>
-             <xsl:when test="freeEstate/estateAssets != ''">
+            <xsl:when test="freeEstate/estateAssets != ''">
                 <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" page-break-before="always">
                     <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
                 </fo:block>
@@ -71,6 +71,12 @@
                                 </fo:table-body>
                             </fo:table>
                         </xsl:for-each>
+
+                        <xsl:comment>Trust section starts</xsl:comment>
+                        <xsl:call-template name="trusts">
+                            <xsl:with-param name="value" select="trusts"></xsl:with-param>
+                        </xsl:call-template>
+                        <xsl:comment>Trust section ends</xsl:comment>
 
                         <!-- Total Assets row-->
                         <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm">
