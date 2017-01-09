@@ -64,7 +64,6 @@
                                                 </xsl:call-template>
                                             </xsl:when>
                                         </xsl:choose>
-
                                     </xsl:if>
                                     <xsl:comment>Blank row to display line at end of section</xsl:comment>
                                     <xsl:call-template name="table-row-application-bottom-blank"/>

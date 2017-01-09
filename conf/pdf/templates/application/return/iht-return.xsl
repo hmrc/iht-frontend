@@ -41,6 +41,5 @@
             <xsl:with-param name="value" select="deceased"></xsl:with-param>
         </xsl:call-template>
         <xsl:comment>TNRB section ends</xsl:comment>
-
     </xsl:template>
 </xsl:stylesheet>
