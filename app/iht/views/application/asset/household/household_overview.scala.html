@@ -23,9 +23,10 @@
 @import iht.views.html.ihtHelpers._
 @import iht.utils.OverviewHelper._
 @import scala.collection.immutable.Seq
+@import iht.utils.CommonHelper
 
 @(household:Option[ShareableBasicEstateElement],
-    registrationDetails: RegistrationDetails)(implicit request: Request[_])
+  registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
 @getLinkScreenReader(household: Option[ShareableBasicEstateElement], changeText: String, noValueText: String) = @{
     if (household.flatMap(_.isOwned.map(identity))) {
@@ -49,8 +50,10 @@ isFullWidth=false
                     "household-deceased-owned-section",
                     household.flatMap(_.isOwned),
                     generic_overview_table_heading_item(id = "deceased-own-heading",
-                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title"),
-                        questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title"),
+                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+                                                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                        questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+                                                            Messages("iht.the.deceased")),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(
                             household,
@@ -83,8 +86,10 @@ isFullWidth=false
                     "household-joint-owned-section",
                     household.flatMap(_.isOwnedShare),
                     generic_overview_table_heading_item(id = "deceased-shared-heading",
-                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title"),
-                        questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title"),
+                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                        questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
+                                                    Messages("iht.the.deceased")),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(
                             household,

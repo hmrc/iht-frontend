@@ -22,11 +22,14 @@
 
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.utils.CommonHelper
 
-@(household: Form[ShareableBasicEstateElement], registrationDetails: RegistrationDetails
+@(household: Form[ShareableBasicEstateElement],
+registrationDetails: RegistrationDetails
 )(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
     browserTitle = Some(Messages("page.iht.application.assets.household.deceased.browserTitle")),
     isFullWidth=false) {
 
@@ -36,7 +39,8 @@
 
 @ihtHelpers.generic_estate_element_assets(
                                     assetType = Constants.AssetTypeSingle,
-                                    questionLabel= Messages("iht.estateReport.assets.household.ownName.question"),
+                                    questionLabel= Messages("iht.estateReport.assets.household.ownName.question",
+                                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
                                     inputTextLabel = Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
                                     inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
                                     sharableElementForm = household,
