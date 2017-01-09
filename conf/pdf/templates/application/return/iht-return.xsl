@@ -9,7 +9,6 @@
     <xsl:include href="pdf/templates/application/return/exemptions.xsl"/>
     <xsl:include href="pdf/templates/application/return/gifts.xsl"/>
     <xsl:include href="pdf/templates/application/return/tnrb.xsl"/>
-    <!-- <xsl:include href="pdf/templates/iht-component-templates.xsl"/>-->
 
     <xsl:template match="IHTReturn">
         <xsl:comment>Free Estate section starts</xsl:comment>
