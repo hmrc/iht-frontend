@@ -31,11 +31,13 @@ cancelLinkText:String
 )(implicit request:Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.partner.married",
-TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"))),
-browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
-cancelUrl = Some(cancelLinkUrl),
-cancelLabel=Some(cancelLinkText)){
+                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
+                                            TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
+                                            TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
+                                                          Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"))),
+                                            browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
+                                            cancelUrl = Some(cancelLinkUrl),
+                                            cancelLabel=Some(cancelLinkText)){
 @ihtHelpers.error_summary(deceasedWidowCheckQuestionForm)
 
 @helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit,'autoComplete -> "off") {

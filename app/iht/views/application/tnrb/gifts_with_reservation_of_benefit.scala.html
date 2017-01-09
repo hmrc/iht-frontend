@@ -19,8 +19,10 @@
 
 @import iht.models.application.tnrb._
 @import iht.models.RegistrationDetails
+@import iht.utils.tnrb.TnrbHelper._
 
 @(partnerGiftWithResToOtherForm:Form[TnrbEligibiltyModel],
+tnrbModel:TnrbEligibiltyModel,
 deceasedName:String)(implicit request:Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedName),
@@ -33,7 +35,10 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 
         @ihtHelpers.inputYesNoRadioGroup(
         partnerGiftWithResToOtherForm("isPartnerGiftWithResToOther"),
-        '_hintText -> Html(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint", deceasedName)),
+        '_hintText -> Html(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
+                                spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")),
+                                deceasedName,
+                                spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")))),
         '_divClass -> Some("-change form-group"),
         '_legend -> Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedName),
         '_legendClass -> Some("visually-hidden")

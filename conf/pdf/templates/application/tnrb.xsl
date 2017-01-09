@@ -11,7 +11,7 @@
 
     <xsl:template name="pre-tnrb">
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.tnrb.increasingIHTThreshold')"/>
+            <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'pdf.inheritance.tax.application.summary.tnrb.title', $preDeceasedName)"/>
         </fo:block>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
             <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading',
@@ -121,8 +121,10 @@
                 </fo:table-body>
             </fo:table>
         </fo:block>
+        <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" space-before="0.5cm">
+            <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'pdf.inheritance.tax.application.summary.tnrb.personalDetails.title', $preDeceasedName)"/>
+        </fo:block>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
-            <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading', $preDeceasedName)"/>
             <fo:table space-before="0.5cm">
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>

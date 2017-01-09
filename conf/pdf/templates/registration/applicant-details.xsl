@@ -13,7 +13,7 @@
     <xsl:template name="applicant-details">
         <xsl:param name="value"/>
         <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" page-break-before="always">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.applicantDetails.summary')"/>
+            <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.registration.registrationSummary.applicantTable.title')"/>
         </fo:block>
 
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="0.5cm">

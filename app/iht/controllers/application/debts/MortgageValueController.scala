@@ -43,12 +43,12 @@ trait MortgageValueController extends ApplicationController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
 
-      val registrationData = cachingConnector.getExistingRegistrationDetails
+      val regDetails = cachingConnector.getExistingRegistrationDetails
 
       for {
         applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-          registrationData.acknowledgmentReference)
+          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+          regDetails.acknowledgmentReference)
       } yield {
         applicationDetails match {
           case Some(applicationDetails) => {
@@ -70,13 +70,15 @@ trait MortgageValueController extends ApplicationController {
                   (matchedMortgage) => Ok(iht.views.html.application.debts.mortgage_value(
                     mortgagesForm.fill(matchedMortgage),
                     matchedProperty,
-                    onSubmitUrl(id)))
+                    onSubmitUrl(id),
+                    regDetails))
                 }
               }
               case _ => Ok(iht.views.html.application.debts.mortgage_value(
                 mortgagesForm.fill(Mortgage(id, None, None)),
                 matchedProperty,
-                onSubmitUrl(id)))
+                onSubmitUrl(id),
+                regDetails))
             }
           }
           case _ => {
@@ -110,7 +112,8 @@ trait MortgageValueController extends ApplicationController {
             formWithErrors=> {
               Future.successful(BadRequest(iht.views.html.application.debts.mortgage_value(formWithErrors,
                 matchedProperty,
-                onSubmitUrl(id))))
+                onSubmitUrl(id),
+                regDetails)))
             },
             mortgage => {
               saveApplication(CommonHelper.getNino(user), id, mortgage, appDetails, regDetails)
