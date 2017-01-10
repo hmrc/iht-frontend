@@ -25,20 +25,16 @@
 hasTimeOut=true) {
 
 <div class="panel-indent">
-    <p id="kickout-message"><strong>@summary</strong></p>
+    <p id="kickout-message">@summary</p>
 </div>
 
     <h2 class="heading-medium">@Messages("iht.nextSteps")</h2>
-    @contentLines.map { line => <p>@line</p> }
-
-
-@ihtHelpers.return_link(Some(Messages("iht.registration.kickout.message.returnToLast")),
-Some(returnToUrl))
+    @contentLines.map { line => <p>@line@if(line == contentLines.last){@Messages("iht.comma")<a id="return-button" href="@returnToUrl">
+                                        @Messages("iht.registration.kickout.returnToTheLastPageVisited")</a>}</p> }
 
 <div id="continue-button" class="form-field form-field--submit">
     @helpers.form(action = iht.controllers.registration.routes.KickoutController.onSubmit) {
-    <input id="finish" class='button' type='submit' value='@Messages("site.button.details.correct")'>
+    <input id="finish" class='button' type='submit' value='@Messages("site.button.details.correct.exitToGovK")'>
     }
 </div>
-
 }

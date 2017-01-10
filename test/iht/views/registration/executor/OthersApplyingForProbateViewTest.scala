@@ -16,21 +16,35 @@
 
 package iht.views.registration.executor
 
-import iht.{FakeIhtApp, TestUtils}
+import iht.views.registration.RegistrationPageBehaviour
 import iht.forms.registration.CoExecutorForms.othersApplyingForProbateForm
-import iht.views.HtmlSpec
 import iht.views.html.registration.executor.others_applying_for_probate
 import play.api.mvc.Call
-import uk.gov.hmrc.play.test.UnitSpec
 
-class OthersApplyingForProbateViewTest extends UnitSpec with FakeIhtApp with TestUtils with HtmlSpec {
+class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour {
+
+  override def pageTitleKey = "page.iht.registration.others-applying-for-probate.sectionTitle"
+  override def browserTitleKey = "page.iht.registration.others-applying-for-probate.browserTitle"
+
+  override def fixture() = new {
+    implicit val request = createFakeRequest()
+    val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest()).toString
+    val doc = asDocument(view)
+  }
 
   "Others Applying for Probate View" must {
 
+    behave like registrationPage()
+
     "have a fieldset with the Id 'answer'" in {
       val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest()).toString
-
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "answer"
+    }
+
+    "show the correct guidance" in {
+      val f = fixture()
+      messagesShouldBePresent(f.view,
+        "page.iht.registration.others-applying-for-probate.description")
     }
   }
 }
