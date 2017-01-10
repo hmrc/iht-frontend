@@ -385,40 +385,40 @@ page.iht.application.assets.main-section.other.title = Other assets
 page.iht.application.assets.main-section.properties.delete.warning = This will also delete any mortgage that has been added to this property.
 
 page.iht.application.assets.foreign.sectionName = foreign
-page.iht.application.assets.foreign.description.p1 = If the deceased owned any assets outside of the UK, you should change the value into British pounds. The Isle of Man and the Channel Islands are not part of the UK.
+page.iht.application.assets.foreign.description.p1 = If {0} owned any assets outside of the UK, you should change the value into British pounds. The Isle of Man and the Channel Islands are not part of the UK.
 page.iht.application.assets.foreign.inputLabel1 = Value in British pounds of the deceased’s foreign assets when they died
-page.iht.application.assets.foreign.deceasedOwned.question = Did the deceased own any foreign assets?
+page.iht.application.assets.foreign.deceasedOwned.question = Did {0} own any foreign assets?
 
 page.iht.application.assets.other.browserTitle = Other assets owned
-page.iht.application.assets.other.description.p1 = You should include any other assets that you haven’t already added.
+page.iht.application.assets.other.description.p1 = This is the total value of any other assets that are not included in any other section.
 page.iht.application.assets.other.description.p2 = This could be any money owed in salary or wages, pension arrears, rents owed to the deceased, or refunds from utility bills.
-page.iht.application.assets.other.isOwned = Did the deceased own any other assets?
+page.iht.application.assets.other.isOwned = Did {0} own any other assets?
 page.iht.application.assets.other.inputLabel1 = Value of any other assets when the deceased died
 
 page.iht.application.assets.moneyOwed.description.p1 = This is any money owed to the deceased when they died.
 page.iht.application.assets.moneyOwed.description.p2 = This could be a loan the deceased made to someone or to a business and wasn’t paid back before they died.
 page.iht.application.assets.moneyOwed.description.p3 = You should include the total value that was still owed to the deceased and include any unpaid interest.
-page.iht.application.assets.moneyOwed.isOwned = Was any money owed to the deceased?
+page.iht.application.assets.moneyOwed.isOwned = Was any money owed to {0}?
 page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to the deceased when they died
 
 
 
 page.iht.application.assets.businessInterest.browserTitle = Business interests owned
-page.iht.application.assets.businessInterest.description.p1 = This should include the value of the deceased’s business interests.
-page.iht.application.assets.businessInterest.description.p2 = If the deceased owned any business properties, buildings or land, you should give these details in the properties, buildings and land section.
-page.iht.application.assets.businessInterest.isOwned = Did the deceased own any businesses or have any other business interests when they died?
+page.iht.application.assets.businessInterest.description.p1 = This should include the value of {0}’s business interests.
+page.iht.application.assets.businessInterest.description.p2 = If {0} owned any business properties, buildings or land, you should give these details in the properties, buildings and land section.
+page.iht.application.assets.businessInterest.isOwned = Did {0} own any businesses or have any other business interests when they died?
 page.iht.application.assets.businessInterest.inputLabel1 = Value of the deceased’s business interests when they died
 page.iht.application.assets.businessInterest.hint = Don’t include any business properties, buildings or land that were owned.
 
 
 page.iht.application.assets.nominated.sectionName = nominated
 page.iht.application.assets.nominated.browserTitle = Nominated assets owned
-page.iht.application.assets.nominated.description.p1 = These are assets that the deceased had nominated to pass to someone when they died. These shouldn’t be confused with an assets being left to someone in a will. If something is left to someone in a will, this isn’t a nominated assets
+page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These shouldn’t be confused with an assets being left to someone in a will. If something is left to someone in a will, this isn’t a nominated asset
 page.iht.application.assets.nominated.description.p2 = Nominated assets could’ve been set up when an account was opened with friendly societies, or industrial and provident societies. Before 1 March 1981, National Savings certificates and accounts could also be nominated to pass to someone.
 page.iht.application.assets.nominated.description.p3 = The provider will be able to tell you if the asset was nominated to pass to someone.
 page.iht.application.assets.nominated.description.p4 = Don’t include pension benefits that were nominated to pass to someone. You should include that value with private pensions.
 page.iht.application.assets.nominated.inputLabel1 = Value of the nominated assets when the deceased died
-page.iht.application.assets.nominated.question = Did the deceased have any nominated assets?
+page.iht.application.assets.nominated.question = Did {0} have any nominated assets?
 
 page.iht.application.assets.held-in-trust.sectionName = held-in-trust
 page.iht.application.assets.held-in-trust.description.p1 = If the deceased benefitted from a trust during their lifetime, such as regular payments being received or dividends from shares, these need to be included in the value of their estate. This includes assets in a trust that the deceased benefitted from during their lifetime, or was entitled to benefit from.
@@ -535,7 +535,7 @@ page.iht.application.assets.tenure.leasehold.hint = The deceased owned the prope
 page.iht.application.assets.overview.screenreader.link = for the {0} section
 page.iht.application.assets.overview.screenreader.link.change = your answer for the {0} section
 page.iht.application.assets.overview.title = {0}’s assets
-page.iht.application.assets.overview.guidance1 = An asset is anything the deceased owned that has a value. These are added to the estate report.
+page.iht.application.assets.overview.guidance1 = An asset is anything {0} owned that has a value. These are added to the estate report.
 
 page.iht.application.assets.overview.properties.screenReader.value = The value of properties, buildings and land is £{0}
 page.iht.application.assets.overview.money.screenReader.value = The value of money is £{0}
@@ -2073,9 +2073,9 @@ iht.estateReport.assets.businessInterests.title = Business interests
 iht.estateReport.assets.foreign.title = Foreign assets
 iht.estateReport.assets.getProfessionalValuation = HMRC recommend that you get a professional valuation for anything that might be worth more than £500. Any estimates should be made on an open market value and not an insurance or replacement value.
 iht.estateReport.assets.heldInATrust.title = Assets held in a trust
-iht.estateReport.assets.heldInTrust.needInclusion = If the deceased had the right to live in a house that was held in trust during their lifetime, the value of that property should also be included.
+iht.estateReport.assets.heldInTrust.needInclusion = If {0} had the right to live in a house that was held in trust during their lifetime, the value of that property should also be included.
 iht.estateReport.assets.heldInTrust.title = Assets held in trust
-iht.estateReport.assets.heldInTrust.valueOfTrust = Value of the trust that the deceased benefitted from when they died
+iht.estateReport.assets.heldInTrust.valueOfTrust = Value of the trust that {0} benefitted from when they died
 iht.estateReport.assets.household.deceasedOwnedValue = Value of what the deceased owned in their own name
 iht.estateReport.assets.household.joint.question = Did {0} jointly own any household and personal items with any other people?
 iht.estateReport.assets.household.ownName.question = Did {0} own any household and personal items in their own name?
@@ -2122,11 +2122,11 @@ iht.estateReport.assets.stocksAndShares.valueOfListed = Value of listed stocks a
 iht.estateReport.assets.stocksAndShares.valueOfNotListed = Value of stocks and shares not listed
 iht.estateReport.assets.stocksAndSharesListed = Stocks and shares listed on an exchange
 iht.estateReport.assets.stocksAndSharesNotListed = Stocks and shares not listed on an exchange
-iht.estateReport.assets.trusts.benefittedFromHeldInTrust = These are all the assets that the deceased benefitted from, or had the right to benefit from, that were held in trust.
+iht.estateReport.assets.trusts.benefittedFromHeldInTrust = These are all the assets that {0} benefitted from, or had the right to benefit from, that were held in trust.
 iht.estateReport.assets.trusts.kickout.returnToHeldInTrust = If you want to change your answer, you can return to the assets held in a trust page.
-iht.estateReport.assets.trusts.moreThanOne.question = Was the deceased benefitting from, or have the right to benefit from, more than 1 trust?
-iht.estateReport.assets.trusts.needInclusion = If the deceased benefitted from a trust during their lifetime, such as getting regular payments or dividends from shares, these need to be included in the value of the estate.
-iht.estateReport.assets.trusts.question = Did the deceased benefit from, or have the right to benefit from, a trust during their lifetime?
+iht.estateReport.assets.trusts.moreThanOne.question = Was {0} benefitting from, or have the right to benefit from, more than 1 trust?
+iht.estateReport.assets.trusts.needInclusion = If {0} benefitted from a trust during their lifetime, such as getting regular payments or dividends from shares, these need to be included in the value of the estate.
+iht.estateReport.assets.trusts.question = Did {0} benefit from, or have the right to benefit from, a trust during their lifetime?
 iht.estateReport.assets.trusts.returnToHeldInTrust = Return to assets held in a trust
 iht.estateReport.assets.vehicles = Motor vehicles
 iht.estateReport.assets.vehicles.jointly.owned.question = Did {0} jointly own any motor vehicles with any other people?

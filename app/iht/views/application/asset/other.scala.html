@@ -23,6 +23,7 @@
 
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.utils.CommonHelper
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.other.title"),
     browserTitle = Some(Messages("page.iht.application.assets.other.browserTitle")),
@@ -37,7 +38,8 @@
 
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
-            questionLabel= Messages("page.iht.application.assets.other.isOwned"),
+            questionLabel= Messages("page.iht.application.assets.other.isOwned",
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
             inputTextLabel = Messages("page.iht.application.assets.other.inputLabel1"),
             sharableElementForm = otherForm,
             clearTargetInput = Some("value")

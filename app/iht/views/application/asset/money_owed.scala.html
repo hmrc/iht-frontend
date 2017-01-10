@@ -16,15 +16,17 @@
 
 @import iht.models._
 @import iht.models.application.basicElements.BasicEstateElement
-
-@(moneyOwedForm: Form[BasicEstateElement], registrationDetails: RegistrationDetails)(implicit request: Request[_])
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.utils.CommonHelper
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwed"),
+@(moneyOwedForm: Form[BasicEstateElement],
+registrationDetails: RegistrationDetails)(implicit request: Request[_])
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwed",
+                                                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
     browserTitle = Some(Messages("iht.estateReport.assets.moneyOwed")),
     isFullWidth = false
 ) {
@@ -39,7 +41,8 @@
 
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
-            questionLabel= Messages("page.iht.application.assets.moneyOwed.isOwned"),
+            questionLabel= Messages("page.iht.application.assets.moneyOwed.isOwned",
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
             inputTextLabel = Messages("page.iht.application.assets.moneyOwed.inputLabel1"),
             sharableElementForm = moneyOwedForm,
             clearTargetInput = Some("value")

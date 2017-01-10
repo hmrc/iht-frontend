@@ -20,8 +20,10 @@
 @import iht.views.html._
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.utils.CommonHelper
 
-@(businessInterestForm: Form[BasicEstateElement], registrationDetails: RegistrationDetails)(implicit request: Request[_])
+@(businessInterestForm: Form[BasicEstateElement],
+registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.businessInterests.title"),
     browserTitle = Some(Messages("page.iht.application.assets.businessInterest.browserTitle")),
@@ -30,12 +32,15 @@
     @ihtHelpers.error_summary_override_keys(businessInterestForm, Constants.AppSectionBusinessInterest)
 
     @helpers.form(action = iht.controllers.application.assets.routes.BusinessInterestsController.onSubmit, 'autoComplete -> "off") {
-        <p class="lede">@Messages("page.iht.application.assets.businessInterest.description.p1")</p>
-        <p>@Messages("page.iht.application.assets.businessInterest.description.p2")</p>
+        <p class="lede">@Messages("page.iht.application.assets.businessInterest.description.p1",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p>@Messages("page.iht.application.assets.businessInterest.description.p2",
+                       CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
-            questionLabel= Messages("page.iht.application.assets.businessInterest.isOwned"),
+            questionLabel= Messages("page.iht.application.assets.businessInterest.isOwned",
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
             inputTextLabel = Messages("page.iht.application.assets.businessInterest.inputLabel1"),
             sharableElementForm = businessInterestForm,
             inputTextHelp = Messages("page.iht.application.assets.businessInterest.hint"),
