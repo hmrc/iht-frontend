@@ -1999,7 +1999,6 @@ pdf.waterMark.text = For Personal Record
 pdf.signatures.heading = Co-Executors’ Signatures
 pdf.name.text = Name:
 pdf.clearanceCertificate.title = Clearance certificate
-pdf.inheritance.tax.submitted.title = Inheritance Tax Submitted Application
 pdf.inheritance.tax.declaration.date.text = Date of declaration:
 pdf.inheritance.tax.application.summary.referenceNumber = Inheritance Tax reference:
 pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritance Tax estate report completed by {1}. HMRC recommend that you keep a copy of this report for your personal use.
