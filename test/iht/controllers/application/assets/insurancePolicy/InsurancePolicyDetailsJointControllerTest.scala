@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages
@@ -169,8 +170,13 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
     "display a yes or no question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section2.guidance"))
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question"))
+
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
+
+      contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section2.guidance",
+                                              deceasedName, deceasedName))
+      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+                                                    deceasedName))
     }
 
     "display a value question on the page" in {

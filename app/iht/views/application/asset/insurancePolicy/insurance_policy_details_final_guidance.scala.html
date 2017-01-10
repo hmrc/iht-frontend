@@ -19,9 +19,11 @@
 
 @import iht.models._
 
-@(giftsPageLocation:Option[Call])(implicit request:Request[_])
+@(giftsPageLocation:Option[Call],
+deceasedName: String)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
+                                                deceasedName),
 browserTitle = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther")),
 isFullWidth=false){
     <p id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section7.guidance")</p>
