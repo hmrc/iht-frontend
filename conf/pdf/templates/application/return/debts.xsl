@@ -17,7 +17,7 @@
             <xsl:when test="freeEstate/estateLiabilities != ''">
                 <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.5cm">
                     <xsl:value-of
-                            select="i18n:getMessagesText($translator, 'page.iht.application.liabilities.main-section.debts.title')"/>
+                            select="i18n:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
                 </fo:block>
 
                 <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="0.5cm">

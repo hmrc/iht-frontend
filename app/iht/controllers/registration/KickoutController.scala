@@ -101,7 +101,7 @@ trait KickoutController extends RegistrationController {
     KickoutNotApplyingForProbate ->
       (request => notApplyingForProbateKickoutView(Seq(
         Messages("page.iht.registration.notApplyingForProbate.kickout.p1"),
-        Messages("page.iht.registration.notApplyingForProbate.kickout.p2")
+        Messages("iht.ifYouWantToChangeYOurAnswer")
       ))(request)))
 
   def onPageLoad = authorisedForIht {
