@@ -1,0 +1,33 @@
+@import iht.models._
+@import iht.views.html._
+@import iht.constants.Constants
+@import iht.utils.OverviewHelper
+@(isComplete:Option[Boolean],
+messageKeyNotStarted: String = OverviewHelper.messageNotStarted,
+messageKeyComplete: String = OverviewHelper.messageComplete,
+messageKeyInComplete: String = OverviewHelper.messageInComplete,
+screenreaderQualifyingText: String = "[placeholder copy]")
+
+@{
+    isComplete match{
+        case None => {
+            defining(Messages(messageKeyNotStarted)) { text => {
+                <span class="progress-status progress-status--not-started">{text}</span>
+            }
+            }
+        }
+        case Some(false) => {
+            defining(Messages(messageKeyInComplete)) { text => {
+                <span class="progress-status progress-status--incomplete">{text}</span>
+            }
+            }
+        }
+        case _ => {
+            defining(Messages(messageKeyComplete)) { text => {
+                <span class="progress-status progress-status--complete">{text}</span>
+            }
+            }
+        }
+    }
+}
+<!--<span class="visually-hidden">@screenreaderQualifyingText</span>-->

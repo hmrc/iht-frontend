@@ -37,7 +37,8 @@ object EstateOverviewController extends EstateOverviewController with IhtConnect
 
 trait EstateOverviewController extends ApplicationController {
 
-  val declarationPage = iht.controllers.application.declaration.routes.DeclarationController.onPageLoad()
+val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
+
   val kickOutPage = iht.controllers.application.routes.KickoutController.onPageLoad()
   val exemptionsOverviewPage= iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
   val tnrbGuidancePage = iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad()
@@ -113,7 +114,7 @@ trait EstateOverviewController extends ApplicationController {
       tnrb.isDefined && !maritalStatus.equals(statusSingle) && kickOutReason.isEmpty
 
     if (declarableCondition1 || declarableCondition2) {
-      Redirect(declarationPage)
+      Redirect(checkedEverythingQuestionPage)
     } else {
       getNotDeclarableRedirect(regDetails, appDetails)
     }

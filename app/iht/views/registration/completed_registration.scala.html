@@ -38,11 +38,15 @@
   <h2 class="heading-medium">@Messages("iht.nextSteps")</h2>
   <p>@Messages("page.iht.registration.completedRegistration.p1")</p>
   <p>@Messages("page.iht.registration.completedRegistration.p2")</p>
-  <p>@Messages("page.iht.registration.completedRegistration.p3")</p>
+  <ul id="second-paragraph-bullets" class="bullets" style ="margin-left:2em;">
+        <li>@Messages("page.iht.registration.completedRegistration.p2.bullet1")</li>
+        <li>@Messages("page.iht.registration.completedRegistration.p2.bullet2")</li>
+        <li>@Messages("page.iht.registration.completedRegistration.p2.bullet3")</li>
+  </ul>
 </section>
 <div id="continue-button">
-    <a class="button" href="@iht.controllers.home.routes.IhtHomeController.onPageLoad.url">
-        @Messages("site.button.continue.iht.app.page")
+    <a id="go-to-inheritance-tax-report" class="button" href="@iht.controllers.home.routes.IhtHomeController.onPageLoad.url">
+        @Messages("iht.estateReport.goToEstateReports")
     </a>
 </div>
 

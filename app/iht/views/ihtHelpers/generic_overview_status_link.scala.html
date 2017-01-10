@@ -1,0 +1,34 @@
+@import iht.models._
+@import iht.views.html._
+@import iht.constants.Constants
+@import iht.utils.OverviewHelper
+
+@(isComplete:Option[Boolean],
+messagesFileGiveAnswer: String = OverviewHelper.messagesFileGiveAnswer,
+messagesFileViewOrChange: String = OverviewHelper.messagesFileChange,
+messagesFileGiveMoreDetails: String = OverviewHelper.messagesFileGiveMoreDetails,
+screenreaderQualifyingText: String = "[placeholder copy]")
+
+@{
+    isComplete match{
+        case None => {
+            defining(Messages(messagesFileGiveAnswer)) { text => {
+                <span aria-hidden="true">{text}</span>
+            }
+            }
+        }
+        case Some(false) => {
+            defining(Messages(messagesFileGiveMoreDetails)) { text => {
+                <span class="bold" aria-hidden="true">{text}</span>
+            }
+            }
+        }
+        case _ => {
+            defining(Messages(messagesFileViewOrChange)) { text => {
+                <span aria-hidden="true">{text}</span>
+            }
+            }
+        }
+    }
+}
+<span class="visually-hidden">@screenreaderQualifyingText</span>

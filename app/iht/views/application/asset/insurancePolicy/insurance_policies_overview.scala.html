@@ -35,9 +35,10 @@ returnToMessagesKey: String
 @iht_main_template_application(
     title = Messages("iht.estateReport.assets.insurancePolicies"),
     browserTitle = Some(Messages("iht.estateReport.assets.insurancePolicies")),
-    isFullWidth=false)(generic_overview(registrationDetails,
-                                        seqRows,
-                                        Messages("page.iht.application.assets.insurance.policies.overview.guidance1"),
-                                        "page.iht.application.assets.insurance.policies.overview.guidance2",
-                                        returnToCall,
-                                        returnToMessagesKey))
+    isFullWidth=false)(generic_overview(registrationDetails = registrationDetails,
+                                        seqRows = seqRows,
+                                        messagesFileSectionLine1 = Messages("page.iht.application.assets.insurance.policies.overview.guidance1"),
+                                        messagesFileSectionLine2 = "page.iht.application.assets.insurance.policies.overview.guidance2",
+                                        returnToCall = returnToCall,
+                                        returnToMessagesKey = returnToMessagesKey,
+                                        showStatus = false))

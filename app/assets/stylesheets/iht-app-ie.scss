@@ -1,4 +1,5 @@
 @import 'partials/_tabular-data__mixin';
+@import 'partials/_grid__mixin';
 @import 'partials/_forms__mixin';
 
 .tabular-data__data {
@@ -8,6 +9,8 @@
 
 @include tabData;
 
+@include gridLayout;
+
 @include form-control-sizes;
 
 
@@ -16,6 +19,12 @@ input[type="radio"] {border-width: 0; background: none;}
 
 #logo img {max-width: none;}
 
+  .u-align--tablet-right {
+    text-align: right;
+  }
+  .u-align--tablet-center {
+    text-align: center;
+  }
 .suggestions-input-container {
     width: 50%;
 }

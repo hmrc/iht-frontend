@@ -20,13 +20,13 @@
 @import ihtHelpers._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
+
 @(qualifyingBodies: Seq[QualifyingBody],
 registrationDetails: RegistrationDetails,
 isAssetLeftToQualifyingBody: Boolean)(implicit request: Request[_])
 
-
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title",
-CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
+                                                CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
 browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyOverview.browserTitle")),
 isFullWidth=false
 ) {
@@ -35,12 +35,13 @@ isFullWidth=false
 
 @progressive_disclosure(Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies"), Seq(Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext")))
 
-
     <section id="qualifyingBody-table">
         <ul>
         @generic_overview_table_item(id = "qualifying-bodies",
-            questionText = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question"),
-            questionScreenReaderText= Messages("page.iht.application.exemptions.qualifyingBodyOverview.question"),
+            questionText = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+            questionScreenReaderText= Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
+                                                Messages("iht.the.deceased")),
             questionCategory= "change",
             answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToQualifyingBody)),
             link = Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad),
