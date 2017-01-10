@@ -2169,8 +2169,14 @@ iht.estateReport.declaration.haveProvidedNonMatchingDetails = have provided any 
 iht.estateReport.declaration.title = Declaration
 iht.estateReport.declaration.withholdInformation = withhold or give false information
 iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or have to pay a penalty if you:
+
+iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in {0}’s estate?
+iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview
+iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration
+
 iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you’re accepting this.
 iht.estateReport.exemptions.charities.assetLeftToCharity.question = Did {0} leave any assets to a charity?
+
 iht.estateReport.exemptions.charities.assetsLeftToACharity.title = Assets left to a charity
 iht.estateReport.exemptions.charities.assetsLeftToCharities.title = Assets left to charities
 iht.estateReport.exemptions.charities.charityName.title = Charity name
@@ -2480,6 +2486,7 @@ error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of t
 error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from, the estate to the deceased
 
 error.giveCountry = Give a country
+error.hasCheckedEverything.select = Select an answer for if you have finished finding out about the estate
 error.heldInTrust.currencyValue.length.summary = enter a value for assets in a trust using less than 11 numbers
 error.heldInTrust.currencyValue.summary = enter a value for assets in a trust using only numbers
 error.household.currencyValue.length.summary = enter a value for household and personal items using less than 11 numbers
