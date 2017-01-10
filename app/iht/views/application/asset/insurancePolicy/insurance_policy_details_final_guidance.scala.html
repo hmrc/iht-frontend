@@ -27,7 +27,7 @@ deceasedName: String)(implicit request:Request[_])
 browserTitle = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
                                 Messages("iht.the.deceased"))),
 isFullWidth=false){
-    <p id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section7.guidance")</p>
+    <p id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section7.guidance", deceasedName)</p>
     <p id="insurance-policy-description2">@Messages("page.iht.application.insurance.policies.section7.guidance2")</p>
     <p>@ihtHelpers.return_link(Some(Messages("site.link.go.to.gifts")), giftsPageLocation)</p>
     <p>@ihtHelpers.return_link(Some(Messages("site.link.return.insurance.policies")), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))</p>
