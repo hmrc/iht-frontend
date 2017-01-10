@@ -24,6 +24,7 @@ import iht.utils._
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
+import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import models.des.iht_return.IHTReturn
@@ -179,10 +180,13 @@ trait XmlFoToPDF {
       .spouse.map(xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)))).fold("")(identity)
     val dateOfMarriage = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head.spouse.
       flatMap(_.dateOfMarriage))).fold(new LocalDate)(identity)
+    val declarationDate: LocalDate = CommonHelper.getOrException(ihtReturn.declaration, "No declaration found").declarationDate.
+      getOrElse(throw new RuntimeException("Declaration Date not available"))
 
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", MessagesTranslator)
-    transformer.setParameter("ihtReference", registrationDetails.ihtReference.fold("")(identity))
+    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
+    transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer.setParameter("pdfFormatter", PdfFormatter)
     transformer.setParameter("assetsTotal", ihtReturn.totalAssetsValue)
     transformer.setParameter("debtsTotal", ihtReturn.totalDebtsValue)
