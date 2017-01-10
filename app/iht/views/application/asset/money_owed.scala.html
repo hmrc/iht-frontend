@@ -27,7 +27,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwed",
                                                  CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
-    browserTitle = Some(Messages("iht.estateReport.assets.moneyOwed")),
+    browserTitle = Some(Messages("iht.estateReport.assets.moneyOwed", Messages("iht.the.deceased"))),
     isFullWidth = false
 ) {
     @ihtHelpers.error_summary_override_keys(moneyOwedForm, Constants.AppSectionMoneyOwed)
