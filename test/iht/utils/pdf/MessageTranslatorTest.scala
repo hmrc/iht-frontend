@@ -27,7 +27,6 @@ import uk.gov.hmrc.play.test.UnitSpec
 class MessageTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
   "getMessagesText" must {
-
     "return the correct string" in {
 
       val result = MessagesTranslator.getMessagesText("iht.the.deceased")
@@ -37,7 +36,6 @@ class MessageTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   }
 
   "getMessagesTextWithParameter" must {
-
     "return the correct string" in {
 
       val name = "John"
@@ -48,8 +46,19 @@ class MessageTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     }
   }
 
-  "getMessagesTextWithParameterAsMsgKey" must {
+  "getMessagesTextWithParameters" must {
+    "return the correct string" in {
+      val name1 = "John"
+      val name2 = "Smith"
 
+      val result = MessagesTranslator.getMessagesTextWithParameters("pdf.inheritance.tax.application.summary.p1",
+                                                                    name1, name2)
+
+      result shouldBe  Messages("pdf.inheritance.tax.application.summary.p1", name1, name2)
+    }
+  }
+
+  "getMessagesTextWithParameterAsMsgKey" must {
     "return the correct string" in {
 
       val result = MessagesTranslator.getMessagesTextWithParameterAsMsgKey("iht.estateReport.assets.moneyOwned",

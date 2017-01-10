@@ -91,7 +91,7 @@
             <xsl:choose>
                 <xsl:when test="allAssets/money != ''">
                     <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.moneyOwned')"/>
+                        <xsl:value-of select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.moneyOwned', 'iht.the.deceased')"/>
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="12pt">
                         <fo:table space-before="0.5cm">
@@ -99,7 +99,7 @@
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.money.ownName.question')"/>
+                                    <xsl:with-param name="label" select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.money.ownName.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/money/isOwned='false'">
@@ -134,7 +134,7 @@
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body>
                                 <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.jointly.owned.question')" />
+                                    <xsl:with-param name="label" select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.money.jointly.owned.question', 'iht.the.deceased')" />
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/money/isOwnedShare='false'">
