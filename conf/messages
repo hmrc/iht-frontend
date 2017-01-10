@@ -1998,7 +1998,6 @@ pdf.signature.signature.text = Signature:
 pdf.waterMark.text = For Personal Record
 pdf.signatures.heading = Co-Executors’ Signatures
 pdf.name.text = Name:
-
 pdf.clearanceCertificate.title = Clearance certificate
 pdf.inheritance.tax.declaration.date.text = Date of declaration:
 pdf.inheritance.tax.application.summary.referenceNumber = Inheritance Tax reference:
@@ -2006,7 +2005,6 @@ pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritan
 pdf.inheritance.tax.application.summary.p2 = Do not send this document to HMRC.
 pdf.inheritance.tax.application.summary.tnrb.title = Increasing the Inheritance Tax threshold by transferring {0}’s unused threshold
 pdf.inheritance.tax.application.summary.tnrb.personalDetails.title = {0}’s details
-
 pdf.inheritance.tax.referenceNumber = Inheritance Tax reference number:
 pdf.clearanceCertificate.summary = This is in relation to the Inheritance Tax Act 1984 s239(2)
 pdf.clearanceCertificate.estateReport.date.label = Estate report sent to HMRC
@@ -2016,6 +2014,7 @@ pdf.clearanceCertificate.coExecutor.paragraph2 = from any (further) claim for ta
 pdf.clearanceCertificate.lastParagraph.line1 = This certificate does not itself constitute a determination of values of individual items for any other HM Revenue & Customs purposes
 pdf.clearanceCertificate.lastParagraph.line2 = . In particular, the issue of the certificate does not necessarily mean that values have been “ascertained” or that values may be taken as market values for capital gains tax within the provisions of section 274 and paragraph 9, schedule 11, Taxation of Chargeable Gains Act 1992
 pdf.clearanceCertificate.lastParagraph.line3 = . This certificate is not valid in certain circumstances, such as in the case of fraud or failure to disclose material facts or if further tax becomes payable as a result of an instrument of variation – see section 239 (4) Inheritance Tax Act 1984.
+pdf.postSubmission.trusts.assetDescription = Trusts
 
 page.iht.registration.timeout.p2 = You’ll need to sign back in to Government Gateway and start to register to use Inheritance Tax Online again.
 page.iht.application.timeout.p2 = You’ll need to sign back in to Government Gateway and then choose what you want to do next from your Inheritance Tax estate reports page.
