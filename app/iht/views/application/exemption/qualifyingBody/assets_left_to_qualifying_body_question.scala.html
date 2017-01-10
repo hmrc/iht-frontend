@@ -18,19 +18,22 @@
 @import iht.views.html._
 @import iht.models.application.exemptions._
 @import iht.models._
-@import iht.utils.CommonHelper._
+@import iht.utils.CommonHelper
 
 @(assetsLeftToQualifyingBodyQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"),
+@iht_main_template_application(title = Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle")),
 isFullWidth = false,
 cancelUrl = Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
-cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))){
+cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
+                            registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))){
 
 @ihtHelpers.error_summary(assetsLeftToQualifyingBodyQuestionForm)
-@helpers.form(action = iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit, 'autocomplete -> "off") {
+@helpers.form(action = iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit,
+                       'autocomplete -> "off") {
 
     <p class="lede">@Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1")</p>
     <p>@Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2")</p>

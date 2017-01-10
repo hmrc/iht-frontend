@@ -1019,7 +1019,7 @@ page.iht.application.debts.jointlyOwned.isOwned = Are there any debts being paid
 page.iht.application.debts.other.browserTitle = Other debts
 page.iht.application.debts.other.description.p1 = This is the total value of any other debts that are being paid from the estate that are not included in any other section.
 page.iht.application.debts.other.description.p2 = This includes any loans the deceased was paying, including those they were guaranteeing and had been asked to pay when they died.
-page.iht.application.debts.other.description.p3 = Any outstanding credit cards debts and money owed on any insurance policies and household bills are included here.
+page.iht.application.debts.other.description.p3 = Any outstanding credit card debts and money owed on any insurance policies and household bills are included here.
 page.iht.application.debts.other.isOwned = Are there any other debts to be paid out of the estate?
 page.iht.application.debts.other.inputLabel1 = Value of any other debts
 
@@ -1109,14 +1109,14 @@ page.iht.application.exemptions.qualifyingBodyOverview.screenreader.ident = Qual
 page.iht.application.exemptions.qualifyingBodyOverview.browserTitle = Assets left to other bodies
 page.iht.application.exemptions.qualifyingBodyOverview.lede = These are all of the assets being left to a qualifying body. These will not be charities that have a registered qualifying body number.
 
-page.iht.application.exemptions.qualifyingBodyOverview.question = Did the deceased leave anything to a qualifying body?
+page.iht.application.exemptions.qualifyingBodyOverview.question = Did {0} leave anything to a qualifying body?
 page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link = Change the answer to did the deceased leave anything to a qualifying body
 
 page.iht.application.exemptions.qualifyingBodyOverviewTable.header = Qualifying bodies
 page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text = You haven’t added any qualifying bodies to this estate.
 
 # EXEMPTIONS - QUALIFYING BODY
-page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle = Did the deceased leave any assets to another qualifying body?
+page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle = Did {0} leave any assets to another qualifying body?
 page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle = Any assets left to other body
 page.iht.application.exemptions.assetsLeftToQualifyingBody.p1 = These are all of the assets being left to a qualifying body.
 page.iht.application.exemptions.assetsLeftToQualifyingBody.p2 = These aren’t charities with a registered charity number.
