@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
       messagesShouldBePresent(view.toString, Messages("iht.estateReport.kickout.returnToEstateOverview"))
 
       val returnLink = view.getElementById("back-button")
-      returnLink.text shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      returnLink.text shouldBe Messages("iht.estateReport.kickout.returnToEstateOverview.linkText")
       returnLink.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
 

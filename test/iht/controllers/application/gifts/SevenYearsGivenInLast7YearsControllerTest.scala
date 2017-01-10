@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,10 @@ package iht.controllers.application.gifts
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
+import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 
@@ -79,9 +81,11 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
 
     "display the question on the page" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
+      val regDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         storeAppDetailsInCache = true,
@@ -89,14 +93,17 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
 
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.question"))
+      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.question",
+                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "display the guidance on the page" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
+      val regDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         storeAppDetailsInCache = true,
@@ -105,7 +112,8 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
       contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.p1"))
-      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.p3"))
+      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.p3",
+                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       contentAsString(result) should include (Messages("iht.estateReport.assets.money.lowerCaseInitial"))
       contentAsString(result) should include (Messages("iht.estateReport.gifts.stocksAndSharesListed"))
       contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.e3"))

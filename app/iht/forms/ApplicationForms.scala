@@ -483,4 +483,10 @@ object ApplicationForms {
       "isDeclared" -> of(IhtFormValidator.validateDeclaration)
     )
   )
+
+  val checkedEverythingQuestionForm = Form(
+    single(
+      "hasChecked" -> yesNoQuestion("error.hasCheckedEverything.select")
+    )
+  )
 }

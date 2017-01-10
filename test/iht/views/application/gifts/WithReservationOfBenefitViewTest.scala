@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.HtmlSpec
-import iht.views.html.application.gift.{given_away, with_reservation_of_benefit}
+import iht.views.html.application.gift.with_reservation_of_benefit
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
@@ -54,6 +54,14 @@ class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with Moc
 
       val saveAndContinueLink = doc.getElementById("save-continue")
       saveAndContinueLink.text shouldBe Messages("iht.saveAndContinue")
+    }
+
+    "contain the correct question" in {
+      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest)
+
+      contentAsString(view) should include(Messages("iht.estateReport.gifts.reservation.question",
+                                            CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+
     }
 
     "show the correct text and link for the return link" in {

@@ -40,7 +40,7 @@ browserTitle = Some(Messages("iht.estateReport.debts.owedFromEstate")),
 isFullWidth=false) {
 
 <div id="debts-overview-subtitle">
-    <p class="lede">@Messages("page.iht.application.debts.subtitle1")</p>
+    <p class="lede">@Messages("page.iht.application.debts.subtitle1", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
     <p>@Messages("page.iht.application.debts.subtitle2")</p>
     <p>@Messages("iht.estateReport.completeEverySection")</p>
 </div>
@@ -52,7 +52,15 @@ isFullWidth=false) {
             "mortgages", "mortgages",
             displayValue(appDetails, AppSectionMortgages, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -68,7 +76,14 @@ isFullWidth=false) {
     "funeralExpenses", "funeralExpenses",
             displayValue(appDetails, AppSectionFuneralExpenses, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.FuneralExpensesController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
+                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
                     Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.moreDetail"),
@@ -83,7 +98,15 @@ isFullWidth=false) {
     "debtsFromTrust", "debtsFromTrust",
             displayValue(appDetails, AppSectionDebtsOwedFromTrust, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.noValue"))
+            ),
+             ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -99,7 +122,15 @@ isFullWidth=false) {
     "debtsOutsideUk", "debtsOutsideUk",
             displayValue(appDetails, AppSectionDebtsOwedToAnyoneOutsideUK, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -115,7 +146,15 @@ isFullWidth=false) {
     "jointlyOwned", "jointlyOwned",
             displayValue(appDetails, AppSectionDebtsOwedOnJointAssets, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -131,7 +170,15 @@ isFullWidth=false) {
     "other", "other",
             displayValue(appDetails, AppSectionDebtsOther, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.AnyOtherDebtsController.onPageLoad()),
-            ihtHelpers.generic_overview_link(
+            ihtHelpers.generic_overview_status_label(
+                isComplete = isComplete,
+                screenreaderQualifyingText = getScreenReaderQualifyingText(
+                    isComplete,
+                    Messages("page.iht.application.debts.overview.other.screenReader.link.moreDetail"),
+                    Messages("page.iht.application.debts.overview.other.screenReader.link.value"),
+                    Messages("page.iht.application.debts.overview.other.screenReader.link.noValue"))
+            ),
+            ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -144,13 +191,13 @@ isFullWidth=false) {
     </ul>
     <section class="subsection">
         <div id="total-row" class="grid-layout grid-layout--stacked grid-layout--nogutter">
-            <div class="grid-layout__column grid-layout__column--1-2">
+            <div class="grid-layout__column grid-layout__column--4-12">
                 <h2 class="h3-heading push-top">@Messages("page.iht.application.debts.overview.total")</h2>
             </div>
-            <div class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right bold">
+            <div class="grid-layout__column grid-layout__column--3-12 u-align--tablet-right bold">
                 &pound;@CommonHelper.numberWithCommas(debts.totalValue)
             </div>
-            <div class="grid-layout__column grid-layout__column--1-4"></div>
+            <div class="grid-layout__column grid-layout__column--5-12"></div>
         </div>
     </section>
 </div>

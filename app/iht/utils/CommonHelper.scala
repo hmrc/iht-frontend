@@ -454,4 +454,7 @@ object CommonHelper {
     }
   }
 
+  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails):String =
+      regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
+
 }

@@ -10,8 +10,13 @@
 
     <xsl:template name="pre-gifts">
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
-            <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.givenAwayBy', $deceasedName)"/>
+            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.givenAway.title')"/>
         </fo:block>
+
+        <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
+            <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.gifts.summary.p1')"/>
+        </fo:block>
+
         <xsl:comment>Gifts Given Away section starts</xsl:comment>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
             <xsl:choose>
@@ -23,7 +28,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.gifts.overview.givenAway.question1')"/>
+                                                    select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.overview.givenAway.question1', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allGifts/isGivenAway='false'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/></xsl:if>
                                         <xsl:if test="allGifts/isGivenAway='true'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/></xsl:if>
@@ -124,16 +129,28 @@
                                                         <fo:table-cell text-align="left" padding-left="4pt">
                                                             <fo:block>
                                                                 <xsl:if test="value">
-                                                                    &#xA3;<xsl:value-of
-                                                                        select='format-number(number(value), "##,###.00")'/>
+                                                                    <xsl:choose>
+                                                                        <xsl:when test="value &gt; 1">
+                                                                            &#xA3;<xsl:value-of select='format-number(number(value), "##,###.00")'/>
+                                                                        </xsl:when>
+                                                                        <xsl:otherwise>
+                                                                            &#xA3;<xsl:value-of select="value"/>
+                                                                        </xsl:otherwise>
+                                                                    </xsl:choose>
                                                                 </xsl:if>
                                                             </fo:block>
                                                         </fo:table-cell>
                                                         <fo:table-cell>
                                                             <fo:block>
                                                                 <xsl:if test="exemptions">
-                                                                    &#xA3;<xsl:value-of
-                                                                        select='format-number(number(exemptions), "##,###.00")'/>
+                                                                    <xsl:choose>
+                                                                        <xsl:when test="exemptions &gt; 1">
+                                                                            &#xA3;<xsl:value-of select='format-number(number(exemptions), "##,###.00")'/>
+                                                                        </xsl:when>
+                                                                        <xsl:otherwise>
+                                                                            &#xA3;<xsl:value-of select="exemptions"/>
+                                                                        </xsl:otherwise>
+                                                                    </xsl:choose>
                                                                 </xsl:if>
                                                             </fo:block>
                                                         </fo:table-cell>
@@ -142,16 +159,17 @@
                                                                 <xsl:choose>
                                                                     <xsl:when test="value and exemptions">
                                                                         <xsl:choose>
-                                                                            <xsl:when test="value - exemptions &gt; 0">
+                                                                            <xsl:when test="value - exemptions &gt; 1">
                                                                                 &#xA3;<xsl:value-of
                                                                                     select='format-number(number(value - exemptions), "##,###.00")'/>
                                                                             </xsl:when>
                                                                             <xsl:otherwise>
-                                                                                &#xA3;0.00
+                                                                                &#xA3;<xsl:value-of
+                                                                                        select='format-number(number(value - exemptions), "0.00")'/>
                                                                             </xsl:otherwise>
                                                                         </xsl:choose>
                                                                     </xsl:when>
-                                                                    <xsl:when test="value">
+                                                                    <xsl:when test="value and value &gt; 1">
                                                                         &#xA3;<xsl:value-of
                                                                             select='format-number(number(value), "##,###.00")'/>
                                                                     </xsl:when>
@@ -187,11 +205,11 @@
                                     <fo:table-column column-number="1" column-width="70%"/>
                                     <fo:table-column column-number="2" column-width="30%"/>
                                     <fo:table-body font-size="12pt">
-                                        <xsl:call-template name="table-row">
+                                        <xsl:call-template name="table-row-money-border-top-black">
                                             <xsl:with-param name="label"
                                                             select="i18n:getMessagesText($translator, 'page.iht.application.gifts.overview.value.question1')"/>
-                                            <xsl:with-param name="value">&#xA3;<xsl:value-of
-                                                    select='format-number(number($giftsTotal), "##,###.00")'/>
+                                            <xsl:with-param name="value">
+                                                <xsl:value-of select='$giftsTotal'/>
                                             </xsl:with-param>
                                         </xsl:call-template>
                                         <xsl:call-template name="table-row-bottom-blank"/>

@@ -47,7 +47,7 @@ isFullWidth = false) {
                         case Some(id) => Some(QualifyingBodyNameController.onEditPageLoad(qualifyingBodyId))
                         case None => Some(QualifyingBodyNameController.onPageLoad)
                     },
-                    linkText=ihtHelpers.generic_overview_link(
+                    linkText=ihtHelpers.generic_overview_status_link(
                         isComplete = qualifyingBodyName match {
                             case Some(name) => Some(true)
                             case None => None
@@ -77,7 +77,7 @@ isFullWidth = false) {
                     link = qualifyingBodyId match {
                         case Some(id) => Some(QualifyingBodyValueController.onEditPageLoad(qualifyingBodyId))
                         case None => Some(QualifyingBodyValueController.onPageLoad) } ,
-                    linkText=ihtHelpers.generic_overview_link(
+                    linkText=ihtHelpers.generic_overview_status_link(
                         isComplete = qualifyingBodyValue match {
                             case Some(name) => Some(true)
                             case None => None

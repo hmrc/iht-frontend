@@ -20,10 +20,10 @@
 @import ihtHelpers._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
+
 @(charities: Seq[Charity],
 registrationDetails: RegistrationDetails,
 isAssetLeftToCharity: Boolean)(implicit request: Request[_])
-
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title",
 CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
@@ -31,11 +31,11 @@ browserTitle = Some(Messages("iht.estateReport.exemptions.charities.assetsLeftTo
 isFullWidth=false
 ) {
 
-
     <section id="charity-table">
         <ul>
         @generic_overview_table_item(id = "home-in-uk",
-        questionText = Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question"),
+        questionText = Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
         questionScreenReaderText= Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question"),
         questionCategory= "change",
         answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToCharity)),

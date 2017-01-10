@@ -31,7 +31,7 @@
 
                                     <xsl:call-template name="table-row-top-application">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'page.iht.exemptions.title')"/>
+                                                        select="i18n:getMessagesText($translator, 'pdf.exemption.table.text')"/>
                                         <xsl:with-param name="value" select="exemptionType"/>
                                     </xsl:call-template>
 

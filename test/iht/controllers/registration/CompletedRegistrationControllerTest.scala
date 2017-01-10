@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,7 +104,6 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
       contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.ref.text"))
       contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p1"))
       contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p2"))
-      contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p3"))
     }
   }
 }

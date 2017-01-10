@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,7 +127,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.preDeceasedMaritalStatusLabel(tnrbModel, widowCheck)
-      result should be(Messages("page.iht.application.tnrbEligibilty.theDeceased.label") + " "  +
+      result should be(Messages("iht.the.deceased") + " "  +
         Messages(marriedOrInCivilPartnershipMessageKey))
     }
 
@@ -136,7 +136,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDateMinusOne))
       val result = TnrbHelper.preDeceasedMaritalStatusLabel(tnrbModel, widowCheck)
-      result should be(Messages("page.iht.application.tnrbEligibilty.theDeceased.label") + " " +
+      result should be(Messages("iht.the.deceased") + " " +
         Messages(marriedMessageKey))
     }
   }
@@ -332,6 +332,21 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         TnrbHelper.urlForIncreasingThreshold(maritalStatus)
       }
 
+    }
+  }
+
+  "spouseOrCivilPartnerName" must {
+    "return the spouse name" in {
+      val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName),
+                                                              lastName = Some(spouseOrCivilPartnerLastName))
+
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext") shouldBe
+                      spouseOrCivilPartnerFirstName+" "+spouseOrCivilPartnerLastName
+    }
+    "return the pretext string when there is no spouse name" in {
+      val tnrbModel = CommonBuilder.buildTnrbEligibility.copy(firstName = None, lastName = None)
+
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext") shouldBe "pretext"
     }
   }
 

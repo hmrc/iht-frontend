@@ -41,6 +41,9 @@ object OverviewHelper {
   val messageFileStartSection = "site.link.startSection"
   val messageFileStart = "iht.start"
   val messageFileViewOrChange = "iht.viewOrChange"
+  val messageNotStarted = "iht.notStarted"
+  val messageInComplete = "iht.inComplete"
+  val messageComplete = "iht.complete"
 
   case class QuestionAnswer(answer: Option[Boolean],
                             url: Call,
@@ -53,7 +56,7 @@ object OverviewHelper {
 
   case class Section(id: String, title: Option[String], link: Link, details: Seq[Question])
 
-  case class Question(id: String, title: String, link: Link, value: String)
+  case class Question(id: String, title: String, link: Link, value: String, status: String = "")
 
   private val overviewDisplayValues: ListMap[String, ApplicationDetails => String] = ListMap(
     AppSectionProperties -> { (ad) =>
@@ -178,7 +181,8 @@ object OverviewHelper {
               answerPlusLink.linkAccessibilityTextNo,
               answerPlusLink.linkAccessibilityTextNone),
             answerPlusLink.url),
-          value = questionDisplayValue))
+          value = questionDisplayValue,
+          status = if (questionDisplayValue.length == 0) messageNotStarted else messageComplete))
       } else {
         Nil
       }
@@ -219,8 +223,8 @@ object OverviewHelper {
                                            questionLevelLinkAccessibilityTextValue: String,
                                            questionAnswerExprYesNo: Option[Boolean],
                                            questionAnswerExprValue: Option[BigDecimal],
-                                           questionTitleYesNoMessageKey: String,
-                                           questionTitleValueMessageKey: String): Section =
+                                           questionTitleYesNoMessage: String,
+                                           questionTitleValueMessage: String): Section =
     Section(id = id,
       title = title,
       link = Link(getEmptyStringOrElse(questionAnswerExprYesNo, messagesFileGiveAnswer),
@@ -233,7 +237,7 @@ object OverviewHelper {
           questionLevelLinkAccessibilityTextNo, "")
         val booleanElement = Seq(Question(
           id = id + "-yes-no-question",
-          title = questionTitleYesNoMessageKey,
+          title = questionTitleYesNoMessage,
           link = Link(messagesFileChangeAnswer, accessibilityValue, linkUrl),
           value = displayValue))
 
@@ -241,7 +245,7 @@ object OverviewHelper {
           if (bool) {
             Seq(Question(
               id = id + "-value",
-              title = questionTitleValueMessageKey,
+              title = questionTitleValueMessage,
               link = Link(messagesFileChangeInput, questionLevelLinkAccessibilityTextValue, linkUrl),
               value = getBigDecimalDisplayValue(questionAnswerExprValue)))
           } else {
@@ -268,11 +272,11 @@ object OverviewHelper {
             details = if (shouldDisplay(ad)) {
                               Seq(Question(
                                 id = id + "-value",
-                                title = s"$questionTitlesMessagesFilePrefix.question1",
+                                title = Messages(s"$questionTitlesMessagesFilePrefix.question1"),
                                 link = Link(messagesFileChangeValues, questionLevelLinkAccessibilityTextValue, linkUrl),
-                                value = getBigDecimalDisplayValue(questionAnswerExprValue)))
-                       } else {
-                              Nil
-                       }
+                                value = getBigDecimalDisplayValue(questionAnswerExprValue),
+                                status = if(getBigDecimalDisplayValue(questionAnswerExprValue) == "") {
+                                              messageNotStarted } else { messageComplete }))
+                       } else { Nil }
     )
 }

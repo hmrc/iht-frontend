@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.testhelpers._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.Messages
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
@@ -525,6 +526,22 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
     "return the an integer seq if all numeric elements passed in" in {
       CommonHelper.convertToNumbers(Seq("1", "2", "5"), "1", "2") shouldBe Right(Seq(1,2,5))
+    }
+  }
+
+  "getDeceasedNameOrDefaultString" must {
+    val firstName = "first"
+    val lastName = "last"
+    val deceasedDetails = CommonBuilder.buildDeceasedDetails.copy(firstName = Some(firstName), lastName = Some(lastName))
+    val regDetails = CommonBuilder.buildRegistrationDetails.copy(deceasedDetails = Some(deceasedDetails))
+
+    "return Deceased name where deceased details exists " in {
+      CommonHelper.getDeceasedNameOrDefaultString(regDetails) shouldBe firstName+" "+lastName
+    }
+
+    "return default string where deceased details does not exists " in {
+      val regDetailsWithNODeceasedDetails = regDetails.copy(deceasedDetails = None)
+      CommonHelper.getDeceasedNameOrDefaultString(regDetailsWithNODeceasedDetails) shouldBe Messages("iht.the.deceased")
     }
   }
 }

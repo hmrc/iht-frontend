@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,7 +82,7 @@ object MockObjectBuilder {
     */
   def createMockToStoreRegDetailsInCache(cachingConnector: CachingConnector,
                                          regDetails: Option[RegistrationDetails] = Some(buildRegistrationDetails)) = {
-    when(cachingConnector.storeRegistrationDetails(any(), any())(any(), any()))
+    when(cachingConnector.storeRegistrationDetails(any())(any(), any()))
       .thenReturn(Future.successful(regDetails))
   }
 
@@ -91,7 +91,7 @@ object MockObjectBuilder {
     */
   def createMockToStoreRegDetailsInCacheWithFailure(cachingConnector: CachingConnector,
                                          regDetails: Option[RegistrationDetails] = Some(buildRegistrationDetails)) = {
-    when(cachingConnector.storeRegistrationDetails(any(), any())(any(), any()))
+    when(cachingConnector.storeRegistrationDetails(any())(any(), any()))
       .thenReturn(Future.successful(None))
   }
 

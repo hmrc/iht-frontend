@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,10 +58,12 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
       val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
-      view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance1"))
+      view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance1",
+                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance2",
                             TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                             Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")),
+                             Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
                              CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString ))
       view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance3"))
     }
@@ -79,7 +81,8 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
       assertEqualsValue(doc, "h2#tnrb-partner-estate",
                                Messages("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading",
                                  TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                 Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")),
+                                 Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
                                  CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString))
 
       assertEqualsValue(doc, "li#home-in-uk span",
@@ -103,10 +106,12 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
       assertEqualsValue(doc, "h2#tnrb-partner-personal-details",
                               Messages("page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading",
                                 TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                 Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased"))))
+                                 Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))))
 
      assertEqualsValue(doc, "li#partner-marital-status span",
         Messages("iht.estateReport.tnrb.partner.married",
+          CommonHelper.getDeceasedNameOrDefaultString(regDetails),
           TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
           TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel,
                                                widowCheckModel,
@@ -116,7 +121,8 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
         Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
           TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel,
             widowCheckModel,
-            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased"))))
+            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                    CommonHelper.getDeceasedNameOrDefaultString(regDetails)))))
 
      assertEqualsValue(doc, "li#partner-name span",
         Messages("page.iht.application.tnrbEligibilty.overview.partner.name.question",

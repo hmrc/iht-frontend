@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       implicit val request = createFakeRequest()
 
       val view = estate_overview(dummyViewModel).toString
-      view should include(Messages("page.iht.application.overview.return.link"))
+      view should include(Messages("iht.estateReport.goToEstateReports"))
     }
 
     "show the correct 'Go to your Inheritance Tax estate reports' link" in {
@@ -104,7 +104,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val doc = asDocument(view)
       assertRenderedById(doc, "return-to-estate-report-link")
       val link: Element = doc.getElementById("return-to-estate-report-link")
-      link.text() shouldBe Messages("page.iht.application.overview.return.link")
+      link.text() shouldBe Messages("iht.estateReport.goToEstateReports")
       link.attr("href") shouldBe expectedUrl
     }
 

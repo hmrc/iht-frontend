@@ -57,6 +57,18 @@ object TnrbHelper {
     }
   }
 
+  /**
+    * Returns the Spouse name (if exists) otherwise returns the pretext string
+    */
+  def spouseOrCivilPartnerName(tnrbModel: TnrbEligibiltyModel,
+                                prefixText: String=""): String  = {
+    CommonHelper.withValue(tnrbModel.Name.toString.trim) {
+      case name if name.isEmpty => prefixText
+      case name => name
+    }
+  }
+
+
   def marriageOrCivilPartnerShipLabel(widowCheck: WidowCheck): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.tnrbEligibilty.partner.marriage.label",
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label",
@@ -77,7 +89,7 @@ object TnrbHelper {
     if(tnrbModel.Name.toString.trim!=""){
       tnrbModel.Name.toString + " " + Messages("page.iht.application.tnrbEligibilty.partner.married.label")
     } else {
-      Messages("page.iht.application.tnrbEligibilty.theDeceased.label") + " " +
+      Messages("iht.the.deceased") + " " +
         preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased)
     }
   }

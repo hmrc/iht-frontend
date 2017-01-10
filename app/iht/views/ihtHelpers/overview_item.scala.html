@@ -14,12 +14,12 @@
 * limitations under the License.
 *@
 
-@import iht.viewmodels.application.overview.{OverviewRow, PartiallyComplete}
+@import iht.viewmodels.application.overview._
 
 @(model: OverviewRow, customClass: Option[String] = Some(""))
 
 <li class="tabular-data__entry tabular-data__entry--grouped @customClass" id="@model.id-row">
-    <div class="tabular-data__data tabular-data__data--6-12" id="@model.id-caption">
+    <div class="tabular-data__data tabular-data__data--4-12" id="@model.id-caption">
         @model.label
     </div>
     <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right" id="@model.id-value">
@@ -27,7 +27,20 @@
         @model.value
       }
     </div>
-    <div class="tabular-data__data tabular-data__data--3-12">
+    <div id="@model.id-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-center">
+        @model.completionStatus match{
+            case NotStarted => {
+                    <span class="progress-status progress-status--not-started">@Messages("iht.notStarted")</span>
+                 }
+            case PartiallyComplete => {
+                    <span class="progress-status progress-status--incomplete">@Messages("iht.inComplete")</span>
+                }
+            case _ => {
+                    <span class="progress-status progress-status--complete">@Messages("iht.complete")</span>
+                }
+        }
+    </div>
+    <div class="tabular-data__data tabular-data__data--2-12">
         <a id="@model.id-link-text" href="@model.linkUrl" @if(model.completionStatus == PartiallyComplete) {class="bold"}>
             <span aria-hidden="true">@model.linkText</span>
             <span class="visually-hidden">@model.qualifyingText</span>

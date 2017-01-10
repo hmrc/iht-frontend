@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package iht.controllers.application.exemptions
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.controllers.application.exemptions.charity.CharitiesOverviewController
+import iht.models.RegistrationDetails
 import iht.models.application.exemptions.Charity
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
@@ -184,16 +185,19 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
     }
 
     "show asset left to charity question text" in {
+      val regDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetailsWithCharityLeftTrue),
         getAppDetails = true,
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question"))
+      contentAsString(result) should include(Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+                                                CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
   }
 }

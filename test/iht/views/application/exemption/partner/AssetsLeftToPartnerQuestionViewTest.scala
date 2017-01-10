@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package iht.views.application.exemption.partner
 
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
+import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.i18n.Messages
@@ -49,7 +50,8 @@ class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
     "have correct title and browser title " in {
       val view = assetsLeftToPartnerQuestionView().toString
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"))
+      titleShouldBeCorrect(view, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
+                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       browserTitleShouldBeCorrect(view, Messages("page.iht.application.exemptions.assetLeftToPartner.browserTitle"))
     }
 
@@ -71,7 +73,8 @@ class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
     "have the question with the right text" in {
       val view = assetsLeftToPartnerQuestionView()
 
-      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"))
+      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
+                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
   }

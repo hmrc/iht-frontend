@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import play.api.i18n.Messages
 import play.api.test.Helpers._
@@ -191,8 +192,11 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (allGifts = Some(allGifts))
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
 
+      val regDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails
+
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails = true,
@@ -201,7 +205,9 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.gifts.overview.guidance1"))
+      contentAsString(result) should include(Messages("page.iht.application.gifts.overview.guidance1",
+                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails),
+                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "display gift value on page when value entered" in {

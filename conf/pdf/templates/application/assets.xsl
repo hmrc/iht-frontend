@@ -12,6 +12,9 @@
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
         </fo:block>
+        <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
+            <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.application.assets.subtitle')"/>
+        </fo:block>
         <xsl:comment>Assets Properties section starts</xsl:comment>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.propertiesBuildingsAndLand')"/>
@@ -59,12 +62,12 @@
                                                                 select="i18n:getMessagesText($translator, 'iht.estateReport.assets.properties.freeholdOrLeasehold')"/>
                                                 <xsl:with-param name="value" select="tenure"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row">
+                                            <xsl:call-template name="table-row-money">
                                                 <xsl:with-param name="label"
                                                                 select="i18n:getMessagesText($translator, 'iht.estateReport.assets.properties.value.question')"/>
                                                 <xsl:with-param name="value">
                                                     <xsl:if test="value">
-                                                        &#xA3;<xsl:value-of select='format-number(number(value), "##,###.00")'/>
+                                                        <xsl:value-of select='value'/>
                                                     </xsl:if>
                                                 </xsl:with-param>
                                             </xsl:call-template>
@@ -86,79 +89,79 @@
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.money.upperCaseInitial')"/>
             <xsl:choose>
-            <xsl:when test="allAssets/money != ''">
-                <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
-                    <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.moneyOwned')"/>
-                </fo:block>
-                <fo:block font-family="OpenSans" font-size="12pt">
-                    <fo:table space-before="0.5cm">
-                        <fo:table-column column-number="1" column-width="70%"/>
-                        <fo:table-column column-number="2" column-width="30%"/>
-                        <fo:table-body font-size="12pt">
-                            <xsl:call-template name="table-row">
-                                <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.money.ownName.question')"/>
-                                <xsl:with-param name="value">
-                                    <xsl:choose>
-                                        <xsl:when test="allAssets/money/isOwned='false'">
-                                            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:with-param>
-                            </xsl:call-template>
-                            <xsl:if test="allAssets/money/isOwned='true'">
+                <xsl:when test="allAssets/money != ''">
+                    <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
+                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.moneyOwned')"/>
+                    </fo:block>
+                    <fo:block font-family="OpenSans" font-size="12pt">
+                        <fo:table space-before="0.5cm">
+                            <fo:table-column column-number="1" column-width="70%"/>
+                            <fo:table-column column-number="2" column-width="30%"/>
+                            <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.inputLabel1')"/>
+                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.money.ownName.question')"/>
                                     <xsl:with-param name="value">
-                                        <xsl:if test="allAssets/money/value">
-                                            &#xA3;<xsl:value-of select='format-number(number(allAssets/money/value), "##,###.00")'/>
-                                        </xsl:if>
+                                        <xsl:choose>
+                                            <xsl:when test="allAssets/money/isOwned='false'">
+                                                <xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                            </xsl:if>
-                        </fo:table-body>
-                    </fo:table>
-                </fo:block>
-                <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
-                    <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.money.jointlyOwned')"/>
-                </fo:block>
-                <fo:block font-family="OpenSans" font-size="12pt">
-                    <fo:table space-before="0.5cm">
-                        <fo:table-column column-number="1" column-width="70%"/>
-                        <fo:table-column column-number="2" column-width="30%"/>
-                        <fo:table-body>
-                            <xsl:call-template name="table-row">
-                                <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.jointly.owned.question')" />
-                                <xsl:with-param name="value">
-                                    <xsl:choose>
-                                        <xsl:when test="allAssets/money/isOwnedShare='false'">
-                                            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:with-param>
-                            </xsl:call-template>
-                            <xsl:if test="allAssets/money/isOwnedShare='true'">
+                                <xsl:if test="allAssets/money/isOwned='true'">
+                                    <xsl:call-template name="table-row-money">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.inputLabel1')"/>
+                                        <xsl:with-param name="value">
+                                            <xsl:if test="allAssets/money/value">
+                                                <xsl:value-of select='allAssets/money/value'/>
+                                            </xsl:if>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:if>
+                            </fo:table-body>
+                        </fo:table>
+                    </fo:block>
+                    <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
+                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.money.jointlyOwned')"/>
+                    </fo:block>
+                    <fo:block font-family="OpenSans" font-size="12pt">
+                        <fo:table space-before="0.5cm">
+                            <fo:table-column column-number="1" column-width="70%"/>
+                            <fo:table-column column-number="2" column-width="30%"/>
+                            <fo:table-body>
                                 <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.jointly.owned.input.value.label')"/>
+                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.jointly.owned.question')" />
                                     <xsl:with-param name="value">
-                                        <xsl:if test="allAssets/money/shareValue">
-                                            &#xA3;<xsl:value-of select='format-number(number(allAssets/money/shareValue), "##,###.00")'/>
-                                        </xsl:if>
+                                        <xsl:choose>
+                                            <xsl:when test="allAssets/money/isOwnedShare='false'">
+                                                <xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                            </xsl:if>
-                        </fo:table-body>
-                    </fo:table>
-                </fo:block>
-            </xsl:when>
-        </xsl:choose>
+                                <xsl:if test="allAssets/money/isOwnedShare='true'">
+                                    <xsl:call-template name="table-row-money">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'page.iht.application.assets.money.jointly.owned.input.value.label')"/>
+                                        <xsl:with-param name="value">
+                                            <xsl:if test="allAssets/money/shareValue">
+                                                <xsl:value-of select='allAssets/money/shareValue'/>
+                                            </xsl:if>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:if>
+                            </fo:table-body>
+                        </fo:table>
+                    </fo:block>
+                </xsl:when>
+            </xsl:choose>
         </fo:block>
         <xsl:comment>Assets household section starts</xsl:comment>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
@@ -187,12 +190,12 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/household/isOwned='true'">
-                                    <xsl:call-template name="table-row">
+                                    <xsl:call-template name="table-row-money">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'iht.estateReport.assets.household.deceasedOwnedValue')"/>
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/household/value">
-                                                &#xA3;<xsl:value-of select='format-number(number(allAssets/household/value), "##,###.00")'/>
+                                               <xsl:value-of select='allAssets/household/value'/>
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
@@ -222,12 +225,12 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/household/isOwnedShare='true'">
-                                    <xsl:call-template name="table-row">
+                                    <xsl:call-template name="table-row-money">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'iht.estateReport.assets.household.valueOfJointlyOwned')"/>
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/household/shareValue">
-                                                &#xA3;<xsl:value-of select='format-number(number(allAssets/household/shareValue), "##,###.00")'/>
+                                                <xsl:value-of select='allAssets/household/shareValue'/>
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
@@ -265,12 +268,12 @@
                                 </xsl:with-param>
                             </xsl:call-template>
                             <xsl:if test="allAssets/vehicles/isOwned='true'">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-money">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'iht.estateReport.assets.household.deceasedOwnedValue')"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allAssets/vehicles/value">
-                                            &#xA3;<xsl:value-of select='format-number(number(allAssets/vehicles/value), "##,###.00")'/>
+                                            <xsl:value-of select='allAssets/vehicles/value'/>
                                         </xsl:if>
                                     </xsl:with-param>
                                 </xsl:call-template>
@@ -300,12 +303,12 @@
                                 </xsl:with-param>
                             </xsl:call-template>
                             <xsl:if test="allAssets/vehicles/isOwnedShare='true'">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-money">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'iht.estateReport.assets.vehicles.valueOfJointlyOwned')"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allAssets/vehicles/shareValue">
-                                            &#xA3;<xsl:value-of select='format-number(number(allAssets/vehicles/shareValue), "##,###.00")'/>
+                                            <xsl:value-of select='allAssets/vehicles/shareValue'/>
                                         </xsl:if>
                                     </xsl:with-param>
                                 </xsl:call-template>
@@ -359,12 +362,12 @@
                                 </xsl:if>
 
                                 <xsl:if test="allAssets/privatePension/isChanged='false'">
-                                    <xsl:call-template name="table-row">
+                                    <xsl:call-template name="table-row-money">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid')"/>
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/privatePension/value">
-                                                &#xA3;<xsl:value-of select='format-number(number(allAssets/privatePension/value), "##,###.00")'/>
+                                                <xsl:value-of select='allAssets/privatePension/value'/>
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
@@ -380,7 +383,7 @@
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares')"/>
             <xsl:choose>
                 <xsl:when test="allAssets/stockAndShare != ''">
-                    <fo:block font-family="OpenSans" font-size="12pt">
+                    <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
                         <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndSharesListed')"/>
                         <fo:table space-before="0.5cm">
                             <fo:table-column column-number="1" column-width="70%"/>
@@ -400,14 +403,20 @@
                                         </xsl:choose>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares.valueOfListed')" />
-                                    <xsl:with-param name="value">
-                                        <xsl:if test="allAssets/stockAndShare/valueListed">&#xA3;<xsl:value-of select='format-number(number(allAssets/stockAndShare/valueListed), "##,###.00")'/></xsl:if>
-                                    </xsl:with-param>
-                                </xsl:call-template>
+                                <xsl:if test="allAssets/stockAndShare/valueListed">
+                                    <xsl:call-template name="table-row-money">
+                                        <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares.valueOfListed')" />
+                                        <xsl:with-param name="value">
+                                            <xsl:if test="allAssets/stockAndShare/valueListed">
+                                                <xsl:value-of select='allAssets/stockAndShare/valueListed'/>
+                                            </xsl:if>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:if>
                             </fo:table-body>
                         </fo:table>
+                    </fo:block>
+                    <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
                         <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndSharesNotListed')"/>
                         <fo:table space-before="0.5cm">
                             <fo:table-column column-number="1" column-width="70%"/>
@@ -427,12 +436,16 @@
                                         </xsl:choose>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares.valueOfNotListed')" />
-                                    <xsl:with-param name="value">
-                                        <xsl:if test="allAssets/stockAndShare/valueNotListed">&#xA3;<xsl:value-of select='format-number(number(allAssets/stockAndShare/valueNotListed), "##,###.00")'/></xsl:if>
-                                    </xsl:with-param>
-                                </xsl:call-template>
+                                <xsl:if test="allAssets/stockAndShare/valueNotListed">
+                                    <xsl:call-template name="table-row-money">
+                                        <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares.valueOfNotListed')" />
+                                        <xsl:with-param name="value">
+                                            <xsl:if test="allAssets/stockAndShare/valueNotListed">
+                                                <xsl:value-of select='allAssets/stockAndShare/valueNotListed'/>
+                                            </xsl:if>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:if>
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
@@ -465,12 +478,16 @@
                                         </xsl:choose>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut')" />
-                                    <xsl:with-param name="value">
-                                        <xsl:if test="allAssets/insurancePolicy/value">&#xA3;<xsl:value-of select='format-number(number(allAssets/insurancePolicy/value), "##,###.00")'/></xsl:if>
-                                    </xsl:with-param>
-                                </xsl:call-template>
+                                <xsl:if test="allAssets/insurancePolicy/value">
+                                    <xsl:call-template name="table-row-money">
+                                        <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut')" />
+                                        <xsl:with-param name="value">
+                                            <xsl:if test="allAssets/insurancePolicy/value">
+                                                <xsl:value-of select='allAssets/insurancePolicy/value'/>
+                                            </xsl:if>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                </xsl:if>
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
@@ -496,10 +513,12 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/insurancePolicy/shareValue">
-                                    <xsl:call-template name="table-row">
+                                    <xsl:call-template name="table-row-money">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare')" />
                                         <xsl:with-param name="value">
-                                            <xsl:if test="allAssets/insurancePolicy/shareValue">&#xA3;<xsl:value-of select='format-number(number(allAssets/insurancePolicy/shareValue), "##,###.00")'/></xsl:if>
+                                            <xsl:if test="allAssets/insurancePolicy/shareValue">
+                                                <xsl:value-of select='allAssets/insurancePolicy/shareValue'/>
+                                            </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
                                 </xsl:if>
@@ -605,11 +624,11 @@
                                 </xsl:call-template>
                                 <xsl:choose>
                                     <xsl:when test="allAssets/businessInterest/isOwned='true'">
-                                        <xsl:call-template name="table-row">
+                                        <xsl:call-template name="table-row-money">
                                             <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.businessInterest.inputLabel1')" />
                                             <xsl:with-param name="value">
                                                 <xsl:if test="allAssets/businessInterest/value">
-                                                    &#xA3;<xsl:value-of select='format-number(number(allAssets/businessInterest/value), "##,###.00")'/>
+                                                    <xsl:value-of select='allAssets/businessInterest/value'/>
                                                 </xsl:if>
                                             </xsl:with-param>
                                         </xsl:call-template>
@@ -647,11 +666,11 @@
                                 </xsl:call-template>
                                 <xsl:choose>
                                     <xsl:when test="allAssets/nominated/isOwned='true'">
-                                        <xsl:call-template name="table-row">
+                                        <xsl:call-template name="table-row-money">
                                             <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.nominated.inputLabel1')" />
                                             <xsl:with-param name="value">
                                                 <xsl:if test="allAssets/nominated/value">
-                                                    &#xA3;<xsl:value-of select='format-number(number(allAssets/nominated/value), "##,###.00")'/>
+                                                    <xsl:value-of select='allAssets/nominated/value'/>
                                                 </xsl:if>
                                             </xsl:with-param>
                                         </xsl:call-template>
@@ -707,11 +726,11 @@
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
-                                    <xsl:call-template name="table-row">
+                                    <xsl:call-template name="table-row-money">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.heldInTrust.valueOfTrust')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/heldInTrust/value">
-                                                &#xA3;<xsl:value-of select='format-number(number(allAssets/heldInTrust/value), "##,###.00")'/>
+                                                <xsl:value-of select='allAssets/heldInTrust/value'/>
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
@@ -747,11 +766,11 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/foreign/isOwned='true'">
-                                    <xsl:call-template name="table-row">
+                                    <xsl:call-template name="table-row-money">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.foreign.inputLabel1')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/foreign/value">
-                                                &#xA3;<xsl:value-of select='format-number(number(allAssets/foreign/value), "##,###.00")'/>
+                                                <xsl:value-of select='allAssets/foreign/value'/>
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
@@ -787,11 +806,11 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/moneyOwed/isOwned='true'">
-                                    <xsl:call-template name="table-row">
+                                    <xsl:call-template name="table-row-money">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.moneyOwed.inputLabel1')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/moneyOwed/value">
-                                                &#xA3;<xsl:value-of select='format-number(number(allAssets/moneyOwed/value), "##,###.00")'/>
+                                                <xsl:value-of select='allAssets/moneyOwed/value'/>
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
@@ -827,11 +846,11 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/other/isOwned='true'">
-                                    <xsl:call-template name="table-row">
+                                    <xsl:call-template name="table-row-money">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.assets.moneyOwed.inputLabel1')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/other/value">
-                                                &#xA3;<xsl:value-of select='format-number(number(allAssets/other/value), "##,###.00")'/>
+                                                <xsl:value-of select='allAssets/other/value'/>
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>

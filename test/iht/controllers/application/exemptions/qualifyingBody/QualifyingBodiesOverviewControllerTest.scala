@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,9 @@ import iht.controllers.application.exemptions.qualifyingBody.{routes => qualifyi
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.QualifyingBody
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -90,6 +92,10 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
     }
 
     "load the page when no qualifying bodies are set up" in {
+
+      val regDetails = buildRegistrationDetails copy (
+        deceasedDetails = Some(buildDeceasedDetails), ihtReference = Some("AbC123"))
+
       setupMocks(appDetailsWithNoQualifyingBodies)
 
       val result = controller.onPageLoad()(request)
@@ -104,7 +110,8 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       info("progressive reveal link is present")
       content should include(Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext"))
       info("progressive reveal text is present")
-      content should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.question"))
+      content should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
+                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       info("question label is present")
       content should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text"))
       info("'no qualifying bodies' text is present")

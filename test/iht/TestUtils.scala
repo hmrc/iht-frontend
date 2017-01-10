@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,9 +43,8 @@ trait TestUtils {
 
   def verifyAndReturnStoredRegistationDetails(mockCachingConnector: CachingConnector): RegistrationDetails = {
     val captor = ArgumentCaptor.forClass(classOf[RegistrationDetails])
-    val boolnapper = ArgumentCaptor.forClass(classOf[Boolean])
     verify(mockCachingConnector)
-      .storeRegistrationDetails(captor.capture, boolnapper.capture)(headnapper.capture, exenapper.capture)
+      .storeRegistrationDetails(captor.capture)(headnapper.capture, exenapper.capture)
     captor.getValue
   }
 
