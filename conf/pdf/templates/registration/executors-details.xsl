@@ -14,7 +14,7 @@
         <xsl:param name="value"/>
 
         <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" page-break-before="always">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.coexecutorsDetails.summary')"/>
+            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.registration.othersApplyingForProbate')"/>
         </fo:block>
 
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before=".5cm">

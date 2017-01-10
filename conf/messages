@@ -1977,7 +1977,6 @@ page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.
 page.iht.sign-out.p2 = Use the link in your Inheritance Tax email that you were sent if you want to sign back in.
 page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
 
-pdf.coexecutorsDetails.summary = Other people applying for probate
 pdf.totalassets.text = Total Assets
 pdf.totalexemptions.text = Total Exemptions
 pdf.totalTrusts.text = Total of Trusts
