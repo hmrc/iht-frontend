@@ -16,6 +16,30 @@ showHideContent.init()
 
 
 // =====================================================
+// Long name breaking
+// wraps non-name part of heading to prevent unwanted break
+// =====================================================
+$('.copy--restricted').each(
+    function(){
+        var elText = $(this).text();
+        // to work with pattern of <name>'s estate overview
+        if($(this).text().toLowerCase().indexOf('estate overview') != -1){
+            // Estate Overview page
+            var elArr = elText.split("’s");
+            for(i = 0; i < elArr.length; i++){
+                if(elArr[i].toLowerCase().indexOf('estate overview') != -1){
+                    elArr[i] = "<span>" + elArr[i] + "</span>";
+                }
+            }
+            $(this).html(elArr.join("’s"));
+
+        }
+
+    }
+);
+
+
+// =====================================================
 // Check for hashed url and jump to input if needed
 // The non-error-list focus will not focus on the input for iOS due to security restrictions
 // The in-page link-click focus setting is not affected

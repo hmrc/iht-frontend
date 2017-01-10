@@ -34,7 +34,7 @@ restricts heading to lower size when character limit is reached
 prevents long names from overrunning bounds of layout
 ====================================
 */
-.heading--restricted {
+.copy--restricted {
   overflow-wrap: break-word;
   word-wrap: break-word;
   -webkit-hyphens: auto;
@@ -42,9 +42,11 @@ prevents long names from overrunning bounds of layout
   -moz-hyphens: auto;
   hyphens: auto;
 }
-@media (min-width: 641px){
-  .heading--restricted {
-    font-size: 36px;
-    margin-top: .836em;
-  }
+.copy--restricted span {
+    overflow-wrap: normal;
+    word-wrap: normal;
+    -webkit-hyphens: initial;
+    -ms-hyphens: initial;
+    -moz-hyphens: initial;
+    hyphens: initial;
 }

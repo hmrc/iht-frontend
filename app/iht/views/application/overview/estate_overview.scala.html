@@ -36,9 +36,9 @@
     browserTitle = Some(Messages("page.iht.application.overview.browserTitle")),
     isFullWidth=false,
     sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline),
-    headingClass = if(checkNameSize(model.deceasedName)){"heading-xlarge heading--restricted"} else {"heading-xlarge"}
+    headingClass = if(checkNameSize(model.deceasedName)){"heading-large copy--restricted"} else {"heading-xlarge"}
 ){
-  <section id="assets-gifts-section" @if(model.reducingEstateValueSection.isDefined) {class="section"}>
+    <section id="assets-gifts-section" @if(model.reducingEstateValueSection.isDefined) {class="section"}>
     @assets_and_gifts_section(model.assetsAndGiftsSection)
   </section>
     @if(model.reducingEstateValueSection.isDefined) {
