@@ -34,9 +34,12 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
     @helpers.form(action = iht.controllers.application.assets.routes.MoneyOwedController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Messages("page.iht.application.assets.moneyOwed.description.p1")</p>
-        <p>@Messages("page.iht.application.assets.moneyOwed.description.p2")</p>
-        <p>@Messages("page.iht.application.assets.moneyOwed.description.p3")</p>
+        <p class="lede">@Messages("page.iht.application.assets.moneyOwed.description.p1",
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p>@Messages("page.iht.application.assets.moneyOwed.description.p2",
+                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p>@Messages("page.iht.application.assets.moneyOwed.description.p3",
+                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
 
         @ihtHelpers.generic_estate_element_assets(

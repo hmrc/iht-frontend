@@ -24,7 +24,8 @@ deceasedName: String)(implicit request:Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
                                                 deceasedName),
-browserTitle = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther")),
+browserTitle = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
+                                Messages("iht.the.deceased"))),
 isFullWidth=false){
     <p id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section7.guidance")</p>
     <p id="insurance-policy-description2">@Messages("page.iht.application.insurance.policies.section7.guidance2")</p>

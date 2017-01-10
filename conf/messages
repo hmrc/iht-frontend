@@ -395,9 +395,9 @@ page.iht.application.assets.other.description.p2 = This could be any money owed 
 page.iht.application.assets.other.isOwned = Did {0} own any other assets?
 page.iht.application.assets.other.inputLabel1 = Value of any other assets when the deceased died
 
-page.iht.application.assets.moneyOwed.description.p1 = This is any money owed to the deceased when they died.
-page.iht.application.assets.moneyOwed.description.p2 = This could be a loan the deceased made to someone or to a business and wasn’t paid back before they died.
-page.iht.application.assets.moneyOwed.description.p3 = You should include the total value that was still owed to the deceased and include any unpaid interest.
+page.iht.application.assets.moneyOwed.description.p1 = This is any money owed to {0} when they died.
+page.iht.application.assets.moneyOwed.description.p2 = This could be a loan {0} made to someone or to a business and wasn’t paid back before they died.
+page.iht.application.assets.moneyOwed.description.p3 = You should include the total value that was still owed to {0} and include any unpaid interest.
 page.iht.application.assets.moneyOwed.isOwned = Was any money owed to {0}?
 page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to the deceased when they died
 

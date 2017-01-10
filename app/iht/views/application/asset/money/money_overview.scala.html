@@ -88,7 +88,8 @@ isFullWidth=false
                 isAnswerValue = money.flatMap(_.isOwnedShare).isEmpty
                 ),
             generic_overview_table_item(id = "deceased-shared-question",
-                questionText = Messages("page.iht.application.assets.money.jointly.owned.question", Messages("iht.the.deceased")),
+                questionText = Messages("page.iht.application.assets.money.jointly.owned.question",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
                 questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question", Messages("iht.the.deceased")),
                 questionCategory= "change",
                 answerValue=Messages(getBooleanDisplayValue(money.flatMap(_.isOwnedShare.map(x=>x)))),
