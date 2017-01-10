@@ -48,8 +48,10 @@ isFullWidth=false
         "money-deceased-owned-section",
          money.flatMap(_.isOwned),
             generic_overview_table_heading_item(id = "deceased-own-heading",
-                questionText = Messages("iht.estateReport.assets.moneyOwned"),
-                questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned"),
+                questionText = Messages("iht.estateReport.assets.moneyOwned",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned",
+                                                    Messages("iht.the.deceased")),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue"),
                 isAnswerValue = money.flatMap(_.isOwned).isEmpty

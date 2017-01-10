@@ -25,7 +25,8 @@
 @(money: Form[ShareableBasicEstateElement], registrationDetails: RegistrationDetails
 )(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwned"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwned",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.assets.money.deceased.browserTitle")),
     isFullWidth=false) {
 
