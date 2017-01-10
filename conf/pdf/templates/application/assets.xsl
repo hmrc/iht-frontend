@@ -29,7 +29,7 @@
                                     <fo:table-body font-size="12pt">
                                         <xsl:call-template name="table-row">
                                             <xsl:with-param name="label"
-                                                            select="i18n:getMessagesText($translator, 'page.iht.application.assets.properties.question.question', 'iht.the.deceased')"/>
+                                                            select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.properties.question.question', 'iht.the.deceased')"/>
                                             <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.yes')"/>
                                         </xsl:call-template>
                                     </fo:table-body>
@@ -54,7 +54,7 @@
                                             </xsl:call-template>
                                             <xsl:call-template name="table-row">
                                                 <xsl:with-param name="label"
-                                                                select="i18n:getMessagesText($translator, 'iht.estateReport.assets.howOwnedByDeceased', 'iht.the.deceased')"/>
+                                                                select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.howOwnedByDeceased', 'iht.the.deceased')"/>
                                                 <xsl:with-param name="value" select="typeOfOwnership"/>
                                             </xsl:call-template>
                                             <xsl:call-template name="table-row">
@@ -169,7 +169,7 @@
             <xsl:choose>
                 <xsl:when test="allAssets/household != ''">
                     <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title')"/>
+                        <xsl:value-of select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title', 'iht.the.deceased')"/>
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="12pt">
                         <fo:table space-before="0.5cm">
@@ -177,7 +177,7 @@
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.household.ownName.question')"/>
+                                    <xsl:with-param name="label" select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.household.ownName.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/household/isOwned='false'">
@@ -204,7 +204,7 @@
                         </fo:table>
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title')"/>
+                        <xsl:value-of select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title', 'iht.the.deceased')"/>
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="12pt">
                         <fo:table space-before="0.5cm">
@@ -212,7 +212,7 @@
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body>
                                 <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.household.joint.question')" />
+                                    <xsl:with-param name="label" select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.household.joint.question', 'iht.the.deceased')" />
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/household/isOwnedShare='false'">
@@ -247,7 +247,7 @@
             <xsl:choose>
             <xsl:when test="allAssets/vehicles != ''">
                 <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
-                    <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.vehiclesOwned')"/>
+                    <xsl:value-of select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.vehiclesOwned', 'iht.the.deceased')"/>
                 </fo:block>
                 <fo:block font-family="OpenSans" font-size="12pt">
                     <fo:table space-before="0.5cm">
@@ -255,7 +255,7 @@
                         <fo:table-column column-number="2" column-width="30%"/>
                         <fo:table-body font-size="12pt">
                             <xsl:call-template name="table-row">
-                                <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.vehicles.ownName.question')"/>
+                                <xsl:with-param name="label" select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.vehicles.ownName.question', 'iht.the.deceased')"/>
                                 <xsl:with-param name="value">
                                     <xsl:choose>
                                         <xsl:when test="allAssets/vehicles/isOwned='false'">
@@ -282,7 +282,7 @@
                     </fo:table>
                 </fo:block>
                 <fo:block font-family="OpenSans" font-size="16pt" space-before="0.5cm">
-                    <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.application.assets.vehicles.overview.joint.title')"/>
+                    <xsl:value-of select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.vehicles.overview.joint.title','iht.the.deceased')"/>
                 </fo:block>
                 <fo:block font-family="OpenSans" font-size="12pt">
                     <fo:table space-before="0.5cm">
@@ -290,7 +290,7 @@
                         <fo:table-column column-number="2" column-width="30%"/>
                         <fo:table-body>
                             <xsl:call-template name="table-row">
-                                <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.vehicles.jointly.owned.question')" />
+                                <xsl:with-param name="label" select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.vehicles.jointly.owned.question', 'iht.the.deceased')" />
                                 <xsl:with-param name="value">
                                     <xsl:choose>
                                         <xsl:when test="allAssets/vehicles/isOwnedShare='false'">
@@ -331,7 +331,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.pensions.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.pensions.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/privatePension/isOwned='false'">
@@ -391,7 +391,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares.listed.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.stocksAndShares.listed.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/stockAndShare/isListed='false'">
@@ -424,7 +424,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares.notListed.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.stocksAndShares.notListed.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/stockAndShare/isNotListed='false'">
@@ -459,14 +459,14 @@
                 <xsl:when test="allAssets/insurancePolicy != ''">
                     <xsl:comment>Assets insurance policies paying out to the deceased</xsl:comment>
                     <fo:block font-family="OpenSans" font-size="12pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.payingOutToDeceased')"/>
+                        <xsl:value-of select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.insurancePolicies.payingOutToDeceased', 'iht.the.deceased')"/>
                         <fo:table space-before="0.5cm">
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.estateReport.insurancePolicies.ownName.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.insurancePolicies.ownName.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/insurancePolicy/policyInDeceasedName='false'">
@@ -500,7 +500,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.estateReport.insurancePolicies.jointlyHeld.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.insurancePolicies.jointlyHeld.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/insurancePolicy/isJointlyOwned='false'">
@@ -527,14 +527,14 @@
                     </fo:block>
                     <xsl:comment>Assets insurance premiums that wer paid by the deceased for someone</xsl:comment>
                     <fo:block font-family="OpenSans" font-size="12pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.premiumsPaidByOther')"/>
+                        <xsl:value-of select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.insurancePolicies.premiumsPaidByOther', 'iht.the.deceased')"/>
                         <fo:table space-before="0.5cm">
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.estateReport.insurancePolicies.premiumsNotPayingOut.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.insurancePolicies.premiumsNotPayingOut.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/insurancePolicy/isInsurancePremiumsPayedForSomeoneElse='false'">
@@ -549,7 +549,7 @@
                                 <xsl:if test="allAssets/insurancePolicy/moreThanMaxValue">
                                     <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question')"/>
+                                                        select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question', 'iht.the.deceased')"/>
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/insurancePolicy/moreThanMaxValue">
                                                 <xsl:choose>
@@ -565,7 +565,7 @@
                                     </xsl:call-template>
                                     <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.buyAnnuity.question')"/>
+                                                        select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.insurancePolicies.buyAnnuity.question', 'iht.the.deceased')"/>
                                         <xsl:with-param name="value">
                                             <xsl:choose>
                                                 <xsl:when test="allAssets/insurancePolicy/isAnnuitiesBought='false'">
@@ -579,7 +579,7 @@
                                     </xsl:call-template>
                                     <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'page.iht.application.assets.insurance.policies.overview.other.question4')"/>
+                                                        select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.insurance.policies.overview.other.question4', 'iht.the.deceased')"/>
                                         <xsl:with-param name="value">
                                             <xsl:choose>
                                                 <xsl:when test="allAssets/insurancePolicy/isInTrust='false'">
@@ -610,7 +610,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.businessInterest.isOwned')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.businessInterest.isOwned', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/businessInterest/isOwned='false'">
@@ -652,7 +652,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.nominated.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.nominated.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/nominated/isOwned='false'">
@@ -694,7 +694,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.estateReport.assets.trusts.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.trusts.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/heldInTrust/isOwned='false'">
@@ -753,7 +753,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.foreign.deceasedOwned.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.foreign.deceasedOwned.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/foreign/isOwned='false'">
@@ -783,7 +783,7 @@
         </fo:block>
         <xsl:comment>Assets Money Owed section starts</xsl:comment>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.moneyOwed')"/>
+            <xsl:value-of select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.assets.moneyOwed', 'iht.the.deceased')"/>
             <xsl:choose>
                 <xsl:when test="allAssets/moneyOwed != ''">
                     <fo:block font-family="OpenSans" font-size="12pt">
@@ -793,7 +793,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.moneyOwed.isOwned')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.moneyOwed.isOwned', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/moneyOwed/isOwned='false'">
@@ -833,7 +833,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.assets.other.isOwned')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'page.iht.application.assets.other.isOwned', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allAssets/other/isOwned='false'">

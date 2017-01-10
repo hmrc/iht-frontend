@@ -46,7 +46,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.reservation.question')"/>
+                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.gifts.reservation.question', 'iht.the.deceased')"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allGifts/isReservation='false'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/></xsl:if>
                                         <xsl:if test="allGifts/isReservation='true'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/></xsl:if>

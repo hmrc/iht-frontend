@@ -33,6 +33,9 @@ import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.{Logger, Play}
 
+import scala.util
+import scala.util.{Failure, Success, Try}
+
 /**
   * Created by david-beer on 07/06/16.
   */
@@ -102,8 +105,14 @@ trait XmlFoToPDF {
     transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
     transformer.setParameter("kickout", kickout)
 
-    transformer.transform(modelSource, res)
-    pdfoutStream.toByteArray
+    val test = Try{transformer.transform(modelSource, res)
+    pdfoutStream.toByteArray}
+
+    test match {
+      case Success (a) => a
+      case Failure (ex) => ex.printStackTrace()
+        throw ex
+    }
   }
 
   def createClearancePDF(registrationDetails: RegistrationDetails, declarationDate: LocalDate): Array[Byte] = {
