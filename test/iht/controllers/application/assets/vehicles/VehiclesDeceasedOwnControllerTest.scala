@@ -22,6 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 
@@ -33,6 +34,11 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
+
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
+    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
+
+  lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,
@@ -143,7 +149,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesDeceasedOwnController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.vehiclesOwned"))
+      contentAsString(result) should include (Messages("iht.estateReport.assets.vehiclesOwned", deceasedName))
     }
   }
 }
