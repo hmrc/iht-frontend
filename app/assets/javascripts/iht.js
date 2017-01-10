@@ -1,6 +1,13 @@
 $(document).ready(function() {
 
 // =====================================================
+// Remove hidden attribute from js-visible elements
+// =====================================================
+$('.js-visible').removeAttr('hidden');
+
+
+
+// =====================================================
 // Initialise show-hide-content
 // Toggles additional content based on radio/checkbox input state
 // =====================================================
