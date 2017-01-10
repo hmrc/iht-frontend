@@ -365,8 +365,8 @@ GET         /threshold-increased                                                
 GET         /declaration                                                                        iht.controllers.application.declaration.DeclarationController.onPageLoad
 POST        /declaration                                                                        iht.controllers.application.declaration.DeclarationController.onSubmit
 
-GET         /checked-everything                                                                 iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
-POST        /checked-everything                                                                 iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
+GET         /continue-to-declaration                                                                 iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
+POST        /continue-to-declaration                                                                 iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
 
 GET         /sent-to-hmrc                                                                       iht.controllers.application.declaration.DeclarationReceivedController.onPageLoad
 

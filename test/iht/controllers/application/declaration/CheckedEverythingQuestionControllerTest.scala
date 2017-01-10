@@ -107,8 +107,9 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
       val result = checkedEverythingQuestionController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      val resultAsString = contentAsString(result)
+      resultAsString should include (Messages("error.problem"))
+      resultAsString should include (Messages("error.hasCheckedEverything.select"))
     }
-
   }
 }

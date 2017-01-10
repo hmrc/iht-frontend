@@ -2469,7 +2469,7 @@ error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of t
 error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from, the estate to the deceased
 
 error.giveCountry = Give a country
-error.hasCheckedEverything.select = Select a value for if you have finished finding out
+error.hasCheckedEverything.select = Select an answer for if you have finished finding out about the estate
 error.heldInTrust.currencyValue.length.summary = enter a value for assets in a trust using less than 11 numbers
 error.heldInTrust.currencyValue.summary = enter a value for assets in a trust using only numbers
 error.household.currencyValue.length.summary = enter a value for household and personal items using less than 11 numbers
