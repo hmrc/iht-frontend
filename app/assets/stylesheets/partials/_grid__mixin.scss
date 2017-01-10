@@ -1,0 +1,38 @@
+@mixin gridLayout {
+    .grid-layout__column--1-12 {
+      width: 8.3%;
+    }
+    .grid-layout__column--2-12 {
+      width: 16.6%;
+    }
+    .grid-layout__column--3-12 {
+      width: 25%;
+    }
+    .grid-layout__column--4-12 {
+      width: 33.3%;
+    }
+    .grid-layout__column--5-12 {
+      width: 41.6%;
+    }
+    .grid-layout__column--6-12 {
+      width: 50%;
+    }
+    .grid-layout__column--7-12 {
+      width: 58.3%;
+    }
+    .grid-layout__column--8-12 {
+      width: 66.6%;
+    }
+    .grid-layout__column--9-12 {
+      width: 75%;
+    }
+    .grid-layout__column--10-12 {
+      width: 83.3%;
+    }
+    .grid-layout__column--11-12 {
+      width: 91.6%;
+    }
+    .grid-layout__column--12-12 {
+      width: 100%;
+    }
+}

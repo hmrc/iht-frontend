@@ -1,6 +1,7 @@
 @mixin tabData {
     .tabular-data__data {
       display: table-cell;
+      vertical-align: top;
     }
     .tabular-data__data--1-12 {
       width: 8.3%;
