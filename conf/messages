@@ -391,7 +391,7 @@ page.iht.application.assets.foreign.deceasedOwned.question = Did {0} own any for
 
 page.iht.application.assets.other.browserTitle = Other assets owned
 page.iht.application.assets.other.description.p1 = This is the total value of any other assets that are not included in any other section.
-page.iht.application.assets.other.description.p2 = This could be any money owed in salary or wages, pension arrears, rents owed to the deceased, or refunds from utility bills.
+page.iht.application.assets.other.description.p2 = This could be any money owed in salary or wages, pension arrears, rents owed to {0}, or refunds from utility bills.
 page.iht.application.assets.other.isOwned = Did {0} own any other assets?
 page.iht.application.assets.other.inputLabel1 = Value of any other assets when the deceased died
 
@@ -401,15 +401,12 @@ page.iht.application.assets.moneyOwed.description.p3 = You should include the to
 page.iht.application.assets.moneyOwed.isOwned = Was any money owed to {0}?
 page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to the deceased when they died
 
-
-
 page.iht.application.assets.businessInterest.browserTitle = Business interests owned
 page.iht.application.assets.businessInterest.description.p1 = This should include the value of {0}’s business interests.
 page.iht.application.assets.businessInterest.description.p2 = If {0} owned any business properties, buildings or land, you should give these details in the properties, buildings and land section.
 page.iht.application.assets.businessInterest.isOwned = Did {0} own any businesses or have any other business interests when they died?
 page.iht.application.assets.businessInterest.inputLabel1 = Value of the deceased’s business interests when they died
 page.iht.application.assets.businessInterest.hint = Don’t include any business properties, buildings or land that were owned.
-
 
 page.iht.application.assets.nominated.sectionName = nominated
 page.iht.application.assets.nominated.browserTitle = Nominated assets owned
@@ -427,7 +424,6 @@ page.iht.application.assets.held-in-trust.question3 = Was the deceased benefitti
 
 page.iht.application.assets.subtitle = An asset is anything the deceased owned that has a value.
 
-
 page.iht.application.assets.money.overview.description.p1 = This is the value of any money that {0} had.
 page.iht.application.assets.money.overview.description.p2 = This includes any money in banks, building societies, National Savings investments, ISAs and safety deposit boxes. You should also include any cash {0} had in notes and coins.
 page.iht.application.assets.money.overview.description.p3 = If {0} had any foreign cash in the UK, you should change the value to British pounds using the exchange rate on the date of death and include that amount here.
@@ -438,7 +434,6 @@ page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.va
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.noValue = Give an answer for money jointly owned with other people
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.change = Change the answer for money jointly owned with other people
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.value = Change the value of money jointly owned with other people
-
 
 page.iht.application.assets.money.deceased.browserTitle = Own money owned
 page.iht.application.assets.money.deceased.guidance = This is the value of any money that {0} had, including any in an account in the UK. This includes banks, building societies, National Savings investments, ISAs and safety deposit boxes.
