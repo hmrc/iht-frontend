@@ -18,6 +18,7 @@
     <xsl:param name="deceasedName"/>
     <xsl:param name="preDeceasedName"/>
     <xsl:param name="marriageLabel"/>
+    <xsl:param name="marriedOrCivilPartnershipLabel"/>
     <xsl:param name="kickout"/>
 
     <xsl:include href="pdf/templates/application/estate-summary.xsl"/>
