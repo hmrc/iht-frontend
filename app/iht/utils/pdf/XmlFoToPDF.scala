@@ -85,10 +85,9 @@ trait XmlFoToPDF {
 
     val preDeceasedName = applicationDetails.increaseIhtThreshold.map(
       xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)).fold("")(identity)
-    val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
 
-    val dateOfPredeceased =
-          applicationDetails.widowCheck.flatMap{ x=> x.dateOfPreDeceased}
+    val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
+    val dateOfPredeceased = applicationDetails.widowCheck.flatMap{ x=> x.dateOfPreDeceased}
 
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", MessagesTranslator)
