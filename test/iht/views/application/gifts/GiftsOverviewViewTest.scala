@@ -95,6 +95,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
 
       val appDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(allGifts), giftsList = giftsList)
       val seqOfQuestions = createSeqOfQuestions(regDetails, appDetails, allGifts)
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
       val view = gifts_overview(regDetails,
                                 seqOfQuestions,
@@ -104,25 +105,26 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       assertRenderedById(doc, "givenAway")
-      messagesShouldBePresent(doc.toString, CommonHelper.escapePound(Messages("page.iht.application.gifts.overview.givenAway.question1")))
+      messagesShouldBePresent(doc.toString,
+        CommonHelper.escapePound(Messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)))
       val givenAwayLink = doc.getElementById("givenAway-question-1-edit")
       givenAwayLink.text shouldBe Messages("iht.change")
       givenAwayLink.attr("href") shouldBe giftGivenAwayPageUrl.url
 
       assertRenderedById(doc, "reservation")
-      messagesShouldBePresent(doc.toString, Messages("iht.estateReport.gifts.reservation.question"))
+      messagesShouldBePresent(doc.toString, Messages("iht.estateReport.gifts.reservation.question", deceasedName))
       val reservationLink = doc.getElementById("reservation-question-1-edit")
       reservationLink.text shouldBe Messages("iht.change")
       reservationLink.attr("href") shouldBe giftWithReservationUrl.url
 
       assertRenderedById(doc, "sevenYear")
-      messagesShouldBePresent(doc.toString, Messages("page.iht.application.gifts.overview.sevenYears.question1"))
+      messagesShouldBePresent(doc.toString, Messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName))
       val sevenYearsLink = doc.getElementById("sevenYear-question-1-edit")
       sevenYearsLink.text shouldBe Messages("iht.change")
       sevenYearsLink.attr("href") shouldBe giftGivenInLastSevenYearsPageUrl.url
 
       assertRenderedById(doc, "value")
-      messagesShouldBePresent(doc.toString, Messages("page.iht.application.gifts.overview.value.question1"))
+      messagesShouldBePresent(doc.toString, Messages("page.iht.application.gifts.overview.value.question1", deceasedName))
       val valueLink = doc.getElementById("value-value-edit")
       valueLink.text shouldBe Messages("iht.estateReport.changeValues")
       valueLink.attr("href") shouldBe giftSevenYearsValuesPageUrl.url
@@ -133,13 +135,15 @@ class GiftsOverviewViewTest extends ViewTestHelper {
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
                                    allGifts: AllGifts) = {
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
       title = None,
       linkUrl = giftGivenAwayPageUrl,
       sectionLevelLinkAccessibilityText = "",
       questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq("page.iht.application.gifts.overview.givenAway.question1"),ad, regDetails)
+      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.givenAway.question1",
+                                                      deceasedName)),ad, regDetails)
 
     lazy val sectionReservation = createSectionFromYesNoQuestions(
       id = "reservation",
@@ -147,7 +151,8 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       linkUrl = giftWithReservationUrl,
       sectionLevelLinkAccessibilityText = "",
       questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq("iht.estateReport.gifts.reservation.question"), ad, regDetails)
+      questionTitlesMessagesFileItems = Seq(Messages("iht.estateReport.gifts.reservation.question",
+                                                    deceasedName)), ad, regDetails)
 
     lazy val sectionSevenYears = createSectionFromYesNoQuestions(
       id = "sevenYear",
@@ -155,8 +160,9 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       linkUrl = giftGivenInLastSevenYearsPageUrl,
       sectionLevelLinkAccessibilityText = "",
       questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq("page.iht.application.gifts.overview.sevenYears.question1",
-        "page.iht.application.gifts.overview.sevenYears.question2"), ad, regDetails)
+      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.sevenYears.question1",
+                                                    deceasedName),
+        Messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)), ad, regDetails)
 
     lazy val sectionValueGivenAway = createSectionFromValueQuestions(
       id = "value",

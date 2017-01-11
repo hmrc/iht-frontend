@@ -112,7 +112,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.debts.debtsTrust.isOwned')"/>
+                                                    select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.debts.debtsTrust.isOwned', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allLiabilities/trust/isOwned='false'">

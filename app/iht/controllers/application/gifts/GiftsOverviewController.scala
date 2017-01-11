@@ -108,13 +108,14 @@ trait GiftsOverviewController extends EstateController {
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
                                    allGifts: AllGifts) = {
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
       title = None,
       linkUrl = routes.GivenAwayController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.givenAway.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq("page.iht.application.gifts.overview.givenAway.question1"),ad, regDetails)
+      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)),ad, regDetails)
 
     lazy val sectionReservation = createSectionFromYesNoQuestions(
       id = "reservation",
@@ -122,7 +123,7 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.WithReservationOfBenefitController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq("iht.estateReport.gifts.reservation.question"), ad, regDetails)
+      questionTitlesMessagesFileItems = Seq(Messages("iht.estateReport.gifts.reservation.question", deceasedName)), ad, regDetails)
 
     lazy val sectionSevenYears = createSectionFromYesNoQuestions(
       id = "sevenYear",
@@ -130,8 +131,8 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq("page.iht.application.gifts.overview.sevenYears.question1",
-                                            "page.iht.application.gifts.overview.sevenYears.question2"), ad, regDetails)
+      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName),
+                                            Messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)), ad, regDetails)
 
     lazy val sectionValueGivenAway = createSectionFromValueQuestions(
       id = "value",
