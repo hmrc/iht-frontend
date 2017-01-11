@@ -288,6 +288,9 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
 
     "display second 'gifts given to trust' question when all other questions answered 'No'" in {
+      val regDetails = CommonBuilder.buildRegistrationDetails copy (
+                            deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
+      val  deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(CommonBuilder.buildAllGifts
         .copy(isGivenAway = Some(false), isReservation = Some(false), isGivenInLast7Years = Some(false))))
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
@@ -302,7 +305,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.gifts.overview.sevenYears.question2"))
+      contentAsString(result) should include (Messages("page.iht.application.gifts.overview.sevenYears.question2",
+        deceasedName))
     }
 
     "not display second 'gifts given to trust' question when 7 year question answered 'Yes'" in {
