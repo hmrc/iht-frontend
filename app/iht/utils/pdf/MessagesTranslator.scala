@@ -29,6 +29,6 @@ object MessagesTranslator {
   def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String): String =
       Messages(key, parameter1, parameter2)
 
-  def getMessagesTextWithThreeParameters(key: String, parameter1: String, parameter2:String , parameter3: String): String =
+  def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String , parameter3: String): String =
       Messages(key, parameter1, parameter2, parameter3)
 }

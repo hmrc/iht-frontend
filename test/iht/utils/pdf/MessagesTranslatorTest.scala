@@ -56,15 +56,13 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
       result shouldBe  Messages("pdf.inheritance.tax.application.summary.p1", name1, name2)
     }
-  }
 
-  "getMessagesTextWithThreeParameters" must {
-    "return the correct string" in {
+    "return the correct string with 3 parameters" in {
       val parameter1 = "John"
       val parameter2 = "Smith"
       val parameter3 = "Sam"
 
-      val result = MessagesTranslator.getMessagesTextWithThreeParameters("iht.estateReport.tnrb.partner.married",
+      val result = MessagesTranslator.getMessagesTextWithParameters("iht.estateReport.tnrb.partner.married",
         parameter1, parameter2, parameter3)
 
       result shouldBe  Messages("iht.estateReport.tnrb.partner.married", parameter1, parameter2, parameter3)
