@@ -930,7 +930,7 @@ page.iht.application.giftsDetails.exemptions.label = Total value of exemptions b
 page.iht.application.giftsDetails.amountAdded = Amount added to the estate value is £
 
 #Debts
-page.iht.application.debts.subtitle1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of the deceased’s estate.
+page.iht.application.debts.subtitle1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate.
 page.iht.application.debts.subtitle2 = You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
 
 page.iht.application.debts.overview.mortgages.screenReader.value = The value of mortgages is £{0}
@@ -1977,7 +1977,7 @@ pdf.assetTotal.text = Asset Total
 pdf.assetDescription.text = Asset description
 pdf.liabilityType.text = Liability Type
 pdf.liabilityAmount.text = Liability Amount
-pdf.debts.summary.p1 = A debt is anything that the deceased was responsible for paying. Only include debts that are being paid out of the deceased’s estate. You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
+pdf.debts.summary.p1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate. You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
 pdf.gifts.summary.p1 = A gift is an asset given away by the deceased before they died. These are added to the value of the estate.
 pdf.exemption.table.text = Exemption
 pdf.gifts.total.title = Total of all gifts given away
