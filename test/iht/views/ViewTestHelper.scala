@@ -29,7 +29,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     val doc = asDocument(pageContent)
     val headers = doc.getElementsByTag("h1")
     headers.size shouldBe 1
-    headers.first.text() shouldBe Messages(expectedTitle)
+    headers.first.text() shouldBe expectedTitle
   }
 
   def browserTitleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
@@ -38,10 +38,10 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {
-    for (sentence <- expectedSentences) content should include(Messages(sentence))
+    for (sentence <- expectedSentences) content should include(sentence)
   }
 
-  def buildApplicationTitle(titleKey: String) = Messages(titleKey) + " " + Messages("site.title.govuk")
+  def buildApplicationTitle(titleKey: String) = titleKey + " " + Messages("site.title.govuk")
 
   def labelShouldBe(doc: Document, labelId: String, messageKey: String) = {
     val label = doc.getElementById(labelId)

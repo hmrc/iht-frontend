@@ -22,12 +22,12 @@ import play.api.i18n.Messages
 
 object GenericOverviewHelper extends ViewTestHelper {
 
-  def headerQuestionShouldBeUnanswered(doc: Document, elementId: String, messageKey: String, url: String) = {
+  def headerQuestionShouldBeUnanswered(doc: Document, elementId: String, message: String, url: String) = {
     val heading = doc.getElementById(elementId).getElementsByTag("h2").first
-    heading.text shouldBe Messages(messageKey)
+    heading.text shouldBe message
 
     val link = doc.getElementById(s"$elementId-link")
-    messagesShouldBePresent(link.text, "site.link.giveAnswer")
+    messagesShouldBePresent(link.text, Messages("site.link.giveAnswer"))
     link.attr("href") shouldBe url
   }
 
