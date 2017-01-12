@@ -89,7 +89,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
       messagesShouldBePresent(view.toString, Messages("iht.estateReport.kickout.returnToEstateOverview"))
 
       val returnLink = view.getElementById("back-button")
-      returnLink.text shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      returnLink.text shouldBe Messages("iht.estateReport.kickout.returnToEstateOverview.linkText")
       returnLink.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
 

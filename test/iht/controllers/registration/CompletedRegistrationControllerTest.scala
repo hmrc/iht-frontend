@@ -104,7 +104,6 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
       contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.ref.text"))
       contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p1"))
       contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p2"))
-      contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p3"))
     }
   }
 }

@@ -16,15 +16,15 @@
 
 package iht.views.application.gifts
 
+import iht.models.RegistrationDetails
+import iht.models.application.ApplicationDetails
+import iht.models.application.gifts.AllGifts
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
-import iht.utils.OverviewHelper.Section
+import iht.utils.OverviewHelper._
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_overview
 import play.api.i18n.Messages
-
-//TODO Need to add tests cases to check all the Gifts question.Can be done once we start working on new Acceptance Test framework
-
 
 class GiftsOverviewViewTest extends ViewTestHelper {
 
@@ -32,6 +32,11 @@ class GiftsOverviewViewTest extends ViewTestHelper {
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
   lazy val whatAGiftPageUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()
   lazy val estateOverviewPageUrl = iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)
+  lazy val giftGivenAwayPageUrl = iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad()
+  lazy val giftWithReservationUrl = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onPageLoad()
+  lazy val giftGivenInLastSevenYearsPageUrl = iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onPageLoad()
+  lazy val giftSevenYearsValuesPageUrl = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
+  lazy val giftsForTrustPageUrl = iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad()
 
   def giftsOverviewView(sectionsToDisplay: Seq[Section] = Nil) = {
     implicit val request = createFakeRequest()
@@ -78,6 +83,126 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       returnLink.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
     }
 
+    "have all question labels and the correct target links" in {
+      implicit val request = createFakeRequest()
+      val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true),
+                                                      isReservation = Some(false),
+                                                      isToTrust = Some(false),
+                                                      isGivenInLast7Years = Some(true),
+                                                      action = None)
+
+      val giftsList = CommonBuilder.buildGiftsList
+
+      val appDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(allGifts), giftsList = giftsList)
+      val seqOfQuestions = createSeqOfQuestions(regDetails, appDetails, allGifts)
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+
+      val view = gifts_overview(regDetails,
+                                seqOfQuestions,
+                                Some(estateOverviewPageUrl),
+                                "iht.estateReport.returnToEstateOverview")
+
+      val doc = asDocument(view)
+
+      assertRenderedById(doc, "givenAway")
+      messagesShouldBePresent(doc.toString,
+        CommonHelper.escapePound(Messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)))
+      val givenAwayLink = doc.getElementById("givenAway-question-1-edit")
+      givenAwayLink.text shouldBe Messages("iht.change")
+      givenAwayLink.attr("href") shouldBe giftGivenAwayPageUrl.url
+
+      assertRenderedById(doc, "reservation")
+      messagesShouldBePresent(doc.toString, Messages("iht.estateReport.gifts.reservation.question", deceasedName))
+      val reservationLink = doc.getElementById("reservation-question-1-edit")
+      reservationLink.text shouldBe Messages("iht.change")
+      reservationLink.attr("href") shouldBe giftWithReservationUrl.url
+
+      assertRenderedById(doc, "sevenYear")
+      messagesShouldBePresent(doc.toString, Messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName))
+      val sevenYearsLink = doc.getElementById("sevenYear-question-1-edit")
+      sevenYearsLink.text shouldBe Messages("iht.change")
+      sevenYearsLink.attr("href") shouldBe giftGivenInLastSevenYearsPageUrl.url
+
+      assertRenderedById(doc, "value")
+      messagesShouldBePresent(doc.toString, Messages("page.iht.application.gifts.overview.value.question1", deceasedName))
+      val valueLink = doc.getElementById("value-value-edit")
+      valueLink.text shouldBe Messages("iht.estateReport.changeValues")
+      valueLink.attr("href") shouldBe giftSevenYearsValuesPageUrl.url
+    }
+
+  }
+
+  private def createSeqOfQuestions(regDetails: RegistrationDetails,
+                                   ad: ApplicationDetails,
+                                   allGifts: AllGifts) = {
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+    lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
+      id = "givenAway",
+      title = None,
+      linkUrl = giftGivenAwayPageUrl,
+      sectionLevelLinkAccessibilityText = "",
+      questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
+      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.givenAway.question1",
+                                                      deceasedName)),ad, regDetails)
+
+    lazy val sectionReservation = createSectionFromYesNoQuestions(
+      id = "reservation",
+      title = Some("iht.estateReport.gifts.withReservation.title"),
+      linkUrl = giftWithReservationUrl,
+      sectionLevelLinkAccessibilityText = "",
+      questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails),
+      questionTitlesMessagesFileItems = Seq(Messages("iht.estateReport.gifts.reservation.question",
+                                                    deceasedName)), ad, regDetails)
+
+    lazy val sectionSevenYears = createSectionFromYesNoQuestions(
+      id = "sevenYear",
+      title = Some("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
+      linkUrl = giftGivenInLastSevenYearsPageUrl,
+      sectionLevelLinkAccessibilityText = "",
+      questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
+      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.sevenYears.question1",
+                                                    deceasedName),
+        Messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)), ad, regDetails)
+
+    lazy val sectionValueGivenAway = createSectionFromValueQuestions(
+      id = "value",
+      title = Some("iht.estateReport.gifts.valueOfGiftsGivenAway"),
+      linkUrl = giftSevenYearsValuesPageUrl,
+      sectionLevelLinkAccessibilityText = "",
+      questionLevelLinkAccessibilityTextValue = "",
+      questionAnswerExprValue = if (ad.isValueEnteredForPastYearsGifts) {
+        ad.totalPastYearsGiftsOption
+      } else { None },
+      questionTitlesMessagesFilePrefix = "page.iht.application.gifts.overview.value",
+      _.isValueEnteredForPastYearsGifts, ad)
+
+    allGifts.isGivenAway match {
+      case Some(false) => Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears)
+      case _ => Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears, sectionValueGivenAway)
+    }
+  }
+
+  private def givenAwayYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
+    Seq[QuestionAnswer](
+      QuestionAnswer(allGifts.isGivenAway, giftGivenAwayPageUrl,
+        _.allGifts.flatMap(_.isGivenAway).fold(true)(_ => true), "", "", "")
+    )
+  }
+
+  private def withReservationYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
+    Seq[QuestionAnswer](
+      QuestionAnswer(allGifts.isReservation, giftWithReservationUrl,
+        _.allGifts.flatMap(_.isReservation).fold(false)(_ => true), "", "", "")
+    )
+  }
+
+  private def sevenYearsYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
+    Seq[QuestionAnswer](
+      QuestionAnswer(allGifts.isGivenInLast7Years, giftGivenInLastSevenYearsPageUrl,
+        _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => true), "", "", ""),
+      QuestionAnswer(allGifts.isToTrust, giftsForTrustPageUrl,
+        _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => !allGifts.isGivenInLast7Years.get), "", "", "")
+    )
   }
 
 }

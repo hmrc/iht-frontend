@@ -94,7 +94,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesTextWithParameterAsMsgKey($translator, 'iht.estateReport.exemptions.charities.assetLeftToCharity.question', 'iht.the.deceased')"/>
+                                                    select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.exemptions.charities.assetLeftToCharity.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allExemptions/charity/isSelected='false'">
@@ -163,7 +163,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.qualifyingBodyOverview.question')"/>
+                                                    select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.exemptions.qualifyingBodyOverview.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
                                             <xsl:when test="allExemptions/qualifyingBody/isSelected='false'">
