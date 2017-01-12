@@ -362,20 +362,6 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
       setOfAsset.foldLeft(BigDecimal(0))((a, b) => a + b.assetTotalValue.fold(BigDecimal(0))(identity))
     }
   }
-
-  def transformForDisplay: IHTReturn = {
-    val optionSetAsset = freeEstate.flatMap(_.estateAssets).map { setOfAssets =>
-      setOfAssets.map { asset =>
-        asset.assetCode.fold(asset){ ac =>
-          Constants.etmpAssetCodesToIHTMessageKeys.get(ac).fold(asset){ newAssetDescription =>
-            asset.copy(assetDescription = Option(Messages(newAssetDescription)))
-          }
-        }
-      }
-    }
-    val optionFreeEstate = freeEstate.map(_ copy (estateAssets = optionSetAsset))
-    this copy (freeEstate = optionFreeEstate)
-  }
 }
 
 object IHTReturn {

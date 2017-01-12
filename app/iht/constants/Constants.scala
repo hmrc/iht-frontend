@@ -102,32 +102,32 @@ object Constants {
   lazy val between325000and1million = "between-325000-and-1million"
   lazy val moreThan1million = "more-than-1million"
 
-  val AssetCodeMoney = "9001"
-  val AssetCodeHouseHold = "9004"
-  val AssetCodePrivatePension = "9005"
-  val AssetCodeStockShareNotListed = "9010"
-  val AssetCodeStockShareListed = "9008"
-  val AssetCodeInsurancePolicy = "9006"
-  val AssetCodeBusinessInterest = "9021"
-  val AssetCodeNominatedAsset = "9099"
-  val AssetCodeForeignAsset = "9098"
-  val AssetCodeMoneyOwed = "9013"
-  val AssetCodeOtherAsset = "9015"
-  val AssetCodeTrust = "9097"
-  val AssetCodeGift = "9095"
+  val ETMPAssetCodeMoney = "9001"
+  val ETMPAssetCodeHouseHold = "9004"
+  val ETMPAssetCodePrivatePension = "9005"
+  val ETMPAssetCodeStockShareNotListed = "9010"
+  val ETMPAssetCodeStockShareListed = "9008"
+  val ETMPAssetCodeInsurancePolicy = "9006"
+  val ETMPAssetCodeBusinessInterest = "9021"
+  val ETMPAssetCodeNominatedAsset = "9099"
+  val ETMPAssetCodeForeignAsset = "9098"
+  val ETMPAssetCodeMoneyOwed = "9013"
+  val ETMPAssetCodeOtherAsset = "9015"
+  val ETMPAssetCodeTrust = "9097"
+  val ETMPAssetCodeGift = "9095"
 
   lazy val etmpAssetCodesToIHTMessageKeys = ListMap(
-    AssetCodeMoney -> "iht.estateReport.assets.money.upperCaseInitial",
-    AssetCodeHouseHold -> "iht.estateReport.assets.householdAndPersonalItems.title",
-    AssetCodePrivatePension -> "iht.estateReport.assets.privatePensions",
-    AssetCodeStockShareNotListed -> "iht.estateReport.assets.stocksAndSharesNotListed",
-    AssetCodeStockShareListed -> "iht.estateReport.assets.stocksAndSharesListed",
-    AssetCodeInsurancePolicy -> "iht.estateReport.assets.insurancePolicies",
-    AssetCodeBusinessInterest -> "iht.estateReport.assets.businessInterests.title",
-    AssetCodeNominatedAsset -> "iht.estateReport.assets.nominated",
-    AssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
-    AssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
-    AssetCodeOtherAsset -> "iht.estateReport.assets.other.title",
-    AssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title"
+    ETMPAssetCodeMoney -> "iht.estateReport.assets.money.upperCaseInitial",
+    ETMPAssetCodeHouseHold -> "iht.estateReport.assets.householdAndPersonalItems.title",
+    ETMPAssetCodePrivatePension -> "iht.estateReport.assets.privatePensions",
+    ETMPAssetCodeStockShareNotListed -> "iht.estateReport.assets.stocksAndSharesNotListed",
+    ETMPAssetCodeStockShareListed -> "iht.estateReport.assets.stocksAndSharesListed",
+    ETMPAssetCodeInsurancePolicy -> "iht.estateReport.assets.insurancePolicies",
+    ETMPAssetCodeBusinessInterest -> "iht.estateReport.assets.businessInterests.title",
+    ETMPAssetCodeNominatedAsset -> "iht.estateReport.assets.nominated",
+    ETMPAssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
+    ETMPAssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
+    ETMPAssetCodeOtherAsset -> "iht.estateReport.assets.other.title",
+    ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title"
   )
 }
