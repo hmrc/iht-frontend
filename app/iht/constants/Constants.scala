@@ -116,19 +116,18 @@ object Constants {
   val AssetCodeTrust = "9097"
   val AssetCodeGift = "9095"
 
-  lazy val ook = ListMap(
-    AssetCodeMoney -> "9001",
-    AssetCodeHouseHold -> "9004",
-    AssetCodePrivatePension -> "9005",
-    AssetCodeStockShareNotListed -> "9010",
-    AssetCodeStockShareListed -> "9008",
-    AssetCodeInsurancePolicy -> "9006",
-    AssetCodeBusinessInterest -> "9021",
-    AssetCodeNominatedAsset -> "9099",
-    AssetCodeForeignAsset -> "9098",
-    AssetCodeMoneyOwed -> "9013",
-    AssetCodeOtherAsset -> "9015",
-    AssetCodeTrust -> "9097",
-    AssetCodeGift -> "9095"
+  lazy val etmpAssetCodesToIHTMessageKeys = ListMap(
+    AssetCodeMoney -> "iht.estateReport.assets.money.upperCaseInitial",
+    AssetCodeHouseHold -> "iht.estateReport.assets.householdAndPersonalItems.title",
+    AssetCodePrivatePension -> "iht.estateReport.assets.privatePensions",
+    AssetCodeStockShareNotListed -> "iht.estateReport.assets.stocksAndSharesNotListed",
+    AssetCodeStockShareListed -> "iht.estateReport.assets.stocksAndSharesListed",
+    AssetCodeInsurancePolicy -> "iht.estateReport.assets.insurancePolicies",
+    AssetCodeBusinessInterest -> "iht.estateReport.assets.businessInterests.title",
+    AssetCodeNominatedAsset -> "iht.estateReport.assets.nominated",
+    AssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
+    AssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
+    AssetCodeOtherAsset -> "iht.estateReport.assets.other.title",
+    AssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title"
   )
 }
