@@ -18,9 +18,13 @@ package iht.models.des
 
 import iht.FakeIhtApp
 import iht.testhelpers.IHTReturnTestHelper._
+import models.des.iht_return.Asset
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.Messages
 import uk.gov.hmrc.play.test.UnitSpec
+
+import scala.collection.immutable.ListMap
 
 class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   "IHTReturn" must {
@@ -48,6 +52,38 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     "total trusts values" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
       ihtReturn.totalTrustsValue shouldBe BigDecimal(17)
+    }
+
+
+    "transform correctly for display" in {
+      val etmpTitlesMappedToPDFMessageKeys = ListMap(
+        "Rolled up bank and building society accounts" -> "iht.estateReport.assets.money.upperCaseInitial",
+        "Rolled up household and personal goods" -> "iht.estateReport.assets.householdAndPersonalItems.title",
+        "Rolled up pensions" -> "iht.estateReport.assets.privatePensions",
+        "Rolled up unlisted stocks and shares" -> "iht.estateReport.assets.stocksAndSharesNotListed",
+        "Rolled up quoted stocks and shares" -> "iht.estateReport.assets.stocksAndSharesListed",
+        "Rolled up life assurance policies" -> "iht.estateReport.assets.insurancePolicies",
+        "Rolled up business assets" -> "iht.estateReport.assets.businessInterests.title",
+        "Rolled up nominated assets" -> "iht.estateReport.assets.nominated",
+        "Rolled up trust assets" -> "iht.estateReport.assets.heldInATrust.title",
+        "Rolled up foreign assets" -> "iht.estateReport.assets.foreign.title",
+        "Rolled up money owed to deceased" -> "iht.estateReport.assets.moneyOwed",
+        "Rolled up other assets" -> "iht.estateReport.assets.other.title"
+      )
+      val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "")
+      val expectedSetOfAssets = ihtReturn.freeEstate.flatMap(_.estateAssets)
+        .fold[Set[Asset]](Set.empty)(identity).map{ asset =>
+        val newAssetDescription = asset.assetDescription.map(x=>
+          etmpTitlesMappedToPDFMessageKeys.get(x) match {
+            case None => x
+            case Some(newMessageKey) => Messages(newMessageKey)
+          }
+        )
+        asset copy(assetDescription = newAssetDescription)
+      }
+      val result = ihtReturn.transformForDisplay
+      val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
+      setOfAssets shouldBe expectedSetOfAssets
     }
   }
 }

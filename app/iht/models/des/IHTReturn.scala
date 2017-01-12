@@ -358,6 +358,8 @@ case class IHTReturn(acknowledgmentReference: Option[String]=None,
       setOfAsset.foldLeft(BigDecimal(0))((a, b) => a + b.assetTotalValue.fold(BigDecimal(0))(identity))
     }
   }
+
+  def transformForDisplay: IHTReturn = this
 }
 
 object IHTReturn {

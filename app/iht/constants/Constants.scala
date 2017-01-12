@@ -21,6 +21,8 @@ import java.net.URL
 import play.api.Play
 import play.api.Play.current
 
+import scala.collection.immutable.ListMap
+
 /**
  * Created by dbeer on 04/08/15.
  */
@@ -99,4 +101,34 @@ object Constants {
   lazy val under325000 = "under-325000"
   lazy val between325000and1million = "between-325000-and-1million"
   lazy val moreThan1million = "more-than-1million"
+
+  val AssetCodeMoney = "9001"
+  val AssetCodeHouseHold = "9004"
+  val AssetCodePrivatePension = "9005"
+  val AssetCodeStockShareNotListed = "9010"
+  val AssetCodeStockShareListed = "9008"
+  val AssetCodeInsurancePolicy = "9006"
+  val AssetCodeBusinessInterest = "9021"
+  val AssetCodeNominatedAsset = "9099"
+  val AssetCodeForeignAsset = "9098"
+  val AssetCodeMoneyOwed = "9013"
+  val AssetCodeOtherAsset = "9015"
+  val AssetCodeTrust = "9097"
+  val AssetCodeGift = "9095"
+
+  lazy val ook = ListMap(
+    AssetCodeMoney -> "9001",
+    AssetCodeHouseHold -> "9004",
+    AssetCodePrivatePension -> "9005",
+    AssetCodeStockShareNotListed -> "9010",
+    AssetCodeStockShareListed -> "9008",
+    AssetCodeInsurancePolicy -> "9006",
+    AssetCodeBusinessInterest -> "9021",
+    AssetCodeNominatedAsset -> "9099",
+    AssetCodeForeignAsset -> "9098",
+    AssetCodeMoneyOwed -> "9013",
+    AssetCodeOtherAsset -> "9015",
+    AssetCodeTrust -> "9097",
+    AssetCodeGift -> "9095"
+  )
 }
