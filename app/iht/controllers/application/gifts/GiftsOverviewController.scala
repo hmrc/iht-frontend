@@ -108,7 +108,7 @@ trait GiftsOverviewController extends EstateController {
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
                                    allGifts: AllGifts) = {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+    val deceasedName = "<span class=\"copy--restricted\">" + CommonHelper.getDeceasedNameOrDefaultString(regDetails) + "</span>"
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
       title = None,
