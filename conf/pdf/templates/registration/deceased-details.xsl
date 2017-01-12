@@ -47,7 +47,7 @@
                         </xsl:call-template>
                         <xsl:call-template name="table-row-uk-address">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.registration.contactAddress')"/>
+                                            select="i18n:getMessagesText($translator, 'pdf.registration.lastContactAddress')"/>
                             <xsl:with-param name="value" select="deceasedDetails/ukAddress"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row">

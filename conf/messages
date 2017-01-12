@@ -121,10 +121,7 @@ page.iht.registration.checklist.exec.reveal.label3 = The phone number given is o
 page.iht.registration.applicantDetails.title = Tell us about yourself
 page.iht.registration.applicantDetails.title.label = Your title (optional)
 page.iht.registration.applicantDetails.title.hint = enter Mr, Mrs, Miss, Ms or other title
-page.iht.registration.applicantDetails.firstName.label = Your first name
-page.iht.registration.applicantDetails.lastName.label = Your last name
 page.iht.registration.applicantDetails.postcode.label = Your postcode if the address is in the UK
-page.iht.registration.applicantDetails.nino.label = Your National Insurance number
 page.iht.registration.applicantDetails.phoneNo.label = Your phone number
 page.iht.registration.applicantDetails.phoneNo.hint = This can be a mobile or a landline. HMRC might need to contact you by telephone to talk about any details you give.
 page.iht.registration.applicantDetails.email.label = Your email address
@@ -132,7 +129,6 @@ page.iht.registration.applicantDetails.utr.label = Your Unique Tax Reference (UT
 page.iht.registration.applicantDetails.utr.hint = It’s a 10 digit number allocated by HMRC if you have completed a self-assessment tax return
 page.iht.registration.applicantDetails.country.label = Select the country where you intend to apply for probate
 page.iht.registration.applicantDetails.role.label = Your role
-page.iht.registration.applicantDetails.dateOfBirth.label = Your date of birth
 
 page.iht.registration.applicantDetails.role.administrator.label = Administrator
 page.iht.registration.applicantDetails.role.agent.label = Agent
@@ -313,7 +309,6 @@ page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.id.co
 page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader = Change whether you’re applying for probate for the deceased’s estate
 page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.data.screenReader = Your answer is {0}
 
-page.iht.registration.registrationSummary.applicantInfo.country.label = Where are you planning to apply for probate?
 page.iht.registration.registrationSummary.applicantInfo.country.id = country
 page.iht.registration.registrationSummary.applicantInfo.country.id.container = country-container
 page.iht.registration.registrationSummary.applicantInfo.country.link.screenReader = Change where you’re applying for probate
@@ -2014,6 +2009,7 @@ pdf.clearanceCertificate.lastParagraph.line1 = This certificate does not itself 
 pdf.clearanceCertificate.lastParagraph.line2 = . In particular, the issue of the certificate does not necessarily mean that values have been “ascertained” or that values may be taken as market values for capital gains tax within the provisions of section 274 and paragraph 9, schedule 11, Taxation of Chargeable Gains Act 1992
 pdf.clearanceCertificate.lastParagraph.line3 = . This certificate is not valid in certain circumstances, such as in the case of fraud or failure to disclose material facts or if further tax becomes payable as a result of an instrument of variation – see section 239 (4) Inheritance Tax Act 1984.
 pdf.postSubmission.trusts.assetDescription = Trusts
+pdf.registration.lastContactAddress = Last contact address
 
 page.iht.registration.timeout.p2 = You’ll need to sign back in to Government Gateway and start to register to use Inheritance Tax Online again.
 page.iht.application.timeout.p2 = You’ll need to sign back in to Government Gateway and then choose what you want to do next from your Inheritance Tax estate reports page.
