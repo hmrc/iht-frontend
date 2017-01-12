@@ -85,7 +85,9 @@ trait XmlFoToPDF {
 
     val preDeceasedName = applicationDetails.increaseIhtThreshold.map(
       xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)).fold("")(identity)
+
     val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
+    val dateOfPredeceased = applicationDetails.widowCheck.flatMap{ x=> x.dateOfPreDeceased}
 
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", MessagesTranslator)
@@ -101,6 +103,8 @@ trait XmlFoToPDF {
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
     transformer.setParameter("preDeceasedName", preDeceasedName)
     transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
+    transformer.setParameter("marriedOrCivilPartnershipLabel",
+                              TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
     transformer.setParameter("kickout", kickout)
 
     transformer.transform(modelSource, res)

@@ -130,7 +130,7 @@
                 <fo:table-column column-number="2" column-width="30%"/>
                 <fo:table-body font-size="12pt">
                     <xsl:call-template name="table-row">
-                        <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.tnrb.partner.married')"/>
+                        <xsl:with-param name="label" select="i18n:getMessagesTextWithParameters($translator, 'iht.estateReport.tnrb.partner.married', $deceasedName, $marriedOrCivilPartnershipLabel, $preDeceasedName)"/>
                         <xsl:with-param name="value">
                             <xsl:choose>
                                 <xsl:when test="widowCheck/widowed='true'">

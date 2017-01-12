@@ -14,7 +14,7 @@
         </fo:block>
 
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.gifts.summary.p1')"/>
+            <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'page.iht.application.gifts.overview.guidance1', $deceasedName, $deceasedName)"/>
         </fo:block>
 
         <xsl:comment>Gifts Given Away section starts</xsl:comment>
@@ -46,7 +46,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.reservation.question')"/>
+                                                    select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.reservation.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allGifts/isReservation='false'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/></xsl:if>
                                         <xsl:if test="allGifts/isReservation='true'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/></xsl:if>
@@ -64,7 +64,7 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.gifts.overview.sevenYears.question1')"/>
+                                                    select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.overview.sevenYears.question1', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allGifts/isGivenInLast7Years='false'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/></xsl:if>
                                         <xsl:if test="allGifts/isGivenInLast7Years='true'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/></xsl:if>
@@ -72,7 +72,7 @@
                                 </xsl:call-template>
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.gifts.overview.sevenYears.question2')"/>
+                                                    select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.overview.sevenYears.question2', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allGifts/isToTrust='false'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.no')"/></xsl:if>
                                         <xsl:if test="allGifts/isToTrust='true'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/></xsl:if>

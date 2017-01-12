@@ -199,7 +199,7 @@ page.iht.registration.applicant.probateLocation.title = Where are you going to a
 page.iht.registration.applicant.probateLocation.browserTitle = Probate location
 
 page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
-page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 probate application form.
+page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 Probate application form.
 page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if the deceased left a will. If there wasn’t a will, you would’ve been named as the administrator of the estate by a court.
 
 #Applicant tell us about yourself
@@ -875,12 +875,12 @@ page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.val
 page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value = Yes, the deceased gave away gifts with reservation of benefit. Change this answer.
 page.iht.application.gifts.overview.reservation.question1.no.screenReader.link.value = No, the deceased didn’t give away gifts with reservation of benefit. Change this answer.
 
-page.iht.application.gifts.overview.sevenYears.question1 = Did the deceased give anything else away that isn’t listed in the 7 years before they died?
+page.iht.application.gifts.overview.sevenYears.question1 = Did {0} give anything else away that isn’t listed in the 7 years before they died?
 page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value = Give an answer for what kind of gifts were given away in the 7 years before death.
 page.iht.application.gifts.overview.sevenYears.question1.yes.screenReader.link.value = Yes, the deceased gave away gifts that aren’t listed. Change this answer.
 page.iht.application.gifts.overview.sevenYears.question1.no.screenReader.link.value = No, the deceased didn’t give away gifts that aren’t listed. Change this answer.
 
-page.iht.application.gifts.overview.sevenYears.question2 = Did the deceased give any property, land or buildings to anything that isn’t a person, like a trust, a company or a charity?
+page.iht.application.gifts.overview.sevenYears.question2 = Did {0} give any property, land or buildings to anything that isn’t a person, like a trust, a company or a charity?
 page.iht.application.gifts.overview.sevenYears.question2.yes.screenReader.link.value = Yes, the deceased gifted property, land or buildings to anything that isn’t a person. Change this answer.
 page.iht.application.gifts.overview.sevenYears.question2.no.screenReader.link.value = No, the deceased didn’t gift property, land or buildings to anything that isn’t a person. Change this answer.
 
@@ -1977,7 +1977,6 @@ page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.
 page.iht.sign-out.p2 = Use the link in your Inheritance Tax email that you were sent if you want to sign back in.
 page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
 
-pdf.coexecutorsDetails.summary = Other people applying for Probate
 pdf.totalassets.text = Total Assets
 pdf.totalexemptions.text = Total Exemptions
 pdf.totalTrusts.text = Total of Trusts
