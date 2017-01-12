@@ -18,13 +18,9 @@ package iht.models.des
 
 import iht.FakeIhtApp
 import iht.testhelpers.IHTReturnTestHelper._
-import models.des.iht_return.Asset
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
 import uk.gov.hmrc.play.test.UnitSpec
-
-import scala.collection.immutable.ListMap
 
 class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   "IHTReturn" must {
