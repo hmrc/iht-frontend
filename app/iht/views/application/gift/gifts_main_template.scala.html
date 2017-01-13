@@ -25,7 +25,7 @@ messageKeyUrl: String  = "Test",
 messageKeyAccessibility: String  = "Test",
 headingName: String = "")(mainContent: Html)(implicit request: Request[_])
 
-@iht_main_template_application(title = title, browserTitle = browserTitle, isFullWidth = isFullWidth, jsFile=jsFile,
+@iht_main_template_application(title = title, browserTitle = browserTitle, isFullWidth = isFullWidth, jsFile=jsFile, headingName = headingName,
     sidebarLinks =  iht.views.html.application.gift.gifts_sidebar(relevantSectionGuidanceUrl, messageKeyUrl, messageKeyAccessibility)){
     @mainContent
 }
