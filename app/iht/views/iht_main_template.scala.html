@@ -32,7 +32,8 @@ hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 signOutUrl: Option[Call],
 headerTitle: Option[String],
-headingClass: String = "heading-xlarge"
+headingClass: String = "heading-xlarge",
+headingName: String = ""
 )(mainContent: Html)
 
 @import uk.gov.hmrc.play.views.html.layouts
@@ -40,6 +41,14 @@ headingClass: String = "heading-xlarge"
 @import iht.config.ApplicationConfig
 @import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
 @import iht.utils.CommonHelper
+
+@parseForName(heading: String, name: String) = @{
+    if(heading contains name){
+        heading.replace(name, ihtHelpers.name(name).toString());
+    } else {
+        heading;
+    }
+}
 
 @navLinks = {
     @signOutUrl.map{ url =>
@@ -81,7 +90,17 @@ headingClass: String = "heading-xlarge"
 }
 
 @mainContentIht = {
-    <h1 class="@headingClass">@title</h1>
+    <h1 class="@headingClass">
+        @headingName
+
+        @if(headingName != "") {
+            [headingName is there]
+        } else {
+            [no headingName]
+        }
+        @title
+
+    </h1>
 
     @mainContent
 

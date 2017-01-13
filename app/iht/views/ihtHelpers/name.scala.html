@@ -1,0 +1,17 @@
+@import iht.constants.IhtProperties
+
+@(name: String)
+@{
+    val nameArr = name.split(" ");
+    var restrictName: Boolean = false;
+    for (namePart <- nameArr) {
+        if(namePart.length > IhtProperties.hyphenateNamesLength){
+            restrictName = true;
+        }
+    }
+    if(restrictName){
+        <span class="copy--restricted">{name}</span>
+    } else {
+        name
+    }
+}

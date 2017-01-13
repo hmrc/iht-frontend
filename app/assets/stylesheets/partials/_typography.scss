@@ -30,8 +30,9 @@ p.font-xsmall{
 
 /*
 ====================================
-restricts heading to lower size when character limit is reached
+Restricts heading to lower size when character limit is reached
 prevents long names from overrunning bounds of layout
+nested spans are reverted to normal wrapping state
 ====================================
 */
 .copy--restricted {
