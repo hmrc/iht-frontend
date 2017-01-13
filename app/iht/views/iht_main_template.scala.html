@@ -33,7 +33,7 @@ sidebarLinks: Html = HtmlFormat.empty,
 signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "heading-xlarge",
-headingName: String = ""
+headingName: String = "Main Template"
 )(mainContent: Html)
 
 @import uk.gov.hmrc.play.views.html.layouts
@@ -92,12 +92,6 @@ headingName: String = ""
 @mainContentIht = {
     <h1 class="@headingClass">
         @headingName
-
-        @if(headingName != "") {
-            [headingName is there]
-        } else {
-            [no headingName]
-        }
         @title
 
     </h1>
