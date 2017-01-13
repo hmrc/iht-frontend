@@ -44,12 +44,12 @@ class VehiclesOverviewViewTest extends ViewTestHelper with ShareableElementOverv
   override def ownQuestionRowId = "deceased-own-question"
   override def ownQuestionText = Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedName)
   override def ownValueRowId = "deceased-own-value"
-  override def ownValueText = "iht.estateReport.assets.household.deceasedOwnedValue"
+  override def ownValueText = Messages("iht.estateReport.assets.household.deceasedOwnedValue")
   override def jointlyOwnedQuestionRowId = "deceased-shared-question"
   override def jointlyOwnedQuestionText = Messages("iht.estateReport.assets.vehicles.jointly.owned.question",
                                                     deceasedName)
   override def jointlyOwnedValueRowId = "deceased-share-value"
-  override def jointlyOwnedValueText = "iht.estateReport.assets.vehicles.valueOfJointlyOwned"
+  override def jointlyOwnedValueText = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
 
 
   "Vehicles overview view" must {

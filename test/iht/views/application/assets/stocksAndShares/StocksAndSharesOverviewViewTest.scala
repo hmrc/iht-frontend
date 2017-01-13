@@ -39,8 +39,8 @@ class StocksAndSharesOverviewViewTest extends ViewTestHelper with StocksAndShare
   override def stocksAndSharesNotListedHeadingElementId = "stocks-and-shares-notListed-heading"
   override def urlToStocksAnsSharesListedPage = StocksAndSharesListedController.onPageLoad().url
   override def urlToStocksAnsSharesNotListedPage = StocksAndSharesNotListedController.onPageLoad().url
-  override def stocksAndSharesListedHeaderText = "iht.estateReport.assets.stocksAndSharesListed"
-  override def stocksAndSharesNotListedHeaderText = "iht.estateReport.assets.stocksAndSharesNotListed"
+  override def stocksAndSharesListedHeaderText = Messages("iht.estateReport.assets.stocksAndSharesListed")
+  override def stocksAndSharesNotListedHeaderText = Messages("iht.estateReport.assets.stocksAndSharesNotListed")
   override def stocksAndSharesListedRowId = "stocks-and-shares-listed-question"
   override def stocksAndSharesListedQuestionText = Messages("iht.estateReport.assets.stocksAndShares.listed.question",
                                                              deceasedName)
