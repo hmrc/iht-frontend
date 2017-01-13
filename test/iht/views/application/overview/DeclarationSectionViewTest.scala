@@ -89,7 +89,7 @@ class DeclarationSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSu
       val doc = asDocument(view)
 
       val link = doc.getElementById("continue-to-declaration")
-      link.text shouldBe Messages("site.button.continueToDeclaration")
+      link.text shouldBe Messages("iht.continue")
       link.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onContinueOrDeclarationRedirect(ihtRef).url
     }

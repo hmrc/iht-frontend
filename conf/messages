@@ -17,7 +17,6 @@ site.button.save.return.debts = Save and return to debts owed from the estate
 site.button.save.return.mortgages = Save and return to mortgages
 site.button.save.return.properties = Save and return to properties, buildings and land owned
 site.button.save = Save
-site.button.continueToDeclaration = Continue to declaration
 site.currentPage = This is the current page
 
 site.button.continue.iht.app.page = Continue to your Inheritance Tax estate reports page
