@@ -19,7 +19,8 @@ package iht.utils.pdf
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
 import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
-import javax.xml.transform.{Transformer, TransformerFactory}
+import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
+
 import iht.utils._
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
@@ -151,35 +152,25 @@ trait XmlFoToPDF {
 
   //TODO  - Modify below implementatin once template is ready
   def createApplicationReturnPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
-    val templateFile: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(
-      s"$folderForPDFTemplates/post-submission-estate-report.xsl"))
-
-    val streamSource: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
+    val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
       getPostSubmissionDetailsXMLSource(registrationDetails, ihtReturn)))
-    generateApplicationReturnPDFData(streamSource, templateFile, ihtReturn, registrationDetails)
+
+    val pdfoutStream = new ByteArrayOutputStream()
+
+    applicationReturnTransformer(registrationDetails, ihtReturn)
+      .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
+
+    pdfoutStream.toByteArray
   }
 
-  private def generateApplicationReturnPDFData(streamSource: StreamSource, templateFileSource: StreamSource, ihtReturn: IHTReturn,
-                                               registrationDetails: RegistrationDetails): Array[Byte] = {
-    val BASEURI = new File(".").toURI
-    val fopURIResolver = new FopURIResolver
-    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream(filePathForFOPConfig),
-      EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder
-    val fopFactory: FopFactory = confBuilder.build
-
-    val foUserAgent: FOUserAgent = fopFactory.newFOUserAgent
-
-    val templateSrc: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(
+  private def applicationReturnTransformer(registrationDetails:RegistrationDetails,
+                                             ihtReturn: IHTReturn) = {
+    val templateSource: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(
       s"$folderForPDFTemplates/post-submission-estate-report.xsl"))
-    val pdfoutStream = new ByteArrayOutputStream()
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
-
-    val transformer: Transformer = transformerFactory.newTransformer(templateSrc)
-
-    val fop: Fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, pdfoutStream)
-    val res = new SAXResult(fop.getDefaultHandler)
-
+    val transformer: Transformer = transformerFactory.newTransformer(templateSource)
+    transformer.setErrorListener(errorListener)
     val preDeceasedName = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head
       .spouse.map(xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)))).fold("")(identity)
     val dateOfMarriage = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head.spouse.
@@ -199,8 +190,30 @@ trait XmlFoToPDF {
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("preDeceasedName", preDeceasedName)
     transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(Some(dateOfMarriage)))
+    transformer
+  }
 
-    transformer.transform(streamSource, res)
-    pdfoutStream.toByteArray
+  private def errorListener = new ErrorListener {
+      override def warning(exception: TransformerException): Unit =
+        Logger.warn(exception.getMessageAndLocation)
+
+      override def error(exception: TransformerException): Unit = {
+        throw exception
+      }
+
+      override def fatalError(exception: TransformerException): Unit = {
+        throw exception
+      }
+    }
+
+  private def fop(pdfoutStream: ByteArrayOutputStream) ={
+    val BASEURI = new File(".").toURI
+    val fopURIResolver = new FopURIResolver
+    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream(filePathForFOPConfig),
+      EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder
+    val fopFactory: FopFactory = confBuilder.build
+    val foUserAgent: FOUserAgent = fopFactory.newFOUserAgent
+
+    fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, pdfoutStream)
   }
 }
