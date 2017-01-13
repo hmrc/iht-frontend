@@ -34,7 +34,7 @@ class JointlyOwnedViewTest extends DebtsElementViewBehaviour{
                                                       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
   override def pageTitle = Messages("iht.estateReport.debts.owedOnJointAssets")
-  override def browserTitle = "page.iht.application.debts.jointlyOwned.browserTitle"
+  override def browserTitle = Messages("page.iht.application.debts.jointlyOwned.browserTitle")
   override def guidanceParagraphs = Set(Messages("page.iht.application.debts.jointlyOwned.description.p1",
                                                   CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
   override def yesNoQuestionText = Messages("page.iht.application.debts.jointlyOwned.isOwned")

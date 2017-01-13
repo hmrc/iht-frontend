@@ -33,7 +33,7 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour{
                                     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
   override def pageTitle = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
-  override def browserTitle = "page.iht.application.debts.mortgageValue.browserTitle"
+  override def browserTitle = Messages("page.iht.application.debts.mortgageValue.browserTitle")
   override def guidanceParagraphs = Set()
   override def yesNoQuestionText = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = Messages("page.iht.application.debts.mortgage.inputText.value")

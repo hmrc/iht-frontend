@@ -30,9 +30,9 @@ class OtherViewTest extends ViewTestHelper with ShareableElementInputViewBehavio
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = "iht.estateReport.assets.other.title"
-  override def browserTitle = "page.iht.application.assets.other.browserTitle"
-  override def questionTitle = Messages("page.iht.application.assets.other.isOwned")
+  override def pageTitle = Messages("iht.estateReport.assets.other.title")
+  override def browserTitle = Messages("page.iht.application.assets.other.browserTitle")
+  override def questionTitle = Messages("page.iht.application.assets.other.isOwned", deceasedName)
   override def valueQuestion = Messages("page.iht.application.assets.other.inputLabel1")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
@@ -45,8 +45,8 @@ class OtherViewTest extends ViewTestHelper with ShareableElementInputViewBehavio
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        "page.iht.application.assets.other.description.p1",
-        "page.iht.application.assets.other.description.p2")
+        Messages("page.iht.application.assets.other.description.p1"),
+        Messages("page.iht.application.assets.other.description.p2", deceasedName))
     }
   }
 
