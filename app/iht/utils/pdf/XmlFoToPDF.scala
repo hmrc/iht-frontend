@@ -43,6 +43,9 @@ object XmlFoToPDF extends XmlFoToPDF
 trait XmlFoToPDF {
   private val filePathForFOPConfig = "pdf/fop.xconf"
   private val folderForPDFTemplates = "pdf/templates"
+  private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance-certificate.xsl"
+  private val filePathForPreSubmissionXSL = s"$folderForPDFTemplates/pre-submission-estate-report.xsl"
+  private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/post-submission-estate-report.xsl"
 
   def createPreSubmissionPDF(regDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String): Array[Byte] = {
@@ -54,7 +57,7 @@ trait XmlFoToPDF {
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    preSubmissionTransformer(regDetails, applicationDetails)
+    createPreSubmissionTransformer(regDetails, applicationDetails)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
     pdfoutStream.toByteArray
   }
@@ -65,7 +68,7 @@ trait XmlFoToPDF {
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    postSubmissionTransformer(registrationDetails, ihtReturn)
+    createPostSubmissionTransformer(registrationDetails, ihtReturn)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.toByteArray
@@ -77,21 +80,21 @@ trait XmlFoToPDF {
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    clearanceTransformer(registrationDetails, declarationDate)
+    createClearanceTransformer(registrationDetails, declarationDate)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.write(pdfoutStream.toByteArray)
     pdfoutStream.toByteArray
   }
 
-  private def clearanceTransformer(registrationDetails:RegistrationDetails,
+  private def createClearanceTransformer(registrationDetails:RegistrationDetails,
                                    declarationDate: LocalDate): Transformer = {
     val template: StreamSource = new StreamSource(
-      Play.classloader.getResourceAsStream(s"$folderForPDFTemplates/clearance-certificate.xsl"))
+      Play.classloader.getResourceAsStream(filePathForClearanceXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
     val transformer: Transformer = transformerFactory.newTransformer(template)
-    transformer.setErrorListener(errorListener)
+    setupErrorHandling(transformer)
 
     transformer.setParameter("pdfFormatter", PdfFormatter)
     transformer.setParameter("versionParam", "2.0")
@@ -100,14 +103,14 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def preSubmissionTransformer(registrationDetails:RegistrationDetails,
+  private def createPreSubmissionTransformer(registrationDetails:RegistrationDetails,
                                        applicationDetails: ApplicationDetails): Transformer = {
     val template: StreamSource = new StreamSource(Play.classloader
-      .getResourceAsStream(s"$folderForPDFTemplates/pre-submission-estate-report.xsl"))
+      .getResourceAsStream(filePathForPreSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
     val transformer: Transformer = transformerFactory.newTransformer(template)
-    transformer.setErrorListener(errorListener)
+    setupErrorHandling(transformer)
     val preDeceasedName = applicationDetails.increaseIhtThreshold.map(
       xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)).fold("")(identity)
 
@@ -134,14 +137,13 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def postSubmissionTransformer(registrationDetails:RegistrationDetails,
+  private def createPostSubmissionTransformer(registrationDetails:RegistrationDetails,
                                              ihtReturn: IHTReturn): Transformer = {
-    val templateSource: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(
-      s"$folderForPDFTemplates/post-submission-estate-report.xsl"))
+    val templateSource: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(filePathForPostSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
     val transformer: Transformer = transformerFactory.newTransformer(templateSource)
-    transformer.setErrorListener(errorListener)
+    setupErrorHandling(transformer)
     val preDeceasedName = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head
       .spouse.map(xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)))).fold("")(identity)
     val dateOfMarriage = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head.spouse.
@@ -164,7 +166,8 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def errorListener = new ErrorListener {
+  private def setupErrorHandling(transformer:Transformer) = {
+    val errorListener = new ErrorListener {
       override def warning(exception: TransformerException): Unit =
         Logger.warn(exception.getMessageAndLocation)
 
@@ -176,6 +179,8 @@ trait XmlFoToPDF {
         throw exception
       }
     }
+    transformer.setErrorListener(errorListener)
+  }
 
   private def fop(pdfoutStream: ByteArrayOutputStream): Fop ={
     val BASEURI = new File(".").toURI
