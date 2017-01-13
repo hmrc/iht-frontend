@@ -24,8 +24,8 @@ import play.api.test.FakeRequest
 
 trait RegistrationPageBehaviour extends ViewTestHelper {
 
-  def pageTitleKey: String
-  def browserTitleKey: String
+  def pageTitle: String
+  def browserTitle: String
 
   def fixture() = new {
     implicit val request: FakeRequest[AnyContentAsEmpty.type] = null
@@ -36,12 +36,12 @@ trait RegistrationPageBehaviour extends ViewTestHelper {
   def registrationPage() = {
     "have the correct title" in {
       val f = fixture()
-      titleShouldBeCorrect(f.view, pageTitleKey)
+      titleShouldBeCorrect(f.view, pageTitle)
     }
 
     "have the correct browser title" in {
       val f = fixture()
-      browserTitleShouldBeCorrect(f.view, browserTitleKey)
+      browserTitleShouldBeCorrect(f.view, browserTitle)
     }
 
     "have a Continue button" in {

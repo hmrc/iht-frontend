@@ -41,7 +41,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     for (sentence <- expectedSentences) content should include(sentence)
   }
 
-  def buildApplicationTitle(titleKey: String) = titleKey + " " + Messages("site.title.govuk")
+  def buildApplicationTitle(title: String) = title + " " + Messages("site.title.govuk")
 
   def labelShouldBe(doc: Document, labelId: String, messageKey: String) = {
     val label = doc.getElementById(labelId)

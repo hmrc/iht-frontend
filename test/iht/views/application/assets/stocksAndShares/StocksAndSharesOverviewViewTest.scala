@@ -23,13 +23,18 @@ import iht.views.ViewTestHelper
 import iht.views.application.StocksAndSharesOverviewViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import org.jsoup.nodes.Document
+import play.api.i18n.Messages
 
 class StocksAndSharesOverviewViewTest extends ViewTestHelper with StocksAndSharesOverviewViewBehaviour {
 
-  override def pageTitle = "iht.estateReport.assets.stocksAndShares"
-  override def browserTitle = "iht.estateReport.assets.stocksAndShares"
-  override def guidanceParagraphs = Set("page.iht.application.assets.stocksAndShares.overview.guidance",
-                                        "page.iht.application.assets.stocksAndShares.overview.guidance2")
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def pageTitle = Messages("iht.estateReport.assets.stocksAndShares")
+  override def browserTitle = Messages("iht.estateReport.assets.stocksAndShares")
+  override def guidanceParagraphs = Set(Messages("page.iht.application.assets.stocksAndShares.overview.guidance",
+                                                  deceasedName),
+                                        Messages("page.iht.application.assets.stocksAndShares.overview.guidance2"))
   override def stocksAndSharesListedHeadingElementId = "stocks-and-shares-listed-heading"
   override def stocksAndSharesNotListedHeadingElementId = "stocks-and-shares-notListed-heading"
   override def urlToStocksAnsSharesListedPage = StocksAndSharesListedController.onPageLoad().url
@@ -37,16 +42,15 @@ class StocksAndSharesOverviewViewTest extends ViewTestHelper with StocksAndShare
   override def stocksAndSharesListedHeaderText = "iht.estateReport.assets.stocksAndSharesListed"
   override def stocksAndSharesNotListedHeaderText = "iht.estateReport.assets.stocksAndSharesNotListed"
   override def stocksAndSharesListedRowId = "stocks-and-shares-listed-question"
-  override def stocksAndSharesListedQuestionText = "iht.estateReport.assets.stocksAndShares.listed.question"
+  override def stocksAndSharesListedQuestionText = Messages("iht.estateReport.assets.stocksAndShares.listed.question",
+                                                             deceasedName)
   override def stocksAndSharesListedValueRowId = "stocks-and-shares-listed-value"
-  override def stocksAndSharesListedValueText = "iht.estateReport.assets.stocksAndShares.valueOfListed"
+  override def stocksAndSharesListedValueText = Messages("iht.estateReport.assets.stocksAndShares.valueOfListed")
   override def stocksAndSharesNotListedQuestionRowId = "stocks-and-shares-notListed-question"
-  override def stocksAndSharesNotListedQuestionText = "iht.estateReport.assets.stocksAndShares.notListed.question"
+  override def stocksAndSharesNotListedQuestionText = Messages("iht.estateReport.assets.stocksAndShares.notListed.question",
+                                                                deceasedName)
   override def stocksAndSharesNotListedValueRowId = "stocks-and-shares-notListed-value"
-  override def stocksAndSharesNotListedValueText = "iht.estateReport.assets.stocksAndShares.valueOfNotListed"
-
-  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
-  override def deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+  override def stocksAndSharesNotListedValueText = Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed")
 
   "StocksAnsShares overview view" must {
 

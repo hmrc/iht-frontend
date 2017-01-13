@@ -35,7 +35,7 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour {
 
   override def pageTitle = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetails.name)
 
-  override def browserTitle = "page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle"
+  override def browserTitle = Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")
   override def guidanceParagraphs = Set(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
                                               TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
                                                   Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetails.name,

@@ -38,10 +38,10 @@ object GenericOverviewHelper extends ViewTestHelper {
     assertNotRenderedById(doc, s"$elementId-link")
   }
 
-  def rowShouldBeAnswered(doc: Document, elementId: String, messageKey: String, value: String, linkMessageKey: String, url: String) = {
+  def rowShouldBeAnswered(doc: Document, elementId: String, message: String, value: String, linkMessageKey: String, url: String) = {
     val li = doc.getElementById(elementId)
     val divs = li.getElementsByTag("div")
-    divs.get(0).text shouldBe Messages(messageKey)
+    divs.get(0).text shouldBe message
     divs.get(1).text shouldBe value
 
     val link = doc.getElementById(s"$elementId-link")
