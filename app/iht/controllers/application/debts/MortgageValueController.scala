@@ -116,7 +116,8 @@ trait MortgageValueController extends ApplicationController {
                 regDetails)))
             },
             mortgage => {
-              saveApplication(CommonHelper.getNino(user), id, mortgage, appDetails, regDetails)
+              val newMort = mortgage.copy(id=id)
+              saveApplication(CommonHelper.getNino(user), id, newMort, appDetails, regDetails)
             }
           )
         }
