@@ -1009,7 +1009,7 @@ page.iht.application.debts.jointlyOwned.isOwned = Are there any debts being paid
 
 page.iht.application.debts.other.browserTitle = Other debts
 page.iht.application.debts.other.description.p1 = This is the total value of any other debts that are being paid from the estate that are not included in any other section.
-page.iht.application.debts.other.description.p2 = This includes any loans the deceased was paying, including those they were guaranteeing and had been asked to pay when they died.
+page.iht.application.debts.other.description.p2 = This includes any loans {0} was paying, including those they were guaranteeing and had been asked to pay when they died.
 page.iht.application.debts.other.description.p3 = Any outstanding credit card debts and money owed on any insurance policies and household bills are included here.
 page.iht.application.debts.other.isOwned = Are there any other debts to be paid out of the estate?
 page.iht.application.debts.other.inputLabel1 = Value of any other debts

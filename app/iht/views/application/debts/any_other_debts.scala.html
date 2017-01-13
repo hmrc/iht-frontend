@@ -16,13 +16,15 @@
 
 @import iht.models._
 @import iht.models.application.debts._
-
-@(anyOtherDebtsForm: Form[iht.models.application.debts.BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_])
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.utils.CommonHelper
+
+@(anyOtherDebtsForm: Form[iht.models.application.debts.BasicEstateElementLiabilities],
+registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.other.title"),
     browserTitle = Some(Messages("page.iht.application.debts.other.browserTitle")),
@@ -34,7 +36,8 @@
     @helpers.form(action = iht.controllers.application.debts.routes.AnyOtherDebtsController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Messages("page.iht.application.debts.other.description.p1")</p>
-        <p>@Messages("page.iht.application.debts.other.description.p2")</p>
+        <p>@Messages("page.iht.application.debts.other.description.p2",
+                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
         <p>@Messages("page.iht.application.debts.other.description.p3")</p>
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
@@ -48,7 +51,8 @@
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.return_link(Some(Messages("site.link.return.debts")), Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
+        @ihtHelpers.return_link(Some(Messages("site.link.return.debts")),
+                                Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
 
     }
 }
