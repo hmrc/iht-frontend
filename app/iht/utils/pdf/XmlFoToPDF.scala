@@ -29,11 +29,15 @@ import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import models.des.iht_return.IHTReturn
-import org.apache.fop.apps._
+import org.apache.fop.apps.{FOUserAgent, _}
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.{Logger, Play}
+import org.apache.fop.events.Event
+import org.apache.fop.events.EventFormatter
+import org.apache.fop.events.EventListener
+import org.apache.fop.events.model.EventSeverity
 
 /**
   * Created by david-beer on 07/06/16.
@@ -87,14 +91,14 @@ trait XmlFoToPDF {
     pdfoutStream.toByteArray
   }
 
-  private def createClearanceTransformer(registrationDetails:RegistrationDetails,
-                                   declarationDate: LocalDate): Transformer = {
+  private def createClearanceTransformer(registrationDetails: RegistrationDetails,
+                                         declarationDate: LocalDate): Transformer = {
     val template: StreamSource = new StreamSource(
       Play.classloader.getResourceAsStream(filePathForClearanceXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
     val transformer: Transformer = transformerFactory.newTransformer(template)
-    setupErrorHandling(transformer)
+    setupTransformerEventHandling(transformer)
 
     transformer.setParameter("pdfFormatter", PdfFormatter)
     transformer.setParameter("versionParam", "2.0")
@@ -103,14 +107,14 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def createPreSubmissionTransformer(registrationDetails:RegistrationDetails,
-                                       applicationDetails: ApplicationDetails): Transformer = {
+  private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
+                                             applicationDetails: ApplicationDetails): Transformer = {
     val template: StreamSource = new StreamSource(Play.classloader
       .getResourceAsStream(filePathForPreSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
     val transformer: Transformer = transformerFactory.newTransformer(template)
-    setupErrorHandling(transformer)
+    setupTransformerEventHandling(transformer)
     val preDeceasedName = applicationDetails.increaseIhtThreshold.map(
       xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)).fold("")(identity)
 
@@ -137,13 +141,13 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def createPostSubmissionTransformer(registrationDetails:RegistrationDetails,
-                                             ihtReturn: IHTReturn): Transformer = {
+  private def createPostSubmissionTransformer(registrationDetails: RegistrationDetails,
+                                              ihtReturn: IHTReturn): Transformer = {
     val templateSource: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(filePathForPostSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
     val transformer: Transformer = transformerFactory.newTransformer(templateSource)
-    setupErrorHandling(transformer)
+    setupTransformerEventHandling(transformer)
     val preDeceasedName = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head
       .spouse.map(xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)))).fold("")(identity)
     val dateOfMarriage = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head.spouse.
@@ -166,23 +170,7 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def setupErrorHandling(transformer:Transformer) = {
-    val errorListener = new ErrorListener {
-      override def warning(exception: TransformerException): Unit =
-        Logger.warn(exception.getMessageAndLocation)
-
-      override def error(exception: TransformerException): Unit = {
-        throw exception
-      }
-
-      override def fatalError(exception: TransformerException): Unit = {
-        throw exception
-      }
-    }
-    transformer.setErrorListener(errorListener)
-  }
-
-  private def fop(pdfoutStream: ByteArrayOutputStream): Fop ={
+  private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {
     val BASEURI = new File(".").toURI
     val fopURIResolver = new FopURIResolver
     val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream(filePathForFOPConfig),
@@ -190,6 +178,38 @@ trait XmlFoToPDF {
     val fopFactory: FopFactory = confBuilder.build
     val foUserAgent: FOUserAgent = fopFactory.newFOUserAgent
 
+    setupFOPEventHandling(foUserAgent)
+
     fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, pdfoutStream)
+  }
+
+  private def setupTransformerEventHandling(transformer: Transformer) = {
+    val errorListener = new ErrorListener {
+      override def warning(exception: TransformerException): Unit =
+        Logger.warn(exception.getMessageAndLocation)
+      override def error(exception: TransformerException): Unit = {
+        throw exception
+      }
+      override def fatalError(exception: TransformerException): Unit = {
+        throw exception
+      }
+    }
+    transformer.setErrorListener(errorListener)
+  }
+
+  private def setupFOPEventHandling(foUserAgent: FOUserAgent) = {
+    val eventListener = new EventListener {
+      override def processEvent(event: Event): Unit = {
+        val msg = EventFormatter.format(event)
+
+        event.getSeverity match {
+          case EventSeverity.INFO => Logger.info(msg)
+          case EventSeverity.WARN => Logger.warn(msg)
+          case EventSeverity.ERROR => Logger.error(msg)
+          case EventSeverity.FATAL => Logger.error(msg)
+        }
+      }
+    }
+    foUserAgent.getEventBroadcaster.addEventListener(eventListener)
   }
 }
