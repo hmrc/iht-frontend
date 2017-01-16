@@ -202,14 +202,22 @@
                                     </fo:table-body>
                                 </fo:table>
                                 <fo:table space-before="0.5cm">
-                                    <fo:table-column column-number="1" column-width="70%"/>
-                                    <fo:table-column column-number="2" column-width="30%"/>
+                                    <fo:table-column column-number="1" column-width="25%"/>
+                                    <fo:table-column column-number="2" column-width="25%"/>
+                                    <fo:table-column column-number="3" column-width="25%"/>
+                                    <fo:table-column column-number="4" column-width="25%"/>
                                     <fo:table-body font-size="12pt">
-                                        <xsl:call-template name="table-row-money-border-top-black">
+                                        <xsl:call-template name="table-row-money-3-values-border-top-black">
                                             <xsl:with-param name="label"
-                                                            select="i18n:getMessagesText($translator, 'page.iht.application.gifts.overview.value.question1')"/>
-                                            <xsl:with-param name="value">
+                                                            select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
+                                            <xsl:with-param name="value1">
                                                 <xsl:value-of select='$giftsTotal'/>
+                                            </xsl:with-param>
+                                            <xsl:with-param name="value2">
+                                                <xsl:value-of select='$exemptionsTotal'/>
+                                            </xsl:with-param>
+                                            <xsl:with-param name="value3">
+                                                <xsl:value-of select='$giftsTotalExclExemptions'/>
                                             </xsl:with-param>
                                         </xsl:call-template>
                                         <xsl:call-template name="table-row-bottom-blank"/>

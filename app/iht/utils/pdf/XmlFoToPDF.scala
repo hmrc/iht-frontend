@@ -96,6 +96,8 @@ trait XmlFoToPDF {
     transformer.setParameter("assetsTotal", applicationDetails.totalAssetsValue)
     transformer.setParameter("debtsTotal", applicationDetails.totalLiabilitiesValue)
     transformer.setParameter("exemptionsTotal", applicationDetails.totalExemptionsValue)
+    transformer.setParameter("giftsTotalExclExemptions",
+      CommonHelper.getOrBigDecimalZero(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
     transformer.setParameter("giftsTotal", applicationDetails.totalGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
