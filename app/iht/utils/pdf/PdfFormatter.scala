@@ -54,7 +54,7 @@ object PdfFormatter {
     val optionSetAsset = ihtReturn.freeEstate.flatMap(_.estateAssets).map { setOfAssets =>
       setOfAssets.map { asset =>
         asset.assetCode.fold(asset){ ac =>
-          Constants.etmpAssetCodesToIHTMessageKeys.get(ac).fold(asset){ newAssetDescription =>
+          Constants.ETMPAssetCodesToIHTMessageKeys.get(ac).fold(asset){ newAssetDescription =>
             asset.copy(assetDescription = Option(Messages(newAssetDescription)))
           }
         }
