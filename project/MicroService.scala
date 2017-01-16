@@ -49,8 +49,7 @@ trait MicroService {
     .settings(
       // concatenate js
       Concat.groups := Seq(
-        "javascripts/iht-app.js" -> group(Seq("javascripts/show-hide-content.js", "javascripts/iht.js")),
-        "javascripts/iht-autocomplete.js" -> group(Seq("javascripts/jquery-ui.js"))
+        "javascripts/iht-app.js" -> group(Seq("javascripts/show-hide-content.js", "javascripts/iht.js"))
       ),
       // prevent removal of unused code which generates warning errors due to use of third-party libs
       UglifyKeys.compressOptions := Seq("unused=false", "dead_code=false"),

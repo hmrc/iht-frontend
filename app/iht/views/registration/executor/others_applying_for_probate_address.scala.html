@@ -33,9 +33,7 @@
                    browserTitle = Some(Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")),
                    isFullWidth = false,
                    cancelUrl = cancelLocation,
-                   hasTimeOut = true,
-                   jsFile=Some("iht-autocomplete.min.js"),
-                   cssFile=Some("iht-autocomplete.css")) {
+                   hasTimeOut = true) {
 
 @ihtHelpers.error_summary(othersApplyingForProbateAddressForm)
 
@@ -79,7 +77,6 @@
         internationalCountries,
         true,
         true,
-        '_divClass -> "form-group  ",
         '_inputClass -> "form-control",
         '_id -> "ukAddress.countryCode",
         '_labelid -> "countryCode-container",

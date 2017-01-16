@@ -31,9 +31,7 @@
                     browserTitle = Some(Messages("page.iht.registration.applicantAddress.title")),
                     isFullWidth=false,
                     cancelUrl=cancelLocation,
-                    hasTimeOut=true,
-                    jsFile=Some("iht-autocomplete.min.js"),
-                    cssFile=Some("iht-autocomplete.css")) {
+                    hasTimeOut=true) {
 
     @ihtHelpers.error_summary(form)
 
@@ -77,7 +75,6 @@
                 internationalCountries,
                 true,
                 true,
-                '_divClass -> "form-group  ",
                 '_inputClass -> "form-control",
                 '_id -> "countryCode",
                 '_labelid -> "countryCode-container",
