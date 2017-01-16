@@ -29,13 +29,18 @@ registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
 cancelLinkText:String)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))),
+@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(
+                        tnrbModel,
+                        widowCheckModel,
+                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                        false
+                )}
+
+@iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",partnerName),
 browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
 cancelUrl = Some(cancelLinkUrl),
-cancelLabel=Some(cancelLinkText)){
+cancelLabel=Some(cancelLinkText),
+headingName = partnerName){
 
 @ihtHelpers.error_summary(deceasedWidowCheckDateForm, Some(
     Map(

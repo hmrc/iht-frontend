@@ -40,19 +40,9 @@ deceasedName: String)(implicit request: Request[_])
         case _ => noValueText
     }
 }
-@checkNameSize(name: String) = @{
-var nameislong = false;
-var nameParts = name.split(" ");
-for (name <- nameParts) {
-if(name.length() > IhtProperties.hyphenateNamesLength){
-nameislong = true;
-}
-}
-nameislong;
-}
 
 @iht_main_template_application(title = Messages("page.iht.application.assets.overview.title", deceasedName),
-headingClass = if(checkNameSize(deceasedName)){"heading-large"} else {"heading-xlarge"},
+headingName = deceasedName,
 browserTitle = Some(Messages("iht.estateReport.assets.inEstate")),
 isFullWidth=false) {
 

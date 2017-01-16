@@ -51,3 +51,8 @@ nested spans are reverted to normal wrapping state
     -moz-hyphens: initial;
     hyphens: initial;
 }
+
+
+.content__body > .heading-large:first-child {
+    margin-top: 1em;
+}

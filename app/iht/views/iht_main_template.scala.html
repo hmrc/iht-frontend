@@ -32,7 +32,7 @@ hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 signOutUrl: Option[Call],
 headerTitle: Option[String],
-headingClass: String = "heading-xlarge",
+headingClass: String = "",
 headingName: String = ""
 )(mainContent: Html)
 
@@ -41,6 +41,35 @@ headingName: String = ""
 @import iht.config.ApplicationConfig
 @import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
 @import iht.utils.CommonHelper
+@import iht.constants.IhtProperties
+
+
+@checkNameSize(name: String) = @{
+    var nameislong = false;
+    var nameParts = name.split(" ");
+    for (name <- nameParts) {
+        if(name.length() > IhtProperties.hyphenateNamesLength){
+            nameislong = true;
+        }
+    }
+    nameislong;
+}
+
+
+@headingClassName() = @{
+    if(headingClass != ""){
+        headingClass
+    }else{
+        if(checkNameSize(headingName)){
+            "heading-large"
+        } else {
+            "heading-xlarge"
+        }
+    }
+}
+
+
+
 
 @parseForName(heading: String, name: String) = @{
     if(heading contains name){
@@ -90,7 +119,7 @@ headingName: String = ""
 }
 
 @mainContentIht = {
-    <h1 class="@headingClass">
+    <h1 class="@headingClassName">
         @if(headingName > ""){
             @parseForName(title, headingName)
         } else {

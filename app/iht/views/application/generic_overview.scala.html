@@ -33,9 +33,9 @@ returnAsButton: Boolean = false,
 showStatus: Boolean = true
 )(implicit request: Request[_])
 
-<p id="assets-guidance1" class="lede">@Messages(messagesFileSectionLine1)</p>
+<p id="assets-guidance1" class="lede">@Html(Messages(messagesFileSectionLine1))</p>
 @if(Messages.isDefinedAt(messagesFileSectionLine2)) {
-<p id="assets-guidance2">@Messages(messagesFileSectionLine2)</p>
+<p id="assets-guidance2">@Html(Messages(messagesFileSectionLine2))</p>
 }
 @seqRows.map{section=>
 <section id="@section.id">

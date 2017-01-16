@@ -26,10 +26,14 @@
 tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"))),
+@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
+
+@iht_main_template_application(title = Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", partnerName),
 browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
+cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
+headingName = partnerName
+){
     @ihtHelpers.error_summary(giftMadeBeforeDeathForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit,'autoComplete -> "off") {
@@ -37,7 +41,7 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
         @ihtHelpers.inputYesNoRadioGroup(
         giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),
         '_hintText -> Html("<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
-                                    TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint")))
+    TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint")))
                                  + "</p><p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"),
         '_divClass -> Some("form-group"),
         '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"))),

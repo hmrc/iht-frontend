@@ -35,7 +35,7 @@
     }
 
     <legend class="bold-small @elements.args.get('_legendClass)">
-        @elements.args.get('_legend)
+        @Html(elements.args.get('_legend).get.toString)
     </legend>
 }
 @if(elements.args.get('_hintText).isDefined && !elements.args.contains('_slideOutText)) {

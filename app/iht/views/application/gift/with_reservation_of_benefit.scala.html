@@ -35,7 +35,7 @@ messageKeyAccessibility = "iht.estateReport.gifts.withReservation.title"){
 
         @ihtHelpers.inputYesNoRadioGroup(
         giftWithReservationFromBenefitForm("reservation.isReservation"),
-        '_legend -> Html(Messages("iht.estateReport.gifts.reservation.question", getDeceasedNameOrDefaultString(registrationDetails))),
+        '_legend -> Html(Messages("iht.estateReport.gifts.reservation.question", ihtHelpers.name(getDeceasedNameOrDefaultString(registrationDetails)))),
         '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()),
         '_divClass -> Some("form-group"))
 
