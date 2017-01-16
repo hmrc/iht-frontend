@@ -29,7 +29,7 @@ import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import models.des.iht_return.IHTReturn
-import org.apache.fop.apps.{FOUserAgent, _}
+import org.apache.fop.apps._
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
 import play.api.Play.current
@@ -100,11 +100,15 @@ trait XmlFoToPDF {
     val transformer: Transformer = transformerFactory.newTransformer(template)
     setupTransformerEventHandling(transformer)
 
-    transformer.setParameter("pdfFormatter", PdfFormatter)
-    transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator)
+    setupCommonTransformerParameters2(transformer)
     transformer.setParameter("declaration-date", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer
+  }
+
+  def setupCommonTransformerParameters2(transformer: Transformer): Unit = {
+    transformer.setParameter("versionParam", "2.0")
+    transformer.setParameter("translator", MessagesTranslator)
+    transformer.setParameter("pdfFormatter", PdfFormatter)
   }
 
   private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
@@ -121,20 +125,15 @@ trait XmlFoToPDF {
     val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
     val dateOfPredeceased = applicationDetails.widowCheck.flatMap { x => x.dateOfPreDeceased }
 
-    transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator)
-    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
-    transformer.setParameter("pdfFormatter", PdfFormatter)
-    transformer.setParameter("assetsTotal", applicationDetails.totalAssetsValue)
-    transformer.setParameter("debtsTotal", applicationDetails.totalLiabilitiesValue)
-    transformer.setParameter("exemptionsTotal", applicationDetails.totalExemptionsValue)
-    transformer.setParameter("giftsTotal", applicationDetails.totalGiftsValue)
-    transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
+    setupCommonTransformerParameters[ApplicationDetails](transformer, registrationDetails, {ad => (
+      ad.totalAssetsValue,
+      ad.totalLiabilitiesValue,
+      ad.totalExemptionsValue,
+      ad.totalGiftsValue
+    )}, preDeceasedName, dateOfMarriage)
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
     transformer.setParameter("estateValue", applicationDetails.totalNetValue)
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
-    transformer.setParameter("preDeceasedName", preDeceasedName)
-    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
     transformer.setParameter("marriedOrCivilPartnershipLabel",
       TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
     transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
@@ -155,21 +154,32 @@ trait XmlFoToPDF {
     val declarationDate: LocalDate = CommonHelper.getOrException(ihtReturn.declaration, "No declaration found").declarationDate.
       getOrElse(throw new RuntimeException("Declaration Date not available"))
 
-    transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator)
-    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
+    setupCommonTransformerParameters[IHTReturn](transformer, registrationDetails, {ihtReturn => (
+      ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue,
+      ihtReturn.totalDebtsValue,
+      ihtReturn.totalExemptionsValue,
+      ihtReturn.totalGiftsValue
+    )}, preDeceasedName, Option(dateOfMarriage))
+
     transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
-    transformer.setParameter("pdfFormatter", PdfFormatter)
-    transformer.setParameter("assetsTotal", ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue)
-    transformer.setParameter("debtsTotal", ihtReturn.totalDebtsValue)
-    transformer.setParameter("exemptionsTotal", ihtReturn.totalExemptionsValue)
-    transformer.setParameter("giftsTotal", ihtReturn.totalGiftsValue)
-    transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
-    transformer.setParameter("preDeceasedName", preDeceasedName)
-    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(Some(dateOfMarriage)))
     transformer
   }
 
+  private def setupCommonTransformerParameters[A](transformer: Transformer, registrationDetails: RegistrationDetails,
+                                                  retrieveTotals: A=>(BigDecimal,BigDecimal,BigDecimal,BigDecimal),
+                                                  preDeceasedName: String, dateOfMarriage: Option[LocalDate]) = {
+    lazy val totals = retrieveTotals()
+    setupCommonTransformerParameters2(transformer)
+    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
+    transformer.setParameter("assetsTotal", totals._1)
+    transformer.setParameter("debtsTotal", totals._2)
+    transformer.setParameter("exemptionsTotal", totals._3)
+    transformer.setParameter("giftsTotal", totals._4)
+    transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
+    transformer.setParameter("preDeceasedName", preDeceasedName)
+    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
+  }
+  
   private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {
     val BASEURI = new File(".").toURI
     val fopURIResolver = new FopURIResolver
