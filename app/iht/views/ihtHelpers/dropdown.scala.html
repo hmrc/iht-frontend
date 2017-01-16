@@ -47,9 +47,8 @@
             @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
             @if(labelHighlight){</strong>}
         </label>
-
     }
-    
+
     @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
     @if(parentElements.isDefined) {
     @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@Messages(error)</span>}
