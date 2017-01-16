@@ -20,6 +20,7 @@
 @import iht.utils.OverviewHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
+@import iht.constants.IhtProperties
 
 @import iht.utils._
 @import iht.controllers.application.assets.properties.routes._
@@ -39,8 +40,19 @@ deceasedName: String)(implicit request: Request[_])
         case _ => noValueText
     }
 }
+@checkNameSize(name: String) = @{
+var nameislong = false;
+var nameParts = name.split(" ");
+for (name <- nameParts) {
+if(name.length() > IhtProperties.hyphenateNamesLength){
+nameislong = true;
+}
+}
+nameislong;
+}
 
 @iht_main_template_application(title = Messages("page.iht.application.assets.overview.title", deceasedName),
+headingClass = if(checkNameSize(deceasedName)){"heading-large"} else {"heading-xlarge"},
 browserTitle = Some(Messages("iht.estateReport.assets.inEstate")),
 isFullWidth=false) {
 

@@ -33,7 +33,7 @@ sidebarLinks: Html = HtmlFormat.empty,
 signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "heading-xlarge",
-headingName: String = "Main Template"
+headingName: String = ""
 )(mainContent: Html)
 
 @import uk.gov.hmrc.play.views.html.layouts
@@ -44,7 +44,7 @@ headingName: String = "Main Template"
 
 @parseForName(heading: String, name: String) = @{
     if(heading contains name){
-        heading.replace(name, ihtHelpers.name(name).toString());
+        Html(heading.replace(name, ihtHelpers.name(name).toString()));
     } else {
         heading;
     }
@@ -91,9 +91,11 @@ headingName: String = "Main Template"
 
 @mainContentIht = {
     <h1 class="@headingClass">
-        @headingName
-        @title
-
+        @if(headingName > ""){
+            @parseForName(title, headingName)
+        } else {
+            @title
+        }
     </h1>
 
     @mainContent

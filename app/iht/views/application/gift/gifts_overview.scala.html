@@ -24,6 +24,7 @@
 @import iht.utils.OverviewHelper._
 @import iht.views.html.application.gift._
 @import iht.views.html.application._
+@import iht.constants.IhtProperties
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
@@ -31,20 +32,37 @@ returnToCall: Option[Call],
 returnToMessagesKey: String
 )(implicit request: Request[_])
 
+@checkNameSize(name: String) = @{
+    var nameislong = false;
+    var nameParts = name.split(" ");
+    for (name <- nameParts) {
+        if(name.length() > IhtProperties.hyphenateNamesLength){
+            nameislong = true;
+        }
+    }
+    nameislong;
+}
+
+@deceasedName() = @{getOrException(registrationDetails.deceasedDetails.map(_.name))}
+
+
 @gifts_main_template(
-    title = Messages("iht.estateReport.gifts.givenAwayBy",getOrException(registrationDetails.deceasedDetails.map(_.name))),
+    title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
     browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
     isFullWidth=false,
     relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
     messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
     messageKeyAccessibility = "page.iht.application.gifts.guidance.whatsAGift.title",
-    headingName = "[This is passed through name]"
-)(generic_overview(registrationDetails,
-                                       seqRows,
-                                       Messages("page.iht.application.gifts.overview.guidance1",
-                                                   CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
-                                                   CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
-                                       "iht.estateReport.completeEverySection",
-                                       returnToCall,
-                                       returnToMessagesKey,
-                                       true))
+    headingClass = if(checkNameSize(deceasedName)){"heading-large"} else {"heading-xlarge"},
+    headingName = deceasedName
+)(generic_overview(
+    registrationDetails,
+   seqRows,
+   Messages("page.iht.application.gifts.overview.guidance1",
+               CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
+               CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+   "iht.estateReport.completeEverySection",
+   returnToCall,
+   returnToMessagesKey,
+   true)
+)
