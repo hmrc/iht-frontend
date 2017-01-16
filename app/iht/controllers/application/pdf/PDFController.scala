@@ -48,11 +48,11 @@ trait PDFController extends ApplicationController with IhtActions {
 
   def xmlFoToPDF: XmlFoToPDF
 
-  def onPDFSummary = authorisedForIht {
+  def onPreSubmissionPDF = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Summary PDF")
       withApplicationDetails { regDetails => applicationDetails =>
-        val pdfByteArray = xmlFoToPDF.generateSummaryPDF(
+        val pdfByteArray = xmlFoToPDF.createPreSubmissionPDF(
           regDetails,
           applicationDetails,
           DeclarationHelper.getDeclarationType(applicationDetails)
@@ -62,7 +62,7 @@ trait PDFController extends ApplicationController with IhtActions {
     }
   }
 
-  def onPDFClearance(ihtReference: String) = authorisedForIht {
+  def onClearancePDF(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Clearance PDF")
       val nino = CommonHelper.getNino(user)
@@ -82,14 +82,14 @@ trait PDFController extends ApplicationController with IhtActions {
     }
   }
 
-  def onApplicationPDF(ihtReference: String) = authorisedForIht {
+  def onPostSubmissionPDF(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Application PDF")
       val nino = CommonHelper.getNino(user)
       ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
         getSubmittedApplicationDetails(nino, ihtReference, regDetails.updatedReturnId) map {
           case Some(ihtReturn) =>
-            val pdfByteArray = xmlFoToPDF.createApplicationReturnPDF(regDetails, ihtReturn)
+            val pdfByteArray = xmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)
             Ok(pdfByteArray).withHeaders(pdfHeaders)
           case _ =>
             internalServerError

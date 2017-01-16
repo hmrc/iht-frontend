@@ -105,7 +105,7 @@ class DeclarationViewTest extends ViewTestHelper {
     assertRenderedById(doc, confirmationCheckBoxId)
     assertContainsText(doc, Messages(coExecutorsConfirmationTextMsgKey))
 
-    assertLinkHasValue(doc, "pdf-summary-link", iht.controllers.application.pdf.routes.PDFController.onPDFSummary.url)
+    assertLinkHasValue(doc, "pdf-summary-link", iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF.url)
     assertEqualsValue(doc, "p a#pdf-summary-link", Messages("iht.estateReport.copyOfTheEstateReportAndPrint"))
   }
 
