@@ -188,9 +188,11 @@ trait XmlFoToPDF {
       override def warning(exception: TransformerException): Unit =
         Logger.warn(exception.getMessageAndLocation)
       override def error(exception: TransformerException): Unit = {
+        Logger.error(exception.getMessage, exception)
         throw exception
       }
       override def fatalError(exception: TransformerException): Unit = {
+        Logger.error(exception.getMessage, exception)
         throw exception
       }
     }
@@ -202,12 +204,22 @@ trait XmlFoToPDF {
       override def processEvent(event: Event): Unit = {
         val msg = EventFormatter.format(event)
 
-        event.getSeverity match {
-          case EventSeverity.INFO => Logger.info(msg)
-          case EventSeverity.WARN => Logger.warn(msg)
-          case EventSeverity.ERROR => Logger.error(msg)
-          case EventSeverity.FATAL => Logger.error(msg)
+        val optionErrorMsg = event.getSeverity match {
+          case EventSeverity.INFO =>
+            Logger.info(msg)
+            None
+          case EventSeverity.WARN =>
+            Logger.warn(msg)
+            None
+          case EventSeverity.ERROR =>
+            Logger.error(msg)
+            Some(msg)
+          case EventSeverity.FATAL =>
+            Logger.error(msg)
+            Some(msg)
+          case _ => None
         }
+        optionErrorMsg.foreach(errorMsg => throw new RuntimeException(errorMsg))
       }
     }
     foUserAgent.getEventBroadcaster.addEventListener(eventListener)

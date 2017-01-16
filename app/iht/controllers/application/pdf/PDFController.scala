@@ -48,7 +48,7 @@ trait PDFController extends ApplicationController with IhtActions {
 
   def xmlFoToPDF: XmlFoToPDF
 
-  def onPDFSummary = authorisedForIht {
+  def onPreSubmissionPDF = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Summary PDF")
       withApplicationDetails { regDetails => applicationDetails =>
@@ -62,7 +62,7 @@ trait PDFController extends ApplicationController with IhtActions {
     }
   }
 
-  def onPDFClearance(ihtReference: String) = authorisedForIht {
+  def onClearancePDF(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Clearance PDF")
       val nino = CommonHelper.getNino(user)
@@ -82,7 +82,7 @@ trait PDFController extends ApplicationController with IhtActions {
     }
   }
 
-  def onApplicationPDF(ihtReference: String) = authorisedForIht {
+  def onPostSubmissionPDF(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Application PDF")
       val nino = CommonHelper.getNino(user)
