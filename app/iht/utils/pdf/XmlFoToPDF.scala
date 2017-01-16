@@ -34,9 +34,6 @@ import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.{Logger, Play}
 
-import scala.util
-import scala.util.{Failure, Success, Try}
-
 /**
   * Created by david-beer on 07/06/16.
   */
@@ -110,14 +107,8 @@ trait XmlFoToPDF {
                               TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
     transformer.setParameter("kickout", kickout)
 
-    val test = Try{transformer.transform(modelSource, res)
-    pdfoutStream.toByteArray}
-
-    test match {
-      case Success (a) => a
-      case Failure (ex) => ex.printStackTrace()
-        throw ex
-    }
+    transformer.transform(modelSource, res)
+    pdfoutStream.toByteArray
   }
 
   def createClearancePDF(registrationDetails: RegistrationDetails, declarationDate: LocalDate): Array[Byte] = {
