@@ -49,10 +49,7 @@
         </label>
 
     }
-
-
-
-
+    
     @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
     @if(parentElements.isDefined) {
     @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@Messages(error)</span>}
@@ -76,7 +73,6 @@
     }
     </select>
 
-
     @if(isComboBox){
     <div class="suggestions-input-container js-visible" hidden>
         <input type="text"
@@ -98,10 +94,4 @@
     </div>
 
     }
-
-
-
-
-
-
 </div>
