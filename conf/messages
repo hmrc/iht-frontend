@@ -1399,14 +1399,14 @@ page.iht.application.kickout.back.giftsWithReservationOfBenefit = Return to gift
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold
 
 # APPLICATION KICKOUTS FINAL PAGE
-page.iht.application.kickout.final.browserTitle = This estate report is going to be deleted
+page.iht.application.kickout.final.browserTitle = The details you have given will be deleted for security reasons
 page.iht.application.kickout.final.summary = Because you can’t use Inheritance Tax Online, the details you’ve given in this estate report will be deleted for security reasons.
 page.iht.application.kickout.final.getCopy.title = Get a copy of the estate report
-page.iht.application.kickout.final.getCopy1 = You’ll not be able to get a copy of the estate report once you finish this service.
-page.iht.application.kickout.final.getCopy2 = You should
-page.iht.application.kickout.final.getCopy3 = save or print a copy of the estate report
-page.iht.application.kickout.final.getCopy4 = . This will have all of the details you’ve entered so that you can write them on the IHT-400 paper form.
-page.iht.application.kickout.final.last = By selecting finish you’ll be given a copy of the IHT-400 paper form and this estate report will be deleted.
+page.iht.application.kickout.final.getCopy.guidance1 = You will not be able to get a copy of the estate report when you finish.
+page.iht.application.kickout.final.getCopy.guidance2.youShould = You should
+page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or print a copy of the estate report
+page.iht.application.kickout.final.getCopy.guidance3 = This will have all of the details you have entered so that you can write them on the IHT-400 form. If you are not able to save or print a copy at the moment, return to the estate overview and come back when you are able to do this.
+page.iht.application.kickout.final.guidance.onFinish = By selecting finish you will be given a copy of the IHT-400 form and this estate report will be deleted.
 
 # ASSETS KICKOUTS
 
@@ -2055,6 +2055,7 @@ iht.dateExample2 = For example, 21 3 1990
 iht.dateOfDeath = Date of death
 iht.dateofbirth = Date of birth
 iht.delete = Delete
+iht.finishAndDeleteThisEstateReport = Finish and delete this estate report
 iht.the.deceased = the deceased
 iht.ifYouWantToChangeYOurAnswer = If you want to change your answer
 iht.estateReport.goToEstateReports = Go to your Inheritance Tax estate reports
@@ -2285,6 +2286,7 @@ iht.viewOrChange = View or change
 iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
 iht.comma = ,
+iht.fullStop = .
 
 # Kickout return link text starts
 iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText = you can return to the assets held in a trust page.
