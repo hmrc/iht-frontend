@@ -60,13 +60,13 @@ headingName = deceasedName
 
     @giftsGivenAwayForm.data.isEmpty match{
                 case true => {
-                                @ihtHelpers.return_link(Some(Messages("iht.estateReport.returnToEstateOverview")),
+                                @ihtHelpers.return_link(Messages("iht.estateReport.returnToEstateOverview"),
                                     Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
                                         CommonHelper.getOrException(regDetails.ihtReference))))
                                 }
                 case _ => {
                              @regDetails.deceasedDetails.map{dd=>
-                               @ihtHelpers.return_link(Some(Messages("page.iht.application.gifts.return.to.givenAwayBy", dd.name)),
+                               @ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
                                Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
                               }
                             }

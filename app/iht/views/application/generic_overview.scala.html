@@ -97,7 +97,7 @@ showStatus: Boolean = true
     @if(returnAsButton){
       @ihtHelpers.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
     } else {
-        @ihtHelpers.return_link(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
+        @ihtHelpers.return_link(Messages(returnToMessagesKey, ihtHelpers.name(dd.name)), returnToCall)
     }
   }
 </div>

@@ -33,8 +33,7 @@ hasTimeOut=hasTimeOut) {
 
     @nextStepsContent
 
-    @ihtHelpers.return_link(Some(Messages("iht.registration.kickout.message.returnToLast")),
-        Some(returnToUrl))
+    @ihtHelpers.return_link(Messages("iht.registration.kickout.message.returnToLast"),Some(returnToUrl))
 
     <div id="continue-button" class="form-field form-field--submit">
         @helpers.form(action = iht.controllers.registration.routes.KickoutController.onSubmit) {

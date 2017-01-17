@@ -47,6 +47,6 @@ browserTitle = Some(Messages("page.iht.application.assets.money.deceased.browser
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }
-    @ihtHelpers.return_link(Some(Messages("site.link.return.money")), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(Messages("site.link.return.money"), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
 
 }

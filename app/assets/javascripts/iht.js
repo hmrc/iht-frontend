@@ -16,40 +16,6 @@ showHideContent.init()
 
 
 // =====================================================
-// Long name breaking
-// wraps non-name part of heading to prevent unwanted break
-// this is a work-around for not being able to add html to the page h1
-// =====================================================
-//$('.copy--restricted').each(
-//    function(){
-//        var elText = $(this).text();
-//        // to work with pattern of "<name>'s estate overview"
-//        if($(this).text().toLowerCase().indexOf('estate overview') != -1){
-//            // Estate Overview page
-//            var elArr = elText.split("’s");
-//            for(i = 0; i < elArr.length; i++){
-//                if(elArr[i].toLowerCase().indexOf('estate overview') != -1){
-//                    elArr[i] = "<span>" + elArr[i] + "</span>";
-//                }
-//            }
-//            $(this).html(elArr.join("’s"));
-//        }
-//        // to work with pattern of "Gifts given away by <name>"
-//        if($(this).text().toLowerCase().indexOf('estate overview') != -1){
-//            // Gifts Overview page
-//            var elArr = elText.split(" by ");
-//            for(i = 0; i < elArr.length; i++){
-//                if(elArr[i].toLowerCase().indexOf('gifts given away') != -1){
-//                    elArr[i] = "<span>" + elArr[i] + "</span>";
-//                }
-//            }
-//            $(this).html(elArr.join(" by "));
-//        }
-//    }
-//);
-
-
-// =====================================================
 // Check for hashed url and jump to input if needed
 // The non-error-list focus will not focus on the input for iOS due to security restrictions
 // The in-page link-click focus setting is not affected

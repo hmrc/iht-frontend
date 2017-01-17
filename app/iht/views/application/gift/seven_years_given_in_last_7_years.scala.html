@@ -62,7 +62,7 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 @registrationDetails.deceasedDetails.map{ dd=>
-@ihtHelpers.return_link(Some(Messages("page.iht.application.gifts.return.to.givenAwayBy", dd.name)),
+@ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
 Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
 }
 }

@@ -47,7 +47,7 @@
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)),
+            @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
                                     Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
         }
     }

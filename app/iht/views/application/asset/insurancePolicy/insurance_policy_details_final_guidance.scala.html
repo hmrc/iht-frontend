@@ -26,6 +26,6 @@ browserTitle = Some(Messages("iht.estateReport.assets.insurancePolicies.premiums
 isFullWidth=false){
     <p id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section7.guidance")</p>
     <p id="insurance-policy-description2">@Messages("page.iht.application.insurance.policies.section7.guidance2")</p>
-    <p>@ihtHelpers.return_link(Some(Messages("site.link.go.to.gifts")), giftsPageLocation)</p>
-    <p>@ihtHelpers.return_link(Some(Messages("site.link.return.insurance.policies")), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))</p>
+    <p>@ihtHelpers.return_link(Messages("site.link.go.to.gifts"), giftsPageLocation)</p>
+    <p>@ihtHelpers.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))</p>
 }
