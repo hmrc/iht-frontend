@@ -115,8 +115,7 @@ trait PDFController extends ApplicationController with IhtActions {
         None
       case Some(ihtReturn) =>
         Logger.info("IhtReturn details have been successfully retrieved ")
-        val xx = CommonHelper.getOrException(ihtReturn.freeEstate.flatMap(_.estateExemptions))
-        println( "\n*****" + xx)
+        CommonHelper.getOrException(ihtReturn.freeEstate.flatMap(_.estateExemptions))
         Some(PdfFormatter.transform(ihtReturn))
     }
   }
