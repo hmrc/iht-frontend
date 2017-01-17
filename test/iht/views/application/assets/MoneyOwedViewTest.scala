@@ -30,9 +30,9 @@ class MoneyOwedViewTest extends ViewTestHelper with ShareableElementInputViewBeh
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = "iht.estateReport.assets.moneyOwed"
-  override def browserTitle = "iht.estateReport.assets.moneyOwed"
-  override def questionTitle = Messages("page.iht.application.assets.moneyOwed.isOwned")
+  override def pageTitle = Messages("iht.estateReport.assets.moneyOwed", deceasedName)
+  override def browserTitle = Messages("iht.estateReport.assets.moneyOwed", Messages("iht.the.deceased"))
+  override def questionTitle = Messages("page.iht.application.assets.moneyOwed.isOwned", deceasedName)
   override def valueQuestion = Messages("page.iht.application.assets.moneyOwed.inputLabel1")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
@@ -45,9 +45,9 @@ class MoneyOwedViewTest extends ViewTestHelper with ShareableElementInputViewBeh
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        "page.iht.application.assets.moneyOwed.description.p1",
-        "page.iht.application.assets.moneyOwed.description.p2",
-        "page.iht.application.assets.moneyOwed.description.p3")
+        Messages("page.iht.application.assets.moneyOwed.description.p1", deceasedName),
+        Messages("page.iht.application.assets.moneyOwed.description.p2", deceasedName),
+        Messages("page.iht.application.assets.moneyOwed.description.p3", deceasedName))
     }
   }
 

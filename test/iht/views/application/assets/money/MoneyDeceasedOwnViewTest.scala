@@ -26,9 +26,12 @@ import play.api.i18n.Messages
 
 class MoneyDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour {
 
-  override def pageTitle = "iht.estateReport.assets.moneyOwned"
-  override def browserTitle = "page.iht.application.assets.money.deceased.browserTitle"
-  override def questionTitle = Messages("iht.estateReport.assets.money.ownName.question")
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def pageTitle = Messages("iht.estateReport.assets.moneyOwned", deceasedName)
+  override def browserTitle = Messages("page.iht.application.assets.money.deceased.browserTitle")
+  override def questionTitle = Messages("iht.estateReport.assets.money.ownName.question", deceasedName)
   override def valueQuestion = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName")
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = ""
@@ -40,13 +43,13 @@ class MoneyDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInpu
 
     "show the correct guidance" in {
       val f = fixture()
-      messagesShouldBePresent(f.view, "page.iht.application.assets.money.deceased.guidance")
+      messagesShouldBePresent(f.view, Messages("page.iht.application.assets.money.deceased.guidance", deceasedName))
     }
   }
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = money_deceased_own(moneyFormOwn, CommonBuilder.buildRegistrationDetails).toString
+    val view = money_deceased_own(moneyFormOwn, regDetails).toString
     val doc = asDocument(view)
   }
 }

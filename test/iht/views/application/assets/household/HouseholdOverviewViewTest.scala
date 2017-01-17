@@ -23,32 +23,34 @@ import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.household.household_overview
 import org.jsoup.nodes.Document
+import play.api.i18n.Messages
 
 class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
-
-  override def pageTitle = "iht.estateReport.assets.householdAndPersonalItems.title"
-  override def browserTitle = "iht.estateReport.assets.householdAndPersonalItems.title"
-  override def guidanceParagraphs = Set("page.iht.application.assets.household.overview.guidance")
-  override def ownHeadingElementId = "deceased-own-heading"
-  override def jointlyOwnedHeadingElementId = "deceased-shared-heading"
-  override def urlToOwnPage = HouseholdDeceasedOwnController.onPageLoad().url
-  override def urlToJointlyOwnedPage = HouseholdJointlyOwnedController.onPageLoad().url
-  override def ownHeaderText = "iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title"
-  override def jointlyOwnedHeaderText = "iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title"
-  override def ownQuestionRowId = "deceased-own-question"
-  override def ownQuestionText = "iht.estateReport.assets.household.ownName.question"
-  override def ownValueRowId = "deceased-own-value"
-  override def ownValueText = "iht.estateReport.assets.household.deceasedOwnedValue"
-  override def jointlyOwnedQuestionRowId = "deceased-shared-question"
-  override def jointlyOwnedQuestionText = "iht.estateReport.assets.household.joint.question"
-  override def jointlyOwnedValueRowId = "deceased-share-value"
-  override def jointlyOwnedValueText = "page.iht.application.assets.household.overview.joint.value"
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   override def deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  "Household overview view" must {
+  override def pageTitle = Messages("iht.estateReport.assets.householdAndPersonalItems.title")
+  override def browserTitle = Messages("iht.estateReport.assets.householdAndPersonalItems.title")
+  override def guidanceParagraphs = Set(Messages("page.iht.application.assets.household.overview.guidance"))
+  override def ownHeadingElementId = "deceased-own-heading"
+  override def jointlyOwnedHeadingElementId = "deceased-shared-heading"
+  override def urlToOwnPage = HouseholdDeceasedOwnController.onPageLoad().url
+  override def urlToJointlyOwnedPage = HouseholdJointlyOwnedController.onPageLoad().url
+  override def ownHeaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+                                        deceasedName)
+  override def jointlyOwnedHeaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
+                                                  deceasedName)
+  override def ownQuestionRowId = "deceased-own-question"
+  override def ownQuestionText = Messages("iht.estateReport.assets.household.ownName.question", deceasedName)
+  override def ownValueRowId = "deceased-own-value"
+  override def ownValueText = Messages("iht.estateReport.assets.household.deceasedOwnedValue")
+  override def jointlyOwnedQuestionRowId = "deceased-shared-question"
+  override def jointlyOwnedQuestionText = Messages("iht.estateReport.assets.household.joint.question", deceasedName)
+  override def jointlyOwnedValueRowId = "deceased-share-value"
+  override def jointlyOwnedValueText = Messages("page.iht.application.assets.household.overview.joint.value")
 
+  "Household overview view" must {
     behave like overviewView()
   }
 

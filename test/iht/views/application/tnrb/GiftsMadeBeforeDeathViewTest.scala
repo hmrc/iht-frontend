@@ -28,10 +28,9 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour {
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
-      maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
-
+                                                      deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
+                                                                  maritalStatus = Some(TestHelper.MaritalStatusMarried))),
+                                                      deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
   val tnrbModel = CommonBuilder.buildTnrbEligibility
   val widowCheck = CommonBuilder.buildWidowedCheck
 
@@ -40,7 +39,7 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour {
                                       tnrbModel, widowCheck,
                                       Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
-  override def browserTitle = "page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle"
+  override def browserTitle = Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")
   override def guidanceParagraphs = Set(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
                                                 TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
                                                    Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),

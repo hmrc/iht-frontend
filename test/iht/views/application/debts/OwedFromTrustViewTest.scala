@@ -29,12 +29,12 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour{
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
-      maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+                                                      deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
+                                                                maritalStatus = Some(TestHelper.MaritalStatusMarried))),
+                                                      deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
   override def pageTitle = Messages("iht.estateReport.debts.debtsTrust.title")
-  override def browserTitle = "page.iht.application.debts.debtsTrust.browserTitle"
+  override def browserTitle = Messages("page.iht.application.debts.debtsTrust.browserTitle")
   override def guidanceParagraphs = Set(Messages("page.iht.application.debts.debtsTrust.description.p1",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
   override def yesNoQuestionText = Messages("page.iht.application.debts.debtsTrust.isOwned",

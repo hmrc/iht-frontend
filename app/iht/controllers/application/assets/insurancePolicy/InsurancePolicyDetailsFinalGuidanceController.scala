@@ -32,6 +32,7 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       val registrationDetails = cachingConnector.getExistingRegistrationDetails
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
       val seenGiftGuidance = toBoolean(cachingConnector.getSingleValueSync(ControllerHelper.GiftsGuidanceSeen)).getOrElse(false)
 
       for {
@@ -40,7 +41,8 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
           registrationDetails.acknowledgmentReference)
       } yield {
         applicationDetails.fold[Result](InternalServerError)(ad =>
-          Ok(insurance_policy_details_final_guidance(giftsPageRedirect(ad.allGifts.flatMap(_.isGivenAway), seenGiftGuidance)))
+          Ok(insurance_policy_details_final_guidance(giftsPageRedirect(ad.allGifts.flatMap(_.isGivenAway), seenGiftGuidance),
+            deceasedName))
         )
       }
     }

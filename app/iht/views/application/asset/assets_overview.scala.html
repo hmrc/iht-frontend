@@ -44,7 +44,7 @@ deceasedName: String)(implicit request: Request[_])
 browserTitle = Some(Messages("iht.estateReport.assets.inEstate")),
 isFullWidth=false) {
 
-<p id="assets-guidance1" class="lede">@Messages("page.iht.application.assets.overview.guidance1")</p>
+<p id="assets-guidance1" class="lede">@Messages("page.iht.application.assets.overview.guidance1", deceasedName)</p>
 <p id="assets-guidance2">@Messages("iht.estateReport.completeEverySection")</p>
 
 <ul id="overview-table">
@@ -325,7 +325,7 @@ isFullWidth=false) {
     }
 
     @defining(assets.moneyOwed.flatMap(_.isComplete)) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.moneyOwed"),
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.moneyOwed", deceasedName),
             "moneyOwed", "money-owed",
             displayValue(appDetails, AppSectionMoneyOwed, isComplete), "",
             Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),

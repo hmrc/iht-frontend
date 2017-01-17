@@ -25,7 +25,8 @@
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle=Some(Messages("page.iht.application.insurance.policies.section6.browserTitle")),
 isFullWidth=false){
     @ihtHelpers.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
