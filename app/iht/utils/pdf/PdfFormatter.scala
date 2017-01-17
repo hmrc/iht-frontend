@@ -53,20 +53,12 @@ object PdfFormatter {
     }
   }
 
-  def updateETMPOptionSet[B](setOfItems:Option[Set[B]],
-                             selectItem:B=>Option[String],
+  def updateETMPOptionSet[B](optionSetOfB:Option[Set[B]],
+                             getExprToLookupAsOption:B=>Option[String],
                              lookupItems:ListMap[String,String],
-                             applyLookupItemToB:(B,String)=>B):Option[Set[B]] = {
-    setOfItems.map { setOfAssets =>
-      setOfAssets.map { asset =>
-        selectItem(asset).fold(asset){ ac =>
-          lookupItems.get(ac).fold(asset){ newAssetDescription =>
-            applyLookupItemToB(asset,newAssetDescription)
-          }
-        }
-      }
-    }
-  }
+                             applyLookedUpItemToB:(B,String)=>B):Option[Set[B]] =
+    optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
+        lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
   def transform(ihtReturn:IHTReturn): IHTReturn = {
     val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
