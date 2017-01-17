@@ -105,10 +105,11 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def getOrMinus1(value:Option[BigDecimal]):BigDecimal = value.fold(BigDecimal(-1))(identity)
+
 
   private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
                                              applicationDetails: ApplicationDetails): Transformer = {
+    def getOrMinus1(value:Option[BigDecimal]):BigDecimal = value.fold(BigDecimal(-1))(identity)
     val template: StreamSource = new StreamSource(Play.classloader
       .getResourceAsStream(filePathForPreSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
@@ -122,12 +123,10 @@ trait XmlFoToPDF {
     val dateOfPredeceased = applicationDetails.widowCheck.flatMap { x => x.dateOfPreDeceased }
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
-      applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue,
-      applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption,
-      applicationDetails.totalPastYearsGiftsExemptionsOption,
-      applicationDetails.totalGiftsValue
-    )
+      applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalGiftsValue)
 
+    transformer.setParameter("giftsTotalExclExemptions", getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
+    transformer.setParameter("exemptionsTotal", getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
     transformer.setParameter("estateValue", applicationDetails.totalNetValue)
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
@@ -152,12 +151,7 @@ trait XmlFoToPDF {
       getOrElse(throw new RuntimeException("Declaration Date not available"))
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, Option(dateOfMarriage),
-      ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue,
-      ihtReturn.totalDebtsValue,
-      None,
-      None,
-      ihtReturn.totalGiftsValue
-    )
+      ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalGiftsValue)
 
     transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer
@@ -175,20 +169,12 @@ trait XmlFoToPDF {
                                                dateOfMarriage: Option[LocalDate],
                                                totalAssetsValue: BigDecimal,
                                                totalLiabilitiesValue: BigDecimal,
-                                               totalPastYearsGiftsValueExcludingExemptionsValue: Option[BigDecimal],
-                                               totalPastYearsGiftsExemptionsValue: Option[BigDecimal],
                                                totalPastYearsGiftsValue: BigDecimal) = {
     setupCommonTransformerParameters(transformer)
     transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("assetsTotal", totalAssetsValue)
     transformer.setParameter("debtsTotal", totalLiabilitiesValue)
-
-    transformer.setParameter("giftsTotalExclExemptions",
-      getOrMinus1(totalPastYearsGiftsValueExcludingExemptionsValue))
-    transformer.setParameter("exemptionsTotal",
-      getOrMinus1(totalPastYearsGiftsExemptionsValue))
     transformer.setParameter("giftsTotal", totalPastYearsGiftsValue)
-
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("preDeceasedName", preDeceasedName)
     transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
