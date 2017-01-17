@@ -44,7 +44,7 @@ headingName = partnerName
     TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint")))
                                  + "</p><p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"),
         '_divClass -> Some("form-group"),
-        '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"))),
+        '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)),
         '_legendClass -> Some("visually-hidden")
         )
 

@@ -29,7 +29,7 @@ browserTitle = Some(Messages("page.iht.application.tnrbEligibilty.increasedTnrbT
 ){
 
 <div class="panel-indent">
-    <p id="increased-tnrb-threshold-paragraph1">@Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", deceasedName, preDeceasedName)</p>
+    <p id="increased-tnrb-threshold-paragraph1">@Html(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", ihtHelpers.name(deceasedName), ihtHelpers.name(preDeceasedName)))</p>
 </div>
 
 <p id="increased-tnrb-threshold-paragraph2">@Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2")</p>

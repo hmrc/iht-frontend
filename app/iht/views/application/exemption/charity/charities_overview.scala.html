@@ -35,7 +35,7 @@ isFullWidth=false
         <ul>
         @generic_overview_table_item(id = "home-in-uk",
         questionText = Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
         questionScreenReaderText= Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question"),
         questionCategory= "change",
         answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToCharity)),

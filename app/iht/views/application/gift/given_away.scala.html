@@ -27,7 +27,8 @@ regDetails:RegistrationDetails
 )(implicit request:Request[_])
 
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails)}
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
+@deceasedNameWrapped() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)}
 
 @gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
@@ -41,16 +42,16 @@ headingName = deceasedName
     @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
     <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-            ihtHelpers.name(deceasedName),
+        deceasedNameWrapped,
              CommonHelper.getDateBeforeSevenYears(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(dateFormatForDisplay),
              CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay)))</p>
-    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2", ihtHelpers.name(deceasedName)))</p>
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedNameWrapped))</p>
 
     @ihtHelpers.inputYesNoRadioGroup(
     giftsGivenAwayForm("isGivenAway"),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()),
     '_divClass -> Some("form-group"),
-    '_legend -> Messages("page.iht.application.gifts.lastYears.givenAway.question", ihtHelpers.name(deceasedName))
+    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedNameWrapped))
 )
 
     <div id="action-button" class="form-field form-field--submit">

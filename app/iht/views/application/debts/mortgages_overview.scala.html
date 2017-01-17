@@ -31,12 +31,14 @@ onCancelMessageKey: String)(implicit request: Request[_])
 @import iht.utils.CommonHelper
 @import iht.constants.FieldMappings
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.debts.mortgages"),
 browserTitle = Some(Messages("iht.estateReport.debts.mortgages")),
 isFullWidth= false) {
     <p class="lede">@Messages("page.iht.application.debts.mortgages.description.p1")</p>
-    <p>@Messages("page.iht.application.debts.mortgages.description", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("page.iht.application.debts.mortgages.description.p3", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p>@Html(Messages("page.iht.application.debts.mortgages.description", deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.debts.mortgages.description.p3", deceasedName))</p>
 
     @if(propertyList.isEmpty){
         <div class="panel-indent panel-indent--gutter">

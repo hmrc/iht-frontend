@@ -52,7 +52,7 @@ object TnrbHelper {
   def spouseOrCivilPartnerLabel(tnrbModel: TnrbEligibiltyModel,
                                 widowCheck: WidowCheck,
                                 prefixText: String="",
-                                wrapName: Boolean = true): String  = {
+                                wrapName: Boolean = false): String  = {
     if(tnrbModel.Name.toString.trim!=""){
       if(wrapName) {
         ihtHelpers.name(tnrbModel.Name.toString).toString

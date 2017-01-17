@@ -42,7 +42,7 @@ headingName = partnerName
         partnerLivingInUkForm("isPartnerLivingInUk"),
         '_hintText -> Html(Messages("page.iht.application.tnrb.permanentHome.question.hint")),
         '_divClass -> Some("form-group"),
-        '_legend -> Messages("iht.estateReport.tnrb.permanentHome.question",TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"))),
+        '_legend -> Messages("iht.estateReport.tnrb.permanentHome.question",TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)),
         '_legendClass -> Some("visually-hidden")
 )
 

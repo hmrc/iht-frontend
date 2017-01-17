@@ -109,7 +109,7 @@ trait GiftsOverviewController extends EstateController {
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
                                    allGifts: AllGifts) = {
-    val deceasedName = ihtHelpers.name(CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
       title = None,

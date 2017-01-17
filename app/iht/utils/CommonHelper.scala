@@ -33,6 +33,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.collection.immutable.ListMap
 import scala.util.Try
+import iht.views.html._
 
 /**
  *
@@ -454,7 +455,11 @@ object CommonHelper {
     }
   }
 
-  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails):String =
+  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails, wrapName: Boolean = false):String =
+    if(wrapName) {
+      ihtHelpers.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
+    }else{
       regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
+    }
 
 }

@@ -23,13 +23,16 @@
 @(assetsLeftToQualifyingBodyQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle",
-                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+
+@iht_main_template_application(title = Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle")),
 isFullWidth = false,
 cancelUrl = Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
 cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
-                            registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))){
+                            registrationDetails.deceasedDetails.map(_.name).fold("")(identity))),
+headingName = deceasedName
+){
 
 @ihtHelpers.error_summary(assetsLeftToQualifyingBodyQuestionForm)
 @helpers.form(action = iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit,

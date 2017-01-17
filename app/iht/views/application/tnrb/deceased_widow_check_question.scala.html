@@ -30,13 +30,13 @@ cancelLinkUrl:Call,
 cancelLinkText:String
 )(implicit request:Request[_])
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.partner.married",
                                             deceasedName,
                                             TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
                                             TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                                          Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"))),
+                                                          Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"), true)),
                                             browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
                                             cancelUrl = Some(cancelLinkUrl),
                                             cancelLabel=Some(cancelLinkText),

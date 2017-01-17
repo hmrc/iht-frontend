@@ -32,7 +32,7 @@ cancelLinkText:String)(implicit request:Request[_])
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(
                         tnrbModel,
                         widowCheckModel,
-                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)),
                         false
                 )}
 

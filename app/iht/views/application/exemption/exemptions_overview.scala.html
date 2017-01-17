@@ -40,9 +40,12 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
     }
 }
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.deceasedName.title",CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
+@deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
+
+@iht_main_template_application(title = Messages("page.iht.application.exemptions.deceasedName.title", deceasedName),
 browserTitle = Some(Messages("iht.estateReport.exemptions.title")),
-isFullWidth = false) {
+isFullWidth = false,
+headingName = deceasedName) {
 
 <p id="exemption-guidance1" class="lede">@Messages("page.iht.application.exemptions.guidance1")</p>
 <p id="exemption-guidance2">@Messages("iht.estateReport.completeEverySection")</p>

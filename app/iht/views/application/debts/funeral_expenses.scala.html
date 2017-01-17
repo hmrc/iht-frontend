@@ -34,7 +34,7 @@
     @helpers.form(action = iht.controllers.application.debts.routes.FuneralExpensesController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Messages("page.iht.application.debts.funeralExpenses.description.p1")</p>
-        <p>@Messages("page.iht.application.debts.funeralExpenses.description.p2", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p>@Html(Messages("page.iht.application.debts.funeralExpenses.description.p2", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,

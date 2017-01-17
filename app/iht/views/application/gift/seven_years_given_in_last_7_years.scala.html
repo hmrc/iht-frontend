@@ -27,7 +27,7 @@
 @(SevenYearsGiftsForm: Form[AllGifts],
 registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")),
@@ -47,13 +47,13 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
         <li>@Messages("page.iht.application.gifts.lastYears.description.e3")</li>
         <li>@Messages("page.iht.application.gifts.lastYears.description.e4")</li>
     </ul>
-    <p>@Html(Messages("page.iht.application.gifts.lastYears.description.p3", ihtHelpers.name(deceasedName)))</p>
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.description.p3", deceasedName))</p>
 </div>
 
 <div id="seven-years-gifts-question">
     @ihtHelpers.inputYesNoRadioGroup(
     SevenYearsGiftsForm("givenInPast.isGivenInLast7Years"),
-    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", ihtHelpers.name(deceasedName))),
+    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", deceasedName)),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()),
     '_divClass -> Some("form-group"))
 </div>
