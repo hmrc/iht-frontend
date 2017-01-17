@@ -29,7 +29,7 @@ import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import models.des.iht_return.IHTReturn
-import org.apache.fop.apps.{FOUserAgent, _}
+import org.apache.fop.apps._
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
 import play.api.Play.current
@@ -100,9 +100,7 @@ trait XmlFoToPDF {
     val transformer: Transformer = transformerFactory.newTransformer(template)
     setupTransformerEventHandling(transformer)
 
-    transformer.setParameter("pdfFormatter", PdfFormatter)
-    transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator)
+    setupCommonTransformerParameters(transformer)
     transformer.setParameter("declaration-date", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer
   }
@@ -123,23 +121,13 @@ trait XmlFoToPDF {
     val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
     val dateOfPredeceased = applicationDetails.widowCheck.flatMap { x => x.dateOfPreDeceased }
 
-    transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator)
-    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
-    transformer.setParameter("pdfFormatter", PdfFormatter)
-    transformer.setParameter("assetsTotal", applicationDetails.totalAssetsValue)
-    transformer.setParameter("debtsTotal", applicationDetails.totalLiabilitiesValue)
-    transformer.setParameter("giftsTotalExclExemptions",
-      getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
-    transformer.setParameter("exemptionsTotal",
-      getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
-    transformer.setParameter("giftsTotal", applicationDetails.totalGiftsValue)
-    transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
+    setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
+      applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue,
+      applicationDetails.totalExemptionsValue, applicationDetails.totalGiftsValue)
+
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
     transformer.setParameter("estateValue", applicationDetails.totalNetValue)
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
-    transformer.setParameter("preDeceasedName", preDeceasedName)
-    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
     transformer.setParameter("marriedOrCivilPartnershipLabel",
       TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
     transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
@@ -160,19 +148,38 @@ trait XmlFoToPDF {
     val declarationDate: LocalDate = CommonHelper.getOrException(ihtReturn.declaration, "No declaration found").declarationDate.
       getOrElse(throw new RuntimeException("Declaration Date not available"))
 
+    setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, Option(dateOfMarriage),
+      ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue,
+      ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue, ihtReturn.totalGiftsValue
+    )
+
+    transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
+    transformer
+  }
+
+  private def setupCommonTransformerParameters(transformer: Transformer): Unit = {
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", MessagesTranslator)
-    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
-    transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer.setParameter("pdfFormatter", PdfFormatter)
-    transformer.setParameter("assetsTotal", ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue)
-    transformer.setParameter("debtsTotal", ihtReturn.totalDebtsValue)
-    transformer.setParameter("exemptionsTotal", ihtReturn.totalExemptionsValue)
-    transformer.setParameter("giftsTotal", ihtReturn.totalGiftsValue)
+  }
+
+  private def setupCommonTransformerParametersPreAndPost(transformer: Transformer,
+                                               registrationDetails: RegistrationDetails,
+                                               preDeceasedName: String,
+                                               dateOfMarriage: Option[LocalDate],
+                                               totalAssetsValue: BigDecimal,
+                                               totalLiabilitiesValue: BigDecimal,
+                                               totalExemptionsValue: BigDecimal,
+                                               totalGiftsValue: BigDecimal) = {
+    setupCommonTransformerParameters(transformer)
+    transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
+    transformer.setParameter("assetsTotal", totalAssetsValue)
+    transformer.setParameter("debtsTotal", totalLiabilitiesValue)
+    transformer.setParameter("exemptionsTotal", totalExemptionsValue)
+    transformer.setParameter("giftsTotal", totalGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("preDeceasedName", preDeceasedName)
-    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(Some(dateOfMarriage)))
-    transformer
+    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
   }
 
   private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {
@@ -192,10 +199,12 @@ trait XmlFoToPDF {
     val errorListener = new ErrorListener {
       override def warning(exception: TransformerException): Unit =
         Logger.warn(exception.getMessageAndLocation)
+
       override def error(exception: TransformerException): Unit = {
         Logger.error(exception.getMessage, exception)
         throw exception
       }
+
       override def fatalError(exception: TransformerException): Unit = {
         Logger.error(exception.getMessage, exception)
         throw exception

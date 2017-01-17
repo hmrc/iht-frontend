@@ -47,7 +47,8 @@ class InsurancePoliciesOverviewViewTest extends ViewTestHelper {
 
     "have correct guidance paragraphs" in {
       val view = insurancePoliciesOverviewView(CommonBuilder.buildInsurancePolicy).toString
-      messagesShouldBePresent(view, Messages("page.iht.application.assets.insurance.policies.overview.guidance1"))
+      messagesShouldBePresent(view, Messages("page.iht.application.assets.insurance.policies.overview.guidance1",
+        deceasedName))
     }
 
     "have correct return link with text" in {

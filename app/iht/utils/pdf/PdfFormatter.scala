@@ -16,7 +16,8 @@
 
 package iht.utils.pdf
 
-import iht.constants.IhtProperties
+import iht.constants.{Constants, IhtProperties}
+import models.des.iht_return.IHTReturn
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 
@@ -47,5 +48,19 @@ object PdfFormatter {
       }
       case x => x
     }
+  }
+
+  def transform(ihtReturn:IHTReturn): IHTReturn = {
+    val optionSetAsset = ihtReturn.freeEstate.flatMap(_.estateAssets).map { setOfAssets =>
+      setOfAssets.map { asset =>
+        asset.assetCode.fold(asset){ ac =>
+          Constants.ETMPAssetCodesToIHTMessageKeys.get(ac).fold(asset){ newAssetDescription =>
+            asset.copy(assetDescription = Option(Messages(newAssetDescription)))
+          }
+        }
+      }
+    }
+    val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (estateAssets = optionSetAsset))
+    ihtReturn copy (freeEstate = optionFreeEstate)
   }
 }

@@ -65,6 +65,16 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
     }
 
     "respond ok on page load" in {
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List(CommonBuilder.property))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
       val result = propertyOwnershipController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
     }

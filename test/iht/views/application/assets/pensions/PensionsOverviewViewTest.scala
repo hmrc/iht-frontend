@@ -27,27 +27,29 @@ import play.api.i18n.Messages
 
 class PensionsOverviewViewTest extends ViewTestHelper {
 
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
   lazy val valueYes = "Yes"
   lazy val valueNo = "No"
   lazy val changeMsgKey = "iht.change"
   lazy val giveAnAnswerMsgKey= "site.link.giveAnswer"
   lazy val giveAValueMsgKey = "site.link.giveAValue"
   lazy val pensionOwnedByDeceasedQuestionId = "pensions-question"
-  lazy val pensionOwnedByDeceasedQuestionMsgKey = "page.iht.application.assets.pensions.question"
+  lazy val pensionOwnedByDeceasedQuestionMsg = Messages("page.iht.application.assets.pensions.question", deceasedName)
   lazy val pensionOwnedByDeceasedQuestionPageUrl = routes.PensionsOwnedQuestionController.onPageLoad.url
 
   lazy val pensionMoreThanOneQuestionId = "pensions-more-than-one-question"
-  lazy val pensionMoreThanOneQuestionMsgKey = "page.iht.application.assets.pensions.changed.title"
+  lazy val pensionMoreThanOneQuestionMsg = Messages("page.iht.application.assets.pensions.changed.title", deceasedName)
   lazy val pensionMoreThanOneQuestionPageUrl = routes.PensionsChangedQuestionController.onPageLoad.url
 
   lazy val pensionValueQuestionId = "pensions-value"
-  lazy val pensionValueQuestionMsgKey = "iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid"
+  lazy val pensionValueQuestionMsg = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid")
   lazy val pensionValueQuestionPageUrl = routes.PensionsValueController.onPageLoad.url
 
   def pensionOverviewView(pensions:Option[PrivatePension]) = {
     implicit val request = createFakeRequest()
 
-    lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     val view = pensions_overview(pensions, regDetails).toString()
     asDocument(view)
   }
@@ -63,8 +65,10 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
     "have correct guidance paragraphs" in {
       val view = pensionOverviewView(Some(CommonBuilder.buildPrivatePensionExtended)).toString
-      messagesShouldBePresent(view, Messages("page.iht.application.assets.pensions.overview.description.p1"))
-      messagesShouldBePresent(view, Messages("page.iht.application.assets.pensions.overview.description.p2"))
+      messagesShouldBePresent(view, Messages("page.iht.application.assets.pensions.overview.description.p1",
+                                            deceasedName, deceasedName))
+      messagesShouldBePresent(view, Messages("page.iht.application.assets.pensions.overview.description.p2",
+                                              deceasedName))
     }
 
   }
@@ -75,7 +79,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
       rowShouldBeAnswered(view,
         pensionOwnedByDeceasedQuestionId,
-        pensionOwnedByDeceasedQuestionMsgKey,
+        pensionOwnedByDeceasedQuestionMsg,
         valueYes,
         changeMsgKey,
         pensionOwnedByDeceasedQuestionPageUrl)
@@ -90,7 +94,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
       rowShouldBeUnAnswered(view,
         pensionMoreThanOneQuestionId,
-        pensionMoreThanOneQuestionMsgKey,
+        pensionMoreThanOneQuestionMsg,
         giveAnAnswerMsgKey,
         pensionMoreThanOneQuestionPageUrl
       )
@@ -101,7 +105,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
      rowShouldBeUnAnswered(view,
        pensionValueQuestionId,
-       pensionValueQuestionMsgKey,
+       pensionValueQuestionMsg,
        giveAValueMsgKey,
        pensionValueQuestionPageUrl
      )
@@ -117,7 +121,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
       rowShouldBeAnswered(view,
         pensionMoreThanOneQuestionId,
-        pensionMoreThanOneQuestionMsgKey,
+        pensionMoreThanOneQuestionMsg,
         valueYes,
         changeMsgKey,
         pensionMoreThanOneQuestionPageUrl
@@ -132,7 +136,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
       rowShouldBeAnswered(view,
         pensionValueQuestionId,
-        pensionValueQuestionMsgKey,
+        pensionValueQuestionMsg,
         "£" + CommonHelper.numberWithCommas(pensionValue),
         changeMsgKey,
         pensionValueQuestionPageUrl
@@ -149,7 +153,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
       rowShouldBeAnswered(view,
         pensionMoreThanOneQuestionId,
-        pensionMoreThanOneQuestionMsgKey,
+        pensionMoreThanOneQuestionMsg,
         valueNo,
         changeMsgKey,
         pensionMoreThanOneQuestionPageUrl
@@ -163,7 +167,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
       rowShouldBeAnswered(view,
         pensionValueQuestionId,
-        pensionValueQuestionMsgKey,
+        pensionValueQuestionMsg,
         "",
         giveAValueMsgKey,
         pensionValueQuestionPageUrl

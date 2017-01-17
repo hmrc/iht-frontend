@@ -19,14 +19,15 @@ package iht.views.registration.deceased
 import iht.forms.registration.DeceasedForms._
 import iht.views.html.registration.deceased.deceased_permanent_home
 import iht.views.registration.RegistrationPageBehaviour
+import play.api.i18n.Messages
 import play.api.mvc.Call
 
 import scala.collection.immutable.ListMap
 
 class DeceasedPermanentHomeViewTest  extends RegistrationPageBehaviour {
 
-  override def pageTitleKey = "page.iht.registration.deceasedPermanentHome.title"
-  override def browserTitleKey = "page.iht.registration.deceasedPermanentHome.browserTitle"
+  override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
+  override def browserTitle = Messages("page.iht.registration.deceasedPermanentHome.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()

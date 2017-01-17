@@ -35,7 +35,8 @@ registrationDetails: RegistrationDetails
     @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onSubmit(),'autoComplete -> "off") {
 
         @ihtHelpers.inputYesNoRadioGroup(stockAndSharesListed("isListed"),
-            '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.listed.question")),
+            '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.listed.question",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
             '_shownElementNo -> None,
             '_shownElementYes -> Some("stocks-and-shares-value"),
             '_hiddenElementYes -> None,

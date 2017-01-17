@@ -22,6 +22,7 @@ import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.RegistrationDetails
+import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.utils.OverviewHelper._
 import play.api.i18n.Messages
@@ -95,7 +96,8 @@ trait InsurancePolicyOverviewController extends EstateController {
 
         val seqSection1 = createSectionFromYesNoValueQuestions(
           id = "deceased",
-          title = Some("iht.estateReport.assets.insurancePolicies.payingOutToDeceased"),
+          title = Some(Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
+                                CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
           linkUrl = routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad(),
           sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value",
           questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value",
@@ -103,12 +105,13 @@ trait InsurancePolicyOverviewController extends EstateController {
           questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value",
           questionAnswerExprYesNo = insurancePolicy.policyInDeceasedName,
           questionAnswerExprValue = insurancePolicy.value,
-          questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.ownName.question"),
+          questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.ownName.question",
+                                                CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
           questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
         )
         val seqSection2 = createSectionFromYesNoValueQuestions(
           id = "joint",
-          title = Some("page.iht.application.assets.insurance.policies.overview.joint.title"),
+          title = Some(Messages("page.iht.application.assets.insurance.policies.overview.joint.title")),
           linkUrl = routes.InsurancePolicyDetailsJointController.onPageLoad(),
           sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value",
           questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value",
@@ -116,20 +119,26 @@ trait InsurancePolicyOverviewController extends EstateController {
           questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value",
           questionAnswerExprYesNo = insurancePolicy.isJointlyOwned,
           questionAnswerExprValue = insurancePolicy.shareValue,
-          questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.jointlyHeld.question"),
+          questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+                                              CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
           questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare")
         )
         val seqSection3 = createSectionFromYesNoQuestions(
           id = "other",
-          title = Some("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther"),
+          title = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
+                           CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
           linkUrl = routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
           sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
           questionAnswersPlusChangeLinks = section3YesNoItems(insurancePolicy, regDetails),
           questionTitlesMessagesFileItems = Seq(
-            Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"),
-            Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question"),
-            Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question"),
-            Messages("page.iht.application.assets.insurance.policies.overview.other.question4")
+            Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
+                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+            Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
+                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+            Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
+                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+            Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
+                      CommonHelper.getDeceasedNameOrDefaultString(regDetails))
           ),
           ad, regDetails)
 

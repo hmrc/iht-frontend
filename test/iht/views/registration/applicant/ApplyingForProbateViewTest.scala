@@ -19,13 +19,13 @@ package iht.views.registration.applicant
 import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.Lang
+import play.api.i18n.{Messages, Lang}
 import play.api.mvc.Call
 
 class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitleKey = "iht.registration.applicant.applyingForProbate"
-  override def browserTitleKey = "page.iht.registration.applicant.applyingForProbate.browserTitle"
+  override def pageTitle = Messages("iht.registration.applicant.applyingForProbate")
+  override def browserTitle = Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
@@ -40,8 +40,8 @@ class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        "page.iht.registration.applicant.applyingForProbate.p1",
-        "page.iht.registration.applicant.applyingForProbate.p2")
+        Messages("page.iht.registration.applicant.applyingForProbate.p1"),
+        Messages("page.iht.registration.applicant.applyingForProbate.p2"))
     }
 
     "have a fieldset with the Id 'applying-for-probate'" in {

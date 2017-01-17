@@ -26,9 +26,12 @@ import play.api.i18n.Messages
 
 class VehiclesJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
 
-  override def pageTitle = "page.iht.application.assets.vehicles.jointly.owned.title"
-  override def browserTitle = "page.iht.application.assets.vehicles.jointly.owned.browserTitle"
-  override def questionTitle = Messages("iht.estateReport.assets.vehicles.jointly.owned.question")
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def pageTitle = Messages("page.iht.application.assets.vehicles.jointly.owned.title")
+  override def browserTitle = Messages("page.iht.application.assets.vehicles.jointly.owned.browserTitle")
+  override def questionTitle = Messages("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName)
   override def valueQuestion = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
@@ -41,7 +44,7 @@ class VehiclesJointlyOwnedViewTest extends ViewTestHelper with ShareableElementI
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = vehicles_jointly_owned(vehiclesJointlyOwnedForm, CommonBuilder.buildRegistrationDetails).toString
+    val view = vehicles_jointly_owned(vehiclesJointlyOwnedForm, regDetails).toString
     val doc = asDocument(view)
   }
 }

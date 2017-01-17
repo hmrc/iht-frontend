@@ -109,13 +109,13 @@ trait PDFController extends ApplicationController with IhtActions {
     */
   private def getSubmittedApplicationDetails(nino: String, ihtReference: String, returnId: String)
                                             (implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]] = {
-    ihtConnector.getSubmittedApplicationDetails(nino, ihtReference, returnId) map { optionIHTReturn =>
-      if(optionIHTReturn.isDefined) {
-        Logger.info("IhtReturn details have been successfully retrieved ")
-      } else {
+    ihtConnector.getSubmittedApplicationDetails(nino, ihtReference, returnId) map {
+      case None =>
         Logger.warn("IhtReturn details not found")
-      }
-      optionIHTReturn
+        None
+      case Some(ihtReturn) =>
+        Logger.info("IhtReturn details have been successfully retrieved ")
+        Some(PdfFormatter.transform(ihtReturn))
     }
   }
 }

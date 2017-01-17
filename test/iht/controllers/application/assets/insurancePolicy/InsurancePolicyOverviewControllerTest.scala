@@ -20,6 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages
@@ -41,12 +42,14 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC123"))
+
+  lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
+
   val allAssets = CommonBuilder.buildAllAssets copy (insurancePolicy = Some(InsurancePolicy(
     isAnnuitiesBought = Some(true),
     isInsurancePremiumsPayedForSomeoneElse = Some(true),
@@ -72,15 +75,20 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question"))
+      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+                                                      deceasedName))
       contentAsString(result) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.ownName.question"))
+      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
       contentAsString(result) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
 
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"))
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question"))
-      contentAsString(result) should include(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question"))
-      contentAsString(result) should include(Messages("page.iht.application.assets.insurance.policies.overview.other.question4"))
+      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
+                                                      deceasedName))
+      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
+                                                      deceasedName))
+      contentAsString(result) should include(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
+                                                      deceasedName))
+      contentAsString(result) should include(Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
+                                                      deceasedName))
     }
 
     "respond with OK and correct question1 text on page load if deceased not married" in {
@@ -91,7 +99,8 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"))
+      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
+                                                      deceasedName))
     }
   }
 }

@@ -23,6 +23,7 @@
 @import iht.utils._
 @import iht.views.html.ihtHelpers._
 @import iht.utils.OverviewHelper._
+@import iht.utils.CommonHelper
 
 @(propertyList: List[Property] = List.empty[Property],
     properties:Option[Properties],
@@ -34,16 +35,19 @@ isFullWidth=false
 ) {
 
 
-    <p class="lede">@Messages("page.iht.application.assets.deceased-permanent-home.description.p1")</p>
-    <p>@Messages("page.iht.application.assets.deceased-permanent-home.description.p2")</p>
+    <p class="lede">@Messages("page.iht.application.assets.deceased-permanent-home.description.p1",
+                              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p>@Messages("page.iht.application.assets.deceased-permanent-home.description.p2",
+                  CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
 
 
 <div id="property-table" @if(propertyList.isEmpty){}>
         <ul>
         @generic_overview_table_item(id = "home-in-uk",
-            questionText = Messages("page.iht.application.assets.properties.question.question"),
-            questionScreenReaderText= Messages("page.iht.application.assets.properties.question.question"),
+            questionText = Messages("page.iht.application.assets.properties.question.question",
+                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+            questionScreenReaderText= Messages("page.iht.application.assets.properties.question.question", Messages("iht.the.deceased")),
             questionCategory= "change",
             answerValue= Messages(getBooleanDisplayValue(properties.flatMap(_.isOwned.map(x=>x)))),
             link = Some(iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad),
@@ -55,9 +59,7 @@ isFullWidth=false
         </ul>
 
         <section class="section">
-          <h2 class="heading-small divider--bottom" id="properties-header">@Messages("page.iht.application.assets.deceased-permanent-home.table.header")</h2>
-
-          @if(propertyList.isEmpty){
+         @if(propertyList.isEmpty){
           <p id="properties-empty-table-row">@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")</p>
           }else{
           <ul>

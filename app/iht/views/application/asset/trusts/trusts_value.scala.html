@@ -19,13 +19,14 @@
 
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
-@import iht.utils.CommonHelper._
+@import iht.utils.CommonHelper
 @import iht.constants.Constants
 
 @(trustsValueForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.assets.trusts.value.browserTitle")),
 isFullWidth=false){
     @ihtHelpers.error_summary_override_keys(trustsValueForm, Constants.AppSectionHeldInTrust)
