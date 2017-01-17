@@ -115,7 +115,6 @@ trait PDFController extends ApplicationController with IhtActions {
         None
       case Some(ihtReturn) =>
         Logger.info("IhtReturn details have been successfully retrieved ")
-        CommonHelper.getOrException(ihtReturn.freeEstate.flatMap(_.estateExemptions))
         Some(PdfFormatter.transform(ihtReturn))
     }
   }
