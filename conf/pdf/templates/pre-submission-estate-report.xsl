@@ -55,7 +55,7 @@
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="12" font-weight="normal" space-before="0.5cm">
                         <xsl:value-of
-                                select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.referenceNumber'), ' ', $ihtReference)"/>
+                                select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.reference'), ' ', $ihtReference)"/>
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
