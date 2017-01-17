@@ -105,6 +105,8 @@ trait XmlFoToPDF {
     transformer
   }
 
+  private def getOrMinus1(value:Option[BigDecimal]):BigDecimal = value.fold(BigDecimal(-1))(identity)
+
   private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
                                              applicationDetails: ApplicationDetails): Transformer = {
     val template: StreamSource = new StreamSource(Play.classloader
