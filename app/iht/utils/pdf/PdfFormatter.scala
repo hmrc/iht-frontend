@@ -53,12 +53,15 @@ object PdfFormatter {
     }
   }
 
-  def updateETMPOptionSet[B](aa:Option[Set[B]], bb:B=>Option[String], cc:ListMap[String,String], dd:(B,String)=>B):Option[Set[B]] = {
-    aa.map { setOfAssets =>
+  def updateETMPOptionSet[B](setOfItems:Option[Set[B]],
+                             selectItem:B=>Option[String],
+                             lookupItems:ListMap[String,String],
+                             applyLookupItemToB:(B,String)=>B):Option[Set[B]] = {
+    setOfItems.map { setOfAssets =>
       setOfAssets.map { asset =>
-        bb(asset).fold(asset){ ac =>
-          cc.get(ac).fold(asset){ newAssetDescription =>
-            dd(asset,newAssetDescription)
+        selectItem(asset).fold(asset){ ac =>
+          lookupItems.get(ac).fold(asset){ newAssetDescription =>
+            applyLookupItemToB(asset,newAssetDescription)
           }
         }
       }
