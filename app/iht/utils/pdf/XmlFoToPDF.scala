@@ -107,6 +107,8 @@ trait XmlFoToPDF {
     transformer
   }
 
+  private def getOrMinus1(value:Option[BigDecimal]):BigDecimal = value.fold(BigDecimal(-1))(identity)
+
   private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
                                              applicationDetails: ApplicationDetails): Transformer = {
     val template: StreamSource = new StreamSource(Play.classloader
@@ -127,9 +129,10 @@ trait XmlFoToPDF {
     transformer.setParameter("pdfFormatter", PdfFormatter)
     transformer.setParameter("assetsTotal", applicationDetails.totalAssetsValue)
     transformer.setParameter("debtsTotal", applicationDetails.totalLiabilitiesValue)
-    transformer.setParameter("exemptionsTotal", applicationDetails.totalPastYearsGiftsExemptions)
     transformer.setParameter("giftsTotalExclExemptions",
-      CommonHelper.getOrBigDecimalZero(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
+      getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
+    transformer.setParameter("exemptionsTotal",
+      getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
     transformer.setParameter("giftsTotal", applicationDetails.totalGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))

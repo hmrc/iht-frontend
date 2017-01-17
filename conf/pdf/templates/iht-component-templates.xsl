@@ -105,6 +105,8 @@
             <fo:table-cell text-align="left" padding-left="4pt">
                 <fo:block>
                     <xsl:choose>
+                        <xsl:when test="$value1 = '-1'">
+                        </xsl:when>
                         <xsl:when test="$value1 &gt; 1">
                             &#xA3;<xsl:value-of select='format-number(number($value1), "##,###.00")'/>
                         </xsl:when>
@@ -117,6 +119,8 @@
             <fo:table-cell text-align="left" padding-left="4pt">
                 <fo:block>
                     <xsl:choose>
+                        <xsl:when test="$value2 = '-1'">
+                        </xsl:when>
                         <xsl:when test="$value2 &gt; 1">
                             &#xA3;<xsl:value-of select='format-number(number($value2), "##,###.00")'/>
                         </xsl:when>
@@ -129,6 +133,8 @@
             <fo:table-cell text-align="left" padding-left="4pt">
                 <fo:block>
                     <xsl:choose>
+                        <xsl:when test="$value3 = '-1'">
+                        </xsl:when>
                         <xsl:when test="$value3 &gt; 1">
                             &#xA3;<xsl:value-of select='format-number(number($value3), "##,###.00")'/>
                         </xsl:when>
