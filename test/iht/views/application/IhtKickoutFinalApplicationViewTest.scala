@@ -49,9 +49,19 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
       messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.title"))
       messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.guidance1"))
       messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.guidance2.youShould"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint"))
+      messagesShouldBePresent(view.toString,
+                                        Messages("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint"))
       messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.guidance3"))
       messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.guidance.onFinish"))
+    }
+
+    "have save and print link with correct text " in {
+      val view = ihtKickOutFinalApplicationView
+
+      val returnButton = view.getElementById("save-and-print")
+      returnButton.text() shouldBe Messages("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint")
+      returnButton.attr("href") shouldBe
+        iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF.url
     }
 
     "have return link with correct text " in {
@@ -59,7 +69,8 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
 
       val returnButton = view.getElementById("return-button")
       returnButton.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
-      returnButton.attr("href") shouldBe iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef).url
+      returnButton.attr("href") shouldBe
+        iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef).url
     }
 
     "have finish and delete button " in {
