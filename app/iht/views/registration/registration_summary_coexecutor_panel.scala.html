@@ -55,8 +55,7 @@
 
         @ihtHelpers.summary_item(
             label = Messages("iht.name.upperCaseInitial"),
-            data = (String.format(coExecutor.firstName
-            + "%n" + coExecutor.lastName)),
+            data = ihtHelpers.name(coExecutor.firstName + " \n" + coExecutor.lastName).toString,
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#firstName",
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader", coExecutor.name),

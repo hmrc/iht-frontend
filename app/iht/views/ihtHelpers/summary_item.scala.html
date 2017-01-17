@@ -29,7 +29,7 @@
 <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
     <div class="tabular-data__heading">@Html(label.replace("\n", "<br/>"))</div>
     <div class="tabular-data__data-1">
-      @{data.split("\n").map{x => HtmlFormat.fill(Seq(HtmlFormat.escape(x), HtmlFormat.raw("<br />")))}}
+        @Html(data.trim().replace("\n", "<br/>"))
     </div>
     <div class="tabular-data__data-2">
       @if(hasChangeLink){
