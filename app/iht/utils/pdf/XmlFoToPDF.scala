@@ -127,7 +127,7 @@ trait XmlFoToPDF {
     transformer.setParameter("pdfFormatter", PdfFormatter)
     transformer.setParameter("assetsTotal", applicationDetails.totalAssetsValue)
     transformer.setParameter("debtsTotal", applicationDetails.totalLiabilitiesValue)
-    transformer.setParameter("exemptionsTotal", applicationDetails.totalExemptionsValue)
+    transformer.setParameter("exemptionsTotal", applicationDetails.totalPastYearsGiftsExemptions)
     transformer.setParameter("giftsTotalExclExemptions",
       CommonHelper.getOrBigDecimalZero(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
     transformer.setParameter("giftsTotal", applicationDetails.totalGiftsValue)

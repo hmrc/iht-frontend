@@ -211,13 +211,13 @@
                                             <xsl:with-param name="label"
                                                             select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
                                             <xsl:with-param name="value1">
-                                                <xsl:value-of select='$giftsTotal'/>
+                                                <xsl:value-of select='$giftsTotalExclExemptions'/>
                                             </xsl:with-param>
                                             <xsl:with-param name="value2">
                                                 <xsl:value-of select='$exemptionsTotal'/>
                                             </xsl:with-param>
                                             <xsl:with-param name="value3">
-                                                <xsl:value-of select='$giftsTotalExclExemptions'/>
+                                                <xsl:value-of select='$giftsTotal'/>
                                             </xsl:with-param>
                                         </xsl:call-template>
                                         <xsl:call-template name="table-row-bottom-blank"/>
