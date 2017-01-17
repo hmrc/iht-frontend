@@ -118,22 +118,6 @@ object Constants {
     ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title"
   )
 
-  lazy val PDFAssetCodeOrdering = ListMap(
-    ETMPAssetCodeMoney -> "01",
-    ETMPAssetCodeHouseHold -> "02",
-    ETMPAssetCodePrivatePension -> "03",
-    ETMPAssetCodeStockShareNotListed -> "04",
-    ETMPAssetCodeStockShareListed -> "05",
-    ETMPAssetCodeInsurancePolicy -> "06",
-    ETMPAssetCodeBusinessInterest -> "07",
-    ETMPAssetCodeNominatedAsset -> "08",
-    ETMPAssetCodeForeignAsset -> "09",
-    ETMPAssetCodeMoneyOwed -> "10",
-    ETMPAssetCodeOtherAsset -> "13",
-    ETMPAssetCodeTrust -> "11",
-    ETMPAssetCodeGift -> "12"
-  )
-
   lazy val ETMPExemptionTypesToIHTMessageKeys = ListMap(
     ETMPExemptionTypeGNCP -> "pdf.exemption.otherQualifyingBodies"
   )
