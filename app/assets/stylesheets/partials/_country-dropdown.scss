@@ -1,26 +1,26 @@
 /*
 ====================================
-JQuery UI Country Code combo box
-Used as it supports a select input as a fallback and source for data
+Align clear icon
 ====================================
 */
-  .ui-autocomplete{
-      background:white;
-      border-left: 1px solid #bfc1c3;
-      border-right: 1px solid #bfc1c3;
-      border-top: 1px solid #bfc1c3;
-  }
-
-  .ui-autocomplete > li {
-      border-bottom: #bfc1c3 1px solid;
-      word-wrap: break-word;
-  }
-
-  .ui-autocomplete > li.ui-state-focus {
-      border:1px solid black;
-  }
+.suggestions-clear {
+    right: -30px;
+}
 /*
 ====================================
-end YUI combo
+Restricting the suggestions list to the input width
 ====================================
 */
+@media screen and (min-width: 641px){
+    .suggestions-input-container {
+        width: 50%;
+    }
+}
+
+.suggestions {
+    width: 100%;
+}
+
+.suggestions-input-container .form-control {
+    width: 100%;
+}

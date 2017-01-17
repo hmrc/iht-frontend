@@ -2,6 +2,16 @@
 
 /*
 ====================================
+Remove space around select
+====================================
+*/
+select,
+.select {
+    margin: 0;
+}
+
+/*
+====================================
 Makes relationship between legend and inputs/hint tighter
 .date-of-birth sits in GDS Elements
 Legend in Assets Frontend implements a margin bottom
