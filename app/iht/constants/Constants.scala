@@ -25,8 +25,8 @@ import scala.collection.immutable.ListMap
 import iht.constants.IhtProperties._
 
 /**
- * Created by dbeer on 04/08/15.
- */
+  * Created by dbeer on 04/08/15.
+  */
 object Constants {
 
   val insurancePolicyFormFieldsWithExtraContentLineInErrorSummary = Set(
@@ -114,8 +114,24 @@ object Constants {
     ETMPAssetCodeNominatedAsset -> "iht.estateReport.assets.nominated",
     ETMPAssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
     ETMPAssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
-    ETMPAssetCodeOtherAsset -> "iht.estateReport.assets.other.title",
+    ETMPAssetCodeOtherAsset -> "page.iht.application.assets.main-section.other.title",
     ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title"
+  )
+
+  lazy val PDFAssetCodeOrdering = ListMap(
+    ETMPAssetCodeMoney -> "01",
+    ETMPAssetCodeHouseHold -> "02",
+    ETMPAssetCodePrivatePension -> "03",
+    ETMPAssetCodeStockShareNotListed -> "04",
+    ETMPAssetCodeStockShareListed -> "05",
+    ETMPAssetCodeInsurancePolicy -> "06",
+    ETMPAssetCodeBusinessInterest -> "07",
+    ETMPAssetCodeNominatedAsset -> "08",
+    ETMPAssetCodeForeignAsset -> "09",
+    ETMPAssetCodeMoneyOwed -> "10",
+    ETMPAssetCodeOtherAsset -> "13",
+    ETMPAssetCodeTrust -> "11",
+    ETMPAssetCodeGift -> "12"
   )
 
   lazy val ETMPExemptionTypesToIHTMessageKeys = ListMap(
