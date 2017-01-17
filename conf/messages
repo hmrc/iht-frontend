@@ -2262,7 +2262,7 @@ iht.registration.deceasedDetails.title = About the deceased
 iht.registration.kickout.content = You should complete the Inheritance Tax estate report by completing either an IHT-205 or an IHT-400 paper form.
 iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
 iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
-iht.registration.kickout.returnToTheLastPageVisited = you can return to the last page you visited.
+iht.registration.kickout.returnToTheLastPageVisited =you can return to the last page you visited
 iht.registration.kickout.message.MinDOD = If the date of death was between 13 March 1975 to 18 March 1986, Capital Transfer Tax applied to the deceased’s estate. Estate Duty was in place before 13 March 1975.
 iht.registration.kickout.message.form2 = If you want to change this date
 iht.registration.kickout.message.phone = Call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
@@ -2289,18 +2289,18 @@ iht.comma = ,
 iht.fullStop = .
 
 # Kickout return link text starts
-iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText = you can return to the assets held in a trust page.
-iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText =  you can return to the foreign assets page.
-iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText = you can return to the insurance policies page.
-iht.estateReport.assets.kickout.pensionDisposedLastTwoYears.returnLinkText = you can return to the private pensions page.
-iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText = you can return to the last page you were on.
-iht.estateReport.kickout.returnToEstateOverview.linkText = you can return to the estate overview page.
-iht.estateReport.exemptions.kickout.homeNotInUK.returnLinkText = you can return to the assets left to a spouse or civil partner page.
-iht.estateReport.gifts.kickout.withReservationOfBenefit.returnLinkText = you can return to the gifts with reservation of benefit page.
-iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText = you can return to the gifts given away in the 7 years before death page.
-iht.estateReport.gifts.kickout.maxValue.returnLinkText = you can return to the value of gifts given away in the 7 years before death page.
-iht.estateReport.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText = you can go back to that last question.
-iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = you can return to the increasing the Inheritance Tax threshold page.
+iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText = return to the assets held in a trust page
+iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText =  return to the foreign assets page
+iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText = return to the insurance policies page
+iht.estateReport.assets.kickout.pensionDisposedLastTwoYears.returnLinkText = return to the private pensions page
+iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText = return to the last page you were on
+iht.estateReport.kickout.returnToEstateOverview.linkText = return to the estate overview page
+iht.estateReport.exemptions.kickout.homeNotInUK.returnLinkText = return to the assets left to a spouse or civil partner page
+iht.estateReport.gifts.kickout.withReservationOfBenefit.returnLinkText = return to the gifts with reservation of benefit page
+iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText = return to the gifts given away in the 7 years before death page
+iht.estateReport.gifts.kickout.maxValue.returnLinkText = return to the value of gifts given away in the 7 years before death page
+iht.estateReport.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText = go back to that last question
+iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = return to the increasing the Inheritance Tax threshold page
 
 # Kickout return link text ends
 
