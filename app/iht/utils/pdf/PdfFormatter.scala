@@ -17,9 +17,11 @@
 package iht.utils.pdf
 
 import iht.constants.{Constants, IhtProperties}
-import models.des.iht_return.IHTReturn
+import models.des.iht_return.{Asset, Exemption, IHTReturn, Liability}
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
+
+import scala.collection.immutable.ListMap
 
 /**
   * Created by vineet on 13/06/16.
@@ -50,17 +52,37 @@ object PdfFormatter {
     }
   }
 
-  def transform(ihtReturn:IHTReturn): IHTReturn = {
-    val optionSetAsset = ihtReturn.freeEstate.flatMap(_.estateAssets).map { setOfAssets =>
+  def updateETMPOptionSet[B](aa:Option[Set[B]], bb:B=>Option[String], cc:ListMap[String,String], dd:(B,String)=>B):Option[Set[B]] = {
+    aa.map { setOfAssets =>
       setOfAssets.map { asset =>
-        asset.assetCode.fold(asset){ ac =>
-          Constants.ETMPAssetCodesToIHTMessageKeys.get(ac).fold(asset){ newAssetDescription =>
-            asset.copy(assetDescription = Option(Messages(newAssetDescription)))
+        bb(asset).fold(asset){ ac =>
+          cc.get(ac).fold(asset){ newAssetDescription =>
+            dd(asset,newAssetDescription)
           }
         }
       }
     }
-    val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (estateAssets = optionSetAsset))
+  }
+
+  def transform(ihtReturn:IHTReturn): IHTReturn = {
+    val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
+      _.assetCode,
+      Constants.ETMPAssetCodesToIHTMessageKeys,
+      (asset, newDescription) => asset.copy(assetDescription = Option(Messages(newDescription)))
+    )
+
+    val optionSetExemption = updateETMPOptionSet[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
+      _.exemptionType,
+      Constants.ETMPExemptionTypesToIHTMessageKeys,
+      (exemption, newDescription) => exemption.copy(exemptionType = Option(Messages(newDescription)))
+    )
+
+    val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (
+      estateAssets = optionSetAsset,
+      estateExemptions = optionSetExemption
+      )
+    )
+
     ihtReturn copy (freeEstate = optionFreeEstate)
   }
 }

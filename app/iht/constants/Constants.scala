@@ -117,4 +117,8 @@ object Constants {
     ETMPAssetCodeOtherAsset -> "iht.estateReport.assets.other.title",
     ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title"
   )
+
+  lazy val ETMPExemptionTypesToIHTMessageKeys = ListMap(
+    ETMPExemptionTypeGNCP -> "pdf.exemption.otherQualifyingBodies"
+  )
 }
