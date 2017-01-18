@@ -51,12 +51,9 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-<<<<<<< HEAD
+
         @ihtHelpers.return_link(Messages("site.link.return.debts"), Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
-=======
-        @ihtHelpers.return_link(Some(Messages("site.link.return.debts")),
-                                Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
->>>>>>> master
+
 
     }
 }
