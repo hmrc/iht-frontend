@@ -111,5 +111,7 @@ object IhtProperties {
   lazy val ETMPAssetCodeTrust:String = getProperty("etmpAssetCodeTrust")
   lazy val ETMPAssetCodeGift:String = getProperty("etmpAssetCodeGift")
 
+  lazy val ETMPExemptionTypeGNCP: String = getProperty("etmpExemptionTypeGNCP")
+
   lazy val DateRangeMonths: Integer = getPropertyAsInt("dateRangeMonths")
 }
