@@ -72,14 +72,16 @@ trait ExecutorOverviewController extends RegistrationController {
     implicit user => implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val boundForm = executorOverviewForm.bindFromRequest
-        boundForm.fold(formWithErrors => badRequest(rd, route, showCancelRoute, formWithErrors, request), {
-          case Some(true) if rd.areOthersApplyingForProbate.getOrElse(false) =>
-            Future.successful(Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None)))
-          case Some(false) if rd.coExecutors.isEmpty && rd.areOthersApplyingForProbate.getOrElse(false) =>
-            badRequest(rd, route, showCancelRoute,
-              boundForm.withError("addMoreCoExecutors",
-                "error.applicant.insufficientCoExecutors"), request)
-          case _ => Future.successful(Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad()))
+        boundForm.fold(formWithErrors => badRequest(rd, route, showCancelRoute, formWithErrors, request), {addMore =>
+          (addMore, rd.areOthersApplyingForProbate, rd.coExecutors.isEmpty) match {
+            case (Some(true), Some(true), _) =>
+              Future.successful(Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None)))
+            case (Some(false), Some(true), true) =>
+              badRequest(rd, route, showCancelRoute,
+                boundForm.withError("addMoreCoExecutors",
+                  "error.applicant.insufficientCoExecutors"), request)
+            case _ => Future.successful(Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad()))
+          }
         })
       }
   }
