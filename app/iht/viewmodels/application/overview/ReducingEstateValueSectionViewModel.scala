@@ -60,14 +60,11 @@ object ReducingEstateValueSectionViewModel {
 
   def apply(applicationDetails: ApplicationDetails,
             registrationDetails: RegistrationDetails): ReducingEstateValueSectionViewModel = {
-
-    val displayValue: String =
-      if (isExemptionsCompletedWithNoValueDependentOnMaritalStatus(applicationDetails, registrationDetails)) {
+    val displayValue = if (isExemptionsCompletedWithNoValueDependentOnMaritalStatus(applicationDetails, registrationDetails)) {
         Messages("page.iht.application.estateOverview.exemptions.noExemptionsValue")
       } else {
         DisplayValueAsNegative(getExemptionsDisplayValue(applicationDetails))
       }
-
     val exemptionCompletionStatus = if (CommonHelper.isExemptionsCompleted(registrationDetails, applicationDetails)) {
         Complete
       } else if (applicationDetails.noExemptionsHaveBeenAnswered) {
@@ -75,53 +72,38 @@ object ReducingEstateValueSectionViewModel {
       } else {
         PartiallyComplete
       }
-
     val areDebtsIncluded: Boolean = exemptionCompletionStatus != NotStarted && (applicationDetails.totalExemptionsValue > BigDecimal(0))
-
     val exemptionsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
       Messages("page.iht.application.overview.exemptions.screenReader.moreDetails.link"),
       Messages("page.iht.application.overview.exemptions.screenReader.value.link"),
       Messages("page.iht.application.overview.exemptions.screenReader.noValue.link")
     )
-
     val debtsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
       Messages("page.iht.application.overview.debts.screenReader.moreDetails.link"),
       Messages("page.iht.application.overview.debts.screenReader.value.link"),
       Messages("page.iht.application.overview.debts.screenReader.noValue.link")
     )
-
     val theDebtRow = if (areDebtsIncluded) {
-            Some(OverviewRow("debts",
-              Messages("iht.estateReport.debts.owedFromEstate"),
+            Some(OverviewRow("debts", Messages("iht.estateReport.debts.owedFromEstate"),
               DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails)),
               RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
-              iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(),
-              debtsScreenreaderText))
+              iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(), debtsScreenreaderText))
     } else {
       None
     }
-
     val totalValue = applicationDetails.totalExemptionsValue +
       (if (areDebtsIncluded) applicationDetails.totalLiabilitiesValue else BigDecimal(0))
 
     ReducingEstateValueSectionViewModel(
       debtRow = theDebtRow,
-      exemptionRow = OverviewRow("exemptions",
-        Messages("iht.estateReport.exemptions.title"),
-        displayValue,
-        exemptionCompletionStatus,
+      exemptionRow = OverviewRow("exemptions", Messages("iht.estateReport.exemptions.title"),
+        displayValue, exemptionCompletionStatus,
         iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
-        exemptionsScreenreaderText
-      ),
-      totalRow = OverviewRowWithoutLink("reducing-estate-totals",
-                                        Messages("page.iht.application.exemptions.total"),
-                                        DisplayValueAsNegative(CurrentValue(totalValue)),
-                                        qualifyingText = "",
-                                        headingLevel = "h3",
-                                        headingClass = "visually-hidden"
-                                        )
+        exemptionsScreenreaderText),
+      totalRow = OverviewRowWithoutLink("reducing-estate-totals", Messages("page.iht.application.exemptions.total"),
+         DisplayValueAsNegative(CurrentValue(totalValue)), qualifyingText = "", headingLevel = "h3", headingClass = "visually-hidden")
     )
   }
 }
