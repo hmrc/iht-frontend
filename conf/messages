@@ -2000,6 +2000,7 @@ pdf.clearanceCertificate.lastParagraph.line2 = . In particular, the issue of the
 pdf.clearanceCertificate.lastParagraph.line3 = . This certificate is not valid in certain circumstances, such as in the case of fraud or failure to disclose material facts or if further tax becomes payable as a result of an instrument of variation – see section 239 (4) Inheritance Tax Act 1984.
 pdf.postSubmission.trusts.assetDescription = Trusts
 pdf.registration.lastContactAddress = Last contact address
+pdf.meta.author = HM Revenue & Customs
 
 page.iht.registration.timeout.p2 = You’ll need to sign back in to Government Gateway and start to register to use Inheritance Tax Online again.
 page.iht.application.timeout.p2 = You’ll need to sign back in to Government Gateway and then choose what you want to do next from your Inheritance Tax estate reports page.

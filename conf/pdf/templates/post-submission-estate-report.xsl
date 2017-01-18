@@ -25,6 +25,17 @@
                 </fo:simple-page-master>
             </fo:layout-master-set>
 
+            <x:xmpmeta xmlns:x="adobe:ns:meta/">
+                <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                    <rdf:Description rdf:about=""
+                                     xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <dc:title><xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></dc:title>
+                        <dc:creator><xsl:value-of select="i18n:getMessagesText($translator, 'pdf.meta.author')"/></dc:creator>
+                        <dc:description><xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></dc:description>
+                    </rdf:Description>
+                </rdf:RDF>
+            </x:xmpmeta>
+
             <fo:page-sequence master-reference="simple">
                 <fo:static-content flow-name="xsl-region-before">
                     <fo:block border-bottom-style="solid">
