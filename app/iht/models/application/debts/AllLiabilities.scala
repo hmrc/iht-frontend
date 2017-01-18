@@ -30,7 +30,8 @@ case class AllLiabilities(funeralExpenses: Option[BasicEstateElementLiabilities]
     !Seq(funeralExpenses, trust, debtsOutsideUk, jointlyOwned, other).exists { x => x.flatMap(_.isOwned).fold(true)(identity) }
 
   def doesAnyDebtSectionHaveAValue =
-    Seq(funeralExpenses, trust, debtsOutsideUk, jointlyOwned, other).flatten.flatMap(_.value).nonEmpty
+    Seq(funeralExpenses, trust, debtsOutsideUk, jointlyOwned, other).flatten.flatMap(_.value).nonEmpty ||
+      mortgages.flatMap(_.totalValue).isDefined
 
   def areAllDebtsExceptMortgagesCompleted =
     CommonHelper.aggregateOfSeqOfOption(
