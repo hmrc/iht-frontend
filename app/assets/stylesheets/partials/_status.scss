@@ -19,6 +19,9 @@ Force font treatment (due to overriding .tabular-data__entry * selector in AF)
     font-weight: 700;
     line-height: 1.6;
 }
+.progress .visually-hidden {
+    text-transform: normal;
+}
 
 .progress-status--not-started {
   border: 1px solid #6f777b;
