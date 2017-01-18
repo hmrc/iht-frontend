@@ -106,8 +106,11 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
       withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
 
         val formType =
-          if (mode == Mode.Standard) coExecutorPersonalDetailsForm
-          else coExecutorPersonalDetailsEditForm
+          if (mode == Mode.Standard) {
+            coExecutorPersonalDetailsForm
+          } else {
+            coExecutorPersonalDetailsEditForm
+          }
 
         val boundForm = formType.bindFromRequest()
 

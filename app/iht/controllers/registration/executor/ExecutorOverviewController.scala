@@ -24,7 +24,7 @@ import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Call, Request}
-
+import iht.utils.CommonHelper.allTrue
 import scala.concurrent.Future
 
 trait ExecutorOverviewController extends RegistrationController {
@@ -76,14 +76,15 @@ trait ExecutorOverviewController extends RegistrationController {
         boundForm.fold(formWithErrors => badRequest(rd, route, showCancelRoute, formWithErrors, request), {
           case Some(true) if rd.areOthersApplyingForProbate.getOrElse(false) =>
             Future.successful(Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None)))
-          case Some(false) if rd.coExecutors.isEmpty && rd.areOthersApplyingForProbate.getOrElse(false) =>
+          case Some(false) if allTrue(Some(rd.coExecutors.isEmpty), rd.areOthersApplyingForProbate) =>
             badRequest(rd, route, showCancelRoute,
               boundForm.withError("addMoreCoExecutors",
-                                  "error.applicant.insufficientCoExecutors"), request)
+                "error.applicant.insufficientCoExecutors"), request)
           case _ => Future.successful(Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad()))
         })
       }
   }
+
 }
 
 object ExecutorOverviewController extends ExecutorOverviewController with IhtConnectors {

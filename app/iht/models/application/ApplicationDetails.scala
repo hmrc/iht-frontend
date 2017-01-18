@@ -27,7 +27,7 @@ import iht.models.application.gifts._
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.{ApplicationStatus => AppStatus, CommonHelper}
 import play.api.libs.json.Json
-
+import iht.utils.CommonHelper._
 
 case class ApplicationDetails(allAssets: Option[AllAssets] = None,
                               propertyList: List[Property] = Nil,
@@ -181,20 +181,17 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
     }
   }
 
-  def isGiftsSectionCompleted: Boolean = {
-    allGifts.fold(false)(gifts => gifts.isGiftsSectionCompletedWithNoValue) || isValueEnteredForPastYearsGifts
-  }
+  def isGiftsSectionCompleted: Boolean =
+    allGifts.exists(_.isGiftsSectionCompletedWithNoValue) || isValueEnteredForPastYearsGifts
 
-  def isInitialGiftsQuestionAnsweredTrue: Boolean = {
+  def isInitialGiftsQuestionAnsweredTrue: Boolean =
     allGifts.flatMap(_.isGivenAway).fold(false)(identity)
-  }
 
-  def isAnyQuestionAnsweredForGifts: Boolean = {
-    allGifts.fold(false)(allGifts => allGifts.isGivenAway.isDefined) ||
-      allGifts.fold(false)(allGifts => allGifts.isReservation.isDefined) ||
-      allGifts.fold(false)(allGifts => allGifts.isGivenInLast7Years.isDefined) ||
-      allGifts.fold(false)(allGifts => allGifts.isToTrust.isDefined)
-  }
+  def isAnyQuestionAnsweredForGifts: Boolean =
+    allGifts.exists(g=>
+      g.isGivenAway.isDefined || g.isReservation.isDefined ||
+        g.isGivenInLast7Years.isDefined || g.isToTrust.isDefined)
+
   //Gifts section ends
 
   //Debts section starts
@@ -251,9 +248,11 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   //Debts section ends
 
   //Exemptions section starts
-  def areAllAssetsGiftsAndDebtsCompleted: Boolean = areAllAssetsCompleted.fold(false)(identity) &&
-    areAllGiftSectionsCompleted.fold(false)(identity) &&
-    areAllDebtsCompleted.fold(false)(identity)
+  def areAllAssetsGiftsAndDebtsCompleted: Boolean =
+    (areAllAssetsCompleted, areAllGiftSectionsCompleted, areAllDebtsCompleted) match {
+      case (Some(true), Some(true), Some(true)) => true
+      case _ => false
+    }
 
   //Exemptions related methods section starts
 
@@ -285,8 +284,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
     isCompleteQualifyingBodies.getOrElse(false) &&
     allExemptions.flatMap(_.partner.flatMap(_.isComplete)).getOrElse(false)
 
-  def isExemptionsCompletedWithoutPartnerExemption = isCompleteCharities.getOrElse(false) &&
-    isCompleteQualifyingBodies.getOrElse(false)
+  def isExemptionsCompletedWithoutPartnerExemption = allTrue(isCompleteCharities, isCompleteQualifyingBodies)
 
   def isExemptionsCompletedWithNoValue = allExemptions.fold(false){_.isExemptionsSectionCompletedWithNoValue}
 
@@ -338,8 +336,10 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   //Tnrb section ends
 
-  //TODO - To be removed once application.scala.html(Old Estate Overview) page is removed
-  def isSubmittable: Boolean = totalAssetsValue > 0 && areAllAssetsCompleted.getOrElse(false)
+  def isSubmittable: Boolean = (totalAssetsValue, areAllAssetsCompleted) match {
+    case (tav, Some(true)) if tav>0 => true
+    case _ => false
+  }
 
   def totalValue:BigDecimal = totalAssetsValue + totalGiftsValue
 

@@ -29,13 +29,13 @@ class StylesheetResolver extends URIResolver {
   override def resolve(href: String, base: String): Source = {
     Logger.info("Stylesheet location to convert " + href)
     val resource: String = href.substring(href.lastIndexOf("/pdf") + 1)
-    val inputStream = Play.classloader.getResourceAsStream(resource)
-    if (inputStream != null) {
-      Logger.info("Valid input stream")
-      new StreamSource(inputStream)
-    } else {
-      Logger.info("No input stream")
-      null
+    Option(Play.classloader.getResourceAsStream(resource)) match {
+      case None =>
+        Logger.info ("No input stream")
+        throw new RuntimeException("No stylesheet resolver stream available")
+      case Some(inputStream) =>
+    Logger.info ("Valid input stream")
+    new StreamSource (inputStream)
     }
   }
 }

@@ -457,4 +457,7 @@ object CommonHelper {
   def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails):String =
       regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
 
+  def allTrue(seq: Option[Boolean]*):Boolean = seq.dropWhile(_.contains(true)).isEmpty
+
+  def anyTrue(seq: Option[Boolean]*):Boolean = seq.dropWhile(_.contains(false)).nonEmpty
 }

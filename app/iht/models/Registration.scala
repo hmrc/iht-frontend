@@ -41,7 +41,7 @@ case class ApplicantDetails(firstName: Option[String] = None,
                             doesLiveInUK: Option[Boolean] = None,
                             isApplyingForProbate: Option[Boolean] = None
                            ) {
-  
+
   val name = firstName.getOrElse("") + " " + lastName.getOrElse("")
 
   def ninoFormatted = nino match {

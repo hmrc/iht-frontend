@@ -106,12 +106,12 @@ object EstateOverviewViewModel {
         Some(OtherDetailsSectionViewModel(applicationDetails, registrationDetails.ihtReference.getOrElse("")))
       }
 
-    val reducingEstateValueSection = if (applicationDetails.hasSeenExemptionGuidance.getOrElse(false)
-                                              || isExemptionsGreaterThanZero) {
-      Some(ReducingEstateValueSectionViewModel(applicationDetails, registrationDetails))
-    } else {
-      None
-    }
+    val reducingEstateValueSection =
+      (applicationDetails.hasSeenExemptionGuidance, isExemptionsGreaterThanZero) match {
+        case (Some(hasSeen), aboveZero) if hasSeen || aboveZero =>
+          Some(ReducingEstateValueSectionViewModel(applicationDetails, registrationDetails))
+        case _ => None
+      }
 
     EstateOverviewViewModel(
       ihtReference = CommonHelper.getOrException(registrationDetails.ihtReference),
