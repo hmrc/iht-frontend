@@ -2204,7 +2204,7 @@ iht.estateReport.insurancePolicies.ownName.question = Did {0} have any policies 
 iht.estateReport.insurancePolicies.premiumsNotPayingOut.question = Did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate?
 iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1 = This could have been at any point in their life and the insurance policy shouldn’t have been due to pay out to {0} or to their estate.
 iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2 = You can answer no if the policy was due to pay out to {0}’s spouse or civil partner.
-iht.estateReport.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing  an IHT-400 paper form.
+iht.estateReport.kickout.nextSteps = You should complete the Inheritance Tax estate report by using an IHT-400 form. When you finish this service, you will be given a copy of the form.
 iht.estateReport.kickout.returnToEstateOverview = If you want to change any value
 iht.estateReport.noInheritanceTaxPayable = no Inheritance Tax is payable
 iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
@@ -2289,18 +2289,18 @@ iht.comma = ,
 iht.fullStop = .
 
 # Kickout return link text starts
-iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText = return to the assets held in a trust page
-iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText =  return to the foreign assets page
-iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText = return to the insurance policies page
-iht.estateReport.assets.kickout.pensionDisposedLastTwoYears.returnLinkText = return to the private pensions page
+iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText = return to assets held in a trust
+iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText =  return to foreign assets
+iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText = return to insurance policies
+iht.estateReport.assets.kickout.pensionDisposedLastTwoYears.returnLinkText = return to private pensions
 iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText = return to the last page you were on
-iht.estateReport.kickout.returnToEstateOverview.linkText = return to the estate overview page
-iht.estateReport.exemptions.kickout.homeNotInUK.returnLinkText = return to the assets left to a spouse or civil partner page
-iht.estateReport.gifts.kickout.withReservationOfBenefit.returnLinkText = return to the gifts with reservation of benefit page
-iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText = return to the gifts given away in the 7 years before death page
-iht.estateReport.gifts.kickout.maxValue.returnLinkText = return to the value of gifts given away in the 7 years before death page
+iht.estateReport.kickout.returnToEstateOverview.linkText = return to estate overview
+iht.estateReport.exemptions.kickout.homeNotInUK.returnLinkText = return to assets left to a spouse or civil partner
+iht.estateReport.gifts.kickout.withReservationOfBenefit.returnLinkText = return to gifts with reservation of benefit
+iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText = return to gifts given away in the 7 years before death
+iht.estateReport.gifts.kickout.maxValue.returnLinkText = return to value of gifts given away in the 7 years before death
 iht.estateReport.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText = go back to that last question
-iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = return to the increasing the Inheritance Tax threshold page
+iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = return to increasing the tax threshold
 
 # Kickout return link text ends
 
