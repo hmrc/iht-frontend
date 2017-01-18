@@ -153,11 +153,11 @@ object OverviewHelper {
 
     overviewDisplayValues.find(_._1 == section).map(_._2).map(expr => expr(appDetails))
       .fold(throw new RuntimeException("Attempt to display value for unknown section:" + section)) { displayValueFound =>
-
-        if (displayValueFound.isEmpty && isComplete.fold(false)(identity)) {
-          noneMessage.map(Messages(_)).fold("")(identity)
-        } else {
-          displayValueFound
+        (displayValueFound.isEmpty, isComplete) match {
+          case (true, Some(true)) =>
+            noneMessage.map(Messages(_)).fold("")(identity)
+          case _ =>
+            displayValueFound
         }
       }
   }

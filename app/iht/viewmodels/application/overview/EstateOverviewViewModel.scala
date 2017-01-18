@@ -129,9 +129,8 @@ object EstateOverviewViewModel {
   }
 
   private def buildTotalRow(applicationDetails: ApplicationDetails) = {
-    applicationDetails.hasSeenExemptionGuidance.getOrElse(false) ||
-      applicationDetails.isValueEnteredForExemptions match {
-      case true => Some(OverviewRowWithoutLink(
+    (applicationDetails.hasSeenExemptionGuidance, applicationDetails.isValueEnteredForExemptions) match {
+      case (Some(hasSeen), isEntered) if hasSeen || isEntered => Some(OverviewRowWithoutLink(
         id = "grand-total-section",
         label = applicationDetails.totalExemptionsValueOption match {
           case Some(x) if x > 0 => Messages("page.iht.application.estateOverview.totalValueOfTheEstate")
@@ -141,9 +140,8 @@ object EstateOverviewViewModel {
           case Some(x) if x > 0 => DisplayValue(CurrentValue(applicationDetails.totalNetValue.max(0)))
           case _ => DisplayValue(CurrentValue(applicationDetails.totalValue))
         },
-        qualifyingText = "",
-      headingLevel = "h2"))
-      case false => None
+        qualifyingText = ""))
+      case _ => None
     }
   }
 }

@@ -284,7 +284,11 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
     isCompleteQualifyingBodies.getOrElse(false) &&
     allExemptions.flatMap(_.partner.flatMap(_.isComplete)).getOrElse(false)
 
-  def isExemptionsCompletedWithoutPartnerExemption = allTrue(isCompleteCharities, isCompleteQualifyingBodies)
+  def isExemptionsCompletedWithoutPartnerExemption =
+    (isCompleteCharities, isCompleteQualifyingBodies) match {
+      case (Some(true), Some(true)) => true
+      case _ => false
+    }
 
   def isExemptionsCompletedWithNoValue = allExemptions.fold(false){_.isExemptionsSectionCompletedWithNoValue}
 
