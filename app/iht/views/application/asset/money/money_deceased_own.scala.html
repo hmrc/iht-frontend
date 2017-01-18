@@ -25,7 +25,8 @@
 @(money: Form[ShareableBasicEstateElement], registrationDetails: RegistrationDetails
 )(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwned"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwned",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.assets.money.deceased.browserTitle")),
     isFullWidth=false) {
 
@@ -33,11 +34,13 @@ browserTitle = Some(Messages("page.iht.application.assets.money.deceased.browser
 
     @helpers.form(action = iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
-    <p>@Messages("page.iht.application.assets.money.deceased.guidance")</p>
+    <p>@Messages("page.iht.application.assets.money.deceased.guidance",
+                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
     @ihtHelpers.generic_estate_element_assets(
       assetType = Constants.AssetTypeSingle,
-      questionLabel= Messages("iht.estateReport.assets.money.ownName.question"),
+      questionLabel= Messages("iht.estateReport.assets.money.ownName.question",
+                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
       inputTextLabel = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName"),
       sharableElementForm = money,
       clearTargetInput = Some("value")

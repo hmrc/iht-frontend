@@ -21,8 +21,10 @@
 
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.utils.CommonHelper
 
-@(foreignForm: Form[BasicEstateElement], registrationDetails: RegistrationDetails)(implicit request: Request[_])
+@(foreignForm: Form[BasicEstateElement],
+registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.foreign.title"),
     browserTitle = Some(Messages("iht.estateReport.assets.foreign.title")),
@@ -33,11 +35,13 @@
 
     @helpers.form(action = iht.controllers.application.assets.routes.ForeignController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Messages("page.iht.application.assets.foreign.description.p1")</p>
+        <p class="lede">@Messages("page.iht.application.assets.foreign.description.p1",
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
         @ihtHelpers.generic_estate_element_assets(
                                 assetType = Constants.AssetTypeSingle,
-                                questionLabel= Messages("page.iht.application.assets.foreign.deceasedOwned.question"),
+                                questionLabel= Messages("page.iht.application.assets.foreign.deceasedOwned.question",
+                                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
                                 inputTextLabel = Messages("page.iht.application.assets.foreign.inputLabel1"),
                                 sharableElementForm = foreignForm,
                                 clearTargetInput = Some("value")

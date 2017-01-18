@@ -24,23 +24,23 @@
                     <fo:table-body font-size="12pt">
                         <xsl:call-template name="table-row-top">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'page.iht.registration.applicantDetails.firstName.label')"/>
+                                            select="i18n:getMessagesText($translator, 'iht.firstName')"/>
                             <xsl:with-param name="value" select="applicantDetails/firstName"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'page.iht.registration.applicantDetails.lastName.label')"/>
+                                            select="i18n:getMessagesText($translator, 'iht.lastName')"/>
                             <xsl:with-param name="value" select="applicantDetails/lastName"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'page.iht.registration.applicantDetails.dateOfBirth.label')"/>
+                                            select="i18n:getMessagesText($translator, 'iht.dateofbirth')"/>
                             <xsl:with-param name="value"
                                             select="formatter:getDateForDisplay($pdfFormatter,applicantDetails/dateOfBirth)"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'page.iht.registration.applicantDetails.nino.label')"/>
+                                            select="i18n:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
                             <xsl:with-param name="value" select="applicantDetails/nino"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-uk-address">
@@ -55,7 +55,7 @@
                         </xsl:call-template>
                         <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'page.iht.registration.registrationSummary.applicantInfo.country.label')"/>
+                                            select="i18n:getMessagesText($translator, 'page.iht.registration.applicant.probateLocation.title')"/>
                             <xsl:with-param name="value" select="applicantDetails/country"/>
                         </xsl:call-template>
                         <xsl:comment>Blank row to display line at end of section</xsl:comment>

@@ -21,6 +21,9 @@ import java.net.URL
 import play.api.Play
 import play.api.Play.current
 
+import scala.collection.immutable.ListMap
+import iht.constants.IhtProperties._
+
 /**
  * Created by dbeer on 04/08/15.
  */
@@ -99,4 +102,19 @@ object Constants {
   lazy val under325000 = "under-325000"
   lazy val between325000and1million = "between-325000-and-1million"
   lazy val moreThan1million = "more-than-1million"
+
+  lazy val ETMPAssetCodesToIHTMessageKeys = ListMap(
+    ETMPAssetCodeMoney -> "iht.estateReport.assets.money.upperCaseInitial",
+    ETMPAssetCodeHouseHold -> "iht.estateReport.assets.householdAndPersonalItems.title",
+    ETMPAssetCodePrivatePension -> "iht.estateReport.assets.privatePensions",
+    ETMPAssetCodeStockShareNotListed -> "iht.estateReport.assets.stocksAndSharesNotListed",
+    ETMPAssetCodeStockShareListed -> "iht.estateReport.assets.stocksAndSharesListed",
+    ETMPAssetCodeInsurancePolicy -> "iht.estateReport.assets.insurancePolicies",
+    ETMPAssetCodeBusinessInterest -> "iht.estateReport.assets.businessInterests.title",
+    ETMPAssetCodeNominatedAsset -> "iht.estateReport.assets.nominated",
+    ETMPAssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
+    ETMPAssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
+    ETMPAssetCodeOtherAsset -> "iht.estateReport.assets.other.title",
+    ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title"
+  )
 }

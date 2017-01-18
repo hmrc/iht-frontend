@@ -169,7 +169,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       content should include(StringHelper.yesNoFormat(applicantDetails.isApplyingForProbate))
       content should include(anchorLink(applicantRoutes.ApplyingForProbateController.onEditPageLoad().url, "applying-for-probate"))
 
-      content should include(Messages("page.iht.registration.registrationSummary.applicantInfo.country.label"))
+      content should include(Messages("page.iht.registration.applicant.probateLocation.title"))
       content should include(applicantDetails.country.get)
       content should include(anchorLink(applicantRoutes.ProbateLocationController.onEditPageLoad().url, "country"))
 

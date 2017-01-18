@@ -19,13 +19,14 @@
 
 @import iht.models._
 @import iht.models.application.assets.PrivatePension
-@import iht.utils.CommonHelper._
+@import iht.utils.CommonHelper
 @import iht.constants.Constants
 
 @(pensionsOwnedQuestionForm: Form[PrivatePension],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.pensions.isOwned.title"),
+@iht_main_template_application(title = Messages("page.iht.application.pensions.isOwned.title",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.pensions.isOwned.browserTitle")),
 isFullWidth=false){
     @ihtHelpers.error_summary_override_keys(pensionsOwnedQuestionForm, Constants.AppSectionPrivatePension)

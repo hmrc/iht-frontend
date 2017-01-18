@@ -37,17 +37,6 @@
                                         <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
                                     </xsl:call-template>
 
-                                    <xsl:choose>
-                                        <xsl:when test="howheld != ''">
-                                            <xsl:call-template name="table-row-application">
-                                                <xsl:with-param name="label"
-                                                                select="i18n:getMessagesText($translator, 'page.iht.application.assets.deceased-permanent-home.typeofownership.label')"/>
-                                                <xsl:with-param name="value" select="howheld"/>
-                                            </xsl:call-template>
-
-                                        </xsl:when>
-                                    </xsl:choose>
-
                                     <xsl:if test="assetCode='0016'">
                                         <xsl:choose>
                                             <xsl:when test="./liabilities != ''">

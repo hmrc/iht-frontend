@@ -29,9 +29,7 @@
     browserTitle = Some(Messages("iht.registration.contactAddress")),
     isFullWidth=false,
     cancelUrl=cancelLocation,
-    hasTimeOut=true,
-    jsFile=Some("iht-autocomplete.min.js"),
-    cssFile=Some("iht-autocomplete.css")) {
+    hasTimeOut=true) {
 
 
     @ihtHelpers.error_summary(deceasedAddressDetailsOutsideUKForm)
@@ -78,7 +76,6 @@
     countryCodes,
     true,
     true,
-    '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_label -> Html(Messages("iht.country")),
     '_labelTextClass -> "form-label",

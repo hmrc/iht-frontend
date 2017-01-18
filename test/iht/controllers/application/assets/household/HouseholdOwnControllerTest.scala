@@ -22,6 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 
@@ -30,9 +31,13 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
+    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
+
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,
       mockIhtConnector,
+      regDetails = regDetails,
       appDetails = Some(applicationDetails),
       getAppDetails = true,
       saveAppDetails = true,
@@ -140,7 +145,9 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = householdDeceasedOwnController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title"))
+      contentAsString(result) should include
+      (Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
   }
 }

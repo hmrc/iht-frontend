@@ -97,4 +97,18 @@ object IhtProperties {
   lazy val dateOfDeathMaxValidationDate: LocalDate = getPropertyAsDate("dateOfDeathMaxValidationDate")
   lazy val dateOfPredeceasedForTnrbEligibility: LocalDate = getPropertyAsDate("dateOfPredeceasedForTnrbEligibility")
   lazy val dateOfCivilPartnershipInclusion: LocalDate = getPropertyAsDate("dateOfCivilPartnershipInclusion")
+
+  lazy val ETMPAssetCodeMoney:String = getProperty("etmpAssetCodeMoney")
+  lazy val ETMPAssetCodeHouseHold:String = getProperty("etmpAssetCodeHouseHold")
+  lazy val ETMPAssetCodePrivatePension:String = getProperty("etmpAssetCodePrivatePension")
+  lazy val ETMPAssetCodeStockShareNotListed:String = getProperty("etmpAssetCodeStockShareNotListed")
+  lazy val ETMPAssetCodeStockShareListed:String = getProperty("etmpAssetCodeStockShareListed")
+  lazy val ETMPAssetCodeInsurancePolicy:String = getProperty("etmpAssetCodeInsurancePolicy")
+  lazy val ETMPAssetCodeBusinessInterest:String = getProperty("etmpAssetCodeBusinessInterest")
+  lazy val ETMPAssetCodeNominatedAsset:String = getProperty("etmpAssetCodeNominatedAsset")
+  lazy val ETMPAssetCodeForeignAsset:String = getProperty("etmpAssetCodeForeignAsset")
+  lazy val ETMPAssetCodeMoneyOwed:String = getProperty("etmpAssetCodeMoneyOwed")
+  lazy val ETMPAssetCodeOtherAsset:String = getProperty("etmpAssetCodeOtherAsset")
+  lazy val ETMPAssetCodeTrust:String = getProperty("etmpAssetCodeTrust")
+  lazy val ETMPAssetCodeGift:String = getProperty("etmpAssetCodeGift")
 }

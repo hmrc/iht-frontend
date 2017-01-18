@@ -26,9 +26,12 @@ import play.api.i18n.Messages
 
 class VehiclesDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour {
 
-  override def pageTitle = "iht.estateReport.assets.vehiclesOwned"
-  override def browserTitle = "page.iht.application.assets.vehicles.deceased.browserTitle"
-  override def questionTitle = Messages("iht.estateReport.assets.vehicles.ownName.question")
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def pageTitle = Messages("iht.estateReport.assets.vehiclesOwned", deceasedName)
+  override def browserTitle = Messages("page.iht.application.assets.vehicles.deceased.browserTitle")
+  override def questionTitle = Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedName)
   override def valueQuestion = Messages("page.iht.application.assets.vehicles.deceased.value")
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = Messages("iht.estateReport.assets.getProfessionalValuation")
@@ -41,7 +44,7 @@ class VehiclesDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementI
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = vehicles_deceased_own(vehiclesFormOwn, CommonBuilder.buildRegistrationDetails).toString
+    val view = vehicles_deceased_own(vehiclesFormOwn, regDetails).toString
     val doc = asDocument(view)
   }
 }

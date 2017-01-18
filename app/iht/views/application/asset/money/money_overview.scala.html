@@ -24,6 +24,7 @@
 @import iht.views.html.ihtHelpers._
 @import iht.utils.OverviewHelper._
 @import scala.collection.immutable.Seq
+@import iht.utils.CommonHelper
 
 @(money:Option[ShareableBasicEstateElement], registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
@@ -33,9 +34,12 @@ isFullWidth=false
 ) {
 
 <div id="money-description">
-    <p class="lede">@Messages("page.iht.application.assets.money.overview.description.p1")</p>
-    <p>@Messages("page.iht.application.assets.money.overview.description.p2")</p>
-    <p>@Messages("page.iht.application.assets.money.overview.description.p3")</p>
+    <p class="lede">@Messages("page.iht.application.assets.money.overview.description.p1",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p>@Messages("page.iht.application.assets.money.overview.description.p2",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p>@Messages("page.iht.application.assets.money.overview.description.p3",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 </div>
 
 
@@ -44,15 +48,19 @@ isFullWidth=false
         "money-deceased-owned-section",
          money.flatMap(_.isOwned),
             generic_overview_table_heading_item(id = "deceased-own-heading",
-                questionText = Messages("iht.estateReport.assets.moneyOwned"),
-                questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned"),
+                questionText = Messages("iht.estateReport.assets.moneyOwned",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned",
+                                                    Messages("iht.the.deceased")),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue"),
                 isAnswerValue = money.flatMap(_.isOwned).isEmpty
             ),
             generic_overview_table_item(id = "deceased-own-question",
-                questionText = Messages("iht.estateReport.assets.money.ownName.question"),
-                questionScreenReaderText= Messages("iht.estateReport.assets.money.ownName.question"),
+                questionText = Messages("iht.estateReport.assets.money.ownName.question",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                questionScreenReaderText= Messages("iht.estateReport.assets.money.ownName.question",
+                                                    Messages("iht.the.deceased")),
                 questionCategory= "change",
                 answerValue=Messages(getBooleanDisplayValue(money.flatMap(_.isOwned.map(x=>x)))),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
@@ -80,8 +88,9 @@ isFullWidth=false
                 isAnswerValue = money.flatMap(_.isOwnedShare).isEmpty
                 ),
             generic_overview_table_item(id = "deceased-shared-question",
-                questionText = Messages("page.iht.application.assets.money.jointly.owned.question"),
-                questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question"),
+                questionText = Messages("page.iht.application.assets.money.jointly.owned.question",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question", Messages("iht.the.deceased")),
                 questionCategory= "change",
                 answerValue=Messages(getBooleanDisplayValue(money.flatMap(_.isOwnedShare.map(x=>x)))),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad),

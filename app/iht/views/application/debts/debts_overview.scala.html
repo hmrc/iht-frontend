@@ -40,7 +40,13 @@ browserTitle = Some(Messages("iht.estateReport.debts.owedFromEstate")),
 isFullWidth=false) {
 
 <div id="debts-overview-subtitle">
+<<<<<<< HEAD
     <p class="lede">@Html(Messages("page.iht.application.debts.subtitle1", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+=======
+    <p class="lede">@Messages("page.iht.application.debts.subtitle1",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+>>>>>>> master
     <p>@Messages("page.iht.application.debts.subtitle2")</p>
     <p>@Messages("iht.estateReport.completeEverySection")</p>
 </div>

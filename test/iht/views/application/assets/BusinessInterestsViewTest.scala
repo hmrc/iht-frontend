@@ -30,9 +30,9 @@ class BusinessInterestsViewTest  extends ViewTestHelper with ShareableElementInp
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = "iht.estateReport.assets.businessInterests.title"
-  override def browserTitle = "page.iht.application.assets.businessInterest.browserTitle"
-  override def questionTitle = Messages("page.iht.application.assets.businessInterest.isOwned")
+  override def pageTitle = Messages("iht.estateReport.assets.businessInterests.title")
+  override def browserTitle = Messages("page.iht.application.assets.businessInterest.browserTitle")
+  override def questionTitle = Messages("page.iht.application.assets.businessInterest.isOwned", deceasedName)
   override def valueQuestion = Messages("page.iht.application.assets.businessInterest.inputLabel1")
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = Messages("page.iht.application.assets.businessInterest.hint")
@@ -45,8 +45,8 @@ class BusinessInterestsViewTest  extends ViewTestHelper with ShareableElementInp
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        "page.iht.application.assets.businessInterest.description.p1",
-        "page.iht.application.assets.businessInterest.description.p2")
+        Messages("page.iht.application.assets.businessInterest.description.p1", deceasedName),
+        Messages("page.iht.application.assets.businessInterest.description.p2", deceasedName))
     }
   }
 

@@ -164,7 +164,7 @@
                     linkId="change-applying-for-probate"
                 )
                 @ihtHelpers.summary_item(
-                    label = Messages("page.iht.registration.registrationSummary.applicantInfo.country.label"),
+                    label = Messages("page.iht.registration.applicant.probateLocation.title"),
                     data = CommonHelper.getOrException(applicantDetails.country),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.data.screenReader", CommonHelper.getOrException(applicantDetails.country)),
                     changeLink = applicantRoutes.ProbateLocationController.onEditPageLoad.url + "#country",

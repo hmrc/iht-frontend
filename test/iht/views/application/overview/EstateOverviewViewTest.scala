@@ -218,7 +218,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val view = estate_overview(viewModel).toString
       val doc = asDocument(view)
 
-      assertEqualsValue(doc, "a#continue-to-declaration", Messages("site.button.continueToDeclaration"))
+      assertEqualsValue(doc, "a#continue-to-declaration", Messages("iht.continue"))
       assertEqualsValue(doc, "p#declarable-guidance",
         Messages("page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text"))
 

@@ -13,7 +13,7 @@
             <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
         </fo:block>
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.debts.summary.p1')"/>
+            <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'pdf.debts.summary.p1', $deceasedName, $deceasedName)"/>
         </fo:block>
         <xsl:comment>Debts Mortgages section starts</xsl:comment>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">

@@ -77,7 +77,16 @@
                                         </xsl:variable>
                                         <fo:table-cell text-align="left" padding-left="4pt">
                                             <fo:block>
-                                                &#xA3;<xsl:value-of select='format-number(number($giftsValue), "##,###.00")'/>
+                                                <xsl:if test="$giftsValue">
+                                                    <xsl:choose>
+                                                        <xsl:when test="$giftsValue &gt; 1">
+                                                            &#xA3;<xsl:value-of select='format-number(number($giftsValue), "##,###.00")'/>
+                                                        </xsl:when>
+                                                        <xsl:otherwise>
+                                                            &#xA3;<xsl:value-of select="$giftsValue"/>
+                                                        </xsl:otherwise>
+                                                    </xsl:choose>
+                                                </xsl:if>
                                             </fo:block>
                                         </fo:table-cell>
                                         <fo:table-cell text-align="left" padding-left="4pt">

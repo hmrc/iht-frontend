@@ -20,12 +20,13 @@ import iht.forms.registration.DeceasedForms._
 import iht.views.html.registration.deceased.about_deceased
 import iht.views.registration.RegistrationPageBehaviour
 import org.joda.time.LocalDate
+import play.api.i18n.Messages
 import play.api.mvc.Call
 
 class AboutDeceasedViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitleKey = "iht.registration.deceasedDetails.title"
-  override def browserTitleKey = "iht.registration.deceasedDetails.title"
+  override def pageTitle = Messages("iht.registration.deceasedDetails.title")
+  override def browserTitle = Messages("iht.registration.deceasedDetails.title")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
@@ -84,7 +85,7 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour {
 
     "have a form hint for date of birth" in {
       val f = fixture()
-      messagesShouldBePresent(f.view, "iht.dateExample")
+      messagesShouldBePresent(f.view, Messages("iht.dateExample"))
     }
 
     "have the correct label for nino" in {
@@ -104,10 +105,10 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour {
 
     "have all the correct marital status on the page'" in {
       val f = fixture()
-      messagesShouldBePresent(f.view, "page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
-      messagesShouldBePresent(f.view, "page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label")
-      messagesShouldBePresent(f.view, "page.iht.registration.deceasedDetails.maritalStatus.widowed.label")
-      messagesShouldBePresent(f.view, "page.iht.registration.deceasedDetails.maritalStatus.single.label")
+      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label"))
+      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label"))
+      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDetails.maritalStatus.widowed.label"))
+      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDetails.maritalStatus.single.label"))
     }
   }
 }

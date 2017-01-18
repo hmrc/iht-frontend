@@ -317,10 +317,10 @@ object ApplicationForms {
   // Debts forms.
   val  mortgagesForm = Form(
     mapping(
-      "id" -> text,
       "value" -> OptionalCurrency(),
       "isOwned" -> yesNoQuestion("error.debts.mortgage.select")
-    )(Mortgage.apply)(Mortgage.unapply)
+    )((value, isOwned) => Mortgage("",value,isOwned))
+    ((mortgage: Mortgage) => Some(Tuple2(mortgage.value, mortgage.isOwned)))
   )
 
   val funeralExpensesForm = Form(basicEstateElementLiabilitiesMapping("error.debts.funeralExpenses.select"))

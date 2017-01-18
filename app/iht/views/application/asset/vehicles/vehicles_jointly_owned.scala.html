@@ -21,9 +21,10 @@
 
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.utils.CommonHelper
 
 @(vehiclesJointlyOwned: Form[ShareableBasicEstateElement],
-        registrationDetails: RegistrationDetails)(implicit request: Request[_])
+  registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
 @iht_main_template_application(title = Messages("page.iht.application.assets.vehicles.jointly.owned.title"),
 browserTitle = Some(Messages("page.iht.application.assets.vehicles.jointly.owned.browserTitle")),
@@ -34,7 +35,8 @@ isFullWidth=false) {
     @helpers.form(action = iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
         @ihtHelpers.generic_estate_element_assets(
                                                     assetType = Constants.AssetTypeJoint,
-                                                    questionLabel= Messages("iht.estateReport.assets.vehicles.jointly.owned.question"),
+                                                    questionLabel= Messages("iht.estateReport.assets.vehicles.jointly.owned.question",
+                                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
                                                     inputTextLabel = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned"),
                                                     inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
                                                     sharableElementForm = vehiclesJointlyOwned,

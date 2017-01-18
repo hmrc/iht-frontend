@@ -23,29 +23,34 @@ import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_overview
 import org.jsoup.nodes.Document
+import play.api.i18n.Messages
 
 class VehiclesOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
-  override def pageTitle = "iht.estateReport.assets.vehicles"
-  override def browserTitle = "iht.estateReport.assets.vehicles"
-  override def guidanceParagraphs = Set("page.iht.application.assets.vehicles.overview.guidance")
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  override def deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def pageTitle = Messages("iht.estateReport.assets.vehicles")
+  override def browserTitle = Messages("iht.estateReport.assets.vehicles")
+  override def guidanceParagraphs = Set(Messages("page.iht.application.assets.vehicles.overview.guidance",
+                                                deceasedName, deceasedName))
   override def ownHeadingElementId = "deceased-own-heading"
   override def jointlyOwnedHeadingElementId = "deceased-shared-heading"
   override def urlToOwnPage = VehiclesDeceasedOwnController.onPageLoad().url
   override def urlToJointlyOwnedPage = VehiclesJointlyOwnedController.onPageLoad().url
-  override def ownHeaderText = "iht.estateReport.assets.vehiclesOwned"
-  override def jointlyOwnedHeaderText = "page.iht.application.assets.vehicles.overview.joint.title"
+  override def ownHeaderText = Messages("iht.estateReport.assets.vehiclesOwned", deceasedName)
+  override def jointlyOwnedHeaderText = Messages("page.iht.application.assets.vehicles.overview.joint.title",
+                                                 deceasedName)
   override def ownQuestionRowId = "deceased-own-question"
-  override def ownQuestionText = "iht.estateReport.assets.vehicles.ownName.question"
+  override def ownQuestionText = Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedName)
   override def ownValueRowId = "deceased-own-value"
-  override def ownValueText = "iht.estateReport.assets.household.deceasedOwnedValue"
+  override def ownValueText = Messages("iht.estateReport.assets.household.deceasedOwnedValue")
   override def jointlyOwnedQuestionRowId = "deceased-shared-question"
-  override def jointlyOwnedQuestionText = "iht.estateReport.assets.vehicles.jointly.owned.question"
+  override def jointlyOwnedQuestionText = Messages("iht.estateReport.assets.vehicles.jointly.owned.question",
+                                                    deceasedName)
   override def jointlyOwnedValueRowId = "deceased-share-value"
-  override def jointlyOwnedValueText = "iht.estateReport.assets.vehicles.valueOfJointlyOwned"
+  override def jointlyOwnedValueText = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
 
-  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
-  override def deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
   "Vehicles overview view" must {
 

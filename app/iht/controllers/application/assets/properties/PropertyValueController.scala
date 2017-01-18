@@ -55,21 +55,25 @@ trait PropertyValueController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
+      val regDetails = cachingConnector.getExistingRegistrationDetails
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+
       Future.successful(Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm,
         submitUrl,
-        cancelUrl)))
+        cancelUrl,
+        deceasedName)))
     }
   }
 
   def onEditPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
-
-      val registrationData = cachingConnector.getExistingRegistrationDetails
+      val regDetails = cachingConnector.getExistingRegistrationDetails
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
       for {
         applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-          registrationData.acknowledgmentReference)
+          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+          regDetails.acknowledgmentReference)
       } yield {
         applicationDetails match {
           case Some(applicationDetails) => {
@@ -78,7 +82,8 @@ trait PropertyValueController extends EstateController {
             } {
               (matchedProperty) => Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm.fill(matchedProperty),
                 editSubmitUrl(id),
-                editCancelUrl(id)))
+                editCancelUrl(id),
+                deceasedName))
             }
           }
           case _ => {
@@ -115,13 +120,17 @@ trait PropertyValueController extends EstateController {
                        cancelUrl: Call,
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
+    val regDetails = cachingConnector.getExistingRegistrationDetails
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+
     val boundForm = propertyValueForm.bindFromRequest
     boundForm.fold(
       formWithErrors => {
         LogHelper.logFormError(formWithErrors)
         Future.successful(BadRequest(iht.views.html.application.asset.properties.property_value(formWithErrors,
           submitUrl,
-          cancelUrl)))
+          cancelUrl,
+          deceasedName)))
       },
       property => {
         processSubmit(CommonHelper.getNino(user), property, propertyId)
@@ -177,12 +186,13 @@ trait PropertyValueController extends EstateController {
   }
 
   private def doEditPageLoad(id: String, cancelUrl: Option[Call])(implicit request: Request[_], user: AuthContext) = {
-     val registrationData = cachingConnector.getExistingRegistrationDetails
+     val regDetails = cachingConnector.getExistingRegistrationDetails
+     val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
      for {
        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-         CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-         registrationData.acknowledgmentReference)
+         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+         regDetails.acknowledgmentReference)
      } yield {
        applicationDetails match {
          case Some(applicationDetails) => {
@@ -191,7 +201,8 @@ trait PropertyValueController extends EstateController {
            } {
              (matchedProperty) => Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm.fill(matchedProperty),
                routes.PropertyValueController.onEditSubmit(id),
-                 editCancelUrl(id)
+                 editCancelUrl(id),
+                 deceasedName
                ))
            }
          }

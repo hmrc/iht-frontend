@@ -19,13 +19,13 @@ package iht.views.registration.applicant
 import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm}
 import iht.views.html.registration.applicant.applicant_address
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.Lang
+import play.api.i18n.{Messages, Lang}
 import play.api.mvc.Call
 
 class ApplicantAddressViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitleKey = "page.iht.registration.applicantAddress.title"
-  override def browserTitleKey = "page.iht.registration.applicantAddress.title"
+  override def pageTitle = Messages("page.iht.registration.applicantAddress.title")
+  override def browserTitle = Messages("page.iht.registration.applicantAddress.title")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
@@ -45,7 +45,7 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour {
 
     "show the correct guidance" in {
       val f = fixture()
-      messagesShouldBePresent(f.view, "page.iht.registration.applicantAddress.hint")
+      messagesShouldBePresent(f.view, Messages("page.iht.registration.applicantAddress.hint"))
     }
 
     "have a line 1 field" in {

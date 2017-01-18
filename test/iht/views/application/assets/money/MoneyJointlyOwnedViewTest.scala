@@ -26,9 +26,12 @@ import play.api.i18n.Messages
 
 class MoneyJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
 
-  override def pageTitle = "iht.estateReport.assets.money.jointlyOwned"
-  override def browserTitle = "page.iht.application.assets.money.jointly.owned.browserTitle"
-  override def questionTitle = Messages("page.iht.application.assets.money.jointly.owned.question")
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def pageTitle = Messages("iht.estateReport.assets.money.jointlyOwned")
+  override def browserTitle = Messages("page.iht.application.assets.money.jointly.owned.browserTitle")
+  override def questionTitle = Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName)
   override def valueQuestion = Messages("page.iht.application.assets.money.jointly.owned.input.value.label")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
@@ -41,15 +44,15 @@ class MoneyJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInpu
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        "page.iht.application.assets.money.jointly.owned.guidance.p1",
-        "page.iht.application.assets.money.jointly.owned.guidance.p2",
-        "page.iht.application.assets.money.jointly.owned.guidance.p3")
+        Messages("page.iht.application.assets.money.jointly.owned.guidance.p1", deceasedName),
+        Messages("page.iht.application.assets.money.jointly.owned.guidance.p2", deceasedName),
+        Messages("page.iht.application.assets.money.jointly.owned.guidance.p3", deceasedName, deceasedName))
     }
   }
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = money_jointly_owned(moneyJointlyOwnedForm, CommonBuilder.buildRegistrationDetails).toString
+    val view = money_jointly_owned(moneyJointlyOwnedForm, regDetails).toString
     val doc = asDocument(view)
   }
 }
