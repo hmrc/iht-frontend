@@ -196,7 +196,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+      contentAsString(result).replace("\n","") should include(Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                                 CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
   }

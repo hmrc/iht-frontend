@@ -205,7 +205,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.gifts.overview.guidance1",
+      contentAsString(result).replace("\n","") should include(Messages("page.iht.application.gifts.overview.guidance1",
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails),
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
@@ -305,7 +305,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.gifts.overview.sevenYears.question2",
+      contentAsString(result).replace("\n","") should include (Messages("page.iht.application.gifts.overview.sevenYears.question2",
         deceasedName))
     }
 

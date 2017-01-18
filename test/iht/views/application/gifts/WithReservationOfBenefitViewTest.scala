@@ -59,7 +59,7 @@ class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with Moc
     "contain the correct question" in {
       val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest)
 
-      contentAsString(view) should include(Messages("iht.estateReport.gifts.reservation.question",
+      contentAsString(view).replace("\n","") should include(Messages("iht.estateReport.gifts.reservation.question",
                                             CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
 
     }

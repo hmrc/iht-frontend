@@ -57,7 +57,7 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
 
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
+      val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString.replace("\n","")
       view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance1",
                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance2",
