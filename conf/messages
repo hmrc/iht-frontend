@@ -2300,7 +2300,7 @@ iht.estateReport.gifts.kickout.withReservationOfBenefit.returnLinkText = return 
 iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText = return to gifts given away in the 7 years before death
 iht.estateReport.gifts.kickout.maxValue.returnLinkText = return to value of gifts given away in the 7 years before death
 iht.estateReport.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText = go back to that last question
-iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = return to increasing the tax threshold
+iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = return to increasing the Inheritance Tax threshold
 
 # Kickout return link text ends
 
