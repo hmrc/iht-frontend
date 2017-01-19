@@ -5,7 +5,6 @@
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan"
                 xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
                 xmlns:formatter="java:iht.utils.pdf.PdfFormatter">
-
     <xsl:param name="pdfFormatter"/>
 
     <xsl:template name="table-row-tall">
@@ -110,7 +109,6 @@
     <xsl:template name="table-row-tall-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-
         <fo:table-row border-top="solid 0.3mm black" line-height="30pt">
             <fo:table-cell text-align="left" padding-left="4pt">
                 <fo:block>
@@ -177,39 +175,6 @@
         </fo:table-row>
     </xsl:template>
 
-
-    <xsl:template name="table-row-uk-address">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
-                <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
-                <fo:block>
-                    <xsl:value-of select="$value/ukAddressLine1"/>
-                </fo:block>
-                <fo:block>
-                    <xsl:value-of select="$value/ukAddressLine2"/>
-                </fo:block>
-                <fo:block>
-                    <xsl:value-of select="$value/ukAddressLine3"/>
-                </fo:block>
-                <fo:block>
-                    <xsl:value-of select="$value/ukAddressLine4"/>
-                </fo:block>
-                <fo:block>
-                    <xsl:value-of select="$value/postCode"/>
-                </fo:block>
-                <fo:block>
-                    <xsl:value-of select="formatter:countryName($pdfFormatter,$value/countryCode)"/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
     <xsl:template name="table-row-tall-lpad-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
@@ -248,7 +213,6 @@
     <xsl:template name="table-row-yes-no-short-lpad-border-top-grey-thin">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-
         <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
             <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt"
                            padding-bottom="6pt">
@@ -276,7 +240,38 @@
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
+    </xsl:template>
 
+    <xsl:template name="table-row-uk-address">
+        <xsl:param name="label"/>
+        <xsl:param name="value"/>
+        <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
+            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
+                <fo:block>
+                    <xsl:value-of select="$label"/>
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
+                <fo:block>
+                    <xsl:value-of select="$value/ukAddressLine1"/>
+                </fo:block>
+                <fo:block>
+                    <xsl:value-of select="$value/ukAddressLine2"/>
+                </fo:block>
+                <fo:block>
+                    <xsl:value-of select="$value/ukAddressLine3"/>
+                </fo:block>
+                <fo:block>
+                    <xsl:value-of select="$value/ukAddressLine4"/>
+                </fo:block>
+                <fo:block>
+                    <xsl:value-of select="$value/postCode"/>
+                </fo:block>
+                <fo:block>
+                    <xsl:value-of select="formatter:countryName($pdfFormatter,$value/countryCode)"/>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
     </xsl:template>
 
     <xsl:template name="table-row-mortgage-money">
