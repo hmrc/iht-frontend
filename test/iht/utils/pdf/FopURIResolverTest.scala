@@ -30,7 +30,7 @@ class FopURIResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
   "Must return a valid Resource" in {
 
-    val inputResource = new URI("/pdf/templates/clearance-certificate.xsl")
+    val inputResource = new URI("/pdf/templates/clearance/main.xsl")
     val fopURIResolver = new FopURIResolver
     val result = fopURIResolver.getResource(inputResource)
 
