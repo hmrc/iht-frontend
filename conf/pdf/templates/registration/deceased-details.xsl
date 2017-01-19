@@ -24,23 +24,23 @@
                     <fo:table-column column-number="1" column-width="60%"/>
                     <fo:table-column column-number="2" column-width="40%"/>
                     <fo:table-body font-size="12pt">
-                        <xsl:call-template name="table-row-top">
+                        <xsl:call-template name="table-row-short-vpad-border-top-black">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.firstName')"/>
                             <xsl:with-param name="value" select="deceasedDetails/firstName"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.lastName')"/>
                             <xsl:with-param name="value" select="deceasedDetails/lastName"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.dateofbirth')"/>
                             <xsl:with-param name="value"
                                             select="formatter:getDateForDisplay($pdfFormatter,deceasedDetails/dateOfBirth)"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
                             <xsl:with-param name="value" select="deceasedDetails/nino"/>
@@ -50,17 +50,17 @@
                                             select="i18n:getMessagesText($translator, 'pdf.registration.lastContactAddress')"/>
                             <xsl:with-param name="value" select="deceasedDetails/ukAddress"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.registration.deceased.locationOfPermanentHome')"/>
                             <xsl:with-param name="value" select="deceasedDetails/domicile"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'page.iht.registration.deceasedDetails.maritalStatus.label')"/>
                             <xsl:with-param name="value" select="deceasedDetails/maritalStatus"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.dateOfDeath')"/>
                             <xsl:with-param name="value"

@@ -19,12 +19,12 @@
                             <fo:table-column column-number="1" column-width="60%"/>
                             <fo:table-column column-number="2" column-width="40%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-top">
+                                <xsl:call-template name="table-row-short-vpad-border-top-black">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
                                     <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'pdf.postSubmission.trusts.assetDescription')"/>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row-money">
+                                <xsl:call-template name="table-row-money-tall">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'pdf.assetTotal.text')"/>
                                     <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>

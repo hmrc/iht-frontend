@@ -70,7 +70,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'page.iht.application.debts.funeralExpenses.isOwned')"/>
                                     <xsl:with-param name="value">
@@ -85,7 +85,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allLiabilities/funeralExpenses/isOwned='true'">
-                                    <xsl:call-template name="table-row-money">
+                                    <xsl:call-template name="table-row-money-tall">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.debts.valueOfFuneralCosts')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allLiabilities/funeralExpenses/value">
@@ -110,7 +110,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.debts.debtsTrust.isOwned', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -125,7 +125,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allLiabilities/trust/isOwned='true'">
-                                    <xsl:call-template name="table-row-money">
+                                    <xsl:call-template name="table-row-money-tall">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.debts.debtsTrust.value')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allLiabilities/trust/value">
@@ -150,7 +150,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'page.iht.application.debts.debtsOutsideUk.isOwned')"/>
                                     <xsl:with-param name="value">
@@ -165,7 +165,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allLiabilities/debtsOutsideUk/isOwned='true'">
-                                    <xsl:call-template name="table-row-money">
+                                    <xsl:call-template name="table-row-money-tall">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.debts.owedOutsideUK.value')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allLiabilities/debtsOutsideUk/value">
@@ -190,7 +190,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'page.iht.application.debts.jointlyOwned.isOwned')"/>
                                     <xsl:with-param name="value">
@@ -205,7 +205,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allLiabilities/jointlyOwned/isOwned='true'">
-                                    <xsl:call-template name="table-row-money">
+                                    <xsl:call-template name="table-row-money-tall">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.debts.owedOnJointAssets.value')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allLiabilities/jointlyOwned/value">
@@ -229,7 +229,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'page.iht.application.debts.other.isOwned')"/>
                                     <xsl:with-param name="value">
@@ -244,7 +244,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allLiabilities/other/isOwned='true'">
-                                    <xsl:call-template name="table-row-money">
+                                    <xsl:call-template name="table-row-money-tall">
                                         <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.debts.other.inputLabel1')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allLiabilities/other/value">
@@ -267,7 +267,7 @@
                 <fo:table-column column-number="2" column-width="30%"/>
                 <fo:table-body font-size="12pt">
 
-                    <xsl:call-template name="table-row-money-border-top-black">
+                    <xsl:call-template name="table-row-money-tall-border-top-black">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
                         <xsl:with-param name="value" select='$debtsTotal'/>
