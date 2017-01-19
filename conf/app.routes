@@ -13,13 +13,7 @@ GET         /estate-report                                           iht.control
 
 GET         /signout                                                 iht.controllers.IhtMainController.signOut
 
-GET         /                                                        iht.controllers.PrivateBetaLandingPageController.passcode(p:Option[String])
-
-GET         /landing/:passcodeCopy                                   iht.controllers.PrivateBetaLandingPageController.showLandingPageWithPasscode(passcodeCopy:String, p:Option[String])
-
-GET         /landing                                                 iht.controllers.PrivateBetaLandingPageController.showLandingPage
-
-GET         /start                                                   iht.controllers.PrivateBetaLandingPageController.start(p:Option[String])
+GET         /                                                        iht.controllers.filter.FilterController.onPageLoad
 
 GET         /register/timeout                                        iht.controllers.SessionTimeoutController.onRegistrationPageLoad
 GET         /estate-report/timeout                                   iht.controllers.SessionTimeoutController.onApplicationPageLoad
