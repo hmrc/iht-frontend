@@ -8,7 +8,6 @@
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="ihtReference"/>
 
-    <xsl:include href="pdf/templates/iht-component-templates.xsl"/>
     <xsl:include href="pdf/templates/registration/deceased-details.xsl"/>
     <xsl:include href="pdf/templates/registration/applicant-details.xsl"/>
     <xsl:include href="pdf/templates/registration/executors-details.xsl"/>
