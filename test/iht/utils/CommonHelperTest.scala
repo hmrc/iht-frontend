@@ -485,11 +485,11 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
 "getOrBigDecimalZero" should {
     "return BigDecimal(0) if None is given as input" in {
-      CommonHelper.getOrBigDecimalZero(None) shouldBe BigDecimal(0)
+      CommonHelper.getOrZero(None) shouldBe BigDecimal(0)
     }
 
     "return the correct value if input is BigDecimal value other than 0" in {
-      CommonHelper.getOrBigDecimalZero(Some(BigDecimal(100000))) shouldBe BigDecimal(100000)
+      CommonHelper.getOrZero(Some(BigDecimal(100000))) shouldBe BigDecimal(100000)
     }
   }
 

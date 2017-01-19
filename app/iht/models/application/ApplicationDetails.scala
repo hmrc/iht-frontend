@@ -110,7 +110,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   //Gifts section starts
   def totalGiftsValue: BigDecimal = totalPastYearsGifts
 
-  def totalPastYearsGifts: BigDecimal = CommonHelper.getOrBigDecimalZero(totalPastYearsGiftsOption)
+  def totalPastYearsGifts: BigDecimal = CommonHelper.getOrZero(totalPastYearsGiftsOption)
 
   def totalPastYearsGiftsOption: Option[BigDecimal] = {
     val values = giftsList.getOrElse(Nil).map(x => x.value).filter(_.isDefined)
@@ -127,7 +127,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   }
 
   def totalPastYearsGiftsValueExcludingExemptions: BigDecimal =
-    CommonHelper.getOrBigDecimalZero(totalPastYearsGiftsValueExcludingExemptionsOption)
+    CommonHelper.getOrZero(totalPastYearsGiftsValueExcludingExemptionsOption)
 
   def totalPastYearsGiftsValueExcludingExemptionsOption: Option[BigDecimal] = {
     val values = giftsList.getOrElse(Nil).map(x => x.value).filter(_.isDefined)
@@ -141,7 +141,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   }
 
   def totalPastYearsGiftsExemptions: BigDecimal =
-    CommonHelper.getOrBigDecimalZero(totalPastYearsGiftsExemptionsOption)
+    CommonHelper.getOrZero(totalPastYearsGiftsExemptionsOption)
 
 
   def totalPastYearsGiftsExemptionsOption: Option[BigDecimal] = {
@@ -203,7 +203,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
       Seq(allLiabilities.flatMap(_.areAllDebtsExceptMortgagesCompleted), isCompleteMortgages)
     }
 
-  def totalLiabilitiesValue:BigDecimal = CommonHelper.getOrBigDecimalZero(totalLiabilitiesValueOption)
+  def totalLiabilitiesValue:BigDecimal = CommonHelper.getOrZero(totalLiabilitiesValueOption)
   //allLiabilities.map(_.totalValue()).getOrElse(BigDecimal(0))
 
   def totalLiabilitiesValueOption: Option[BigDecimal] = {

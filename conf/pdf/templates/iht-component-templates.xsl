@@ -90,7 +90,6 @@
         </fo:table-row>
     </xsl:template>
 
-
     <xsl:template name="table-row-money-3-values-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value1"/>
@@ -146,8 +145,6 @@
             </fo:table-cell>
         </fo:table-row>
     </xsl:template>
-
-
 
     <xsl:template name="table-row-money-border-top-black-line-height-18">
         <xsl:param name="label"/>

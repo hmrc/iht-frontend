@@ -214,7 +214,7 @@
                                                 <xsl:value-of select='$giftsTotalExclExemptions'/>
                                             </xsl:with-param>
                                             <xsl:with-param name="value2">
-                                                <xsl:value-of select='$exemptionsTotal'/>
+                                                <xsl:value-of select='$giftsExemptionsTotal'/>
                                             </xsl:with-param>
                                             <xsl:with-param name="value3">
                                                 <xsl:value-of select='$giftsTotal'/>
