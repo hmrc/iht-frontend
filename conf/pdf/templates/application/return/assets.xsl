@@ -56,7 +56,7 @@
                                         </xsl:if>
                                     </xsl:if>
                                     <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                    <xsl:call-template name="table-row-application-bottom-blank"/>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
                                 </fo:table-body>
                             </fo:table>
                         </xsl:for-each>
@@ -85,7 +85,7 @@
                                             <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
                                         </xsl:call-template>
                                         <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                        <xsl:call-template name="table-row-application-bottom-blank"/>
+                                        <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
                                     </fo:table-body>
                                 </fo:table>
                             </xsl:if>
@@ -108,7 +108,7 @@
                                 </xsl:call-template>
 
                                 <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                <xsl:call-template name="table-row-application-bottom-blank"/>
+                                <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
                             </fo:table-body>
                         </fo:table>
 

@@ -59,7 +59,7 @@
                             <xsl:with-param name="value" select="applicantDetails/country"/>
                         </xsl:call-template>
                         <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                        <xsl:call-template name="table-row-bottom-blank"/>
+                        <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
                     </fo:table-body>
                 </fo:table>
             </fo:block>

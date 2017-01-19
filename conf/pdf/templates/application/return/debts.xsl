@@ -28,7 +28,7 @@
                                 <fo:table-column column-number="2" column-width="40%"/>
                                 <fo:table-body font-size="12pt">
 
-                                    <xsl:call-template name="table-row-top-application-border-top-black">
+                                    <xsl:call-template name="table-row-tall-border-top-black-thin">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'pdf.liabilityType.text')"/>
                                         <xsl:with-param name="value" select="liabilityType"/>
@@ -41,7 +41,7 @@
                                     </xsl:call-template>
 
                                     <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                    <xsl:call-template name="table-row-application-bottom-blank"/>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
                                 </fo:table-body>
                             </fo:table>
                         </xsl:for-each>
@@ -62,7 +62,7 @@
                                 </xsl:call-template>
 
                                 <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                <xsl:call-template name="table-row-application-bottom-blank"/>
+                                <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
                             </fo:table-body>
                         </fo:table>
                     </fo:block>

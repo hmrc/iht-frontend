@@ -212,7 +212,7 @@
                                                 <xsl:value-of select='$giftsTotal'/>
                                             </xsl:with-param>
                                         </xsl:call-template>
-                                        <xsl:call-template name="table-row-bottom-blank"/>
+                                        <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
                                     </fo:table-body>
                                 </fo:table>
                             </fo:block>

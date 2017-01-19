@@ -107,7 +107,7 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-top-application">
+    <xsl:template name="table-row-tall-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
 
@@ -125,7 +125,7 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-top-application-border-top-black">
+    <xsl:template name="table-row-tall-border-top-black-thin">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row border-top="solid 0.1mm black" line-height="30pt">
@@ -142,7 +142,7 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-bottom-blank">
+    <xsl:template name="table-row-blank-short-vpad-border-top-grey-thin">
         <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
             <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
                 <fo:block/>
@@ -153,7 +153,7 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-application-bottom-blank">
+    <xsl:template name="table-row-blank-tall-border-both-grey-thin">
         <fo:table-row border-top="solid 0.1mm gray" border-bottom="solid 0.1mm gray"
                       line-height="30pt">
             <fo:table-cell text-align="left" padding-left="4pt">
@@ -165,7 +165,7 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-application-bottom-blank-border-black">
+    <xsl:template name="table-row-blank-tall-border-both-black-thick">
         <fo:table-row border-top="solid 0.3mm black" border-bottom="solid 0.1mm gray"
                       line-height="30pt">
             <fo:table-cell text-align="left" padding-left="4pt">
@@ -210,7 +210,7 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-top-application-tnrb">
+    <xsl:template name="table-row-tall-lpad-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
 
@@ -228,7 +228,7 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-tnrb">
+    <xsl:template name="table-row-tall-lpad-border-top-grey-thin">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row border-top="solid 0.1mm gray" line-height="30pt">
@@ -245,7 +245,7 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-tnrb-yes-no">
+    <xsl:template name="table-row-yes-no-short-lpad-border-top-grey-thin">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
 

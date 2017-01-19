@@ -30,35 +30,35 @@
                             <fo:table-column column-number="2" column-width="40%"/>
                             <fo:table-body font-size="12pt">
 
-                                <xsl:call-template name="table-row-top-application-tnrb">
+                                <xsl:call-template name="table-row-tall-lpad-border-top-black">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'iht.firstName')"/>
                                     <xsl:with-param name="value"
                                                     select="deceased/transferOfNilRateBand/deceasedSpouses/spouse/firstName"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="table-row-tnrb">
+                                <xsl:call-template name="table-row-tall-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'iht.lastName')"/>
                                     <xsl:with-param name="value"
                                                     select="deceased/transferOfNilRateBand/deceasedSpouses/spouse/lastName"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="table-row-tnrb">
+                                <xsl:call-template name="table-row-tall-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.tnrb.dateOfMarriage', $marriageLabel)"/>
                                     <xsl:with-param name="value"
                                                     select="formatter:getDateForDisplay($pdfFormatter,deceased/transferOfNilRateBand/deceasedSpouses/spouse/dateOfMarriage)"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="table-row-tnrb">
+                                <xsl:call-template name="table-row-tall-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.tnrbEligibilty.overview.partner.dod.question', $preDeceasedName)"/>
                                     <xsl:with-param name="value"
                                                     select="formatter:getDateForDisplay($pdfFormatter,deceased/transferOfNilRateBand/deceasedSpouses/spouse/dateOfDeath)"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="table-row-tnrb-yes-no">
+                                <xsl:call-template name="table-row-yes-no-short-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.tnrb.permanentHome.question', $deceasedName)"/>
                                     <xsl:with-param name="value"
@@ -66,14 +66,14 @@
                                 </xsl:call-template>
 
 
-                                <xsl:call-template name="table-row-tnrb-yes-no">
+                                <xsl:call-template name="table-row-yes-no-short-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.tnrb.giftsMadeBeforeDeath.question', $preDeceasedName)"/>
                                     <xsl:with-param name="value"
                                                     select="deceased/transferOfNilRateBand/deceasedSpouses/spousesEstate/otherGifts"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="table-row-tnrb-yes-no">
+                                <xsl:call-template name="table-row-yes-no-short-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameters($translator, 'page.iht.application.tnrbEligibilty.overview.giftsWithReservation.question', $deceasedName, $deceasedName)"/>
                                     <xsl:with-param name="value"
@@ -81,28 +81,28 @@
                                 </xsl:call-template>
 
 
-                                <xsl:call-template name="table-row-tnrb-yes-no">
+                                <xsl:call-template name="table-row-yes-no-short-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'iht.estateReport.tnrb.stateClaim.question')"/>
                                     <xsl:with-param name="value"
                                                     select="deceased/transferOfNilRateBand/deceasedSpouses/spousesEstate/agriculturalOrBusinessRelief"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="table-row-tnrb-yes-no">
+                                <xsl:call-template name="table-row-yes-no-short-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.tnrb.benefitFromTrust.question', $preDeceasedName)"/>
                                     <xsl:with-param name="value"
                                                     select="deceased/transferOfNilRateBand/deceasedSpouses/spousesEstate/benefitFromTrust"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="table-row-tnrb-yes-no">
+                                <xsl:call-template name="table-row-yes-no-short-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameters($translator, 'page.iht.application.tnrbEligibilty.overview.charity.question', $deceasedName, $deceasedName)"/>
                                     <xsl:with-param name="value"
                                                     select="deceased/transferOfNilRateBand/deceasedSpouses/spousesEstate/whollyExempt"/>
                                 </xsl:call-template>
 
-                                <xsl:call-template name="table-row-tnrb-yes-no">
+                                <xsl:call-template name="table-row-yes-no-short-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameters($translator, 'page.iht.application.tnrbEligibilty.overview.jointlyOwned.question', $deceasedName, $deceasedName)"/>
                                     <xsl:with-param name="value"
@@ -111,7 +111,7 @@
 
 
                                 <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                <xsl:template name="table-row-application-bottom-blank"/>
+                                <xsl:template name="table-row-blank-tall-border-both-grey-thin"/>
                             </fo:table-body>
                         </fo:table>
                     </fo:block>

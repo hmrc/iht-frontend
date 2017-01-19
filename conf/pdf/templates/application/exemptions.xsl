@@ -231,7 +231,7 @@
                     </xsl:call-template>
 
                     <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                    <xsl:call-template name="table-row-application-bottom-blank"/>
+                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
                 </fo:table-body>
             </fo:table>
         </fo:block>
