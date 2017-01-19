@@ -83,8 +83,8 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
 
     "log helper bad request validation" in {
       val questionnaireModel = QuestionnaireModel(Some(7),None,None,None)
-      val questionnaireForm1 = iht.forms.QuestionnaireForms.questionnaireForm.fill(questionnaireModel)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(questionnaireForm1.data.toSeq: _*)
+      val questionnaire_form1 = iht.forms.QuestionnaireForms.questionnaire_form.fill(questionnaireModel)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(questionnaire_form1.data.toSeq: _*)
 
       val result = questionnaireController.onSubmit()(request)
       status(result) should be(BAD_REQUEST)
