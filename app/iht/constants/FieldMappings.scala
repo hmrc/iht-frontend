@@ -118,7 +118,7 @@ object FieldMappings {
     createMapEntry(between325000and1million, "page.iht.filter.estimate.choice.between"),
     createMapEntry(moreThan1million, "page.iht.filter.estimate.choice.over")
   )
-  
+
   val filterChoicesWithoutHints = ListMap(
     continueEstateReport -> Messages("page.iht.filter.filter.choice.main.continue"),
     register -> Messages("page.iht.filter.filter.choice.main.register"),

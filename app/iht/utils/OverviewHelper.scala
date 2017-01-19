@@ -60,8 +60,12 @@ object OverviewHelper {
 
   private val overviewDisplayValues: ListMap[String, ApplicationDetails => String] = ListMap(
     AppSectionProperties -> { (ad) =>
-      if (ad.propertyList.filter(_.value.isDefined).isEmpty){ ""}
-      else {"£" + numberWithCommas(ad.propertyList.map(_.value.getOrElse(BigDecimal(0))).sum)}
+      if (ad.propertyList.filter(_.value.isDefined).isEmpty) {
+        ""
+      }
+      else {
+        "£" + numberWithCommas(ad.propertyList.map(_.value.getOrElse(BigDecimal(0))).sum)
+      }
     },
     AppSectionMoney -> { ad => ad.allAssets.flatMap(_.money).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
     AppSectionHousehold -> { ad => ad.allAssets.flatMap(_.household).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
@@ -75,62 +79,87 @@ object OverviewHelper {
     AppSectionForeign -> { ad => ad.allAssets.flatMap(_.foreign).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
     AppSectionMoneyOwed -> { ad => ad.allAssets.flatMap(_.moneyOwed).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
     AppSectionOther -> { ad => ad.allAssets.flatMap(_.other).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
-    AppSectionMortgages -> { ad => ad.allLiabilities.flatMap(_.mortgages).flatMap( _ =>
-          if(ad.propertyList.isEmpty) {None}
-          else {ad.allLiabilities.map(_.mortgageValue)})
+    AppSectionMortgages -> { ad =>
+      ad.allLiabilities.flatMap(_.mortgages).flatMap(_ =>
+        if (ad.propertyList.isEmpty) {
+          None
+        }
+        else {
+          ad.allLiabilities.map(_.mortgageValue)
+        })
         .fold("")("£" + numberWithCommas(_))
     },
-    AppSectionFuneralExpenses -> { _.allLiabilities.flatMap(_.funeralExpenses).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
+    AppSectionFuneralExpenses -> {
+      _.allLiabilities.flatMap(_.funeralExpenses).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
+    },
 
-    AppSectionDebtsOwedFromTrust -> { _.allLiabilities.flatMap(_.trust).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionDebtsOwedToAnyoneOutsideUK -> { _.allLiabilities.flatMap(_.debtsOutsideUk).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionDebtsOwedOnJointAssets -> { _.allLiabilities.flatMap(_.jointlyOwned).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
-    AppSectionDebtsOther -> { _.allLiabilities.flatMap(_.other).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
+    AppSectionDebtsOwedFromTrust -> {
+      _.allLiabilities.flatMap(_.trust).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
+    },
+    AppSectionDebtsOwedToAnyoneOutsideUK -> {
+      _.allLiabilities.flatMap(_.debtsOutsideUk).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
+    },
+    AppSectionDebtsOwedOnJointAssets -> {
+      _.allLiabilities.flatMap(_.jointlyOwned).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
+    },
+    AppSectionDebtsOther -> {
+      _.allLiabilities.flatMap(_.other).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
+    },
 
-    AppSectionExemptionsPartnerIsAssetForDeceasedPartner -> { ad => getMessageKeyValueOrBlank(
-      getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner))) },
-    AppSectionExemptionsPartnerIsPartnerHomeInUK -> { ad => getMessageKeyValueOrBlank(
-      getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isPartnerHomeInUK))) },
+    AppSectionExemptionsPartnerIsAssetForDeceasedPartner -> { ad =>
+      getMessageKeyValueOrBlank(
+        getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner)))
+    },
+    AppSectionExemptionsPartnerIsPartnerHomeInUK -> { ad =>
+      getMessageKeyValueOrBlank(
+        getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isPartnerHomeInUK)))
+    },
     AppSectionExemptionsPartnerName -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.name) },
     AppSectionExemptionsPartnerDateOfBirth -> { ad => getDateDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.dateOfBirth)) },
     AppSectionExemptionsPartnerNino -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.nino).fold("")(identity) },
-    AppSectionExemptionsPartnerTotalAssets  -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.totalAssets).fold("")("£" + numberWithCommas(_)) },
+    AppSectionExemptionsPartnerTotalAssets -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.totalAssets).fold("")("£" + numberWithCommas(_)) },
     AppSectionExemptionsCharityValue -> { (ad) =>
-      if (ad.charities.filter(_.totalValue.isDefined).isEmpty) ""
-      else "£" + numberWithCommas(ad.charities.map(_.totalValue.getOrElse(BigDecimal(0))).sum)
+      if (ad.charities.filter(_.totalValue.isDefined).isEmpty) {
+        ""
+      } else {
+        "£" + numberWithCommas(ad.charities.map(_.totalValue.getOrElse(BigDecimal(0))).sum)
+      }
     },
     AppSectionExemptionsQualifyingBodyValue -> { (ad) =>
-      if (ad.qualifyingBodies.filter(_.totalValue.isDefined).isEmpty) ""
-      else "£" + numberWithCommas(ad.qualifyingBodies.map(_.totalValue.getOrElse(BigDecimal(0))).sum)
+      if (ad.qualifyingBodies.filter(_.totalValue.isDefined).isEmpty) {
+        ""
+      } else {
+        "£" + numberWithCommas(ad.qualifyingBodies.map(_.totalValue.getOrElse(BigDecimal(0))).sum)
+      }
     },
     AppSectionEstateAssets -> { ad =>
-      ad.totalAssetsValueOption.fold("")( assetsValue =>
-       "£" + numberWithCommas(assetsValue))
+      ad.totalAssetsValueOption.fold("")(assetsValue =>
+        "£" + numberWithCommas(assetsValue))
     },
     AppSectionEstateGifts -> { ad =>
-      ad.totalPastYearsGiftsOption.fold("")( giftsValue =>
+      ad.totalPastYearsGiftsOption.fold("")(giftsValue =>
         "£" + numberWithCommas(giftsValue))
     },
-	  AppSectionEstateDebts -> { ad =>
-		  ad.totalLiabilitiesValueOption.fold("")( debtValue =>
-		    (if (ad.totalExemptionsValue > BigDecimal(0)) "-£" else "£") + numberWithCommas(debtValue)) }
-	  
+    AppSectionEstateDebts -> { ad =>
+      ad.totalLiabilitiesValueOption.fold("")(debtValue =>
+        (if (ad.totalExemptionsValue > BigDecimal(0)) "-£" else "£") + numberWithCommas(debtValue))
+    }
   )
 
   def displayValue(appDetails: ApplicationDetails,
                    section: String,
                    isComplete: Option[Boolean],
-                   noneMessage:Option[String] = Some("site.noneInEstate")) = {
+                   noneMessage: Option[String] = Some("site.noneInEstate")) = {
 
     overviewDisplayValues.find(_._1 == section).map(_._2).map(expr => expr(appDetails))
       .fold(throw new RuntimeException("Attempt to display value for unknown section:" + section)) { displayValueFound =>
-
-      if (displayValueFound.isEmpty && isComplete.fold(false)(identity)) {
-        noneMessage.map(Messages(_)).fold("")(identity)
-      } else {
-        displayValueFound
+        (displayValueFound.isEmpty, isComplete) match {
+          case (true, Some(true)) =>
+            noneMessage.map(Messages(_)).fold("")(identity)
+          case _ =>
+            displayValueFound
+        }
       }
-    }
   }
 
   def mapYesNoNone(value: String, yesValue: String, noValue: String, noneValue: String) =
@@ -154,7 +183,7 @@ object OverviewHelper {
     optBoolean.fold("")(booleanValue => getDisplayValueForBoolean(booleanValue))
 
   def getDisplayValueForBoolean(inputValue: Boolean): String =
-   if (inputValue) messagesFileYesValue else messagesFileNoValue
+    if (inputValue) messagesFileYesValue else messagesFileNoValue
 
   def getDateDisplayValue(optDate: Option[LocalDate]): String =
     optDate.fold("")(_.toString(IhtProperties.dateFormatForDisplay))
@@ -190,9 +219,9 @@ object OverviewHelper {
   }
 
   /**
-   * Create a section from the sequence of yes/no items passed in: the subscript number of each item is used to
-   * generate the title message key and the id for each question.
-   */
+    * Create a section from the sequence of yes/no items passed in: the subscript number of each item is used to
+    * generate the title message key and the id for each question.
+    */
   def createSectionFromYesNoQuestions(id: String,
                                       title: Option[String],
                                       linkUrl: Call,
@@ -211,9 +240,9 @@ object OverviewHelper {
   }
 
   /**
-   * Create a section from the boolean and big decimal expressions passed in: the messages file prefix is used to
-   * generate the title message key for each question.
-   */
+    * Create a section from the boolean and big decimal expressions passed in: the messages file prefix is used to
+    * generate the title message key for each question.
+    */
   def createSectionFromYesNoValueQuestions(id: String,
                                            title: Option[String],
                                            linkUrl: Call,
@@ -265,18 +294,23 @@ object OverviewHelper {
                                       shouldDisplay: ApplicationDetails => Boolean,
                                       ad: ApplicationDetails): Section =
     Section(id = id,
-            title = title,
-            link = Link(getEmptyStringOrElse(questionAnswerExprValue, messagesFileGiveValues),
-                        sectionLevelLinkAccessibilityText,
-                        linkUrl),
-            details = if (shouldDisplay(ad)) {
-                              Seq(Question(
-                                id = id + "-value",
-                                title = Messages(s"$questionTitlesMessagesFilePrefix.question1"),
-                                link = Link(messagesFileChangeValues, questionLevelLinkAccessibilityTextValue, linkUrl),
-                                value = getBigDecimalDisplayValue(questionAnswerExprValue),
-                                status = if(getBigDecimalDisplayValue(questionAnswerExprValue) == "") {
-                                              messageNotStarted } else { messageComplete }))
-                       } else { Nil }
+      title = title,
+      link = Link(getEmptyStringOrElse(questionAnswerExprValue, messagesFileGiveValues),
+        sectionLevelLinkAccessibilityText,
+        linkUrl),
+      details = if (shouldDisplay(ad)) {
+        Seq(Question(
+          id = id + "-value",
+          title = Messages(s"$questionTitlesMessagesFilePrefix.question1"),
+          link = Link(messagesFileChangeValues, questionLevelLinkAccessibilityTextValue, linkUrl),
+          value = getBigDecimalDisplayValue(questionAnswerExprValue),
+          status = if (getBigDecimalDisplayValue(questionAnswerExprValue) == "") {
+            messageNotStarted
+          } else {
+            messageComplete
+          }))
+      } else {
+        Nil
+      }
     )
 }

@@ -81,6 +81,61 @@ trait InsurancePolicyOverviewController extends EstateController {
     )
   }
 
+  private def createSection1(regDetails:RegistrationDetails, insurancePolicy: InsurancePolicy): Section = {
+    createSectionFromYesNoValueQuestions(
+      id = "deceased",
+      title = Some(Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
+      linkUrl = routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad(),
+      sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value",
+      questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value",
+      questionLevelLinkAccessibilityTextNo = "page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value",
+      questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value",
+      questionAnswerExprYesNo = insurancePolicy.policyInDeceasedName,
+      questionAnswerExprValue = insurancePolicy.value,
+      questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.ownName.question",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
+    )
+  }
+
+  private def createSection2(regDetails:RegistrationDetails, insurancePolicy: InsurancePolicy): Section = {
+    createSectionFromYesNoValueQuestions(
+      id = "joint",
+      title = Some(Messages("page.iht.application.assets.insurance.policies.overview.joint.title")),
+      linkUrl = routes.InsurancePolicyDetailsJointController.onPageLoad(),
+      sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value",
+      questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value",
+      questionLevelLinkAccessibilityTextNo = "page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value",
+      questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value",
+      questionAnswerExprYesNo = insurancePolicy.isJointlyOwned,
+      questionAnswerExprValue = insurancePolicy.shareValue,
+      questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare")
+    )
+  }
+
+  private def createSection3(regDetails:RegistrationDetails, ad: ApplicationDetails, insurancePolicy: InsurancePolicy): Section = {
+    createSectionFromYesNoQuestions(
+      id = "other",
+      title = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
+      linkUrl = routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
+      sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
+      questionAnswersPlusChangeLinks = section3YesNoItems(insurancePolicy, regDetails),
+      questionTitlesMessagesFileItems = Seq(
+        Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
+          CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+        Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
+          CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+        Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
+          CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
+          CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+      ), ad, regDetails)
+  }
+
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       val regDetails = cachingConnector.getExistingRegistrationDetails
@@ -94,53 +149,9 @@ trait InsurancePolicyOverviewController extends EstateController {
         val insurancePolicy: InsurancePolicy = optionInsurancePolicy
           .fold[InsurancePolicy](new InsurancePolicy(None, None, None, None, None, None, None, None, None,None))(identity)
 
-        val seqSection1 = createSectionFromYesNoValueQuestions(
-          id = "deceased",
-          title = Some(Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
-                                CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
-          linkUrl = routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad(),
-          sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value",
-          questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value",
-          questionLevelLinkAccessibilityTextNo = "page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value",
-          questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value",
-          questionAnswerExprYesNo = insurancePolicy.policyInDeceasedName,
-          questionAnswerExprValue = insurancePolicy.value,
-          questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.ownName.question",
-                                                CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-          questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
-        )
-        val seqSection2 = createSectionFromYesNoValueQuestions(
-          id = "joint",
-          title = Some(Messages("page.iht.application.assets.insurance.policies.overview.joint.title")),
-          linkUrl = routes.InsurancePolicyDetailsJointController.onPageLoad(),
-          sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value",
-          questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value",
-          questionLevelLinkAccessibilityTextNo = "page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value",
-          questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value",
-          questionAnswerExprYesNo = insurancePolicy.isJointlyOwned,
-          questionAnswerExprValue = insurancePolicy.shareValue,
-          questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
-                                              CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-          questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare")
-        )
-        val seqSection3 = createSectionFromYesNoQuestions(
-          id = "other",
-          title = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
-                           CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
-          linkUrl = routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
-          sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
-          questionAnswersPlusChangeLinks = section3YesNoItems(insurancePolicy, regDetails),
-          questionTitlesMessagesFileItems = Seq(
-            Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
-                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-            Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
-                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-            Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
-                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-            Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
-                      CommonHelper.getDeceasedNameOrDefaultString(regDetails))
-          ),
-          ad, regDetails)
+        val seqSection1 = createSection1(regDetails, insurancePolicy)
+        val seqSection2 = createSection2(regDetails, insurancePolicy)
+        val seqSection3 = createSection3(regDetails, ad, insurancePolicy)
 
         Ok(iht.views.html.application.asset.insurancePolicy.insurance_policies_overview(regDetails,
           Seq(seqSection1, seqSection2, seqSection3),

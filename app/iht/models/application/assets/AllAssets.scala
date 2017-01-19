@@ -81,7 +81,7 @@ case class AllAssets(action: Option[String]=None,
     else {Some(amountList.flatten.foldLeft(BigDecimal(0))(_ + _))}
   }
 
-  def areAllAssetsSectionsAnsweredNo = {
+  def areAllAssetsSectionsAnsweredNo: Boolean = {
     val assetsSectionsAnswers = Seq(money.flatMap(_.isOwned),
       money.flatMap(_.isOwnedShare),
       household.flatMap(_.isOwned),
@@ -102,8 +102,7 @@ case class AllAssets(action: Option[String]=None,
       other.flatMap(_.isOwned),
       properties.flatMap(_.isOwned)
     )
-
-    !assetsSectionsAnswers.contains(None) && !assetsSectionsAnswers.contains(Some(true))
+    assetsSectionsAnswers.forall(_.contains(false))
   }
 }
 

@@ -72,8 +72,11 @@ trait AboutDeceasedController extends RegistrationDeceasedControllerWithEditMode
         val boundForm = aboutDeceasedForm(dateOfDeath).bindFromRequest
         boundForm.fold(
           formWithErrors => {
-            if (mode == Mode.Standard) Future.successful(badRequestForSubmit(formWithErrors))
-            else Future.successful(badRequestForEditSubmit(formWithErrors))
+            if (mode == Mode.Standard) {
+              Future.successful(badRequestForSubmit(formWithErrors))
+            } else {
+              Future.successful(badRequestForEditSubmit(formWithErrors))
+            }
           },
           dd => {
             val optDDCopy = rd.deceasedDetails.map(_ copy(

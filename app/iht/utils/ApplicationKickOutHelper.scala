@@ -34,24 +34,24 @@ import scala.collection.immutable.ListMap
 
 object ApplicationKickOutHelper {
   private lazy val estateOverviewControllerURL =
-                                iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
+    iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
   lazy val SeenFirstKickoutPageCacheKey = "seenFirstKickoutPage"
 
   type FunctionListMap = ListMap[String, (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean]
 
   /**
-   * Key used to store last assets section visited before kicked out.
-   */
+    * Key used to store last assets section visited before kicked out.
+    */
   lazy val applicationLastSectionKey = "applicationLastSection"
 
   /**
-   * Key used to store last id saved before kicked out, e.g. property ID.
-   */
+    * Key used to store last id saved before kicked out, e.g. property ID.
+    */
   lazy val applicationLastIDKey = "applicationLastID"
 
   /**
-   * Constants used to represent a section in application.
-   */
+    * Constants used to represent a section in application.
+    */
   lazy val ApplicationSectionProperties = "Properties"
 
   lazy val ApplicationSectionAssetsMoneyDeceasedOwned = "MoneyDeceasedOwed"
@@ -94,8 +94,8 @@ object ApplicationKickOutHelper {
   lazy val ApplicationSectionAssetsOther = "Other"
 
   /**
-   * Kickouts mapped to application section.
-   */
+    * Kickouts mapped to application section.
+    */
   lazy val sections = ListMap(
     /* Assets */
     TrustsMoreThanOne -> ApplicationSectionAssetsMoreThanOneTrust,
@@ -121,8 +121,8 @@ object ApplicationKickOutHelper {
   lazy val KickoutSequenceWidowCheck = Seq(WidowedCheckNotWidowed, PartnerDiedBeforeMinDate)
 
   /**
-   * Get sequence of values for section.
-   */
+    * Get sequence of values for section.
+    */
   def getSectionTotal(applicationSection: Option[String], applicationID: Option[String], ad: ApplicationDetails): Seq[BigDecimal] = {
     def shareableValues: Option[ShareableBasicEstateElement] => Seq[BigDecimal] =
       _.fold[Seq[BigDecimal]](Nil)(xx => Seq(getOrZero(xx.value), getOrZero(xx.shareValue)))
@@ -130,14 +130,14 @@ object ApplicationKickOutHelper {
     def stockAndShareValues: Option[StockAndShare] => Seq[BigDecimal] =
       _.fold[Seq[BigDecimal]](Nil)(xx => Seq(getOrZero(xx.valueListed), getOrZero(xx.valueNotListed)))
 
-    applicationSection.fold[Seq[BigDecimal]](Nil){
+    applicationSection.fold[Seq[BigDecimal]](Nil) {
       case ApplicationSectionProperties => applicationID.map(id => ad.propertyList.filter(_.id == applicationID).map(_.value.getOrElse(BigDecimal(0))).sum)
-        .fold[Seq[BigDecimal]](Nil)(xx=> Seq(xx))
+        .fold[Seq[BigDecimal]](Nil)(xx => Seq(xx))
       case ApplicationSectionAssetsMoneyDeceasedOwned => Seq(getOrZero(ad.allAssets.flatMap(_.money).flatMap(xx => xx.value)))
       case ApplicationSectionAssetsMoneyJointlyOwned => Seq(getOrZero(ad.allAssets.flatMap(_.money).flatMap(xx => xx.shareValue)))
-      case ApplicationSectionAssetsHouseholdDeceasedOwned =>Seq(getOrZero(ad.allAssets.flatMap(_.household).flatMap(xx => xx.value)))
+      case ApplicationSectionAssetsHouseholdDeceasedOwned => Seq(getOrZero(ad.allAssets.flatMap(_.household).flatMap(xx => xx.value)))
       case ApplicationSectionAssetsHouseholdJointlyOwned => Seq(getOrZero(ad.allAssets.flatMap(_.household).flatMap(xx => xx.shareValue)))
-      case ApplicationSectionAssetsVehiclesDeceasedOwned =>Seq(getOrZero(ad.allAssets.flatMap(_.vehicles).flatMap(xx => xx.value)))
+      case ApplicationSectionAssetsVehiclesDeceasedOwned => Seq(getOrZero(ad.allAssets.flatMap(_.vehicles).flatMap(xx => xx.value)))
       case ApplicationSectionAssetsVehiclesJointlyOwned => Seq(getOrZero(ad.allAssets.flatMap(_.vehicles).flatMap(xx => xx.shareValue)))
       case ApplicationSectionAssetsPensionsValue => Seq(getOrZero(ad.allAssets.flatMap(_.privatePension).flatMap(xx => xx.value)))
       case ApplicationSectionAssetsStocksAndSharesListed => stockAndShareValues(ad.allAssets.flatMap(_.stockAndShare))
@@ -157,8 +157,8 @@ object ApplicationKickOutHelper {
   }
 
   /**
-   * The kickout source, for metrics.
-   */
+    * The kickout source, for metrics.
+    */
   lazy val sources = ListMap(
     /* Assets */
     TrustsMoreThanOne -> KickOutSource.ASSET,
@@ -219,8 +219,8 @@ object ApplicationKickOutHelper {
   )
 
   /**
-   * Summary paragraph displayed at the top of the page.
-   */
+    * Summary paragraph displayed at the top of the page.
+    */
   lazy val summary = ListMap(
     /* Assets */
     TrustsMoreThanOne -> "page.iht.application.assets.kickout.trustsMoreThanOne.summary",
@@ -282,8 +282,8 @@ object ApplicationKickOutHelper {
   )
 
   /**
-   * Bullet points to be displayed below the summary.
-   */
+    * Bullet points to be displayed below the summary.
+    */
   def summaryBullets(kickoutReason: String) =
     kickoutReason match {
       case KickOut.GiftsGivenInPast =>
@@ -295,8 +295,8 @@ object ApplicationKickOutHelper {
     }
 
   /**
-   * First paragraph of the "Next steps" section.
-   */
+    * First paragraph of the "Next steps" section.
+    */
   lazy val nextSteps1 = ListMap(
     /* Assets */
     TrustsMoreThanOne -> Messages("iht.estateReport.kickout.nextSteps"),
@@ -358,8 +358,8 @@ object ApplicationKickOutHelper {
   )
 
   /**
-   * Second paragraph of the "Next steps" section.
-   */
+    * Second paragraph of the "Next steps" section.
+    */
   lazy val nextSteps2 = ListMap(
     /* Assets */
     TrustsMoreThanOne -> Messages("iht.ifYouWantToChangeYOurAnswer"),
@@ -468,8 +468,8 @@ object ApplicationKickOutHelper {
   )
 
   /**
-   * True if the estate value and threshold value should be displayed on the kickout page for a given kickout.
-   */
+    * True if the estate value and threshold value should be displayed on the kickout page for a given kickout.
+    */
   def shoulddisplayEstateValueAndThreshold(kickOutReason: String) = {
     val displayEstateValueAndThreshold = Set(TnrbEstateMoreThanThreshold,
       AssetsTotalValueMoreThanThresholdAfterExemption, WidowedCheckNotWidowed, PartnerDiedBeforeMinDate,
@@ -477,37 +477,63 @@ object ApplicationKickOutHelper {
     displayEstateValueAndThreshold.contains(kickOutReason)
   }
 
+  private val unParameterizedSectionCalls = ListMap[String,Option[Call]](
+    ApplicationSectionAssetsMoneyOwed -> Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),
+    ApplicationSectionAssetsMoneyDeceasedOwned ->
+      Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad()),
+    ApplicationSectionAssetsHouseholdDeceasedOwned ->
+      Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad()),
+    ApplicationSectionAssetsHouseholdJointlyOwned ->
+      Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad()),
+    ApplicationSectionAssetsVehiclesDeceasedOwned ->
+      Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad()),
+    ApplicationSectionAssetsVehiclesJointlyOwned ->
+      Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad()),
+    ApplicationSectionAssetsPensions ->
+      Some(iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onPageLoad()),
+    ApplicationSectionAssetsPensionsValue ->
+      Some(iht.controllers.application.assets.pensions.routes.PensionsValueController.onPageLoad()),
+    ApplicationSectionAssetsStocksAndSharesListed ->
+      Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onPageLoad()),
+    ApplicationSectionAssetsStocksAndSharesNotListed ->
+      Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onPageLoad()),
+    ApplicationSectionAssetsInsurancePoliciesJointlyOwned ->
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onPageLoad()),
+    ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased ->
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad()),
+    ApplicationSectionAssetsBusinessInterests ->
+      Some(iht.controllers.application.assets.routes.BusinessInterestsController.onPageLoad()),
+    ApplicationSectionAssetsNominatedAssets ->
+      Some(iht.controllers.application.assets.routes.NominatedController.onPageLoad()),
+    ApplicationSectionAssetsForeign ->
+      Some(iht.controllers.application.assets.routes.ForeignController.onPageLoad()),
+    ApplicationSectionAssetsMoneyJointlyOwned ->
+      Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad()),
+    ApplicationSectionAssetsOther ->
+      Some(iht.controllers.application.assets.routes.OtherController.onPageLoad()),
+    ApplicationSectionGiftsWithReservation ->
+      Some(iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onPageLoad()),
+    ApplicationSectionExemptionsSpouse ->
+      Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad()),
+    ApplicationSectionAssetsInsurancePolicies7Years ->
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),
+    ApplicationSectionAssetsInsurancePoliciesAnnuities ->
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onPageLoad()),
+    ApplicationSectionAssetsInsurancePoliciesMoreThanMax ->
+      Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad())
+  )
+
   private def sectionCall(applicationSection: String, lastID: Option[String]): Option[Call] = {
-    applicationSection match {
-      case ApplicationSectionProperties => lastID.map(li => iht.controllers.application.assets.properties.routes.PropertyValueController.onEditPageLoadForKickout(li))
-      case ApplicationSectionAssetsMoneyOwed => Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad())
-      case ApplicationSectionAssetsMoneyDeceasedOwned => Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad())
-      case ApplicationSectionAssetsHouseholdDeceasedOwned => Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad())
-      case ApplicationSectionAssetsHouseholdJointlyOwned => Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad())
-      case ApplicationSectionAssetsVehiclesDeceasedOwned => Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad())
-      case ApplicationSectionAssetsVehiclesJointlyOwned => Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad())
-      case ApplicationSectionAssetsPensions => Some(iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onPageLoad())
-      case ApplicationSectionAssetsPensionsValue => Some(iht.controllers.application.assets.pensions.routes.PensionsValueController.onPageLoad())
-      case ApplicationSectionAssetsStocksAndSharesListed =>
-        Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onPageLoad())
-      case ApplicationSectionAssetsStocksAndSharesNotListed =>
-        Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onPageLoad())
-      case ApplicationSectionAssetsInsurancePoliciesJointlyOwned =>
-        Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onPageLoad())
-      case ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased =>
-        Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad())
-      case ApplicationSectionAssetsBusinessInterests => Some(iht.controllers.application.assets.routes.BusinessInterestsController.onPageLoad())
-      case ApplicationSectionAssetsNominatedAssets => Some(iht.controllers.application.assets.routes.NominatedController.onPageLoad())
-      case ApplicationSectionAssetsForeign => Some(iht.controllers.application.assets.routes.ForeignController.onPageLoad())
-      case ApplicationSectionAssetsMoneyJointlyOwned => Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad())
-      case ApplicationSectionAssetsOther => Some(iht.controllers.application.assets.routes.OtherController.onPageLoad())
-      case ApplicationSectionGiftsWithReservation => Some(iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onPageLoad())
-      case ApplicationSectionGiftDetails => lastID.map(li => iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoadForKickout(li))
-      case ApplicationSectionExemptionsSpouse => Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad())
-      case ApplicationSectionAssetsInsurancePolicies7Years => Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad())
-      case ApplicationSectionAssetsInsurancePoliciesAnnuities => Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onPageLoad())
-      case ApplicationSectionAssetsInsurancePoliciesMoreThanMax => Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad())
-      case _ => None
+    unParameterizedSectionCalls.get(applicationSection) match {
+      case None =>
+        applicationSection match {
+          case ApplicationSectionProperties =>
+            lastID.map(li => iht.controllers.application.assets.properties.routes.PropertyValueController.onEditPageLoadForKickout(li))
+          case ApplicationSectionGiftDetails =>
+            lastID.map(li => iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoadForKickout(li))
+          case _ => None
+        }
+      case Some(optionCall) => optionCall
     }
   }
 
@@ -515,11 +541,11 @@ object ApplicationKickOutHelper {
 
 
   /**
-   * Return link urls, as a ListMap of section to Either:
-   * Left: a fixed url.
-   * Right: None indicates the url should be the last application section and id saved, else url to which the iht ref
-   * is appended.
-   */
+    * Return link urls, as a ListMap of section to Either:
+    * Left: a fixed url.
+    * Right: None indicates the url should be the last application section and id saved, else url to which the iht ref
+    * is appended.
+    */
   lazy val returnLinkUrls: ListMap[String, Either[Call, Option[String]]] = ListMap(
     /* Assets */
     TrustsMoreThanOne -> Left(iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onPageLoad()),
@@ -571,20 +597,21 @@ object ApplicationKickOutHelper {
   )
 
   /**
-   * The url for the "return" link.
-   */
+    * The url for the "return" link.
+    */
   def returnLinkUrl(kickoutReason: String, ihtRef: String, applicationLastSection: Option[String], applicationLastID: Option[String]): Option[Call] = {
     val returnLinkFound: Option[(String, Either[Call, Option[String]])] = returnLinkUrls.find(_._1 == kickoutReason)
     returnLinkFound.map {
-      rl => rl._2.fold[Call](
-        callFound => callFound,
-        stringOptionFound => {
-          stringOptionFound.fold {
-            val lastSectionAsCall: Option[Call] = applicationLastSection.flatMap(ls => sectionCall(ls, applicationLastID))
-            lastSectionAsCall.fold(Call("GET", estateOverviewControllerURL + ihtRef))(identity)
-          }(stringFound => Call.apply("GET", stringFound + ihtRef))
-        }
-      )
+      rl =>
+        rl._2.fold[Call](
+          callFound => callFound,
+          stringOptionFound => {
+            stringOptionFound.fold {
+              val lastSectionAsCall: Option[Call] = applicationLastSection.flatMap(ls => sectionCall(ls, applicationLastID))
+              lastSectionAsCall.fold(Call("GET", estateOverviewControllerURL + ihtRef))(identity)
+            }(stringFound => Call.apply("GET", stringFound + ihtRef))
+          }
+        )
     }
   }
 
@@ -597,13 +624,14 @@ object ApplicationKickOutHelper {
 
   private lazy val checksActiveSectionOnlyMaxValue: FunctionListMap = ListMap(
     SingleSectionMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      sectionTotal.exists( _ > IhtProperties.validationTotalAssetMaxValue ) }
+      sectionTotal.exists(_ > IhtProperties.validationTotalAssetMaxValue)
+    }
   )
 
   /**
-   * The kickout logic for those kickouts belonging to the estate sections of an application, i.e. assets, gifts and
-   * exemptions.
-   */
+    * The kickout logic for those kickouts belonging to the estate sections of an application, i.e. assets, gifts and
+    * exemptions.
+    */
   lazy val checksEstate: FunctionListMap = ListMap(
     PensionDisposedLastTwoYears -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.privatePension.flatMap(_.isChanged)).fold(false)(_.booleanValue)
@@ -613,11 +641,11 @@ object ApplicationKickOutHelper {
         flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
     },
     AnnuitiesOnInsurance -> { (registrationDetails, applicationDetails, sectionTotal) =>
-        applicationDetails.allAssets.flatMap(_.insurancePolicy
+      applicationDetails.allAssets.flatMap(_.insurancePolicy
         .flatMap(_.isAnnuitiesBought)).fold(false)(_.booleanValue)
     },
     InTrustLessThanSevenYears -> { (registrationDetails, applicationDetails, sectionTotal) =>
-        applicationDetails.allAssets.flatMap(_.insurancePolicy.flatMap(_.isInTrust)).fold(false)(_.booleanValue) &&
+      applicationDetails.allAssets.flatMap(_.insurancePolicy.flatMap(_.isInTrust)).fold(false)(_.booleanValue) &&
         applicationDetails.allAssets.flatMap(_.insurancePolicy.flatMap(_.isInsurancePremiumsPayedForSomeoneElse))
           .fold(false)(_.booleanValue)
     },
@@ -665,30 +693,35 @@ object ApplicationKickOutHelper {
       applicationDetails.allAssets.flatMap(_.insurancePolicy.flatMap(_.moreThanMaxValue)).fold(false)(identity)
     },
     GiftsWithReservationOfBenefit -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      applicationDetails.allGifts.flatMap(_.isReservation).fold(false)(_.booleanValue) },
+      applicationDetails.allGifts.flatMap(_.isReservation).fold(false)(_.booleanValue)
+    },
     GiftsGivenInPast -> { (registrationDetails, applicationDetails, sectionTotal) =>
-    applicationDetails.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_.booleanValue) },
+      applicationDetails.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_.booleanValue)
+    },
     GiftsToTrust -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      applicationDetails.allGifts.flatMap(_.isToTrust).fold(false)(_.booleanValue) },
+      applicationDetails.allGifts.flatMap(_.isToTrust).fold(false)(_.booleanValue)
+    },
     GiftsMaxValue -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      applicationDetails.totalPastYearsGiftsValueExcludingExemptions > IhtProperties.giftsMaxValue },
+      applicationDetails.totalPastYearsGiftsValueExcludingExemptions > IhtProperties.giftsMaxValue
+    },
     PartnerHomeInUK -> { (registrationDetails, applicationDetails, sectionTotal) =>
       !applicationDetails.allExemptions.flatMap(_.partner.flatMap(_.isPartnerHomeInUK)).fold(true)(identity)
     }
   )
 
   /**
-   * The kickout logic for those kickouts belonging to the widow check section of an application.
-   */
+    * The kickout logic for those kickouts belonging to the widow check section of an application.
+    */
   lazy val checksWidow: FunctionListMap = ListMap(
     WidowedCheckNotWidowed -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      !applicationDetails.widowCheck.flatMap( _.widowed ).fold(true)(identity)
+      !applicationDetails.widowCheck.flatMap(_.widowed).fold(true)(identity)
     },
     PartnerDiedBeforeMinDate -> { (registrationDetails, applicationDetails, sectionTotal) => {
       def preDeceasedDiedEligible(x: LocalDate) =
         x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
           x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
-      applicationDetails.widowCheck.flatMap(_.dateOfPreDeceased).fold(false){
+
+      applicationDetails.widowCheck.flatMap(_.dateOfPreDeceased).fold(false) {
         dateOfPreDeceased => !preDeceasedDiedEligible(dateOfPreDeceased)
       }
     }
@@ -699,11 +732,12 @@ object ApplicationKickOutHelper {
     * The kickout logic for those kickouts belonging to the widow check section of an application.
     */
   lazy val checksWidowOpc: FunctionListMap = ListMap(
-   PartnerDiedBeforeMinDateOpc -> { (registrationDetails, applicationDetails, sectionTotal) => {
+    PartnerDiedBeforeMinDateOpc -> { (registrationDetails, applicationDetails, sectionTotal) => {
       def preDeceasedDiedEligible(x: LocalDate) =
         x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
           x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
-      applicationDetails.widowCheck.flatMap(_.dateOfPreDeceased).fold(false){
+
+      applicationDetails.widowCheck.flatMap(_.dateOfPreDeceased).fold(false) {
         dateOfPreDeceased => !preDeceasedDiedEligible(dateOfPreDeceased)
       }
     }
@@ -711,41 +745,43 @@ object ApplicationKickOutHelper {
   )
 
   /**
-   * The kickout logic for those kickouts belonging to the Tnrb section of an application.
-   */
+    * The kickout logic for those kickouts belonging to the Tnrb section of an application.
+    */
   lazy val checksBackend: FunctionListMap = ListMap(
     TnrbEstateMoreThanThreshold -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.netValueAfterExemptionAndDebtsForPositiveExemption >
-        2 * IhtProperties.tnrbThresholdLimit },
-    AssetsTotalValueMoreThanThresholdAfterExemption -> {(registrationDetails, applicationDetails, sectionTotal) =>
+        2 * IhtProperties.tnrbThresholdLimit
+    },
+    AssetsTotalValueMoreThanThresholdAfterExemption -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.netValueAfterExemptionAndDebtsForPositiveExemption >
         IhtProperties.exemptionsThresholdValue && applicationDetails.increaseIhtThreshold.isEmpty &&
-        CommonHelper.isExemptionsCompleted(registrationDetails, applicationDetails)}
+        CommonHelper.isExemptionsCompleted(registrationDetails, applicationDetails)
+    }
   )
 
   /**
-   * The kickout logic for those kickouts belonging to the Tnrb eligibility section of an application.
-   */
+    * The kickout logic for those kickouts belonging to the Tnrb eligibility section of an application.
+    */
   lazy val checksTnrbEligibility: FunctionListMap = ListMap(
-    PartnerNotLivingInUk -> {(registrationDetails, applicationDetails, sectionTotal) =>
+    PartnerNotLivingInUk -> { (registrationDetails, applicationDetails, sectionTotal) =>
       !applicationDetails.increaseIhtThreshold.flatMap(_.isPartnerLivingInUk).fold(true)(identity)
     },
-    GiftMadeBeforeDeath  -> {(registrationDetails, applicationDetails, sectionTotal) =>
+    GiftMadeBeforeDeath -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.increaseIhtThreshold.flatMap(_.isGiftMadeBeforeDeath).fold(false)(identity)
     },
-    StateClaimAnyBusiness -> {(registrationDetails, applicationDetails, sectionTotal) =>
+    StateClaimAnyBusiness -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.increaseIhtThreshold.flatMap(_.isStateClaimAnyBusiness).fold(false)(identity)
     },
-    PartnerGiftWithResToOther  -> {(registrationDetails, applicationDetails, sectionTotal) =>
+    PartnerGiftWithResToOther -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.increaseIhtThreshold.flatMap(_.isPartnerGiftWithResToOther).fold(false)(identity)
     },
-    PartnerBenFromTrust  -> {(registrationDetails, applicationDetails, sectionTotal) =>
+    PartnerBenFromTrust -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.increaseIhtThreshold.flatMap(_.isPartnerBenFromTrust).fold(false)(identity)
     },
-    EstateBelowIhtThresholdApplied  -> {(registrationDetails, applicationDetails, sectionTotal) =>
+    EstateBelowIhtThresholdApplied -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.increaseIhtThreshold.flatMap(_.isEstateBelowIhtThresholdApplied).fold(false)(!_)
     },
-    JointAssetPassed  -> {(registrationDetails, applicationDetails, sectionTotal) =>
+    JointAssetPassed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       !applicationDetails.increaseIhtThreshold.flatMap(_.isJointAssetPassed).fold(true)(identity)
     }
   )
@@ -753,15 +789,15 @@ object ApplicationKickOutHelper {
   lazy val checksWidowAndTnrbEligibility = checksWidow ++ checksWidowOpc ++ checksTnrbEligibility
 
   /**
-   * Checks for the specified kickouts, prioritizing the application section if specified, and returns the kickout reason
-   * for the first found. The registrationDetails, applicationDetails and sectionTotal objects are passed into each
-   * kickout function to assist evaluation.
-   */
+    * Checks for the specified kickouts, prioritizing the application section if specified, and returns the kickout reason
+    * for the first found. The registrationDetails, applicationDetails and sectionTotal objects are passed into each
+    * kickout function to assist evaluation.
+    */
   def check(checks: FunctionListMap = checksEstate,
-                    prioritySection: Option[String],
-                    registrationDetails: RegistrationDetails,
-                    applicationDetails: ApplicationDetails,
-                    sectionTotal: Seq[BigDecimal] ): Option[String] = {
+            prioritySection: Option[String],
+            registrationDetails: RegistrationDetails,
+            applicationDetails: ApplicationDetails,
+            sectionTotal: Seq[BigDecimal]): Option[String] = {
 
     def getSection(kickout: String): Option[String] = sections.find(_._1 == kickout).map(_._2)
 
@@ -780,28 +816,28 @@ object ApplicationKickOutHelper {
     }
 
     val kickoutReason = CommonHelper.findFirstTrue(registrationDetails, applicationDetails, sectionTotal, getChecks)
-    Logger.debug( "Kickout check returns: " + kickoutReason)
+    Logger.debug("Kickout check returns: " + kickoutReason)
     kickoutReason
   }
 
   /**
-   * Checks for application kickouts, prioritizing the application section if specified, and using the
-   * (currently either property or gift) ID, if specified, to retrieve a section-specific value.
-   * An ApplicationDetails object is then returned, with the kickout reason and status updated.
-   * Priority section is irrelevant where no section-related prioritization is necessary for the kickouts to be run.
-   * ID for section total is relevant only for kickouts which are to be applied to a specific section for a specific
-   * ID, currently only for the kickout logic stored in checksActiveSectionOnlyMaxValue, above.
-   */
+    * Checks for application kickouts, prioritizing the application section if specified, and using the
+    * (currently either property or gift) ID, if specified, to retrieve a section-specific value.
+    * An ApplicationDetails object is then returned, with the kickout reason and status updated.
+    * Priority section is irrelevant where no section-related prioritization is necessary for the kickouts to be run.
+    * ID for section total is relevant only for kickouts which are to be applied to a specific section for a specific
+    * ID, currently only for the kickout logic stored in checksActiveSectionOnlyMaxValue, above.
+    */
   def updateKickout(checks: FunctionListMap = ApplicationKickOutHelper.checksEstate,
                     prioritySection: Option[String] = None,
                     registrationDetails: RegistrationDetails,
                     applicationDetails: ApplicationDetails,
                     idForSectionTotal: Option[String] = None): ApplicationDetails = {
-    val kickoutReason = ApplicationKickOutHelper.check(checks=checks,
-      prioritySection=prioritySection,
-      registrationDetails=registrationDetails,
-      applicationDetails=applicationDetails,
-      sectionTotal=ApplicationKickOutHelper.getSectionTotal(prioritySection, idForSectionTotal, applicationDetails))
+    val kickoutReason = ApplicationKickOutHelper.check(checks = checks,
+      prioritySection = prioritySection,
+      registrationDetails = registrationDetails,
+      applicationDetails = applicationDetails,
+      sectionTotal = ApplicationKickOutHelper.getSectionTotal(prioritySection, idForSectionTotal, applicationDetails))
 
     val status = kickoutReason.fold(AppStatus.InProgress)(_ => AppStatus.KickOut)
     applicationDetails copy(status = status, kickoutReason = kickoutReason)
