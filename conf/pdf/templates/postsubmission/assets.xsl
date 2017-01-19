@@ -9,7 +9,7 @@
     <xsl:param name="pdfFormatter"/>
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="assetsTotal"/>
-    <xsl:include href="pdf/templates/application/return/trusts.xsl"/>
+    <xsl:include href="pdf/templates/postsubmission/trusts.xsl"/>
     <xsl:template name="assets">
         <xsl:param name="value"/>
         <xsl:choose>

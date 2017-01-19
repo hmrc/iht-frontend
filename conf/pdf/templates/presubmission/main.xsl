@@ -7,11 +7,11 @@
 
     <xsl:param name="translator"/>
     <xsl:param name="versionParam" select="'1.0'"/>
-    <xsl:param name="declarationDate"/>
+    <xsl:param name="applicantName"/>
 
-    <xsl:include href="pdf/templates/iht-component-templates.xsl"/>
-    <xsl:include href="pdf/templates/registration/case-details.xsl"/>
-    <xsl:include href="pdf/templates/application/return/iht-return.xsl"/>
+    <xsl:include href="pdf/templates/common/iht-component-templates.xsl"/>
+    <xsl:include href="pdf/templates/common/registration/case-details.xsl"/>
+    <xsl:include href="pdf/templates/presubmission/application-details.xsl"/>
 
     <xsl:template match="/">
         <fo:root font-family="OpenSans">
@@ -25,7 +25,6 @@
                     <fo:region-after extent="2.4cm"/>
                 </fo:simple-page-master>
             </fo:layout-master-set>
-
             <x:xmpmeta xmlns:x="adobe:ns:meta/">
                 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
                     <rdf:Description rdf:about=""
@@ -67,10 +66,15 @@
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="12" font-weight="normal" space-before="0.5cm">
                         <xsl:value-of
-                                select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.reference'),' ', $ihtReference)"/>
-                        <fo:block space-before="0.5cm">
-                            <xsl:value-of select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.declaration.date.text'),' ', $declarationDate)"/>
-                        </fo:block>
+                                select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.reference'), ' ', $ihtReference)"/>
+                    </fo:block>
+
+                    <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                        <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
+                    </fo:block>
+
+                    <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.p2')"/>
                     </fo:block>
                     <xsl:apply-templates/>
                 </fo:flow>

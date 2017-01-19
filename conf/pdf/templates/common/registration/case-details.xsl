@@ -8,9 +8,9 @@
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="ihtReference"/>
 
-    <xsl:include href="pdf/templates/registration/deceased-details.xsl"/>
-    <xsl:include href="pdf/templates/registration/applicant-details.xsl"/>
-    <xsl:include href="pdf/templates/registration/executors-details.xsl"/>
+    <xsl:include href="pdf/templates/common/registration/deceased-details.xsl"/>
+    <xsl:include href="pdf/templates/common/registration/applicant-details.xsl"/>
+    <xsl:include href="pdf/templates/common/registration/executors-details.xsl"/>
 
     <xsl:template match="RegistrationDetails">
         <xsl:comment>Deceased Details section starts</xsl:comment>
