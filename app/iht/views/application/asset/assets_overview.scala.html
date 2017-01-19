@@ -46,7 +46,7 @@ headingName = deceasedName,
 browserTitle = Some(Messages("iht.estateReport.assets.inEstate")),
 isFullWidth=false) {
 
-<p id="assets-guidance1" class="lede">@Messages("page.iht.application.assets.overview.guidance1", deceasedName)</p>
+<p id="assets-guidance1" class="lede">@Html(Messages("page.iht.application.assets.overview.guidance1", ihtHelpers.name(deceasedName)))</p>
 <p id="assets-guidance2">@Messages("iht.estateReport.completeEverySection")</p>
 
 <ul id="overview-table">

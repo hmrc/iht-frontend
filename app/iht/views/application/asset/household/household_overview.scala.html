@@ -28,6 +28,8 @@
 @(household:Option[ShareableBasicEstateElement],
   registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @getLinkScreenReader(household: Option[ShareableBasicEstateElement], changeText: String, noValueText: String) = @{
     if (household.flatMap(_.isOwned.map(identity))) {
         changeText
@@ -50,8 +52,7 @@ isFullWidth=false
                     "household-deceased-owned-section",
                     household.flatMap(_.isOwned),
                     generic_overview_table_heading_item(id = "deceased-own-heading",
-                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
-                                                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",deceasedName),
                         questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                                                             Messages("iht.the.deceased")),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
@@ -62,8 +63,7 @@ isFullWidth=false
                         isAnswerValue = household.flatMap(_.isOwned).isEmpty
                         ),
                         generic_overview_table_item(id = "deceased-own-question",
-                            questionText = Messages("iht.estateReport.assets.household.ownName.question",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                            questionText = Messages("iht.estateReport.assets.household.ownName.question",deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.household.ownName.question",
                                                                 Messages("iht.the.deceased")),
                             questionCategory= "change",
@@ -88,8 +88,7 @@ isFullWidth=false
                     "household-joint-owned-section",
                     household.flatMap(_.isOwnedShare),
                     generic_overview_table_heading_item(id = "deceased-shared-heading",
-                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
-                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",deceasedName),
                         questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
                                                     Messages("iht.the.deceased")),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
@@ -100,8 +99,7 @@ isFullWidth=false
                         isAnswerValue = household.flatMap(_.isOwnedShare).isEmpty
                         ),
                         generic_overview_table_item(id = "deceased-shared-question",
-                            questionText = Messages("iht.estateReport.assets.household.joint.question",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                            questionText = Messages("iht.estateReport.assets.household.joint.question",deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.household.joint.question",
                                                                 Messages("iht.the.deceased")),
                             questionCategory= "change",

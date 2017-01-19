@@ -27,14 +27,15 @@
 @(stocks:Option[StockAndShare],
   registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.assets.stocksAndShares"),
 browserTitle = Some(Messages("iht.estateReport.assets.stocksAndShares")),
 isFullWidth=false
 ) {
 
 <div id="property-description">
-    <p class="lede">@Messages("page.iht.application.assets.stocksAndShares.overview.guidance",
-                         CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p class="lede">@Html(Messages("page.iht.application.assets.stocksAndShares.overview.guidance", deceasedName))</p>
     <p>@Messages("page.iht.application.assets.stocksAndShares.overview.guidance2")</p>
 </div>
 
@@ -50,8 +51,7 @@ isFullWidth=false
                         stocks.flatMap(_.isListed).isEmpty
                         ),
                         generic_overview_table_item(id = "stocks-and-shares-listed-question",
-                            questionText = Messages("iht.estateReport.assets.stocksAndShares.listed.question",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                            questionText = Messages("iht.estateReport.assets.stocksAndShares.listed.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.stocksAndShares.listed.question",
                                                                 Messages("iht.the.deceased")),
                             questionCategory= "change",
@@ -82,8 +82,7 @@ isFullWidth=false
                         stocks.flatMap(_.isNotListed).isEmpty
                         ),
                         generic_overview_table_item(id = "stocks-and-shares-notListed-question",
-                            questionText = Messages("iht.estateReport.assets.stocksAndShares.notListed.question",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                            questionText = Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.stocksAndShares.notListed.question",
                                                                 Messages("iht.the.deceased")),
                             questionCategory= "change",
@@ -103,9 +102,9 @@ isFullWidth=false
         }
 
     <div class="form-field form-field--submit">
-        @registrationDetails.deceasedDetails.map{ dd=>
-                 @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
+
+                 @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedName),
                                     Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
-        }
+
     </div>
 }

@@ -25,6 +25,8 @@
 @import iht.constants.Constants
 @import iht.utils.CommonHelper
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.assets.other.title"),
     browserTitle = Some(Messages("page.iht.application.assets.other.browserTitle")),
     isFullWidth = false
@@ -34,13 +36,11 @@
     @helpers.form(action = iht.controllers.application.assets.routes.OtherController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Messages("page.iht.application.assets.other.description.p1")</p>
-        <p>@Messages("page.iht.application.assets.other.description.p2",
-                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p>@Html(Messages("page.iht.application.assets.other.description.p2", deceasedName))</p>
 
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
-            questionLabel= Messages("page.iht.application.assets.other.isOwned",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+            questionLabel= Messages("page.iht.application.assets.other.isOwned",deceasedName),
             inputTextLabel = Messages("page.iht.application.assets.other.inputLabel1"),
             sharableElementForm = otherForm,
             clearTargetInput = Some("value")

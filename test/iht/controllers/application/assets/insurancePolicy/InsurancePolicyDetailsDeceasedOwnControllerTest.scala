@@ -169,7 +169,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
     "display a yes or no question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.ownName.question",
+      contentAsString(result).replace("\n","") should include(Messages("iht.estateReport.insurancePolicies.ownName.question",
         CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
     }
 

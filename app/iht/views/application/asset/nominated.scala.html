@@ -26,6 +26,8 @@
 @(nominatedForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.assets.nominated"),
 browserTitle = Some(Messages("page.iht.application.assets.nominated.browserTitle")),
 isFullWidth=false
@@ -36,8 +38,7 @@ isFullWidth=false
     @helpers.form(action = iht.controllers.application.assets.routes.NominatedController.onSubmit,'autoComplete -> "off") {
 
         <div id="nominated-description">
-            <p class="lede">@Messages("page.iht.application.assets.nominated.description.p1",
-                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+            <p class="lede">@Html(Messages("page.iht.application.assets.nominated.description.p1",deceasedName))</p>
             <p>@Messages("page.iht.application.assets.nominated.description.p2")</p>
             <p>@Messages("page.iht.application.assets.nominated.description.p3")</p>
             <p>@Messages("page.iht.application.assets.nominated.description.p4")</p>
@@ -45,8 +46,7 @@ isFullWidth=false
 
         @ihtHelpers.generic_estate_element_assets(
                 assetType = Constants.AssetTypeSingle,
-                questionLabel= Messages("page.iht.application.assets.nominated.question",
-                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                questionLabel= Messages("page.iht.application.assets.nominated.question",deceasedName),
                 inputTextLabel = Messages("page.iht.application.assets.nominated.inputLabel1"),
                 sharableElementForm = nominatedForm,
                 clearTargetInput = Some("value")

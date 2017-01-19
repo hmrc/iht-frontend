@@ -25,6 +25,8 @@
 @(businessInterestForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.assets.businessInterests.title"),
     browserTitle = Some(Messages("page.iht.application.assets.businessInterest.browserTitle")),
     isFullWidth = false
@@ -32,15 +34,12 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
     @ihtHelpers.error_summary_override_keys(businessInterestForm, Constants.AppSectionBusinessInterest)
 
     @helpers.form(action = iht.controllers.application.assets.routes.BusinessInterestsController.onSubmit, 'autoComplete -> "off") {
-        <p class="lede">@Messages("page.iht.application.assets.businessInterest.description.p1",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-        <p>@Messages("page.iht.application.assets.businessInterest.description.p2",
-                       CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p class="lede">@Html(Messages("page.iht.application.assets.businessInterest.description.p1",deceasedName))</p>
+        <p>@Html(Messages("page.iht.application.assets.businessInterest.description.p2",deceasedName))</p>
 
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
-            questionLabel= Messages("page.iht.application.assets.businessInterest.isOwned",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+            questionLabel= Messages("page.iht.application.assets.businessInterest.isOwned",deceasedName),
             inputTextLabel = Messages("page.iht.application.assets.businessInterest.inputLabel1"),
             sharableElementForm = businessInterestForm,
             inputTextHelp = Messages("page.iht.application.assets.businessInterest.hint"),

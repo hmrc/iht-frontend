@@ -28,6 +28,8 @@
 @(vehicles:Option[ShareableBasicEstateElement],
   registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @getLinkScreenReader(element: Option[_], changeText: String, noValueText: String) = @{
     element match {
         case Some(_) => changeText
@@ -41,9 +43,7 @@ isFullWidth=false
 ) {
 
 <div id="property-description">
-    <p class="lede">@Messages("page.iht.application.assets.vehicles.overview.guidance",
-        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
-        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p class="lede">@Html(Messages("page.iht.application.assets.vehicles.overview.guidance", deceasedName, deceasedName))</p>
 </div>
 
         @{
@@ -51,7 +51,7 @@ isFullWidth=false
                     "vehicles-deceased-owned-section",
                     vehicles.flatMap(_.isOwned),
                     generic_overview_table_heading_item("deceased-own-heading",
-                        Messages("iht.estateReport.assets.vehiclesOwned", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                        Messages("iht.estateReport.assets.vehiclesOwned", deceasedName),
                         Messages("iht.estateReport.assets.vehiclesOwned", Messages("iht.the.deceased")),
                         Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(vehicles.flatMap(_.isOwned.map(identity)),
@@ -60,8 +60,7 @@ isFullWidth=false
                         vehicles.flatMap(_.isOwned).isEmpty
                         ),
                         generic_overview_table_item(id = "deceased-own-question",
-                            questionText = Messages("iht.estateReport.assets.vehicles.ownName.question",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                            questionText = Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.ownName.question",
                                                                 Messages("iht.the.deceased")),
                             questionCategory= "change",
@@ -85,8 +84,7 @@ isFullWidth=false
                     "vehicles-joint-owned-section",
                     vehicles.flatMap(_.isOwnedShare),
                     generic_overview_table_heading_item("deceased-shared-heading",
-                        Messages("page.iht.application.assets.vehicles.overview.joint.title",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                        Messages("page.iht.application.assets.vehicles.overview.joint.title", deceasedName),
                         Messages("page.iht.application.assets.vehicles.overview.joint.title", Messages("iht.the.deceased")),
                         Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),
                         getLinkScreenReader(
@@ -96,8 +94,7 @@ isFullWidth=false
                         vehicles.flatMap(_.isOwnedShare).isEmpty
                         ),
                         generic_overview_table_item(id = "deceased-shared-question",
-                            questionText = Messages("iht.estateReport.assets.vehicles.jointly.owned.question",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                            questionText = Messages("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.jointly.owned.question",
                                                                 Messages("iht.the.deceased")),
                             questionCategory= "change",

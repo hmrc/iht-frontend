@@ -31,7 +31,7 @@ isFullWidth=false){
     @ihtHelpers.error_summary(propertiesForm)
     @helpers.form(action = iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-        <p class="lede" id="properties-question-description">@Messages("page.iht.application.assets.properties.question.p1", getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p class="lede" id="properties-question-description">@Messages("page.iht.application.assets.properties.question.p1", getDeceasedNameOrDefaultString(registrationDetails, true))</p>
 
         @ihtHelpers.inputYesNoRadioGroup(
         propertiesForm("isOwned"),

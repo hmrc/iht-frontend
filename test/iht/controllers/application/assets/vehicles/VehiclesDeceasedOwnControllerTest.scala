@@ -149,7 +149,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesDeceasedOwnController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.vehiclesOwned", deceasedName))
+      contentAsString(result).replace("\n","") should include (Messages("iht.estateReport.assets.vehiclesOwned", deceasedName))
     }
   }
 }

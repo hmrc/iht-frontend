@@ -42,7 +42,7 @@ showStatus: Boolean = true
     @section.title.map{ sectionTitle =>
     <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
         <div class="tabular-data__data tabular-data__data--7-12">
-            <h2 class="font-xsmall bold">@Messages(sectionTitle)</h2>
+            <h2 class="font-xsmall bold">@Html(Messages(sectionTitle))</h2>
         </div>
         @if(section.link.linkText.length>0){
             @if(showStatus){

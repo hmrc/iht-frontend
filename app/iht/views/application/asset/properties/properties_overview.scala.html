@@ -35,10 +35,10 @@ isFullWidth=false
 ) {
 
 
-    <p class="lede">@Messages("page.iht.application.assets.deceased-permanent-home.description.p1",
-                              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("page.iht.application.assets.deceased-permanent-home.description.p2",
-                  CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p class="lede">@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p1",
+                              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+    <p>@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p2",
+                  CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
 
 
@@ -46,7 +46,7 @@ isFullWidth=false
         <ul>
         @generic_overview_table_item(id = "home-in-uk",
             questionText = Messages("page.iht.application.assets.properties.question.question",
-                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             questionScreenReaderText= Messages("page.iht.application.assets.properties.question.question", Messages("iht.the.deceased")),
             questionCategory= "change",
             answerValue= Messages(getBooleanDisplayValue(properties.flatMap(_.isOwned.map(x=>x)))),
