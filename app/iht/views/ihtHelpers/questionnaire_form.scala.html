@@ -24,7 +24,7 @@
 
 @helpers.form(postRoute) {
 
-    @ihtHelpers.inputRadioGroup(
+    @ihtHelpers.input_radio_group(
         form("feelingAboutExperience"),
         questionnaireFeelingAboutExperience.toSeq,
         '_legend -> Messages("page.iht.questionnaire.feelingAboutExperience.question"),
@@ -35,7 +35,7 @@
         '_legendClass -> "form-label-bold"
     )
 
-    @ihtHelpers.inputRadioGroup(
+    @ihtHelpers.input_radio_group(
         form("easytouse"),
         questionnaireEasyToUse.toSeq,
         '_legend -> Messages("page.iht.questionnaire.easy-to-use.question"),
@@ -59,7 +59,7 @@
     <p><strong>@Messages("page.iht.questionnaire.fullName.p1")</strong></p>
     <p>@Messages("page.iht.questionnaire.fullName.p2")</p>
 
-    @ihtHelpers.inputWithHelp(form("fullName"),
+    @ihtHelpers.input_with_help(form("fullName"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",

@@ -36,7 +36,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 <p id="property-value-guidance">@Messages("page.iht.application.property.value.question.hint", deceasedName)</p>
     @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
-            @ihtHelpers.inputEstateValue(propertyValueForm("value"),
+            @ihtHelpers.input_estate_value(propertyValueForm("value"),
             '_currency -> "GBP",
             '_divClass -> "form-group",
         '_labelTextClass -> "visually-hidden",

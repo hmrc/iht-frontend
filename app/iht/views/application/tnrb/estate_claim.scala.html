@@ -30,7 +30,7 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
           estateClaimAnyBusinessForm("isStateClaimAnyBusiness"),
           '_divClass -> Some("form-group"),
           '_legend -> Messages("iht.estateReport.tnrb.stateClaim.question"),
