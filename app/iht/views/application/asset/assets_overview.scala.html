@@ -327,7 +327,7 @@ isFullWidth=false) {
     }
 
     @defining(assets.moneyOwed.flatMap(_.isComplete)) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.moneyOwed", deceasedName),
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.moneyOwed", ihtHelpers.name(deceasedName)),
             "moneyOwed", "money-owed",
             displayValue(appDetails, AppSectionMoneyOwed, isComplete), "",
             Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),
