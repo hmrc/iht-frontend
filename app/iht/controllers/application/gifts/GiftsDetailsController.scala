@@ -34,7 +34,7 @@ import play.api.i18n.Messages
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-
+import iht.utils.CommonHelper._
 import scala.concurrent.Future
 
 object GiftsDetailsController extends GiftsDetailsController with IhtConnectors {
@@ -72,13 +72,12 @@ trait GiftsDetailsController extends EstateController {
   Request[_], user: AuthContext) = {
     withApplicationDetails { rd =>
       ad =>
-        val result = CommonHelper.getOrException(rd.deceasedDateOfDeath.map { ddod =>
+        val result = getOrException(rd.deceasedDateOfDeath.map { ddod =>
           val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-          val optionYearIDToUpdate = Some(id)
-          val form = prevYearsGifts.find(_.yearId == optionYearIDToUpdate).fold(previousYearsGiftsForm)(matchedGift =>
-            previousYearsGiftsForm.fill(matchedGift)
-          )
-          Ok(iht.views.html.application.gift.gifts_details(form, rd, cancelUrl, cancelLabel))
+          withValue(
+            prevYearsGifts.find(_.yearId.contains(id))
+              .fold(previousYearsGiftsForm)(matchedGift => previousYearsGiftsForm.fill(matchedGift))
+          )(form => Ok(iht.views.html.application.gift.gifts_details(form, rd, cancelUrl, cancelLabel)))
         })
         Future.successful(result)
     }
