@@ -120,10 +120,10 @@ trait InsurancePolicyOverviewController extends EstateController {
     createSectionFromYesNoQuestions(
       id = "other",
       title = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails, true))),
       linkUrl = routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
-      questionAnswersPlusChangeLinks = section3YesNoItems(insurancePolicy, regDetails, true),
+      questionAnswersPlusChangeLinks = section3YesNoItems(insurancePolicy, regDetails),
       questionTitlesMessagesFileItems = Seq(
         Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
           CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
