@@ -25,7 +25,6 @@ import org.joda.time.LocalDate
 object IhtProperties {
   lazy val validCountryCodes: Array[String] = getPropertyAsStringArray("validCountryCodes")
   lazy val ukIsoCountryCode: String = getProperty("ukIsoCountryCode")
-  lazy val dateFormatForPdf: String = getProperty("dateFormatForPdf")
   lazy val dateFormatForDisplay: String = getProperty("dateFormatForDisplay")
   lazy val maxCoExecutors: Int = getPropertyAsInt("maxCoExecutors")
   lazy val maxNameLength: Int = getPropertyAsInt("maxNameLength")
