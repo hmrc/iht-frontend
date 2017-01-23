@@ -43,7 +43,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
                         <p>@Messages("iht.estateReport.declaration.checkedEverything.p2")</p>
 
-                        @ihtHelpers.inputYesNoRadioGroup(
+                        @ihtHelpers.input_yes_no_radio_group(
                             checkedEverythingQuestionForm("hasChecked"),
                             '_shownElementNo -> Some("mortgage-guidance-panel"),
                             '_hiddenElementYes -> Some("mortgage-guidance-panel"),

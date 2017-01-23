@@ -33,7 +33,7 @@ isFullWidth=false){
     @ihtHelpers.error_summary(partnerPermanentHomeQuestionForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onSubmit,'autoComplete -> "off") {
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
             partnerPermanentHomeQuestionForm("isPartnerHomeInUK"),
             '_divClass -> Some("form-group"),
             '_legend -> Messages("iht.estateReport.exemptions.partner.homeInUK.question"),

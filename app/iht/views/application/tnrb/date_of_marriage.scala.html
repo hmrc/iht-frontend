@@ -42,7 +42,7 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 
 @helpers.form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit,'autoComplete -> "off") {
 
-@ihtHelpers.dateFields(
+@ihtHelpers.date_fields(
      dateOfMarriageForm,
     "dateOfMarriage",
     Messages("iht.estateReport.tnrb.dateOfMarriage",
