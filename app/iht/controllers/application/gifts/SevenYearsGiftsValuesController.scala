@@ -25,10 +25,11 @@ import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
+import iht.utils.CommonHelper
 import org.joda.time.LocalDate
 import iht.utils.CommonHelper._
 
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
 
 /**
@@ -48,78 +49,27 @@ trait SevenYearsGiftsValuesController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-
       cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
         routes.SevenYearsGiftsValuesController.onPageLoad().toString())
 
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
+      withApplicationDetails { rd => ad =>
 
-      val applicationDetails_future = ihtConnector.getApplication(getNino(user),
-                                              getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-                                              registrationDetails.acknowledgmentReference)
+        val giftsList = ad.giftsList.fold(createPreviousYearsGiftsLists(getOrException(rd.deceasedDateOfDeath).dateOfDeath))(identity)
 
-      val applicationDetailsTemp_future = cachingConnector.getApplicationDetailsTemp()
-
-      for {
-        applicationDetailsTempOpt <- applicationDetailsTemp_future
-        ihtApplicationDetailsOpt <- applicationDetails_future
-
-        updatedApplicationDetailsOpt = getUpdatedApplicationDetails(registrationDetails,
-                                                                    ihtApplicationDetailsOpt,
-                                                                    applicationDetailsTempOpt)
-      } yield {
-        val updatedAppDetails= getOrExceptionNoApplication(updatedApplicationDetailsOpt)
-
-        getOrExceptionApplicationNotSaved(Await.result(cachingConnector
-          .storeApplicationDetailsTemp(updatedAppDetails), Duration.Inf), exceptionSaveTempApplication)
-
-        getOrExceptionApplicationNotSaved(Await.result(ihtConnector
-          .saveApplication(getNino(user), updatedAppDetails,
-            registrationDetails.acknowledgmentReference), Duration.Inf))
-
-
-
-        Ok(iht.views.html.application.gift.seven_years_gift_values(
-          getOrException(updatedAppDetails.giftsList, exceptionNoGiftsList),
-          registrationDetails,
-          updatedAppDetails.totalPastYearsGiftsValueExcludingExemptions,
-          updatedAppDetails.totalPastYearsGifts,
-          updatedAppDetails.totalPastYearsGiftsExemptions,
-          updatedAppDetails.totalPastYearsGiftsExemptionsOption.isDefined,
-          updatedAppDetails.totalPastYearsGiftsValueExcludingExemptionsOption.isDefined))
+        Future.successful(Ok(iht.views.html.application.gift.seven_years_gift_values(
+          giftsList,
+          rd,
+          ad.totalPastYearsGiftsValueExcludingExemptions,
+          ad.totalPastYearsGifts,
+          ad.totalPastYearsGiftsExemptions,
+          ad.totalPastYearsGiftsExemptionsOption.isDefined,
+          ad.totalPastYearsGiftsValueExcludingExemptionsOption.isDefined)))
       }
   }
 
   /**
     * Update the ApplicationDetails
     */
-
-  private def getUpdatedApplicationDetails(regDetails: RegistrationDetails,
-                                           appDetails: Option[ApplicationDetails],
-                                           appDetailsTemp: Option[ApplicationDetails]) = {
-
-    appDetails.fold[Option[ApplicationDetails]](
-                  Some(ApplicationDetails(allGifts = Some(AllGifts(None, None, None, None, None)),
-                                          giftsList = Some(createPreviousYearsGiftsLists(
-                                          getOrException(regDetails.deceasedDateOfDeath).dateOfDeath)),
-                                          ihtRef = Some(getOrExceptionNoIHTRef(regDetails.ihtReference))))) {
-      _ => {
-
-        val applicationDetails = getOrExceptionNoApplication(appDetails)
-
-        applicationDetails.allGifts.fold(
-              appDetails.map(_.copy(allGifts = appDetailsTemp.flatMap(ad => Some(ad.allGifts)).fold[Option[AllGifts]]
-                                                (Some(AllGifts(None, None, None, None, None)))(identity),
-                giftsList = Some(createPreviousYearsGiftsLists(getOrException(regDetails.deceasedDateOfDeath).dateOfDeath)))))
-                {_ => appDetails.map(ihtAd => {
-                  ihtAd.copy(giftsList = Some(ihtAd.giftsList.fold(createPreviousYearsGiftsLists(
-                    getOrException(regDetails.deceasedDateOfDeath).dateOfDeath))
-                  (identity)))
-                })}
-
-      }
-    }
-  }
 
   /**
     * Creates the list of gifts years
