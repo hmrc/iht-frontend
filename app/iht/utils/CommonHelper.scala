@@ -211,6 +211,8 @@ object CommonHelper {
     }
   }
 
+  def getOrExceptionIfNegative(i:Int): Int = if (i<0) throw new RuntimeException("Unexpected negative value") else i
+
   def getOrException[A](option: Option[A], errorMessage:String = "No element found"):A =
     option.fold(throw new RuntimeException(errorMessage))(identity)
 
