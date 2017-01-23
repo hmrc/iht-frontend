@@ -45,7 +45,6 @@ site.link.return.stocksAndShares = Return to stocks and shares
 site.link.return.trusts = Return to assets held in trust
 site.link.startNewRegistration = Start a new registration for someone else’s estate
 site.link.startSection = Start section
-site.link.viewOrEdit = View or change details
 site.noneInEstate = None in estate
 site.noDebts = No debts owed
 site.noAssets = No assets
@@ -757,12 +756,6 @@ page.iht.application.insurance.policies.section2.title = Policies that were join
 page.iht.application.insurance.policies.section2.browserTitle = Joint insurance policies
 page.iht.application.insurance.policies.section2.guidance = These are all of the policies that were jointly in the names of {0} and any other person. This could be a life assurance policy or a mortgage protection policy on a house that {1} jointly owned.
 page.iht.application.insurance.policies.section2.guidance2 = Only include the deceased’s share of the policy value. You’ll need to take the total value of the insurance policy and work out how much of that the deceased owned.
-page.iht.application.insurance.policies.guidance.someone.label3 = You won’t need the values of these policies for this section. You’ll just need to answer some questions about them.
-page.iht.application.insurance.policies.guidance.someone.label4 = If the deceased didn’t pay premiums for any policies that pay out to someone else, you should select no to the question on the next page.
-page.iht.application.insurance.policies.guidance.premium.label1 = The payments made by the deceased on a policy that pays out to someone else is considered as a gift. This is because the person benefitting from the payments wasn’t the deceased.
-page.iht.application.insurance.policies.guidance.premium.label2 = You won’t need to include the values of any of these policies in this section but you’ll need to answer some more questions about what kind of policies these were.
-page.iht.application.insurance.policies.guidance.premium.label3 = You’ll need to use the value of these policies when you complete the section about what gifts were made by the deceased.
-page.iht.application.insurance.policies.guidance.premium.label4 = You don’t need to tell HMRC at this time anything about policies that were being paid for a spouse or civil partner.
 page.iht.application.insurance.policies.section3.browserTitle = Premiums paid for someone else
 page.iht.application.insurance.policies.section4.title = Was an insurance policy that {0} was paying for placed in trust in the 7 years before they died?
 page.iht.application.insurance.policies.section4.browserTitle = Policies placed in trust
@@ -1145,8 +1138,6 @@ page.iht.application.exemptions.deleteGNCP.screenReader = The name of the qualif
 page.iht.application.exemptions.partnerPermanentHome.browserTitle = Partner’s residence
 
 page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because the deceased’s spouse or civil partner didn’t have their permanent home in the UK.
-page.iht.application.exemptions.kickout.homeNotInUK.nextSteps2 = If you want to change your answer, you can return to the assets left to a spouse or civil partner page.
-page.iht.application.exemptions.kickout.back.homeNotInUK = Return to assets left to a spouse or civil partner
 
 page.iht.application.exemptions.partner.dateOfBirth.question.title = What is the spouse’s or civil partner’s date of birth?
 page.iht.application.exemptions.partner.dateOfBirth.browserTitle = Partner’s date of birth
@@ -1213,10 +1204,7 @@ page.iht.registration.coexecutor.add.title = Add {0}
 
 #Application - Transfer of Nil Rate Band
 page.iht.application.transferOfNilRateBand.widowedCheck.title = Widowed Check
-page.iht.application.transferOfNilRateBand.widowedCheck.browerTitle = Ever widowed
 page.iht.application.transferOfNilRateBand.widowedCheck.marriedOrDivorced.guidance.label = It might be possible to increase the Inheritance Tax threshold up to £650,000 if the deceased was married or in a civil partnership at any time and their spouse or civil partner died.
-page.iht.application.transferOfNilRateBand.widowedCheck.widowed.guidance.label1 = It might be possible to increase the Inheritance Tax threshold up to £650,000 by transferring any of the deceased’s spouse’s or civil partner’s unused allowance.
-page.iht.application.transferOfNilRateBand.widowedCheck.widowed.guidance.label2 = This will depend on the date when the spouse or civil partner died.
 
 #Application  - TnrbEligibilty
 
@@ -1393,9 +1381,6 @@ page.iht.application.liabilities.other.description.p1 = This is the total value 
 page.iht.application.liabilities.other.question1 = Did the deceased have any other debts that are being paid from their estate?
 page.iht.application.liabilities.other.inputLabel1 = Value of any other debts when the deceased died
 
-page.iht.application.kickout.back.foreignAssetsValueMoreThanMax = Return to foreign assets
-page.iht.application.kickout.back.giftsWithReservationOfBenefit = Return to gifts with reservation of benefit
-
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold
 
 # APPLICATION KICKOUTS FINAL PAGE
@@ -1465,17 +1450,10 @@ page.iht.application.overview.browserTitle = Estate overview
 
 page.iht.application.overview.gifts.nonGiven = No gifts given
 page.iht.application.overview.value = Estate value
-page.iht.application.overview.confirmation = I’ve checked all of the estate details that I’ve entered and there’s nothing else to tell HMRC about.
 page.iht.application.overview.submit.button.disabled = To continue you need to tick that you’ve checked all of the estate details that you’ve entered and there’s nothing else to tell HMRC about.
 page.iht.application.overview.time.limit1 = You have until
 page.iht.application.overview.time.limit2 = to send your estate report.
 page.iht.application.overview.timeScale.guidance = If you don’t send the estate report by this date, it’ll be deleted and you’ll have to start again.
-
-page.iht.application.overview.negativeExemptionGuidance1 = The value of exemptions being claimed is more than the estate value.
-page.iht.application.overview.negativeExemptionGuidance2 = The estate value is now £0.
-page.iht.application.overview.netMinusDebtsGuidance = This is the total of assets and gifts with debts and then exemptions taken off.
-page.iht.application.overview.grossEstateGuidance = This is the total of assets and gifts.
-page.iht.application.overview.netEstateGuidance = This is the total of assets and gifts with exemptions taken off.
 
 page.iht.application.overview.reducingTheEstateValue.total = Total taken away from the estate value
 page.iht.application.overview.title2.screenReader = You have until {0} to send your estate report.
@@ -2115,11 +2093,9 @@ iht.estateReport.assets.stocksAndShares.valueOfNotListed = Value of stocks and s
 iht.estateReport.assets.stocksAndSharesListed = Stocks and shares listed on an exchange
 iht.estateReport.assets.stocksAndSharesNotListed = Stocks and shares not listed on an exchange
 iht.estateReport.assets.trusts.benefittedFromHeldInTrust = These are all the assets that {0} benefitted from, or had the right to benefit from, that were held in trust.
-iht.estateReport.assets.trusts.kickout.returnToHeldInTrust = If you want to change your answer, you can return to the assets held in a trust page.
 iht.estateReport.assets.trusts.moreThanOne.question = Was {0} benefitting from, or have the right to benefit from, more than 1 trust?
 iht.estateReport.assets.trusts.needInclusion = If {0} benefitted from a trust during their lifetime, such as getting regular payments or dividends from shares, these need to be included in the value of the estate.
 iht.estateReport.assets.trusts.question = Did {0} benefit from, or have the right to benefit from, a trust during their lifetime?
-iht.estateReport.assets.trusts.returnToHeldInTrust = Return to assets held in a trust
 iht.estateReport.assets.vehicles = Motor vehicles
 iht.estateReport.assets.vehicles.jointly.owned.question = Did {0} jointly own any motor vehicles with any other people?
 iht.estateReport.assets.vehicles.ownName.question = Did {0} own any motor vehicles in their own name?
@@ -2192,7 +2168,6 @@ iht.estateReport.exemptions.title = Estate exemptions
 iht.estateReport.gifts.givenAway.title = Gifts given away
 iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
 iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Gifts given away in the 7 years before death
-iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway = If you want to change your answer, you can return to the gifts given away in the 7 years before death page.
 iht.estateReport.gifts.reservation.question = Did {0} give any gifts away with reservation of benefit?
 iht.estateReport.gifts.returnToGiftsGivenAway = Return to gifts given away in the 7 years before death
 iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to value of gifts given away in the 7 years before death
@@ -2219,7 +2194,6 @@ iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts wi
 iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
 iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. You’ll also need to complete an IHT-402 paper form to increase the threshold.
-iht.estateReport.tnrb.kickout.returnToIHTThreshold = If you want to change your answer, you can return to the increasing the Inheritance Tax threshold page.
 iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and {2} died?
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
@@ -2315,8 +2289,6 @@ error.address.givePostcodeUsingNumbersAndLetters = Give a postcode using numbers
 error.address.giveUsing35CharsOrLess = Give an address using 35 characters or less
 error.address.invalid.character = This line contains an invalid character. Valid characters are: A-Z a-z 0-9 - ’ , / & space
 error.address.length = Enter an address of less than 36 characters
-error.address.main.line.max.length.violation = This address line field must not be greater than 28 characters
-error.address.optional.line.max.length.violation = This address line field must not be greater than 18 characters
 error.applicant.insufficientCoExecutors = Add details of the other person applying for probate
 error.applicant.selectIfAnyoneElseApplyingForProbate = Select if anyone else is applying for probate
 error.applicantIsApplyingForProbate.select = Give an answer for if you are applying for probate
@@ -2379,7 +2351,6 @@ error.deceasedIsAddressInUK.select = Select an answer for where the deceased’s
 error.deceasedMaritalStatus.select = Select the deceased’s relationship status
 error.deceasedPermanentHome.selectLocation = Select the location of the deceased’s permanent home
 error.email = Enter a valid email address.
-error.enter_numbers_ = Enter numbers, for example 31 3 2015 is 31 March 2015
 error.firstName.give = Give a first name
 error.firstName.giveUsingXCharsOrLess = Give a first name using 40 characters or less
 error.foreign.currencyValue.length.summary = enter a value for foreign assets using less than 11 numbers
@@ -2526,9 +2497,7 @@ error.postcode.blank.summary = enter a postcode
 error.postcode.incorrect = Enter a valid postcode
 error.postcode.incorrect.summary = enter a valid postcode
 error.postcode.invalid.character = This line contains an invalid character. Valid characters are: A-Z a-z 0-9 space
-error.postcode.length.violation = Postcode is incorrect
 error.predeceasedDateOfDeath.afterMarriage = Enter a date of death which is after the date of marriage or civil partnership
-error.predeceasedDateOfDeath.diedBefore = The deceased can’t have been a widow or widower if they died before their previous spouse or civil partner - enter a valid date of death.
 error.predeceasedDateOfMarriage.beforeDateOfDeath = Enter a date of marriage or civil partnership which is before the date of death
 error.privatePension.currencyValue.length.summary = enter a value for pensions using less than 11 numbers
 error.privatePension.currencyValue.summary = enter a value for pensions using only numbers
