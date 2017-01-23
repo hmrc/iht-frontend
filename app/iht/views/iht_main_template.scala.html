@@ -33,7 +33,7 @@ sidebarLinks: Html = HtmlFormat.empty,
 signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "heading-xlarge"
-)(mainContent: Html)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html.layouts
 @import iht.config._

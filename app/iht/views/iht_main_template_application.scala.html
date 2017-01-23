@@ -31,7 +31,7 @@ hasSignOut: Boolean = true,
 hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "heading-xlarge"
-)(mainContent: Html)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @iht_main_template(
     title = title,
@@ -51,4 +51,4 @@ headingClass: String = "heading-xlarge"
     signOutUrl = if (hasSignOut) Some(iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()) else None,
     headerTitle = Some(Messages("site.application.title")),
     headingClass = headingClass
-)(mainContent)
+)(mainContent)(implicit request : Request[_], messages: Messages)

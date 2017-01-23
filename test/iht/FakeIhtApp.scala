@@ -16,6 +16,7 @@
 
 package iht
 
+import com.kenshoo.play.metrics.PlayModule
 import iht.config.FrontendAuthConnector
 import iht.testhelpers.CommonBuilder
 import org.scalatest.Suite
@@ -30,6 +31,8 @@ import scala.concurrent.Future
 
 trait FakeIhtApp extends WithFakeApplication {
   this: Suite =>
+
+//  override def bindModules = Seq(new PlayModule)
 
   override lazy val fakeApplication = FakeApplication()
 
