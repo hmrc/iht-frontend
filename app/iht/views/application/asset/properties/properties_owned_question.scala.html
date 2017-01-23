@@ -24,6 +24,8 @@
 @(propertiesForm: Form[Properties],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
+@deceasedName() = @{getDeceasedNameOrDefaultString(registrationDetails)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.assets.propertiesBuildingsAndLand"),
 browserTitle = Some(Messages("iht.estateReport.assets.propertiesBuildingsAndLand")),
 isFullWidth=false){
@@ -31,11 +33,11 @@ isFullWidth=false){
     @ihtHelpers.error_summary(propertiesForm)
     @helpers.form(action = iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-        <p class="lede" id="properties-question-description">@Messages("page.iht.application.assets.properties.question.p1", getDeceasedNameOrDefaultString(registrationDetails, true))</p>
+        <p class="lede" id="properties-question-description">@Html(Messages("page.iht.application.assets.properties.question.p1", deceasedName))</p>
 
         @ihtHelpers.inputYesNoRadioGroup(
         propertiesForm("isOwned"),
-        '_legend -> Html(Messages("page.iht.application.assets.properties.question.question", getDeceasedNameOrDefaultString(registrationDetails))),
+        '_legend -> Html(Messages("page.iht.application.assets.properties.question.question", deceasedName)),
         '_shownElementNo -> Some("mortgage-guidance-panel"),
         '_hiddenElementYes -> Some("mortgage-guidance-panel"))
         <div id="mortgage-guidance-panel" class="panel-indent js-hidden">

@@ -36,14 +36,26 @@ nested spans are reverted to normal wrapping state
 ====================================
 */
 .copy--restricted {
-  overflow-wrap: break-word;
-  word-break: break-all;
-  word-wrap: break-word;
-  -webkit-hyphens: auto;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  hyphens: auto;
+    word-wrap: break-word; /* old version of overflow-wrap for IE and Edge and FF < 49*/
+    overflow-wrap: break-word; /* modern */
+    /* hyphens is not supported on Chrome < 55 or Opera and misc mobile browsers */
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto; /* ie10+ */
+    -moz-hyphens: auto;
+    hyphens: auto;
 }
+
+/*
+fix for browsers which don't support hyphens but can understand this syntax
+(i.e. Chrome < 55 and Android)
+restricted to here as it doesn't give as nice a break as break-word
+*/
+@supports not((hyphens: auto) or (-moz-hyphens: auto) or (-ms-hyphens: auto) or (-webkit-hyphens: auto)) {
+    .copy--restricted {
+        word-break: break-all;
+    }
+}
+
 .copy--restricted span {
     overflow-wrap: normal;
     word-wrap: normal;

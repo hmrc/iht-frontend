@@ -29,16 +29,16 @@
     properties:Option[Properties],
     registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("page.iht.application.assets.deceased-permanent-home.sectionTitle"),
 browserTitle = Some(Messages("iht.estateReport.assets.propertiesBuildingsAndLand")),
 isFullWidth=false
 ) {
 
 
-    <p class="lede">@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p1",
-                              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
-    <p>@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p2",
-                  CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+    <p class="lede">@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p1", deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p2",deceasedName))</p>
 
 
 

@@ -34,6 +34,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import scala.collection.immutable.ListMap
 import scala.util.Try
 import iht.views.html._
+import iht.constants.IhtProperties
 
 /**
  *
@@ -461,5 +462,25 @@ object CommonHelper {
     }else{
       regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
     }
+
+  /**
+    * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
+    * String is split on spaces and hyphens to exclude strings which would split to new lines anyway
+    * Returns true if a part of the string is over the alloted length
+    * Allows for measures to be taken to prevent long names breaking the page layout
+  */
+  def isNameLong(name: String):Boolean = {
+    var restrictName: Boolean = false;
+    val nameArr = name.split(" ");
+    for (namePart <- nameArr) {
+      var subparts = namePart.split("-")
+      for (subpart <- subparts) {
+        if(subpart.length > IhtProperties.hyphenateNamesLength){
+          restrictName = true;
+        }
+      }
+    }
+    restrictName
+  }
 
 }
