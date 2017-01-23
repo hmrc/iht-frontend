@@ -37,9 +37,6 @@ trait SevenYearsGiftsValuesController extends EstateController {
 
   def ihtConnector: IhtConnector
 
-  lazy val exceptionSaveTempApplication = "Unable to save temp application"
-  lazy val exceptionNoGiftsList = "No gifts list found"
-
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request =>
