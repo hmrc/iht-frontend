@@ -75,9 +75,10 @@ trait GiftsDetailsController extends EstateController {
         val result = CommonHelper.getOrException(rd.deceasedDateOfDeath.map { ddod =>
           val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
           val optionYearIDToUpdate = Some(id)
-          val matchedGift = CommonHelper.getOrException(prevYearsGifts.find(_.yearId == optionYearIDToUpdate))
-          Ok(iht.views.html.application.gift.gifts_details(previousYearsGiftsForm.fill
-          (matchedGift), rd, cancelUrl, cancelLabel))
+          val form = prevYearsGifts.find(_.yearId == optionYearIDToUpdate).fold(previousYearsGiftsForm)(matchedGift =>
+            previousYearsGiftsForm.fill(matchedGift)
+          )
+          Ok(iht.views.html.application.gift.gifts_details(form, rd, cancelUrl, cancelLabel))
         })
         Future.successful(result)
     }
@@ -111,20 +112,24 @@ trait GiftsDetailsController extends EstateController {
                             hc: HeaderCarrier): Future[Result] = {
     CommonHelper.getOrException(rd.deceasedDateOfDeath.map { ddod =>
       val existingSeqPrevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-      val idToUpdate = CommonHelper.getOrExceptionIfNegative(existingSeqPrevYearsGifts.indexWhere(_.yearId == previousYearsGifts.yearId))
-      val updatedSeqPrevYearsGifts = existingSeqPrevYearsGifts.updated(idToUpdate, previousYearsGifts)
-      val newAD = updateKickout(registrationDetails = rd,
-        applicationDetails = ad.copy(giftsList = Some(updatedSeqPrevYearsGifts)),
-        applicationID = previousYearsGifts.yearId)
-      ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
-        Redirect(newAD.kickoutReason.fold(routes.SevenYearsGiftsValuesController.onPageLoad()) {
-          _ => {
-            cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
-            cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
-            kickoutRedirectLocation
-          }
-        })
-      )
+      val idToUpdate = existingSeqPrevYearsGifts.indexWhere(_.yearId == previousYearsGifts.yearId)
+      if (idToUpdate < 0) {
+        Future.successful(Redirect(routes.SevenYearsGiftsValuesController.onPageLoad()))
+      } else {
+        val updatedSeqPrevYearsGifts = existingSeqPrevYearsGifts.updated(idToUpdate, previousYearsGifts)
+        val newAD = updateKickout(registrationDetails = rd,
+          applicationDetails = ad.copy(giftsList = Some(updatedSeqPrevYearsGifts)),
+          applicationID = previousYearsGifts.yearId)
+        ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
+          Redirect(newAD.kickoutReason.fold(routes.SevenYearsGiftsValuesController.onPageLoad()) {
+            _ => {
+              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
+              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
+              kickoutRedirectLocation
+            }
+          })
+        )
+      }
     })
   }
 }
