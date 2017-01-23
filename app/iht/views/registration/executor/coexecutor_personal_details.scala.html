@@ -40,7 +40,7 @@ cancelLocation: Option[Call] = None)(implicit request:Request[_])
 
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
     <div id="firstName-container" class="form-group">
-      @ihtHelpers.inputWithHelp(coExecutorDetails("firstName"),
+      @ihtHelpers.input_with_help(coExecutorDetails("firstName"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -49,7 +49,7 @@ cancelLocation: Option[Call] = None)(implicit request:Request[_])
     </div>
 
     <div id="lastName-container" class="form-group">
-      @ihtHelpers.inputWithHelp(coExecutorDetails("lastName"),
+      @ihtHelpers.input_with_help(coExecutorDetails("lastName"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -57,7 +57,7 @@ cancelLocation: Option[Call] = None)(implicit request:Request[_])
     </div>
 
     <div id="dateOfBirth-container" class="form-group">
-      @ihtHelpers.dateFields(
+      @ihtHelpers.date_fields(
           coExecutorDetails,
           "dateOfBirth",
           Messages("iht.dateofbirth"),
@@ -70,7 +70,7 @@ cancelLocation: Option[Call] = None)(implicit request:Request[_])
     </div>
 
     <div id="nino-container" class="form-group">
-      @ihtHelpers.inputWithHelp(coExecutorDetails("nino"),
+      @ihtHelpers.input_with_help(coExecutorDetails("nino"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -79,7 +79,7 @@ cancelLocation: Option[Call] = None)(implicit request:Request[_])
     </div>
 
     <div id="phoneNumber-container" class="form-group">
-      @ihtHelpers.inputWithHelp(coExecutorDetails("phoneNo"),
+      @ihtHelpers.input_with_help(coExecutorDetails("phoneNo"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -90,7 +90,7 @@ cancelLocation: Option[Call] = None)(implicit request:Request[_])
     @if(mode == Mode.Standard) {
       <div id="isAddressInUk-container" class="form-group">
         @defining("co-executor-personal-details")  { sectionName =>
-          @ihtHelpers.inputYesNoRadioGroup(
+          @ihtHelpers.input_yes_no_radio_group(
               coExecutorDetails("isAddressInUk"),
               '_legend -> Html(Messages("page.iht.registration.co-executor-personal-details.isAddressInUk")),
               '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),

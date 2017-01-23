@@ -37,7 +37,7 @@ isFullWidth=false){
                                     CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
     <p id="guidance-2">@Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2",
                                     CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
             insurancePolicyForm("isInsurancePremiumsPayedForSomeoneElse"),
             '_legend -> Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question")),
             '_legendClass -> Some("visually-hidden"),

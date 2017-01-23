@@ -107,7 +107,8 @@ trait DeceasedWidowCheckDateController extends EstateController{
 
     val predeceasedDateOfDeath: Option[LocalDate] = predeceasedDateFromForm(boundForm)
 
-    if(!boundForm.hasErrors && dateOfMarriage.isDefined && CommonHelper.getOrException(dateOfMarriage).compareTo(CommonHelper.getOrException(predeceasedDateOfDeath)) >= 0) {
+    if(!boundForm.hasErrors && dateOfMarriage.isDefined &&
+      CommonHelper.getOrException(dateOfMarriage).compareTo(CommonHelper.getOrException(predeceasedDateOfDeath)) >= 0) {
       boundForm.withError("dateOfPreDeceased", "error.predeceasedDateOfDeath.afterMarriage")
     } else{
       boundForm
@@ -134,7 +135,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
     val updatedAppDetails = appDetails.copy(widowCheck = Some(appDetails.widowCheck.
       fold(new WidowCheck(widowed = Some(true), dateOfPreDeceased = widowModel.dateOfPreDeceased))
       (_.copy(widowed = Some(true), dateOfPreDeceased = widowModel.dateOfPreDeceased))))
-   
+
     val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks=ApplicationKickOutHelper.checksWidowOpc,
       registrationDetails=regDetails,
       applicationDetails=updatedAppDetails)

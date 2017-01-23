@@ -63,7 +63,7 @@
     @defining( Messages("page.iht.registration.executor-overview.sectionName"))  { sectionName =>
       @defining( Messages("page.iht.registration.executor-overview.yesnoQuestion")) { legend =>
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
           addMoreCoExecutorsForm("addMoreCoExecutors"),
           '_legend -> Some(legend),
           '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),

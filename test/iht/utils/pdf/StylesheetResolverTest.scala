@@ -36,10 +36,10 @@ class StylesheetResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar{
     result shouldNot equal(null)
   }
 
-  "Must return null if Resource is not valid" in {
+  "Must throw exception if Resource is not valid" in {
     val inputResource = "/invalid-resource"
-    val result = new StylesheetResolver().resolve(inputResource, "")
-
-    result shouldEqual null
+    a[RuntimeException] shouldBe thrownBy {
+      new StylesheetResolver().resolve(inputResource, "")
+    }
   }
 }

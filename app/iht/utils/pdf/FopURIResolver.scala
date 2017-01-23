@@ -34,14 +34,14 @@ class FopURIResolver extends ResourceResolver {
 
   override def getResource(uri: URI): Resource = {
     Logger.info("URI to convert to resource " + uri.toASCIIString)
-    val resource: String = uri.getPath().substring(uri.getPath().lastIndexOf("/pdf") + 1)
-    val inputStream = Play.classloader.getResourceAsStream(resource)
-    if (inputStream != null) {
-      Logger.info("Valid input stream")
-      new Resource(inputStream)
-    } else {
-      Logger.info("No input stream")
-      null
+    val resource: String = uri.getPath.substring(uri.getPath.lastIndexOf("/pdf") + 1)
+    Option(Play.classloader.getResourceAsStream(resource)) match {
+      case None =>
+        Logger.info ("No input stream")
+        throw new RuntimeException("No input stream available for FOP resource")
+      case Some(inputStream) =>
+      Logger.info ("Valid input stream")
+      new Resource (inputStream)
     }
   }
 }
