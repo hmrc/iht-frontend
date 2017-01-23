@@ -42,7 +42,7 @@ registrationDetails: RegistrationDetails
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
                 insurancePolicyForm("isJointlyOwned"),
                 '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName)),
                 '_shownElementNo -> None,
@@ -54,7 +54,7 @@ registrationDetails: RegistrationDetails
                 '_mainQuestion -> true)
 
             <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
-                @ihtHelpers.inputEstateValue(insurancePolicyForm("shareValue"),
+                @ihtHelpers.input_estate_value(insurancePolicyForm("shareValue"),
                 '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"),
                 '_help -> Messages("page.iht.application.insurance.policies.section2.guidance2"),
                 '_sectionName -> (sectionName + "1"),

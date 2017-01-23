@@ -52,7 +52,7 @@ registrationDetails: RegistrationDetails
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
                 insurancePolicyForm("policyInDeceasedName"),
                 '_legend -> Html(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedNameWrap)),
                 '_shownElementNo -> None,
@@ -64,7 +64,7 @@ registrationDetails: RegistrationDetails
                 '_mainQuestion -> true)
 
             <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
-                @ihtHelpers.inputEstateValue(insurancePolicyForm("value"),
+                @ihtHelpers.input_estate_value(insurancePolicyForm("value"),
                 '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"),
                 '_sectionName -> (sectionName + "1"),
                 '_currency -> "GBP",

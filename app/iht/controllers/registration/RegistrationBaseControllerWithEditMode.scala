@@ -37,8 +37,11 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
     implicit user => implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val f = fillForm(rd)
-        if (mode == Mode.Standard) Future.successful(okForPageLoad(f))
-        else Future.successful(okForEditPageLoad(f))
+        if (mode == Mode.Standard) {
+          Future.successful(okForPageLoad(f))
+        } else {
+          Future.successful(okForEditPageLoad(f))
+        }
       }
   }
 
@@ -50,15 +53,21 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
 
           boundForm.fold(
             formWithErrors => {
-              if (mode == Mode.Standard) Future.successful(badRequestForSubmit(formWithErrors))
-              else Future.successful(badRequestForEditSubmit(formWithErrors))
+              if (mode == Mode.Standard) {
+                Future.successful(badRequestForSubmit(formWithErrors))
+              } else {
+                Future.successful(badRequestForEditSubmit(formWithErrors))
+              }
             },
             details => {
               val copyOfRd = applyChangesToRegistrationDetails(rd, details, mode)
 
               val route =
-                if(mode == Mode.Standard) onwardRoute(copyOfRd)
-                else onwardRouteInEditMode(copyOfRd)
+                if(mode == Mode.Standard) {
+                  onwardRoute(copyOfRd)
+                } else {
+                  onwardRouteInEditMode(copyOfRd)
+                }
 
               storeAndRedirectWithKickoutCheck(cachingConnector, copyOfRd, getKickoutReason, route, storageFailureMessage)
             }

@@ -47,7 +47,7 @@ headingName = deceasedName
              CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay)))</p>
     <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedNameWrapped))</p>
 
-    @ihtHelpers.inputYesNoRadioGroup(
+    @ihtHelpers.input_yes_no_radio_group(
     giftsGivenAwayForm("isGivenAway"),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()),
     '_divClass -> Some("form-group"),

@@ -38,7 +38,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_])
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
             <p id="pensions-question-description1">@Messages("page.iht.application.assets.pensions.isOwned.p1")</p>
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
             pensionsOwnedQuestionForm("isOwned"),
             '_shownElementNo -> Some("mortgage-guidance-panel"),
             '_hiddenElementYes -> Some("mortgage-guidance-panel"),

@@ -38,7 +38,7 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
 @helpers.form(action = iht.controllers.application.gifts.routes.SevenYearsToTrustController.onSubmit,'autoComplete -> "off") {
 
 <div id="seven-years-to-trust-question">
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
         GiftSevenYearsToTrustForm("trust.isToTrust"),
         '_legend -> Html(Messages("page.iht.application.gifts.trust.question", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true))),
         '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()),

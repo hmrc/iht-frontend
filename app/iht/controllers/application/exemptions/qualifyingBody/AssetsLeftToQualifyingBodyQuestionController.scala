@@ -24,6 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
+import play.api.mvc.Call
 
 /**
  * Created by james on 17/08/16.
@@ -33,9 +34,11 @@ object AssetsLeftToQualifyingBodyQuestionController extends AssetsLeftToQualifyi
 }
 
 trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
-  val exemptionsOverviewPage = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-  val qualifyingBodyOverviewPage = iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad() //TODO - Link to correct overview page
-  val qualifyingBodyDetailsOverviewPage = iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
+  val exemptionsOverviewPage: Call = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
+  val qualifyingBodyOverviewPage: Call =
+    iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()
+  val qualifyingBodyDetailsOverviewPage: Call =
+    iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

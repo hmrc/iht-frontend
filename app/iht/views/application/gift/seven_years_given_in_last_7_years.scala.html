@@ -51,7 +51,7 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
 </div>
 
 <div id="seven-years-gifts-question">
-    @ihtHelpers.inputYesNoRadioGroup(
+    @ihtHelpers.input_yes_no_radio_group(
     SevenYearsGiftsForm("givenInPast.isGivenInLast7Years"),
     '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", deceasedName)),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()),

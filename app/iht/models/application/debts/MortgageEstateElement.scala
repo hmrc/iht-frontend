@@ -19,7 +19,13 @@ package iht.models.application.debts
 import play.api.libs.json.Json
 
 case class MortgageEstateElement(isOwned: Option[Boolean],
-                                 mortgageList: List[Mortgage] = List.empty[Mortgage])
+                                 mortgageList: List[Mortgage] = List.empty[Mortgage]){
+  def totalValue:Option[BigDecimal] =
+  mortgageList.flatMap(_.value) match {
+      case Nil => None
+      case x => Some(x.sum)
+    }
+}
 
 object MortgageEstateElement {
   implicit val formats = Json.format[MortgageEstateElement]

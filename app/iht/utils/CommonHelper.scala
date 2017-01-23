@@ -115,7 +115,7 @@ object CommonHelper {
   def isDateWithInRange(date: LocalDate): Boolean = {
     val dateString = date.toString
     val dateTime = new DateTime(dateString)
-    val dateRange = dateTime.dayOfMonth.withMaximumValue.plusMonths(24).toLocalDate
+    val dateRange = dateTime.dayOfMonth.withMaximumValue.plusMonths(IhtProperties.DateRangeMonths).toLocalDate
     LocalDate.now().compareTo(dateRange) < 0
   }
 

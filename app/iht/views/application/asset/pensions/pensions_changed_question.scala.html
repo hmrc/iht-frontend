@@ -41,7 +41,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_])
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onSubmit,'autoComplete -> "off") {
 
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
             pensionsChangedQuestionForm("isChanged"),
             '_legend -> Html(Messages("page.iht.application.assets.pensions.changed.title")),
             '_legendClass -> Some("visually-hidden"),

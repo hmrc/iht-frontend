@@ -26,7 +26,7 @@ isFullWidth=false) {
     @ihtHelpers.error_summary(spouseDateOfBirthForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onSubmit,
         'autoComplete -> "off") {
-        @ihtHelpers.dateFields(spouseDateOfBirthForm,
+        @ihtHelpers.date_fields(spouseDateOfBirthForm,
             "dateOfBirth",
             "",
             None,

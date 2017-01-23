@@ -35,7 +35,7 @@ isFullWidth=false){
 
         <p class="lede" id="properties-question-description">@Html(Messages("page.iht.application.assets.properties.question.p1", deceasedName))</p>
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
         propertiesForm("isOwned"),
         '_legend -> Html(Messages("page.iht.application.assets.properties.question.question", deceasedName)),
         '_shownElementNo -> Some("mortgage-guidance-panel"),

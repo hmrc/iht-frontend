@@ -23,6 +23,7 @@ hasTimeOut:Boolean = false)(nextStepsContent: Html)(implicit request:Request[_])
 @import iht.views.html._
 
 @iht_main_template_registration(title=pageTitle,
+browserTitle = Some(pageTitle),
 hasTimeOut=hasTimeOut) {
 
     <div class="panel-indent">

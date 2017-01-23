@@ -74,15 +74,20 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   override def submit(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetails { rd =>
-        val formType =
-          if (mode == Mode.Standard) applicantTellUsAboutYourselfForm
-          else applicantTellUsAboutYourselfEditForm
+        val formType = if (mode == Mode.Standard) {
+            applicantTellUsAboutYourselfForm
+          } else {
+            applicantTellUsAboutYourselfEditForm
+          }
 
         val boundForm = formType.bindFromRequest
         boundForm.fold(
           formWithErrors => {
-            if (mode == Mode.Standard) Future.successful(badRequestForSubmit(formWithErrors))
-            else Future.successful(badRequestForEditSubmit(formWithErrors))
+            if (mode == Mode.Standard) {
+              Future.successful(badRequestForSubmit(formWithErrors))
+            } else {
+              Future.successful(badRequestForEditSubmit(formWithErrors))
+            }
           },
           ad => {
             val nino = Nino(getNino(user))

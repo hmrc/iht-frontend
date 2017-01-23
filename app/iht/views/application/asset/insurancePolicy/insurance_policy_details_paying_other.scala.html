@@ -35,10 +35,9 @@ headingName = deceasedName){
     @ihtHelpers.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsPayingOtherController.onSubmit,'autoComplete -> "off") {
 
-
     <p id="guidance-1">@Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1", deceasedNameWrap))</p>
     <p id="guidance-2">@Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2", deceasedNameWrap))</p>
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
             insurancePolicyForm("isInsurancePremiumsPayedForSomeoneElse"),
             '_legend -> Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question")),
             '_legendClass -> Some("visually-hidden"),

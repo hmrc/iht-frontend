@@ -35,7 +35,7 @@ headingName = deceasedName){
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onSubmit,'autoComplete -> "off") {
 
         <p id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section6.guidance")</p>
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
             insurancePolicyForm("isAnnuitiesBought"),
             '_divClass -> Some("form-group"),
             '_legend -> Html(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question")),

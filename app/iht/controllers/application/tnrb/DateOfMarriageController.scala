@@ -127,7 +127,8 @@ trait DateOfMarriageController extends EstateController{
                                                                hc: HeaderCarrier): Future[Result] = {
 
     val updatedAppDetails = appDetails.copy(increaseIhtThreshold = Some(appDetails.increaseIhtThreshold.
-      fold(new TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, dateOfMarriage = tnrbModel.dateOfMarriage, None)) (_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
+      fold(new TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, dateOfMarriage =
+        tnrbModel.dateOfMarriage, None)) (_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
     ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
     Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails))

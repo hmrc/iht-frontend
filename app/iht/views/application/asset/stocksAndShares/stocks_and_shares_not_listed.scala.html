@@ -36,7 +36,7 @@ registrationDetails: RegistrationDetails
 
     @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onSubmit(),'autoComplete -> "off") {
 
-        @ihtHelpers.inputYesNoRadioGroup(stockAndSharesNotListed("isNotListed"),
+        @ihtHelpers.input_yes_no_radio_group(stockAndSharesNotListed("isNotListed"),
             '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName)),
             '_shownElementNo -> None,
             '_shownElementYes -> Some("stocks-and-shares-value"),
@@ -47,7 +47,7 @@ registrationDetails: RegistrationDetails
             '_mainQuestion -> true)
 
         <div class="js-hidden panel-indent panel-indent--gutter" id="stocks-and-shares-value">
-            @ihtHelpers.inputEstateValue(stockAndSharesNotListed("valueNotListed"),
+            @ihtHelpers.input_estate_value(stockAndSharesNotListed("valueNotListed"),
             '_label -> Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed"),
             '_help -> "",
             '_sectionName -> ("1"),

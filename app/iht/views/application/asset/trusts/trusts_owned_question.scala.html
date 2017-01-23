@@ -38,7 +38,7 @@ headingName = deceasedName){
       <p id="trusts-question-description2">@Html(Messages("iht.estateReport.assets.trusts.needInclusion",deceasedNameWrap))</p>
       <p id="trusts-question-description3">@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedNameWrap))</p>
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
             trustsOwnedQuestionForm("isOwned"),
             '_legend -> Html(Messages("iht.estateReport.assets.trusts.question",deceasedNameWrap)),
             '_shownElementNo -> Some("mortgage-guidance-panel"),

@@ -24,7 +24,7 @@ import play.api.data.Forms._
  * Created by yasar on 10/9/15.
  */
 object QuestionnaireForms {
-  val questionnaireForm = Form[QuestionnaireModel](
+  val questionnaire_form = Form[QuestionnaireModel](
     // scalastyle:off magic.number
     mapping(
       "feelingAboutExperience" -> optional(number(1,5)),

@@ -37,12 +37,12 @@ trait QuestionnaireController extends FrontendController with IhtActions {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      Future.successful(Ok(questionnaireView(questionnaireForm, request)))
+      Future.successful(Ok(questionnaireView(questionnaire_form, request)))
   }
 
   def onSubmit = authorisedForIht {
     implicit user => implicit request =>
-      questionnaireForm.bindFromRequest().fold(
+      questionnaire_form.bindFromRequest().fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
           Future.successful(BadRequest(questionnaireView(formWithErrors, request)))

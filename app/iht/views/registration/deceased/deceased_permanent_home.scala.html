@@ -34,7 +34,7 @@ actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Requ
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 <div id="domicile-container">
-    @ihtHelpers.inputRadioGroup(
+    @ihtHelpers.input_radio_group(
     deceasedPermanentHomeForm("domicile"),
     domicileDropdown.toSeq,
     '_fieldsetId -> "country",

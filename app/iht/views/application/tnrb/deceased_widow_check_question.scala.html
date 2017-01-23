@@ -45,7 +45,7 @@ cancelLinkText:String
 
 @helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit,'autoComplete -> "off") {
 
-@ihtHelpers.inputYesNoRadioGroup(
+@ihtHelpers.input_yes_no_radio_group(
 deceasedWidowCheckQuestionForm("widowed"),
 '_divClass -> Some("form-group"),
 '_legend -> Html(Messages("iht.estateReport.tnrb.partner.married")),

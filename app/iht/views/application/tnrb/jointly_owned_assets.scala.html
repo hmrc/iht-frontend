@@ -32,7 +32,7 @@ headingName = deceasedName){
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
         jointAssetPassedForm("isJointAssetPassed"),
         '_divClass -> Some("-change form-group"),
         '_legend -> Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedName),
