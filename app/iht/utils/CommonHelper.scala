@@ -121,29 +121,12 @@ object CommonHelper {
     user.principal.accounts.iht.getOrElse(throw new RuntimeException("User account could not be retrieved!")).nino.value
   }
 
-  // scalastyle:off magic.number
-  def formatNino(s: String) = {
-    if (s.length >= 9) {
-      val str = s.replace(" ", "")
-      (str.substring(0, 2) + " " + str.substring(2, 4) + " " +
-        str.substring(4, 6) + " " + str.substring(6, 8) + " " + str.substring(8)).toUpperCase
-    } else {
-      s
-    }
-  }
-
-
-
   def booleanToYesNo(boolean: Boolean): String = {
     boolean match {
       case true => "Yes"
       case false => "No"
     }
   }
-
-  /*
-   * Creates the valid date
-   */
 
   def createDate(y: Option[String], m: Option[String], d: Option[String]): Option[LocalDate] = {
     val year: String = if (y.getOrElse("").replaceAll(" ", "").length > 4) {
@@ -165,9 +148,6 @@ object CommonHelper {
     }
   }
 
-  /*
-   * Checks the future Date
-   */
   def isNotFutureDate = {
     date: LocalDate => !date.isAfter(LocalDate.now())
   }
@@ -175,17 +155,9 @@ object CommonHelper {
   /**
    * Check the Predeceased Date Of Death Tnrb Eligibility
    */
-
   def preDeceasedDiedEligible(x: LocalDate) =
     x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
       x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
-
-  /**
-   * Fetches the key value from application.conf file
-   */
-  def getFromConfig(key: String) = {
-    getOrException(Play.current.configuration.getString(key), "Configuration value not found for " + key)
-  }
 
   /**
     * Iterates through ListMap of ApplicationDetails->Boolean functions, executing each one in turn, passing in the
@@ -217,8 +189,6 @@ object CommonHelper {
     option.fold(throw new RuntimeException(errorMessage))(identity)
 
   def getOrBigDecimalZero(option: Option[BigDecimal]): BigDecimal = option.fold(BigDecimal(0))(identity)
-
-  def perhaps[A](thing: Option[A]): A = thing.fold(throw new RuntimeException("No element found"))(identity)
 
   def getOrExceptionNoIHTRef(option: Option[String]):String = getOrException(option, "No IHT Reference")
 
@@ -305,12 +275,6 @@ object CommonHelper {
   def escapePound(s: String): String = s.replaceAll("£", "&pound;")
 
   def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
-
-  def specialiseError[T](form: Form[T], key: String, error: String): Form[T] =
-    form.globalErrors.find(ge => ge.messages == Seq(error)) match {
-      case Some(formError) => form.withError(formError copy (key = key))
-      case _ => form
-    }
 
   def addEscapedApostrophe(name: String): String = escapeApostrophes(addApostrophe(name))
 
