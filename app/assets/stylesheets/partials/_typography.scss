@@ -37,6 +37,7 @@ nested spans are reverted to normal wrapping state
 */
 .copy--restricted {
   overflow-wrap: break-word;
+  word-break: break-all;
   word-wrap: break-word;
   -webkit-hyphens: auto;
   -ms-hyphens: auto;
