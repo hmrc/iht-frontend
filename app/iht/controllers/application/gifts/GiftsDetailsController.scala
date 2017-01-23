@@ -115,19 +115,22 @@ trait GiftsDetailsController extends EstateController {
       if (idToUpdate < 0) {
         Future.successful(Redirect(routes.SevenYearsGiftsValuesController.onPageLoad()))
       } else {
-        val updatedSeqPrevYearsGifts = existingSeqPrevYearsGifts.updated(idToUpdate, previousYearsGifts)
-        val newAD = updateKickout(registrationDetails = rd,
-          applicationDetails = ad.copy(giftsList = Some(updatedSeqPrevYearsGifts)),
-          applicationID = previousYearsGifts.yearId)
-        ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
-          Redirect(newAD.kickoutReason.fold(routes.SevenYearsGiftsValuesController.onPageLoad()) {
-            _ => {
-              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
-              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
-              kickoutRedirectLocation
-            }
-          })
-        )
+        withValue {
+          val updatedSeqPrevYearsGifts = existingSeqPrevYearsGifts.updated(idToUpdate, previousYearsGifts)
+          updateKickout(registrationDetails = rd,
+            applicationDetails = ad.copy(giftsList = Some(updatedSeqPrevYearsGifts)),
+            applicationID = previousYearsGifts.yearId)
+        }{newAD =>
+          ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
+            Redirect(newAD.kickoutReason.fold(routes.SevenYearsGiftsValuesController.onPageLoad()) {
+              _ => {
+                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
+                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
+                kickoutRedirectLocation
+              }
+            })
+          )
+        }
       }
     })
   }
