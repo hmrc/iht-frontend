@@ -20,6 +20,8 @@ import iht.controllers.ControllerHelper.Mode
 import iht.utils.RegistrationKickOutHelper._
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request, Result}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 

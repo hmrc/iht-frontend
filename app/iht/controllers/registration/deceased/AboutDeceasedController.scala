@@ -26,6 +26,8 @@ import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 

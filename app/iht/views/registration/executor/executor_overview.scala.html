@@ -26,7 +26,7 @@
   areOthersApplying: Boolean,
   coExecutors: Seq[CoExecutor],
   actionCall: Call,
-  cancelCall: Option[Call] = None)(implicit request: Request[_])
+  cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("iht.registration.othersApplyingForProbate"),
   browserTitle = Some(Messages("page.iht.registration.executor-overview.browserTitle")),

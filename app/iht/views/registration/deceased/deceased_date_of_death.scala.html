@@ -21,7 +21,7 @@
 
 @(deceasedDateOfDeath:Form[iht.models.DeceasedDateOfDeath],
 actionLocation: Call,
-cancelLocation:Option[Call]=None)(implicit request:Request[_])
+cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.deceasedDateOfDeath.title"),
 browserTitle = Some(Messages("iht.dateOfDeath")),

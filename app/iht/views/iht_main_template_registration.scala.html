@@ -51,4 +51,4 @@ headingClass: String = "heading-xlarge"
     signOutUrl = if (hasSignOut) Some(iht.controllers.registration.routes.RegistrationQuestionnaireController.onPageLoad()) else None,
     headerTitle = Some(Messages("site.registration.title")),
     headingClass = headingClass
-)(mainContent)(implicit request : Request[_], messages: Messages)
+)(mainContent)

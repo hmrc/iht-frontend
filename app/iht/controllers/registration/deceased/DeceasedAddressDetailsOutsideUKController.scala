@@ -26,6 +26,8 @@ import iht.utils.CommonHelper
 import iht.views.html.registration.{deceased => views}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object DeceasedAddressDetailsOutsideUKController extends DeceasedAddressDetailsOutsideUKController with IhtConnectors {
   def metrics: Metrics = Metrics

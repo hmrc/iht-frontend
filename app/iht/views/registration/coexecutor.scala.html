@@ -19,7 +19,7 @@
     warning:Boolean=false,
     backUrl:Option[Call]=None,
     cancelUrl:Option[Call]=None,
-    submitUrl:Call)(implicit request:Request[_])
+    submitUrl:Call)(implicit request : Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._

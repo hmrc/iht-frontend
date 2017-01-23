@@ -20,7 +20,6 @@ import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
 import play.api.mvc._
 import play.api.{Application, Configuration, Play}
-import play.filters.headers._
 import play.twirl.api.Html
 import uk.gov.hmrc.crypto.ApplicationCrypto
 import uk.gov.hmrc.play.audit.filters.FrontendAuditFilter
@@ -28,6 +27,8 @@ import uk.gov.hmrc.play.config.{AppName, ControllerConfig, RunMode}
 import uk.gov.hmrc.play.filters.MicroserviceFilterSupport
 import uk.gov.hmrc.play.frontend.bootstrap.DefaultFrontendGlobal
 import uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
 
@@ -38,21 +39,6 @@ object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
   override def onStart(app: Application) {
     super.onStart(app)
     ApplicationCrypto.verifyConfiguration()
-  }
-
-  override def doFilter(a: EssentialAction): EssentialAction = {
-    val securityFilter = {
-      val configuration = play.api.Play.current.configuration
-      val securityHeadersConfig:DefaultSecurityHeadersConfig = new SecurityHeadersParser().parse(configuration).asInstanceOf[DefaultSecurityHeadersConfig]
-      val sameOriginConfig:SecurityHeadersConfig = securityHeadersConfig.copy(
-        frameOptions = Some("SAMEORIGIN"),
-        xssProtection = Some("1"),
-        contentTypeOptions = Some("nosniff"),
-        None,
-        None)
-      SecurityHeadersFilter(sameOriginConfig)
-    }
-    Filters(super.doFilter(a), Seq(securityFilter):_*)
   }
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html =

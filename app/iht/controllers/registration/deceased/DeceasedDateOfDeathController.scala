@@ -27,6 +27,8 @@ import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
 import play.api.data.{Form, FormError}
 import play.api.mvc._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.util.{Failure, Success, Try}
 
