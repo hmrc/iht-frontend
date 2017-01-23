@@ -4,11 +4,11 @@
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan">
 
-    <xsl:include href="pdf/templates/application/return/assets.xsl"/>
-    <xsl:include href="pdf/templates/application/return/debts.xsl"/>
-    <xsl:include href="pdf/templates/application/return/exemptions.xsl"/>
-    <xsl:include href="pdf/templates/application/return/gifts.xsl"/>
-    <xsl:include href="pdf/templates/application/return/tnrb.xsl"/>
+    <xsl:include href="pdf/templates/postsubmission/assets.xsl"/>
+    <xsl:include href="pdf/templates/postsubmission/debts.xsl"/>
+    <xsl:include href="pdf/templates/postsubmission/exemptions.xsl"/>
+    <xsl:include href="pdf/templates/postsubmission/gifts.xsl"/>
+    <xsl:include href="pdf/templates/postsubmission/tnrb.xsl"/>
 
     <xsl:template match="IHTReturn">
         <xsl:comment>Free Estate section starts</xsl:comment>

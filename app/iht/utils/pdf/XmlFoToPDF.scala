@@ -47,9 +47,9 @@ object XmlFoToPDF extends XmlFoToPDF
 trait XmlFoToPDF {
   private val filePathForFOPConfig = "pdf/fop.xconf"
   private val folderForPDFTemplates = "pdf/templates"
-  private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance-certificate.xsl"
-  private val filePathForPreSubmissionXSL = s"$folderForPDFTemplates/pre-submission-estate-report.xsl"
-  private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/post-submission-estate-report.xsl"
+  private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance/main.xsl"
+  private val filePathForPreSubmissionXSL = s"$folderForPDFTemplates/presubmission/main.xsl"
+  private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
 
   def createPreSubmissionPDF(regDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String): Array[Byte] = {

@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 class StylesheetResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar{
 
   "Must return a valid StreamSource" in {
-    val inputResource = "/pdf/templates/application/return/iht-return.xsl"
+    val inputResource = "/pdf/templates/postsubmission/iht-return.xsl"
     val result = new StylesheetResolver().resolve(inputResource, "")
 
     result shouldBe a[StreamSource]

@@ -21,13 +21,13 @@
     <xsl:param name="marriedOrCivilPartnershipLabel"/>
     <xsl:param name="kickout"/>
 
-    <xsl:include href="pdf/templates/application/estate-summary.xsl"/>
-    <xsl:include href="pdf/templates/application/assets.xsl"/>
-    <xsl:include href="pdf/templates/application/gifts.xsl"/>
-    <xsl:include href="pdf/templates/application/debts.xsl"/>
-    <xsl:include href="pdf/templates/application/exemptions.xsl"/>
-    <xsl:include href="pdf/templates/application/tnrb.xsl"/>
-    <xsl:include href="pdf/templates/application/declaration.xsl"/>
+    <xsl:include href="pdf/templates/presubmission/estate-summary.xsl"/>
+    <xsl:include href="pdf/templates/presubmission/assets.xsl"/>
+    <xsl:include href="pdf/templates/presubmission/gifts.xsl"/>
+    <xsl:include href="pdf/templates/presubmission/debts.xsl"/>
+    <xsl:include href="pdf/templates/presubmission/exemptions.xsl"/>
+    <xsl:include href="pdf/templates/presubmission/tnrb.xsl"/>
+    <xsl:include href="pdf/templates/presubmission/declaration.xsl"/>
 
     <xsl:template match="ApplicationDetails">
         <xsl:call-template name="estate-summary"/>

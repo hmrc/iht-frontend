@@ -97,7 +97,7 @@
                                     </fo:table-row>
                                 </xsl:for-each>
                                 <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                <xsl:call-template name="table-row-application-bottom-blank-border-black"/>
+                                <xsl:call-template name="table-row-blank-tall-border-both-black-thick"/>
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
@@ -111,14 +111,14 @@
                         <fo:table-column column-number="2" column-width="40%"/>
                         <fo:table-body font-size="12pt">
 
-                            <xsl:call-template name="table-row-money-border-top-black">
+                            <xsl:call-template name="table-row-money-tall-border-top-black">
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
                                 <xsl:with-param name="value" select='format-number(number($giftsTotal), "##,###.00")'/>
                             </xsl:call-template>
 
                             <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                            <xsl:call-template name="table-row-application-bottom-blank"/>
+                            <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
 
                         </fo:table-body>
                     </fo:table>
