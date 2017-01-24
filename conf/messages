@@ -43,7 +43,6 @@ site.link.return.money = Return to money
 site.link.return.stocksAndShares = Return to stocks and shares
 site.link.return.trusts = Return to assets held in trust
 site.link.startNewRegistration = Start a new registration for someone else’s estate
-site.link.startSection = Start section
 site.link.giveAnswer = Give an answer
 site.link.giveValues = Give values
 site.link.giveDate = Give date
@@ -2224,7 +2223,6 @@ page.iht.iv.failure.preconditionFailed.p1 = You’ve already registered with ano
 page.iht.iv.failure.preconditionFailed.p1.link.text = Contact HMRC to get help
 
 #Errors - Common
-error.giveCountry = Give a country
 error.invalid.date.format = You must specify a valid date
 error.address.isInUK.give = Give an answer for if the address is in the UK
 error.address.wasInUK.give = Give an answer for if the address was in the UK
