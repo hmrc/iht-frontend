@@ -33,27 +33,18 @@ trait BasicEstateElementLiabilitiesFormBehaviour extends FormTestHelper with Fak
 
   def form:Form[BasicEstateElementLiabilities]
   def selectErrorKey:String
+  def valueErrorKey:String
 
   def basicEstateElementLiability()  = {
-   "give an error when the question is not answered" in {
-      val basicEstateElementLiabilityModel = defaultModel.copy(isOwned = None, value = None)
-      val expectedErrors = error("isOwned", selectErrorKey)
 
-     checkForError(form, dataAsJson(basicEstateElementLiabilityModel), expectedErrors)
-    }
-
-    "not give an error when answered Yes" in {
-      val basicEstateElementLiabilityModel = defaultModel.copy(isOwned = Some(true), value = None)
-
-      formWithNoError(form, dataAsJson(basicEstateElementLiabilityModel)) shouldBe basicEstateElementLiabilityModel
-    }
-
-    "not give an error when answered No" in {
-      val basicEstateElementLiabilityModel = defaultModel.copy(isOwned = Some(false), value = None)
-
-      formWithNoError(form, dataAsJson(basicEstateElementLiabilityModel)) shouldBe basicEstateElementLiabilityModel
-    }
-
-    behave like currencyValue[BasicEstateElementLiabilities]("value", form)
+    behave like yesNoQuestionAndValue[BasicEstateElementLiabilities](
+      "isOwned",
+      "value",
+      form,
+      _.isOwned,
+      _.value,
+      selectErrorKey,
+      valueErrorKey
+    )
   }
 }

@@ -22,6 +22,7 @@ class FuneralExpensesFormTest extends BasicEstateElementLiabilitiesFormBehaviour
 
   def form = funeralExpensesForm
   def selectErrorKey = "error.debts.funeralExpenses.select"
+  override def valueErrorKey = "error.estateReport.value.give"
 
   "FuneralExpensesForm" must {
     behave like basicEstateElementLiability

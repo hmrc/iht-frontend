@@ -22,6 +22,7 @@ class JointlyOwnedDebtsFormTest extends BasicEstateElementLiabilitiesFormBehavio
 
   def form = jointlyOwnedDebts
   def selectErrorKey = "error.debts.jointlyOwned.select"
+  override def valueErrorKey = "error.estateReport.value.give"
 
   "JointlyOwnedDebts" must {
     behave like basicEstateElementLiability

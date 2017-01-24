@@ -22,6 +22,7 @@ class AnyOtherDebtsFormTest extends BasicEstateElementLiabilitiesFormBehaviour {
 
   def form = anyOtherDebtsForm
   def selectErrorKey = "error.debts.anyOther.select"
+  override def valueErrorKey = "error.estateReport.value.give"
 
   "AnyOtherDebtsForm" must {
     behave like basicEstateElementLiability
