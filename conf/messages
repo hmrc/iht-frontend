@@ -1,4 +1,3 @@
-### Comments like this are to be removed by IHT-4177 in a later commit
 #Across Site
 
 site.pdf.document.link.text = PDF document
@@ -45,6 +44,15 @@ site.link.return.stocksAndShares = Return to stocks and shares
 site.link.return.trusts = Return to assets held in trust
 site.link.startNewRegistration = Start a new registration for someone else’s estate
 site.link.startSection = Start section
+site.link.giveAnswer = Give an answer
+site.link.giveValues = Give values
+site.link.giveDate = Give date
+site.link.giveName = Give name
+site.link.giveNumber = Give number
+site.link.giveDetails = Give details
+site.link.giveValue = Give value
+site.link.giveAValue = Give a value
+
 site.noneInEstate = None in estate
 site.noDebts = No debts owed
 site.noAssets = No assets
@@ -67,23 +75,74 @@ site.changeDate = Change date
 site.noCharityNameGiven = No charity name given
 site.noCharityNumberGiven = No charity number given
 site.noCharityNameAndNumberGiven = No charity name and number given
-site.link.giveAnswer = Give an answer
-site.link.giveValues = Give values
-site.link.giveDate = Give date
-site.link.giveName = Give name
-site.link.giveNumber = Give number
-site.link.giveDetails = Give details
-site.link.giveValue = Give value
-site.link.giveAValue = Give a value
 
 site.headers.overview.section = Section
 site.headers.overview.values = Information Provided
 site.headers.overview.action = Action
 
-#Overridden error messages
-page.iht.registration.title = Registration
-page.iht.exemptions.title = Exemptions
-page.iht.assets.title = Assets
+iht.address.line1 = Address line 1
+iht.address.line2 = Address line 2
+iht.address.line3 = Address line 3 (optional)
+iht.address.line4 = Address line 4 (optional)
+iht.address.lowerCaseInitial = address
+iht.address.upperCaseInitial = Address
+
+iht.back = Back
+iht.change = Change
+iht.continue = Continue
+iht.notStarted = NOT STARTED
+iht.inComplete = INCOMPLETE
+iht.complete = COMPLETE
+iht.countries.englandOrWales = England or Wales
+iht.countries.northernIreland = Northern Ireland
+iht.countries.scotland = Scotland
+iht.country = Country
+iht.dateExample = For example, 31 3 1980
+iht.dateExample2 = For example, 21 3 1990
+iht.dateOfDeath = Date of death
+iht.dateofbirth = Date of birth
+iht.delete = Delete
+iht.finishAndDeleteThisEstateReport = Finish and delete this estate report
+iht.the.deceased = the deceased
+iht.ifYouWantToChangeYOurAnswer = If you want to change your answer
+iht.exitToGovUK = Exit to GOV.UK
+iht.firstName = First name
+iht.firstName.hint = You don’t need to give any middle names
+iht.giveMoreDetails = Give more details
+iht.gov.url = https://www.gov.uk/inheritance-tax
+iht.iv.contactHMRC = contact HMRC to get help
+iht.iv.exit = Exit
+iht.iv.tryAgain = Try again
+iht.iv.tryAgainLater = Please try again in 5 minutes.
+iht.iv.unableToContinue = This online service is unable to continue at the moment.
+iht.lastName = Last name
+iht.name.lowerCaseInitial = name
+iht.name.upperCaseInitial = Name
+iht.nationalInsuranceNo = National Insurance number
+iht.next = Next
+iht.nextSteps = Next steps
+iht.ninoExample = For example, QQ 12 34 56 C
+iht.no = No
+iht.noChangeToHowReportToHMRC = There’s no change to how you report to HMRC
+iht.notPossibleToUseService = It’s not possible for you to use this service
+iht.postcode = Postcode
+
+iht.returnToLastQuestion = Return to last question
+iht.roughEstimateEstateWorth = Using a rough estimate of any houses or money in bank accounts that the deceased might have owned, how much do you think the deceased’s estate is worth?
+iht.saveAndContinue = Save and continue
+iht.shouldUseOnlineService = You should use the online service
+iht.signedOut = You’ve been signed out
+iht.start = Start
+iht.startAgain = Start again
+iht.timeout.p1 = For your security, we signed you out because you didn’t continue the service for 15 minutes or more.
+iht.timeout.signBackToGG = Sign back in to Government Gateway
+iht.useIHT400PaperForm = You should use an IHT-400 paper form
+iht.usePaperForm = You should use a paper form
+iht.viewOrChange = View or change
+iht.whatDoYouWantToDo = What do you want to do?
+iht.yes = Yes
+iht.comma = ,
+iht.fullStop = .
 
 #Private Beta landing page
 page.iht.private.beta.landing.page.intro.title = Inheritance Tax Online
@@ -120,7 +179,6 @@ page.iht.private.beta.landing.page.cant.use.bullet10 = the total value of assets
 
 page.iht.private.beta.landing.page.cant.use.info = If any of these apply to the estate then you must
 page.iht.private.beta.landing.page.cant.use.info.link = complete an Inheritance Tax account (IHT 400) paper form
-
 page.iht.private.beta.landing.page.cant.use.info2 = If you’ve already calculated the value of the estate and know that you can use the Inheritance Tax online service, you’ll need to provide details of all assets, gifts and debts first. This is before you can claim any estate exemptions or transfer any unused nil rate band of the deceased’s previous spouse or civil partner if that person died first.
 
 page.iht.private.beta.landing.page.start.title = Getting started
@@ -133,6 +191,64 @@ page.iht.private.beta.landing.page.start.bullet2.afterlink = . You can save your
 page.iht.private.beta.landing.page.start.button = Start now
 
 page.iht.private.beta.landing.page.return.link = Continue an Inheritance Tax estate report
+
+#Pre registration filtering
+page.iht.filter.agent.content = There’s no change to how agents report estate values to HMRC. You should continue to use either an IHT-205 or an IHT-400 paper form.
+
+page.iht.filter.filter.choice.main.continue = I want to continue an estate report that I’ve already started
+page.iht.filter.filter.choice.main.register = I want to register so I can tell HMRC about a person’s estate
+page.iht.filter.filter.choice.main.register.hint = You’ll be asked a couple of questions first to make sure you’re using the right service.
+page.iht.filter.filter.choice.main.alreadyStarted = I’ve already started registration and want to continue
+page.iht.filter.filter.choice.main.agent = I’m an agent and reporting on behalf of a client
+
+page.iht.filter.domicile.choice.other = Other country
+page.iht.filter.domicile.return.link = Return to what do you want to do
+
+page.iht.filter.estimate.choice.under = Under £325,000
+page.iht.filter.estimate.choice.between = Between £325,000 and £1 million
+page.iht.filter.estimate.choice.over = More than £1 million
+
+page.iht.filter.previous.answers = Previous answers
+
+page.iht.filter.paperform.scotland.p1 = Reporting the estate value in Scotland is completed by using a paper form.
+page.iht.filter.paperform.scotland.p2.start = You should read the
+page.iht.filter.paperform.scotland.p2.end = to find out what form you should use in Scotland.
+page.iht.filter.paperform.scotland.link.text = Scottish Courts and Tribunals guidance
+
+page.iht.filter.paperform.northern.ireland.p1 = Reporting the estate value in Northern Ireland is completed by using a paper form.
+page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already know that the estate has Inheritance Tax to pay, you should complete the
+page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you aren’t sure of the estate value, you should start filling in the
+page.iht.filter.paperform.northern.ireland.p2.sentence2.end = first.
+page.iht.filter.paperform.northern.ireland.p3 = You can read more about applying for probate in Northern Ireland on
+page.iht.filter.paperform.northern.ireland.iht205.link.text = IHT-205 form
+page.iht.filter.paperform.northern.ireland.nidirect.link.text = NIDIRECT.GOV.UK
+
+page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is completed by filling in an
+page.iht.filter.paperform.other.country.p1.sentence2.start = You should also fill in an
+page.iht.filter.paperform.other.country.p2 = Only assets that are in the UK should be included. This includes any UK property or bank accounts.
+page.iht.filter.paperform.other.country.iht401.link.text = IHT-401 paper form
+
+page.iht.filter.paperform.million.p1 = Because you think the deceased’s estate might be worth more than £1 million, you’ll need to report their estate value by filling in an
+page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to provide and will tell you if there is an Inheritance Tax to pay.
+page.iht.filter.paperform.million.exit = Exit to IHT-400 paper form
+
+page.iht.filter.paperform.iht400.link.text = IHT-400 paper form
+
+page.iht.filter.useService.under325000.paragraph0 = Because you think the deceased’s estate might be worth under £325,000, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
+page.iht.filter.useService.paragraphFinal = You’ll need to register to use the service first, but before that, you’ll need to confirm who you are with HMRC.
+page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the deceased’s estate might be worth between £325,000 and £1 million, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
+page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you’ll be able to claim any estate exemptions or transfer the unused threshold from a spouse or civil partner who died before the deceased.
+
+#Registration
+iht.registration.changeAddressToAbroad = Change the address to one that’s abroad
+iht.registration.changeAddressToUK = Change to a UK address
+iht.registration.checkYourAnswers = Check your answers
+iht.registration.coExecutors.changeIfOthers = Change if other people are applying for probate
+iht.registration.complete = Registration complete
+iht.registration.contactAddress = Contact address
+iht.registration.ninoNotOnPayslip = Their National Insurance number could be found on a payslip.
+iht.registration.othersApplyingForProbate = Other people applying for probate
+page.iht.registration.title = Registration
 
 #Registration - Checklist
 page.iht.registration.checklist.revealText = How to find these details
@@ -163,20 +279,24 @@ page.iht.registration.checklist.exec.title = If anyone else is applying to the P
 page.iht.registration.checklist.exec.reveal.label1 = The easiest thing to do is to ask the person who you’re adding for their details. They’ll be able to find their National Insurance number on a P45 or a P60 form.
 page.iht.registration.checklist.exec.reveal.label2 = Their name should be entered as it is shown on their passport or birth certificate. This might be different to the name that you know them by.
 page.iht.registration.checklist.exec.reveal.label3 = The phone number given is one that HMRC can contact this person on. This might happen after you’ve finished the estate report and it’s being reviewed.
+iht.registration.checklist.dateOfBirth = date of birth
+iht.registration.checklist.phoneNo.lowerCaseInitial = phone number
+iht.registration.checklist.phoneNo.upperCaseInitial = Phone number
 
 #Registration - Deceased
+iht.registration.deceasedDetails.title = About the deceased
 
-#Deceased Date Of Death
+#Registration - Deceased Date Of Death
 page.iht.registration.deceasedDateOfDeath.title = When did the deceased die?
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.label = Enter the deceased’s date of death
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint = For example, 21 3 2010
 
-#Deceased’s permanent home
+#Registration - Deceased’s permanent home
 page.iht.registration.deceasedPermanentHome.title = Where was the deceased’s permanent home?
 page.iht.registration.deceasedPermanentHome.browserTitle = Permanent home
 page.iht.registration.deceasedDetails.domicile.other.label = Other
 
-#About the deceased
+#Registration - About the deceased
 page.iht.registration.deceasedDetails.title.label = Title (optional)
 page.iht.registration.deceasedDetails.title.hint = Enter Mr, Mrs, Miss, Ms or other title
 page.iht.registration.deceasedDetails.maritalStatus.label = What was the deceased’s relationship status when they died?
@@ -190,17 +310,20 @@ page.iht.registration.deceasedDetails.maritalStatus.single.label = Never married
 page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label = Divorced or a former civil partner
 page.iht.registration.deceasedDetails.maritalStatus.widowed.label = Widowed or a surviving civil partner
 
-#Decease Address Question Page
+#Registration - Decease Address Question Page
 page.iht.registration.deceasedAddressQuestion.title = Was the deceased’s last contact address in the UK?
 page.iht.registration.deceasedAddressQuestion.p1 = This is the last address where the deceased could have been contacted before they died.
+iht.registration.deceased.lastContactAddress = Deceased’s last contact address
 
-#Deceased address details
+#Registration - Deceased address details
 page.iht.registration.deceasedDetails.addressheader.header = Deceased’s contact address when they died
 page.iht.registration.deceasedDetails.addressheader.hint = This is the last address where the deceased could’ve been contacted
 page.iht.registration.deceasedDetails.addressheader.uk.hint = This is the last address in the UK where the deceased could have been contacted before they died.
 page.iht.registration.deceasedDetails.addressheader.abroad.hint = This is the last address where the deceased could have been contacted before they died. This address was abroad.
 page.iht.registration.deceasedDetails.country.help = If the deceased’s contact address isn’t in the UK
 page.iht.registration.deceasedDetails.postcode.help = If the deceased’s contact address is in the UK
+iht.registration.deceased.locationOfPermanentHome = Location of deceased’s permanent home
+iht.registration.deceased.permanentHome.where.question = Where did the deceased have their permanent home?
 
 #Registration - Applicant
 page.iht.registration.applicantDetails.title = Tell us about yourself
@@ -233,20 +356,22 @@ page.iht.registration.applicantDetails.countrycode.help = If your address isn’
 page.iht.registration.applicantAddress.title = Your address
 page.iht.registration.applicantAddress.hint = This is where HMRC can contact you.
 
-#Applicant Apply for probate
+#Registration - Applicant Apply for probate
 page.iht.registration.applicant.probateLocation.title = Where are you going to apply for probate?
 page.iht.registration.applicant.probateLocation.browserTitle = Probate location
 
 page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
 page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 Probate application form.
 page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if the deceased left a will. If there wasn’t a will, you would’ve been named as the administrator of the estate by a court.
+iht.registration.applicant.applyingForProbate = Are you applying for probate for the deceased’s estate?
 
-#Applicant tell us about yourself
+#Registration - Applicant tell us about yourself
 page.iht.registration.applicantTellUsAboutYourself.question.label = Do you live in the UK?
 page.iht.registration.applicantTellUsAboutYourself.value.label = What is your phone number?
 page.iht.registration.applicantTellUsAboutYourself.value.sublabel = This can be a mobile or a landline. HMRC might need to contact you about any of the details you provide.
+iht.registration.applicant.tellUsAboutYourself = Your contact details
 
-#Multiple executors
+#Registration - Multiple executors
 page.iht.registration.multipleExecutors.title = Add more {0}s
 page.iht.registration.multipleExecutors.warning.p1.executor = This means that you have been named in the deceased’s will as an executor of their estate.
 page.iht.registration.multipleExecutors.warning.p2 = By confirming this change, you’ll also be changing the role to {0} of anyone else who is applying for probate.
@@ -256,7 +381,7 @@ page.iht.registration.multipleExecutors.continueWhen.confirm = Confirm the chang
 ##Registration - CoExecutor
 page.iht.registration.coexecutor.add.title = Add {0}
 
-#Delete executor confirmation
+#Registration - Delete executor confirmation
 page.iht.registration.deleteExecutor.title = Confirm that you want to delete this person
 page.iht.registration.deleteExecutor.browserTitle = Delete applicant
 
@@ -267,19 +392,6 @@ page.iht.registration.co-executor-personal-details.isAddressInUk = Is their addr
 page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix = {0} address
 page.iht.registration.others-applying-for-probate-address.browserTitle = Other person’s address
 page.iht.registration.others-applying-for-probate-address.address.guidance = This is where HMRC can contact them.
-
-#Registration - KickOuts
-page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary = This is because the deceased died before 18 March 1986. Capital Transfer Tax or Estate Duty were used for deaths before this date.
-page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary = This is because the deceased died between 18 March 1986 and 5 April 2011.
-page.iht.registration.deceasedDetails.kickout.location.summary = This is because the deceased’s permanent home wasn’t in England or Wales.
-page.iht.registration.applicantDetails.kickout.probate.summary = This is because you aren’t intending to apply for probate in England or Wales.
-page.iht.registration.applicantDetails.kickout.role.summary = This is because you aren’t an executor or an administrator for the deceased’s estate.
-page.iht.registration.applicantDetails.kickout.role.p2 = If you want to change your role, you can return to the last page you visited.
-page.iht.registration.applicantDetails.kickout.probateRole.summary = This is because you aren’t intending to apply for probate in England or Wales and you aren’t an executor or an administrator for the deceased’s estate.
-
-page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for the deceased’s estate.
-page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for the deceased’s estate should complete an Inheritance Tax estate report.
-page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer, you can return to the last page you visited.
 
 #Registration Summary
 
@@ -417,7 +529,40 @@ page.iht.registration.executor-overview.entity-name = executor
 page.iht.registration.executor-overview.executor.delete.screenReader = Delete {0} as applying for probate
 page.iht.registration.executor-overview.executor.change.screenReader = Change {0}’s details
 
-#IhtHome
+#Registration - KickOuts
+page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary = This is because the deceased died before 18 March 1986. Capital Transfer Tax or Estate Duty were used for deaths before this date.
+page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary = This is because the deceased died between 18 March 1986 and 5 April 2011.
+page.iht.registration.deceasedDetails.kickout.location.summary = This is because the deceased’s permanent home wasn’t in England or Wales.
+page.iht.registration.applicantDetails.kickout.probate.summary = This is because you aren’t intending to apply for probate in England or Wales.
+page.iht.registration.applicantDetails.kickout.role.summary = This is because you aren’t an executor or an administrator for the deceased’s estate.
+page.iht.registration.applicantDetails.kickout.role.p2 = If you want to change your role, you can return to the last page you visited.
+page.iht.registration.applicantDetails.kickout.probateRole.summary = This is because you aren’t intending to apply for probate in England or Wales and you aren’t an executor or an administrator for the deceased’s estate.
+
+page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for the deceased’s estate.
+page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for the deceased’s estate should complete an Inheritance Tax estate report.
+page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer, you can return to the last page you visited.
+iht.registration.kickout.content = You should complete the Inheritance Tax estate report by completing either an IHT-205 or an IHT-400 paper form.
+iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
+iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
+iht.registration.kickout.returnToTheLastPageVisited =return to the last page you visited
+iht.registration.kickout.message.MinDOD = If the date of death was between 13 March 1975 to 18 March 1986, Capital Transfer Tax applied to the deceased’s estate. Estate Duty was in place before 13 March 1975.
+iht.registration.kickout.message.form2 = If you want to change this date
+iht.registration.kickout.message.phone = Call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
+iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report
+iht.registration.kickout.message.returnToLast = Return to the last page you visited
+iht.registration.kickout.probateLocation.scotland = You should complete the Inheritance Tax estate report by completing either a C1 or a C5 paper form.
+
+#Estate report - Common
+iht.estateReport.goToEstateReports = Go to your Inheritance Tax estate reports
+iht.estateReport.changeValues = Change values
+iht.estateReport.completeEverySection = Every section must be completed.
+iht.estateReport.correctiveAccountForm = Corrective Account form
+iht.estateReport.ihtThreshold = Inheritance Tax threshold
+iht.estateReport.noInheritanceTaxPayable = no Inheritance Tax is payable
+iht.estateReport.saved.estate = All details on this page have been saved to the estate report.
+iht.inheritanceTaxEstateReport = Inheritance Tax estate report
+
+#Estate report - IhtHome
 page.iht.home.title = Your Inheritance Tax estate reports
 page.iht.home.browserTitle = Your estate reports
 page.iht.home.applicationList.table.guidance.label = These are all the Inheritance Tax estate reports you have created.
@@ -434,7 +579,32 @@ page.iht.home.button.startApplication.screenReader = Start {0}’s estate report
 page.iht.home.button.continueApplication.screenReader = Continue {0}’s estate report
 page.iht.home.button.viewApplication.screenReader = View {0}’s estate report
 
-#Estate overview
+#Estate report - Application Status - Closed
+page.iht.application.overview.closed.helptext = When you’ve completed everything to do with this estate, including receiving your grant of representation from the Probate Service, you can complete clearance of this estate report.
+page.iht.application.overview.closed.warning = By completing clearance you are confirming that you have nothing left to do with this estate. HMRC will give you a certificate that you can download or print and which confirms that this estate report has been cleared.
+page.iht.application.overview.closed.clearance = Complete clearance of this estate report
+page.iht.application.overview.closed.sidebartitle = This estate report hasn’t been cleared.
+
+#Estate report - Application Status - In Review
+page.iht.application.overview.inreview.title = This estate report is being reviewed by HMRC
+page.iht.application.overview.inreview.helptext = It could take HMRC up to 2 months to review this estate report from the date you sent it. HMRC will contact you if they have any questions about this estate report.
+page.iht.application.overview.inreview.sidebartitle = You have sent this report to HMRC.
+
+#Estate report - Application Status - Clearance Granted
+page.iht.application.overview.cleared.helptext1 = You have confirmed that you have nothing left to do with this estate.
+page.iht.application.overview.cleared.helptext2 = You can view a copy of your clearance certificate that confirms that this estate report has been cleared.
+page.iht.application.overview.cleared.sidebartitle = You have completed clearance of this estate report.
+
+#Estate report - Application Status - Review/Closed/Clearance/Certificate
+page.iht.application.overview.common.title = This estate report has been closed
+page.iht.application.overview.common.estatevalue = Based on the details you have provided, {0}’s estate is below the threshold and there is no Inheritance Tax to pay.
+page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by the deceased that weren’t included in this estate report, let HMRC know by using a
+page.iht.application.overview.common.helptext.part2 = Only do this if these assets increase the value of the estate over the Inheritance Tax threshold.
+page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
+page.iht.application.overview.common.viewcopy = View a copy of this estate report
+page.iht.application.overview.common.viewcertificate = View clearance certificate
+
+#Estate report - Estate overview
 page.iht.application.estateOverview.noValue = No value given
 page.iht.application.estateOverview.valueOfAssetsAndGifts = Value of assets and gifts
 page.iht.application.estateOverview.totalAddedToTheEstateValue = Total added to the estate value
@@ -493,14 +663,19 @@ page.iht.application.overview.total.screenReader.value = {0}’s estate value is
 page.iht.application.overview.threshold.screenReader.value = {0}’s inheritance tax threshold is £{1}
 page.iht.application.overview.threshold.screenReader.value.link = View or change details given to increase the threshold
 page.iht.application.overview.threshold.screenReader.moreDetails.link = Give more details to increase the threshold
+iht.estateReport.returnToEstateOverview = Return to estate overview
 
-#Assets
+#Estate report - Assets
 page.iht.application.assets.main-section.personalbelongings.title = Personal belongings
 page.iht.application.assets.main-section.other.title = Other assets
 page.iht.application.assets.main-section.properties.delete.warning = This will also delete any mortgage that has been added to this property.
 page.iht.application.assets.subtitle = An asset is anything the deceased owned that has a value.
 
-#Assets - Overview
+iht.estateReport.assets.getProfessionalValuation = HMRC recommend that you get a professional valuation for anything that might be worth more than £500. Any estimates should be made on an open market value and not an insurance or replacement value.
+iht.estateReport.assets.howOwnedByDeceased = How was this owned by {0}?
+iht.estateReport.assets.inEstate = Assets in the estate
+
+#Estate report - Assets - Overview
 page.iht.application.assets.overview.screenreader.link = for the {0} section
 page.iht.application.assets.overview.screenreader.link.change = your answer for the {0} section
 page.iht.application.assets.overview.title = {0}’s assets
@@ -579,7 +754,7 @@ page.iht.application.assets.overview.other.screenReader.link.moreDetail = Give m
 page.iht.application.assets.overview.total = Total value of assets added to the estate value
 page.iht.application.assets.overview.screenReader.total = The total value of assets added to the estate value is £{0}
 
-#Assets - Properties, buildings and lands
+#Estate report - Assets - Properties, buildings and lands
 page.iht.application.assets.propertyType.deceasedHome.label = Deceased’s home
 page.iht.application.assets.propertyType.otherResidential.label = Other residential building
 page.iht.application.assets.propertyType.nonResidential.label = Land, non-residential or business building
@@ -640,7 +815,17 @@ page.iht.application.assets.properties.question.question = Did {0} own any prope
 page.iht.application.assets.properties.question.noValue = Give an answer for did the deceased own any properties, buildings or land in the UK
 page.iht.application.assets.properties.question.change = Change the answer for did the deceased own any properties, buildings or land in the UK
 
-#Assets - Money
+iht.estateReport.assets.properties.freeholdOrLeasehold = Was this owned freehold or leasehold?
+iht.estateReport.assets.properties.returnToAddAProperty = Return to add a property, building or land
+iht.estateReport.assets.properties.value.question = What was the value of this property, building or land?
+iht.estateReport.assets.properties.whatKind.question = What kind of property, building or land was this?
+iht.estateReport.assets.propertiesBuildingsAndLand = Properties, buildings and land
+iht.estateReport.assets.property.findOutFromLandRegistry = find out from the Land Registry
+iht.estateReport.assets.property.whatIsAddress.question = What’s the address?
+iht.estateReport.assets.property.youCan = You can
+iht.estateReport.assets.propertyAdd = Add a property, building or land
+
+#Estate report - Assets - Money
 page.iht.application.assets.money.overview.description.p1 = This is the value of any money that {0} had.
 page.iht.application.assets.money.overview.description.p2 = This includes any money in banks, building societies, National Savings investments, ISAs and safety deposit boxes. You should also include any cash {0} had in notes and coins.
 page.iht.application.assets.money.overview.description.p3 = If {0} had any foreign cash in the UK, you should change the value to British pounds using the exchange rate on the date of death and include that amount here.
@@ -670,7 +855,21 @@ page.iht.application.assets.household.sectionName = household
 page.iht.application.assets.household.description.p1 = These are items, such as electrical goods and furniture, along with personal items such as jewellery.
 page.iht.application.assets.household.inputLabel1 = Value of what the deceased owned on their own
 
-#Assets - Household and personal items
+iht.estateReport.assets.money.jointlyOwned = Money jointly owned with other people
+iht.estateReport.assets.money.lowerCaseInitial = money
+iht.estateReport.assets.money.ownName.question = Did {0} own any money in their own name?
+iht.estateReport.assets.money.upperCaseInitial = Money
+iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money had by the deceased only in their name
+iht.estateReport.assets.moneyOwed = Money owed to {0}
+iht.estateReport.assets.moneyOwned = Money owned only by {0}
+
+page.iht.application.assets.moneyOwed.description.p1 = This is any money owed to {0} when they died.
+page.iht.application.assets.moneyOwed.description.p2 = This could be a loan {0} made to someone or to a business and wasn’t paid back before they died.
+page.iht.application.assets.moneyOwed.description.p3 = You should include the total value that was still owed to {0} and include any unpaid interest.
+page.iht.application.assets.moneyOwed.isOwned = Was any money owed to {0}?
+page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to the deceased when they died
+
+#Estate report - Assets - Household and personal items
 page.iht.application.assets.household.deceased.browserTitle = Own household items owned
 page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue = Give an answer for household and personal items held in the deceased’s name
 page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change = Change the answer for household and personal items held in the deceased’s name
@@ -683,7 +882,15 @@ page.iht.application.assets.household.overview.joint.value = Value of the deceas
 page.iht.application.assets.household.overview.joint.value.screenreader.link.change = Change the answer for value of jointly owned household and personal items
 page.iht.application.assets.household.overview.guidance = These are items such as electrical goods and furniture, along with personal items such as jewellery.
 
-#Assets - Motor vehicles
+iht.estateReport.assets.household.deceasedOwnedValue = Value of what the deceased owned in their own name
+iht.estateReport.assets.household.joint.question = Did {0} jointly own any household and personal items with any other people?
+iht.estateReport.assets.household.ownName.question = Did {0} own any household and personal items in their own name?
+iht.estateReport.assets.household.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned items
+iht.estateReport.assets.householdAndPersonalItems.title = Household and personal items
+iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title = Household and personal items {0} owned jointly with other people
+iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title = Household and personal items owned only by {0}
+
+#Estate report - Assets - Motor vehicles
 page.iht.application.assets.vehicles.sectionName = vehicles
 page.iht.application.assets.vehicles.overview.joint.title = Motor vehicles {0} owned with other people
 page.iht.application.assets.vehicles.overview.guidance = These are all cars and motorbikes that {0} owned. You must also include any caravans or boats that {1} had.
@@ -700,7 +907,13 @@ page.iht.application.assets.vehicles.jointly.owned.screenreader.link.noValue = G
 page.iht.application.assets.vehicles.jointly.owned.screenreader.link.change = Change the answer for jointly owned motor vehicles
 page.iht.application.assets.vehicles.jointly.owned.value.screenreader.link.change = Change the value of any jointly owned motor vehicles
 
-#Assets - Private pensions
+iht.estateReport.assets.vehicles = Motor vehicles
+iht.estateReport.assets.vehicles.jointly.owned.question = Did {0} jointly own any motor vehicles with any other people?
+iht.estateReport.assets.vehicles.ownName.question = Did {0} own any motor vehicles in their own name?
+iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned motor vehicles
+iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by {0}
+
+#Estate report - Assets - Private pensions
 page.iht.application.pensions.isOwned.title = Did {0} have a private pension?
 page.iht.application.pensions.isOwned.browserTitle = Any private pensions
 page.iht.application.assets.pensions.isOwned.p1 = This does not include their state pension.
@@ -721,7 +934,11 @@ page.iht.application.assets.pensions.value.screenreader.link.change = Change the
 page.iht.application.assets.pensions.value.screenreader.link.noValue = Give a value for the remaining pension payments being paid to the estate
 page.iht.application.assets.pensions.hint = The pension provider will be able to tell you how much is being paid to the estate.
 
-#Assets - Stock and shares
+iht.estateReport.assets.pensions.returnToPrivatePensions = Return to private pensions
+iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid = Value of remaining pension payments being paid to the estate
+iht.estateReport.assets.privatePensions = Private pensions
+
+#Estate report - Assets - Stock and shares
 page.iht.application.assets.stocks.sectionName = stocks
 page.iht.application.assets.stocks.description.p1 = These are any UK stocks and shares that the deceased owned when they died. You’ll need to split any stocks and shares listed on an exchange from those that were unlisted.
 page.iht.application.assets.stocks.inputLabel1 = Value of stocks and shares listed on the Stock Exchange
@@ -739,7 +956,15 @@ page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link
 page.iht.application.assets.stocksAndShares.overview.guidance = These are any UK stocks and shares that {0} owned when they died.
 page.iht.application.assets.stocksAndShares.overview.guidance2 = You’ll need to split any stocks and shares listed on an exchange from those that were unlisted.
 
-#Assets - Insurance policies
+iht.estateReport.assets.stocksAndShares = Stocks and shares
+iht.estateReport.assets.stocksAndShares.listed.question = Did {0} own any stocks and shares that were listed on an exchange?
+iht.estateReport.assets.stocksAndShares.notListed.question = Did {0} own any stocks and shares that were not listed on an exchange?
+iht.estateReport.assets.stocksAndShares.valueOfListed = Value of listed stocks and shares
+iht.estateReport.assets.stocksAndShares.valueOfNotListed = Value of stocks and shares not listed
+iht.estateReport.assets.stocksAndSharesListed = Stocks and shares listed on an exchange
+iht.estateReport.assets.stocksAndSharesNotListed = Stocks and shares not listed on an exchange
+
+#Estate report - Assets - Insurance policies
 page.iht.application.assets.insurance.policies.overview.guidance1 = This includes any life insurance policies or insurance bonds that pay out to the estate, policies held in ISAs, money paid under a mortgage protection policy and any policies on the life of another person that would pay out to {0}.
 page.iht.application.assets.insurances.sectionName = insurances
 page.iht.application.assets.insurances.inputLabel1 = Value of the deceased’s insurance policies held in their own name when they died
@@ -800,7 +1025,21 @@ page.iht.application.insurance.policies.section7.guidance2 = You should take you
 page.iht.application.insurance.policies.section8.browserTitle = Value of gifted policies
 page.iht.application.insurance.policies.validation.summary.endLine = If you don't want to answer at this time, you can choose to return to insurance policies.
 
-#Assets - Business interests
+iht.estateReport.assets.insurancePolicies = Insurance policies
+iht.estateReport.assets.insurancePolicies.buyAnnuity.question = Did {0} buy an annuity at any time in their life?
+iht.estateReport.assets.insurancePolicies.payingOutToDeceased = Policies that are paying out to {0}
+iht.estateReport.assets.insurancePolicies.premiumsPaidByOther = Insurance premiums paid by {0} for someone else
+iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare = Total value of the deceased’s share of all jointly held policies
+iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut = Total value of all policies owned by the deceased and any policies paying out to their estate
+iht.estateReport.insurancePolicies.jointlyHeld.question = Did {0} have any insurance policies that were jointly held with someone else?
+iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate?
+iht.estateReport.insurancePolicies.ownName.question = Did {0} have any policies in their own name that were to pay out to them or are there any policies that were paying out to their estate?
+iht.estateReport.insurancePolicies.premiumsNotPayingOut.question = Did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate?
+iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1 = This could have been at any point in their life and the insurance policy shouldn’t have been due to pay out to {0} or to their estate.
+iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2 = You can answer no if the policy was due to pay out to {0}’s spouse or civil partner.
+
+#Estate report - Assets - Business interests
+iht.estateReport.assets.businessInterests.title = Business interests
 page.iht.application.assets.businessInterest.browserTitle = Business interests owned
 page.iht.application.assets.businessInterest.description.p1 = This should include the value of {0}’s business interests.
 page.iht.application.assets.businessInterest.description.p2 = If {0} owned any business properties, buildings or land, you should give these details in the properties, buildings and land section.
@@ -808,7 +1047,8 @@ page.iht.application.assets.businessInterest.isOwned = Did {0} own any businesse
 page.iht.application.assets.businessInterest.inputLabel1 = Value of the deceased’s business interests when they died
 page.iht.application.assets.businessInterest.hint = Don’t include any business properties, buildings or land that were owned.
 
-#Assets - Nominated
+#Estate report - Assets - Nominated
+iht.estateReport.assets.nominated = Nominated assets
 page.iht.application.assets.nominated.sectionName = nominated
 page.iht.application.assets.nominated.browserTitle = Nominated assets owned
 page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These shouldn’t be confused with an assets being left to someone in a will. If something is left to someone in a will, this isn’t a nominated asset
@@ -818,7 +1058,7 @@ page.iht.application.assets.nominated.description.p4 = Don’t include pension b
 page.iht.application.assets.nominated.inputLabel1 = Value of the nominated assets when the deceased died
 page.iht.application.assets.nominated.question = Did {0} have any nominated assets?
 
-#Assets - Assets held in a trust
+#Estate report - Assets - Assets held in a trust
 page.iht.application.assets.held-in-trust.sectionName = held-in-trust
 page.iht.application.assets.held-in-trust.description.p1 = If the deceased benefitted from a trust during their lifetime, such as regular payments being received or dividends from shares, these need to be included in the value of their estate. This includes assets in a trust that the deceased benefitted from during their lifetime, or was entitled to benefit from.
 page.iht.application.assets.held-in-trust.description.p2 = If the deceased had the right to live in a house that was held in a trust during their lifetime, the value of that property should be included.
@@ -834,20 +1074,24 @@ page.iht.application.assets.trusts.moreThanOne.question.screenreader.link.value 
 page.iht.application.assets.trusts.value.screenreader.link.noValue = Give the value of the trust that the deceased benefitted from when they died
 page.iht.application.assets.trusts.value.screenreader.link.value = Change the value of the trust that the deceased benefitted from when they died
 
-#Assets - Foreign
+iht.estateReport.assets.heldInATrust.title = Assets held in a trust
+iht.estateReport.assets.heldInTrust.needInclusion = If {0} had the right to live in a house that was held in trust during their lifetime, the value of that property should also be included.
+iht.estateReport.assets.heldInTrust.title = Assets held in trust
+iht.estateReport.assets.heldInTrust.valueOfTrust = Value of the trust that {0} benefitted from when they died
+
+iht.estateReport.assets.trusts.benefittedFromHeldInTrust = These are all the assets that {0} benefitted from, or had the right to benefit from, that were held in trust.
+iht.estateReport.assets.trusts.moreThanOne.question = Was {0} benefitting from, or have the right to benefit from, more than 1 trust?
+iht.estateReport.assets.trusts.needInclusion = If {0} benefitted from a trust during their lifetime, such as getting regular payments or dividends from shares, these need to be included in the value of the estate.
+iht.estateReport.assets.trusts.question = Did {0} benefit from, or have the right to benefit from, a trust during their lifetime?
+
+#Estate report - Assets - Foreign
+iht.estateReport.assets.foreign.title = Foreign assets
 page.iht.application.assets.foreign.sectionName = foreign
 page.iht.application.assets.foreign.description.p1 = If {0} owned any assets outside of the UK, you should change the value into British pounds. The Isle of Man and the Channel Islands are not part of the UK.
 page.iht.application.assets.foreign.inputLabel1 = Value in British pounds of the deceased’s foreign assets when they died
 page.iht.application.assets.foreign.deceasedOwned.question = Did {0} own any foreign assets?
 
-#Assets - Money owed
-page.iht.application.assets.moneyOwed.description.p1 = This is any money owed to {0} when they died.
-page.iht.application.assets.moneyOwed.description.p2 = This could be a loan {0} made to someone or to a business and wasn’t paid back before they died.
-page.iht.application.assets.moneyOwed.description.p3 = You should include the total value that was still owed to {0} and include any unpaid interest.
-page.iht.application.assets.moneyOwed.isOwned = Was any money owed to {0}?
-page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to the deceased when they died
-
-#Assets - Money owed to deceased
+#Estate report - Assets - Money owed to deceased
 page.iht.application.assets.deceased-permanent-home.editOrDelete.screenReader = the address for {0} {1}
 page.iht.application.assets.deceased-permanent-home.value.input-footer-label = If the other joint owner wasn’t the deceased’s spouse or civil partner, you should reduce the value of their share by 10%.
 page.iht.application.assets.deceased-permanent-home.sectionName = property
@@ -865,14 +1109,15 @@ page.iht.application.assets.deceased-permanent-home.table.emptyRow.text = You ha
 page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text = No address added
 page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by the deceased then there’ll be no mortgages owed as a debt from the estate.
 
-#Assets - Any other assets not listed
+#Estate report - Assets - Any other assets not listed
+iht.estateReport.assets.other.title = Any other assets not listed
 page.iht.application.assets.other.browserTitle = Other assets owned
 page.iht.application.assets.other.description.p1 = This is the total value of any other assets that are not included in any other section.
 page.iht.application.assets.other.description.p2 = This could be any money owed in salary or wages, pension arrears, rents owed to {0}, or refunds from utility bills.
 page.iht.application.assets.other.isOwned = Did {0} own any other assets?
 page.iht.application.assets.other.inputLabel1 = Value of any other assets when the deceased died
 
-#Gifts
+#Estate report - Gifts
 page.iht.application.gifts.guidance.button.continueToGifts = Continue to gifts given away
 page.iht.application.gifts.guidance.title = A guide to gifts
 page.iht.application.gifts.guidance.whatsAGift.title = What’s a gift?
@@ -1019,7 +1264,17 @@ page.iht.application.giftsDetails.value.label = Total value of gifts given away
 page.iht.application.giftsDetails.exemptions.label = Total value of exemptions being claimed
 page.iht.application.giftsDetails.amountAdded = Amount added to the estate value is £
 
-#Debts
+iht.estateReport.gifts.givenAway.title = Gifts given away
+iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
+iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Gifts given away in the 7 years before death
+iht.estateReport.gifts.reservation.question = Did {0} give any gifts away with reservation of benefit?
+iht.estateReport.gifts.returnToGiftsGivenAway = Return to gifts given away in the 7 years before death
+iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to value of gifts given away in the 7 years before death
+iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the London Stock Exchange
+iht.estateReport.gifts.valueOfGiftsGivenAway = Value of gifts given away in the 7 years before death
+iht.estateReport.gifts.withReservation.title = Gifts with reservation of benefit
+
+#Estate report - Debts
 page.iht.application.debts.subtitle1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate.
 page.iht.application.debts.subtitle2 = You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
 
@@ -1102,11 +1357,43 @@ page.iht.application.debts.other.description.p3 = Any outstanding credit card de
 page.iht.application.debts.other.isOwned = Are there any other debts to be paid out of the estate?
 page.iht.application.debts.other.inputLabel1 = Value of any other debts
 
-#Exemptions
+iht.estateReport.debts.debtsTrust.title = Debts owed from a trust
+iht.estateReport.debts.debtsTrust.value = Value of any debts owed from a trust
+iht.estateReport.debts.funeralExpenses.title = Funeral expenses
+iht.estateReport.debts.mortgage.valueOfDeceasedsShare = Value of deceased’s share of mortgage
+iht.estateReport.debts.mortgages = Mortgages
+iht.estateReport.debts.other.title = Any other debts not listed
+iht.estateReport.debts.owedFromEstate = Debts owed from the estate
+iht.estateReport.debts.owedOnJointAssets = Debts owed on any jointly owned assets
+iht.estateReport.debts.owedOnJointAssets.value = Value of any debts owed on jointly owned assets
+iht.estateReport.debts.owedOutsideUK = Debts owed to anyone outside of the UK
+iht.estateReport.debts.owedOutsideUK.value = Value of debts owed to anyone outside of the UK
+iht.estateReport.debts.valueOfFuneralCosts = Value of the funeral costs
+
+#Estate report - Exemptions
+page.iht.exemptions.title = Exemptions
 page.iht.application.return.to.exemptionsOf = Return to {0}’s estate exemptions
 page.iht.application.exemptions.overview.screenReader.total = The total value of estate exemptions which are taken away from the estate value is £{0}
+iht.estateReport.exemptions.title = Estate exemptions
 
-#Exemptions - Partner
+#Estate report - Exemptions Guidance
+page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you don’t know the estate value, it’s recommended to only complete the assets, gifts and debts sections first before you claim any exemptions.
+page.iht.application.exemptions.guidance.content2 = If you don’t want to claim any estate exemptions,
+page.iht.application.exemptions.guidance.content2.linkText = you can return to the estate overview page
+page.iht.application.exemptions.guidance.content3 = Some assets might be exempt from Inheritance Tax if they are being passed to a spouse or civil partner, a charity or to another qualifying body.
+page.iht.application.exemptions.guidance.content4 = The estate value could become less than the Inheritance Tax threshold by claiming these exemptions.
+page.iht.application.exemptions.guidance.link = Continue to estate exemptions
+
+page.iht.application.exemptions.guidance.increasing.threshold.title = The estate value is above the Inheritance Tax threshold
+page.iht.application.exemptions.guidance.increasing.threshold.p1 = You could bring the estate value below the threshold by claiming any estate exemptions.
+page.iht.application.exemptions.guidance.increasing.threshold.p2 = Some of the deceased’s assets can be claimed as an exemption if they are being passed to a spouse or civil partner, a charity or to another qualifying body.
+page.iht.application.exemptions.guidance.increasing.threshold.link.text = Go to estate exemptions
+
+iht.estateReport.exemptions.guidance.claimingEstateExemptions = Claiming estate exemptions
+iht.estateReport.exemptions.guidance.debtsSubtracted = If you claim any exemptions, any debts that are owed from the estate will also be taken off the estate value.
+iht.estateReport.exemptions.guidance.provideAssetsDetails = You’ll need to provide details of these assets in the estate exemptions section. You can save your progress and return to it at any time through the estate overview page.
+
+#Estate report - Exemptions - Partner
 page.iht.application.exemptions.partner.overview.browserTitle = Assets left to partner
 page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.noValue = Give answer for did the deceased leave anything to their spouse or civil partner
 page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value = Change the answer for did the deceased leave anything to their spouse or civil partner
@@ -1159,8 +1446,12 @@ page.iht.application.exemptions.partner.dateOfBirth.browserTitle = Partner’s d
 page.iht.application.exemptions.partnerPermanentHome.browserTitle = Partner’s residence
 
 page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because the deceased’s spouse or civil partner didn’t have their permanent home in the UK.
+iht.estateReport.exemptions.partner.assetsLeftToSpouse.title = Assets left to a spouse or civil partner
+iht.estateReport.exemptions.partner.homeInUK.question = Is the spouse’s or civil partner’s permanent home in the UK?
+iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse = Return to assets left to spouse or civil partner
+iht.estateReport.exemptions.spouse.assetLeftToSpouse.question = Did {0} leave any assets to their spouse or civil partner?
 
-#Exemptions - Charity
+#Estate report - Exemptions - Charity
 page.iht.application.exemptions.overview.charity.screenReader.noValue = You haven’t given a value for assets left to charities
 page.iht.application.exemptions.overview.charity.screenReader.value = The value of assets left to charities is £{0}
 page.iht.application.exemptions.overview.charity.screenReader.link.noValue = Give an answer for assets left to charities
@@ -1214,7 +1505,19 @@ page.iht.application.charity.number.screenReader = The name of the charity is {0
 page.iht.application.charity.edit.screenReader = Change any of the details you’ve given for {0} (charity {1})
 page.iht.application.charity.delete.screenReader = Delete {0} (charity {1}) from the list of charities
 
-#Exemptions - Qualifying body
+iht.estateReport.exemptions.charities.assetLeftToCharity.question = Did {0} leave any assets to a charity?
+iht.estateReport.exemptions.charities.assetsLeftToACharity.title = Assets left to a charity
+iht.estateReport.exemptions.charities.assetsLeftToCharities.title = Assets left to charities
+iht.estateReport.exemptions.charities.charityName.title = Charity name
+iht.estateReport.exemptions.charities.charityNo.question = What is the registered charity number?
+iht.estateReport.exemptions.charities.noNameAdded = No name added
+iht.estateReport.exemptions.charities.registeredCharityNo = Registered charity number
+iht.estateReport.exemptions.charities.returnToAddACharity = Return to add a charity
+iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities = Return to assets left to charities
+iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived = Total value of assets the charity received
+
+#Estate report - Exemptions - Qualifying body
+iht.estateReport.assets.qualifyingBodyAdd = Add another qualifying body
 page.iht.application.exemptions.qualifyingBody.value.sectionTitle = Total value of assets left to the qualifying body
 page.iht.application.exemptions.qualifyingBody.value.browserTitle = Value of assets left to body
 
@@ -1270,8 +1573,16 @@ page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.lin
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.link.screenreader.value = Change the qualifying body name
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.link.screenreader.noValue = Give value of assets received by the qualifying body
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.link.screenreader.value = Change the value of assets received by the qualifying body
+iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext = If you don’t know if assets passing to another body will be exempt from Inheritance Tax, call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072. Once you’ve given the name of the body, you’ll be told if any assets left to them will be exempt of Inheritance Tax.
+iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title = Assets left to other qualifying bodies
+iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities = These are all of the assets being left to a qualifying body. These will not be charities that have a registered charity number.
+iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody = Confirm that you want to delete this qualifying body
+iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies = How to find out if another body qualifies
+iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies = Return to assets left to other qualifying bodies
+iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to assets left to other qualifying body
+iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
 
-#Tnrb
+#Estate report - Tnrb
 page.iht.application.transferOfNilRateBand.widowedCheck.title = Widowed Check
 page.iht.application.transferOfNilRateBand.widowedCheck.marriedOrDivorced.guidance.label = It might be possible to increase the Inheritance Tax threshold up to £650,000 if the deceased was married or in a civil partnership at any time and their spouse or civil partner died.
 
@@ -1406,15 +1717,128 @@ page.iht.application.TnrbEligibilty.ihtThresholdIncreaseNotPossible.label = It i
 
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s Inheritance Tax threshold has increased to £650,000 because of the transfer of {1}’s unused threshold.
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2 = The estate value is now under the Inheritance Tax threshold and there’s no Inheritance Tax to pay.
+iht.estateReport.tnrb.benefitFromTrust.question = Did {0} have the right to benefit from a trust during their lifetime?
+iht.estateReport.tnrb.dateOfMarriage = Date of {0}
+iht.estateReport.tnrb.giftsMadeBeforeDeath.question = Were any gifts that weren’t exempt given away in the 7 years before {0} died?
+iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts with the reservation of benefit given to anyone apart from {0}?
+iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
+iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
+iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. You’ll also need to complete an IHT-402 paper form to increase the threshold.
+iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and {2} died?
+iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
+iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
 
-#Kickouts
+#Estate report - DECLARATIONS
+page.iht.application.overview.helptext.part1 = If you discover any assets that the deceased owned that weren’t included in your estate reports, you should let us know by using a
+page.iht.application.overview.helptext.part2 = . Only do this if these assets increase the estate value over the Inheritance Tax threshold.
+iht.estateReport.declaration.coExecutors.confirmationText = I confirm that I have a copy of the signed declaration
+iht.estateReport.declaration.coExecutors.mayFaceProsecution = You and the other people applying to the Probate Service may face prosecution or have to pay a penalty if you:
+iht.estateReport.declaration.coExecutors.prologue1 = Before you complete your declaration, you must show all of the other people applying to the Probate Service a copy of the estate report.
+iht.estateReport.declaration.coExecutors.prologue2 = They must confirm that they agree with the valuation and sign the declaration page.
+iht.estateReport.declaration.coExecutors.prologue3 = You must keep a copy of the signed declaration page because HMRC might ask to see it. Do not send this to HMRC unless you are asked to do so.
+iht.estateReport.declaration.coExecutors.prologue4 = These people must agree to the declaration on the estate report and sign the page.
+iht.estateReport.declaration.completedAllReasonableEnquiries = you have completed all reasonable enquiries into the deceased’s estate
+iht.estateReport.declaration.correctAndComplete = the information you have supplied, including all valuations, is correct and complete to the best of your knowledge and belief
+iht.estateReport.declaration.deceasedMarriedWhenPartnerDied = the deceased was married or in a civil partnership at the date when their previous spouse or civil partner died
+iht.estateReport.declaration.declaringThat = By sending this estate report you’re declaring that:
+iht.estateReport.declaration.didntUseAnyOfThreshold = the previous spouse or civil partner didn’t use any of their Inheritance Tax threshold
+iht.estateReport.declaration.dontTellHMRC = don’t tell HMRC within 6 months of any changes to the estate that increase the value over the Inheritance Tax threshold
+iht.estateReport.declaration.estateValueBeforeExemptionsLessThan1Million = the estate’s value before any exemptions are applied is less than or equal to £1,000,000
+iht.estateReport.declaration.haveProvidedNonMatchingDetails = have provided any details that do not match the will and any Deed of Variation for the deceased’s previous spouse or civil partner
+iht.estateReport.declaration.title = Declaration
+iht.estateReport.declaration.withholdInformation = withhold or give false information
+iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or have to pay a penalty if you:
+
+iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in {0}’s estate?
+iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.
+iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration.
+iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this estate report, you’re declaring that you believe this is correct.
+
+#Estate report - Declaration Received
+page.iht.application.declaration_received.title = Your estate report has been sent to HMRC
+page.iht.application.declaration_received.subtitle = What happens next
+page.iht.application.declaration_received.probate.paragraph1 = HMRC will review your Inheritance Tax estate report – this might take up to 2 months. HMRC might be in touch with you during this time if they have any queries. Once the review has been completed, the estate report status will be changed to closed.
+page.iht.application.declaration_received.paragraph2 = HMRC might also check the valuation of any properties that you’ve entered – if they do this, the Valuation Office might call you.
+page.iht.application.declaration_received.paragraph3 = When you’ve sent off your Probate Application form (PA1), you’ll be told by the Probate Service what to do next to receive your grant of representation.
+page.iht.application.declaration_received.paragraph4 = Once you’ve received this and completed everything you need to do with the deceased’s estate, you can get a statutory certificate of discharge from HMRC by clearing this estate report. To do this, view this estate report from your Inheritance Tax estate reports page.
+page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it
+page.iht.application.declaration_received.paragraph5.part2 = HMRC recommend that you keep a copy for your own use along with anything you’ve used to give any details about what the deceased owned or owed. You should keep these for 5 years in case anyone asks to see these details.
+page.iht.application.declaration_received.hint = What happens if you find assets that you haven’t included in this estate report
+page.iht.application.declaration_received.continuelink = Continue to your Inheritance Tax estate reports
+page.iht.application.declaration_received.subheading1 = HMRC will review this estate report
+page.iht.application.declaration_received.subheading2 = Getting your statutory certificate of discharge
+page.iht.application.declaration_received.subheading3 = Keeping records for the future
+iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you’re accepting this.
+
+#Estate report - Probate Details
+page.iht.application.probateDetails.content2 = On your PA1 form, turn to page 6. You’ll need to write the following details into section 7.5:
+page.iht.application.probateDetails.content2.bullet1 = Your IHT Identifier is
+page.iht.application.probateDetails.content2.bullet2 = The Gross Estate Figure is £{0}
+page.iht.application.probateDetails.content2.bullet3 = The Net Estate Figure is £{0}
+page.iht.application.probateDetails.content4 = If you haven’t got your PA1 form handy, you can either
+page.iht.application.probateDetails.content4.print = print this page
+page.iht.application.probateDetails.content5 = or write the details down to complete your PA1 at another time.
+page.iht.application.probateDetails.guidance = What do these figures mean?
+page.iht.application.probateDetails.guidance.bullet1 = The IHT Identifier is a reference number
+page.iht.application.probateDetails.guidance.bullet2 = The Gross Estate Figure is the total of assets and gifts given away
+page.iht.application.probateDetails.guidance.bullet3 = The Net Estate Figure is the value of the estate  minus any debts or exemptions being claimed
+page.iht.application.probateDetails.yourProbateText = For your Probate Application Form:
+page.iht.application.probateDetails.probateDetailsNotAvailableText = You’ll need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
+
+#Estate report - Pdf
+pdf.totalassets.text = Total Assets
+pdf.totalexemptions.text = Total Exemptions
+pdf.totalTrusts.text = Total of Trusts
+pdf.tnrb.title.text = Increasing the Inheritance Tax threshold by transferring {0}’s spouse’s or civil partner’s unused threshold
+pdf.total.text = Total
+pdf.assetTotal.text = Asset total
+pdf.assetDescription.text = Asset description
+pdf.liabilityType.text = Debt description
+pdf.liabilityAmount.text = Value
+pdf.debts.summary.p1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate. You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
+pdf.gifts.summary.p1 = A gift is an asset given away by the deceased before they died. These are added to the value of the estate.
+pdf.exemption.table.text = Exemption
+pdf.exemption.otherQualifyingBodies = Other qualifying bodies
+pdf.gifts.total.title = Total of all gifts given away
+pdf.tnrb.domicileUK.text = Domiciled in UK
+
+pdf.signature.date.text = Date:
+pdf.signature.signature.text = Signature:
+pdf.waterMark.text = For Personal Record
+pdf.signatures.heading = Co-Executors’ Signatures
+pdf.name.text = Name:
+
+pdf.clearanceCertificate.taxableProperty.title.text = the assets passing under the Will and/or Intestacy
+pdf.clearanceCertificate.title = Clearance certificate
+pdf.clearanceCertificate.summary = This is in relation to the Inheritance Tax Act 1984 s239(2)
+pdf.clearanceCertificate.estateReport.date.label = Estate report sent to HMRC
+pdf.clearanceCertificate.firstParagraph = This certificate applies to the assets and property passing under the deceased’s will and/or the rules of intestacy and reported to HMRC on the above date.
+pdf.clearanceCertificate.coExecutor.paragraph1 = The Commissioners of HM Revenue & Customs discharge:
+pdf.clearanceCertificate.coExecutor.paragraph2 = from any (further) claim for tax or duty on the value attributable to the property returned above.
+pdf.clearanceCertificate.lastParagraph.line1 = This certificate does not itself constitute a determination of values of individual items for any other HM Revenue & Customs purposes
+pdf.clearanceCertificate.lastParagraph.line2 = . In particular, the issue of the certificate does not necessarily mean that values have been “ascertained” or that values may be taken as market values for capital gains tax within the provisions of section 274 and paragraph 9, schedule 11, Taxation of Chargeable Gains Act 1992
+pdf.clearanceCertificate.lastParagraph.line3 = . This certificate is not valid in certain circumstances, such as in the case of fraud or failure to disclose material facts or if further tax becomes payable as a result of an instrument of variation – see section 239 (4) Inheritance Tax Act 1984.
+
+pdf.inheritance.tax.declaration.date.text = Date of declaration:
+pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritance Tax estate report completed by {1}. HMRC recommend that you keep a copy of this report for your personal use.
+pdf.inheritance.tax.application.summary.p2 = Do not send this document to HMRC.
+pdf.inheritance.tax.application.summary.tnrb.title = Increasing the Inheritance Tax threshold by transferring {0}’s unused threshold
+pdf.inheritance.tax.application.summary.tnrb.personalDetails.title = {0}’s details
+pdf.inheritance.tax.reference = Inheritance Tax reference:
+pdf.postSubmission.trusts.assetDescription = Trusts
+pdf.registration.lastContactAddress = Last contact address
+pdf.meta.author = HM Revenue & Customs
+iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
+
+#Kickouts - Estate report - common
 page.iht.application.liabilities.title = {0}’s debts
 pdf.liabilities.total.title = Total Debts
-
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold
+iht.estateReport.kickout.nextSteps = You should complete the Inheritance Tax estate report by using an IHT-400 form. When you finish this service, you will be given a copy of the form.
+iht.estateReport.kickout.returnToEstateOverview = If you want to change any value
 
-
-#Kickouts - Assets
+#Kickouts - Estate report -Assets
+iht.estateReport.assets.kickout.MoreThan1Million = This is because the estate value is more than £1 million.
 page.iht.application.assets.kickout.trustlessthansevenyears.summary = This is because the deceased was paying insurance premiums on a policy that pays out to someone else and was placed in a trust in the 7 years before they died.
 page.iht.application.assets.kickout.trustsMoreThanOne.summary = This is because the deceased was able to benefit from more than 1 trust.
 page.iht.application.assets.kickout.trustValueMoreThanMax.summary = This is because the value of the trust that the deceased was able to benefit from was worth more than £150,000.
@@ -1428,11 +1852,7 @@ page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2 = 
 page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1 = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. This is because you need to provide more details about the estate.
 page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is because the value of the insurance premiums paid by the deceased for a policy that wasn’t paying to their estate was more than £3,000 in any year.
 
-#Kickouts - Exemptions
-page.iht.application.exemptions.kickout.estateMoreThanThreshold.summary = It is not possible to use the Inheritance Tax Online Service because total Estate is more than the Tnrb threshold limit.
-page.iht.application.exemptions.kickout.estateMoreThanThreshold.nextSteps = To be decided [Exemptions]
-
-#Kickouts - Gifts
+#Kickouts - Estate report -Gifts
 page.iht.application.gifts.kickout.withReservationOfBenefit.summary = This is because the deceased gave away gifts with the reservation of benefit.
 
 page.iht.application.gifts.kickout.givenInPast.summary = This is because the deceased gave away a gift that wasn’t:
@@ -1444,7 +1864,11 @@ page.iht.application.gifts.kickout.toTrust.summary = This is because the decease
 page.iht.application.gifts.kickout.maxValue.summary = This is because the deceased gave gifts away worth more than £150,000 in the 7 years before they died.
 page.iht.application.gifts.kickout.maxValue.nextSteps2 = If you want to change the value of gifts
 
-#Kickouts - Tnrb
+#Kickouts - Estate report -Exemptions
+page.iht.application.exemptions.kickout.estateMoreThanThreshold.summary = It is not possible to use the Inheritance Tax Online Service because total Estate is more than the Tnrb threshold limit.
+page.iht.application.exemptions.kickout.estateMoreThanThreshold.nextSteps = To be decided [Exemptions]
+
+#Kickouts - Estate report -Tnrb
 page.iht.application.tnrb.estateValue.screenReader = The estate value is £{0}
 page.iht.application.tnrb.threshold.screenReader = The inheritance tax threshold is £{0}
 
@@ -1461,6 +1885,21 @@ page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = This is because 
 page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because the deceased’s previous spouse’s or civil partner’s estate didn’t all pass to the deceased, a charity or another qualifying body.
 page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because the deceased’s previous spouse’s or civil partner’s jointly owned assets didn’t all pass to the deceased.
 page.iht.application.tnrb.kickout.kickOutNonJavaScript.summary = It’s not possible to use the Inheritance Tax Online Service because HMRC need more details about the deceased’s previous spouse’s or civil partner’s estate.
+iht.application.TnrbEligibilty.kickout.message = Not eligible for TNRB.
+
+# Kickout  - Estate report - return link text
+iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText = return to assets held in a trust
+iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText =  return to foreign assets
+iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText = return to insurance policies
+iht.estateReport.assets.kickout.pensionDisposedLastTwoYears.returnLinkText = return to private pensions
+iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText = return to the last page you were on
+iht.estateReport.kickout.returnToEstateOverview.linkText = return to estate overview
+iht.estateReport.exemptions.kickout.homeNotInUK.returnLinkText = return to assets left to a spouse or civil partner
+iht.estateReport.gifts.kickout.withReservationOfBenefit.returnLinkText = return to gifts with reservation of benefit
+iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText = return to gifts given away in the 7 years before death
+iht.estateReport.gifts.kickout.maxValue.returnLinkText = return to value of gifts given away in the 7 years before death
+iht.estateReport.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText = go back to that last question
+iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = return to increasing the Inheritance Tax threshold
 
 #Kickouts - Final page
 page.iht.application.kickout.final.browserTitle = The details you have given will be deleted for security reasons
@@ -1472,126 +1911,40 @@ page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or prin
 page.iht.application.kickout.final.getCopy.guidance3 = This will have all of the details you have entered so that you can write them on the IHT-400 form. If you are not able to save or print a copy at the moment, return to the estate overview and come back when you are able to do this.
 page.iht.application.kickout.final.guidance.onFinish = By selecting finish you will be given a copy of the IHT-400 form and this estate report will be deleted.
 
+#Questionnaire Feedback
+page.iht.questionnaire.title = Before you sign out
+page.iht.questionnaire.p1 = Before you sign out, please complete this short survey to help us improve the service. The survey should take no more than 2 minutes.
+page.iht.questionnaire.button.no-and-signout.text = No thanks - sign me out
 
-# DECLARATIONS
-page.iht.application.overview.helptext.part1 = If you discover any assets that the deceased owned that weren’t included in your estate reports, you should let us know by using a
-page.iht.application.overview.helptext.part2 = . Only do this if these assets increase the estate value over the Inheritance Tax threshold.
+page.iht.questionnaire.easy-to-use.question = How easy was it to do what you wanted?
+page.iht.questionnaire.easy-to-use.very-easy = Very easy
+page.iht.questionnaire.easy-to-use.easy = Easy
+page.iht.questionnaire.easy-to-use.neither = Neither easy or difficult
+page.iht.questionnaire.easy-to-use.difficult = Difficult
+page.iht.questionnaire.easy-to-use.very-difficult = Very difficult
 
-#Closed Application
-page.iht.application.overview.closed.helptext = When you’ve completed everything to do with this estate, including receiving your grant of representation from the Probate Service, you can complete clearance of this estate report.
-page.iht.application.overview.closed.warning = By completing clearance you are confirming that you have nothing left to do with this estate. HMRC will give you a certificate that you can download or print and which confirms that this estate report has been cleared.
-page.iht.application.overview.closed.clearance = Complete clearance of this estate report
-page.iht.application.overview.closed.sidebartitle = This estate report hasn’t been cleared.
+page.iht.questionnaire.feelingAboutExperience.question = How do you feel about your experience using this service today?
+page.iht.questionnaire.feelingAboutExperience.verySatisfied = Very satisfied
+page.iht.questionnaire.feelingAboutExperience.satisfied = Satisfied
+page.iht.questionnaire.feelingAboutExperience.neither = Neither satisfied or dissatisfied
+page.iht.questionnaire.feelingAboutExperience.dissatisfied = Dissatisfied
+page.iht.questionnaire.feelingAboutExperience.veryDissatisfied = Very dissatisfied
 
-#In Review Application
-page.iht.application.overview.inreview.title = This estate report is being reviewed by HMRC
-page.iht.application.overview.inreview.helptext = It could take HMRC up to 2 months to review this estate report from the date you sent it. HMRC will contact you if they have any questions about this estate report.
-page.iht.application.overview.inreview.sidebartitle = You have sent this report to HMRC.
+page.iht.questionnaire.improve.question = How could we improve this service?
+page.iht.questionnaire.improve.p1 = (Limit is 1200 characters)
+page.iht.questionnaire.improve.p2 = Please don’t include any personal or financial details, like your National Insurance or credit card numbers.
 
-#Clearance Granted Application
-page.iht.application.overview.cleared.helptext1 = You have confirmed that you have nothing left to do with this estate.
-page.iht.application.overview.cleared.helptext2 = You can view a copy of your clearance certificate that confirms that this estate report has been cleared.
-page.iht.application.overview.cleared.sidebartitle = You have completed clearance of this estate report.
+page.iht.questionnaire.fullName.p1 = We’re looking for people to help us with user research.
+page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
+page.iht.questionnaire.button.submit-and-signout = Send feedback
 
-#Common to In Review/Closed/Clearance/Certificate
-page.iht.application.overview.common.title = This estate report has been closed
-page.iht.application.overview.common.estatevalue = Based on the details you have provided, {0}’s estate is below the threshold and there is no Inheritance Tax to pay.
-page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by the deceased that weren’t included in this estate report, let HMRC know by using a
-page.iht.application.overview.common.helptext.part2 = Only do this if these assets increase the value of the estate over the Inheritance Tax threshold.
-page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
-page.iht.application.overview.common.viewcopy = View a copy of this estate report
-page.iht.application.overview.common.viewcertificate = View clearance certificate
+page.iht.sign-out.title = You have signed out
+page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.
+page.iht.sign-out.p2 = Use the link in your Inheritance Tax email that you were sent if you want to sign back in.
+page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
 
-#Declaration Received
-page.iht.application.declaration_received.title = Your estate report has been sent to HMRC
-page.iht.application.declaration_received.subtitle = What happens next
-page.iht.application.declaration_received.probate.paragraph1 = HMRC will review your Inheritance Tax estate report – this might take up to 2 months. HMRC might be in touch with you during this time if they have any queries. Once the review has been completed, the estate report status will be changed to closed.
-page.iht.application.declaration_received.paragraph2 = HMRC might also check the valuation of any properties that you’ve entered – if they do this, the Valuation Office might call you.
-page.iht.application.declaration_received.paragraph3 = When you’ve sent off your Probate Application form (PA1), you’ll be told by the Probate Service what to do next to receive your grant of representation.
-page.iht.application.declaration_received.paragraph4 = Once you’ve received this and completed everything you need to do with the deceased’s estate, you can get a statutory certificate of discharge from HMRC by clearing this estate report. To do this, view this estate report from your Inheritance Tax estate reports page.
-page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it
-page.iht.application.declaration_received.paragraph5.part2 = HMRC recommend that you keep a copy for your own use along with anything you’ve used to give any details about what the deceased owned or owed. You should keep these for 5 years in case anyone asks to see these details.
-page.iht.application.declaration_received.hint = What happens if you find assets that you haven’t included in this estate report
-page.iht.application.declaration_received.continuelink = Continue to your Inheritance Tax estate reports
-page.iht.application.declaration_received.subheading1 = HMRC will review this estate report
-page.iht.application.declaration_received.subheading2 = Getting your statutory certificate of discharge
-page.iht.application.declaration_received.subheading3 = Keeping records for the future
-
-#Probate Details
-page.iht.application.probateDetails.content2 = On your PA1 form, turn to page 6. You’ll need to write the following details into section 7.5:
-page.iht.application.probateDetails.content2.bullet1 = Your IHT Identifier is
-page.iht.application.probateDetails.content2.bullet2 = The Gross Estate Figure is £{0}
-page.iht.application.probateDetails.content2.bullet3 = The Net Estate Figure is £{0}
-page.iht.application.probateDetails.content4 = If you haven’t got your PA1 form handy, you can either
-page.iht.application.probateDetails.content4.print = print this page
-page.iht.application.probateDetails.content5 = or write the details down to complete your PA1 at another time.
-page.iht.application.probateDetails.guidance = What do these figures mean?
-page.iht.application.probateDetails.guidance.bullet1 = The IHT Identifier is a reference number
-page.iht.application.probateDetails.guidance.bullet2 = The Gross Estate Figure is the total of assets and gifts given away
-page.iht.application.probateDetails.guidance.bullet3 = The Net Estate Figure is the value of the estate  minus any debts or exemptions being claimed
-page.iht.application.probateDetails.yourProbateText = For your Probate Application Form:
-page.iht.application.probateDetails.probateDetailsNotAvailableText = You’ll need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
-
-#Exemptions Guidance
-page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you don’t know the estate value, it’s recommended to only complete the assets, gifts and debts sections first before you claim any exemptions.
-page.iht.application.exemptions.guidance.content2 = If you don’t want to claim any estate exemptions,
-page.iht.application.exemptions.guidance.content2.linkText = you can return to the estate overview page
-page.iht.application.exemptions.guidance.content3 = Some assets might be exempt from Inheritance Tax if they are being passed to a spouse or civil partner, a charity or to another qualifying body.
-page.iht.application.exemptions.guidance.content4 = The estate value could become less than the Inheritance Tax threshold by claiming these exemptions.
-page.iht.application.exemptions.guidance.link = Continue to estate exemptions
-
-#Exemptions Guidance
-page.iht.application.exemptions.guidance.increasing.threshold.title = The estate value is above the Inheritance Tax threshold
-page.iht.application.exemptions.guidance.increasing.threshold.p1 = You could bring the estate value below the threshold by claiming any estate exemptions.
-page.iht.application.exemptions.guidance.increasing.threshold.p2 = Some of the deceased’s assets can be claimed as an exemption if they are being passed to a spouse or civil partner, a charity or to another qualifying body.
-page.iht.application.exemptions.guidance.increasing.threshold.link.text = Go to estate exemptions
-
-#Pre registration filtering
-page.iht.filter.agent.content = There’s no change to how agents report estate values to HMRC. You should continue to use either an IHT-205 or an IHT-400 paper form.
-
-page.iht.filter.filter.choice.main.continue = I want to continue an estate report that I’ve already started
-page.iht.filter.filter.choice.main.register = I want to register so I can tell HMRC about a person’s estate
-page.iht.filter.filter.choice.main.register.hint = You’ll be asked a couple of questions first to make sure you’re using the right service.
-page.iht.filter.filter.choice.main.alreadyStarted = I’ve already started registration and want to continue
-page.iht.filter.filter.choice.main.agent = I’m an agent and reporting on behalf of a client
-
-page.iht.filter.domicile.choice.other = Other country
-page.iht.filter.domicile.return.link = Return to what do you want to do
-
-page.iht.filter.estimate.choice.under = Under £325,000
-page.iht.filter.estimate.choice.between = Between £325,000 and £1 million
-page.iht.filter.estimate.choice.over = More than £1 million
-
-page.iht.filter.previous.answers = Previous answers
-
-page.iht.filter.paperform.scotland.p1 = Reporting the estate value in Scotland is completed by using a paper form.
-page.iht.filter.paperform.scotland.p2.start = You should read the
-page.iht.filter.paperform.scotland.p2.end = to find out what form you should use in Scotland.
-page.iht.filter.paperform.scotland.link.text = Scottish Courts and Tribunals guidance
-
-page.iht.filter.paperform.northern.ireland.p1 = Reporting the estate value in Northern Ireland is completed by using a paper form.
-page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already know that the estate has Inheritance Tax to pay, you should complete the
-page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you aren’t sure of the estate value, you should start filling in the
-page.iht.filter.paperform.northern.ireland.p2.sentence2.end = first.
-page.iht.filter.paperform.northern.ireland.p3 = You can read more about applying for probate in Northern Ireland on
-page.iht.filter.paperform.northern.ireland.iht205.link.text = IHT-205 form
-page.iht.filter.paperform.northern.ireland.nidirect.link.text = NIDIRECT.GOV.UK
-
-page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is completed by filling in an
-page.iht.filter.paperform.other.country.p1.sentence2.start = You should also fill in an
-page.iht.filter.paperform.other.country.p2 = Only assets that are in the UK should be included. This includes any UK property or bank accounts.
-page.iht.filter.paperform.other.country.iht401.link.text = IHT-401 paper form
-
-page.iht.filter.paperform.million.p1 = Because you think the deceased’s estate might be worth more than £1 million, you’ll need to report their estate value by filling in an
-page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to provide and will tell you if there is an Inheritance Tax to pay.
-page.iht.filter.paperform.million.exit = Exit to IHT-400 paper form
-
-page.iht.filter.paperform.iht400.link.text = IHT-400 paper form
-
-page.iht.filter.useService.under325000.paragraph0 = Because you think the deceased’s estate might be worth under £325,000, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
-page.iht.filter.useService.paragraphFinal = You’ll need to register to use the service first, but before that, you’ll need to confirm who you are with HMRC.
-page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the deceased’s estate might be worth between £325,000 and £1 million, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
-page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you’ll be able to claim any estate exemptions or transfer the unused threshold from a spouse or civil partner who died before the deceased.
+page.iht.registration.timeout.p2 = You’ll need to sign back in to Government Gateway and start to register to use Inheritance Tax Online again.
+page.iht.application.timeout.p2 = You’ll need to sign back in to Government Gateway and then choose what you want to do next from your Inheritance Tax estate reports page.
 
 #Country names - see also application.conf
 country.AD = Andorra
@@ -1845,82 +2198,9 @@ country.ZW = Zimbabwe
 country.EW = Estonia
 country.JM = Jamaica
 
+#Errors
 
-#Questionnaire page
-page.iht.questionnaire.title = Before you sign out
-page.iht.questionnaire.p1 = Before you sign out, please complete this short survey to help us improve the service. The survey should take no more than 2 minutes.
-page.iht.questionnaire.button.no-and-signout.text = No thanks - sign me out
-
-page.iht.questionnaire.easy-to-use.question = How easy was it to do what you wanted?
-page.iht.questionnaire.easy-to-use.very-easy = Very easy
-page.iht.questionnaire.easy-to-use.easy = Easy
-page.iht.questionnaire.easy-to-use.neither = Neither easy or difficult
-page.iht.questionnaire.easy-to-use.difficult = Difficult
-page.iht.questionnaire.easy-to-use.very-difficult = Very difficult
-
-page.iht.questionnaire.feelingAboutExperience.question = How do you feel about your experience using this service today?
-page.iht.questionnaire.feelingAboutExperience.verySatisfied = Very satisfied
-page.iht.questionnaire.feelingAboutExperience.satisfied = Satisfied
-page.iht.questionnaire.feelingAboutExperience.neither = Neither satisfied or dissatisfied
-page.iht.questionnaire.feelingAboutExperience.dissatisfied = Dissatisfied
-page.iht.questionnaire.feelingAboutExperience.veryDissatisfied = Very dissatisfied
-
-page.iht.questionnaire.improve.question = How could we improve this service?
-page.iht.questionnaire.improve.p1 = (Limit is 1200 characters)
-page.iht.questionnaire.improve.p2 = Please don’t include any personal or financial details, like your National Insurance or credit card numbers.
-
-page.iht.questionnaire.fullName.p1 = We’re looking for people to help us with user research.
-page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
-page.iht.questionnaire.button.submit-and-signout = Send feedback
-
-page.iht.sign-out.title = You have signed out
-page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.
-page.iht.sign-out.p2 = Use the link in your Inheritance Tax email that you were sent if you want to sign back in.
-page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
-
-pdf.totalassets.text = Total Assets
-pdf.totalexemptions.text = Total Exemptions
-pdf.totalTrusts.text = Total of Trusts
-pdf.tnrb.title.text = Increasing the Inheritance Tax threshold by transferring {0}’s spouse’s or civil partner’s unused threshold
-pdf.total.text = Total
-pdf.assetTotal.text = Asset total
-pdf.assetDescription.text = Asset description
-pdf.liabilityType.text = Debt description
-pdf.liabilityAmount.text = Value
-pdf.debts.summary.p1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate. You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
-pdf.gifts.summary.p1 = A gift is an asset given away by the deceased before they died. These are added to the value of the estate.
-pdf.exemption.table.text = Exemption
-pdf.exemption.otherQualifyingBodies = Other qualifying bodies
-pdf.gifts.total.title = Total of all gifts given away
-pdf.tnrb.domicileUK.text = Domiciled in UK
-pdf.clearanceCertificate.taxableProperty.title.text = the assets passing under the Will and/or Intestacy
-pdf.signature.date.text = Date:
-pdf.signature.signature.text = Signature:
-pdf.waterMark.text = For Personal Record
-pdf.signatures.heading = Co-Executors’ Signatures
-pdf.name.text = Name:
-pdf.clearanceCertificate.title = Clearance certificate
-pdf.inheritance.tax.declaration.date.text = Date of declaration:
-pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritance Tax estate report completed by {1}. HMRC recommend that you keep a copy of this report for your personal use.
-pdf.inheritance.tax.application.summary.p2 = Do not send this document to HMRC.
-pdf.inheritance.tax.application.summary.tnrb.title = Increasing the Inheritance Tax threshold by transferring {0}’s unused threshold
-pdf.inheritance.tax.application.summary.tnrb.personalDetails.title = {0}’s details
-pdf.inheritance.tax.reference = Inheritance Tax reference:
-pdf.clearanceCertificate.summary = This is in relation to the Inheritance Tax Act 1984 s239(2)
-pdf.clearanceCertificate.estateReport.date.label = Estate report sent to HMRC
-pdf.clearanceCertificate.firstParagraph = This certificate applies to the assets and property passing under the deceased’s will and/or the rules of intestacy and reported to HMRC on the above date.
-pdf.clearanceCertificate.coExecutor.paragraph1 = The Commissioners of HM Revenue & Customs discharge:
-pdf.clearanceCertificate.coExecutor.paragraph2 = from any (further) claim for tax or duty on the value attributable to the property returned above.
-pdf.clearanceCertificate.lastParagraph.line1 = This certificate does not itself constitute a determination of values of individual items for any other HM Revenue & Customs purposes
-pdf.clearanceCertificate.lastParagraph.line2 = . In particular, the issue of the certificate does not necessarily mean that values have been “ascertained” or that values may be taken as market values for capital gains tax within the provisions of section 274 and paragraph 9, schedule 11, Taxation of Chargeable Gains Act 1992
-pdf.clearanceCertificate.lastParagraph.line3 = . This certificate is not valid in certain circumstances, such as in the case of fraud or failure to disclose material facts or if further tax becomes payable as a result of an instrument of variation – see section 239 (4) Inheritance Tax Act 1984.
-pdf.postSubmission.trusts.assetDescription = Trusts
-pdf.registration.lastContactAddress = Last contact address
-pdf.meta.author = HM Revenue & Customs
-
-page.iht.registration.timeout.p2 = You’ll need to sign back in to Government Gateway and start to register to use Inheritance Tax Online again.
-page.iht.application.timeout.p2 = You’ll need to sign back in to Government Gateway and then choose what you want to do next from your Inheritance Tax estate reports page.
-
+#Errors - IV
 page.iht.iv.failure.2fa.title = You can’t sign in to use Inheritance Tax Online
 page.iht.iv.failure.2fa.p1 = You’ll not be able to use Inheritance Tax Online until you’ve set up 2-step verification. This is because you need to securely sign in to protect your personal details.
 page.iht.iv.failure.2fa.p2 = When you want to sign in to securely use Inheritance Tax Online, you should set up 2-step verification.
@@ -1943,272 +2223,52 @@ page.iht.iv.failure.preconditionFailed.title = You’re unable to sign in
 page.iht.iv.failure.preconditionFailed.p1 = You’ve already registered with another account.
 page.iht.iv.failure.preconditionFailed.p1.link.text = Contact HMRC to get help
 
-#Non-error-related message keys re-named by IHT-4180:-
-iht.address.line1 = Address line 1
-iht.address.line2 = Address line 2
-iht.address.line3 = Address line 3 (optional)
-iht.address.line4 = Address line 4 (optional)
-iht.address.lowerCaseInitial = address
-iht.address.upperCaseInitial = Address
-iht.application.TnrbEligibilty.kickout.message = Not eligible for TNRB.
-iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this estate report, you’re declaring that you believe this is correct.
-iht.back = Back
-iht.change = Change
-iht.continue = Continue
-iht.notStarted = NOT STARTED
-iht.inComplete = INCOMPLETE
-iht.complete = COMPLETE
-iht.countries.englandOrWales = England or Wales
-iht.countries.northernIreland = Northern Ireland
-iht.countries.scotland = Scotland
-iht.country = Country
-iht.dateExample = For example, 31 3 1980
-iht.dateExample2 = For example, 21 3 1990
-iht.dateOfDeath = Date of death
-iht.dateofbirth = Date of birth
-iht.delete = Delete
-iht.finishAndDeleteThisEstateReport = Finish and delete this estate report
-iht.the.deceased = the deceased
-iht.ifYouWantToChangeYOurAnswer = If you want to change your answer
-iht.estateReport.goToEstateReports = Go to your Inheritance Tax estate reports
-iht.estateReport.assets.businessInterests.title = Business interests
-iht.estateReport.assets.foreign.title = Foreign assets
-iht.estateReport.assets.getProfessionalValuation = HMRC recommend that you get a professional valuation for anything that might be worth more than £500. Any estimates should be made on an open market value and not an insurance or replacement value.
-iht.estateReport.assets.heldInATrust.title = Assets held in a trust
-iht.estateReport.assets.heldInTrust.needInclusion = If {0} had the right to live in a house that was held in trust during their lifetime, the value of that property should also be included.
-iht.estateReport.assets.heldInTrust.title = Assets held in trust
-iht.estateReport.assets.heldInTrust.valueOfTrust = Value of the trust that {0} benefitted from when they died
-iht.estateReport.assets.household.deceasedOwnedValue = Value of what the deceased owned in their own name
-iht.estateReport.assets.household.joint.question = Did {0} jointly own any household and personal items with any other people?
-iht.estateReport.assets.household.ownName.question = Did {0} own any household and personal items in their own name?
-iht.estateReport.assets.household.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned items
-iht.estateReport.assets.householdAndPersonalItems.title = Household and personal items
-iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title = Household and personal items {0} owned jointly with other people
-iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title = Household and personal items owned only by {0}
-iht.estateReport.assets.howOwnedByDeceased = How was this owned by {0}?
-iht.estateReport.assets.inEstate = Assets in the estate
-iht.estateReport.assets.insurancePolicies = Insurance policies
-iht.estateReport.assets.insurancePolicies.buyAnnuity.question = Did {0} buy an annuity at any time in their life?
-iht.estateReport.assets.insurancePolicies.payingOutToDeceased = Policies that are paying out to {0}
-iht.estateReport.assets.insurancePolicies.premiumsPaidByOther = Insurance premiums paid by {0} for someone else
-iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare = Total value of the deceased’s share of all jointly held policies
-iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut = Total value of all policies owned by the deceased and any policies paying out to their estate
-iht.estateReport.assets.kickout.MoreThan1Million = This is because the estate value is more than £1 million.
-iht.estateReport.assets.money.jointlyOwned = Money jointly owned with other people
-iht.estateReport.assets.money.lowerCaseInitial = money
-iht.estateReport.assets.money.ownName.question = Did {0} own any money in their own name?
-iht.estateReport.assets.money.upperCaseInitial = Money
-iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money had by the deceased only in their name
-iht.estateReport.assets.moneyOwed = Money owed to {0}
-iht.estateReport.assets.moneyOwned = Money owned only by {0}
-iht.estateReport.assets.nominated = Nominated assets
-iht.estateReport.assets.other.title = Any other assets not listed
-iht.estateReport.assets.pensions.returnToPrivatePensions = Return to private pensions
-iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid = Value of remaining pension payments being paid to the estate
-iht.estateReport.assets.privatePensions = Private pensions
-iht.estateReport.assets.properties.freeholdOrLeasehold = Was this owned freehold or leasehold?
-iht.estateReport.assets.properties.returnToAddAProperty = Return to add a property, building or land
-iht.estateReport.assets.properties.value.question = What was the value of this property, building or land?
-iht.estateReport.assets.properties.whatKind.question = What kind of property, building or land was this?
-iht.estateReport.assets.propertiesBuildingsAndLand = Properties, buildings and land
-iht.estateReport.assets.property.findOutFromLandRegistry = find out from the Land Registry
-iht.estateReport.assets.property.whatIsAddress.question = What’s the address?
-iht.estateReport.assets.property.youCan = You can
-iht.estateReport.assets.propertyAdd = Add a property, building or land
-iht.estateReport.assets.qualifyingBodyAdd = Add another qualifying body
-iht.estateReport.assets.stocksAndShares = Stocks and shares
-iht.estateReport.assets.stocksAndShares.listed.question = Did {0} own any stocks and shares that were listed on an exchange?
-iht.estateReport.assets.stocksAndShares.notListed.question = Did {0} own any stocks and shares that were not listed on an exchange?
-iht.estateReport.assets.stocksAndShares.valueOfListed = Value of listed stocks and shares
-iht.estateReport.assets.stocksAndShares.valueOfNotListed = Value of stocks and shares not listed
-iht.estateReport.assets.stocksAndSharesListed = Stocks and shares listed on an exchange
-iht.estateReport.assets.stocksAndSharesNotListed = Stocks and shares not listed on an exchange
-iht.estateReport.assets.trusts.benefittedFromHeldInTrust = These are all the assets that {0} benefitted from, or had the right to benefit from, that were held in trust.
-iht.estateReport.assets.trusts.moreThanOne.question = Was {0} benefitting from, or have the right to benefit from, more than 1 trust?
-iht.estateReport.assets.trusts.needInclusion = If {0} benefitted from a trust during their lifetime, such as getting regular payments or dividends from shares, these need to be included in the value of the estate.
-iht.estateReport.assets.trusts.question = Did {0} benefit from, or have the right to benefit from, a trust during their lifetime?
-iht.estateReport.assets.vehicles = Motor vehicles
-iht.estateReport.assets.vehicles.jointly.owned.question = Did {0} jointly own any motor vehicles with any other people?
-iht.estateReport.assets.vehicles.ownName.question = Did {0} own any motor vehicles in their own name?
-iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned motor vehicles
-iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by {0}
-iht.estateReport.changeValues = Change values
-iht.estateReport.completeEverySection = Every section must be completed.
-iht.estateReport.correctiveAccountForm = Corrective Account form
-iht.estateReport.debts.debtsTrust.title = Debts owed from a trust
-iht.estateReport.debts.debtsTrust.value = Value of any debts owed from a trust
-iht.estateReport.debts.funeralExpenses.title = Funeral expenses
-iht.estateReport.debts.mortgage.valueOfDeceasedsShare = Value of deceased’s share of mortgage
-iht.estateReport.debts.mortgages = Mortgages
-iht.estateReport.debts.other.title = Any other debts not listed
-iht.estateReport.debts.owedFromEstate = Debts owed from the estate
-iht.estateReport.debts.owedOnJointAssets = Debts owed on any jointly owned assets
-iht.estateReport.debts.owedOnJointAssets.value = Value of any debts owed on jointly owned assets
-iht.estateReport.debts.owedOutsideUK = Debts owed to anyone outside of the UK
-iht.estateReport.debts.owedOutsideUK.value = Value of debts owed to anyone outside of the UK
-iht.estateReport.debts.valueOfFuneralCosts = Value of the funeral costs
-iht.estateReport.declaration.coExecutors.confirmationText = I confirm that I have a copy of the signed declaration
-iht.estateReport.declaration.coExecutors.mayFaceProsecution = You and the other people applying to the Probate Service may face prosecution or have to pay a penalty if you:
-iht.estateReport.declaration.coExecutors.prologue1 = Before you complete your declaration, you must show all of the other people applying to the Probate Service a copy of the estate report.
-iht.estateReport.declaration.coExecutors.prologue2 = They must confirm that they agree with the valuation and sign the declaration page.
-iht.estateReport.declaration.coExecutors.prologue3 = You must keep a copy of the signed declaration page because HMRC might ask to see it. Do not send this to HMRC unless you are asked to do so.
-iht.estateReport.declaration.coExecutors.prologue4 = These people must agree to the declaration on the estate report and sign the page.
-iht.estateReport.declaration.completedAllReasonableEnquiries = you have completed all reasonable enquiries into the deceased’s estate
-iht.estateReport.declaration.correctAndComplete = the information you have supplied, including all valuations, is correct and complete to the best of your knowledge and belief
-iht.estateReport.declaration.deceasedMarriedWhenPartnerDied = the deceased was married or in a civil partnership at the date when their previous spouse or civil partner died
-iht.estateReport.declaration.declaringThat = By sending this estate report you’re declaring that:
-iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
-iht.estateReport.declaration.didntUseAnyOfThreshold = the previous spouse or civil partner didn’t use any of their Inheritance Tax threshold
-iht.estateReport.declaration.dontTellHMRC = don’t tell HMRC within 6 months of any changes to the estate that increase the value over the Inheritance Tax threshold
-iht.estateReport.declaration.estateValueBeforeExemptionsLessThan1Million = the estate’s value before any exemptions are applied is less than or equal to £1,000,000
-iht.estateReport.declaration.haveProvidedNonMatchingDetails = have provided any details that do not match the will and any Deed of Variation for the deceased’s previous spouse or civil partner
-iht.estateReport.declaration.title = Declaration
-iht.estateReport.declaration.withholdInformation = withhold or give false information
-iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or have to pay a penalty if you:
+#Errors - Common
+error.giveCountry = Give a country
+error.invalid.date.format = You must specify a valid date
+error.address.isInUK.give = Give an answer for if the address is in the UK
+error.address.wasInUK.give = Give an answer for if the address was in the UK
+error.lastName.blank = Enter a last name
+error.lastName.blank.summary = enter a last name
+error.lastName.give = Give a last name
+error.lastName.giveUsingXCharsOrLess = Give a last name using 40 characters or less
+error.lastName.length = Enter a last name using less than 40 characters
+error.lastName.length.summary = enter a last name using less than 40 characters
+error.nino.blank = Enter a National Insurance number
+error.nino.blank.summary = enter a National Insurance number
+error.nino.give = Give a National Insurance number
+error.nino.giveUsing8Or9Characters = Give a valid National Insurance number using 8 or 9 characters
+error.nino.giveUsingOnlyLettersAndNumbers = Give a National Insurance number only using letters and numbers
+error.nino.incorrect = Enter a valid National Insurance number
+error.nino.incorrect.summary = enter a valid National Insurance number
+error.partner.blank.summary = enter a value for total assets
+error.phoneNumber.give = Give a phone number
+error.phoneNumber.giveUsing27CharactersOrLess = Give a phone number using 27 characters or less
+error.phoneNumber.giveUsingOnlyLettersAndNumbers = Give a phone number only using numbers or letters
+error.positive.number = This field must be greater than 0.
+error.postcode.blank = Enter a postcode
+error.postcode.blank.summary = enter a postcode
+error.postcode.incorrect = Enter a valid postcode
+error.postcode.incorrect.summary = enter a valid postcode
+error.postcode.invalid.character = This line contains an invalid character. Valid characters are: A-Z a-z 0-9 space
 
-iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in {0}’s estate?
-iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.
-iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration.
+error.problem = There’s a problem
+error.report.redo = Select the estate report through the Your Inheritance Tax estate reports page and send the details again.
+error.selectAnswer = Select an answer
+error.selectAnswer.summary = select an answer
+error.signOutLater = Sign out and complete this service at another time.
+error.value.blank = A value should be entered
 
-iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you’re accepting this.
-iht.estateReport.exemptions.charities.assetLeftToCharity.question = Did {0} leave any assets to a charity?
-iht.estateReport.exemptions.charities.assetsLeftToACharity.title = Assets left to a charity
-iht.estateReport.exemptions.charities.assetsLeftToCharities.title = Assets left to charities
-iht.estateReport.exemptions.charities.charityName.title = Charity name
-iht.estateReport.exemptions.charities.charityNo.question = What is the registered charity number?
-iht.estateReport.exemptions.charities.noNameAdded = No name added
-iht.estateReport.exemptions.charities.registeredCharityNo = Registered charity number
-iht.estateReport.exemptions.charities.returnToAddACharity = Return to add a charity
-iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities = Return to assets left to charities
-iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived = Total value of assets the charity received
-iht.estateReport.exemptions.guidance.claimingEstateExemptions = Claiming estate exemptions
-iht.estateReport.exemptions.guidance.debtsSubtracted = If you claim any exemptions, any debts that are owed from the estate will also be taken off the estate value.
-iht.estateReport.exemptions.guidance.provideAssetsDetails = You’ll need to provide details of these assets in the estate exemptions section. You can save your progress and return to it at any time through the estate overview page.
-iht.estateReport.exemptions.partner.assetsLeftToSpouse.title = Assets left to a spouse or civil partner
-iht.estateReport.exemptions.partner.homeInUK.question = Is the spouse’s or civil partner’s permanent home in the UK?
-iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse = Return to assets left to spouse or civil partner
-iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext = If you don’t know if assets passing to another body will be exempt from Inheritance Tax, call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072. Once you’ve given the name of the body, you’ll be told if any assets left to them will be exempt of Inheritance Tax.
-iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title = Assets left to other qualifying bodies
-iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities = These are all of the assets being left to a qualifying body. These will not be charities that have a registered charity number.
-iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody = Confirm that you want to delete this qualifying body
-iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies = How to find out if another body qualifies
-iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies = Return to assets left to other qualifying bodies
-iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to assets left to other qualifying body
-iht.estateReport.exemptions.spouse.assetLeftToSpouse.question = Did {0} leave any assets to their spouse or civil partner?
-iht.estateReport.exemptions.title = Estate exemptions
-iht.estateReport.gifts.givenAway.title = Gifts given away
-iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
-iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Gifts given away in the 7 years before death
-iht.estateReport.gifts.reservation.question = Did {0} give any gifts away with reservation of benefit?
-iht.estateReport.gifts.returnToGiftsGivenAway = Return to gifts given away in the 7 years before death
-iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to value of gifts given away in the 7 years before death
-iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the London Stock Exchange
-iht.estateReport.gifts.valueOfGiftsGivenAway = Value of gifts given away in the 7 years before death
-iht.estateReport.gifts.withReservation.title = Gifts with reservation of benefit
-iht.estateReport.ihtThreshold = Inheritance Tax threshold
-iht.estateReport.insurancePolicies.jointlyHeld.question = Did {0} have any insurance policies that were jointly held with someone else?
-iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate?
-iht.estateReport.insurancePolicies.ownName.question = Did {0} have any policies in their own name that were to pay out to them or are there any policies that were paying out to their estate?
-iht.estateReport.insurancePolicies.premiumsNotPayingOut.question = Did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate?
-iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1 = This could have been at any point in their life and the insurance policy shouldn’t have been due to pay out to {0} or to their estate.
-iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2 = You can answer no if the policy was due to pay out to {0}’s spouse or civil partner.
-iht.estateReport.kickout.nextSteps = You should complete the Inheritance Tax estate report by using an IHT-400 form. When you finish this service, you will be given a copy of the form.
-iht.estateReport.kickout.returnToEstateOverview = If you want to change any value
-iht.estateReport.noInheritanceTaxPayable = no Inheritance Tax is payable
-iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
-iht.estateReport.returnToEstateOverview = Return to estate overview
-iht.estateReport.saved.estate = All details on this page have been saved to the estate report.
-iht.estateReport.tnrb.benefitFromTrust.question = Did {0} have the right to benefit from a trust during their lifetime?
-iht.estateReport.tnrb.dateOfMarriage = Date of {0}
-iht.estateReport.tnrb.giftsMadeBeforeDeath.question = Were any gifts that weren’t exempt given away in the 7 years before {0} died?
-iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts with the reservation of benefit given to anyone apart from {0}?
-iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
-iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
-iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. You’ll also need to complete an IHT-402 paper form to increase the threshold.
-iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and {2} died?
-iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
-iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
-iht.exitToGovUK = Exit to GOV.UK
-iht.firstName = First name
-iht.firstName.hint = You don’t need to give any middle names
-iht.giveMoreDetails = Give more details
-iht.gov.url = https://www.gov.uk/inheritance-tax
-iht.iv.contactHMRC = contact HMRC to get help
-iht.iv.exit = Exit
-iht.iv.tryAgain = Try again
-iht.iv.tryAgainLater = Please try again in 5 minutes.
-iht.iv.unableToContinue = This online service is unable to continue at the moment.
-iht.lastName = Last name
-iht.name.lowerCaseInitial = name
-iht.name.upperCaseInitial = Name
-iht.nationalInsuranceNo = National Insurance number
-iht.next = Next
-iht.nextSteps = Next steps
-iht.ninoExample = For example, QQ 12 34 56 C
-iht.no = No
-iht.noChangeToHowReportToHMRC = There’s no change to how you report to HMRC
-iht.notPossibleToUseService = It’s not possible for you to use this service
-iht.inheritanceTaxEstateReport = Inheritance Tax estate report
-iht.postcode = Postcode
-iht.registration.applicant.applyingForProbate = Are you applying for probate for the deceased’s estate?
-iht.registration.applicant.tellUsAboutYourself = Your contact details
-iht.registration.changeAddressToAbroad = Change the address to one that’s abroad
-iht.registration.changeAddressToUK = Change to a UK address
-iht.registration.checkYourAnswers = Check your answers
-iht.registration.checklist.dateOfBirth = date of birth
-iht.registration.checklist.phoneNo.lowerCaseInitial = phone number
-iht.registration.checklist.phoneNo.upperCaseInitial = Phone number
-iht.registration.coExecutors.changeIfOthers = Change if other people are applying for probate
-iht.registration.complete = Registration complete
-iht.registration.contactAddress = Contact address
-iht.registration.deceased.lastContactAddress = Deceased’s last contact address
-iht.registration.deceased.locationOfPermanentHome = Location of deceased’s permanent home
-iht.registration.deceased.permanentHome.where.question = Where did the deceased have their permanent home?
-iht.registration.deceasedDetails.title = About the deceased
-iht.registration.kickout.content = You should complete the Inheritance Tax estate report by completing either an IHT-205 or an IHT-400 paper form.
-iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
-iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
-iht.registration.kickout.returnToTheLastPageVisited =return to the last page you visited
-iht.registration.kickout.message.MinDOD = If the date of death was between 13 March 1975 to 18 March 1986, Capital Transfer Tax applied to the deceased’s estate. Estate Duty was in place before 13 March 1975.
-iht.registration.kickout.message.form2 = If you want to change this date
-iht.registration.kickout.message.phone = Call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
-iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report
-iht.registration.kickout.message.returnToLast = Return to the last page you visited
-iht.registration.kickout.probateLocation.scotland = You should complete the Inheritance Tax estate report by completing either a C1 or a C5 paper form.
-iht.registration.ninoNotOnPayslip = Their National Insurance number could be found on a payslip.
-iht.registration.othersApplyingForProbate = Other people applying for probate
-iht.returnToLastQuestion = Return to last question
-iht.roughEstimateEstateWorth = Using a rough estimate of any houses or money in bank accounts that the deceased might have owned, how much do you think the deceased’s estate is worth?
-iht.saveAndContinue = Save and continue
-iht.shouldUseOnlineService = You should use the online service
-iht.signedOut = You’ve been signed out
-iht.start = Start
-iht.startAgain = Start again
-iht.timeout.p1 = For your security, we signed you out because you didn’t continue the service for 15 minutes or more.
-iht.timeout.signBackToGG = Sign back in to Government Gateway
-iht.useIHT400PaperForm = You should use an IHT-400 paper form
-iht.usePaperForm = You should use a paper form
-iht.viewOrChange = View or change
-iht.whatDoYouWantToDo = What do you want to do?
-iht.yes = Yes
-iht.comma = ,
-iht.fullStop = .
+global.error.InternalServerError500.heading = Sorry, we’re experiencing technical difficulties
+global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Inheritance Tax overview
+global.error.InternalServerError500.link.gov-uk.text = Explore GOV.UK.
+global.error.InternalServerError500.message = Please try again in a few moments.
+global.error.InternalServerError500.title = We’re experiencing technical difficulties
+global.error.badRequest400.heading = Bad request
+global.error.badRequest400.title = Bad request - 400
+global.error.pageNotFound404.heading = This page can’t be found
+global.error.pageNotFound404.title = Page not found - 404
 
-# Kickout return link text starts
-iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText = return to assets held in a trust
-iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText =  return to foreign assets
-iht.estateReport.assets.insurancePolicies.kickout.returnToInsurancePolicies.linkText = return to insurance policies
-iht.estateReport.assets.kickout.pensionDisposedLastTwoYears.returnLinkText = return to private pensions
-iht.estateReport.assets.kickout.assetsSingleSectionMoreThanMax.returnLinkText = return to the last page you were on
-iht.estateReport.kickout.returnToEstateOverview.linkText = return to estate overview
-iht.estateReport.exemptions.kickout.homeNotInUK.returnLinkText = return to assets left to a spouse or civil partner
-iht.estateReport.gifts.kickout.withReservationOfBenefit.returnLinkText = return to gifts with reservation of benefit
-iht.estateReport.gifts.kickout.givenInPreviousYears.returnToGiftsGivenAway.linkText = return to gifts given away in the 7 years before death
-iht.estateReport.gifts.kickout.maxValue.returnLinkText = return to value of gifts given away in the 7 years before death
-iht.estateReport.tnrb.kickout.partnerDiedBeforeMinDateOPC.returnLinkText = go back to that last question
-iht.estateReport.tnrb.kickout.returnToIHTThreshold.linkText = return to increasing the Inheritance Tax threshold
-
-#Errors
 error.address.blank = Enter an address
 error.address.blank.summary = enter an address
 error.address.give = Give an address
@@ -2218,29 +2278,16 @@ error.address.givePostcodeUsingNumbersAndLetters = Give a postcode using numbers
 error.address.giveUsing35CharsOrLess = Give an address using 35 characters or less
 error.address.invalid.character = This line contains an invalid character. Valid characters are: A-Z a-z 0-9 - ’ , / & space
 error.address.length = Enter an address of less than 36 characters
-error.applicant.insufficientCoExecutors = Add details of the other person applying for probate
-error.applicant.selectIfAnyoneElseApplyingForProbate = Select if anyone else is applying for probate
-error.applicantIsApplyingForProbate.select = Give an answer for if you are applying for probate
-error.applicantProbateLocation.select = Select where you are applying for probate
-error.blank.assets.properties.propertyType = Select what kind of property this is
-error.blank.assets.properties.propertyType.summary = select what kind of property this is
-error.blank.assets.properties.tenure = Select if this property was freehold or leasehold
-error.blank.assets.properties.tenure.summary = select is this property was freehold or leasehold
-error.blank.assets.properties.typeOfOwnership = Select how this property was owned
-error.blank.assets.properties.typeOfOwnership.summary = select how this property was owned
-error.blank.qualifyingBody.name = Enter the name of who received assets
-error.blank.qualifyingBody.name.summary = enter the name of who received assets
-error.businessInterest.currencyValue.length.summary = enter a value for businesses owned using less than 11 numbers
-error.businessInterest.currencyValue.summary = enter a value for businesses owned using only numbers
+
 error.cannotSend = The details you have entered could not be sent at the moment.
 error.checkCorrect = Check the details are correct, in the right place and in the right format.
 error.country.select = Select a country
-error.currency.assets.policies = Enter a value using only numbers
-error.currency.assets.policies.summary = enter a value for insurance policies using only numbers
+
 error.currencyValue.incorrect = Enter a value using only numbers
 error.currencyValue.incorrect.summary = enter a value using only numbers
 error.currencyValue.length = Enter a value using less than 11 numbers
 error.currencyValue.length.summary = enter a value using less than 11 numbers
+
 error.date.blank = Enter a date
 error.dateOfBirth.giveCorrectDateUsingOnlyNumbers = Give a correct date of birth only using numbers
 error.dateOfBirth.giveCorrectDay = Give a correct day of birth using numbers 1 to 31
@@ -2252,15 +2299,9 @@ error.dateOfBirth.giveNoneFuture = Give a date of birth that is not in the futur
 error.dateOfBirth.incorrect = Enter a valid date of birth
 error.dateOfBirth.incorrect.summary = enter a valid date of birth
 error.dateOfBirth.numeric = Enter a valid date of birth using only numbers
+
 error.dateOfDeath.incorrect = Enter a valid date of death
 error.dateOfDeath.incorrect.summary = enter a valid date of death
-error.dateOfMarriage.blank.summary = enter a date of marriage or civil partnership
-error.dateOfMarriage.incorrect.summary = enter a valid date of marriage or civil partnership
-error.debtsFromTrust.currencyValue.length.summary = enter a value for debts owed from a trust using less than 11 numbers
-error.debtsFromTrust.currencyValue.summary = enter a value for debts owed from a trust using only numbers
-error.debtsOutsideUk.currencyValue.length.summary = enter a value for debts owed outside of the UK using less than 11 numbers
-error.debtsOutsideUk.currencyValue.summary = enter a value for debts owed outside of the UK using only numbers
-error.deceasedDateOfBirth.giveBeforeDateOfDeath = Give a date of birth that is before the date of death
 error.dateOfDeath.giveAfterDateOfBirth = Give a date of death that is after the date of birth
 error.dateOfDeath.giveCorrectDateUsingOnlyNumbers = Give a correct date of death only using numbers
 error.dateOfDeath.giveCorrectDay = Give a correct day of death using numbers 1 to 31
@@ -2269,6 +2310,9 @@ error.dateOfDeath.giveCorrectMonth = Give a correct month of death using numbers
 error.dateOfDeath.giveCorrectYear = Give a correct year of death
 error.dateOfDeath.giveFull = Give a full date of death
 error.dateOfDeath.giveNoneFuture = Give a date of death that is not in the future
+
+error.dateOfMarriage.blank.summary = enter a date of marriage or civil partnership
+error.dateOfMarriage.incorrect.summary = enter a valid date of marriage or civil partnership
 error.dateOfMarriage.giveCorrectDateUsingOnlyNumbers = Give a correct date of marriage only using numbers
 error.dateOfMarriage.giveCorrectDay = Give a correct day of marriage using numbers 1 to 31
 error.dateOfMarriage.giveCorrectDayForMonth = Give the correct date of marriage using the correct number of days for that month
@@ -2276,26 +2320,69 @@ error.dateOfMarriage.giveCorrectMonth = Give a correct month of marriage using n
 error.dateOfMarriage.giveCorrectYear = Give a correct year of marriage
 error.dateOfMarriage.giveFull = Give a full date of marriage
 error.dateOfMarriage.giveNoneFuture = Give a date of marriage that is not in the future
+
+error.email = Enter a valid email address.
+
+error.firstName.give = Give a first name
+error.firstName.giveUsingXCharsOrLess = Give a first name using 40 characters or less
+
+#Errors - Registration
+
+#Errors - Registration - Deceased
 error.deceasedIsAddressInUK.select = Select an answer for where the deceased’s contact address was
 error.deceasedMaritalStatus.select = Select the deceased’s relationship status
 error.deceasedPermanentHome.selectLocation = Select the location of the deceased’s permanent home
-error.email = Enter a valid email address.
-error.firstName.give = Give a first name
-error.firstName.giveUsingXCharsOrLess = Give a first name using 40 characters or less
-error.foreign.currencyValue.length.summary = enter a value for foreign assets using less than 11 numbers
-error.foreign.currencyValue.summary = enter a value for foreign assets using only numbers
-error.funeralExpenses.currencyValue.length.summary = enter a value for funeral costs using less than 11 numbers
-error.funeralExpenses.currencyValue.summary = enter a value for funeral costs using only numbers
+error.deceasedDateOfBirth.giveBeforeDateOfDeath = Give a date of birth that is before the date of death
 
-## Assets error messages section starts
+#Errors - Registration - Applicant
+error.applicant.insufficientCoExecutors = Add details of the other person applying for probate
+error.applicant.selectIfAnyoneElseApplyingForProbate = Select if anyone else is applying for probate
+error.applicantIsApplyingForProbate.select = Give an answer for if you are applying for probate
+error.applicantProbateLocation.select = Select where you are applying for probate
+
+#Errors - Estate report
+
+#Errors - Estate report - Assets
+error.blank.assets.properties.propertyType = Select what kind of property this is
+error.blank.assets.properties.propertyType.summary = select what kind of property this is
+error.blank.assets.properties.tenure = Select if this property was freehold or leasehold
+error.blank.assets.properties.tenure.summary = select is this property was freehold or leasehold
+error.blank.assets.properties.typeOfOwnership = Select how this property was owned
+error.blank.assets.properties.typeOfOwnership.summary = select how this property was owned
+error.properties.blank = Enter the value of this property
+error.properties.blank.summary = enter the value of this property
+
 error.assets.property.owned.select = Select an answer for whether there are any property, building or land in the estate
 error.assets.property.tenure.select = Select if this property, building or land was freehold or leasehold
 error.assets.property.type.select = Select what kind of property, building or land this is
 error.assets.property.ownership.select = Select how this property, building or land was owned
+
 error.assets.money.deceasedOwned.select = Select an answer for whether there is any money owned only be the deceased
 error.assets.money.jointlyOwned.select = Select an answer for whether there is any jointly owned money in the estate
+error.money.currencyValue.length.summary = enter a value for money owned using less than 11 numbers
+error.money.currencyValue.summary = enter a value for money owned using only numbers
+error.moneyOwed.currencyValue.length.summary = enter a value for money owed using less than 11 numbers
+error.moneyOwed.currencyValue.summary = enter a value for money owed using only numbers
+
+error.assets.household.deceasedOwned.select = Select an answer for whether there are any household and personal items in the estate
+error.assets.household.jointlyOwned.select = Select an answer for whether there are any jointly owned items in the estate
+error.household.currencyValue.length.summary = enter a value for household and personal items using less than 11 numbers
+error.household.currencyValue.summary = enter a value for household and personal items using only numbers
+
+error.assets.vehicles.deceasedOwned.select = Select an answer for whether there are any motor vehicles in the estate
+error.assets.vehicles.jointlyOwned.select  = Select an answer for whether there are any jointly owned motor vehicles in the estate
+error.vehicles.currencyValue.length.summary = enter a value for motor vehicles using less than 11 numbers
+error.vehicles.currencyValue.summary = enter a value for motor vehicles using only numbers
+
+error.privatePension.currencyValue.length.summary = enter a value for pensions using less than 11 numbers
+error.privatePension.currencyValue.summary = enter a value for pensions using only numbers
 error.assets.privatePensions.deceasedOwned.select = Select an answer for whether there are any private pensions in the estate
 error.assets.privatePensions.changed.select = Give an answer for if any pensions changed in the 2 years before death
+
+error.assets.stocksAndShares.listed.select = Select an answer for whether there are any listed stocks and shares in the estate
+error.assets.stocksAndShares.notListed.select = Select an answer for whether there are any unlisted stocks and shares in the estate
+error.stockAndShare.currencyValue.length.summary = enter a value for stocks and shares using less than 11 numbers
+error.stockAndShare.currencyValue.summary = enter a value for stocks and shares using only numbers
 
 error.assets.insurancePolicy.deceasedOwned.select = Select an answer for whether there are any insurance policies owned by the deceased in the estate
 error.assets.insurancePolicy.jointlyOwned.select = Select an answer for whether there are any jointly held insurance policies in the estate
@@ -2303,24 +2390,36 @@ error.assets.insurancePolicy.payedToSomeoneElse.select = Select an answer for wh
 error.assets.insurancePolicy.isInTrust.select = Select an answer for whether the deceased ever paid for an insurance policies that was placed in trust in the 7 years before they died
 error.assets.insurancePolicy.moreThanMaxValue.select = Select an answer for whether the deceased ever paid more than £3,000 in any year for any insurance policies that were not due to pay out to their estate
 error.assets.insurancePolicy.isAnnuitiesBought.select = Select an answer for whether the deceased ever bought an annuity at any time in their life
+error.length.assets.policies = Enter a value using less than 11 numbers
+error.length.assets.policies.summary = enter a value for insurance policies using less than 11 numbers
+error.currency.assets.policies = Enter a value using only numbers
+error.currency.assets.policies.summary = enter a value for insurance policies using only numbers
 
-error.assets.household.deceasedOwned.select = Select an answer for whether there are any household and personal items in the estate
-error.assets.household.jointlyOwned.select = Select an answer for whether there are any jointly owned items in the estate
-error.assets.vehicles.deceasedOwned.select = Select an answer for whether there are any motor vehicles in the estate
-error.assets.vehicles.jointlyOwned.select  = Select an answer for whether there are any jointly owned motor vehicles in the estate
-error.assets.stocksAndShares.listed.select = Select an answer for whether there are any listed stocks and shares in the estate
-error.assets.stocksAndShares.notListed.select = Select an answer for whether there are any unlisted stocks and shares in the estate
+error.hasCheckedEverything.select = Select an answer for if you have finished finding out about the estate
+error.heldInTrust.currencyValue.length.summary = enter a value for assets in a trust using less than 11 numbers
+error.heldInTrust.currencyValue.summary = enter a value for assets in a trust using only numbers
+
+error.assets.businessInterest.select = Select an answer for whether there are any business interests owned in the estate
+error.businessInterest.currencyValue.length.summary = enter a value for businesses owned using less than 11 numbers
+error.businessInterest.currencyValue.summary = enter a value for businesses owned using only numbers
+
+error.assets.nominated.select = Select an answer for whether there are any nominated assets in the estate
+error.nominated.currencyValue.length.summary = enter a value for nominated assets using less than 11 numbers
+error.nominated.currencyValue.summary = enter a value for nominated assets using only numbers
+
 error.assets.heldInTrust.deceasedOwned.select = Select an answer for whether there are any assets held in a trust in the estate
 error.assets.heldInTrust.moreThanOne.select  = Select an answer for whether the deceased benefitted from, had the right to benefit from, a trust during their lifetime
+
 error.assets.foreign.select = Select an answer for whether there are any foreign assets in the estate
 error.assets.moneyOwedToDeceased.select = Select an answer for if there was any money owed to the deceased
+error.foreign.currencyValue.length.summary = enter a value for foreign assets using less than 11 numbers
+error.foreign.currencyValue.summary = enter a value for foreign assets using only numbers
+
 error.assets.other.select = Select an answer for whether there are any other assets not listed in the estate
-error.assets.nominated.select = Select an answer for whether there are any nominated assets in the estate
-error.assets.businessInterest.select = Select an answer for whether there are any business interests owned in the estate
+error.otherAsset.currencyValue.length.summary = enter a value for other assets owned using less than 11 numbers
+error.otherAsset.currencyValue.summary = enter a value for other assets owned using only numbers
 
-## Assets error messages section ends
-
-## Gifts error messages section starts
+#Errors - Estate report - Gifts
 error.giftsGivenAway.select = Select an answer for if more than £3,000 was gifted away in any of the 7 years before death
 error.giftWithReservationFromBenefit.select = Select an answer for if there were any gifts with the reservation of benefit given away
 error.giftSevenYearsGivenInLast7Years.select = Select an answer for if the deceased gave away any of the type of gifts listed in the 7 years before death
@@ -2329,27 +2428,35 @@ error.giftSevenYearsToTrust.select = Select an answer for if the deceased gifted
 error.giftsDetails.exceedsGivenAway = The total value of exemptions being claimed on a year cannot be more than the total value of gifts given away
 error.giftsDetails.exceedsLimit = Give an exemption value of £14,000 or less
 error.giftsDetails.noValue = You must give the total value of gifts given away during this period
-## Gifts error messages section ends
+error.length.giftsDetails.exemptions = Enter a value using less than 11 numbers
+error.length.giftsDetails.exemptions.summary = enter an exemption value using less than 11 numbers
+error.length.giftsDetails.value = Enter a value using less than 11 numbers
+error.length.giftsDetails.value.summary = enter a value for other gifts using less than 11 numbers
 
-## Debts error messages section starts
+#Errors - Estate report - Debts
 error.debts.mortgage.select = Select an answer for if there was a mortgage on this property, building or land
+error.mortgages.currencyValue.length.summary = enter a mortgage value using less than 11 numbers
+error.mortgages.currencyValue.summary = enter a mortgage value using only numbers
+
 error.debts.funeralExpenses.select  = Select an answer for if there are any funeral expenses being paid out of the estate
 error.debts.trusts.select = Select an answer for if there are any debts from a trust that the deceased benefitted from
 error.debts.debtsOutsideUk.select = Select an answer for if the deceased owed any debts to anyone outside of the UK
 error.debts.jointlyOwned.select = Select an answer for if there are any debts owed on any jointly owned assets
 error.debts.anyOther.select = Select an answer for if there are any other debts owed from the estate
-## Debts error messages section ends
+error.jointlyOwned.currencyValue.length.summary = enter a value for debts owed on joint assets using less than 11 numbers
+error.jointlyOwned.currencyValue.summary = enter a value for debts owed on joint assets using only numbers
+error.otherDebt.currencyValue.length.summary = enter a value for other debts using less than 11 numbers
+error.otherDebt.currencyValue.summary = enter a value for other debts using only numbers
 
-## Value related error messages start
-error.estateReport.value.giveLessThanEleven = Give the value using 10 characters or less
-error.estateReport.value.giveValueUsingNumbers = Give the value only using numbers
-error.estateReport.value.giveCorrectNumberOfPence = Give the value with the correct number of pence
-error.estateReport.value.giveWithNoSpaces = Give the value without any spaces between numbers
-error.estateReport.value.giveWithCorrectComma = Give the correct value with no comma or with the comma in the right place
-error.estateReport.value.give = Give the value
-## Value related error messages end
+error.debtsFromTrust.currencyValue.length.summary = enter a value for debts owed from a trust using less than 11 numbers
+error.debtsFromTrust.currencyValue.summary = enter a value for debts owed from a trust using only numbers
+error.debtsOutsideUk.currencyValue.length.summary = enter a value for debts owed outside of the UK using less than 11 numbers
+error.debtsOutsideUk.currencyValue.summary = enter a value for debts owed outside of the UK using only numbers
 
-## EXEMPTIONS error messages section
+error.funeralExpenses.currencyValue.length.summary = enter a value for funeral costs using less than 11 numbers
+error.funeralExpenses.currencyValue.summary = enter a value for funeral costs using only numbers
+
+#Errors - Estate report - Exemptions
 error.isAssetForDeceasedPartner.select = Select an answer for if any assets have been left to the deceased's spouse or civil partner
 error.isPartnerHomeInUK.select = Select an answer for if the deceased's spouse or civil partner has their permanent home in the UK
 
@@ -2363,8 +2470,10 @@ error.charityNumber.give = Give the registered charity number
 error.isAssetForQualifyingBody.select = Select an answer for if any assets have been left to another qualifying body
 error.qualifyingBodyName.enterName = Enter the name of the other qualifying body
 error.qualifyingBodyName.giveUsing35CharactersOrLess = Give the name of the other qualifying body using 35 characters or less
+error.blank.qualifyingBody.name = Enter the name of who received assets
+error.blank.qualifyingBody.name.summary = enter the name of who received assets
 
-## TNRB
+#Errors - Estate report - Tnrb
 error.widowed.select = Select an answer for if the deceased was married at any point in their life and their spouse of civil partner died
 error.isPartnerLivingInUk.select = Select an answer for if the spouse or civil partner had their permanent home in the UK
 error.isGiftMadeBeforeDeath.select = Select an answer for if the deceased's spouse or civil partner gave any gifts away that were not exempt in the 7 years before they died
@@ -2373,110 +2482,13 @@ error.isStateClaimAnyBusiness.select = Select an answer for if the estate claime
 error.isPartnerBenFromTrust.select = Select an answer for if the spouse or civil partner had the right to benefit from a trust in their lifetime
 error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of the estate passed to the deceased. a charity or another qualifying body
 error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from, the estate to the deceased
-
-error.giveCountry = Give a country
-error.hasCheckedEverything.select = Select an answer for if you have finished finding out about the estate
-error.heldInTrust.currencyValue.length.summary = enter a value for assets in a trust using less than 11 numbers
-error.heldInTrust.currencyValue.summary = enter a value for assets in a trust using only numbers
-error.household.currencyValue.length.summary = enter a value for household and personal items using less than 11 numbers
-error.household.currencyValue.summary = enter a value for household and personal items using only numbers
-error.invalid.date.format = You must specify a valid date
-error.address.isInUK.give = Give an answer for if the address is in the UK
-error.address.wasInUK.give = Give an answer for if the address was in the UK
-error.jointlyOwned.currencyValue.length.summary = enter a value for debts owed on joint assets using less than 11 numbers
-error.jointlyOwned.currencyValue.summary = enter a value for debts owed on joint assets using only numbers
-error.lastName.blank = Enter a last name
-error.lastName.blank.summary = enter a last name
-error.lastName.give = Give a last name
-error.lastName.giveUsingXCharsOrLess = Give a last name using 40 characters or less
-error.lastName.length = Enter a last name using less than 40 characters
-error.lastName.length.summary = enter a last name using less than 40 characters
-error.length.assets.policies = Enter a value using less than 11 numbers
-error.length.assets.policies.summary = enter a value for insurance policies using less than 11 numbers
-error.length.giftsDetails.exemptions = Enter a value using less than 11 numbers
-error.length.giftsDetails.exemptions.summary = enter an exemption value using less than 11 numbers
-error.length.giftsDetails.value = Enter a value using less than 11 numbers
-error.length.giftsDetails.value.summary = enter a value for other gifts using less than 11 numbers
-error.money.currencyValue.length.summary = enter a value for money owned using less than 11 numbers
-error.money.currencyValue.summary = enter a value for money owned using only numbers
-error.moneyOwed.currencyValue.length.summary = enter a value for money owed using less than 11 numbers
-error.moneyOwed.currencyValue.summary = enter a value for money owed using only numbers
-error.mortgages.currencyValue.length.summary = enter a mortgage value using less than 11 numbers
-error.mortgages.currencyValue.summary = enter a mortgage value using only numbers
-error.nino.blank = Enter a National Insurance number
-error.nino.blank.summary = enter a National Insurance number
-error.nino.give = Give a National Insurance number
-error.nino.giveUsing8Or9Characters = Give a valid National Insurance number using 8 or 9 characters
-error.nino.giveUsingOnlyLettersAndNumbers = Give a National Insurance number only using letters and numbers
-error.nino.incorrect = Enter a valid National Insurance number
-error.nino.incorrect.summary = enter a valid National Insurance number
-error.nominated.currencyValue.length.summary = enter a value for nominated assets using less than 11 numbers
-error.nominated.currencyValue.summary = enter a value for nominated assets using only numbers
-error.otherAsset.currencyValue.length.summary = enter a value for other assets owned using less than 11 numbers
-error.otherAsset.currencyValue.summary = enter a value for other assets owned using only numbers
-error.otherDebt.currencyValue.length.summary = enter a value for other debts using less than 11 numbers
-error.otherDebt.currencyValue.summary = enter a value for other debts using only numbers
-error.partner.blank.summary = enter a value for total assets
-error.phoneNumber.give = Give a phone number
-error.phoneNumber.giveUsing27CharactersOrLess = Give a phone number using 27 characters or less
-error.phoneNumber.giveUsingOnlyLettersAndNumbers = Give a phone number only using numbers or letters
-error.positive.number = This field must be greater than 0.
-error.postcode.blank = Enter a postcode
-error.postcode.blank.summary = enter a postcode
-error.postcode.incorrect = Enter a valid postcode
-error.postcode.incorrect.summary = enter a valid postcode
-error.postcode.invalid.character = This line contains an invalid character. Valid characters are: A-Z a-z 0-9 space
 error.predeceasedDateOfDeath.afterMarriage = Enter a date of death which is after the date of marriage or civil partnership
 error.predeceasedDateOfMarriage.beforeDateOfDeath = Enter a date of marriage or civil partnership which is before the date of death
-error.privatePension.currencyValue.length.summary = enter a value for pensions using less than 11 numbers
-error.privatePension.currencyValue.summary = enter a value for pensions using only numbers
 
-error.problem = There’s a problem
-error.properties.blank = Enter the value of this property
-error.properties.blank.summary = enter the value of this property
-error.report.redo = Select the estate report through the Your Inheritance Tax estate reports page and send the details again.
-error.selectAnswer = Select an answer
-error.selectAnswer.summary = select an answer
-error.signOutLater = Sign out and complete this service at another time.
-error.stockAndShare.currencyValue.length.summary = enter a value for stocks and shares using less than 11 numbers
-error.stockAndShare.currencyValue.summary = enter a value for stocks and shares using only numbers
-error.value.blank = A value should be entered
-error.vehicles.currencyValue.length.summary = enter a value for motor vehicles using less than 11 numbers
-error.vehicles.currencyValue.summary = enter a value for motor vehicles using only numbers
-
-global.error.InternalServerError500.heading = Sorry, we’re experiencing technical difficulties
-global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Inheritance Tax overview
-global.error.InternalServerError500.link.gov-uk.text = Explore GOV.UK.
-global.error.InternalServerError500.message = Please try again in a few moments.
-global.error.InternalServerError500.title = We’re experiencing technical difficulties
-global.error.badRequest400.heading = Bad request
-global.error.badRequest400.title = Bad request - 400
-global.error.pageNotFound404.heading = This page can’t be found
-global.error.pageNotFound404.title = Page not found - 404
-
-### Error content commented out at the end of story IHT-4317 just in case there are problems in QA. Can be removed later.
-###error.charityNo.blank2 = Enter the registered charity number
-###error.charityNo.blank2.summary = enter the registered charity number
-###error.currency.gifts.trust.summary = enter a value for gifts using only numbers
-###error.currency.giftsDetails.value = Enter a value using only numbers
-###error.currency.giftsDetails.value.summary = enter a value for other gifts using only numbers
-###error.currency.giftsDetails.exemptions = Enter a value using only numbers
-###error.currency.giftsDetails.exemptions.summary = enter an exemption value using only numbers
-###error.currencyValue.blank = Enter the value of asset
-###error.currencyValue.blank.summary = enter the value of asset
-###error.date.incorrect = Enter a valid date
-###error.date.incorrect.summary = enter a valid date
-###error.date.numeric = Enter a date using only numbers
-###error.dateOfBirth.blank = Enter a date of birth
-###error.dateOfBirth.blank.summary = enter a date of birth
-###error.dateOfDeath.blank = Enter a date of death
-###error.dateOfDeath.blank.summary = enter a date of death
-###error.dateOfDeath.numeric = Enter a valid date of death using only numbers
-###error.exemptionsPartnerTotalAssets.currencyValue.length.summary = enter a value for assets left to a spouse or civil partner using less than 11 numbers
-###error.exemptionsPartnerTotalAssets.currencyValue.summary = enter a value for assets left to a spouse or civil partner using only numbers
-###error.firstName.blank = Enter a first name
-###error.firstName.blank.summary = enter a first name
-###error.firstName.length = Enter a first name using less than 40 characters
-###error.firstName.length.summary = enter a first name using less than 40 characters
-###error.organisationName.length = Enter a name using less than 36 characters
-###error.organisationName.length.summary = enter a name using less than 36 characters
+#Errors - Estate report - Value related
+error.estateReport.value.giveLessThanEleven = Give the value using 10 characters or less
+error.estateReport.value.giveValueUsingNumbers = Give the value only using numbers
+error.estateReport.value.giveCorrectNumberOfPence = Give the value with the correct number of pence
+error.estateReport.value.giveWithNoSpaces = Give the value without any spaces between numbers
+error.estateReport.value.giveWithCorrectComma = Give the correct value with no comma or with the comma in the right place
+error.estateReport.value.give = Give the value
