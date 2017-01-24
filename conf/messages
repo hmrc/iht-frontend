@@ -2342,6 +2342,14 @@ error.applicantProbateLocation.select = Select where you are applying for probat
 
 #Errors - Estate report
 
+#Errors - Estate report - Value related
+error.estateReport.value.giveLessThanEleven = Give the value using 10 characters or less
+error.estateReport.value.giveValueUsingNumbers = Give the value only using numbers
+error.estateReport.value.giveCorrectNumberOfPence = Give the value with the correct number of pence
+error.estateReport.value.giveWithNoSpaces = Give the value without any spaces between numbers
+error.estateReport.value.giveWithCorrectComma = Give the correct value with no comma or with the comma in the right place
+error.estateReport.value.give = Give the value
+
 #Errors - Estate report - Assets
 error.blank.assets.properties.propertyType = Select what kind of property this is
 error.blank.assets.properties.propertyType.summary = select what kind of property this is
@@ -2439,22 +2447,24 @@ error.mortgages.currencyValue.length.summary = enter a mortgage value using less
 error.mortgages.currencyValue.summary = enter a mortgage value using only numbers
 
 error.debts.funeralExpenses.select  = Select an answer for if there are any funeral expenses being paid out of the estate
-error.debts.trusts.select = Select an answer for if there are any debts from a trust that the deceased benefitted from
-error.debts.debtsOutsideUk.select = Select an answer for if the deceased owed any debts to anyone outside of the UK
-error.debts.jointlyOwned.select = Select an answer for if there are any debts owed on any jointly owned assets
-error.debts.anyOther.select = Select an answer for if there are any other debts owed from the estate
-error.jointlyOwned.currencyValue.length.summary = enter a value for debts owed on joint assets using less than 11 numbers
-error.jointlyOwned.currencyValue.summary = enter a value for debts owed on joint assets using only numbers
-error.otherDebt.currencyValue.length.summary = enter a value for other debts using less than 11 numbers
-error.otherDebt.currencyValue.summary = enter a value for other debts using only numbers
+error.funeralExpenses.currencyValue.length.summary = enter a value for funeral costs using less than 11 numbers
+error.funeralExpenses.currencyValue.summary = enter a value for funeral costs using only numbers
 
+error.debts.trusts.select = Select an answer for if there are any debts from a trust that the deceased benefitted from
 error.debtsFromTrust.currencyValue.length.summary = enter a value for debts owed from a trust using less than 11 numbers
 error.debtsFromTrust.currencyValue.summary = enter a value for debts owed from a trust using only numbers
+
+error.debts.debtsOutsideUk.select = Select an answer for if the deceased owed any debts to anyone outside of the UK
 error.debtsOutsideUk.currencyValue.length.summary = enter a value for debts owed outside of the UK using less than 11 numbers
 error.debtsOutsideUk.currencyValue.summary = enter a value for debts owed outside of the UK using only numbers
 
-error.funeralExpenses.currencyValue.length.summary = enter a value for funeral costs using less than 11 numbers
-error.funeralExpenses.currencyValue.summary = enter a value for funeral costs using only numbers
+error.debts.jointlyOwned.select = Select an answer for if there are any debts owed on any jointly owned assets
+error.jointlyOwned.currencyValue.length.summary = enter a value for debts owed on joint assets using less than 11 numbers
+error.jointlyOwned.currencyValue.summary = enter a value for debts owed on joint assets using only numbers
+
+error.debts.anyOther.select = Select an answer for if there are any other debts owed from the estate
+error.otherDebt.currencyValue.length.summary = enter a value for other debts using less than 11 numbers
+error.otherDebt.currencyValue.summary = enter a value for other debts using only numbers
 
 #Errors - Estate report - Exemptions
 error.isAssetForDeceasedPartner.select = Select an answer for if any assets have been left to the deceased's spouse or civil partner
@@ -2484,11 +2494,3 @@ error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of t
 error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from, the estate to the deceased
 error.predeceasedDateOfDeath.afterMarriage = Enter a date of death which is after the date of marriage or civil partnership
 error.predeceasedDateOfMarriage.beforeDateOfDeath = Enter a date of marriage or civil partnership which is before the date of death
-
-#Errors - Estate report - Value related
-error.estateReport.value.giveLessThanEleven = Give the value using 10 characters or less
-error.estateReport.value.giveValueUsingNumbers = Give the value only using numbers
-error.estateReport.value.giveCorrectNumberOfPence = Give the value with the correct number of pence
-error.estateReport.value.giveWithNoSpaces = Give the value without any spaces between numbers
-error.estateReport.value.giveWithCorrectComma = Give the correct value with no comma or with the comma in the right place
-error.estateReport.value.give = Give the value
