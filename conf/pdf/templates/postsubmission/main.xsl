@@ -9,8 +9,9 @@
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="declarationDate"/>
 
-    <xsl:include href="pdf/templates/registration/case-details.xsl"/>
-    <xsl:include href="pdf/templates/application/return/iht-return.xsl"/>
+    <xsl:include href="pdf/templates/common/table-row.xsl"/>
+    <xsl:include href="pdf/templates/common/registration/case-details.xsl"/>
+    <xsl:include href="pdf/templates/postsubmission/iht-return.xsl"/>
 
     <xsl:template match="/">
         <fo:root font-family="OpenSans">

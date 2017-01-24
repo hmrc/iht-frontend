@@ -26,7 +26,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.overview.givenAway.question1', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -44,7 +44,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.reservation.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -62,7 +62,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.overview.sevenYears.question1', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -70,7 +70,7 @@
                                         <xsl:if test="allGifts/isGivenInLast7Years='true'"><xsl:value-of select="i18n:getMessagesText($translator, 'iht.yes')"/></xsl:if>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.overview.sevenYears.question2', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -205,14 +205,14 @@
                                     <fo:table-column column-number="1" column-width="70%"/>
                                     <fo:table-column column-number="2" column-width="30%"/>
                                     <fo:table-body font-size="12pt">
-                                        <xsl:call-template name="table-row-money-border-top-black">
+                                        <xsl:call-template name="table-row-money-tall-border-top-black">
                                             <xsl:with-param name="label"
                                                             select="i18n:getMessagesText($translator, 'page.iht.application.gifts.overview.value.question1')"/>
                                             <xsl:with-param name="value">
                                                 <xsl:value-of select='$giftsTotal'/>
                                             </xsl:with-param>
                                         </xsl:call-template>
-                                        <xsl:call-template name="table-row-bottom-blank"/>
+                                        <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
                                     </fo:table-body>
                                 </fo:table>
                             </fo:block>

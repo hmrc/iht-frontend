@@ -27,7 +27,7 @@
                     <fo:table-column column-number="1" column-width="70%"/>
                     <fo:table-column column-number="2" column-width="30%"/>
                     <fo:table-body font-size="12pt">
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.exemptions.spouse.assetLeftToSpouse.question', $deceasedName)"/>
                             <xsl:with-param name="value">
@@ -36,7 +36,7 @@
                             </xsl:with-param>
                         </xsl:call-template>
                         <xsl:if test="allExemptions/partner/isAssetForDeceasedPartner='true'">
-                            <xsl:call-template name="table-row">
+                            <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.partner.homeInUK.question')"/>
                                 <xsl:with-param name="value">
@@ -48,25 +48,25 @@
                                     </xsl:if>
                                 </xsl:with-param>
                             </xsl:call-template>
-                            <xsl:call-template name="table-row">
+                            <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.name.title')"/>
                                 <xsl:with-param name="value"
                                                 select="concat(allExemptions/partner/firstName,' ', allExemptions/partner/lastName)"/>
                             </xsl:call-template>
-                            <xsl:call-template name="table-row">
+                            <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.dob.title')"/>
                                 <xsl:with-param name="value"
                                                 select="formatter:getDateForDisplay($pdfFormatter, allExemptions/partner/dateOfBirth)"/>
                             </xsl:call-template>
-                            <xsl:call-template name="table-row">
+                            <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.nino.title')"/>
                                 <xsl:with-param name="value"
                                                 select="allExemptions/partner/nino"/>
                             </xsl:call-template>
-                            <xsl:call-template name="table-row-money">
+                            <xsl:call-template name="table-row-money-tall">
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.totalAssets.title')"/>
                                 <xsl:with-param name="value">
@@ -92,7 +92,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.exemptions.charities.assetLeftToCharity.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -116,15 +116,15 @@
                                     <fo:table-column column-number="2" column-width="30%"/>
                                     <fo:table-body font-size="12pt">
                                         <xsl:for-each select="charities">
-                                            <xsl:call-template name="table-row">
+                                            <xsl:call-template name="table-row-short-vpad">
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.charityName.sectionTitle')"/>
                                                 <xsl:with-param name="value" select="name"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row">
+                                            <xsl:call-template name="table-row-short-vpad">
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.charities.charityNo.question')"/>
                                                 <xsl:with-param name="value" select="number"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row-money">
+                                            <xsl:call-template name="table-row-money-tall">
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived')"/>
                                                 <xsl:with-param name="value">
                                                     <xsl:if test="totalValue">
@@ -161,7 +161,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row">
+                                <xsl:call-template name="table-row-short-vpad">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.exemptions.qualifyingBodyOverview.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -185,11 +185,11 @@
                                     <fo:table-column column-number="2" column-width="30%"/>
                                     <fo:table-body font-size="12pt">
                                         <xsl:for-each select="qualifyingBodies">
-                                            <xsl:call-template name="table-row">
+                                            <xsl:call-template name="table-row-short-vpad">
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.qualifyingBodies.qualifyingBodyName')"/>
                                                 <xsl:with-param name="value" select="name"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row-money">
+                                            <xsl:call-template name="table-row-money-tall">
                                                 <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title')"/>
                                                 <xsl:with-param name="value">
                                                     <xsl:if test="totalValue">
@@ -224,14 +224,14 @@
                 <fo:table-column column-number="2" column-width="30%"/>
                 <fo:table-body font-size="12pt">
 
-                    <xsl:call-template name="table-row-money-border-top-black">
+                    <xsl:call-template name="table-row-money-tall-border-top-black">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
                         <xsl:with-param name="value" select='$exemptionsTotal'/>
                     </xsl:call-template>
 
                     <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                    <xsl:call-template name="table-row-application-bottom-blank"/>
+                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
                 </fo:table-body>
             </fo:table>
         </fo:block>

@@ -28,12 +28,6 @@ import play.api.i18n.Messages
 package object utils {
   type Predicate = (RegistrationDetails, String) => Boolean
 
-  implicit def formToDoubleValidatingForm[A](f: Form[A]) =
-    DoubleValidatingForm(f, None)
-
-  implicit def doubleValidatingFormToPlayForm[A](f: DoubleValidatingForm[A]) =
-    Form(f.form.mapping, f.form.data, f.form.errors, f.form.value)
-
   implicit def toBoolean(s: Option[String]): Option[Boolean] = s match {
     case None => None
     case Some("true") => Some(true)

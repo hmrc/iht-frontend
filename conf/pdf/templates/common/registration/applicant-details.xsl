@@ -22,23 +22,23 @@
                     <fo:table-column column-number="1" column-width="60%"/>
                     <fo:table-column column-number="2" column-width="40%"/>
                     <fo:table-body font-size="12pt">
-                        <xsl:call-template name="table-row-top">
+                        <xsl:call-template name="table-row-short-vpad-border-top-black">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.firstName')"/>
                             <xsl:with-param name="value" select="applicantDetails/firstName"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.lastName')"/>
                             <xsl:with-param name="value" select="applicantDetails/lastName"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.dateofbirth')"/>
                             <xsl:with-param name="value"
                                             select="formatter:getDateForDisplay($pdfFormatter,applicantDetails/dateOfBirth)"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
                             <xsl:with-param name="value" select="applicantDetails/nino"/>
@@ -48,18 +48,18 @@
                                             select="i18n:getMessagesText($translator, 'iht.registration.contactAddress')"/>
                             <xsl:with-param name="value" select="applicantDetails/ukAddress"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.registration.checklist.phoneNo.upperCaseInitial')"/>
                             <xsl:with-param name="value" select="applicantDetails/phoneNo"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row">
+                        <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'page.iht.registration.applicant.probateLocation.title')"/>
                             <xsl:with-param name="value" select="applicantDetails/country"/>
                         </xsl:call-template>
                         <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                        <xsl:call-template name="table-row-bottom-blank"/>
+                        <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
                     </fo:table-body>
                 </fo:table>
             </fo:block>
