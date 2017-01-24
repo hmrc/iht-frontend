@@ -44,7 +44,7 @@ object GiftsDetailsController extends GiftsDetailsController with IhtConnectors 
 trait GiftsDetailsController extends EstateController {
   override val applicationSection: Option[String] = Some(ApplicationKickOutHelper.ApplicationSectionGiftDetails)
   private lazy val cancelLabelKey = "GiftsDetailsCancelLabel"
-  private lazy val cancelRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
+  private lazy val sevenYearsGiftsRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
   private lazy val cancelLabelKeyValueCancel = "iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath"
   private lazy val cancelLabelKeyValueReturnToGifts = "iht.estateReport.gifts.returnToGiftsGivenAway"
 
@@ -56,7 +56,7 @@ trait GiftsDetailsController extends EstateController {
     implicit user =>
       implicit request => {
         cachingConnector.storeSingleValueSync(cancelLabelKey, cancelLabelKeyValueCancel)
-        doPageLoad(id, Some(cancelRedirectLocation), Some(Messages(cancelLabelKeyValueCancel)))
+        doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueCancel)))
       }
   }
 
@@ -64,7 +64,7 @@ trait GiftsDetailsController extends EstateController {
     implicit user =>
       implicit request => {
         cachingConnector.storeSingleValueSync(cancelLabelKey, cancelLabelKeyValueReturnToGifts)
-        doPageLoad(id, Some(cancelRedirectLocation), Some(Messages(cancelLabelKeyValueReturnToGifts)))
+        doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueReturnToGifts)))
       }
   }
 
@@ -93,7 +93,7 @@ trait GiftsDetailsController extends EstateController {
             formWithErrors => {
               LogHelper.logFormError(formWithErrors)
               Future.successful(BadRequest(iht.views.html.application.gift.gifts_details(formWithErrors, rd, Some
-              (cancelRedirectLocation), Some(Messages(cancelLabelKeyValue)))))
+              (sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValue)))))
             },
             previousYearsGifts => {
               processSubmit(CommonHelper.getNino(user), previousYearsGifts, rd, ad)
@@ -112,7 +112,7 @@ trait GiftsDetailsController extends EstateController {
       val existingSeqPrevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
       val idToUpdate = existingSeqPrevYearsGifts.indexWhere(_.yearId == previousYearsGifts.yearId)
       if (idToUpdate < 0) {
-        Future.successful(Redirect(routes.SevenYearsGiftsValuesController.onPageLoad()))
+        Future.successful(Redirect(sevenYearsGiftsRedirectLocation))
       } else {
         withValue {
           val updatedSeqPrevYearsGifts = existingSeqPrevYearsGifts.updated(idToUpdate, previousYearsGifts)
@@ -121,7 +121,7 @@ trait GiftsDetailsController extends EstateController {
             applicationID = previousYearsGifts.yearId)
         }{newAD =>
           ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
-            Redirect(newAD.kickoutReason.fold(routes.SevenYearsGiftsValuesController.onPageLoad()) {
+            Redirect(newAD.kickoutReason.fold(sevenYearsGiftsRedirectLocation) {
               _ => {
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
