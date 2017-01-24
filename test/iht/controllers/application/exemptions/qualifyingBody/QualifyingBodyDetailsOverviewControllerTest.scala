@@ -59,8 +59,7 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
       val result = qualifyingBodyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)

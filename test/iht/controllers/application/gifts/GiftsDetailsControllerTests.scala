@@ -76,8 +76,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         mockIhtConnector,
         registrationDetails,
         Some(applicationDetails),
-        getAppDetails = true,
-        getAppDetailsTempFromCache = true)
+        getAppDetails = true)
 
       val result = giftsDetailsControllerNotAuthorised.onPageLoad("1")(createFakeRequest())
 
@@ -92,8 +91,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         mockIhtConnector,
         registrationDetails,
         Some(applicationModel),
-        getAppDetails = true,
-        getAppDetailsTempFromCache = true)
+        getAppDetails = true)
 
       val result = giftsDetailsController.onPageLoad("1")(createFakeRequest())
       status(result) should be(OK)
@@ -109,8 +107,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         mockIhtConnector,
         registrationDetails,
         Some(applicationModel),
-        getAppDetails = true,
-        getAppDetailsTempFromCache = true)
+        getAppDetails = true)
 
       val result = giftsDetailsController.onPageLoad("0")(createFakeRequest())
       status(result) should be(OK)
@@ -121,8 +118,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         registrationDetails,
-        None,
-        getAppDetailsTempFromCache = true)
+        None)
 
       val result = giftsDetailsController.onPageLoad("1")(createFakeRequest())
       status(result) should be(OK)
@@ -141,7 +137,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         registrationDetails,
         Some(applicationModel),
         getAppDetails = true,
-        getAppDetailsTempFromCache = true,
+
         saveAppDetails = true)
 
       val result = giftsDetailsController.onSubmit()(request)
@@ -161,8 +157,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         mockIhtConnector,
         registrationDetails,
         Some(applicationModel),
-        getAppDetails = true,
-        getAppDetailsTempFromCache = true)
+        getAppDetails = true)
 
       val result = giftsDetailsController.onSubmit()(request)
       status(result) should be(SEE_OTHER)
@@ -184,7 +179,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         Some(applicationModel),
         Some("site.link.cancel"),
         getAppDetails = true,
-        getAppDetailsTempFromCache = true,
+
         getSingleValueFromCache = true)
 
       val result = giftsDetailsController.onSubmit()(request)
@@ -207,7 +202,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
         Some(applicationModel),
         Some("site.link.cancel"),
         getAppDetails = true,
-        getAppDetailsTempFromCache = true,
+
         getSingleValueFromCache = true)
 
       val result = giftsDetailsController.onSubmit()(request)
