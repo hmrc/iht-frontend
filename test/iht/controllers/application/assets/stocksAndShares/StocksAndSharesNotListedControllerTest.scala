@@ -26,7 +26,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
-import play.api.test.Helpers._
+import play.api.test.Helpers.{contentAsString, _}
 
 class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
 
@@ -113,16 +113,37 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
       capturedValue shouldBe expectedAppDetails
     }
 
-    "display validation message when incomplete form is submitted" in {
+    "display validation message when form is submitted with no values entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      val formFill = stockAndShareNotListedForm.fill(CommonBuilder.buildStockAndShare)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest()
 
       setUpTests(applicationDetails)
 
       val result = stocksAndSharesNotListedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
       contentAsString(result) should include (Messages("error.problem"))
+    }
+
+    "display validation message when form is submitted with answer yes and no value entered" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isNotListed", "true"), ("valueNotListed", ""))
+
+      setUpTests(applicationDetails)
+
+      val result = stocksAndSharesNotListedController.onSubmit()(request)
+      status(result) should be (BAD_REQUEST)
+      contentAsString(result) should include (Messages("error.problem"))
+    }
+
+    "redirect to overview when form is submitted with answer yes and a value entered" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isNotListed", "true"), ("valueNotListed", "233"))
+
+      setUpTests(applicationDetails)
+
+      val result = stocksAndSharesNotListedController.onSubmit()(request)
+      status(result) should be (SEE_OTHER)
+      redirectLocation(result) should be (Some(routes.StocksAndSharesOverviewController.onPageLoad().url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
