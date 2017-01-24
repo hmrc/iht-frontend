@@ -73,11 +73,11 @@ trait GiftsDetailsController extends EstateController {
     withApplicationDetails { rd =>
       ad =>
         val result = getOrException(rd.deceasedDateOfDeath.map { ddod =>
-          val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-          withValue(
+          withValue {
+            val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
             prevYearsGifts.find(_.yearId.contains(id))
               .fold(previousYearsGiftsForm)(matchedGift => previousYearsGiftsForm.fill(matchedGift))
-          )(form => Ok(iht.views.html.application.gift.gifts_details(form, rd, cancelUrl, cancelLabel)))
+          }(form => Ok(iht.views.html.application.gift.gifts_details(form, rd, cancelUrl, cancelLabel)))
         })
         Future.successful(result)
     }
