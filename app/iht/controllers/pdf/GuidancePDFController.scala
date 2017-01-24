@@ -16,7 +16,7 @@
 
 package iht.controllers.pdf
 
-import java.io.FileNotFoundException
+import java.io.{File, FileNotFoundException}
 
 import iht.constants.Constants
 import iht.controllers.auth.CustomPasscodeAuthentication
@@ -29,17 +29,26 @@ import scala.util.{Failure, Success, Try}
 object GuidancePDFController extends GuidancePDFController
 
 trait GuidancePDFController extends FrontendController with CustomPasscodeAuthentication {
-  def loadPDF() = UnauthorisedAction {
+//  def loadPDF = UnauthorisedAction {
+//    implicit request => {
+//     Try(Constants.PDFHMRCGuidance.openStream) match {
+//        case Success(fileInputStream) =>
+//          val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(fileInputStream)
+//          Result(
+//            header = ResponseHeader(OK),
+//            body = fileContent
+//          ).as("application/pdf")
+//        case Failure(e) => throw new FileNotFoundException("Unable to retrieve guidance PDF:" + e.getMessage)
+//      }
+//    }
+//  }
+
+  def loadPDF = UnauthorisedAction {
     implicit request => {
-     Try(Constants.PDFHMRCGuidance.openStream) match {
-        case Success(fileInputStream) =>
-          val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(fileInputStream)
-          Result(
-            header = ResponseHeader(OK),
-            body = fileContent
-          ).as("application/pdf")
-        case Failure(e) => throw new FileNotFoundException("Unable to retrieve guidance PDF:" + e.getMessage)
-      }
+      Ok.sendFile(
+        content = new File(Constants.PDFHMRCGuidance.getFile),
+        fileName = _ => "Inheritance Tax Private Beta Guidence"
+      )
     }
   }
 }
