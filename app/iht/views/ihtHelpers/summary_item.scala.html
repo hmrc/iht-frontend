@@ -27,11 +27,11 @@
     linkId: String="")(implicit lang: play.api.i18n.Lang)
 
 <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-    <div class="tabular-data__heading">@Html(label.replace("\n", "<br/>"))</div>
-    <div class="tabular-data__data-1">
+    <div class="tabular-data__data tabular-data__data--4-12">@Html(label.replace("\n", "<br/>"))</div>
+    <div class="tabular-data__data tabular-data__data--6-12">
         @Html(data.trim().replace("\n", "<br/>"))
     </div>
-    <div class="tabular-data__data-2">
+    <div class="tabular-data__data tabular-data__data--2-12">
       @if(hasChangeLink){
         <a href="@changeLink" id="@linkId">
           <span aria-hidden="true">@Messages("iht.change")</span>

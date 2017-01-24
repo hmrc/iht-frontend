@@ -38,7 +38,7 @@
 
     <section class="section">
         <h2>@Messages("page.iht.registration.registrationSummary.deceasedTable.title")</h2>
-        <ul>
+        <ul class="tabular-data tabular-data--list">
             @defining(CommonHelper.getOrException(registrationDetails.deceasedDetails, "Deceased Details could not be found")) { deceasedDetails=>
 
                 @ihtHelpers.summary_item(
@@ -115,7 +115,7 @@
 
       <section class="section">
         <h2>@Messages("page.iht.registration.registrationSummary.applicantTable.title")</h2>
-        <ul>
+        <ul class="tabular-data tabular-data--list">
             @defining( CommonHelper.getOrException(registrationDetails.applicantDetails, "Applicant Details could not be found") ) { applicantDetails=>
 
                 @ihtHelpers.summary_item(

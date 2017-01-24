@@ -49,7 +49,7 @@ isFullWidth=false) {
 <p id="assets-guidance1" class="lede">@Html(Messages("page.iht.application.assets.overview.guidance1", ihtHelpers.name(deceasedName)))</p>
 <p id="assets-guidance2">@Messages("iht.estateReport.completeEverySection")</p>
 
-<ul id="overview-table">
+<ul id="overview-table" class="tabular-data tabular-data--list">
 
     @defining(appDetails.isCompleteProperties) { isComplete =>
         @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.propertiesBuildingsAndLand"),

@@ -51,7 +51,7 @@ headingName = deceasedName) {
 <p id="exemption-guidance2">@Messages("iht.estateReport.completeEverySection")</p>
 
 <section id="overview-table" class="section">
-
+    <ul class="tabular-data tabular-data--list">
     @if(married) {
         @defining(exemptions.partner.flatMap(_.isComplete)) { isComplete =>
             @ihtHelpers.generic_overview_item(
@@ -150,7 +150,7 @@ headingName = deceasedName) {
             )
         )
     }
-
+    </ul>
     <div class="subsection">
         <div id="total-row" class="grid-layout grid-layout--stacked grid-layout--nogutter">
             <div class="grid-layout__column grid-layout__column--4-12">

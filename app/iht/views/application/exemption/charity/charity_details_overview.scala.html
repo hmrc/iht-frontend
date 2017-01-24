@@ -31,6 +31,7 @@ browserTitle = Some(Messages("page.iht.application.exemptions.overview.charity.d
 isFullWidth = false) {
 
 <section>
+    <ul class="tabular-data tabular-data--list">
     @defining(charity.flatMap(_.id))  { charityId =>
         @defining(charity.flatMap(_.name))  { charityName =>
                 @ihtHelpers.generic_overview_item(

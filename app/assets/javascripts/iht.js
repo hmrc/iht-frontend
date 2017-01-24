@@ -63,6 +63,23 @@ showHideContent.init()
       clearInput($(this));
   });
 
+// =====================================================
+// polyfill for inline name wrapping on IE < 10
+// Fixes where IE doesn't wrap if the container is not display: block
+// This finds the inline name and passes a class to the parent container
+// Not used by default as causes ugly wrapping of non-name copy
+// Wrapped in browser UA sniffing as feature detection would not work here
+// =====================================================
+if(typeof window.navigator != "undefined" && typeof window.navigator.userAgent != "undefined"){
+    if(window.navigator.userAgent.indexOf("MSIE 9") > 0 || window.navigator.userAgent.indexOf("MSIE 8") > 0){
+        $('span.copy--restricted').not("a > .copy--restricted").each(function(){
+            var wrapItem = $(this);
+            var parentContents = wrapItem.parent().html();
+            wrapItem.parent().html('<div class="copy--restricted-wrapper">' + parentContents + '</div>');
+
+        });
+    }
+}
 
 // =====================================================
 // Patch to update autocomplete suggestions
@@ -274,104 +291,3 @@ function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-
-// ======================================================
-// Country select combo box
-// ======================================================
-function countryCodeAutoComplete() {
-
-  (function( $ ) {
-      $.widget( "custom.combobox", {
-        _create: function() {
-          this.wrapper = $( "<span>" )
-            .insertAfter( this.element );
-
-          this.element.hide();
-          this._createAutocomplete();
-          this.element.attr("id", this.element.attr("id")+"_");
-        },
-
-        _createAutocomplete: function() {
-          var selected = this.element.children( ":selected" ),
-            value = selected.val() ? selected.text() : "";
-
-          this.input = $( "<input>" )
-            .appendTo( this.wrapper )
-            .val( value )
-            .attr( "title", "" )
-            .attr( "id", this.element.attr("id") )
-            .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left form-control" )
-            .autocomplete({
-              delay: 0,
-              minLength: 2,
-              source: $.proxy( this, "_source" )
-            });
-
-          this._on( this.input, {
-            autocompleteselect: function( event, ui ) {
-              ui.item.option.selected = true;
-              this._trigger( "select", event, {
-                item: ui.item.option
-              });
-            },
-
-            autocompletechange: "_removeIfInvalid"
-          });
-        },
-
-        _source: function( request, response ) {
-          var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-          response( this.element.children( "option" ).map(function() {
-            var text = $( this ).text();
-            if ( this.value && ( !request.term || matcher.test(text) ) )
-              return {
-                label: text,
-                value: text,
-                option: this
-              };
-          }) );
-        },
-
-        _removeIfInvalid: function( event, ui ) {
-
-          // Selected an item, nothing to do
-          if ( ui.item ) {
-            return;
-          }
-
-          // Search for a match (case-insensitive)
-          var value = this.input.val(),
-            valueLowerCase = value.toLowerCase(),
-            valid = false;
-          this.element.children( "option" ).each(function() {
-            if ( $( this ).text().toLowerCase() === valueLowerCase ) {
-              this.selected = valid = true;
-              return false;
-            }
-          });
-
-          // Found a match, nothing to do
-          if ( valid ) {
-            return;
-          }
-
-          // Remove invalid value
-          this.input
-            .val( "" )
-            .attr( "title", value + " didn't match any item" );
-          this.element.val( "" );
-          this.input.autocomplete( "instance" ).term = "";
-        },
-
-        _destroy: function() {
-          this.wrapper.remove();
-          this.element.show();
-        }
-      });
-    })( jQuery );
-
-  $(function() {
-      $(".to-combobox").combobox();
-  });
-
-}

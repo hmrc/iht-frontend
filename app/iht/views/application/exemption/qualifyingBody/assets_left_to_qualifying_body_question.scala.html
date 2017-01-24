@@ -30,7 +30,7 @@ browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualif
 isFullWidth = false,
 cancelUrl = Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
 cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
-                            registrationDetails.deceasedDetails.map(_.name).fold("")(identity))),
+                            ihtHelpers.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))),
 headingName = deceasedName
 ){
 

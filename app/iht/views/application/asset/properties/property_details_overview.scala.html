@@ -43,7 +43,7 @@ property:Option[Property]=None)(implicit request: Request[_])
 browserTitle = Some(Messages("iht.estateReport.assets.propertyAdd")),
 isFullWidth = false) {
 
-<ul id="property-details-table">
+<ul id="property-details-table" class="tabular-data tabular-data--list">
     @defining(property.flatMap(_.id))  { propertyId =>
         @defining(property.flatMap(_.address))  { propertyAddress =>
             <li id="property-address" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">

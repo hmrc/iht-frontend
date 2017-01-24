@@ -33,6 +33,7 @@ isFullWidth = false) {
 <p class="lede" id="qb-guidance-1">@Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities")</p>
 
 <section>
+    <ul class="tabular-data tabular-data--list">
     @defining(qualifyingBody.flatMap(_.id))  { qualifyingBodyId =>
 
         @defining(qualifyingBody.flatMap(_.name))  { qualifyingBodyName =>
@@ -93,7 +94,7 @@ isFullWidth = false) {
                     classAllCells = "")
         }
     }
-
+    </ul>
 </section>
 <p>
 @ihtHelpers.return_link(label = Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),

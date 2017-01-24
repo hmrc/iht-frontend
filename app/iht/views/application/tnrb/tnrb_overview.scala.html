@@ -75,7 +75,7 @@ hasTimeOut=true) {
         )
     </h2>
 
-    <ul id="tnrb-overview-partner-estate-table">
+    <ul id="tnrb-overview-partner-estate-table" class="tabular-data tabular-data--list">
 
         @defining(getOrException(registrationDetails.deceasedDetails).name) { deceasedName =>
             @defining(TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)) { predeceasedName =>
@@ -188,7 +188,7 @@ hasTimeOut=true) {
              )
            </h2>
 
-         <ul>
+         <ul class="tabular-data tabular-data--list">
             @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(IhtProperties.statusWidowed)){
                 @tnrb_overview_table_row(id = "partner-marital-status",
                                     questionText = Html(Messages("iht.estateReport.tnrb.partner.married",
