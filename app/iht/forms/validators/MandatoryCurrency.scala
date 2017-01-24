@@ -19,42 +19,46 @@ package iht.forms.validators
 import play.api.data.format.Formatter
 import play.api.data.{FormError, Forms}
 
-object OptionalCurrency extends Currency {
+object MandatoryCurrency extends Currency {
   /**
-    * @param errorLengthKey                 if length > 10
-    * @param errorInvalidCharsKey           e.g. $%^GG^,  AAbc
-    * @param errorInvalidPenceKey           e.g. 6.898 or 885.50.60
-    * @param errorInvalidSpacesKey          e.g. 33 45
-    * @param errorInvalidCommaPositionKey   if comma in wrong place
+    * @param errorLengthKey               if length > 10
+    * @param errorInvalidCharsKey         e.g. $%^GG^,  AAbc
+    * @param errorInvalidPenceKey         e.g. 6.898 or 885.50.60
+    * @param errorInvalidSpacesKey        e.g. 33 45
+    * @param errorBlankKey                if no value entered
+    * @param errorInvalidCommaPositionKey if comma in wrong place
     */
-  private def optionalCurrencyFormatter(errorLengthKey: String,
+  private def mandatoryCurrencyFormatter(errorLengthKey: String,
                                         errorInvalidCharsKey: String,
                                         errorInvalidPenceKey: String,
                                         errorInvalidSpacesKey: String,
-                                        errorInvalidCommaPositionKey: String) = new Formatter[Option[BigDecimal]] {
-    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Option[BigDecimal]] =
+                                        errorBlankKey: String,
+                                        errorInvalidCommaPositionKey: String) = new Formatter[BigDecimal] {
+    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], BigDecimal] =
       data.get(key).fold("")(identity) match {
-        case v if v.isEmpty => Right(None)
+        case v if v.isEmpty => Left(Seq(FormError(key, errorBlankKey)))
         case v =>
           validationErrors(key, v, errorLengthKey, errorInvalidCharsKey, errorInvalidPenceKey,
                                     errorInvalidSpacesKey, errorInvalidCommaPositionKey: String) match {
             case Some(s) => Left(s)
-            case None => Right(Option(BigDecimal(cleanMoneyString(v))))
+            case None => Right(BigDecimal(cleanMoneyString(v)))
           }
       }
 
-    override def unbind(key: String, value: Option[BigDecimal]): Map[String, String] =
-      Map(key -> value.getOrElse("").toString)
+    override def unbind(key: String, value: BigDecimal): Map[String, String] =
+      Map(key -> value.toString)
   }
 
   def apply(errorLengthKey: String = "error.estateReport.value.giveLessThanEleven",
             errorInvalidCharsKey: String = "error.estateReport.value.giveValueUsingNumbers",
             errorInvalidPenceKey: String = "error.estateReport.value.giveCorrectNumberOfPence",
             errorInvalidSpacesKey: String = "error.estateReport.value.giveWithNoSpaces",
+            errorBlankKey: String = "error.estateReport.value.give",
             errorInvalidCommaPositionKey: String  = "error.estateReport.value.giveWithCorrectComma") =
-    Forms.of(optionalCurrencyFormatter(errorLengthKey,
+    Forms.of(mandatoryCurrencyFormatter(errorLengthKey,
                                       errorInvalidCharsKey,
                                       errorInvalidPenceKey,
                                       errorInvalidSpacesKey,
+                                      errorBlankKey,
                                       errorInvalidCommaPositionKey))
 }

@@ -59,8 +59,7 @@ trait OtherController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](otherForm,
         other.apply,
         updateApplicationDetails,
-        assetsRedirectLocation,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.other.select"))
+        assetsRedirectLocation
       )
     }
   }

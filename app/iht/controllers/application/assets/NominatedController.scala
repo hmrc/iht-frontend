@@ -57,8 +57,7 @@ trait NominatedController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](nominatedForm,
         nominated.apply,
         updateApplicationDetails,
-        assetsRedirectLocation,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.nominated.select")))
+        assetsRedirectLocation)
     }
   }
 }

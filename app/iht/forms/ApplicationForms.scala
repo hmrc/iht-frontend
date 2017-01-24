@@ -18,7 +18,7 @@ package iht.forms
 
 import iht.constants.IhtProperties
 import iht.forms.mappings.DateMapping
-import iht.forms.validators.{MandatoryCurrency, OptionalCurrency}
+import iht.forms.validators.{MandatoryCurrencyForOptions, OptionalCurrency, MandatoryCurrency}
 import iht.models._
 import iht.models.application.assets._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
@@ -29,6 +29,7 @@ import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 import play.api.data.Form
 import play.api.data.Forms._
+import uk.gov.voa.play.form.ConditionalMappings._
 
 object ApplicationForms {
   val addressMapping = mapping(
@@ -45,13 +46,13 @@ object ApplicationForms {
   )(UkAddress.apply)(UkAddress.unapply)
 
   def basicEstateElementMapping(selectErrorKey:String) =  mapping(
-    "value" -> OptionalCurrency(),
+    "value" -> mandatoryIfTrue("isOwned", MandatoryCurrency.apply()),
     "isOwned" -> yesNoQuestion(selectErrorKey)
   )(BasicEstateElement.apply)(BasicEstateElement.unapply)
 
   def basicEstateElementLiabilitiesMapping(selectErrorKey:String) =  mapping(
     "isOwned" -> yesNoQuestion(selectErrorKey),
-    "value" -> OptionalCurrency()
+    "value" -> mandatoryIfTrue("isOwned", MandatoryCurrency.apply())
   )(BasicEstateElementLiabilities.apply)(BasicEstateElementLiabilities.unapply)
 
 
@@ -64,7 +65,7 @@ object ApplicationForms {
 
   def shareableBasicEstateElementFormOwn(selectErrorKey:String): Form[ShareableBasicEstateElement] = Form (
     mapping(
-      "value" -> OptionalCurrency(),
+      "value" -> mandatoryIfTrue("isOwned", MandatoryCurrency.apply()),
       "isOwned" -> yesNoQuestion(selectErrorKey)
     )(
       (value, isOwned) => ShareableBasicEstateElement(value, None, isOwned, None)
@@ -75,7 +76,7 @@ object ApplicationForms {
 
   def shareableBasicEstateElementFormJoint(selectErrorKey:String): Form[ShareableBasicEstateElement] = Form (
     mapping(
-      "shareValue" -> OptionalCurrency(),
+      "shareValue" -> mandatoryIfTrue("isOwnedShare", MandatoryCurrency.apply()),
       "isOwnedShare" -> yesNoQuestion(selectErrorKey)
     )(
       (shareValue, isOwnedShare) => ShareableBasicEstateElement(None, shareValue, None, isOwnedShare)
@@ -164,7 +165,7 @@ object ApplicationForms {
 
   def stockAndShareListedForm = Form (
     mapping(
-      "valueListed" -> OptionalCurrency(),
+      "valueListed" -> mandatoryIfTrue("isListed", MandatoryCurrency.apply()),
       "isListed" -> yesNoQuestion("error.assets.stocksAndShares.listed.select")
     )(
       (valueListed, isListed) => StockAndShare(None, valueListed, None, None, isListed)
@@ -175,7 +176,7 @@ object ApplicationForms {
 
   def stockAndShareNotListedForm = Form (
     mapping(
-      "valueNotListed" -> OptionalCurrency(),
+      "valueNotListed" -> mandatoryIfTrue("isNotListed", MandatoryCurrency.apply()),
       "isNotListed" -> yesNoQuestion("error.assets.stocksAndShares.notListed.select")
     )(
       (valueNotListed, isNotListed) => StockAndShare(valueNotListed, None, None, isNotListed, None)
@@ -247,7 +248,7 @@ object ApplicationForms {
 
   val propertyValueForm = Form(
     mapping(
-      "value" -> MandatoryCurrency()
+      "value" -> MandatoryCurrencyForOptions()
     )(
         (value)=> Property(None, None, None, None, None, value)
       )(
@@ -366,7 +367,7 @@ object ApplicationForms {
   )
 
   val partnerValueForm = Form(mapping(
-    "totalAssets" -> MandatoryCurrency()
+    "totalAssets" -> MandatoryCurrencyForOptions()
   )
   (
     (totalAssets) => PartnerExemption(None, None, None, None, None, None, totalAssets)
@@ -429,7 +430,7 @@ object ApplicationForms {
   )
 
   val assetsLeftToCharityValueForm: Form[Charity] = Form(mapping(
-    "totalValue" -> MandatoryCurrency()
+    "totalValue" -> MandatoryCurrencyForOptions()
   )(
     totalValue => Charity(None, None, None, totalValue)
   )
@@ -450,7 +451,7 @@ object ApplicationForms {
   )
 
   val qualifyingBodyValueForm: Form[QualifyingBody] = Form(mapping(
-    "totalValue" -> MandatoryCurrency()
+    "totalValue" -> MandatoryCurrencyForOptions()
   )(
     totalValue => QualifyingBody(None, None, totalValue)
   )(

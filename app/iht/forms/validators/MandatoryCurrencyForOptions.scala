@@ -17,15 +17,16 @@
 package iht.forms.validators
 
 import play.api.data.format.Formatter
-import play.api.data.{FormError, Forms}
+import play.api.data.{FieldMapping, FormError, Forms}
 
-object MandatoryCurrency extends Currency {
+object MandatoryCurrencyForOptions extends Currency {
   /**
-    * @param errorLengthKey        if length > 10
-    * @param errorInvalidCharsKey  e.g. $%^GG^,  AAbc
-    * @param errorInvalidPenceKey  e.g. 6.898 or 885.50.60
-    * @param errorInvalidSpacesKey e.g. 33 45
-    * @param errorBlankKey         if no value entered
+    * @param errorLengthKey                 if length > 10
+    * @param errorInvalidCharsKey           e.g. $%^GG^,  AAbc
+    * @param errorInvalidPenceKey           e.g. 6.898 or 885.50.60
+    * @param errorInvalidSpacesKey          e.g. 33 45
+    * @param errorBlankKey                  if no value entered
+    * @param errorInvalidCommaPositionKey   if comma in wrong place
     */
   private def mandatoryCurrencyFormatter(errorLengthKey: String,
                                          errorInvalidCharsKey: String,
@@ -53,7 +54,7 @@ object MandatoryCurrency extends Currency {
             errorInvalidPenceKey: String = "error.estateReport.value.giveCorrectNumberOfPence",
             errorInvalidSpacesKey: String = "error.estateReport.value.giveWithNoSpaces",
             errorBlankKey: String = "error.estateReport.value.give",
-            errorInvalidCommaPositionKey: String  = "error.estateReport.value.giveWithCorrectComma") =
+            errorInvalidCommaPositionKey: String  = "error.estateReport.value.giveWithCorrectComma"): FieldMapping[Option[BigDecimal]] =
     Forms.of(mandatoryCurrencyFormatter(errorLengthKey,
                                         errorInvalidCharsKey,
                                         errorInvalidPenceKey,
