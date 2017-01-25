@@ -62,7 +62,7 @@ trait InsurancePolicyDetailsPayingOtherController extends EstateController {
       }
 
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyPayingOther,
         insurance_policy_details_paying_other.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
           .fold(insurancePoliciesRedirectLocation)(isInsurancePremiumsPayedForSomeoneElse=>
@@ -71,8 +71,7 @@ trait InsurancePolicyDetailsPayingOtherController extends EstateController {
             } else {
               insurancePoliciesRedirectLocation
             }
-          ),
-          Some(createValidationFunction("isInsurancePremiumsPayedForSomeoneElse", _.isDefined, "error.assets.insurancePolicy.payedToSomeoneElse.select"))
+          )
       )
     }
   }

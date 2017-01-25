@@ -51,12 +51,11 @@ trait InsurancePolicyDetailsAnnuityController extends EstateController {
           (updatedAD, None)
         }
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyAnnuity,
         insurance_policy_details_annuity.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isAnnuitiesBought)
           .fold(insurancePoliciesRedirectLocation)(_=>
-          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),
-        Some(createValidationFunction("isAnnuitiesBought", _.isDefined, "error.assets.insurancePolicy.isAnnuitiesBought.select")))
+          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()))
     }
   }
 }

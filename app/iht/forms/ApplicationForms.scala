@@ -235,6 +235,50 @@ object ApplicationForms {
     )
   )
 
+  val insurancePolicyPayingOther = Form(
+    mapping(
+      "isInsurancePremiumsPayedForSomeoneElse" -> yesNoQuestion("error.assets.insurancePolicy.payedToSomeoneElse.select")
+    )(
+      (isInsurancePremiumsPayedForSomeoneElse) =>
+        InsurancePolicy(None, isInsurancePremiumsPayedForSomeoneElse, None, None, None, None,None,None,None,None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.isInsurancePremiumsPayedForSomeoneElse)
+    )
+  )
+
+  val insurancePolicyMoreThanMax = Form(
+    mapping(
+      "moreThanMaxValue" -> yesNoQuestion("error.assets.insurancePolicy.moreThanMaxValue.select")
+    )(
+      (moreThanMaxValue) =>
+        InsurancePolicy(None, None, None, None, None, None,None,None,None,moreThanMaxValue)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.moreThanMaxValue)
+    )
+  )
+
+  val insurancePolicyAnnuity = Form(
+    mapping(
+      "isAnnuitiesBought" -> yesNoQuestion("error.assets.insurancePolicy.isAnnuitiesBought.select")
+    )(
+      (isAnnuitiesBought) =>
+        InsurancePolicy(isAnnuitiesBought, None, None, None, None, None,None,None,None,None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.isAnnuitiesBought)
+    )
+  )
+
+  val insurancePolicyInTrust = Form(
+    mapping(
+      "isInTrust" -> yesNoQuestion("error.assets.insurancePolicy.isInTrust.select")
+    )(
+      (isInTrust) =>
+        InsurancePolicy(None, None, None, None, None, None, isInTrust, None, None, None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.isInTrust)
+    )
+  )
+
   val businessInterestForm= Form (basicEstateElementMapping("error.assets.businessInterest.select"))
 
   val nominatedForm= Form (basicEstateElementMapping("error.assets.nominated.select"))
