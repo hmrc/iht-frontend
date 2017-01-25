@@ -37,22 +37,22 @@ cancelUrl=cancelUrl) {
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
 @defining( Messages("page.iht.application.assets.deceased-permanent-home.sectionName"))  { sectionName =>
-@ihtHelpers.inputWithHelp(deceasedPermanentHome("id"),'_type -> "hidden")
+@ihtHelpers.input_with_help(deceasedPermanentHome("id"),'_type -> "hidden")
 <span class="form-label-bold">Address</span>
 <div class="form-group">
-    @ihtHelpers.inputWithHelp(deceasedPermanentHome("address.ukAddressLine1"), '_inputClass -> "form-control js-nonNumeric",'_labelTextClass -> "form-label",'_label -> Html(Messages("iht.address.line1")))
-    @ihtHelpers.inputWithHelp(deceasedPermanentHome("address.ukAddressLine2"), '_inputClass -> "form-control js-nonNumeric",'_labelTextClass -> "form-label",'_label -> Html(Messages("iht.address.line2")))
-    @ihtHelpers.inputWithHelp(deceasedPermanentHome("address.ukAddressLine3"), '_inputClass -> "form-control js-nonNumeric",'_labelTextClass -> "form-label",'_label -> Html(Messages("iht.address.line3")))
-    @ihtHelpers.inputWithHelp(deceasedPermanentHome("address.ukAddressLine4"), '_inputClass -> "form-control js-nonNumeric",'_labelTextClass -> "form-label",'_label -> Html(Messages("iht.address.line4")))
+    @ihtHelpers.input_with_help(deceasedPermanentHome("address.ukAddressLine1"), '_inputClass -> "form-control js-nonNumeric",'_labelTextClass -> "form-label",'_label -> Html(Messages("iht.address.line1")))
+    @ihtHelpers.input_with_help(deceasedPermanentHome("address.ukAddressLine2"), '_inputClass -> "form-control js-nonNumeric",'_labelTextClass -> "form-label",'_label -> Html(Messages("iht.address.line2")))
+    @ihtHelpers.input_with_help(deceasedPermanentHome("address.ukAddressLine3"), '_inputClass -> "form-control js-nonNumeric",'_labelTextClass -> "form-label",'_label -> Html(Messages("iht.address.line3")))
+    @ihtHelpers.input_with_help(deceasedPermanentHome("address.ukAddressLine4"), '_inputClass -> "form-control js-nonNumeric",'_labelTextClass -> "form-label",'_label -> Html(Messages("iht.address.line4")))
 </div>
 
-@ihtHelpers.inputWithHelp(deceasedPermanentHome("address.postCode"),
+@ihtHelpers.input_with_help(deceasedPermanentHome("address.postCode"),
 '_divClass -> "form-group",
 '_inputClass -> "form-control form-control-1-4 js-nonNumeric",
 '_labelTextClass -> "form-label ",
 '_label -> Html(Messages("iht.postcode")))
 
-@ihtHelpers.inputRadioGroup(
+@ihtHelpers.input_radio_group(
 deceasedPermanentHome("propertyType"),
 propertyType.toSeq,
 '_legend -> Html(Messages("page.iht.application.assets.deceased-permanent-home.question4")),
@@ -64,7 +64,7 @@ propertyType.toSeq,
 '_labelAfter -> false
 )
 
-@ihtHelpers.inputRadioGroupWithHints(
+@ihtHelpers.input_radio_group_with_hints(
 deceasedPermanentHome("typeOfOwnership"),
 typesOfOwnership.toSeq,
 '_legend -> Html(Messages("iht.estateReport.assets.howOwnedByDeceased")),
@@ -76,7 +76,7 @@ typesOfOwnership.toSeq,
 '_labelAfter -> false
 )
 
-@ihtHelpers.inputRadioGroupWithHints(
+@ihtHelpers.input_radio_group_with_hints(
 deceasedPermanentHome("tenure"),
 tenures.toSeq,
 '_legend -> Html(Messages("page.iht.application.assets.deceased-permanent-home.question3")),
@@ -87,7 +87,7 @@ tenures.toSeq,
 '_labelTextClass -> "bold",
 '_labelAfter -> false)
 
-@ihtHelpers.inputEstateValue(deceasedPermanentHome("value"),
+@ihtHelpers.input_estate_value(deceasedPermanentHome("value"),
 '_label -> Messages("page.iht.application.assets.deceased-permanent-home.value.label"),
 '_help -> Messages("page.iht.application.assets.deceased-permanent-home.value.sublabel"),
 '_sectionName -> sectionName,

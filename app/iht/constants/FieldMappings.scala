@@ -47,22 +47,6 @@ object FieldMappings {
     createMapEntry(statusSingle,"page.iht.registration.deceasedDetails.maritalStatus.single.label")
   )
 
-  val maritalStatusWithHintMap = ListMap(
-    statusMarried -> ((Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label"),
-      Some(Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.hint")))),
-    statusDivorced -> ((Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label"),
-      Some(Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartner.hint")))),
-    statusWidowed -> ((Messages("page.iht.registration.deceasedDetails.maritalStatus.widowed.label"),
-      Some(Messages("page.iht.registration.deceasedDetails.maritalStatus.widowed.hint")))),
-    statusSingle -> ((Messages("page.iht.registration.deceasedDetails.maritalStatus.single.label"),
-      Some(Messages("page.iht.registration.deceasedDetails.maritalStatus.single.hint"))))
-  )
-
-  val yesNoMap = ListMap(
-    Yes -> Messages("iht.yes"),
-    No -> Messages("iht.no")
-  )
-
   val propertyType = ListMap(
     createMapEntry(propertyTypeDeceasedHome , "page.iht.application.assets.propertyType.deceasedHome.label"),
     createMapEntry(propertyTypeOtherResidentialBuilding , "page.iht.application.assets.propertyType.otherResidential.label"),

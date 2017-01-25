@@ -59,8 +59,7 @@ class PropertiesOverviewControllerTest extends ApplicationControllerTest {
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails= true,
-        storeAppDetailsInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
       val result = propertiesOverviewController.onPageLoad (createFakeRequest())
       status(result) should be (OK)
@@ -75,8 +74,7 @@ class PropertiesOverviewControllerTest extends ApplicationControllerTest {
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails= true,
-        storeAppDetailsInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
       val result = propertiesOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)

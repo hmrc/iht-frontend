@@ -68,10 +68,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true,
-        getAppDetailsTempFromCacheObject = None)
+        storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
       status(result) should be(OK)
@@ -87,10 +84,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true,
-        getAppDetailsTempFromCacheObject = None)
+        storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
       status(result) should be(OK)
@@ -101,57 +95,6 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
       val result = sevenYearsGiftsValuesControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some(loginUrl))
-    }
-
-    "generate sequence of years needed for gifts" in {
-      implicit val request = createFakeRequest(isAuthorised = true)
-      val dateForGifts = new LocalDate(2015, 12, 30)
-      val giftsForYears = sevenYearsGiftsValuesController.createPreviousYearsGiftsLists(dateForGifts)
-      val previousYears = List(
-        PreviousYearsGifts(Some("1"), None, None, Some("31 December 2008"), Some("5 April 2009")),
-        PreviousYearsGifts(Some("2"), None, None, Some("6 April 2009"), Some("5 April 2010")),
-        PreviousYearsGifts(Some("3"), None, None, Some("6 April 2010"), Some("5 April 2011")),
-        PreviousYearsGifts(Some("4"), None, None, Some("6 April 2011"), Some("5 April 2012")),
-        PreviousYearsGifts(Some("5"), None, None, Some("6 April 2012"), Some("5 April 2013")),
-        PreviousYearsGifts(Some("6"), None, None, Some("6 April 2013"), Some("5 April 2014")),
-        PreviousYearsGifts(Some("7"), None, None, Some("6 April 2014"), Some("5 April 2015")),
-        PreviousYearsGifts(Some("8"), None, None, Some("6 April 2015"), Some("30 December 2015")))
-
-      giftsForYears should be(previousYears)
-    }
-
-    "generate sequence of years needed for gifts where date of death is in the 1st quarter of the year" in {
-      implicit val request = createFakeRequest(isAuthorised = true)
-      val dateForGifts = new LocalDate(2014, 3, 12)
-      val giftsForYears = sevenYearsGiftsValuesController.createPreviousYearsGiftsLists(dateForGifts)
-      val previousYears = List(
-        PreviousYearsGifts(Some("1"), None, None, Some("13 March 2007"), Some("5 April 2007")),
-        PreviousYearsGifts(Some("2"), None, None, Some("6 April 2007"), Some("5 April 2008")),
-        PreviousYearsGifts(Some("3"), None, None, Some("6 April 2008"), Some("5 April 2009")),
-        PreviousYearsGifts(Some("4"), None, None, Some("6 April 2009"), Some("5 April 2010")),
-        PreviousYearsGifts(Some("5"), None, None, Some("6 April 2010"), Some("5 April 2011")),
-        PreviousYearsGifts(Some("6"), None, None, Some("6 April 2011"), Some("5 April 2012")),
-        PreviousYearsGifts(Some("7"), None, None, Some("6 April 2012"), Some("5 April 2013")),
-        PreviousYearsGifts(Some("8"), None, None, Some("6 April 2013"), Some("12 March 2014")))
-
-      giftsForYears should be(previousYears)
-
-    }
-
-    "generate exact 7 financial years if deceased died on 5 April of any year" in {
-      implicit val request = createFakeRequest(isAuthorised = true)
-      val dateForGifts = new LocalDate(2015, 4, 5)
-      val giftsForYears = sevenYearsGiftsValuesController.createPreviousYearsGiftsLists(dateForGifts)
-      val previousYears = List(
-        PreviousYearsGifts(Some("1"), None, None, Some("6 April 2008"), Some("5 April 2009")),
-        PreviousYearsGifts(Some("2"), None, None, Some("6 April 2009"), Some("5 April 2010")),
-        PreviousYearsGifts(Some("3"), None, None, Some("6 April 2010"), Some("5 April 2011")),
-        PreviousYearsGifts(Some("4"), None, None, Some("6 April 2011"), Some("5 April 2012")),
-        PreviousYearsGifts(Some("5"), None, None, Some("6 April 2012"), Some("5 April 2013")),
-        PreviousYearsGifts(Some("6"), None, None, Some("6 April 2013"), Some("5 April 2014")),
-        PreviousYearsGifts(Some("7"), None, None, Some("6 April 2014"), Some("5 April 2015")))
-
-      giftsForYears should be(previousYears)
     }
 
     "on page load have application details from local storage over secure storage" in {
@@ -171,15 +114,14 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
-      val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
+      val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
       contentAsString(result) should include("6 April 2008")
       contentAsString(result) should include("5 April 2009")
@@ -203,12 +145,11 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(applicationDetails),
+        regDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails,
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
@@ -226,24 +167,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true)
-
-      val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
-      status(result) should be(OK)
-    }
-
-    "allow page to be loaded when nothing has been saved before" in {
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        regDetails = registrationDetails,
-        appDetails = None,
-        getAppDetails = true,
-        getAppDetailsFromCache = true,
-        storeAppDetailsInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
       status(result) should be(OK)
@@ -268,11 +192,10 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         mockIhtConnector,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
+        regDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
@@ -305,12 +228,11 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         createMocksForApplication(mockCachingConnector,
           mockIhtConnector,
           appDetails = Some(applicationDetails),
+          regDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails,
           getAppDetails = true,
           getAppDetailsFromCache = true,
           saveAppDetails = true,
-          storeAppDetailsInCache = true,
-          storeAppDetailsTempInCache = true,
-          getAppDetailsTempFromCache = true)
+          storeAppDetailsInCache = true)
 
         val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest())
 
@@ -340,11 +262,10 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
           mockIhtConnector,
           appDetails = Some(applicationDetails),
           getAppDetails = true,
+          regDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails,
           getAppDetailsFromCache = true,
           saveAppDetails = true,
-          storeAppDetailsInCache = true,
-          storeAppDetailsTempInCache = true,
-          getAppDetailsTempFromCache = true)
+          storeAppDetailsInCache = true)
 
         val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest())
 

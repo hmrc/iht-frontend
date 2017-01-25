@@ -34,7 +34,7 @@ isFullWidth=false){
 @ihtHelpers.error_summary(charityNameForm)
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
-    @ihtHelpers.inputWithHelp(charityNameForm("name"),
+    @ihtHelpers.input_with_help(charityNameForm("name"),
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_label -> Html(Messages("page.iht.application.exemptions.charityName.sectionTitle")),

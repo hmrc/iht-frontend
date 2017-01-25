@@ -29,7 +29,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.RegistrationDetails
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
-import play.api.data.{Form, FormError}
+import iht.utils.GiftsHelper._
 import play.api.i18n.Messages
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
@@ -46,7 +46,7 @@ object GiftsDetailsController extends GiftsDetailsController with IhtConnectors 
 trait GiftsDetailsController extends EstateController {
   override val applicationSection: Option[String] = Some(ApplicationKickOutHelper.ApplicationSectionGiftDetails)
   private lazy val cancelLabelKey = "GiftsDetailsCancelLabel"
-  private lazy val cancelRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
+  private lazy val sevenYearsGiftsRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
   private lazy val cancelLabelKeyValueCancel = "iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath"
   private lazy val cancelLabelKeyValueReturnToGifts = "iht.estateReport.gifts.returnToGiftsGivenAway"
 
@@ -55,105 +55,84 @@ trait GiftsDetailsController extends EstateController {
   def ihtConnector: IhtConnector
 
   def onPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      cachingConnector.storeSingleValueSync(cancelLabelKey, cancelLabelKeyValueCancel)
-      doPageLoad(id, Some(cancelRedirectLocation), Some(Messages(cancelLabelKeyValueCancel)))
-    }
+    implicit user =>
+      implicit request => {
+        cachingConnector.storeSingleValueSync(cancelLabelKey, cancelLabelKeyValueCancel)
+        doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueCancel)))
+      }
   }
 
   def onPageLoadForKickout(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      cachingConnector.storeSingleValueSync(cancelLabelKey, cancelLabelKeyValueReturnToGifts)
-      doPageLoad(id, Some(cancelRedirectLocation), Some(Messages(cancelLabelKeyValueReturnToGifts)))
-    }
+    implicit user =>
+      implicit request => {
+        cachingConnector.storeSingleValueSync(cancelLabelKey, cancelLabelKeyValueReturnToGifts)
+        doPageLoad(id, Some(sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValueReturnToGifts)))
+      }
   }
 
   private def doPageLoad(id: String, cancelUrl: Option[Call], cancelLabel: => Option[String])(implicit request:
   Request[_], user: AuthContext) = {
-    val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-
-    val applicationDetails_future = ihtConnector.getApplication(CommonHelper.getNino(user),
-      registrationDetails.ihtReference.getOrElse(throw new NoSuchElementException("No IHT Reference Present")),
-      registrationDetails.acknowledgmentReference)
-
-    applicationDetails_future flatMap {
-      case Some(applicationDetails) => {
-        CommonHelper.getOrException(applicationDetails.giftsList).find(pastGift => pastGift.yearId equals Some(id)) match {
-          case Some(matchedGift) => {
-            Future.successful(Ok(iht.views.html.application.gift.gifts_details(previousYearsGiftsForm.fill
-              (matchedGift), registrationDetails, cancelUrl, cancelLabel)))
-          }
-          case _ => {
-            Future.successful(Ok(iht.views.html.application.gift.gifts_details(previousYearsGiftsForm,
-              registrationDetails, cancelUrl, cancelLabel)))
-          }
-        }
-      }
-      case _ => {
-        Future.successful(Ok(iht.views.html.application.gift.gifts_details(previousYearsGiftsForm,
-          registrationDetails, cancelUrl, cancelLabel)))
-      }
+    withApplicationDetails { rd => ad =>
+      val result = getOrException(rd.deceasedDateOfDeath.map { ddod =>
+        withValue {
+          val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+          prevYearsGifts.find(_.yearId.contains(id))
+            .fold(previousYearsGiftsForm)(matchedGift => previousYearsGiftsForm.fill(matchedGift))
+        }(form => Ok(iht.views.html.application.gift.gifts_details(form, rd, cancelUrl, cancelLabel)))
+      })
+      Future.successful(result)
     }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-      val boundForm = previousYearsGiftsForm.bindFromRequest
-      implicit val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        regDetails.ihtReference.getOrElse(throw new NoSuchElementException("No IHT Reference Present")),
-        regDetails.acknowledgmentReference)
-
-      lazy val cancelLabelKeyValue = cachingConnector
-        .getSingleValueSync(cancelLabelKey).fold(cancelLabelKeyValueReturnToGifts)(identity)
-
-      boundForm.fold(
-        formWithErrors => {
-          LogHelper.logFormError(formWithErrors)
-          Future.successful(BadRequest(iht.views.html.application.gift.gifts_details(formWithErrors, regDetails, Some
-            (cancelRedirectLocation), Some(Messages(cancelLabelKeyValue)))))
-        },
-        previousYearsGifts => {
-
-          processSubmit(CommonHelper.getNino(user), previousYearsGifts, regDetails)
-        }
-      )
-    }
-  }
-
-  private def processSubmit(nino: String, previousYearsGifts: PreviousYearsGifts,
-                            registrationDetails: RegistrationDetails)
-                           (implicit request: Request[_],
-                            hc: HeaderCarrier,
-                            applicationDetailsFuture: Future[Option[ApplicationDetails]]): Future[Result] = {
-
-    for {
-      applicationDetails <- applicationDetailsFuture
-      newApplicationDetails: ApplicationDetails = CommonHelper.getOrExceptionNoApplication(applicationDetails)
-      giftsList = CommonHelper.getOrException(newApplicationDetails.giftsList, "No gifts list found")
-    } yield {
-      giftsList.find(pastGifts => pastGifts.yearId equals previousYearsGifts.yearId) match {
-        case Some(matchedGift) => {
-          val giftsList = newApplicationDetails.giftsList.get updated(matchedGift.yearId.get.toInt - 1, previousYearsGifts)
-          val adtemp = newApplicationDetails.copy(giftsList = Some(giftsList))
-          val ad = updateKickout(registrationDetails=registrationDetails, applicationDetails=adtemp,
-            applicationID=previousYearsGifts.yearId)
-          ihtConnector.saveApplication(nino, ad, registrationDetails.acknowledgmentReference)
-
-          Redirect(ad.kickoutReason.fold(routes.SevenYearsGiftsValuesController.onPageLoad()){
-            _=>{
-              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
-              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
-              kickoutRedirectLocation
+    implicit user =>
+      implicit request => {
+        withApplicationDetails { rd => ad =>
+          val boundForm = previousYearsGiftsForm.bindFromRequest
+          lazy val cancelLabelKeyValue = cachingConnector
+            .getSingleValueSync(cancelLabelKey).fold(cancelLabelKeyValueReturnToGifts)(identity)
+          boundForm.fold(
+            formWithErrors => {
+              LogHelper.logFormError(formWithErrors)
+              Future.successful(BadRequest(iht.views.html.application.gift.gifts_details(formWithErrors, rd, Some
+              (sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValue)))))
+            },
+            previousYearsGifts => {
+              processSubmit(CommonHelper.getNino(user), previousYearsGifts, rd, ad)
             }
-          })
-        }
-        case _ => {
-          Redirect(
-            routes.SevenYearsGiftsValuesController.onPageLoad()
           )
         }
       }
-    }
+  }
+
+  private def processSubmit(nino: String, previousYearsGifts: PreviousYearsGifts,
+                            rd: RegistrationDetails,
+                            ad: ApplicationDetails)
+                           (implicit request: Request[_],
+                            hc: HeaderCarrier): Future[Result] = {
+    CommonHelper.getOrException(rd.deceasedDateOfDeath.map { ddod =>
+      val existingSeqPrevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+      val idToUpdate = existingSeqPrevYearsGifts.indexWhere(_.yearId == previousYearsGifts.yearId)
+      if (idToUpdate < 0) {
+        Future.successful(Redirect(sevenYearsGiftsRedirectLocation))
+      } else {
+        withValue {
+          val updatedSeqPrevYearsGifts = existingSeqPrevYearsGifts.updated(idToUpdate, previousYearsGifts)
+          updateKickout(registrationDetails = rd,
+            applicationDetails = ad.copy(giftsList = Some(updatedSeqPrevYearsGifts)),
+            applicationID = previousYearsGifts.yearId)
+        }{newAD =>
+          ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
+            Redirect(newAD.kickoutReason.fold(sevenYearsGiftsRedirectLocation) {
+              _ => {
+                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
+                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
+                kickoutRedirectLocation
+              }
+            })
+          )
+        }
+      }
+    })
   }
 }

@@ -39,14 +39,14 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 <p class="form-hint">@Messages("page.iht.application.TnrbEligibilty.partnerName.hint",
     CommonHelper.getOrException(predeceasedDate).getYear.toString)</p>
 
-    @ihtHelpers.inputWithHelp(partnerNameForm("firstName"),
+    @ihtHelpers.input_with_help(partnerNameForm("firstName"),
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.firstName"))
          )
 
-    @ihtHelpers.inputWithHelp(partnerNameForm("lastName"),
+    @ihtHelpers.input_with_help(partnerNameForm("lastName"),
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",

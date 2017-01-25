@@ -36,7 +36,7 @@ cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", regis
         <p>@Messages("page.iht.application.exemptions.assetLeftToCharity.p2")</p>
 
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
             assetsLeftToCharityQuestionForm("isAssetForCharity"),
             '_legend -> Some(Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                       getDeceasedNameOrDefaultString(registrationDetails))),

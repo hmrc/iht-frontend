@@ -31,9 +31,9 @@ isFullWidth=true
 @ihtHelpers.error_summary(charityForm)
 <p class="grid-2-3">@Messages("page.iht.application.charity.add.subtitle")</p>
 <div class="grid-2-3">
-@ihtHelpers.inputWithHelp(charityForm("id"),'_type -> "hidden")
+@ihtHelpers.input_with_help(charityForm("id"),'_type -> "hidden")
 
-@ihtHelpers.inputWithHelp(charityForm("name"),
+@ihtHelpers.input_with_help(charityForm("name"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",
@@ -41,7 +41,7 @@ isFullWidth=true
 
     @defining("href='"+IhtProperties.charityLink+"'" )  { link =>
 
-    @ihtHelpers.inputWithHelp(charityForm("number"),
+    @ihtHelpers.input_with_help(charityForm("number"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",
@@ -64,7 +64,7 @@ isFullWidth=true
     '_screenReader -> Messages("iht.estateReport.exemptions.charities.registeredCharityNo"))
     }
 
-@ihtHelpers.inputEstateValue(charityForm("totalValue"),
+@ihtHelpers.input_estate_value(charityForm("totalValue"),
     '_label -> Messages("iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"),
     '_divJsHide -> false,
     '_currency -> "GBP",

@@ -126,19 +126,19 @@ object EventRegistration {
       )),
       coExecutors=fromRegistrationDetailsCoExecutors(rd),
       deceased=Some(Deceased(title=None,
-        firstName = perhaps(deceasedDetails.firstName),
+        firstName = getOrException(deceasedDetails.firstName),
         middleName=deceasedDetails.middleName,
-        lastName = perhaps(deceasedDetails.lastName),
-        dateOfBirth=fromRegistrationDetailsDateToString(perhaps(deceasedDetails.dateOfBirth)),
+        lastName = getOrException(deceasedDetails.lastName),
+        dateOfBirth=fromRegistrationDetailsDateToString(getOrException(deceasedDetails.dateOfBirth)),
         gender=None,
-        nino=Some(perhaps(deceasedDetails.nino).toUpperCase.replaceAll(" ", "")),
+        nino=Some(getOrException(deceasedDetails.nino).toUpperCase.replaceAll(" ", "")),
         utr=deceasedDetails.utr,
-        mainAddress=fromRegistrationDetailsUKAddressToAddress(perhaps(deceasedDetails.ukAddress)),
+        mainAddress=fromRegistrationDetailsUKAddressToAddress(getOrException(deceasedDetails.ukAddress)),
         dateOfDeath=fromRegistrationDetailsDateToString(getOrException(rd.deceasedDateOfDeath).dateOfDeath),
-        domicile=perhaps(deceasedDetails.domicile),
+        domicile=getOrException(deceasedDetails.domicile),
         otherDomicile=None,
         occupation=None,
-        maritalStatus=perhaps(deceasedDetails.maritalStatus))))
+        maritalStatus=getOrException(deceasedDetails.maritalStatus))))
   }
 
   private def fromRegistrationDetailsCoExecutors(rd:RegistrationDetails) : Option[Seq[CoExecutor]] = {

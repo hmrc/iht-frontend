@@ -35,7 +35,7 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
         benefitFromTrustForm("isPartnerBenFromTrust"),
         '_divClass -> Some("form-group"),
         '_legend -> Messages("iht.estateReport.tnrb.benefitFromTrust.question",

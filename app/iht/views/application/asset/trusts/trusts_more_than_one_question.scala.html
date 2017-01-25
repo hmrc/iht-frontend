@@ -30,7 +30,7 @@ isFullWidth=false){
     @ihtHelpers.error_summary(trustsMoreThanOneQuestionForm)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onSubmit,'autoComplete -> "off") {
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
             trustsMoreThanOneQuestionForm("isMoreThanOne"),
             '_divClass -> Some("-change form-group"),
             '_legend -> Html(Messages("iht.estateReport.assets.trusts.moreThanOne.question")),

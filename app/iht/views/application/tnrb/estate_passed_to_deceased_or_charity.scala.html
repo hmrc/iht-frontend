@@ -31,7 +31,7 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
         estatePassedToDeceasedOrCharityForm("isEstateBelowIhtThresholdApplied"),
         '_divClass -> Some("form-group"),
         '_legend -> Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", deceasedName),

@@ -30,15 +30,15 @@ isFullWidth=true
 @ihtHelpers.error_summary(qualifyingBodyForm)
 <h2 class="heading-medium grid-2-3">@Messages("page.iht.application.qualifyingbodies.add.subtitle")</h2>
 <div class="grid-2-3">
-    @ihtHelpers.inputWithHelp(qualifyingBodyForm("id"),'_type -> "hidden")
+    @ihtHelpers.input_with_help(qualifyingBodyForm("id"),'_type -> "hidden")
 
-    @ihtHelpers.inputWithHelp(qualifyingBodyForm("name"),
+    @ihtHelpers.input_with_help(qualifyingBodyForm("name"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",
     '_label -> Html(Messages("iht.estateReport.qualifyingBodies.qualifyingBodyName")))
 
-    @ihtHelpers.inputEstateValue(qualifyingBodyForm("totalValue"),
+    @ihtHelpers.input_estate_value(qualifyingBodyForm("totalValue"),
     '_label -> Messages("page.iht.application.qualifyingbodies.add.valuetext"),
     '_divJsHide -> false,
     '_currency -> "GBP",
