@@ -200,6 +200,37 @@ object ApplicationForms {
 
   val insurancePolicyForm = Form (insurancePolicyMapping)
 
+  /*
+  isAnnuitiesBought: Option[Boolean],
+                           isInsurancePremiumsPayedForSomeoneElse: Option[Boolean],
+                           value: Option[BigDecimal],
+                           shareValue: Option[BigDecimal],
+                           policyInDeceasedName:Option[Boolean],
+                           isJointlyOwned:Option[Boolean],
+                           isInTrust:Option[Boolean],
+                           coveredByExemption: Option[Boolean],
+                           sevenYearsBefore: Option[Boolean],
+                           moreThanMaxValue: Option[Boolean]
+   */
+
+  val insurancePolicyDeceasedOwnQuestionForm = Form(
+    mapping(
+      "policyInDeceasedName" -> yesNoQuestion("error.assets.insurancePolicy.deceasedOwned.select")
+    )(
+      (policyInDeceasedName) => InsurancePolicy(None, None, None, None, policyInDeceasedName,None,None,None,None,None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.policyInDeceasedName)
+    )
+  )
+//  val insurancePolicyJointQuestionForm = Form(
+//    mapping(
+//      "isJointlyOwned" -> yesNoQuestion("error.assets.insurancePolicy.deceasedOwned.select")
+//    )(
+//      (policyInDeceasedName) => InsurancePolicy(None, None, None, None, policyInDeceasedName,None,None,None,None,None)
+//    )(
+//      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.policyInDeceasedName)
+//    )
+//  )
   val businessInterestForm= Form (basicEstateElementMapping("error.assets.businessInterest.select"))
 
   val nominatedForm= Form (basicEstateElementMapping("error.assets.nominated.select"))
