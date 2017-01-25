@@ -100,7 +100,7 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
 
       val insuranceInTrustValue = CommonBuilder.buildInsurancePolicy.copy(isInTrust=Some(true))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceInTrustValue)
+      val filledInsuranceForm = insurancePolicyInTrust.fill(insuranceInTrustValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsInTrustController.onSubmit (request)
@@ -120,7 +120,7 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
 
       val insuranceInTrustValue = CommonBuilder.buildInsurancePolicy.copy(isInTrust=Some(false))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceInTrustValue)
+      val filledInsuranceForm = insurancePolicyInTrust.fill(insuranceInTrustValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsInTrustController.onSubmit (request)
@@ -138,7 +138,7 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
 
       val insuranceInTrustValue = CommonBuilder.buildInsurancePolicy.copy(isInTrust=Some(true))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceInTrustValue)
+      val filledInsuranceForm = insurancePolicyInTrust.fill(insuranceInTrustValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsInTrustController.onSubmit (request)
@@ -188,7 +188,7 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 
-      val filledForm = insurancePolicyForm.fill(insurancePolicyDetails)
+      val filledForm = insurancePolicyInTrust.fill(insurancePolicyDetails)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsInTrustController.onSubmit (request)

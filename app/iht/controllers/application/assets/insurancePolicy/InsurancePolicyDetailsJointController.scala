@@ -33,7 +33,7 @@ trait InsurancePolicyDetailsJointController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesJointlyOwned)
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyForm, insurance_policy_details_joint.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyJointQuestionForm, insurance_policy_details_joint.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }

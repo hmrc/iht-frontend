@@ -32,7 +32,7 @@ trait InsurancePolicyDetailsInTrustController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyForm, insurance_policy_details_in_trust.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyInTrust, insurance_policy_details_in_trust.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }

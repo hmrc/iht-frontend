@@ -31,7 +31,7 @@ object InsurancePolicyDetailsPayingOtherController extends InsurancePolicyDetail
 trait InsurancePolicyDetailsPayingOtherController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyForm, insurance_policy_details_paying_other.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyPayingOther, insurance_policy_details_paying_other.apply,
         _.allAssets.flatMap(_.insurancePolicy))
   }
 

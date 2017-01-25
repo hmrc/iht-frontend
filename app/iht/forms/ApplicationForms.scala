@@ -198,21 +198,6 @@ object ApplicationForms {
     "moreThanMaxValue" -> optional(boolean)
   )(InsurancePolicy.apply)(InsurancePolicy.unapply)
 
-  val insurancePolicyForm = Form (insurancePolicyMapping)
-
-  /*
-  isAnnuitiesBought: Option[Boolean],
-                           isInsurancePremiumsPayedForSomeoneElse: Option[Boolean],
-                           value: Option[BigDecimal],
-                           shareValue: Option[BigDecimal],
-                           policyInDeceasedName:Option[Boolean],
-                           isJointlyOwned:Option[Boolean],
-                           isInTrust:Option[Boolean],
-                           coveredByExemption: Option[Boolean],
-                           sevenYearsBefore: Option[Boolean],
-                           moreThanMaxValue: Option[Boolean]
-   */
-
   val insurancePolicyDeceasedOwnQuestionForm = Form(
     mapping(
       "value" -> OptionalCurrency(),
