@@ -24,7 +24,7 @@
 registrationDetails:RegistrationDetails,
 cancelLabel: String,
 cancelUrl: Call
-)(implicit request:Request[_])
+)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
                                                     getDeceasedNameOrDefaultString(registrationDetails)),

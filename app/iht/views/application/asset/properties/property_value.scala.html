@@ -23,7 +23,7 @@
 @(propertyValueForm: Form[iht.models.application.assets.Property],
 submitUrl:Call,
 cancelUrl:Call,
-deceasedName: String)(implicit request:Request[_])
+deceasedName: String)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.properties.value.question"),
 browserTitle = Some(Messages("page.iht.application.property.value.browserTitle")),

@@ -25,6 +25,8 @@ import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
 import play.api.Logger
 import play.api.libs.json.Json
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 

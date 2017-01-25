@@ -23,7 +23,7 @@
 @import iht.constants.Constants
 
 @(checkedEverythingQuestionForm: Form[Option[Boolean]],
-registrationDetails:RegistrationDetails)(implicit request:Request[_])
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
 @defining(
         Messages(

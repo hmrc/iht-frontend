@@ -21,7 +21,7 @@
 @import iht.models.RegistrationDetails
 
 @(estatePassedToDeceasedOrCharityForm:Form[TnrbEligibiltyModel],
-deceasedName:String)(implicit request:Request[_])
+deceasedName:String)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", deceasedName),
 browserTitle = Some(Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")),

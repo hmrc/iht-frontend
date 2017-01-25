@@ -23,7 +23,7 @@
 @import iht.constants.Constants
 
 @(pensionsChangedQuestionForm: Form[PrivatePension],
-registrationDetails:RegistrationDetails)(implicit request:Request[_])
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("page.iht.application.assets.pensions.changed.title",
                                             CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),

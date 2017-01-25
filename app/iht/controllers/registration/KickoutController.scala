@@ -36,7 +36,7 @@ object KickoutController extends KickoutController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
-trait KickoutController extends RegistrationController {
+class KickoutController extends RegistrationController {
   def cachingConnector: CachingConnector
 
   override def guardConditions: Set[Predicate] = Set.empty
@@ -63,7 +63,7 @@ trait KickoutController extends RegistrationController {
     kickout_template(Messages("page.iht.registration.notApplyingForProbate.kickout.summary"),
     iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad())(contentLines)(request)
 
-  lazy val content: Map[String, Request[_] => HtmlFormat.Appendable] = Map(
+  def content: Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->
       (request => probateKickoutView(
         Seq(

@@ -31,7 +31,7 @@ returnToCall: Option[Call],
 returnToMessagesKey: String,
 returnAsButton: Boolean = false,
 showStatus: Boolean = true
-)(implicit request: Request[_])
+)(implicit request:Request[_], messages: Messages)
 
 <p id="assets-guidance1" class="lede">@Messages(messagesFileSectionLine1)</p>
 @if(Messages.isDefinedAt(messagesFileSectionLine2)) {

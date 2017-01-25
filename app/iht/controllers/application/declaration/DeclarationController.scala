@@ -31,7 +31,8 @@ import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger
 import play.api.mvc.Result
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}

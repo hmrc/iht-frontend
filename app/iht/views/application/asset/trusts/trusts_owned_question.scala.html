@@ -22,7 +22,7 @@
 @import iht.utils.CommonHelper
 
 @(trustsOwnedQuestionForm: Form[HeldInTrust],
-registrationDetails:RegistrationDetails)(implicit request:Request[_])
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question",
                                                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),

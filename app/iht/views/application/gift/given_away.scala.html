@@ -24,7 +24,7 @@
 
 @(giftsGivenAwayForm:Form[AllGifts],
 regDetails:RegistrationDetails
-)(implicit request:Request[_])
+)(implicit request:Request[_], messages: Messages))
 
 @gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",CommonHelper.getOrException(regDetails.deceasedDetails).name),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),

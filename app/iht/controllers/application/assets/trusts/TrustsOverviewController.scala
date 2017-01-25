@@ -23,6 +23,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.HeldInTrust
 import iht.models.RegistrationDetails
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 /**
  * Created by jennygj on 30/06/16.

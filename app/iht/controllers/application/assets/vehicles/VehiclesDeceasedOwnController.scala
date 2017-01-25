@@ -25,6 +25,8 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.vehicles.vehicles_deceased_own
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object VehiclesDeceasedOwnController extends VehiclesDeceasedOwnController with IhtConnectors {
   def metrics : Metrics = Metrics

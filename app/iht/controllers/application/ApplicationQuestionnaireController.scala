@@ -19,6 +19,8 @@ package iht.controllers.application
 import iht.controllers.{IhtConnectors, QuestionnaireController}
 import iht.utils.IhtSection
 import iht.views.html.application.application_questionnaire
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object ApplicationQuestionnaireController extends ApplicationQuestionnaireController  with IhtConnectors {}
 

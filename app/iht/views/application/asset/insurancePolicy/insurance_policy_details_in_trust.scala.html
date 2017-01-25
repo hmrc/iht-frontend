@@ -22,7 +22,7 @@
 @import iht.utils.CommonHelper
 
 @(insurancePolicyForm: Form[InsurancePolicy],
-registrationDetails:RegistrationDetails)(implicit request:Request[_])
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("page.iht.application.insurance.policies.section4.title",
                                                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),

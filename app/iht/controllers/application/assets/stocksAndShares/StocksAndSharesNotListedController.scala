@@ -24,6 +24,9 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_not_listed
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+
 object StocksAndSharesNotListedController extends StocksAndSharesNotListedController with IhtConnectors {
   def metrics : Metrics = Metrics
 }

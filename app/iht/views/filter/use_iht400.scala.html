@@ -19,6 +19,8 @@
 @import iht.constants.FieldMappings
 @import iht.constants.Constants._
 
+@()(implicit request:Request[_], messages: Messages)
+
 @iht_main_template_registration(title = Messages("iht.useIHT400PaperForm"),
 browserTitle = Some(Messages("iht.useIHT400PaperForm")),
 isFullWidth = false,

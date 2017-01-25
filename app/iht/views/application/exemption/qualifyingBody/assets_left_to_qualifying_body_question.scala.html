@@ -21,7 +21,7 @@
 @import iht.utils.CommonHelper
 
 @(assetsLeftToQualifyingBodyQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
-registrationDetails:RegistrationDetails)(implicit request:Request[_])
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle",
                                                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),

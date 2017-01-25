@@ -27,7 +27,7 @@ widowCheckModel: WidowCheck,
 tnrbModel: TnrbEligibiltyModel,
 registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
-cancelLinkText:String)(implicit request:Request[_])
+cancelLinkText:String)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
 TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,

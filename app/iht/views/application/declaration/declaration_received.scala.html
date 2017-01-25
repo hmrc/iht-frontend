@@ -22,7 +22,7 @@
 @import iht.constants.IhtProperties
 
 @(probateDetails: Option[ProbateDetails],
-  registrationDetails: RegistrationDetails)(implicit request:Request[_])
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("page.iht.application.declaration_received.title"),
 browserTitle = Some(Messages("page.iht.application.declaration_received.title")),

@@ -27,7 +27,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
 import org.joda.time.LocalDate
 import iht.utils.CommonHelper._
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
