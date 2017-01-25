@@ -34,8 +34,7 @@ val compile = Seq(
   "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion,
   "uk.gov.hmrc" %% "play-graphite" % "2.0.0",
   "org.apache.xmlgraphics" % "fop" % "2.1",
-  "org.json" % "json" % jsonVersion,
-  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "0.2.0"
+  "org.json" % "json" % jsonVersion
 )
 
 trait TestDependencies {

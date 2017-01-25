@@ -29,7 +29,6 @@ import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.voa.play.form.ConditionalMappings._
 
 object ApplicationForms {
   val addressMapping = mapping(
