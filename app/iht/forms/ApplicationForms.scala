@@ -46,13 +46,13 @@ object ApplicationForms {
   )(UkAddress.apply)(UkAddress.unapply)
 
   def basicEstateElementMapping(selectErrorKey:String) =  mapping(
-    "value" -> mandatoryIfTrue("isOwned", MandatoryCurrency.apply()),
+    "value" -> OptionalCurrency(),
     "isOwned" -> yesNoQuestion(selectErrorKey)
   )(BasicEstateElement.apply)(BasicEstateElement.unapply)
 
   def basicEstateElementLiabilitiesMapping(selectErrorKey:String) =  mapping(
     "isOwned" -> yesNoQuestion(selectErrorKey),
-    "value" -> mandatoryIfTrue("isOwned", MandatoryCurrency.apply())
+    "value" -> OptionalCurrency()
   )(BasicEstateElementLiabilities.apply)(BasicEstateElementLiabilities.unapply)
 
 
@@ -65,7 +65,7 @@ object ApplicationForms {
 
   def shareableBasicEstateElementFormOwn(selectErrorKey:String): Form[ShareableBasicEstateElement] = Form (
     mapping(
-      "value" -> mandatoryIfTrue("isOwned", MandatoryCurrency.apply()),
+      "value" -> OptionalCurrency(),
       "isOwned" -> yesNoQuestion(selectErrorKey)
     )(
       (value, isOwned) => ShareableBasicEstateElement(value, None, isOwned, None)
@@ -76,7 +76,7 @@ object ApplicationForms {
 
   def shareableBasicEstateElementFormJoint(selectErrorKey:String): Form[ShareableBasicEstateElement] = Form (
     mapping(
-      "shareValue" -> mandatoryIfTrue("isOwnedShare", MandatoryCurrency.apply()),
+      "shareValue" -> OptionalCurrency(),
       "isOwnedShare" -> yesNoQuestion(selectErrorKey)
     )(
       (shareValue, isOwnedShare) => ShareableBasicEstateElement(None, shareValue, None, isOwnedShare)
@@ -165,7 +165,7 @@ object ApplicationForms {
 
   def stockAndShareListedForm = Form (
     mapping(
-      "valueListed" -> mandatoryIfTrue("isListed", MandatoryCurrency.apply()),
+      "valueListed" ->  OptionalCurrency(),
       "isListed" -> yesNoQuestion("error.assets.stocksAndShares.listed.select")
     )(
       (valueListed, isListed) => StockAndShare(None, valueListed, None, None, isListed)
@@ -176,7 +176,7 @@ object ApplicationForms {
 
   def stockAndShareNotListedForm = Form (
     mapping(
-      "valueNotListed" -> mandatoryIfTrue("isNotListed", MandatoryCurrency.apply()),
+      "valueNotListed" ->  OptionalCurrency(),
       "isNotListed" -> yesNoQuestion("error.assets.stocksAndShares.notListed.select")
     )(
       (valueNotListed, isNotListed) => StockAndShare(valueNotListed, None, None, isNotListed, None)

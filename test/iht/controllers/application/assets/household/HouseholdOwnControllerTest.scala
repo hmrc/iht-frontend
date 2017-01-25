@@ -129,17 +129,6 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include (Messages("error.problem"))
     }
 
-    "display validation message when form is submitted with answer yes and no value entered" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", ""))
-
-      setUpTests(applicationDetails)
-
-      val result = householdDeceasedOwnController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
-    }
-
     "redirect to overview when form is submitted with answer yes and a value entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", "233"))

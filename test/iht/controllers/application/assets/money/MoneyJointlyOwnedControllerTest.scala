@@ -18,7 +18,6 @@ package iht.controllers.application.assets.money
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.assets.household.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
@@ -119,17 +118,6 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
     "display validation message when form is submitted with no values entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       implicit val request = createFakeRequest()
-
-      setUpTests(applicationDetails)
-
-      val result = moneyJointlyOwnedController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
-    }
-
-    "display validation message when form is submitted with answer yes and no value entered" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwnedShare", "true"), ("shareValue", ""))
 
       setUpTests(applicationDetails)
 

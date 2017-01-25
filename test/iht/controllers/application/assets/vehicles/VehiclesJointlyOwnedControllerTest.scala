@@ -18,7 +18,6 @@ package iht.controllers.application.assets.vehicles
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.controllers.application.assets.vehicles.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
@@ -120,17 +119,6 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
     "display validation message when form is submitted with no values entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       implicit val request = createFakeRequest()
-
-      setUpTests(applicationDetails)
-
-      val result = vehiclesJointlyOwnedController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
-    }
-
-    "display validation message when form is submitted with answer yes and no value entered" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwnedShare", "true"), ("shareValue", ""))
 
       setUpTests(applicationDetails)
 

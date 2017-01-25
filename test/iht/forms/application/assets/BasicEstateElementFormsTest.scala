@@ -17,8 +17,6 @@
 package iht.forms.application.assets
 
 import iht.forms.ApplicationForms._
-import iht.models.application.basicElements.BasicEstateElement
-import iht.models.application.debts.BasicEstateElementLiabilities
 
 /**
   * Created by vineet on 15/12/16.
@@ -26,66 +24,22 @@ import iht.models.application.debts.BasicEstateElementLiabilities
 class BasicEstateElementFormsTest extends BasicEstateElementFormBehaviour {
 
   "ForeignForm" must {
-    behave like yesNoQuestionAndValue[BasicEstateElement](
-      "isOwned",
-      "value",
-      foreignForm,
-      _.isOwned,
-      _.value,
-      "error.assets.foreign.select",
-      "error.estateReport.value.give"
-    )
+    behave like basicEstateElementForm(foreignForm, "error.assets.foreign.select")
   }
 
   "MoneyOwedForm" must {
-    //behave like basicEstateElementForm(moneyOwedForm, "error.assets.moneyOwedToDeceased.select")
-    behave like yesNoQuestionAndValue[BasicEstateElement](
-      "isOwned",
-      "value",
-      moneyOwedForm,
-      _.isOwned,
-      _.value,
-      "error.assets.moneyOwedToDeceased.select",
-      "error.estateReport.value.give"
-    )
+    behave like basicEstateElementForm(moneyOwedForm, "error.assets.moneyOwedToDeceased.select")
   }
 
   "OtherForm" must {
-    //behave like basicEstateElementForm(otherForm, "error.assets.other.select")
-    behave like yesNoQuestionAndValue[BasicEstateElement](
-      "isOwned",
-      "value",
-      otherForm,
-      _.isOwned,
-      _.value,
-      "error.assets.other.select",
-      "error.estateReport.value.give"
-    )
+    behave like basicEstateElementForm(otherForm, "error.assets.other.select")
   }
 
   "BusinessInterestForm" must {
-    //behave like basicEstateElementForm(businessInterestForm, "error.assets.businessInterest.select")
-    behave like yesNoQuestionAndValue[BasicEstateElement](
-      "isOwned",
-      "value",
-      businessInterestForm,
-      _.isOwned,
-      _.value,
-      "error.assets.businessInterest.select",
-      "error.estateReport.value.give"
-    )
+    behave like basicEstateElementForm(businessInterestForm, "error.assets.businessInterest.select")
   }
 
   "NominatedForm" must {
-    //behave like basicEstateElementForm(nominatedForm, "error.assets.nominated.select")
-    behave like yesNoQuestionAndValue[BasicEstateElement](
-      "isOwned",
-      "value",
-      nominatedForm,
-      _.isOwned,
-      _.value,
-      "error.assets.nominated.select",
-      "error.estateReport.value.give"
-    )
+    behave like basicEstateElementForm(nominatedForm, "error.assets.nominated.select")
   }
 }

@@ -19,40 +19,27 @@ package iht.forms.application.assets
 import iht.forms.ApplicationForms._
 import iht.forms.FormTestHelper
 import iht.models.application.assets.StockAndShare
-import play.api.data.Form
 
 /**
   * Created by vineet on 15/12/16.
   */
 class StocksAndSharesFormsTest extends FormTestHelper {
 
-  lazy val stocksAndSharesListedErrorMsgKeySelect = "error.assets.stocksAndShares.listed.select"
-  lazy val stocksAndSharesListedErrorMsgKeyEnterValue = "error.estateReport.value.give"
-
-  lazy val stocksAndSharesNotListedErrorMsgKeySelect = "error.assets.stocksAndShares.notListed.select"
-  lazy val stocksAndSharesNotListedErrorMsgKeyEnterValue = "error.estateReport.value.give"
+  lazy val stocksAndSharesListedErrorMsgKey = "error.assets.stocksAndShares.listed.select"
+  lazy val stocksAndSharesNotListedListedErrorMsgKey = "error.assets.stocksAndShares.notListed.select"
 
   "StockAndSharesListed" must {
-    behave like yesNoQuestionAndValue[StockAndShare](
-      "isListed",
-      "valueListed",
-      stockAndShareListedForm,
-      _.isListed,
-      _.valueListed,
-      stocksAndSharesListedErrorMsgKeySelect,
-      stocksAndSharesListedErrorMsgKeyEnterValue
-    )
+    behave like yesNoQuestion[StockAndShare]("isListed",
+      stockAndShareListedForm,_.isListed,
+      stocksAndSharesListedErrorMsgKey)
+    behave like currencyValue[StockAndShare]("valueListed", stockAndShareListedForm)
   }
 
   "StockAndSharesNotListed" must {
-    behave like yesNoQuestionAndValue[StockAndShare](
-      "isNotListed",
-      "valueNotListed",
-      stockAndShareNotListedForm,
-      _.isNotListed,
-      _.valueNotListed,
-      stocksAndSharesNotListedErrorMsgKeySelect,
-      stocksAndSharesNotListedErrorMsgKeyEnterValue
-    )
+    behave like yesNoQuestion[StockAndShare]("isNotListed",
+      stockAndShareNotListedForm,_.isNotListed,
+      stocksAndSharesNotListedListedErrorMsgKey)
+    behave like currencyValue[StockAndShare]("valueNotListed", stockAndShareNotListedForm)
   }
+
 }

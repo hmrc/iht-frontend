@@ -134,17 +134,6 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include (Messages("error.problem"))
     }
 
-    "display validation message when form is submitted with answer yes and no value entered" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwnedShare", "true"), ("shareValue", ""))
-
-      setUpTests(applicationDetails)
-
-      val result = householdJointlyOwnedController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
-    }
-
     "redirect to overview when form is submitted with answer yes and a value entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwnedShare", "true"), ("shareValue", "233"))

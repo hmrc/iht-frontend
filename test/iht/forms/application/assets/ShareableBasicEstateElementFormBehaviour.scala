@@ -18,7 +18,6 @@ package iht.forms.application.assets
 
 import iht.forms.FormTestHelper
 import iht.models.application.basicElements.ShareableBasicEstateElement
-import iht.models.application.debts.BasicEstateElementLiabilities
 import play.api.data.Form
 
 /**
@@ -26,31 +25,13 @@ import play.api.data.Form
   */
 trait ShareableBasicEstateElementFormBehaviour extends FormTestHelper{
 
-  def deceasedOwnedForm(form: Form[ShareableBasicEstateElement],
-                        selectErrorKey:String = "error.selectAnswer",
-                        valueErrorKey: String = "error.estateReport.value.give") = {
-    behave like yesNoQuestionAndValue[ShareableBasicEstateElement](
-      "isOwned",
-      "value",
-      form,
-      _.isOwned,
-      _.value,
-      selectErrorKey,
-      valueErrorKey
-    )
+  def deceasedOwnedForm(form: Form[ShareableBasicEstateElement], selectErrorKey:String = "error.selectAnswer") = {
+    behave like yesNoQuestion[ShareableBasicEstateElement]("isOwned", form, _.isOwned, selectErrorKey)
+    behave like currencyValue[ShareableBasicEstateElement]("value", form)
   }
 
-  def jointlyOwnedForm(form: Form[ShareableBasicEstateElement],
-                       selectErrorKey:String = "error.selectAnswer",
-                       valueErrorKey: String = "error.estateReport.value.give") = {
-    behave like yesNoQuestionAndValue[ShareableBasicEstateElement](
-      "isOwnedShare",
-      "shareValue",
-      form,
-      _.isOwnedShare,
-      _.shareValue,
-      selectErrorKey,
-      valueErrorKey
-    )
+  def jointlyOwnedForm(form: Form[ShareableBasicEstateElement], selectErrorKey:String = "error.selectAnswer") = {
+    behave like yesNoQuestion[ShareableBasicEstateElement]("isOwnedShare", form, _.isOwnedShare, selectErrorKey)
+    behave like currencyValue[ShareableBasicEstateElement]("shareValue", form)
   }
 }
