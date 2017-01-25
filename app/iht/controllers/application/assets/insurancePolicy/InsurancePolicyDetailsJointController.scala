@@ -50,9 +50,8 @@ trait InsurancePolicyDetailsJointController extends EstateController {
           ))
           (updatedAD, None)
         }
-      estateElementOnSubmit[InsurancePolicy](insurancePolicyForm,
-        insurance_policy_details_joint.apply, updateApplicationDetails, insurancePoliciesRedirectLocation,
-        Some(createValidationFunction("isJointlyOwned", _.isDefined, "error.assets.insurancePolicy.jointlyOwned.select")))
+      estateElementOnSubmit[InsurancePolicy](insurancePolicyJointQuestionForm,
+        insurance_policy_details_joint.apply, updateApplicationDetails, insurancePoliciesRedirectLocation)
     }
   }
 }

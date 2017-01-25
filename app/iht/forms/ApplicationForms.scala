@@ -220,22 +220,20 @@ object ApplicationForms {
     )(
       (value, policyInDeceasedName) => InsurancePolicy(None, None, value, None, policyInDeceasedName,None,None,None,None,None)
     )(
-      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.value, insurancePolicy.policyInDeceasedName)
+      (insurancePolicy: InsurancePolicy) => Some(Tuple2(insurancePolicy.value, insurancePolicy.policyInDeceasedName))
     )
   )
 
-  /*
-  def stockAndShareNotListedForm = Form (
+  val insurancePolicyJointQuestionForm = Form(
     mapping(
-      "valueNotListed" -> OptionalCurrency(),
-      "isNotListed" -> yesNoQuestion("error.assets.stocksAndShares.notListed.select")
+      "shareValue" -> OptionalCurrency(),
+      "isJointlyOwned" -> yesNoQuestion("error.assets.insurancePolicy.jointlyOwned.select")
     )(
-      (valueNotListed, isNotListed) => StockAndShare(valueNotListed, None, None, isNotListed, None)
+      (shareValue, isJointlyOwned) => InsurancePolicy(None, None, None, shareValue, None, isJointlyOwned,None,None,None,None)
     )(
-      (element) => Some((element.valueNotListed, element.isNotListed))
+      (insurancePolicy: InsurancePolicy) => Some(Tuple2(insurancePolicy.shareValue, insurancePolicy.isJointlyOwned))
     )
   )
-   */
 
   val businessInterestForm= Form (basicEstateElementMapping("error.assets.businessInterest.select"))
 
