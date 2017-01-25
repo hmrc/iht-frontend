@@ -16,64 +16,80 @@
 
 package iht.views.application.tnrb
 
-import iht.forms.TnrbForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_overview_table_row
+import play.api.i18n.Messages
+import play.api.mvc.Call
 
 class TnrbOverviewTableRowViewTest extends ViewTestHelper {
-
-  val ihtReference = Some("ABC1A1A1A")
-  val deceasedDetails = CommonBuilder.buildDeceasedDetails
-  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-                        deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-                        deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
-
-  val tnrbModel = CommonBuilder.buildTnrbEligibility
-  val widowCheck = CommonBuilder.buildWidowedCheck
 
   lazy val id = "home-in-uk"
   lazy val questionText = "Sample question"
   lazy val questionScreenReaderText = "Sample screen reader"
-  lazy val questionCategory = "Sample category"
-
+  lazy val questionCategory = "questionAnswer"
+  lazy val link = iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad()
+  lazy val answerValue = "Sample value"
 
   def tnrbOverviewTableRow(id: String = "home-in-uk",
                            questionText:String = "Sample question",
                            questionScreenReaderText: String = "Sample screen reader",
                            questionCategory:String = "questionAnswer",
-                           answerValue:String = "",
+                           answerValue:String = "Sample value",
                            link:Option[Call] = None,
                            linkScreenReader:String = "") =  {
 
     implicit val request = createFakeRequest()
-    val view = tnrb_overview_table_row(id,
-      questionText,
-      questionScreenReaderText,
-      questionCategory:String,
-      answerValue:String = "",
-    link:Option[Call] = None,
-    linkScreenReader:String).toString
+      val view = tnrb_overview_table_row(id,
+                                        questionText,
+                                        questionScreenReaderText,
+                                        questionCategory,
+                                        answerValue,
+                                        link:Option[Call],
+                                        linkScreenReader).toString
 
-    val doc = asDocument(view)
+     asDocument(view)
   }
 
   "TnrbOverviewTableRow" must {
 
     "have the correct id" in {
-
+      val view = tnrbOverviewTableRow()
+      assertRenderedById(view, id)
     }
 
     "have the correct question text" in {
-
+      val view = tnrbOverviewTableRow()
+      assertRenderedById(view, s"$id-text")
     }
 
     "show the value if it has" in {
+      val view = tnrbOverviewTableRow()
 
+      val value = view.getElementById(s"$id-value")
+      value.text shouldBe answerValue
+    }
+
+    "not show the value when there is not" in {
+      val view = tnrbOverviewTableRow(answerValue = "")
+
+      val value = view.getElementById(s"$id-value")
+      value.text shouldBe empty
     }
 
     "show the correct link with text" in {
+      val view = tnrbOverviewTableRow(link = Some(link))
 
+      val questionLink = view.getElementById(s"$id-link")
+      questionLink.attr("href") shouldBe link.url
+      questionLink.text() shouldBe Messages("iht.change")
+    }
+
+    "show the correct question category when answer value is empty" in {
+      val view = tnrbOverviewTableRow(answerValue = "", link = Some(link))
+
+      val questionLink = view.getElementById(s"$id-link")
+      questionLink.text() shouldBe Messages("site.link.giveAnswer")
     }
   }
 
