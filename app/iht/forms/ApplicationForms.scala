@@ -165,7 +165,7 @@ object ApplicationForms {
 
   def stockAndShareListedForm = Form (
     mapping(
-      "valueListed" ->  OptionalCurrency(),
+      "valueListed" -> OptionalCurrency(),
       "isListed" -> yesNoQuestion("error.assets.stocksAndShares.listed.select")
     )(
       (valueListed, isListed) => StockAndShare(None, valueListed, None, None, isListed)
@@ -176,7 +176,7 @@ object ApplicationForms {
 
   def stockAndShareNotListedForm = Form (
     mapping(
-      "valueNotListed" ->  OptionalCurrency(),
+      "valueNotListed" -> OptionalCurrency(),
       "isNotListed" -> yesNoQuestion("error.assets.stocksAndShares.notListed.select")
     )(
       (valueNotListed, isNotListed) => StockAndShare(valueNotListed, None, None, isNotListed, None)
