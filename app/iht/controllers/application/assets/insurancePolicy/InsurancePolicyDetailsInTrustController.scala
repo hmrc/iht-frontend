@@ -59,13 +59,12 @@ trait InsurancePolicyDetailsInTrustController extends EstateController {
           ))
           (updatedAD, None)
         }
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyInTrust,
         insurance_policy_details_in_trust.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInTrust)
           .fold(insurancePoliciesRedirectLocation)(_=>
             iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad()
-          ),
-        Some(createValidationFunction("isInTrust", _.isDefined, "error.assets.insurancePolicy.isInTrust.select"))
+          )
       )
     }
   }

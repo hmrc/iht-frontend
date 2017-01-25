@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
-import play.api.test.Helpers._
+import play.api.test.Helpers.{contentAsString, _}
 
 /**
   * Created by vineet on 01/07/16.
@@ -115,17 +115,26 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       capturedValue shouldBe expectedAppDetails
     }
 
-
-    "display validation message when incomplete form is submitted" in {
+    "display validation message when form is submitted with no values entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      val formFill = moneyJointlyOwnedForm.fill(CommonBuilder.buildShareableBasicElementExtended)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest()
 
       setUpTests(applicationDetails)
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
       contentAsString(result) should include (Messages("error.problem"))
+    }
+
+    "redirect to overview when form is submitted with answer yes and a value entered" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwnedShare", "true"), ("shareValue", "233"))
+
+      setUpTests(applicationDetails)
+
+      val result = moneyJointlyOwnedController.onSubmit()(request)
+      status(result) should be (SEE_OTHER)
+      redirectLocation(result) should be (Some(routes.MoneyOverviewController.onPageLoad().url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

@@ -51,12 +51,11 @@ trait InsurancePolicyDetailsMoreThanMaxValueController extends EstateController 
           (updatedAD, None)
         }
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyMoreThanMax,
         insurance_policy_details_more_than_max_value.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.moreThanMaxValue)
           .fold(insurancePoliciesRedirectLocation)(_=>
-          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onPageLoad()),
-        Some(createValidationFunction("moreThanMaxValue", _.isDefined, "error.assets.insurancePolicy.moreThanMaxValue.select")))
+          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsAnnuityController.onPageLoad()))
     }
   }
 }

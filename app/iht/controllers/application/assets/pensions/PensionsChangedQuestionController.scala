@@ -60,8 +60,7 @@ trait PensionsChangedQuestionController extends EstateController {
         pensionsChangedQuestionForm,
         pensions_changed_question.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isChanged", _.isDefined, "error.assets.privatePensions.changed.select"))
+        submitUrl
       )
     }
   }

@@ -64,8 +64,7 @@ trait HouseholdDeceasedOwnController extends EstateController {
         householdFormOwn,
         household_deceased_own.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.household.deceasedOwned.select"))
+        submitUrl
       )
     }
   }

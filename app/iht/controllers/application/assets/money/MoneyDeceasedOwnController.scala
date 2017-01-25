@@ -65,8 +65,7 @@ trait MoneyDeceasedOwnController extends EstateController {
         moneyFormOwn,
         money_deceased_own.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.money.deceasedOwned.select"))
+        submitUrl
       )
     }
   }
