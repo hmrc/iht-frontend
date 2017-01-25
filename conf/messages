@@ -136,7 +136,7 @@ iht.startAgain = Start again
 iht.timeout.p1 = For your security, we signed you out because you didn’t continue the service for 15 minutes or more.
 iht.timeout.signBackToGG = Sign back in to Government Gateway
 iht.useIHT400PaperForm = You should use an IHT-400 paper form
-iht.usePaperForm = You should use a paper form
+iht.usePaperForm = You must use a paper form
 iht.viewOrChange = View or change
 iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
@@ -210,8 +210,8 @@ page.iht.filter.estimate.choice.over = More than £1 million
 page.iht.filter.previous.answers = Previous answers
 
 page.iht.filter.paperform.scotland.p1 = Reporting the estate value in Scotland is completed by using a paper form.
-page.iht.filter.paperform.scotland.p2.start = You should read the
-page.iht.filter.paperform.scotland.p2.end = to find out what form you should use in Scotland.
+page.iht.filter.paperform.scotland.p2.start = You can read the
+page.iht.filter.paperform.scotland.p2.end = to find out what forms to use in Scotland.
 page.iht.filter.paperform.scotland.link.text = Scottish Courts and Tribunals guidance
 
 page.iht.filter.paperform.northern.ireland.p1 = Reporting the estate value in Northern Ireland is completed by using a paper form.
