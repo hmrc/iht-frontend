@@ -215,8 +215,8 @@ page.iht.filter.paperform.scotland.p2.end = to find out what forms to use in Sco
 page.iht.filter.paperform.scotland.link.text = Scottish Courts and Tribunals guidance
 
 page.iht.filter.paperform.northern.ireland.p1 = Reporting the estate value in Northern Ireland is completed by using a paper form.
-page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already know that the estate has Inheritance Tax to pay, you should complete the
-page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you aren’t sure of the estate value, you should start filling in the
+page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already know that the estate has Inheritance Tax to pay, complete the
+page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you aren’t sure of the estate value, start filling in the
 page.iht.filter.paperform.northern.ireland.p2.sentence2.end = first.
 page.iht.filter.paperform.northern.ireland.p3 = You can read more about applying for probate in Northern Ireland on
 page.iht.filter.paperform.northern.ireland.iht205.link.text = IHT-205 form
@@ -231,7 +231,7 @@ page.iht.filter.paperform.million.p1 = Because you think the deceased’s estate
 page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to provide and will tell you if there is an Inheritance Tax to pay.
 page.iht.filter.paperform.million.exit = Exit to IHT-400 paper form
 
-page.iht.filter.paperform.iht400.link.text = IHT-400 paper form
+page.iht.filter.paperform.iht400.link.text = IHT-400 form
 
 page.iht.filter.useService.under325000.paragraph0 = Because you think the deceased’s estate might be worth under £325,000, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
 page.iht.filter.useService.paragraphFinal = You’ll need to register to use the service first, but before that, you’ll need to confirm who you are with HMRC.
