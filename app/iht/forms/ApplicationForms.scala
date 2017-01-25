@@ -215,22 +215,28 @@ object ApplicationForms {
 
   val insurancePolicyDeceasedOwnQuestionForm = Form(
     mapping(
+      "value" -> OptionalCurrency(),
       "policyInDeceasedName" -> yesNoQuestion("error.assets.insurancePolicy.deceasedOwned.select")
     )(
-      (policyInDeceasedName) => InsurancePolicy(None, None, None, None, policyInDeceasedName,None,None,None,None,None)
+      (value, policyInDeceasedName) => InsurancePolicy(None, None, value, None, policyInDeceasedName,None,None,None,None,None)
     )(
-      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.policyInDeceasedName)
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.value, insurancePolicy.policyInDeceasedName)
     )
   )
-//  val insurancePolicyJointQuestionForm = Form(
-//    mapping(
-//      "isJointlyOwned" -> yesNoQuestion("error.assets.insurancePolicy.deceasedOwned.select")
-//    )(
-//      (policyInDeceasedName) => InsurancePolicy(None, None, None, None, policyInDeceasedName,None,None,None,None,None)
-//    )(
-//      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.policyInDeceasedName)
-//    )
-//  )
+
+  /*
+  def stockAndShareNotListedForm = Form (
+    mapping(
+      "valueNotListed" -> OptionalCurrency(),
+      "isNotListed" -> yesNoQuestion("error.assets.stocksAndShares.notListed.select")
+    )(
+      (valueNotListed, isNotListed) => StockAndShare(valueNotListed, None, None, isNotListed, None)
+    )(
+      (element) => Some((element.valueNotListed, element.isNotListed))
+    )
+  )
+   */
+
   val businessInterestForm= Form (basicEstateElementMapping("error.assets.businessInterest.select"))
 
   val nominatedForm= Form (basicEstateElementMapping("error.assets.nominated.select"))
