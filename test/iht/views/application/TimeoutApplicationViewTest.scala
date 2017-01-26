@@ -27,7 +27,7 @@ class TimeoutApplicationViewTest extends ViewTestHelper {
   }
 
   "TimeoutApplication View" must {
-    "have the correct title and browser title" in {
+    "have the correct title" in {
       titleShouldBeCorrect(viewAsDocument.toString, Messages("iht.signedOut"))
     }
 
