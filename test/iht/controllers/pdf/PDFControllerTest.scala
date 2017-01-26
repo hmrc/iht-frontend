@@ -56,26 +56,26 @@ class PDFControllerTest extends ApplicationControllerTest {
     mockIhtConnector = mock[IhtConnector]
   }
 
-  "onPDFClearance" must {
+  "onClearancePDF" must {
     "have correct contents for the certificate" in {
       setUpMocks
-      val result = pdfController.onPDFClearance(ihtRef)(createFakeRequest())
+      val result = pdfController.onClearancePDF(ihtRef)(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
   }
 
-  "onPDFSummary" must {
+  "onPreSubmissionPDF" must {
     "generate correct contents" in {
       setUpMocks
-      val result = pdfController.onPDFSummary(createFakeRequest())
+      val result = pdfController.onPreSubmissionPDF(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
   }
 
-  "onApplicationPDF" must {
+  "onPostSubmissionPDF" must {
     "generate correct contents" in {
       setUpMocks
-      val result = pdfController.onApplicationPDF(ihtRef)(createFakeRequest())
+      val result = pdfController.onPostSubmissionPDF(ihtRef)(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
   }

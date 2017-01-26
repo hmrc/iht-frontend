@@ -20,11 +20,14 @@
 @import iht.views.html._
 
 @import iht.utils._
+@import iht.utils.CommonHelper
 
-@(insurancePolicyForm: Form[InsurancePolicy], registrationDetails: RegistrationDetails
+@(insurancePolicyForm: Form[InsurancePolicy],
+registrationDetails: RegistrationDetails
 )(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
+                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
     browserTitle = Some(Messages("page.iht.application.insurance.policies.section1.browserTitle")),
     isFullWidth=false
     ) {
@@ -33,7 +36,9 @@
 
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit,'autoComplete -> "off") {
 
-        <p class="lede" id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section1.guidance")</p>
+        <p class="lede" id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section1.guidance",
+            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
+            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
         @defining( "page.iht.application.insurance.policies.section1.guidance2" ) { guidance2 =>
             @if(Messages(guidance2) != guidance2) {
@@ -44,9 +49,10 @@
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
                 insurancePolicyForm("policyInDeceasedName"),
-                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.ownName.question")),
+                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.ownName.question",
+                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
                 '_shownElementNo -> None,
                 '_shownElementYes -> Some("deceaseds-policy"),
                 '_hiddenElementYes -> None,
@@ -56,7 +62,7 @@
                 '_mainQuestion -> true)
 
             <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
-                @ihtHelpers.inputEstateValue(insurancePolicyForm("value"),
+                @ihtHelpers.input_estate_value(insurancePolicyForm("value"),
                 '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"),
                 '_sectionName -> (sectionName + "1"),
                 '_currency -> "GBP",

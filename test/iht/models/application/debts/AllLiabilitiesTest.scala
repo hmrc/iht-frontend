@@ -16,11 +16,24 @@
 
 package iht.models.application.debts
 
-import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder}
+import iht.testhelpers.{TestHelper, AssetsWithAllSectionsSetToNoBuilder, CommonBuilder}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
 class AllLiabilitiesTest extends UnitSpec with MockitoSugar {
+
+
+  private def buildProperty(id: Option[String] = None,
+                            value: Option[BigDecimal] = None) = {
+    CommonBuilder.buildProperty.copy(
+      id = id,
+      address = Some(CommonBuilder.DefaultUkAddress),
+      propertyType = TestHelper.PropertyTypeDeceasedHome,
+      typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly,
+      tenure = TestHelper.TenureFreehold,
+      value = value
+    )
+  }
 
   "areAllDebtsSectionsAnsweredNo" must {
     "returns true when all sections answered no in debts" in {
@@ -95,6 +108,27 @@ class AllLiabilitiesTest extends UnitSpec with MockitoSugar {
         allLiabilities = Some(AssetsWithAllSectionsSetToNoBuilder.buildAllLiabilities copy (
           funeralExpenses = Some(BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(22)))))
         ))
+      appDetails.allLiabilities.map(_.doesAnyDebtSectionHaveAValue) shouldBe Some(true)
+    }
+
+    "return true when only mortgages section has a value" in {
+
+      val propertyList = List(buildProperty(Some("1"), Some(BigDecimal(100))),
+        buildProperty(Some("2"), Some(BigDecimal(1000))))
+
+      val mortgage1 = CommonBuilder.buildMortgage.copy(
+        id = "1", value = Some(BigDecimal(5000)), isOwned = Some(true))
+
+      val mortgageList = List(mortgage1)
+
+      val appDetails = CommonBuilder.buildApplicationDetails.copy(
+        propertyList = propertyList,
+        allAssets = Some(
+          CommonBuilder.buildAllAssets.copy(properties =
+            Some(CommonBuilder.buildProperties.copy(isOwned = Some(true))))),
+        allLiabilities = Some(CommonBuilder.buildAllLiabilities.copy(
+          mortgages = Some(CommonBuilder.buildMortgageEstateElement.copy(isOwned = Some(true), mortgageList))))
+      )
       appDetails.allLiabilities.map(_.doesAnyDebtSectionHaveAValue) shouldBe Some(true)
     }
 

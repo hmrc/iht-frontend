@@ -374,9 +374,9 @@ GET         /not-possible-to-use-this-service                                   
 POST        /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onSubmit
 GET         /delete-estate-report                                                               iht.controllers.application.KickoutController.onPageLoadDeleting
 
-GET         /summarypdf                                                                         iht.controllers.application.pdf.PDFController.onPDFSummary
-GET         /clearancePDF/:ihtReference                                                         iht.controllers.application.pdf.PDFController.onPDFClearance(ihtReference: String)
-GET         /applicationPDF/:ihtReference                                                       iht.controllers.application.pdf.PDFController.onApplicationPDF(ihtReference: String)
+GET         /summarypdf                                                                         iht.controllers.application.pdf.PDFController.onPreSubmissionPDF
+GET         /clearancePDF/:ihtReference                                                         iht.controllers.application.pdf.PDFController.onClearancePDF(ihtReference: String)
+GET         /applicationPDF/:ihtReference                                                       iht.controllers.application.pdf.PDFController.onPostSubmissionPDF(ihtReference: String)
 
 GET         /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onPageLoad
 POST        /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onSubmit

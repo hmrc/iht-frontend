@@ -13,7 +13,9 @@
 
 @include form-control-sizes;
 
+
 input[type="radio"] {border-width: 0; background: none;}
+
 
 #logo img {max-width: none;}
 
@@ -23,3 +25,6 @@ input[type="radio"] {border-width: 0; background: none;}
   .u-align--tablet-center {
     text-align: center;
   }
+.suggestions-input-container {
+    width: 50%;
+}

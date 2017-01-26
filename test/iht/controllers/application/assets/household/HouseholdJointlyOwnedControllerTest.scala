@@ -22,6 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 
@@ -34,9 +35,13 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
+                    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
+
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,
       mockIhtConnector,
+      regDetails = regDetails,
       appDetails = Some(applicationDetails),
       getAppDetails = true,
       saveAppDetails = true,
@@ -118,10 +123,9 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
       capturedValue shouldBe expectedAppDetails
     }
 
-    "display validation message when incomplete form is submitted" in {
+    "display validation message when form is submitted with no values entered" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      val formFill = householdJointlyOwnedForm.fill(CommonBuilder.buildShareableBasicElementExtended)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+      implicit val request = createFakeRequest()
 
       setUpTests(applicationDetails)
 
@@ -130,13 +134,24 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include (Messages("error.problem"))
     }
 
+    "redirect to overview when form is submitted with answer yes and a value entered" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwnedShare", "true"), ("shareValue", "233"))
+
+      setUpTests(applicationDetails)
+
+      val result = householdJointlyOwnedController.onSubmit()(request)
+      status(result) should be (SEE_OTHER)
+      redirectLocation(result) should be (Some(routes.HouseholdOverviewController.onPageLoad().url))
+    }
+
     "respond with bad request when incorrect value are entered on the page" in {
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("shareValue", "utytyyterrrrrrrrrrrrrr"))
 
       createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
 
       val result = householdJointlyOwnedController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)
+      status(result) shouldBe BAD_REQUEST
     }
 
     "display the correct title on page load" in {
@@ -145,7 +160,9 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title"))
+      contentAsString(result) should include
+      (Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title"),
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails))
     }
   }
 }

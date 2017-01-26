@@ -33,14 +33,14 @@ isFullWidth=false) {
 @helpers.form(action = iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onSubmit,
 'autoComplete -> "off"){
 
-@ihtHelpers.inputWithHelp(partnerExemptionNameForm("firstName"),
+@ihtHelpers.input_with_help(partnerExemptionNameForm("firstName"),
 '_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
 '_label -> Html(Messages("page.iht.application.exemptions.partner.name.firstName.label")),
 '_help -> Html(Messages("iht.firstName.hint")))
 
-@ihtHelpers.inputWithHelp(partnerExemptionNameForm("lastName"),
+@ihtHelpers.input_with_help(partnerExemptionNameForm("lastName"),
 '_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",

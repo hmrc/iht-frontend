@@ -25,7 +25,6 @@ import org.joda.time.LocalDate
 object IhtProperties {
   lazy val validCountryCodes: Array[String] = getPropertyAsStringArray("validCountryCodes")
   lazy val ukIsoCountryCode: String = getProperty("ukIsoCountryCode")
-  lazy val dateFormatForPdf: String = getProperty("dateFormatForPdf")
   lazy val dateFormatForDisplay: String = getProperty("dateFormatForDisplay")
   lazy val maxCoExecutors: Int = getPropertyAsInt("maxCoExecutors")
   lazy val maxNameLength: Int = getPropertyAsInt("maxNameLength")
@@ -96,4 +95,22 @@ object IhtProperties {
   lazy val dateOfDeathMaxValidationDate: LocalDate = getPropertyAsDate("dateOfDeathMaxValidationDate")
   lazy val dateOfPredeceasedForTnrbEligibility: LocalDate = getPropertyAsDate("dateOfPredeceasedForTnrbEligibility")
   lazy val dateOfCivilPartnershipInclusion: LocalDate = getPropertyAsDate("dateOfCivilPartnershipInclusion")
+
+  lazy val ETMPAssetCodeMoney:String = getProperty("etmpAssetCodeMoney")
+  lazy val ETMPAssetCodeHouseHold:String = getProperty("etmpAssetCodeHouseHold")
+  lazy val ETMPAssetCodePrivatePension:String = getProperty("etmpAssetCodePrivatePension")
+  lazy val ETMPAssetCodeStockShareNotListed:String = getProperty("etmpAssetCodeStockShareNotListed")
+  lazy val ETMPAssetCodeStockShareListed:String = getProperty("etmpAssetCodeStockShareListed")
+  lazy val ETMPAssetCodeInsurancePolicy:String = getProperty("etmpAssetCodeInsurancePolicy")
+  lazy val ETMPAssetCodeBusinessInterest:String = getProperty("etmpAssetCodeBusinessInterest")
+  lazy val ETMPAssetCodeNominatedAsset:String = getProperty("etmpAssetCodeNominatedAsset")
+  lazy val ETMPAssetCodeForeignAsset:String = getProperty("etmpAssetCodeForeignAsset")
+  lazy val ETMPAssetCodeMoneyOwed:String = getProperty("etmpAssetCodeMoneyOwed")
+  lazy val ETMPAssetCodeOtherAsset:String = getProperty("etmpAssetCodeOtherAsset")
+  lazy val ETMPAssetCodeTrust:String = getProperty("etmpAssetCodeTrust")
+  lazy val ETMPAssetCodeGift:String = getProperty("etmpAssetCodeGift")
+
+  lazy val ETMPExemptionTypeGNCP: String = getProperty("etmpExemptionTypeGNCP")
+
+  lazy val DateRangeMonths: Integer = getPropertyAsInt("dateRangeMonths")
 }

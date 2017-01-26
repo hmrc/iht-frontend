@@ -21,6 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
@@ -32,6 +33,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 class PropertyValueControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
+
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
+    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
+
+  lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def propertyValueController = new PropertyValueController {
     override val cachingConnector = mockCachingConnector
@@ -74,8 +80,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails= true,
-        storeAppDetailsInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
@@ -96,7 +101,8 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display property question sub label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.property.value.question.hint"))
+      contentAsString(result) should include (Messages("page.iht.application.property.value.question.hint",
+                                                      deceasedName))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

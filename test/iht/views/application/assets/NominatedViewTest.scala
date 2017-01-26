@@ -30,9 +30,9 @@ class NominatedViewTest extends ViewTestHelper with ShareableElementInputViewBeh
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = "iht.estateReport.assets.nominated"
-  override def browserTitle = "page.iht.application.assets.nominated.browserTitle"
-  override def questionTitle = Messages("page.iht.application.assets.nominated.question")
+  override def pageTitle = Messages("iht.estateReport.assets.nominated")
+  override def browserTitle = Messages("page.iht.application.assets.nominated.browserTitle")
+  override def questionTitle = Messages("page.iht.application.assets.nominated.question", deceasedName)
   override def valueQuestion = Messages("page.iht.application.assets.nominated.inputLabel1")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
@@ -45,10 +45,10 @@ class NominatedViewTest extends ViewTestHelper with ShareableElementInputViewBeh
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        "page.iht.application.assets.nominated.description.p1",
-        "page.iht.application.assets.nominated.description.p2",
-        "page.iht.application.assets.nominated.description.p3",
-        "page.iht.application.assets.nominated.description.p4")
+        Messages("page.iht.application.assets.nominated.description.p1", deceasedName),
+        Messages("page.iht.application.assets.nominated.description.p2"),
+        Messages("page.iht.application.assets.nominated.description.p3"),
+        Messages("page.iht.application.assets.nominated.description.p4"))
     }
   }
 

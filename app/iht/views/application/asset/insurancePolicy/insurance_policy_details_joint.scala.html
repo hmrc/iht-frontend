@@ -17,7 +17,8 @@
 @import iht.models._
 @import iht.models.application.assets._
 
-@(insurancePolicyForm: Form[InsurancePolicy], registrationDetails: RegistrationDetails
+@(insurancePolicyForm: Form[InsurancePolicy],
+registrationDetails: RegistrationDetails
 )(implicit request: Request[_])
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
@@ -33,16 +34,16 @@
 
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onSubmit,'autoComplete -> "off") {
 
-          <p class="lede" id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section2.guidance")</p>
-
-
-
+          <p class="lede" id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section2.guidance",
+              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
+              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
                 insurancePolicyForm("isJointlyOwned"),
-                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question")),
+                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
                 '_shownElementNo -> None,
                 '_shownElementYes -> Some("deceaseds-policy"),
                 '_hiddenElementYes -> None,
@@ -52,7 +53,7 @@
                 '_mainQuestion -> true)
 
             <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
-                @ihtHelpers.inputEstateValue(insurancePolicyForm("shareValue"),
+                @ihtHelpers.input_estate_value(insurancePolicyForm("shareValue"),
                 '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"),
                 '_help -> Messages("page.iht.application.insurance.policies.section2.guidance2"),
                 '_sectionName -> (sectionName + "1"),

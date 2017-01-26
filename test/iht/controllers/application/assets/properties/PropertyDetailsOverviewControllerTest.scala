@@ -20,6 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
@@ -31,6 +32,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
+
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
+    deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
+
+  lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def propertyDetailsOverviewController = new PropertyDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
@@ -57,11 +63,11 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        getAppDetailsTempFromCache = true)
+        storeAppDetailsInCache = true)
 
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
@@ -88,7 +94,7 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
     "display how the property was owned question on the page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.howOwnedByDeceased"))
+      contentAsString(result) should include(Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "display freehold leasehold question on page" in {

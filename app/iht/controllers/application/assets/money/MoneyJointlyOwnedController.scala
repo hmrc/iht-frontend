@@ -66,8 +66,7 @@ trait MoneyJointlyOwnedController extends EstateController {
         moneyJointlyOwnedForm,
         money_jointly_owned.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isOwnedShare", _.isDefined, "error.assets.money.jointlyOwned.select"))
+        submitUrl
       )
     }
   }

@@ -37,13 +37,13 @@ class MortgagesFormTest extends FormTestHelper with FakeIhtApp {
     }
 
     "not give an error when answered Yes" in {
-      val mortgageModel = defaultMortgageModel.copy(isOwned = Some(true), value = None)
+      val mortgageModel = defaultMortgageModel.copy(id= "", isOwned = Some(true), value = None)
 
       formWithNoError(mortgagesForm, dataAsJson(mortgageModel)) shouldBe mortgageModel
     }
 
     "not give an error when answered No" in {
-      val mortgageModel = defaultMortgageModel.copy(isOwned = Some(false), value = None)
+      val mortgageModel = defaultMortgageModel.copy(id= "", isOwned = Some(false), value = None)
 
       formWithNoError(mortgagesForm, dataAsJson(mortgageModel)) shouldBe mortgageModel
     }

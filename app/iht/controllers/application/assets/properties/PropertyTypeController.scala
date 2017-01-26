@@ -50,10 +50,14 @@ trait PropertyTypeController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
+      val regDetails = cachingConnector.getExistingRegistrationDetails
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+
       Future.successful(Ok(iht.views.html.application.asset.properties.property_type(
         propertyTypeForm,
         Some(cancelUrl),
-        submitUrl))
+        submitUrl,
+        deceasedName))
         )
     }
   }
@@ -62,6 +66,7 @@ trait PropertyTypeController extends EstateController {
     implicit user => implicit request => {
 
       val registrationData = cachingConnector.getExistingRegistrationDetails
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationData)
 
       for {
         applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
@@ -76,7 +81,8 @@ trait PropertyTypeController extends EstateController {
               (matchedProperty) => Ok(iht.views.html.application.asset.properties.property_type(
                 propertyTypeForm.fill(matchedProperty),
                 Some(editCancelUrl(id)),
-                editSubmitUrl(id)))
+                editSubmitUrl(id),
+                deceasedName))
             }
           }
           case _ => {
@@ -93,13 +99,18 @@ trait PropertyTypeController extends EstateController {
                        cancelUrl: Call,
                        propertyId: Option[String]=None)(
                         implicit user: AuthContext, request: Request[_]) = {
+
+    val regDetails = cachingConnector.getExistingRegistrationDetails
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+
     val boundForm = propertyTypeForm.bindFromRequest
     boundForm.fold(
       formWithErrors => {
         LogHelper.logFormError(formWithErrors)
         Future.successful(BadRequest(iht.views.html.application.asset.properties.property_type(formWithErrors,
           Some(cancelUrl),
-          submitUrl)))
+          submitUrl,
+          deceasedName)))
       },
       property => {
         processSubmit(CommonHelper.getNino(user), property, propertyId)
@@ -113,6 +124,7 @@ trait PropertyTypeController extends EstateController {
                      implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
 
     val registrationData = cachingConnector.getExistingRegistrationDetails
+
     val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
     val applicationDetailsFuture: Future[Option[ApplicationDetails]] =
       ihtConnector.getApplication(nino, ihtReference, registrationData.acknowledgmentReference)

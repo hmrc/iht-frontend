@@ -29,17 +29,17 @@ import uk.gov.hmrc.play.test.UnitSpec
 class StylesheetResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar{
 
   "Must return a valid StreamSource" in {
-    val inputResource = "/pdf/templates/application/return/iht-return.xsl"
+    val inputResource = "/pdf/templates/postsubmission/iht-return.xsl"
     val result = new StylesheetResolver().resolve(inputResource, "")
 
     result shouldBe a[StreamSource]
     result shouldNot equal(null)
   }
 
-  "Must return null if Resource is not valid" in {
+  "Must throw exception if Resource is not valid" in {
     val inputResource = "/invalid-resource"
-    val result = new StylesheetResolver().resolve(inputResource, "")
-
-    result shouldEqual null
+    a[RuntimeException] shouldBe thrownBy {
+      new StylesheetResolver().resolve(inputResource, "")
+    }
   }
 }

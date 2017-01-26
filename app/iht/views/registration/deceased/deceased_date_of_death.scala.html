@@ -29,7 +29,7 @@ browserTitle = Some(Messages("iht.dateOfDeath")),
         @ihtHelpers.error_summary(deceasedDateOfDeath)
 
         @helpers.form(action = actionLocation, 'autoComplete -> "off") {
-        @ihtHelpers.dateFields(
+        @ihtHelpers.date_fields(
             deceasedDateOfDeath,
             "dateOfDeath",
             "",

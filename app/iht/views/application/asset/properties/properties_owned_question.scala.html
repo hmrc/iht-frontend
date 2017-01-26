@@ -31,11 +31,11 @@ isFullWidth=false){
     @ihtHelpers.error_summary(propertiesForm)
     @helpers.form(action = iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-        <p class="lede" id="properties-question-description">@Messages("page.iht.application.assets.properties.question.p1")</p>
+        <p class="lede" id="properties-question-description">@Messages("page.iht.application.assets.properties.question.p1", getDeceasedNameOrDefaultString(registrationDetails))</p>
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
         propertiesForm("isOwned"),
-        '_legend -> Html(Messages("page.iht.application.assets.properties.question.question")),
+        '_legend -> Html(Messages("page.iht.application.assets.properties.question.question", getDeceasedNameOrDefaultString(registrationDetails))),
         '_shownElementNo -> Some("mortgage-guidance-panel"),
         '_hiddenElementYes -> Some("mortgage-guidance-panel"))
         <div id="mortgage-guidance-panel" class="panel-indent js-hidden">

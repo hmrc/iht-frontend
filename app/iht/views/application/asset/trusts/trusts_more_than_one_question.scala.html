@@ -16,22 +16,21 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
-@import iht.utils.CommonHelper._
+@import iht.utils.CommonHelper
 
 @(trustsMoreThanOneQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.moreThanOne.question"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.moreThanOne.question",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.assets.trusts.moreThanOne.browserTitle")),
 isFullWidth=false){
     @ihtHelpers.error_summary(trustsMoreThanOneQuestionForm)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onSubmit,'autoComplete -> "off") {
 
-
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
             trustsMoreThanOneQuestionForm("isMoreThanOne"),
             '_divClass -> Some("-change form-group"),
             '_legend -> Html(Messages("iht.estateReport.assets.trusts.moreThanOne.question")),
@@ -44,6 +43,7 @@ isFullWidth=false){
 
     }
 
-@ihtHelpers.return_link(Some(Messages("site.link.return.trusts")), Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()))
+@ihtHelpers.return_link(Some(Messages("site.link.return.trusts")),
+                        Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()))
 
 }

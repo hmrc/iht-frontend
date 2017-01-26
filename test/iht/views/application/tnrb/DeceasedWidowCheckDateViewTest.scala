@@ -42,7 +42,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
                                                CommonHelper.getDeceasedNameOrDefaultString(regDetails))))
 
 
-  lazy val browserTitle = "iht.estateReport.tnrb.increasingIHTThreshold"
+  lazy val browserTitle = Messages("iht.estateReport.tnrb.increasingIHTThreshold")
   lazy val guidanceParagraphs = Set(Messages("iht.dateExample2"))
 
   lazy val returnLinkId = "cancel-button"

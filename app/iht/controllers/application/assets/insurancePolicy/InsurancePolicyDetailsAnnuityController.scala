@@ -33,7 +33,7 @@ trait InsurancePolicyDetailsAnnuityController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesAnnuities)
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyForm, insurance_policy_details_annuity.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyAnnuityForm, insurance_policy_details_annuity.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -51,12 +51,11 @@ trait InsurancePolicyDetailsAnnuityController extends EstateController {
           (updatedAD, None)
         }
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyAnnuityForm,
         insurance_policy_details_annuity.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isAnnuitiesBought)
           .fold(insurancePoliciesRedirectLocation)(_=>
-          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()),
-        Some(createValidationFunction("isAnnuitiesBought", _.isDefined, "error.assets.insurancePolicy.isAnnuitiesBought.select")))
+          iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onPageLoad()))
     }
   }
 }

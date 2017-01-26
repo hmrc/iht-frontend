@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages
@@ -100,7 +101,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
 
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(true),value=Some(20))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceDeceasedOwnValue)
+      val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
@@ -118,7 +119,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
 
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(true),value=Some(20))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceDeceasedOwnValue)
+      val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
@@ -136,7 +137,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
 
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(false))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceDeceasedOwnValue)
+      val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
@@ -168,7 +169,8 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
     "display a yes or no question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.ownName.question"))
+      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.ownName.question",
+        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
     }
 
     "display a value question on the page" in {
@@ -192,7 +194,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 
-      val filledForm = insurancePolicyForm.fill(insurancePolicyDetails)
+      val filledForm = insurancePolicyDeceasedOwnQuestionForm.fill(insurancePolicyDetails)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)

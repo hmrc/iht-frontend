@@ -19,14 +19,15 @@ package iht.views.registration.applicant
 import iht.forms.registration.ApplicantForms.probateLocationForm
 import iht.views.html.registration.applicant.probate_location
 import iht.views.registration.RegistrationPageBehaviour
+import play.api.i18n.Messages
 import play.api.mvc.Call
 
 import scala.collection.immutable.ListMap
 
 class ProbateLocationViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitleKey = "page.iht.registration.applicant.probateLocation.title"
-  override def browserTitleKey = "page.iht.registration.applicant.probateLocation.browserTitle"
+  override def pageTitle = Messages("page.iht.registration.applicant.probateLocation.title")
+  override def browserTitle = Messages("page.iht.registration.applicant.probateLocation.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()

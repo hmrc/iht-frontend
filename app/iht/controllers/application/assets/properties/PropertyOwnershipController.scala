@@ -56,21 +56,27 @@ trait PropertyOwnershipController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
+
+      val regDetails = cachingConnector.getExistingRegistrationDetails
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+
       Future.successful(Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm,
         submitUrl,
-        cancelUrl)))
+        cancelUrl,
+        deceasedName)))
     }
   }
 
   def onEditPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
 
-      val registrationData = cachingConnector.getExistingRegistrationDetails
+      val regDetails = cachingConnector.getExistingRegistrationDetails
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
       for {
         applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-          registrationData.acknowledgmentReference)
+          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+          regDetails.acknowledgmentReference)
       } yield {
         applicationDetails match {
           case Some(applicationDetails) => {
@@ -79,7 +85,8 @@ trait PropertyOwnershipController extends EstateController {
             } {
               (matchedProperty) => Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm.fill(matchedProperty),
                 editSubmitUrl(id),
-                editCancelUrl(id)))
+                editCancelUrl(id),
+                deceasedName))
             }
           }
           case _ => {
@@ -115,13 +122,17 @@ trait PropertyOwnershipController extends EstateController {
                        cancelUrl: Call,
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
+    val regDetails = cachingConnector.getExistingRegistrationDetails
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+
     val boundForm = typeOfOwnershipForm.bindFromRequest
     boundForm.fold(
       formWithErrors => {
         LogHelper.logFormError(formWithErrors)
         Future.successful(BadRequest(iht.views.html.application.asset.properties.property_ownership(formWithErrors,
           submitUrl,
-          cancelUrl)))
+          cancelUrl,
+          deceasedName)))
       },
       property => {
         processSubmit(CommonHelper.getNino(user), property, propertyId)

@@ -19,24 +19,29 @@
 
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
-@import iht.utils.CommonHelper._
+@import iht.utils.CommonHelper
 
 @(trustsOwnedQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.assets.trusts.isOwned.browserTitle")),
 isFullWidth=false){
     @ihtHelpers.error_summary(trustsOwnedQuestionForm)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-            <p class="lede" id="trusts-question-description1">@Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust")</p>
-      <p id="trusts-question-description2">@Messages("iht.estateReport.assets.trusts.needInclusion")</p>
-      <p id="trusts-question-description3">@Messages("iht.estateReport.assets.heldInTrust.needInclusion")</p>
+      <p class="lede" id="trusts-question-description1">@Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",
+                                                                   CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+      <p id="trusts-question-description2">@Messages("iht.estateReport.assets.trusts.needInclusion",
+                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+      <p id="trusts-question-description3">@Messages("iht.estateReport.assets.heldInTrust.needInclusion",
+                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
 
-            @ihtHelpers.inputYesNoRadioGroup(
+            @ihtHelpers.input_yes_no_radio_group(
             trustsOwnedQuestionForm("isOwned"),
-            '_legend -> Html(Messages("iht.estateReport.assets.trusts.question")),
+            '_legend -> Html(Messages("iht.estateReport.assets.trusts.question",
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
             '_shownElementNo -> Some("mortgage-guidance-panel"),
             '_hiddenElementYes -> Some("mortgage-guidance-panel"),
       '_divClass -> Some("form-group"))

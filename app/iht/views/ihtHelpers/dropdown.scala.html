@@ -27,15 +27,27 @@
 
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 @labelHighlight = @{ elements.args.get('_labelHighlight).getOrElse(false).asInstanceOf[Boolean] }
-@if(elements.hasErrors) {
-<div class="@if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}">
+
+<div class="form-group @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}">
+
+    @if(isComboBox){
+        <label for="country-code-auto-complete" hidden class="js-visible @elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
+            @if(labelHighlight){<strong>}
+            @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
+            @if(labelHighlight){</strong>}
+        </label>
+        <label for="@if( elements.args.get('_id) ) {@elements.args.get('_id)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")}" class="js-hidden @elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
+            @if(labelHighlight){<strong>}
+            @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
+            @if(labelHighlight){</strong>}
+        </label>
+    } else {
+        <label for="@if( elements.args.get('_id) ) {@elements.args.get('_id)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")}" class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
+            @if(labelHighlight){<strong>}
+            @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
+            @if(labelHighlight){</strong>}
+        </label>
     }
-    <label for="@if( elements.args.get('_id) ) {@elements.args.get('_id)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")}" class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
-
-
-    @if(labelHighlight){<strong>}
-    @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
-    @if(labelHighlight){</strong>}
 
     @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
     @if(parentElements.isDefined) {
@@ -47,7 +59,7 @@
     @elements.args.get('_hintText)
     </span>
     }
-    <select id="@elements.field.name" name="@elements.field.name" class="@if( elements.args.get('_inputClass) ){ @elements.args.get('_inputClass) } @if(isComboBox){to-combobox} " @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}>
+    <select id="@elements.field.name" name="@elements.field.name" class="@if( elements.args.get('_inputClass) ){ @elements.args.get('_inputClass) } @if(isComboBox){js-hidden}" @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}>
     @if(displayEmptyValue) {
     <option value="@elements.args.get('_emptyValue)" selected="selected">@elements.args.get('_emptyValueText)</option>
     }
@@ -59,8 +71,26 @@
             >@option._2</option>
     }
     </select>
-    </label>
 
-    @if(elements.hasErrors) {
+    @if(isComboBox){
+    <div class="suggestions-input-container js-visible" hidden>
+        <input type="text"
+               name="country-code-auto-complete"
+               id="country-code-auto-complete"
+               class="form-control form-control--block js-hmrc-auto-complete"
+               autocomplete="off"
+               spellcheck="false"
+               data-select-elem="@elements.field.name"
+               data-target-elem="@elements.field.name"
+               data-rule-suggestion="true"
+               aria-autocomplete="list"
+               aria-haspopup="true"
+               aria-controls="suggestions-list-container"
+               aria-activedescendant />
+        <i class="suggestions-clear js-suggestions-clear"></i>
+        <span role="status" aria-live="assertive" aria-relevant="additions" class="visuallyhidden js-suggestions-status-message" id="autoCompleteSuggestionStatus"></span>
+        <div class="suggestions js-suggestions" id="suggestions-list-container" aria-describedby="autoCompleteSuggestionStatus"></div>
+    </div>
+
+    }
 </div>
-}

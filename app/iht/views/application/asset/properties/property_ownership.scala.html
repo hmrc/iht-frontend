@@ -16,7 +16,8 @@
 
 @(propertyOwnership:Form[iht.models.application.assets.Property],
 submitUrl:Call,
-cancelUrl:Call
+cancelUrl:Call,
+deceasedName: String
 )(implicit request:Request[_])
 
 @import uk.gov.hmrc.play.views.html._
@@ -24,7 +25,7 @@ cancelUrl:Call
 @import iht.utils._
 @import iht.constants.FieldMappings
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.howOwnedByDeceased"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName),
 browserTitle = Some(Messages("page.iht.application.assets.property.ownership.browserTitle")),
 cancelUrl=Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))) {
@@ -40,7 +41,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
-@ihtHelpers.inputRadioGroupWithHints(
+@ihtHelpers.input_radio_group_with_hints(
 propertyOwnership("typeOfOwnership"),
 FieldMappings.typesOfOwnership.toSeq,
 '_fieldsetId -> "role1",

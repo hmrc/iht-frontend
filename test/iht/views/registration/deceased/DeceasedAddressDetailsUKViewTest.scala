@@ -24,8 +24,8 @@ import play.api.mvc.Call
 
 class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitleKey = "iht.registration.deceased.lastContactAddress"
-  override def browserTitleKey = "iht.registration.contactAddress"
+  override def pageTitle = Messages("iht.registration.deceased.lastContactAddress")
+  override def browserTitle = Messages("iht.registration.contactAddress")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()

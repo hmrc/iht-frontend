@@ -16,9 +16,13 @@
 
 package iht.utils.pdf
 
-import iht.constants.IhtProperties
+import iht.constants.{Constants, IhtProperties}
+import iht.utils.CommonHelper
+import models.des.iht_return.{Asset, Exemption, IHTReturn, Liability}
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
+
+import scala.collection.immutable.{ListMap, SortedSet}
 
 /**
   * Created by vineet on 13/06/16.
@@ -47,5 +51,34 @@ object PdfFormatter {
       }
       case x => x
     }
+  }
+
+  def updateETMPOptionSet[B](optionSetOfB:Option[Set[B]],
+                             getExprToLookupAsOption:B=>Option[String],
+                             lookupItems:ListMap[String,String],
+                             applyLookedUpItemToB:(B,String)=>B):Option[Set[B]] =
+    optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
+        lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
+
+  def transform(ihtReturn:IHTReturn): IHTReturn = {
+    val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
+      _.assetCode,
+      Constants.ETMPAssetCodesToIHTMessageKeys,
+      (asset, newDescription) => asset.copy(assetDescription = Option(Messages(newDescription)))
+    )
+
+    val optionSetExemption = updateETMPOptionSet[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
+      _.exemptionType,
+      Constants.ETMPExemptionTypesToIHTMessageKeys,
+      (exemption, newDescription) => exemption.copy(exemptionType = Option(Messages(newDescription)))
+    )
+
+    val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (
+      estateAssets = optionSetAsset,
+      estateExemptions = optionSetExemption
+      )
+    )
+
+    ihtReturn copy (freeEstate = optionFreeEstate)
   }
 }

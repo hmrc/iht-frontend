@@ -34,7 +34,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerValueController.onSubmit, 'autoComplete -> "off") {
 
-        @ihtHelpers.inputWithHelp(partnerValueForm("totalAssets"),
+        @ihtHelpers.input_with_help(partnerValueForm("totalAssets"),
             '_currency -> "GBP",
             '_divClass -> "form-group",
             '_label -> Html(Messages("page.iht.application.exemptions.partner.totalAssets.label")),

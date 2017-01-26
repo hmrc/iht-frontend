@@ -24,13 +24,14 @@
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.insurance.policies.section4.title"),
+@iht_main_template_application(title = Messages("page.iht.application.insurance.policies.section4.title",
+                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
 browserTitle = Some(Messages("page.iht.application.insurance.policies.section4.browserTitle")),
 isFullWidth=false){
     @ihtHelpers.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsInTrustController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
             insurancePolicyForm("isInTrust"),
             '_divClass -> Some("-change form-group"),
             '_legend -> Html(Messages("page.iht.application.insurance.policies.section4.title")),

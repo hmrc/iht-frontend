@@ -26,9 +26,12 @@ import play.api.i18n.Messages
 
 class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour{
 
-    override def pageTitle = "iht.estateReport.assets.insurancePolicies.payingOutToDeceased"
-    override def browserTitle = "page.iht.application.insurance.policies.section1.browserTitle"
-    override def questionTitle = Messages(Messages("iht.estateReport.insurancePolicies.ownName.question"))
+    lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+    lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+    override def pageTitle = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
+    override def browserTitle = Messages("page.iht.application.insurance.policies.section1.browserTitle")
+    override def questionTitle = Messages(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
     override def valueQuestion = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
     override def hasValueQuestionHelp = false
     override def valueQuestionHelp = ""
@@ -41,7 +44,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
       "show the correct guidance" in {
         val f = fixture()
         messagesShouldBePresent(f.view,
-          "page.iht.application.insurance.policies.section1.guidance")
+          Messages("page.iht.application.insurance.policies.section1.guidance", deceasedName, deceasedName))
       }
 
       "show the value question in bold " in {
@@ -54,7 +57,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
 
     override def fixture() = new {
       implicit val request = createFakeRequest()
-      val view = insurance_policy_details_deceased_own(insurancePolicyForm, CommonBuilder.buildRegistrationDetails).toString
+      val view = insurance_policy_details_deceased_own(insurancePolicyDeceasedOwnQuestionForm, regDetails).toString
       val doc = asDocument(view)
     }
 

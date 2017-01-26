@@ -33,9 +33,7 @@
                    browserTitle = Some(Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")),
                    isFullWidth = false,
                    cancelUrl = cancelLocation,
-                   hasTimeOut = true,
-                   jsFile=Some("iht-autocomplete.min.js"),
-                   cssFile=Some("iht-autocomplete.css")) {
+                   hasTimeOut = true) {
 
 @ihtHelpers.error_summary(othersApplyingForProbateAddressForm)
 
@@ -49,25 +47,25 @@
         <p class="lede" id="other-persons-address-guidance">@Messages("page.iht.registration.others-applying-for-probate-address.address.guidance")</p>
 
     <div id="ukAddress_ukAddressLine1-container" class="form-group">
-      @ihtHelpers.inputWithHelp(othersApplyingForProbateAddressForm("ukAddressLine1"),
+      @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine1"),
         '_inputClass -> "form-control ",
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.address.line1")))
         </div>
     <div id="ukAddress_ukAddressLine2-container" class="form-group">
-      @ihtHelpers.inputWithHelp(othersApplyingForProbateAddressForm("ukAddressLine2"),
+      @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine2"),
         '_inputClass -> "form-control ",
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.address.line2")))
     </div>
     <div id="ukAddress_ukAddressLine3-container" class="form-group">
-      @ihtHelpers.inputWithHelp(othersApplyingForProbateAddressForm("ukAddressLine3"),
+      @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine3"),
         '_inputClass -> "form-control ",
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.address.line3")))
     </div>
     <div id="ukAddress_ukAddressLine4-container" class="form-group">
-      @ihtHelpers.inputWithHelp(othersApplyingForProbateAddressForm("ukAddressLine4"),
+      @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine4"),
         '_inputClass -> "form-control ", '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.address.line4")))
     </div>
@@ -79,7 +77,6 @@
         internationalCountries,
         true,
         true,
-        '_divClass -> "form-group  ",
         '_inputClass -> "form-control",
         '_id -> "ukAddress.countryCode",
         '_labelid -> "countryCode-container",
@@ -93,7 +90,7 @@
     <a href="@changeNationalityLocation" >@Messages("iht.registration.changeAddressToUK")</a>
     } else {
       <div id="ukAddress_postCode-container" class="form-group">
-          @ihtHelpers.inputWithHelp(othersApplyingForProbateAddressForm("postCode"),
+          @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("postCode"),
             '_divClass -> "form-group",
             '_inputClass -> "form-control form-control-1-4",
             '_labelTextClass -> "form-label",
