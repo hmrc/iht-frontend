@@ -31,7 +31,7 @@ object InsurancePolicyDetailsPayingOtherController extends InsurancePolicyDetail
 trait InsurancePolicyDetailsPayingOtherController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyPayingOther, insurance_policy_details_paying_other.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyPayingOtherForm, insurance_policy_details_paying_other.apply,
         _.allAssets.flatMap(_.insurancePolicy))
   }
 
@@ -62,7 +62,7 @@ trait InsurancePolicyDetailsPayingOtherController extends EstateController {
       }
 
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyPayingOther,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyPayingOtherForm,
         insurance_policy_details_paying_other.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
           .fold(insurancePoliciesRedirectLocation)(isInsurancePremiumsPayedForSomeoneElse=>

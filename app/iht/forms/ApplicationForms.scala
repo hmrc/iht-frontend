@@ -184,19 +184,6 @@ object ApplicationForms {
     )
   )
 
-  val insurancePolicyMapping =  mapping(
-    "isAnnuitiesBought" -> optional(boolean),
-    "isInsurancePremiumsPayedForSomeoneElse" -> optional(boolean),
-    "value" -> OptionalCurrency(),
-    "shareValue" -> OptionalCurrency(),
-    "policyInDeceasedName" -> optional(boolean),
-    "isJointlyOwned" -> optional(boolean),
-    "isInTrust" -> optional(boolean),
-    "coveredByExemption" -> optional(boolean),
-    "sevenYearsBefore" -> optional(boolean),
-    "moreThanMaxValue" -> optional(boolean)
-  )(InsurancePolicy.apply)(InsurancePolicy.unapply)
-
   val insurancePolicyDeceasedOwnQuestionForm = Form(
     mapping(
       "value" -> OptionalCurrency(),
@@ -219,7 +206,7 @@ object ApplicationForms {
     )
   )
 
-  val insurancePolicyPayingOther = Form(
+  val insurancePolicyPayingOtherForm = Form(
     mapping(
       "isInsurancePremiumsPayedForSomeoneElse" -> yesNoQuestion("error.assets.insurancePolicy.payedToSomeoneElse.select")
     )(
@@ -230,7 +217,7 @@ object ApplicationForms {
     )
   )
 
-  val insurancePolicyMoreThanMax = Form(
+  val insurancePolicyMoreThanMaxForm = Form(
     mapping(
       "moreThanMaxValue" -> yesNoQuestion("error.assets.insurancePolicy.moreThanMaxValue.select")
     )(
@@ -241,7 +228,7 @@ object ApplicationForms {
     )
   )
 
-  val insurancePolicyAnnuity = Form(
+  val insurancePolicyAnnuityForm = Form(
     mapping(
       "isAnnuitiesBought" -> yesNoQuestion("error.assets.insurancePolicy.isAnnuitiesBought.select")
     )(
@@ -252,7 +239,7 @@ object ApplicationForms {
     )
   )
 
-  val insurancePolicyInTrust = Form(
+  val insurancePolicyInTrustForm = Form(
     mapping(
       "isInTrust" -> yesNoQuestion("error.assets.insurancePolicy.isInTrust.select")
     )(

@@ -34,7 +34,7 @@ trait InsurancePolicyDetailsMoreThanMaxValueController extends EstateController 
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyMoreThanMax, insurance_policy_details_more_than_max_value.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyMoreThanMaxForm, insurance_policy_details_more_than_max_value.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -51,7 +51,7 @@ trait InsurancePolicyDetailsMoreThanMaxValueController extends EstateController 
           (updatedAD, None)
         }
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyMoreThanMax,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyMoreThanMaxForm,
         insurance_policy_details_more_than_max_value.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.moreThanMaxValue)
           .fold(insurancePoliciesRedirectLocation)(_=>
