@@ -362,16 +362,16 @@ object ApplicationKickOutHelper {
     */
   lazy val nextSteps2 = ListMap(
     /* Assets */
-    TrustsMoreThanOne -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    ForeignAssetsValueMoreThanMax -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    TrustValueMoreThanMax -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    AnnuitiesOnInsurance -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    PensionDisposedLastTwoYears -> Messages("iht.ifYouWantToChangeYOurAnswer"),
+    TrustsMoreThanOne -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    ForeignAssetsValueMoreThanMax -> Messages("iht.ifYouWantToChangeValue"),
+    TrustValueMoreThanMax -> Messages("iht.ifYouWantToChangeValue"),
+    AnnuitiesOnInsurance -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    PensionDisposedLastTwoYears -> Messages("iht.ifYouWantToChangeYourAnswer"),
     PensionsValueMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
-    InTrustLessThanSevenYears -> Messages("iht.ifYouWantToChangeYOurAnswer"),
+    InTrustLessThanSevenYears -> Messages("iht.ifYouWantToChangeYourAnswer"),
     SingleSectionMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsTotalValueMoreThanMax -> Messages("iht.estateReport.kickout.returnToEstateOverview"),
-    InsuranceMoreThanMax -> Messages("iht.ifYouWantToChangeYOurAnswer"),
+    InsuranceMoreThanMax -> Messages("iht.ifYouWantToChangeValue"),
     AssetsMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsDeceasedMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsMoneyJointlyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
@@ -381,12 +381,12 @@ object ApplicationKickOutHelper {
     AssetsVehiclesJointlyOwned -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
 
     /* Exemptions */
-    PartnerHomeInUK -> Messages("iht.ifYouWantToChangeYOurAnswer"),
+    PartnerHomeInUK -> Messages("iht.ifYouWantToChangeYourAnswer"),
 
     /* Gifts */
-    GiftsWithReservationOfBenefit -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    GiftsGivenInPast -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    GiftsToTrust -> Messages("iht.ifYouWantToChangeYOurAnswer"),
+    GiftsWithReservationOfBenefit -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    GiftsGivenInPast -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    GiftsToTrust -> Messages("iht.ifYouWantToChangeYourAnswer"),
     GiftsMaxValue -> Messages("page.iht.application.gifts.kickout.maxValue.nextSteps2"),
 
     /* Pre-pre TNRB Eligibility */
@@ -400,13 +400,13 @@ object ApplicationKickOutHelper {
     PartnerDiedBeforeMinDateOpc -> Messages("page.iht.application.tnrb.kickout.partnerDiedBeforeMinDateOPC.nextSteps2"),
 
     /* TNRB Eligibility */
-    PartnerNotLivingInUk -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    GiftMadeBeforeDeath -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    StateClaimAnyBusiness -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    PartnerGiftWithResToOther -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    PartnerBenFromTrust -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    EstateBelowIhtThresholdApplied -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    JointAssetPassed -> Messages("iht.ifYouWantToChangeYOurAnswer"),
+    PartnerNotLivingInUk -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    GiftMadeBeforeDeath -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    StateClaimAnyBusiness -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    PartnerGiftWithResToOther -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    PartnerBenFromTrust -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    EstateBelowIhtThresholdApplied -> Messages("iht.ifYouWantToChangeYourAnswer"),
+    JointAssetPassed -> Messages("iht.ifYouWantToChangeYourAnswer"),
 
     /*Backend */
     AssetsTotalValueMoreThanThresholdAfterExemption -> Messages("iht.estateReport.kickout.returnToEstateOverview")
