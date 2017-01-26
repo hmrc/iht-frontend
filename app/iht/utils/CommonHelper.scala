@@ -188,7 +188,7 @@ object CommonHelper {
   def getOrException[A](option: Option[A], errorMessage:String = "No element found"):A =
     option.fold(throw new RuntimeException(errorMessage))(identity)
 
-  def getOrBigDecimalZero(option: Option[BigDecimal]): BigDecimal = option.fold(BigDecimal(0))(identity)
+  def getOrZero(option: Option[BigDecimal]): BigDecimal = option.fold(BigDecimal(0))(identity)
 
   def getOrExceptionNoIHTRef(option: Option[String]):String = getOrException(option, "No IHT Reference")
 
@@ -255,7 +255,8 @@ object CommonHelper {
     )
   }
 
-  def getOrZero(optionBigDecimal:Option[BigDecimal]) = optionBigDecimal.fold(BigDecimal(0))(identity)
+  def getOrMinus1(value:Option[BigDecimal]):BigDecimal = value.fold(BigDecimal(-1))(identity)
+
 
   def isSectionComplete[T](inputSection: Seq[Option[T]]) = inputSection.forall(_.isDefined)
 

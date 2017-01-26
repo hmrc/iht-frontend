@@ -1272,6 +1272,7 @@ iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to 
 iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the London Stock Exchange
 iht.estateReport.gifts.valueOfGiftsGivenAway = Value of gifts given away in the 7 years before death
 iht.estateReport.gifts.withReservation.title = Gifts with reservation of benefit
+iht.estateReport.gifts.totalOverSevenYears = Total over 7 years
 
 #Estate report - Debts
 page.iht.application.debts.subtitle1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate.
