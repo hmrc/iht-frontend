@@ -64,10 +64,6 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
       createMockToGetProbateDetailsFromCache(mockCachingConnector)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Option(registrationDetails))
 
-      //    createMockToGetSingleValueFromCache(
-      //      cachingConnector = mockCachingConnector,
-      //      singleValueFormKey = same(Constants.PDFIHTReference),
-      //      singleValueReturn = CommonBuilder.DefaultIHTReference)
       createMockToStoreSingleValueInCache(
         cachingConnector = mockCachingConnector,
         singleValueFormKey = same(Constants.PDFIHTReference),
@@ -75,6 +71,6 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
 
       val result = declarationReceivedController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-    }    
+    }
   }
 }

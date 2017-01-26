@@ -23,7 +23,6 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.CommonHelper
 import org.mockito.Matchers.same
 import play.api.i18n.Messages
 import play.api.mvc.Request
@@ -39,7 +38,7 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = createFakeAuthConnector()
     override val isWhiteListEnabled = false
   }
 
