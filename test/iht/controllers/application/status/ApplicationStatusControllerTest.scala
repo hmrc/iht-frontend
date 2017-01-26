@@ -17,11 +17,14 @@
 package iht.controllers.application.status
 
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.CommonHelper
+import org.mockito.Matchers.same
 import play.api.i18n.Messages
 import play.api.mvc.Request
 import play.api.test.Helpers._
@@ -47,6 +50,10 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
     createMockToGetApplicationDetails(mockIhtConnector, Some(ad))
     createMockToGetProbateDetails(mockIhtConnector)
     createMockToGetProbateDetailsFromCache(mockCachingConnector)
+    createMockToStoreSingleValueInCache(
+          cachingConnector = mockCachingConnector,
+          singleValueFormKey = same(Constants.PDFIHTReference),
+          singleValueReturn = CommonBuilder.DefaultIHTReference)
   }
 
   "ApplicationStatusController" must {
