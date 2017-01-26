@@ -37,15 +37,17 @@ trait DeclarationReceivedController extends ApplicationController {
   def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val rd = cachingConnector.getExistingRegistrationDetails
-      val ihtReference = CommonHelper.getOrException(rd.ihtReference)
-      val probateDetails: Option[ProbateDetails] = Await.result(cachingConnector.getProbateDetails, Duration.Inf)
-
-      cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
-        Future.successful(Ok(iht.views.html.application.declaration.declaration_received(probateDetails,
-          rd)))
+    implicit user =>
+      implicit request => {
+        cachingConnector.getRegistrationDetails.flatMap { optionRD =>
+          val rd = CommonHelper.getOrExceptionNoRegistration(optionRD)
+          val ihtReference = CommonHelper.getOrException(rd.ihtReference)
+          cachingConnector.getProbateDetails.flatMap { optionProbateDetails =>
+            cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
+              Future.successful(Ok(iht.views.html.application.declaration.declaration_received(optionProbateDetails, rd)))
+            }
+          }
+        }
       }
-    }
   }
 }
