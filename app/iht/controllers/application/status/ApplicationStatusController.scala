@@ -50,6 +50,11 @@ trait ApplicationStatusController extends EstateController {
           ihtReference <- caseDetails.ihtReference
           deceasedDetails <- caseDetails.deceasedDetails
         } yield
+        /*
+          cachingConnector.storeSingleValue("aa", ihtReference).map(_=>
+            Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request))))
+         */
+
           Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request)))
           .fold(throw new RuntimeException("Required information not available"))(identity)
       }
