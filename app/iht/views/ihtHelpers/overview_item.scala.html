@@ -30,13 +30,13 @@
     <div id="@model.id-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-center">
         @model.completionStatus match{
             case NotStarted => {
-                    <span class="progress-status progress-status--not-started">@Messages("iht.notStarted")</span>
+                    <span class="progress-status progress-status--not-started"><span aria-hidden="true">@Messages("iht.notStarted")</span><span class="visually-hidden">@Messages("iht.notStarted.screenreader", model.label)</span></span>
                  }
             case PartiallyComplete => {
-                    <span class="progress-status progress-status--incomplete">@Messages("iht.inComplete")</span>
+                    <span class="progress-status progress-status--incomplete"><span aria-hidden="true">@Messages("iht.inComplete")</span><span class="visually-hidden">@Messages("iht.inComplete.screenreader", model.label)</span></span>
                 }
             case _ => {
-                    <span class="progress-status progress-status--complete">@Messages("iht.complete")</span>
+                    <span class="progress-status progress-status--complete"><span aria-hidden="true">@Messages("iht.complete")</span><span class="visually-hidden">@Messages("iht.complete.screenreader", model.label)</span></span>
                 }
         }
     </div>

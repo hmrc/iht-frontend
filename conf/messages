@@ -78,6 +78,13 @@ site.headers.overview.section = Section
 site.headers.overview.values = Information Provided
 site.headers.overview.action = Action
 
+iht.notStarted = Not started
+iht.notStarted.screenreader = {0} is not started
+iht.inComplete = Incomplete
+iht.inComplete.screenreader = {0} is incomplete
+iht.complete = Complete
+iht.complete.screenreader = {0} is complete
+
 iht.address.line1 = Address line 1
 iht.address.line2 = Address line 2
 iht.address.line3 = Address line 3 (optional)
@@ -88,9 +95,6 @@ iht.address.upperCaseInitial = Address
 iht.back = Back
 iht.change = Change
 iht.continue = Continue
-iht.notStarted = NOT STARTED
-iht.inComplete = INCOMPLETE
-iht.complete = COMPLETE
 iht.countries.englandOrWales = England or Wales
 iht.countries.northernIreland = Northern Ireland
 iht.countries.scotland = Scotland

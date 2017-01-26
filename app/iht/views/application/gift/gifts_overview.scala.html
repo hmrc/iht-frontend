@@ -37,7 +37,8 @@ returnToMessagesKey: String
     isFullWidth=false,
     relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
     messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
-    messageKeyAccessibility = "page.iht.application.gifts.guidance.whatsAGift.title")(generic_overview(registrationDetails,
+    messageKeyAccessibility = "page.iht.application.gifts.guidance.whatsAGift.title")(
+generic_overview(registrationDetails,
                                        seqRows,
                                        Messages("page.iht.application.gifts.overview.guidance1",
                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
@@ -45,4 +46,5 @@ returnToMessagesKey: String
                                        "iht.estateReport.completeEverySection",
                                        returnToCall,
                                        returnToMessagesKey,
-                                       true))
+                                       true,
+                                    showStatus = false))

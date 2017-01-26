@@ -68,9 +68,10 @@ isFullWidth = false) {
                         isComplete = isComplete,
                         screenreaderQualifyingText = getScreenReaderQualifyingText(
                             isComplete,
-                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.moreDetail"),
-                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.value"),
-                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.noValue"))
+                            Messages("iht.inComplete.screenreader", Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title")),
+                            Messages("iht.complete.screenreader", Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title")),
+                            Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
+                        )
             ),
             linkText = ihtHelpers.generic_overview_status_link(
                   isComplete = isComplete,
@@ -101,9 +102,10 @@ isFullWidth = false) {
                         isComplete = isComplete,
                             screenreaderQualifyingText = getScreenReaderQualifyingText(
                                 isComplete,
-                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.moreDetail"),
-                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.value"),
-                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.noValue"))
+                                Messages("iht.inComplete.screenreader", Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title")),
+                                Messages("iht.complete.screenreader", Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title")),
+                                Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"))
+                            )
             ),
             linkText = ihtHelpers.generic_overview_status_link(
               isComplete = isComplete,
@@ -133,9 +135,10 @@ isFullWidth = false) {
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
-                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.moreDetail"),
-                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.value"),
-                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.noValue"))
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title")),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title")),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
+                )
             ),
             linkText = ihtHelpers.generic_overview_status_link(
               isComplete = isComplete,

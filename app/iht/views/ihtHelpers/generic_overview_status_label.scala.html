@@ -6,28 +6,37 @@
 messageKeyNotStarted: String = OverviewHelper.messageNotStarted,
 messageKeyComplete: String = OverviewHelper.messageComplete,
 messageKeyInComplete: String = OverviewHelper.messageInComplete,
-screenreaderQualifyingText: String = "[placeholder copy]")
+screenreaderQualifyingText: String = "")
+
 
 @{
     isComplete match{
         case None => {
             defining(Messages(messageKeyNotStarted)) { text => {
-                <span class="progress-status progress-status--not-started">{text}</span>
+                <span class="progress-status progress-status--not-started">
+                    <span aria-hidden="true">{text}</span>
+                    <span class="visually-hidden">{screenreaderQualifyingText}</span>
+                </span>
             }
             }
         }
         case Some(false) => {
             defining(Messages(messageKeyInComplete)) { text => {
-                <span class="progress-status progress-status--incomplete">{text}</span>
+                <span class="progress-status progress-status--incomplete">
+                    <span aria-hidden="true">{text}</span>
+                    <span class="visually-hidden">{screenreaderQualifyingText}</span>
+                </span>
             }
             }
         }
         case _ => {
             defining(Messages(messageKeyComplete)) { text => {
-                <span class="progress-status progress-status--complete">{text}</span>
+                <span class="progress-status progress-status--complete">
+                    <span aria-hidden="true">{text}</span>
+                    <span class="visually-hidden">{screenreaderQualifyingText}</span>
+                </span>
             }
             }
         }
     }
 }
-<!--<span class="visually-hidden">@screenreaderQualifyingText</span>-->

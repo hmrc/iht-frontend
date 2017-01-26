@@ -72,7 +72,7 @@ class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
       val doc = asDocument(view)
       assertRenderedById(doc, s"$id-status")
-      assertEqualsValue(doc, s"div#$id-status span", "COMPLETE")
+      assertEqualsValue(doc, s"div#$id-status span span:first-child", "Complete")
     }
 
   }
