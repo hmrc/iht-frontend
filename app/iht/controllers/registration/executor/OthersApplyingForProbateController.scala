@@ -39,8 +39,11 @@ trait OthersApplyingForProbateController extends RegistrationController {
   def metrics: Metrics
 
   private def submitRoute(arrivedFromOverview: Boolean) =
-    if (arrivedFromOverview) routes.OthersApplyingForProbateController.onSubmitFromOverview
-    else routes.OthersApplyingForProbateController.onSubmit
+    if (arrivedFromOverview) {
+      routes.OthersApplyingForProbateController.onSubmitFromOverview
+    } else {
+      routes.OthersApplyingForProbateController.onSubmit
+    }
 
   def onPageLoad() = pageLoad(false)
 

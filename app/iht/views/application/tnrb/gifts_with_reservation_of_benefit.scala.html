@@ -33,7 +33,7 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
         partnerGiftWithResToOtherForm("isPartnerGiftWithResToOther"),
         '_hintText -> Html(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
                                 spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")),

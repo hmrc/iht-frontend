@@ -55,8 +55,7 @@ trait OwedOutsideUKDebtsController extends EstateController {
       debtsOutsideUkForm,
       owed_outside_uk.apply,
       updateApplicationDetails,
-      debtsRedirectLocation,
-      Some(createValidationFunction("isOwned", _.isDefined, "error.debts.debtsOutsideUk.select")))
+      debtsRedirectLocation)
     }
   }
 }

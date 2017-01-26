@@ -70,11 +70,8 @@ object DeclarationSectionViewModel {
     } && isTrnrbFlowCompleted(appDetails)
   }
 
-  private def isTrnrbFlowCompleted(appDetails: ApplicationDetails) = {
-    appDetails.widowCheck.fold(true) {
-      widowModel => widowModel.widowed.fold(false)(x => !x) || appDetails.isSuccessfulTnrbCase
-    }
-  }
+  private def isTrnrbFlowCompleted(appDetails: ApplicationDetails) =
+    appDetails.widowCheck.fold(true) (_.widowed.fold(false)(x => !x) || appDetails.isSuccessfulTnrbCase)
 
   /**
     * Returns the DeclarationStatus  - Declarable/NotDeclarable

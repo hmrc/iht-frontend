@@ -320,55 +320,43 @@ object IhtConnector extends IhtConnector with ServicesConfig {
   override def getProbateDetails(nino: String, ihtReference: String, ihtReturnId: String)(implicit headerCarrier: HeaderCarrier):
   Future[Option[ProbateDetails]] = {
     Logger.info("Getting Probate Details")
-
-    http.GET(s"$serviceUrl/iht/$nino/application/probateDetails/$ihtReference/$ihtReturnId") map {
-
-      response=> response.status match {
-        case OK => {
+    http.GET(s"$serviceUrl/iht/$nino/application/probateDetails/$ihtReference/$ihtReturnId") map {response=>response.status match {
+        case OK =>
           Logger.info("Returned Probate Details")
           val js: JsValue = Json.parse(response.body)
           Json.fromJson[ProbateDetails](js) match {
             case JsError(e) => {
               Logger.warn("JSON parse error. Although returned - Failure to create Probate Details")
               throw new RuntimeException("JSON parse error. Although returned - Failure to create Probate Details")
-
             }
             case x => {
               Logger.info("Correctly returned for Probate Details")
               Some(x.get)
             }
           }
-        }
-        case (_) => {
+        case (_) =>
           Logger.warn("Problem retrieving Probate Details")
           throw new RuntimeException("Problem retrieving Probate Details")
-        }
       }
     } recoverWith {
-      case e: GatewayTimeoutException => {
+      case e: GatewayTimeoutException =>
         Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
         Future.failed(new GatewayTimeoutException(e.message))
-      }
-      case e: BadRequestException => {
+      case e: BadRequestException =>
         Logger.warn("BadRequest Response Returned ::: " + e.getMessage)
         Future.failed(new BadRequestException(e.message))
-      }
-      case e: Upstream4xxResponse => {
+      case e: Upstream4xxResponse =>
         Logger.warn(" Upstream4xxResponse Returned ::: " + e.getMessage)
         Future.failed(new Upstream4xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      }
-      case e: Upstream5xxResponse => {
+      case e: Upstream5xxResponse =>
         Logger.warn("Upstream5xxResponse Returned ::: " + e.getMessage)
         Future.failed(new Upstream5xxResponse(e.message, e.upstreamResponseCode, e.reportAs))
-      }
-      case e: NotFoundException => {
+      case e: NotFoundException =>
         Logger.warn("Upstream4xxResponse Returned ::: " + e.getMessage)
         Future.failed(new Upstream4xxResponse(e.message, ControllerHelper.notFoundExceptionCode, ControllerHelper.notFoundExceptionCode))
-      }
-      case e: Exception => {
+      case e: Exception =>
         Logger.warn("Exception Returned ::: " + e.getMessage)
         Future.failed(new Exception(e.getMessage))
-      }
     }
   }
 

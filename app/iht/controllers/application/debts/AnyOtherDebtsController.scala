@@ -57,8 +57,7 @@ trait AnyOtherDebtsController extends EstateController {
       anyOtherDebtsForm,
       any_other_debts.apply,
       updateApplicationDetails,
-      debtsRedirectLocation,
-      Some(createValidationFunction("isOwned", _.isDefined, "error.debts.anyOther.select")))
+      debtsRedirectLocation)
     }
   }
 }

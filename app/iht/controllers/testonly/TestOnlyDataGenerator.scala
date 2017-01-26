@@ -85,7 +85,9 @@ object TestOnlyDataGenerator {
     moneyOwed = Some(buildBasicElement),
     other = Some(BasicEstateElement(
       isOwned = Some(true),
+      // scalastyle:off magic.number
       value= Some(BigDecimal(1000))
+      // scalastyle:on magic.number
     )),
     properties = Some(buildProperties)
   )

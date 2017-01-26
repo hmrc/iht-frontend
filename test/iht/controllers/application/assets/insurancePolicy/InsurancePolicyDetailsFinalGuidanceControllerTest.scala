@@ -83,9 +83,6 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         getAppDetailsFromCache = true,
         saveAppDetails = true,
         storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true,
-        getAppDetailsTempFromCacheObject = None,
         getSingleValueFromCache = true)
 
       val result = insurancePolicyDetailsFinalGuidanceController.onPageLoad()(createFakeRequest())
@@ -107,10 +104,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true,
-        getAppDetailsTempFromCacheObject = None)
+        storeAppDetailsInCache = true)
 
       val initialGiftsQuestionAnswerOption = None
       val seenGiftsGuidance = false
@@ -128,10 +122,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true,
-        getAppDetailsTempFromCacheObject = None)
+        storeAppDetailsInCache = true)
 
       val initialGiftsQuestionAnswerOption = None
       val seenGiftsGuidance = true
@@ -149,10 +140,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true,
-        getAppDetailsTempFromCacheObject = None)
+        storeAppDetailsInCache = true)
 
       val initialGiftsQuestionAnswerOption = Some(false)
       val seenGiftsGuidance = true
@@ -170,10 +158,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         getAppDetails = true,
         getAppDetailsFromCache = true,
         saveAppDetails = true,
-        storeAppDetailsInCache = true,
-        storeAppDetailsTempInCache = true,
-        getAppDetailsTempFromCache = true,
-        getAppDetailsTempFromCacheObject = None)
+        storeAppDetailsInCache = true)
 
       val initialGiftsQuestionAnswerOption = Some(true)
       val seenGiftsGuidance = true

@@ -52,8 +52,7 @@ class IncreasingAnnualLimitControllerTest extends ApplicationControllerTest {
       appDetails = Some(applicationDetails),
       getAppDetails = true,
       saveAppDetails = true,
-      storeAppDetailsInCache = true,
-      getAppDetailsTempFromCache = true)
+      storeAppDetailsInCache = true)
 
     createMockToGetSingleValueFromCache(mockCachingConnector,
       singleValueFormKey = same(TestHelper.lastQuestionUrl),

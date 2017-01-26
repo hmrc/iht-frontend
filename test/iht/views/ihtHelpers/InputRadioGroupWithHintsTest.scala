@@ -18,7 +18,7 @@ package iht.views.ihtHelpers
 
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers.inputRadioGroupWithHints
+import iht.views.html.ihtHelpers.input_radio_group_with_hints
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.play.test.UnitSpec
@@ -37,7 +37,7 @@ class InputRadioGroupWithHintsTest extends UnitSpec with FakeIhtApp with HtmlSpe
       val radio2 = ("test", ("testing", Some("testing"), Some(false))) // should contain a blank data-target attr
       val radios = Seq(radio, radio, radio2)
 
-      val result = inputRadioGroupWithHints(field, radios, '_ariaHintID -> "testID2")
+      val result = input_radio_group_with_hints(field, radios, '_ariaHintID -> "testID2")
       val doc = asDocument(result)
       val label = doc.getElementsByTag("label").first
       val label2 = doc.getElementsByTag("label").last()

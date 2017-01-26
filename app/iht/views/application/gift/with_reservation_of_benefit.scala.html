@@ -33,7 +33,7 @@ messageKeyAccessibility = "iht.estateReport.gifts.withReservation.title"){
 
     @helpers.form(action = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.inputYesNoRadioGroup(
+        @ihtHelpers.input_yes_no_radio_group(
         giftWithReservationFromBenefitForm("reservation.isReservation"),
         '_legend -> Html(Messages("iht.estateReport.gifts.reservation.question", getDeceasedNameOrDefaultString(registrationDetails))),
         '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()),

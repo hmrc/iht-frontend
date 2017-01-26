@@ -42,14 +42,13 @@ object CachingConnector extends CachingConnector
 
 trait CachingConnector {
 
-  val registrationDetailsFormKey = "registrationDetails"
-  val applicationDetailsFormKey = "applicationDetails"
-  val kickoutDetailsKey = "kickoutDetails"
-  val allAssetsKey = "allAssets"
-  val allLiabilitiesKey = "allLiabilities"
-  val propertyListKey = "propertyList"
-  val applicationDetailsTempFormKey = "applicationDetailsTemp"
-  val probateDetailsKey = "probateDetails"
+  private val registrationDetailsFormKey = "registrationDetails"
+  private val applicationDetailsFormKey = "applicationDetails"
+  private val kickoutDetailsKey = "kickoutDetails"
+  private val allAssetsKey = "allAssets"
+  private val allLiabilitiesKey = "allLiabilities"
+  private val propertyListKey = "propertyList"
+  private val probateDetailsKey = "probateDetails"
 
   def getExistingRegistrationDetails(implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): RegistrationDetails = {
     CommonHelper.getOrExceptionNoRegistration(Await.result(getRegistrationDetails, Duration.Inf))
@@ -71,14 +70,8 @@ trait CachingConnector {
       case `registrationDetailsFormKey` => {
         storeRegistrationDetails(Json.fromJson[RegistrationDetails](data).get)
       }
-      case `applicationDetailsFormKey` => {
-        storeApplicationDetailsTemp(Json.fromJson[ApplicationDetails](data).get)
-      }
       case `kickoutDetailsKey` => {
         storeKickoutDetails(Json.fromJson[KickoutDetails](data).get)
-      }
-      case `applicationDetailsTempFormKey` => {
-        storeApplicationDetailsTemp(Json.fromJson[ApplicationDetails](data).get)
       }
       case _ => {
         storeSingleValue(key, Json.fromJson[String](data).get)
@@ -101,19 +94,6 @@ trait CachingConnector {
 
   def getApplicationDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] = {
     getChangeData[ApplicationDetails](applicationDetailsFormKey)
-  }
-
-  def storeApplicationDetailsTemp(data: ApplicationDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] = {
-    storeChangeData[ApplicationDetails](applicationDetailsTempFormKey, data)
-  }
-
-  def getApplicationDetailsTemp()(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] = {
-    getChangeData[ApplicationDetails](applicationDetailsTempFormKey)
-  }
-
-  def clearApplicationDetailsTemp(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] = {
-    storeChangeData[Option[ApplicationDetails]](applicationDetailsTempFormKey, None)
-    Future.successful(Some(ApplicationDetails()))
   }
 
   def storeSingleValue(formKey: String, data: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[String]] = {

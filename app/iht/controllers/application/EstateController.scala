@@ -148,23 +148,6 @@ trait EstateController extends ApplicationController {
   }
 
   /**
-   * Creates a function which applies the logic passed in and generates a FormError object if
-   * the logic fails.
-   */
-  def createValidationFunction[A](fieldName: String,
-                                  isValid: Option[String]=>Boolean,
-                                  errorMessage: String = "error.selectAnswer"): Form[A]=>Option[FormError] = {
-    (form) => {
-      val field = form.apply(fieldName)
-      if (isValid(field.value)) {
-        None
-      } else {
-        Some(FormError( field.id, errorMessage))
-      }
-    }
-  }
-
-  /**
     * id: Is being used in case of properties, charities and qualifying bodies. Can be kept as _ where you don't need it.
     */
   def estateElementOnSubmit[A](form: Form[A],

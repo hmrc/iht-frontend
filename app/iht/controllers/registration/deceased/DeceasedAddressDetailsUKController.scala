@@ -62,8 +62,11 @@ trait DeceasedAddressDetailsUKController extends RegistrationDeceasedControllerW
   override def fillForm(rd: RegistrationDetails) = {
     val dd = CommonHelper.getOrException(rd.deceasedDetails)
 
-    if (CommonHelper.getOrException(dd.isAddressInUK)) deceasedAddressDetailsUKForm.fill(dd)
-    else deceasedAddressDetailsUKForm
+    if (CommonHelper.getOrException(dd.isAddressInUK)) {
+      deceasedAddressDetailsUKForm.fill(dd)
+    } else {
+      deceasedAddressDetailsUKForm
+    }
   }
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, dd: DeceasedDetails, mode: Mode.Value) = {

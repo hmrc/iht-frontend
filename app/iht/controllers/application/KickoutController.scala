@@ -132,7 +132,11 @@ trait KickoutController extends ApplicationController{
   }
 
   def onPageLoadDeleting = authorisedForIht {
-    implicit user => implicit request =>
-      Future.successful(Ok(iht.views.html.application.iht_kickout_final_application(request)))
+    implicit user => implicit request => {
+      withApplicationDetails { rd => ad =>
+        lazy val ihtReference = CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)
+        Future.successful(Ok(iht.views.html.application.iht_kickout_final_application(ihtReference)))
+      }
+    }
   }
 }

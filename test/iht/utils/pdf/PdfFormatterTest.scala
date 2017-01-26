@@ -69,7 +69,7 @@ class PdfFormatterTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       "Rolled up trust assets" -> "iht.estateReport.assets.heldInATrust.title",
       "Rolled up foreign assets" -> "iht.estateReport.assets.foreign.title",
       "Rolled up money owed to deceased" -> "iht.estateReport.assets.moneyOwed",
-      "Rolled up other assets" -> "iht.estateReport.assets.other.title"
+      "Rolled up other assets" -> "page.iht.application.assets.main-section.other.title"
     )
     val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "")
     val expectedSetOfAssets = ihtReturn.freeEstate.flatMap(_.estateAssets)

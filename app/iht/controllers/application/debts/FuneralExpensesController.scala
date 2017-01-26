@@ -55,8 +55,7 @@ trait FuneralExpensesController extends EstateController {
       funeralExpensesForm,
       funeral_expenses.apply,
       updateApplicationDetails,
-      debtsRedirectLocation,
-      Some(createValidationFunction("isOwned", _.isDefined, "error.debts.funeralExpenses.select")))
+      debtsRedirectLocation)
     }
   }
 }

@@ -65,8 +65,7 @@ trait HouseholdJointlyOwnedController extends EstateController {
         householdJointlyOwnedForm,
         household_jointly_owned.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isOwnedShare", _.isDefined, "error.assets.household.jointlyOwned.select"))
+        submitUrl
       )
     }
   }
