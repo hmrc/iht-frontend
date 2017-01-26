@@ -27,5 +27,5 @@ object RegistrationQuestionnaireController extends RegistrationQuestionnaireCont
 trait RegistrationQuestionnaireController extends RegistrationController with QuestionnaireController {
   override def guardConditions: Set[Predicate] = Set.empty
   override lazy val ihtSection = IhtSection.Registration
-  def questionnaireView = (form, request) => registration_questionnaire(form)(request)
+  def questionnaireView = (form, request) => registration_questionnaire(form)(request, applicationMessages)
 }

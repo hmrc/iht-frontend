@@ -25,6 +25,8 @@ import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{Call, Result}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 /**
   * Created by vineet on 27/04/16.

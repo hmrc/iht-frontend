@@ -30,6 +30,7 @@ import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.RegistrationDetails
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
 import iht.utils.GiftsHelper._
+import iht.utils.CommonHelper._
 import play.api.i18n.Messages
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext

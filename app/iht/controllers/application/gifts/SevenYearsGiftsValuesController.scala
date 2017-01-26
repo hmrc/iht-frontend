@@ -22,7 +22,7 @@ import iht.controllers.{ControllerHelper, IhtConnectors}
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
-import iht.utils.CommonHelper._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.utils.GiftsHelper._
