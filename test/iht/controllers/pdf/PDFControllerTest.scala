@@ -36,7 +36,7 @@ class PDFControllerTest extends ApplicationControllerTest {
   val ihtRef = "1A1A1A"
 
   def pdfController = new PDFController {
-    val authConnector = createFakeAuthConnector(isAuthorised = true)
+    val authConnector = createFakeAuthConnector()
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     lazy val xmlFoToPDF = XmlFoToPDF
@@ -58,7 +58,7 @@ class PDFControllerTest extends ApplicationControllerTest {
 
   "onClearancePDF" must {
     "have correct contents for the certificate" in {
-      setUpMocks
+      setUpMocks()
       val result = pdfController.onClearancePDF(ihtRef)(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
@@ -66,7 +66,7 @@ class PDFControllerTest extends ApplicationControllerTest {
 
   "onPreSubmissionPDF" must {
     "generate correct contents" in {
-      setUpMocks
+      setUpMocks()
       val result = pdfController.onPreSubmissionPDF(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
@@ -74,7 +74,7 @@ class PDFControllerTest extends ApplicationControllerTest {
 
   "onPostSubmissionPDF" must {
     "generate correct contents" in {
-      setUpMocks
+      setUpMocks()
       val result = pdfController.onPostSubmissionPDF(ihtRef)(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }

@@ -24,6 +24,7 @@ import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper}
 import models.des.iht_return.IHTReturn
 import play.api.Logger
+import play.api.i18n.Messages
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -40,7 +41,6 @@ object PDFController extends PDFController {
 }
 
 trait PDFController extends ApplicationController with IhtActions {
-  private val pdfHeaders = ("Content-type", "application/pdf")
 
   def cachingConnector: CachingConnector
 
@@ -48,16 +48,22 @@ trait PDFController extends ApplicationController with IhtActions {
 
   def xmlFoToPDF: XmlFoToPDF
 
+  private val staticHeaders: Seq[(String, String)] = Seq(Tuple2("Content-type", "application/pdf"))
+
+  private def pdfHeaders(fileName:String):Seq[(String,String)] =
+    staticHeaders :+ Tuple2(CONTENT_DISPOSITION, s"inline; filename=$fileName")
+
   def onPreSubmissionPDF = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Summary PDF")
+      val fileName = s"${Messages("iht.inheritanceTaxEstateReport")}.pdf"
       withApplicationDetails { regDetails => applicationDetails =>
         val pdfByteArray = xmlFoToPDF.createPreSubmissionPDF(
           regDetails,
           applicationDetails,
           DeclarationHelper.getDeclarationType(applicationDetails)
         )
-        Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders))
+        Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders(fileName) : _*))
       }
     }
   }
@@ -65,6 +71,7 @@ trait PDFController extends ApplicationController with IhtActions {
   def onClearancePDF(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Clearance PDF")
+      val fileName = s"${Messages("pdf.clearanceCertificate.title")}.pdf"
       val nino = CommonHelper.getNino(user)
       ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
         getSubmittedApplicationDetails(nino,
@@ -74,7 +81,7 @@ trait PDFController extends ApplicationController with IhtActions {
             val pdfByteArray = xmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
               ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
               throw new RuntimeException("Declaration Date not available")))
-            Ok(pdfByteArray).withHeaders(pdfHeaders)
+            Ok(pdfByteArray).withHeaders(pdfHeaders(fileName) : _*)
           case _ =>
             internalServerError
         }
@@ -85,12 +92,13 @@ trait PDFController extends ApplicationController with IhtActions {
   def onPostSubmissionPDF(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
       Logger.info("Generating Application PDF")
+      val fileName = s"${Messages("iht.inheritanceTaxEstateReport")}.pdf"
       val nino = CommonHelper.getNino(user)
       ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
         getSubmittedApplicationDetails(nino, ihtReference, regDetails.updatedReturnId) map {
           case Some(ihtReturn) =>
             val pdfByteArray = xmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)
-            Ok(pdfByteArray).withHeaders(pdfHeaders)
+            Ok(pdfByteArray).withHeaders(pdfHeaders(fileName) : _*)
           case _ =>
             internalServerError
         }
