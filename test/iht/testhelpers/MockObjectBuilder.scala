@@ -96,15 +96,6 @@ object MockObjectBuilder {
   }
 
   /**
-    * Creates Mock To get Temp ApplicationDetails using CachingConnector
-    */
-  def createMockToGetTempApplicationDetailsFromCache(cachingConnector: CachingConnector,
-                                        appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails)) = {
-    when(cachingConnector.getApplicationDetailsTemp()(any(),any()))
-      .thenReturn(Future.successful(appDetails))
-  }
-
-  /**
     * Creates Mock To get ApplicationDetails using IhtConnector
     */
   def createMockToGetApplicationDetails(ihtConnector: IhtConnector,
@@ -130,16 +121,6 @@ object MockObjectBuilder {
     when(cachingConnector.storeApplicationDetails(any())(any(), any()))
       .thenReturn(Future.successful(appDetails))
     }
-
-  /**
-    * Creates Mock To store Temp ApplicationDetails using CachingConnector
-    */
-
-  def createMockToStoreTempApplicationDetailsInCache(cachingConnector: CachingConnector,
-                                           appDetails: Option[ApplicationDetails] = Some(buildApplicationDetails))  = {
-    when(cachingConnector.storeApplicationDetailsTemp(any())(any(), any()))
-      .thenReturn(Future.successful(appDetails))
-  }
 
   /**
     * Creates Mock To save ApplicationDetails using IhtConnector
@@ -328,14 +309,10 @@ object MockObjectBuilder {
                    getAppDetailsFromCacheObject: Option[ApplicationDetails]  = Some(defaultAppDetails),
                    saveAppDetailsObject: Option[ApplicationDetails] = Some(defaultAppDetails),
                    storeAppDetailsInCacheObject: Option[ApplicationDetails] = Some(defaultAppDetails),
-                   storeAppDetailsTempInCacheObject: Option[ApplicationDetails] = Some(defaultAppDetails) ,
-                   getAppDetailsTempFromCacheObject: Option[ApplicationDetails] = Some(defaultAppDetails),
                    getAppDetails: Boolean = false,
                    getAppDetailsFromCache: Boolean = false,
                    saveAppDetails: Boolean = false,
-                   getAppDetailsTempFromCache: Boolean = false,
                    storeAppDetailsInCache: Boolean = false,
-                   storeAppDetailsTempInCache: Boolean = false,
                    getSingleValueFromCache: Boolean = false) = {
 
     createMockToGetExistingRegDetailsFromCache(cachingConnector, regDetails)
@@ -351,19 +328,6 @@ object MockObjectBuilder {
 
     if (saveAppDetails) {
       createMockToSaveApplicationDetails(ihtConnector, getUpdatedAppDetailsObject(appDetails, saveAppDetailsObject))
-    }
-
-    if (getAppDetailsTempFromCache) {
-
-      createMockToGetTempApplicationDetailsFromCache(cachingConnector, getUpdatedAppDetailsObject(appDetails, getAppDetailsTempFromCacheObject))
-    }
-
-    if (storeAppDetailsInCache) {
-      createMockToStoreApplicationDetailsInCache(cachingConnector, getUpdatedAppDetailsObject(appDetails, storeAppDetailsInCacheObject))
-    }
-
-    if (storeAppDetailsTempInCache) {
-      createMockToStoreTempApplicationDetailsInCache(cachingConnector, getUpdatedAppDetailsObject(appDetails, storeAppDetailsTempInCacheObject))
     }
 
     if (getSingleValueFromCache) {

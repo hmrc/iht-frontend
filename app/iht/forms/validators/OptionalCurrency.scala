@@ -21,10 +21,11 @@ import play.api.data.{FormError, Forms}
 
 object OptionalCurrency extends Currency {
   /**
-    * @param errorLengthKey        if length > 10
-    * @param errorInvalidCharsKey  e.g. $%^GG^,  AAbc
-    * @param errorInvalidPenceKey  e.g. 6.898 or 885.50.60
-    * @param errorInvalidSpacesKey e.g. 33 45
+    * @param errorLengthKey                 if length > 10
+    * @param errorInvalidCharsKey           e.g. $%^GG^,  AAbc
+    * @param errorInvalidPenceKey           e.g. 6.898 or 885.50.60
+    * @param errorInvalidSpacesKey          e.g. 33 45
+    * @param errorInvalidCommaPositionKey   if comma in wrong place
     */
   private def optionalCurrencyFormatter(errorLengthKey: String,
                                         errorInvalidCharsKey: String,

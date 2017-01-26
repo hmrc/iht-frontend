@@ -66,8 +66,7 @@ trait VehiclesDeceasedOwnController extends EstateController {
         vehiclesFormOwn,
         vehicles_deceased_own.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.vehicles.deceasedOwned.select"))
+        submitUrl
         )
     }
   }

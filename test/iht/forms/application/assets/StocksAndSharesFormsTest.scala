@@ -30,15 +30,15 @@ class StocksAndSharesFormsTest extends FormTestHelper {
 
   "StockAndSharesListed" must {
     behave like yesNoQuestion[StockAndShare]("isListed",
-                                              stockAndShareListedForm,_.isListed,
-                                              stocksAndSharesListedErrorMsgKey)
+      stockAndShareListedForm,_.isListed,
+      stocksAndSharesListedErrorMsgKey)
     behave like currencyValue[StockAndShare]("valueListed", stockAndShareListedForm)
   }
 
   "StockAndSharesNotListed" must {
     behave like yesNoQuestion[StockAndShare]("isNotListed",
-                                              stockAndShareNotListedForm,_.isNotListed,
-                                              stocksAndSharesNotListedListedErrorMsgKey)
+      stockAndShareNotListedForm,_.isNotListed,
+      stocksAndSharesNotListedListedErrorMsgKey)
     behave like currencyValue[StockAndShare]("valueNotListed", stockAndShareNotListedForm)
   }
 

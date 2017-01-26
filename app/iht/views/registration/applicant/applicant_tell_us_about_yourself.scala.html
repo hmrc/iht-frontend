@@ -34,7 +34,7 @@ hasTimeOut=true) {
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.inputWithHelp(applicantTellUsAboutYourselfForm("phoneNo"),
+    @ihtHelpers.input_with_help(applicantTellUsAboutYourselfForm("phoneNo"),
         '_label -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.label"),
         '_help -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.sublabel"),
         '_divJsHide -> false,
@@ -43,7 +43,7 @@ hasTimeOut=true) {
         '_inputClass -> "form-control js-valInput")
 
     @if(mode == Mode.Standard) {
-    @ihtHelpers.inputYesNoRadioGroup(
+    @ihtHelpers.input_yes_no_radio_group(
         applicantTellUsAboutYourselfForm("doesLiveInUK"),
         '_legend -> Html(Messages("page.iht.registration.applicantTellUsAboutYourself.question.label")),
         '_divClass -> Some("form-group"))

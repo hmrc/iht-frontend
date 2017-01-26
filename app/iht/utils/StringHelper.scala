@@ -19,16 +19,15 @@ package iht.utils
 import play.api.i18n.Messages
 
 object StringHelper {
-  val StartOfPrefix = 0
-  val EndOfPrefix = 2
-  val SuffixCharacter = 8
-  val FirstNumberStart = 2
-  val FirstNumberEnd = 4
-  val SecondNumberStart = 4
-  val SecondNumberEnd = 6
-  val ThirdNumberStart = 6
-  val ThirdNumberEnd = 8
-
+  private val StartOfPrefix = 0
+  private val EndOfPrefix = 2
+  private val SuffixCharacter = 8
+  private val FirstNumberStart = 2
+  private val FirstNumberEnd = 4
+  private val SecondNumberStart = 4
+  private val SecondNumberEnd = 6
+  private val ThirdNumberStart = 6
+  private val ThirdNumberEnd = 8
 
   def ninoFormat(s: String) = {
     if (s.length >= 9) {
@@ -42,8 +41,6 @@ object StringHelper {
       s
     }
   }
-
-  def isAllDigits(x: String) = x forall Character.isDigit
 
   def yesNoFormat(v: Option[Boolean]): String = v match {
     case Some(true) => Messages("iht.yes")

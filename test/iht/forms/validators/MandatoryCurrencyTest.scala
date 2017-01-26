@@ -23,7 +23,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 class MandatoryCurrencyTest extends UnitSpec with FakeIhtApp {
 
   "MandatoryCurrency" must {
-    val mandatoryCurrency = MandatoryCurrency("length",
+    val mandatoryCurrency = MandatoryCurrencyForOptions("length",
                                               "invalidChars",
                                               "incorrectPence",
                                               "hasSpaces",

@@ -37,7 +37,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 
 @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 
-@ihtHelpers.inputRadioGroup(
+@ihtHelpers.input_radio_group(
 propertyTypeForm("propertyType"),
 FieldMappings.propertyType.toSeq,
 '_fieldsetId -> "propertyType-container",

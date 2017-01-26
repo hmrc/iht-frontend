@@ -63,8 +63,7 @@ trait StocksAndSharesNotListedController extends EstateController {
         stockAndShareNotListedForm,
         stocks_and_shares_not_listed.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isNotListed", _.isDefined, "error.assets.stocksAndShares.notListed.select"))
+        submitUrl
       )
     }
   }
