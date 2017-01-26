@@ -19,10 +19,12 @@ package models.des.iht_return
 
 import iht.constants.Constants
 import iht.models.Joda._
+import iht.utils.CommonHelper
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
-import play.api.libs.json.Json
-
+import play.api.libs.json.{JsPath, Json, Reads}
+import play.api.libs.json.Reads._
+import play.api.libs.functional.syntax._
 import scala.collection.immutable.ListMap
 
 // Can reuse the address object from Event Registration
@@ -34,6 +36,18 @@ case class OtherAddress(addressLine1: Option[String] = None, addressLine2: Optio
                         addressType: Option[String] = None)
 
 object OtherAddress {
+  implicit val optionStringReads: Reads[Option[Option[String]]] = Reads.optionWithNull[Option[String]]
+
+  implicit val otherAddressReads: Reads[OtherAddress] = (
+    (JsPath \ "addressLine1").readNullable[String] and
+      (JsPath \ "addressLine2").readNullable[String] and
+      (JsPath \ "addressLine3").read(optionStringReads) and
+      (JsPath \ "addressLine4").read(optionStringReads) and
+      (JsPath \ "postalCode").readNullable[String] and
+      (JsPath \ "countryCode").readNullable[String] and
+      (JsPath \ "addressType").readNullable[String]
+    )(OtherAddress.apply _)
+
   implicit val formats = Json.format[OtherAddress]
 }
 
@@ -60,12 +74,31 @@ case class Spouse(
                  )
 
 object Spouse {
+  implicit val spouseReads: Reads[Spouse] = (
+    (JsPath \ "title").readNullable[String] and
+      (JsPath \ "firstName").readNullable[String] and
+      (JsPath \ "middleName").readNullable[String] and
+      (JsPath \ "lastName").readNullable[String] and
+      (JsPath \ "dateOfBirth").readNullable[LocalDate] and
+      (JsPath \ "gender").readNullable[String] and
+      (JsPath \ "nino").readNullable[String] and
+      (JsPath \ "utr").readNullable[String] and
+      (JsPath \ "mainAddress").readNullable[Address] and
+      (JsPath \ "otherAddress").readNullable[Set[OtherAddress]] and
+      (JsPath \ "dateOfMarriage").readNullable[LocalDate] and
+      (JsPath \ "dateOfDeath").readNullable[LocalDate]
+    )(Spouse.apply _)
+
   implicit val formats = Json.format[Spouse]
 }
 
 case class TNRBForm(spouse: Option[Spouse] = None, spousesEstate: Option[SpousesEstate] = None)
 
 object TNRBForm {
+  implicit val tNRBFormReads: Reads[TNRBForm] = (
+    (JsPath \ "sposue").readNullable[Spouse] and
+      (JsPath \ "spouseesEstate").readNullable[SpousesEstate]
+    )(TNRBForm.apply _)
   implicit val formats = Json.format[TNRBForm]
 }
 
@@ -73,6 +106,10 @@ case class TransferOfNilRateBand(totalNilRateBandTransferred: Option[BigDecimal]
                                  deceasedSpouses: Set[TNRBForm])
 
 object TransferOfNilRateBand {
+  implicit val transferOfNilRateBandReads: Reads[TransferOfNilRateBand] = (
+    (JsPath \ "totalNilRateBandTransferred").readNullable[BigDecimal] and
+      (JsPath \ "deceasedSpouses").read[Set[TNRBForm]]
+    )(TransferOfNilRateBand.apply _)
   implicit val formats = Json.format[TransferOfNilRateBand]
 }
 
@@ -89,6 +126,21 @@ case class SurvivingSpouse(
                             otherDomicile: Option[String] = None)
 
 object SurvivingSpouse {
+  implicit val survivingSpouse: Reads[SurvivingSpouse] = (
+    (JsPath \ "title").readNullable[String] and
+      (JsPath \ "firstName").readNullable[String] and
+      (JsPath \ "middleName").readNullable[String] and
+      (JsPath \ "lastName").readNullable[String] and
+      (JsPath \ "dateOfBirth").readNullable[LocalDate] and
+      (JsPath \ "gender").readNullable[String] and
+      (JsPath \ "nino").readNullable[String] and
+      (JsPath \ "utr").readNullable[String] and
+      (JsPath \ "mainAddress").readNullable[Address] and
+      (JsPath \ "otherAddress").readNullable[Set[OtherAddress]] and
+      (JsPath \ "dateOfMarriage").readNullable[LocalDate] and
+      (JsPath \ "domicile").readNullable[String] and
+      (JsPath \ "otherDomicile").readNullable[String]
+    )(SurvivingSpouse.apply _)
   implicit val formats = Json.format[SurvivingSpouse]
 }
 
@@ -174,6 +226,10 @@ case class Beneficiary(passingToSpouse: Option[String] = None,
                        otherBeneficiary: Option[OtherBeneficiary] = None)
 
 object Beneficiary {
+  implicit val beneficiaryReads: Reads[Beneficiary] = (
+  (JsPath \ "passingToSpouse").readNullable[String] and
+    (JsPath \ "otherBeneficiary").readNullable[OtherBeneficiary]
+  )(Beneficiary.apply _)
   implicit val formats = Json.format[Beneficiary]
 }
 
@@ -191,6 +247,11 @@ case class Devolution(allocation: Option[Allocation] = None,
                       exemption: Option[Exemption] = None)
 
 object Devolution {
+  implicit val devolutionReads: Reads[Devolution] = (
+    (JsPath \ "allocation").readNullable[Allocation] and
+      (JsPath \ "beneficiary").readNullable[Beneficiary] and
+      (JsPath \ "exemption").readNullable[Exemption]
+    )(Devolution.apply _)
   implicit val formats = Json.format[Devolution]
 }
 
@@ -221,6 +282,21 @@ case class Asset(
                 )
 
 object Asset {
+  implicit val assetReads: Reads[Asset] = (
+    (JsPath \ "assetCode").readNullable[String] and
+      (JsPath \ "assetDescription").readNullable[String] and
+      (JsPath \ "assetID").readNullable[String] and
+      (JsPath \ "assetTotalValue").readNullable[BigDecimal] and
+      (JsPath \ "howheld").readNullable[String] and
+      (JsPath \ "devolutions").readNullable[Set[Devolution]] and
+      (JsPath \ "liabilities").readNullable[Set[Liability]] and
+      (JsPath \ "propertyAddress").readNullable[AddressOrOtherLandLocation] and
+      (JsPath \ "tenure").readNullable[String] and
+      (JsPath \ "tenancyType").readNullable[String] and
+      (JsPath \ "yearsLeftOnLease").readNullable[Int] and
+      (JsPath \ "yearsLeftOntenancyAgreement").readNullable[Int] and
+      (JsPath \ "professionalValuation").readNullable[Boolean]
+    )(Asset.apply _)
   implicit val formats = Json.format[Asset]
 }
 
@@ -236,6 +312,19 @@ case class InterestInOtherEstate(
                                 )
 
 object InterestInOtherEstate {
+  implicit val interestInOtherEstateReads: Reads[InterestInOtherEstate] = (
+    (JsPath \ "title").readNullable[String] and
+      (JsPath \ "firstName").readNullable[String] and
+      (JsPath \ "middleName").readNullable[String] and
+      (JsPath \ "lastName").readNullable[String] and
+      (JsPath \ "dateOfBirth").readNullable[LocalDate] and
+      (JsPath \ "gender").readNullable[String] and
+      (JsPath \ "nino").readNullable[String] and
+      (JsPath \ "utr").readNullable[String] and
+      (JsPath \ "mainAddress").readNullable[Address] and
+      (JsPath \ "otherAddress").readNullable[Set[OtherAddress]] and
+      (JsPath \ "otherEstateAssets").readNullable[Set[Asset]]
+    )(InterestInOtherEstate.apply _)
   implicit val formats = Json.format[InterestInOtherEstate]
 }
 
@@ -253,6 +342,21 @@ case class Trustee(
                   )
 
 object Trustee {
+  implicit val trusteeReads: Reads[Trustee] = (
+    (JsPath \ "title").readNullable[String] and
+      (JsPath \ "firstName").readNullable[String] and
+      (JsPath \ "middleName").readNullable[String] and
+      (JsPath \ "lastName").readNullable[String] and
+      (JsPath \ "dateOfBirth").readNullable[LocalDate] and
+      (JsPath \ "gender").readNullable[String] and
+      (JsPath \ "nino").readNullable[String] and
+      (JsPath \ "utr").readNullable[String] and
+      (JsPath \ "mainAddress").readNullable[Address] and
+      (JsPath \ "otherAddress").readNullable[Set[OtherAddress]] and
+      (JsPath \ "name").readNullable[String] and
+      (JsPath \ "ctUtr").readNullable[String] and
+      (JsPath \ "organisationAddress").readNullable[Address]
+    )(Trustee.apply _)
   implicit val formats = Json.format[Trustee]
 }
 
@@ -267,6 +371,10 @@ case class Deceased(survivingSpouse: Option[SurvivingSpouse] = None,
                     transferOfNilRateBand: Option[TransferOfNilRateBand] = None)
 
 object Deceased {
+  implicit val deceasedReads: Reads[Deceased] = (
+    (JsPath \ "survingSpouse").readNullable[SurvivingSpouse] and
+      (JsPath \ "transferOfNilRateBand").readNullable[TransferOfNilRateBand]
+    )(Deceased.apply _)
   implicit val formats = Json.format[Deceased]
 }
 
@@ -276,6 +384,12 @@ case class FreeEstate(estateAssets: Option[Set[Asset]] = None,
                       estateExemptions: Option[Set[Exemption]] = None)
 
 object FreeEstate {
+  implicit val freeEstateReads: Reads[FreeEstate] = (
+    (JsPath \ "estateAssets").readNullable[Set[Asset]] and
+      (JsPath \ "interestInOtherEstate").readNullable[InterestInOtherEstate] and
+      (JsPath \ "estateLiabilities").readNullable and
+      (JsPath \ "estateExemptions").readNullable[Set[Exemption]]
+    )(FreeEstate.apply _)
   implicit val formats = Json.format[FreeEstate]
 }
 
@@ -309,6 +423,29 @@ case class Gift(
                )
 
 object Gift {
+  implicit val giftsReads: Reads[Gift] = (
+    (JsPath \ "assetCode").readNullable[String] and
+      (JsPath \ "assetDescription").readNullable[String] and
+      (JsPath \ "assetID").readNullable[String] and
+      (JsPath \ "assetTotalValue").readNullable[BigDecimal] and
+      (JsPath \ "howheld").readNullable[String] and
+      (JsPath \ "devolutions").readNullable[Set[Devolution]] and
+      (JsPath \ "liabilities").readNullable[Set[Liability]] and
+      (JsPath \ "propertyAddress").readNullable[AddressOrOtherLandLocation] and
+      (JsPath \ "tenure").readNullable[String] and
+      (JsPath \ "tenancyType").readNullable[String] and
+      (JsPath \ "yearsLeftOnLease").readNullable[Int] and
+      (JsPath \ "yearsLeftOntenancyAgreement").readNullable[Int] and
+      (JsPath \ "professionalValuation").readNullable[Boolean] and
+      (JsPath \ "voaValue").readNullable[String] and
+      (JsPath \ "jointOwnership").readNullable[JointOwnership] and
+      (JsPath \ "valuePrevOwned").readNullable[BigDecimal] and
+      (JsPath \ "percentageSharePrevOwned").readNullable[BigDecimal] and
+      (JsPath \ "valueRetained").readNullable[BigDecimal] and
+      (JsPath \ "percentageRetained").readNullable[BigDecimal] and
+      (JsPath \ "lossToEstate").readNullable[BigDecimal] and
+      (JsPath \ "dateOfGift").readNullable[LocalDate]
+    )(Gift.apply _)
   implicit val formats = Json.format[Gift]
 }
 
@@ -320,6 +457,14 @@ case class Trust(trustName: Option[String] = None,
                  trustExemptions: Option[Set[Exemption]] = None)
 
 object Trust {
+  implicit val trustReads: Reads[Trust] = (
+    (JsPath \ "trustName").readNullable[String] and
+      (JsPath \ "trsutUtr").readNullable[String] and
+      (JsPath \ "trustees").readNullable[Set[Trustee]] and
+      (JsPath \ "trustAssets").readNullable[Set[Asset]] and
+      (JsPath \ "trstLiabilities").readNullable[Set[Liability]] and
+      (JsPath \ "trustExemptions").readNullable[Set[Exemption]]
+    )(Trust.apply _)
   implicit val formats = Json.format[Trust]
 }
 
@@ -329,6 +474,13 @@ case class Declaration(reasonForBeingBelowLimit: Option[String] = None,
                        declarationDate: Option[LocalDate] = None)
 
 object Declaration {
+  implicit val declarationReads: Reads[Declaration] = (
+    (JsPath \ "reasonForBeingBelowLimit").readNullable[String] and
+      (JsPath \ "declarationAccepted").readNullable[Boolean] and
+      (JsPath \ "coExecutorsAccepted").readNullable[Boolean] and
+      (JsPath \ "declarationDate").readNullable[LocalDate]
+    )(Declaration.apply _)
+
   implicit val formats = Json.format[Declaration]
 }
 
@@ -365,6 +517,17 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
 }
 
 object IHTReturn {
+
+
+  implicit val ihtReturnReads: Reads[IHTReturn] = (
+    (JsPath \ "acknowledgmentReference").readNullable[String] and
+      (JsPath \ "submitter").readNullable[Submitter] and
+      (JsPath \ "deceased").readNullable[Deceased] and
+      (JsPath \ "freeEstate").readNullable[FreeEstate] and
+      (JsPath \ "gifts").readNullable[Set[Set[Gift]]] and
+      (JsPath \ "trusts").readNullable[Set[Trust]] and
+      (JsPath \ "declaration").readNullable[Declaration]
+    )(IHTReturn.apply _)
   implicit val formats = Json.format[IHTReturn]
 
   def sortByGiftDate(ihtReturn: IHTReturn) = {
