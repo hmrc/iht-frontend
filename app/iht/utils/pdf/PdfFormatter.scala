@@ -16,18 +16,20 @@
 
 package iht.utils.pdf
 
+import javax.inject.Inject
+
 import iht.constants.{Constants, IhtProperties}
 import iht.utils.CommonHelper
 import models.des.iht_return.{Asset, Exemption, IHTReturn, Liability}
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 
 import scala.collection.immutable.{ListMap, SortedSet}
 
 /**
   * Created by vineet on 13/06/16.
   */
-object PdfFormatter {
+class PdfFormatter @Inject()(val messagesApi: MessagesApi) extends I18nSupport {
 
   def getDateForDisplay(inputDate: String): String = {
 
