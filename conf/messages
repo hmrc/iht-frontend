@@ -127,7 +127,7 @@ iht.notPossibleToUseService = It’s not possible for you to use this service
 iht.postcode = Postcode
 
 iht.returnToLastQuestion = Return to last question
-iht.roughEstimateEstateWorth = Using a rough estimate of any houses or money in bank accounts that the deceased might have owned, how much do you think the deceased’s estate is worth?
+iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank accounts that the deceased might’ve owned, how much do you think the deceased’s estate is worth?
 iht.saveAndContinue = Save and continue
 iht.shouldUseOnlineService = You should use the online service
 iht.signedOut = You’ve been signed out
@@ -222,14 +222,14 @@ page.iht.filter.paperform.northern.ireland.p3 = You can read more about applying
 page.iht.filter.paperform.northern.ireland.iht205.link.text = IHT-205 form
 page.iht.filter.paperform.northern.ireland.nidirect.link.text = NIDIRECT.GOV.UK
 
-page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is completed by filling in an
-page.iht.filter.paperform.other.country.p1.sentence2.start = You should also fill in an
+page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is done by filling in an
+page.iht.filter.paperform.other.country.p1.sentence2.start = You must also fill in an
 page.iht.filter.paperform.other.country.p2 = Only assets that are in the UK should be included. This includes any UK property or bank accounts.
 page.iht.filter.paperform.other.country.iht401.link.text = IHT-401 paper form
 
 page.iht.filter.paperform.million.p1 = Because you think the deceased’s estate might be worth more than £1 million, you’ll need to report their estate value by filling in an
-page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to provide and will tell you if there is an Inheritance Tax to pay.
-page.iht.filter.paperform.million.exit = Exit to IHT-400 paper form
+page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to give and will tell you if there is any Inheritance Tax to pay.
+page.iht.filter.paperform.million.exit = Exit to the IHT-400 form
 
 page.iht.filter.paperform.iht400.link.text = IHT-400 form
 

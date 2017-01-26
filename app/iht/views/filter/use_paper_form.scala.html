@@ -30,22 +30,15 @@
 
 @if(country == Messages("iht.countries.scotland")) {
     @use_paper_form_scotland()
-    <div id='continue-button' class="subsection">
-        <a id="exit" href="#" class="button">@Messages("iht.exitToGovUK")</a>
-    </div>
 }
 @if(country == Messages("iht.countries.northernIreland")) {
     @use_paper_form_northern_ireland()
-    <div id='continue-button' class="subsection">
-        <a id="exit" href="@IhtProperties.linkExitoGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
-    </div>
 }
 @if(country == Messages("page.iht.filter.domicile.choice.other")) {
     @use_paper_form_other_country()
-    <div id='continue-button' class="subsection">
-        <a id="exit" href="@IhtProperties.linkExitoGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
-    </div>
 }
-
+<div id='continue-button' class="subsection">
+    <a id="exit" href="@IhtProperties.linkExitoGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
+</div>
 @previous_answers(country)
 }
