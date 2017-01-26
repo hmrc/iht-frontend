@@ -131,7 +131,7 @@ iht.notPossibleToUseService = It’s not possible for you to use this service
 iht.postcode = Postcode
 
 iht.returnToLastQuestion = Return to last question
-iht.roughEstimateEstateWorth = Using a rough estimate of any houses or money in bank accounts that the deceased might have owned, how much do you think the deceased’s estate is worth?
+iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank accounts that the deceased might’ve owned, how much do you think the deceased’s estate is worth?
 iht.saveAndContinue = Save and continue
 iht.shouldUseOnlineService = You should use the online service
 iht.signedOut = You’ve been signed out
@@ -139,8 +139,8 @@ iht.start = Start
 iht.startAgain = Start again
 iht.timeout.p1 = For your security, we signed you out because you didn’t continue the service for 30 minutes or more.
 iht.timeout.signBackToGG = Sign back in to Government Gateway
-iht.useIHT400PaperForm = You should use an IHT-400 paper form
-iht.usePaperForm = You should use a paper form
+iht.useIHT400PaperForm = You must use an IHT-400 paper form
+iht.usePaperForm = You must use a paper form
 iht.viewOrChange = View or change
 iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
@@ -214,28 +214,28 @@ page.iht.filter.estimate.choice.over = More than £1 million
 page.iht.filter.previous.answers = Previous answers
 
 page.iht.filter.paperform.scotland.p1 = Reporting the estate value in Scotland is completed by using a paper form.
-page.iht.filter.paperform.scotland.p2.start = You should read the
-page.iht.filter.paperform.scotland.p2.end = to find out what form you should use in Scotland.
+page.iht.filter.paperform.scotland.p2.start = You can read the
+page.iht.filter.paperform.scotland.p2.end = to find out what forms to use in Scotland.
 page.iht.filter.paperform.scotland.link.text = Scottish Courts and Tribunals guidance
 
 page.iht.filter.paperform.northern.ireland.p1 = Reporting the estate value in Northern Ireland is completed by using a paper form.
-page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already know that the estate has Inheritance Tax to pay, you should complete the
-page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you aren’t sure of the estate value, you should start filling in the
+page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already know that the estate has Inheritance Tax to pay, complete the
+page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you aren’t sure of the estate value, start filling in the
 page.iht.filter.paperform.northern.ireland.p2.sentence2.end = first.
 page.iht.filter.paperform.northern.ireland.p3 = You can read more about applying for probate in Northern Ireland on
 page.iht.filter.paperform.northern.ireland.iht205.link.text = IHT-205 form
 page.iht.filter.paperform.northern.ireland.nidirect.link.text = NIDIRECT.GOV.UK
 
-page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is completed by filling in an
-page.iht.filter.paperform.other.country.p1.sentence2.start = You should also fill in an
+page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is done by filling in an
+page.iht.filter.paperform.other.country.p1.sentence2.start = You must also fill in an
 page.iht.filter.paperform.other.country.p2 = Only assets that are in the UK should be included. This includes any UK property or bank accounts.
 page.iht.filter.paperform.other.country.iht401.link.text = IHT-401 paper form
 
 page.iht.filter.paperform.million.p1 = Because you think the deceased’s estate might be worth more than £1 million, you’ll need to report their estate value by filling in an
-page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to provide and will tell you if there is an Inheritance Tax to pay.
-page.iht.filter.paperform.million.exit = Exit to IHT-400 paper form
+page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to give and will tell you if there is any Inheritance Tax to pay.
+page.iht.filter.paperform.million.exit = Exit to the IHT-400 form
 
-page.iht.filter.paperform.iht400.link.text = IHT-400 paper form
+page.iht.filter.paperform.iht400.link.text = IHT-400 form
 
 page.iht.filter.useService.under325000.paragraph0 = Because you think the deceased’s estate might be worth under £325,000, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
 page.iht.filter.useService.paragraphFinal = You’ll need to register to use the service first, but before that, you’ll need to confirm who you are with HMRC.
