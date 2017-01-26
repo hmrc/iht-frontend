@@ -18,7 +18,7 @@ package iht.forms
 
 import iht.constants.IhtProperties
 import iht.forms.mappings.DateMapping
-import iht.forms.validators.{MandatoryCurrency, OptionalCurrency}
+import iht.forms.validators.{MandatoryCurrencyForOptions, OptionalCurrency, MandatoryCurrency}
 import iht.models._
 import iht.models.application.assets._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
@@ -184,20 +184,71 @@ object ApplicationForms {
     )
   )
 
-  val insurancePolicyMapping =  mapping(
-    "isAnnuitiesBought" -> optional(boolean),
-    "isInsurancePremiumsPayedForSomeoneElse" -> optional(boolean),
-    "value" -> OptionalCurrency(),
-    "shareValue" -> OptionalCurrency(),
-    "policyInDeceasedName" -> optional(boolean),
-    "isJointlyOwned" -> optional(boolean),
-    "isInTrust" -> optional(boolean),
-    "coveredByExemption" -> optional(boolean),
-    "sevenYearsBefore" -> optional(boolean),
-    "moreThanMaxValue" -> optional(boolean)
-  )(InsurancePolicy.apply)(InsurancePolicy.unapply)
+  val insurancePolicyDeceasedOwnQuestionForm = Form(
+    mapping(
+      "value" -> OptionalCurrency(),
+      "policyInDeceasedName" -> yesNoQuestion("error.assets.insurancePolicy.deceasedOwned.select")
+    )(
+      (value, policyInDeceasedName) => InsurancePolicy(None, None, value, None, policyInDeceasedName,None,None,None,None,None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(Tuple2(insurancePolicy.value, insurancePolicy.policyInDeceasedName))
+    )
+  )
 
-  val insurancePolicyForm = Form (insurancePolicyMapping)
+  val insurancePolicyJointQuestionForm = Form(
+    mapping(
+      "shareValue" -> OptionalCurrency(),
+      "isJointlyOwned" -> yesNoQuestion("error.assets.insurancePolicy.jointlyOwned.select")
+    )(
+      (shareValue, isJointlyOwned) => InsurancePolicy(None, None, None, shareValue, None, isJointlyOwned,None,None,None,None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(Tuple2(insurancePolicy.shareValue, insurancePolicy.isJointlyOwned))
+    )
+  )
+
+  val insurancePolicyPayingOtherForm = Form(
+    mapping(
+      "isInsurancePremiumsPayedForSomeoneElse" -> yesNoQuestion("error.assets.insurancePolicy.payedToSomeoneElse.select")
+    )(
+      (isInsurancePremiumsPayedForSomeoneElse) =>
+        InsurancePolicy(None, isInsurancePremiumsPayedForSomeoneElse, None, None, None, None,None,None,None,None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.isInsurancePremiumsPayedForSomeoneElse)
+    )
+  )
+
+  val insurancePolicyMoreThanMaxForm = Form(
+    mapping(
+      "moreThanMaxValue" -> yesNoQuestion("error.assets.insurancePolicy.moreThanMaxValue.select")
+    )(
+      (moreThanMaxValue) =>
+        InsurancePolicy(None, None, None, None, None, None,None,None,None,moreThanMaxValue)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.moreThanMaxValue)
+    )
+  )
+
+  val insurancePolicyAnnuityForm = Form(
+    mapping(
+      "isAnnuitiesBought" -> yesNoQuestion("error.assets.insurancePolicy.isAnnuitiesBought.select")
+    )(
+      (isAnnuitiesBought) =>
+        InsurancePolicy(isAnnuitiesBought, None, None, None, None, None,None,None,None,None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.isAnnuitiesBought)
+    )
+  )
+
+  val insurancePolicyInTrustForm = Form(
+    mapping(
+      "isInTrust" -> yesNoQuestion("error.assets.insurancePolicy.isInTrust.select")
+    )(
+      (isInTrust) =>
+        InsurancePolicy(None, None, None, None, None, None, isInTrust, None, None, None)
+    )(
+      (insurancePolicy: InsurancePolicy) => Some(insurancePolicy.isInTrust)
+    )
+  )
 
   val businessInterestForm= Form (basicEstateElementMapping("error.assets.businessInterest.select"))
 
@@ -247,7 +298,7 @@ object ApplicationForms {
 
   val propertyValueForm = Form(
     mapping(
-      "value" -> MandatoryCurrency()
+      "value" -> MandatoryCurrencyForOptions()
     )(
         (value)=> Property(None, None, None, None, None, value)
       )(
@@ -366,7 +417,7 @@ object ApplicationForms {
   )
 
   val partnerValueForm = Form(mapping(
-    "totalAssets" -> MandatoryCurrency()
+    "totalAssets" -> MandatoryCurrencyForOptions()
   )
   (
     (totalAssets) => PartnerExemption(None, None, None, None, None, None, totalAssets)
@@ -429,7 +480,7 @@ object ApplicationForms {
   )
 
   val assetsLeftToCharityValueForm: Form[Charity] = Form(mapping(
-    "totalValue" -> MandatoryCurrency()
+    "totalValue" -> MandatoryCurrencyForOptions()
   )(
     totalValue => Charity(None, None, None, totalValue)
   )
@@ -450,7 +501,7 @@ object ApplicationForms {
   )
 
   val qualifyingBodyValueForm: Form[QualifyingBody] = Form(mapping(
-    "totalValue" -> MandatoryCurrency()
+    "totalValue" -> MandatoryCurrencyForOptions()
   )(
     totalValue => QualifyingBody(None, None, totalValue)
   )(

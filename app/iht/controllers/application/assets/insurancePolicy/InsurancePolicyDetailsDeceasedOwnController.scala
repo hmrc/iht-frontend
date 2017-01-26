@@ -34,7 +34,7 @@ trait InsurancePolicyDetailsDeceasedOwnController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyForm, insurance_policy_details_deceased_own.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyDeceasedOwnQuestionForm, insurance_policy_details_deceased_own.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -51,9 +51,8 @@ trait InsurancePolicyDetailsDeceasedOwnController extends EstateController {
           (updatedAD, None)
         }
 
-      estateElementOnSubmit[InsurancePolicy](insurancePolicyForm,
-        insurance_policy_details_deceased_own.apply, updateApplicationDetails, insurancePoliciesRedirectLocation,
-        Some(createValidationFunction("policyInDeceasedName", _.isDefined, "error.assets.insurancePolicy.deceasedOwned.select")))
+      estateElementOnSubmit[InsurancePolicy](insurancePolicyDeceasedOwnQuestionForm,
+        insurance_policy_details_deceased_own.apply, updateApplicationDetails, insurancePoliciesRedirectLocation)
     }
   }
 }

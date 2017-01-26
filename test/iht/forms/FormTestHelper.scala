@@ -122,7 +122,6 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
                        retrieveValueFromModel: A => Option[Boolean],
                        formErrorMessageKey: String) = {
     "not give an error when answered Yes" in {
-
       val data = formData(fieldName, "true")
       retrieveValueFromModel(form.bind(data).get) shouldBe Some(true)
     }
@@ -134,6 +133,37 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
     "give an error when the question is not answered" in {
       val expectedErrors = error(fieldName, formErrorMessageKey)
+      checkForError(form, emptyForm, expectedErrors)
+    }
+  }
+
+  def yesNoQuestionAndValue[A](questionFieldName: String,
+                               valueFieldName: String,
+                               form: Form[A],
+                               retrieveQuestionValueFromModel: A => Option[Boolean],
+                               retrieveValueValueFromModel: A => Option[BigDecimal],
+                               formErrorMessageKeySelect: String,
+                               formErrorMessageKeyEnterValue: String
+                              ) = {
+    "not give an error when answered Yes and a value given" in {
+      val data = formData(questionFieldName, "true", valueFieldName, "666")
+      retrieveQuestionValueFromModel(form.bind(data).get) shouldBe Some(true)
+      retrieveValueValueFromModel(form.bind(data).get) shouldBe Some(BigDecimal(666))
+    }
+
+    "give an error when answered Yes and no value is given" in {
+      val data = formData(questionFieldName, "true")
+      val expectedErrors = error(valueFieldName, formErrorMessageKeyEnterValue)
+      checkForError(form, data, expectedErrors)
+    }
+
+    "not give an error when answered No" in {
+      val data = formData(questionFieldName, "false")
+      retrieveQuestionValueFromModel(form.bind(data).get) shouldBe Some(false)
+    }
+
+    "give an error when the question is not answered" in {
+      val expectedErrors = error(questionFieldName, formErrorMessageKeySelect)
       checkForError(form, emptyForm, expectedErrors)
     }
   }

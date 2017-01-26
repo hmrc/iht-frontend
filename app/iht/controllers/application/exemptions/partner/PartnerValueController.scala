@@ -57,8 +57,7 @@ trait PartnerValueController extends EstateController {
         partnerValueForm,
         partner_value.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("totalAssets", _.isDefined))
+        submitUrl
       )
     }
   }

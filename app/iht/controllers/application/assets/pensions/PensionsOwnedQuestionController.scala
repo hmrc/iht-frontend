@@ -65,8 +65,7 @@ trait PensionsOwnedQuestionController extends EstateController {
           case Some(true) => submitUrl
           case Some(false) => assetsRedirectLocation
           case _ => throw new RuntimeException("Pensions value does not exist")
-        },
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.privatePensions.deceasedOwned.select"))
+        }
       )
     }
   }
