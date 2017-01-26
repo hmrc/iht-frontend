@@ -363,15 +363,15 @@ object ApplicationKickOutHelper {
   lazy val nextSteps2 = ListMap(
     /* Assets */
     TrustsMoreThanOne -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    ForeignAssetsValueMoreThanMax -> Messages("iht.ifYouWantToChangeYOurAnswer"),
-    TrustValueMoreThanMax -> Messages("iht.ifYouWantToChangeYOurAnswer"),
+    ForeignAssetsValueMoreThanMax -> Messages("iht.ifYouWantToChangeValue"),
+    TrustValueMoreThanMax -> Messages("iht.ifYouWantToChangeValue"),
     AnnuitiesOnInsurance -> Messages("iht.ifYouWantToChangeYOurAnswer"),
     PensionDisposedLastTwoYears -> Messages("iht.ifYouWantToChangeYOurAnswer"),
     PensionsValueMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     InTrustLessThanSevenYears -> Messages("iht.ifYouWantToChangeYOurAnswer"),
     SingleSectionMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsTotalValueMoreThanMax -> Messages("iht.estateReport.kickout.returnToEstateOverview"),
-    InsuranceMoreThanMax -> Messages("iht.ifYouWantToChangeYOurAnswer"),
+    InsuranceMoreThanMax -> Messages("iht.ifYouWantToChangeValue"),
     AssetsMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsDeceasedMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsMoneyJointlyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
