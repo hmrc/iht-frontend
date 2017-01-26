@@ -84,7 +84,6 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
       view should include (Messages("page.iht.registration.checklist.exec.reveal.label1"))
       view should include (Messages("page.iht.registration.checklist.exec.reveal.label2"))
       view should include (Messages("page.iht.registration.checklist.exec.reveal.label3"))
-      view should include (Messages("iht.registration.ninoNotOnPayslip"))
 
     }
 
