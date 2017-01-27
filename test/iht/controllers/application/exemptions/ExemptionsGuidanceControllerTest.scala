@@ -59,9 +59,7 @@ class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with Ht
       regDetails = registrationDetails,
       getAppDetails = true,
       storeAppDetailsInCache = true,
-      saveAppDetails = true,
-      getAppDetailsTempFromCache = true,
-      storeAppDetailsTempInCache = true)
+      saveAppDetails = true)
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(

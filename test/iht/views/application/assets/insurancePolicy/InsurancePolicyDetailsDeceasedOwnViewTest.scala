@@ -57,7 +57,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
 
     override def fixture() = new {
       implicit val request = createFakeRequest()
-      val view = insurance_policy_details_deceased_own(insurancePolicyForm, regDetails).toString
+      val view = insurance_policy_details_deceased_own(insurancePolicyDeceasedOwnQuestionForm, regDetails).toString
       val doc = asDocument(view)
     }
 

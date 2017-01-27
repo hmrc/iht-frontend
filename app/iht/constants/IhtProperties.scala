@@ -25,7 +25,6 @@ import org.joda.time.LocalDate
 object IhtProperties {
   lazy val validCountryCodes: Array[String] = getPropertyAsStringArray("validCountryCodes")
   lazy val ukIsoCountryCode: String = getProperty("ukIsoCountryCode")
-  lazy val dateFormatForPdf: String = getProperty("dateFormatForPdf")
   lazy val dateFormatForDisplay: String = getProperty("dateFormatForDisplay")
   lazy val maxCoExecutors: Int = getPropertyAsInt("maxCoExecutors")
   lazy val maxNameLength: Int = getPropertyAsInt("maxNameLength")
@@ -68,6 +67,9 @@ object IhtProperties {
   lazy val linkRegistrationKickOut: String = getProperty("linkRegistrationKickOut")
   lazy val linkEstateReportKickOut: String = getProperty("linkEstateReportKickOut")
   lazy val linkGovUk: String = getProperty("linkGovUk")
+  lazy val linkIHT401: String = getProperty("linkIHT401")
+  lazy val linkExitToGovUKIHTForms: String = getProperty("linkExitToGovUKIHTForms")
+  lazy val linkIHT205: String = getProperty("linkIHT205")
   lazy val charityLink: String = getProperty("charityLink")
   lazy val correctiveAccountsLink: String = getProperty("correctiveAccountLink")
   lazy val giftsStartDay: Int = getPropertyAsInt("giftsStartDay")

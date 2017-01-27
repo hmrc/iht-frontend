@@ -102,7 +102,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(true), shareValue = Some(20))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceJointValue)
+      val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
@@ -120,7 +120,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(true), shareValue = Some(20))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceJointValue)
+      val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
@@ -138,7 +138,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(false))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceJointValue)
+      val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
@@ -200,7 +200,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 
-      val filledForm = insurancePolicyForm.fill(insurancePolicyDetails)
+      val filledForm = insurancePolicyJointQuestionForm.fill(insurancePolicyDetails)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)

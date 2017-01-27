@@ -57,8 +57,7 @@ trait DebtsOwedFromATrustController extends EstateController {
       estateElementOnSubmit[BasicEstateElementLiabilities](debtsTrustForm,
         owed_from_trust.apply,
         updateApplicationDetails,
-        debtsRedirectLocation,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.debts.trusts.select"))
+        debtsRedirectLocation
       )
     }
   }

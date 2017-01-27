@@ -66,6 +66,8 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
                              CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString ))
       view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance3"))
+      view should include(Messages("iht.estateReport.completeEverySection"))
+
     }
 
     "show the correct headings and all the questions text" in {

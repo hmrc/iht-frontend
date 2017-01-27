@@ -40,7 +40,9 @@
     headingClass = if(checkNameSize(model.deceasedName)){"heading-large"} else {"heading-xlarge"},
     headingName = model.deceasedName
 ){
-    <section id="assets-gifts-section" @if(model.reducingEstateValueSection.isDefined) {class="section"}>
+
+  <p id="estate-overview-guidance">@Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2")</p>
+  <section id="assets-gifts-section" @if(model.reducingEstateValueSection.isDefined) {class="section"}>
     @assets_and_gifts_section(model.assetsAndGiftsSection)
   </section>
     @if(model.reducingEstateValueSection.isDefined) {
@@ -65,6 +67,6 @@
         }
     }
 
-
+    
    @declaration_section(model.declarationSection)
 }

@@ -59,8 +59,7 @@ trait BusinessInterestsController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](businessInterestForm,
         business_interests.apply,
         updateApplicationDetails,
-        assetsRedirectLocation,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.businessInterest.select"))
+        assetsRedirectLocation
       )
     }
   }

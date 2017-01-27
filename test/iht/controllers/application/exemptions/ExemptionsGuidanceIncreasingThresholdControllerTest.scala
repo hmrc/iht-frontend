@@ -60,9 +60,7 @@ class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationCon
       regDetails = registrationDetails,
       getAppDetails = true,
       storeAppDetailsInCache = true,
-      saveAppDetails = true,
-      getAppDetailsTempFromCache = true,
-      storeAppDetailsTempInCache = true)
+      saveAppDetails = true)
 
     createMockToGetSingleValueFromCache(mockCachingConnector,
       same(Constants.ExemptionsGuidanceContinueUrlKey), Some(finalDestinationUrl))

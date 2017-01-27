@@ -59,8 +59,7 @@ trait MoneyOwedController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](moneyOwedForm,
         money_owed.apply,
         updateApplicationDetails,
-        assetsRedirectLocation,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.moneyOwedToDeceased.select"))
+        assetsRedirectLocation
       )
     }
   }

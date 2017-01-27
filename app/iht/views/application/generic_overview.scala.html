@@ -47,7 +47,9 @@ showStatus: Boolean = true
         @if(section.link.linkText.length>0){
             @if(showStatus){
                 <div id="@{section.id}-section-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
-                    <span aria-hidden="true" class="progress-status progress-status--not-started">@Messages("iht.notStarted")</span>
+                    <span aria-hidden="true" class="progress-status progress-status--not-started">
+                        <span>@Messages("iht.notStarted")</span>
+                    </span>
                 </div>
             }
         <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
@@ -68,12 +70,12 @@ showStatus: Boolean = true
               @Messages(detail.value)
           </div>
           @if(showStatus){
-              <div id="@{detail.id}-section-details-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+              <div id="@{detail.id}-section-details-status" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right" aria-hidden="true">
                   @if(detail.status.nonEmpty){
                       @if(detail.status == messageNotStarted) {
-                        <span class="progress-status progress-status--not-started">@Messages("iht.notStarted")</span>
+                        <span class="progress-status progress-status--not-started"><span>@Messages("iht.notStarted")</span></span>
                       } else {
-                        <span class="progress-status progress-status--complete">@Messages("iht.complete")</span>
+                        <span class="progress-status progress-status--complete"><span>@Messages("iht.complete")</span></span>
                       }
                   }
               </div>

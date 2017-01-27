@@ -26,5 +26,4 @@ class DebtsOutsideUKFormTest extends BasicEstateElementLiabilitiesFormBehaviour 
   "DebtsOutsideUkForm" must {
     behave like basicEstateElementLiability
   }
-
 }

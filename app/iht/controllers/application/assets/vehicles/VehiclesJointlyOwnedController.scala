@@ -65,8 +65,7 @@ trait VehiclesJointlyOwnedController extends EstateController {
         vehiclesJointlyOwnedForm,
         vehicles_jointly_owned.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isOwnedShare", _.isDefined, "error.assets.vehicles.jointlyOwned.select"))
+        submitUrl
       )
     }
   }
