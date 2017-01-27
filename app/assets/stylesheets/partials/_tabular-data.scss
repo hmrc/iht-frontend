@@ -7,6 +7,36 @@ Extends tabular data
 
 /*
 ====================================
+Add full table support to fix issue where a list is used
+e.g.
+ul <- table
+  li <- table-row
+    div <- table-cell
+    div <- table-cell
+====================================
+*/
+@media screen and (min-width: 641px) {
+    .tabular-data--list {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+    }
+    .tabular-data--list .tabular-data__entry {
+        display: table-row;
+    }
+    // have to add padding and border to the cell as they don't render on the row
+    .tabular-data--list .tabular-data__data {
+        padding-top: 0.7em;
+        padding-bottom: 0.7em;
+    }
+    .tabular-data--list .tabular-data__entry.divider--bottom .tabular-data__data {
+        border-bottom: 1px solid #bfc1c3;
+    }
+}
+
+
+/*
+====================================
 removes margin/ padding from any item which is the parent eg ul / ol
 hacked with double selector to bypass 'article ul' selector in lib:
 Assets Frontend _template-text.scss

@@ -28,7 +28,7 @@ isAnswerValue:Boolean)(implicit lang: play.api.i18n.Lang)
 
 <div id="@id" class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">
     <div class="grid-layout__column grid-layout__column--3-4">
-        <h2 class="font-xsmall bold">@questionText</h2>
+        <h2 class="font-xsmall bold">@Html(questionText)</h2>
     </div>
     <div class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right">
             @if(isAnswerValue) {

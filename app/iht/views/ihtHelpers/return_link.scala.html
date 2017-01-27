@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@(label: Option[String] = None,
+@(label: String = "",
 link: Option[Call] = None)
 
-<a id="return-button" href="@link">@label</a>
+<a id="return-button" href="@link">@Html(label)</a>

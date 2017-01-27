@@ -27,6 +27,7 @@ import iht.utils.CommonHelper._
 import iht.utils.ExemptionsGuidanceHelper._
 import iht.utils.OverviewHelper._
 import play.api.i18n.Messages
+import iht.views.html._
 
 import scala.concurrent.Future
 
@@ -108,7 +109,7 @@ trait GiftsOverviewController extends EstateController {
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
                                    allGifts: AllGifts) = {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
       title = None,

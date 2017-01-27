@@ -25,10 +25,12 @@
 registrationDetails: RegistrationDetails,
 isAssetLeftToQualifyingBody: Boolean)(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title",
-                                                CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
+@deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
+
+@iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title", deceasedName),
 browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyOverview.browserTitle")),
-isFullWidth=false
+isFullWidth=false,
+headingName = deceasedName
 ) {
 
 <p class="lede">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.lede")</p>
@@ -36,10 +38,10 @@ isFullWidth=false
 @progressive_disclosure(Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies"), Seq(Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext")))
 
     <section id="qualifyingBody-table">
-        <ul>
+        <ul class="tabular-data tabular-data--list">
         @generic_overview_table_item(id = "qualifying-bodies",
             questionText = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             questionScreenReaderText= Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
                                                 Messages("iht.the.deceased")),
             questionCategory= "change",
@@ -49,7 +51,7 @@ isFullWidth=false
         </ul>
         <div class="subsection">
         <h2>@Messages("page.iht.application.exemptions.qualifyingBodyOverviewTable.header")</h2>
-        <ul>
+        <ul class="tabular-data tabular-data--list">
         @for((element,i) <- qualifyingBodies.zipWithIndex){
         <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
             <div class="tabular-data__data tabular-data__data--4-12">
@@ -106,7 +108,7 @@ isFullWidth=false
 
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
-    @ihtHelpers.return_link(Some(Messages("site.link.return.exemptions")),
+    @ihtHelpers.return_link(Messages("site.link.return.exemptions"),
     Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
     }
 </p>

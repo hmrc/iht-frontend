@@ -33,7 +33,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 ){
     @ihtHelpers.error_summary(propertyValueForm)
 
-<p id="property-value-guidance">@Messages("page.iht.application.property.value.question.hint", deceasedName)</p>
+<p id="property-value-guidance">@Html(Messages("page.iht.application.property.value.question.hint", ihtHelpers.name(deceasedName)))</p>
     @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
             @ihtHelpers.input_estate_value(propertyValueForm("value"),

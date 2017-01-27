@@ -44,7 +44,7 @@
         <div id="action-button" class="form-field form-field--submit">
                 <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
-        @ihtHelpers.return_link(Some(Messages("site.link.return.debts")), Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
+        @ihtHelpers.return_link(Messages("site.link.return.debts"), Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
 
     }
 }

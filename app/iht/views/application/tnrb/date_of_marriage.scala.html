@@ -31,7 +31,8 @@ deceasedName:String)(implicit request:Request[_])
 browserTitle = Some(Messages("iht.estateReport.tnrb.dateOfMarriage",
     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
+cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
+headingName = deceasedName){
 
 @ihtHelpers.error_summary(dateOfMarriageForm, Some(
         Map(

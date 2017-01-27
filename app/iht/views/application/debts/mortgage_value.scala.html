@@ -30,11 +30,14 @@ property: Property,
 submitUrl: Call,
 regDetails: RegistrationDetails)(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
+
+@iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", deceasedName),
     browserTitle = Some(Messages("page.iht.application.debts.mortgageValue.browserTitle")),
     cancelUrl = Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad),
     cancelLabel = Some(Messages("site.link.return.mortgage.overview")),
-    isFullWidth = false
+    isFullWidth = false,
+    headingName = deceasedName
 ) {
     @ihtHelpers.error_summary_override_keys(mortgagesForm, Constants.AppSectionMortgages)
 
@@ -62,7 +65,7 @@ regDetails: RegistrationDetails)(implicit request: Request[_])
 
     @ihtHelpers.generic_estate_element_assets(
         assetType = Constants.AssetTypeSingle,
-        questionLabel= Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+        questionLabel= Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
         legendClass = "visually-hidden",
         inputTextLabel = if(property.typeOfOwnership.getOrElse(IhtProperties.ownershipDeceasedOnly)== IhtProperties.ownershipDeceasedOnly)
                                  Messages("page.iht.application.debts.mortgage.inputText.value")

@@ -89,7 +89,7 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
 
       val result = giftsMadeBeforeDeathController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
+      contentAsString(result).replace("\n","") should include(Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
         s"$firstName $secondName"))
     }
 

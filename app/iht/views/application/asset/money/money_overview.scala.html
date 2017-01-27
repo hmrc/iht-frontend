@@ -28,18 +28,17 @@
 
 @(money:Option[ShareableBasicEstateElement], registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.assets.money.upperCaseInitial"),
 browserTitle = Some(Messages("iht.estateReport.assets.money.upperCaseInitial")),
 isFullWidth=false
 ) {
 
 <div id="money-description">
-    <p class="lede">@Messages("page.iht.application.assets.money.overview.description.p1",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("page.iht.application.assets.money.overview.description.p2",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("page.iht.application.assets.money.overview.description.p3",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p class="lede">@Html(Messages("page.iht.application.assets.money.overview.description.p1", deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.assets.money.overview.description.p2",deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.assets.money.overview.description.p3",deceasedName))</p>
 </div>
 
 
@@ -48,8 +47,7 @@ isFullWidth=false
         "money-deceased-owned-section",
          money.flatMap(_.isOwned),
             generic_overview_table_heading_item(id = "deceased-own-heading",
-                questionText = Messages("iht.estateReport.assets.moneyOwned",
-                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                questionText = Messages("iht.estateReport.assets.moneyOwned",deceasedName),
                 questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned",
                                                     Messages("iht.the.deceased")),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
@@ -57,8 +55,7 @@ isFullWidth=false
                 isAnswerValue = money.flatMap(_.isOwned).isEmpty
             ),
             generic_overview_table_item(id = "deceased-own-question",
-                questionText = Messages("iht.estateReport.assets.money.ownName.question",
-                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                questionText = Messages("iht.estateReport.assets.money.ownName.question",deceasedName),
                 questionScreenReaderText= Messages("iht.estateReport.assets.money.ownName.question",
                                                     Messages("iht.the.deceased")),
                 questionCategory= "change",
@@ -88,8 +85,7 @@ isFullWidth=false
                 isAnswerValue = money.flatMap(_.isOwnedShare).isEmpty
                 ),
             generic_overview_table_item(id = "deceased-shared-question",
-                questionText = Messages("page.iht.application.assets.money.jointly.owned.question",
-                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                questionText = Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
                 questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question", Messages("iht.the.deceased")),
                 questionCategory= "change",
                 answerValue=Messages(getBooleanDisplayValue(money.flatMap(_.isOwnedShare.map(x=>x)))),
@@ -108,7 +104,7 @@ isFullWidth=false
 
         <div class="form-field form-field--submit">
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)),
+            @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
                                             Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
         }
         </div>

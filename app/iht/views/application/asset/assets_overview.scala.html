@@ -20,6 +20,7 @@
 @import iht.utils.OverviewHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
+@import iht.constants.IhtProperties
 
 @import iht.utils._
 @import iht.controllers.application.assets.properties.routes._
@@ -41,13 +42,14 @@ deceasedName: String)(implicit request: Request[_])
 }
 
 @iht_main_template_application(title = Messages("page.iht.application.assets.overview.title", deceasedName),
+headingName = deceasedName,
 browserTitle = Some(Messages("iht.estateReport.assets.inEstate")),
 isFullWidth=false) {
 
-<p id="assets-guidance1" class="lede">@Messages("page.iht.application.assets.overview.guidance1", deceasedName)</p>
+<p id="assets-guidance1" class="lede">@Html(Messages("page.iht.application.assets.overview.guidance1", ihtHelpers.name(deceasedName)))</p>
 <p id="assets-guidance2">@Messages("iht.estateReport.completeEverySection")</p>
 
-<ul id="overview-table">
+<ul id="overview-table" class="tabular-data tabular-data--list">
 
     @defining(appDetails.isCompleteProperties) { isComplete =>
         @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.propertiesBuildingsAndLand"),
@@ -325,7 +327,7 @@ isFullWidth=false) {
     }
 
     @defining(assets.moneyOwed.flatMap(_.isComplete)) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.moneyOwed", deceasedName),
+        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.assets.moneyOwed", ihtHelpers.name(deceasedName)),
             "moneyOwed", "money-owed",
             displayValue(appDetails, AppSectionMoneyOwed, isComplete), "",
             Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),

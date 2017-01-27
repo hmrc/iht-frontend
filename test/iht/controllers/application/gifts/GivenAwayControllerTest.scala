@@ -98,7 +98,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
 
       val result = givenAwayController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.givenAway.p2",
+      contentAsString(result).replace("\n","") should include (Messages("page.iht.application.gifts.lastYears.givenAway.p2",
                                                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 

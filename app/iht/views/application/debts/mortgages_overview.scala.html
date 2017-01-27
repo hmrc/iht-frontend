@@ -31,12 +31,14 @@ onCancelMessageKey: String)(implicit request: Request[_])
 @import iht.utils.CommonHelper
 @import iht.constants.FieldMappings
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.debts.mortgages"),
 browserTitle = Some(Messages("iht.estateReport.debts.mortgages")),
 isFullWidth= false) {
     <p class="lede">@Messages("page.iht.application.debts.mortgages.description.p1")</p>
-    <p>@Messages("page.iht.application.debts.mortgages.description", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("page.iht.application.debts.mortgages.description.p3", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p>@Html(Messages("page.iht.application.debts.mortgages.description", deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.debts.mortgages.description.p3", deceasedName))</p>
 
     @if(propertyList.isEmpty){
         <div class="panel-indent panel-indent--gutter">
@@ -48,7 +50,7 @@ isFullWidth= false) {
 
         <section id="property-table" class="section">
             <h2 class="heading-small divider--bottom" id="properties-header">@Messages("page.iht.application.assets.deceased-permanent-home.table.header")</h2>
-            <ul>
+            <ul class="tabular-data tabular-data--list">
             @for((element,i) <- propertyList.zipWithIndex){
                 <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                       <div class="tabular-data__data tabular-data__data--6-12">
@@ -113,5 +115,5 @@ isFullWidth= false) {
           </section>
 
     }
-@ihtHelpers.return_link(Some(Messages(onCancelMessageKey)), Some(onCancel))
+@ihtHelpers.return_link(Messages(onCancelMessageKey), Some(onCancel))
 }
