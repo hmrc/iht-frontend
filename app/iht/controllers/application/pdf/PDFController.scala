@@ -52,7 +52,7 @@ trait PDFController extends ApplicationController with IhtActions {
   private val staticHeaders: Seq[(String, String)] = Seq(Tuple2("Content-type", "application/pdf"))
 
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
-    staticHeaders :+ Tuple2(CONTENT_DISPOSITION, s"inline; filename=$fileName")
+    staticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
 
   def onPreSubmissionPDF = authorisedForIht {
     implicit user =>
