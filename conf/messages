@@ -268,13 +268,13 @@ page.iht.registration.checklist.deceased.label6 = country where they had their p
 page.iht.registration.checklist.deceased.label7 = relationship status
 page.iht.registration.checklist.deceased.reveal.label1 = The deceased’s first and last name will be on the death certificate. If you didn’t know the deceased, ask their family or friends for some details if you don’t have them.
 page.iht.registration.checklist.deceased.reveal.label2 = The last known contact address is where they had their post sent before they died. This could be to a home that they owned or where they last lived.
-page.iht.registration.checklist.deceased.reveal.label4 = The deceased’s relationship status should be taken from their actual situation when they died, not what they, or someone else, might have thought it to be. If the deceased said they were single but they had been married at some time in their life and then divorced, you should select divorced.
+page.iht.registration.checklist.deceased.reveal.label4 = The deceased’s relationship status is their actual situation when they died, not what they, or someone else, might have thought it to be. If the deceased said they were single but they had been married at some time in their life and then divorced, you should select divorced.
 
 page.iht.registration.checklist.applicant.title = You’ll need your:
 page.iht.registration.checklist.applicant.label4 = choice of country for where you’re applying to the Probate Service – only people applying in England and Wales can use this service
 page.iht.registration.checklist.applicant.label5 = role in the deceased’s estate – you can only use this service if you’re responsible for the estate as an executor or an administrator
 page.iht.registration.checklist.applicant.reveal.label1 = The location where you’re planning to apply to the Probate Service is where you’re sending your PA1 - Probate application form. There are different places throughout the UK but you can only use this service if you’re planning to apply in England or Wales.
-page.iht.registration.checklist.applicant.reveal.label2 = If the deceased left a will then you’ll know if you’re an executor of their estate as you’ll be named in it. If there’s no will, the court will have named you as an administrator. 
+page.iht.registration.checklist.applicant.reveal.label2 = If the deceased left a will then you’ll know if you’re an executor of their estate as you’ll be named in it. If there’s no will, the court will have named you as an administrator.
 page.iht.registration.checklist.applicant.reveal.label3 = The phone number you give is one that HMRC can contact you on. This might happen after you have finished the estate report and it is being reviewed.
 page.iht.registration.checklist.applicant.reveal.label4 = You can find your National Insurance number on a payslip, a P45 or a P60 form.
 
