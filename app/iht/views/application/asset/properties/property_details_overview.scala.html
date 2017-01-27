@@ -146,7 +146,7 @@ isFullWidth = false) {
         }
         @defining(property.flatMap(_.value)) { value =>
             <li id="property-value" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.value.question")</div>
+                <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.value.question", deceasedName)</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{value match {
                     case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
