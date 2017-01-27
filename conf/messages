@@ -272,11 +272,11 @@ page.iht.registration.checklist.deceased.reveal.label4 = The deceased’s relati
 
 page.iht.registration.checklist.applicant.title = You’ll need your:
 page.iht.registration.checklist.applicant.label4 = choice of country for where you’re applying to the Probate Service – only people applying in England and Wales can use this service
-page.iht.registration.checklist.applicant.label5 = role in the deceased’s estate – you can only use this service if you’re an executor or an administrator of the deceased’s estate
-page.iht.registration.checklist.applicant.reveal.label1 = The location where you’re planning to apply to the Probate Service is where you’re sending your Probate Application form (PA1) to. There are different places throughout the UK but you can only use Inheritance Tax Online if you’re planning to apply in England or Wales.
-page.iht.registration.checklist.applicant.reveal.label2 = If the deceased left a will then you’ll know if you’re an executor of their estate as you’ll be listed in the will. If there’s no will, the court will have named you as an administrator of the estate if that’s your role.
-page.iht.registration.checklist.applicant.reveal.label3 = The phone number you give is one that HMRC can contact you on. This might happen after you’ve finished the estate report and it’s reviewed. The email address is one that HMRC could contact you on for the same reason.
-page.iht.registration.checklist.applicant.reveal.label4 = You can find your National Insurance number on a payslip.
+page.iht.registration.checklist.applicant.label5 = role in the deceased’s estate – you can only use this service if you’re responsible for the estate as an executor or an administrator
+page.iht.registration.checklist.applicant.reveal.label1 = The location where you’re planning to apply to the Probate Service is where you’re sending your PA1 - Probate application form. There are different places throughout the UK but you can only use this service if you’re planning to apply in England or Wales.
+page.iht.registration.checklist.applicant.reveal.label2 = If the deceased left a will then you’ll know if you’re an executor of their estate as you’ll be named in it. If there’s no will, the court will have named you as an administrator.
+page.iht.registration.checklist.applicant.reveal.label3 = The phone number you give is one that HMRC can contact you on. This might happen after you have finished the estate report and it is being reviewed.
+page.iht.registration.checklist.applicant.reveal.label4 = You can find your National Insurance number on a payslip, a P45 or a P60 form.
 
 page.iht.registration.checklist.exec.title = If anyone else is applying to the Probate Service for a grant of representation for the deceased’s estate, you’ll need their:
 page.iht.registration.checklist.exec.reveal.label1 = The easiest thing to do is to ask the person who you’re adding for their details. They’ll be able to find their National Insurance number on a P45 or a P60 form.
