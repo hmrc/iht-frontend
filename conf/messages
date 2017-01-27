@@ -278,10 +278,10 @@ page.iht.registration.checklist.applicant.reveal.label2 = If the deceased left a
 page.iht.registration.checklist.applicant.reveal.label3 = The phone number you give is one that HMRC can contact you on. This might happen after you have finished the estate report and it is being reviewed.
 page.iht.registration.checklist.applicant.reveal.label4 = You can find your National Insurance number on a payslip, a P45 or a P60 form.
 
-page.iht.registration.checklist.exec.title = If anyone else is applying to the Probate Service for a grant of representation for the deceased’s estate, you’ll need their:
-page.iht.registration.checklist.exec.reveal.label1 = The easiest thing to do is to ask the person who you’re adding for their details. They’ll be able to find their National Insurance number on a P45 or a P60 form.
-page.iht.registration.checklist.exec.reveal.label2 = Their name should be entered as it is shown on their passport or birth certificate. This might be different to the name that you know them by.
-page.iht.registration.checklist.exec.reveal.label3 = The phone number given is one that HMRC can contact this person on. This might happen after you’ve finished the estate report and it’s being reviewed.
+page.iht.registration.checklist.exec.title = If anyone else is applying to the Probate Service for a grant of representation for the estate, you’ll need their:
+page.iht.registration.checklist.exec.reveal.label1 = The easiest thing to do is to ask the person who you’re adding for their details. They will be able to find their National Insurance number on a payslip, a P45 or a P60 form.
+page.iht.registration.checklist.exec.reveal.label2 = Their name should be given as it is shown on their passport or birth certificate. This might be different to the name that you know them by.
+page.iht.registration.checklist.exec.reveal.label3 = The phone number given is one that HMRC can contact this person on. This might happen after you have finished the estate report and it is being reviewed.
 iht.registration.checklist.dateOfBirth = date of birth
 iht.registration.checklist.phoneNo.lowerCaseInitial = phone number
 iht.registration.checklist.phoneNo.upperCaseInitial = Phone number
