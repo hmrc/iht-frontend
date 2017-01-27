@@ -29,6 +29,8 @@
 
 @(registrationDetails: RegistrationDetails, role:String)(implicit request:Request[_])
 
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+
 @iht_main_template_registration(title = Messages("iht.registration.checkYourAnswers"),
                    browserTitle = Some(Messages("iht.registration.checkYourAnswers")),
                    isFullWidth=false,
@@ -37,7 +39,7 @@
     <p class="lede">@Messages("page.iht.registration.registrationSummary.subTitle")</p>
 
     <section class="section">
-        <h2>@Messages("page.iht.registration.registrationSummary.deceasedTable.title")</h2>
+        <h2>@Html(Messages("site.nameDetails", ihtHelpers.name(deceasedName).toString))</h2>
         <ul class="tabular-data tabular-data--list">
             @defining(CommonHelper.getOrException(registrationDetails.deceasedDetails, "Deceased Details could not be found")) { deceasedDetails=>
 

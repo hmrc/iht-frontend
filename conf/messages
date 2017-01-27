@@ -66,6 +66,7 @@ site.return.inheritance.tax.estate.report.link = Return to Your Inheritance Tax 
 site.previous = Previous
 site.backToLastPage.link = Return to last page
 site.backToLastQuestion.values.link = Return to gift values
+site.nameDetails = {0}’s details
 
 site.changeInput = Change value
 site.changeName = Change name
@@ -401,7 +402,6 @@ page.iht.registration.others-applying-for-probate-address.address.guidance = Thi
 #Registration Summary - Deceased info
 page.iht.registration.registrationSummary.subTitle = You’ll not be able to change these details online after you’ve confirmed them.
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
-page.iht.registration.registrationSummary.deceasedTable.title = Deceased’s details
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title
 page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = Deceased’s name is {0}
 page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader = Change the deceased’s name
@@ -481,7 +481,6 @@ page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.l
 
 page.iht.registration.registrationSummary.coExecutorTable.others-are-applying.text = Other people are applying for probate
 page.iht.registration.registrationSummary.coExecutorTable.others-are-applying.link.screenReader = and add or remove another person
-page.iht.registration.registrationSummary.coExecutorTable.sectionTitle = Person {0}’s details
 page.iht.registration.registrationSummary.coExecutorTable.name.id.container = name-container
 page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader = Change {0}’s Name
 page.iht.registration.registrationSummary.coExecutorTable.name.data.screenReader = An additional{0}’s name is {1}
@@ -1827,7 +1826,6 @@ pdf.inheritance.tax.declaration.date.text = Date of declaration:
 pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritance Tax estate report completed by {1}. HMRC recommend that you keep a copy of this report for your personal use.
 pdf.inheritance.tax.application.summary.p2 = Do not send this document to HMRC.
 pdf.inheritance.tax.application.summary.tnrb.title = Increasing the Inheritance Tax threshold by transferring {0}’s unused threshold
-pdf.inheritance.tax.application.summary.tnrb.personalDetails.title = {0}’s details
 pdf.inheritance.tax.reference = Inheritance Tax reference:
 pdf.postSubmission.trusts.assetDescription = Trusts
 pdf.registration.lastContactAddress = Last contact address
