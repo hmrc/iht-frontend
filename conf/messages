@@ -1585,7 +1585,7 @@ iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharit
 iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody = Confirm that you want to delete this qualifying body
 iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies = How to find out if another body qualifies
 iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies = Return to assets left to other qualifying bodies
-iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to assets left to other qualifying body
+iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to add another qualifying body
 iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
 
 #Estate report - Tnrb
