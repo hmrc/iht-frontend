@@ -51,7 +51,8 @@ trait KickoutController extends RegistrationController {
 
   def capitalTaxKickoutView(contentLines: Seq[String])(request: Request[_]) =
     kickout_template(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request)
+    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad(),
+      Messages("iht.registration.kickout.returnToTheDateOfDeath"))(contentLines)(request)
 
   def dateOtherKickoutView(contentLines: Seq[String])(request: Request[_]) =
     kickout_template(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"),
@@ -90,8 +91,8 @@ trait KickoutController extends RegistrationController {
     KickoutDeceasedDateOfDeathDateCapitalTax ->
       (request => capitalTaxKickoutView(Seq(
         Messages("iht.registration.kickout.message.phone"),
-        Messages("iht.registration.kickout.message.MinDOD"),
-        Messages("iht.registration.kickout.message.phone2")
+        Messages("iht.registration.kickout.message.phone2"),
+        Messages("iht.registration.kickout.message.changeTheDate")
       ))(request)),
     KickoutDeceasedDateOfDeathDateOther ->
       (request => dateOtherKickoutView(Seq(
@@ -101,7 +102,7 @@ trait KickoutController extends RegistrationController {
     KickoutNotApplyingForProbate ->
       (request => notApplyingForProbateKickoutView(Seq(
         Messages("page.iht.registration.notApplyingForProbate.kickout.p1"),
-        Messages("iht.ifYouWantToChangeYOurAnswer")
+        Messages("iht.ifYouWantToChangeYourAnswer")
       ))(request)))
 
   def onPageLoad = authorisedForIht {

@@ -26,10 +26,15 @@
 @(householdJointlyOwned: Form[ShareableBasicEstateElement],
      registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
-browserTitle = Some(Messages("page.iht.application.assets.household.joint.browserTitle")),
-isFullWidth=false) {
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@deceasedNameWrap() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
+@iht_main_template_application(
+    title = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title", deceasedName),
+    browserTitle = Some(Messages("page.iht.application.assets.household.joint.browserTitle")),
+    isFullWidth=false,
+    headingName = deceasedName
+) {
 
 
     @ihtHelpers.error_summary_override_keys(householdJointlyOwned, Constants.AppSectionHousehold)
@@ -38,8 +43,7 @@ isFullWidth=false) {
 
     @ihtHelpers.generic_estate_element_assets(
                                                 assetType = Constants.AssetTypeJoint,
-                                                questionLabel= Messages("iht.estateReport.assets.household.joint.question",
-                                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                                questionLabel= Messages("iht.estateReport.assets.household.joint.question",deceasedNameWrap),
                                                 inputTextLabel = Messages("iht.estateReport.assets.household.valueOfJointlyOwned"),
                                                 sharableElementForm = householdJointlyOwned,
                                                 clearTargetInput = Some("shareValue")
@@ -49,6 +53,6 @@ isFullWidth=false) {
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
     }
-    @ihtHelpers.return_link(Some(Messages("site.link.return.household")), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(Messages("site.link.return.household"), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
 
 }

@@ -32,8 +32,8 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 
 @ihtHelpers.error_summary(propertyTypeForm)
 
-<p id="property-type-guidance-1">@Messages("page.iht.application.assets.property.type.label1", deceasedName)</p>
-<p id="property-type-guidance-2">@Messages("page.iht.application.assets.property.type.label2", deceasedName)</p>
+<p id="property-type-guidance-1">@Html(Messages("page.iht.application.assets.property.type.label1", ihtHelpers.name(deceasedName)))</p>
+<p id="property-type-guidance-2">@Html(Messages("page.iht.application.assets.property.type.label2", ihtHelpers.name(deceasedName)))</p>
 
 @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 

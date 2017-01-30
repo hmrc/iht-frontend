@@ -29,24 +29,24 @@
     properties:Option[Properties],
     registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("page.iht.application.assets.deceased-permanent-home.sectionTitle"),
 browserTitle = Some(Messages("iht.estateReport.assets.propertiesBuildingsAndLand")),
 isFullWidth=false
 ) {
 
 
-    <p class="lede">@Messages("page.iht.application.assets.deceased-permanent-home.description.p1",
-                              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("page.iht.application.assets.deceased-permanent-home.description.p2",
-                  CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p class="lede">@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p1", deceasedName))</p>
+    <p>@Html(Messages("page.iht.application.assets.deceased-permanent-home.description.p2",deceasedName))</p>
 
 
 
 <div id="property-table" @if(propertyList.isEmpty){}>
-        <ul>
+        <ul class="tabular-data tabular-data--list">
         @generic_overview_table_item(id = "home-in-uk",
             questionText = Messages("page.iht.application.assets.properties.question.question",
-                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             questionScreenReaderText= Messages("page.iht.application.assets.properties.question.question", Messages("iht.the.deceased")),
             questionCategory= "change",
             answerValue= Messages(getBooleanDisplayValue(properties.flatMap(_.isOwned.map(x=>x)))),
@@ -62,7 +62,7 @@ isFullWidth=false
          @if(propertyList.isEmpty){
           <p id="properties-empty-table-row">@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")</p>
           }else{
-          <ul>
+          <ul class="tabular-data tabular-data--list">
           @for((element,i) <- propertyList.zipWithIndex){
             <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                 <div class="tabular-data__data tabular-data__data--4-12">
@@ -113,6 +113,6 @@ isFullWidth=false
     <a id="add-property" href="@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()"> @Messages("iht.estateReport.assets.propertyAdd") </a>
 </div>
 
-@ihtHelpers.return_link(Some(Messages("site.link.return.assets")), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+@ihtHelpers.return_link(Messages("site.link.return.assets"), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
 
 }

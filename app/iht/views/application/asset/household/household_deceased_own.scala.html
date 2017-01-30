@@ -28,10 +28,15 @@
 registrationDetails: RegistrationDetails
 )(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
-                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@deceasedNameWrap() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
+@iht_main_template_application(
+    title = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title", deceasedName),
     browserTitle = Some(Messages("page.iht.application.assets.household.deceased.browserTitle")),
-    isFullWidth=false) {
+    isFullWidth=false,
+    headingName = deceasedName
+) {
 
     @ihtHelpers.error_summary_override_keys(household, Constants.AppSectionHousehold)
 
@@ -39,8 +44,7 @@ registrationDetails: RegistrationDetails
 
 @ihtHelpers.generic_estate_element_assets(
                                     assetType = Constants.AssetTypeSingle,
-                                    questionLabel= Messages("iht.estateReport.assets.household.ownName.question",
-                                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                    questionLabel= Messages("iht.estateReport.assets.household.ownName.question",deceasedNameWrap),
                                     inputTextLabel = Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
                                     inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
                                     sharableElementForm = household,
@@ -53,6 +57,6 @@ registrationDetails: RegistrationDetails
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
   </div>
 }
-    @ihtHelpers.return_link(Some(Messages("site.link.return.household")), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(Messages("site.link.return.household"), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
 
 }

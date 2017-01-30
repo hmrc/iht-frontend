@@ -25,10 +25,12 @@
 @(trustsValueForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",
-                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",deceasedName),
 browserTitle = Some(Messages("page.iht.application.assets.trusts.value.browserTitle")),
-isFullWidth=false){
+isFullWidth=false,
+headingName = deceasedName){
     @ihtHelpers.error_summary_override_keys(trustsValueForm, Constants.AppSectionHeldInTrust)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit,'autoComplete -> "off") {
 
@@ -45,6 +47,6 @@ isFullWidth=false){
 
     }
 
-@ihtHelpers.return_link(Some(Messages("site.link.return.trusts")), Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()))
+@ihtHelpers.return_link(Messages("site.link.return.trusts"), Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()))
 
 }

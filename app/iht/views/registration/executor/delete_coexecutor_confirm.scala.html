@@ -31,7 +31,7 @@
 
   <input class='hidden'/>
   <div class="panel-indent">
-    <h2 class="heading-24">@coExecutor.name</h2>
+    <h2 class="heading-24">@ihtHelpers.name(coExecutor.name.toString)</h2>
       @coExecutor.ukAddress.map { addr =>
         @addr.ukAddressLine1<br/>
         @addr.ukAddressLine2<br/>

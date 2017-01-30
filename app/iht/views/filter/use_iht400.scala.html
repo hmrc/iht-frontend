@@ -18,6 +18,7 @@
 @import iht.views.html._
 @import iht.constants.FieldMappings
 @import iht.constants.Constants._
+@import iht.constants.IhtProperties
 
 @iht_main_template_registration(title = Messages("iht.useIHT400PaperForm"),
 browserTitle = Some(Messages("iht.useIHT400PaperForm")),
@@ -25,11 +26,11 @@ isFullWidth = false,
 hasSignOut = false,
 hasTimeOut = false){
 
-<p id="paragraph0">@Messages("page.iht.filter.paperform.million.p1") <a href="https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400" id="form-link">@Messages("page.iht.filter.paperform.iht400.link.text")</a>.</p>
+<p id="paragraph0">@Messages("page.iht.filter.paperform.million.p1") <a href="@IhtProperties.linkEstateReportKickOut" id="form-link">@Messages("page.iht.filter.paperform.iht400.link.text")</a>.</p>
 <p id="paragraph1">@Messages("page.iht.filter.paperform.million.p2")</p>
 
 <p>
-    <a href="" class="button"> @Messages("page.iht.filter.paperform.million.exit")</a>
+    <a href="@IhtProperties.linkEstateReportKickOut" class="button"> @Messages("page.iht.filter.paperform.million.exit")</a>
 </p>
 
 @previous_answers(Messages("iht.countries.englandOrWales"), Some(moreThan1million))

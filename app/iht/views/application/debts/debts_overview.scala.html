@@ -40,15 +40,15 @@ browserTitle = Some(Messages("iht.estateReport.debts.owedFromEstate")),
 isFullWidth=false) {
 
 <div id="debts-overview-subtitle">
-    <p class="lede">@Messages("page.iht.application.debts.subtitle1",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p class="lede">@Html(Messages("page.iht.application.debts.subtitle1",
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true),
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
     <p>@Messages("page.iht.application.debts.subtitle2")</p>
     <p>@Messages("iht.estateReport.completeEverySection")</p>
 </div>
 
 <div id="table-overview" class="section">
-    <ul>
+    <ul class="tabular-data tabular-data--list">
     @defining(appDetails.isCompleteMortgages) { isComplete =>
         @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.mortgages"),
             "mortgages", "mortgages",
@@ -58,9 +58,10 @@ isFullWidth=false) {
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
-                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.moreDetail"),
-                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.value"),
-                    Messages("page.iht.application.debts.overview.mortgages.screenReader.link.noValue"))
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.debts.mortgages")),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.debts.mortgages")),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.mortgages"))
+                )
             ),
             ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
@@ -81,10 +82,11 @@ isFullWidth=false) {
             ihtHelpers.generic_overview_status_label(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
-                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.moreDetail"),
-                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.value"),
-                    Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.noValue"))
-            ),
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.debts.funeralExpenses.title")),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.debts.funeralExpenses.title")),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.funeralExpenses.title"))
+                )
+        ),
             ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
@@ -104,9 +106,10 @@ isFullWidth=false) {
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
-                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.moreDetail"),
-                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.value"),
-                    Messages("page.iht.application.debts.overview.debtsFromTrust.screenReader.link.noValue"))
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.debts.debtsTrust.title")),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.debts.debtsTrust.title")),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.debtsTrust.title"))
+                    )
             ),
              ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
@@ -128,9 +131,10 @@ isFullWidth=false) {
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
-                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.moreDetail"),
-                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.value"),
-                    Messages("page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.noValue"))
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.debts.owedOutsideUK")),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.debts.owedOutsideUK")),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.owedOutsideUK"))
+                    )
             ),
             ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
@@ -152,9 +156,10 @@ isFullWidth=false) {
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
-                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.moreDetail"),
-                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.value"),
-                    Messages("page.iht.application.debts.overview.jointlyOwned.screenReader.link.noValue"))
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.debts.owedOnJointAssets")),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.debts.owedOnJointAssets")),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.owedOnJointAssets"))
+                    )
             ),
             ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,
@@ -176,9 +181,10 @@ isFullWidth=false) {
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
-                    Messages("page.iht.application.debts.overview.other.screenReader.link.moreDetail"),
-                    Messages("page.iht.application.debts.overview.other.screenReader.link.value"),
-                    Messages("page.iht.application.debts.overview.other.screenReader.link.noValue"))
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.debts.other.title")),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.debts.other.title")),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.other.title"))
+                    )
             ),
             ihtHelpers.generic_overview_status_link(
                 isComplete = isComplete,

@@ -31,6 +31,7 @@ browserTitle = Some(Messages("page.iht.application.exemptions.overview.charity.d
 isFullWidth = false) {
 
 <section>
+    <ul class="tabular-data tabular-data--list">
     @defining(charity.flatMap(_.id))  { charityId =>
         @defining(charity.flatMap(_.name))  { charityName =>
                 @ihtHelpers.generic_overview_item(
@@ -117,7 +118,7 @@ isFullWidth = false) {
 
 </section>
 <p>
-@ihtHelpers.return_link(label = Some(Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities")),
+@ihtHelpers.return_link(label = Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
     link = Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()))
 </p>
 }

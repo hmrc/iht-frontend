@@ -27,19 +27,23 @@
 registrationDetails: RegistrationDetails
 )(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.vehiclesOwned",
-                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@deceasedNameWrap() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
+@iht_main_template_application(
+    title = Messages("iht.estateReport.assets.vehiclesOwned", deceasedName),
     browserTitle = Some(Messages("page.iht.application.assets.vehicles.deceased.browserTitle")),
-    isFullWidth=false) {
+    isFullWidth=false,
+    headingName = deceasedName
+) {
 
-    @ihtHelpers.error_summary_override_keys(vehicles, Constants.AppSectionVehicles)
+@ihtHelpers.error_summary_override_keys(vehicles, Constants.AppSectionVehicles)
 
-    @helpers.form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
+@helpers.form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
 @ihtHelpers.generic_estate_element_assets(
                                     assetType = Constants.AssetTypeSingle,
-                                    questionLabel= Messages("iht.estateReport.assets.vehicles.ownName.question",
-                                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                    questionLabel= Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedNameWrap),
                                     inputTextLabel = Messages("page.iht.application.assets.vehicles.deceased.value"),
                                     inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
                                     sharableElementForm = vehicles,
@@ -52,6 +56,6 @@ registrationDetails: RegistrationDetails
     <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 }
-    @ihtHelpers.return_link(Some(Messages("site.link.return.vehicles")), Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(Messages("site.link.return.vehicles"), Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()))
 
 }

@@ -30,7 +30,7 @@ import play.api.i18n.Messages
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-
+import iht.views.html._
 import scala.concurrent.Future
 
 object PartnerPermanentHomeQuestionController extends PartnerPermanentHomeQuestionController with IhtConnectors {
@@ -142,18 +142,18 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
   }
 
   private def returnLabel(regDetails: RegistrationDetails, appDetails: ApplicationDetails): String = {
-    val deceasedName = regDetails.deceasedDetails.map(_.name)
+    val deceasedName = ihtHelpers.name(regDetails.deceasedDetails.map(_.name).getOrElse(""))
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
       case Some(x) => {
         if (x.isPartnerHomeInUK.isDefined) {
           Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
         } else {
-          Messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
+          Messages("page.iht.application.return.to.exemptionsOf", deceasedName)
         }
       }
       case None => {
-        Messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
+        Messages("page.iht.application.return.to.exemptionsOf", deceasedName)
       }
     }
   }

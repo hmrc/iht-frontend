@@ -25,10 +25,14 @@
 @(pensionsChangedQuestionForm: Form[PrivatePension],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.assets.pensions.changed.title",
-                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
-browserTitle = Some(Messages("page.iht.application.assets.pensions.changed.browserTitle")),
-isFullWidth=false){
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+
+@iht_main_template_application(
+    title = Messages("page.iht.application.assets.pensions.changed.title", deceasedName),
+    browserTitle = Some(Messages("page.iht.application.assets.pensions.changed.browserTitle")),
+    isFullWidth=false,
+    headingName = deceasedName
+){
 
     <p class="lede">@Messages("page.iht.application.assets.pensions.changed.question")</p>
 
@@ -49,7 +53,8 @@ isFullWidth=false){
 
     }
 
-@ihtHelpers.return_link(Some(Messages("iht.estateReport.assets.pensions.returnToPrivatePensions")),
-                        Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()))
+
+@ihtHelpers.return_link(Messages("iht.estateReport.assets.pensions.returnToPrivatePensions"), Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()))
+
 
 }

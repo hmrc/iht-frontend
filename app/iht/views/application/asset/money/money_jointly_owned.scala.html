@@ -26,20 +26,20 @@
 @(moneyJointlyOwned: Form[ShareableBasicEstateElement],
      registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.money.jointlyOwned"),
-browserTitle = Some(Messages("page.iht.application.assets.money.jointly.owned.browserTitle")),
-isFullWidth=false) {
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
+@iht_main_template_application(
+    title = Messages("iht.estateReport.assets.money.jointlyOwned"),
+    browserTitle = Some(Messages("page.iht.application.assets.money.jointly.owned.browserTitle")),
+    isFullWidth=false
+) {
 
 
 
     <div id='money-jointly-owned-description'>
-        <p class="lede">@Messages("page.iht.application.assets.money.jointly.owned.guidance.p1",
-                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-        <p>@Messages("page.iht.application.assets.money.jointly.owned.guidance.p2",
-                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-        <p>@Messages("page.iht.application.assets.money.jointly.owned.guidance.p3",
-                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
-                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p class="lede">@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p1", deceasedName))</p>
+        <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p2", deceasedName))</p>
+        <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p3", deceasedName, deceasedName))</p>
     </div>
 
     @ihtHelpers.error_summary_override_keys(moneyJointlyOwned, Constants.AppSectionMoney)
@@ -48,8 +48,7 @@ isFullWidth=false) {
 
     @ihtHelpers.generic_estate_element_assets(
       assetType = Constants.AssetTypeJoint,
-      questionLabel= Messages("page.iht.application.assets.money.jointly.owned.question",
-                              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+      questionLabel= Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
       inputTextLabel = Messages("page.iht.application.assets.money.jointly.owned.input.value.label"),
       sharableElementForm = moneyJointlyOwned,
       clearTargetInput = Some("shareValue")
@@ -58,6 +57,6 @@ isFullWidth=false) {
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
     }
-    @ihtHelpers.return_link(Some(Messages("site.link.return.money")), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(Messages("site.link.return.money"), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
 
 }

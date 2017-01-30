@@ -340,7 +340,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName),
                                                               lastName = Some(spouseOrCivilPartnerLastName))
 
-      TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext") shouldBe
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext").replace("\n", "") shouldBe
                       spouseOrCivilPartnerFirstName+" "+spouseOrCivilPartnerLastName
     }
     "return the pretext string when there is no spouse name" in {

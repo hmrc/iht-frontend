@@ -88,7 +88,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
       val result = insurancePolicyDetailsFinalGuidanceController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section7.guidance",
+      contentAsString(result).replace("\n","") should include(Messages("page.iht.application.insurance.policies.section7.guidance",
                                             CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
       contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section7.guidance2"))
     }

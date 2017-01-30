@@ -74,6 +74,14 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
   "Estate overview view" must {
 
+    "contain the correct guidance text" in {
+      implicit val request = createFakeRequest()
+
+      val view = estate_overview(dummyViewModel).toString
+      val doc = asDocument(view)
+      view should include(Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
+    }
+
     "contain the assets and gifts section" in {
       implicit val request = createFakeRequest()
 

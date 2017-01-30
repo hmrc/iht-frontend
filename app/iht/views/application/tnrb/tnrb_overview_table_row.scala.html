@@ -19,10 +19,11 @@
 @import iht.utils.OverviewHelper._
 
 @(id: String,
-questionText:String,
+questionText:Html,
 questionScreenReaderText: String,
 questionCategory:String,
 answerValue:String = "",
+answerValueFormatted:Option[Html] = None,
 link:Option[Call] = None,
 linkScreenReader:String
 )(implicit lang: play.api.i18n.Lang)
@@ -33,7 +34,7 @@ linkScreenReader:String
     </div>
     <div id="@id-value" class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
         @if(answerValue.nonEmpty){
-        <span aria-hidden="true">@answerValue</span>
+        <span aria-hidden="true">@if(answerValueFormatted){@answerValueFormatted}else{@answerValue}</span>
         }
     </div>
     <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">

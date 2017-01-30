@@ -38,7 +38,9 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {
-    for (sentence <- expectedSentences) content should include(sentence)
+
+    for (sentence <- expectedSentences) content.replace("\n","") should include(sentence.replace("\n",""))
+
   }
 
   def buildApplicationTitle(title: String) = title + " " + Messages("site.title.govuk")
