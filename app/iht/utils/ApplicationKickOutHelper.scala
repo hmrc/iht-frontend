@@ -371,7 +371,7 @@ object ApplicationKickOutHelper {
     InTrustLessThanSevenYears -> Messages("iht.ifYouWantToChangeYourAnswer"),
     SingleSectionMoreThanMax -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsTotalValueMoreThanMax -> Messages("iht.estateReport.kickout.returnToEstateOverview"),
-    InsuranceMoreThanMax -> Messages("iht.ifYouWantToChangeValue"),
+    InsuranceMoreThanMax -> Messages("iht.ifYouWantToChangeYourAnswer"),
     AssetsMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsDeceasedMoneyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),
     AssetsMoneyJointlyOwed -> Messages("page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2"),

@@ -18,13 +18,27 @@
 @import iht.viewmodels.application.overview._
 @import iht.views.html.ihtHelpers._
 @import play.twirl.api.Html
+@import iht.constants.IhtProperties
 
 @(model: EstateOverviewViewModel)
+
+@checkNameSize(name: String) = @{
+  var nameislong = false;
+  var nameParts = name.split(" ");
+  for (name <- nameParts) {
+    if(name.length() > IhtProperties.hyphenateNamesLength){
+      nameislong = true;
+    }
+  }
+  nameislong;
+}
 
 @iht_main_template_application(title = Messages("page.iht.application.overview.title2", model.deceasedName),
     browserTitle = Some(Messages("page.iht.application.overview.browserTitle")),
     isFullWidth=false,
-    sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline)
+    sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline),
+    headingClass = if(checkNameSize(model.deceasedName)){"heading-large"} else {"heading-xlarge"},
+    headingName = model.deceasedName
 ){
 
   <p id="estate-overview-guidance">@Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2")</p>

@@ -28,6 +28,7 @@ object IhtProperties {
   lazy val dateFormatForDisplay: String = getProperty("dateFormatForDisplay")
   lazy val maxCoExecutors: Int = getPropertyAsInt("maxCoExecutors")
   lazy val maxNameLength: Int = getPropertyAsInt("maxNameLength")
+  lazy val hyphenateNamesLength: Int = getPropertyAsInt("hyphenateNamesLength")
   lazy val validationMaxLengthAddresslines: Int = getPropertyAsInt("validationMaxLengthAddresslines")
   lazy val validationMaxLengthPostcode: Int = getPropertyAsInt("validationMaxLengthPostcode")
   lazy val validationMaxLengthFirstName: Int = getPropertyAsInt("validationMaxLengthFirstName")

@@ -88,7 +88,7 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
 
       val result = permanentHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("iht.estateReport.tnrb.permanentHome.question",
+      contentAsString(result).replace("\n","") should include(Messages("iht.estateReport.tnrb.permanentHome.question",
         s"$firstName $surname"))
     }
 

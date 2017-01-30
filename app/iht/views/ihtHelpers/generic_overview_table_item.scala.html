@@ -28,13 +28,12 @@ link:Option[Call] = None,
 linkScreenReader:String
 )(implicit lang: play.api.i18n.Lang)
 <li id="@id" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-    <div class="tabular-data__data tabular-data__data--6-12">@questionText</div>
+    <div class="tabular-data__data tabular-data__data--6-12">@Html(questionText)</div>
     <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
         @if(answerValue.nonEmpty){
         @answerValue
         }
     </div>
-    <!-- <div class="tabular-data__data tabular-data__data--2-12"></div> -->
     <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
         <a id="@id-link" href="@link">
             @if(answerValue.nonEmpty) {

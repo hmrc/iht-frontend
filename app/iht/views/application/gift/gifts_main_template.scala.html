@@ -17,14 +17,28 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 
-@(title: String, isFullWidth: Boolean = false,
+@(
+title: String,
+isFullWidth: Boolean = false,
 browserTitle: Option[String] = None,
 jsFile: Option[String]=None,
 relevantSectionGuidanceUrl: Call = iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad(),
 messageKeyUrl: String  = "Test",
-messageKeyAccessibility: String  = "Test")(mainContent: Html)(implicit request: Request[_])
+messageKeyAccessibility: String  = "Test",
+headingName: String = "",
+headingClass: String = ""
+)(mainContent: Html)(implicit request: Request[_])
 
-@iht_main_template_application(title = title, browserTitle = browserTitle, isFullWidth = isFullWidth, jsFile=jsFile,
-    sidebarLinks =  iht.views.html.application.gift.gifts_sidebar(relevantSectionGuidanceUrl, messageKeyUrl, messageKeyAccessibility)){
+
+
+@iht_main_template_application(
+    title = title,
+    browserTitle = browserTitle,
+    isFullWidth = isFullWidth,
+    jsFile=jsFile,
+    headingName = headingName,
+    headingClass = headingClass,
+    sidebarLinks =  iht.views.html.application.gift.gifts_sidebar(relevantSectionGuidanceUrl, messageKeyUrl, messageKeyAccessibility)
+){
     @mainContent
 }

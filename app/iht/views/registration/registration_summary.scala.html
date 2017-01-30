@@ -38,13 +38,12 @@
 
     <section class="section">
         <h2>@Messages("page.iht.registration.registrationSummary.deceasedTable.title")</h2>
-        <ul>
+        <ul class="tabular-data tabular-data--list">
             @defining(CommonHelper.getOrException(registrationDetails.deceasedDetails, "Deceased Details could not be found")) { deceasedDetails=>
 
                 @ihtHelpers.summary_item(
                     label = Messages("iht.name.upperCaseInitial"),
-                    data = (String.format(CommonHelper.getOrException(deceasedDetails.firstName)
-                    + "%n" + CommonHelper.getOrException(deceasedDetails.lastName))),
+                    data = ihtHelpers.name(CommonHelper.getOrException(deceasedDetails.firstName) + " \n" + CommonHelper.getOrException(deceasedDetails.lastName)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#firstName",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader"),
@@ -116,13 +115,12 @@
 
       <section class="section">
         <h2>@Messages("page.iht.registration.registrationSummary.applicantTable.title")</h2>
-        <ul>
+        <ul class="tabular-data tabular-data--list">
             @defining( CommonHelper.getOrException(registrationDetails.applicantDetails, "Applicant Details could not be found") ) { applicantDetails=>
 
                 @ihtHelpers.summary_item(
                     label = Messages("iht.name.upperCaseInitial"),
-                    data = (String.format(CommonHelper.getOrException(applicantDetails.firstName)
-                    + "%n" + CommonHelper.getOrException(applicantDetails.lastName))),
+                    data = ihtHelpers.name(CommonHelper.getOrException(applicantDetails.firstName) + " \n" + CommonHelper.getOrException(applicantDetails.lastName)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.name.data.screenReader", CommonHelper.getOrException(applicantDetails.firstName) + " " + CommonHelper.getOrException(applicantDetails.lastName)),
                     hasChangeLink = false
                 )

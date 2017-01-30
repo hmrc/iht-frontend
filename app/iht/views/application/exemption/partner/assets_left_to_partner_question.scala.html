@@ -26,12 +26,14 @@ cancelLabel: String,
 cancelUrl: Call
 )(implicit request:Request[_])
 
-@iht_main_template_application(title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
-                                                    getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName() = @{getDeceasedNameOrDefaultString(registrationDetails, false)}
+
+@iht_main_template_application(title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",deceasedName),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetLeftToPartner.browserTitle")),
 isFullWidth=false,
 cancelUrl = Some(cancelUrl),
-cancelLabel = Some(cancelLabel)){
+cancelLabel = Some(cancelLabel),
+headingName = deceasedName){
     @ihtHelpers.error_summary(assetsLeftToSpouseQuestionForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onSubmit,'autoComplete -> "off") {
 
