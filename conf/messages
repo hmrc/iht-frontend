@@ -811,7 +811,8 @@ page.iht.application.propertyDetails.deleteProperty.screenReader = The address o
 page.iht.application.propertyDetails.deleteProperty.button.screenReader = Confirm and delete this property
 
 page.iht.application.property.value.browserTitle = Property value
-page.iht.application.property.value.question.hint = Only include {0}’s share of the value if they jointly owned the property, building or land with someone else. HMRC recommend that you get a professional valuation.
+page.iht.application.property.value.question.hint1 = Give the full value of the property, building or land if {0} owned this on their own. If they owned this with someone else, only include their share of the total property, building or land value.
+page.iht.application.property.value.question.hint2 = HMRC recommend that you get a professional valuation for this property, building or land.
 
 page.iht.application.assets.properties.question.p1 = These are all UK properties, buildings or land owned by {0}, either on their own or jointly with other people. This also includes any business properties, buildings or land.
 page.iht.application.assets.properties.question.question = Did {0} own any properties, buildings or land in the UK?
@@ -820,7 +821,7 @@ page.iht.application.assets.properties.question.change = Change the answer for d
 
 iht.estateReport.assets.properties.freeholdOrLeasehold = Was this owned freehold or leasehold?
 iht.estateReport.assets.properties.returnToAddAProperty = Return to add a property, building or land
-iht.estateReport.assets.properties.value.question = What was the value of this property, building or land?
+iht.estateReport.assets.properties.value.question = What was {0}’s share of the value of this property, building or land?
 iht.estateReport.assets.properties.whatKind.question = What kind of property, building or land was this?
 iht.estateReport.assets.propertiesBuildingsAndLand = Properties, buildings and land
 iht.estateReport.assets.property.findOutFromLandRegistry = find out from the Land Registry

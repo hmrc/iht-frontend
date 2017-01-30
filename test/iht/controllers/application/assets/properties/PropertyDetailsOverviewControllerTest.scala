@@ -106,7 +106,7 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
     "display value of property question on the page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include(Messages("iht.estateReport.assets.properties.value.question", deceasedName))
     }
   }
 }
