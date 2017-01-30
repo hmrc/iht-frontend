@@ -60,7 +60,7 @@ trait DateOfMarriageController extends EstateController{
           registrationDetails.acknowledgmentReference)
       } yield {
         applicationDetails match {
-          case Some(appDetails) => {
+          case Some(appDetails) =>
             val filledForm = dateOfMarriageForm.fill(appDetails.increaseIhtThreshold.getOrElse(
               TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
@@ -69,7 +69,6 @@ trait DateOfMarriageController extends EstateController{
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
               deceasedName, predeceasedName(appDetails))
             )
-          }
           case _ => InternalServerError("Application details not found")
         }
       }
@@ -90,7 +89,7 @@ trait DateOfMarriageController extends EstateController{
       val boundForm = dateOfMarriageForm.bindFromRequest
 
       applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
+        case Some(appDetails) =>
           val dateOfPreDeceased = CommonHelper.getOrException(CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased)
 
           additionalErrorsForForm(boundForm, dateOfPreDeceased).fold(
@@ -103,7 +102,6 @@ trait DateOfMarriageController extends EstateController{
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
             }
           )
-        }
         case _ => Future.successful(InternalServerError("Application details not found"))
       }
     }
