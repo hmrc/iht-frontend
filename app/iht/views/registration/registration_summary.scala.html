@@ -51,6 +51,15 @@
                 )
 
                 @ihtHelpers.summary_item(
+                    label = Messages("iht.dateofbirth"),
+                    data = CommonHelper.getOrException(deceasedDetails.dateOfBirth).toString(IhtProperties.dateFormatForDisplay),
+                    dataScreenReaderText = "",
+                    changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.toString + "#date-of-birth",
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader"),
+                    linkId="change-deceased-date-of-birth"
+                )
+
+                @ihtHelpers.summary_item(
                     label = Messages("iht.dateOfDeath"),
                     data = registrationDetails.deceasedDateOfDeath.getOrElse(throw new RuntimeException("Deceased Date of death could not be found"))
                     .dateOfDeath.toString(IhtProperties.dateFormatForDisplay),
@@ -58,15 +67,6 @@
                     changeLink = deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad.url + "#date-of-death",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader"),
                     linkId="change-date-of-death"
-                )
-
-                @ihtHelpers.summary_item(
-                    label = Messages("iht.dateofbirth"),
-                    data = CommonHelper.getOrException(deceasedDetails.dateOfBirth).toString(IhtProperties.dateFormatForDisplay),
-                    dataScreenReaderText = "",
-                    changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.toString + "#date-of-birth",
-                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader"),
-                    linkId="change-deceased-date-of-birth"
                 )
 
                 @ihtHelpers.summary_item(
