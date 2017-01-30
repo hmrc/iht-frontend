@@ -548,12 +548,13 @@ iht.registration.kickout.content = You should complete the Inheritance Tax estat
 iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
 iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
 iht.registration.kickout.returnToTheLastPageVisited =return to the last page you visited
-iht.registration.kickout.message.MinDOD = If the date of death was between 13 March 1975 to 18 March 1986, Capital Transfer Tax applied to the deceased’s estate. Estate Duty was in place before 13 March 1975.
+iht.registration.kickout.returnToTheDateOfDeath =  return to the date of death
 iht.registration.kickout.message.form2 = If you want to change this date
 iht.registration.kickout.message.phone = Call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
-iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report
+iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report.
 iht.registration.kickout.message.returnToLast = Return to the last page you visited
 iht.registration.kickout.probateLocation.scotland = You should complete the Inheritance Tax estate report by completing either a C1 or a C5 paper form.
+iht.registration.kickout.message.changeTheDate = If you want to change the date
 
 #Estate report - Common
 iht.estateReport.goToEstateReports = Go to your Inheritance Tax estate reports
