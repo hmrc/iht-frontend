@@ -27,6 +27,7 @@ import play.api.mvc.{AnyContent, Call, Request}
 import scala.concurrent.Future
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 trait ExecutorOverviewController extends RegistrationController {
 
   def cachingConnector: CachingConnector
@@ -45,7 +46,7 @@ trait ExecutorOverviewController extends RegistrationController {
         rd.coExecutors,
         submitRoute,
         if (showCancelRoute) cancelToRegSummary else None)
-      (request)))
+      (request, applicationMessages)))
 
   private def goodRequest(rd: RegistrationDetails, submitRoute: Call, showCancelRoute: Boolean, request: Request[AnyContent]) =
     Future.successful(
@@ -54,7 +55,7 @@ trait ExecutorOverviewController extends RegistrationController {
         rd.coExecutors,
         submitRoute,
         if (showCancelRoute) cancelToRegSummary else None)
-      (request)))
+      (request, applicationMessages)))
 
   def onPageLoad = pageLoad(showCancelRoute = false, submitRoute)
 

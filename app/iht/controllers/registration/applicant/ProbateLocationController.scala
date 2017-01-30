@@ -26,6 +26,8 @@ import iht.utils.{CommonHelper, RegistrationKickOutHelper}
 import iht.views.html.registration.{applicant => views}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object ProbateLocationController extends ProbateLocationController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -48,19 +50,19 @@ trait ProbateLocationController extends RegistrationApplicantControllerWithEditM
 
   def okForPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     Ok(views.probate_location(form, applicantCountryMap, submitRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     Ok(views.probate_location(form, applicantCountryMap, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.probate_location(form, applicantCountryMap, submitRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.probate_location(form, applicantCountryMap, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
     val x = CommonHelper.getOrException(rd.applicantDetails) copy (country = ad.country)

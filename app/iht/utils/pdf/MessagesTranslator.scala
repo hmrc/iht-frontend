@@ -16,13 +16,12 @@
 
 package iht.utils.pdf
 
-import javax.inject.Inject
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.Messages
 
 /**
   * Created by grant on 02/12/16.
   */
-class MessagesTranslator @Inject()(val messagesApi: MessagesApi) extends I18nSupport {
+class MessagesTranslator {
   def getMessagesText(key: String): String = Messages(key)
 
   def getMessagesTextWithParameter(key: String, parameter:String ): String = Messages(key, parameter)

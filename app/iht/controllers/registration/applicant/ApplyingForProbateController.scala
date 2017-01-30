@@ -25,6 +25,8 @@ import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{applicant => views}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object ApplyingForProbateController extends ApplyingForProbateController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -44,19 +46,19 @@ trait ApplyingForProbateController extends RegistrationApplicantControllerWithEd
 
   def okForPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     Ok(views.applying_for_probate(form, submitRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     Ok(views.applying_for_probate(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.applying_for_probate(form, submitRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.applying_for_probate(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
     val x = rd.applicantDetails.getOrElse(new ApplicantDetails) copy (

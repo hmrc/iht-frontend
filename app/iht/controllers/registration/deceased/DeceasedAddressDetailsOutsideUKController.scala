@@ -47,19 +47,19 @@ trait DeceasedAddressDetailsOutsideUKController extends RegistrationDeceasedCont
 
   def okForPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_address_details_outside_uk(form, submitRoute, switchToUkRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_address_details_outside_uk(form, editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_address_details_outside_uk(form, submitRoute, switchToUkRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_address_details_outside_uk(form, editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   override def fillForm(rd: RegistrationDetails) = {
     val dd = CommonHelper.getOrException(rd.deceasedDetails)
