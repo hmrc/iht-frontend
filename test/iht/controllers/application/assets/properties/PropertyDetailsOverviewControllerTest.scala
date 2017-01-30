@@ -94,7 +94,7 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
     "display how the property was owned question on the page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result).replace("\n","") should include(Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "display freehold leasehold question on page" in {

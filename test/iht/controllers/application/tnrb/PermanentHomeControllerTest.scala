@@ -19,6 +19,7 @@ package iht.controllers.application.tnrb
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
+import iht.utils.CommonHelper._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
@@ -88,7 +89,7 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
 
       val result = permanentHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result).replace("\n","") should include(Messages("iht.estateReport.tnrb.permanentHome.question",
+      stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.tnrb.permanentHome.question",
         s"$firstName $surname"))
     }
 

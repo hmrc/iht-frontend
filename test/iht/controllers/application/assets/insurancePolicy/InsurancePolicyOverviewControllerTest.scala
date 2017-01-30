@@ -75,18 +75,18 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result).replace("\n", "") should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
-      contentAsString(result).replace("\n", "") should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
-      contentAsString(result).replace("\n", "") should include(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
-      contentAsString(result).replace("\n", "") should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
 
-      contentAsString(result).replace("\n", "") should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
                                                       deceasedName))
-      contentAsString(result).replace("\n", "") should include(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
                                                       deceasedName))
-      contentAsString(result).replace("\n", "") should include(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
                                                       deceasedName))
-      contentAsString(result).replace("\n", "") should include(Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
                                                       deceasedName))
     }
 
@@ -98,7 +98,7 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result).replace("\n", "") should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
                                                       deceasedName))
     }
   }

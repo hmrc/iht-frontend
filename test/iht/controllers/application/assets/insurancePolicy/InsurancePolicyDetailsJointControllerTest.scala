@@ -173,9 +173,9 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
-      contentAsString(result).replace("\n","") should include(Messages("page.iht.application.insurance.policies.section2.guidance",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.insurance.policies.section2.guidance",
                                               deceasedName, deceasedName))
-      contentAsString(result).replace("\n","") should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
                                                     deceasedName))
     }
 

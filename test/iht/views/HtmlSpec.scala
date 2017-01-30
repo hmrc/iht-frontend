@@ -18,6 +18,7 @@ package iht.views
 
 import iht.FakeIhtApp
 import org.apache.commons.lang3.StringEscapeUtils
+import iht.utils.CommonHelper._
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
 import play.api.i18n.Messages
@@ -42,7 +43,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
 
     assertMessageKeyHasValue(expectedMessageKey)
     //<p> HTML elements are rendered out with a carriage return on some pages, so discount for comparison
-    assert(elements.first().html().replace("\n", "") == Html(Messages(expectedMessageKey)).toString())
+    assert(stripLineBreaks(elements.first().html()) == Html(Messages(expectedMessageKey)).toString())
   }
 
   def assertEqualsValue(doc : Document, cssSelector : String, expectedValue: String) = {
@@ -51,7 +52,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
     if(elements.isEmpty) throw new IllegalArgumentException(s"CSS Selector $cssSelector wasn't rendered.")
 
     //<p> HTML elements are rendered out with a carriage return on some pages, so discount for comparison
-    assert(elements.first().html().replace("\n", "") == expectedValue)
+    assert(stripLineBreaks(elements.first().html()) == expectedValue)
   }
 
   def assertMessageKeyHasValue(expectedMessageKey: String): Unit = {
@@ -72,7 +73,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
     val expectedString = Html(Messages(expectedMessageKey, messageArgs: _*)).toString()
 
     assert(elements.toArray(new Array[Element](elements.size())).exists { element =>
-      element.html().replace("\n", "").contains(StringEscapeUtils.escapeHtml4(expectedString))
+      stripLineBreaks(element.html()).contains(StringEscapeUtils.escapeHtml4(expectedString))
     })
   }
 

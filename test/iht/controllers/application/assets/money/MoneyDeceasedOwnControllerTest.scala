@@ -158,7 +158,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = moneyDeceasedOwnController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result).replace("\n","") should include (Messages("iht.estateReport.assets.moneyOwned", deceasedName))
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include (Messages("iht.estateReport.assets.moneyOwned", deceasedName))
     }
   }
 }

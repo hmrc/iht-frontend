@@ -28,6 +28,7 @@ import iht.models.application.debts._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.StringHelper
+import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -100,7 +101,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      val content = contentAsString(result).replace("\n","")
+      val content = stripLineBreaks(contentAsString(result))
 
       content should include(Messages("iht.registration.checkYourAnswers"))
       content should include(Messages("page.iht.registration.registrationSummary.subTitle"))
@@ -193,7 +194,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      val content = contentAsString(result).replace("\n","")
+      val content = stripLineBreaks(contentAsString(result))
 
       content should include(deceasedAddress.ukAddressLine1)
       content should include(deceasedAddress.ukAddressLine2)
@@ -230,7 +231,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
 
-      val content = contentAsString(result).replace("\n","")
+      val content = stripLineBreaks(contentAsString(result))
       content shouldNot include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
 
       content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)
@@ -287,7 +288,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
 
-      val content = contentAsString(result).replace("\n","")
+      val content = stripLineBreaks(contentAsString(result))
       content shouldNot include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
 
       content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)

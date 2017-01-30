@@ -58,7 +58,7 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
 
     "show the correct question and guidance" in {
       implicit val request = createFakeRequest()
-      val viewAsString = given_away(giftsGivenAwayForm, regDetails).toString.replace("\n","")
+      val viewAsString = stripLineBreaks(given_away(giftsGivenAwayForm, regDetails).toString)
 
       viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.question",
                                               getDeceasedNameOrDefaultString(regDetails)))

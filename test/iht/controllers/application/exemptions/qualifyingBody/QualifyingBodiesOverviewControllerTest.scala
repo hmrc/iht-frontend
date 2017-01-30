@@ -110,7 +110,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       info("progressive reveal link is present")
       content should include(Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext"))
       info("progressive reveal text is present")
-      content.replace("\n","") should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
+      CommonHelper.stripLineBreaks(content) should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       info("question label is present")
       content should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text"))

@@ -93,7 +93,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
 
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result).replace("\n","") should include (Messages("page.iht.application.gifts.lastYears.question",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.question",
                                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
@@ -112,7 +112,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
       contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.p1"))
-      contentAsString(result).replace("\n","") should include (Messages("page.iht.application.gifts.lastYears.description.p3",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.description.p3",
                                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       contentAsString(result) should include (Messages("iht.estateReport.assets.money.lowerCaseInitial"))
       contentAsString(result) should include (Messages("iht.estateReport.gifts.stocksAndSharesListed"))

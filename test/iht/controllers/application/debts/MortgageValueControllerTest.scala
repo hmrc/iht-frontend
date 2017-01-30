@@ -98,7 +98,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
       val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result).replace("\n","") should include (Messages("page.iht.application.debts.mortgageValue.title",
+      CommonHelper.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.debts.mortgageValue.title",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
