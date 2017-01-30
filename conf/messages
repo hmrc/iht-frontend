@@ -1678,7 +1678,6 @@ page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
 page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.none = Give the name of the deceased’s spouse or civil partner.
 page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.some = The name of the deceased’s spouse or civil partner was {2}. Change this name.
 
-page.iht.application.tnrbEligibilty.overview.partner.marriageDate.title = Date of {0} to {1}
 page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.none = Give the date of marriage between the deceased and their spouse or civil partner.
 page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.some = The date of marriage or civil partnership between the deceased and their spouse or civil partner was {2}. Change this date.
 
@@ -1697,7 +1696,6 @@ page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.yes.scre
 page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.no.screenReader.link.value = No, Did the spouse or civil partner have their permanent home in the UK. Change this answer.
 
 page.iht.application.TnrbEligibilty.dateOfMarriage.label = Date of marriage or civil partnership to {0}
-page.iht.application.TnrbEligibilty.dateOfMarriage.label.marriage = Date of marriage to {0}
 
 page.iht.application.TnrbEligibilty.isPartnerLivingInUk.label = Did {0}’s {1} have their permanent home in the UK?
 page.iht.application.TnrbEligibilty.isGiftMadeBeforeDeath.label = Did {0}’s {1} give any gifts away in the 7 years before they died?
@@ -1725,6 +1723,7 @@ page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s 
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2 = The estate value is now under the Inheritance Tax threshold and there’s no Inheritance Tax to pay.
 iht.estateReport.tnrb.benefitFromTrust.question = Did {0} have the right to benefit from a trust during their lifetime?
 iht.estateReport.tnrb.dateOfMarriage = Date of {0}
+iht.estateReport.tnrb.dateOfMarriage.hint = This is the date of {0} between {1} and {2}
 iht.estateReport.tnrb.giftsMadeBeforeDeath.question = Were any gifts that weren’t exempt given away in the 7 years before {0} died?
 iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts with the reservation of benefit given to anyone apart from {0}?
 iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
