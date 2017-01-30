@@ -21,6 +21,7 @@ import iht.constants.IhtProperties
 import iht.controllers.application.tnrb.routes
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers._
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
@@ -341,7 +342,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName),
                                                               lastName = Some(spouseOrCivilPartnerLastName))
 
-      stripLineBreaks(TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext")) shouldBe
+      ContentChecker.stripLineBreaks(TnrbHelper.spouseOrCivilPartnerName(tnrbModel, "pretext")) shouldBe
                       spouseOrCivilPartnerFirstName+" "+spouseOrCivilPartnerLastName
     }
     "return the pretext string when there is no spouse name" in {

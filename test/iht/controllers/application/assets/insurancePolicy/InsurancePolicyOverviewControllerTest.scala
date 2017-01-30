@@ -20,6 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -75,18 +76,18 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
 
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
 
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
                                                       deceasedName))
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
                                                       deceasedName))
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
                                                       deceasedName))
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
                                                       deceasedName))
     }
 
@@ -98,7 +99,7 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
                                                       deceasedName))
     }
   }

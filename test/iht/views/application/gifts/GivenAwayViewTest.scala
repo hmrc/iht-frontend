@@ -19,6 +19,7 @@ package iht.views.application.gifts
 import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper._
 import iht.views.HtmlSpec
 import iht.views.html.application.gift.given_away
@@ -58,7 +59,7 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
 
     "show the correct question and guidance" in {
       implicit val request = createFakeRequest()
-      val viewAsString = stripLineBreaks(given_away(giftsGivenAwayForm, regDetails).toString)
+      val viewAsString = ContentChecker.stripLineBreaks(given_away(giftsGivenAwayForm, regDetails).toString)
 
       viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.question",
                                               getDeceasedNameOrDefaultString(regDetails)))

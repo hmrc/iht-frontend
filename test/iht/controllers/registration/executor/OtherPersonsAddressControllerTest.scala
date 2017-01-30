@@ -22,6 +22,7 @@ import iht.forms.registration.CoExecutorForms._
 import iht.models.{RegistrationDetails, UkAddress}
 import iht.utils.CommonHelper._
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
+import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time._
 import org.scalatest.BeforeAndAfter
@@ -76,7 +77,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1"))
 
       status(result) should be(OK)
-      stripLineBreaks(contentAsString(result)) should include(
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
         Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
@@ -93,7 +94,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1"))
 
       status(result) should be(OK)
-      stripLineBreaks(contentAsString(result)) should include(
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
         Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
@@ -210,7 +211,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2"))
 
       status(result) should be(OK)
-      stripLineBreaks(contentAsString(result)) should include(
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
         Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rdWithCoExecs.coExecutors(1).name)))
       val msg = escapeApostrophes(
@@ -228,7 +229,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
 
       status(result) should be(OK)
-      stripLineBreaks(contentAsString(result)) should include(
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
         Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rdWithCoExecs.coExecutors(1).name)))
       val msg = escapeApostrophes(

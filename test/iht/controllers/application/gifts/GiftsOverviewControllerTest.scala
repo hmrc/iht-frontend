@@ -22,6 +22,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import play.api.i18n.Messages
@@ -199,7 +200,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.gifts.overview.guidance1",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.gifts.overview.guidance1",
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails),
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
@@ -294,7 +295,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.overview.sevenYears.question2",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.overview.sevenYears.question2",
         deceasedName))
     }
 

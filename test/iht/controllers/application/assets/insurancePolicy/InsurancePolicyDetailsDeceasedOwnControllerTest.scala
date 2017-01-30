@@ -28,6 +28,7 @@ import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages
 import play.api.test.Helpers._
+import iht.testhelpers.ContentChecker
 
 import scala.concurrent.Future
 
@@ -169,7 +170,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
     "display a yes or no question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.ownName.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.ownName.question",
         CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
     }
 

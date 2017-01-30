@@ -65,5 +65,13 @@ class ContentCheckerTest extends UnitSpec {
 
       ContentChecker.findMessageKeys(content) shouldBe Seq("a.GOV.UK.b", "over.the.lazy.dog", "this.that.theOther")
     }
+
+    "stripLineBreaks should return string without line breaks" in {
+      val withBreaks =
+        """Line one
+      $Line two
+      $Line three""".stripMargin('$')
+      ContentChecker.stripLineBreaks(withBreaks) should include("Line one Line two")
+    }
   }
 }

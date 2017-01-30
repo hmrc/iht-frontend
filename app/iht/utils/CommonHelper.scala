@@ -68,10 +68,6 @@ object CommonHelper {
     fmt.format(n)
   }
 
-  def stripLineBreaks(inputCopy: String) = {
-    inputCopy.replace("\n", "")
-  }
-
   def trimAndUpperCaseNino(nino: String) = {
     nino.trim.replace(" ", "").toUpperCase
   }

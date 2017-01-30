@@ -162,13 +162,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
    result shouldBe nino
   }
 
-  "stripLineBreaks should return string without line breaks" in {
-    val withBreaks =
-      """Line one
-      $Line two
-      $Line three""".stripMargin('$')
-    CommonHelper.stripLineBreaks(withBreaks) should include("Line one Line two")
-  }
 
   "generateAcknowledgeReference should not contain a dash" in {
     val result = CommonHelper.generateAcknowledgeReference

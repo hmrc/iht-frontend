@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.QualifyingBody
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
+import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
@@ -110,7 +111,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       info("progressive reveal link is present")
       content should include(Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext"))
       info("progressive reveal text is present")
-      CommonHelper.stripLineBreaks(content) should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
+      ContentChecker.stripLineBreaks(content) should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       info("question label is present")
       content should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text"))

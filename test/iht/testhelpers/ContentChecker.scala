@@ -35,4 +35,8 @@ object ContentChecker {
                                                         doesNotContainAnAtSign(s) &&
                                                         doesNotContainAForwardSlash(s))
   }
+
+  def stripLineBreaks(inputCopy: String) = {
+    inputCopy.replace("\n", "")
+  }
 }

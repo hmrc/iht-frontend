@@ -18,6 +18,7 @@ package iht.views.application.gifts
 
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import iht.views.HtmlSpec
 import iht.views.html.application.gift.with_reservation_of_benefit
@@ -59,7 +60,7 @@ class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with Moc
     "contain the correct question" in {
       val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest)
 
-      CommonHelper.stripLineBreaks(contentAsString(view)) should include(Messages("iht.estateReport.gifts.reservation.question",
+      ContentChecker.stripLineBreaks(contentAsString(view)) should include(Messages("iht.estateReport.gifts.reservation.question",
                                             CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
 
     }

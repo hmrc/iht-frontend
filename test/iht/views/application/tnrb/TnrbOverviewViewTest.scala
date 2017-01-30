@@ -17,6 +17,7 @@
 package iht.views.application.tnrb
 
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
@@ -57,7 +58,7 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
 
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
-      val view = CommonHelper.stripLineBreaks(tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString)
+      val view = ContentChecker.stripLineBreaks(tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString)
       view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance1",
                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance2",

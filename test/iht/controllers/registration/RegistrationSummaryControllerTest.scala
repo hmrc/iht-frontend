@@ -27,6 +27,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.ContentChecker
 import iht.utils.StringHelper
 import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
@@ -101,7 +102,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      val content = stripLineBreaks(contentAsString(result))
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
 
       content should include(Messages("iht.registration.checkYourAnswers"))
       content should include(Messages("page.iht.registration.registrationSummary.subTitle"))
@@ -194,7 +195,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      val content = stripLineBreaks(contentAsString(result))
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
 
       content should include(deceasedAddress.ukAddressLine1)
       content should include(deceasedAddress.ukAddressLine2)
@@ -231,7 +232,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
 
-      val content = stripLineBreaks(contentAsString(result))
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
       content shouldNot include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
 
       content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)
@@ -288,7 +289,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
 
-      val content = stripLineBreaks(contentAsString(result))
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
       content shouldNot include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
 
       content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)

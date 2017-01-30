@@ -21,6 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
@@ -93,7 +94,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
 
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.question",
                                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
@@ -112,7 +113,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
       contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.p1"))
-      CommonHelper.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.description.p3",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.description.p3",
                                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       contentAsString(result) should include (Messages("iht.estateReport.assets.money.lowerCaseInitial"))
       contentAsString(result) should include (Messages("iht.estateReport.gifts.stocksAndSharesListed"))

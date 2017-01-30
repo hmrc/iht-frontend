@@ -19,6 +19,7 @@ package iht.views
 import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Document
 import iht.utils.CommonHelper._
+import iht.testhelpers.ContentChecker
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages
@@ -40,7 +41,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {
 
-    for (sentence <- expectedSentences) stripLineBreaks(content) should include(stripLineBreaks(sentence))
+    for (sentence <- expectedSentences) ContentChecker.stripLineBreaks(content) should include(ContentChecker.stripLineBreaks(sentence))
 
   }
 
