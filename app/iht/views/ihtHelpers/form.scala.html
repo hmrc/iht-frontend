@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@(id:String ,action: play.api.mvc.Call, args: (Symbol,String)*)(body: => Html)(implicit request: Request[_])
+@(id:String ,action: play.api.mvc.Call, args: (Symbol,String)*)(body: => Html)(implicit request:Request[_], messages: Messages)
 @import views.html.helper._
 
 <form id="@id" action="@action.url" method="@action.method" @toHtmlArgs(args.toMap)>

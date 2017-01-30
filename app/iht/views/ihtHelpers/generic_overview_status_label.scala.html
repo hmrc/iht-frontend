@@ -2,11 +2,12 @@
 @import iht.views.html._
 @import iht.constants.Constants
 @import iht.utils.OverviewHelper
+
 @(isComplete:Option[Boolean],
 messageKeyNotStarted: String = OverviewHelper.messageNotStarted,
 messageKeyComplete: String = OverviewHelper.messageComplete,
 messageKeyInComplete: String = OverviewHelper.messageInComplete,
-screenreaderQualifyingText: String = "[placeholder copy]")
+screenreaderQualifyingText: String = "[placeholder copy]")(implicit messages: Messages)
 
 @{
     isComplete match{

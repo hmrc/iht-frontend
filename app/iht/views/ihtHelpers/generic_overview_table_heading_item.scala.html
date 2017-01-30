@@ -24,7 +24,7 @@ questionText:String,
 questionScreenReaderText: String,
 link:Option[Call] = None,
 linkScreenReader:String,
-isAnswerValue:Boolean)(implicit lang: play.api.i18n.Lang)
+isAnswerValue:Boolean)(implicit messages: Messages)
 
 <div id="@id" class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">
     <div class="grid-layout__column grid-layout__column--3-4">

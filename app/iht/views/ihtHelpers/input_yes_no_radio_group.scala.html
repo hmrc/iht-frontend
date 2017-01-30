@@ -14,13 +14,13 @@
 * limitations under the License.
 *@
 
-@(field: Field, args: (Symbol, Any)*)(implicit lang: play.api.i18n.Lang)
+@(field: Field, args: (Symbol, Any)*)(implicit messages: Messages)
 
 @import play.api.i18n._
 @import views.html.helper._
 @import iht.views.html._
 
-@elements = @{new FieldElements(field.id, field, null, args.toMap, lang) }
+@elements = @{new FieldElements(field.id, field, null, args.toMap, messages) }
 @fieldsetClass = {@if(elements.hasErrors){ form-field--error}}
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 

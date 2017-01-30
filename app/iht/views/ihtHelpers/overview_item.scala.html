@@ -16,7 +16,7 @@
 
 @import iht.viewmodels.application.overview._
 
-@(model: OverviewRow, customClass: Option[String] = Some(""))
+@(model: OverviewRow, customClass: Option[String] = Some(""))(implicit messages: Messages)
 
 <li class="tabular-data__entry tabular-data__entry--grouped @customClass" id="@model.id-row">
     <div class="tabular-data__data tabular-data__data--4-12" id="@model.id-caption">
