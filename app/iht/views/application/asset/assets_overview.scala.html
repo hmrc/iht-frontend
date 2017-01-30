@@ -30,7 +30,7 @@
 @(appDetails:ApplicationDetails,
 assets:AllAssets,
 ihtReference: String,
-deceasedName: String)(implicit request: Request[_])
+deceasedName: String)(implicit request:Request[_], messages: Messages)
 
 @getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
     isComplete match {

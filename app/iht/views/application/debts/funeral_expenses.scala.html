@@ -17,7 +17,7 @@
 @import iht.models._
 @import iht.models.application.debts._
 
-@(funeralExpensesForm: Form[iht.models.application.debts.BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_])
+@(funeralExpensesForm: Form[iht.models.application.debts.BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 

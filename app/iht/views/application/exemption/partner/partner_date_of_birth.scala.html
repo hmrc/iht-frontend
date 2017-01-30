@@ -18,7 +18,7 @@
 @import iht.views.html._
 @import iht.models._
 @import iht.models.application.exemptions._
-@(spouseDateOfBirthForm: Form[PartnerExemption], registrationDetails:RegistrationDetails)(implicit request: Request[_])
+@(spouseDateOfBirthForm: Form[PartnerExemption], registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
 browserTitle=Some(Messages("page.iht.application.exemptions.partner.dateOfBirth.browserTitle")),
 isFullWidth=false) {

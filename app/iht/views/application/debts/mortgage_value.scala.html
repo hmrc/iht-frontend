@@ -28,7 +28,7 @@
 @(mortgagesForm: Form[iht.models.application.debts.Mortgage],
 property: Property,
 submitUrl: Call,
-regDetails: RegistrationDetails)(implicit request: Request[_])
+regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
     browserTitle = Some(Messages("page.iht.application.debts.mortgageValue.browserTitle")),

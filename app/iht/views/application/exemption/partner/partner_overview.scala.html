@@ -25,7 +25,7 @@
 @import iht.utils._
 
 @(appDetails:ApplicationDetails,
-registrationDetails: RegistrationDetails)(implicit request: Request[_])
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.overview.browserTitle")),

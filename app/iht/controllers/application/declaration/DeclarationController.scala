@@ -117,7 +117,7 @@ trait DeclarationController extends ApplicationController {
 
   private def processApplication(nino: String)(implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     val errorHandler: PartialFunction[Throwable, Result] = {
-      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex)))
+      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages))
     }
     val regDetails = cachingConnector.getExistingRegistrationDetails
     val ihtAppReference = regDetails.ihtReference

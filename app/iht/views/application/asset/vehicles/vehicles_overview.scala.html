@@ -26,7 +26,7 @@
 @import iht.utils.CommonHelper
 
 @(vehicles:Option[ShareableBasicEstateElement],
-  registrationDetails: RegistrationDetails)(implicit request: Request[_])
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @getLinkScreenReader(element: Option[_], changeText: String, noValueText: String) = @{
     element match {

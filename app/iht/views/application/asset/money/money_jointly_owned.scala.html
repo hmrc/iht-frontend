@@ -24,7 +24,7 @@
 @import iht.utils.CommonHelper
 
 @(moneyJointlyOwned: Form[ShareableBasicEstateElement],
-     registrationDetails: RegistrationDetails)(implicit request: Request[_])
+     registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.money.jointlyOwned"),
 browserTitle = Some(Messages("page.iht.application.assets.money.jointly.owned.browserTitle")),

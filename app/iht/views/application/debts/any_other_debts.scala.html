@@ -24,7 +24,7 @@
 @import iht.utils.CommonHelper
 
 @(anyOtherDebtsForm: Form[iht.models.application.debts.BasicEstateElementLiabilities],
-registrationDetails: RegistrationDetails)(implicit request: Request[_])
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.other.title"),
     browserTitle = Some(Messages("page.iht.application.debts.other.browserTitle")),

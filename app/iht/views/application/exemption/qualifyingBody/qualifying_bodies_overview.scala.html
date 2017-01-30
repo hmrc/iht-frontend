@@ -23,7 +23,7 @@
 
 @(qualifyingBodies: Seq[QualifyingBody],
 registrationDetails: RegistrationDetails,
-isAssetLeftToQualifyingBody: Boolean)(implicit request: Request[_])
+isAssetLeftToQualifyingBody: Boolean)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title",
                                                 CommonHelper.getOrException(registrationDetails.deceasedDetails).name),

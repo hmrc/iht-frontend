@@ -26,7 +26,7 @@
 @import iht.utils.CommonHelper
 
 @(household:Option[ShareableBasicEstateElement],
-  registrationDetails: RegistrationDetails)(implicit request: Request[_])
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @getLinkScreenReader(household: Option[ShareableBasicEstateElement], changeText: String, noValueText: String) = @{
     if (household.flatMap(_.isOwned.map(identity))) {

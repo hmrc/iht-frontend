@@ -25,7 +25,7 @@
 @import iht.utils._
 @import iht.constants.Constants._
 
-@(appDetails: ApplicationDetails, debts: AllLiabilities, registrationDetails: RegistrationDetails)(implicit request: Request[_])
+@(appDetails: ApplicationDetails, debts: AllLiabilities, registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
     isComplete match {

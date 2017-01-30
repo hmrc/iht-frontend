@@ -23,7 +23,7 @@
 
 @(charities: Seq[Charity],
 registrationDetails: RegistrationDetails,
-isAssetLeftToCharity: Boolean)(implicit request: Request[_])
+isAssetLeftToCharity: Boolean)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title",
 CommonHelper.getOrException(registrationDetails.deceasedDetails).name),

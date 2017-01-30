@@ -23,7 +23,7 @@
 @import iht.utils.CommonHelper
 
 @(businessInterestForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request: Request[_])
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.businessInterests.title"),
     browserTitle = Some(Messages("page.iht.application.assets.businessInterest.browserTitle")),

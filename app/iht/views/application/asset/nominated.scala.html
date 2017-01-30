@@ -24,7 +24,7 @@
 @import iht.utils.CommonHelper
 
 @(nominatedForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request: Request[_])
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.nominated"),
 browserTitle = Some(Messages("page.iht.application.assets.nominated.browserTitle")),
