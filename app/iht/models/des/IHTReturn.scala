@@ -39,13 +39,13 @@ object SpousesEstate {
 
 case class Spouse(
                    // Person
-                   title: Option[String]=None, firstName: Option[String]=None, middleName: Option[String]=None,
-                   lastName: Option[String]=None, dateOfBirth: Option[String]=None,
-                   gender: Option[String]=None, nino: Option[String]=None, utr: Option[String]=None,
-                   mainAddress: Option[Address]=None,
+                   title: Option[String] = None, firstName: Option[String] = None, middleName: Option[String] = None,
+                   lastName: Option[String] = None, dateOfBirth: Option[LocalDate] = None,
+                   gender: Option[String] = None, nino: Option[String] = None, utr: Option[String] = None,
+                   mainAddress: Option[Address] = None,
 
                    // Other
-                   dateOfMarriage: Option[String]=None, dateOfDeath: Option[String]=None
+                   dateOfMarriage: Option[LocalDate] = None, dateOfDeath: Option[LocalDate] = None
                  )
 
 object Spouse {
