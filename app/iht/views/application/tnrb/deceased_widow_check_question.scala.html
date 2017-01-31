@@ -33,7 +33,6 @@ cancelLinkText:String
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.partner.married",
-                                            deceasedName,
                                             TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
                                             TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                                                           Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"), true)),

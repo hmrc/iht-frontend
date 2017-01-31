@@ -193,7 +193,6 @@ hasTimeOut=true) {
             @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(IhtProperties.statusWidowed)){
                 @tnrb_overview_table_row(id = "partner-marital-status",
                                     questionText = Html(Messages("iht.estateReport.tnrb.partner.married",
-                                                        getDeceasedNameOrDefaultString(registrationDetails, true),
                                                         TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
                                                         TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"), true)
                                                     )

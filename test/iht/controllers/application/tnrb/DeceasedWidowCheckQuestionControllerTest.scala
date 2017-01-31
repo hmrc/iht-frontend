@@ -206,7 +206,6 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() shouldBe 1
       val expectedTitle = Messages("iht.estateReport.tnrb.partner.married",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails),
         TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
         TnrbHelper.spouseOrCivilPartnerLabel(
           tnrbModel,

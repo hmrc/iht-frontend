@@ -36,7 +36,6 @@ class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour {
   val widowCheckModel = CommonBuilder.buildWidowedCheck
 
   override def pageTitle = Messages("iht.estateReport.tnrb.partner.married",
-                              CommonHelper.getDeceasedNameOrDefaultString(regDetails),
                              TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
                              TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                                      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their")))
