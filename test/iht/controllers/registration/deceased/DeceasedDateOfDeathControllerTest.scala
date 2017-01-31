@@ -33,7 +33,7 @@ import play.api.mvc.{Action, AnyContent}
 import play.api.test.Helpers._
 import play.api.test.{FakeApplication, FakeRequest, WithApplication}
 
-class DeceasedDateOfDeathTest extends RegistrationControllerTest {
+class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
   lazy val defaultReferrerURL="http://localhost:9070/inheritance-tax"
   lazy val defaultHost="localhost:9070"
@@ -155,44 +155,6 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
         createFakeRequestWithReferrer(referrerURL=defaultReferrerURL,host=defaultHost))
       status(result) should be(OK)
       contentAsString(result) should include(Messages("page.iht.registration.deceasedDateOfDeath.title"))
-    }
-
-    "contain Continue button when Page is loaded in normal mode" in {
-      setupMocks
-      val referrerURL="http://localhost:9070/inheritance-tax"
-      val host="localhost:9070"
-      val result =controller.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,
-        host=host))
-
-      status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.deceasedDateOfDeath.title"))
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
-    }
-
-    "contain Continue and Cancel button when Page is loaded in edit mode" in {
-      val referrerURL = "http://localhost:9070/inheritance-tax/registration/editDeceasedDateOfDeath"
-      val host = "localhost:9070"
-
-      val deceasedDateOfDeath=CommonBuilder.buildDeceasedDateOfDeath
-      val applicantDetails=CommonBuilder.buildApplicantDetails
-      val deceasedDetails=CommonBuilder.buildDeceasedDetails
-
-      val registrationDetails=CommonBuilder.buildRegistrationDetails copy (deceasedDateOfDeath=Some
-        (deceasedDateOfDeath),applicantDetails=Some(applicantDetails),deceasedDetails=Some(deceasedDetails))
-
-      implicit val requestWithHeaders = FakeRequest().withHeaders(("referer",referrerURL),("host",host))
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-
-      val result =controller.onEditPageLoad(createFakeRequestWithReferrer(referrerURL=referrerURL,
-        host=host))
-
-      status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.deceasedDateOfDeath.title"))
-
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
     }
 
     "respond with OK" in new WithApplication(FakeApplication()) {

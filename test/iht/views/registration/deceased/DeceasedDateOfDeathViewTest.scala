@@ -16,6 +16,7 @@
 
 package iht.views.registration.deceased
 
+import iht.controllers.registration.routes
 import iht.forms.registration.DeceasedForms.deceasedDateOfDeathForm
 import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
@@ -27,10 +28,19 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour {
   override def pageTitle = Messages("page.iht.registration.deceasedDateOfDeath.title")
   override def browserTitle = Messages("iht.dateOfDeath")
 
+  lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
+  lazy val editSubmitLocation= iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onEditSubmit
+
   override def fixture() = new {
     implicit val request = createFakeRequest()
     val view = deceased_date_of_death(deceasedDateOfDeathForm, Call("", "")).toString
     val doc = asDocument(view)
+  }
+
+  def editModeView = {
+    implicit val request = createFakeRequest()
+    val view = deceased_date_of_death(deceasedDateOfDeathForm, editSubmitLocation, Some(regSummaryPage)).toString
+    asDocument(view)
   }
 
   "Deceased Date of Death View" must {
@@ -60,6 +70,17 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour {
     "have a form hint" in {
       val f = fixture()
       messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
+    }
+
+    "have a continue and cancel link in edit mode" in {
+      val view = editModeView
+
+      val continueLink = view.getElementById("continue")
+      continueLink.attr("value") shouldBe Messages("iht.continue")
+
+      val cancelLink = view.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe regSummaryPage.url
+      cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }
 }
