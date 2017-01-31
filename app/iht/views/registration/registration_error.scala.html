@@ -23,8 +23,8 @@
 hasTimeOut=true) {
 @{
 errorType match {
-case "requestTimeOut" => registration_error_timeOut(request)
-case _ => registration_error_systemError(request)
+case "requestTimeOut" => registration_error_timeOut(request, messages)
+case _ => registration_error_systemError(request, messages)
 }
 }
 }

@@ -45,23 +45,23 @@ class KickoutController extends RegistrationController {
 
   def probateKickoutView(contentLines: Seq[String])(request: Request[_]) =
     kickout_template(Messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
-    iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad())(contentLines)(request)
+    iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad())(contentLines)(request, applicationMessages)
 
   def locationKickoutView(contentLines: Seq[String])(request: Request[_]) =
     kickout_template(Messages("page.iht.registration.deceasedDetails.kickout.location.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad())(contentLines)(request)
+    iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad())(contentLines)(request, applicationMessages)
 
   def capitalTaxKickoutView(contentLines: Seq[String])(request: Request[_]) =
     kickout_template(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request)
+    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request, applicationMessages)
 
   def dateOtherKickoutView(contentLines: Seq[String])(request: Request[_]) =
     kickout_template(Messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request)
+    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request, applicationMessages)
 
   def notApplyingForProbateKickoutView(contentLines: Seq[String])(request: Request[_]) =
     kickout_template(Messages("page.iht.registration.notApplyingForProbate.kickout.summary"),
-    iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad())(contentLines)(request)
+    iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad())(contentLines)(request, applicationMessages)
 
   def content: Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->

@@ -124,7 +124,4 @@ object Constants {
     ETMPExemptionTypeGNCP -> "pdf.exemption.otherQualifyingBodies"
   )
 
-  lazy val SITE_BUTTON_SIGNOUT = Messages("site.button.signOut")
-  lazy val SITE_CANCEL_LINK = Messages("site.link.cancel")
-
 }

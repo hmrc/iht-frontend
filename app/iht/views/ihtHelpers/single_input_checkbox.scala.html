@@ -23,7 +23,7 @@
 
 
 <div class="form-field-single @if(elements.hasErrors) {form-field--error}">
-  @elements.errors(elements.messages).map { error =>
+  @elements.errors.map { error =>
   <div class="error-notification">@Messages(error)</div>
   }
 

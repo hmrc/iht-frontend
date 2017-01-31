@@ -19,7 +19,7 @@
 @import iht.views.html._
 
 @(pageTitle: String, message: Html, exitLinkHref:String, exitLinkText:String,
-    verifyLinkHref:Option[String]=None, verifyLinkText:Option[String]=None)
+    verifyLinkHref:Option[String]=None, verifyLinkText:Option[String]=None)(implicit request : Request[_], messages: Messages)
 
 @mainContent = {
     @message

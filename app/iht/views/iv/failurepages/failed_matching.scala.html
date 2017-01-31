@@ -16,7 +16,7 @@
 
 @import iht.constants.IhtProperties
 
-@()(implicit messages: Messages)
+@()(implicit request : Request[_], messages: Messages)
 
 @message={
 <p>@Messages("page.iht.iv.failure.failedMatching.p1")
