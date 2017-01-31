@@ -9,7 +9,7 @@
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1270163
 // If Mozilla add display: revert and remove list-item from summary then this will fall through.
 @-moz-document regexp('.*') {
-  details summary {
+  details summary:not([tabindex]) {
     display: list-item;
     display: revert;
   }
