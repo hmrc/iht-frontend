@@ -75,8 +75,6 @@ trait DateOfMarriageController extends EstateController{
     }
   }
 
-
-
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
       val regDetails = cachingConnector.getExistingRegistrationDetails
