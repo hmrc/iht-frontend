@@ -16,6 +16,8 @@
 
 @import iht.constants.IhtProperties
 
+@()(implicit request : Request[_], messages: Messages)
+
 @message={
 <p>@Messages("page.iht.iv.failure.preconditionFailed.p1")
     <a href='https://www.gov.uk/contact-hmrc'>@Messages("page.iht.iv.failure.preconditionFailed.p1.link.text")</a>.

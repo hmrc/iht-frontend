@@ -23,6 +23,8 @@ import play.api.Play.current
 
 import scala.collection.immutable.ListMap
 import iht.constants.IhtProperties._
+import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by dbeer on 04/08/15.
@@ -121,4 +123,8 @@ object Constants {
   lazy val ETMPExemptionTypesToIHTMessageKeys = ListMap(
     ETMPExemptionTypeGNCP -> "pdf.exemption.otherQualifyingBodies"
   )
+
+  lazy val SITE_BUTTON_SIGNOUT = Messages("site.button.signOut")
+  lazy val SITE_CANCEL_LINK = Messages("site.link.cancel")
+
 }
