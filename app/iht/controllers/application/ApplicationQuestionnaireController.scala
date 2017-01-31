@@ -21,6 +21,7 @@ import iht.utils.IhtSection
 import iht.views.html.application.application_questionnaire
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.passcode.authentication.{PasscodeAuthenticationProvider, PasscodeVerificationConfig}
 
 object ApplicationQuestionnaireController extends ApplicationQuestionnaireController  with IhtConnectors {}
 

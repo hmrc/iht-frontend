@@ -11,7 +11,7 @@ private object AppDependencies {
   import play.sbt.PlayImport._
   import play.core.PlayVersion
 
-  private val httpCachingClientVersion = "5.6.0"
+  private val httpCachingClientVersion = "6.1.0"
   private val jsonSchemaValidatorVersion = "2.2.6"
   private val jsonVersion = "20160212"
 
@@ -25,7 +25,8 @@ val compile = Seq(
   "uk.gov.hmrc" %% "frontend-bootstrap" % "7.10.0",
   "uk.gov.hmrc" %% "play-partials" % "5.2.0",
   "uk.gov.hmrc" %% "play-config" % "3.0.0",
-  "uk.gov.hmrc" %% "play-json-logger" % "2.1.1",
+  "uk.gov.hmrc" %% "play-filters" % "5.6.0",
+  "uk.gov.hmrc" %% "logback-json-logger" % "3.1.0",
   "uk.gov.hmrc" %% "passcode-verification" % "3.5.0",
   "uk.gov.hmrc" %% "play-authorised-frontend" % "6.2.0",
   "uk.gov.hmrc" %% "http-verbs" % "6.2.0",
