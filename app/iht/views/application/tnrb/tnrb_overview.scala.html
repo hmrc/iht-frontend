@@ -194,7 +194,7 @@ hasTimeOut=true) {
                 @tnrb_overview_table_row(id = "partner-marital-status",
                                     questionText = Html(Messages("iht.estateReport.tnrb.partner.married",
                                                         TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-                                                        TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"), true)
+                                                        TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)
                                                     )
                                                 ),
                                     questionScreenReaderText= Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text"),

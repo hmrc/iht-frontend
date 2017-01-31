@@ -37,8 +37,7 @@ class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour {
 
   override def pageTitle = Messages("iht.estateReport.tnrb.partner.married",
                              TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-                             TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                     Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their")))
+                             TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))
 
   override def browserTitle = Messages("iht.estateReport.tnrb.increasingIHTThreshold")
   override def guidanceParagraphs = Set()
