@@ -60,7 +60,11 @@ object StringHelper {
       val splitItems: Array[String] = listOfAssignments.split(",")
       splitItems.toSeq.map { property =>
         withValue(property.trim.split("=")) { splitProperty =>
-          CommonHelper.getIfTrueOrException(splitProperty.length == 2, Tuple2(splitProperty(0).trim, splitProperty(1).trim))
+          if(splitProperty.length == 2) {
+            Tuple2(splitProperty(0).trim, splitProperty(1).trim)
+          } else {
+            throw new RuntimeException("Invalid property-value assignment: " + splitProperty)
+          }
         }
       }
     }
