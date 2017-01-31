@@ -18,7 +18,7 @@ package iht.controllers.application.pdf
 
 import iht.config.FrontendAuthConnector
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.Constants
+import iht.constants.{Constants, IhtProperties}
 import iht.controllers.application.ApplicationController
 import iht.controllers.auth.IhtActions
 import iht.utils.pdf._
@@ -49,10 +49,8 @@ trait PDFController extends ApplicationController with IhtActions {
 
   def xmlFoToPDF: XmlFoToPDF
 
-  private val staticHeaders: Seq[(String, String)] = Seq(Tuple2("Content-type", "application/pdf"))
-
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
-    staticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
+    IhtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
 
   def onPreSubmissionPDF = authorisedForIht {
     implicit user =>

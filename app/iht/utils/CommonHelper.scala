@@ -185,6 +185,17 @@ object CommonHelper {
     }
   }
 
+  /**
+    * If boolean expression is true then evaluates and returns the value,
+    * otherwise throws an exception.
+    */
+  def getIfTrueOrException[A](expr:Boolean, value: => A) =
+    if(expr) {
+      value
+    } else {
+      throw new RuntimeException("Guard expression for value is false")
+    }
+
   def getOrExceptionIfNegative(i:Int): Int = if (i<0) throw new RuntimeException("Unexpected negative value") else i
 
   def getOrException[A](option: Option[A], errorMessage:String = "No element found"):A =

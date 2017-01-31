@@ -544,4 +544,16 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       CommonHelper.getDeceasedNameOrDefaultString(regDetailsWithNODeceasedDetails) shouldBe Messages("iht.the.deceased")
     }
   }
+
+  "getIfTrueOrException" must {
+    "return the value if expression is true" in {
+      CommonHelper.getIfTrueOrException(expr = true, value = "value") shouldBe "value"
+    }
+
+    "throw an exception if expression is false" in {
+      a[RuntimeException] shouldBe thrownBy {
+        CommonHelper.getIfTrueOrException(expr = false, value = "value")
+      }
+    }
+  }
 }
