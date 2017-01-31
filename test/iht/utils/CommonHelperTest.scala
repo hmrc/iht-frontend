@@ -162,6 +162,7 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
    result shouldBe nino
   }
 
+
   "generateAcknowledgeReference should not contain a dash" in {
     val result = CommonHelper.generateAcknowledgeReference
     result shouldNot contain("-")

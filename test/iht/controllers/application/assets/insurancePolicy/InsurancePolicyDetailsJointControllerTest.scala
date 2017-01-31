@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -173,9 +174,9 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
-      contentAsString(result).replace("\n","") should include(Messages("page.iht.application.insurance.policies.section2.guidance",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.insurance.policies.section2.guidance",
                                               deceasedName, deceasedName))
-      contentAsString(result).replace("\n","") should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
                                                     deceasedName))
     }
 

@@ -122,7 +122,7 @@
             </fo:table>
         </fo:block>
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" space-before="0.5cm">
-            <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'pdf.inheritance.tax.application.summary.tnrb.personalDetails.title', $preDeceasedName)"/>
+            <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'site.nameDetails', $preDeceasedName)"/>
         </fo:block>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
             <fo:table space-before="0.5cm">

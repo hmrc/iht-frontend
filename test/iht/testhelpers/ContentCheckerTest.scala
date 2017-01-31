@@ -16,9 +16,20 @@
 
 package iht.testhelpers
 
+import iht.FakeIhtApp
+import play.api.Play
+import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.utils.CommonHelper
+import scala.io.Source._
 
-class ContentCheckerTest extends UnitSpec {
+class ContentCheckerTest extends UnitSpec with FakeIhtApp {
+
+  def getResourceAsFilePath(filePath: String) = {
+    val url = CommonHelper.getOrException(Play.resource(filePath),
+      "Unable to find Play resource in class path: " + filePath)
+    url.getFile
+  }
 
   "findMessageKeys" must {
     "find no dotted strings in content if there are no dotted strings in the content" in {
@@ -64,6 +75,11 @@ class ContentCheckerTest extends UnitSpec {
         "someone.else@example.com this.that.theOther some.one@example.com"
 
       ContentChecker.findMessageKeys(content) shouldBe Seq("a.GOV.UK.b", "over.the.lazy.dog", "this.that.theOther")
+    }
+
+    "stripLineBreaks should return string without line breaks" in {
+      val content = fromFile(getResourceAsFilePath("formatted_string")).mkString
+      ContentChecker.stripLineBreaks(content) should include("Line oneLine two")
     }
   }
 }

@@ -27,7 +27,9 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.ContentChecker
 import iht.utils.StringHelper
+import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -100,11 +102,11 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      val content = contentAsString(result)
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
 
       content should include(Messages("iht.registration.checkYourAnswers"))
       content should include(Messages("page.iht.registration.registrationSummary.subTitle"))
-      content should include(Messages("page.iht.registration.registrationSummary.deceasedTable.title"))
+      content should include(Messages("site.nameDetails", deceasedDetails.firstName.get + " " + deceasedDetails.lastName.get))
       content should include(Messages("iht.name.upperCaseInitial"))
       content should include(deceasedDetails.firstName.get)
       content should include(deceasedDetails.lastName.get)
@@ -193,7 +195,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      val content = contentAsString(result)
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
 
       content should include(deceasedAddress.ukAddressLine1)
       content should include(deceasedAddress.ukAddressLine2)
@@ -230,13 +232,13 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
 
-      val content = contentAsString(result)
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
       content shouldNot include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
 
       content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)
 
       content should include(Messages("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link"))
-      content should include(Messages("page.iht.registration.registrationSummary.coExecutorTable.sectionTitle", "1"))
+      content should include(Messages("site.nameDetails", coExec1.firstName + " " + coExec1.lastName))
       content should include(Messages("iht.name.upperCaseInitial"))
       content should include(coExec1.firstName)
       content should include(coExec1.lastName)
@@ -287,7 +289,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
 
-      val content = contentAsString(result)
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
       content shouldNot include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
 
       content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)

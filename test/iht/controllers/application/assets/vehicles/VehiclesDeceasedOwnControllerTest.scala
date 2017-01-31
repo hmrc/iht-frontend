@@ -21,6 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
@@ -159,7 +160,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesDeceasedOwnController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result).replace("\n","") should include (Messages("iht.estateReport.assets.vehiclesOwned", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("iht.estateReport.assets.vehiclesOwned", deceasedName))
     }
   }
 }
