@@ -27,7 +27,7 @@ import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 
-class DeleteCoExecutorTest extends RegistrationControllerTest with BeforeAndAfter {
+class DeleteCoExecutorControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
   before {
     mockCachingConnector = mock[CachingConnector]
@@ -133,7 +133,7 @@ class DeleteCoExecutorTest extends RegistrationControllerTest with BeforeAndAfte
       contentAsString(result) should include(Messages("site.button.confirmDelete"))
     }
 
-    "if the coexecutor with given id exists - a back link must be visible" in {
+    "if the coexecutor with given id exists - a cancel link must be visible" in {
       createMockToGetExistingRegDetailsFromCache(mockCachingConnector, CommonBuilder.buildRegistrationDetailsWithCoExecutors)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithCoExecutors))
@@ -141,7 +141,7 @@ class DeleteCoExecutorTest extends RegistrationControllerTest with BeforeAndAfte
       val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL = referrerURL, host = "localhost:9070"))
 
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.back"))
+      contentAsString(result) should include(Messages("site.link.cancel"))
       contentAsString(result) should include(Messages(routes.ExecutorOverviewController.onPageLoad().url))
     }
 
