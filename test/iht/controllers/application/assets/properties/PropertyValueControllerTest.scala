@@ -102,7 +102,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display property question sub label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.property.value.question.hint",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.property.value.question.hint1",
                                                       deceasedName))
     }
 

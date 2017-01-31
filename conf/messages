@@ -134,7 +134,7 @@ iht.postcode = Postcode
 iht.returnToLastQuestion = Return to last question
 iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank accounts that the deceased might’ve owned, how much do you think the deceased’s estate is worth?
 iht.saveAndContinue = Save and continue
-iht.shouldUseOnlineService = You should use the online service
+iht.shouldUseOnlineService = You must use the online service
 iht.signedOut = You’ve been signed out
 iht.start = Start
 iht.startAgain = Start again
@@ -365,7 +365,7 @@ page.iht.registration.applicant.probateLocation.title = Where are you going to a
 page.iht.registration.applicant.probateLocation.browserTitle = Probate location
 
 page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
-page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 Probate application form.
+page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 - Probate application form.
 page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if the deceased left a will. If there wasn’t a will, you would’ve been named as the administrator of the estate by a court.
 iht.registration.applicant.applyingForProbate = Are you applying for probate for the deceased’s estate?
 
@@ -547,12 +547,13 @@ iht.registration.kickout.content = You should complete the Inheritance Tax estat
 iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
 iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
 iht.registration.kickout.returnToTheLastPageVisited =return to the last page you visited
-iht.registration.kickout.message.MinDOD = If the date of death was between 13 March 1975 to 18 March 1986, Capital Transfer Tax applied to the deceased’s estate. Estate Duty was in place before 13 March 1975.
+iht.registration.kickout.returnToTheDateOfDeath =  return to the date of death
 iht.registration.kickout.message.form2 = If you want to change this date
 iht.registration.kickout.message.phone = Call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
-iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report
+iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report.
 iht.registration.kickout.message.returnToLast = Return to the last page you visited
 iht.registration.kickout.probateLocation.scotland = You should complete the Inheritance Tax estate report by completing either a C1 or a C5 paper form.
+iht.registration.kickout.message.changeTheDate = If you want to change the date
 
 #Estate report - Common
 iht.estateReport.goToEstateReports = Go to your Inheritance Tax estate reports
@@ -810,7 +811,8 @@ page.iht.application.propertyDetails.deleteProperty.screenReader = The address o
 page.iht.application.propertyDetails.deleteProperty.button.screenReader = Confirm and delete this property
 
 page.iht.application.property.value.browserTitle = Property value
-page.iht.application.property.value.question.hint = Only include {0}’s share of the value if they jointly owned the property, building or land with someone else. HMRC recommend that you get a professional valuation.
+page.iht.application.property.value.question.hint1 = Give the full value of the property, building or land if {0} owned this on their own. If they owned this with someone else, only include their share of the total property, building or land value.
+page.iht.application.property.value.question.hint2 = HMRC recommend that you get a professional valuation for this property, building or land.
 
 page.iht.application.assets.properties.question.p1 = These are all UK properties, buildings or land owned by {0}, either on their own or jointly with other people. This also includes any business properties, buildings or land.
 page.iht.application.assets.properties.question.question = Did {0} own any properties, buildings or land in the UK?
@@ -819,7 +821,7 @@ page.iht.application.assets.properties.question.change = Change the answer for d
 
 iht.estateReport.assets.properties.freeholdOrLeasehold = Was this owned freehold or leasehold?
 iht.estateReport.assets.properties.returnToAddAProperty = Return to add a property, building or land
-iht.estateReport.assets.properties.value.question = What was the value of this property, building or land?
+iht.estateReport.assets.properties.value.question = What was {0}’s share of the value of this property, building or land?
 iht.estateReport.assets.properties.whatKind.question = What kind of property, building or land was this?
 iht.estateReport.assets.propertiesBuildingsAndLand = Properties, buildings and land
 iht.estateReport.assets.property.findOutFromLandRegistry = find out from the Land Registry
@@ -1053,8 +1055,8 @@ page.iht.application.assets.businessInterest.hint = Don’t include any business
 iht.estateReport.assets.nominated = Nominated assets
 page.iht.application.assets.nominated.sectionName = nominated
 page.iht.application.assets.nominated.browserTitle = Nominated assets owned
-page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These shouldn’t be confused with an assets being left to someone in a will. If something is left to someone in a will, this isn’t a nominated asset
-page.iht.application.assets.nominated.description.p2 = Nominated assets could’ve been set up when an account was opened with friendly societies, or industrial and provident societies. Before 1 March 1981, National Savings certificates and accounts could also be nominated to pass to someone.
+page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These should not be confused with an asset being left to someone in a will. If something is left to someone in a will, this isn’t a nominated asset.
+page.iht.application.assets.nominated.description.p2 = Nominated assets could have been set up when an account was opened with friendly societies, or industrial and provident societies. Before 1 March 1981, National Savings certificates and accounts could also be nominated to pass to someone.
 page.iht.application.assets.nominated.description.p3 = The provider will be able to tell you if the asset was nominated to pass to someone.
 page.iht.application.assets.nominated.description.p4 = Don’t include pension benefits that were nominated to pass to someone. You should include that value with private pensions.
 page.iht.application.assets.nominated.inputLabel1 = Value of the nominated assets when the deceased died
@@ -1189,6 +1191,9 @@ page.iht.application.gifts.guidance.giftsGivenAway.description4 = Take your time
 page.iht.application.gifts.sevenYears.values.browserTitle = Value of gifts given away
 page.iht.application.gifts.sevenYears.values.guidance = Enter the total value of gifts given away and how much the estate is claiming in gift exemptions in each of the following years. The difference between the total value of gifts and the exemptions being claimed will be added to the estate value.
 page.iht.application.gifts.return.to.givenAwayBy = Return to gifts given away by {0}
+
+page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader.give = Give values for between the dates {0} and {1}.
+page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader.change = Change the values given for between the dates {0} and {1}.
 
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.gifts.screenReader = The total value of gifts given away between {0} and {1} is £{2}.
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.exemptions.screenReader = The total value of gift exemptions between {0} and {1} is £{2}.
@@ -1582,7 +1587,7 @@ iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharit
 iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody = Confirm that you want to delete this qualifying body
 iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies = How to find out if another body qualifies
 iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies = Return to assets left to other qualifying bodies
-iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to assets left to other qualifying body
+iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to add another qualifying body
 iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
 
 #Estate report - Tnrb
@@ -1675,7 +1680,6 @@ page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
 page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.none = Give the name of the deceased’s spouse or civil partner.
 page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.some = The name of the deceased’s spouse or civil partner was {2}. Change this name.
 
-page.iht.application.tnrbEligibilty.overview.partner.marriageDate.title = Date of {0} to {1}
 page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.none = Give the date of marriage between the deceased and their spouse or civil partner.
 page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.some = The date of marriage or civil partnership between the deceased and their spouse or civil partner was {2}. Change this date.
 
@@ -1694,7 +1698,6 @@ page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.yes.scre
 page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.no.screenReader.link.value = No, Did the spouse or civil partner have their permanent home in the UK. Change this answer.
 
 page.iht.application.TnrbEligibilty.dateOfMarriage.label = Date of marriage or civil partnership to {0}
-page.iht.application.TnrbEligibilty.dateOfMarriage.label.marriage = Date of marriage to {0}
 
 page.iht.application.TnrbEligibilty.isPartnerLivingInUk.label = Did {0}’s {1} have their permanent home in the UK?
 page.iht.application.TnrbEligibilty.isGiftMadeBeforeDeath.label = Did {0}’s {1} give any gifts away in the 7 years before they died?
@@ -1722,6 +1725,7 @@ page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s 
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2 = The estate value is now under the Inheritance Tax threshold and there’s no Inheritance Tax to pay.
 iht.estateReport.tnrb.benefitFromTrust.question = Did {0} have the right to benefit from a trust during their lifetime?
 iht.estateReport.tnrb.dateOfMarriage = Date of {0}
+iht.estateReport.tnrb.dateOfMarriage.hint = This is the date of {0} between {1} and {2}
 iht.estateReport.tnrb.giftsMadeBeforeDeath.question = Were any gifts that weren’t exempt given away in the 7 years before {0} died?
 iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts with the reservation of benefit given to anyone apart from {0}?
 iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold

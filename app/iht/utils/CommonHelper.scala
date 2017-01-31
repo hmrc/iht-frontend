@@ -235,10 +235,10 @@ object CommonHelper {
     val amountAddedToEstate = totalGifts - totalExemptions
 
     mapBigDecimalPair(element.value, element.exemptions,
-      Messages(s"$messageFileSectionKey.bothBlank", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.bothHaveValue", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.valueHasValue", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.exemptionHasValue", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))
+      Messages(s"$messageFileSectionKey.give", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))
   }
 
   def previousYearsGiftsAccessibilityTotals(totalPastYearsGifts:BigDecimal,

@@ -31,8 +31,9 @@
 
   <input class='hidden'/>
   <div class="panel-indent">
-    <h2 class="heading-24">@ihtHelpers.name(coExecutor.name.toString)</h2>
+    @ihtHelpers.name(coExecutor.name.toString)
       @coExecutor.ukAddress.map { addr =>
+        <br/>
         @addr.ukAddressLine1<br/>
         @addr.ukAddressLine2<br/>
         @if(addr.ukAddressLine3) {
@@ -50,8 +51,8 @@
     }
   </div>
   <div class="form-field form-field--submit">
-  <input class='button' type='submit' value='@Messages("site.button.confirmDelete")'>
+  <input id="confirm-delete" class='button' type='submit' value='@Messages("site.button.confirmDelete")'>
 </div>
-  <a href='@iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad()'>@Messages("iht.back")</a>
+  <a id="cancel" href='@iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad()'>@Messages("site.link.cancel")</a>
 }
 }

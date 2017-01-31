@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*   http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *@
-
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 
@@ -22,43 +21,44 @@
 @import iht.utils.CommonHelper
 @import iht.utils.tnrb.TnrbHelper
 
-@(dateOfMarriageForm:Form[TnrbEligibiltyModel],
-widowCheckModel: WidowCheck,
-deceasedName:String)(implicit request:Request[_])
+@(dateOfMarriageForm: Form[TnrbEligibiltyModel],
+        widowCheckModel: WidowCheck,
+        deceasedName: String,
+        predeceasedName: String)(implicit request: Request[_])
 
-@iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.marriageDate.title",
-    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName),
-browserTitle = Some(Messages("iht.estateReport.tnrb.dateOfMarriage",
-    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))),
-cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
-headingName = deceasedName){
+@defining(Messages("iht.estateReport.tnrb.dateOfMarriage",
+    TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>
+    @iht_main_template_application(title = pageTitle,
+        browserTitle = Some(pageTitle),
+        cancelLabel = Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+        cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
+        headingName = deceasedName) {
 
-@ihtHelpers.error_summary(dateOfMarriageForm, Some(
-        Map(
-            "error.predeceasedDateOfMarriage.beforeDateOfDeath" -> "error.dateOfMarriage.incorrect.summary"
+        @ihtHelpers.error_summary(dateOfMarriageForm, Some(
+                Map(
+                    "error.predeceasedDateOfMarriage.beforeDateOfDeath" -> "error.dateOfMarriage.incorrect.summary"
+                )
+            )
         )
-    )
-)
 
-@helpers.form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit,'autoComplete -> "off") {
-
-@ihtHelpers.date_fields(
-     dateOfMarriageForm,
-    "dateOfMarriage",
-    Messages("iht.estateReport.tnrb.dateOfMarriage",
-                TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel)),
-    None,
-    '_hintText -> Messages("iht.dateExample2"),
-    '_labelTextClass -> "bold",
-    '_groupId -> "responsibleFromDateFieldSet",
-    '_legend -> Messages("page.iht.application.tnrbEligibilty.overview.partner.marriageDate.title",TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName),
-    '_legendClass -> Some("visually-hidden")
-    )
-    <div id="action-button" class="form-field form-field--submit">
-      <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
-    </div>
-
-
- }
+        @helpers.form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit, 'autoComplete -> "off") {
+            <p>@Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
+                TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel),
+                deceasedName, predeceasedName)</p>
+            @ihtHelpers.date_fields(
+                dateOfMarriageForm,
+                "dateOfMarriage",
+                pageTitle,
+                None,
+                '_hintText -> Messages("iht.dateExample2"),
+                '_labelTextClass -> "bold",
+                '_groupId -> "responsibleFromDateFieldSet",
+                '_legend -> pageTitle,
+                '_legendClass -> Some("visually-hidden")
+            )
+            <div id="action-button" class="form-field form-field--submit">
+                <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+            </div>
+        }
+    }
 }
