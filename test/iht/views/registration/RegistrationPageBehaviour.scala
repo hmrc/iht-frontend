@@ -23,9 +23,6 @@ import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 
 trait RegistrationPageBehaviour extends ViewTestHelper {
-
-  val testErrorSummaryBox = false
-
   def pageTitle: String
   def browserTitle: String
 
@@ -52,12 +49,13 @@ trait RegistrationPageBehaviour extends ViewTestHelper {
       val f = fixture()
       f.doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.continue")
     }
+  }
 
-    if (testErrorSummaryBox) {
-      "display There's a problem box if there's an error" in {
-        val f = fixtureWithError()
-        f.doc.getElementById("errors").children.first.text shouldBe Messages("error.problem")
-      }
+  def registrationPageWithErrorSummaryBox() = {
+    registrationPage()
+    "display There's a problem box if there's an error" in {
+      val f = fixtureWithError()
+      f.doc.getElementById("errors").children.first.text shouldBe Messages("error.problem")
     }
   }
 }

@@ -36,8 +36,6 @@ class DeceasedPermanentHomeViewTest  extends RegistrationPageBehaviour {
     val doc = asDocument(view)
   }
 
-  override val testErrorSummaryBox = true
-
   override def fixtureWithError() = new {
     implicit val request = createFakeRequest()
     val view = deceased_permanent_home(
@@ -46,7 +44,7 @@ class DeceasedPermanentHomeViewTest  extends RegistrationPageBehaviour {
   }
 
   "Deceased Permanent Home View" must {
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'country'" in {
       fixture().doc.getElementsByTag("fieldset").first.id shouldBe "country"
