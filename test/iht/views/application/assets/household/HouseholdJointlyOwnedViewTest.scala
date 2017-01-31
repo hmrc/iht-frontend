@@ -33,8 +33,8 @@ class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElement
   override def browserTitle = Messages("page.iht.application.assets.household.joint.browserTitle")
   override def questionTitle = Messages("iht.estateReport.assets.household.joint.question", deceasedName)
   override def valueQuestion = Messages("iht.estateReport.assets.household.valueOfJointlyOwned")
-  override def hasValueQuestionHelp = false
-  override def valueQuestionHelp = ""
+  override def hasValueQuestionHelp = true
+  override def valueQuestionHelp = Messages("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = Messages("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
 
