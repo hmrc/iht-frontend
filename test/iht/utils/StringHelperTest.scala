@@ -17,31 +17,18 @@
 package iht.utils
 
 import iht.FakeIhtApp
-import iht.models.application.ApplicationDetails
-import iht.models.application.exemptions.BasicExemptionElement
-import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
-import iht.testhelpers._
-import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
-import play.api.test.FakeRequest
-import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
-import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
-import uk.gov.hmrc.play.http.HeaderCarrier
-import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.test.UnitSpec
 
-import scala.collection.immutable.ListMap
-
 class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
-  "parseAssignmensToSeqTuples" must {
+  "parseAssignmentsToSeqTuples" must {
     "parse correctly a valid seq of 2 assignments with spaces before or after key values" in {
       val result = StringHelper.parseAssignmentsToSeqTuples(
         "aaa  =bbb,ccc=  ddd"
       )
       result shouldBe Seq(
-        ("aaa","bbb"),
-        ("ccc","ddd")
+        ("aaa", "bbb"),
+        ("ccc", "ddd")
       )
     }
 
@@ -50,7 +37,7 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         "aaa  =   bbb"
       )
       result shouldBe Seq(
-        ("aaa","bbb")
+        ("aaa", "bbb")
       )
     }
 
@@ -73,5 +60,4 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       }
     }
   }
-
 }
