@@ -36,7 +36,7 @@ object KickoutController extends KickoutController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
-class KickoutController extends RegistrationController {
+trait KickoutController extends RegistrationController {
   def cachingConnector: CachingConnector
 
   override def guardConditions: Set[Predicate] = Set.empty
