@@ -67,7 +67,6 @@ object Constants {
   val AppSectionEstateDebts = "estateDebts"
   val AppSectionEstateGifts = "estateGifts"
 
-
   val MaxIterationValueForGiftYears = 8
 
   val PDFHMRCGuidance: URL = Play.classloader.getResource("pdf/151001 Notes to help you fill in IHT online - final - for DDCN.pdf")
@@ -80,6 +79,7 @@ object Constants {
 
   //KEYSTORE KEYS
   val ExemptionsGuidanceContinueUrlKey = "ExemptionsGuidanceContinueUrl"
+  val PDFIHTReference = "PDFIHTReference"
 
   //HTTP METHODS
   val GET = "GET"

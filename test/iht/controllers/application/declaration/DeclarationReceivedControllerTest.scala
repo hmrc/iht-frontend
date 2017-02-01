@@ -17,9 +17,11 @@
 package iht.controllers.application.declaration
 
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import org.mockito.Matchers.same
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -60,10 +62,15 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
         ihtReference=Some(CommonBuilder.DefaultNino))
 
       createMockToGetProbateDetailsFromCache(mockCachingConnector)
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Option(registrationDetails))
+
+      createMockToStoreSingleValueInCache(
+        cachingConnector = mockCachingConnector,
+        singleValueFormKey = same(Constants.PDFIHTReference),
+        singleValueReturn = CommonBuilder.DefaultIHTReference)
 
       val result = declarationReceivedController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-    }    
+    }
   }
 }

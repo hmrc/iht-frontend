@@ -17,14 +17,16 @@
 package iht.views.registration.applicant
 
 import iht.forms.registration.ApplicantForms.probateLocationForm
+import iht.models.ApplicantDetails
 import iht.views.html.registration.applicant.probate_location
 import iht.views.registration.RegistrationPageBehaviour
+import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
 
 import scala.collection.immutable.ListMap
 
-class ProbateLocationViewTest extends RegistrationPageBehaviour {
+class ProbateLocationViewTest extends RegistrationPageBehaviour[ApplicantDetails] {
 
   override def pageTitle = Messages("page.iht.registration.applicant.probateLocation.title")
   override def browserTitle = Messages("page.iht.registration.applicant.probateLocation.browserTitle")
@@ -33,6 +35,8 @@ class ProbateLocationViewTest extends RegistrationPageBehaviour {
     implicit val request = createFakeRequest()
     val view = probate_location(probateLocationForm, ListMap[String, String](), Call("", "")).toString
     val doc = asDocument(view)
+    val form:Form[ApplicantDetails] = null
+    val func:Form[ApplicantDetails] => play.twirl.api.HtmlFormat.Appendable = null
   }
 
   "Probate Location View" must {

@@ -17,6 +17,7 @@
 package iht.controllers.application.status
 
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.Constants
 import iht.controllers.application.EstateController
 import iht.models.application.{ApplicationDetails, ProbateDetails}
 import iht.models.RegistrationDetails
@@ -39,21 +40,22 @@ trait ApplicationStatusController extends EstateController {
   def getView: (String, String, ProbateDetails) => Request[_] => Appendable
 
   def onPageLoad(ihtReference: String) = authorisedForIht {
-    implicit user => implicit request => {
-      val nino = CommonHelper.getNino(user)
-      for {
-        caseDetails <- ihtConnector.getCaseDetails(nino, ihtReference)
-        applicationDetails <- getApplicationDetails(ihtReference, caseDetails.acknowledgmentReference)
-        probateDetails <- getProbateDetails(nino, caseDetails, applicationDetails)
-      } yield {
-        (for {
-          ihtReference <- caseDetails.ihtReference
-          deceasedDetails <- caseDetails.deceasedDetails
-        } yield
-          Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request)))
-          .fold(throw new RuntimeException("Required information not available"))(identity)
+    implicit user =>
+      implicit request => {
+        val nino = CommonHelper.getNino(user)
+        cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap{ _ =>
+          ihtConnector.getCaseDetails(nino, ihtReference).flatMap { caseDetails =>
+            val futureAD = getApplicationDetails(ihtReference, caseDetails.acknowledgmentReference)
+            val futureProbateDetails = futureAD.flatMap(ad =>
+              getProbateDetails(nino, caseDetails, ad)
+            )
+            val deceasedDetails = CommonHelper.getOrException(caseDetails.deceasedDetails)
+            futureProbateDetails.map { probateDetails =>
+              Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request))
+            }
+          }
+        }
       }
-    }
   }
 
   private def getProbateDetails(nino: String, registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails)

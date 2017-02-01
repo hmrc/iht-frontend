@@ -39,6 +39,16 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     assertEqualsValue(doc, "title", buildApplicationTitle(expectedTitle))
   }
 
+  def radioButtonShouldBeCorrect(doc: Document, labelTextMessagesKey: String, radioID: String,
+                                 labelID: Option[String] = None) = {
+    val labelText = Messages(labelTextMessagesKey)
+    val label = doc.getElementById(labelID.fold(s"$radioID-label")(identity))
+    label.text shouldBe labelText
+    val radio = label.children.first
+    radio.id shouldBe radioID
+    radio.`val` shouldBe labelText
+  }
+
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {
 
     for (sentence <- expectedSentences) ContentChecker.stripLineBreaks(content) should include(ContentChecker.stripLineBreaks(sentence))

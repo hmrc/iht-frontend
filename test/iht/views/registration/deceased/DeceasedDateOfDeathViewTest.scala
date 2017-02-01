@@ -18,12 +18,14 @@ package iht.views.registration.deceased
 
 import iht.controllers.registration.routes
 import iht.forms.registration.DeceasedForms.deceasedDateOfDeathForm
+import iht.models.{DeceasedDateOfDeath, DeceasedDetails}
 import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
+import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
 
-class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour {
+class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDateOfDeath] {
 
   override def pageTitle = Messages("page.iht.registration.deceasedDateOfDeath.title")
   override def browserTitle = Messages("iht.dateOfDeath")
@@ -35,6 +37,8 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour {
     implicit val request = createFakeRequest()
     val view = deceased_date_of_death(deceasedDateOfDeathForm, Call("", "")).toString
     val doc = asDocument(view)
+    val form:Form[DeceasedDateOfDeath] = null
+    val func:Form[DeceasedDateOfDeath] => play.twirl.api.HtmlFormat.Appendable = null
   }
 
   def editModeView = {

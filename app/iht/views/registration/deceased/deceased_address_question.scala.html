@@ -38,9 +38,10 @@ hasTimeOut=true) {
       deceasedAddressQuestionForm("isAddressInUk"),
       '_legend -> Some(Messages("page.iht.registration.deceasedAddressQuestion.title")),
       '_legendClass -> Some("visually-hidden"),
+        '_fieldsetId -> "last-contact-address-in-uk",
       '_divClass -> Some("form-group"))
 
-      <input class='button' type='submit' value='@Messages("iht.continue")' />
+      <input id = 'continue-button' class='button' type='submit' value='@Messages("iht.continue")' />
     }
 
 }

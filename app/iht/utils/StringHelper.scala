@@ -16,6 +16,7 @@
 
 package iht.utils
 
+import iht.utils.CommonHelper.withValue
 import play.api.i18n.Messages
 
 object StringHelper {
@@ -46,5 +47,26 @@ object StringHelper {
     case Some(true) => Messages("iht.yes")
     case Some(false) => Messages("iht.no")
     case _ => ""
+  }
+
+  /**
+    * Parses a string in the form xx=yy,aa=cc,... into a seq of
+    * tuples.
+    */
+  def parseAssignmentsToSeqTuples(listOfAssignments:String): Seq[(String, String)] = {
+    if (listOfAssignments.trim.length == 0) {
+      Seq()
+    } else {
+      val splitItems: Array[String] = listOfAssignments.split(",")
+      splitItems.toSeq.map { property =>
+        withValue(property.trim.split("=")) { splitProperty =>
+          if(splitProperty.length == 2) {
+            Tuple2(splitProperty(0).trim, splitProperty(1).trim)
+          } else {
+            throw new RuntimeException("Invalid property-value assignment: " + splitProperty)
+          }
+        }
+      }
+    }
   }
 }
