@@ -18,9 +18,11 @@ package iht.controllers.application.declaration
 
 
 import iht.connector.CachingConnector
+import iht.constants.Constants
 import iht.controllers.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.models.application.ProbateDetails
+import iht.utils.CommonHelper
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -35,12 +37,17 @@ trait DeclarationReceivedController extends ApplicationController {
   def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-
-      val probateDetails: Option[ProbateDetails] = Await.result(cachingConnector.getProbateDetails, Duration.Inf)
-
-      Future.successful(Ok(iht.views.html.application.declaration.declaration_received(probateDetails,
-        cachingConnector.getExistingRegistrationDetails)))
-    }
+    implicit user =>
+      implicit request => {
+        cachingConnector.getRegistrationDetails.flatMap { optionRD =>
+          val rd = CommonHelper.getOrExceptionNoRegistration(optionRD)
+          val ihtReference = CommonHelper.getOrException(rd.ihtReference)
+          cachingConnector.getProbateDetails.flatMap { optionProbateDetails =>
+            cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
+              Future.successful(Ok(iht.views.html.application.declaration.declaration_received(optionProbateDetails, rd)))
+            }
+          }
+        }
+      }
   }
 }

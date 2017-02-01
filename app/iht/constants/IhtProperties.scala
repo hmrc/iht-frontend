@@ -18,6 +18,7 @@ package iht.constants
 
 import iht.config.IhtPropertiesReader._
 import org.joda.time.LocalDate
+import play.api.Logger
 
 /**
   * Created by yasar on 25/11/15.
@@ -117,4 +118,10 @@ object IhtProperties {
   lazy val ETMPExemptionTypeGNCP: String = getProperty("etmpExemptionTypeGNCP")
 
   lazy val DateRangeMonths: Integer = getPropertyAsInt("dateRangeMonths")
+
+  lazy val pdfStaticHeaders: Seq[(String, String)] = {
+    val headers = getPropertyAsSeqStringTuples("pdfStaticHeaders")
+    Logger.debug("PDF static headers read in from property file:" + headers)
+    headers
+  }
 }
