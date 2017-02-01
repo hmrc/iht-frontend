@@ -16,30 +16,25 @@
 
 package iht.views.registration.deceased
 
-import iht.forms.ApplicationForms.checkedEverythingQuestionForm
 import iht.forms.registration.DeceasedForms._
 import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_permanent_home
 import iht.views.registration.RegistrationPageBehaviour
-import org.jsoup.nodes.Document
-import play.api.data.{Form, FormError}
+import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
-class DeceasedPermanentHomeViewTest  extends RegistrationPageBehaviour {
+class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
   override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
+
   override def browserTitle = Messages("page.iht.registration.deceasedPermanentHome.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = deceased_permanent_home(deceasedPermanentHomeForm, Call("", "")).toString
-    val doc = asDocument(view)
-  }
-
-  override def fixtureWithError() = new {
-    implicit val request = createFakeRequest()
-    val view = deceased_permanent_home(
-      deceasedPermanentHomeForm.withError(FormError("domicile", "aa")), Call("", "")).toString
+    val form = deceasedPermanentHomeForm
+    val func: Form[DeceasedDetails] => Appendable = form => deceased_permanent_home(form, Call("", ""))
+    val view = func(form).toString
     val doc = asDocument(view)
   }
 

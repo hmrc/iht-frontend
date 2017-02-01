@@ -17,12 +17,14 @@
 package iht.views.registration.applicant
 
 import iht.forms.registration.ApplicantForms.applyingForProbateForm
+import iht.models.ApplicantDetails
 import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.{Messages, Lang}
+import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 
-class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
+class ApplyingForProbateViewTest extends RegistrationPageBehaviour[ApplicantDetails] {
 
   override def pageTitle = Messages("iht.registration.applicant.applyingForProbate")
   override def browserTitle = Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")
@@ -31,6 +33,8 @@ class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
     implicit val request = createFakeRequest()
     val view = applying_for_probate(applyingForProbateForm, Call("", "")).toString
     val doc = asDocument(view)
+    val form:Form[ApplicantDetails] = null
+    val func:Form[ApplicantDetails] => play.twirl.api.HtmlFormat.Appendable = null
   }
 
   "Applying for Probate View" must {

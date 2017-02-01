@@ -17,15 +17,17 @@
 package iht.views.registration.deceased
 
 import iht.forms.registration.DeceasedForms.deceasedAddressDetailsOutsideUKForm
+import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_address_details_outside_uk
 import iht.views.registration.RegistrationPageBehaviour
 import org.jsoup.select.Elements
+import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 
 import scala.concurrent.Future
 
-class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour {
+class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
   override def pageTitle = Messages("iht.registration.deceased.lastContactAddress")
   override def browserTitle = Messages("iht.registration.contactAddress")
@@ -34,6 +36,8 @@ class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour 
     implicit val request = createFakeRequest()
     val view = deceased_address_details_outside_uk(deceasedAddressDetailsOutsideUKForm, Call("", ""), Call("", "")).toString
     val doc = asDocument(view)
+    val form:Form[DeceasedDetails] = null
+    val func:Form[DeceasedDetails] => play.twirl.api.HtmlFormat.Appendable = null
   }
 
   "Deceased Address Details (outside UK) View" must {
