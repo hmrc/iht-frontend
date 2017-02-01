@@ -17,12 +17,14 @@
 package iht.controllers.pdf
 
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.controllers.application.pdf.PDFController
 import iht.models.RegistrationDetails
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.pdf.XmlFoToPDF
+import org.mockito.Matchers.same
 import play.api.test.Helpers._
 
 /**
@@ -36,7 +38,7 @@ class PDFControllerTest extends ApplicationControllerTest {
   val ihtRef = "1A1A1A"
 
   def pdfController = new PDFController {
-    val authConnector = createFakeAuthConnector(isAuthorised = true)
+    val authConnector = createFakeAuthConnector()
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     lazy val xmlFoToPDF = XmlFoToPDF
@@ -46,10 +48,15 @@ class PDFControllerTest extends ApplicationControllerTest {
     val regDetails: RegistrationDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef),
       returns = Seq(CommonBuilder.buildReturnDetails))
 
+
     createMockToGetExistingRegDetailsFromCache(mockCachingConnector, regDetails)
     createMockToGetCaseDetails(mockIhtConnector, regDetails)
     createMockToGetSubmittedApplicationDetails(mockIhtConnector)
     createMockToGetApplicationDetails(mockIhtConnector)
+    createMockToGetSingleValueFromCache(
+      cachingConnector = mockCachingConnector,
+      singleValueFormKey = same(Constants.PDFIHTReference),
+      singleValueReturn = Some(ihtRef))
   }
 
   before {
@@ -58,15 +65,15 @@ class PDFControllerTest extends ApplicationControllerTest {
 
   "onClearancePDF" must {
     "have correct contents for the certificate" in {
-      setUpMocks
-      val result = pdfController.onClearancePDF(ihtRef)(createFakeRequest())
+      setUpMocks()
+      val result = pdfController.onClearancePDF()(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
   }
 
   "onPreSubmissionPDF" must {
     "generate correct contents" in {
-      setUpMocks
+      setUpMocks()
       val result = pdfController.onPreSubmissionPDF(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
@@ -74,8 +81,8 @@ class PDFControllerTest extends ApplicationControllerTest {
 
   "onPostSubmissionPDF" must {
     "generate correct contents" in {
-      setUpMocks
-      val result = pdfController.onPostSubmissionPDF(ihtRef)(createFakeRequest())
+      setUpMocks()
+      val result = pdfController.onPostSubmissionPDF(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
   }
