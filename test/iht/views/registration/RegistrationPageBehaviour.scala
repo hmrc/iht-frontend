@@ -22,6 +22,7 @@ import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import play.twirl.api.HtmlFormat.Appendable
 
 trait RegistrationPageBehaviour[A] extends ViewTestHelper {
   def pageTitle: String
@@ -32,7 +33,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     val view: String = ???
     val doc: Document = ???
     val form:Form[A] = ???
-    val func:Form[A] => play.twirl.api.HtmlFormat.Appendable = ???
+    val func:Form[A] => Appendable = ???
   }
 
   def registrationPage() = {

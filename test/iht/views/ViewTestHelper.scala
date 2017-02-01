@@ -26,15 +26,6 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.play.test.UnitSpec
 
 trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
-  def radioButtonShouldBeCorrect(doc: Document, labelTextMessagesKey: String, radioID: String,
-                                  labelID: Option[String] = None) = {
-    val labelText = Messages(labelTextMessagesKey)
-    val label = doc.getElementById(labelID.fold(s"$radioID-label")(identity))
-    label.text shouldBe labelText
-    val radio = label.children.first
-    radio.id shouldBe radioID
-    radio.`val` shouldBe labelText
-  }
 
   def titleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
     val doc = asDocument(pageContent)
@@ -46,6 +37,16 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   def browserTitleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
     val doc = asDocument(pageContent)
     assertEqualsValue(doc, "title", buildApplicationTitle(expectedTitle))
+  }
+
+  def radioButtonShouldBeCorrect(doc: Document, labelTextMessagesKey: String, radioID: String,
+                                 labelID: Option[String] = None) = {
+    val labelText = Messages(labelTextMessagesKey)
+    val label = doc.getElementById(labelID.fold(s"$radioID-label")(identity))
+    label.text shouldBe labelText
+    val radio = label.children.first
+    radio.id shouldBe radioID
+    radio.`val` shouldBe labelText
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {
