@@ -23,27 +23,22 @@ import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
 class ApplyingForProbateViewTest extends RegistrationPageBehaviour[ApplicantDetails] {
 
   override def pageTitle = Messages("iht.registration.applicant.applyingForProbate")
   override def browserTitle = Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = applying_for_probate(applyingForProbateForm, Call("", "")).toString
-    val doc = asDocument(view)
-    val form:Form[ApplicantDetails] = null
-    val func:Form[ApplicantDetails] => play.twirl.api.HtmlFormat.Appendable = null
-  }
+  override def form:Form[ApplicantDetails] = applyingForProbateForm
+  override def formToView:Form[ApplicantDetails] => Appendable = form => applying_for_probate(form, Call("", ""))
 
   "Applying for Probate View" must {
 
     behave like registrationPage()
 
     "show the correct guidance" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view,
+      messagesShouldBePresent(view,
         Messages("page.iht.registration.applicant.applyingForProbate.p1"),
         Messages("page.iht.registration.applicant.applyingForProbate.p2"))
     }
@@ -51,7 +46,7 @@ class ApplyingForProbateViewTest extends RegistrationPageBehaviour[ApplicantDeta
     "have a fieldset with the Id 'applying-for-probate'" in {
       val view = applying_for_probate(applyingForProbateForm, Call("", ""))(createFakeRequest(), Lang("", "")).toString
 
-      asDocument(view).getElementsByTag("fieldset").first.id shouldBe "applying-for-probate"
+      doc.getElementsByTag("fieldset").first.id shouldBe "applying-for-probate"
     }
   }
 }

@@ -28,38 +28,31 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
   def pageTitle: String
   def browserTitle: String
 
-  def fixture() = new {
-    implicit val request: FakeRequest[AnyContentAsEmpty.type] = ???
-    val view: String = ???
-    val doc: Document = ???
-    val form:Form[A] = ???
-    val func:Form[A] => Appendable = ???
-  }
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+  def view: String = formToView(form).toString
+  def doc: Document = asDocument(view)
+  def form:Form[A] = ???
+  def formToView:Form[A] => Appendable = ???
 
   def registrationPage() = {
     "have the correct title" in {
-      val f = fixture()
-      titleShouldBeCorrect(f.view, pageTitle)
+      titleShouldBeCorrect(view, pageTitle)
     }
 
     "have the correct browser title" in {
-      val f = fixture()
-      browserTitleShouldBeCorrect(f.view, browserTitle)
+      browserTitleShouldBeCorrect(view, browserTitle)
     }
 
     "have a Continue button" in {
-      val f = fixture()
-      f.doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.continue")
+      doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.continue")
     }
   }
 
   def registrationPageWithErrorSummaryBox() = {
     registrationPage()
     "display the 'There's a problem' box if there's an error" in {
-      val f = fixture()
-      import f._
       val newForm = form.withError(FormError("field","error message"))
-      val document = asDocument(func(newForm).toString)
+      val document = asDocument(formToView(newForm).toString)
       document.getElementById("errors").children.first.text shouldBe Messages("error.problem")
     }
   }
