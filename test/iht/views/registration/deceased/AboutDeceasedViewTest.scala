@@ -17,13 +17,15 @@
 package iht.views.registration.deceased
 
 import iht.forms.registration.DeceasedForms._
+import iht.models.{ApplicantDetails, DeceasedDetails}
 import iht.views.html.registration.deceased.about_deceased
 import iht.views.registration.RegistrationPageBehaviour
 import org.joda.time.LocalDate
+import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
 
-class AboutDeceasedViewTest extends RegistrationPageBehaviour {
+class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
   override def pageTitle = Messages("iht.registration.deceasedDetails.title")
   override def browserTitle = Messages("iht.registration.deceasedDetails.title")
@@ -32,6 +34,8 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour {
     implicit val request = createFakeRequest()
     val view = about_deceased(aboutDeceasedForm(new LocalDate()), Call("", "")).toString
     val doc = asDocument(view)
+    val form:Form[DeceasedDetails] = null
+    val func:Form[DeceasedDetails] => play.twirl.api.HtmlFormat.Appendable = null
   }
 
   "About Deceased View" must {
