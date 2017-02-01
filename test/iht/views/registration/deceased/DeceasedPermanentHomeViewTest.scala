@@ -44,20 +44,22 @@ class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDe
     "have a fieldset with the Id 'country'" in {
       fixture().doc.getElementsByTag("fieldset").first.id shouldBe "country"
     }
+  }
 
-    "have a radio button for england or wales" in {
+  "radio buttons" must {
+    "include england or wales" in {
       radioButtonShouldBeCorrect(fixture().doc, "iht.countries.englandOrWales", "domicile-england_or_wales")
     }
 
-    "have a radio button for scotland" in {
+    "include scotland" in {
       radioButtonShouldBeCorrect(fixture().doc, "iht.countries.scotland", "domicile-scotland")
     }
 
-    "have a radio button for northern ireland" in {
+    "include northern ireland" in {
       radioButtonShouldBeCorrect(fixture().doc, "iht.countries.northernIreland", "domicile-northern_ireland")
     }
 
-    "have a radio button for other" in {
+    "include other" in {
       radioButtonShouldBeCorrect(fixture().doc, "page.iht.registration.deceasedDetails.domicile.other.label", "domicile-other")
     }
   }
