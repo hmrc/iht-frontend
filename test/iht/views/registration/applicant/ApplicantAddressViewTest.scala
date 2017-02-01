@@ -16,31 +16,26 @@
 
 package iht.views.registration.applicant
 
-import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm}
-import iht.models.UkAddress
-import iht.views.html.registration.applicant.applicant_address
+import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm, applyingForProbateForm}
+import iht.models.{ApplicantDetails, UkAddress}
+import iht.views.html.registration.applicant.{applicant_address, applying_for_probate}
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
 class ApplicantAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
 
   override def pageTitle = Messages("page.iht.registration.applicantAddress.title")
   override def browserTitle = Messages("page.iht.registration.applicantAddress.title")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = applicant_address(applicantAddressUkForm, false, Call("", ""), Call("", "")).toString
-    val doc = asDocument(view)
-    val form:Form[UkAddress] = null
-    val func:Form[UkAddress] => play.twirl.api.HtmlFormat.Appendable = null
-  }
+  override def form:Form[UkAddress] = applicantAddressUkForm
+  override def formToView:Form[UkAddress] => Appendable = form => applicant_address(form, false, Call("", ""), Call("", ""))
 
-  def fixtureAbroad() = new {
-    implicit val request = createFakeRequest()
+  def abroadAddressDocument = {
     val view = applicant_address(applicantAddressAbroadForm, true, Call("", ""), Call("", "")).toString
-    val doc = asDocument(view)
+    asDocument(view)
   }
 
   "Applicant Address View" must {
@@ -48,48 +43,39 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
     behave like registrationPage()
 
     "show the correct guidance" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.applicantAddress.hint"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.applicantAddress.hint"))
     }
 
     "have a line 1 field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddressLine1")
+      assertRenderedById(doc, "ukAddressLine1")
     }
 
     "have the correct label for line 1" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "ukAddressLine1-container", "iht.address.line1")
+      labelShouldBe(doc, "ukAddressLine1-container", "iht.address.line1")
     }
 
     "have a line 2 field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddressLine2")
+      assertRenderedById(doc, "ukAddressLine2")
     }
 
     "have the correct label for line 2" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "ukAddressLine2-container", "iht.address.line2")
+      labelShouldBe(doc, "ukAddressLine2-container", "iht.address.line2")
     }
 
     "have a line 3 field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddressLine3")
+      assertRenderedById(doc, "ukAddressLine3")
     }
 
     "have the correct label for line 3" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "ukAddressLine3-container", "iht.address.line3")
+      labelShouldBe(doc, "ukAddressLine3-container", "iht.address.line3")
     }
 
     "have a line 4 field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddressLine4")
+      assertRenderedById(doc, "ukAddressLine4")
     }
 
     "have the correct label for line 4" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "ukAddressLine4-container", "iht.address.line4")
+      labelShouldBe(doc, "ukAddressLine4-container", "iht.address.line4")
     }
   }
 
@@ -105,36 +91,30 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
       }
 
       "have a post code field" in {
-        val f = fixture()
-        assertRenderedById(f.doc, "postCode")
+        assertRenderedById(doc, "postCode")
       }
 
       "have the correct label for post code" in {
-        val f = fixture()
-        labelShouldBe(f.doc, "postCode-container", "iht.postcode")
+        labelShouldBe(doc, "postCode-container", "iht.postcode")
       }
 
       "not have a country code field" in {
-        val f = fixture()
-        assertNotRenderedById(f.doc, "countryCode")
+        assertNotRenderedById(doc, "countryCode")
       }
     }
 
     "showing in international mode" must {
 
       "have a fieldset with the Id 'details'" in {
-        val f = fixtureAbroad()
-        f.doc.getElementsByTag("fieldset").first.id shouldBe "details"
+        abroadAddressDocument.getElementsByTag("fieldset").first.id shouldBe "details"
       }
 
       "have a country code field" in {
-        val f = fixtureAbroad()
-        assertRenderedById(f.doc, "countryCode")
+        assertRenderedById(abroadAddressDocument, "countryCode")
       }
 
       "not have a post code field" in {
-        val f = fixtureAbroad()
-        assertNotRenderedById(f.doc, "postCode")
+        assertNotRenderedById(abroadAddressDocument, "postCode")
       }
     }
   }

@@ -16,8 +16,10 @@
 
 package iht.views.registration.deceased
 
+import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.forms.registration.DeceasedForms._
-import iht.models.DeceasedDetails
+import iht.models.{ApplicantDetails, DeceasedDetails}
+import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.html.registration.deceased.deceased_permanent_home
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
@@ -26,41 +28,36 @@ import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
-  override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
 
+  override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
   override def browserTitle = Messages("page.iht.registration.deceasedPermanentHome.browserTitle")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val form = deceasedPermanentHomeForm
-    val func: Form[DeceasedDetails] => Appendable = form => deceased_permanent_home(form, Call("", ""))
-    val view = func(form).toString
-    val doc = asDocument(view)
-  }
+  override def form:Form[DeceasedDetails] = deceasedPermanentHomeForm
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_permanent_home(form, Call("", ""))
 
   "Deceased Permanent Home View" must {
     behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'country'" in {
-      fixture().doc.getElementsByTag("fieldset").first.id shouldBe "country"
+      doc.getElementsByTag("fieldset").first.id shouldBe "country"
     }
   }
 
   "radio buttons" must {
     "include england or wales" in {
-      radioButtonShouldBeCorrect(fixture().doc, "iht.countries.englandOrWales", "domicile-england_or_wales")
+      radioButtonShouldBeCorrect(doc, "iht.countries.englandOrWales", "domicile-england_or_wales")
     }
 
     "include scotland" in {
-      radioButtonShouldBeCorrect(fixture().doc, "iht.countries.scotland", "domicile-scotland")
+      radioButtonShouldBeCorrect(doc, "iht.countries.scotland", "domicile-scotland")
     }
 
     "include northern ireland" in {
-      radioButtonShouldBeCorrect(fixture().doc, "iht.countries.northernIreland", "domicile-northern_ireland")
+      radioButtonShouldBeCorrect(doc, "iht.countries.northernIreland", "domicile-northern_ireland")
     }
 
     "include other" in {
-      radioButtonShouldBeCorrect(fixture().doc, "page.iht.registration.deceasedDetails.domicile.other.label", "domicile-other")
+      radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.domicile.other.label", "domicile-other")
     }
   }
 }

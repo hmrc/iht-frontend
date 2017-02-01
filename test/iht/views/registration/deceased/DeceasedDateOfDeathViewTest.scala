@@ -17,53 +17,44 @@
 package iht.views.registration.deceased
 
 import iht.forms.registration.DeceasedForms.deceasedDateOfDeathForm
-import iht.models.{DeceasedDateOfDeath, DeceasedDetails}
+import iht.models.{ApplicantDetails, DeceasedDateOfDeath, DeceasedDetails}
 import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDateOfDeath] {
 
   override def pageTitle = Messages("page.iht.registration.deceasedDateOfDeath.title")
   override def browserTitle = Messages("iht.dateOfDeath")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = deceased_date_of_death(deceasedDateOfDeathForm, Call("", "")).toString
-    val doc = asDocument(view)
-    val form:Form[DeceasedDateOfDeath] = null
-    val func:Form[DeceasedDateOfDeath] => play.twirl.api.HtmlFormat.Appendable = null
-  }
+  override def form:Form[DeceasedDateOfDeath] = deceasedDateOfDeathForm
+  override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, Call("", ""))
 
   "Deceased Date of Death View" must {
 
     behave like registrationPage()
 
     "have a fieldset with the Id 'date-of-death'" in {
-      val f = fixture()
-      f.doc.getElementsByTag("fieldset").first.id shouldBe "date-of-death"
+      doc.getElementsByTag("fieldset").first.id shouldBe "date-of-death"
     }
 
     "have a 'day' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfDeath.day")
+      assertRenderedById(doc, "dateOfDeath.day")
     }
 
     "have a 'month' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfDeath.month")
+      assertRenderedById(doc, "dateOfDeath.month")
     }
 
     "have a 'year' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfDeath.year")
+      assertRenderedById(doc, "dateOfDeath.year")
     }
 
     "have a form hint" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
     }
   }
 }

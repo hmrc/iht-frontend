@@ -17,10 +17,8 @@
 package iht.views.registration.applicant
 
 import iht.forms.registration.ApplicantForms.applyingForProbateForm
-import iht.forms.registration.DeceasedForms.deceasedAddressQuestionForm
 import iht.models.ApplicantDetails
 import iht.views.html.registration.applicant.applying_for_probate
-import iht.views.html.registration.deceased.deceased_address_question
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -33,17 +31,14 @@ class ApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[ApplicantDet
     Messages("page.iht.registration.applicant.applyingForProbate.p2"))
 
   override def pageTitle = Messages("iht.registration.applicant.applyingForProbate")
+
   override def browserTitle = Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val form: Form[ApplicantDetails] = applyingForProbateForm
-    val func: Form[ApplicantDetails] => Appendable = form => applying_for_probate(form, Call("", ""))
-    val view = func(form).toString
-    val doc = asDocument(view)
-  }
+  override def form: Form[ApplicantDetails] = applyingForProbateForm
 
-  "Deceased Address Question View" must {
+  override def formToView: Form[ApplicantDetails] => Appendable = form => applying_for_probate(form, Call("", ""))
+
+  "Applying For Probate View" must {
     behave like yesNoQuestion
   }
 }
