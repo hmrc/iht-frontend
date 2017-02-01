@@ -24,6 +24,8 @@ import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 import scala.concurrent.Future

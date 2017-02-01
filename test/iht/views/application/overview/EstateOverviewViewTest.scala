@@ -27,6 +27,8 @@ import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.mvc.Call
 import uk.gov.hmrc.play.test.UnitSpec
 

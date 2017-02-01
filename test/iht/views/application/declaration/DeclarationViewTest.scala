@@ -25,6 +25,8 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class DeclarationViewTest extends ViewTestHelper {
 

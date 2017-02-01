@@ -20,6 +20,8 @@ import iht.forms.registration.DeceasedForms.deceasedAddressDetailsUKForm
 import iht.views.html.registration.deceased.deceased_address_details_uk
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.mvc.Call
 
 class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour {

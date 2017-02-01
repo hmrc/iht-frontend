@@ -25,6 +25,8 @@ import iht.views.HtmlSpec
 import org.joda.time.LocalDate
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 

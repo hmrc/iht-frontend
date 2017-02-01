@@ -19,6 +19,8 @@ package iht.views.application
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 

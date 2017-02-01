@@ -22,6 +22,8 @@ import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 /**
  * Created by vineet on 29/11/16.

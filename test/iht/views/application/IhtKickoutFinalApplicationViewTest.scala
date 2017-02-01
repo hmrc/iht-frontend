@@ -18,6 +18,8 @@ package iht.views.application
 
 import iht.views.ViewTestHelper
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.views.html.application.iht_kickout_final_application
 
 /**

@@ -24,6 +24,8 @@ import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.other
 
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class OtherViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
 

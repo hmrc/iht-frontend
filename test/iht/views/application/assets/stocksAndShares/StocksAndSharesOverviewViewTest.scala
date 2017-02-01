@@ -24,6 +24,8 @@ import iht.views.application.StocksAndSharesOverviewViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class StocksAndSharesOverviewViewTest extends ViewTestHelper with StocksAndSharesOverviewViewBehaviour {
 

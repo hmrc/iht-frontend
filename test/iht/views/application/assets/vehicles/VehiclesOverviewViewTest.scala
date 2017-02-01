@@ -24,6 +24,8 @@ import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_overview
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class VehiclesOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 

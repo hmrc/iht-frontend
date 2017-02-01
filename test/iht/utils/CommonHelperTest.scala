@@ -24,6 +24,8 @@ import iht.testhelpers._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}

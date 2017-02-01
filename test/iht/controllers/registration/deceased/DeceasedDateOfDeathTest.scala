@@ -29,6 +29,8 @@ import org.joda.time.LocalDate
 import org.mockito.Matchers._
 import play.api.data.FormError
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.mvc.{Action, AnyContent}
 import play.api.test.Helpers._
 import play.api.test.{FakeApplication, FakeRequest, WithApplication}

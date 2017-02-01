@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringEscapeUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.twirl.api.Html
 import uk.gov.hmrc.play.test.UnitSpec
 

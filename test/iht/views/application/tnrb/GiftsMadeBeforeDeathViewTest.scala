@@ -21,6 +21,8 @@ import iht.testhelpers.{TestHelper, CommonBuilder}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.views.html.application.tnrb.gifts_made_before_death
 import play.api.mvc.Call
 

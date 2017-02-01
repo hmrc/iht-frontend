@@ -20,6 +20,8 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.views.html.application.debts.mortgage_value
 /**
   * Created by vineet on 15/11/16.

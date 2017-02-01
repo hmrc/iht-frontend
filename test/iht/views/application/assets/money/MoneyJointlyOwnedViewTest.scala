@@ -23,6 +23,8 @@ import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.money.money_jointly_owned
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class MoneyJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
 

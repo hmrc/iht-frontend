@@ -20,6 +20,8 @@ import iht.views.registration.RegistrationPageBehaviour
 import iht.forms.registration.CoExecutorForms.othersApplyingForProbateForm
 import iht.views.html.registration.executor.others_applying_for_probate
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.mvc.Call
 
 class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour {

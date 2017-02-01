@@ -21,6 +21,8 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_details
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class GiftsDetailsViewTest extends ViewTestHelper {
 

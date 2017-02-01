@@ -20,6 +20,8 @@ import iht.views.HtmlSpec
 import iht.views.html.registration.registration_checklist
 import iht.{FakeIhtApp, TestUtils}
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUtils with HtmlSpec{

@@ -22,6 +22,8 @@ import iht.utils.CommonHelper._
 import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.collection.immutable.ListMap
 import scala.io.{BufferedSource, Source}

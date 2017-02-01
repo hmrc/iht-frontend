@@ -20,6 +20,8 @@ import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.generic_overview_status_link
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class GenericOverviewStatusLinkTest extends UnitSpec with FakeIhtApp with HtmlSpec {

@@ -25,6 +25,8 @@ import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**

@@ -21,6 +21,8 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.FilterForms._
 import iht.views.HtmlSpec
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import iht.constants.Constants._
 

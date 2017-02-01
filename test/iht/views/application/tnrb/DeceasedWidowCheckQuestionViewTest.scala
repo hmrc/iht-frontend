@@ -22,6 +22,8 @@ import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.views.html.application.tnrb.deceased_widow_check_question
 
 class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour {

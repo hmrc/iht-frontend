@@ -24,6 +24,8 @@ import iht.views.HtmlSpec
 import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**

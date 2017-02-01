@@ -21,6 +21,8 @@ import iht.views.HtmlSpec
 import iht.views.html.filter.filter_view
 import play.api.test.Helpers._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 import iht.forms.FilterForms.filterForm
 import org.jsoup.nodes.Element

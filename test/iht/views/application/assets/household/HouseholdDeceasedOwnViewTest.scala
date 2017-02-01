@@ -23,6 +23,8 @@ import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_deceased_own
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class HouseholdDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
 

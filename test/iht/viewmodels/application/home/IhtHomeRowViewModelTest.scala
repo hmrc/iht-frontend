@@ -24,6 +24,8 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.utils.{ApplicationStatus, CommonHelper}
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 class IhtHomeRowViewModelTest extends ApplicationControllerTest{

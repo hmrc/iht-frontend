@@ -27,6 +27,8 @@ import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
 import org.jsoup.select.Elements
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**

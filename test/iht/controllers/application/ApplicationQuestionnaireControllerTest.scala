@@ -19,6 +19,8 @@ package iht.controllers.application
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.models.QuestionnaireModel
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 

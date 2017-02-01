@@ -18,6 +18,8 @@ package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.twirl.api.Html
 import iht.views.html.registration.kickout.kickout_template
 /**
