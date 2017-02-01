@@ -33,9 +33,9 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
   override def form:Form[UkAddress] = applicantAddressUkForm
   override def formToView:Form[UkAddress] => Appendable = form => applicant_address(form, false, Call("", ""), Call("", ""))
 
-  def fixtureAbroad() = new {
+  def abroadAddressDocument = {
     val view = applicant_address(applicantAddressAbroadForm, true, Call("", ""), Call("", "")).toString
-    val doc = asDocument(view)
+    asDocument(view)
   }
 
   "Applicant Address View" must {
@@ -106,18 +106,15 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
     "showing in international mode" must {
 
       "have a fieldset with the Id 'details'" in {
-        val f = fixtureAbroad()
-        f.doc.getElementsByTag("fieldset").first.id shouldBe "details"
+        abroadAddressDocument.getElementsByTag("fieldset").first.id shouldBe "details"
       }
 
       "have a country code field" in {
-        val f = fixtureAbroad()
-        assertRenderedById(f.doc, "countryCode")
+        assertRenderedById(abroadAddressDocument, "countryCode")
       }
 
       "not have a post code field" in {
-        val f = fixtureAbroad()
-        assertNotRenderedById(f.doc, "postCode")
+        assertNotRenderedById(abroadAddressDocument, "postCode")
       }
     }
   }
