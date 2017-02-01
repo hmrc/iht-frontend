@@ -17,41 +17,33 @@
 package iht.views.registration.applicant
 
 import iht.forms.registration.ApplicantForms.applyingForProbateForm
+import iht.forms.registration.DeceasedForms.deceasedAddressQuestionForm
 import iht.models.ApplicantDetails
 import iht.views.html.registration.applicant.applying_for_probate
-import iht.views.registration.RegistrationPageBehaviour
+import iht.views.html.registration.deceased.deceased_address_question
+import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
-class ApplyingForProbateViewTest extends RegistrationPageBehaviour[ApplicantDetails] {
+class ApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] {
+
+  override def guidanceParagraphs = Set(Messages("page.iht.registration.applicant.applyingForProbate.p1"),
+    Messages("page.iht.registration.applicant.applyingForProbate.p2"))
 
   override def pageTitle = Messages("iht.registration.applicant.applyingForProbate")
   override def browserTitle = Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = applying_for_probate(applyingForProbateForm, Call("", "")).toString
+    val form: Form[ApplicantDetails] = applyingForProbateForm
+    val func: Form[ApplicantDetails] => Appendable = form => applying_for_probate(form, Call("", ""))
+    val view = func(form).toString
     val doc = asDocument(view)
-    val form:Form[ApplicantDetails] = null
-    val func:Form[ApplicantDetails] => play.twirl.api.HtmlFormat.Appendable = null
   }
 
-  "Applying for Probate View" must {
-
-    behave like registrationPage()
-
-    "show the correct guidance" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view,
-        Messages("page.iht.registration.applicant.applyingForProbate.p1"),
-        Messages("page.iht.registration.applicant.applyingForProbate.p2"))
-    }
-
-    "have a fieldset with the Id 'applying-for-probate'" in {
-      val view = applying_for_probate(applyingForProbateForm, Call("", ""))(createFakeRequest(), Lang("", "")).toString
-
-      asDocument(view).getElementsByTag("fieldset").first.id shouldBe "applying-for-probate"
-    }
+  "Deceased Address Question View" must {
+    behave like yesNoQuestion
   }
 }
