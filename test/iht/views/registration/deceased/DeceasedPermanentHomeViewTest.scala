@@ -17,32 +17,48 @@
 package iht.views.registration.deceased
 
 import iht.forms.registration.DeceasedForms._
+import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_permanent_home
 import iht.views.registration.RegistrationPageBehaviour
+import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
-import scala.collection.immutable.ListMap
-
-class DeceasedPermanentHomeViewTest  extends RegistrationPageBehaviour {
-
+class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
   override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
+
   override def browserTitle = Messages("page.iht.registration.deceasedPermanentHome.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = deceased_permanent_home(deceasedPermanentHomeForm, ListMap[String, String](),
-      Call("", "")).toString
+    val form = deceasedPermanentHomeForm
+    val func: Form[DeceasedDetails] => Appendable = form => deceased_permanent_home(form, Call("", ""))
+    val view = func(form).toString
     val doc = asDocument(view)
   }
 
   "Deceased Permanent Home View" must {
-
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'country'" in {
-      val f = fixture()
-      f.doc.getElementsByTag("fieldset").first.id shouldBe "country"
+      fixture().doc.getElementsByTag("fieldset").first.id shouldBe "country"
+    }
+
+    "have a radio button for england or wales" in {
+      radioButtonShouldBeCorrect(fixture().doc, "iht.countries.englandOrWales", "domicile-england_or_wales")
+    }
+
+    "have a radio button for scotland" in {
+      radioButtonShouldBeCorrect(fixture().doc, "iht.countries.scotland", "domicile-scotland")
+    }
+
+    "have a radio button for northern ireland" in {
+      radioButtonShouldBeCorrect(fixture().doc, "iht.countries.northernIreland", "domicile-northern_ireland")
+    }
+
+    "have a radio button for other" in {
+      radioButtonShouldBeCorrect(fixture().doc, "page.iht.registration.deceasedDetails.domicile.other.label", "domicile-other")
     }
   }
 }

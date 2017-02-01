@@ -17,12 +17,14 @@
 package iht.views.registration.applicant
 
 import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm}
+import iht.models.UkAddress
 import iht.views.html.registration.applicant.applicant_address
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.{Messages, Lang}
+import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 
-class ApplicantAddressViewTest extends RegistrationPageBehaviour {
+class ApplicantAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
 
   override def pageTitle = Messages("page.iht.registration.applicantAddress.title")
   override def browserTitle = Messages("page.iht.registration.applicantAddress.title")
@@ -31,6 +33,8 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour {
     implicit val request = createFakeRequest()
     val view = applicant_address(applicantAddressUkForm, false, Call("", ""), Call("", "")).toString
     val doc = asDocument(view)
+    val form:Form[UkAddress] = null
+    val func:Form[UkAddress] => play.twirl.api.HtmlFormat.Appendable = null
   }
 
   def fixtureAbroad() = new {

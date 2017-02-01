@@ -44,19 +44,19 @@ trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWith
   lazy val editSubmitRoute = routes.DeceasedPermanentHomeController.onEditSubmit
 
   def okForPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_permanent_home(form, domicileMap, submitRoute)
+    Ok(views.deceased_permanent_home(form, submitRoute)
     (request, request.acceptLanguages.head))
 
   def okForEditPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_permanent_home(form, domicileMap, editSubmitRoute, cancelToRegSummary)
+    Ok(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head))
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_permanent_home(form, domicileMap, submitRoute)
+    BadRequest(views.deceased_permanent_home(form, submitRoute)
     (request, request.acceptLanguages.head))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_permanent_home(form, domicileMap, editSubmitRoute, cancelToRegSummary)
+    BadRequest(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head))
 
   def onwardRoute(rd: RegistrationDetails) = routes.AboutDeceasedController.onPageLoad
