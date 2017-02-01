@@ -114,11 +114,8 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
 
      assertEqualsValue(doc, "li#partner-marital-status span",
         Messages("iht.estateReport.tnrb.partner.married",
-          CommonHelper.getDeceasedNameOrDefaultString(regDetails),
           TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-          TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel,
-                                               widowCheckModel,
-                                      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"))))
+          TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)))
 
     assertEqualsValue(doc, "li#date-of-preDeceased span",
         Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
