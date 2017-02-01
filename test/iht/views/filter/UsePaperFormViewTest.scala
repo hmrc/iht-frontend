@@ -22,6 +22,7 @@ import iht.views.html.filter.use_paper_form
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.constants.IhtProperties
 
 class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
   val fakeRequest = createFakeRequest(isAuthorised = false)
@@ -67,7 +68,7 @@ class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
       val link = doc.getElementById("scottish-courts-link")
       link.text should be(Messages("page.iht.filter.paperform.scotland.link.text"))
       link.attr("rel") should be("external")
-      link.attr("href") should be("http://www.scotcourts.gov.uk/taking-action/dealing-with-a-deceased%27s-estate-in-scotland")
+      link.attr("href") should be(IhtProperties.linkScottishCourtAndTribunal)
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {
@@ -89,6 +90,13 @@ class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
       val link = doc.getElementById("change-domicile")
       link.text() should be(Messages("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+    }
+
+    "contain 'Exit to GOV.UK' button to exit from the service" in {
+      val doc = getPageAsDoc(Messages("iht.countries.scotland"))
+      val link = doc.getElementById("exit")
+      link.text() should be(Messages("iht.exitToGovUK"))
+      link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
     }
   }
 
@@ -146,6 +154,13 @@ class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
       link.text() should be(Messages("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
+
+    "contain 'Exit to GOV.UK' button to exit from the service" in {
+      val doc = getPageAsDoc(Messages("iht.countries.northernIreland"))
+      val link = doc.getElementById("exit")
+      link.text() should be(Messages("iht.exitToGovUK"))
+      link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
+    }
   }
 
   "Use Paper Form view, when rendering for another country" must {
@@ -192,6 +207,13 @@ class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
       val link = doc.getElementById("change-domicile")
       link.text() should be(Messages("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+    }
+
+    "contain 'Exit to GOV.UK' button to exit from the service" in {
+      val doc = getPageAsDoc(Messages("page.iht.filter.domicile.choice.other"))
+      val link = doc.getElementById("exit")
+      link.text() should be(Messages("iht.exitToGovUK"))
+      link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
     }
   }
 

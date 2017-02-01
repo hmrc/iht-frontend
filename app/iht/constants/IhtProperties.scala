@@ -70,6 +70,7 @@ object IhtProperties {
   lazy val linkGovUk: String = getProperty("linkGovUk")
   lazy val linkIHT401: String = getProperty("linkIHT401")
   lazy val linkExitToGovUKIHTForms: String = getProperty("linkExitToGovUKIHTForms")
+  lazy val linkScottishCourtAndTribunal: String = getProperty("linkScottishCourtAndTribunal")
   lazy val linkIHT205: String = getProperty("linkIHT205")
   lazy val charityLink: String = getProperty("charityLink")
   lazy val correctiveAccountsLink: String = getProperty("correctiveAccountLink")
