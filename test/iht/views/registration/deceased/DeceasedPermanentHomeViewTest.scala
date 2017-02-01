@@ -27,7 +27,6 @@ import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
   override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
-
   override def browserTitle = Messages("page.iht.registration.deceasedPermanentHome.browserTitle")
 
   override def fixture() = new {
@@ -60,7 +59,8 @@ class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDe
     }
 
     "include other" in {
-      radioButtonShouldBeCorrect(fixture().doc, "page.iht.registration.deceasedDetails.domicile.other.label", "domicile-other")
+      radioButtonShouldBeCorrect(fixture().doc, "page.iht.registration.deceasedDetails.domicile.other.label",
+                                 "domicile-other")
     }
   }
 }

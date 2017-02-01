@@ -24,6 +24,7 @@ import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDateOfDeath] {
 
@@ -31,14 +32,14 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
   override def browserTitle = Messages("iht.dateOfDeath")
 
   lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
-  lazy val editSubmitLocation= iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onEditSubmit
+  lazy val editSubmitLocation = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onEditSubmit
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = deceased_date_of_death(deceasedDateOfDeathForm, Call("", "")).toString
+    val form = deceasedDateOfDeathForm
+    val func: Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, Call("", ""))
+    val view = func(form).toString
     val doc = asDocument(view)
-    val form:Form[DeceasedDateOfDeath] = null
-    val func:Form[DeceasedDateOfDeath] => play.twirl.api.HtmlFormat.Appendable = null
   }
 
   def editModeView = {
@@ -49,7 +50,7 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
 
   "Deceased Date of Death View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'date-of-death'" in {
       val f = fixture()
