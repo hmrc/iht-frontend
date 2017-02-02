@@ -16,6 +16,7 @@
 
 package iht.views.registration
 
+import iht.testhelpers.CommonBuilder
 import play.api.i18n.Messages
 
 trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
@@ -26,6 +27,9 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
 
   def guidanceParagraphs: Set[String]
 
+  /**
+    * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
+    */
   def yesNoQuestion() = {
     registrationPageWithErrorSummaryBox()
 
@@ -38,9 +42,28 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
       doc.getElementById("no-label").text shouldBe Messages("iht.no")
     }
 
-    "show the Continue button" in {
+    "show the Continue button with the correct target" in {
       val continueButton = doc.getElementById("continue-button")
       continueButton.`val` shouldBe Messages("iht.continue")
+      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+    }
+  }
+
+  /**
+    * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
+    * Assumes that the Call for the cancel link has been set up as CommonBuilder.DefaultCall2.
+    */
+  def yesNoQuestionWithCancelLink() = {
+    yesNoQuestion()
+
+    "show the Cancel link with the correct target" in {
+      val continueButton = doc.getElementById("continue-button")
+      continueButton.`val` shouldBe Messages("iht.continue")
+      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+
+      val cancelLink = doc.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
+      cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }
 }
