@@ -1778,17 +1778,17 @@ page.iht.application.declaration_received.subheading3 = Keeping records for the 
 iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you’re accepting this.
 
 #Estate report - Probate Details
-page.iht.application.probateDetails.content2 = On your PA1 form, turn to page 6. You’ll need to write the following details into section 7.5:
-page.iht.application.probateDetails.content2.bullet1 = Your IHT Identifier is
-page.iht.application.probateDetails.content2.bullet2 = The Gross Estate Figure is £{0}
-page.iht.application.probateDetails.content2.bullet3 = The Net Estate Figure is £{0}
-page.iht.application.probateDetails.content4 = If you haven’t got your PA1 form handy, you can either
-page.iht.application.probateDetails.content4.print = print this page
-page.iht.application.probateDetails.content5 = or write the details down to complete your PA1 at another time.
+page.iht.application.probateDetails.content2 = You’ll need the following details to write on your PA1 – Probate application form:
+page.iht.application.probateDetails.content2.bullet1 = your IHT Identifier is
+page.iht.application.probateDetails.content2.bullet2 = the gross estate figure is £{0}
+page.iht.application.probateDetails.content2.bullet3 = the net estate figure is £{0}
+page.iht.application.probateDetails.content4 = If you have not got your PA1 – Probate application form handy, you can
+page.iht.application.probateDetails.content4.print = download or print this page
+page.iht.application.probateDetails.content5 = or write these details down to fill in on your probate form at another time. You’ll still be able to see these details by choosing this estate report from your inheritance Tax estate reports page.
 page.iht.application.probateDetails.guidance = What do these figures mean?
-page.iht.application.probateDetails.guidance.bullet1 = The IHT Identifier is a reference number
-page.iht.application.probateDetails.guidance.bullet2 = The Gross Estate Figure is the total of assets and gifts given away
-page.iht.application.probateDetails.guidance.bullet3 = The Net Estate Figure is the value of the estate  minus any debts or exemptions being claimed
+page.iht.application.probateDetails.guidance.bullet1 = the IHT identifier is a reference that can be used by probate to link this estate report
+page.iht.application.probateDetails.guidance.bullet2 = the gross estate figure is the total of assets and gifts in the estate
+page.iht.application.probateDetails.guidance.bullet3 = the net estate figure is the value of assets and gifts in the estate after any debts and estate exemptions have been taken off
 page.iht.application.probateDetails.yourProbateText = For your Probate Application Form:
 page.iht.application.probateDetails.probateDetailsNotAvailableText = You’ll need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
 
