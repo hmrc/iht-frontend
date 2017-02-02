@@ -37,7 +37,7 @@ trait QuestionnaireController extends FrontendController with IhtActions {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      Future.successful(Ok(questionnaireView(questionnaire_form, request)))
+      Future.successful(Ok(questionnaireView(questionnaire_form, request)).withNewSession)
   }
 
   def onSubmit = authorisedForIht {
