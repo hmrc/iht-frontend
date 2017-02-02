@@ -24,8 +24,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class OthersApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[Option[Boolean]] {
-
+trait OthersApplyingForProbateViewFixture extends YesNoQuestionViewBehaviour[Option[Boolean]] {
   override def guidanceParagraphs = Set(Messages("page.iht.registration.others-applying-for-probate.description"))
 
   override def pageTitle = Messages("page.iht.registration.others-applying-for-probate.sectionTitle")
@@ -33,7 +32,9 @@ class OthersApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[Option
   override def browserTitle = Messages("page.iht.registration.others-applying-for-probate.browserTitle")
 
   override def form: Form[Option[Boolean]] = othersApplyingForProbateForm
+}
 
+class OthersApplyingForProbateViewTest extends OthersApplyingForProbateViewFixture {
   override def formToView: Form[Option[Boolean]] => Appendable =
     form => others_applying_for_probate(form, CommonBuilder.DefaultCall1)
 
@@ -42,16 +43,7 @@ class OthersApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[Option
   }
 }
 
-class OthersApplyingForProbateViewTestInEditMode extends YesNoQuestionViewBehaviour[Option[Boolean]] {
-
-  override def guidanceParagraphs = Set(Messages("page.iht.registration.others-applying-for-probate.description"))
-
-  override def pageTitle = Messages("page.iht.registration.others-applying-for-probate.sectionTitle")
-
-  override def browserTitle = Messages("page.iht.registration.others-applying-for-probate.browserTitle")
-
-  override def form: Form[Option[Boolean]] = othersApplyingForProbateForm
-
+class OthersApplyingForProbateViewTestInEditMode extends OthersApplyingForProbateViewFixture {
   override def formToView: Form[Option[Boolean]] => Appendable =
     form => others_applying_for_probate(form,
       CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))
