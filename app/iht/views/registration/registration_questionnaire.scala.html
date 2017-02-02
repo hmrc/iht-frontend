@@ -22,8 +22,7 @@
 
 @(form: Form[_])(implicit request: Request[_])
 
-@iht_main_template_registration(title = Messages("iht.signedOut"),
-isFullWidth=false, hasSignOut=false) {
+@iht_main_template_registration(title = Messages("iht.signedOut"), hasSignOut=false) {
 <div>
     <p>@Messages("page.iht.registration.questionnaire.p1")</p>
 </div>

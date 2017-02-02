@@ -1923,7 +1923,7 @@ page.iht.registration.questionnaire.p1 = Any details you have entered have not b
 page.iht.registration.questionnaire.startAgain = Start registration again
 ###page.iht.questionnaire.button.no-and-signout.text = No thanks - sign me out
 
-page.iht.estateReport.allDetailsSaved = All of your details have been saved
+page.iht.estateReport.allDetailsSaved = All of your details have been saved.
 
 page.iht.questionnaire.easy-to-use.question = How easy was it to do what you wanted?
 page.iht.questionnaire.easy-to-use.very-easy = Very easy
