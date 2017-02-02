@@ -37,7 +37,7 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
 
   "Deceased Address Details (UK) View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'details'" in {
       doc.getElementsByTag("fieldset").first.id shouldBe "details"
