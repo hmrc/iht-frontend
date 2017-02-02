@@ -1918,9 +1918,15 @@ page.iht.application.kickout.final.getCopy.guidance3 = This will have all of the
 page.iht.application.kickout.final.guidance.onFinish = By selecting finish you will be given a copy of the IHT-400 form and this estate report will be deleted.
 
 #Questionnaire Feedback
-page.iht.questionnaire.title = Before you sign out
-page.iht.questionnaire.p1 = Before you sign out, please complete this short survey to help us improve the service. The survey should take no more than 2 minutes.
-page.iht.questionnaire.button.no-and-signout.text = No thanks - sign me out
+page.iht.questionnaire.completeSurvey = Please complete this short survey to help us improve the service
+page.iht.questionnaire.title = You’ve been signed out
+page.iht.registration.questionnaire.p1 = Any details you have entered have not been saved. You need to complete registration in one go.
+page.iht.registration.questionnaire.startAgain = Start registration again
+###page.iht.questionnaire.button.no-and-signout.text = No thanks - sign me out
+
+page.iht.estateReport.allDetailsSaved = All of your details have been saved
+
+page.iht.estateReport.returnToEstateReports = Return to your Inheritance Tax estate reports page
 
 page.iht.questionnaire.easy-to-use.question = How easy was it to do what you wanted?
 page.iht.questionnaire.easy-to-use.very-easy = Very easy
@@ -1942,7 +1948,7 @@ page.iht.questionnaire.improve.p2 = Please don’t include any personal or finan
 
 page.iht.questionnaire.fullName.p1 = We’re looking for people to help us with user research.
 page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
-page.iht.questionnaire.button.submit-and-signout = Send feedback
+page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 
 page.iht.sign-out.title = You have signed out
 page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.

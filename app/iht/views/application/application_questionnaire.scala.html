@@ -23,14 +23,15 @@
 @(form: Form[_])(implicit request: Request[_])
 
 @iht_main_template_application(title = Messages("page.iht.questionnaire.title"),
-isFullWidth=true, hasSignOut=false) {
-<div class = "grid-2-3">
-    <p>@Messages("page.iht.questionnaire.p1")</p>
+isFullWidth=false, hasSignOut=false) {
+<div>
+    <p>@Messages("page.iht.estateReport.allDetailsSaved")</p>
 </div>
 <div class = "form-group">
-    <a class='button' id="button-no-and-signout"
-       href="@iht.controllers.routes.IhtMainController.signOut">@Messages("page.iht.questionnaire.button.no-and-signout.text")
+    <a id="button-no-and-signout"
+       href="@iht.controllers.routes.IhtMainController.signOut">@Messages("page.iht.estateReport.returnToEstateReports")
     </a>
 </div>
+    <h1>@Messages("page.iht.questionnaire.completeSurvey")</h1>
    @ihtHelpers.questionnaire_form(form, iht.controllers.application.routes.ApplicationQuestionnaireController.onSubmit)
 }
