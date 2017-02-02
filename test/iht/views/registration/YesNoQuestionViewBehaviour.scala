@@ -27,6 +27,9 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
 
   def guidanceParagraphs: Set[String]
 
+  /**
+    * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
+    */
   def yesNoQuestion() = {
     registrationPageWithErrorSummaryBox()
 
@@ -46,6 +49,10 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     }
   }
 
+  /**
+    * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
+    * Assumes that the Call for the cancel link has been set up as CommonBuilder.DefaultCall2.
+    */
   def yesNoQuestionWithCancelLink() = {
     yesNoQuestion()
 
