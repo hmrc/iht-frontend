@@ -39,10 +39,24 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
       doc.getElementById("no-label").text shouldBe Messages("iht.no")
     }
 
-    "show the Continue button" in {
+    "show the Continue button with the correct target" in {
       val continueButton = doc.getElementById("continue-button")
       continueButton.`val` shouldBe Messages("iht.continue")
       doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+    }
+  }
+
+  def yesNoQuestionWithCancelLink() = {
+    yesNoQuestion()
+
+    "show the Cancel link with the correct target" in {
+      val continueButton = doc.getElementById("continue-button")
+      continueButton.`val` shouldBe Messages("iht.continue")
+      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
+
+      val cancelLink = doc.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
+      cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }
 }

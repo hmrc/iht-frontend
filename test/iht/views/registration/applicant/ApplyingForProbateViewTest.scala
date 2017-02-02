@@ -18,11 +18,11 @@ package iht.views.registration.applicant
 
 import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.models.ApplicantDetails
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
 class ApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] {
@@ -36,7 +36,8 @@ class ApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[ApplicantDet
 
   override def form: Form[ApplicantDetails] = applyingForProbateForm
 
-  override def formToView: Form[ApplicantDetails] => Appendable = form => applying_for_probate(form, Call("", ""))
+  override def formToView: Form[ApplicantDetails] => Appendable =
+    form => applying_for_probate(form, CommonBuilder.DefaultCall1)
 
   "Applying For Probate View" must {
     behave like yesNoQuestion

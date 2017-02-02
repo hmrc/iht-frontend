@@ -20,10 +20,8 @@ import iht.forms.registration.CoExecutorForms.othersApplyingForProbateForm
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.others_applying_for_probate
 import iht.views.registration.YesNoQuestionViewBehaviour
-import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
 class OthersApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[Option[Boolean]] {
@@ -42,24 +40,23 @@ class OthersApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[Option
   "Others Applying for Probate View" must {
     behave like yesNoQuestion
   }
+}
+
+class OthersApplyingForProbateViewTestInEditMode extends YesNoQuestionViewBehaviour[Option[Boolean]] {
+
+  override def guidanceParagraphs = Set(Messages("page.iht.registration.others-applying-for-probate.description"))
+
+  override def pageTitle = Messages("page.iht.registration.others-applying-for-probate.sectionTitle")
+
+  override def browserTitle = Messages("page.iht.registration.others-applying-for-probate.browserTitle")
+
+  override def form: Form[Option[Boolean]] = othersApplyingForProbateForm
+
+  override def formToView: Form[Option[Boolean]] => Appendable =
+    form => others_applying_for_probate(form,
+      CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))
 
   "Others Applying for Probate View in Edit Mode" must {
-    "have a continue and cancel link with correct targets" in {
-      val view: Document = {
-        implicit val request = createFakeRequest()
-        val view = others_applying_for_probate(othersApplyingForProbateForm,
-          CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
-        asDocument(view)
-      }
-
-      val continueLink = view.getElementById("continue-button")
-      continueLink.attr("value") shouldBe Messages("iht.continue")
-
-      view.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
-
-      val cancelLink = view.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
-    }
+    behave like yesNoQuestionWithCancelLink
   }
 }

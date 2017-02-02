@@ -18,11 +18,11 @@ package iht.views.registration.deceased
 
 import iht.forms.registration.DeceasedForms.deceasedAddressQuestionForm
 import iht.models.DeceasedDetails
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.deceased_address_question
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[DeceasedDetails] {
@@ -35,7 +35,8 @@ class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[Decease
 
   override def form: Form[DeceasedDetails] = deceasedAddressQuestionForm
 
-  override def formToView: Form[DeceasedDetails] => Appendable = form => deceased_address_question(form, Call("", ""))
+  override def formToView: Form[DeceasedDetails] => Appendable =
+    form => deceased_address_question(form, CommonBuilder.DefaultCall1)
 
   "Deceased Address Question View" must {
     behave like yesNoQuestion
