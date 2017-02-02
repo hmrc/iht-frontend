@@ -16,26 +16,24 @@
 
 package iht.views.registration.executor
 
+import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.views.registration.RegistrationPageBehaviour
 import iht.forms.registration.CoExecutorForms.othersApplyingForProbateForm
-import iht.models.DeceasedDateOfDeath
+import iht.models.{ApplicantDetails, DeceasedDateOfDeath}
+import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.html.registration.executor.others_applying_for_probate
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
-class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour[Boolean] {
+class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour[Option[Boolean]] {
 
   override def pageTitle = Messages("page.iht.registration.others-applying-for-probate.sectionTitle")
   override def browserTitle = Messages("page.iht.registration.others-applying-for-probate.browserTitle")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest()).toString
-    val doc = asDocument(view)
-    val form:Form[Boolean] = null
-    val func:Form[Boolean] => play.twirl.api.HtmlFormat.Appendable = null
-  }
+  override def form:Form[Option[Boolean]] = othersApplyingForProbateForm
+  override def formToView:Form[Option[Boolean]] => Appendable = form => others_applying_for_probate(form, Call("", ""))
 
   "Others Applying for Probate View" must {
 
@@ -47,8 +45,7 @@ class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour[Boolean
     }
 
     "show the correct guidance" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view,
+      messagesShouldBePresent(view,
         Messages("page.iht.registration.others-applying-for-probate.description"))
     }
   }

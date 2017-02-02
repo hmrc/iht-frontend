@@ -30,19 +30,16 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     registrationPageWithErrorSummaryBox()
 
     "show the correct guidance paragraphs" in {
-      val f = fixture()
-      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(f.view, paragraph)
+      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
     }
 
     "show the correct yes/no question text" in {
-      val f = fixture()
-      f.doc.getElementById("yes-label").text shouldBe Messages("iht.yes")
-      f.doc.getElementById("no-label").text shouldBe Messages("iht.no")
+      doc.getElementById("yes-label").text shouldBe Messages("iht.yes")
+      doc.getElementById("no-label").text shouldBe Messages("iht.no")
     }
 
     "show the Continue button" in {
-      val f = fixture()
-      val continueButton = f.doc.getElementById("continue-button")
+      val continueButton = doc.getElementById("continue-button")
       continueButton.`val` shouldBe Messages("iht.continue")
     }
   }

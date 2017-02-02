@@ -30,57 +30,46 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
 
   override def pageTitle = Messages("page.iht.registration.deceasedDateOfDeath.title")
   override def browserTitle = Messages("iht.dateOfDeath")
+  override def form:Form[DeceasedDateOfDeath] = deceasedDateOfDeathForm
+  override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, Call("", ""))
 
   lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
   lazy val editSubmitLocation = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onEditSubmit
-
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val form = deceasedDateOfDeathForm
-    val func: Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, Call("", ""))
-    val view = func(form).toString
-    val doc = asDocument(view)
-  }
 
   def editModeView = {
     implicit val request = createFakeRequest()
     val view = deceased_date_of_death(deceasedDateOfDeathForm, editSubmitLocation, Some(regSummaryPage)).toString
     asDocument(view)
-  }
+   }
 
   "Deceased Date of Death View" must {
 
     behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'date-of-death'" in {
-      val f = fixture()
-      f.doc.getElementsByTag("fieldset").first.id shouldBe "date-of-death"
+      doc.getElementsByTag("fieldset").first.id shouldBe "date-of-death"
     }
 
     "have a 'day' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfDeath.day")
+      assertRenderedById(doc, "dateOfDeath.day")
     }
 
     "have a 'month' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfDeath.month")
+      assertRenderedById(doc, "dateOfDeath.month")
     }
 
     "have a 'year' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfDeath.year")
+      assertRenderedById(doc, "dateOfDeath.year")
     }
 
     "have a form hint" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
+     messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
     }
 
     "have a continue and cancel link in edit mode" in {
       val view = editModeView
 
-      val continueLink = view.getElementById("continue")
+      val continueLink = view.getElementById("continue-button")
       continueLink.attr("value") shouldBe Messages("iht.continue")
 
       val cancelLink = view.getElementById("cancel-button")

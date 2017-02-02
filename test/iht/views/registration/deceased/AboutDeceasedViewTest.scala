@@ -17,102 +17,84 @@
 package iht.views.registration.deceased
 
 import iht.forms.registration.DeceasedForms._
-import iht.models.{ApplicantDetails, DeceasedDetails}
+import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.about_deceased
 import iht.views.registration.RegistrationPageBehaviour
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
 class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
   override def pageTitle = Messages("iht.registration.deceasedDetails.title")
   override def browserTitle = Messages("iht.registration.deceasedDetails.title")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = about_deceased(aboutDeceasedForm(new LocalDate()), Call("", "")).toString
-    val doc = asDocument(view)
-    val form:Form[DeceasedDetails] = null
-    val func:Form[DeceasedDetails] => play.twirl.api.HtmlFormat.Appendable = null
-  }
+  override def form:Form[DeceasedDetails] = aboutDeceasedForm(new LocalDate())
+  override def formToView:Form[DeceasedDetails] => Appendable = form => about_deceased(form, Call("", ""))
 
   "About Deceased View" must {
 
     behave like registrationPage()
 
     "have the correct label for first name" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "firstName-container", "iht.firstName")
+      labelShouldBe(doc, "firstName-container", "iht.firstName")
     }
 
     "have hint text for first name" in {
-      val f = fixture()
-      labelHelpTextShouldBe(f.doc, "firstName-container", "iht.firstName.hint")
+      labelHelpTextShouldBe(doc, "firstName-container", "iht.firstName.hint")
     }
 
     "have a first name field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "firstName")
+      assertRenderedById(doc, "firstName")
     }
 
     "have the correct label for last name" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "lastName-container", "iht.lastName")
+      labelShouldBe(doc, "lastName-container", "iht.lastName")
     }
 
     "have a last name field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "lastName")
+      assertRenderedById(doc, "lastName")
     }
 
     "have a fieldset with the Id 'date-of-birth'" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "date-of-birth")
+      assertRenderedById(doc, "date-of-birth")
     }
 
     "have a 'day' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfBirth.day")
+      assertRenderedById(doc, "dateOfBirth.day")
     }
 
     "have a 'month' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfBirth.month")
+      assertRenderedById(doc, "dateOfBirth.month")
     }
 
     "have a 'year' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfBirth.year")
+      assertRenderedById(doc, "dateOfBirth.year")
     }
 
     "have a form hint for date of birth" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, Messages("iht.dateExample"))
+      messagesShouldBePresent(view, Messages("iht.dateExample"))
     }
 
     "have the correct label for nino" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "nino-container", "iht.nationalInsuranceNo")
+      labelShouldBe(doc, "nino-container", "iht.nationalInsuranceNo")
     }
 
     "have a nino field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "nino")
+      assertRenderedById(doc, "nino")
     }
 
     "have a fieldset with the Id 'relationship-status'" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "relationship-status")
+      assertRenderedById(doc, "relationship-status")
     }
 
     "have all the correct marital status on the page'" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label"))
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label"))
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDetails.maritalStatus.widowed.label"))
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDetails.maritalStatus.single.label"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDetails.maritalStatus.widowed.label"))
+      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDetails.maritalStatus.single.label"))
     }
   }
 }

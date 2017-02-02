@@ -23,6 +23,7 @@ import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
 import scala.collection.immutable.ListMap
 
@@ -31,21 +32,15 @@ class ProbateLocationViewTest extends RegistrationPageBehaviour[ApplicantDetails
   override def pageTitle = Messages("page.iht.registration.applicant.probateLocation.title")
   override def browserTitle = Messages("page.iht.registration.applicant.probateLocation.browserTitle")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = probate_location(probateLocationForm, ListMap[String, String](), Call("", "")).toString
-    val doc = asDocument(view)
-    val form:Form[ApplicantDetails] = null
-    val func:Form[ApplicantDetails] => play.twirl.api.HtmlFormat.Appendable = null
-  }
+  override def form:Form[ApplicantDetails] = probateLocationForm
+  override def formToView:Form[ApplicantDetails] => Appendable = form => probate_location(form, ListMap[String, String](), Call("", ""))
 
   "Probate Location View" must {
 
     behave like registrationPage()
 
     "have a fieldset with the Id 'country'" in {
-      val f = fixture()
-      f.doc.getElementsByTag("fieldset").first.id shouldBe "country"
+      doc.getElementsByTag("fieldset").first.id shouldBe "country"
     }
   }
 }

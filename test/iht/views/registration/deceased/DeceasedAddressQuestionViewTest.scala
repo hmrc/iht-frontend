@@ -33,13 +33,9 @@ class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[Decease
 
   override def browserTitle = Messages("iht.registration.contactAddress")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val form: Form[DeceasedDetails] = deceasedAddressQuestionForm
-    val func: Form[DeceasedDetails] => Appendable = form => deceased_address_question(form, Call("", ""))
-    val view = func(form).toString
-    val doc = asDocument(view)
-  }
+  override def form: Form[DeceasedDetails] = deceasedAddressQuestionForm
+
+  override def formToView: Form[DeceasedDetails] => Appendable = form => deceased_address_question(form, Call("", ""))
 
   "Deceased Address Question View" must {
     behave like yesNoQuestion
