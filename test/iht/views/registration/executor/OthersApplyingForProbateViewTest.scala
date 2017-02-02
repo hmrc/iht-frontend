@@ -17,6 +17,7 @@
 package iht.views.registration.executor
 
 import iht.forms.registration.CoExecutorForms.othersApplyingForProbateForm
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.others_applying_for_probate
 import iht.views.registration.YesNoQuestionViewBehaviour
 import org.jsoup.nodes.Document
@@ -35,7 +36,8 @@ class OthersApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[Option
 
   override def form: Form[Option[Boolean]] = othersApplyingForProbateForm
 
-  override def formToView: Form[Option[Boolean]] => Appendable = form => others_applying_for_probate(form, Call("", ""))
+  override def formToView: Form[Option[Boolean]] => Appendable =
+    form => others_applying_for_probate(form, CommonBuilder.DefaultCall1)
 
   "Others Applying for Probate View" must {
     behave like yesNoQuestion
@@ -46,17 +48,17 @@ class OthersApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[Option
       val view: Document = {
         implicit val request = createFakeRequest()
         val view = others_applying_for_probate(othersApplyingForProbateForm,
-          Call("GET", "submit"), Some(Call("GET", "cancel"))).toString
+          CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
         asDocument(view)
       }
 
       val continueLink = view.getElementById("continue-button")
       continueLink.attr("value") shouldBe Messages("iht.continue")
 
-      val ook = view.getElementsByTag("form").attr("action") shouldBe "submit"
+      view.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
 
       val cancelLink = view.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe "cancel"
+      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
       cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }

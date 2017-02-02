@@ -16,6 +16,7 @@
 
 package iht.views.registration
 
+import iht.testhelpers.CommonBuilder
 import play.api.i18n.Messages
 
 trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
@@ -41,6 +42,7 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     "show the Continue button" in {
       val continueButton = doc.getElementById("continue-button")
       continueButton.`val` shouldBe Messages("iht.continue")
+      doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
     }
   }
 }
