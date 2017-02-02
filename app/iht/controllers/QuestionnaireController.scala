@@ -17,6 +17,7 @@
 package iht.controllers
 
 import iht.connector.ExplicitAuditConnector
+import iht.constants.IhtProperties
 import iht.controllers.auth.IhtActions
 import iht.events.QuestionnaireEvent
 import iht.forms.QuestionnaireForms._
@@ -25,39 +26,55 @@ import iht.utils.{CommonHelper, LogHelper}
 import play.api.data.Form
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 
 import scala.concurrent.Future
 
-trait QuestionnaireController extends FrontendController with IhtActions {
+trait QuestionnaireController extends FrontendController with IhtActions with IhtConnectors {
+
+  val ninoKey = "nino"
 
   def explicitAuditConnector: ExplicitAuditConnector = ExplicitAuditConnector
 
   def questionnaireView: (Form[QuestionnaireModel], Request[_]) => Appendable
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
-      Future.successful(Ok(questionnaireView(questionnaire_form, request)).withNewSession)
+    implicit user =>
+      implicit request => {
+        cachingConnector.storeSingleValue(ninoKey, CommonHelper.getNino(user)).flatMap { _ =>
+          Future.successful(Ok(questionnaireView(questionnaire_form, request)).withNewSession)
+        }
+      }
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request =>
+  def onSubmit = UnauthorisedAction.async {
+    implicit request => {
       questionnaire_form.bindFromRequest().fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
           Future.successful(BadRequest(questionnaireView(formWithErrors, request)))
         },
         value => {
-          val questionnaireEvent = new QuestionnaireEvent(
-            feelingAboutExperience = value.feelingAboutExperience.fold(""){_.toString},
-            easyToUse = value.easyToUse.fold(""){_.toString},
-            howCanYouImprove = value.howCanYouImprove.getOrElse(""),
-            fullName = value.fullName.getOrElse(""),
-            nino = CommonHelper.getNino(user)
-          )
-          explicitAuditConnector.sendEvent(questionnaireEvent)
-          Future.successful(Redirect(iht.controllers.routes.IhtMainController.signOut()))
+          cachingConnector.getSingleValue(ninoKey).flatMap { optionNino =>
+            val retrievedNino: String = CommonHelper.getOrException(optionNino)
+            val questionnaireEvent = new QuestionnaireEvent(
+              feelingAboutExperience = value.feelingAboutExperience.fold("") {
+                _.toString
+              },
+              easyToUse = value.easyToUse.fold("") {
+                _.toString
+              },
+              howCanYouImprove = value.howCanYouImprove.getOrElse(""),
+              fullName = value.fullName.getOrElse(""),
+              nino = retrievedNino
+            )
+            explicitAuditConnector.sendEvent(questionnaireEvent)
+            cachingConnector.delete(ninoKey).flatMap { _ =>
+              Future.successful(Redirect(IhtProperties.linkGovUkIht))
+            }
+          }
         }
       )
+    }
   }
 }
