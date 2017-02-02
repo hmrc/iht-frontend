@@ -16,37 +16,39 @@
 
 package iht.views.registration.executor
 
-import iht.forms.registration.ApplicantForms.applyingForProbateForm
-import iht.views.registration.RegistrationPageBehaviour
 import iht.forms.registration.CoExecutorForms.othersApplyingForProbateForm
-import iht.models.{ApplicantDetails, DeceasedDateOfDeath}
-import iht.views.html.registration.applicant.applying_for_probate
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.others_applying_for_probate
+import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
-class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour[Option[Boolean]] {
+trait OthersApplyingForProbateViewFixture extends YesNoQuestionViewBehaviour[Option[Boolean]] {
+  override def guidanceParagraphs = Set(Messages("page.iht.registration.others-applying-for-probate.description"))
 
   override def pageTitle = Messages("page.iht.registration.others-applying-for-probate.sectionTitle")
+
   override def browserTitle = Messages("page.iht.registration.others-applying-for-probate.browserTitle")
 
-  override def form:Form[Option[Boolean]] = othersApplyingForProbateForm
-  override def formToView:Form[Option[Boolean]] => Appendable = form => others_applying_for_probate(form, Call("", ""))
+  override def form: Form[Option[Boolean]] = othersApplyingForProbateForm
+}
+
+class OthersApplyingForProbateViewTest extends OthersApplyingForProbateViewFixture {
+  override def formToView: Form[Option[Boolean]] => Appendable =
+    form => others_applying_for_probate(form, CommonBuilder.DefaultCall1)
 
   "Others Applying for Probate View" must {
+    behave like yesNoQuestion
+  }
+}
 
-    behave like registrationPage()
+class OthersApplyingForProbateViewTestInEditMode extends OthersApplyingForProbateViewFixture {
+  override def formToView: Form[Option[Boolean]] => Appendable =
+    form => others_applying_for_probate(form,
+      CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))
 
-    "have a fieldset with the Id 'answer'" in {
-      val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest()).toString
-      asDocument(view).getElementsByTag("fieldset").first.id shouldBe "answer"
-    }
-
-    "show the correct guidance" in {
-      messagesShouldBePresent(view,
-        Messages("page.iht.registration.others-applying-for-probate.description"))
-    }
+  "Others Applying for Probate View in Edit Mode" must {
+    behave like yesNoQuestionWithCancelLink
   }
 }

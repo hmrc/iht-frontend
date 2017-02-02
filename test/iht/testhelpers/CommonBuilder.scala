@@ -18,20 +18,20 @@ package iht.testhelpers
 
 import scala.util.Random
 import iht.constants.IhtProperties
-import iht.models.application.{IhtApplication, ApplicationDetails, ProbateDetails}
-import iht.models.application.basicElements.{ShareableBasicEstateElement, BasicEstateElement}
+import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.models.application.debts._
 import iht.models.application.assets._
 import iht.models.application.gifts._
-
 import iht.models.application.exemptions._
 import iht.models.application.tnrb._
 import iht.models.{ReturnDetails, _}
-import iht.utils.{ApplicationStatus => AppStatus, CommonHelper, KickOutReason}
+import iht.utils.{CommonHelper, KickOutReason, ApplicationStatus => AppStatus}
 import models.des.iht_return.{Declaration, IHTReturn}
 import models.des.{Deceased, Event, EventRegistration}
 import org.joda.time.{DateTime, LocalDate}
 import org.mockito.invocation.InvocationOnMock
+import play.api.mvc.Call
 import uk.gov.hmrc.domain.{Nino, TaxIds}
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
@@ -56,6 +56,9 @@ object CommonBuilder {
     def answer(i: InvocationOnMock): Unit = {
     }
   }
+
+  val DefaultCall1 = Call("GET", "Call1")
+  val DefaultCall2 = Call("GET", "Call2")
 
   val DefaultId = "1"
   val DefaultDeceasedDOD = new LocalDate(2011, 12, 12)

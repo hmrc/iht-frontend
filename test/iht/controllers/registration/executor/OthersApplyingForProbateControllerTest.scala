@@ -86,36 +86,6 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
       redirectLocation(result) shouldBe Some(loginUrl)
     }
 
-    "contain Continue button when Page is loaded in normal mode" in {
-      val host="localhost:9070"
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector,
-        Some(CommonBuilder.buildRegistrationDetails.copy(
-          applicantDetails = Some(CommonBuilder.buildApplicantDetails))))
-
-      val result = othersApplyingForProbateController.onPageLoadFromOverview()(
-        createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
-      status(result) shouldBe(OK)
-
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include Messages("site.link.cancel")
-    }
-
-    "contain Continue and Cancel buttons when Page is loaded in edit mode" in {
-      val host="localhost:9070"
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector,
-        Some(CommonBuilder.buildRegistrationDetails.copy(
-          applicantDetails = Some(CommonBuilder.buildApplicantDetails))))
-
-      val result = othersApplyingForProbateController.onEditPageLoad()(
-        createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
-      status(result) shouldBe(OK)
-
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
-    }
-
     "respond appropriately to a submit with a value of Yes" in  {
       val registrationDetails = RegistrationDetails(None, None, None)
       val probateForm = othersApplyingForProbateForm.fill(Some(true))
