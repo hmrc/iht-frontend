@@ -22,7 +22,7 @@
 
 @(form: Form[_])(implicit request: Request[_])
 
-@iht_main_template_registration(title = Messages("page.iht.questionnaire.title"),
+@iht_main_template_registration(title = Messages("iht.signedOut"),
 isFullWidth=false, hasSignOut=false) {
 <div>
     <p>@Messages("page.iht.registration.questionnaire.p1")</p>
@@ -32,6 +32,6 @@ isFullWidth=false, hasSignOut=false) {
        href="@iht.controllers.routes.IhtMainController.signOut">@Messages("page.iht.registration.questionnaire.startAgain")
     </a>
 </div>
-    <h1>@Messages("page.iht.questionnaire.completeSurvey")</h1>
+    <h2 class="heading-large">@Messages("page.iht.questionnaire.completeSurvey")</h2>
    @ihtHelpers.questionnaire_form(form, iht.controllers.registration.routes.RegistrationQuestionnaireController.onSubmit)
 }
