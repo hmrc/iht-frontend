@@ -16,8 +16,9 @@
 
 package iht.views.registration.deceased
 
+import iht.controllers.registration.routes
 import iht.forms.registration.DeceasedForms.deceasedDateOfDeathForm
-import iht.models.{ApplicantDetails, DeceasedDateOfDeath, DeceasedDetails}
+import iht.models.{DeceasedDateOfDeath, DeceasedDetails}
 import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
@@ -29,13 +30,21 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
 
   override def pageTitle = Messages("page.iht.registration.deceasedDateOfDeath.title")
   override def browserTitle = Messages("iht.dateOfDeath")
-
   override def form:Form[DeceasedDateOfDeath] = deceasedDateOfDeathForm
   override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, Call("", ""))
 
+  lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
+  lazy val editSubmitLocation = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onEditSubmit
+
+  def editModeView = {
+    implicit val request = createFakeRequest()
+    val view = deceased_date_of_death(deceasedDateOfDeathForm, editSubmitLocation, Some(regSummaryPage)).toString
+    asDocument(view)
+   }
+
   "Deceased Date of Death View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'date-of-death'" in {
       doc.getElementsByTag("fieldset").first.id shouldBe "date-of-death"
@@ -54,7 +63,18 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
     }
 
     "have a form hint" in {
-      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
+     messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
+    }
+
+    "have a continue and cancel link in edit mode" in {
+      val view = editModeView
+
+      val continueLink = view.getElementById("continue-button")
+      continueLink.attr("value") shouldBe Messages("iht.continue")
+
+      val cancelLink = view.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe regSummaryPage.url
+      cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }
 }
