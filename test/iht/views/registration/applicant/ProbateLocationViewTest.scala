@@ -18,6 +18,7 @@ package iht.views.registration.applicant
 
 import iht.forms.registration.ApplicantForms.probateLocationForm
 import iht.models.ApplicantDetails
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.probate_location
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
@@ -33,14 +34,30 @@ class ProbateLocationViewTest extends RegistrationPageBehaviour[ApplicantDetails
   override def browserTitle = Messages("page.iht.registration.applicant.probateLocation.browserTitle")
 
   override def form:Form[ApplicantDetails] = probateLocationForm
-  override def formToView:Form[ApplicantDetails] => Appendable = form => probate_location(form, ListMap[String, String](), Call("", ""))
+  override def formToView:Form[ApplicantDetails] => Appendable = form => probate_location(form, CommonBuilder.DefaultCall1)
 
   "Probate Location View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
-    "have a fieldset with the Id 'country'" in {
-      doc.getElementsByTag("fieldset").first.id shouldBe "country"
+    "have radio button" which {
+      "has a fieldset with the Id 'country'" in {
+        doc.getElementsByTag("fieldset").first.id shouldBe "country"
+      }
+
+      "includes england or wales" in {
+        radioButtonShouldBeCorrect(doc, "iht.countries.englandOrWales", "country-england_or_wales")
+      }
+
+      "includes scotland" in {
+        radioButtonShouldBeCorrect(doc, "iht.countries.scotland", "country-scotland")
+      }
+
+      "includes northern ireland" in {
+        radioButtonShouldBeCorrect(doc, "iht.countries.northernIreland", "country-northern_ireland")
+      }
     }
+
+
   }
 }
