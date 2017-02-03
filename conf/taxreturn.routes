@@ -381,5 +381,7 @@ GET         /completed-estate-report                                            
 GET         /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onPageLoad
 POST        /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onSubmit
 
+GET         /questionnaire-application1                                                          iht.controllers.application.ApplicationQuestionnaireController.show
+
 GET         /questionnaire-application-ook                                                      iht.controllers.application.ApplicationQuestionnaireController.ook
 

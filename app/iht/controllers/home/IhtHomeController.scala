@@ -42,7 +42,12 @@ trait IhtHomeController extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
 
+      println("*********************** In IhtHomeController ******************"+request)
       val nino = CommonHelper.getNino(user)
+
+      request.session + ("customerNino" -> nino)
+      println("***************** ::: ************************"+request.session.toString)
+
       ihtConnector.getCaseList(nino).map {
         case listOfCases if listOfCases.nonEmpty => {
 
@@ -60,7 +65,7 @@ trait IhtHomeController extends ApplicationController {
           }
 
           Ok(iht.views.html.home.iht_home(viewModels))
-            .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}"))
+            .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + ("customerNino" -> nino))
         }
       } recover {
         case e: Upstream4xxResponse if e.upstreamResponseCode == 404 => {

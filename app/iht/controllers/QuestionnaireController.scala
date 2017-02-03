@@ -27,10 +27,12 @@ import play.api.data.Form
 import play.api.mvc._
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+import uk.gov.hmrc.play.frontend.auth.Actions
+
 
 import scala.concurrent.Future
 
-trait QuestionnaireController extends FrontendController with IhtActions with IhtConnectors {
+trait QuestionnaireController extends FrontendController with Actions {
 
   val ninoKey = "nino"
 
@@ -38,73 +40,35 @@ trait QuestionnaireController extends FrontendController with IhtActions with Ih
 
   def questionnaireView: (Form[QuestionnaireModel], Request[_]) => Appendable
 
-  def onPageLoad = authorisedForIht {
-    implicit user =>
-      implicit request => {
-        cachingConnector.storeSingleValue(ninoKey, CommonHelper.getNino(user)).flatMap { _ =>
-
-          val oldCookie: Cookie = request.cookies("mdtp")
-          println("\n*****COOKIE:" + oldCookie)
-
-          /*
-mdtp,9f3c910d883933c72f15271ed0cbc1a82663dae1-affinityGroup=Individual&name=1&authToken=Bearer+XlLM91CY3hEHqHlrKX9N0V8PJjegPbWLh4lG5zRW64rZxGBmnnQ4rjwyWA9vCCDpo68rWvduDWgY1RYmyc5rjYbqKXi3T68N1sOsuWoJuAwGQ2HPHSWeSFaw1kcg5fsr3x1FNcbInq30B5D9zDbp8KR%2BeoA3v3PSLkldNYqBmzI1TnU%2FCoN5cH3wc88qbn82&ts=1486119255213&ap=GGW&token=token&sessionId=session-0243dd0e-1a5c-4abf-8d41-df39ec80cbed&csrfToken=b2bec7dba4afab72eec5792336703e88c41d7cfe-1486119253180-3358f28836bfd5588665b65d&userId=%2Fauth%2Foid%2F586e4a664300004300579db4,None,/,None,false,false
-           */
-
-          // request.cookies.drop(0)
-
-          //, domain = None, httpOnly = false, maxAge = None, name = "", path = "", secure = false
-
-          val gg: Array[String] = oldCookie.value.split("&")
-          val vv: Array[String] = gg.filter { (xx: String) => {
-              val tt: Array[String] = xx.split("=")
-
-            //println( "\nIII:" + tt(0) + ":"+ (tt(0) != "authToken"))
-
-              tt(0) != "authToken"
-            }
-          }
-
-          vv.foreach { xxxxxx =>
-            println("\nYYYYY:" + xxxxxx)
-          }
-
-
-          var zzz: String = ""
-          vv.foreach { mmm =>
-            zzz += mmm + "&"
-          }
-          zzz = zzz.substring(0, zzz.length - 1)
-
-          println( "\n*************************\nOLD=" + oldCookie.value)
-          println( "\n*************************\nNEW=" + zzz)
-
-
-          val newCookie = oldCookie
-            .copy(value = zzz)
-
-          val res = Ok(questionnaireView(questionnaire_form, request))
-            .discardingCookies(DiscardingCookie("mdtp")).withCookies(newCookie)
-
-          println( "\n**OLD COOKIE:" + oldCookie)
-
-
-          println( "\n**NEW COOKIE:" + newCookie)
-
-          Future.successful(res)
-        }
-      }
+  def show: Action[AnyContent] = UnauthorisedAction {
+    implicit request => {
+      println("*** :::::::::::::::::::::: *** request in show method ::::   "+request)
+      println("*** :::::::::::::::::::::::::: ***** ::: "+request.session.toString())
+      val nino = request.session.get("customerNino").getOrElse("")
+      println("*********************** ::: NINO ::::: ******************"+nino)
+      Redirect(iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()).withNewSession.withSession(request.session+ ("customerNino" -> nino))
+    }
   }
 
-  def onSubmit = UnauthorisedAction.async {
+  def onPageLoad = UnauthorisedAction {
+     implicit request => {
+          val nino = request.session.get("customerNino").getOrElse("")
+       println("*********************** ::: NINO ::::: ******************"+nino)
+          Ok(questionnaireView(questionnaire_form, request)).withSession("customerNino" -> nino)
+        }
+  }
+
+  def onSubmit = UnauthorisedAction {
+    println("************************* In method Questionnaire Controller**********************************")
     implicit request => {
+      println("************************* In request of on submit in Questionnaire Controller**********************************")
       questionnaire_form.bindFromRequest().fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
-          Future.successful(BadRequest(questionnaireView(formWithErrors, request)))
+        BadRequest(questionnaireView(formWithErrors, request))
         },
         value => {
-          cachingConnector.getSingleValue(ninoKey).flatMap { optionNino =>
-            val retrievedNino: String = CommonHelper.getOrException(optionNino)
+            val retrievedNino: String = request.session.get("customerNino").getOrElse("")
             val questionnaireEvent = new QuestionnaireEvent(
               feelingAboutExperience = value.feelingAboutExperience.fold("") {
                 _.toString
@@ -117,10 +81,8 @@ mdtp,9f3c910d883933c72f15271ed0cbc1a82663dae1-affinityGroup=Individual&name=1&au
               nino = retrievedNino
             )
             explicitAuditConnector.sendEvent(questionnaireEvent)
-            cachingConnector.delete(ninoKey).flatMap { _ =>
-              Future.successful(Redirect(iht.controllers.application.routes.ApplicationQuestionnaireController.ook()))
-            }
-          }
+            Redirect(iht.controllers.application.routes.ApplicationQuestionnaireController.ook())
+
         }
       )
     }

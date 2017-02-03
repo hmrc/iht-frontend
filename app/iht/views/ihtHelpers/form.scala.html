@@ -19,7 +19,8 @@
 
 <form id="@id" action="@action.url" method="@action.method" @toHtmlArgs(args.toMap)>
     @{
-    play.filters.csrf.CSRF.getToken(request).map {token => CSRF.formField(token)}
+        println("********************  Creating tok token ok*****************")
+        play.filters.csrf.CSRF.getToken(request).map {token => CSRF.formField(token)}
     }
     @body
 </form>
