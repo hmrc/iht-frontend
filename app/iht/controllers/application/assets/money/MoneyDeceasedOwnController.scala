@@ -25,6 +25,7 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.money.money_deceased_own
+import play.api.mvc.Cookie
 
 object MoneyDeceasedOwnController extends MoneyDeceasedOwnController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -36,6 +37,9 @@ trait MoneyDeceasedOwnController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
+
+      val oldCookie: Cookie = request.cookies("mdtp")
+      println("\n In Money Page *******************COOKIE:" + oldCookie)
       estateElementOnPageLoad[ShareableBasicEstateElement](moneyFormOwn, money_deceased_own.apply,_.allAssets.flatMap(_.money))
     }
   }
