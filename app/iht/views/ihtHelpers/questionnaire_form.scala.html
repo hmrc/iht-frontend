@@ -22,6 +22,8 @@
 
 @helpers.form(postRoute) {
 
+    <input type="hidden" name="referer" id="referer" value="@form.data.get("referer")">
+
     @ihtHelpers.input_radio_group(
         form("feelingAboutExperience"),
         questionnaireFeelingAboutExperience.toSeq,
@@ -63,7 +65,8 @@
     '_labelTextClass -> "bold",
     '_label -> Html(Messages("site.fullName")))
 
-
-    <button type="submit">@Html(Messages("page.iht.questionnaire.button.submit-and-signout"))</button>
+<div>
+    <input class="button" type="submit" value = "OM"/>
+</div>
 </div>
 }

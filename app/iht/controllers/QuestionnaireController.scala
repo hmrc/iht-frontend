@@ -25,14 +25,14 @@ import iht.models.QuestionnaireModel
 import iht.utils.{CommonHelper, LogHelper}
 import play.api.data.Form
 import play.api.mvc._
+import play.filters.csrf.{CSRFAddToken, CSRFCheck}
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import uk.gov.hmrc.play.frontend.auth.Actions
 
-
 import scala.concurrent.Future
 
-trait QuestionnaireController extends FrontendController with Actions {
+trait QuestionnaireController extends FrontendController with IhtActions {
 
   val ninoKey = "nino"
 
@@ -58,16 +58,17 @@ trait QuestionnaireController extends FrontendController with Actions {
         }
   }
 
-  def onSubmit = UnauthorisedAction {
-    println("************************* In method Questionnaire Controller**********************************")
-    implicit request => {
-      println("************************* In request of on submit in Questionnaire Controller**********************************")
-      questionnaire_form.bindFromRequest().fold(
-        formWithErrors => {
-          LogHelper.logFormError(formWithErrors)
-        BadRequest(questionnaireView(formWithErrors, request))
-        },
-        value => {
+  def onSubmit: Action[AnyContent] = CSRFAddToken {
+    UnauthorisedAction {
+      println("************************* In method Questionnaire Controller**********************************")
+      implicit request => {
+        println("************************* In request of on submit in Questionnaire Controller**********************************")
+        questionnaire_form.bindFromRequest().fold(
+          formWithErrors => {
+            LogHelper.logFormError(formWithErrors)
+            BadRequest(questionnaireView(formWithErrors, request))
+          },
+          value => {
             val retrievedNino: String = request.session.get("customerNino").getOrElse("")
             val questionnaireEvent = new QuestionnaireEvent(
               feelingAboutExperience = value.feelingAboutExperience.fold("") {
@@ -83,8 +84,9 @@ trait QuestionnaireController extends FrontendController with Actions {
             explicitAuditConnector.sendEvent(questionnaireEvent)
             Redirect(iht.controllers.application.routes.ApplicationQuestionnaireController.ook())
 
-        }
-      )
+          }
+        )
+      }
     }
   }
 
