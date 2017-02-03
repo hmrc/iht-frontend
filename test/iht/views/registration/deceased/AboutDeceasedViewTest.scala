@@ -18,12 +18,12 @@ package iht.views.registration.deceased
 
 import iht.forms.registration.DeceasedForms._
 import iht.models.DeceasedDetails
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.about_deceased
 import iht.views.registration.RegistrationPageBehaviour
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
 class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
@@ -32,11 +32,18 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
   override def browserTitle = Messages("iht.registration.deceasedDetails.title")
 
   override def form:Form[DeceasedDetails] = aboutDeceasedForm(new LocalDate())
-  override def formToView:Form[DeceasedDetails] => Appendable = form => about_deceased(form, Call("", ""))
+  override def formToView:Form[DeceasedDetails] => Appendable = form => about_deceased(form, CommonBuilder.DefaultCall1)
+
+
+  def editModeViewAsDocument = {
+    implicit val request = createFakeRequest()
+    val view = about_deceased(form, CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
+    asDocument(view)
+  }
 
   "About Deceased View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have the correct label for first name" in {
       labelShouldBe(doc, "firstName-container", "iht.firstName")
@@ -86,15 +93,37 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
       assertRenderedById(doc, "nino")
     }
 
-    "have a fieldset with the Id 'relationship-status'" in {
-      assertRenderedById(doc, "relationship-status")
+    "have radio button" which {
+      "has a fieldset with the Id 'relationship-status'" in {
+        assertRenderedById(doc, "relationship-status")
+      }
+
+      "includes Married or in a civil partnership" in {
+        radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label", "maritalStatus-married_or_in_civil_partnership")
+      }
+
+      "includes Divorced or a former civil partner" in {
+        radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label", "maritalStatus-divorced_or_former_civil_partner")
+      }
+
+      "includes Widowed or a surviving civil partner" in {
+        radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.maritalStatus.widowed.label", "maritalStatus-widowed_or_a_surviving_civil_partner")
+      }
+
+      "includes Never married or in a civil partnership" in {
+        radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.maritalStatus.single.label", "maritalStatus-single")
+      }
     }
 
-    "have all the correct marital status on the page'" in {
-      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDetails.maritalStatus.widowed.label"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDetails.maritalStatus.single.label"))
+    "have a continue and cancel link in edit mode" in {
+      val doc = editModeViewAsDocument
+
+      val continueLink = doc.getElementById("continue-button")
+      continueLink.attr("value") shouldBe Messages("iht.continue")
+
+      val cancelLink = doc.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
+      cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }
 }
