@@ -37,9 +37,6 @@ trait MoneyDeceasedOwnController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-
-      val oldCookie: Cookie = request.cookies("mdtp")
-      println("\n In Money Page *******************COOKIE:" + oldCookie)
       estateElementOnPageLoad[ShareableBasicEstateElement](moneyFormOwn, money_deceased_own.apply,_.allAssets.flatMap(_.money))
     }
   }

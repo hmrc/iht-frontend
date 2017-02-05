@@ -25,6 +25,7 @@ import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import play.api.Logger
 import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
+import iht.constants.Constants
 
 /**
   *
@@ -41,12 +42,7 @@ trait IhtHomeController extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-
-      println("*********************** In IhtHomeController ******************"+request)
       val nino = CommonHelper.getNino(user)
-
-      request.session + ("customerNino" -> nino)
-      println("***************** ::: ************************"+request.session.toString)
 
       ihtConnector.getCaseList(nino).map {
         case listOfCases if listOfCases.nonEmpty => {
@@ -65,7 +61,7 @@ trait IhtHomeController extends ApplicationController {
           }
 
           Ok(iht.views.html.home.iht_home(viewModels))
-            .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + ("customerNino" -> nino))
+            .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino))
         }
       } recover {
         case e: Upstream4xxResponse if e.upstreamResponseCode == 404 => {

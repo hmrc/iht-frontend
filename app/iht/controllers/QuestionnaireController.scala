@@ -17,59 +17,48 @@
 package iht.controllers
 
 import iht.connector.ExplicitAuditConnector
-import iht.constants.IhtProperties
+import iht.constants.{Constants, IhtProperties}
 import iht.controllers.auth.IhtActions
 import iht.events.QuestionnaireEvent
 import iht.forms.QuestionnaireForms._
 import iht.models.QuestionnaireModel
-import iht.utils.{CommonHelper, LogHelper}
+import iht.utils.LogHelper
 import play.api.data.Form
 import play.api.mvc._
-import play.filters.csrf.{CSRFAddToken, CSRFCheck}
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
-import uk.gov.hmrc.play.frontend.auth.Actions
-
-import scala.concurrent.Future
 
 trait QuestionnaireController extends FrontendController with IhtActions {
-
-  val ninoKey = "nino"
 
   def explicitAuditConnector: ExplicitAuditConnector = ExplicitAuditConnector
 
   def questionnaireView: (Form[QuestionnaireModel], Request[_]) => Appendable
 
-  def show: Action[AnyContent] = UnauthorisedAction {
+  def signOutAndLoadPage = UnauthorisedAction {
     implicit request => {
-      println("*** :::::::::::::::::::::: *** request in show method ::::   "+request)
-      println("*** :::::::::::::::::::::::::: ***** ::: "+request.session.toString())
-      val nino = request.session.get("customerNino").getOrElse("")
-      println("*********************** ::: NINO ::::: ******************"+nino)
-      Redirect(iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()).withNewSession.withSession(request.session+ ("customerNino" -> nino))
+
+      val nino = request.session.get(Constants.NINO).getOrElse("")
+      Redirect(iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()).
+        withNewSession.withSession((Constants.NINO -> nino))
     }
   }
 
   def onPageLoad = UnauthorisedAction {
      implicit request => {
-          val nino = request.session.get("customerNino").getOrElse("")
-       println("*********************** ::: NINO ::::: ******************"+nino)
-          Ok(questionnaireView(questionnaire_form, request)).withSession("customerNino" -> nino)
+          val nino = request.session.get(Constants.NINO).getOrElse("")
+          Ok(questionnaireView(questionnaire_form, request)).withSession(request.session + (Constants.NINO -> nino))
         }
   }
 
-  def onSubmit: Action[AnyContent] = CSRFAddToken {
-    UnauthorisedAction {
-      println("************************* In method Questionnaire Controller**********************************")
+  def onSubmit = UnauthorisedAction {
       implicit request => {
-        println("************************* In request of on submit in Questionnaire Controller**********************************")
         questionnaire_form.bindFromRequest().fold(
           formWithErrors => {
             LogHelper.logFormError(formWithErrors)
             BadRequest(questionnaireView(formWithErrors, request))
           },
           value => {
-            val retrievedNino: String = request.session.get("customerNino").getOrElse("")
+            val retrievedNino: String = request.session.get(Constants.NINO).getOrElse("")
             val questionnaireEvent = new QuestionnaireEvent(
               feelingAboutExperience = value.feelingAboutExperience.fold("") {
                 _.toString
@@ -82,14 +71,11 @@ trait QuestionnaireController extends FrontendController with IhtActions {
               nino = retrievedNino
             )
             explicitAuditConnector.sendEvent(questionnaireEvent)
-            Redirect(iht.controllers.application.routes.ApplicationQuestionnaireController.ook())
+            Redirect(IhtProperties.linkGovUkIht)
 
           }
         )
       }
-    }
   }
-
-  def ook: Action[AnyContent] = UnauthorisedAction(implicit request => Redirect(IhtProperties.linkGovUkIht))
 
 }
