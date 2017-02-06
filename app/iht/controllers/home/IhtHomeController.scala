@@ -41,34 +41,38 @@ trait IhtHomeController extends ApplicationController {
   def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val nino = CommonHelper.getNino(user)
+    implicit user =>
+      implicit request => {
+        val nino = CommonHelper.getNino(user)
 
-      ihtConnector.getCaseList(nino).map {
-        case listOfCases if listOfCases.nonEmpty => {
+        ihtConnector.getCaseList(nino).map {
+          case listOfCases if listOfCases.nonEmpty => {
 
-          listOfCases.foreach{ ihtCase =>
-            Logger.info("Application status retrieved from DES is ::: " + ihtCase.currentStatus)
+            listOfCases.foreach { ihtCase =>
+              Logger.info("Application status retrieved from DES is ::: " + ihtCase.currentStatus)
 
-            ihtCase.currentStatus match {
-              case AppStatus.AwaitingReturn | AppStatus.KickOut  => {}
-              case _ => {ihtConnector.deleteApplication(nino, ihtCase.ihtRefNo)}
+              ihtCase.currentStatus match {
+                case AppStatus.AwaitingReturn | AppStatus.KickOut => {}
+                case _ => {
+                  ihtConnector.deleteApplication(nino, ihtCase.ihtRefNo)
+                }
+              }
             }
-          }
 
-          val viewModels = listOfCases.map {
-            ihtCase => IhtHomeRowViewModel(nino, ihtCase, ihtConnector)
-          }
+            val viewModels = listOfCases.map {
+              ihtCase => IhtHomeRowViewModel(nino, ihtCase, ihtConnector)
+            }
 
-          Ok(iht.views.html.home.iht_home(viewModels))
-            .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino))
-        }
-      } recover {
-        case e: Upstream4xxResponse if e.upstreamResponseCode == 404 => {
-          Ok(iht.views.html.home.iht_home(Nil)).withSession(request.session +
-            (SessionKeys.sessionId -> s"session-${UUID.randomUUID}"))
+            Ok(iht.views.html.home.iht_home(viewModels))
+              .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino))
+          }
+        } recover {
+          case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
+            Ok(iht.views.html.home.iht_home(Nil)).withSession(
+              CommonHelper.ensureSessionHasNino(request.session, user) +
+                (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
+            )
         }
       }
-    }
   }
 }

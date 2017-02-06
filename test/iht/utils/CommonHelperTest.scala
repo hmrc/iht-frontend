@@ -17,6 +17,7 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.constants.Constants
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
@@ -24,12 +25,16 @@ import iht.testhelpers._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages
+import play.api.mvc.Session
 import play.api.test.FakeRequest
+import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.frontend.auth.connectors.domain.IhtAccount
+import uk.gov.hmrc.play.frontend.auth.Principal
 
 import scala.collection.immutable.ListMap
 
@@ -543,6 +548,44 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     "return default string where deceased details does not exists " in {
       val regDetailsWithNODeceasedDetails = regDetails.copy(deceasedDetails = None)
       CommonHelper.getDeceasedNameOrDefaultString(regDetailsWithNODeceasedDetails) shouldBe Messages("iht.the.deceased")
+    }
+  }
+
+  def buildAuthContext(nino:Nino): AuthContext = {
+    new AuthContext(
+      LoggedInUser(CommonBuilder.firstNameGenerator, None, None, None, CredentialStrength.Strong, ConfidenceLevel.L300 ,""),
+      Principal(None, Accounts(iht = Some(IhtAccount("", nino)) )),
+      None, None, None, None
+    )
+  }
+
+  "ensureSessionHasNino" must {
+    "throw an exception if the authcontext contains no nino" in {
+      val nino = NinoBuilder.randomNino
+      a[RuntimeException] shouldBe thrownBy {
+        CommonHelper.ensureSessionHasNino(new Session(), CommonBuilder.buildAuthContext())
+      }
+    }
+
+    "add the nino if it is not present in the session" in {
+      val nino = NinoBuilder.randomNino
+      val result = CommonHelper.ensureSessionHasNino(new Session(), buildAuthContext(nino))
+      result.get(Constants.NINO) shouldBe Some(nino.nino)
+    }
+
+    "retrieve the nino if the same nino is present in the session" in {
+      val nino = NinoBuilder.randomNino
+      val session = new Session() + (Constants.NINO -> nino.name)
+      val result = CommonHelper.ensureSessionHasNino(session, buildAuthContext(nino))
+      result.get(Constants.NINO) shouldBe Some(nino.nino)
+    }
+
+    "replace the nino if a different nino is present in the session" in {
+      val nino = NinoBuilder.randomNino
+      val newNino = NinoBuilder.randomNino
+      val session = new Session() + (Constants.NINO -> nino.name)
+      val result = CommonHelper.ensureSessionHasNino(session, buildAuthContext(newNino))
+      result.get(Constants.NINO) shouldBe Some(newNino.nino)
     }
   }
 }

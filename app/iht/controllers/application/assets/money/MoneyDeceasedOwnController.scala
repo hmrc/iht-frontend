@@ -25,10 +25,9 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.money.money_deceased_own
-import play.api.mvc.Cookie
 
 object MoneyDeceasedOwnController extends MoneyDeceasedOwnController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait MoneyDeceasedOwnController extends EstateController {
@@ -36,38 +35,40 @@ trait MoneyDeceasedOwnController extends EstateController {
   val submitUrl = iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](moneyFormOwn, money_deceased_own.apply,_.allAssets.flatMap(_.money))
-    }
+    implicit user =>
+      implicit request => {
+        estateElementOnPageLoad[ShareableBasicEstateElement](moneyFormOwn, money_deceased_own.apply, _.allAssets.flatMap(_.money))
+      }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val updateApplicationDetails: (ApplicationDetails, Option[String], ShareableBasicEstateElement) =>
-        (ApplicationDetails, Option[String]) =
-        (appDetails, _, money) => {
-          val existingShareValue = appDetails.allAssets.flatMap(_.money.flatMap(_.shareValue))
-          val existingIsOwnedShare = appDetails.allAssets.flatMap(_.money.flatMap(_.isOwnedShare))
+    implicit user =>
+      implicit request => {
+        val updateApplicationDetails: (ApplicationDetails, Option[String], ShareableBasicEstateElement) =>
+          (ApplicationDetails, Option[String]) =
+          (appDetails, _, money) => {
+            val existingShareValue = appDetails.allAssets.flatMap(_.money.flatMap(_.shareValue))
+            val existingIsOwnedShare = appDetails.allAssets.flatMap(_.money.flatMap(_.isOwnedShare))
 
-          val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-          (new AllAssets(action = None, money = Some(money)))
+            val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
+            (new AllAssets(action = None, money = Some(money)))
             (money.isOwned match {
               case Some(true) => _.copy(money = Some(money.copy(shareValue = existingShareValue,
-                                                    isOwnedShare = existingIsOwnedShare) ))
+                isOwnedShare = existingIsOwnedShare)))
               case Some(false) => _.copy(money = Some(money.copy(value = None, shareValue = existingShareValue,
-                                                    isOwnedShare = existingIsOwnedShare)))
+                isOwnedShare = existingIsOwnedShare)))
               case None => throw new RuntimeException("Not able to retrieve the value of money owed question")
             }
-          )))
-          (updatedAD, None)
-        }
+            )))
+            (updatedAD, None)
+          }
 
-      estateElementOnSubmit[ShareableBasicEstateElement](
-        moneyFormOwn,
-        money_deceased_own.apply,
-        updateApplicationDetails,
-        submitUrl
-      )
-    }
+        estateElementOnSubmit[ShareableBasicEstateElement](
+          moneyFormOwn,
+          money_deceased_own.apply,
+          updateApplicationDetails,
+          submitUrl
+        )
+      }
   }
 }

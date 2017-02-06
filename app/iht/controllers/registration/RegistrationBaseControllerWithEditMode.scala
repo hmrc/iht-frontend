@@ -48,11 +48,7 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
         } else {
           okForEditPageLoad(f)
         }
-        val result = okResult.withSession(
-          request.session.get(Constants.NINO).fold(
-            request.session + (Constants.NINO -> CommonHelper.getNino(user))
-          )(_ => request.session)
-        )
+        val result = okResult.withSession(CommonHelper.ensureSessionHasNino(request.session, user))
         Future.successful(result)
       }
   }
