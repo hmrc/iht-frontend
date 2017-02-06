@@ -26,4 +26,5 @@ trait RegistrationQuestionnaireController extends RegistrationController with Qu
   override def guardConditions: Set[Predicate] = Set.empty
   override lazy val ihtSection = IhtSection.Registration
   def questionnaireView = (form, request) => registration_questionnaire(form)(request)
+  override def callPageLoad = iht.controllers.registration.routes.RegistrationQuestionnaireController.onPageLoad()
 }
