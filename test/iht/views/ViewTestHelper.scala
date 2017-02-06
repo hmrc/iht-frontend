@@ -46,7 +46,6 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     label.text shouldBe labelText
     val radio = label.children.first
     radio.id shouldBe radioID
-    radio.`val` shouldBe labelText
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {

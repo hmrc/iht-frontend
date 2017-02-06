@@ -74,7 +74,7 @@ class PrivateBetaLandingPageControllerTest extends ApplicationControllerTest {
     "start redirects correctly" in {
      val result = privateBetaLandingPageController.start(Some("aa"))(createFakeRequest(isAuthorised = true))
      status(result) should be(SEE_OTHER)
-     redirectLocation(result) should be(Some(registration.routes.RegistrationChecklistController.onPageLoad().url))
+     redirectLocation(result) should be(Some(iht.controllers.filter.routes.FilterController.onPageLoad().url))
     }
   }
 }
