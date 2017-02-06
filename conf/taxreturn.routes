@@ -380,3 +380,5 @@ GET         /completed-estate-report                                            
 
 GET         /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onPageLoad
 POST        /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onSubmit
+
+GET         /questionnaire-application-sign-out                                                 iht.controllers.application.ApplicationQuestionnaireController.signOutAndLoadPage

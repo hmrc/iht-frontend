@@ -17,17 +17,16 @@
 package iht.controllers
 
 import iht.connector.ExplicitAuditConnector
+import iht.constants.{Constants, IhtProperties}
 import iht.controllers.auth.IhtActions
 import iht.events.QuestionnaireEvent
 import iht.forms.QuestionnaireForms._
 import iht.models.QuestionnaireModel
 import iht.utils.{CommonHelper, LogHelper}
 import play.api.data.Form
-import play.api.mvc.Request
+import play.api.mvc._
 import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-
-import scala.concurrent.Future
+import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 
 trait QuestionnaireController extends FrontendController with IhtActions {
 
@@ -35,28 +34,44 @@ trait QuestionnaireController extends FrontendController with IhtActions {
 
   def questionnaireView: (Form[QuestionnaireModel], Request[_]) => Appendable
 
-  def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
-      Future.successful(Ok(questionnaireView(questionnaire_form, request)))
+  def callPageLoad: Call
+
+  private def getNinoOrException(request:Request[_]) =
+    CommonHelper.getOrException(request.session.get(Constants.NINO))
+
+  def signOutAndLoadPage = UnauthorisedAction {
+    implicit request =>
+      Redirect(callPageLoad).withNewSession
+        .withSession(Constants.NINO -> getNinoOrException(request))
   }
 
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request =>
+  def onPageLoad = UnauthorisedAction {
+    implicit request =>
+      Ok(questionnaireView(questionnaire_form, request))
+        .withSession(request.session + (Constants.NINO -> getNinoOrException(request)))
+  }
+
+  def onSubmit = UnauthorisedAction {
+    implicit request =>
       questionnaire_form.bindFromRequest().fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
-          Future.successful(BadRequest(questionnaireView(formWithErrors, request)))
+          BadRequest(questionnaireView(formWithErrors, request))
         },
         value => {
           val questionnaireEvent = new QuestionnaireEvent(
-            feelingAboutExperience = value.feelingAboutExperience.fold(""){_.toString},
-            easyToUse = value.easyToUse.fold(""){_.toString},
+            feelingAboutExperience = value.feelingAboutExperience.fold("") {
+              _.toString
+            },
+            easyToUse = value.easyToUse.fold("") {
+              _.toString
+            },
             howCanYouImprove = value.howCanYouImprove.getOrElse(""),
             fullName = value.fullName.getOrElse(""),
-            nino = CommonHelper.getNino(user)
+            nino = getNinoOrException(request)
           )
           explicitAuditConnector.sendEvent(questionnaireEvent)
-          Future.successful(Redirect(iht.controllers.routes.IhtMainController.signOut()))
+          Redirect(IhtProperties.linkGovUkIht)
         }
       )
   }
