@@ -21,12 +21,12 @@ import iht.forms.registration.CoExecutorForms._
 import iht.models.CoExecutor
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.coexecutor_personal_details
-import iht.views.registration.{RegistrationPageBehaviour, YesNoQuestionViewBehaviour}
+import iht.views.registration.{PersonalDetailsViewBehaviour, RegistrationPageBehaviour, YesNoQuestionViewBehaviour}
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExecutor] {
+class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExecutor] with PersonalDetailsViewBehaviour[CoExecutor] {
 
   override def guidanceParagraphs = Set.empty
 
@@ -48,53 +48,7 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
 
   "Co Exec Personal Details View" must {
 
-    "have the correct label for first name" in {
-      labelShouldBe(doc, "firstName-container", "iht.firstName")
-    }
-
-    "have hint text for first name" in {
-      labelHelpTextShouldBe(doc, "firstName-container", "iht.firstName.hint")
-    }
-
-    "have a first name field" in {
-      assertRenderedById(doc, "firstName")
-    }
-
-    "have the correct label for last name" in {
-      labelShouldBe(doc, "lastName-container", "iht.lastName")
-    }
-
-    "have a last name field" in {
-      assertRenderedById(doc, "lastName")
-    }
-
-    "have a fieldset with the Id 'date-of-birth'" in {
-      assertRenderedById(doc, "date-of-birth")
-    }
-
-    "have a 'day' input box" in {
-      assertRenderedById(doc, "dateOfBirth.day")
-    }
-
-    "have a 'month' input box" in {
-      assertRenderedById(doc, "dateOfBirth.month")
-    }
-
-    "have a 'year' input box" in {
-      assertRenderedById(doc, "dateOfBirth.year")
-    }
-
-    "have a form hint for date of birth" in {
-      messagesShouldBePresent(view, Messages("iht.dateExample"))
-    }
-
-    "have the correct label for nino" in {
-      labelShouldBe(doc, "nino-container", "iht.nationalInsuranceNo")
-    }
-
-    "have a nino field" in {
-      assertRenderedById(doc, "nino")
-    }
+    behave like personalDetails
 
     "have a phone number field" in {
       assertRenderedById(doc, "phoneNo")
