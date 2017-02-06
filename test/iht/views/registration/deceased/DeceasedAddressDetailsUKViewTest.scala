@@ -28,19 +28,20 @@ import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
+  lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
+  lazy val editSubmitLocation = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
+  lazy val addressOutsideUK= iht.controllers.registration.deceased.routes.DeceasedAddressDetailsOutsideUKController.onPageLoad()
+
   override def pageTitle = Messages("iht.registration.deceased.lastContactAddress")
   override def browserTitle = Messages("iht.registration.contactAddress")
 
   override def form:Form[DeceasedDetails] = deceasedAddressDetailsUKForm
-  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_uk(form, Call("", ""), Call("", ""))
-
-  lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
-  lazy val editSubmitLocation = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_uk(form, Call("", ""), addressOutsideUK)
 
   def editModeView = {
     implicit val request = createFakeRequest()
     val view = deceased_address_details_uk(
-                      deceasedAddressDetailsUKForm, editSubmitLocation, Call("", ""), Some(regSummaryPage)).toString
+                      deceasedAddressDetailsUKForm, editSubmitLocation, addressOutsideUK, Some(regSummaryPage)).toString
     asDocument(view)
   }
 
@@ -94,11 +95,18 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
 
     "have a link to change to an address abroad" in {
       val link = doc.getElementById("return-button")
+      link.attr("href") shouldBe (addressOutsideUK.url)
       link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
     }
   }
 
   "Deceased Address Details (UK) View in Edit mode" must {
     behave like registrationPageInEditModeWithErrorSummaryBox(editModeView, regSummaryPage)
+
+    "have a link to change to an address abroad" in {
+      val link = doc.getElementById("return-button")
+      link.attr("href") shouldBe (addressOutsideUK.url)
+      link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
+    }
   }
 }

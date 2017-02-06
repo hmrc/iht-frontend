@@ -50,34 +50,6 @@ class DeceasedAddressDetailsUKControllerTest
 
     behave like securedRegistrationDeceasedController()
 
-    "contain Continue button and correct switch link when Page is loaded in normal mode" in {
-      val deceasedDetails = CommonBuilder.buildDeceasedDetails
-      val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-
-      val result = controller.onPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host))
-      status(result) shouldBe OK
-
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
-      contentAsString(result) should include(routes.DeceasedAddressDetailsOutsideUKController.onPageLoad().url)
-    }
-
-    "contain Continue and Cancel buttons and correct switch link when Page is loaded in edit mode" in {
-      val deceasedDetails = CommonBuilder.buildDeceasedDetails
-      val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-
-      val result = controller.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host))
-      status(result) shouldBe OK
-
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
-      contentAsString(result) should include(routes.DeceasedAddressDetailsOutsideUKController.onEditPageLoad().url)
-    }
-
     "forget address details when changing from abroad to UK" in {
       val existingAddress = UkAddress("New Line 1", "New Line 2", None, None, "", "US")
       val existingApplicantDetails = CommonBuilder.buildApplicantDetails
