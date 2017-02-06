@@ -54,6 +54,10 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
       assertRenderedById(doc, "phoneNo")
     }
 
+    "have the correct label for phone number" in {
+      labelShouldBe(doc, "phoneNo-container", "iht.registration.checklist.phoneNo.upperCaseInitial")
+    }
+
     behave like yesNoQuestion
 
     "have a continue and cancel link in edit mode" in {
