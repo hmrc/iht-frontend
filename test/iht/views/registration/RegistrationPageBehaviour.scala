@@ -46,10 +46,6 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     "have a Continue button" in {
       doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.continue")
     }
-
-    "not have a Cancel button" in {
-      assertNotRenderedById(doc, "cancel-button")
-    }
   }
 
   def registrationPageWithErrorSummaryBox() = {

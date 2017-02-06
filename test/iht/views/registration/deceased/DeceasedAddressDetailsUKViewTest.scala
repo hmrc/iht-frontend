@@ -93,6 +93,10 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
       labelShouldBe(doc, "ukAddress.postCode-container", "iht.postcode")
     }
 
+    "not have a Cancel button" in {
+      assertNotRenderedById(doc, "cancel-button")
+    }
+
     "have a link to change to an address abroad" in {
       val link = doc.getElementById("return-button")
       link.attr("href") shouldBe (addressOutsideUK.url)

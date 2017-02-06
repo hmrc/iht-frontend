@@ -66,6 +66,10 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
     "have a form hint" in {
      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
     }
+
+    "not have a Cancel button" in {
+      assertNotRenderedById(doc, "cancel-button")
+    }
   }
 
   "Deceased Date of Death View in Edit mode" must {
