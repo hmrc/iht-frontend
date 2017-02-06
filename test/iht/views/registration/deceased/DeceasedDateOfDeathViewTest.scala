@@ -21,6 +21,7 @@ import iht.forms.registration.DeceasedForms.deceasedDateOfDeathForm
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails}
 import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
+import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
@@ -33,7 +34,7 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
   override def form:Form[DeceasedDateOfDeath] = deceasedDateOfDeathForm
   override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, Call("", ""))
 
-  lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
+  lazy val regSummaryPage: Call = routes.RegistrationSummaryController.onPageLoad
   lazy val editSubmitLocation = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onEditSubmit
 
   def editModeView = {
@@ -65,16 +66,9 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
     "have a form hint" in {
      messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
     }
+  }
 
-    "have a continue and cancel link in edit mode" in {
-      val view = editModeView
-
-      val continueLink = view.getElementById("continue-button")
-      continueLink.attr("value") shouldBe Messages("iht.continue")
-
-      val cancelLink = view.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe regSummaryPage.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
-    }
+  "Deceased Date of Death View in Edit mode" must {
+    behave like registrationPageInEditModeWithErrorSummaryBox(editModeView, regSummaryPage)
   }
 }

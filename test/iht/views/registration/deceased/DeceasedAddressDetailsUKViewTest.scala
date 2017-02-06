@@ -16,10 +16,9 @@
 
 package iht.views.registration.deceased
 
-import iht.forms.registration.ApplicantForms.applyingForProbateForm
+import iht.controllers.registration.routes
 import iht.forms.registration.DeceasedForms.deceasedAddressDetailsUKForm
-import iht.models.{ApplicantDetails, DeceasedDetails}
-import iht.views.html.registration.applicant.applying_for_probate
+import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_address_details_uk
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
@@ -34,6 +33,16 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
 
   override def form:Form[DeceasedDetails] = deceasedAddressDetailsUKForm
   override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_uk(form, Call("", ""), Call("", ""))
+
+  lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
+  lazy val editSubmitLocation = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
+
+  def editModeView = {
+    implicit val request = createFakeRequest()
+    val view = deceased_address_details_uk(
+                      deceasedAddressDetailsUKForm, editSubmitLocation, Call("", ""), Some(regSummaryPage)).toString
+    asDocument(view)
+  }
 
   "Deceased Address Details (UK) View" must {
 
@@ -87,5 +96,9 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
       val link = doc.getElementById("return-button")
       link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
     }
+  }
+
+  "Deceased Address Details (UK) View in Edit mode" must {
+    behave like registrationPageInEditModeWithErrorSummaryBox(editModeView, regSummaryPage)
   }
 }
