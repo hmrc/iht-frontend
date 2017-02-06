@@ -58,6 +58,10 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
       labelShouldBe(doc, "phoneNo-container", "iht.registration.checklist.phoneNo.upperCaseInitial")
     }
 
+    "have a form hint for phone number" in {
+      messagesShouldBePresent(view, Messages("site.phoneNo.hint"))
+    }
+
     behave like yesNoQuestion
 
     "have a continue and cancel link in edit mode" in {
