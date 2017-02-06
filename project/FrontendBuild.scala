@@ -47,13 +47,13 @@ object Test {
   def apply() = new TestDependencies {
     override lazy val test = Seq(
       "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion % scope,
-      "uk.gov.hmrc" %% "hmrctest" % "1.9.0" % scope,
-      "org.scalatest" %% "scalatest" % "2.2.2" % scope,
+      "uk.gov.hmrc" %% "hmrctest" % "2.2.0" % scope,
+      "org.scalatest" %% "scalatest" % "2.2.6" % scope,
       "org.scalatestplus" %% "play" % "1.2.0" % scope,
-      "org.pegdown" % "pegdown" % "1.4.2" % scope,
-      "org.jsoup" % "jsoup" % "1.7.3" % scope,
+      "org.pegdown" % "pegdown" % "1.6.0" % scope,
+      "org.jsoup" % "jsoup" % "1.8.1" % scope,
       "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-      "org.mockito" % "mockito-all" % "1.9.5" % scope,
+      "org.mockito" % "mockito-all" % "1.10.19" % scope,
       "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion % scope,
       "org.json" % "json" % jsonVersion % scope
     )
