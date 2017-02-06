@@ -21,7 +21,7 @@ import iht.forms.registration.CoExecutorForms._
 import iht.models.CoExecutor
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.coexecutor_personal_details
-import iht.views.registration.{PersonalDetailsViewBehaviour, RegistrationPageBehaviour, YesNoQuestionViewBehaviour}
+import iht.views.registration.{PersonalDetailsViewBehaviour, YesNoQuestionViewBehaviour}
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
