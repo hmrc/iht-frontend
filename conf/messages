@@ -1921,7 +1921,6 @@ page.iht.application.kickout.final.guidance.onFinish = By selecting finish you w
 page.iht.questionnaire.completeSurvey = Please complete this short survey to help us improve the service
 page.iht.registration.questionnaire.p1 = Any details you have entered have not been saved. You need to complete registration in one go.
 page.iht.registration.questionnaire.startAgain = Start registration again
-###page.iht.questionnaire.button.no-and-signout.text = No thanks - sign me out
 
 page.iht.estateReport.allDetailsSaved = All of your details have been saved.
 
