@@ -50,17 +50,10 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
 
     behave like personalDetails
 
-    "have a phone number field" in {
-      assertRenderedById(doc, "phoneNo")
-    }
-
-    "have the correct label for phone number" in {
-      labelShouldBe(doc, "phoneNo-container", "iht.registration.checklist.phoneNo.upperCaseInitial")
-    }
-
-    "have a form hint for phone number" in {
-      messagesShouldBePresent(view, Messages("site.phoneNo.hint"))
-    }
+    behave like phoneNumber(
+      label = "iht.registration.checklist.phoneNo.upperCaseInitial",
+      hint = "site.phoneNo.hint"
+    )
 
     behave like yesNoQuestion
 
