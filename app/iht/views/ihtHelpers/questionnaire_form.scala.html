@@ -20,8 +20,6 @@
 @import iht.views.html._
 @import iht.constants.FieldMappings._
 
-<br/>
-
 @helpers.form(postRoute) {
 
     @ihtHelpers.input_radio_group(
@@ -66,6 +64,6 @@
     '_label -> Html(Messages("site.fullName")))
 
 
-    <button type="submit">@Html(Messages("page.iht.questionnaire.button.submit-and-signout"))</button>
+    <input class="button" type="submit" value = "@Messages("page.iht.questionnaire.button.submit-and-signout")" />
 </div>
 }

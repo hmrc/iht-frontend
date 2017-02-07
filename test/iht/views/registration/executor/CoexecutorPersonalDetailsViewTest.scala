@@ -17,21 +17,62 @@
 package iht.views.registration.executor
 
 import iht.controllers.ControllerHelper.Mode
-import iht.{FakeIhtApp, TestUtils}
-import iht.forms.registration.CoExecutorForms.coExecutorPersonalDetailsEditForm
-import iht.views.HtmlSpec
+import iht.forms.registration.CoExecutorForms._
+import iht.models.CoExecutor
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.coexecutor_personal_details
-import play.api.mvc.Call
-import uk.gov.hmrc.play.test.UnitSpec
+import iht.views.registration.{PersonalDetailsViewBehaviour, YesNoQuestionViewBehaviour}
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
-class CoexecutorPersonalDetailsViewTest extends UnitSpec with FakeIhtApp with TestUtils with HtmlSpec {
+class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExecutor] with PersonalDetailsViewBehaviour[CoExecutor] {
 
-  "Coexecutor Personal Details View" must {
+  override def guidanceParagraphs = Set.empty
 
-    "have a fieldset with the Id 'date-of-birth'" in {
-      val view = coexecutor_personal_details(coExecutorPersonalDetailsEditForm, Mode.Edit, Call("", ""))(createFakeRequest()).toString
+  override def pageTitle = Messages("page.iht.registration.co-executor-personal-details.title")
 
-      asDocument(view).getElementsByTag("fieldset").first.id shouldBe "date-of-birth"
+  override def browserTitle = Messages("page.iht.registration.co-executor-personal-details.browserTitle")
+
+  override def form: Form[CoExecutor] = coExecutorPersonalDetailsForm
+
+  override def formToView: Form[CoExecutor] => Appendable =
+    form => coexecutor_personal_details(form, Mode.Standard, CommonBuilder.DefaultCall1)(createFakeRequest())
+
+
+  def editModeViewAsDocument = {
+    implicit val request = createFakeRequest()
+    val view = coexecutor_personal_details(form, Mode.Edit, CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))(createFakeRequest())
+    asDocument(view)
+  }
+
+  "Co Exec Personal Details View" must {
+
+    behave like personalDetails
+
+    "have a phone number field" in {
+      assertRenderedById(doc, "phoneNo")
+    }
+
+    "have the correct label for phone number" in {
+      labelShouldBe(doc, "phoneNo-container", "iht.registration.checklist.phoneNo.upperCaseInitial")
+    }
+
+    "have a form hint for phone number" in {
+      messagesShouldBePresent(view, Messages("site.phoneNo.hint"))
+    }
+
+    behave like yesNoQuestion
+
+    "have a continue and cancel link in edit mode" in {
+      val doc = editModeViewAsDocument
+
+      val continueLink = doc.getElementById("continue-button")
+      continueLink.attr("value") shouldBe Messages("iht.continue")
+
+      val cancelLink = doc.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
+      cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }
 }

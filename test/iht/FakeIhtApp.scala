@@ -17,7 +17,8 @@
 package iht
 
 import iht.config.FrontendAuthConnector
-import iht.testhelpers.CommonBuilder
+import iht.constants.Constants
+import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import org.scalatest.Suite
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.{FakeApplication, FakeRequest}
@@ -39,6 +40,7 @@ trait FakeIhtApp extends WithFakeApplication {
     val userId = "ID-" + fakeNino
     if (isAuthorised) {
       FakeRequest().withSession(
+        Constants.NINO -> NinoBuilder.randomNino.nino,
         SessionKeys.sessionId -> s"session-$userId",
         SessionKeys.userId -> userId,
         SessionKeys.token -> "some-gg-token").withHeaders(

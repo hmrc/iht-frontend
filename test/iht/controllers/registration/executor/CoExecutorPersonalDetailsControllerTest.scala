@@ -428,84 +428,9 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       }
     }
 
-    "show an error when the first name is blank" in {
+    "show an error when some data is invalid" in {
       val coExecutor = CommonBuilder.buildCoExecutor copy (firstName = "")
       checkForErrorOnSubmissionOfModel(coExecutor, "error.firstName.give")
-    }
-
-    "show an error when the first name is invalid" in {
-      val maxLength = IhtProperties.validationMaxLengthFirstName
-      val coExecutor = CommonBuilder.buildCoExecutor copy (firstName = "X" * (maxLength + 1))
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.firstName.giveUsingXCharsOrLess")
-    }
-
-    "show an error when the last name is blank" in {
-      val coExecutor = CommonBuilder.buildCoExecutor copy (lastName = "")
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.lastName.give")
-    }
-
-    "show an error when the last name is invalid" in {
-      val maxLength = IhtProperties.maxNameLength
-      val coExecutor = CommonBuilder.buildCoExecutor copy (lastName = "X" * (maxLength + 1))
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.lastName.giveUsingXCharsOrLess")
-    }
-
-    "show an error when the date of birth is blank" in {
-      val coExecutor = CommonBuilder.buildCoExecutor copy (dateOfBirth = null)
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.dateOfBirth.giveFull")
-    }
-
-    "show an error when the date of birth is invalid" in {
-      val form: Seq[(String, String)] = prepareForm(CommonBuilder.buildCoExecutor).data.toSeq
-      val seq = form map { case (key: String, value: String) =>
-        if (key == "dateOfBirth.year") ("dateOfBirth.year", "invalid") else (key, value)}
-      checkForErrorOnSubmission(seq, "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers")
-    }
-
-    "show an error when the date of birth is in the future" in {
-      val coExecutor = CommonBuilder.buildCoExecutor copy (dateOfBirth = LocalDate.now.plusDays(1))
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.dateOfBirth.giveNoneFuture")
-    }
-
-    "show an error when the NINO is blank" in {
-      val coExecutor = CommonBuilder.buildCoExecutor copy (nino = "")
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.nino.give")
-    }
-
-    "show an error when the NINO is too long" in {
-      val coExecutor = CommonBuilder.buildCoExecutor copy (nino = CommonBuilder.DefaultNino + "AB")
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.nino.giveUsing8Or9Characters")
-    }
-
-    "show an error when the NINO is invalid" in {
-      val coExecutor = CommonBuilder.buildCoExecutor copy (nino = "XXXXXXXXX")
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.nino.giveUsingOnlyLettersAndNumbers")
-    }
-
-    "show an error when the phone no is blank" in {
-      val coExecutor = CommonBuilder.buildCoExecutor copy (contactDetails = ContactDetails (phoneNo = "", email = Some("")))
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.phoneNumber.give")
-    }
-
-    "show an error when the phone no is too long" in {
-      val maxLength = IhtProperties.validationMaxLengthPhoneNo
-      val coExecutor = CommonBuilder.buildCoExecutor copy (contactDetails =
-        ContactDetails (phoneNo = "0" * (maxLength + 1), email = Some("")))
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.phoneNumber.giveUsing27CharactersOrLess")
-    }
-
-    "show an error when the 'Is their address in the UK' question is not answered" in {
-      val form: Seq[(String, String)] = prepareForm(CommonBuilder.buildCoExecutor).data.toSeq
-      val seq = form filter { case (key: String, value: String) => key != "isAddressInUk" }
-      checkForErrorOnSubmission(seq, "error.address.isInUK.give")
-    }
-
-    "show an error when the phone no is invalid" in {
-      pending // TODO: This test is pending because the current phone number validation is too
-      // loose and actually allows this value!
-      val coExecutor = CommonBuilder.buildCoExecutor copy (contactDetails =
-          ContactDetails (phoneNo = "Not a phone number", email = Some("")))
-      checkForErrorOnSubmissionOfModel(coExecutor, "error.phone.incorrect")
     }
 
     "save a valid new co-executor located in the uk will return an internal server error of the storage fails" in {
@@ -548,23 +473,6 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       val result = controller.onSubmit(Some("1"))(request)
       status(result) should be(INTERNAL_SERVER_ERROR)
-    }
-
-
-
-    "show an error when the date of birth is an invalid date" in {
-      val form: Seq[(String, String)] = prepareForm(CommonBuilder.buildCoExecutorPersonalDetails()).data.toSeq
-      val seq = form map { case (key: String, value: String) =>
-        if (key == "dateOfBirth.month") {
-          ("dateOfBirth.month", "2")
-        }
-        else if (key == "dateOfBirth.day") {
-          ("dateOfBirth.day", "30")
-        }
-        else {
-          (key, value)
-        }
-      }
     }
 
     def checkForErrorOnSubmission(detailsToSubmit: Seq[(String, String)], expectedError: String): Unit = {
