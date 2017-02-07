@@ -42,11 +42,29 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
       Seq(CommonBuilder.DefaultCoExecutor1, CommonBuilder.DefaultCoExecutor2),
       CommonBuilder.DefaultCall1)(createFakeRequest())
 
-
   def editModeViewAsDocument = {
     implicit val request = createFakeRequest()
     val view = executor_overview(form, true, Seq(), CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))(createFakeRequest())
     asDocument(view)
+  }
+
+  def checkForDeleteExecutorLink(id:String, coExecutor: CoExecutor) = {
+    val deleteLink = doc.getElementById("delete-executor-" + id)
+    deleteLink.attr("href") shouldBe
+      iht.controllers.registration.executor.routes.DeleteCoExecutorController
+        .onPageLoad(coExecutor.id.getOrElse("")).url
+    deleteLink.text() shouldBe Messages("iht.delete") +
+      Messages("page.iht.registration.executor-overview.executor.delete.screenReader",
+        coExecutor.name)
+  }
+
+  def checkForChangeExecutorLink(id:String, coExecutor: CoExecutor) = {
+    val changeLink = doc.getElementById("change-executor-" + id)
+    changeLink.attr("href") shouldBe
+      iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url
+    changeLink.text() shouldBe Messages("iht.change") +
+      Messages("page.iht.registration.executor-overview.executor.change.screenReader",
+        coExecutor.name)
   }
 
   "Executor overview View" must {
@@ -65,10 +83,26 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
         include(doc.getElementById("executorName-1").text)
     }
 
+    "Display executor 1 delete link in table" in {
+      checkForDeleteExecutorLink("1", CommonBuilder.DefaultCoExecutor1)
+    }
+
+    "Display executor 1 change link in table" in {
+      checkForChangeExecutorLink("1", CommonBuilder.DefaultCoExecutor1)
+    }
+
     "Display executor 2 name in table" in {
       doc.getElementById("executorName-2").text
       ihtHelpers.name(CommonBuilder.DefaultCoExecutor2.name.toString).toString should
         include(doc.getElementById("executorName-2").text)
+    }
+
+    "Display executor 2 delete link in table" in {
+      checkForDeleteExecutorLink("2", CommonBuilder.DefaultCoExecutor2)
+    }
+
+    "Display executor 2 change link in table" in {
+      checkForChangeExecutorLink("2", CommonBuilder.DefaultCoExecutor2)
     }
 
     "have a continue and cancel link in edit mode" in {

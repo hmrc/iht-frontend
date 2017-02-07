@@ -73,32 +73,6 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       }
     }
 
-    "contain Continue button when Page is loaded in normal mode" in {
-      val host="localhost:9070"
-      val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq())
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
-
-      val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
-
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.button.cancel"))
-    }
-
-    "contain Continue button when Page is loaded in edit mode" in {
-      val host="localhost:9070"
-      val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq())
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
-
-      val result = executorOverviewController.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
-
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
-    }
-
     "the displayed page should contain the title 'Other people applying for probate'" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq())
 
@@ -110,60 +84,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       contentAsString(result) should include(Messages("iht.registration.othersApplyingForProbate"))
     }
 
-    "the displayed page should contain the explanation for the page" in {
-      val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq())
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
-
-      val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070"))
-
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.executor-overview.description"))
-    }
-
-    "the displayed page should contain the a yes/no question with standard yes, no radio buttons for the page" in {
-      val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq())
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
-
-      val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070"))
-
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.executor-overview.yesnoQuestion"))
-      contentAsString(result) should include("radio") // There are some radio buttons
-    }
-
-    "the displayed page should contain the statement 'There are other people applying for probate'" in {
-      val rd = CommonBuilder.buildRegistrationDetails copy (areOthersApplyingForProbate = Some(true), coExecutors = Seq())
-
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rd)
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
-      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
-
-      val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070"))
-
-      status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.executor-overview.othersApplyingStatement.are"))
-    }
-
-    "the displayed page should have a link to change the others applying for probate" in {
-      val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors
-      val summaryForm = executorOverviewForm.fill(None)
-
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rd)
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
-      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
-
-
-      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq)
-
-      val result = executorOverviewController.onPageLoad(request)
-
-      status(result) shouldBe OK
-      contentAsString(result) should include(routes.OthersApplyingForProbateController.onPageLoadFromOverview.url)
-    }
-
-    "load the existing coexecutors when they exist" in {
+   "load the existing coexecutors when they exist" in {
       val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors
       val existingCoExec0 = CommonBuilder.buildCoExecutor
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, CommonBuilder.DefaultCoExecutor1))
@@ -253,8 +174,6 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     status(result) shouldBe(BAD_REQUEST)
   }
 
-
-
   "when  registration details has no coexecutors but areOthersAplyingForProbate is set, submission must return an error message" in {
     val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors
     val rdWithNoCoExecs = rd copy (coExecutors = Seq())
@@ -270,43 +189,5 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     status(result) shouldBe BAD_REQUEST
     contentAsString(result) should include(escapeApostrophes(Messages("error.applicant.insufficientCoExecutors")))
     contentAsString(result) should include(Messages("error.applicant.insufficientCoExecutors"))
-  }
-
-  "when there is a coexecutor, there is a link to delete that coexecutor" in {
-    val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors
-    val existingCoExec0 = CommonBuilder.buildCoExecutor
-    val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, CommonBuilder.DefaultCoExecutor1 copy (id=Some("2"))))
-    val summaryForm = executorOverviewForm.fill(None)
-
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rdWithCoExecs)
-    createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
-    createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
-
-
-    val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq)
-
-    val result = executorOverviewController.onPageLoad(request)
-
-    status(result) shouldBe OK
-    contentAsString(result) should include(routes.DeleteCoExecutorController.onPageLoad("2").url)
-  }
-
-  "when there is a coexecutor , there is a link to change that coexecutor" in {
-    val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors
-    val existingCoExec0 = CommonBuilder.buildCoExecutor
-    val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, CommonBuilder.DefaultCoExecutor1 copy (id=Some("2"))))
-    val summaryForm = executorOverviewForm.fill(None)
-
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rdWithCoExecs)
-    createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
-    createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
-
-
-    val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = "localhost:9070", data = summaryForm.data.toSeq)
-
-    val result = executorOverviewController.onPageLoad(request)
-
-    status(result) shouldBe OK
-    contentAsString(result) should include(routes.CoExecutorPersonalDetailsController.onPageLoad(Some("2")).url)
   }
 }
