@@ -179,9 +179,9 @@ object CommonBuilder {
     role = Some(DefaultCoExecutorRole),
     isAddressInUk = Some(true))
 
-  val DefaultCoExecutor1 = CommonBuilder.buildCoExecutor copy(firstName = firstNameGenerator, lastName = surnameGenerator)
-  val DefaultCoExecutor2 = CommonBuilder.buildCoExecutor copy(firstName = firstNameGenerator, lastName = surnameGenerator)
-  val DefaultCoExecutor3 = CommonBuilder.buildCoExecutor copy(firstName = firstNameGenerator, lastName = surnameGenerator)
+  val DefaultCoExecutor1 = CommonBuilder.buildCoExecutor copy(id = Some("1"), firstName = firstNameGenerator, lastName = surnameGenerator)
+  val DefaultCoExecutor2 = CommonBuilder.buildCoExecutor copy(id = Some("2"), firstName = firstNameGenerator, lastName = surnameGenerator)
+  val DefaultCoExecutor3 = CommonBuilder.buildCoExecutor copy(id = Some("3"), firstName = firstNameGenerator, lastName = surnameGenerator)
 
   def buildCoExecutorWithId(identifier: Option[String] = Some(DefaultId)) = CoExecutor(
     id = identifier,

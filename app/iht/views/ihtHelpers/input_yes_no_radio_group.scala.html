@@ -34,7 +34,7 @@
     <fieldset @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)}>
     }
 
-    <legend class="bold-small @elements.args.get('_legendClass)">
+    <legend id="yes-no-question-legend" class="bold-small @elements.args.get('_legendClass)">
         @Html(elements.args.get('_legend).get.toString)
     </legend>
 }
