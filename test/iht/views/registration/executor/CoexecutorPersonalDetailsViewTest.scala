@@ -81,6 +81,6 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
   }
 
   "Co Exec Personal Details View in Edit mode" must {
-      behave like personalDetailsInEditMode(Call("", ""), editModeViewAsDocument())
+      behave like personalDetailsInEditMode(CommonBuilder.DefaultCall2, editModeViewAsDocument())
   }
 }

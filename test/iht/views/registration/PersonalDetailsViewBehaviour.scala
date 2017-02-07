@@ -77,17 +77,19 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
   }
 
 
-  def  personalDetailsInEditMode(cancelUrl: => Call, view:() => Document) = {
-
+  def personalDetailsInEditMode(cancelUrl: => Call, view: => Document) = {
     personalDetails()
-    println("*****************in Test ::: ****************")
-    print("********************** view ***************************"+view)
 
-   /*val continueLink = view.getElementById("continue-button")
-    continueLink.attr("value") shouldBe Messages("iht.continue")*/
+    "have a continue button with correct text" in {
+      val continueLink = view.getElementById("continue-button")
+      continueLink.attr("value") shouldBe Messages("iht.continue")
 
-    /*val cancelLink = view.getElementById("cancel-button")
-    cancelLink.attr("href") shouldBe cancelUrl.url
-    cancelLink.text() shouldBe Messages("site.link.cancel")*/
+    }
+
+    "have a cancel link with correct text" in {
+      val cancelLink = view.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe cancelUrl.url
+      cancelLink.text() shouldBe Messages("site.link.cancel")
+    }
   }
 }
