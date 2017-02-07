@@ -16,28 +16,40 @@
 
 package iht.views.registration.deceased
 
-import iht.forms.registration.ApplicantForms.applyingForProbateForm
+import iht.controllers.registration.routes
 import iht.forms.registration.DeceasedForms.deceasedAddressDetailsUKForm
-import iht.models.{ApplicantDetails, DeceasedDetails}
-import iht.views.html.registration.applicant.applying_for_probate
+import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_address_details_uk
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.CommonBuilder
 
 class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
+
+  lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
+  lazy val editSubmitLocation = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
+  lazy val addressOutsideUK= iht.controllers.registration.deceased.routes.DeceasedAddressDetailsOutsideUKController.onPageLoad()
 
   override def pageTitle = Messages("iht.registration.deceased.lastContactAddress")
   override def browserTitle = Messages("iht.registration.contactAddress")
 
   override def form:Form[DeceasedDetails] = deceasedAddressDetailsUKForm
-  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_uk(form, Call("", ""), Call("", ""))
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_uk(form,
+                                                                            CommonBuilder.DefaultCall1, addressOutsideUK)
+
+  def editModeView = {
+    implicit val request = createFakeRequest()
+    val view = deceased_address_details_uk(
+                      deceasedAddressDetailsUKForm, editSubmitLocation, addressOutsideUK, Some(regSummaryPage)).toString
+    asDocument(view)
+  }
 
   "Deceased Address Details (UK) View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'details'" in {
       doc.getElementsByTag("fieldset").first.id shouldBe "details"
@@ -83,8 +95,23 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
       labelShouldBe(doc, "ukAddress.postCode-container", "iht.postcode")
     }
 
+    "not have a Cancel button" in {
+      assertNotRenderedById(doc, "cancel-button")
+    }
+
     "have a link to change to an address abroad" in {
       val link = doc.getElementById("return-button")
+      link.attr("href") shouldBe (addressOutsideUK.url)
+      link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
+    }
+  }
+
+  "Deceased Address Details (UK) View in Edit mode" must {
+    behave like registrationPageInEditModeWithErrorSummaryBox(editModeView, regSummaryPage)
+
+    "have a link to change to an address abroad" in {
+      val link = doc.getElementById("return-button")
+      link.attr("href") shouldBe (addressOutsideUK.url)
       link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
     }
   }

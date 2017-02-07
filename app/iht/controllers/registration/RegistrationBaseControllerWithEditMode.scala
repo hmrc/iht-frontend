@@ -16,10 +16,16 @@
 
 package iht.controllers.registration
 
+import java.util.UUID
+
+import iht.constants.Constants
 import iht.controllers.ControllerHelper.Mode
+import iht.utils.CommonHelper
 import iht.utils.RegistrationKickOutHelper._
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request, Result}
+import uk.gov.hmrc.play.frontend.auth.AuthContext
+import uk.gov.hmrc.play.http.SessionKeys
 
 import scala.concurrent.Future
 
@@ -37,11 +43,13 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
     implicit user => implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val f = fillForm(rd)
-        if (mode == Mode.Standard) {
-          Future.successful(okForPageLoad(f))
+        val okResult: Result = if (mode == Mode.Standard) {
+          okForPageLoad(f)
         } else {
-          Future.successful(okForEditPageLoad(f))
+          okForEditPageLoad(f)
         }
+        val result = okResult.withSession(CommonHelper.ensureSessionHasNino(request.session, user))
+        Future.successful(result)
       }
   }
 

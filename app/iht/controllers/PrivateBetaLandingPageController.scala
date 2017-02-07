@@ -65,7 +65,7 @@ trait PrivateBetaLandingPageController extends FrontendController  with CustomPa
 
   def start(p:Option[String]) = customAuthenticatedActionAsync {
     implicit request => {
-      Future.successful(Redirect(registration.routes.RegistrationChecklistController.onPageLoad()).withNewSession)
+      Future.successful(Redirect(iht.controllers.filter.routes.FilterController.onPageLoad))
     }
   }
 }
