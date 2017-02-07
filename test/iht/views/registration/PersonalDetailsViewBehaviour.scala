@@ -16,7 +16,10 @@
 
 package iht.views.registration
 
+import play.api.data.FormError
 import play.api.i18n.Messages
+import play.api.mvc.Call
+import org.jsoup.nodes.Document
 
 trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
 
@@ -71,5 +74,20 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     "have a nino field" in {
       assertRenderedById(doc, "nino")
     }
+  }
+
+
+  def  personalDetailsInEditMode(cancelUrl: => Call, view:() => Document) = {
+
+    personalDetails()
+    println("*****************in Test ::: ****************")
+    print("********************** view ***************************"+view)
+
+   /*val continueLink = view.getElementById("continue-button")
+    continueLink.attr("value") shouldBe Messages("iht.continue")*/
+
+    /*val cancelLink = view.getElementById("cancel-button")
+    cancelLink.attr("href") shouldBe cancelUrl.url
+    cancelLink.text() shouldBe Messages("site.link.cancel")*/
   }
 }

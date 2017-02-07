@@ -30,8 +30,8 @@ import iht.testhelpers.CommonBuilder
 class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
   lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
-  lazy val editSubmitLocation = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
-  lazy val addressOutsideUK= iht.controllers.registration.deceased.routes.DeceasedAddressDetailsOutsideUKController.onPageLoad()
+  lazy val editSubmitLocation = CommonBuilder.DefaultCall1
+  lazy val addressOutsideUK= CommonBuilder.DefaultCall2
 
   override def pageTitle = Messages("iht.registration.deceased.lastContactAddress")
   override def browserTitle = Messages("iht.registration.contactAddress")
@@ -110,7 +110,7 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
     behave like registrationPageInEditModeWithErrorSummaryBox(editModeView, regSummaryPage)
 
     "have a link to change to an address abroad" in {
-      val link = doc.getElementById("return-button")
+      val link = editModeView.getElementById("return-button")
       link.attr("href") shouldBe (addressOutsideUK.url)
       link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
     }

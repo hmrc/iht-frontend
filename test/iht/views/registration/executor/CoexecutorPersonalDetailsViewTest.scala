@@ -22,9 +22,11 @@ import iht.models.CoExecutor
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.coexecutor_personal_details
 import iht.views.registration.{PersonalDetailsViewBehaviour, YesNoQuestionViewBehaviour}
+import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.mvc.Call
 
 class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExecutor] with PersonalDetailsViewBehaviour[CoExecutor] {
 
@@ -40,9 +42,10 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
     form => coexecutor_personal_details(form, Mode.Standard, CommonBuilder.DefaultCall1)(createFakeRequest())
 
 
-  def editModeViewAsDocument = {
+  def editModeViewAsDocument(): Document = {
     implicit val request = createFakeRequest()
-    val view = coexecutor_personal_details(form, Mode.Edit, CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))(createFakeRequest())
+    val view = coexecutor_personal_details(coExecutorPersonalDetailsForm, Mode.Edit,
+                                                CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
     asDocument(view)
   }
 
@@ -64,7 +67,7 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
 
     behave like yesNoQuestion
 
-    "have a continue and cancel link in edit mode" in {
+   /* "have a continue and cancel link in edit mode" in {
       val doc = editModeViewAsDocument
 
       val continueLink = doc.getElementById("continue-button")
@@ -73,6 +76,11 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
       val cancelLink = doc.getElementById("cancel-button")
       cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
       cancelLink.text() shouldBe Messages("site.link.cancel")
-    }
+    }*/
+
+  }
+
+  "Co Exec Personal Details View in Edit mode" must {
+      behave like personalDetailsInEditMode(Call("", ""), editModeViewAsDocument())
   }
 }
