@@ -54,7 +54,7 @@
       <li class="grid-layout grid-layout--maintain-width grid-layout--nogutter divider--bottom section">
         <div id='executorName-@coExecutor.id.getOrElse("")' class="grid-layout__column grid-layout__column--1-2">@ihtHelpers.name(coExecutor.name.toString)</div>
         <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.DeleteCoExecutorController.onPageLoad(coExecutor.id.getOrElse("")).url' id='delete-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.delete.screenReader", coExecutor.name)</span></a></div>
-        <div id='executorChange-@coExecutor.id.getOrElse("")' class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url' id='change-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.change.screenReader", coExecutor.name)</span></a></div>
+        <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url' id='change-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.change.screenReader", coExecutor.name)</span></a></div>
       </li>
       }
   </ul>
