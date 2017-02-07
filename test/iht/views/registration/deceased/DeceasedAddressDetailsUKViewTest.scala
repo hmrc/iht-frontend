@@ -25,6 +25,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.CommonBuilder
 
 class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
@@ -36,7 +37,8 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
   override def browserTitle = Messages("iht.registration.contactAddress")
 
   override def form:Form[DeceasedDetails] = deceasedAddressDetailsUKForm
-  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_uk(form, Call("", ""), addressOutsideUK)
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_uk(form,
+                                                                            CommonBuilder.DefaultCall1, addressOutsideUK)
 
   def editModeView = {
     implicit val request = createFakeRequest()

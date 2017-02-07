@@ -26,13 +26,14 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.CommonBuilder
 
 class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDateOfDeath] {
 
   override def pageTitle = Messages("page.iht.registration.deceasedDateOfDeath.title")
   override def browserTitle = Messages("iht.dateOfDeath")
   override def form:Form[DeceasedDateOfDeath] = deceasedDateOfDeathForm
-  override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, Call("", ""))
+  override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, CommonBuilder.DefaultCall1)
 
   lazy val regSummaryPage: Call = routes.RegistrationSummaryController.onPageLoad
   lazy val editSubmitLocation = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onEditSubmit
