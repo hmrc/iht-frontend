@@ -39,6 +39,13 @@ class TellUsAboutYourselfViewTest extends YesNoQuestionViewBehaviour[ApplicantDe
   override def formToView: Form[ApplicantDetails] => Appendable =
     form => applicant_tell_us_about_yourself(form, Mode.Standard, CommonBuilder.DefaultCall1)
 
+  def editModeView = {
+    implicit val request = createFakeRequest()
+    val view = applicant_tell_us_about_yourself(
+      form, Mode.Standard, CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
+    asDocument(view)
+  }
+
   "Tell Us About Yourself View" must {
     behave like yesNoQuestion
 
@@ -46,5 +53,9 @@ class TellUsAboutYourselfViewTest extends YesNoQuestionViewBehaviour[ApplicantDe
         label = "page.iht.registration.applicantTellUsAboutYourself.value.label",
         hint = "page.iht.registration.applicantTellUsAboutYourself.value.sublabel"
     )
+  }
+
+  "Tell Us About Yourself View in Edit mode" must {
+    behave like registrationPageInEditModeWithErrorSummaryBox(editModeView, CommonBuilder.DefaultCall2)
   }
 }
