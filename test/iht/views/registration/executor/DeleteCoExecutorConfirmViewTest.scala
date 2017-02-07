@@ -25,16 +25,27 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
 
   lazy val coExecutor = CommonBuilder.buildCoExecutor
 
-  def deleteCoExecutorConfirmView() = {
+  lazy val coExecutorNonUK = CommonBuilder.buildCoExecutor copy (
+    isAddressInUk = Some(false),
+    ukAddress = Some(CommonBuilder.DefaultUkAddress copy(countryCode = "AF"))
+    )
+
+  def deleteCoExecutorUKAddressConfirmView() = {
     implicit val request = createFakeRequest()
     val view = delete_coexecutor_confirm(coExecutor).toString
      asDocument(view)
   }
 
+  def deleteCoExecutorNonUKAddressConfirmView() = {
+    implicit val request = createFakeRequest()
+    val view = delete_coexecutor_confirm(coExecutorNonUK).toString
+    asDocument(view)
+  }
+
   "DeleteCoExecutorConfirmView" must {
 
     "have the correct title and browser title" in {
-      val view = deleteCoExecutorConfirmView().toString
+      val view = deleteCoExecutorUKAddressConfirmView().toString
 
       titleShouldBeCorrect(view,
         Messages("page.iht.registration.deleteExecutor.title",
@@ -44,19 +55,54 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
     }
 
     "show the CoExecutor name" in {
-      val view = deleteCoExecutorConfirmView().toString
+      val view = deleteCoExecutorUKAddressConfirmView().toString
       messagesShouldBePresent(view, coExecutor.name)
     }
 
+    "show the CoExecutor address line 1" in {
+      val view = deleteCoExecutorUKAddressConfirmView().toString
+      messagesShouldBePresent(view, coExecutor.ukAddress.map(_.ukAddressLine1).fold("")(identity))
+    }
+
+    "show the CoExecutor address line 2" in {
+      val view = deleteCoExecutorUKAddressConfirmView().toString
+      messagesShouldBePresent(view, coExecutor.ukAddress.map(_.ukAddressLine2).fold("")(identity))
+    }
+
+    "show the CoExecutor address line 3" in {
+      val view = deleteCoExecutorUKAddressConfirmView().toString
+      messagesShouldBePresent(view, coExecutor.ukAddress.flatMap(_.ukAddressLine3).fold("")(identity))
+    }
+
+    "show the CoExecutor address line 4" in {
+      val view = deleteCoExecutorUKAddressConfirmView().toString
+      messagesShouldBePresent(view, coExecutor.ukAddress.flatMap(_.ukAddressLine4).fold("")(identity))
+    }
+
+    "show the CoExecutor postcode" in {
+      val view = deleteCoExecutorUKAddressConfirmView().toString
+      messagesShouldBePresent(view, coExecutor.ukAddress.map(_.postCode).fold("")(identity))
+    }
+
+    "not show the CoExecutor country for UK" in {
+      val view = deleteCoExecutorUKAddressConfirmView().toString
+      messagesShouldNotBePresent(view, coExecutor.ukAddress.map(_.countryCode).fold("")(identity))
+    }
+
+    "show the CoExecutor country for non UK" in {
+      val view = deleteCoExecutorNonUKAddressConfirmView().toString
+      messagesShouldBePresent(view, coExecutorNonUK.ukAddress.map(_.countryCode).fold("")(identity))
+    }
+
     "show Confirm delete button" in {
-      val view = deleteCoExecutorConfirmView().toString
+      val view = deleteCoExecutorUKAddressConfirmView().toString
 
       val button = asDocument(view).getElementById("confirm-delete")
       button.attr("value") shouldBe Messages("site.button.confirmDelete")
     }
 
     "show the cancel link with correct text" in {
-      val view = deleteCoExecutorConfirmView().toString
+      val view = deleteCoExecutorUKAddressConfirmView().toString
 
       val link = asDocument(view).getElementById("cancel")
       link.text() shouldBe Messages("site.link.cancel")

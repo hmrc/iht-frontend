@@ -49,9 +49,11 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {
-
     for (sentence <- expectedSentences) ContentChecker.stripLineBreaks(content) should include(ContentChecker.stripLineBreaks(sentence))
+  }
 
+  def messagesShouldNotBePresent(content: String, unexpectedSentences: String*) = {
+    for (sentence <- unexpectedSentences) ContentChecker.stripLineBreaks(content) should not include ContentChecker.stripLineBreaks(sentence)
   }
 
   def buildApplicationTitle(title: String) = title + " " + Messages("site.title.govuk")
