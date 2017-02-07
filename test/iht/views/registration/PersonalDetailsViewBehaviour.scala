@@ -72,4 +72,18 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
       assertRenderedById(doc, "nino")
     }
   }
+
+  def phoneNumber(label: String, hint: String) = {
+    "have a phone number field" in {
+      assertRenderedById(doc, "phoneNo")
+    }
+
+    "have the correct label for phone number" in {
+      labelShouldBe(doc, "phoneNo-container", label)
+    }
+
+    "have a form hint for phone number" in {
+      messagesShouldBePresent(view, Messages(hint))
+    }
+  }
 }
