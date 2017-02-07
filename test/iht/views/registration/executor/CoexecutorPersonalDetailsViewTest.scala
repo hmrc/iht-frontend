@@ -66,21 +66,9 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
     }
 
     behave like yesNoQuestion
-
-   /* "have a continue and cancel link in edit mode" in {
-      val doc = editModeViewAsDocument
-
-      val continueLink = doc.getElementById("continue-button")
-      continueLink.attr("value") shouldBe Messages("iht.continue")
-
-      val cancelLink = doc.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
-    }*/
-
   }
 
   "Co Exec Personal Details View in Edit mode" must {
-      behave like personalDetailsInEditMode(CommonBuilder.DefaultCall2, editModeViewAsDocument())
+      behave like personalDetailsInEditMode(editModeViewAsDocument, CommonBuilder.DefaultCall2)
   }
 }

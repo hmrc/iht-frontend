@@ -77,7 +77,7 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
   }
 
 
-  def personalDetailsInEditMode(cancelUrl: => Call, view: => Document) = {
+  def personalDetailsInEditMode(view: => Document, cancelUrl: => Call) = {
     personalDetails()
 
     "have a continue button with correct text" in {
