@@ -29,10 +29,9 @@ import play.api.test.FakeRequest
 import scala.collection.JavaConversions._
 import scala.util.{Failure, Success, Try}
 
-case class SharableOverviewRow(rowText: String = "", value: String = "", linkText: String = "")
+private case class SharableOverviewRow(rowText: String = "", value: String = "", linkText: String = "")
 
-object SharableOverviewRow {
-
+private object SharableOverviewRow {
   def apply(element: Element): SharableOverviewRow = {
     val cells = element.select("div:not(.visually-hidden)")
     val row = cells.size match {
@@ -51,7 +50,6 @@ object SharableOverviewRow {
         linkText = getLinkText(cells.get(3).getElementsByTag("a").first)
       )
     }
-
     row
   }
 
@@ -64,7 +62,6 @@ object SharableOverviewRow {
           case Success(lt) => lt
           case Failure(_) => ""
         }
-
     }
   }
 }
@@ -73,12 +70,17 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   def registrationDetails = {
-    val coExecutor1 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec1firstname", lastName = "Coexec1lastname", nino = "XX121212E")
-    val coExecutor2 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec2firstname", lastName = "Coexec2lastname", nino = "XX121212F")
-    val coExecutor3 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec3firstname", lastName = "Coexec3lastname", nino = "XX121212G")
+    val coExecutor1 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec1firstname",
+      lastName = "Coexec1lastname", nino = "XX121212E")
+    val coExecutor2 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec2firstname",
+      lastName = "Coexec2lastname", nino = "XX121212F")
+    val coExecutor3 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec3firstname",
+      lastName = "Coexec3lastname", nino = "XX121212G")
 
-    val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"), Some("deceasedaddr4"), CommonBuilder.DefaultPostCode)
-    val applicantUkAddress = new UkAddress("applicantaddr1", "applicantaddr2", Some("applicantaddr3"), Some("applicantaddr4"), CommonBuilder.DefaultPostCode)
+    val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"),
+      Some("deceasedaddr4"), CommonBuilder.DefaultPostCode)
+    val applicantUkAddress = new UkAddress("applicantaddr1", "applicantaddr2", Some("applicantaddr3"),
+      Some("applicantaddr4"), CommonBuilder.DefaultPostCode)
 
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
@@ -89,8 +91,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
         lastName = Some("ApplicantLastname"),
         ukAddress = Some(applicantUkAddress),
         nino = Some("XX121212C")
-      )
-      ),
+      )),
       deceasedDetails = Some(CommonBuilder.buildDeceasedDetails copy(
         domicile = Some(TestHelper.DomicileEnglandOrWales),
         maritalStatus = Some(TestHelper.MaritalStatusSingle),
@@ -99,8 +100,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
         lastName = Some("DeceasedLastname"),
         ukAddress = Some(deceasedUkAddress),
         nino = Some("XX121212D")
-      )
-      ),
+      )),
       coExecutors = Seq(coExecutor1, coExecutor2, coExecutor3),
       ihtReference = Some("ABC"),
       acknowledgmentReference = CommonBuilder.DefaultAcknowledgmentReference
@@ -155,14 +155,13 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
         SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec3firstname Coexec3lastname", "Change"),
         SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212G", "Change"),
         SharableOverviewRow(Messages("iht.address.upperCaseInitial"),
-          "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom","Change")
+          "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom", "Change")
       )
 
       val tableHTMLElements: Elements = doc.select("li.tabular-data__entry")
       val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
 
       setRows shouldBe expectedSetRows
-
     }
   }
 }
