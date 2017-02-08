@@ -26,7 +26,7 @@ import org.jsoup.select.Elements
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-
+import iht.views.html._
 import scala.collection.JavaConversions._
 import scala.util.{Failure, Success, Try}
 
@@ -69,6 +69,8 @@ private object SharableOverviewRow {
 
 class RegistrationSummaryViewTest extends ViewTestHelper {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+
+  def deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
   def registrationDetails = {
     val coExecutor1 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec1firstname",
@@ -125,18 +127,31 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
       doc.getElementsByClass("button").first.attr("value") shouldBe Messages("page.iht.registration.registrationSummary.button")
     }
 
-    "have introductory paragraph" in {
-      messagesShouldBePresent(viewAsString, Messages("page.iht.registration.registrationSummary.subTitle"))
+    "have text paragraphs" in {
+      messagesShouldBePresent(viewAsString, Messages("page.iht.registration.registrationSummary.subTitle"),
+        Messages("page.iht.registration.registrationSummary.applicantTable.title"),
+        Messages("iht.registration.othersApplyingForProbate"))
     }
 
-//    "have section title for deceased" in {
-//      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
-//
-//      // Not working because name puts a span around name:-
-//      //<span class="copy--restricted">DeceasedFirstname DeceasedLastname</span>’s details</h2
-////assertEqualsValue(doc, "section-id span")
-//      messagesShouldBePresent(viewAsString, Messages("site.nameDetails", deceasedName).toString)
-//    }
+    "have section title for deceased" in {
+      messagesShouldBePresent(viewAsString,
+        Messages("site.nameDetails", ihtHelpers.name(deceasedName) ).toString)
+    }
+
+    "have section title for co-executor 1" in {
+      messagesShouldBePresent(viewAsString,
+        Messages("site.nameDetails", ihtHelpers.name(registrationDetails.coExecutors.head.name)).toString)
+    }
+
+    "have section title for co-executor 2" in {
+      messagesShouldBePresent(viewAsString,
+        Messages("site.nameDetails", ihtHelpers.name(registrationDetails.coExecutors(1).name)).toString)
+    }
+
+    "have section title for co-executor 3" in {
+      messagesShouldBePresent(viewAsString,
+        Messages("site.nameDetails", ihtHelpers.name(registrationDetails.coExecutors(2).name)).toString)
+    }
 
     "display the correct values in the table of entered details" in {
       val expectedSetRows = Set(
