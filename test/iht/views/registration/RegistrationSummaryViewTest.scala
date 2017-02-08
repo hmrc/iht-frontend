@@ -127,31 +127,35 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     "display the correct values in the table of entered details" in {
       val expectedSetRows = Set(
         // Deceased
-        SharableOverviewRow("Date of death", "12 December 2011", "Change"),
-        SharableOverviewRow("Name", "DeceasedFirstname DeceasedLastname", "Change"),
-        SharableOverviewRow("Location of deceased’s permanent home", "England or Wales", "Change"),
-        SharableOverviewRow("Contact address", "deceasedaddr1 deceasedaddr2 deceasedaddr3 deceasedaddr4 AA1 1AA United Kingdom", "Change"),
-        SharableOverviewRow("Date of birth", "12 December 1998", "Change"),
-        SharableOverviewRow("National Insurance number", "XX121212D", "Change"),
+        SharableOverviewRow(Messages("iht.dateOfDeath"), "12 December 2011", "Change"),
+        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "DeceasedFirstname DeceasedLastname", "Change"),
+        SharableOverviewRow(Messages("iht.registration.deceased.locationOfPermanentHome"), "England or Wales", "Change"),
+        SharableOverviewRow(Messages("iht.registration.contactAddress"),
+          "deceasedaddr1 deceasedaddr2 deceasedaddr3 deceasedaddr4 AA1 1AA United Kingdom", "Change"),
+        SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998", "Change"),
+        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212D", "Change"),
 
         // Applicant
-        SharableOverviewRow("Are you applying for probate for the deceased’s estate?", "Yes", "Change"),
-        SharableOverviewRow("Name", "ApplicantFirstname ApplicantLastname", ""),
-        SharableOverviewRow("Where are you going to apply for probate?", "England or Wales", "Change"),
-        SharableOverviewRow("Phone number", "02079460093", "Change"),
-        SharableOverviewRow("Address", "applicantaddr1 applicantaddr2 applicantaddr3 applicantaddr4 AA1 1AA United Kingdom", "Change"),
-        SharableOverviewRow("Relationship status", "Never married or in a civil partnership", "Change"),
-        SharableOverviewRow("National Insurance number", "XX121212C", ""),
-        SharableOverviewRow("Date of birth", "12 December 1998", ""),
+        SharableOverviewRow(Messages("iht.registration.applicant.applyingForProbate"), "Yes", "Change"),
+        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "ApplicantFirstname ApplicantLastname"),
+        SharableOverviewRow(Messages("page.iht.registration.applicant.probateLocation.title"), "England or Wales", "Change"),
+        SharableOverviewRow(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"), "02079460093", "Change"),
+        SharableOverviewRow(Messages("iht.address.upperCaseInitial"),
+          "applicantaddr1 applicantaddr2 applicantaddr3 applicantaddr4 AA1 1AA United Kingdom", "Change"),
+        SharableOverviewRow(Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
+          "Never married or in a civil partnership", "Change"),
+        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212C"),
+        SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998"),
 
         // Co-executors
-        SharableOverviewRow("Name", "Coexec1firstname Coexec1lastname", "Change"),
-        SharableOverviewRow("National Insurance number", "XX121212E", "Change"),
-        SharableOverviewRow("Name", "Coexec2firstname Coexec2lastname", "Change"),
-        SharableOverviewRow("National Insurance number", "XX121212F", "Change"),
-        SharableOverviewRow("Name", "Coexec3firstname Coexec3lastname", "Change"),
-        SharableOverviewRow("National Insurance number", "XX121212G", "Change"),
-        SharableOverviewRow("Address", "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom","Change")
+        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec1firstname Coexec1lastname", "Change"),
+        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212E", "Change"),
+        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec2firstname Coexec2lastname", "Change"),
+        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212F", "Change"),
+        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec3firstname Coexec3lastname", "Change"),
+        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212G", "Change"),
+        SharableOverviewRow(Messages("iht.address.upperCaseInitial"),
+          "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom","Change")
       )
 
       val tableHTMLElements: Elements = doc.select("li.tabular-data__entry")
