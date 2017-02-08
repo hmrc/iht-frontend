@@ -16,7 +16,7 @@
 
 package iht.views.registration
 
-import iht.models.RegistrationDetails
+import iht.models.{RegistrationDetails, UkAddress}
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_summary
@@ -25,6 +25,7 @@ import org.jsoup.select.Elements
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+
 import scala.collection.JavaConversions._
 import scala.util.{Failure, Success, Try}
 
@@ -55,8 +56,7 @@ object SharableOverviewRow {
   }
 
   def getLinkText(link: Element) = {
-    val internalSpansTry = Try(link.getElementsByTag("span"))
-    internalSpansTry match {
+    Try(link.getElementsByTag("span")) match {
       case Success(internalSpans) =>
         internalSpans.get(0).text
       case Failure(_) =>
@@ -77,6 +77,9 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     val coExecutor2 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec2firstname", lastName = "Coexec2lastname", nino = "XX121212F")
     val coExecutor3 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec3firstname", lastName = "Coexec3lastname", nino = "XX121212G")
 
+    val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"), Some("deceasedaddr4"), CommonBuilder.DefaultPostCode)
+    val applicantUkAddress = new UkAddress("applicantaddr1", "applicantaddr2", Some("applicantaddr3"), Some("applicantaddr4"), CommonBuilder.DefaultPostCode)
+
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
       applicantDetails = Some(CommonBuilder.buildApplicantDetails copy(
@@ -84,6 +87,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
         firstName = Some("ApplicantFirstname"),
         middleName = None,
         lastName = Some("ApplicantLastname"),
+        ukAddress = Some(applicantUkAddress),
         nino = Some("XX121212C")
       )
       ),
@@ -93,6 +97,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
         firstName = Some("DeceasedFirstname"),
         middleName = None,
         lastName = Some("DeceasedLastname"),
+        ukAddress = Some(deceasedUkAddress),
         nino = Some("XX121212D")
       )
       ),
@@ -121,26 +126,33 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
     "display the correct values in the table of entered details" in {
       val expectedSetRows = Set(
+        // Deceased
         SharableOverviewRow("Date of death", "12 December 2011", "Change"),
-        SharableOverviewRow("Name", "ApplicantFirstname ApplicantLastname", ""),
-        SharableOverviewRow("Contact address", "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom", "Change"),
-        SharableOverviewRow("Location of deceased’s permanent home", "England or Wales", "Change"),
-        SharableOverviewRow("Address", "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom", "Change"),
-        SharableOverviewRow("Date of birth", "12 December 1998", "Change"),
         SharableOverviewRow("Name", "DeceasedFirstname DeceasedLastname", "Change"),
+        SharableOverviewRow("Location of deceased’s permanent home", "England or Wales", "Change"),
+        SharableOverviewRow("Contact address", "deceasedaddr1 deceasedaddr2 deceasedaddr3 deceasedaddr4 AA1 1AA United Kingdom", "Change"),
+        SharableOverviewRow("Date of birth", "12 December 1998", "Change"),
         SharableOverviewRow("National Insurance number", "XX121212D", "Change"),
+
+        // Applicant
         SharableOverviewRow("Are you applying for probate for the deceased’s estate?", "Yes", "Change"),
+        SharableOverviewRow("Name", "ApplicantFirstname ApplicantLastname", ""),
         SharableOverviewRow("Where are you going to apply for probate?", "England or Wales", "Change"),
         SharableOverviewRow("Phone number", "02079460093", "Change"),
+        SharableOverviewRow("Address", "applicantaddr1 applicantaddr2 applicantaddr3 applicantaddr4 AA1 1AA United Kingdom", "Change"),
         SharableOverviewRow("Relationship status", "Never married or in a civil partnership", "Change"),
         SharableOverviewRow("National Insurance number", "XX121212C", ""),
         SharableOverviewRow("Date of birth", "12 December 1998", ""),
+
+        // Co-executors
         SharableOverviewRow("Name", "Coexec1firstname Coexec1lastname", "Change"),
         SharableOverviewRow("National Insurance number", "XX121212E", "Change"),
-        SharableOverviewRow("Name", "Coexec3firstname Coexec3lastname", "Change"),
+        SharableOverviewRow("Name", "Coexec2firstname Coexec2lastname", "Change"),
         SharableOverviewRow("National Insurance number", "XX121212F", "Change"),
+        SharableOverviewRow("Name", "Coexec3firstname Coexec3lastname", "Change"),
         SharableOverviewRow("National Insurance number", "XX121212G", "Change"),
-        SharableOverviewRow("Name", "Coexec2firstname Coexec2lastname", "Change"))
+        SharableOverviewRow("Address", "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom","Change")
+      )
 
       val tableHTMLElements: Elements = doc.select("li.tabular-data__entry")
       val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
