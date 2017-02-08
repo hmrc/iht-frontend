@@ -30,9 +30,9 @@ import iht.views.html._
 import scala.collection.JavaConversions._
 import scala.util.{Failure, Success, Try}
 
-private case class SharableOverviewRow(rowText: String = "", value: String = "", linkText: String = "")
+case class SharableOverviewRow(rowText: String = "", value: String = "", linkText: String = "")
 
-private object SharableOverviewRow {
+object SharableOverviewRow {
   def apply(element: Element): SharableOverviewRow = {
     val cells = element.select("div:not(.visually-hidden)")
     val row = cells.size match {
@@ -70,20 +70,16 @@ private object SharableOverviewRow {
 class RegistrationSummaryViewTest extends ViewTestHelper {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
-  def deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
+  def deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetailsAllUKAddresses)
 
-  def registrationDetails = {
+
+  def registrationDetails(deceasedUkAddress: UkAddress, applicantUkAddress: UkAddress) = {
     val coExecutor1 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec1firstname",
       lastName = "Coexec1lastname", nino = "XX121212E")
     val coExecutor2 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec2firstname",
       lastName = "Coexec2lastname", nino = "XX121212F")
     val coExecutor3 = CommonBuilder.buildCoExecutor.copy(firstName = "Coexec3firstname",
       lastName = "Coexec3lastname", nino = "XX121212G")
-
-    val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"),
-      Some("deceasedaddr4"), CommonBuilder.DefaultPostCode)
-    val applicantUkAddress = new UkAddress("applicantaddr1", "applicantaddr2", Some("applicantaddr3"),
-      Some("applicantaddr4"), CommonBuilder.DefaultPostCode)
 
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
@@ -110,9 +106,70 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     )
   }
 
-  def viewAsString: String = registration_summary(registrationDetails, "").toString
+  def expectedSetRows(deceasedAddress: String, applicantAddress: String) = Set(
+    // Deceased
+    SharableOverviewRow(Messages("iht.dateOfDeath"), "12 December 2011", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "DeceasedFirstname DeceasedLastname", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.registration.deceased.locationOfPermanentHome"), "England or Wales", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.registration.contactAddress"),
+      deceasedAddress, Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212D", Messages("iht.change")),
+
+    // Applicant
+    SharableOverviewRow(Messages("iht.registration.applicant.applyingForProbate"), "Yes", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "ApplicantFirstname ApplicantLastname"),
+    SharableOverviewRow(Messages("page.iht.registration.applicant.probateLocation.title"), "England or Wales", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"), "02079460093", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.address.upperCaseInitial"),
+      applicantAddress, Messages("iht.change")),
+    SharableOverviewRow(Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
+      "Never married or in a civil partnership", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212C"),
+    SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998"),
+
+    // Co-executors
+    SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec1firstname Coexec1lastname", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212E", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec2firstname Coexec2lastname", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212F", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec3firstname Coexec3lastname", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212G", Messages("iht.change")),
+    SharableOverviewRow(Messages("iht.address.upperCaseInitial"),
+      "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom", Messages("iht.change"))
+  )
+
+  def registrationDetailsAllUKAddresses = {
+    val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"),
+      Some("deceasedaddr4"), CommonBuilder.DefaultPostCode)
+    val applicantUkAddress = new UkAddress("applicantaddr1", "applicantaddr2", Some("applicantaddr3"),
+      Some("applicantaddr4"), CommonBuilder.DefaultPostCode)
+    registrationDetails(deceasedUkAddress, applicantUkAddress)
+  }
+
+  def registrationDetailsAllForeignAddresses = {
+    val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"),
+      Some("deceasedaddr4"), "", "AF")
+    val applicantUkAddress = new UkAddress("applicantaddr1", "applicantaddr2", Some("applicantaddr3"),
+      Some("applicantaddr4"), "", "AF")
+    registrationDetails(deceasedUkAddress, applicantUkAddress)
+  }
+
+  def expectedSetRowsAllUKAddresses = expectedSetRows(
+    "deceasedaddr1 deceasedaddr2 deceasedaddr3 deceasedaddr4 AA1 1AA United Kingdom",
+    "applicantaddr1 applicantaddr2 applicantaddr3 applicantaddr4 AA1 1AA United Kingdom")
+
+  def expectedSetRowsAllForeignAddresses = expectedSetRows(
+    "deceasedaddr1 deceasedaddr2 deceasedaddr3 deceasedaddr4 Afghanistan",
+    "applicantaddr1 applicantaddr2 applicantaddr3 applicantaddr4 Afghanistan")
+
+  def viewAsString: String = registration_summary(registrationDetailsAllUKAddresses, "").toString
 
   def doc = asDocument(viewAsString)
+
+  def viewAsStringForeign: String = registration_summary(registrationDetailsAllForeignAddresses, "").toString
+
+  def docForeign = asDocument(viewAsStringForeign)
 
   "Registration summary view" must {
     "have the correct title" in {
@@ -135,62 +192,34 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
     "have section title for deceased" in {
       messagesShouldBePresent(viewAsString,
-        Messages("site.nameDetails", ihtHelpers.name(deceasedName) ).toString)
+        Messages("site.nameDetails", ihtHelpers.name(deceasedName)).toString)
     }
 
     "have section title for co-executor 1" in {
       messagesShouldBePresent(viewAsString,
-        Messages("site.nameDetails", ihtHelpers.name(registrationDetails.coExecutors.head.name)).toString)
+        Messages("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors.head.name)).toString)
     }
 
     "have section title for co-executor 2" in {
       messagesShouldBePresent(viewAsString,
-        Messages("site.nameDetails", ihtHelpers.name(registrationDetails.coExecutors(1).name)).toString)
+        Messages("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors(1).name)).toString)
     }
 
     "have section title for co-executor 3" in {
       messagesShouldBePresent(viewAsString,
-        Messages("site.nameDetails", ihtHelpers.name(registrationDetails.coExecutors(2).name)).toString)
+        Messages("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors(2).name)).toString)
     }
 
-    "display the correct values in the table of entered details" in {
-      val expectedSetRows = Set(
-        // Deceased
-        SharableOverviewRow(Messages("iht.dateOfDeath"), "12 December 2011", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "DeceasedFirstname DeceasedLastname", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.registration.deceased.locationOfPermanentHome"), "England or Wales", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.registration.contactAddress"),
-          "deceasedaddr1 deceasedaddr2 deceasedaddr3 deceasedaddr4 AA1 1AA United Kingdom", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212D", Messages("iht.change")),
-
-        // Applicant
-        SharableOverviewRow(Messages("iht.registration.applicant.applyingForProbate"), "Yes", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "ApplicantFirstname ApplicantLastname"),
-        SharableOverviewRow(Messages("page.iht.registration.applicant.probateLocation.title"), "England or Wales", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"), "02079460093", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.address.upperCaseInitial"),
-          "applicantaddr1 applicantaddr2 applicantaddr3 applicantaddr4 AA1 1AA United Kingdom", Messages("iht.change")),
-        SharableOverviewRow(Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
-          "Never married or in a civil partnership", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212C"),
-        SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998"),
-
-        // Co-executors
-        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec1firstname Coexec1lastname", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212E", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec2firstname Coexec2lastname", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212F", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "Coexec3firstname Coexec3lastname", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212G", Messages("iht.change")),
-        SharableOverviewRow(Messages("iht.address.upperCaseInitial"),
-          "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom", Messages("iht.change"))
-      )
-
+    "display the correct values in the table of entered details where all UK addresses" in {
       val tableHTMLElements: Elements = doc.select("li.tabular-data__entry")
       val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
+      setRows shouldBe expectedSetRowsAllUKAddresses
+    }
 
-      setRows shouldBe expectedSetRows
+    "display the correct values in the table of entered details where all foreign addresses" in {
+      val tableHTMLElements: Elements = docForeign.select("li.tabular-data__entry")
+      val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
+      setRows shouldBe expectedSetRowsAllForeignAddresses
     }
   }
 }
