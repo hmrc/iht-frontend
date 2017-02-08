@@ -20,7 +20,7 @@ import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
-import play.api.mvc.AnyContentAsEmpty
+import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
 
@@ -54,6 +54,19 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
       val newForm = form.withError(FormError("field","error message"))
       val document = asDocument(formToView(newForm).toString)
       document.getElementById("errors").children.first.text shouldBe Messages("error.problem")
+    }
+  }
+
+  def registrationPageInEditModeWithErrorSummaryBox(view: => Document, cancelUrl: => Call) = {
+    registrationPageWithErrorSummaryBox()
+
+    "have a continue and cancel link in edit mode" in {
+      val continueLink = view.getElementById("continue-button")
+      continueLink.attr("value") shouldBe Messages("iht.continue")
+
+      val cancelLink = view.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe cancelUrl.url
+      cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }
 }
