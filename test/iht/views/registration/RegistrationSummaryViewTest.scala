@@ -96,12 +96,27 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
   val coExecutorPhoneNo2 = "02079460092"
   val coExecutorPhoneNo3 = "02079460093"
 
+  val coExecutor1Addr1 = "addr11"
+  val coExecutor1Addr2 = "addr12"
+  val coExecutor1Addr3 = "addr13"
+  val coExecutor1Addr4 = "addr14"
+
+  val coExecutor2Addr1 = "addr21"
+  val coExecutor2Addr2 = "addr22"
+  val coExecutor2Addr3 = "addr23"
+  val coExecutor2Addr4 = "addr24"
+
+  val coExecutor3Addr1 = "addr31"
+  val coExecutor3Addr2 = "addr32"
+  val coExecutor3Addr3 = "addr33"
+  val coExecutor3Addr4 = "addr34"
+
   def deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetailsAllUKAddresses)
 
   def registrationDetails(deceasedUkAddress: UkAddress, applicantUkAddress: UkAddress) = {
-    val coExecutorAddress1 = new UkAddress("addr11", "addr12", Some("addr13"), Some("addr14"), "AA1 1AA")
-    val coExecutorAddress2 = new UkAddress("addr21", "addr22", Some("addr23"), Some("addr24"), "AA2 1AA")
-    val coExecutorAddress3 = new UkAddress("addr31", "addr32", Some("addr33"), Some("addr34"), "AA3 1AA")
+    val coExecutorAddress1 = new UkAddress(coExecutor1Addr1, coExecutor1Addr2, Some(coExecutor1Addr3), Some(coExecutor1Addr4), "AA1 1AA")
+    val coExecutorAddress2 = new UkAddress(coExecutor2Addr1, coExecutor2Addr2, Some(coExecutor2Addr3), Some(coExecutor2Addr4), "AA2 1AA")
+    val coExecutorAddress3 = new UkAddress(coExecutor3Addr1, coExecutor3Addr2, Some(coExecutor3Addr3), Some(coExecutor3Addr4), "AA3 1AA")
 
     val coExecutorContactDetails1 = new iht.models.ContactDetails(coExecutorPhoneNo1, Some("a@example.com"))
     val coExecutorContactDetails2 = new iht.models.ContactDetails(coExecutorPhoneNo2, Some("a@example.com"))
@@ -190,11 +205,11 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     SharableOverviewRow(Messages("iht.nationalInsuranceNo"), applicantNino),
     SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998")
   ) ++ expectedExecutor("1", "Coexec1firstname Coexec1lastname", coExecutorNino1,
-    "addr11 addr12 addr13 addr14 AA1 1AA United Kingdom", coExecutorPhoneNo1, "12 December 1998") ++
+    s"$coExecutor1Addr1 $coExecutor1Addr2 $coExecutor1Addr3 $coExecutor1Addr4 AA1 1AA United Kingdom", coExecutorPhoneNo1, "12 December 1998") ++
     expectedExecutor("2", "Coexec2firstname Coexec2lastname", coExecutorNino2,
-      "addr21 addr22 addr23 addr24 AA2 1AA United Kingdom", coExecutorPhoneNo2, "12 December 1998") ++
+      s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 AA2 1AA United Kingdom", coExecutorPhoneNo2, "12 December 1998") ++
     expectedExecutor("3", "Coexec3firstname Coexec3lastname", coExecutorNino3,
-      "addr31 addr32 addr33 addr34 AA3 1AA United Kingdom", coExecutorPhoneNo3, "12 December 1998")
+      s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 AA3 1AA United Kingdom", coExecutorPhoneNo3, "12 December 1998")
 
   def registrationDetailsAllUKAddresses = {
     val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"),
