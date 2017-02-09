@@ -236,7 +236,7 @@ object CommonHelper {
     val amountAddedToEstate = totalGifts - totalExemptions
 
     mapBigDecimalPair(element.value, element.exemptions,
-      Messages(s"$messageFileSectionKey.give", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
       Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
       Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
       Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))

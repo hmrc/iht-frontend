@@ -153,7 +153,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.changeValues"))
+      contentAsString(result) should include(Messages("iht.change"))
 
     }
 
@@ -283,7 +283,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
     {
       val yearLink = doc.getElementById(s"edit-gift-$yearId")
       assertEqualsValue(doc, s"a#edit-gift-$yearId span",
-        Messages("iht.estateReport.changeValues"))
+        Messages("iht.change"))
       yearLink.attr("href") shouldBe
         routes.GiftsDetailsController.onPageLoad(yearId).url
     }
