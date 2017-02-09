@@ -150,10 +150,8 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
   def deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetailsAllUKAddresses)
 
-  def registrationDetails(deceasedUkAddress: UkAddress, applicantUkAddress: UkAddress) = {
-    val coExecutorAddress1 = new UkAddress(coExecutor1Addr1, coExecutor1Addr2, Some(coExecutor1Addr3), Some(coExecutor1Addr4), "AA1 1AA")
-    val coExecutorAddress2 = new UkAddress(coExecutor2Addr1, coExecutor2Addr2, Some(coExecutor2Addr3), Some(coExecutor2Addr4), "AA2 1AA")
-    val coExecutorAddress3 = new UkAddress(coExecutor3Addr1, coExecutor3Addr2, Some(coExecutor3Addr3), Some(coExecutor3Addr4), "AA3 1AA")
+  def registrationDetails(deceasedUkAddress: UkAddress, applicantUkAddress: UkAddress,
+                          coExecutorAddress1: UkAddress, coExecutorAddress2: UkAddress, coExecutorAddress3: UkAddress) = {
 
     val coExecutorContactDetails1 = new iht.models.ContactDetails(coExecutorPhoneNo1, Some(email))
     val coExecutorContactDetails2 = new iht.models.ContactDetails(coExecutorPhoneNo2, Some(email))
@@ -253,7 +251,10 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
       Some(deceasedAddr4), CommonBuilder.DefaultPostCode)
     val applicantUkAddress = new UkAddress(applicantAddr1, applicantAddr2, Some(applicantAddr3),
       Some(applicantAddr4), CommonBuilder.DefaultPostCode)
-    registrationDetails(deceasedUkAddress, applicantUkAddress)
+    val coExecutorAddress1 = new UkAddress(coExecutor1Addr1, coExecutor1Addr2, Some(coExecutor1Addr3), Some(coExecutor1Addr4), postCode1)
+    val coExecutorAddress2 = new UkAddress(coExecutor2Addr1, coExecutor2Addr2, Some(coExecutor2Addr3), Some(coExecutor2Addr4), postCode2)
+    val coExecutorAddress3 = new UkAddress(coExecutor3Addr1, coExecutor3Addr2, Some(coExecutor3Addr3), Some(coExecutor3Addr4), postCode3)
+    registrationDetails(deceasedUkAddress, applicantUkAddress, coExecutorAddress1, coExecutorAddress2, coExecutorAddress3)
   }
 
   def registrationDetailsAllForeignAddresses = {
@@ -261,7 +262,10 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
       Some(deceasedAddr4), "", countryCodeForeign)
     val applicantUkAddress = new UkAddress(applicantAddr1, applicantAddr2, Some(applicantAddr3),
       Some(applicantAddr4), "", countryCodeForeign)
-    registrationDetails(deceasedUkAddress, applicantUkAddress)
+    val coExecutorAddress1 = new UkAddress(coExecutor1Addr1, coExecutor1Addr2, Some(coExecutor1Addr3), Some(coExecutor1Addr4), "AA1 1AA")
+    val coExecutorAddress2 = new UkAddress(coExecutor2Addr1, coExecutor2Addr2, Some(coExecutor2Addr3), Some(coExecutor2Addr4), "AA2 1AA")
+    val coExecutorAddress3 = new UkAddress(coExecutor3Addr1, coExecutor3Addr2, Some(coExecutor3Addr3), Some(coExecutor3Addr4), "AA3 1AA")
+    registrationDetails(deceasedUkAddress, applicantUkAddress, coExecutorAddress1, coExecutorAddress2, coExecutorAddress3)
   }
 
   def expectedSetRowsAllUKAddresses = expectedSetRows(
