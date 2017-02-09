@@ -1421,7 +1421,7 @@ page.iht.application.exemptions.partnerPermanentHome.browserTitle = Partner’s 
 page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because the deceased’s spouse or civil partner didn’t have their permanent home in the UK.
 iht.estateReport.exemptions.partner.assetsLeftToSpouse.title = Assets left to a spouse or civil partner
 iht.estateReport.exemptions.partner.homeInUK.question = Is the spouse’s or civil partner’s permanent home in the UK?
-iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse = Return to assets left to spouse or civil partner
+iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse = Return to assets left to a spouse or civil partner
 iht.estateReport.exemptions.spouse.assetLeftToSpouse.question = Did {0} leave any assets to their spouse or civil partner?
 
 #Estate report - Exemptions - Charity
