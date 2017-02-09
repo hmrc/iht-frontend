@@ -39,24 +39,25 @@ hasTimeOut=true) {
   <p class="lede" id="tnrb-guidance1">@Html(Messages("page.iht.application.tnrbEligibilty.overview.guidance1", getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
   <p id="tnrb-guidance2">
-      @Html(
-        Messages("page.iht.application.tnrbEligibilty.overview.guidance2",
-
-                        TnrbHelper.spouseOrCivilPartnerLabel(
-                            tnrbModel,
-                            widowCheckModel,
-                            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased", getDeceasedNameOrDefaultString(registrationDetails, true)),
-                            true
-                        ),
-
-
+      @{
+            Html(
+                Messages(
+                    "page.iht.application.tnrbEligibilty.overview.guidance2",
+                    TnrbHelper.spouseOrCivilPartnerLabel(
+                        tnrbModel,
+                        widowCheckModel,
+                        Messages(
+                            "page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                            getDeceasedNameOrDefaultString(registrationDetails)
+                        )
+                    ),
                     CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString
                 )
-      )
+            )
+      }
   </p>
 
-  <p id="tnrb-guidance3">@Messages("page.iht.application.tnrbEligibilty.overview.guidance3")</p>
-  <p id="tnrb-guidance4">@Messages("iht.estateReport.completeEverySection")</p>
+  <p id="tnrb-guidance3">@Messages("iht.estateReport.completeEverySection")</p>
 
   <section class="section">
 

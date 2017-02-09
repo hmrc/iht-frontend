@@ -1601,9 +1601,10 @@ page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title = The threshold
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle = Threshold increased
 page.iht.application.tnrbEligibilty.returnToTnrbEligibilty = Return to increasing the Inheritance Tax threshold page
 
-page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you’ve given, it might be possible to increase {0}’s threshold.
-page.iht.application.tnrbEligibilty.overview.guidance2 = You can answer these questions in any order. You should get any paperwork that you can from the person who was responsible for the estate of {0} who died in {1}. The paperwork you need might include an IHT-205 or 400 form or the will. Family members might also have these.
-page.iht.application.tnrbEligibilty.overview.guidance3 = All of the details on this page have been saved to the estate report.
+page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you’ve provided, it might be possible to increase {0}’s threshold.
+
+page.iht.application.tnrbEligibilty.overview.guidance2=All of the details you give on this page should be about {0} who died in {1}
+
 page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading = Questions about the estate of {0} who died in {1}
 page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading = Personal details of {0}
 
