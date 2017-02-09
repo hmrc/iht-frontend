@@ -175,6 +175,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
     "contain the Debts row if there are debts in the model and show as non negative value " +
       "if there are no exemptions" in {
+      implicit val request = createFakeRequest()
 
       val appDetails = CommonBuilder.buildApplicationDetails
       val regDetails = CommonBuilder.buildRegistrationDetails1
@@ -193,7 +194,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
     "contain the Debts row if there are debts in the model and show as negative value " +
       "if there are some exemptions values present" in {
-
+      implicit val request = createFakeRequest()
       val appDetails = CommonBuilder.buildApplicationDetails
       val regDetails = CommonBuilder.buildRegistrationDetails1
 

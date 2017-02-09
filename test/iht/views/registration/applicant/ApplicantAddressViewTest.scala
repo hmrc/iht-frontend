@@ -19,8 +19,10 @@ package iht.views.registration.applicant
 import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm}
 import iht.views.html.registration.applicant.applicant_address
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.{Messages, Lang}
 import play.api.mvc.Call
+import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class ApplicantAddressViewTest extends RegistrationPageBehaviour {
 
@@ -95,7 +97,7 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour {
       "have a fieldset with the Id 'details'" in {
         val view = applicant_address(applicantAddressUkForm, isInternational = false,
           Call("", ""),
-          Call("", ""))(createFakeRequest(), Lang("", "")).toString
+          Call("", ""))(createFakeRequest(), Lang("", ""), applicationMessages).toString
 
         asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
       }

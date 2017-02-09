@@ -26,6 +26,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 
 class GenericOverviewStatusLinkTest extends UnitSpec with FakeIhtApp with HtmlSpec {
   "GenericOverviewStatusLink helper" must {
+    implicit val request = createFakeRequest()
     "return 'Give answer' label when item has not been started" in {
 
       val result = generic_overview_status_link(isComplete = None)

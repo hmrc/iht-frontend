@@ -20,10 +20,14 @@ import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers._
 import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
   "GenericOverviewItem helper" must {
+    implicit val request = createFakeRequest()
 
     val linkUrl = iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()
     val title = "Money"

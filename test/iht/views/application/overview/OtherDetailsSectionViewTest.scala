@@ -35,6 +35,7 @@ class OtherDetailsSectionViewTest extends UnitSpec with FakeIhtApp with MockitoS
   val dummyOtherDetailsSection = OtherDetailsSectionViewModel(dummyOverviewRow, false, "")
 
   "other details section" must {
+    implicit val request = createFakeRequest()
 
     "have the correct title" in {
       val view = other_details_section(dummyOtherDetailsSection)

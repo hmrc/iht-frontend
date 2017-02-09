@@ -29,7 +29,7 @@ class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
   def getPageAsDoc(country: String = "") = {
-    val result = use_paper_form(country)
+    val result = use_paper_form(country)(fakeRequest, applicationMessages)
     asDocument(contentAsString(result))
   }
 

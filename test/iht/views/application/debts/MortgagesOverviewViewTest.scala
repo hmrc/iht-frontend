@@ -43,7 +43,7 @@ class MortgagesOverviewViewTest extends ViewTestHelper{
   private def mortgageOverview() = {
     val returnLinkText = Messages("site.link.return.debts")
     val view = mortgages_overview(Nil, Nil, FieldMappings.typesOfOwnership,
-      regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest)
+      regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, applicationMessages)
 
     contentAsString(view)
   }

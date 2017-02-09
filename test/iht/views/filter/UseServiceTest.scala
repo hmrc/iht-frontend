@@ -33,6 +33,8 @@ class UseServiceTest extends UnitSpec with FakeIhtApp with HtmlSpec {
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
   "use_service" must {
+    implicit val request = createFakeRequest()
+
     "generate appropriate content for the title" in {
       val result = use_service(under325000)
       val doc = asDocument(contentAsString(result))

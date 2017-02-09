@@ -30,7 +30,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain the correct page heading and contents for first paragraph of guidance" in {
 
-      val view = registration_checklist()((createFakeRequest())).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
 
       view should include (Messages("page.iht.registration.checklist.title"))
       view should include (Messages("page.iht.registration.checklist.label1"))
@@ -39,7 +39,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
     }
 
     "contain the required contents for the deceased guidance section" in {
-      val view = registration_checklist()((createFakeRequest())).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
 
       view should include (Messages("iht.name.lowerCaseInitial"))
       view should include (Messages("iht.registration.checklist.dateOfBirth"))
@@ -58,7 +58,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain the required contents for the Applicant guidance section" in {
 
-      val view = registration_checklist()((createFakeRequest())).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
 
       view should include (Messages("iht.address.lowerCaseInitial"))
       view should include (Messages("iht.nationalInsuranceNo"))
@@ -75,7 +75,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain the required contents for the grant of representation guidance section" in {
 
-      val view = registration_checklist()((createFakeRequest())).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
 
       view should include (Messages("iht.name.lowerCaseInitial"))
       view should include (Messages("iht.registration.checklist.dateOfBirth"))
@@ -92,7 +92,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain Start registration button with target as deceased date of death page" in {
 
-      val view = registration_checklist()((createFakeRequest())).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
       val doc = asDocument(view)
 
       view should include (Messages("page.iht.registration.checklist.startRegistrationButton"))
@@ -105,7 +105,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain Leave this page to get all the details you need link and has a target as what you want to do page" in {
 
-      val view = registration_checklist()((createFakeRequest())).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
       val doc = asDocument(view)
 
       val link = doc.getElementById("leave-page")

@@ -47,7 +47,7 @@ class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with Moc
   "WithReservationOfBenefit Page" must {
 
     "contain the title and save and continue button " in {
-      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest)
+      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest, applicationMessages)
 
       val doc = asDocument(contentAsString(view))
       val title = doc.getElementsByTag("h1").first
@@ -59,7 +59,7 @@ class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with Moc
     }
 
     "contain the correct question" in {
-      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest)
+      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest, applicationMessages)
 
       contentAsString(view) should include(Messages("iht.estateReport.gifts.reservation.question",
                                             CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
@@ -67,7 +67,7 @@ class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with Moc
     }
 
     "show the correct text and link for the return link" in {
-      val view = with_reservation_of_benefit(giftsGivenAwayForm, regDetails)(fakeRequest)
+      val view = with_reservation_of_benefit(giftsGivenAwayForm, regDetails)(fakeRequest, applicationMessages)
 
       val doc = asDocument(contentAsString(view))
 

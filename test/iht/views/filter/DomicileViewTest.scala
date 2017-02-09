@@ -34,7 +34,7 @@ class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
   "Domicile view" must {
 
     "generate appropriate content for the title" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
@@ -42,7 +42,7 @@ class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "generate appropriate content for the browser title" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("title").first
 
@@ -50,7 +50,7 @@ class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain an appropriate field set" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val fieldSet = doc.getElementsByTag("fieldset")
       val id = fieldSet.attr("id")
@@ -58,35 +58,35 @@ class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain an 'England or Wales' radio button" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
       doc.getElementById("domicile-england-or-wales-label").text() should be("England or Wales")
     }
 
     "contain a 'Scotland' radio button" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
       doc.getElementById("domicile-scotland-label").text() should be(Messages("iht.countries.scotland"))
     }
 
     "contain a 'Northern Ireland' radio button" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
       doc.getElementById("domicile-northern-ireland-label").text() should be(Messages("iht.countries.northernIreland"))
     }
 
     "contain an 'Other country' radio button" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
       doc.getElementById("domicile-other-label").text() should be(Messages("page.iht.filter.domicile.choice.other"))
     }
 
     "contain a continue button with the text 'Continue'" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("input#continue").first
 
@@ -94,7 +94,7 @@ class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a form with the action attribute set to the DomicileController onSubmit URL" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val formElement = doc.getElementsByTag("form").first
 
@@ -102,7 +102,7 @@ class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a link to return to the 'What do you want to do' page" in {
-      val result = domicile(fakeForm)(fakeRequest)
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
       val link = doc.getElementById("return-link")

@@ -44,7 +44,8 @@ class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with Mockit
   "assets and gifts section" must {
 
     "show the correct title when asked to" in {
-      val viewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = true)
+      implicit val request = createFakeRequest()
+      val viewModel: AssetsAndGiftsSectionViewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = true)
 
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)
@@ -53,6 +54,7 @@ class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with Mockit
     }
 
     "not show a title when asked not to" in {
+      implicit val request = createFakeRequest()
       val viewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = false)
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)

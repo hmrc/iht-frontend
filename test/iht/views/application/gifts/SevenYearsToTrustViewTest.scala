@@ -43,7 +43,7 @@ class SevenYearsToTrustViewTest extends ViewTestHelper{
   "SevenYearsToTrust Page" must {
 
     "contain the title, browser title and save and continue button " in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
       val viewAsString = contentAsString(view)
       val doc = asDocument(viewAsString)
 
@@ -56,7 +56,7 @@ class SevenYearsToTrustViewTest extends ViewTestHelper{
     }
 
     "contain the correct question" in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
 
       messagesShouldBePresent(contentAsString(view), Messages("page.iht.application.gifts.trust.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
@@ -64,7 +64,7 @@ class SevenYearsToTrustViewTest extends ViewTestHelper{
     }
 
     "show the correct text and link for the return link" in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
       val viewAsString = contentAsString(view)
 
       val doc = asDocument(viewAsString)

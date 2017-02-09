@@ -20,9 +20,10 @@ import iht.forms.registration.DeceasedForms.deceasedAddressDetailsOutsideUKForm
 import iht.views.html.registration.deceased.deceased_address_details_outside_uk
 import iht.views.registration.RegistrationPageBehaviour
 import org.jsoup.select.Elements
-import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
-
+import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour {

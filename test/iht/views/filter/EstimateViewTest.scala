@@ -34,7 +34,7 @@ class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
   val fakeForm =  Form(single("s"-> optional(text)))
 
   def getPageAsDoc(form: Form[Option[String]] = fakeForm, request: FakeRequest[AnyContentAsEmpty.type] = fakeRequest) = {
-    val result = estimate(form)(request)
+    val result = estimate(form)(request, applicationMessages)
     asDocument(contentAsString(result))
   }
 

@@ -31,7 +31,7 @@ class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour {
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest()).toString
+    val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), applicationMessages).toString
     val doc = asDocument(view)
   }
 
@@ -40,7 +40,7 @@ class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour {
     behave like registrationPage()
 
     "have a fieldset with the Id 'answer'" in {
-      val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest()).toString
+      val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), applicationMessages).toString
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "answer"
     }
 

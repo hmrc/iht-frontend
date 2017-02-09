@@ -19,8 +19,10 @@ package iht.views.registration.applicant
 import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.{Messages, Lang}
 import play.api.mvc.Call
+import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
 
@@ -45,7 +47,7 @@ class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
     }
 
     "have a fieldset with the Id 'applying-for-probate'" in {
-      val view = applying_for_probate(applyingForProbateForm, Call("", ""))(createFakeRequest(), Lang("", "")).toString
+      val view = applying_for_probate(applyingForProbateForm, Call("", ""))(createFakeRequest(), Lang("", ""), applicationMessages).toString
 
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "applying-for-probate"
     }

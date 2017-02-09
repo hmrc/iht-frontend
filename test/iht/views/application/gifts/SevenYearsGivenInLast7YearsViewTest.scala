@@ -43,7 +43,7 @@ class SevenYearsGivenInLast7YearsViewTest extends ViewTestHelper{
   "SevenYearsGivenInLast7Years Page" must {
 
     "contain the title, browser title and save and continue button " in {
-      val view = seven_years_given_in_last_7_years(giftSevenYearsGivenInLast7YearsForm, regDetails)(fakeRequest)
+      val view = seven_years_given_in_last_7_years(giftSevenYearsGivenInLast7YearsForm, regDetails)(fakeRequest, applicationMessages)
       val viewAsString = contentAsString(view)
       val doc = asDocument(viewAsString)
 
@@ -56,7 +56,7 @@ class SevenYearsGivenInLast7YearsViewTest extends ViewTestHelper{
     }
 
     "contain the correct question" in {
-      val view = seven_years_given_in_last_7_years(giftSevenYearsGivenInLast7YearsForm, regDetails)(fakeRequest)
+      val view = seven_years_given_in_last_7_years(giftSevenYearsGivenInLast7YearsForm, regDetails)(fakeRequest, applicationMessages)
 
       messagesShouldBePresent(contentAsString(view), Messages("page.iht.application.gifts.lastYears.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
@@ -64,7 +64,7 @@ class SevenYearsGivenInLast7YearsViewTest extends ViewTestHelper{
     }
 
     "show the correct text and link for the return link" in {
-      val view = seven_years_given_in_last_7_years(giftSevenYearsGivenInLast7YearsForm, regDetails)(fakeRequest)
+      val view = seven_years_given_in_last_7_years(giftSevenYearsGivenInLast7YearsForm, regDetails)(fakeRequest, applicationMessages)
       val viewAsString = contentAsString(view)
 
       messagesShouldBePresent(viewAsString, Messages("page.iht.application.gifts.lastYears.description.p1"))

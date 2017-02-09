@@ -21,9 +21,9 @@ import java.io._
 import iht.utils.CommonHelper._
 import play.api.Play
 import play.api.Play.current
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.i18n.MessagesApi
 
 import scala.collection.immutable.ListMap
 import scala.io.{BufferedSource, Source}
@@ -559,5 +559,5 @@ trait MessagesTidier {
 }
 
 object MessagesTidier extends MessagesTidier {
-  override val messages = Messages.messages
+  override val messages: Map[String, Map[String, String]] = Messages.Implicits.applicationMessagesApi.messages
 }

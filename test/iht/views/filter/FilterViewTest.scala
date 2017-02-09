@@ -35,7 +35,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
   "filter_view" must {
     "generate appropriate content for the title" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
@@ -43,7 +43,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "generate appropriate content for the browser title" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("title").first
 
@@ -51,7 +51,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain an appropriate field set" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val fieldSet = doc.getElementsByTag("fieldset")
       val id = fieldSet.attr("id")
@@ -59,7 +59,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain the first radio button with the text 'I want to continue an estate report that I've already started' and no hint" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val mainSpan = doc.getElementById("filter-choices-continue-main")
       mainSpan.text() should be(Messages("page.iht.filter.filter.choice.main.continue"))
@@ -70,21 +70,21 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain the second radio button with the text 'I want to register so I can tell HMRC about a person's estate" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val mainElement = doc.getElementById("filter-choices-register-main")
       mainElement.text() should be(Messages("page.iht.filter.filter.choice.main.register"))
     }
 
     "contains a second button with the hint 'You’ll be asked a couple of questions first to make sure you’re using the right service.'" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val hintElement = doc.getElementById("filter-choices-register-hint")
       hintElement.text() should be(Messages("page.iht.filter.filter.choice.main.register.hint"))
     }
 
     "contain the third radio button with the text 'I've already started registration and want to continue'" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
       assertEqualsMessage(doc, "label#filter-choices-already-started-label > div", "page.iht.filter.filter.choice.main.alreadyStarted")
@@ -95,7 +95,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain the fourth radio button with the text 'I'm an agent and reporting on behalf of a client'" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
       assertEqualsMessage(doc, "label#filter-choices-agent-label > div", "page.iht.filter.filter.choice.main.agent")
@@ -106,7 +106,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a continue button with the text 'Continue'" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("input#continue").first
 
@@ -114,7 +114,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a form with the action attribute set to the FilterController onSubmit URL" in {
-      val result = filter_view(filterForm)(fakeRequest)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val formElement = doc.getElementsByTag("form").first
 

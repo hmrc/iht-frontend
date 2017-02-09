@@ -39,6 +39,7 @@ class ReducingEstateValueSectionViewTest extends UnitSpec with FakeIhtApp with M
 
 
   "reducing the estate value section" must {
+    implicit val request = createFakeRequest()
 
     "have the correct title" in {
       val view = reducing_estate_value_section(viewModel)

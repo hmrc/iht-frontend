@@ -22,6 +22,8 @@ import iht.views.HtmlSpec
 import iht.views.html.registration.executor.others_applying_for_probate_address
 import play.api.mvc.Call
 import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class OthersApplyingForProbateAddressViewTest extends UnitSpec with FakeIhtApp with TestUtils with HtmlSpec {
 
@@ -29,14 +31,14 @@ class OthersApplyingForProbateAddressViewTest extends UnitSpec with FakeIhtApp w
 
     "have a fieldset with the Id 'details' in UK mode" in {
       val view = others_applying_for_probate_address(coExecutorAddressUkForm, "1", "A name",
-        isInternational = false, Call("", ""), Call("", ""))(createFakeRequest()).toString
+        isInternational = false, Call("", ""), Call("", ""))(createFakeRequest(), applicationMessages).toString
 
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
     }
 
     "have a fieldset with the Id 'details' in non-UK mode" in {
       val view = others_applying_for_probate_address(coExecutorAddressAbroadForm, "1", "A name",
-        isInternational = true, Call("", ""), Call("", ""))(createFakeRequest()).toString
+        isInternational = true, Call("", ""), Call("", ""))(createFakeRequest(), applicationMessages).toString
 
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
     }

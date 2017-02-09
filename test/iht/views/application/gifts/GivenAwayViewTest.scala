@@ -47,7 +47,7 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
 
   "GivenAway View" must {
     "contain the title and save and continue button " in {
-      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest)
+      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
       val title = doc.getElementsByTag("h1").first
 
@@ -75,7 +75,7 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
     }
 
     "show return to estate overview link when user land on the page first time" in {
-      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest)
+      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
 
       val link = doc.getElementById("return-button")
@@ -87,7 +87,7 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
 
     "show return to gifts given away link when user is in edit mode" in {
       val filledForm = giftsGivenAwayForm.fill(allGifts)
-      val view = given_away(filledForm, regDetails)(fakeRequest)
+      val view = given_away(filledForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
 
       val link = doc.getElementById("return-button")

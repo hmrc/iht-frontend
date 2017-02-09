@@ -34,6 +34,7 @@ class UseIHT400ViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
   val iht400PaperFormLink = "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
 
   "Use Paper Form view, when rendering for an estate exceeding £1 million" must {
+    implicit val request = createFakeRequest()
 
     "display the correct title" in {
       val result = use_iht400()
