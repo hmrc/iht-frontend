@@ -135,9 +135,9 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
   val deceasedFirstName = "deceasedFirstName"
   val deceasedLastName = "deceasedLastName"
 
-  val countryCodeUK = "United Kingdom"
   val countryCodeForeign = "AF"
   val englandOrWales = "England or Wales"
+  val unitedKingdom = "United Kingdom"
   val foreign = "Afghanistan"
 
   val postCode1 = "AA1 1AA"
@@ -211,7 +211,8 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
         executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#date-of-birth"))
   }
 
-  def expectedSetRows(deceasedAddress: String, applicantAddress: String) = Set(
+  def expectedSetRows(deceasedAddress: String, applicantAddress: String,
+                      coExecutor1Address: String, coExecutor2Address: String, coExecutor3Address: String) = Set(
     SharableOverviewRow(Messages("iht.dateOfDeath"), "12 December 2011", Messages("iht.change"),
       deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad().url + "#date-of-death"),
     SharableOverviewRow(Messages("iht.name.upperCaseInitial"), s"$deceasedFirstName $deceasedLastName", Messages("iht.change"),
@@ -240,11 +241,11 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     SharableOverviewRow(Messages("iht.nationalInsuranceNo"), applicantNino),
     SharableOverviewRow(Messages("iht.dateofbirth"), dob)
   ) ++ expectedExecutor("1", s"$coExecutorFirstName1 $coExecutorLastName1", coExecutorNino1,
-    s"$coExecutor1Addr1 $coExecutor1Addr2 $coExecutor1Addr3 $coExecutor1Addr4 $postCode1 $countryCodeUK", coExecutorPhoneNo1, dob) ++
+    coExecutor1Address, coExecutorPhoneNo1, dob) ++
     expectedExecutor("2", s"$coExecutorFirstName2 $coExecutorLastName2", coExecutorNino2,
-      s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 $postCode2 $countryCodeUK", coExecutorPhoneNo2, dob) ++
+      coExecutor2Address, coExecutorPhoneNo2, dob) ++
     expectedExecutor("3", s"$coExecutorFirstName3 $coExecutorLastName3", coExecutorNino3,
-      s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 $postCode3 $countryCodeUK", coExecutorPhoneNo3, dob)
+      coExecutor3Address, coExecutorPhoneNo3, dob)
 
   def registrationDetailsAllUKAddresses = {
     val deceasedUkAddress = new UkAddress(deceasedAddr1, deceasedAddr2, Some(deceasedAddr3),
@@ -262,19 +263,27 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
       Some(deceasedAddr4), "", countryCodeForeign)
     val applicantUkAddress = new UkAddress(applicantAddr1, applicantAddr2, Some(applicantAddr3),
       Some(applicantAddr4), "", countryCodeForeign)
-    val coExecutorAddress1 = new UkAddress(coExecutor1Addr1, coExecutor1Addr2, Some(coExecutor1Addr3), Some(coExecutor1Addr4), "AA1 1AA")
-    val coExecutorAddress2 = new UkAddress(coExecutor2Addr1, coExecutor2Addr2, Some(coExecutor2Addr3), Some(coExecutor2Addr4), "AA2 1AA")
-    val coExecutorAddress3 = new UkAddress(coExecutor3Addr1, coExecutor3Addr2, Some(coExecutor3Addr3), Some(coExecutor3Addr4), "AA3 1AA")
+    val coExecutorAddress1 = new UkAddress(coExecutor1Addr1, coExecutor1Addr2, Some(coExecutor1Addr3), Some(coExecutor1Addr4), "", countryCodeForeign)
+    val coExecutorAddress2 = new UkAddress(coExecutor2Addr1, coExecutor2Addr2, Some(coExecutor2Addr3), Some(coExecutor2Addr4), "", countryCodeForeign)
+    val coExecutorAddress3 = new UkAddress(coExecutor3Addr1, coExecutor3Addr2, Some(coExecutor3Addr3), Some(coExecutor3Addr4), "", countryCodeForeign)
     registrationDetails(deceasedUkAddress, applicantUkAddress, coExecutorAddress1, coExecutorAddress2, coExecutorAddress3)
   }
 
   def expectedSetRowsAllUKAddresses = expectedSetRows(
-    s"$deceasedAddr1 $deceasedAddr2 $deceasedAddr3 $deceasedAddr4 $postCode1 $countryCodeUK",
-    s"$applicantAddr1 $applicantAddr2 $applicantAddr3 $applicantAddr4 $postCode1 $countryCodeUK")
+    s"$deceasedAddr1 $deceasedAddr2 $deceasedAddr3 $deceasedAddr4 $postCode1 $unitedKingdom",
+    s"$applicantAddr1 $applicantAddr2 $applicantAddr3 $applicantAddr4 $postCode1 $unitedKingdom",
+    s"$coExecutor1Addr1 $coExecutor1Addr2 $coExecutor1Addr3 $coExecutor1Addr4 $postCode1 $unitedKingdom",
+    s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 $postCode2 $unitedKingdom",
+    s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 $postCode3 $unitedKingdom"
+  )
 
   def expectedSetRowsAllForeignAddresses = expectedSetRows(
     s"$deceasedAddr1 $deceasedAddr2 $deceasedAddr3 $deceasedAddr4 $foreign",
-    s"$applicantAddr1 $applicantAddr2 $applicantAddr3 $applicantAddr4 $foreign")
+    s"$applicantAddr1 $applicantAddr2 $applicantAddr3 $applicantAddr4 $foreign",
+    s"$coExecutor1Addr1 $coExecutor1Addr2 $coExecutor1Addr3 $coExecutor1Addr4 $foreign",
+    s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 $foreign",
+    s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 $foreign"
+  )
 
   def viewAsString: String = registration_summary(registrationDetailsAllUKAddresses, "").toString
 
@@ -329,10 +338,16 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
       setRows shouldBe expectedSetRowsAllUKAddresses
     }
 
-    //    "display the correct values in the table of entered details where all foreign addresses" in {
-    //      val tableHTMLElements: Elements = docForeign.select("li.tabular-data__entry")
-    //      val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
-    //      setRows shouldBe expectedSetRowsAllForeignAddresses
-    //    }
+    "display the correct values in the table of entered details where all foreign addresses" in {
+      val tableHTMLElements: Elements = docForeign.select("li.tabular-data__entry")
+      val setRows = tableHTMLElements.map(element => SharableOverviewRow.apply(element)).toSet
+      setRows shouldBe expectedSetRowsAllForeignAddresses
+    }
+
+    "have a link to add or delete an executor" in {
+      val anchor = doc.getElementById("coexecutors-summary")
+      anchor.text shouldBe Messages("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link")
+      anchor.attr("href") shouldBe iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
+    }
   }
 }
