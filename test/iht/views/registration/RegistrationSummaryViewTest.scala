@@ -34,56 +34,6 @@ import iht.controllers.registration.applicant.{routes => applicantRoutes}
 import iht.controllers.registration.deceased.{routes => deceasedRoutes}
 import iht.controllers.registration.executor.{routes => executorRoutes}
 
-case class SharableOverviewRow(rowText: String = "", value: String = "", linkText: String = "", linkHref: String = "")
-
-object SharableOverviewRow {
-  def apply(element: Element): SharableOverviewRow = {
-    val cells = element.select("div:not(.visually-hidden)")
-    val row = cells.size match {
-      case 2 => SharableOverviewRow(
-        rowText = cells.get(0).text,
-        linkText = cells.get(1).text
-      )
-      case 3 =>
-        SharableOverviewRow(
-          rowText = cells.get(0).text,
-          value = cells.get(1).text,
-          linkText = getLinkText(cells.get(2).getElementsByTag("a").first),
-          linkHref = getLinkHref(cells.get(2).getElementsByTag("a").first)
-        )
-      case 4 =>
-        SharableOverviewRow(
-          rowText = cells.get(0).text,
-          value = cells.get(1).text,
-          linkText = getLinkText(cells.get(3).getElementsByTag("a").first),
-          linkHref = getLinkHref(cells.get(2).getElementsByTag("a").first)
-        )
-    }
-    row
-  }
-
-  def getLinkText(link: Element) = {
-    Try(link.getElementsByTag("span")) match {
-      case Success(internalSpans) =>
-        internalSpans.get(0).text
-      case Failure(_) =>
-        Try(link.text) match {
-          case Success(lt) => lt
-          case Failure(_) => ""
-        }
-    }
-  }
-
-  def getLinkHref(link: Element) = {
-    Try(link.attr("href")) match {
-      case Success(href) =>
-        href
-      case Failure(_) =>
-        ""
-    }
-  }
-}
-
 class RegistrationSummaryViewTest extends ViewTestHelper {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
@@ -348,6 +298,56 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
       val anchor = doc.getElementById("coexecutors-summary")
       anchor.text shouldBe Messages("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link")
       anchor.attr("href") shouldBe iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
+    }
+  }
+}
+
+case class SharableOverviewRow(rowText: String = "", value: String = "", linkText: String = "", linkHref: String = "")
+
+object SharableOverviewRow {
+  def apply(element: Element): SharableOverviewRow = {
+    val cells = element.select("div:not(.visually-hidden)")
+    val row = cells.size match {
+      case 2 => SharableOverviewRow(
+        rowText = cells.get(0).text,
+        linkText = cells.get(1).text
+      )
+      case 3 =>
+        SharableOverviewRow(
+          rowText = cells.get(0).text,
+          value = cells.get(1).text,
+          linkText = getLinkText(cells.get(2).getElementsByTag("a").first),
+          linkHref = getLinkHref(cells.get(2).getElementsByTag("a").first)
+        )
+      case 4 =>
+        SharableOverviewRow(
+          rowText = cells.get(0).text,
+          value = cells.get(1).text,
+          linkText = getLinkText(cells.get(3).getElementsByTag("a").first),
+          linkHref = getLinkHref(cells.get(2).getElementsByTag("a").first)
+        )
+    }
+    row
+  }
+
+  def getLinkText(link: Element) = {
+    Try(link.getElementsByTag("span")) match {
+      case Success(internalSpans) =>
+        internalSpans.get(0).text
+      case Failure(_) =>
+        Try(link.text) match {
+          case Success(lt) => lt
+          case Failure(_) => ""
+        }
+    }
+  }
+
+  def getLinkHref(link: Element) = {
+    Try(link.attr("href")) match {
+      case Success(href) =>
+        href
+      case Failure(_) =>
+        ""
     }
   }
 }
