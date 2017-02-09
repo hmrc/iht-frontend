@@ -17,7 +17,7 @@
 package iht.views.registration
 
 import iht.models.{RegistrationDetails, UkAddress}
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_summary
@@ -87,15 +87,38 @@ object SharableOverviewRow {
 class RegistrationSummaryViewTest extends ViewTestHelper {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
+  val applicantNino = NinoBuilder.defaultNino
+  val deceasedNino = NinoBuilder.defaultNino
+  val coExecutorNino1 = NinoBuilder.defaultNino
+  val coExecutorNino2 = NinoBuilder.defaultNino
+  val coExecutorNino3 = NinoBuilder.defaultNino
+  val coExecutorPhoneNo1 = "02079460091"
+  val coExecutorPhoneNo2 = "02079460092"
+  val coExecutorPhoneNo3 = "02079460093"
+
   def deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetailsAllUKAddresses)
 
   def registrationDetails(deceasedUkAddress: UkAddress, applicantUkAddress: UkAddress) = {
-    val coExecutor1 = CommonBuilder.buildCoExecutor.copy(id=Some("1"), firstName = "Coexec1firstname",
-      lastName = "Coexec1lastname", nino = "XX121212E")
-    val coExecutor2 = CommonBuilder.buildCoExecutor.copy(id=Some("2"), firstName = "Coexec2firstname",
-      lastName = "Coexec2lastname", nino = "XX121212F")
-    val coExecutor3 = CommonBuilder.buildCoExecutor.copy(id=Some("3"), firstName = "Coexec3firstname",
-      lastName = "Coexec3lastname", nino = "XX121212G")
+    val coExecutorAddress1 = new UkAddress("addr11", "addr12", Some("addr13"), Some("addr14"), "AA1 1AA")
+    val coExecutorAddress2 = new UkAddress("addr21", "addr22", Some("addr23"), Some("addr24"), "AA2 1AA")
+    val coExecutorAddress3 = new UkAddress("addr31", "addr32", Some("addr33"), Some("addr34"), "AA3 1AA")
+
+    val coExecutorContactDetails1 = new iht.models.ContactDetails(coExecutorPhoneNo1, Some("a@example.com"))
+    val coExecutorContactDetails2 = new iht.models.ContactDetails(coExecutorPhoneNo2, Some("a@example.com"))
+    val coExecutorContactDetails3 = new iht.models.ContactDetails(coExecutorPhoneNo3, Some("a@example.com"))
+
+    val coExecutor1 = CommonBuilder.buildCoExecutor.copy(id = Some("1"), firstName = "Coexec1firstname",
+      lastName = "Coexec1lastname", nino = coExecutorNino1, ukAddress = Some(coExecutorAddress1),
+      contactDetails = coExecutorContactDetails1
+    )
+    val coExecutor2 = CommonBuilder.buildCoExecutor.copy(id = Some("2"), firstName = "Coexec2firstname",
+      lastName = "Coexec2lastname", nino = coExecutorNino2, ukAddress = Some(coExecutorAddress2),
+      contactDetails = coExecutorContactDetails2
+    )
+    val coExecutor3 = CommonBuilder.buildCoExecutor.copy(id = Some("3"), firstName = "Coexec3firstname",
+      lastName = "Coexec3lastname", nino = coExecutorNino3, ukAddress = Some(coExecutorAddress3),
+      contactDetails = coExecutorContactDetails3
+    )
 
     RegistrationDetails(
       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath),
@@ -105,7 +128,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
         middleName = None,
         lastName = Some("ApplicantLastname"),
         ukAddress = Some(applicantUkAddress),
-        nino = Some("XX121212C")
+        nino = Some(applicantNino)
       )),
       deceasedDetails = Some(CommonBuilder.buildDeceasedDetails copy(
         domicile = Some(TestHelper.DomicileEnglandOrWales),
@@ -114,7 +137,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
         middleName = None,
         lastName = Some("DeceasedLastname"),
         ukAddress = Some(deceasedUkAddress),
-        nino = Some("XX121212D")
+        nino = Some(deceasedNino)
       )),
       coExecutors = Seq(coExecutor1, coExecutor2, coExecutor3),
       ihtReference = Some("ABC"),
@@ -122,7 +145,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     )
   }
 
-  def expectedExecutor(id: String, name:String, nino: String, addr: String, phone: String, dob: String) = {
+  def expectedExecutor(id: String, name: String, nino: String, addr: String, phone: String, dob: String) = {
     Set(
       SharableOverviewRow(Messages("iht.name.upperCaseInitial"), name, Messages("iht.change"),
         executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#firstName"),
@@ -149,7 +172,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
       deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad().url + "#details"),
     SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998", Messages("iht.change"),
       deceasedRoutes.AboutDeceasedController.onEditPageLoad().toString + "#date-of-birth"),
-    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212D", Messages("iht.change"),
+    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), deceasedNino, Messages("iht.change"),
       deceasedRoutes.AboutDeceasedController.onEditPageLoad().url + "#nino"),
     SharableOverviewRow(Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
       "Never married or in a civil partnership", Messages("iht.change"),
@@ -160,18 +183,18 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     SharableOverviewRow(Messages("iht.name.upperCaseInitial"), "ApplicantFirstname ApplicantLastname"),
     SharableOverviewRow(Messages("page.iht.registration.applicant.probateLocation.title"), "England or Wales", Messages("iht.change"),
       applicantRoutes.ProbateLocationController.onEditPageLoad().url + "#country"),
-    SharableOverviewRow(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"), "02079460093", Messages("iht.change"),
+    SharableOverviewRow(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"), coExecutorPhoneNo3, Messages("iht.change"),
       applicantRoutes.ApplicantTellUsAboutYourselfController.onEditPageLoad().url + "#phoneNo"),
     SharableOverviewRow(Messages("iht.address.upperCaseInitial"), applicantAddress, Messages("iht.change"),
       applicantRoutes.ApplicantAddressController.onEditPageLoadUk().url + "#details"),
-    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), "XX121212C"),
+    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), applicantNino),
     SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998")
-  ) ++ expectedExecutor("1", "Coexec1firstname Coexec1lastname", "XX121212E",
-        "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom", "02079460093", "12 December 1998") ++
-    expectedExecutor("2", "Coexec2firstname Coexec2lastname", "XX121212F",
-        "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom", "02079460093", "12 December 1998") ++
-    expectedExecutor("3", "Coexec3firstname Coexec3lastname", "XX121212G",
-        "addr1 addr2 addr3 addr4 AA1 1AA United Kingdom", "02079460093", "12 December 1998")
+  ) ++ expectedExecutor("1", "Coexec1firstname Coexec1lastname", coExecutorNino1,
+    "addr11 addr12 addr13 addr14 AA1 1AA United Kingdom", coExecutorPhoneNo1, "12 December 1998") ++
+    expectedExecutor("2", "Coexec2firstname Coexec2lastname", coExecutorNino2,
+      "addr21 addr22 addr23 addr24 AA2 1AA United Kingdom", coExecutorPhoneNo2, "12 December 1998") ++
+    expectedExecutor("3", "Coexec3firstname Coexec3lastname", coExecutorNino3,
+      "addr31 addr32 addr33 addr34 AA3 1AA United Kingdom", coExecutorPhoneNo3, "12 December 1998")
 
   def registrationDetailsAllUKAddresses = {
     val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"),
