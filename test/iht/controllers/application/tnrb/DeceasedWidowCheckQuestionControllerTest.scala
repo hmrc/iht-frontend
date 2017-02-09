@@ -72,7 +72,8 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
   "onSubmit" must {
     "save application and go to date when the deceased's partner died page on submit if the deceased is widowed" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(widowCheck = Some(CommonBuilder.buildWidowedCheck))
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(widowCheck =
+        Some(CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = None)))
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -129,6 +130,29 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be(Some(iht.controllers.application.routes.EstateOverviewController
         .onPageLoadWithIhtRef(ihtRef).url))
+    }
+
+    "go to Tnrb overview page on submit when the deceased selects Yes in Edit mode" in {
+      val ihtRef = "IhtRef"
+      lazy val tnrbModel = CommonBuilder.buildTnrbEligibility.copy(None, None,None,None,None,None,None,None,None,None,None)
+      val applicationDetails = CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ihtRef),
+        widowCheck = Some(CommonBuilder.buildWidowedCheck),
+        increaseIhtThreshold = Some(tnrbModel))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val widowedCheckComplete = CommonBuilder.buildWidowedCheck
+
+      val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(widowedCheckComplete)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckQuestionForm.data.toSeq: _*)
+
+      val result = deceasedWidowCheckQuestionController.onSubmit(request)
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) should be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()url))
     }
 
     "wipe out the WidowCheck date and tnrb eligibility data, go to estate overview page on submit " +
@@ -194,29 +218,6 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         saveAppDetails = true)
 
       applicationDetails
-    }
-
-    "show the correct title" in {
-      val ad = setupMocksForTitleTests
-      val regDetails = CommonBuilder.buildRegistrationDetails1
-      val widowCheckModel = CommonHelper.getOrException(ad.widowCheck)
-      val tnrbModel = CommonHelper.getOrException(ad.increaseIhtThreshold)
-      val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
-      val doc = asDocument(contentAsString(result))
-      val headers: Elements = doc.getElementsByTag("h1")
-      headers.size() shouldBe 1
-      val expectedTitle = Messages("iht.estateReport.tnrb.partner.married",
-        TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-        TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))
-      headers.first().text() shouldBe expectedTitle
-    }
-
-    "show the correct browser title" in {
-      setupMocksForTitleTests
-      val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
-      val doc = asDocument(contentAsString(result))
-      assertEqualsValue(doc, "title",
-        Messages("iht.estateReport.tnrb.increasingIHTThreshold") + " " + Messages("site.title.govuk"))
     }
 
     "return html containing link which points to estate overview when widow check date is empty" in {
