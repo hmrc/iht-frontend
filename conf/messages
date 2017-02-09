@@ -1316,6 +1316,7 @@ page.iht.application.debts.debtsTrust.isOwned = Are there any debts being paid o
 
 page.iht.application.debts.debtsOutsideUk.browserTitle = Foreign debts
 page.iht.application.debts.debtsOutsideUk.description.p1 = This is the value of all debts owed to anyone outside of the UK including anything owed on any foreign assets.
+page.iht.application.debts.debtsOutsideUk.description.p2 = You must change the foreign value to British pounds using the exchange rate on the date of death.
 page.iht.application.debts.debtsOutsideUk.isOwned = Are there any debts being paid out of the estate that are owed to anyone outside of the UK?
 
 page.iht.application.debts.jointlyOwned.browserTitle = Joint debts
