@@ -1341,7 +1341,7 @@ iht.estateReport.debts.owedOnJointAssets = Debts owed on any jointly owned asset
 iht.estateReport.debts.owedOnJointAssets.value = Value of any debts owed on jointly owned assets
 iht.estateReport.debts.owedOutsideUK = Debts owed to anyone outside of the UK
 iht.estateReport.debts.owedOutsideUK.value = Value of debts owed to anyone outside of the UK
-iht.estateReport.debts.valueOfFuneralCosts = Value of the funeral costs
+iht.estateReport.debts.valueOfFuneralCosts = Value of the funeral expenses
 
 #Estate report - Exemptions
 page.iht.exemptions.title = Exemptions
