@@ -1154,7 +1154,8 @@ page.iht.application.gifts.guidance.giftsGivenAway.description3 = There’ll als
 page.iht.application.gifts.guidance.giftsGivenAway.description4 = Take your time to understand what gifts are. You’ll be able to read this guide again whenever you want.
 
 page.iht.application.gifts.sevenYears.values.browserTitle = Value of gifts given away
-page.iht.application.gifts.sevenYears.values.guidance = Enter the total value of gifts given away and how much the estate is claiming in gift exemptions in each of the following years. The difference between the total value of gifts and the exemptions being claimed will be added to the estate value.
+page.iht.application.gifts.sevenYears.values.guidance = Enter the total value of gifts given away and how much the estate is claiming in gift exemptions in each of the following years.
+page.iht.application.gifts.sevenYears.values.guidance2 = The difference between the total value of gifts and the exemptions being claimed will be added to the estate value.
 page.iht.application.gifts.return.to.givenAwayBy = Return to gifts given away by {0}
 
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader.give = Give values for between the dates {0} and {1}.
@@ -1222,8 +1223,8 @@ page.iht.application.gifts.lastYears.description.e3 = household and personal goo
 page.iht.application.gifts.lastYears.description.e4 = houses, land and buildings
 page.iht.application.gifts.lastYears.question = Did {0} give anything else away that isn’t listed above in the 7 years before they died?
 
-page.iht.application.gifts.lastYears.tableTitle1 = Total value of gifts
-page.iht.application.gifts.lastYears.tableTitle2 = Total value of exemptions
+page.iht.application.gifts.lastYears.tableTitle1 = Gifts value
+page.iht.application.gifts.lastYears.tableTitle2 = Exemptions value
 page.iht.application.gifts.lastYears.tableTitle3 = Amount added to estate value
 
 page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
