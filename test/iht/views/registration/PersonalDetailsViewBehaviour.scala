@@ -16,7 +16,10 @@
 
 package iht.views.registration
 
+import play.api.data.FormError
 import play.api.i18n.Messages
+import play.api.mvc.Call
+import org.jsoup.nodes.Document
 
 trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
 
@@ -86,4 +89,20 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
       messagesShouldBePresent(view, Messages(hint))
     }
   }
+
+   def personalDetailsInEditMode(view: => Document, cancelUrl: => Call) = {
+		personalDetails()
+
+		"have a continue button with correct text" in {
+		  val continueLink = view.getElementById("continue-button")
+		  continueLink.attr("value") shouldBe Messages("iht.continue")
+
+		}
+
+		"have a cancel link with correct text" in {
+		  val cancelLink = view.getElementById("cancel-button")
+		  cancelLink.attr("href") shouldBe cancelUrl.url
+		  cancelLink.text() shouldBe Messages("site.link.cancel")
+		}
+	  }
 }
