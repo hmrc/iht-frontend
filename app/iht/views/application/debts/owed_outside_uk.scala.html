@@ -33,6 +33,8 @@
     @helpers.form(action = iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Messages("page.iht.application.debts.debtsOutsideUk.description.p1")</p>
+        <p>@Messages("page.iht.application.debts.debtsOutsideUk.description.p2")</p>
+
 
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
