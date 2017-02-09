@@ -49,6 +49,14 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     }
   }
 
+  def yesNoQuestionWithLegend(questionLegend: => String) = {
+    yesNoQuestion()
+
+    "show the correct question text" in {
+      doc.getElementById("yes-no-question-legend").text shouldBe questionLegend
+    }
+  }
+
   /**
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
     * Assumes that the Call for the cancel link has been set up as CommonBuilder.DefaultCall2.

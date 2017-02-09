@@ -364,6 +364,7 @@ page.iht.registration.others-applying-for-probate-address.address.guidance = Thi
 #Registration Summary
 
 #Registration Summary - Deceased info
+page.iht.registration.registrationSummary.deceasedTable.title = Deceased’s details
 page.iht.registration.registrationSummary.subTitle = You’ll not be able to change these details online after you’ve confirmed them.
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title

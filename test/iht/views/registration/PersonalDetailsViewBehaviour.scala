@@ -76,20 +76,33 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     }
   }
 
-
-  def personalDetailsInEditMode(view: => Document, cancelUrl: => Call) = {
-    personalDetails()
-
-    "have a continue button with correct text" in {
-      val continueLink = view.getElementById("continue-button")
-      continueLink.attr("value") shouldBe Messages("iht.continue")
-
+  def phoneNumber(label: String, hint: String) = {
+    "have a phone number field" in {
+      assertRenderedById(doc, "phoneNo")
     }
 
-    "have a cancel link with correct text" in {
-      val cancelLink = view.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe cancelUrl.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
+    "have the correct label for phone number" in {
+      labelShouldBe(doc, "phoneNo-container", label)
+    }
+
+    "have a form hint for phone number" in {
+      messagesShouldBePresent(view, Messages(hint))
     }
   }
+
+   def personalDetailsInEditMode(view: => Document, cancelUrl: => Call) = {
+		personalDetails()
+
+		"have a continue button with correct text" in {
+		  val continueLink = view.getElementById("continue-button")
+		  continueLink.attr("value") shouldBe Messages("iht.continue")
+
+		}
+
+		"have a cancel link with correct text" in {
+		  val cancelLink = view.getElementById("cancel-button")
+		  cancelLink.attr("href") shouldBe cancelUrl.url
+		  cancelLink.text() shouldBe Messages("site.link.cancel")
+		}
+	  }
 }
