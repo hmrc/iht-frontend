@@ -111,6 +111,18 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
   val coExecutor3Addr3 = "addr33"
   val coExecutor3Addr4 = "addr34"
 
+  val deceasedAddr1 = "deceasedaddr1"
+  val deceasedAddr2 = "deceasedaddr2"
+  val deceasedAddr3 = "deceasedaddr3"
+  val deceasedAddr4 = "deceasedaddr4"
+
+  val applicantAddr1 = "applicantaddr1"
+  val applicantAddr2 = "applicantaddr2"
+  val applicantAddr3 = "applicantaddr3"
+  val applicantAddr4 = "applicantaddr4"
+
+  val UK = "United Kingdom"
+
   def deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetailsAllUKAddresses)
 
   def registrationDetails(deceasedUkAddress: UkAddress, applicantUkAddress: UkAddress) = {
@@ -205,35 +217,35 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
     SharableOverviewRow(Messages("iht.nationalInsuranceNo"), applicantNino),
     SharableOverviewRow(Messages("iht.dateofbirth"), "12 December 1998")
   ) ++ expectedExecutor("1", "Coexec1firstname Coexec1lastname", coExecutorNino1,
-    s"$coExecutor1Addr1 $coExecutor1Addr2 $coExecutor1Addr3 $coExecutor1Addr4 AA1 1AA United Kingdom", coExecutorPhoneNo1, "12 December 1998") ++
+    s"$coExecutor1Addr1 $coExecutor1Addr2 $coExecutor1Addr3 $coExecutor1Addr4 AA1 1AA $UK", coExecutorPhoneNo1, "12 December 1998") ++
     expectedExecutor("2", "Coexec2firstname Coexec2lastname", coExecutorNino2,
-      s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 AA2 1AA United Kingdom", coExecutorPhoneNo2, "12 December 1998") ++
+      s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 AA2 1AA $UK", coExecutorPhoneNo2, "12 December 1998") ++
     expectedExecutor("3", "Coexec3firstname Coexec3lastname", coExecutorNino3,
-      s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 AA3 1AA United Kingdom", coExecutorPhoneNo3, "12 December 1998")
+      s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 AA3 1AA $UK", coExecutorPhoneNo3, "12 December 1998")
 
   def registrationDetailsAllUKAddresses = {
-    val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"),
-      Some("deceasedaddr4"), CommonBuilder.DefaultPostCode)
-    val applicantUkAddress = new UkAddress("applicantaddr1", "applicantaddr2", Some("applicantaddr3"),
-      Some("applicantaddr4"), CommonBuilder.DefaultPostCode)
+    val deceasedUkAddress = new UkAddress(deceasedAddr1, deceasedAddr2, Some(deceasedAddr3),
+      Some(deceasedAddr4), CommonBuilder.DefaultPostCode)
+    val applicantUkAddress = new UkAddress(applicantAddr1, applicantAddr2, Some(applicantAddr3),
+      Some(applicantAddr4), CommonBuilder.DefaultPostCode)
     registrationDetails(deceasedUkAddress, applicantUkAddress)
   }
 
   def registrationDetailsAllForeignAddresses = {
-    val deceasedUkAddress = new UkAddress("deceasedaddr1", "deceasedaddr2", Some("deceasedaddr3"),
-      Some("deceasedaddr4"), "", "AF")
-    val applicantUkAddress = new UkAddress("applicantaddr1", "applicantaddr2", Some("applicantaddr3"),
-      Some("applicantaddr4"), "", "AF")
+    val deceasedUkAddress = new UkAddress(deceasedAddr1, deceasedAddr2, Some(deceasedAddr3),
+      Some(deceasedAddr4), "", "AF")
+    val applicantUkAddress = new UkAddress(applicantAddr1, applicantAddr2, Some(applicantAddr3),
+      Some(applicantAddr4), "", "AF")
     registrationDetails(deceasedUkAddress, applicantUkAddress)
   }
 
   def expectedSetRowsAllUKAddresses = expectedSetRows(
-    "deceasedaddr1 deceasedaddr2 deceasedaddr3 deceasedaddr4 AA1 1AA United Kingdom",
-    "applicantaddr1 applicantaddr2 applicantaddr3 applicantaddr4 AA1 1AA United Kingdom")
+    s"$deceasedAddr1 $deceasedAddr2 $deceasedAddr3 $deceasedAddr4 AA1 1AA $UK",
+    s"$applicantAddr1 $applicantAddr2 $applicantAddr3 $applicantAddr4 AA1 1AA $UK")
 
   def expectedSetRowsAllForeignAddresses = expectedSetRows(
-    "deceasedaddr1 deceasedaddr2 deceasedaddr3 deceasedaddr4 Afghanistan",
-    "applicantaddr1 applicantaddr2 applicantaddr3 applicantaddr4 Afghanistan")
+    s"$deceasedAddr1 $deceasedAddr2 $deceasedAddr3 $deceasedAddr4 Afghanistan",
+    s"$applicantAddr1 $applicantAddr2 $applicantAddr3 $applicantAddr4 Afghanistan")
 
   def viewAsString: String = registration_summary(registrationDetailsAllUKAddresses, "").toString
 
