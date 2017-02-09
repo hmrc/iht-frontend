@@ -87,7 +87,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
         Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed))
 
       messagesShouldBePresent(view.toString, Messages("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"))
-      messagesShouldBePresent(view.toString, CommonHelper.escapePound(Messages("iht.estateReport.assets.kickout.MoreThan1Million")))
+      messagesShouldBePresent(view.toString, Messages("iht.estateReport.assets.kickout.MoreThan1Million"))
       messagesShouldBePresent(view.toString, Messages("iht.estateReport.kickout.returnToEstateOverview"))
 
       val returnLink = view.getElementById("back-button")

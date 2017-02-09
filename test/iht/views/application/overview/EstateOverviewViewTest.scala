@@ -188,7 +188,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
       assertRenderedById(doc, "debts-row")
       assertRenderedById(doc, "debts-value")
-      assertEqualsValue(doc, "div#debts-value", CommonHelper.escapePound("£500.00"))
+      assertEqualsValue(doc, "div#debts-value", "£500.00")
 
     }
 
@@ -209,7 +209,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
       assertRenderedById(doc, "debts-row")
       assertRenderedById(doc, "debts-value")
-      assertEqualsValue(doc, "div#debts-value", CommonHelper.escapePound("-£500.00"))
+      assertEqualsValue(doc, "div#debts-value", "-£500.00")
 
     }
 

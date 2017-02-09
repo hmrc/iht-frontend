@@ -16,10 +16,13 @@
 
 package iht.controllers.pdf
 
-import java.io.{File, FileNotFoundException}
+import java.io.{ByteArrayInputStream, File, FileInputStream, FileNotFoundException}
 
+import akka.stream.scaladsl.{FileIO, Source}
+import akka.util.ByteString
 import iht.constants.Constants
 import iht.controllers.auth.CustomPasscodeAuthentication
+import play.api.http.HttpEntity
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{ResponseHeader, Result}
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
@@ -44,11 +47,12 @@ trait GuidancePDFController extends FrontendController with CustomPasscodeAuthen
 //  }
 
   def loadPDF = UnauthorisedAction {
-    implicit request => {
-      Ok.sendFile(
-        content = new File(Constants.PDFHMRCGuidance.getFile),
-        fileName = _ => "Inheritance Tax Private Beta Guidence"
-      )
-    }
+   implicit request => {
+     val source: Source[ByteString, _] = FileIO.fromPath(Constants.pDFHMRCGuidance)
+     Result(
+       header = ResponseHeader(200, Map.empty),
+       body = HttpEntity.Streamed(source, None, Some("application/pdf"))
+     )
+   }
   }
 }

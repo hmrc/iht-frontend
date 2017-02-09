@@ -108,7 +108,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
 
       assertRenderedById(doc, "givenAway")
       messagesShouldBePresent(doc.toString,
-        CommonHelper.escapePound(Messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)))
+        Messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName))
       val givenAwayLink = doc.getElementById("givenAway-question-1-edit")
       givenAwayLink.text shouldBe Messages("iht.change")
       givenAwayLink.attr("href") shouldBe giftGivenAwayPageUrl.url

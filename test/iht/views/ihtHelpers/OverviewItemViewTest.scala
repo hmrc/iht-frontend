@@ -52,7 +52,7 @@ class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
-      assertEqualsValue(doc, "div#assets-value", CommonHelper.escapePound("£2,000"))
+      assertEqualsValue(doc, "div#assets-value", "£2,000")
     }
 
     "show the link with correct text and status label where Item has not been started" in {

@@ -57,16 +57,16 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
                               Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.heading"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description1")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description1"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description2")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description2"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description3")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description3"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description4")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description4"))
     }
 
     "have correct 'Gifts that can be claimed using the marriage or civil partnership gift exemption' guidance" in {
@@ -84,13 +84,13 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
         Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part1")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part1"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part2")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part2"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part3")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part3"))
 
       messagesShouldBePresent(view.toString,
         Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4"))
@@ -102,7 +102,7 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
         Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part2"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description5")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description5"))
 
     }
 
@@ -112,17 +112,17 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
                    Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.heading"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description1")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description1"))
       messagesShouldBePresent(view.toString,
         Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description2"))
       messagesShouldBePresent(view.toString,
         Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description3"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description4")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description4"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description5")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description5"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description6")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description6"))
 
     }
 
@@ -132,13 +132,13 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
                    Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.heading"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description1")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description1"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description2")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description2"))
       messagesShouldBePresent(view.toString,
         Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description3"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description4")))
+        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description4"))
     }
 
     "have the correct navigation links" in {

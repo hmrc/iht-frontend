@@ -157,7 +157,7 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
       assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(completedAllReasonableEnquiriesMsgKey))
       assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", escapePound(Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey)))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet5TextId)
@@ -199,7 +199,7 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(didntUseAnyOfThreshold))
       assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(completedAllReasonableEnquiriesMsgKey))
       assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet5TextId", escapePound(Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey)))
+      assertEqualsValue(doc, s"#$mainBullet5TextId", Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet6TextId", Messages(noInheritanceTaxPayableMsgKey))
     }
   }
@@ -242,7 +242,7 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
       assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(completedAllReasonableEnquiriesMsgKey))
       assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", escapePound(Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey)))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet5TextId)
@@ -284,7 +284,7 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(didntUseAnyOfThreshold))
       assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(completedAllReasonableEnquiriesMsgKey))
       assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet5TextId", escapePound(Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey)))
+      assertEqualsValue(doc, s"#$mainBullet5TextId", Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet6TextId", Messages(noInheritanceTaxPayableMsgKey))
     }
 
