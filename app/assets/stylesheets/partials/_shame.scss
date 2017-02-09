@@ -14,3 +14,9 @@
     display: revert;
   }
 }
+
+
+// remove external link indicator following its removal from template
+a[rel="external"]:after {
+    content: none;
+}
