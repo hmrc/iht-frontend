@@ -1492,7 +1492,9 @@ iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities = Return to 
 iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived = Total value of assets the charity received
 
 #Estate report - Exemptions - Qualifying body
-iht.estateReport.assets.qualifyingBodyAdd = Add another qualifying body
+iht.estateReport.assets.qualifyingBodyAddAnother = Add another qualifying body
+iht.estateReport.assets.qualifyingBodyAdd = Add a qualifying body
+
 page.iht.application.exemptions.qualifyingBody.value.sectionTitle = Total value of assets left to the qualifying body
 page.iht.application.exemptions.qualifyingBody.value.browserTitle = Value of assets left to body
 
@@ -1548,7 +1550,7 @@ page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.lin
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.link.screenreader.value = Change the qualifying body name
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.link.screenreader.noValue = Give value of assets received by the qualifying body
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.link.screenreader.value = Change the value of assets received by the qualifying body
-iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext = If you don’t know if assets passing to another body will be exempt from Inheritance Tax, call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072. Once you’ve given the name of the body, you’ll be told if any assets left to them will be exempt of Inheritance Tax.
+iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext = If you don’t know if assets passing to another body will be exempt from Inheritance Tax, call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072. Once you’ve given the name of the body, you’ll be told if any assets left to them will be exempt from Inheritance Tax.
 iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title = Assets left to other qualifying bodies
 iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities = These are all of the assets being left to a qualifying body. These will not be charities that have a registered charity number.
 iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody = Confirm that you want to delete this qualifying body

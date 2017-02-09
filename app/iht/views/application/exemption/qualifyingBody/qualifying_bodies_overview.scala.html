@@ -103,7 +103,14 @@ headingName = deceasedName
 <p id="add-qualifyingBody-link">
     <!-- TODO: Change route to add a qualifying body -->
     <a id="add-qualifyingBody" href='@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url'>
-        @Messages("iht.estateReport.assets.qualifyingBodyAdd") </a>
+        @{
+            if(qualifyingBodies.isEmpty){
+                Messages("iht.estateReport.assets.qualifyingBodyAdd")
+            } else {
+                Messages("iht.estateReport.assets.qualifyingBodyAddAnother")
+            }
+        }
+    </a>
 </p>
 
 <p>
