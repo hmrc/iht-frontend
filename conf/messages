@@ -1602,7 +1602,6 @@ page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle = Thresh
 page.iht.application.tnrbEligibilty.returnToTnrbEligibilty = Return to increasing the Inheritance Tax threshold page
 
 page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you’ve provided, it might be possible to increase {0}’s threshold.
-
 page.iht.application.tnrbEligibilty.overview.guidance2=All of the details you give on this page should be about {0} who died in {1}
 
 page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading = Questions about the estate of {0} who died in {1}
