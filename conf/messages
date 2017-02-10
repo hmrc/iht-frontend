@@ -68,7 +68,6 @@ site.backToLastPage.link = Return to last page
 site.backToLastQuestion.values.link = Return to gift values
 site.nameDetails = {0}’s details
 
-site.changeInput = Change value
 site.changeName = Change name
 site.changeDate = Change date
 site.noCharityNameGiven = No charity name given
