@@ -20,6 +20,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.registration.executor.delete_coexecutor_confirm
 import play.api.i18n.Messages
+import iht.utils._
 
 class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
 
@@ -91,7 +92,7 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
 
     "show the CoExecutor country for non UK" in {
       val view = deleteCoExecutorNonUKAddressConfirmView().toString
-      messagesShouldBePresent(view, coExecutorNonUK.ukAddress.map(_.countryCode).fold("")(identity))
+      messagesShouldBePresent(view, countryName(coExecutorNonUK.ukAddress.map(_.countryCode).fold("")(identity)))
     }
 
     "show Confirm delete button" in {
