@@ -39,7 +39,7 @@ trait TnrbSuccessController extends EstateController{
       } yield {
         applicationDetails match {
           case Some(appDetails) => {
-            Ok(iht.views.html.application.tnrb.tnrb_sucess(
+            Ok(iht.views.html.application.tnrb.tnrb_success(
               CommonHelper.getOrException(registrationDetails.deceasedDetails).name,
               CommonHelper.getOrException(appDetails.increaseIhtThreshold).Name.toString,
               CommonHelper.getOrException(registrationDetails.ihtReference)

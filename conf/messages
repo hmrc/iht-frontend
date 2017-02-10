@@ -1690,7 +1690,7 @@ page.iht.application.TnrbEligibilty.thresholdLimit.label = The Inheritance Tax t
 page.iht.application.TnrbEligibilty.personalInfoAboutPartner.label = You’ll need to provide some personal details about {0}’s {1}.
 page.iht.application.TnrbEligibilty.ihtThresholdIncreaseNotPossible.label = It is not possible to increase the Inheritance Tax threshold.
 
-page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s Inheritance Tax threshold has increased to £650,000 because of the transfer of {1}’s unused threshold.
+page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s Inheritance Tax threshold has increased to £650,000.00 because of the transfer of {1}’s unused threshold.
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2 = The estate value is now under the Inheritance Tax threshold and there’s no Inheritance Tax to pay.
 iht.estateReport.tnrb.benefitFromTrust.question = Did {0} have the right to benefit from a trust during their lifetime?
 iht.estateReport.tnrb.dateOfMarriage = Date of {0}
