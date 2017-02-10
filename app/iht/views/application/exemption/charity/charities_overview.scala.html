@@ -54,7 +54,7 @@ isFullWidth=false
                       case (None, None) => { @Messages("site.noCharityNameAndNumberGiven") }
                       case (Some(_), None) => { @Messages("site.noCharityNumberGiven") }
                       case (None, Some(_)) => { @Messages("site.noCharityNameGiven") }
-                      case (Some(name), Some(_)) => { @name }
+                      case (Some(name), Some(_)) => { @ihtHelpers.name(name) }
                   }
               </div>
               <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
