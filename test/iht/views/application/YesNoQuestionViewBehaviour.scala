@@ -43,7 +43,7 @@ trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
 
   def guidanceParagraphs: Set[String]
 
-  def formTarget: Call = Call("","")
+  def formTarget: Call
 
   /**
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
