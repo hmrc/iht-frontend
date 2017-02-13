@@ -81,7 +81,7 @@ class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
     "contain a row showing the user's answer to the previous question" in {
       val doc = getPageAsDoc(Messages("iht.countries.scotland"))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(Messages("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(Messages("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(Messages("iht.countries.scotland"))
     }
 
@@ -144,7 +144,7 @@ class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
     "contain a row showing the user's answer to the previous question" in {
       val doc = getPageAsDoc(Messages("iht.countries.northernIreland"))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(Messages("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(Messages("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(Messages("iht.countries.northernIreland"))
     }
 
@@ -198,7 +198,7 @@ class UsePaperFormViewTest  extends UnitSpec with FakeIhtApp with HtmlSpec {
     "contain a row showing the user's answer to the previous question" in {
       val doc = getPageAsDoc(Messages("page.iht.filter.domicile.choice.other"))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(Messages("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(Messages("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(Messages("page.iht.filter.domicile.choice.other"))
     }
 

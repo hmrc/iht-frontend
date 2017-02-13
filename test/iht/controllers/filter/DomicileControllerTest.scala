@@ -35,7 +35,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.registration.deceased.permanentHome.where.question"))
+      titleElement.text() should be(Messages("page.iht.registration.deceasedPermanentHome.title"))
     }
 
     "show an error if no radio button is selected" in {

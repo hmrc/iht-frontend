@@ -22,8 +22,8 @@
 
 @(form: Form[Option[String]])(implicit request: Request[_])
 
-@iht_main_template_registration(title = Messages("iht.registration.deceased.permanentHome.where.question"),
-    browserTitle = Some(Messages("iht.registration.deceased.permanentHome.where.question")),
+@iht_main_template_registration(title = Messages("page.iht.registration.deceasedPermanentHome.title"),
+    browserTitle = Some(Messages("page.iht.registration.deceasedPermanentHome.title")),
     isFullWidth = false,
     hasSignOut = false,
     hasTimeOut = false){
@@ -42,7 +42,7 @@ FieldMappings.domicileChoices.toSeq,
 '_labelTextClass -> "form-label-bold",
 '_labelAfter -> false,
 '_legendClass -> "visually-hidden",
-'_legend -> Html(Messages("iht.registration.deceased.permanentHome.where.question"))
+'_legend -> Html(Messages("page.iht.registration.deceasedPermanentHome.title"))
 )
 
 <div id="continue-button" class="subsection">

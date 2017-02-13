@@ -103,7 +103,7 @@ class UseIHT400ViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val result = use_iht400()
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(Messages("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(Messages("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(Messages("iht.countries.englandOrWales"))
     }
 
