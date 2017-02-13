@@ -52,37 +52,3 @@ class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyMod
     behave like yesNoQuestion
   }
 }
-
-
-//  val ihtReference = Some("ABC1A1A1A")
-//  val deceasedDetails = CommonBuilder.buildDeceasedDetails
-//  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-//                        deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-//                        deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
-//
-//  val tnrbModel = CommonBuilder.buildTnrbEligibility
-//  val widowCheck = CommonBuilder.buildWidowedCheck
-//
-//  override def pageTitle = Messages("iht.estateReport.tnrb.permanentHome.question",
-//                                 TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
-//                                      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
-//  override def browserTitle = Messages("page.iht.application.tnrb.permanentHome.browerTitle")
-//  override def guidanceParagraphs = Set()
-//  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.permanentHome.question",
-//                                         TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
-//                                         Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
-//  override def returnLinkId = "cancel-button"
-//  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-//  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-//
-//  override def fixture() = new {
-//    implicit val request = createFakeRequest()
-//    val view = permanent_home(partnerLivingInUkForm, tnrbModel, widowCheck).toString
-//    val doc = asDocument(view)
-//  }
-//
-//  "PermanentHomeView" must {
-//    behave like yesNoQuestion
-//  }
-//
-//}

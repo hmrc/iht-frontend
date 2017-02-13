@@ -18,38 +18,67 @@ package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.html.application.tnrb.{jointly_owned_assets, permanent_home}
+import play.api.data.Form
 import play.api.i18n.Messages
-import iht.views.html.application.tnrb.jointly_owned_assets
+import play.twirl.api.HtmlFormat.Appendable
 
 class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
-  val ihtReference = Some("ABC1A1A1A")
-  val deceasedDetails = CommonBuilder.buildDeceasedDetails
-  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-    deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  val tnrbModel = CommonBuilder.buildTnrbEligibility
+  override def guidanceParagraphs = Set.empty
 
-  override def pageTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedDetails.name)
+  def tnrbModel = CommonBuilder.buildTnrbEligibility
+
+  def widowCheck = CommonBuilder.buildWidowedCheck
+
+  val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
+
+  override def pageTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedDetailsName)
+
   override def browserTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")
-  override def guidanceParagraphs = Set()
-  override def yesNoQuestionText = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question",
-                                      deceasedDetails.name)
-  override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = jointly_owned_assets(jointAssetPassedForm, deceasedDetails.name).toString
-    val doc = asDocument(view)
-  }
+  override def formTarget = iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit()
 
-  "JointlyOwnedAssetsView" must {
+  override def form: Form[TnrbEligibiltyModel] = jointAssetPassedForm
+
+  override def formToView: Form[TnrbEligibiltyModel] => Appendable =
+    form =>
+      jointly_owned_assets(form, deceasedDetailsName)
+
+  "Jointly Owned Assets page Question View" must {
     behave like yesNoQuestion
   }
-
 }
+
+//
+//  val ihtReference = Some("ABC1A1A1A")
+//  val deceasedDetails = CommonBuilder.buildDeceasedDetails
+//  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
+//    deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
+//    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+//
+//  val tnrbModel = CommonBuilder.buildTnrbEligibility
+//
+//  override def pageTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedDetails.name)
+//  override def browserTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")
+//  override def guidanceParagraphs = Set()
+//  override def yesNoQuestionText = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question",
+//                                      deceasedDetails.name)
+//  override def returnLinkId = "cancel-button"
+//  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+//  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+//
+//  override def fixture() = new {
+//    implicit val request = createFakeRequest()
+//    val view = jointly_owned_assets(jointAssetPassedForm, deceasedDetails.name).toString
+//    val doc = asDocument(view)
+//  }
+//
+//  "JointlyOwnedAssetsView" must {
+//    behave like yesNoQuestion
+//  }
+//
+//}
