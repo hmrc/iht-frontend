@@ -291,7 +291,6 @@ page.iht.registration.deceasedDetails.addressheader.abroad.hint = This is the la
 page.iht.registration.deceasedDetails.country.help = If the deceased’s contact address isn’t in the UK
 page.iht.registration.deceasedDetails.postcode.help = If the deceased’s contact address is in the UK
 iht.registration.deceased.locationOfPermanentHome = Location of deceased’s permanent home
-iht.registration.deceased.permanentHome.where.question = Where did the deceased have their permanent home?
 
 #Registration - Applicant
 page.iht.registration.applicantDetails.title = Tell us about yourself

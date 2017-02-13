@@ -103,7 +103,7 @@ class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     "contain a row showing the user's answer to the previous question" in {
       val doc = getPageAsDoc()
       val row = doc.getElementById("domicile-row")
-      row.text() should include(Messages("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(Messages("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(Messages("iht.countries.englandOrWales"))
     }
 
