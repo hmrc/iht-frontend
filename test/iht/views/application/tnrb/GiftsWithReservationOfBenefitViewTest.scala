@@ -17,13 +17,14 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
+import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import play.api.i18n.Messages
 import iht.views.html.application.tnrb.gifts_with_reservation_of_benefit
 
-class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour {
+class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
   val ihtReference = Some("ABC1A1A1A")
   val deceasedDetails = CommonBuilder.buildDeceasedDetails

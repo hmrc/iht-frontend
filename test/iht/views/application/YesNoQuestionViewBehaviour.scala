@@ -22,7 +22,7 @@ import play.api.i18n.Messages
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 
-trait YesNoQuestionViewBehaviour extends ViewTestHelper {
+trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
 
   def pageTitle: String
   def browserTitle: String
