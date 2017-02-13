@@ -26,13 +26,18 @@ import play.twirl.api.HtmlFormat.Appendable
 
 trait ApplicationPageBehaviour[A] extends ViewTestHelper {
   def pageTitle: String
+
   def browserTitle: String
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+
   def view: String = formToView(form).toString
+
   def doc: Document = asDocument(view)
-  def form:Form[A] = ???
-  def formToView:Form[A] => Appendable = ???
+
+  def form: Form[A] = ???
+
+  def formToView: Form[A] => Appendable = ???
 
   def applicationPage() = {
     "have the correct title" in {
@@ -45,14 +50,13 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
     "have a Continue button" in {
       doc.getElementById("save-continue").text shouldBe Messages("iht.saveAndContinue")
-      //doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.saveAndContinue")
     }
   }
 
   def applicationPageWithErrorSummaryBox() = {
     applicationPage()
     "display the 'There's a problem' box if there's an error" in {
-      val newForm = form.withError(FormError("field","error message"))
+      val newForm = form.withError(FormError("field", "error message"))
       val document = asDocument(formToView(newForm).toString)
       document.getElementById("errors").children.first.text shouldBe Messages("error.problem")
     }
