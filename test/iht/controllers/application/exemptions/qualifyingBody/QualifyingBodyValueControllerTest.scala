@@ -34,7 +34,7 @@ import play.api.test.Helpers._
  */
 
 class QualifyingBodyValueControllerTest extends ApplicationControllerTest with BeforeAndAfter {
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
   val qualifyingBody1 = QualifyingBody(Some("1"), Some("Qualifying Body 1"), Some(BigDecimal(324)))

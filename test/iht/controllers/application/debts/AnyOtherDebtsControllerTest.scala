@@ -22,10 +22,11 @@ import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import play.api.i18n.Messages
 import play.api.test.Helpers._
 
 class AnyOtherDebtsControllerTest extends ApplicationControllerTest{
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 

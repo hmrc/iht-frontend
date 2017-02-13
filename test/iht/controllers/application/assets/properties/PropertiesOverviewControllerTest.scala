@@ -21,6 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.test.Helpers._
 
 /**
@@ -28,6 +29,7 @@ import play.api.test.Helpers._
  */
 class PropertiesOverviewControllerTest extends ApplicationControllerTest {
 
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

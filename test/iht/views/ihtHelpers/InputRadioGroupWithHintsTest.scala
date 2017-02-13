@@ -22,7 +22,7 @@ import iht.views.html.ihtHelpers.input_radio_group_with_hints
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.play.test.UnitSpec
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
@@ -30,7 +30,7 @@ import play.api.Play.current
  * Created by jennygj on 28/10/16.
  */
 class InputRadioGroupWithHintsTest extends UnitSpec with FakeIhtApp with HtmlSpec {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "input radio group with hints" must {
 
     "display the correct data-target attribute based on field mappings" in {

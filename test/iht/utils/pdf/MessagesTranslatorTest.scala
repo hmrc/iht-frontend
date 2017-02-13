@@ -18,16 +18,15 @@ package iht.utils.pdf
 
 import iht.FakeIhtApp
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
   * Created by vineet on 21/11/16.
   */
-class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
 
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "getMessagesText" must {
     "return the correct string" in {
 

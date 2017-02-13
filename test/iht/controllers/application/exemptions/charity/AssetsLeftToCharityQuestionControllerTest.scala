@@ -28,7 +28,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 
 class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTest {
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

@@ -19,6 +19,7 @@ package iht.config
 import iht.FakeIhtApp
 import iht.constants.IhtProperties
 import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.play.OneAppPerTest
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
@@ -26,7 +27,7 @@ import uk.gov.hmrc.play.test.UnitSpec
  * Created by Vineet Tyagi on 29/09/15.
  *
  */
-class IhtPropertiesReaderTest extends UnitSpec with FakeIhtApp with MockitoSugar{
+class IhtPropertiesReaderTest extends UnitSpec with OneAppPerTest with MockitoSugar{
 
   "IhtPropertiesReaderTest" must {
 

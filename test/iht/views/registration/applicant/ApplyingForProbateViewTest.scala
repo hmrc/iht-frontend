@@ -47,7 +47,7 @@ class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
     }
 
     "have a fieldset with the Id 'applying-for-probate'" in {
-      val view = applying_for_probate(applyingForProbateForm, Call("", ""))(createFakeRequest(), Lang("", ""), applicationMessages).toString
+      val view = applying_for_probate(applyingForProbateForm, Call("", ""))(createFakeRequest(), Lang("", ""), app.injector.instanceOf[Messages]).toString
 
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "applying-for-probate"
     }

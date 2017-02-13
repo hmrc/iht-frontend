@@ -19,7 +19,7 @@ package iht.views.filter
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.filter.use_iht400
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.test.UnitSpec
  * Created by jennygj on 25/10/16.
  */
 class UseIHT400ViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val iht400PaperFormLink = "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
 

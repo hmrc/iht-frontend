@@ -19,18 +19,18 @@ package iht.views.registration
 import iht.views.HtmlSpec
 import iht.views.html.registration.registration_checklist
 import iht.{FakeIhtApp, TestUtils}
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUtils with HtmlSpec{
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "RegistrationChecklistView" must {
 
     "contain the correct page heading and contents for first paragraph of guidance" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), app.injector.instanceOf[Messages]).toString
 
       view should include (Messages("page.iht.registration.checklist.title"))
       view should include (Messages("page.iht.registration.checklist.label1"))
@@ -39,7 +39,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
     }
 
     "contain the required contents for the deceased guidance section" in {
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), app.injector.instanceOf[Messages]).toString
 
       view should include (Messages("iht.name.lowerCaseInitial"))
       view should include (Messages("iht.registration.checklist.dateOfBirth"))
@@ -58,7 +58,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain the required contents for the Applicant guidance section" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), app.injector.instanceOf[Messages]).toString
 
       view should include (Messages("iht.address.lowerCaseInitial"))
       view should include (Messages("iht.nationalInsuranceNo"))
@@ -75,7 +75,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain the required contents for the grant of representation guidance section" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), app.injector.instanceOf[Messages]).toString
 
       view should include (Messages("iht.name.lowerCaseInitial"))
       view should include (Messages("iht.registration.checklist.dateOfBirth"))
@@ -92,7 +92,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain Start registration button with target as deceased date of death page" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), app.injector.instanceOf[Messages]).toString
       val doc = asDocument(view)
 
       view should include (Messages("page.iht.registration.checklist.startRegistrationButton"))
@@ -105,7 +105,7 @@ class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUt
 
     "contain Leave this page to get all the details you need link and has a target as what you want to do page" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), app.injector.instanceOf[Messages]).toString
       val doc = asDocument(view)
 
       val link = doc.getElementById("leave-page")

@@ -97,7 +97,7 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour {
       "have a fieldset with the Id 'details'" in {
         val view = applicant_address(applicantAddressUkForm, isInternational = false,
           Call("", ""),
-          Call("", ""))(createFakeRequest(), Lang("", ""), applicationMessages).toString
+          Call("", ""))(createFakeRequest(), Lang("", ""), app.injector.instanceOf[Messages]).toString
 
         asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
       }

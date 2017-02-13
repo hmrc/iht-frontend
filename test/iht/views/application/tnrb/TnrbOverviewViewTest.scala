@@ -26,13 +26,13 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val ihtReference =  "ABC"
   val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtReference))
   val widowCheckModel = CommonBuilder.buildWidowedCheck

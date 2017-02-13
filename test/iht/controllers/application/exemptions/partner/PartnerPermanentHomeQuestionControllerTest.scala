@@ -49,7 +49,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
   }
 
   "PartnerPermanentHomeQuestionController" must {
-
+    implicit val messages: Messages = app.injector.instanceOf[Messages]
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = partnerPermanentHomeQuestionControllerNotAuthorised.onPageLoad(createFakeRequest())
       status(result) should be(SEE_OTHER)

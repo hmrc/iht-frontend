@@ -19,7 +19,7 @@ package iht.views.filter
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.filter.agent_view
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -29,11 +29,12 @@ import uk.gov.hmrc.play.test.UnitSpec
   * Created by adwelly on 21/10/2016.
   */
 class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
   "FilterView" must {
     "generate appropriate content for the title" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
@@ -41,7 +42,7 @@ class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "generate appropriate content for the browser title" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
       val doc = asDocument(contentAsString(result))
       val browserTitleElement = doc.getElementsByTag("title").first
 
@@ -49,7 +50,7 @@ class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "generate content text informing the agent that there is no change" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
       val doc = asDocument(contentAsString(result))
       val contentPara = doc.getElementById("agent-content")
 
@@ -57,7 +58,7 @@ class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a link with the button class with the text 'Exit to GOV.UK'" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -65,7 +66,7 @@ class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a link with a button class with the href 'https://www.gov.uk'" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -73,7 +74,7 @@ class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a link with id 'back' with the text 'Back'" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 
@@ -82,7 +83,7 @@ class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
 
     "contain a link with id 'back' with the href that points to the main filter page" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 

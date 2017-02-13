@@ -30,7 +30,7 @@ import play.api.test.Helpers._
 
 
 class CharityValueControllerTest extends ApplicationControllerTest with BeforeAndAfter {
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
   val defaultCharity = Charity(Some("1"), Some("A Charity 1"), Some("7866667X"), None)

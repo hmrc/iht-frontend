@@ -80,6 +80,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
     }
 
     "display correct hint content on page" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(CommonBuilder.buildApplicationDetails),

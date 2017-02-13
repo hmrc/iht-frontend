@@ -33,6 +33,7 @@ import scala.concurrent.duration._
 
 class MortgagesOverviewControllerTest extends ApplicationControllerTest {
 
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]

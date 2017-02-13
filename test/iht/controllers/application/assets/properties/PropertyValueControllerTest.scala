@@ -22,7 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeHeaders
@@ -33,6 +33,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by james on 16/06/16.
  */
 class PropertyValueControllerTest extends ApplicationControllerTest {
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

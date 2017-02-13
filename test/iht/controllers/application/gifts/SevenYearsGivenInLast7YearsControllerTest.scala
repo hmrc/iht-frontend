@@ -34,7 +34,7 @@ import play.api.test.Helpers._
  *l
  */
 class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTest{
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

@@ -17,14 +17,14 @@
 package iht.views.registration
 
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.utils._
 import iht.views.html.registration.completed_registration
 
 class CompletedRegistrationViewTest extends ViewTestHelper{
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val ihtRef = "A1A1A1"
 
   "CompletedRegistrationView" must {

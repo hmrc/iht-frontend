@@ -20,9 +20,7 @@ import iht.constants.FieldMappings
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.test.Helpers._
 import iht.views.html.application.debts.mortgages_overview
 
@@ -30,7 +28,7 @@ import iht.views.html.application.debts.mortgages_overview
   * Created by vineet on 15/11/16.
   */
 class MortgagesOverviewViewTest extends ViewTestHelper{
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
@@ -43,7 +41,7 @@ class MortgagesOverviewViewTest extends ViewTestHelper{
   private def mortgageOverview() = {
     val returnLinkText = Messages("site.link.return.debts")
     val view = mortgages_overview(Nil, Nil, FieldMappings.typesOfOwnership,
-      regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, applicationMessages)
+      regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, app.injector.instanceOf[Messages])
 
     contentAsString(view)
   }

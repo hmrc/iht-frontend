@@ -21,11 +21,13 @@ import iht.views.html.registration.registration_summary_coexecutor_panel
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
-class RegistrationSummaryCoExecutorPanelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils {
+class RegistrationSummaryCoExecutorPanelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with I18nSupport {
+
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   "RegistrationSummaryCoExecutorPanelTest" must {
     implicit val request = createFakeRequest()

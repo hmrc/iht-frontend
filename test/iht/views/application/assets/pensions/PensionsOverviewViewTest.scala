@@ -23,12 +23,12 @@ import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.helpers.GenericOverviewHelper._
 import iht.views.html.application.asset.pensions.pensions_overview
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class PensionsOverviewViewTest extends ViewTestHelper {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 

@@ -22,11 +22,12 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.views.html.application.asset.assets_overview
 import uk.gov.hmrc.play.test.UnitSpec
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
-class AssetsOverviewViewTest extends UnitSpec with FakeIhtApp {
+class AssetsOverviewViewTest extends UnitSpec with FakeIhtApp with I18nSupport {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "assets_overview" must {
 
     def assertPensionOvervewLinkPointsToCorrectPage(hasPension: Option[Boolean], url: String) = {

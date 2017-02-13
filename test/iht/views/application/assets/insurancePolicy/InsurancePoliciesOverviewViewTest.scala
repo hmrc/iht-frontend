@@ -20,12 +20,12 @@ import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.application.asset.insurancePolicy.insurance_policies_overview
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class InsurancePoliciesOverviewViewTest extends ViewTestHelper {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val assetsOverviewPageUrl = iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()
   lazy val returnUrlTextMsgKey = "page.iht.application.return.to.assetsOf"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1

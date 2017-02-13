@@ -18,14 +18,14 @@ package iht.testhelpers
 
 import java.io.{BufferedWriter, File, FileWriter}
 
-import iht.FakeIhtApp
 import iht.utils.CommonHelper
 import play.api.Play
 import play.api.Play.current
 import play.api.libs.Files.TemporaryFile
 import uk.gov.hmrc.play.test.UnitSpec
 
-class MessagesTidierTest extends UnitSpec with FakeIhtApp {
+class MessagesTidierTest extends UnitSpec {
+
   val runTestsThatUseFileSystem = false
   val runTestsThatSortErrorMessages = false
   val runTestsThatSortIhtMessages = false

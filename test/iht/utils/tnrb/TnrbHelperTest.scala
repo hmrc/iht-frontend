@@ -23,7 +23,7 @@ import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -36,8 +36,9 @@ import iht.testhelpers.TestHelper._
  *
  * This Class contains the Unit Tests for iht.utils.tnrb.TnrbHelper
  */
-class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport{
 
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val spouseOrCivilPartnerFirstName = CommonBuilder.firstNameGenerator
   lazy val spouseOrCivilPartnerLastName = CommonBuilder.surnameGenerator
 

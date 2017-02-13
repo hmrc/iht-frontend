@@ -25,13 +25,12 @@ import play.api.Play.current
 import play.api.mvc.Call
 
 class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour {
-
   override def pageTitle = Messages("page.iht.registration.others-applying-for-probate.sectionTitle")
   override def browserTitle = Messages("page.iht.registration.others-applying-for-probate.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), applicationMessages).toString
+    val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), app.injector.instanceOf[Messages]).toString
     val doc = asDocument(view)
   }
 
@@ -40,7 +39,7 @@ class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour {
     behave like registrationPage()
 
     "have a fieldset with the Id 'answer'" in {
-      val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), applicationMessages).toString
+      val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), app.injector.instanceOf[Messages]).toString
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "answer"
     }
 

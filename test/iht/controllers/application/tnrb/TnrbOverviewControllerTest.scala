@@ -86,6 +86,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
     }
 
     "show the appropriate contents on the page" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val buildWidowCheck = CommonBuilder.buildWidowedCheck
       val buildTnrbModel = CommonBuilder.buildTnrbEligibility
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck),

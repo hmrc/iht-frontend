@@ -30,7 +30,7 @@ import play.api.test.Helpers._
  * Created by james on 21/01/16.
  */
 class ClaimingExemptionsControllerTest extends ApplicationControllerTest {
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

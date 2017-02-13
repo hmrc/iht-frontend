@@ -24,14 +24,16 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.{KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.Matchers._
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.SessionKeys
 
-class KickoutControllerTest extends ApplicationControllerTest {
+class KickoutControllerTest extends ApplicationControllerTest with I18nSupport {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -55,18 +57,21 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
   "Kickout Controller" must {
     "load ihtkickout in flight page " in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-        .copy(kickoutReason = Some(KickOutReason.ForeignAssetsValueMoreThanMax),
-          status = AppStatus.KickOut)
+      running(app){
+        implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+        val applicationDetails = CommonBuilder.buildApplicationDetails
+          .copy(kickoutReason = Some(KickOutReason.ForeignAssetsValueMoreThanMax),
+            status = AppStatus.KickOut)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
-      createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
-      createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
-      createMockToGetSingleValueSyncFromCache(mockCachingConnector, singleValueReturn = None)
+        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
+        createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
+        createMockToGetSingleValueSyncFromCache(mockCachingConnector, singleValueReturn = None)
 
-      val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
-      status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary"))
+        val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
+        status(result) should be(OK)
+        contentAsString(result) should include(Messages("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary"))
+      }
     }
 
     "load ihtkickout on im done page " in {

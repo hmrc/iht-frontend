@@ -63,6 +63,7 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
     }
 
     "respond with OK on page load, page contains Return link and Save button" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,

@@ -26,7 +26,7 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.views.HtmlSpec
 import org.mockito.Matchers._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -34,6 +34,8 @@ import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSpec {
+
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val headerCarrier = FakeHeaders()
   implicit val request = FakeRequest()
   implicit val hc = new HeaderCarrier

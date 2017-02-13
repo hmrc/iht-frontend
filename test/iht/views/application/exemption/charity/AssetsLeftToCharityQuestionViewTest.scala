@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.views.html.application.exemption.charity.assets_left_to_charity_question
@@ -29,7 +29,7 @@ import iht.views.html.application.exemption.charity.assets_left_to_charity_quest
  * Created by vineet on 29/11/16.
  */
 class AssetsLeftToCharityQuestionViewTest extends ViewTestHelper{
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
   def assetsLeftToPartnerQuestionView() = {

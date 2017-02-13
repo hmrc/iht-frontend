@@ -94,6 +94,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
     }
 
     "display the guidance on the page" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
       setUpMocks(applicationDetails)

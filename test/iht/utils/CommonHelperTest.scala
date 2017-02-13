@@ -23,7 +23,7 @@ import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.testhelpers._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeRequest
@@ -41,8 +41,9 @@ import scala.collection.immutable.ListMap
  *
  * This Class contains the Unit Tests for iht.utils.CommonHelper
  */
-class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
 
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val referrerURL="http://localhost:9070/inheritance-tax/registration/addExecutor"
   val host="localhost:9070"
 

@@ -20,13 +20,15 @@ import iht.FakeIhtApp
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.twirl.api.Html
 import uk.gov.hmrc.play.test.UnitSpec
 
-trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
+trait HtmlSpec extends UnitSpec with FakeIhtApp with I18nSupport { self: UnitSpec =>
+
+//  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   def asDocument(html: Html): Document = Jsoup.parse(html.toString())
   def asDocument(string: String): Document = Jsoup.parse(string)
@@ -38,6 +40,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
   }
 
   def assertEqualsMessage(doc : Document, cssSelector : String, expectedMessageKey: String) = {
+    implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
     val elements = doc.select(cssSelector)
 
     if(elements.isEmpty) throw new IllegalArgumentException(s"CSS Selector $cssSelector wasn't rendered.")
@@ -65,6 +68,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
   }
 
   def assertContainsDynamicMessage(doc : Document, cssSelector : String, expectedMessageKey: String, messageArgs: String*) = {
+    implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
     val elements = doc.select(cssSelector)
 
     if(elements.isEmpty) throw new IllegalArgumentException(s"CSS Selector $cssSelector wasn't rendered.")

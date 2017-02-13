@@ -18,7 +18,7 @@ package iht.controllers.filter
 
 import iht.controllers.application.ApplicationControllerTest
 import iht.views.HtmlSpec
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -27,6 +27,7 @@ import iht.constants.Constants._
 
 class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def controller = new DomicileController {}
 
   "Domicile Controller" must {

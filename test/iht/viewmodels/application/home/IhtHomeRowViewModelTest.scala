@@ -39,7 +39,7 @@ class IhtHomeRowViewModelTest extends ApplicationControllerTest{
   }
 
   "IhtHomeRowViewModel" must {
-
+    implicit val messages: Messages = app.injector.instanceOf[Messages]
     val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.NotStarted)
     def viewModel = IhtHomeRowViewModel("", ihtApp, mockIhtConnector)
 

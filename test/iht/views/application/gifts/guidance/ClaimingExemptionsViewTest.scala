@@ -20,12 +20,12 @@ import iht.controllers.application.gifts.guidance.routes
 import iht.utils.CommonHelper._
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.guidance.claiming_exemptions
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class ClaimingExemptionsViewTest extends ViewTestHelper {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def claimingExemptionsView() = {
     implicit val request = createFakeRequest()
 

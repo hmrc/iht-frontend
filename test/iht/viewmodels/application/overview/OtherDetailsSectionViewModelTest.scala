@@ -22,13 +22,15 @@ import iht.testhelpers.CommonBuilder
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OtherDetailsSectionViewModelTest
-  extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+  extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
+
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   val applicationDetailsGuidanceSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(true))
   val applicationDetailsGuidanceNotSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(false))

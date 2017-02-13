@@ -22,9 +22,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.Request
 import play.api.test.Helpers._
 
@@ -34,7 +32,7 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
   def applicationStatusController = new ApplicationStatusController {
     def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
-      iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)(request, applicationMessages)
+      iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)(request, app.injector.instanceOf[Messages])
 
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -53,7 +51,7 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
   "ApplicationStatusController" must {
     "return the correct page on load" in {
-
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
       val applicationDetails = CommonBuilder.buildApplicationDetailsWithAllAssets
 

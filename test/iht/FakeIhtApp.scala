@@ -16,12 +16,15 @@
 
 package iht
 
-import com.kenshoo.play.metrics.PlayModule
 import iht.config.FrontendAuthConnector
 import iht.testhelpers.CommonBuilder
-import org.scalatest.Suite
+import org.scalatest._
+import org.scalatestplus.play.{OneAppPerSuite, OneAppPerTest, OneServerPerSuite}
+import play.api.{Application, Environment, Mode}
+import play.api.i18n.{DefaultLangs, DefaultMessagesApi, I18nSupport, MessagesApi}
+import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
-import play.api.test.{FakeApplication, FakeRequest}
+import play.api.test.FakeRequest
 import uk.gov.hmrc.domain.{Nino, SaUtr}
 import uk.gov.hmrc.play.frontend.auth.connectors.domain._
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
@@ -29,12 +32,21 @@ import uk.gov.hmrc.play.test.WithFakeApplication
 
 import scala.concurrent.Future
 
-trait FakeIhtApp extends WithFakeApplication {
+trait FakeIhtApp extends OneAppPerTest {
   this: Suite =>
 
 //  override def bindModules = Seq(new PlayModule)
 
-  override lazy val fakeApplication = FakeApplication()
+//  override lazy val fakeApplication = FakeApplication()
+  val config = Map("application.secret" -> "Its secret")
+
+//  override lazy val fakeApplication = GuiceApplicationBuilder(
+//    disabled = Seq(classOf[com.kenshoo.play.metrics.PlayModule])
+//  ).build()
+
+  override def newAppForTest(td: TestData) = new GuiceApplicationBuilder(disabled = Seq(classOf[com.kenshoo.play.metrics.PlayModule])).build()
+
+//  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   val fakeNino = CommonBuilder.DefaultNino
 

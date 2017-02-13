@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -30,7 +30,7 @@ import iht.views.html.application.gift.seven_years_to_trust
   * Created by vineet on 15/11/16.
   */
 class SevenYearsToTrustViewTest extends ViewTestHelper{
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
@@ -43,7 +43,7 @@ class SevenYearsToTrustViewTest extends ViewTestHelper{
   "SevenYearsToTrust Page" must {
 
     "contain the title, browser title and save and continue button " in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
       val viewAsString = contentAsString(view)
       val doc = asDocument(viewAsString)
 
@@ -56,7 +56,7 @@ class SevenYearsToTrustViewTest extends ViewTestHelper{
     }
 
     "contain the correct question" in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
 
       messagesShouldBePresent(contentAsString(view), Messages("page.iht.application.gifts.trust.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
@@ -64,7 +64,7 @@ class SevenYearsToTrustViewTest extends ViewTestHelper{
     }
 
     "show the correct text and link for the return link" in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
       val viewAsString = contentAsString(view)
 
       val doc = asDocument(viewAsString)

@@ -30,7 +30,7 @@ import play.api.test.Helpers._
  * Created by james on 22/01/16.
  */
 class GiftsGivenAwayControllerTest extends ApplicationControllerTest {
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

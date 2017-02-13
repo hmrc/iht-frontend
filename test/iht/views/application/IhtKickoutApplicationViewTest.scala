@@ -21,7 +21,7 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, KickOutReason}
 import iht.views.ViewTestHelper
 import iht.views.html.application.iht_kickout_application
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
@@ -31,7 +31,7 @@ import play.api.Play.current
 
 //TODO  - Rest of the various Kickout reason tests will be written as part of New Acceptance Test Framework
 class IhtKickoutApplicationViewTest extends ViewTestHelper{
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val appDetails = CommonBuilder.buildApplicationDetails
 
   def ihtKickOutApplicationView(kickOutReason: String,

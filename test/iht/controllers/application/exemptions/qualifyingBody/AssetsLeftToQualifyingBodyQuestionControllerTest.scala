@@ -48,6 +48,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
   }
 
   "AssetsLeftToQualifyingBodyQuestionControllerTest" must {
+    implicit val messages: Messages = app.injector.instanceOf[Messages]
 
     "redirect to login page on page load if the user is not logged in" in {
       val result = assetsLeftToQualifyingBodyQuestionControllerNotAuthorised.onPageLoad()(createFakeRequest())

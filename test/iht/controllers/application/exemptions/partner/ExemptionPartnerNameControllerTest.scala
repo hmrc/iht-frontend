@@ -50,8 +50,8 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
   val registrationDetailsWithNoIhtRef = CommonBuilder.buildRegistrationDetails copy (
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
-    ihtReference = None)  
-  
+    ihtReference = None)
+
   "ExemptionPartnerNameController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
@@ -67,6 +67,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
     }
 
     "return OK on page load" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(CommonBuilder.buildApplicationDetails),

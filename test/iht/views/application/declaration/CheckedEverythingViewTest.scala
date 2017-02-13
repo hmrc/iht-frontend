@@ -20,12 +20,13 @@ import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.utils.CommonHelper._
 
 class CheckedEverythingViewTest extends ViewTestHelper {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   def page(regDetails: RegistrationDetails):String = {
     implicit val request = createFakeRequest()

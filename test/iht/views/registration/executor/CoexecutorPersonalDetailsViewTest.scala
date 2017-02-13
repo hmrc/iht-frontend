@@ -21,17 +21,16 @@ import iht.{FakeIhtApp, TestUtils}
 import iht.forms.registration.CoExecutorForms.coExecutorPersonalDetailsEditForm
 import iht.views.HtmlSpec
 import iht.views.html.registration.executor.coexecutor_personal_details
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.Call
 import uk.gov.hmrc.play.test.UnitSpec
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class CoexecutorPersonalDetailsViewTest extends UnitSpec with FakeIhtApp with TestUtils with HtmlSpec {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "Coexecutor Personal Details View" must {
 
     "have a fieldset with the Id 'date-of-birth'" in {
-      val view = coexecutor_personal_details(coExecutorPersonalDetailsEditForm, Mode.Edit, Call("", ""))(createFakeRequest(), applicationMessages).toString
+      val view = coexecutor_personal_details(coExecutorPersonalDetailsEditForm, Mode.Edit, Call("", ""))(createFakeRequest(), app.injector.instanceOf[Messages]).toString
 
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "date-of-birth"
     }

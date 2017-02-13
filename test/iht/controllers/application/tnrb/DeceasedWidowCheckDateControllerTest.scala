@@ -28,7 +28,7 @@ import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -40,6 +40,7 @@ import play.api.test.Helpers._
  */
 class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 

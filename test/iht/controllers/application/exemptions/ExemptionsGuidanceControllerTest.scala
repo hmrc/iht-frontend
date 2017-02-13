@@ -23,7 +23,7 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.views.HtmlSpec
 import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -34,6 +34,7 @@ import play.api.test.Helpers._
 
 class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   var mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

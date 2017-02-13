@@ -20,11 +20,12 @@ import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers._
 import uk.gov.hmrc.play.test.UnitSpec
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   "GenericOverviewItem helper" must {
     implicit val request = createFakeRequest()

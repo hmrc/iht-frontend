@@ -31,7 +31,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 class CharitiesOverviewControllerTest extends ApplicationControllerTest {
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]

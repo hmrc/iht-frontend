@@ -20,12 +20,12 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_details
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class GiftsDetailsViewTest extends ViewTestHelper {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
   lazy val returnLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()

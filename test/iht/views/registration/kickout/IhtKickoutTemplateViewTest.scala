@@ -17,7 +17,7 @@
 package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.twirl.api.Html
@@ -27,7 +27,7 @@ import iht.views.html.registration.kickout.iht_kickout_template
   * Created by vineet on 15/11/16.
   */
 class IhtKickoutTemplateViewTest extends ViewTestHelper{
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val title = "selected title"
   val summaryMessage = "kickout summary message"
   val returnLinkUrl = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad

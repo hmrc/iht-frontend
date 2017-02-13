@@ -23,7 +23,8 @@ import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.Environment
+import play.api.i18n.{DefaultLangs, DefaultMessagesApi, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Result
@@ -40,7 +41,7 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def checkedEverythingQuestionController = new CheckedEverythingQuestionController {
+  val checkedEverythingQuestionController = new CheckedEverythingQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -102,7 +103,7 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
     "display validation message when incomplete form is submitted" in {
       implicit val request = createFakeRequest()
-
+      implicit val messagesApi = app.injector.instanceOf[MessagesApi]
       createMockForRegistration(mockCachingConnector,
         regDetails = Option(CommonBuilder.buildRegistrationDetails1),
         getRegDetailsFromCache = true)

@@ -48,6 +48,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
   }
 
   "PartnerValueControllerTest" must {
+    implicit val messages: Messages = app.injector.instanceOf[Messages]
 
     "redirect to log in page if user is not logged in on page load" in {
       val result = partnerValueControllerNotAuthorised.onPageLoad(createFakeRequest())

@@ -32,7 +32,7 @@ import play.api.test.Helpers._
  */
 
 class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationControllerTest {
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

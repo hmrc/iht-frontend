@@ -77,6 +77,7 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
     }
 
     "show predeceased name on page load" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val firstName = CommonBuilder.firstNameGenerator
       val surname = CommonBuilder.surnameGenerator
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =

@@ -22,7 +22,7 @@ import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -33,6 +33,7 @@ import play.api.test.Helpers._
  *
  */
 class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationControllerTest {
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

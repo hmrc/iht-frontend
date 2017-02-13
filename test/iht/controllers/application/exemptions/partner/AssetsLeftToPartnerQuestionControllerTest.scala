@@ -33,7 +33,7 @@ import play.api.test.Helpers._
  */
 
 class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTest{
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 

@@ -40,6 +40,7 @@ import scala.concurrent._
  *
  */
 class IhtHomeControllerTest  extends ApplicationControllerTest{
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

@@ -22,13 +22,13 @@ import iht.{FakeIhtApp, TestUtils}
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
-
+class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val dodWithInClaimDate = LocalDate.now().minusYears(1)
   val deceasedDateOfDeath = CommonBuilder.buildDeceasedDateOfDeath.copy(dodWithInClaimDate)
 

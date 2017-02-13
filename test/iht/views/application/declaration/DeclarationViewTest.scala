@@ -24,12 +24,12 @@ import iht.viewmodels.application.DeclarationViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class DeclarationViewTest extends ViewTestHelper {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val prologue1Id = "prologue1"
   lazy val prologue2Id = "prologue2"
   lazy val prologue3Id = "prologue3"

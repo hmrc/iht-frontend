@@ -21,12 +21,13 @@ import iht.utils.CommonHelper
 import iht.viewmodels.application.overview._
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.overview_item
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "OverviewItem helper" must {
     "show the correct label and row id" in {
       val overviewRow = OverviewRow("assets",

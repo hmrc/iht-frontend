@@ -21,7 +21,7 @@ import iht.views.HtmlSpec
 import iht.views.html.filter.estimate
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.AnyContentAsEmpty
@@ -30,11 +30,12 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
 
 class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val fakeForm =  Form(single("s"-> optional(text)))
 
   def getPageAsDoc(form: Form[Option[String]] = fakeForm, request: FakeRequest[AnyContentAsEmpty.type] = fakeRequest) = {
-    val result = estimate(form)(request, applicationMessages)
+    val result = estimate(form)(request, app.injector.instanceOf[Messages])
     asDocument(contentAsString(result))
   }
 

@@ -20,12 +20,10 @@ import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Document
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import uk.gov.hmrc.play.test.UnitSpec
 
-trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter with I18nSupport {
 
   def titleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
     val doc = asDocument(pageContent)
@@ -43,15 +41,20 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     for (sentence <- expectedSentences) content should include(sentence)
   }
 
-  def buildApplicationTitle(title: String) = title + " " + Messages("site.title.govuk")
+  def buildApplicationTitle(title: String) = {
+    implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+    title + " " + Messages("site.title.govuk")
+  }
 
   def labelShouldBe(doc: Document, labelId: String, messageKey: String) = {
+    implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
     val label = doc.getElementById(labelId)
     val mainLabel = label.getElementsByTag("span").first
     mainLabel.text shouldBe Messages(messageKey)
   }
 
   def labelHelpTextShouldBe(doc: Document, labelId: String, messageKey: String) = {
+    implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
     val label = doc.getElementById(labelId)
     val helpText = label.getElementsByTag("span").get(1)
     helpText.text shouldBe Messages(messageKey)

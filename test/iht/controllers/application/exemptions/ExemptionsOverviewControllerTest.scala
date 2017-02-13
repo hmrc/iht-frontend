@@ -60,6 +60,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
 
   "ExemptionsOverviewController" must {
     "respond with OK on page load" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(applicationDetails),

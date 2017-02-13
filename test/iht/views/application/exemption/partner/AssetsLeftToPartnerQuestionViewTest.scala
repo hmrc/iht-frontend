@@ -21,7 +21,7 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
@@ -29,7 +29,7 @@ import play.api.Play.current
  * Created by vineet on 29/11/16.
  */
 class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val regDetails = CommonBuilder.buildRegistrationDetails1
   val returnLinkLabelMsgKey = "iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"
   val returnLocation = iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()

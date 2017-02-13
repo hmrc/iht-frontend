@@ -54,6 +54,7 @@ class PartnerOverviewControllerTest extends ApplicationControllerTest{
     }
 
     "respond with OK on page load" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,

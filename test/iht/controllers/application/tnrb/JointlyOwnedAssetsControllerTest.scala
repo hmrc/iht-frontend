@@ -77,6 +77,7 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
     }
 
     "show predeceased name on page load" in {
+      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
         Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
           lastName = Some(CommonBuilder.surnameGenerator))))

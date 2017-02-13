@@ -23,7 +23,7 @@ import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualif
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
@@ -31,8 +31,8 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
  * Created by vineet on 29/11/16.
  */
-class AssetsLeftToQualifyingBodyQuestionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter{
-
+class AssetsLeftToQualifyingBodyQuestionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
   "AssetsLeftToQualifyingBodyQuestionView" must {

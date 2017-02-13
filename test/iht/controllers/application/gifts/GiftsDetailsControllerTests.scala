@@ -37,7 +37,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  */
 
 class GiftsDetailsControllerTests extends ApplicationControllerTest {
-
+  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

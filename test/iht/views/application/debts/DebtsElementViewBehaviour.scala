@@ -18,14 +18,14 @@ package iht.views.application.debts
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import play.api.mvc.{Call, AnyContentAsEmpty}
+import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 
 trait DebtsElementViewBehaviour extends ViewTestHelper {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def pageTitle: String
   def browserTitle: String
   def guidanceParagraphs: Set[String]

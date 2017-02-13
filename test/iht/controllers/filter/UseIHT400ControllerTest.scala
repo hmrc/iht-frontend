@@ -19,7 +19,7 @@ package iht.controllers.filter
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.views.HtmlSpec
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -27,8 +27,8 @@ import play.api.test.Helpers._
 /**
  * Created by adwelly on 24/10/2016.
  */
-class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec{
-
+class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec {
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

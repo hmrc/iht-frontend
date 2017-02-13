@@ -23,7 +23,7 @@ import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
@@ -31,8 +31,8 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
  * Created by jennygj on 13/10/16.
  */
-class CharityDetailsOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter{
-
+class CharityDetailsOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "CharityDetailsOverviewView" must {
 
     "contain correct links and show correct link texts for Charity name, number and value " +

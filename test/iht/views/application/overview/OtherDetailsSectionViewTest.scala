@@ -23,14 +23,14 @@ import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.select.Elements
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Call
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OtherDetailsSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def dummyOverviewRow = OverviewRow("debts", "", "", NotStarted, Call("", ""), "")
   val dummyOtherDetailsSection = OtherDetailsSectionViewModel(dummyOverviewRow, false, "")
 

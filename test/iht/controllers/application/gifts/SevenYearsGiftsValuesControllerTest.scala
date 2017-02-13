@@ -24,7 +24,7 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.views.HtmlSpec
 import org.joda.time.LocalDate
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
@@ -35,6 +35,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  */
 class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with HtmlSpec {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]

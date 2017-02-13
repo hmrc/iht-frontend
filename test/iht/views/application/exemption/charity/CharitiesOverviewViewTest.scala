@@ -20,7 +20,7 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.utils.OverviewHelper.Section
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.views.html.application.exemption.charity.charities_overview
@@ -28,7 +28,7 @@ import iht.views.html.application.exemption.charity.charities_overview
 //TODO Need to add few more tests to write the tests for correct values
 
 class CharitiesOverviewViewTest extends ViewTestHelper {
-
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
   lazy val appDetails = CommonBuilder.buildApplicationDetails
