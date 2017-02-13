@@ -19,7 +19,7 @@ package iht.controllers.auth
 import play.api.Play
 import play.api.Play.current
 import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.passcode.authentication.PasscodeAuthentication
+import uk.gov.hmrc.passcode.authentication.{PasscodeAuthentication, PasscodeAuthenticationProvider, PasscodeVerificationConfig}
 import uk.gov.hmrc.passcode.authentication.PlayRequestTypes._
 import uk.gov.hmrc.play.frontend.controller.UnauthorisedAction
 
@@ -29,6 +29,10 @@ import uk.gov.hmrc.play.frontend.controller.UnauthorisedAction
 trait CustomPasscodeAuthentication extends PasscodeAuthentication {
   val whitelistEnabled: Boolean = Play.configuration.getBoolean(
     "passcodeAuthentication.enabled").getOrElse(false)
+
+  override lazy val config: PasscodeVerificationConfig = new PasscodeVerificationConfig(Play.configuration)
+
+  override def passcodeAuthenticationProvider: PasscodeAuthenticationProvider = new PasscodeAuthenticationProvider(config)
 
   def customAuthenticatedAction(body: PlayRequest): Action[AnyContent] = {
     if (whitelistEnabled) {
