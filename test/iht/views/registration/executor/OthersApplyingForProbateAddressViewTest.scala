@@ -16,29 +16,50 @@
 
 package iht.views.registration.executor
 
-import iht.{FakeIhtApp, TestUtils}
+import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm}
 import iht.forms.registration.CoExecutorForms.{coExecutorAddressAbroadForm, coExecutorAddressUkForm}
-import iht.views.HtmlSpec
+import iht.models.UkAddress
+import iht.testhelpers.CommonBuilder
+import iht.utils.CommonHelper
 import iht.views.html.registration.executor.others_applying_for_probate_address
+import iht.views.registration.RegistrationPageBehaviour
+import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.mvc.Call
-import uk.gov.hmrc.play.test.UnitSpec
+import play.twirl.api.HtmlFormat.Appendable
 
-class OthersApplyingForProbateAddressViewTest extends UnitSpec with FakeIhtApp with TestUtils with HtmlSpec {
+class OthersApplyingForProbateAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
+
+  val executorName: String = CommonBuilder.firstNameGenerator
+
+  override def pageTitle = Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+    CommonHelper.addApostrophe(executorName))
+  override def browserTitle = Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")
+
+  override def form:Form[UkAddress] = applicantAddressUkForm
+  override def formToView:Form[UkAddress] => Appendable = form =>
+    others_applying_for_probate_address(form, "1", executorName,
+      isInternational = false, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
+
+  def formToViewInternational:Form[UkAddress] => Appendable = form =>
+    others_applying_for_probate_address(form, "1", executorName,
+      isInternational = true, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   "Others Applying for Probate Address View" must {
 
     "have a fieldset with the Id 'details' in UK mode" in {
-      val view = others_applying_for_probate_address(coExecutorAddressUkForm, "1", "A name",
-        isInternational = false, Call("", ""), Call("", ""))(createFakeRequest()).toString
-
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
     }
 
     "have a fieldset with the Id 'details' in non-UK mode" in {
-      val view = others_applying_for_probate_address(coExecutorAddressAbroadForm, "1", "A name",
-        isInternational = true, Call("", ""), Call("", ""))(createFakeRequest()).toString
-
+      val view = formToViewInternational(applicantAddressAbroadForm).toString
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
     }
+
+    "show the correct guidance" in {
+      messagesShouldBePresent(view, Messages("page.iht.registration.others-applying-for-probate-address.address.guidance"))
+    }
+
+    behave like addressPage()
   }
 }

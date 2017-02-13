@@ -69,4 +69,39 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
       cancelLink.text() shouldBe Messages("site.link.cancel")
     }
   }
+
+  def addressPage() = {
+    "have a line 1 field" in {
+      assertRenderedById(doc, "ukAddressLine1")
+    }
+
+    "have the correct label for line 1" in {
+      labelShouldBe(doc, "ukAddressLine1-container", "iht.address.line1")
+    }
+
+    "have a line 2 field" in {
+      assertRenderedById(doc, "ukAddressLine2")
+    }
+
+    "have the correct label for line 2" in {
+      labelShouldBe(doc, "ukAddressLine2-container", "iht.address.line2")
+    }
+
+    "have a line 3 field" in {
+      assertRenderedById(doc, "ukAddressLine3")
+    }
+
+    "have the correct label for line 3" in {
+      labelShouldBe(doc, "ukAddressLine3-container", "iht.address.line3")
+    }
+
+    "have a line 4 field" in {
+      assertRenderedById(doc, "ukAddressLine4")
+    }
+
+    "have the correct label for line 4" in {
+      labelShouldBe(doc, "ukAddressLine4-container", "iht.address.line4")
+    }
+  }
+
 }
