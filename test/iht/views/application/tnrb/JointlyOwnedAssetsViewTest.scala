@@ -27,7 +27,6 @@ import play.twirl.api.HtmlFormat.Appendable
 
 class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
-
   override def guidanceParagraphs = Set.empty
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
@@ -52,33 +51,3 @@ class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibil
     behave like yesNoQuestion
   }
 }
-
-//
-//  val ihtReference = Some("ABC1A1A1A")
-//  val deceasedDetails = CommonBuilder.buildDeceasedDetails
-//  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-//    deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-//    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
-//
-//  val tnrbModel = CommonBuilder.buildTnrbEligibility
-//
-//  override def pageTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedDetails.name)
-//  override def browserTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")
-//  override def guidanceParagraphs = Set()
-//  override def yesNoQuestionText = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question",
-//                                      deceasedDetails.name)
-//  override def returnLinkId = "cancel-button"
-//  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-//  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-//
-//  override def fixture() = new {
-//    implicit val request = createFakeRequest()
-//    val view = jointly_owned_assets(jointAssetPassedForm, deceasedDetails.name).toString
-//    val doc = asDocument(view)
-//  }
-//
-//  "JointlyOwnedAssetsView" must {
-//    behave like yesNoQuestion
-//  }
-//
-//}

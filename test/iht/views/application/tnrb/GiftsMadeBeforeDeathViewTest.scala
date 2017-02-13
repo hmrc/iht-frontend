@@ -18,49 +18,43 @@ package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.CommonBuilder
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.Messages
 import iht.views.html.application.tnrb.gifts_made_before_death
-import play.api.mvc.Call
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
 class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
-  val ihtReference = Some("ABC1A1A1A")
-  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-                                                      deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
-                                                                  maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-                                                      deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
-  val tnrbModel = CommonBuilder.buildTnrbEligibility
-  val widowCheck = CommonBuilder.buildWidowedCheck
+  def tnrbModel = CommonBuilder.buildTnrbEligibility
+
+  def widowCheck = CommonBuilder.buildWidowedCheck
+
+  val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
   override def pageTitle = Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
-                                    TnrbHelper.spouseOrCivilPartnerLabel(
-                                      tnrbModel, widowCheck,
-                                      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
+    TnrbHelper.spouseOrCivilPartnerLabel(
+      tnrbModel, widowCheck,
+      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
   override def browserTitle = Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")
+
   override def guidanceParagraphs = Set(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
-                                                TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-                                                   Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
-                                        Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
-  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
-                                        TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
-                                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
+    TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+      Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
+    Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
 
-  override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  override def formTarget = iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit()
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = gifts_made_before_death(giftMadeBeforeDeathForm, tnrbModel, widowCheck).toString
-    val doc = asDocument(view)
-  }
+  override def form: Form[TnrbEligibiltyModel] = giftMadeBeforeDeathForm
 
-  "GiftsMadeBeforeDeathView " must {
+  override def formToView: Form[TnrbEligibiltyModel] => Appendable =
+    form =>
+      gifts_made_before_death(form, tnrbModel, widowCheck)
+
+  "Gifts With Reservation Of Benefit page Question View" must {
     behave like yesNoQuestion
   }
-
 }
