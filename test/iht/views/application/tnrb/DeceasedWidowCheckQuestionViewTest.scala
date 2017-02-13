@@ -19,46 +19,45 @@ package iht.views.application.tnrb
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.Messages
 import iht.views.html.application.tnrb.deceased_widow_check_question
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[WidowCheck] {
 
-  val ihtReference = Some("ABC1A1A1A")
-  val deceasedDetails = CommonBuilder.buildDeceasedDetails
-  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-    deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  override def guidanceParagraphs = Set.empty
 
-  val tnrbModel = CommonBuilder.buildTnrbEligibility
-  val widowCheckModel = CommonBuilder.buildWidowedCheck
+
+  def tnrbModel = CommonBuilder.buildTnrbEligibility
+
+  def widowCheck = CommonBuilder.buildWidowedCheck
 
   override def pageTitle = Messages("iht.estateReport.tnrb.partner.married",
-                             TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-                             TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))
+    TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased),
+    TnrbHelper.spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased))
 
   override def browserTitle = Messages("iht.estateReport.tnrb.increasingIHTThreshold")
-  override def guidanceParagraphs = Set()
-  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.partner.married")
 
-  override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  override def formTarget = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit()
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
+  override def form: Form[WidowCheck] = deceasedWidowCheckQuestionForm
 
-    val view = deceased_widow_check_question(deceasedWidowCheckQuestionForm,
-                                              widowCheckModel, tnrbModel, regDetails,
-                                              returnLinkTargetUrl, returnLinkText).toString
-    val doc = asDocument(view)
+  override def formToView: Form[WidowCheck] => Appendable = {
+    def regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = Some("ABC1A1A1A"),
+      deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
+      deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+
+    form =>
+      deceased_widow_check_question(form, widowCheck, tnrbModel, regDetails,
+        iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(),
+        Messages("page.iht.application.tnrb.returnToIncreasingThreshold"))
   }
 
-  "DeceasedWidowCheckQuestionView " must {
+
+  "Deceased Widow Check Question View" must {
     behave like yesNoQuestion
   }
-
 }

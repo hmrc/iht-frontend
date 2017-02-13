@@ -44,7 +44,8 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     }
 
     "have a Continue button" in {
-      doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.continue")
+      doc.getElementById("save-continue").text shouldBe Messages("iht.saveAndContinue")
+      //doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.saveAndContinue")
     }
   }
 
