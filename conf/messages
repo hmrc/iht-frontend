@@ -56,7 +56,6 @@ site.noDebts = No debts owed
 site.noAssets = No assets
 site.noAssetsLeft = No assets left
 site.noMortgage = No mortgage
-site.threshold.value = 325,000
 site.threshold.value.display = £325,000.00
 site.tnrb.value = 650,000
 site.tnrb.value.display = £650,000.00
