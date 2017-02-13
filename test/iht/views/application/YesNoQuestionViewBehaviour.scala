@@ -16,6 +16,7 @@
 
 package iht.views.application
 
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.mvc.Call
 
@@ -27,6 +28,10 @@ trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
   def guidanceParagraphs: Set[String]
 
   def formTarget: Call
+
+  def cancelTarget: Option[Call] = None
+
+  def cancelContent: Option[String] = None
 
   /**
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
@@ -44,8 +49,15 @@ trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
     }
 
     "show the Save/Continue button with the correct target" in {
-      val continueButton = doc.getElementById("save-continue")
       doc.getElementsByTag("form").attr("action") shouldBe formTarget.url
+    }
+
+    "show the return link with the correct target and text if applicable" in {
+      cancelTarget.foreach { target =>
+        val cancelButton = doc.getElementById("return-button")
+        cancelButton.attr("href") shouldBe target.url
+        cancelButton.text() shouldBe CommonHelper.getOrException(cancelContent)
+      }
     }
   }
 

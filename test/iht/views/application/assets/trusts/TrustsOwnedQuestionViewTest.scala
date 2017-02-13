@@ -26,9 +26,9 @@ import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust] {
-  val registrationDetails = CommonBuilder.buildRegistrationDetails1
+  def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
-  val deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+  def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
   override def guidanceParagraphs = Set(
     Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust", deceasedName),
@@ -41,6 +41,10 @@ class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust
   override def browserTitle = Messages("page.iht.application.assets.trusts.isOwned.browserTitle")
 
   override def formTarget = iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit()
+
+  override def cancelTarget = Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad())
+
+  override def cancelContent = Some(Messages("page.iht.application.return.to.assetsOf", deceasedName))
 
   override def form: Form[HeldInTrust] = trustsOwnedQuestionForm
 
