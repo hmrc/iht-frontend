@@ -29,7 +29,6 @@ import scala.collection.immutable.ListMap
 
 object OverviewHelper {
   val messagesFileChangeAnswer = "iht.change"
-  val messagesFileChangeInput = "site.changeInput"
   val messagesFileYesValue = "iht.yes"
   val messagesFileNoValue = "iht.no"
   val messagesFileGiveAnswer = "site.link.giveAnswer"
@@ -271,7 +270,7 @@ object OverviewHelper {
             Seq(Question(
               id = id + "-value",
               title = questionTitleValueMessage,
-              link = Link(messagesFileChangeInput, questionLevelLinkAccessibilityTextValue, linkUrl),
+              link = Link(messagesFileChange, questionLevelLinkAccessibilityTextValue, linkUrl),
               value = getBigDecimalDisplayValue(questionAnswerExprValue)))
           } else {
             Nil
