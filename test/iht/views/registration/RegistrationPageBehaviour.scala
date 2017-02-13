@@ -34,7 +34,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
   def form:Form[A] = ???
   def formToView:Form[A] => Appendable = ???
 
-  def registrationPage() = {
+  def registrationPage(): Unit = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
     }
@@ -48,7 +48,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     }
   }
 
-  def registrationPageWithErrorSummaryBox() = {
+  def registrationPageWithErrorSummaryBox(): Unit = {
     registrationPage()
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field","error message"))
@@ -57,7 +57,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     }
   }
 
-  def registrationPageInEditModeWithErrorSummaryBox(view: => Document, cancelUrl: => Call) = {
+  def registrationPageInEditModeWithErrorSummaryBox(view: => Document, cancelUrl: => Call): Unit = {
     registrationPageWithErrorSummaryBox()
 
     "have a continue and cancel link in edit mode" in {
@@ -70,7 +70,12 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     }
   }
 
-  def addressPage() = {
+  def addressPage(guidance: => Seq[String]): Unit = {
+
+    "show the correct guidance" in {
+      messagesShouldBePresent(view, guidance:_*)
+    }
+
     "have a line 1 field" in {
       assertRenderedById(doc, "ukAddressLine1")
     }
@@ -104,4 +109,35 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     }
   }
 
+  def addressPageUK(guidance: => Seq[String]): Unit = {
+    addressPage(guidance)
+
+    "have a post code field" in {
+      assertRenderedById(doc, "postCode")
+    }
+
+    "have the correct label for post code" in {
+      labelShouldBe(doc, "postCode-container", "iht.postcode")
+    }
+
+    "not have a country code field" in {
+      assertNotRenderedById(doc, "countryCode")
+    }
+  }
+
+  def addressPageAbroad(guidance: => Seq[String]): Unit = {
+    addressPage( guidance )
+
+    "have a fieldset with the Id 'details'" in {
+      doc.getElementsByTag("fieldset").first.id shouldBe "details"
+    }
+
+    "have a country code field" in {
+      assertRenderedById(doc, "countryCode")
+    }
+
+    "not have a post code field" in {
+      assertNotRenderedById(doc, "postCode")
+    }
+  }
 }

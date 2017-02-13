@@ -16,76 +16,60 @@
 
 package iht.views.registration.applicant
 
-import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm, applyingForProbateForm}
-import iht.models.{ApplicantDetails, UkAddress}
-import iht.views.html.registration.applicant.{applicant_address, applying_for_probate}
+import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm}
+import iht.models.UkAddress
+import iht.testhelpers.CommonBuilder
+import iht.views.html.registration.applicant.applicant_address
 import iht.views.registration.RegistrationPageBehaviour
+import org.jsoup.nodes.Document
 import play.api.data.Form
-import play.api.i18n.{Lang, Messages}
-import play.api.mvc.Call
+import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class ApplicantAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
+trait ApplicantAddressViewTest {
+  def guidance: Seq[String] = Seq(Messages("page.iht.registration.applicantAddress.hint"))
+}
 
+class ApplicantAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddress] with ApplicantAddressViewTest {
   override def pageTitle = Messages("page.iht.registration.applicantAddress.title")
+
   override def browserTitle = Messages("page.iht.registration.applicantAddress.title")
 
-  override def form:Form[UkAddress] = applicantAddressUkForm
-  override def formToView:Form[UkAddress] => Appendable = form => applicant_address(form, false, Call("", ""), Call("", ""))
+  override def form: Form[UkAddress] = applicantAddressUkForm
 
-  def abroadAddressDocument = {
-    val view = applicant_address(applicantAddressAbroadForm, true, Call("", ""), Call("", "")).toString
+  override def formToView: Form[UkAddress] => Appendable = form =>
+    applicant_address(form, isInternational=false,
+      CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
+
+  def abroadAddressDocument(): Document = {
+    val view = applicant_address(applicantAddressAbroadForm, isInternational=true,
+      CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1).toString
     asDocument(view)
   }
 
-  "Applicant Address View" must {
+  "Applicant Address View in UK Mode" must {
 
     behave like registrationPage()
 
-    "show the correct guidance" in {
-      messagesShouldBePresent(view, Messages("page.iht.registration.applicantAddress.hint"))
-    }
-
-    behave like addressPage()
+    behave like addressPageUK(guidance)
   }
+}
 
-  "Applicant Address View" when {
-    "showing in UK mode" must {
+class ApplicantAddressViewInAbroadModeTest extends RegistrationPageBehaviour[UkAddress] with ApplicantAddressViewTest {
+  override def pageTitle = Messages("page.iht.registration.applicantAddress.title")
 
-      "have a fieldset with the Id 'details'" in {
-        val view = applicant_address(applicantAddressUkForm, isInternational = false,
-          Call("", ""),
-          Call("", ""))(createFakeRequest(), Lang("", "")).toString
+  override def browserTitle = Messages("page.iht.registration.applicantAddress.title")
 
-        asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
-      }
+  override def form: Form[UkAddress] = applicantAddressAbroadForm
 
-      "have a post code field" in {
-        assertRenderedById(doc, "postCode")
-      }
+  override def formToView: Form[UkAddress] => Appendable = form =>
+    applicant_address(form, isInternational=true,
+      CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
-      "have the correct label for post code" in {
-        labelShouldBe(doc, "postCode-container", "iht.postcode")
-      }
+  "Applicant Address View In Abroad Mode" must {
 
-      "not have a country code field" in {
-        assertNotRenderedById(doc, "countryCode")
-      }
-    }
+    behave like registrationPage()
 
-    "showing in international mode" must {
-
-      "have a fieldset with the Id 'details'" in {
-        abroadAddressDocument.getElementsByTag("fieldset").first.id shouldBe "details"
-      }
-
-      "have a country code field" in {
-        assertRenderedById(abroadAddressDocument, "countryCode")
-      }
-
-      "not have a post code field" in {
-        assertNotRenderedById(abroadAddressDocument, "postCode")
-      }
-    }
+    behave like addressPageAbroad(guidance)
   }
 }

@@ -16,7 +16,6 @@
 
 package iht.views.registration.executor
 
-import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm}
 import iht.forms.registration.CoExecutorForms.{coExecutorAddressAbroadForm, coExecutorAddressUkForm}
 import iht.models.UkAddress
 import iht.testhelpers.CommonBuilder
@@ -25,41 +24,47 @@ import iht.views.html.registration.executor.others_applying_for_probate_address
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
-class OthersApplyingForProbateAddressViewTest extends RegistrationPageBehaviour[UkAddress] {
+trait OthersApplyingForProbateAddressViewTest {
+  def guidance: Seq[String] = Seq(Messages("page.iht.registration.others-applying-for-probate-address.address.guidance"))
+  def executorName: String = CommonBuilder.firstNameGenerator
+}
 
-  val executorName: String = CommonBuilder.firstNameGenerator
-
+class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
   override def pageTitle = Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
     CommonHelper.addApostrophe(executorName))
   override def browserTitle = Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")
 
-  override def form:Form[UkAddress] = applicantAddressUkForm
+  override def form:Form[UkAddress] = coExecutorAddressUkForm
   override def formToView:Form[UkAddress] => Appendable = form =>
     others_applying_for_probate_address(form, "1", executorName,
       isInternational = false, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
-  def formToViewInternational:Form[UkAddress] => Appendable = form =>
-    others_applying_for_probate_address(form, "1", executorName,
-      isInternational = true, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
-
-  "Others Applying for Probate Address View" must {
-
+  "Others Applying for Probate Address View in UK Mode" must {
     "have a fieldset with the Id 'details' in UK mode" in {
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
     }
 
-    "have a fieldset with the Id 'details' in non-UK mode" in {
-      val view = formToViewInternational(applicantAddressAbroadForm).toString
+    behave like addressPageUK(guidance)
+  }
+}
+
+class OthersApplyingForProbateAddressViewInAbroadModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
+  override def pageTitle = Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+    CommonHelper.addApostrophe(executorName))
+  override def browserTitle = Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")
+
+  override def form:Form[UkAddress] = coExecutorAddressAbroadForm
+  override def formToView:Form[UkAddress] => Appendable = form =>
+    others_applying_for_probate_address(form, "1", executorName,
+      isInternational = true, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
+
+  "Others Applying for Probate Address View in Abroad Mode" must {
+    "have a fieldset with the Id 'details' in UK mode" in {
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
     }
 
-    "show the correct guidance" in {
-      messagesShouldBePresent(view, Messages("page.iht.registration.others-applying-for-probate-address.address.guidance"))
-    }
-
-    behave like addressPage()
+    behave like addressPageAbroad(guidance)
   }
 }
