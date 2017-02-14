@@ -17,22 +17,17 @@
 package iht.views.application.gifts
 
 import iht.forms.ApplicationForms._
-import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.testhelpers.ContentChecker
+import iht.testhelpers.{CommonBuilder, ContentChecker, TestHelper}
 import iht.utils.CommonHelper
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.gift.with_reservation_of_benefit
-import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
 
 /**
   * Created by vineet on 15/11/16.
   */
-class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter{
+class WithReservationOfBenefitViewTest extends ViewTestHelper{
 
   val ihtReference = Some("ABC1234567890")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,

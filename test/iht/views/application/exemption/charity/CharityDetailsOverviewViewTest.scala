@@ -17,19 +17,15 @@
 package iht.views.application.exemption.charity
 
 import iht.controllers.application.exemptions.charity.routes
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.charity.charity_details_overview
-import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Element
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages
-import uk.gov.hmrc.play.test.UnitSpec
 
 /**
  * Created by jennygj on 13/10/16.
  */
-class CharityDetailsOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter{
+class CharityDetailsOverviewViewTest extends ViewTestHelper{
 
   "CharityDetailsOverviewView" must {
 

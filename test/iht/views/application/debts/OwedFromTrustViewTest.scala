@@ -17,21 +17,27 @@
 package iht.views.application.debts
 
 import iht.forms.ApplicationForms._
+import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
 import iht.views.html.application.debts.owed_from_trust
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
 /**
   * Created by vineet on 15/11/16.
   */
-class OwedFromTrustViewTest extends DebtsElementViewBehaviour{
+class OwedFromTrustViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
                                                       deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
                                                                 maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                                       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+
+  override def form:Form[BasicEstateElementLiabilities] = debtsTrustForm
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => owed_from_trust(form, regDetails)
 
   override def pageTitle = Messages("iht.estateReport.debts.debtsTrust.title")
   override def browserTitle = Messages("page.iht.application.debts.debtsTrust.browserTitle")
@@ -40,12 +46,6 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour{
   override def yesNoQuestionText = Messages("page.iht.application.debts.debtsTrust.isOwned",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = Messages("iht.estateReport.debts.debtsTrust.value")
-
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = owed_from_trust(debtsTrustForm, regDetails).toString
-    val doc = asDocument(view)
-  }
 
   "OwedFromTrustView" must {
     behave like debtsElement
