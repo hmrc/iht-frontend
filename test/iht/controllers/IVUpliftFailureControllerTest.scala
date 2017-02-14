@@ -38,7 +38,7 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
   }
 
   def ivFailure(showFailure: Option[String] => Future[Result], failureName: String, ivResult: IdentityVerificationResult, titleMessagesKey: String) = {
-    s"Go to the $failureName page when the appropriate IV verification result is received" in {
+    s"Go to the $failureName page upon receipt of iv verification result of " + ivResult in {
       when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
         .thenReturn(Future.successful(ivResult))
       val result = showFailure(Some(""))
@@ -69,13 +69,15 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
     behave like ivFailure(showFailure, "timeout", IdentityVerificationResult.Timeout, "page.iht.iv.failure.timeout.title")
 
     behave like ivFailure(showFailure, "user aborted", IdentityVerificationResult.UserAborted, "page.iht.iv.failure.userAborted.title")
+
+    behave like ivFailure(showFailure, "technical issue", IdentityVerificationResult.Success, "page.iht.iv.failure.technicalIssue.title")
   }
 
   "showNotAuthorisedRegistration" must {
-    behave like iVUpliftFailureBehaviour(x=>controller.showNotAuthorisedRegistration(x)(createFakeRequest()))
+    behave like iVUpliftFailureBehaviour(x => controller.showNotAuthorisedRegistration(x)(createFakeRequest()))
   }
 
   "showNotAuthorisedApplication" must {
-    behave like iVUpliftFailureBehaviour(x=>controller.showNotAuthorisedApplication(x)(createFakeRequest()))
+    behave like iVUpliftFailureBehaviour(x => controller.showNotAuthorisedApplication(x)(createFakeRequest()))
   }
 }
