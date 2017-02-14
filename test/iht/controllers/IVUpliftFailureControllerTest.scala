@@ -38,7 +38,7 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
   }
 
   def ivFailure(showFailure: Option[String] => Future[Result], failureName: String, ivResult: IdentityVerificationResult, titleMessagesKey: String) = {
-    s"Go to the $failureName page upon receipt of iv verification result of " + ivResult in {
+    s"go to the $failureName page upon receipt of iv verification result of " + ivResult in {
       when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
         .thenReturn(Future.successful(ivResult))
       val result = showFailure(Some(""))
