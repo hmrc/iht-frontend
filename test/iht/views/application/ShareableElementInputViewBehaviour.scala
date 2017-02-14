@@ -18,10 +18,12 @@ package iht.views.application
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
+import play.api.data.Form
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import play.twirl.api.HtmlFormat.Appendable
 
-trait ShareableElementInputViewBehaviour extends ViewTestHelper {
+trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
   def pageTitle: String
   def browserTitle: String
@@ -32,11 +34,11 @@ trait ShareableElementInputViewBehaviour extends ViewTestHelper {
   def returnLinkText: String
   def returnLinkUrl: String
 
-  def fixture() = new {
-    implicit val request: FakeRequest[AnyContentAsEmpty.type] = null
-    val view: String = null
-    val doc: Document = null
-  }
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+  def view: String = formToView(form).toString
+  def doc: Document = asDocument(view)
+  def form:Form[A] = ???
+  def formToView:Form[A] => Appendable = ???
 
   def yesNoValueView() = viewBehaviour("value")
 
@@ -44,52 +46,43 @@ trait ShareableElementInputViewBehaviour extends ViewTestHelper {
 
   private def viewBehaviour(valueId: String) = {
     "have the correct title" in {
-      val f = fixture()
-      titleShouldBeCorrect(f.view, pageTitle)
+      titleShouldBeCorrect(view, pageTitle)
     }
 
     "have the correct browser title" in {
-      val f = fixture()
-      browserTitleShouldBeCorrect(f.view, browserTitle)
+      browserTitleShouldBeCorrect(view, browserTitle)
     }
 
     "show the correct Yes/No question" in {
-      val f = fixture()
-      val legend = f.doc.getElementsByTag("legend").first
+      val legend = doc.getElementsByTag("legend").first
       legend.text shouldBe questionTitle
     }
 
     "have yes and no radio buttons" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "yes")
-      assertRenderedById(f.doc, "no")
+      assertRenderedById(doc, "yes")
+      assertRenderedById(doc, "no")
     }
 
     "have a value input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, valueId)
+      assertRenderedById(doc, valueId)
     }
 
     "show the correct value question" in {
-      val f = fixture()
-      labelShouldBe(f.doc, s"$valueId-container", valueQuestion)
+      labelShouldBe(doc, s"$valueId-container", valueQuestion)
     }
 
     if (hasValueQuestionHelp) {
       "show the correct help text for the value question" in {
-        val f = fixture()
-        labelHelpTextShouldBe(f.doc, s"$valueId-container", valueQuestionHelp)
+        labelHelpTextShouldBe(doc, s"$valueId-container", valueQuestionHelp)
       }
     }
 
     "show a Save and continue button" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "save-continue")
+      assertRenderedById(doc, "save-continue")
     }
 
     "show a return link" in {
-      val f = fixture()
-      val link = f.doc.getElementById("return-button")
+      val link = doc.getElementById("return-button")
       link.text shouldBe returnLinkText
       link.attr("href") shouldBe returnLinkUrl
     }
