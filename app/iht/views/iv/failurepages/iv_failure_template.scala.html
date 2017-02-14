@@ -29,7 +29,7 @@
     </div>
 
     @verifyLinkText.map{ text =>
-        <a href='@verifyLinkHref.fold("")(identity)'>@text</a>
+        <a id="verify-link" href='@verifyLinkHref.fold("")(identity)'>@text</a>
     }
 
 }
