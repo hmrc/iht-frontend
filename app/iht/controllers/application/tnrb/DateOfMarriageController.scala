@@ -137,7 +137,7 @@ trait DateOfMarriageController extends EstateController{
       fold(new TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, dateOfMarriage =
         tnrbModel.dateOfMarriage, None)) (_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
-    ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
-    Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails))
+    ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
+      TnrbHelper.successfulTnrbRedirect(updatedAppDetails))
   }
  }

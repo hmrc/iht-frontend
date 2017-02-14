@@ -155,8 +155,8 @@ trait MortgageValueController extends ApplicationController {
       case Some(x) => {
         val updatedAppDetails = x.copy(status=ApplicationStatus.InProgress, allLiabilities = Some(updatedLiabilities))
 
-        ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
-        Future.successful(Redirect(routes.MortgagesOverviewController.onPageLoad))
+        ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
+          Redirect(routes.MortgagesOverviewController.onPageLoad))
       }
       case _ => {
         Logger.warn("Application Details not found")

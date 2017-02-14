@@ -120,10 +120,8 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
       registrationDetails = regDetails,
       applicationDetails = appDetails.copy(allExemptions = Some(appDetails.allExemptions.fold(new
           AllExemptions(partner = Some(updatedPartnerExemption)))(_.copy(partner = Some(updatedPartnerExemption))))))
-    ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference)
-
-
-    Future.successful(Redirect(applicationDetails.kickoutReason.fold(
+    ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map( _=>
+      Redirect(applicationDetails.kickoutReason.fold(
       updatedPartnerExemption.isAssetForDeceasedPartner match {
         case Some(true) => {
           if (updatedPartnerExemption.isPartnerHomeInUK.isEmpty) partnerPermanentHomePage else partnerOverviewPage
