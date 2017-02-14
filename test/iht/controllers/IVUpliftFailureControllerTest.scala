@@ -37,17 +37,18 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
     override val identityVerificationConnector = mockIdentityVerificationConnector
   }
 
-  def ivFailure(showFailure: Option[String] => Future[Result], failureName: String, ivResult: IdentityVerificationResult, titleMessagesKey: String) = {
-    s"go to the $failureName page upon receipt of iv verification result of " + ivResult in {
-      when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
-        .thenReturn(Future.successful(ivResult))
-      val result = showFailure(Some(""))
-      status(result) should be(OK)
-      contentAsString(result) should include(Messages(titleMessagesKey))
-    }
-  }
 
   def iVUpliftFailureBehaviour(showFailure: Option[String] => Future[Result]) = {
+    def ivFailure(showFailure: Option[String] => Future[Result], failureName: String, ivResult: IdentityVerificationResult, titleMessagesKey: String) = {
+      s"go to the $failureName page upon receipt of iv verification result of " + ivResult in {
+        when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
+          .thenReturn(Future.successful(ivResult))
+        val result = showFailure(Some(""))
+        status(result) should be(OK)
+        contentAsString(result) should include(Messages(titleMessagesKey))
+      }
+    }
+
     "go to 2fa failure page if no journey id" in {
       val result = showFailure(None)
       status(result) should be(OK)
