@@ -18,17 +18,22 @@ package iht.views.application.assets
 
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
+import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.foreign
-
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages
 
-class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour {
+class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def form:Form[BasicEstateElement] = foreignForm
+  override def formToView:Form[BasicEstateElement] => Appendable = form => foreign(form, regDetails)
 
   override def pageTitle = Messages("iht.estateReport.assets.foreign.title")
   override def browserTitle = Messages("iht.estateReport.assets.foreign.title")
@@ -43,14 +48,7 @@ class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBeha
     behave like yesNoValueView
 
     "show the correct guidance" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.application.assets.foreign.description.p1", deceasedName))
+      messagesShouldBePresent(view, Messages("page.iht.application.assets.foreign.description.p1", deceasedName))
     }
-  }
-
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = foreign(foreignForm, regDetails).toString
-    val doc = asDocument(view)
   }
 }

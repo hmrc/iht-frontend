@@ -19,6 +19,7 @@ package iht.controllers.registration
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.constants.IhtProperties
 import iht.models.QuestionnaireModel
+import iht.utils.IhtSection
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -78,6 +79,24 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
 
       val result = questionnaireController.onSubmit()(request)
       status(result) should be(BAD_REQUEST)
+    }
+  }
+
+  "guardConditions" must {
+    "be empty" in {
+      questionnaireController.guardConditions shouldBe Set.empty
+    }
+  }
+
+  "ihtSection" must {
+    "Registration" in {
+      questionnaireController.ihtSection shouldBe IhtSection.Registration
+    }
+  }
+
+  "callPageLoad" must {
+    "redirect to RegistrationQuestionnaireController onPageLoad" in {
+      questionnaireController.callPageLoad shouldBe iht.controllers.registration.routes.RegistrationQuestionnaireController.onPageLoad()
     }
   }
 }
