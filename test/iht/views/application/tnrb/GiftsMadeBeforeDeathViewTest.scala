@@ -46,13 +46,15 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
       Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
     Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
 
-  override def formTarget = iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = giftMadeBeforeDeathForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
       gifts_made_before_death(form, tnrbModel, widowCheck)
+
+  override def cancelComponent = None
 
   "Gifts With Reservation Of Benefit page Question View" must {
     behave like yesNoQuestion

@@ -16,48 +16,18 @@
 
 package iht.views.application
 
-import iht.utils.CommonHelper
 import play.api.i18n.Messages
-import play.api.mvc.Call
 
 trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
-  def pageTitle: String
-
-  def browserTitle: String
-
-  def guidanceParagraphs: Set[String]
-
-  def formTarget: Call
-
-  def cancelTarget: Option[Call] = None
-
-  def cancelContent: Option[String] = None
-
   /**
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
     */
   def yesNoQuestion() = {
     applicationPageWithErrorSummaryBox()
 
-    "show the correct guidance paragraphs" in {
-      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
-    }
-
     "show the correct yes/no question text" in {
       doc.getElementById("yes-label").text shouldBe Messages("iht.yes")
       doc.getElementById("no-label").text shouldBe Messages("iht.no")
-    }
-
-    "show the Save/Continue button with the correct target" in {
-      doc.getElementsByTag("form").attr("action") shouldBe formTarget.url
-    }
-
-    "show the return link with the correct target and text if applicable" in {
-      cancelTarget.foreach { target =>
-        val cancelButton = doc.getElementById("return-button")
-        cancelButton.attr("href") shouldBe target.url
-        cancelButton.text() shouldBe CommonHelper.getOrException(cancelContent)
-      }
     }
   }
 

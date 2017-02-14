@@ -39,12 +39,14 @@ class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibilty
 
   override def browserTitle = Messages("page.iht.application.tnrb.benefitFromTrust.browserTitle")
 
-  override def formTarget = iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = benefitFromTrustForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form => benefit_from_trust(form, tnrbModel, widowCheck)
+
+  override def cancelComponent = None
 
   "Applying For Probate View" must {
     behave like yesNoQuestion

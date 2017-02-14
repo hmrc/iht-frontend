@@ -39,13 +39,15 @@ class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibil
 
   override def browserTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")
 
-  override def formTarget = iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = jointAssetPassedForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
       jointly_owned_assets(form, deceasedDetailsName)
+
+  override def cancelComponent = None
 
   "Jointly Owned Assets page Question View" must {
     behave like yesNoQuestion

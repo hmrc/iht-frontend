@@ -19,7 +19,7 @@ package iht.views.application.assets.trusts
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.trusts.trusts_owned_question
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -40,11 +40,14 @@ class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust
 
   override def browserTitle = Messages("page.iht.application.assets.trusts.isOwned.browserTitle")
 
-  override def formTarget = iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit())
 
-  override def cancelTarget = Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad())
-
-  override def cancelContent = Some(Messages("page.iht.application.return.to.assetsOf", deceasedName))
+  override def cancelComponent = Some(
+    CancelComponent(
+      iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+      Messages("page.iht.application.return.to.assetsOf", deceasedName)
+    )
+  )
 
   override def form: Form[HeldInTrust] = trustsOwnedQuestionForm
 

@@ -19,8 +19,8 @@ package iht.views.application.assets.trusts
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
-import iht.views.application.ValueViewBehaviour
-import iht.views.html.application.asset.trusts.{trusts_more_than_one_question, trusts_value}
+import iht.views.application.{CancelComponent, ValueViewBehaviour}
+import iht.views.html.application.asset.trusts.trusts_value
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
@@ -36,11 +36,14 @@ class TrustsValueViewTest extends ValueViewBehaviour[HeldInTrust] {
 
   override def browserTitle = Messages("page.iht.application.assets.trusts.value.browserTitle")
 
-  override def formTarget = iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit())
 
-  override def cancelTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad())
-
-  override def cancelContent = Some(Messages("site.link.return.trusts", deceasedName))
+  override def cancelComponent = Some(
+    CancelComponent(
+      iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),
+      Messages("site.link.return.trusts", deceasedName)
+    )
+  )
 
   override def form: Form[HeldInTrust] = trustsValueForm
 

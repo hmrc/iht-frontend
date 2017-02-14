@@ -39,13 +39,15 @@ class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel
 
   override def guidanceParagraphs = Set.empty
 
-  override def formTarget = iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = estateClaimAnyBusinessForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
       estate_claim(form)
+
+  override def cancelComponent = None
 
   "Gifts With Reservation Of Benefit page Question View" must {
     behave like yesNoQuestion
