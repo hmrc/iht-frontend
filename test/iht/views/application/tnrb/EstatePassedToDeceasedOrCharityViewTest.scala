@@ -39,13 +39,15 @@ class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour
 
   override def guidanceParagraphs = Set.empty
 
-  override def formTarget = iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = estatePassedToDeceasedOrCharityForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
       estate_passed_to_deceased_or_charity(form, deceasedDetailsName)
+
+  override def cancelComponent = None
 
   "Gifts With Reservation Of Benefit page Question View" must {
     behave like yesNoQuestion

@@ -40,13 +40,15 @@ class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyMod
 
   override def browserTitle = Messages("page.iht.application.tnrb.permanentHome.browerTitle")
 
-  override def formTarget = iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = partnerLivingInUkForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
       permanent_home(form, tnrbModel, widowCheck)
+
+  override def cancelComponent = None
 
   "Permanent home page Question View" must {
     behave like yesNoQuestion

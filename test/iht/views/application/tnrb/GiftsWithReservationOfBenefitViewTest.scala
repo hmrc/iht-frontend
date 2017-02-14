@@ -44,13 +44,15 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
     TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
       Messages("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
 
-  override def formTarget = iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit()
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit())
 
   override def form: Form[TnrbEligibiltyModel] = partnerGiftWithResToOtherForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
       gifts_with_reservation_of_benefit(form, tnrbModel, deceasedDetailsName)
+
+  override def cancelComponent = None
 
   "Gifts With Reservation Of Benefit page Question View" must {
     behave like yesNoQuestion
