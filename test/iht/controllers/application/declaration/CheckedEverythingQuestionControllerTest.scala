@@ -85,37 +85,31 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
     }
 
     "save application and go to declaration page on submit when yes is chosen" in {
-      running(app){
-        val result = answerAndSubmit(booleanValue = true, CommonBuilder.buildRegistrationDetails1)
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad().url)
-      }
+      val result = answerAndSubmit(booleanValue = true, CommonBuilder.buildRegistrationDetails1)
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad().url)
     }
 
     "save application and go to declaration page on submit when no is chosen" in {
-      running(app){
-        val rd = CommonBuilder.buildRegistrationDetails1
-        val result = answerAndSubmit(booleanValue = false, rd)
-        status(result) shouldBe SEE_OTHER
-        redirectLocation(result) shouldBe Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
-          CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)).url)
-      }
+      val rd = CommonBuilder.buildRegistrationDetails1
+      val result = answerAndSubmit(booleanValue = false, rd)
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) shouldBe Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
+        CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)).url)
     }
 
     "display validation message when incomplete form is submitted" in {
-       running(app){
-         implicit val request = createFakeRequest()
-        implicit val messagesApi = app.injector.instanceOf[MessagesApi]
-        createMockForRegistration(mockCachingConnector,
-          regDetails = Option(CommonBuilder.buildRegistrationDetails1),
-          getRegDetailsFromCache = true)
+      implicit val request = createFakeRequest()
+      implicit val messagesApi = app.injector.instanceOf[MessagesApi]
+      createMockForRegistration(mockCachingConnector,
+        regDetails = Option(CommonBuilder.buildRegistrationDetails1),
+        getRegDetailsFromCache = true)
 
-        val result = checkedEverythingQuestionController.onSubmit()(request)
-        status(result) should be(BAD_REQUEST)
-        val resultAsString = contentAsString(result)
-        resultAsString should include(messagesApi("error.problem"))
-        resultAsString should include(messagesApi("error.hasCheckedEverything.select"))
-      }
+      val result = checkedEverythingQuestionController.onSubmit()(request)
+      status(result) should be(BAD_REQUEST)
+      val resultAsString = contentAsString(result)
+      resultAsString should include(messagesApi("error.problem"))
+      resultAsString should include(messagesApi("error.hasCheckedEverything.select"))
     }
   }
 }

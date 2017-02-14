@@ -24,9 +24,8 @@ import iht.views.html.application.gift.with_reservation_of_benefit
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -47,32 +46,32 @@ class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with Moc
   "WithReservationOfBenefit Page" must {
 
     "contain the title and save and continue button " in {
-      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
+      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest, applicationMessages)
 
       val doc = asDocument(contentAsString(view))
       val title = doc.getElementsByTag("h1").first
 
-      title.text should include(Messages("iht.estateReport.gifts.withReservation.title"))
+      title.text should include(messagesApi("iht.estateReport.gifts.withReservation.title"))
 
       val saveAndContinueLink = doc.getElementById("save-continue")
-      saveAndContinueLink.text shouldBe Messages("iht.saveAndContinue")
+      saveAndContinueLink.text shouldBe messagesApi("iht.saveAndContinue")
     }
 
     "contain the correct question" in {
-      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
+      val view = with_reservation_of_benefit(giftWithReservationFromBenefitForm, regDetails)(fakeRequest, applicationMessages)
 
-      contentAsString(view) should include(Messages("iht.estateReport.gifts.reservation.question",
+      contentAsString(view) should include(messagesApi("iht.estateReport.gifts.reservation.question",
                                             CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
 
     }
 
     "show the correct text and link for the return link" in {
-      val view = with_reservation_of_benefit(giftsGivenAwayForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
+      val view = with_reservation_of_benefit(giftsGivenAwayForm, regDetails)(fakeRequest, applicationMessages)
 
       val doc = asDocument(contentAsString(view))
 
       val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
+      link.text shouldBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name)
       link.attr("href") shouldBe
         iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url

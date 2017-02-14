@@ -20,14 +20,15 @@ import iht.constants.FieldMappings
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.MessagesApi
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import iht.views.html.application.debts.mortgages_overview
 
 /**
   * Created by vineet on 15/11/16.
   */
-class MortgagesOverviewViewTest extends ViewTestHelper{
+class MortgagesOverviewViewTest extends ViewTestHelper {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -39,9 +40,9 @@ class MortgagesOverviewViewTest extends ViewTestHelper{
   val debtsOverviewPageUrl= iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
 
   private def mortgageOverview() = {
-    val returnLinkText = Messages("site.link.return.debts")
-    val view = mortgages_overview(Nil, Nil, FieldMappings.typesOfOwnership,
-      regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, app.injector.instanceOf[Messages])
+    val returnLinkText = messagesApi("site.link.return.debts")
+    lazy val view = mortgages_overview(Nil, Nil, FieldMappings.typesOfOwnership,
+      regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, applicationMessages)
 
     contentAsString(view)
   }
@@ -52,17 +53,17 @@ class MortgagesOverviewViewTest extends ViewTestHelper{
       val view = mortgageOverview
       val doc = asDocument(view)
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.debts.mortgages"))
-      browserTitleShouldBeCorrect(view, Messages("iht.estateReport.debts.mortgages"))
+      titleShouldBeCorrect(view, messagesApi("iht.estateReport.debts.mortgages"))
+      browserTitleShouldBeCorrect(view, messagesApi("iht.estateReport.debts.mortgages"))
     }
 
     "contain the correct guidance" in {
       val view = mortgageOverview
 
-      messagesShouldBePresent(view, Messages("page.iht.application.debts.mortgages.description.p1"))
-      messagesShouldBePresent(view, Messages("page.iht.application.debts.mortgages.description",
+      messagesShouldBePresent(view, messagesApi("page.iht.application.debts.mortgages.description.p1"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.debts.mortgages.description",
                                                 CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      messagesShouldBePresent(view, Messages("page.iht.application.debts.mortgages.description.p3",
+      messagesShouldBePresent(view, messagesApi("page.iht.application.debts.mortgages.description.p3",
                                                 CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
@@ -71,7 +72,7 @@ class MortgagesOverviewViewTest extends ViewTestHelper{
       val doc = asDocument(view)
 
       val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("site.link.return.debts")
+      link.text shouldBe messagesApi("site.link.return.debts")
       link.attr("href") shouldBe debtsOverviewPageUrl.url
     }
   }
