@@ -18,16 +18,22 @@ package iht.views.application.assets.household
 
 import iht.controllers.application.assets.household.routes._
 import iht.forms.ApplicationForms._
+import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_jointly_owned
+import play.api.data.Form
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
-class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
+class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def form:Form[ShareableBasicEstateElement] = householdJointlyOwnedForm
+  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => household_jointly_owned(form, regDetails)
 
   override def pageTitle = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title", deceasedName)
   override def browserTitle = Messages("page.iht.application.assets.household.joint.browserTitle")
@@ -42,9 +48,4 @@ class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElement
     behave like yesNoValueViewJoint
   }
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = household_jointly_owned(householdJointlyOwnedForm, regDetails).toString
-    val doc = asDocument(view)
-  }
 }
