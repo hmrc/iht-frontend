@@ -19,6 +19,7 @@ package iht.controllers
 import iht.connector.IdentityVerificationConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.enums.IdentityVerificationResult
+import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages
@@ -34,19 +35,71 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
     override val identityVerificationConnector = mockIdentityVerificationConnector
   }
 
-  "IVUpliftFailureController" must {
+  def ivFailureApplication(failureName: String, ivResult: IdentityVerificationResult, titleMessagesKey:String) = {
+    s"Go to the $failureName page when the appropriate IV verification result is received" in {
+      when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
+        .thenReturn(Future.successful(ivResult))
+      val result = controller.showNotAuthorisedApplication(Some(""))(createFakeRequest())
+      status(result) should be(OK)
+      contentAsString(result) should include(Messages(titleMessagesKey))
+    }
+  }
+
+  def ivFailureRegistration(failureName: String, ivResult: IdentityVerificationResult, titleMessagesKey:String) = {
+    s"Go to the $failureName page when the appropriate IV verification result is received" in {
+      when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
+        .thenReturn(Future.successful(ivResult))
+      val result = controller.showNotAuthorisedRegistration(Some(""))(createFakeRequest())
+      status(result) should be(OK)
+      contentAsString(result) should include(Messages(titleMessagesKey))
+    }
+  }
+
+  "showNotAuthorisedApplication" must {
     "go to 2fa failure page if no journey id" in {
       val result = controller.showNotAuthorisedApplication(None)(createFakeRequest())
       status(result) should be(OK)
       contentAsString(result) should include(Messages("page.iht.iv.failure.2fa.title"))
     }
 
-    "Go to the failed matching page when the appropriate IV verification result is received" in {
-      when(mockIdentityVerificationConnector.identityVerificationResponse(any())(any()))
-          .thenReturn(Future.successful(IdentityVerificationResult.FailedMatching))
-      val result = controller.showNotAuthorisedApplication(Some(""))(createFakeRequest())
+    behave like ivFailureApplication("failed matching", IdentityVerificationResult.FailedMatching, "page.iht.iv.failure.failedMatching.title")
+
+    behave like ivFailureApplication("incomplete", IdentityVerificationResult.Incomplete, "error.problem")
+
+    behave like ivFailureApplication("insufficient evidence", IdentityVerificationResult.InsufficientEvidence, "error.problem")
+
+    behave like ivFailureApplication("locked out", IdentityVerificationResult.LockedOut, "page.iht.iv.failure.lockedOut.title")
+
+    behave like ivFailureApplication("precondition failed", IdentityVerificationResult.PreconditionFailed, "page.iht.iv.failure.preconditionFailed.title")
+
+    behave like ivFailureApplication("technical issue", IdentityVerificationResult.TechnicalIssue, "page.iht.iv.failure.technicalIssue.title")
+
+    behave like ivFailureApplication("timeout", IdentityVerificationResult.Timeout, "page.iht.iv.failure.timeout.title")
+
+    behave like ivFailureApplication("user aborted", IdentityVerificationResult.UserAborted, "page.iht.iv.failure.userAborted.title")
+  }
+
+  "showNotAuthorisedRegistration" must {
+    "go to 2fa failure page if no journey id" in {
+      val result = controller.showNotAuthorisedRegistration(None)(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.iv.failure.failedMatching.title"))
+      contentAsString(result) should include(Messages("page.iht.iv.failure.2fa.title"))
     }
+
+    behave like ivFailureRegistration("failed matching", IdentityVerificationResult.FailedMatching, "page.iht.iv.failure.failedMatching.title")
+
+    behave like ivFailureRegistration("incomplete", IdentityVerificationResult.Incomplete, "error.problem")
+
+    behave like ivFailureRegistration("insufficient evidence", IdentityVerificationResult.InsufficientEvidence, "error.problem")
+
+    behave like ivFailureRegistration("locked out", IdentityVerificationResult.LockedOut, "page.iht.iv.failure.lockedOut.title")
+
+    behave like ivFailureRegistration("precondition failed", IdentityVerificationResult.PreconditionFailed, "page.iht.iv.failure.preconditionFailed.title")
+
+    behave like ivFailureRegistration("technical issue", IdentityVerificationResult.TechnicalIssue, "page.iht.iv.failure.technicalIssue.title")
+
+    behave like ivFailureRegistration("timeout", IdentityVerificationResult.Timeout, "page.iht.iv.failure.timeout.title")
+
+    behave like ivFailureRegistration("user aborted", IdentityVerificationResult.UserAborted, "page.iht.iv.failure.userAborted.title")
   }
 }
