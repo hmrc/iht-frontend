@@ -50,6 +50,11 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
   override def jointlyOwnedValueRowId = "deceased-share-value"
   override def jointlyOwnedValueText = Messages("page.iht.application.assets.household.overview.joint.value")
 
+  override def viewWithQuestionsAnsweredNo: String = household_overview(dataWithQuestionsAnsweredNo, regDetails).toString
+  override def viewWithQuestionsAnsweredYes: String = household_overview(dataWithQuestionsAnsweredYes, regDetails).toString
+  override def viewWithQuestionsUnanswered: String = household_overview(None, regDetails).toString
+  override def viewWithValues: String = household_overview(dataWithValues, regDetails).toString
+
   "Household overview view" must {
     behave like overviewView()
   }
@@ -76,9 +81,4 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
     }
   }
 
-  override def fixture(data: Option[ShareableBasicEstateElement]) = new {
-    implicit val request = createFakeRequest()
-    val view = household_overview(data, regDetails).toString
-    val doc: Document = asDocument(view)
-  }
 }

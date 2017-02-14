@@ -50,6 +50,11 @@ class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverview
   override def jointlyOwnedValueRowId = "deceased-shared-value"
   override def jointlyOwnedValueText = Messages("page.iht.application.assets.money.jointly.owned.input.value.label")
 
+  override def viewWithQuestionsAnsweredNo: String = money_overview(dataWithQuestionsAnsweredNo, regDetails).toString
+  override def viewWithQuestionsAnsweredYes: String = money_overview(dataWithQuestionsAnsweredYes, regDetails).toString
+  override def viewWithQuestionsUnanswered: String = money_overview(None, regDetails).toString
+  override def viewWithValues: String = money_overview(dataWithValues, regDetails).toString
+
   "Money overview view" must {
     behave like overviewView()
   }
@@ -76,9 +81,4 @@ class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverview
     }
   }
 
-  override def fixture(data: Option[ShareableBasicEstateElement]) = new {
-    implicit val request = createFakeRequest()
-    val view = money_overview(data, regDetails).toString
-    val doc: Document = asDocument(view)
-  }
 }

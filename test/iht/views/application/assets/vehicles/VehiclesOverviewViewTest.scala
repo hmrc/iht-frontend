@@ -51,6 +51,10 @@ class VehiclesOverviewViewTest extends ViewTestHelper with ShareableElementOverv
   override def jointlyOwnedValueRowId = "deceased-share-value"
   override def jointlyOwnedValueText = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
 
+  override def viewWithQuestionsAnsweredNo: String = vehicles_overview(dataWithQuestionsAnsweredNo, regDetails).toString
+  override def viewWithQuestionsAnsweredYes: String = vehicles_overview(dataWithQuestionsAnsweredYes, regDetails).toString
+  override def viewWithQuestionsUnanswered: String = vehicles_overview(None, regDetails).toString
+  override def viewWithValues: String = vehicles_overview(dataWithValues, regDetails).toString
 
   "Vehicles overview view" must {
 
@@ -79,9 +83,4 @@ class VehiclesOverviewViewTest extends ViewTestHelper with ShareableElementOverv
     }
   }
 
-  override def fixture(data: Option[ShareableBasicEstateElement]) = new {
-    implicit val request = createFakeRequest()
-    val view = vehicles_overview(data, regDetails).toString
-    val doc: Document = asDocument(view)
-  }
 }
