@@ -69,12 +69,7 @@ isFullWidth=false
                     <div class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.number", (i + 1))</div>
                     @element.address match{
                         case Some(x) => {
-                          @x.ukAddressLine1&#44;<br />
-                          @x.ukAddressLine2&#44;<br />
-                          @x.ukAddressLine3.getOrElse("")@if(x.ukAddressLine3.isDefined){&#44;<br />}
-                          @x.ukAddressLine4.getOrElse("")@if(x.ukAddressLine4.isDefined){&#44;<br />}
-                          @if(x.postCode != ""){@x.postCode<br />}
-                          @if(countryName(x.countryCode) != ""){@countryName(x.countryCode)&#46;}
+                            @CommonHelper.addressLayout(x)
                         }
                         case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
                     }
