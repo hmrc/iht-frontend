@@ -19,7 +19,7 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
-@import iht.constants.Constants
+@import iht.constants.Constants._
 @import iht.utils.CommonHelper
 
 @(moneyOwedForm: Form[BasicEstateElement],
@@ -33,7 +33,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
     isFullWidth = false,
     headingName = deceasedName
 ) {
-    @ihtHelpers.error_summary_override_keys(moneyOwedForm, Constants.AppSectionMoneyOwed)
+    @ihtHelpers.error_summary_override_keys(moneyOwedForm, AppSectionMoneyOwed)
 
     @helpers.form(action = iht.controllers.application.assets.routes.MoneyOwedController.onSubmit, 'autoComplete -> "off") {
 
@@ -43,7 +43,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
 
 
         @ihtHelpers.generic_estate_element_assets(
-            assetType = Constants.AssetTypeSingle,
+            assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.assets.moneyOwed.isOwned",deceasedNameWrap),
             inputTextLabel = Messages("page.iht.application.assets.moneyOwed.inputLabel1"),
             sharableElementForm = moneyOwedForm,
@@ -54,7 +54,10 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-            @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
-                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+            @ihtHelpers.return_link(
+                Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
+                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+                AppSectionMoneyOwedID
+            )
     }
 }

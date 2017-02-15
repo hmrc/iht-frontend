@@ -19,7 +19,7 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
-@import iht.constants.Constants
+@import iht.constants.Constants._
 @import iht.utils.CommonHelper
 
 @(businessInterestForm: Form[BasicEstateElement],
@@ -31,14 +31,14 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
     browserTitle = Some(Messages("page.iht.application.assets.businessInterest.browserTitle")),
     isFullWidth = false
 ) {
-    @ihtHelpers.error_summary_override_keys(businessInterestForm, Constants.AppSectionBusinessInterest)
+    @ihtHelpers.error_summary_override_keys(businessInterestForm, AppSectionBusinessInterest)
 
     @helpers.form(action = iht.controllers.application.assets.routes.BusinessInterestsController.onSubmit, 'autoComplete -> "off") {
         <p class="lede">@Html(Messages("page.iht.application.assets.businessInterest.description.p1",deceasedName))</p>
         <p>@Html(Messages("page.iht.application.assets.businessInterest.description.p2",deceasedName))</p>
 
         @ihtHelpers.generic_estate_element_assets(
-            assetType = Constants.AssetTypeSingle,
+            assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.assets.businessInterest.isOwned",deceasedName),
             inputTextLabel = Messages("page.iht.application.assets.businessInterest.inputLabel1"),
             sharableElementForm = businessInterestForm,
@@ -51,8 +51,11 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_])
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
-                                    Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+            @ihtHelpers.return_link(
+                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
+                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+                AppSectionBusinessInterestID
+            )
         }
     }
 }

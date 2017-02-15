@@ -20,6 +20,7 @@
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
 @import iht.utils.CommonHelper
+@import iht.constants.Constants._
 
 @(trustsOwnedQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
@@ -50,8 +51,11 @@ headingName = deceasedName){
       </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
-        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+            @ihtHelpers.return_link(
+                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
+                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+                AppSectionHeldInTrustID
+            )
         }
 }
 }

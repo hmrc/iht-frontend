@@ -24,6 +24,7 @@
 @import iht.utils.OverviewHelper._
 @import iht.views.html.application.gift._
 @import iht.views.html.application._
+@import iht.constants.Constants._
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
@@ -42,4 +43,7 @@ returnToMessagesKey: String
                                         messagesFileSectionLine2 = "page.iht.application.assets.insurance.policies.overview.guidance2",
                                         returnToCall = returnToCall,
                                         returnToMessagesKey = returnToMessagesKey,
-                                        showStatus = false))
+                                        showStatus = false,
+                                        returnHash = AppSectionInsurancePolicyID
+    )
+)

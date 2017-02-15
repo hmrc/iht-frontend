@@ -30,7 +30,8 @@ messagesFileSectionLine2: String,
 returnToCall: Option[Call],
 returnToMessagesKey: String,
 returnAsButton: Boolean = false,
-showStatus: Boolean = true
+showStatus: Boolean = true,
+returnHash: String = ""
 )(implicit request: Request[_])
 
 <p id="assets-guidance1" class="lede">@Html(Messages(messagesFileSectionLine1))</p>
@@ -99,7 +100,7 @@ showStatus: Boolean = true
     @if(returnAsButton){
       @ihtHelpers.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
     } else {
-        @ihtHelpers.return_link(Messages(returnToMessagesKey, ihtHelpers.name(dd.name)), returnToCall)
+        @ihtHelpers.return_link(Messages(returnToMessagesKey, ihtHelpers.name(dd.name)), returnToCall, returnHash)
     }
   }
 </div>
