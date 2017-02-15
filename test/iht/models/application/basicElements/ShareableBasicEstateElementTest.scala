@@ -53,14 +53,14 @@ class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar{
   }
 
   "totalValue" must {
-    "return correct total value of household" in {
+    "return correct total value" in {
       val shareableBasicElement = CommonBuilder.buildShareableBasicElement.copy(value = Some(BigDecimal(10000)),
         shareValue = Some(BigDecimal(20000)))
 
       shareableBasicElement.totalValue shouldBe Some(BigDecimal(30000))
     }
 
-    "returns None, if values for listed and notListed are None" in {
+    "returns None, if value and sharedValue are None" in {
       val shareableBasicElement = CommonBuilder.buildShareableBasicElement
 
       shareableBasicElement.totalValue shouldBe empty
@@ -75,7 +75,7 @@ class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar{
       shareableBasicElement.isValueEntered shouldBe true
     }
 
-    "return false if values for listed and notListed shares are not entered" in {
+    "return false if value and sharedValue are not entered" in {
       val shareableBasicElement = CommonBuilder.buildShareableBasicElement
 
       shareableBasicElement.isValueEntered shouldBe false
