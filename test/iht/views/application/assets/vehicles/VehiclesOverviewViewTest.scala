@@ -17,13 +17,13 @@
 package iht.views.application.assets.vehicles
 
 import iht.controllers.application.assets.vehicles.routes._
-import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_overview
-import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
 class VehiclesOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
@@ -51,6 +51,7 @@ class VehiclesOverviewViewTest extends ViewTestHelper with ShareableElementOverv
   override def jointlyOwnedValueRowId = "deceased-share-value"
   override def jointlyOwnedValueText = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
 
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
   override def viewWithQuestionsAnsweredNo: String = vehicles_overview(dataWithQuestionsAnsweredNo, regDetails).toString
   override def viewWithQuestionsAnsweredYes: String = vehicles_overview(dataWithQuestionsAnsweredYes, regDetails).toString
   override def viewWithQuestionsUnanswered: String = vehicles_overview(None, regDetails).toString

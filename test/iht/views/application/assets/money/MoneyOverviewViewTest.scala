@@ -24,6 +24,8 @@ import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.money.money_overview
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
 class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
@@ -50,6 +52,7 @@ class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverview
   override def jointlyOwnedValueRowId = "deceased-shared-value"
   override def jointlyOwnedValueText = Messages("page.iht.application.assets.money.jointly.owned.input.value.label")
 
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
   override def viewWithQuestionsAnsweredNo: String = money_overview(dataWithQuestionsAnsweredNo, regDetails).toString
   override def viewWithQuestionsAnsweredYes: String = money_overview(dataWithQuestionsAnsweredYes, regDetails).toString
   override def viewWithQuestionsUnanswered: String = money_overview(None, regDetails).toString
