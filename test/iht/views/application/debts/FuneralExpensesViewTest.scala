@@ -17,21 +17,27 @@
 package iht.views.application.debts
 
 import iht.forms.ApplicationForms._
+import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.html.application.debts.funeral_expenses
+import play.api.data.Form
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
 /**
   * Created by vineet on 15/11/16.
   */
-class FuneralExpensesViewTest extends DebtsElementViewBehaviour{
+class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
                                                   deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
                                                              maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                                   deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+
+  override def form:Form[BasicEstateElementLiabilities] = funeralExpensesForm
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => funeral_expenses(form, regDetails)
 
   override def pageTitle = Messages("iht.estateReport.debts.funeralExpenses.title")
   override def browserTitle = Messages("iht.estateReport.debts.funeralExpenses.title")
@@ -40,12 +46,6 @@ class FuneralExpensesViewTest extends DebtsElementViewBehaviour{
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
   override def yesNoQuestionText = Messages("page.iht.application.debts.funeralExpenses.isOwned")
   override def inputValueFieldLabel = Messages("iht.estateReport.debts.valueOfFuneralCosts")
-
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = funeral_expenses(funeralExpensesForm, regDetails).toString
-    val doc = asDocument(view)
-  }
 
   "FuneralExpensesView" must {
     behave like debtsElement

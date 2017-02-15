@@ -58,7 +58,7 @@ headingName = deceasedName
                 <span class="visually-hidden">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.screenreader.ident", (i + 1)) </span>
                 @(element.name) match {
                     case (None) => { @Messages("iht.estateReport.exemptions.charities.noNameAdded") }
-                    case (Some(name)) => { @name }
+                    case (Some(name)) => { @ihtHelpers.name(name) }
                 }
             </div>
             <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
@@ -103,7 +103,14 @@ headingName = deceasedName
 <p id="add-qualifyingBody-link">
     <!-- TODO: Change route to add a qualifying body -->
     <a id="add-qualifyingBody" href='@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url'>
-        @Messages("iht.estateReport.assets.qualifyingBodyAdd") </a>
+        @{
+            if(qualifyingBodies.isEmpty){
+                Messages("iht.estateReport.assets.qualifyingBodyAdd")
+            } else {
+                Messages("iht.estateReport.assets.qualifyingBodyAddAnother")
+            }
+        }
+    </a>
 </p>
 
 <p>

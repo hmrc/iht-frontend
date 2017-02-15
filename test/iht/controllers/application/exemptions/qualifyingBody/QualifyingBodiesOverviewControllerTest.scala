@@ -120,6 +120,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       info("return to exemptions link is present")
       content should include(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad().url)
       info("link to the exemptions overview is present")
+      content should include(Messages("iht.estateReport.assets.qualifyingBodyAdd"))
     }
 
     "include a link to change the Qualifying Bodies question when no qualifying bodies are set up" in {
@@ -157,6 +158,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
+      contentAsString(result) should include(Messages("iht.estateReport.assets.qualifyingBodyAddAnother"))
     }
   }
 }

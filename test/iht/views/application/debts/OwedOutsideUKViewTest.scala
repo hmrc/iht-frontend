@@ -17,15 +17,17 @@
 package iht.views.application.debts
 
 import iht.forms.ApplicationForms._
+import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
-import play.api.i18n.Messages
 import iht.views.html.application.debts.owed_outside_uk
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
 /**
   * Created by vineet on 15/11/16.
   */
-class OwedOutsideUKViewTest extends DebtsElementViewBehaviour{
+class OwedOutsideUKViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -33,17 +35,15 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour{
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
+  override def form:Form[BasicEstateElementLiabilities] = debtsOutsideUkForm
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => owed_outside_uk(form, regDetails)
+
   override def pageTitle = Messages("iht.estateReport.debts.owedOutsideUK")
   override def browserTitle = Messages("page.iht.application.debts.debtsOutsideUk.browserTitle")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.debtsOutsideUk.description.p1"))
+  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.debtsOutsideUk.description.p1"),
+    Messages("page.iht.application.debts.debtsOutsideUk.description.p2"))
   override def yesNoQuestionText = Messages("page.iht.application.debts.debtsOutsideUk.isOwned")
   override def inputValueFieldLabel = Messages("iht.estateReport.debts.owedOutsideUK.value")
-
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = owed_outside_uk(debtsOutsideUkForm, regDetails).toString
-    val doc = asDocument(view)
-  }
 
   "OwedOutsideUKView" must {
     behave like debtsElement

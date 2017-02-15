@@ -18,16 +18,22 @@ package iht.views.application.assets.insurancePolicy
 
 import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
+import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_deceased_own
+import play.api.data.Form
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
-class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour{
+class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[InsurancePolicy]{
 
     lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def form:Form[InsurancePolicy] = insurancePolicyDeceasedOwnQuestionForm
+  override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_deceased_own(form, regDetails)
 
     override def pageTitle = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
     override def browserTitle = Messages("page.iht.application.insurance.policies.section1.browserTitle")
@@ -42,23 +48,14 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
       behave like yesNoValueView
 
       "show the correct guidance" in {
-        val f = fixture()
-        messagesShouldBePresent(f.view,
+        messagesShouldBePresent(view,
           Messages("page.iht.application.insurance.policies.section1.guidance", deceasedName, deceasedName))
       }
 
       "show the value question in bold " in {
-        val f = fixture()
-
-        val label = f.doc.getElementById("value-container")
+        val label = doc.getElementById("value-container")
         label.getElementsByTag("span").hasClass("form-label bold")
       }
-    }
-
-    override def fixture() = new {
-      implicit val request = createFakeRequest()
-      val view = insurance_policy_details_deceased_own(insurancePolicyDeceasedOwnQuestionForm, regDetails).toString
-      val doc = asDocument(view)
     }
 
 }
