@@ -26,6 +26,7 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset._
+import iht.constants.Constants._
 
 object MoneyOwedController extends MoneyOwedController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -59,7 +60,7 @@ trait MoneyOwedController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](moneyOwedForm,
         money_owed.apply,
         updateApplicationDetails,
-        assetsRedirectLocation
+        addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionMoneyOwedID))
       )
     }
   }

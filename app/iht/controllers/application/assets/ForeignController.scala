@@ -26,6 +26,7 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset._
+import iht.constants.Constants._
 
 object ForeignController extends ForeignController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -58,7 +59,7 @@ trait ForeignController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](foreignForm,
         foreign.apply,
         updateApplicationDetails,
-        assetsRedirectLocation
+        addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionForeignID))
       )
     }
   }

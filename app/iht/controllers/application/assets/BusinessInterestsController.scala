@@ -26,6 +26,7 @@ import iht.models.application.assets._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset._
+import iht.constants.Constants._
 
 object BusinessInterestsController extends BusinessInterestsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -59,7 +60,7 @@ trait BusinessInterestsController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](businessInterestForm,
         business_interests.apply,
         updateApplicationDetails,
-        assetsRedirectLocation
+        addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionBusinessInterestID))
       )
     }
   }

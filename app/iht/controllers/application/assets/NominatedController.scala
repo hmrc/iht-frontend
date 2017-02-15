@@ -26,6 +26,7 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.{ApplicationKickOutHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.asset._
+import iht.constants.Constants._
 
 object NominatedController extends NominatedController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -57,7 +58,8 @@ trait NominatedController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](nominatedForm,
         nominated.apply,
         updateApplicationDetails,
-        assetsRedirectLocation)
+        addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionNominatedID))
+      )
     }
   }
 }
