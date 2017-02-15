@@ -197,7 +197,7 @@ trait XmlFoToPDF {
   private def setupTransformerEventHandling(transformer: Transformer) = {
     val errorListener = new ErrorListener {
       override def warning(exception: TransformerException): Unit =
-        Logger.warn(exception.getMessageAndLocation)
+        Logger.debug(exception.getMessageAndLocation)
 
       override def error(exception: TransformerException): Unit = {
         Logger.error(exception.getMessage, exception)
@@ -222,7 +222,7 @@ trait XmlFoToPDF {
             Logger.info(msg)
             None
           case EventSeverity.WARN =>
-            Logger.warn(msg)
+            Logger.debug(msg)
             None
           case EventSeverity.ERROR =>
             Logger.error(msg)
