@@ -21,21 +21,25 @@ import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
 import iht.testhelpers.CommonBuilder
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
-import iht.views.html.application.asset.properties.property_tenure
+import iht.views.html.application.asset.properties.{property_ownership, property_tenure}
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
+class PropertyOwnershipViewTest extends ApplicationPageBehaviour[Property] {
+  def registrationDetails = CommonBuilder.buildRegistrationDetails1
+
+  def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+
   override def guidanceParagraphs = Set(
     Messages("iht.estateReport.assets.property.youCan"),
     Messages("iht.estateReport.assets.property.findOutFromLandRegistry"),
-    Messages("page.iht.application.assets.property.tenure.guidance1b")
+    Messages("page.iht.application.assets.property.ownership.guidance1b")
   )
 
-  override def pageTitle = Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")
+  override def pageTitle = Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName)
 
-  override def browserTitle = Messages("page.iht.application.assets.property.tenure.browserTitle")
+  override def browserTitle = Messages("page.iht.application.assets.property.ownership.browserTitle")
 
   override def formTarget = Some(CommonBuilder.DefaultCall1)
 
@@ -48,31 +52,40 @@ class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
 
   override val cancelId: String = "cancel-button"
 
-  override def form: Form[Property] = propertyTenureForm
+  override def form: Form[Property] = typeOfOwnershipForm
 
   override def formToView: Form[Property] => Appendable =
     form =>
-      property_tenure(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2)
+      property_ownership(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
 
-  "Property Tenure View" must {
+  "Property Ownership View" must {
     behave like applicationPageWithErrorSummaryBox()
   }
 
   behave like pageWithRadioButton(
-    testTitle = "freehold tenure",
-    titleId = "tenure-freehold-main",
-    titleExpectedValue = "page.iht.application.assets.tenure.freehold.label",
-    hintId = "tenure-freehold-hint",
-    hintExpectedValue = "page.iht.application.assets.tenure.freehold.hint"
+    testTitle = "only by the deceased",
+    titleId = "typeOfOwnership-deceased_only-main",
+    titleExpectedValue = "page.iht.application.assets.typeOfOwnership.deceasedOnly.label",
+    hintId = "typeOfOwnership-deceased_only-hint",
+    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.deceasedOnly.hint"
   )
 
   behave like pageWithRadioButton(
-    testTitle = "leasehold tenure",
-    titleId = "tenure-leasehold-main",
-    titleExpectedValue = "page.iht.application.assets.tenure.leasehold.label",
-    hintId = "tenure-leasehold-hint",
-    hintExpectedValue = "page.iht.application.assets.tenure.leasehold.hint"
+    testTitle = "joint tenants",
+    titleId = "typeOfOwnership-joint-main",
+    titleExpectedValue = "page.iht.application.assets.typeOfOwnership.joint.label",
+    hintId = "typeOfOwnership-joint-hint",
+    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.joint.hint"
   )
+
+  behave like pageWithRadioButton(
+    testTitle = "tenants in common",
+    titleId = "typeOfOwnership-in_common-main",
+    titleExpectedValue = "page.iht.application.assets.typeOfOwnership.inCommon.label",
+    hintId = "typeOfOwnership-in_common-hint",
+    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.inCommon.hint"
+  )
+
 
   behave like pageWithLink("land-registry-link", IhtProperties.linkLandRegistry,
     Messages("iht.estateReport.assets.property.findOutFromLandRegistry"))

@@ -24,6 +24,7 @@ deceasedName: String
 @import iht.views.html._
 @import iht.utils._
 @import iht.constants.FieldMappings
+@import iht.constants.IhtProperties
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName),
 browserTitle = Some(Messages("page.iht.application.assets.property.ownership.browserTitle")),
@@ -34,7 +35,7 @@ headingName = deceasedName) {
 @ihtHelpers.error_summary(propertyOwnership)
 
 <p id="property-ownership-guidance-1">@Messages("iht.estateReport.assets.property.youCan")
-    <span id="land-registry"><a href="https://www.gov.uk/search-property-information-land-registry">
+    <span id="land-registry"><a id="land-registry-link" href="@IhtProperties.linkLandRegistry">
         @Messages("iht.estateReport.assets.property.findOutFromLandRegistry")</a></span>
     @Messages("page.iht.application.assets.property.ownership.guidance1b")</p>
 
@@ -61,9 +62,8 @@ FieldMappings.typesOfOwnership.toSeq,
   </div>
 </div>
 
-<div id='save-ownership-button'>
-    <p><input id='save-continue' class='button' type='submit' value='@Messages("iht.saveAndContinue")'></p>
+<div id="save-ownership-button" class="form-field form-field--submit">
+    <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
-
 }
 }
