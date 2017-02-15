@@ -20,7 +20,7 @@ import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-class HouseholdTest extends UnitSpec with MockitoSugar {
+class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar {
 
   "totalValue" must {
 
