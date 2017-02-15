@@ -16,10 +16,10 @@
 
 package iht.views.iv.failurepages
 
-import iht.views.html.iv.failurepages.{technical_issue, timeout}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.iv.failurepages.timeout
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages
-import play.api.mvc.Call
 
 class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
   def guidanceParagraphs = Set(
@@ -31,11 +31,11 @@ class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = Messages("page.iht.iv.failure.timeout.title")
 
-  def view: String = timeout("IVURL").toString
+  def view: String = timeout(CommonBuilder.DefaultCall1.url).toString
 
   override def exitComponent = Some(
     ExitComponent(
-      Call("GET", "IVURL"),
+      CommonBuilder.DefaultCall1,
       Messages("iht.startAgain")
     )
   )

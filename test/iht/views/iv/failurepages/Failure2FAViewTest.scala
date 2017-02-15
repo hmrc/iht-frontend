@@ -16,7 +16,7 @@
 
 package iht.views.iv.failurepages
 
-import iht.constants.IhtProperties
+import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.failure_2fa
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages
@@ -32,7 +32,7 @@ class Failure2FAViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = Messages("page.iht.iv.failure.2fa.title")
 
-  def view: String = failure_2fa("IVURL").toString
+  def view: String = failure_2fa(CommonBuilder.DefaultCall1.url).toString
 
   override def exitComponent = Some(
     ExitComponent(
@@ -46,7 +46,7 @@ class Failure2FAViewTest extends GenericNonSubmittablePageBehaviour {
 
     "show the verify link with the correct target and text" in {
       val cancelButton = doc.getElementById("verify-link")
-      cancelButton.attr("href") shouldBe "IVURL"
+      cancelButton.attr("href") shouldBe CommonBuilder.DefaultCall1.url
       cancelButton.text() shouldBe Messages("page.iht.iv.failure.2fa.verifyLink")
     }
   }

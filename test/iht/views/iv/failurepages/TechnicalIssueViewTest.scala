@@ -16,10 +16,10 @@
 
 package iht.views.iv.failurepages
 
+import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.technical_issue
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages
-import play.api.mvc.Call
 
 class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
   def guidanceParagraphs = Set(
@@ -32,11 +32,11 @@ class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = Messages("page.iht.iv.failure.technicalIssue.title")
 
-  def view: String = technical_issue("IVURL").toString
+  def view: String = technical_issue(CommonBuilder.DefaultCall1.url).toString
 
   override def exitComponent = Some(
     ExitComponent(
-      Call("GET", "IVURL"),
+      CommonBuilder.DefaultCall1,
       Messages("iht.iv.tryAgain")
     )
   )

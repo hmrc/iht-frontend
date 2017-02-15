@@ -16,10 +16,10 @@
 
 package iht.views.iv.failurepages
 
-import iht.views.html.iv.failurepages.{insufficient_evidence, precondition_failed}
+import iht.testhelpers.CommonBuilder
+import iht.views.html.iv.failurepages.insufficient_evidence
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages
-import play.api.mvc.Call
 
 class InsufficientEvidenceViewTest extends GenericNonSubmittablePageBehaviour {
   def guidanceParagraphs = Set(
@@ -31,11 +31,11 @@ class InsufficientEvidenceViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = Messages("error.problem")
 
-  def view: String = insufficient_evidence("IVURL").toString
+  def view: String = insufficient_evidence(CommonBuilder.DefaultCall1.url).toString
 
   override def exitComponent = Some(
     ExitComponent(
-      Call("GET", "IVURL"),
+      CommonBuilder.DefaultCall1,
       Messages("iht.iv.tryAgain")
     )
   )

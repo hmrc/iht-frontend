@@ -16,7 +16,7 @@
 
 package iht.views.iv.failurepages
 
-import iht.views.html.iv.failurepages.{failed_matching, incomplete}
+import iht.views.html.iv.failurepages.incomplete
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages
 
