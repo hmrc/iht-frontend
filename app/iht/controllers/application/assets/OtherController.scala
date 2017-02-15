@@ -26,6 +26,7 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset._
+import play.api.mvc.Call
 
 object OtherController extends OtherController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -38,6 +39,8 @@ trait OtherController extends EstateController {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElement](otherForm, other.apply, _.allAssets.flatMap(_.other))
   }
+
+
 
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
@@ -59,7 +62,7 @@ trait OtherController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](otherForm,
         other.apply,
         updateApplicationDetails,
-        assetsRedirectLocation
+        addFragmentIdentifier(assetsRedirectLocation)
       )
     }
   }

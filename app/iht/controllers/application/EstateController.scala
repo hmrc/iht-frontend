@@ -35,6 +35,13 @@ import scala.util.{Failure, Success, Try}
 
 trait EstateController extends ApplicationController {
 
+  def addFragmentIdentifier(call:Call, identifier:Option[String] = None) = {
+    identifier match {
+      case None => call
+      case Some(id) => Call(call.method, call.url + "#" + id)
+    }
+  }
+
   val applicationSection:Option[String] = None
 
   def cachingConnector: CachingConnector
