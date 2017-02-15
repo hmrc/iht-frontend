@@ -47,6 +47,8 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   def cancelComponent: Option[CancelComponent]
 
+  val cancelId: String = "return-button"
+
   def applicationPage() = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
@@ -76,7 +78,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     if (cancelComponent.isDefined) {
       "show the return link with the correct target and text" in {
         cancelComponent.foreach { attrib =>
-          val cancelButton = doc.getElementById("return-button")
+          val cancelButton = doc.getElementById(cancelId)
           cancelButton.attr("href") shouldBe attrib.target.url
           cancelButton.text() shouldBe attrib.content
         }
