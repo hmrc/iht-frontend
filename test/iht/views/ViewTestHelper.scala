@@ -69,4 +69,9 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     val helpText = label.getElementsByTag("span").get(1)
     helpText.text shouldBe Messages(messageKey)
   }
+
+  def elementShouldHaveText(doc:Document, id:String, expectedValueMessageKey:String) = {
+    val element = doc.getElementById(id)
+    element.text shouldBe Messages(expectedValueMessageKey)
+  }
 }

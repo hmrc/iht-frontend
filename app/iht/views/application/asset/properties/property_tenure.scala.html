@@ -23,6 +23,7 @@ cancelUrl:Call
 @import iht.views.html._
 @import iht.utils._
 @import iht.constants.FieldMappings
+@import iht.constants.IhtProperties
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.properties.freeholdOrLeasehold"),
 browserTitle = Some(Messages("page.iht.application.assets.property.tenure.browserTitle")),
@@ -32,7 +33,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 @ihtHelpers.error_summary(propertyTenure)
 
 <p id="tenure-guidance">@Messages("iht.estateReport.assets.property.youCan")
-<span id="land-registry"><a href="https://www.gov.uk/search-property-information-land-registry">
+<span id="land-registry"><a id="land-registry-link" href="@IhtProperties.linkLandRegistry">
     @Messages("iht.estateReport.assets.property.findOutFromLandRegistry")</a></span>
 @Messages("page.iht.application.assets.property.tenure.guidance1b")</p>
 

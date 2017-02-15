@@ -86,6 +86,16 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     }
   }
 
+  def pageWithLink(anchorId: => String, href: => String, text: => String) = {
+    def anchor = doc.getElementById(anchorId)
+    s"have a link with id $anchorId and correct target" in {
+      anchor.attr("href") shouldBe href
+    }
+    s"have a link with id $anchorId and correct text" in {
+      anchor.text() shouldBe text
+    }
+  }
+
   def applicationPageWithErrorSummaryBox() = {
     applicationPage()
     "display the 'There's a problem' box if there's an error" in {
@@ -105,6 +115,16 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
       val cancelLink = view.getElementById("cancel-button")
       cancelLink.attr("href") shouldBe cancelUrl.url
       cancelLink.text() shouldBe Messages("site.link.cancel")
+    }
+  }
+
+  def pageWithRadioButton(testTitle:String,
+                          titleId: String, titleExpectedValue: String, hintId: String, hintExpectedValue: String) = {
+    s"contain $testTitle radio button with correct title" in {
+      doc.getElementById(titleId).text shouldBe Messages(titleExpectedValue)
+    }
+    s"contain $testTitle radio buton with correct hint text" in {
+      doc.getElementById(hintId).text shouldBe Messages(hintExpectedValue)
     }
   }
 }

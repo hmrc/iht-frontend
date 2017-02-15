@@ -16,10 +16,11 @@
 
 package iht.views.application.assets.properties
 
+import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent, ValueViewBehaviour}
+import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.asset.properties.property_tenure
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -57,11 +58,22 @@ class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
     behave like applicationPageWithErrorSummaryBox()
   }
 
-  "includes \"freehold\"" in {
-    val elementDiv = doc.getElementById("tenure-freehold-main")
-    elementDiv.text shouldBe Messages("page.iht.application.assets.tenure.freehold.label")
-    val elementSpan = doc.getElementById("tenure-freehold-hint")
-    elementSpan.text shouldBe Messages("page.iht.application.assets.tenure.freehold.hint")
-  }
+  behave like pageWithRadioButton(
+    testTitle = "freehold tenure",
+    titleId = "tenure-freehold-main",
+    titleExpectedValue = "page.iht.application.assets.tenure.freehold.label",
+    hintId = "tenure-freehold-hint",
+    hintExpectedValue = "page.iht.application.assets.tenure.freehold.hint"
+  )
 
+  behave like pageWithRadioButton(
+    testTitle = "leasehold tenure",
+    titleId = "tenure-leasehold-main",
+    titleExpectedValue = "page.iht.application.assets.tenure.leasehold.label",
+    hintId = "tenure-leasehold-hint",
+    hintExpectedValue = "page.iht.application.assets.tenure.leasehold.hint"
+  )
+
+  behave like pageWithLink("land-registry-link", IhtProperties.linkLandRegistry,
+    Messages("iht.estateReport.assets.property.findOutFromLandRegistry"))
 }
