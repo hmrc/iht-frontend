@@ -17,6 +17,7 @@
 package iht.testhelpers
 
 import org.joda.time.LocalDate
+import iht.models.application.basicElements.ShareableBasicEstateElement
 
 /**
  *
@@ -105,4 +106,23 @@ object TestHelper {
   lazy val spouseOrCivilPartnerMessageKey = "page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText"
   lazy val marriedMessageKey = "page.iht.application.tnrbEligibilty.partner.married.label"
   lazy val marriedOrInCivilPartnershipMessageKey = "page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label"
+}
+
+trait SharableOverviewData {
+
+  val dataWithQuestionsAnsweredNo =
+    Some(ShareableBasicEstateElement(value = None, shareValue = None, isOwned = Some(false), isOwnedShare = Some(false)))
+
+  val dataWithQuestionsAnsweredYes =
+    Some(ShareableBasicEstateElement(value = None, shareValue = None, isOwned = Some(true), isOwnedShare = Some(true)))
+
+  val ownedAmount = 1234.0
+  val ownedAmountDisplay = "£1,234.00"
+  val jointAmount = 2345.0
+  val jointAmountDisplay = "£2,345.00"
+
+  val dataWithValues =
+    Some(ShareableBasicEstateElement(value = Some(ownedAmount), shareValue = Some(jointAmount),
+      isOwned = Some(true), isOwnedShare = Some(true)))
+
 }

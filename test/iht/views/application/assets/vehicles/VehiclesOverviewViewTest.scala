@@ -58,30 +58,7 @@ class VehiclesOverviewViewTest extends ViewTestHelper with ShareableElementOverv
   override def viewWithValues: String = vehicles_overview(dataWithValues, regDetails).toString
 
   "Vehicles overview view" must {
-
-    behave like overviewView()
-  }
-
-  "Vehicles overview view" when {
-    "no questions have been answered" must {
-
-      behave like overviewViewWithQuestionsUnanswered()
-    }
-
-    "the questions have been answered as No" must {
-
-      behave like overviewViewWithQuestionsAnsweredNo()
-    }
-
-    "the questions have been answered as Yes with no value supplied" must {
-
-      behave like overviewViewWithQuestionsAnsweredYes()
-    }
-
-    "the questions have been answered and values given" must {
-
-      behave like overviewViewWithValues()
-    }
+    behave like overviewPage()
   }
 
 }

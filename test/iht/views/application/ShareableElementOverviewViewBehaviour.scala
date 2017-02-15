@@ -16,11 +16,10 @@
 
 package iht.views.application
 
+import iht.testhelpers.SharableOverviewData
 import iht.views.ViewTestHelper
 import iht.views.helpers.GenericOverviewHelper._
 import play.api.i18n.Messages
-import play.api.mvc.AnyContentAsEmpty
-import play.api.test.FakeRequest
 
 trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with SharableOverviewData{
 
@@ -48,7 +47,15 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
   def viewWithQuestionsUnanswered: String
   def viewWithValues: String
 
-  def overviewView() = {
+  def overviewPage()  = {
+    overviewViewWithGenericContents()
+    overviewViewWithQuestionsUnanswered("questionsUnanswered view")
+    overviewViewWithQuestionsAnsweredNo("questionsAnsweredNo view")
+    overviewViewWithQuestionsAnsweredYes("questionsAnsweredYes view")
+    overviewViewWithValues("view with values")
+  }
+
+  def overviewViewWithGenericContents() = {
 
     "have the correct title" in {
       titleShouldBeCorrect(viewWithQuestionsAnsweredNo, pageTitle)
@@ -70,115 +77,115 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
     }
   }
 
-  def overviewViewWithQuestionsUnanswered() = {
-    "show the 'owned only by the deceased' question header as being unanswered with a link to give details" in {
+  def overviewViewWithQuestionsUnanswered(sectionName: String) = {
+    "show the 'owned only by the deceased' question header as unanswered with a link to give details in " + sectionName in {
 
       headerQuestionShouldBeUnanswered(asDocument(viewWithQuestionsUnanswered), ownHeadingElementId, ownHeaderText, urlToOwnPage)
     }
 
-    "show the 'jointly owned' question header as being unanswered with a link to give details" in {
+    "show the 'jointly owned' question header as unanswered with a link to give details in " + sectionName in {
       headerQuestionShouldBeUnanswered(asDocument(viewWithQuestionsUnanswered),
                                 jointlyOwnedHeadingElementId, jointlyOwnedHeaderText, urlToJointlyOwnedPage)
     }
 
-    "not show the 'owned only by the deceased' question row" in {
+    "not show the 'owned only by the deceased' question row in " + sectionName in {
       assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), ownQuestionRowId)
     }
 
-    "not show the 'value owned only be the deceased' row" in {
+    "not show the 'value owned only be the deceased' row in " + sectionName in {
       assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), ownValueRowId)
     }
 
-    "not show the 'jointly owned' question row" in {
+    "not show the 'jointly owned' question row in " + sectionName in {
       assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), jointlyOwnedQuestionRowId)
     }
 
-    "not show the 'value jointly owned' row" in {
+    "not show the 'value jointly owned' row in " + sectionName in {
       assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), jointlyOwnedValueRowId)
     }
   }
 
-  def overviewViewWithQuestionsAnsweredNo() = {
+  def overviewViewWithQuestionsAnsweredNo(sectionName: String) = {
 
-    "show the 'only owned by the deceased' question header as being answered with no link" in {
+    "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo), ownHeadingElementId, ownHeaderText)
     }
 
-    "show the 'jointly owned' question header as being answered with no link" in {
+    "show the 'jointly owned' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo), jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
     }
 
-    "show the 'owned only by the deceased' question row with an answer of No" in {
+    "show the 'owned only by the deceased' question row with an answer of No in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo), ownQuestionRowId, ownQuestionText, "No", "iht.change", urlToOwnPage)
     }
 
-    "not show the 'value owned only be the deceased' row" in {
+    "not show the 'value owned only be the deceased' row in " + sectionName in {
       assertNotRenderedById(asDocument(viewWithQuestionsAnsweredNo), ownValueRowId)
     }
 
-    "show the 'jointly owned' question row with an answer of No" in {
+    "show the 'jointly owned' question row with an answer of No in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo),
         jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "No", "iht.change", urlToJointlyOwnedPage)
     }
 
-    "not show the 'value jointly owned' row" in {
+    "not show the 'value jointly owned' row in " + sectionName in {
       assertNotRenderedById(asDocument(viewWithQuestionsAnsweredNo), jointlyOwnedValueRowId)
     }
   }
 
-  def overviewViewWithQuestionsAnsweredYes() = {
+  def overviewViewWithQuestionsAnsweredYes(sectionName: String) = {
 
-    "show the 'only owned by the deceased' question header as being answered with no link" in {
+    "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), ownHeadingElementId, ownHeaderText)
     }
 
-    "show the 'jointly owned' question header as being answered with no link" in {
+    "show the 'jointly owned' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
     }
 
-    "show the 'owned only by the deceased' question row with an answer of Yes" in {
+    "show the 'owned only by the deceased' question row with an answer of Yes in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), ownQuestionRowId, ownQuestionText, "Yes", "iht.change", urlToOwnPage)
     }
 
-    "show the 'value owned only be the deceased' row as unanswered" in {
+    "show the 'value owned only be the deceased' row as unanswered in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), ownValueRowId, ownValueText, "", "site.link.giveAValue", urlToOwnPage)
     }
 
-    "show the 'jointly owned' question row with an answer of Yes" in {
+    "show the 'jointly owned' question row with an answer of Yes in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes),
                       jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "Yes", "iht.change", urlToJointlyOwnedPage)
     }
 
-    "show the 'value jointly owned' row as unanswered" in {
+    "show the 'value jointly owned' row as unanswered in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes),
                       jointlyOwnedValueRowId, jointlyOwnedValueText, "", "site.link.giveAValue", urlToJointlyOwnedPage)
     }
   }
 
-  def overviewViewWithValues() = {
+  def overviewViewWithValues(sectionName: String) = {
 
-    "show the 'only owned by the deceased' question header as being answered with no link" in {
+    "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithValues), ownHeadingElementId, ownHeaderText)
     }
 
-    "show the 'jointly owned' question header as being answered with no link" in {
+    "show the 'jointly owned' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithValues), jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
     }
 
-    "show the 'owned only by the deceased' question row with an answer of Yes" in {
+    "show the 'owned only by the deceased' question row with an answer of Yes in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithValues), ownQuestionRowId, ownQuestionText, "Yes", "iht.change", urlToOwnPage)
     }
 
-    "show the 'value owned only by the deceased' row a value" in {
+    "show the 'value owned only by the deceased' row a value in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithValues), ownValueRowId, ownValueText, ownedAmountDisplay, "iht.change", urlToOwnPage)
     }
 
-    "show the 'jointly owned' question row with an answer of Yes" in {
+    "show the 'jointly owned' question row with an answer of Yes in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithValues),
                       jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "Yes", "iht.change", urlToJointlyOwnedPage)
     }
 
-    "show the 'value jointly owned' row with a value" in {
+    "show the 'value jointly owned' row with a value in " + sectionName in {
       rowShouldBeAnswered(asDocument(viewWithValues),
                       jointlyOwnedValueRowId, jointlyOwnedValueText, jointAmountDisplay, "iht.change", urlToJointlyOwnedPage)
     }

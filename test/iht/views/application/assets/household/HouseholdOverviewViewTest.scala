@@ -57,29 +57,7 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
   override def viewWithValues: String = household_overview(dataWithValues, regDetails).toString
 
   "Household overview view" must {
-    behave like overviewView()
-  }
-
-  "Household overview view" when {
-    "no questions have been answered" must {
-
-      behave like overviewViewWithQuestionsUnanswered()
-    }
-
-    "the questions have been answered as No" must {
-
-      behave like overviewViewWithQuestionsAnsweredNo()
-    }
-
-    "the questions have been answered as Yes with no value supplied" must {
-
-      behave like overviewViewWithQuestionsAnsweredYes()
-    }
-
-    "the questions have been answered and values given" must {
-
-      behave like overviewViewWithValues()
-    }
+    behave like overviewPage()
   }
 
 }
