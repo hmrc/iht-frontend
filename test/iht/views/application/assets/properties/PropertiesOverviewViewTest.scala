@@ -16,10 +16,11 @@
 
 package iht.views.application.assets.properties
 
+import iht.models.UkAddress
 import iht.models.application.assets.Properties
 import iht.testhelpers.CommonBuilder
+import iht.views.html.application.asset.properties.properties_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import iht.views.html.application.asset.properties.{properties_overview, property_details_overview}
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
@@ -33,7 +34,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
 
   override def guidanceParagraphs = Set(
     Messages("page.iht.application.assets.deceased-permanent-home.description.p1", deceasedName),
-    Messages("page.iht.application.assets.deceased-permanent-home.description.p2",deceasedName)
+    Messages("page.iht.application.assets.deceased-permanent-home.description.p2", deceasedName)
   )
 
   override def pageTitle = Messages("page.iht.application.assets.deceased-permanent-home.sectionTitle")
@@ -47,46 +48,55 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     )
   )
 
-  override val exitId: String = "return-button"
-
   override def view =
     properties_overview(List(CommonBuilder.property, CommonBuilder.property2),
       Some(Properties(isOwned = Some(true))),
       registrationDetails).toString()
 
-  "Property Details overview view" must {
-
+  "Properties overview view" must {
     behave like nonSubmittablePage()
 
-    //    "have correct questions" in {
-    //      val view = propertyDetailsOverviewView()
-    //      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.propertyDetails.assetLeftToCharity.question",
-    //                                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
-    //    }
-    //
-    //    "have Add a charity link with correct target" in {
-    //      val view = propertyDetailsOverviewView()
-    //
-    //      val returnLink = view.getElementById("add-charity")
-    //      returnLink.attr("href") shouldBe charityDetailsPageUrl.url
-    //      returnLink.text() shouldBe Messages("page.iht.application.exemptions.assetLeftToCharity.addCharity")
-    //    }
-    //
-    //    "show no propertyDetails added message when the is no charity present" in {
-    //      val view = propertyDetailsOverviewView()
-    //
-    //      messagesShouldBePresent(view.toString, Messages("page.iht.application.exemptions.charityOverview.noCharities.text"))
-    //    }
-    //
-    //    "have the return link with correct text" in {
-    //      val view = propertyDetailsOverviewView()
-    //
-    //      val returnLink = view.getElementById("return-button")
-    //      returnLink.attr("href") shouldBe exemptionsOverviewPageUrl.url
-    //      returnLink.text() shouldBe Messages("page.iht.application.return.to.exemptionsOf",
-    //                                          CommonHelper.getOrException(registrationDetails.deceasedDetails.map(_.name)))
-    //    }
+    behave like link("add-property",
+      iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad().url,
+      Messages("iht.estateReport.assets.propertyAdd"))
 
+    "show ownership question" in {
+      elementShouldHaveText(doc, "home-in-uk-question", Messages("page.iht.application.assets.properties.question.question", deceasedName))
+    }
+
+    "show ownership question value" in {
+      elementShouldHaveText(doc, "home-in-uk-value", Messages("iht.yes"))
+    }
+
+    behave like link("home-in-uk-link",
+      iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
+      Messages("iht.change"))
+
+    def addressForDisplayDeleteAndModify(rowNo: Int, expectedUkAddress: UkAddress) = {
+      def addressRow(colNo: Int, rowNo: Int) = {
+        val propertiesUl = doc.getElementById("properties")
+        val listItems = propertiesUl.getElementsByTag("li")
+        listItems.get(rowNo).getElementsByTag("div").get(colNo)
+      }
+      s"show address number ${rowNo + 1}" in {
+        addressRow(0, rowNo).ownText shouldBe formatAddressForDisplay(expectedUkAddress)
+      }
+
+      s"show address number ${rowNo + 1} delete link" in {
+        val deleteDiv = addressRow(3, rowNo)
+        val anchor = deleteDiv.getElementsByTag("a").first
+        getAnchorVisibleText(anchor) shouldBe Messages("iht.delete")
+      }
+
+      s"show address number ${rowNo + 1} give details link" in {
+        val deleteDiv = addressRow(4, rowNo)
+        val anchor = deleteDiv.getElementsByTag("a").first
+        getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
+      }
+    }
+
+    behave like addressForDisplayDeleteAndModify(0, CommonBuilder.DefaultUkAddress)
+
+    behave like addressForDisplayDeleteAndModify(1, CommonBuilder.DefaultUkAddress2)
   }
-
 }

@@ -16,10 +16,13 @@
 
 package iht.views
 
+import iht.models.UkAddress
 import iht.{FakeIhtApp, TestUtils}
-import org.jsoup.nodes.Document
-import iht.utils.CommonHelper._
-import iht.testhelpers.ContentChecker
+import org.jsoup.nodes.{Document, Element}
+
+import scala.collection.JavaConversions._
+import iht.testhelpers.{CommonBuilder, ContentChecker}
+import iht.utils.CommonHelper
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages
@@ -70,8 +73,22 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     helpText.text shouldBe Messages(messageKey)
   }
 
-  def elementShouldHaveText(doc:Document, id:String, expectedValueMessageKey:String) = {
+  def elementShouldHaveText(doc: Document, id: String, expectedValueMessageKey: String) = {
     val element = doc.getElementById(id)
     element.text shouldBe Messages(expectedValueMessageKey)
   }
+
+  def getAnchorVisibleText(anchor: Element) = {
+    val spans: Set[Element] = anchor.getElementsByTag("span").toSet
+    spans.find(_.attr("aria-hidden") == "true") match {
+      case None =>
+        anchor.text
+      case Some(visibleSpan) => visibleSpan.text
+    }
+  }
+
+  def formatAddressForDisplay(address: UkAddress) =
+    CommonHelper.withValue(address) { addr =>
+      s"${addr.ukAddressLine1} ${addr.ukAddressLine2} ${addr.ukAddressLine3.getOrElse("")} ${addr.ukAddressLine4.getOrElse("")} ${addr.postCode}"
+    }
 }

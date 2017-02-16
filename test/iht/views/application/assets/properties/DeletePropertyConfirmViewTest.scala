@@ -55,11 +55,8 @@ class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
     }
 
     "show the address" in {
-      val expectedAddress = CommonHelper.withValue(CommonBuilder.DefaultUkAddress) { addr=>
-        s"${addr.ukAddressLine1} ${addr.ukAddressLine2} ${addr.ukAddressLine3.getOrElse("")} ${addr.ukAddressLine4.getOrElse("")} ${addr.postCode}"
-      }
       val addressDiv = doc.getElementById("address")
-      addressDiv.text shouldBe expectedAddress
+      addressDiv.text shouldBe formatAddressForDisplay(CommonBuilder.DefaultUkAddress)
     }
   }
 }

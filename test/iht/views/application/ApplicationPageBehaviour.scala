@@ -27,6 +27,17 @@ import play.twirl.api.HtmlFormat.Appendable
 case class CancelComponent(target: Call, content: String)
 
 trait ApplicationPageBehaviour[A] extends ViewTestHelper {
+
+  def link(anchorId: => String, href: => String, text: => String) = {
+    def anchor = doc.getElementById(anchorId)
+    s"have a link with id $anchorId and correct target" in {
+      anchor.attr("href") shouldBe href
+    }
+    s"have a link with id $anchorId and correct text" in {
+      anchor.text() shouldBe text
+    }
+  }
+
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   def pageTitle: String
@@ -82,16 +93,6 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
           cancelButton.text() shouldBe attrib.content
         }
       }
-    }
-  }
-
-  def link(anchorId: => String, href: => String, text: => String) = {
-    def anchor = doc.getElementById(anchorId)
-    s"have a link with id $anchorId and correct target" in {
-      anchor.attr("href") shouldBe href
-    }
-    s"have a link with id $anchorId and correct text" in {
-      anchor.text() shouldBe text
     }
   }
 
