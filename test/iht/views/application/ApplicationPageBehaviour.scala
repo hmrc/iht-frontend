@@ -129,4 +129,71 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
       }
     }
   }
+
+  def addressPage(): Unit = {
+
+    "have a line 1 field" in {
+      assertRenderedById(doc, "address.ukAddressLine1")
+    }
+
+    "have the correct label for line 1" in {
+      labelShouldBe(doc, "address.ukAddressLine1-container", "iht.address.line1")
+    }
+
+    "have a line 2 field" in {
+      assertRenderedById(doc, "address.ukAddressLine2")
+    }
+
+    "have the correct label for line 2" in {
+      labelShouldBe(doc, "address.ukAddressLine2-container", "iht.address.line2")
+    }
+
+    "have a line 3 field" in {
+      assertRenderedById(doc, "address.ukAddressLine3")
+    }
+
+    "have the correct label for line 3" in {
+      labelShouldBe(doc, "address.ukAddressLine3-container", "iht.address.line3")
+    }
+
+    "have a line 4 field" in {
+      assertRenderedById(doc, "address.ukAddressLine4")
+    }
+
+    "have the correct label for line 4" in {
+      labelShouldBe(doc, "address.ukAddressLine4-container", "iht.address.line4")
+    }
+  }
+
+  def addressPageUK(): Unit = {
+    addressPage()
+
+    "have a post code field" in {
+      assertRenderedById(doc, "address.postCode")
+    }
+
+    "have the correct label for post code" in {
+      labelShouldBe(doc, "address.postCode-container", "iht.postcode")
+    }
+
+    "not have a country code field" in {
+      assertNotRenderedById(doc, "countryCode")
+    }
+  }
+
+  def addressPageAbroad(): Unit = {
+
+    "have a fieldset with the Id 'details'" in {
+      doc.getElementsByTag("fieldset").first.id shouldBe "details"
+    }
+
+    "have a country code field" in {
+      assertRenderedById(doc, "countryCode")
+    }
+
+    "not have a post code field" in {
+      assertNotRenderedById(doc, "postCode")
+    }
+  }
+
 }
