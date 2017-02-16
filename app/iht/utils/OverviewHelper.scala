@@ -49,9 +49,9 @@ object OverviewHelper {
 
   case class Link(linkText: String, linkTextAccessibility: String, linkUrl: Call)
 
-  case class Section(id: String, title: Option[String], link: Link, details: Seq[Question])
+  case class Section(id: String, title: Option[String], link: Link, details: Seq[Question], sectionLinkId: String = "")
 
-  case class Question(id: String, title: String, link: Link, value: String, status: String = "")
+  case class Question(id: String, title: String, link: Link, value: String, status: String = "", linkId: String = "")
 
   private val overviewDisplayValues: ListMap[String, ApplicationDetails => String] = ListMap(
     AppSectionProperties -> { (ad) =>
@@ -189,7 +189,7 @@ object OverviewHelper {
   private def createSeqFromYesNoQuestions(id: String,
                                           questionAnswersPlusChangeLinks: Seq[QuestionAnswer],
                                           questionTitlesMessagesFileItems: Seq[String],
-                                          ad: ApplicationDetails, rd: RegistrationDetails): Seq[Question] = {
+                                          ad: ApplicationDetails, rd: RegistrationDetails, questionLinkIds: Seq[String]): Seq[Question] = {
     questionAnswersPlusChangeLinks.flatMap(answerPlusLink => {
       val index = questionAnswersPlusChangeLinks.indexOf(answerPlusLink)
       if (answerPlusLink.shouldDisplay(ad)) {
@@ -206,7 +206,10 @@ object OverviewHelper {
               answerPlusLink.linkAccessibilityTextNone),
             answerPlusLink.url),
           value = questionDisplayValue,
-          status = if (questionDisplayValue.length == 0) messageNotStarted else messageComplete))
+          status = if (questionDisplayValue.length == 0) messageNotStarted else messageComplete,
+          linkId = questionLinkIds(index)
+        )
+        )
       } else {
         Nil
       }
@@ -224,13 +227,16 @@ object OverviewHelper {
                                       questionAnswersPlusChangeLinks: Seq[QuestionAnswer],
                                       questionTitlesMessagesFileItems: Seq[String],
                                       ad: ApplicationDetails,
-                                      rd: RegistrationDetails): Section = {
+                                      rd: RegistrationDetails,
+                                      sectionLinkId: String = "",
+                                      questionLinkIds: Seq[String]): Section = {
     Section(
       id = id,
       title = title,
       link = Link(getEmptyStringOrElse(questionAnswersPlusChangeLinks.head.answer, messagesFileGiveAnswer),
         sectionLevelLinkAccessibilityText, linkUrl),
-      details = createSeqFromYesNoQuestions(id, questionAnswersPlusChangeLinks, questionTitlesMessagesFileItems, ad, rd)
+      details = createSeqFromYesNoQuestions(id, questionAnswersPlusChangeLinks, questionTitlesMessagesFileItems, ad, rd, questionLinkIds),
+      sectionLinkId = sectionLinkId
     )
   }
 
@@ -287,7 +293,9 @@ object OverviewHelper {
                                       questionAnswerExprValue: Option[BigDecimal],
                                       questionTitlesMessagesFilePrefix: String,
                                       shouldDisplay: ApplicationDetails => Boolean,
-                                      ad: ApplicationDetails): Section =
+                                      ad: ApplicationDetails,
+                                      sectionLinkId: String = "",
+                                      questionLinkId: String = ""): Section =
     Section(id = id,
       title = title,
       link = Link(getEmptyStringOrElse(questionAnswerExprValue, messagesFileGiveValues),
@@ -303,9 +311,11 @@ object OverviewHelper {
             messageNotStarted
           } else {
             messageComplete
-          }))
+          },
+          questionLinkId))
       } else {
         Nil
-      }
+      },
+      sectionLinkId = sectionLinkId
     )
 }

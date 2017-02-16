@@ -20,3 +20,16 @@
 a[rel="external"]:after {
     content: none;
 }
+
+
+
+
+a:after {
+    content: attr(id);
+    background: red;
+    color: white;
+    position: absolute;
+    right: -10em;
+    width: 10em;
+    top: 0;
+}

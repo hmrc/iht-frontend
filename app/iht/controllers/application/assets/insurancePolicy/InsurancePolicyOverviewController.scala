@@ -133,7 +133,12 @@ trait InsurancePolicyOverviewController extends EstateController {
           CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
         Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
           CommonHelper.getDeceasedNameOrDefaultString(regDetails, true))
-      ), ad, regDetails)
+      ),
+      ad,
+      regDetails,
+      sectionLinkId = "",
+      questionLinkIds = Seq("")
+    )
   }
 
   def onPageLoad = authorisedForIht {
