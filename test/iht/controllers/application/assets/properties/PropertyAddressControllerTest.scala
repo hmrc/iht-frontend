@@ -75,18 +75,6 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include (Messages("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
-    "display correct content on page" in {
-      val result = propertyAddressController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.property.whatIsAddress.question"))
-      contentAsString(result) should include (Messages("iht.address.line1"))
-      contentAsString(result) should include (Messages("iht.address.line2"))
-      contentAsString(result) should include (Messages("iht.address.line3"))
-      contentAsString(result) should include (Messages("iht.address.line4"))
-      contentAsString(result) should include (Messages("iht.postcode"))
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
-    }
-
     "display the correct title on page in edit mode" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
