@@ -16,19 +16,16 @@
 
 package iht.views.application.assets.properties
 
-import iht.forms.ApplicationForms._
-import iht.models.application.assets.Property
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{CancelComponent, ValueViewBehaviour}
-import iht.views.html.application.asset.properties.{delete_property_confirm, property_value}
-import play.api.data.Form
+import iht.utils.CommonHelper
+import iht.views.GenericNonSubmittablePageBehaviour
+import iht.views.html.application.asset.properties.delete_property_confirm
 import play.api.i18n.Messages
-import play.twirl.api.HtmlFormat.Appendable
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
-class DeletePropertyConfirmViewTest extends ValueViewBehaviour[Property] {
-  def registrationDetails = CommonBuilder.buildRegistrationDetails1
-
-  def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   override def guidanceParagraphs = Set(
     Messages("page.iht.application.assets.main-section.properties.delete.warning")
@@ -38,24 +35,31 @@ class DeletePropertyConfirmViewTest extends ValueViewBehaviour[Property] {
 
   override def browserTitle = Messages("page.iht.application.propertyDetails.deleteProperty.title")
 
-  override def formTarget = Some(CommonBuilder.DefaultCall1)
+  def exitComponent = None
 
-  override val cancelId: String = "cancel-button"
+  def view = delete_property_confirm(CommonBuilder.property).toString
 
-  override def cancelComponent = Some(
-    CancelComponent(
-      CommonBuilder.DefaultCall2,
-      Messages("iht.estateReport.assets.properties.returnToAddAProperty")
-    )
-  )
+  "Delete property confirmation page Question View" must {
+    behave like nonSubmittablePage()
 
-  override def form: Form[Property] = propertyValueForm
+    "show submit button with correct target and text" in {
+      doc.getElementsByTag("form").attr("action") shouldBe iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit("1").url
+      val submitButton = doc.getElementById("delete-confirm")
+      submitButton.text() shouldBe Messages("site.button.confirmDelete")
+    }
 
-  override def formToView: Form[Property] => Appendable =
-    form =>
-      delete_property_confirm(form)
+    "show cancel link with correct target and text" in {
+      val submitButton = doc.getElementById("cancel-button")
+      submitButton.attr("href") shouldBe iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad().url
+      submitButton.text() shouldBe Messages("site.link.cancel")
+    }
 
-  "Permanent home page Question View" must {
-    behave like valueView()
+    "show the address" in {
+      val expectedAddress = CommonHelper.withValue(CommonBuilder.DefaultUkAddress) { addr=>
+        s"${addr.ukAddressLine1} ${addr.ukAddressLine2} ${addr.ukAddressLine3.getOrElse("")} ${addr.ukAddressLine4.getOrElse("")} ${addr.postCode}"
+      }
+      val addressDiv = doc.getElementById("address")
+      addressDiv.text shouldBe expectedAddress
+    }
   }
 }

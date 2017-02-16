@@ -16,7 +16,6 @@
 
 package iht.views.application
 
-import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.data.{Form, FormError}
