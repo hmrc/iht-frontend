@@ -23,7 +23,7 @@ trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
     */
   def yesNoQuestion() = {
-    applicationPageWithErrorSummaryBox()
+    behave like applicationPageWithErrorSummaryBox()
 
     "show the correct yes/no question text" in {
       doc.getElementById("yes-label").text shouldBe Messages("iht.yes")
@@ -32,7 +32,7 @@ trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
   }
 
   def yesNoQuestionWithLegend(questionLegend: => String) = {
-    yesNoQuestion()
+    behave like yesNoQuestion()
 
     "show the correct question text" in {
       doc.getElementById("yes-no-question-legend").text shouldBe questionLegend

@@ -16,15 +16,15 @@
 
 package iht.views.application.assets.household
 
+import iht.controllers.application.assets.household.routes
 import iht.controllers.application.assets.household.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_deceased_own
-import play.api.i18n.Messages
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
@@ -44,6 +44,7 @@ class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[Sh
   override def valueQuestionHelp = Messages("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = Messages("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.HouseholdDeceasedOwnController.onSubmit)
 
   "Household Deceased Own view" must {
     behave like yesNoValueViewWithErrorSummaryBox

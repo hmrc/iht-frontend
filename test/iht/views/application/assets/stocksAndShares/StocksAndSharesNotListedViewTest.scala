@@ -41,6 +41,7 @@ class StocksAndSharesNotListedViewTest extends ShareableElementInputViewBehaviou
   override def valueInputBoxId = "valueNotListed"
   override def returnLinkText = Messages("site.link.return.stocksAndShares")
   override def returnLinkUrl = routes.StocksAndSharesOverviewController.onPageLoad().url
+  override def formTarget = Some(routes.StocksAndSharesNotListedController.onSubmit())
 
   override def form: Form[StockAndShare] = stockAndShareNotListedForm
   override def formToView: Form[StockAndShare] => Appendable =

@@ -65,6 +65,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
         for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
       }
     }
+
     if (formTarget.isDefined) {
       "show the Save/Continue button with the correct target" in {
         formTarget.foreach { target =>

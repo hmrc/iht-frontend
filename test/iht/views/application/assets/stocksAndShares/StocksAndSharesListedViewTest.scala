@@ -42,6 +42,7 @@ class StocksAndSharesListedViewTest extends ShareableElementInputViewBehaviour[S
   override def returnLinkText = Messages("site.link.return.stocksAndShares")
   override def returnLinkUrl = routes.StocksAndSharesOverviewController.onPageLoad().url
 
+  override def formTarget = Some(routes.StocksAndSharesListedController.onSubmit())
   override def form: Form[StockAndShare] = stockAndShareListedForm
   override def formToView: Form[StockAndShare] => Appendable =
     form => stocks_and_shares_listed(form, regDetails)

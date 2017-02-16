@@ -19,7 +19,7 @@ package iht.views.application
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.data.{Form, FormError}
-import play.api.mvc.AnyContentAsEmpty
+import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages
@@ -34,6 +34,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
   def valueQuestionHelp: String
   def returnLinkText: String
   def returnLinkUrl: String
+  def formTarget: Option[Call]
   def valueInputBoxId: String = "value"
   def shareValueInputBoxId: String = "shareValue"
 
@@ -88,6 +89,14 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
       val link = doc.getElementById("return-button")
       link.text shouldBe returnLinkText
       link.attr("href") shouldBe returnLinkUrl
+    }
+
+    if (formTarget.isDefined) {
+      "have the Save/Continue button with the correct target" in {
+        formTarget.foreach { target =>
+          doc.getElementsByTag("form").attr("action") shouldBe target.url
+        }
+      }
     }
   }
 
