@@ -16,10 +16,8 @@
 
 package iht.views.application.assets.properties
 
-import iht.models.UkAddress
-import iht.models.application.assets.Properties
 import iht.testhelpers.CommonBuilder
-import iht.views.html.application.asset.properties.{properties_overview, property_details_overview}
+import iht.views.html.application.asset.properties.property_details_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
@@ -52,7 +50,45 @@ class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour
   override def view =
     property_details_overview(deceasedName, Some(CommonBuilder.property)).toString()
 
+  val propertyAttributesTableId = "property-details-table"
+
+  def propertyAttributeWithValueAndChange(rowNo: Int, expectedAttributeName: => String, expectedAttributeValue: => String) = {
+    s"show attribute number ${rowNo + 1}" in {
+      tableCell(doc, propertyAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
+    }
+
+    s"show attribute number ${rowNo + 1} value" in {
+      tableCell(doc, propertyAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
+    }
+
+    s"show attribute number ${rowNo + 1} change link" in {
+      val changeDiv = tableCell(doc, propertyAttributesTableId, 2, rowNo)
+      val anchor = changeDiv.getElementsByTag("a").first
+      getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
+    }
+  }
+
   "Property details overview view" must {
     behave like nonSubmittablePage()
+
+    behave like propertyAttributeWithValueAndChange(0,
+      Messages("iht.estateReport.assets.property.whatIsAddress.question"),
+      formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
+
+    behave like propertyAttributeWithValueAndChange(1,
+      Messages("iht.estateReport.assets.properties.whatKind.question"),
+      Messages("page.iht.application.assets.propertyType.deceasedHome.label"))
+
+    behave like propertyAttributeWithValueAndChange(2,
+      Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName),
+      Messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"))
+
+    behave like propertyAttributeWithValueAndChange(3,
+      Messages("iht.estateReport.assets.properties.freeholdOrLeasehold"),
+      Messages("page.iht.application.assets.tenure.freehold.label"))
+
+    behave like propertyAttributeWithValueAndChange(4,
+      Messages("iht.estateReport.assets.properties.value.question", deceasedName),
+      Messages("£12,345.00"))
   }
 }

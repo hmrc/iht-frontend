@@ -54,6 +54,24 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
 
   val addressTableId = "properties"
 
+  def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
+    s"show address number ${rowNo + 1}" in {
+      tableCell(doc, addressTableId, 0, rowNo).ownText shouldBe expectedValue
+    }
+
+    s"show address number ${rowNo + 1} delete link" in {
+      val deleteDiv = tableCell(doc, addressTableId, 3, rowNo)
+      val anchor = deleteDiv.getElementsByTag("a").first
+      getAnchorVisibleText(anchor) shouldBe Messages("iht.delete")
+    }
+
+    s"show address number ${rowNo + 1} give details link" in {
+      val deleteDiv = tableCell(doc, addressTableId, 4, rowNo)
+      val anchor = deleteDiv.getElementsByTag("a").first
+      getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
+    }
+  }
+
   "Properties overview view" must {
     behave like nonSubmittablePage()
 
@@ -72,24 +90,6 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     behave like link("home-in-uk-link",
       iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
       Messages("iht.change"))
-
-    def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
-      s"show address number ${rowNo + 1}" in {
-        tableCell(doc, addressTableId, 0, rowNo).ownText shouldBe expectedValue
-      }
-
-      s"show address number ${rowNo + 1} delete link" in {
-        val deleteDiv = tableCell(doc, addressTableId, 3, rowNo)
-        val anchor = deleteDiv.getElementsByTag("a").first
-        getAnchorVisibleText(anchor) shouldBe Messages("iht.delete")
-      }
-
-      s"show address number ${rowNo + 1} give details link" in {
-        val deleteDiv = tableCell(doc, addressTableId, 4, rowNo)
-        val anchor = deleteDiv.getElementsByTag("a").first
-        getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
-      }
-    }
 
     behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
 
