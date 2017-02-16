@@ -98,5 +98,15 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     behave like addressForDisplayDeleteAndModify(0, CommonBuilder.DefaultUkAddress)
 
     behave like addressForDisplayDeleteAndModify(1, CommonBuilder.DefaultUkAddress2)
+
+    "show you haven't added message when there are no properties" in {
+      val view = properties_overview(List(),
+        Some(Properties(isOwned = Some(true))),
+        registrationDetails).toString()
+      val doc = asDocument(view)
+      doc.getElementById("properties-empty-table-row").text shouldBe
+        Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")
+
+    }
   }
 }
