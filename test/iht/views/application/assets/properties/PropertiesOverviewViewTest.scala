@@ -16,7 +16,6 @@
 
 package iht.views.application.assets.properties
 
-import iht.models.UkAddress
 import iht.models.application.assets.Properties
 import iht.testhelpers.CommonBuilder
 import iht.views.html.application.asset.properties.properties_overview
@@ -53,6 +52,8 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
       Some(Properties(isOwned = Some(true))),
       registrationDetails).toString()
 
+  val addressTableId = "properties"
+
   "Properties overview view" must {
     behave like nonSubmittablePage()
 
@@ -72,32 +73,27 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
       iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
       Messages("iht.change"))
 
-    def addressForDisplayDeleteAndModify(rowNo: Int, expectedUkAddress: UkAddress) = {
-      def addressRow(colNo: Int, rowNo: Int) = {
-        val propertiesUl = doc.getElementById("properties")
-        val listItems = propertiesUl.getElementsByTag("li")
-        listItems.get(rowNo).getElementsByTag("div").get(colNo)
-      }
+    def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
       s"show address number ${rowNo + 1}" in {
-        addressRow(0, rowNo).ownText shouldBe formatAddressForDisplay(expectedUkAddress)
+        tableCell(doc, addressTableId, 0, rowNo).ownText shouldBe expectedValue
       }
 
       s"show address number ${rowNo + 1} delete link" in {
-        val deleteDiv = addressRow(3, rowNo)
+        val deleteDiv = tableCell(doc, addressTableId, 3, rowNo)
         val anchor = deleteDiv.getElementsByTag("a").first
         getAnchorVisibleText(anchor) shouldBe Messages("iht.delete")
       }
 
       s"show address number ${rowNo + 1} give details link" in {
-        val deleteDiv = addressRow(4, rowNo)
+        val deleteDiv = tableCell(doc, addressTableId, 4, rowNo)
         val anchor = deleteDiv.getElementsByTag("a").first
         getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
       }
     }
 
-    behave like addressForDisplayDeleteAndModify(0, CommonBuilder.DefaultUkAddress)
+    behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
 
-    behave like addressForDisplayDeleteAndModify(1, CommonBuilder.DefaultUkAddress2)
+    behave like addressWithDeleteAndModify(1, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
 
     "show you haven't added message when there are no properties" in {
       val view = properties_overview(List(),

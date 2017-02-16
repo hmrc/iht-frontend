@@ -91,4 +91,10 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     CommonHelper.withValue(address) { addr =>
       s"${addr.ukAddressLine1} ${addr.ukAddressLine2} ${addr.ukAddressLine3.getOrElse("")} ${addr.ukAddressLine4.getOrElse("")} ${addr.postCode}"
     }
+
+  def tableCell(doc:Document, tableId:String, colNo: Int, rowNo: Int) = {
+    val propertiesUl = doc.getElementById(tableId)
+    val listItems = propertiesUl.getElementsByTag("li")
+    listItems.get(rowNo).getElementsByTag("div").get(colNo)
+  }
 }
