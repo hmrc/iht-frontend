@@ -152,14 +152,5 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       val result = moneyDeceasedOwnController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
-
-    "display the correct title on page load" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      setUpTests(applicationDetails)
-
-      val result = moneyDeceasedOwnController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("iht.estateReport.assets.moneyOwned", deceasedName))
-    }
   }
 }

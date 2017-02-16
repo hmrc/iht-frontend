@@ -33,6 +33,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
   def valueQuestionHelp: String
   def returnLinkText: String
   def returnLinkUrl: String
+  def valueInputBoxId: String = "value"
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
   def view: String = formToView(form).toString
@@ -40,7 +41,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
   def form:Form[A] = ???
   def formToView:Form[A] => Appendable = ???
 
-  def yesNoValueView() = viewBehaviour("value")
+  def yesNoValueView() = viewBehaviour(valueInputBoxId)
 
   def yesNoValueViewJoint() = viewBehaviour("shareValue")
 

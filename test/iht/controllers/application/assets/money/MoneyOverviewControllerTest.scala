@@ -73,12 +73,6 @@ class MoneyOverviewControllerTest extends ApplicationControllerTest {
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be (Some(loginUrl))
     }
-
-    "display the correct content title" in {
-      val result = moneyOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.money.upperCaseInitial"))
-    }
-
   }
+
 }
