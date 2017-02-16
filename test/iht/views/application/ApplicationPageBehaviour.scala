@@ -177,23 +177,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     }
 
     "not have a country code field" in {
-      assertNotRenderedById(doc, "countryCode")
+      assertNotRenderedById(doc, "address.countryCode")
     }
   }
-
-  def addressPageAbroad(): Unit = {
-
-    "have a fieldset with the Id 'details'" in {
-      doc.getElementsByTag("fieldset").first.id shouldBe "details"
-    }
-
-    "have a country code field" in {
-      assertRenderedById(doc, "countryCode")
-    }
-
-    "not have a post code field" in {
-      assertNotRenderedById(doc, "postCode")
-    }
-  }
-
 }
