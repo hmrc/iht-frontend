@@ -24,6 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
+import iht.constants.Constants._
 
 /**
  *
@@ -56,7 +57,11 @@ trait GivenAwayController extends EstateController{
           (updateApplicationDetailsWithUpdatedAllGifts(updatedAllDetails), None)
         }
 
-      estateElementOnSubmit[AllGifts](giftsGivenAwayForm, given_away.apply, updateApplicationDetails, giftsRedirectLocation)
+      estateElementOnSubmit[AllGifts](giftsGivenAwayForm,
+        given_away.apply,
+        updateApplicationDetails,
+        addFragmentIdentifier(giftsRedirectLocation, Some(GiftsGivenAwayQuestionID))
+      )
     }
   }
 

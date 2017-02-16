@@ -84,11 +84,11 @@ object Constants {
   val AppSectionOtherID = "other-assets"
   val GiftsGivenAwayQuestionID = "gave-away-seven-years"
   val GiftsReservationBenefitSectionID = "with-reservation-of-benefit-section"
-  val giftsReservationBenefitQuestionID = "with-reservation-of-benefit"
+  val GiftsReservationBenefitQuestionID = "with-reservation-of-benefit"
   val GiftsSevenYearsSectionID = "seven-years-section"
   val GiftsSevenYearsQuestionID = "seven-years"
   val GiftsSevenYearsQuestionID2 = "seven-years2"
-  val GiftsValueOfGiftsSectionID = "value-of-gifts-section"
+  val GiftsValueOfGiftsSectionID = "value-of-gifts"
   val GiftsValueOfGiftsQuestionID = "value-of-gifts"
 
   val MaxIterationValueForGiftYears = 8

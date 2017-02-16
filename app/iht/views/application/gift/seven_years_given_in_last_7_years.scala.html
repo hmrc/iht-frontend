@@ -23,6 +23,7 @@
 @import iht.utils._
 @import iht.forms.ApplicationForms._
 @import iht.utils.CommonHelper._
+@import iht.constants.Constants._
 
 @(SevenYearsGiftsForm: Form[AllGifts],
 registrationDetails: RegistrationDetails)(implicit request: Request[_])
@@ -61,9 +62,12 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
 <div id="action-button" class="form-field form-field--submit">
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
-@registrationDetails.deceasedDetails.map{ dd=>
-@ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
-Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
-}
+    @registrationDetails.deceasedDetails.map{ dd=>
+        @ihtHelpers.return_link(
+            Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
+            Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
+            GiftsSevenYearsQuestionID
+        )
+    }
 }
 }

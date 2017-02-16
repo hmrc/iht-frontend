@@ -133,7 +133,7 @@ trait GiftsOverviewController extends EstateController {
       ad,
       regDetails,
       sectionLinkId = GiftsReservationBenefitSectionID,
-      questionLinkIds = Seq(giftsReservationBenefitQuestionID)
+      questionLinkIds = Seq(GiftsReservationBenefitQuestionID)
     )
 
     lazy val sectionSevenYears = createSectionFromYesNoQuestions(

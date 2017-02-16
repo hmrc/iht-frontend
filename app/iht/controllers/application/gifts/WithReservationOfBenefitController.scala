@@ -24,6 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationKickOutHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.with_reservation_of_benefit
+import iht.constants.Constants._
 
 /**
  *
@@ -56,8 +57,11 @@ trait WithReservationOfBenefitController extends EstateController{
             (_.copy(isReservation = gifts.isReservation))))
           (updatedAD, None)
         }
-      estateElementOnSubmit[AllGifts](giftWithReservationFromBenefitForm, with_reservation_of_benefit.apply,
-        updateApplicationDetails, giftsRedirectLocation)
+      estateElementOnSubmit[AllGifts](giftWithReservationFromBenefitForm,
+        with_reservation_of_benefit.apply,
+        updateApplicationDetails,
+        addFragmentIdentifier(giftsRedirectLocation, Some(GiftsReservationBenefitQuestionID))
+      )
     }
   }
 }

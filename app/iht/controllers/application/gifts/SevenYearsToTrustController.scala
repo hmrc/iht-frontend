@@ -25,6 +25,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.seven_years_to_trust
+import iht.constants.Constants._
 
 
 object SevenYearsToTrustController extends SevenYearsToTrustController with IhtConnectors {
@@ -52,8 +53,11 @@ trait SevenYearsToTrustController extends EstateController {
           (_.copy(isToTrust=gifts.isToTrust))))
           (updatedAD, None)
         }
-      estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm, seven_years_to_trust.apply, updateApplicationDetails,
-        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad())
+      estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm,
+        seven_years_to_trust.apply,
+        updateApplicationDetails,
+        addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(GiftsSevenYearsQuestionID2))
+      )
     }
   }
 }

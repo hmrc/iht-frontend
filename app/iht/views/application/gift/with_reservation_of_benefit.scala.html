@@ -20,6 +20,7 @@
 @import iht.utils.CommonHelper._
 @import iht.models._
 @import iht.models.application.gifts.AllGifts
+@import iht.constants.Constants._
 
 @(giftWithReservationFromBenefitForm:Form[AllGifts],
 registrationDetails:RegistrationDetails)(implicit request:Request[_])
@@ -44,8 +45,11 @@ messageKeyAccessibility = "iht.estateReport.gifts.withReservation.title"){
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
-            Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+            @ihtHelpers.return_link(
+                Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
+                Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
+                GiftsReservationBenefitQuestionID
+            )
         }
 
      }

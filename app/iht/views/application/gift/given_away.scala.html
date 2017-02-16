@@ -21,6 +21,7 @@
 @import iht.models.application.gifts.AllGifts
 @import iht.utils.CommonHelper
 @import iht.constants.IhtProperties._
+@import iht.constants.Constants._
 
 @(giftsGivenAwayForm:Form[AllGifts],
 regDetails:RegistrationDetails
@@ -66,8 +67,11 @@ headingName = deceasedName
                                 }
                 case _ => {
                              @regDetails.deceasedDetails.map{dd=>
-                               @ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
-                               Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+                               @ihtHelpers.return_link(
+                                    Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
+                                    Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
+                                    GiftsGivenAwayQuestionID
+                                )
                               }
                             }
       }
