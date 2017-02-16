@@ -39,7 +39,7 @@ import scala.concurrent.Future
  *
  */
 class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -175,28 +175,28 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
-      contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section2.guidance",
+      contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section2.guidance",
                                               deceasedName, deceasedName))
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question",
                                                     deceasedName))
     }
 
     "display a value question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
     }
 
     "display a yes radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.yes"))
+      contentAsString(result) should include(messagesApi("iht.yes"))
     }
 
     "display a no radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.no"))
+      contentAsString(result) should include(messagesApi("iht.no"))
     }
 
     "redirect to correct page on submit" in {

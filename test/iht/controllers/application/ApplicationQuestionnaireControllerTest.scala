@@ -18,7 +18,7 @@ package iht.controllers.application
 
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.models.QuestionnaireModel
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -27,8 +27,6 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by yasar on 6/18/15.
  */
 class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest with I18nSupport {
-
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
@@ -68,10 +66,10 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest w
     }
 
     "respond with OK and correct header title on page load" in {
-      implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
       val result = questionnaireController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("site.application.title"))
+      contentAsString(result) should include(messagesApi("site.application.title"))
     }
 
     "respond with redirect on page submit" in {

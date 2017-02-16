@@ -22,9 +22,8 @@ import iht.forms.TnrbForms._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -77,7 +76,7 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
     }
 
     "show predeceased name on page load" in {
-      implicit val messages: Messages = app.injector.instanceOf[Messages]
+
       val firstName = CommonBuilder.firstNameGenerator
       val surname = CommonBuilder.surnameGenerator
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
@@ -91,7 +90,7 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
 
       val result = permanentHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("iht.estateReport.tnrb.permanentHome.question",
+      contentAsString(result) should include(messagesApi("iht.estateReport.tnrb.permanentHome.question",
         s"$firstName $surname"))
     }
 

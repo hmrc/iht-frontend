@@ -25,9 +25,7 @@ import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.http.Status._
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, redirectLocation}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -37,7 +35,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  */
 
 class GiftsDetailsControllerTests extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -186,7 +184,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val result = giftsDetailsController.onSubmit()(request)
       status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(Messages("error.giftsDetails.exceedsGivenAway"))
+      contentAsString(result) should include(messagesApi("error.giftsDetails.exceedsGivenAway"))
     }
 
     "On processSubmit display correct error message if exemptions entered but not value" in {
@@ -209,7 +207,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val result = giftsDetailsController.onSubmit()(request)
       status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(Messages("error.giftsDetails.noValue"))
+      contentAsString(result) should include(messagesApi("error.giftsDetails.noValue"))
     }
   }
 }

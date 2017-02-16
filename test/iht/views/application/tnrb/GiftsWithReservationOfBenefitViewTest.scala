@@ -20,13 +20,11 @@ import iht.forms.TnrbForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.views.html.application.tnrb.gifts_with_reservation_of_benefit
 
 class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val ihtReference = Some("ABC1A1A1A")
   val deceasedDetails = CommonBuilder.buildDeceasedDetails
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -35,18 +33,18 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour {
 
   val tnrbModel = CommonBuilder.buildTnrbEligibility
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetails.name)
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetails.name)
 
-  override def browserTitle = Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
+  override def browserTitle = messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
                                               TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-                                                  Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetails.name,
+                                                  messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetails.name,
                                               TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-                                                  Messages("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
-  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetails.name)
+                                                  messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
+  override def yesNoQuestionText = messagesApi("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetails.name)
 
   override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+  override def returnLinkText = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
   override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   override def fixture() = new {

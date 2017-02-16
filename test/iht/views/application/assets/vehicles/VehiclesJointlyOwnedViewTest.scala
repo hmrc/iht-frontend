@@ -19,25 +19,22 @@ package iht.views.application.assets.vehicles
 import iht.controllers.application.assets.vehicles.routes._
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_jointly_owned
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class VehiclesJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class VehiclesJointlyOwnedViewTest extends ShareableElementInputViewBehaviour {
+
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = Messages("page.iht.application.assets.vehicles.jointly.owned.title")
-  override def browserTitle = Messages("page.iht.application.assets.vehicles.jointly.owned.browserTitle")
-  override def questionTitle = Messages("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName)
-  override def valueQuestion = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
+  override def pageTitle = messagesApi("page.iht.application.assets.vehicles.jointly.owned.title")
+  override def browserTitle = messagesApi("page.iht.application.assets.vehicles.jointly.owned.browserTitle")
+  override def questionTitle = messagesApi("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName)
+  override def valueQuestion = messagesApi("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
-  override def returnLinkText = Messages("site.link.return.vehicles")
+  override def returnLinkText = messagesApi("site.link.return.vehicles")
   override def returnLinkUrl = VehiclesOverviewController.onPageLoad().url
 
   "Vehicles Jointly Owned view" must {

@@ -21,15 +21,13 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 /**
  * Created by vineet on 29/11/16.
  */
 class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val regDetails = CommonBuilder.buildRegistrationDetails1
   val returnLinkLabelMsgKey = "iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"
   val returnLocation = iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()
@@ -42,7 +40,7 @@ class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
 
     val view = assets_left_to_partner_question(assetsLeftToPartnerQuestionForm,
       regDetails,
-      Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
+      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
       returnLocation)
 
     asDocument(view)
@@ -52,16 +50,16 @@ class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
     "have correct title and browser title " in {
       val view = assetsLeftToPartnerQuestionView().toString
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
+      titleShouldBeCorrect(view, messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
                                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      browserTitleShouldBeCorrect(view, Messages("page.iht.application.exemptions.assetLeftToPartner.browserTitle"))
+      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.exemptions.assetLeftToPartner.browserTitle"))
     }
 
     "have 'Save and continue' button" in {
       val view = assetsLeftToPartnerQuestionView()
 
       val saveAndContinueButton = view.getElementById("save-continue")
-      saveAndContinueButton.getElementsByAttributeValueContaining("value", Messages("iht.saveAndContinue"))
+      saveAndContinueButton.getElementsByAttributeValueContaining("value", messagesApi("iht.saveAndContinue"))
     }
 
     "have the return link with correct text" in {
@@ -69,13 +67,13 @@ class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
 
       val returnLink = view.getElementById("cancel-button")
       returnLink.attr("href") shouldBe returnLocation.url
-      returnLink.text() shouldBe Messages(returnLinkLabelMsgKey)
+      returnLink.text() shouldBe messagesApi(returnLinkLabelMsgKey)
     }
 
     "have the question with the right text" in {
       val view = assetsLeftToPartnerQuestionView()
 
-      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
+      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 

@@ -20,9 +20,8 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -36,6 +35,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 class TnrbOverviewControllerTest extends ApplicationControllerTest {
 
   // Implicit objects required by play framework.
+
   implicit val headerCarrier = FakeHeaders()
   implicit val request = FakeRequest()
   implicit val hc = new HeaderCarrier
@@ -86,7 +86,6 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
     }
 
     "show the appropriate contents on the page" in {
-      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val buildWidowCheck = CommonBuilder.buildWidowedCheck
       val buildTnrbModel = CommonBuilder.buildTnrbEligibility
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck),
@@ -98,7 +97,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
       val result = tnrbOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
 
-      contentAsString(result) should include(Messages("iht.estateReport.returnToEstateOverview"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.returnToEstateOverview"))
     }
   }
 }

@@ -47,7 +47,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.whatDoYouWantToDo"))
+      titleElement.text() should be(messagesApi("iht.whatDoYouWantToDo"))
     }
 
     "show an error if no radio  button is selected" in {

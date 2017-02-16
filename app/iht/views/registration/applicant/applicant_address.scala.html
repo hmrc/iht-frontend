@@ -25,7 +25,7 @@
     isInternational: Boolean,
     actionCall: Call,
     changeNationalityLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.applicantAddress.title"),
                     browserTitle = Some(Messages("page.iht.registration.applicantAddress.title")),

@@ -19,9 +19,7 @@ package iht.views.application.debts
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.views.html.application.debts.any_other_debts
 
 /**
@@ -35,14 +33,14 @@ class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour{
                                                                  maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                                       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = Messages("iht.estateReport.debts.other.title")
-  override def browserTitle = Messages("page.iht.application.debts.other.browserTitle")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.other.description.p1"),
-                                        Messages("page.iht.application.debts.other.description.p2",
+  override def pageTitle = messagesApi("iht.estateReport.debts.other.title")
+  override def browserTitle = messagesApi("page.iht.application.debts.other.browserTitle")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.other.description.p1"),
+                                        messagesApi("page.iht.application.debts.other.description.p2",
                                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-                                        Messages("page.iht.application.debts.other.description.p3"))
-  override def yesNoQuestionText = Messages("page.iht.application.debts.other.isOwned")
-  override def inputValueFieldLabel = Messages("page.iht.application.debts.other.inputLabel1")
+                                        messagesApi("page.iht.application.debts.other.description.p3"))
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.other.isOwned")
+  override def inputValueFieldLabel = messagesApi("page.iht.application.debts.other.inputLabel1")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()

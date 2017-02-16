@@ -72,7 +72,7 @@ import play.api.Play.current
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       val result = completedRegistrationController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include(Messages("iht.registration.complete"))
+      contentAsString(result) should include(messagesApi("iht.registration.complete"))
     }
 
     "respond with a reference number" in {
@@ -91,7 +91,7 @@ import play.api.Play.current
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val result = completedRegistrationController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(Messages("page.iht.registration.completedRegistration.ref.error.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.completedRegistration.ref.error.title"))
     }
 
     "respond with not implemented" in {
@@ -105,9 +105,9 @@ import play.api.Play.current
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       val result = completedRegistrationController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.ref.text"))
-      contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p1"))
-      contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p2"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.ref.text"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.p1"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.p2"))
     }
   }
 }

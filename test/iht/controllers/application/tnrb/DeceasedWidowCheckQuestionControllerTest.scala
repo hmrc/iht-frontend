@@ -34,7 +34,7 @@ import play.api.test.Helpers._
 /**
   *
   * Created by Vineet Tyagi on 14/01/16.
-  * l
+  *
   */
 class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -208,13 +208,13 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val doc = asDocument(contentAsString(result))
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() shouldBe 1
-      val expectedTitle = Messages("iht.estateReport.tnrb.partner.married",
+      val expectedTitle = messagesApi("iht.estateReport.tnrb.partner.married",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails),
         TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
         TnrbHelper.spouseOrCivilPartnerLabel(
           tnrbModel,
           widowCheckModel,
-          Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their")
+          messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.their")
         )
       )
       headers.first().text() shouldBe expectedTitle
@@ -225,7 +225,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
       val doc = asDocument(contentAsString(result))
       assertEqualsValue(doc, "title",
-        Messages("iht.estateReport.tnrb.increasingIHTThreshold") + " " + Messages("site.title.govuk"))
+        messagesApi("iht.estateReport.tnrb.increasingIHTThreshold") + " " + messagesApi("site.title.govuk"))
     }
 
     "return html containing link which points to estate overview when widow check date is empty" in {
@@ -249,7 +249,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       assertRenderedById(doc, "cancel-button")
 
       val link = doc.getElementById("cancel-button")
-      link.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      link.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       link.attr("href") shouldBe expectedUrl
     }
 
@@ -272,7 +272,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       assertRenderedById(doc, "cancel-button")
 
       val link = doc.getElementById("cancel-button")
-      link.text() shouldBe Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+      link.text() shouldBe messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
       link.attr("href") shouldBe expectedUrl
     }
   }

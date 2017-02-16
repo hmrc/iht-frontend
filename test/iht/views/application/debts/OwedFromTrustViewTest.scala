@@ -19,9 +19,7 @@ package iht.views.application.debts
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.views.html.application.debts.owed_from_trust
 
 /**
@@ -35,13 +33,13 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour{
                                                                 maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                                       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = Messages("iht.estateReport.debts.debtsTrust.title")
-  override def browserTitle = Messages("page.iht.application.debts.debtsTrust.browserTitle")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.debtsTrust.description.p1",
+  override def pageTitle = messagesApi("iht.estateReport.debts.debtsTrust.title")
+  override def browserTitle = messagesApi("page.iht.application.debts.debtsTrust.browserTitle")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.debtsTrust.description.p1",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-  override def yesNoQuestionText = Messages("page.iht.application.debts.debtsTrust.isOwned",
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsTrust.isOwned",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails))
-  override def inputValueFieldLabel = Messages("iht.estateReport.debts.debtsTrust.value")
+  override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.debtsTrust.value")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()

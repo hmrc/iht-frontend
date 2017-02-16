@@ -19,25 +19,22 @@ package iht.views.application.assets.insurancePolicy
 import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_deceased_own
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour{
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputViewBehaviour{
+
     lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-    override def pageTitle = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
-    override def browserTitle = Messages("page.iht.application.insurance.policies.section1.browserTitle")
-    override def questionTitle = Messages(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
-    override def valueQuestion = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
+    override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
+    override def browserTitle = messagesApi("page.iht.application.insurance.policies.section1.browserTitle")
+    override def questionTitle = messagesApi(messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
+    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
     override def hasValueQuestionHelp = false
     override def valueQuestionHelp = ""
-    override def returnLinkText = Messages("site.link.return.insurance.policies")
+    override def returnLinkText = messagesApi("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
 
     "InsurancePolicyDetailsDeceasedOwn view" must {
@@ -46,7 +43,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
       "show the correct guidance" in {
         val f = fixture()
         messagesShouldBePresent(f.view,
-          Messages("page.iht.application.insurance.policies.section1.guidance", deceasedName, deceasedName))
+          messagesApi("page.iht.application.insurance.policies.section1.guidance", deceasedName, deceasedName))
       }
 
       "show the value question in bold " in {

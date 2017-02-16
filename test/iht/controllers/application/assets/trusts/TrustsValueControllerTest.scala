@@ -28,7 +28,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 
 class TrustsValueControllerTest extends ApplicationControllerTest{
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -70,7 +70,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
 
       val result = trustsValueController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.heldInTrust.valueOfTrust"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust"))
     }
 
     "save the trusts value and go to held in trust overview page on submit" in {

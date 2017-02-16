@@ -29,7 +29,7 @@ import play.api.test.Helpers._
  * Created by jennygj on 30/06/16.
  */
 class MoneyOverviewControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   "MoneyOverviewControllerTest" must {
 
     val mockCachingConnector = mock[CachingConnector]
@@ -79,7 +79,7 @@ class MoneyOverviewControllerTest extends ApplicationControllerTest {
     "display the correct content title" in {
       val result = moneyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.money.upperCaseInitial"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.money.upperCaseInitial"))
     }
 
   }

@@ -23,44 +23,44 @@ import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.select.Elements
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.Call
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OtherDetailsSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def dummyOverviewRow = OverviewRow("debts", "", "", NotStarted, Call("", ""), "")
   val dummyOtherDetailsSection = OtherDetailsSectionViewModel(dummyOverviewRow, false, "")
 
   "other details section" must {
-    implicit val request = createFakeRequest()
 
     "have the correct title" in {
+      implicit val request = createFakeRequest()
       val view = other_details_section(dummyOtherDetailsSection)
       val doc = asDocument(view)
-      val assetsSection = doc.getElementById("other-details-section");
+      val assetsSection = doc.getElementById("other-details-section")
       val header = assetsSection.getElementsByTag("h2")
-      header.text() shouldBe Messages("page.iht.application.estateOverview.otherDetailsNeeded")
+      header.text() shouldBe messagesApi("page.iht.application.estateOverview.otherDetailsNeeded")
     }
 
     "contain the Debts row" in {
+      implicit val request = createFakeRequest()
       val view = other_details_section(dummyOtherDetailsSection)
       val doc = asDocument(view)
       assertRenderedById(doc, "debts-row")
     }
 
     "show the exemptions link when asked to" in {
+      implicit val request = createFakeRequest()
       val viewModel = dummyOtherDetailsSection copy (showClaimExemptionLink = true, ihtReference = "123")
       val view = other_details_section(viewModel)
       val doc = asDocument(view)
       val link = doc.getElementById("exemptions-link")
-      link.text shouldBe Messages("page.iht.application.estateOverview.claimExemptions.link")
+      link.text shouldBe messagesApi("page.iht.application.estateOverview.claimExemptions.link")
       link.attr("href") shouldBe iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onPageLoad("123").url
     }
 
     "not show the exemptions link when asked not to" in {
+      implicit val request = createFakeRequest()
       val view = other_details_section(dummyOtherDetailsSection)
       val doc = asDocument(view)
       assertNotRenderedById(doc, "exemptions-link")

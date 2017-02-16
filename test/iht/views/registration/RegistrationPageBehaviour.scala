@@ -18,14 +18,12 @@ package iht.views.registration
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 
 trait RegistrationPageBehaviour extends ViewTestHelper {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   def pageTitle: String
   def browserTitle: String
 
@@ -47,8 +45,9 @@ trait RegistrationPageBehaviour extends ViewTestHelper {
     }
 
     "have a Continue button" in {
+
       val f = fixture()
-      f.doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.continue")
+      f.doc.getElementsByClass("button").first.attr("value") shouldBe messagesApi("iht.continue")
     }
   }
 }

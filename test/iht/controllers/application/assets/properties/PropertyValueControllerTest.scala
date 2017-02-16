@@ -33,7 +33,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by james on 16/06/16.
  */
 class PropertyValueControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -92,19 +92,19 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display the page title on page load" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
     }
 
     "display property value label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
     }
 
     "display property question sub label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.property.value.question.hint",
+      contentAsString(result) should include (messagesApi("page.iht.application.property.value.question.hint",
                                                       deceasedName))
     }
 
@@ -131,7 +131,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

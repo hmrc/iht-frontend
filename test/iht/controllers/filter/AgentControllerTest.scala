@@ -45,7 +45,7 @@ class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.noChangeToHowReportToHMRC"))
+      titleElement.text() should be(messagesApi("iht.noChangeToHowReportToHMRC"))
     }
   }
 }

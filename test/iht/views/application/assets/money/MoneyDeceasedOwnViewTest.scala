@@ -19,25 +19,22 @@ package iht.views.application.assets.money
 import iht.controllers.application.assets.money.routes._
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.money.money_deceased_own
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class MoneyDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class MoneyDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour {
+
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = Messages("iht.estateReport.assets.moneyOwned", deceasedName)
-  override def browserTitle = Messages("page.iht.application.assets.money.deceased.browserTitle")
-  override def questionTitle = Messages("iht.estateReport.assets.money.ownName.question", deceasedName)
-  override def valueQuestion = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName")
+  override def pageTitle = messagesApi("iht.estateReport.assets.moneyOwned", deceasedName)
+  override def browserTitle = messagesApi("page.iht.application.assets.money.deceased.browserTitle")
+  override def questionTitle = messagesApi("iht.estateReport.assets.money.ownName.question", deceasedName)
+  override def valueQuestion = messagesApi("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName")
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = ""
-  override def returnLinkText = Messages("site.link.return.money")
+  override def returnLinkText = messagesApi("site.link.return.money")
   override def returnLinkUrl = MoneyOverviewController.onPageLoad().url
 
   "Money Deceased Own view" must {
@@ -45,7 +42,7 @@ class MoneyDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInpu
 
     "show the correct guidance" in {
       val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.application.assets.money.deceased.guidance", deceasedName))
+      messagesShouldBePresent(f.view, messagesApi("page.iht.application.assets.money.deceased.guidance", deceasedName))
     }
   }
 

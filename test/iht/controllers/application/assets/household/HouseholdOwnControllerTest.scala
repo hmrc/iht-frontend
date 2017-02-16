@@ -29,7 +29,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 
 class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -129,7 +129,7 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = householdDeceasedOwnController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -148,7 +148,7 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
       val result = householdDeceasedOwnController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
       contentAsString(result) should include
-      (Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+      (messagesApi("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
   }

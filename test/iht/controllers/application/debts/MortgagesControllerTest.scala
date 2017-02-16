@@ -33,7 +33,7 @@ import scala.concurrent.duration._
 
 class MortgagesOverviewControllerTest extends ApplicationControllerTest {
 
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
@@ -93,7 +93,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
 
       val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include(Messages("page.iht.application.debts.mortgages.noProperties.description"))
+      contentAsString(result) should include(messagesApi("page.iht.application.debts.mortgages.noProperties.description"))
     }
 
     "return OK on Page Load where app details exist and liabilities don't exist" in {

@@ -22,12 +22,10 @@ import org.scalatest.mock.MockitoSugar
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.play.test.UnitSpec
-import play.api.Play.current
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 
-class IhtMainTemplateTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with I18nSupport {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class IhtMainTemplateTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils {
+
   "RegistrationMainTemplate" must {
 
     "contain the correct text for the sign out link" in {

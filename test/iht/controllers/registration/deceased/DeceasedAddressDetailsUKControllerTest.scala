@@ -61,8 +61,8 @@ class DeceasedAddressDetailsUKControllerTest
       val result = controller.onPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host))
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.link.cancel"))
       contentAsString(result) should include(routes.DeceasedAddressDetailsOutsideUKController.onPageLoad().url)
     }
 
@@ -75,8 +75,8 @@ class DeceasedAddressDetailsUKControllerTest
       val result = controller.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL = referrerURL, host = host))
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
       contentAsString(result) should include(routes.DeceasedAddressDetailsOutsideUKController.onEditPageLoad().url)
     }
 

@@ -32,7 +32,7 @@ import play.api.test.Helpers._
   */
 
 class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -129,7 +129,7 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesJointlyOwnedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -147,7 +147,7 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesJointlyOwnedController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.assets.vehicles.jointly.owned.title"))
+      contentAsString(result) should include (messagesApi("page.iht.application.assets.vehicles.jointly.owned.title"))
     }
   }
 }

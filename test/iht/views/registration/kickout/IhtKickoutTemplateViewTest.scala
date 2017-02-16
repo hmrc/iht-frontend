@@ -17,9 +17,7 @@
 package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.twirl.api.Html
 import iht.views.html.registration.kickout.iht_kickout_template
 
@@ -27,7 +25,7 @@ import iht.views.html.registration.kickout.iht_kickout_template
   * Created by vineet on 15/11/16.
   */
 class IhtKickoutTemplateViewTest extends ViewTestHelper{
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val title = "selected title"
   val summaryMessage = "kickout summary message"
   val returnLinkUrl = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad
@@ -55,14 +53,14 @@ class IhtKickoutTemplateViewTest extends ViewTestHelper{
       val view = ihtKickOutTemplateView
       val headers = view.getElementsByTag("h2")
 
-      headers.first.text() shouldBe Messages("iht.nextSteps")
+      headers.first.text() shouldBe messagesApi("iht.nextSteps")
     }
 
     "have details are correct button " in {
       val view = ihtKickOutTemplateView
 
       val detailsAreCorrectButton = view.getElementById("finish")
-      detailsAreCorrectButton.attr("value") shouldBe Messages("site.button.details.correct.exitToGovK")
+      detailsAreCorrectButton.attr("value") shouldBe messagesApi("site.button.details.correct.exitToGovK")
     }
 
     "have return link with correct text" in {
@@ -70,7 +68,7 @@ class IhtKickoutTemplateViewTest extends ViewTestHelper{
 
       val detailsAreCorrectButton = view.getElementById("return-button")
       detailsAreCorrectButton.attr("href") shouldBe returnLinkUrl.url
-      detailsAreCorrectButton.text shouldBe Messages("iht.registration.kickout.message.returnToLast")
+      detailsAreCorrectButton.text shouldBe messagesApi("iht.registration.kickout.message.returnToLast")
     }
   }
 

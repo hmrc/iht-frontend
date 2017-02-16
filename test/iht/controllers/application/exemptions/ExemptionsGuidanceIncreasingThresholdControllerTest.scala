@@ -22,9 +22,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.mockito.Matchers._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 
 /**
@@ -32,7 +30,7 @@ import play.api.test.Helpers._
  */
 
 class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -97,7 +95,7 @@ class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationCon
 
       val result = controller.onPageLoad("anIhtReference")(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.guidance.increasing.threshold.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title"))
     }
 
     "redirect to whatever page it comes from on submit" in {

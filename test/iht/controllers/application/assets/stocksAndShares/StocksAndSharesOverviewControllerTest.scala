@@ -29,7 +29,7 @@ import play.api.test.Helpers._
  * Created by yasar on 30/06/16.
  */
 class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   "StocksAndSharesOverviewControllerTest" must {
 
     val mockCachingConnector = mock[CachingConnector]
@@ -79,7 +79,7 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
     "display the correct content title" in {
       val result = stocksAndSharesOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.stocksAndShares"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.stocksAndShares"))
     }
 
   }

@@ -19,25 +19,22 @@ package iht.views.application.assets
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.foreign
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class ForeignViewTest  extends ShareableElementInputViewBehaviour {
+
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = Messages("iht.estateReport.assets.foreign.title")
-  override def browserTitle = Messages("iht.estateReport.assets.foreign.title")
-  override def questionTitle = Messages("page.iht.application.assets.foreign.deceasedOwned.question", deceasedName)
-  override def valueQuestion = Messages("page.iht.application.assets.foreign.inputLabel1")
+  override def pageTitle = messagesApi("iht.estateReport.assets.foreign.title")
+  override def browserTitle = messagesApi("iht.estateReport.assets.foreign.title")
+  override def questionTitle = messagesApi("page.iht.application.assets.foreign.deceasedOwned.question", deceasedName)
+  override def valueQuestion = messagesApi("page.iht.application.assets.foreign.inputLabel1")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
-  override def returnLinkText = Messages("page.iht.application.return.to.assetsOf", deceasedName)
+  override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
 
   "Foreign assets view" must {
@@ -45,7 +42,7 @@ class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBeha
 
     "show the correct guidance" in {
       val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.application.assets.foreign.description.p1", deceasedName))
+      messagesShouldBePresent(f.view, messagesApi("page.iht.application.assets.foreign.description.p1", deceasedName))
     }
   }
 

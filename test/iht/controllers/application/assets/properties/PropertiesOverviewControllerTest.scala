@@ -29,7 +29,7 @@ import play.api.test.Helpers._
  */
 class PropertiesOverviewControllerTest extends ApplicationControllerTest {
 
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 

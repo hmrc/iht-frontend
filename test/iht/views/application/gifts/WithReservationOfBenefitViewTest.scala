@@ -33,7 +33,7 @@ import uk.gov.hmrc.play.test.UnitSpec
   * Created by vineet on 15/11/16.
   */
 class WithReservationOfBenefitViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val ihtReference = Some("ABC1234567890")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(

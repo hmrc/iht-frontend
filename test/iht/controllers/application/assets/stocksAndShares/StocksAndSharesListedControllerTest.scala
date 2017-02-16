@@ -31,7 +31,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 
 class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -126,7 +126,7 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
       val result = stocksAndSharesListedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -144,7 +144,7 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
       val result = stocksAndSharesListedController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.stocksAndSharesListed"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.stocksAndSharesListed"))
     }
   }
 }

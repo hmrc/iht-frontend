@@ -19,15 +19,13 @@ package iht.views.registration.deceased
 import iht.forms.registration.DeceasedForms.deceasedAddressDetailsUKForm
 import iht.views.html.registration.deceased.deceased_address_details_uk
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.Call
 
 class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitle = Messages("iht.registration.deceased.lastContactAddress")
-  override def browserTitle = Messages("iht.registration.contactAddress")
+  override def pageTitle = messagesApi("iht.registration.deceased.lastContactAddress")
+  override def browserTitle = messagesApi("iht.registration.contactAddress")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
@@ -97,7 +95,7 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour {
     "have a link to change to an address abroad" in {
       val f = fixture()
       val link = f.doc.getElementById("return-button")
-      link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
+      link.text shouldBe messagesApi("iht.registration.changeAddressToAbroad")
     }
   }
 }

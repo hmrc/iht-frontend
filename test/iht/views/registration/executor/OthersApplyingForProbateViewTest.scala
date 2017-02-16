@@ -19,18 +19,16 @@ package iht.views.registration.executor
 import iht.views.registration.RegistrationPageBehaviour
 import iht.forms.registration.CoExecutorForms.othersApplyingForProbateForm
 import iht.views.html.registration.executor.others_applying_for_probate
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.Call
 
 class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour {
-  override def pageTitle = Messages("page.iht.registration.others-applying-for-probate.sectionTitle")
-  override def browserTitle = Messages("page.iht.registration.others-applying-for-probate.browserTitle")
+  override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate.sectionTitle")
+  override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
-    val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), app.injector.instanceOf[Messages]).toString
+    val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), applicationMessages).toString
     val doc = asDocument(view)
   }
 
@@ -39,14 +37,14 @@ class OthersApplyingForProbateViewTest extends RegistrationPageBehaviour {
     behave like registrationPage()
 
     "have a fieldset with the Id 'answer'" in {
-      val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), app.injector.instanceOf[Messages]).toString
+      val view = others_applying_for_probate(othersApplyingForProbateForm, Call("", ""))(createFakeRequest(), applicationMessages).toString
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "answer"
     }
 
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        Messages("page.iht.registration.others-applying-for-probate.description"))
+        messagesApi("page.iht.registration.others-applying-for-probate.description"))
     }
   }
 }

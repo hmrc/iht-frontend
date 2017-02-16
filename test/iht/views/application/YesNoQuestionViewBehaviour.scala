@@ -67,7 +67,7 @@ trait YesNoQuestionViewBehaviour extends ViewTestHelper {
     "show the Save and continue button" in {
       val f = fixture()
       val saveAndContinueButton = f.doc.getElementById("save-continue")
-      saveAndContinueButton.text() shouldBe Messages("iht.saveAndContinue")
+      saveAndContinueButton.text() shouldBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct return link with text" in {

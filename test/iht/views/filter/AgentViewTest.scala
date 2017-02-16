@@ -19,9 +19,7 @@ package iht.views.filter
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.filter.agent_view
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -29,61 +27,61 @@ import uk.gov.hmrc.play.test.UnitSpec
   * Created by adwelly on 21/10/2016.
   */
 class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
   "FilterView" must {
     "generate appropriate content for the title" in {
-      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
+      val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
-      titleElement.text should include(Messages("iht.noChangeToHowReportToHMRC"))
+      titleElement.text should include(messagesApi("iht.noChangeToHowReportToHMRC"))
     }
 
     "generate appropriate content for the browser title" in {
-      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
+      val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val browserTitleElement = doc.getElementsByTag("title").first
 
-      browserTitleElement.text should include(Messages("iht.noChangeToHowReportToHMRC"))
+      browserTitleElement.text should include(messagesApi("iht.noChangeToHowReportToHMRC"))
     }
 
     "generate content text informing the agent that there is no change" in {
-      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
+      val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val contentPara = doc.getElementById("agent-content")
 
-      contentPara.text should be(Messages("page.iht.filter.agent.content"))
+      contentPara.text should be(messagesApi("page.iht.filter.agent.content"))
     }
 
     "contain a link with the button class with the text 'Exit to GOV.UK'" in {
-      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
+      val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.text() should be(Messages("iht.exitToGovUK"))
+      button.text() should be(messagesApi("iht.exitToGovUK"))
     }
 
     "contain a link with a button class with the href 'https://www.gov.uk'" in {
-      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
+      val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") should be(Messages("https://www.gov.uk"))
+      button.attr("href") should be(messagesApi("https://www.gov.uk"))
     }
 
     "contain a link with id 'back' with the text 'Back'" in {
-      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
+      val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 
-      button.text() should be(Messages("iht.back"))
+      button.text() should be(messagesApi("iht.back"))
     }
 
 
     "contain a link with id 'back' with the href that points to the main filter page" in {
-      val result = agent_view()(fakeRequest, app.injector.instanceOf[Messages])
+      val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 

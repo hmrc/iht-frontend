@@ -30,7 +30,7 @@ import play.api.test.Helpers._
 
 
 class CharityValueControllerTest extends ApplicationControllerTest with BeforeAndAfter {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
   val defaultCharity = Charity(Some("1"), Some("A Charity 1"), Some("7866667X"), None)
@@ -87,7 +87,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("page.iht.application.exemptions.charityValue.sectionTitle"))
+        messagesApi("page.iht.application.exemptions.charityValue.sectionTitle"))
     }
 
     "return a view containing the currency symbol" in {
@@ -103,7 +103,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
 
       val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.saveAndContinue"))
+      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
     }
 
     "return a view containing a link with the text to 'Return to add a charity'" in {
@@ -112,7 +112,7 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("iht.estateReport.exemptions.charities.returnToAddACharity"))
+        messagesApi("iht.estateReport.exemptions.charities.returnToAddACharity"))
     }
 
     "return a view containing a link with the href pointing to the overview'" in {

@@ -23,9 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 
 /**
@@ -33,7 +31,7 @@ import play.api.test.Helpers._
   */
 
 class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
 
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
@@ -135,7 +133,7 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -154,7 +152,7 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
       val result = householdJointlyOwnedController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
       contentAsString(result) should include
-      (Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title"),
+      (messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title"),
         CommonHelper.getDeceasedNameOrDefaultString(regDetails))
     }
   }

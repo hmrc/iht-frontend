@@ -54,7 +54,7 @@ class PartnerOverviewControllerTest extends ApplicationControllerTest{
     }
 
     "respond with OK on page load" in {
-      implicit val messages: Messages = app.injector.instanceOf[Messages]
+
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,
@@ -66,7 +66,7 @@ class PartnerOverviewControllerTest extends ApplicationControllerTest{
 
       val result = partnerOverviewController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include (Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
     }
   }
 }

@@ -23,9 +23,8 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.home.iht_home
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.test.Helpers._
 
@@ -59,8 +58,8 @@ class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
       running(app) {
         val view = ihtHomeView(ihtApplications).toString
 
-        titleShouldBeCorrect(view, Messages("page.iht.home.title"))
-        browserTitleShouldBeCorrect(view, Messages("page.iht.home.browserTitle"))
+        titleShouldBeCorrect(view, messagesApi("page.iht.home.title"))
+        browserTitleShouldBeCorrect(view, messagesApi("page.iht.home.browserTitle"))
       }
 
     }
@@ -68,25 +67,25 @@ class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
     "have correct guidance paragraphs when case list have records" in {
       running(app) {
         val view = ihtHomeView(ihtApplications).toString
-        messagesShouldBePresent(view, Messages("page.iht.home.applicationList.table.guidance.label"))
+        messagesShouldBePresent(view, messagesApi("page.iht.home.applicationList.table.guidance.label"))
       }
     }
 
     "show all the table headers when case list have records" in {
       running(app) {
         val view = ihtHomeView(ihtApplications)
-        assertEqualsValue(view, "th#deceased-name-header", Messages("page.iht.home.deceasedName.label"))
-        assertEqualsValue(view, "th#iht-reference-header", Messages("page.iht.home.ihtReference.label"))
-        assertEqualsValue(view, "th#date-of-death-header", Messages("iht.dateOfDeath"))
-        assertEqualsValue(view, "th#status-header", Messages("page.iht.home.currentStatus"))
+        assertEqualsValue(view, "th#deceased-name-header", messagesApi("page.iht.home.deceasedName.label"))
+        assertEqualsValue(view, "th#iht-reference-header", messagesApi("page.iht.home.ihtReference.label"))
+        assertEqualsValue(view, "th#date-of-death-header", messagesApi("iht.dateOfDeath"))
+        assertEqualsValue(view, "th#status-header", messagesApi("page.iht.home.currentStatus"))
       }
     }
 
     "have correct guidance paragraphs when the case list is empty" in {
       running(app){
         val view = ihtHomeView().toString
-        messagesShouldBePresent(view, Messages("page.iht.home.applicationList.table.guidance.label.empty"))
-        messagesShouldBePresent(view, Messages("page.iht.home.applicationList.table.guidance.p2.empty"))
+        messagesShouldBePresent(view, messagesApi("page.iht.home.applicationList.table.guidance.label.empty"))
+        messagesShouldBePresent(view, messagesApi("page.iht.home.applicationList.table.guidance.p2.empty"))
       }
     }
 
@@ -96,7 +95,7 @@ class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
 
         val returnLink = view.getElementById("start-new-registration")
         returnLink.attr("href") shouldBe registrationChecklistPageUrl.url
-        returnLink.text() shouldBe Messages("site.link.startNewRegistration")
+        returnLink.text() shouldBe messagesApi("site.link.startNewRegistration")
       }
 
     }

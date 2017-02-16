@@ -24,7 +24,7 @@ import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   "GiftsHelper" must {
     "generate sequence of years needed for gifts" in {
       implicit val request = createFakeRequest()

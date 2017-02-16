@@ -79,12 +79,12 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+        messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
         addEscapedApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
-        Messages("iht.registration.changeAddressToAbroad"))
+        messagesApi("iht.registration.changeAddressToAbroad"))
       contentAsString(result) should include(msg)
-      contentAsString(result) should include(Messages("page.iht.registration.others-applying-for-probate-address.address.guidance"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
     }
 
     "load international page when the coExecutors address has not been entered" in {
@@ -96,12 +96,12 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+        messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
         addEscapedApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
-        Messages("iht.registration.changeAddressToUK"))
+        messagesApi("iht.registration.changeAddressToUK"))
       contentAsString(result) should include(msg)
-      contentAsString(result) should include(Messages("page.iht.registration.others-applying-for-probate-address.address.guidance"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
     }
 
     "raise an error when trying to load the UK view when trying to add a co-executor but " +
@@ -177,9 +177,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1"))
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.postcode"))
+      contentAsString(result) should include(messagesApi("iht.postcode"))
       val msg = escapeApostrophes(
-        Messages("iht.registration.changeAddressToAbroad"))
+        messagesApi("iht.registration.changeAddressToAbroad"))
       contentAsString(result) should include(msg)
     }
 
@@ -193,9 +193,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("iht.country"))
+        messagesApi("iht.country"))
       val msg = escapeApostrophes(
-        Messages("iht.registration.changeAddressToUK"))
+        messagesApi("iht.registration.changeAddressToUK"))
       contentAsString(result) should include(msg)
     }
 
@@ -213,10 +213,10 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+        messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
         addEscapedApostrophe(rdWithCoExecs.coExecutors(1).name)))
       val msg = escapeApostrophes(
-        Messages("iht.registration.changeAddressToAbroad"))
+        messagesApi("iht.registration.changeAddressToAbroad"))
       contentAsString(result) should include(msg)
     }
 
@@ -231,10 +231,10 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+        messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
         addEscapedApostrophe(rdWithCoExecs.coExecutors(1).name)))
       val msg = escapeApostrophes(
-        Messages("iht.registration.changeAddressToUK"))
+        messagesApi("iht.registration.changeAddressToUK"))
       contentAsString(result) should include(msg)
     }
 
@@ -434,7 +434,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
     status(result) should be(OK)
     contentAsString(result) should include(escapeApostrophes(
-      Messages("iht.registration.changeAddressToAbroad")))
+      messagesApi("iht.registration.changeAddressToAbroad")))
 
   }
 
@@ -454,7 +454,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
     status(result) should be(OK)
     contentAsString(result) should include(escapeApostrophes(
-      Messages("iht.registration.changeAddressToUK")))
+      messagesApi("iht.registration.changeAddressToUK")))
   }
 
   "raise an error when a submitting a plausible UK address but the storage fails" in {
@@ -479,14 +479,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     val result = submitCoExecutorPersonalDetailsModel(
       CommonBuilder.buildRegistrationDetailsWithCoExecutors, address, "1", controller.onSubmitUK)
     status(result) should be(BAD_REQUEST)
-    contentAsString(result) should include(Messages(expectedError))
+    contentAsString(result) should include(messagesApi(expectedError))
   }
 
   def checkForErrorOnSubmissionOfModelToInternationalRoute(address: UkAddress, expectedError: String): Unit = {
     val result = submitCoExecutorPersonalDetailsModel(
       CommonBuilder.buildRegistrationDetailsWithCoExecutors, address, "1", controller.onSubmitAbroad)
     status(result) should be(BAD_REQUEST)
-    contentAsString(result) should include(Messages(expectedError))
+    contentAsString(result) should include(messagesApi(expectedError))
   }
 
   def prepareForm(address: UkAddress): Form[UkAddress] = {

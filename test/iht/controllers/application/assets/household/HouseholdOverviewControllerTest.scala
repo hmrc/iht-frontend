@@ -31,7 +31,7 @@ import play.api.test.Helpers._
   *
   */
 class HouseholdOverviewControllerTest extends ApplicationControllerTest{
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector: CachingConnector = mock[CachingConnector]
   val mockIhtConnector: IhtConnector = mock[IhtConnector]
 
@@ -61,7 +61,7 @@ class HouseholdOverviewControllerTest extends ApplicationControllerTest{
 
       val result = householdOverviewController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.householdAndPersonalItems.title"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.householdAndPersonalItems.title"))
     }
   }
 }

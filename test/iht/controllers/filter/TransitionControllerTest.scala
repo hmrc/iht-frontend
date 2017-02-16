@@ -36,7 +36,7 @@ class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.usePaperForm"))
+      titleElement.text() should be(messagesApi("iht.usePaperForm"))
     }
 
     "show the Use Paper Form page when access by an unauthorised person for Northern Ireland" in {
@@ -45,7 +45,7 @@ class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.usePaperForm"))
+      titleElement.text() should be(messagesApi("iht.usePaperForm"))
     }
 
     "show the Use Paper Form page when access by an unauthorised person for another country" in {
@@ -54,7 +54,7 @@ class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.usePaperForm"))
+      titleElement.text() should be(messagesApi("iht.usePaperForm"))
     }
   }
 }

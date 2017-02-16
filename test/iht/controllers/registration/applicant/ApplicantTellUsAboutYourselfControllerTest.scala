@@ -83,8 +83,8 @@ class ApplicantTellUsAboutYourselfControllerTest
       val result = controller.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }
 
     "contain Continue and Cancel buttons when Page is loaded in edit mode" in {
@@ -96,8 +96,8 @@ class ApplicantTellUsAboutYourselfControllerTest
       val result = controller.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "not contain the 'Do you live in the UK' question when loaded in edit mode" in {
@@ -109,7 +109,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val result = controller.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe OK
 
-      contentAsString(result) should not include Messages("page.iht.registration.applicantTellUsAboutYourself.question.label")
+      contentAsString(result) should not include messagesApi("page.iht.registration.applicantTellUsAboutYourself.question.label")
     }
 
     "respond appropriately to a submit with valid values in all fields and living in UK" in  {

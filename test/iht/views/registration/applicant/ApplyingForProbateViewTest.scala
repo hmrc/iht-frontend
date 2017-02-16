@@ -20,14 +20,13 @@ import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.mvc.Call
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Lang
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitle = Messages("iht.registration.applicant.applyingForProbate")
-  override def browserTitle = Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")
+  override def pageTitle = messagesApi("iht.registration.applicant.applyingForProbate")
+  override def browserTitle = messagesApi("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
@@ -42,12 +41,12 @@ class ApplyingForProbateViewTest extends RegistrationPageBehaviour {
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        Messages("page.iht.registration.applicant.applyingForProbate.p1"),
-        Messages("page.iht.registration.applicant.applyingForProbate.p2"))
+        messagesApi("page.iht.registration.applicant.applyingForProbate.p1"),
+        messagesApi("page.iht.registration.applicant.applyingForProbate.p2"))
     }
 
     "have a fieldset with the Id 'applying-for-probate'" in {
-      val view = applying_for_probate(applyingForProbateForm, Call("", ""))(createFakeRequest(), Lang("", ""), app.injector.instanceOf[Messages]).toString
+      val view = applying_for_probate(applyingForProbateForm, Call("", ""))(createFakeRequest(), Lang("", ""), applicationMessages).toString
 
       asDocument(view).getElementsByTag("fieldset").first.id shouldBe "applying-for-probate"
     }

@@ -26,13 +26,11 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val ihtReference =  "ABC"
   val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtReference))
   val widowCheckModel = CommonBuilder.buildWidowedCheck
@@ -46,7 +44,7 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
       val doc = asDocument(view)
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() shouldBe 1
-      headers.first().text() shouldBe Messages("iht.estateReport.tnrb.increasingIHTThreshold")
+      headers.first().text() shouldBe messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
     }
 
     "show the correct browser title" in {
@@ -54,86 +52,86 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
       val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
-        Messages("iht.estateReport.tnrb.increasingThreshold") + " " + Messages("site.title.govuk"))
+        messagesApi("iht.estateReport.tnrb.increasingThreshold") + " " + messagesApi("site.title.govuk"))
     }
 
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
       val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
-      view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance1",
+      view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance1",
                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance2",
+      view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance2",
                             TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                             Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                             messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
                              CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString ))
-      view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance3"))
+      view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance3"))
     }
 
     "show the correct headings and all the questions text" in {
 
       val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
       val predeceasedName = TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"))
+                                            messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the"))
 
       implicit val request = createFakeRequest()
       val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "h2#tnrb-partner-estate",
-                               Messages("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading",
+                               messagesApi("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading",
                                  TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                 Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                 messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                           CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
                                  CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString))
 
       assertEqualsValue(doc, "li#home-in-uk span",
-                                  Messages("iht.estateReport.tnrb.permanentHome.question", predeceasedName, deceasedName))
+                                  messagesApi("iht.estateReport.tnrb.permanentHome.question", predeceasedName, deceasedName))
       assertEqualsValue(doc, "li#gifts-given-away span",
-                                  Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", predeceasedName))
+                                  messagesApi("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", predeceasedName))
       assertEqualsValue(doc, "li#gifts-with-reservation span",
-                                  Messages("page.iht.application.tnrbEligibilty.overview.giftsWithReservation.question",
+                                  messagesApi("page.iht.application.tnrbEligibilty.overview.giftsWithReservation.question",
                                               predeceasedName, deceasedName))
       assertEqualsValue(doc, "li#state-claim-any-business span",
-                                  Messages("iht.estateReport.tnrb.stateClaim.question"))
+                                  messagesApi("iht.estateReport.tnrb.stateClaim.question"))
       assertEqualsValue(doc, "li#is-partner-ben-from-trust span",
-                                  Messages("iht.estateReport.tnrb.benefitFromTrust.question", predeceasedName))
+                                  messagesApi("iht.estateReport.tnrb.benefitFromTrust.question", predeceasedName))
       assertEqualsValue(doc, "li#is-estate-below-iht-threshold-applied span",
-                                  Messages("page.iht.application.tnrbEligibilty.overview.charity.question",
+                                  messagesApi("page.iht.application.tnrbEligibilty.overview.charity.question",
                                               predeceasedName, deceasedName))
       assertEqualsValue(doc, "li#is-joint-asset-passed span",
-                                  Messages("page.iht.application.tnrbEligibilty.overview.jointlyOwned.question",
+                                  messagesApi("page.iht.application.tnrbEligibilty.overview.jointlyOwned.question",
                                               predeceasedName, deceasedName))
 
       assertEqualsValue(doc, "h2#tnrb-partner-personal-details",
-                              Messages("page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading",
+                              messagesApi("page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading",
                                 TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                 Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                 messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))))
 
      assertEqualsValue(doc, "li#partner-marital-status span",
-        Messages("iht.estateReport.tnrb.partner.married",
+        messagesApi("iht.estateReport.tnrb.partner.married",
           CommonHelper.getDeceasedNameOrDefaultString(regDetails),
           TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
           TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel,
                                                widowCheckModel,
-                                      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"))))
+                                      messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.their"))))
 
     assertEqualsValue(doc, "li#date-of-preDeceased span",
-        Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
+        messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
           TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel,
             widowCheckModel,
-            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+            messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                     CommonHelper.getDeceasedNameOrDefaultString(regDetails)))))
 
      assertEqualsValue(doc, "li#partner-name span",
-        Messages("page.iht.application.tnrbEligibilty.overview.partner.name.question",
+        messagesApi("page.iht.application.tnrbEligibilty.overview.partner.name.question",
           TnrbHelper.spouseOrCivilPartnerNameLabel(tnrbModel,
                           widowCheckModel,
-                          Messages("page.iht.application.tnrbEligibilty.partner.additional.label.name.of.the"))))
+                          messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.name.of.the"))))
 
       assertEqualsValue(doc, "li#date-of-marriage span",
-                   Messages("iht.estateReport.tnrb.dateOfMarriage",
+                   messagesApi("iht.estateReport.tnrb.dateOfMarriage",
                           TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel)))
 
     }
@@ -195,7 +193,7 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
       val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
       val button: Element = doc.getElementById("return-button")
-      button.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      button.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       button.className() shouldBe "button"
       button.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference).url

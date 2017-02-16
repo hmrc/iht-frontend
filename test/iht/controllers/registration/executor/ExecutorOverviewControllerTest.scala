@@ -84,8 +84,8 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.button.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.button.cancel"))
     }
 
     "contain Continue button when Page is loaded in edit mode" in {
@@ -97,8 +97,8 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val result = executorOverviewController.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "the displayed page should contain the title 'Other people applying for probate'" in {
@@ -109,7 +109,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070"))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("iht.registration.othersApplyingForProbate"))
+      contentAsString(result) should include(messagesApi("iht.registration.othersApplyingForProbate"))
     }
 
     "the displayed page should contain the explanation for the page" in {
@@ -120,7 +120,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070"))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.executor-overview.description"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.executor-overview.description"))
     }
 
     "the displayed page should contain the a yes/no question with standard yes, no radio buttons for the page" in {
@@ -131,7 +131,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070"))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.executor-overview.yesnoQuestion"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.executor-overview.yesnoQuestion"))
       contentAsString(result) should include("radio") // There are some radio buttons
     }
 
@@ -145,7 +145,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070"))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.executor-overview.othersApplyingStatement.are"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.executor-overview.othersApplyingStatement.are"))
     }
 
     "the displayed page should have a link to change the others applying for probate" in {
@@ -197,8 +197,8 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       contentAsString(result) should include(CommonBuilder.DefaultName)
       contentAsString(result) should include(CommonBuilder.DefaultCoExecutor1.name)
       contentAsString(result) should include(CommonBuilder.DefaultCoExecutor2.name)
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include Messages("page.iht.registration.executor-overview.yesnoQuestion")
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include messagesApi("page.iht.registration.executor-overview.yesnoQuestion")
       contentAsString(result) should not include "radio" // There are some radio buttons
     }
   }
@@ -270,8 +270,8 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     val result = executorOverviewController.onSubmit()(request)
 
     status(result) shouldBe BAD_REQUEST
-    contentAsString(result) should include(escapeApostrophes(Messages("error.applicant.insufficientCoExecutors")))
-    contentAsString(result) should include(Messages("error.applicant.insufficientCoExecutors"))
+    contentAsString(result) should include(escapeApostrophes(messagesApi("error.applicant.insufficientCoExecutors")))
+    contentAsString(result) should include(messagesApi("error.applicant.insufficientCoExecutors"))
   }
 
   "when there is a coexecutor, there is a link to delete that coexecutor" in {

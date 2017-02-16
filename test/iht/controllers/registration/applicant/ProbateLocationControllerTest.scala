@@ -67,9 +67,9 @@ class ProbateLocationControllerTest
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("page.iht.registration.applicant.probateLocation.title"))
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }
 
     "contain Continue and Cancel buttons when page is loaded in edit mode" in {
@@ -83,9 +83,9 @@ class ProbateLocationControllerTest
       val result = controller.onEditPageLoad()(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("page.iht.registration.applicant.probateLocation.title"))
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "respond appropriately to a submit with valid values in all fields" in  {

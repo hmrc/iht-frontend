@@ -19,25 +19,21 @@ package iht.views.application.assets.household
 import iht.controllers.application.assets.household.routes._
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_jointly_owned
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class HouseholdJointlyOwnedViewTest extends ShareableElementInputViewBehaviour {
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title", deceasedName)
-  override def browserTitle = Messages("page.iht.application.assets.household.joint.browserTitle")
-  override def questionTitle = Messages("iht.estateReport.assets.household.joint.question", deceasedName)
-  override def valueQuestion = Messages("iht.estateReport.assets.household.valueOfJointlyOwned")
+  override def pageTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title", deceasedName)
+  override def browserTitle = messagesApi("page.iht.application.assets.household.joint.browserTitle")
+  override def questionTitle = messagesApi("iht.estateReport.assets.household.joint.question", deceasedName)
+  override def valueQuestion = messagesApi("iht.estateReport.assets.household.valueOfJointlyOwned")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
-  override def returnLinkText = Messages("site.link.return.household")
+  override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
 
   "Household Jointly Owned view" must {

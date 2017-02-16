@@ -80,7 +80,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
     }
 
     "display correct hint content on page" in {
-      implicit val messages: Messages = app.injector.instanceOf[Messages]
+
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(CommonBuilder.buildApplicationDetails),
@@ -90,7 +90,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
       val result = partnerDateOfBirthController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.dateExample"))
+      contentAsString(result) should include (messagesApi("iht.dateExample"))
     }
 
     "display the correct stored date on page load" in {

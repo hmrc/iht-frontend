@@ -22,15 +22,12 @@ import iht.views.html.application.overview.threshold_section
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.Call
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ThresholdSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter with I18nSupport {
+class ThresholdSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
 
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def dummyOverviewRow = OverviewRow("", "", "", NotStarted, Call("", ""), "")
   def dummyThresholdRow = OverviewRowWithoutLink("threshold", "", "", "")
 
@@ -79,7 +76,7 @@ class ThresholdSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSuga
       val doc = asDocument(view)
       assertRenderedById(doc, "tnrb-link")
       val link = doc.getElementById("tnrb-link")
-      link.text shouldBe Messages("page.iht.application.estateOverview.increaseThreshold.link")
+      link.text shouldBe messagesApi("page.iht.application.estateOverview.increaseThreshold.link")
       link.attr("href") shouldBe iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad().url
     }
 

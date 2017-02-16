@@ -23,9 +23,7 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.views.HtmlSpec
 import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 
 /**
@@ -107,13 +105,13 @@ class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with Ht
 
       val resultContent = contentAsString(result)
 
-      resultContent should include(Messages("page.iht.application.exemptions.guidance.content1"))
-      resultContent should include(Messages("page.iht.application.exemptions.guidance.content2"))
-      resultContent should include(Messages("page.iht.application.exemptions.guidance.content2.linkText"))
-      resultContent should include(Messages("page.iht.application.exemptions.guidance.content3"))
-      resultContent should include(Messages("page.iht.application.exemptions.guidance.content4"))
-      resultContent should include(Messages("iht.estateReport.exemptions.guidance.provideAssetsDetails"))
-      resultContent should include(Messages("iht.estateReport.exemptions.guidance.debtsSubtracted"))
+      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content1"))
+      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content2"))
+      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content2.linkText"))
+      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content3"))
+      resultContent should include(messagesApi("page.iht.application.exemptions.guidance.content4"))
+      resultContent should include(messagesApi("iht.estateReport.exemptions.guidance.provideAssetsDetails"))
+      resultContent should include(messagesApi("iht.estateReport.exemptions.guidance.debtsSubtracted"))
     }
   }
 

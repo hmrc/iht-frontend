@@ -23,12 +23,10 @@ import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.helpers.GenericOverviewHelper._
 import iht.views.html.application.asset.pensions.pensions_overview
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class PensionsOverviewViewTest extends ViewTestHelper {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
@@ -38,15 +36,15 @@ class PensionsOverviewViewTest extends ViewTestHelper {
   lazy val giveAnAnswerMsgKey= "site.link.giveAnswer"
   lazy val giveAValueMsgKey = "site.link.giveAValue"
   lazy val pensionOwnedByDeceasedQuestionId = "pensions-question"
-  lazy val pensionOwnedByDeceasedQuestionMsg = Messages("page.iht.application.assets.pensions.question", deceasedName)
+  lazy val pensionOwnedByDeceasedQuestionMsg = messagesApi("page.iht.application.assets.pensions.question", deceasedName)
   lazy val pensionOwnedByDeceasedQuestionPageUrl = routes.PensionsOwnedQuestionController.onPageLoad.url
 
   lazy val pensionMoreThanOneQuestionId = "pensions-more-than-one-question"
-  lazy val pensionMoreThanOneQuestionMsg = Messages("page.iht.application.assets.pensions.changed.title", deceasedName)
+  lazy val pensionMoreThanOneQuestionMsg = messagesApi("page.iht.application.assets.pensions.changed.title", deceasedName)
   lazy val pensionMoreThanOneQuestionPageUrl = routes.PensionsChangedQuestionController.onPageLoad.url
 
   lazy val pensionValueQuestionId = "pensions-value"
-  lazy val pensionValueQuestionMsg = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid")
+  lazy val pensionValueQuestionMsg = messagesApi("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid")
   lazy val pensionValueQuestionPageUrl = routes.PensionsValueController.onPageLoad.url
 
   def pensionOverviewView(pensions:Option[PrivatePension]) = {
@@ -61,15 +59,15 @@ class PensionsOverviewViewTest extends ViewTestHelper {
     "have correct title and browser title " in {
       val view = pensionOverviewView(Some(CommonBuilder.buildPrivatePensionExtended)).toString
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.assets.privatePensions"))
-      browserTitleShouldBeCorrect(view, Messages("iht.estateReport.assets.privatePensions"))
+      titleShouldBeCorrect(view, messagesApi("iht.estateReport.assets.privatePensions"))
+      browserTitleShouldBeCorrect(view, messagesApi("iht.estateReport.assets.privatePensions"))
     }
 
     "have correct guidance paragraphs" in {
       val view = pensionOverviewView(Some(CommonBuilder.buildPrivatePensionExtended)).toString
-      messagesShouldBePresent(view, Messages("page.iht.application.assets.pensions.overview.description.p1",
+      messagesShouldBePresent(view, messagesApi("page.iht.application.assets.pensions.overview.description.p1",
                                             deceasedName, deceasedName))
-      messagesShouldBePresent(view, Messages("page.iht.application.assets.pensions.overview.description.p2",
+      messagesShouldBePresent(view, messagesApi("page.iht.application.assets.pensions.overview.description.p2",
                                               deceasedName))
     }
 

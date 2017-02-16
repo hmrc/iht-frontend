@@ -139,7 +139,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       setupMocks
       val result = controller.onPageLoad()(createFakeRequest(true))
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.deceasedDateOfDeath.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
     }
 
     "Load the DeceasedDateOfDeath page when there is Id" in {
@@ -155,7 +155,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       val result = controller.onPageLoad()(
         createFakeRequestWithReferrer(referrerURL=defaultReferrerURL,host=defaultHost))
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.deceasedDateOfDeath.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
     }
 
     "contain Continue button when Page is loaded in normal mode" in {
@@ -166,9 +166,9 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
         host=host))
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.deceasedDateOfDeath.title"))
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }
 
     "contain Continue and Cancel button when Page is loaded in edit mode" in {
@@ -190,10 +190,10 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
         host=host))
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.deceasedDateOfDeath.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "respond with OK" in new {

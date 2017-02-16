@@ -30,7 +30,7 @@ import play.api.test.Helpers._
  */
 class TrustsOverviewControllerTest extends ApplicationControllerTest {
 
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   "TrustsOverviewControllerTest" must {
 
     val mockCachingConnector = mock[CachingConnector]
@@ -80,7 +80,7 @@ class TrustsOverviewControllerTest extends ApplicationControllerTest {
     "display the correct content title" in {
       val result = trustsOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.heldInTrust.title"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.heldInTrust.title"))
     }
 
   }

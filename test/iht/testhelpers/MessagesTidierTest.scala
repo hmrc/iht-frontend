@@ -18,13 +18,13 @@ package iht.testhelpers
 
 import java.io.{BufferedWriter, File, FileWriter}
 
+import iht.FakeIhtApp
 import iht.utils.CommonHelper
 import play.api.Play
-import play.api.Play.current
 import play.api.libs.Files.TemporaryFile
 import uk.gov.hmrc.play.test.UnitSpec
 
-class MessagesTidierTest extends UnitSpec {
+class MessagesTidierTest extends UnitSpec with FakeIhtApp {
 
   val runTestsThatUseFileSystem = false
   val runTestsThatSortErrorMessages = false
@@ -127,7 +127,7 @@ class MessagesTidierTest extends UnitSpec {
 
     "readFile" must {
       "produce a map of string to string from a testfile of lines k=v" in {
-        val result: Map[String, String] = mockedMessagesTidier.readMessages()
+        val result: Map[String, String] = mockedMessagesTidier.readmessagesApi()
         result shouldBe mockedMessagesWithDuplicateValuesAsMap
       }
     }
@@ -234,20 +234,20 @@ class MessagesTidierTest extends UnitSpec {
           "the cat sat on aa.bb.cc the mat",
           "the mat fell aa.bb.cc on the cat",
           "dd.ee.ff fell on the cat",
-          "the cats aaa.bb.cc was Messages(\"aaa.bb.cc\") flat",
-          "the cat aa.bb.ccc was Messages(\"aa.bb.ccc\") flat",
+          "the cats aaa.bb.cc was messagesApi(\"aaa.bb.cc\") flat",
+          "the cat aa.bb.ccc was messagesApi(\"aa.bb.ccc\") flat",
           "the cat aa.bb.cc was dd.ee.ff flat",
-          "the bigcat was a cat and Messages(\"dd.ee.ff\")"
+          "the bigcat was a cat and messagesApi(\"dd.ee.ff\")"
         )
         val expectedText: Seq[String] =
           Seq(
             "the chicken sat on AAA.BBB.CCC the mat",
             "the mat fell AAA.BBB.CCC on the chicken",
             "DDD.EEE.FFF fell on the chicken",
-            "the cats aaa.bb.cc was Messages(\"aaa.bb.cc\") flat",
-            "the chicken aa.bb.ccc was Messages(\"aa.bb.ccc\") flat",
+            "the cats aaa.bb.cc was messagesApi(\"aaa.bb.cc\") flat",
+            "the chicken aa.bb.ccc was messagesApi(\"aa.bb.ccc\") flat",
             "the chicken AAA.BBB.CCC was DDD.EEE.FFF flat",
-            "the bigcat was a chicken and Messages(\"DDD.EEE.FFF\")"
+            "the bigcat was a chicken and messagesApi(\"DDD.EEE.FFF\")"
           )
         val expectedStats: Map[String, Int] =
           Map(
@@ -513,7 +513,7 @@ class MessagesTidierTest extends UnitSpec {
               ("error.e.f", "two"),
               ("error.x.v", "one"),
               ("g.validation.i", "one"))
-          mockedMessagesTidier.sortErrorMessages(inputMap) shouldBe expectedResult
+          mockedMessagesTidier.sortErrormessagesApi(inputMap) shouldBe expectedResult
         }
       }
 
@@ -667,8 +667,8 @@ class MessagesTidierTest extends UnitSpec {
         "create a sequence of tuples where the first element of eachj tuple is in sorted order" in {
           //mockedMessagesTidier.writeToFile("/home/grant/Desktop/waa.txt", result)
 
-          val messagesAsTuples: Map[String, String] = MessagesTidier.readMessages()
-          val sortedErrorMessages = MessagesTidier.sortErrorMessages(messagesAsTuples)
+          val messagesAsTuples: Map[String, String] = MessagesTidier.readmessagesApi()
+          val sortedErrorMessages = MessagesTidier.sortErrormessagesApi(messagesAsTuples)
           mockedMessagesTidier.writeToFile("/home/grant/Desktop/waa1.txt", sortedErrorMessages)
 
           val inputFilePath = getResourceAsFilePath("messages")
@@ -689,8 +689,8 @@ class MessagesTidierTest extends UnitSpec {
         "create a sequence of tuples where the first element of eachj tuple is in sorted order" in {
           //mockedMessagesTidier.writeToFile("/home/grant/Desktop/waa.txt", result)
 
-          val messagesAsTuples: Map[String, String] = MessagesTidier.readMessages()
-          val sortedErrorMessages = MessagesTidier.sortErrorMessages(messagesAsTuples)
+          val messagesAsTuples: Map[String, String] = MessagesTidier.readmessagesApi()
+          val sortedErrorMessages = MessagesTidier.sortErrormessagesApi(messagesAsTuples)
           mockedMessagesTidier.writeToFile("/home/grant/Desktop/waa1.txt", sortedErrorMessages)
 
           val inputFilePath = getResourceAsFilePath("messages")

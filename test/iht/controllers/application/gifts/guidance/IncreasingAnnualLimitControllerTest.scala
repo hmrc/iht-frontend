@@ -21,16 +21,13 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import org.mockito.Matchers._
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
  * Created by james on 22/01/16.
  */
 class IncreasingAnnualLimitControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -86,7 +83,7 @@ class IncreasingAnnualLimitControllerTest extends ApplicationControllerTest {
 
       val result = increasingAnnualLimitController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.title"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.title"))
     }
 
     "display content on the page" in {
@@ -94,7 +91,7 @@ class IncreasingAnnualLimitControllerTest extends ApplicationControllerTest {
 
       val result = increasingAnnualLimitController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.description1"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.description1"))
     }
 
 
@@ -104,8 +101,8 @@ class IncreasingAnnualLimitControllerTest extends ApplicationControllerTest {
 
       val result = increasingAnnualLimitController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("site.link.go.to.giftsGivenAwaySection"))
-      contentAsString(result) should include (Messages("site.link.go.to.estateOverview"))
+      contentAsString(result) should include (messagesApi("site.link.go.to.giftsGivenAwaySection"))
+      contentAsString(result) should include (messagesApi("site.link.go.to.estateOverview"))
     }
   }
 }

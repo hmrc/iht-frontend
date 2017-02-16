@@ -19,25 +19,22 @@ package iht.views.application.assets
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.nominated
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class NominatedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class NominatedViewTest extends ShareableElementInputViewBehaviour {
+
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = Messages("iht.estateReport.assets.nominated")
-  override def browserTitle = Messages("page.iht.application.assets.nominated.browserTitle")
-  override def questionTitle = Messages("page.iht.application.assets.nominated.question", deceasedName)
-  override def valueQuestion = Messages("page.iht.application.assets.nominated.inputLabel1")
+  override def pageTitle = messagesApi("iht.estateReport.assets.nominated")
+  override def browserTitle = messagesApi("page.iht.application.assets.nominated.browserTitle")
+  override def questionTitle = messagesApi("page.iht.application.assets.nominated.question", deceasedName)
+  override def valueQuestion = messagesApi("page.iht.application.assets.nominated.inputLabel1")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
-  override def returnLinkText = Messages("page.iht.application.return.to.assetsOf", deceasedName)
+  override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
 
   "Nominated assets view" must {
@@ -46,10 +43,10 @@ class NominatedViewTest extends ViewTestHelper with ShareableElementInputViewBeh
     "show the correct guidance" in {
       val f = fixture()
       messagesShouldBePresent(f.view,
-        Messages("page.iht.application.assets.nominated.description.p1", deceasedName),
-        Messages("page.iht.application.assets.nominated.description.p2"),
-        Messages("page.iht.application.assets.nominated.description.p3"),
-        Messages("page.iht.application.assets.nominated.description.p4"))
+        messagesApi("page.iht.application.assets.nominated.description.p1", deceasedName),
+        messagesApi("page.iht.application.assets.nominated.description.p2"),
+        messagesApi("page.iht.application.assets.nominated.description.p3"),
+        messagesApi("page.iht.application.assets.nominated.description.p4"))
     }
   }
 

@@ -23,16 +23,13 @@ import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualif
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
  * Created by vineet on 29/11/16.
  */
 class AssetsLeftToQualifyingBodyQuestionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
   "AssetsLeftToQualifyingBodyQuestionView" must {
@@ -43,17 +40,17 @@ class AssetsLeftToQualifyingBodyQuestionViewTest extends UnitSpec with FakeIhtAp
       val view = assets_left_to_qualifying_body_question(assetsLeftToQualifyingBodyQuestionForm, regDetails).toString
       val doc = asDocument(view)
 
-      view should include (Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"))
-      view should include (Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1"))
-      view should include (Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2"))
-      view should include (Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3"))
+      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"))
+      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1"))
+      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2"))
+      view should include (messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3"))
 
       assertRenderedById(doc, "save-continue")
-      assertEqualsValue(doc, "button#save-continue", Messages("iht.saveAndContinue"))
+      assertEqualsValue(doc, "button#save-continue", messagesApi("iht.saveAndContinue"))
 
       val cancelLink = doc.getElementById("cancel-button")
       cancelLink.text shouldBe
-        Messages("page.iht.application.return.to.exemptionsOf", regDetails.deceasedDetails.map(_.name).fold("")(identity))
+        messagesApi("page.iht.application.return.to.exemptionsOf", regDetails.deceasedDetails.map(_.name).fold("")(identity))
       cancelLink.attr("href") shouldBe
         iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad.url
 

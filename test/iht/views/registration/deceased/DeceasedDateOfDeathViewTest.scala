@@ -19,15 +19,13 @@ package iht.views.registration.deceased
 import iht.forms.registration.DeceasedForms.deceasedDateOfDeathForm
 import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.Call
 
 class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitle = Messages("page.iht.registration.deceasedDateOfDeath.title")
-  override def browserTitle = Messages("iht.dateOfDeath")
+  override def pageTitle = messagesApi("page.iht.registration.deceasedDateOfDeath.title")
+  override def browserTitle = messagesApi("iht.dateOfDeath")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
@@ -61,7 +59,7 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour {
 
     "have a form hint" in {
       val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
+      messagesShouldBePresent(f.view, messagesApi("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
     }
   }
 }

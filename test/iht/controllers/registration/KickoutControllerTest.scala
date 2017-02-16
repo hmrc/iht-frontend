@@ -21,7 +21,6 @@ import iht.metrics.Metrics
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.RegistrationKickOutHelper
 import org.mockito.Matchers._
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Result
@@ -38,9 +37,9 @@ class KickoutControllerTest extends RegistrationControllerTest {
   "RegistrationKickoutControllerTest" must {
     "respond suitably to onPageLoad" in {
       val request = createFakeRequest(isAuthorised = true)
-      val controller = new KickoutController{
+      def controller = new KickoutController{
         override val authConnector = createFakeAuthConnector(isAuthorised=true)
-        override val metrics:Metrics = Metrics
+        override lazy val metrics:Metrics = mock[Metrics]
         override val cachingConnector = mockCachingConnector
       }
 
@@ -61,15 +60,15 @@ class KickoutControllerTest extends RegistrationControllerTest {
         createMockToGetSingleValueFromCache(mockCachingConnector, any(), Some(kickout._1))
         val result: Future[Result] = controller.onPageLoad(request)
         status(result) should be(OK)
-        contentAsString(result).contains(Messages(kickout._2)) should be (true)
+        contentAsString(result).contains(messagesApi(kickout._2)) should be (true)
       }
     }
 
     "redirect to homepage on submit" in {
       val request = createFakeRequest(isAuthorised = true)
-      val controller = new KickoutController{
+      def controller = new KickoutController{
         override val authConnector = createFakeAuthConnector(isAuthorised=true)
-        override val metrics:Metrics = Metrics
+        override lazy val metrics:Metrics = mock[Metrics]
         override val cachingConnector = mockCachingConnector
       }
 

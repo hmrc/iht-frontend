@@ -19,40 +19,37 @@ package iht.views.application.assets.stocksAndShares
 import iht.controllers.application.assets.stocksAndShares.routes._
 import iht.models.application.assets.StockAndShare
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.StocksAndSharesOverviewViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import org.jsoup.nodes.Document
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class StocksAndSharesOverviewViewTest extends ViewTestHelper with StocksAndSharesOverviewViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehaviour {
+
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = Messages("iht.estateReport.assets.stocksAndShares")
-  override def browserTitle = Messages("iht.estateReport.assets.stocksAndShares")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.assets.stocksAndShares.overview.guidance",
+  override def pageTitle = messagesApi("iht.estateReport.assets.stocksAndShares")
+  override def browserTitle = messagesApi("iht.estateReport.assets.stocksAndShares")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.assets.stocksAndShares.overview.guidance",
                                                   deceasedName),
-                                        Messages("page.iht.application.assets.stocksAndShares.overview.guidance2"))
+                                        messagesApi("page.iht.application.assets.stocksAndShares.overview.guidance2"))
   override def stocksAndSharesListedHeadingElementId = "stocks-and-shares-listed-heading"
   override def stocksAndSharesNotListedHeadingElementId = "stocks-and-shares-notListed-heading"
   override def urlToStocksAnsSharesListedPage = StocksAndSharesListedController.onPageLoad().url
   override def urlToStocksAnsSharesNotListedPage = StocksAndSharesNotListedController.onPageLoad().url
-  override def stocksAndSharesListedHeaderText = Messages("iht.estateReport.assets.stocksAndSharesListed")
-  override def stocksAndSharesNotListedHeaderText = Messages("iht.estateReport.assets.stocksAndSharesNotListed")
+  override def stocksAndSharesListedHeaderText = messagesApi("iht.estateReport.assets.stocksAndSharesListed")
+  override def stocksAndSharesNotListedHeaderText = messagesApi("iht.estateReport.assets.stocksAndSharesNotListed")
   override def stocksAndSharesListedRowId = "stocks-and-shares-listed-question"
-  override def stocksAndSharesListedQuestionText = Messages("iht.estateReport.assets.stocksAndShares.listed.question",
+  override def stocksAndSharesListedQuestionText = messagesApi("iht.estateReport.assets.stocksAndShares.listed.question",
                                                              deceasedName)
   override def stocksAndSharesListedValueRowId = "stocks-and-shares-listed-value"
-  override def stocksAndSharesListedValueText = Messages("iht.estateReport.assets.stocksAndShares.valueOfListed")
+  override def stocksAndSharesListedValueText = messagesApi("iht.estateReport.assets.stocksAndShares.valueOfListed")
   override def stocksAndSharesNotListedQuestionRowId = "stocks-and-shares-notListed-question"
-  override def stocksAndSharesNotListedQuestionText = Messages("iht.estateReport.assets.stocksAndShares.notListed.question",
+  override def stocksAndSharesNotListedQuestionText = messagesApi("iht.estateReport.assets.stocksAndShares.notListed.question",
                                                                 deceasedName)
   override def stocksAndSharesNotListedValueRowId = "stocks-and-shares-notListed-value"
-  override def stocksAndSharesNotListedValueText = Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed")
+  override def stocksAndSharesNotListedValueText = messagesApi("iht.estateReport.assets.stocksAndShares.valueOfNotListed")
 
   "StocksAnsShares overview view" must {
 

@@ -132,7 +132,7 @@ class DeleteCoExecutorTest extends RegistrationControllerTest with BeforeAndAfte
       val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("site.button.confirmDelete"))
+      contentAsString(result) should include(messagesApi("site.button.confirmDelete"))
     }
 
     "if the coexecutor with given id exists - a back link must be visible" in {
@@ -143,8 +143,8 @@ class DeleteCoExecutorTest extends RegistrationControllerTest with BeforeAndAfte
       val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL = referrerURL, host = "localhost:9070"))
 
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.back"))
-      contentAsString(result) should include(Messages(routes.ExecutorOverviewController.onPageLoad().url))
+      contentAsString(result) should include(messagesApi("iht.back"))
+      contentAsString(result) should include(messagesApi(routes.ExecutorOverviewController.onPageLoad().url))
     }
 
     "if the coexecutor with given id exists - the name of the coexecutor must be visible" in {

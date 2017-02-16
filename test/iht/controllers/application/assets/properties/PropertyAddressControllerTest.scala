@@ -32,7 +32,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by james on 17/06/16.
  */
 class PropertyAddressControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -75,19 +75,19 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
     "display the correct title on page" in {
       val result = propertyAddressController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.property.whatIsAddress.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
     "display correct content on page" in {
       val result = propertyAddressController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.property.whatIsAddress.question"))
-      contentAsString(result) should include (Messages("iht.address.line1"))
-      contentAsString(result) should include (Messages("iht.address.line2"))
-      contentAsString(result) should include (Messages("iht.address.line3"))
-      contentAsString(result) should include (Messages("iht.address.line4"))
-      contentAsString(result) should include (Messages("iht.postcode"))
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
+      contentAsString(result) should include (messagesApi("iht.address.line1"))
+      contentAsString(result) should include (messagesApi("iht.address.line2"))
+      contentAsString(result) should include (messagesApi("iht.address.line3"))
+      contentAsString(result) should include (messagesApi("iht.address.line4"))
+      contentAsString(result) should include (messagesApi("iht.postcode"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.returnToAddAProperty"))
     }
 
     "display the correct title on page in edit mode" in {
@@ -103,7 +103,7 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
 
       val result = propertyAddressController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.property.whatIsAddress.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

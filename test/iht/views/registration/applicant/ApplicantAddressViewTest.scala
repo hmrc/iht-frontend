@@ -20,14 +20,13 @@ import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applic
 import iht.views.html.registration.applicant.applicant_address
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.mvc.Call
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class ApplicantAddressViewTest extends RegistrationPageBehaviour {
-
-  override def pageTitle = Messages("page.iht.registration.applicantAddress.title")
-  override def browserTitle = Messages("page.iht.registration.applicantAddress.title")
+  
+  override def pageTitle = messagesApi("page.iht.registration.applicantAddress.title")
+  override def browserTitle = messagesApi("page.iht.registration.applicantAddress.title")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
@@ -47,7 +46,7 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour {
 
     "show the correct guidance" in {
       val f = fixture()
-      messagesShouldBePresent(f.view, Messages("page.iht.registration.applicantAddress.hint"))
+      messagesShouldBePresent(f.view, messagesApi("page.iht.registration.applicantAddress.hint"))
     }
 
     "have a line 1 field" in {
@@ -97,7 +96,7 @@ class ApplicantAddressViewTest extends RegistrationPageBehaviour {
       "have a fieldset with the Id 'details'" in {
         val view = applicant_address(applicantAddressUkForm, isInternational = false,
           Call("", ""),
-          Call("", ""))(createFakeRequest(), Lang("", ""), app.injector.instanceOf[Messages]).toString
+          Call("", ""))(createFakeRequest(), applicationMessages).toString
 
         asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
       }

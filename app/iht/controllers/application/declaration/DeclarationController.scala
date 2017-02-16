@@ -42,7 +42,7 @@ import scala.concurrent.{Await, Future}
   */
 
 object DeclarationController extends DeclarationController with IhtConnectors {
-  def metrics: Metrics = Metrics
+  lazy val metrics: Metrics = Metrics
 }
 
 trait DeclarationController extends ApplicationController {
@@ -51,7 +51,7 @@ trait DeclarationController extends ApplicationController {
 
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
-  def metrics: Metrics
+  val metrics: Metrics
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

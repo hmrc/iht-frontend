@@ -19,38 +19,35 @@ package iht.views.application.assets.household
 import iht.controllers.application.assets.household.routes._
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.household.household_overview
 import org.jsoup.nodes.Document
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class HouseholdOverviewViewTest extends ShareableElementOverviewViewBehaviour {
+
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   override def deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = Messages("iht.estateReport.assets.householdAndPersonalItems.title")
-  override def browserTitle = Messages("iht.estateReport.assets.householdAndPersonalItems.title")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.assets.household.overview.guidance"))
+  override def pageTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItems.title")
+  override def browserTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItems.title")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.assets.household.overview.guidance"))
   override def ownHeadingElementId = "deceased-own-heading"
   override def jointlyOwnedHeadingElementId = "deceased-shared-heading"
   override def urlToOwnPage = HouseholdDeceasedOwnController.onPageLoad().url
   override def urlToJointlyOwnedPage = HouseholdJointlyOwnedController.onPageLoad().url
-  override def ownHeaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+  override def ownHeaderText = messagesApi("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                                         deceasedName)
-  override def jointlyOwnedHeaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
+  override def jointlyOwnedHeaderText = messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
                                                   deceasedName)
   override def ownQuestionRowId = "deceased-own-question"
-  override def ownQuestionText = Messages("iht.estateReport.assets.household.ownName.question", deceasedName)
+  override def ownQuestionText = messagesApi("iht.estateReport.assets.household.ownName.question", deceasedName)
   override def ownValueRowId = "deceased-own-value"
-  override def ownValueText = Messages("iht.estateReport.assets.household.deceasedOwnedValue")
+  override def ownValueText = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue")
   override def jointlyOwnedQuestionRowId = "deceased-shared-question"
-  override def jointlyOwnedQuestionText = Messages("iht.estateReport.assets.household.joint.question", deceasedName)
+  override def jointlyOwnedQuestionText = messagesApi("iht.estateReport.assets.household.joint.question", deceasedName)
   override def jointlyOwnedValueRowId = "deceased-share-value"
-  override def jointlyOwnedValueText = Messages("page.iht.application.assets.household.overview.joint.value")
+  override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.household.overview.joint.value")
 
   "Household overview view" must {
     behave like overviewView()

@@ -25,15 +25,15 @@ import iht.views.html.application.gift.given_away
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by vineet on 15/11/16.
   */
 class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val ihtReference = Some("ABC1234567890")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
                                   deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
@@ -45,39 +45,39 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
 
   "GivenAway View" must {
     "contain the title and save and continue button " in {
-      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
+      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
       val title = doc.getElementsByTag("h1").first
 
-      title.text should include(Messages("iht.estateReport.gifts.givenAwayBy",
+      title.text should include(messagesApi("iht.estateReport.gifts.givenAwayBy",
         getOrException(regDetails.deceasedDetails).name))
 
       val saveAndContinueLink = doc.getElementById("save-continue")
-      saveAndContinueLink.text shouldBe Messages("iht.saveAndContinue")
+      saveAndContinueLink.text shouldBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct question and guidance" in {
       implicit val request = createFakeRequest()
       val viewAsString = given_away(giftsGivenAwayForm, regDetails).toString
 
-      viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.question",
+      viewAsString should include(messagesApi("page.iht.application.gifts.lastYears.givenAway.question",
                                               getDeceasedNameOrDefaultString(regDetails)))
 
-      viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+      viewAsString should include(messagesApi("page.iht.application.gifts.lastYears.givenAway.p1",
         getDeceasedNameOrDefaultString(regDetails),
         getDateBeforeSevenYears(getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
         getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)))
 
-      viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.p2",
+      viewAsString should include(messagesApi("page.iht.application.gifts.lastYears.givenAway.p2",
         getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "show return to estate overview link when user land on the page first time" in {
-      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
+      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
 
       val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      link.text shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       link.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference.getOrElse("")).url
 
@@ -85,11 +85,11 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
 
     "show return to gifts given away link when user is in edit mode" in {
       val filledForm = giftsGivenAwayForm.fill(allGifts)
-      val view = given_away(filledForm, regDetails)(fakeRequest, app.injector.instanceOf[Messages])
+      val view = given_away(filledForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
 
       val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
+      link.text shouldBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         getOrException(regDetails.deceasedDetails).name)
       link.attr("href") shouldBe
         iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url

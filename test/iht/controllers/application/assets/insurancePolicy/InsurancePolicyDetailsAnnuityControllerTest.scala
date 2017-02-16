@@ -38,7 +38,7 @@ import scala.concurrent.Future
  *
  */
 class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -165,19 +165,19 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
     "display a question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.buyAnnuity.question"))
     }
 
     "display a yes radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.yes"))
+      contentAsString(result) should include(messagesApi("iht.yes"))
     }
 
     "display a no radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.no"))
+      contentAsString(result) should include(messagesApi("iht.no"))
     }
 
     "redirect to correct page when no selected on submit" in {

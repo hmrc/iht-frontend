@@ -60,7 +60,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
 
   "ExemptionsOverviewController" must {
     "respond with OK on page load" in {
-      implicit val messages: Messages = app.injector.instanceOf[Messages]
+
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(applicationDetails),
@@ -70,7 +70,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
 
       val result = exemptionsSummaryController.onPageLoad (createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.title"))
     }
 
 

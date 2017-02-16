@@ -33,7 +33,7 @@ import play.api.Play.current
 import scala.concurrent.Future
 
 object KickoutController extends KickoutController with IhtConnectors {
-  def metrics: Metrics = Metrics
+  lazy val metrics: Metrics = Metrics
 }
 
 trait KickoutController extends RegistrationController {
@@ -41,7 +41,7 @@ trait KickoutController extends RegistrationController {
 
   override def guardConditions: Set[Predicate] = Set.empty
 
-  def metrics: Metrics
+  val metrics: Metrics
 
   def probateKickoutView(contentLines: Seq[String])(request: Request[_]) =
     kickout_template(Messages("page.iht.registration.applicantDetails.kickout.probate.summary"),

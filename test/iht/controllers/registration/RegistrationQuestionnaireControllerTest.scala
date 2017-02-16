@@ -72,7 +72,7 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
     "respond with OK and correct header title on page load" in {
       val result = questionnaireController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("site.registration.title"))
+      contentAsString(result) should include(messagesApi("site.registration.title"))
     }
 
     "respond with redirect on page submit" in {

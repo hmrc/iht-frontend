@@ -21,15 +21,13 @@ import iht.views.html.registration.deceased.deceased_address_details_outside_uk
 import iht.views.registration.RegistrationPageBehaviour
 import org.jsoup.select.Elements
 import play.api.mvc.Call
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import scala.concurrent.Future
 
 class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour {
 
-  override def pageTitle = Messages("iht.registration.deceased.lastContactAddress")
-  override def browserTitle = Messages("iht.registration.contactAddress")
+  override def pageTitle = messagesApi("iht.registration.deceased.lastContactAddress")
+  override def browserTitle = messagesApi("iht.registration.contactAddress")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()
@@ -94,7 +92,7 @@ class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour 
     "have a link to change to a UK address" in {
       val f = fixture()
       val link = f.doc.getElementById("return-button")
-      link.text shouldBe Messages("iht.registration.changeAddressToUK")
+      link.text shouldBe messagesApi("iht.registration.changeAddressToUK")
     }
   }
 }

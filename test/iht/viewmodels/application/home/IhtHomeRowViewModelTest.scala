@@ -23,12 +23,11 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.{ApplicationStatus, CommonHelper}
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-class IhtHomeRowViewModelTest extends ApplicationControllerTest{
+class IhtHomeRowViewModelTest extends ApplicationControllerTest {
 
   var mockIhtConnector = mock[IhtConnector]
   implicit val hc = new HeaderCarrier
@@ -39,7 +38,7 @@ class IhtHomeRowViewModelTest extends ApplicationControllerTest{
   }
 
   "IhtHomeRowViewModel" must {
-    implicit val messages: Messages = app.injector.instanceOf[Messages]
+
     val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.NotStarted)
     def viewModel = IhtHomeRowViewModel("", ihtApp, mockIhtConnector)
 
@@ -60,7 +59,7 @@ class IhtHomeRowViewModelTest extends ApplicationControllerTest{
     }
 
     "should be created from IhtApplication with link label" in {
-      viewModel.linkLabel shouldBe Messages("iht.start")
+      viewModel.linkLabel shouldBe messagesApi("iht.start")
     }
 
     "should be created from IhtApplication with link" in {

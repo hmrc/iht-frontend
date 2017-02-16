@@ -32,7 +32,7 @@ import play.api.test.Helpers._
   */
 class VehiclesOverviewControllerTest extends ApplicationControllerTest{
 
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector: CachingConnector = mock[CachingConnector]
   val mockIhtConnector: IhtConnector = mock[IhtConnector]
 
@@ -62,7 +62,7 @@ class VehiclesOverviewControllerTest extends ApplicationControllerTest{
 
       val result = vehiclesOverviewController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.vehicles"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.vehicles"))
     }
   }
 }

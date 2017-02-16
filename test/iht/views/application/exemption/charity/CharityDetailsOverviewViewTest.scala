@@ -23,16 +23,15 @@ import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
  * Created by jennygj on 13/10/16.
  */
 class CharityDetailsOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   "CharityDetailsOverviewView" must {
 
     "contain correct links and show correct link texts for Charity name, number and value " +
@@ -46,17 +45,17 @@ class CharityDetailsOverviewViewTest extends UnitSpec with FakeIhtApp with Mocki
       val nameLink: Element = doc.getElementById("charity-name-link")
       val expectedNameUrl =  routes.CharityNameController.onEditPageLoad(charity.id.getOrElse(""))
       nameLink.attr("href") shouldBe expectedNameUrl.url
-      assertEqualsValue(doc, "a#charity-name-link span", Messages("site.link.giveName"))
+      assertEqualsValue(doc, "a#charity-name-link span", messagesApi("site.link.giveName"))
 
       val numberLink: Element = doc.getElementById("charity-number-link")
       val expectedNumberUrl =  routes.CharityNumberController.onEditPageLoad(charity.id.getOrElse(""))
       numberLink.attr("href") shouldBe expectedNumberUrl.url
-      assertEqualsValue(doc, "a#charity-number-link span", Messages("site.link.giveNumber"))
+      assertEqualsValue(doc, "a#charity-number-link span", messagesApi("site.link.giveNumber"))
 
       val valueLink: Element = doc.getElementById("charity-value-link")
       val expectedValueURl = routes.CharityValueController.onEditPageLoad(charity.id.getOrElse(""))
       valueLink.attr("href") shouldBe expectedValueURl.url
-      assertEqualsValue(doc, "a#charity-value-link span", Messages("site.link.giveValue"))
+      assertEqualsValue(doc, "a#charity-value-link span", messagesApi("site.link.giveValue"))
     }
 
     "contain links with charity ID #1 when charity name is completed, but charity number and value are empty" +

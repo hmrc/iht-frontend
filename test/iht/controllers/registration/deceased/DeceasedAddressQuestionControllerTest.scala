@@ -75,7 +75,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val result = deceasedAddressQuestionController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe(OK)
 
-      contentAsString(result) should include(Messages("iht.continue"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
     }
 
     "redirect to UK address page when question is answered yes" in  {

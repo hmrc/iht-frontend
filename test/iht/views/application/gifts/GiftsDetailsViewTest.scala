@@ -20,12 +20,10 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_details
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class GiftsDetailsViewTest extends ViewTestHelper {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
   lazy val returnLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
@@ -46,7 +44,7 @@ class GiftsDetailsViewTest extends ViewTestHelper {
     val view = gifts_details(filledPreviousYearsGiftsForm,
                             regDetails,
                             Some(returnLocation),
-                            Some(Messages(returnLinkLabelMsgKey))).toString()
+                            Some(messagesApi(returnLinkLabelMsgKey))).toString()
     asDocument(view)
   }
 
@@ -55,15 +53,15 @@ class GiftsDetailsViewTest extends ViewTestHelper {
     "have correct title and browser title " in {
       val view = giftsDetailsView().toString
 
-      titleShouldBeCorrect(view, Messages("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007"))
-      browserTitleShouldBeCorrect(view, Messages("page.iht.application.giftsDetails.browserTitle"))
+      titleShouldBeCorrect(view, messagesApi("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007"))
+      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.giftsDetails.browserTitle"))
     }
 
     "have 'Save and continue' button" in {
       val view = giftsDetailsView()
 
       val saveAndContinueButton = view.getElementById("save-continue")
-      saveAndContinueButton.getElementsByAttributeValueContaining("value", Messages("iht.saveAndContinue"))
+      saveAndContinueButton.getElementsByAttributeValueContaining("value", messagesApi("iht.saveAndContinue"))
     }
 
     "have the return link with correct text" in {
@@ -71,7 +69,7 @@ class GiftsDetailsViewTest extends ViewTestHelper {
 
       val returnLink = view.getElementById("cancel-button")
       returnLink.attr("href") shouldBe returnLocation.url
-      returnLink.text() shouldBe Messages(returnLinkLabelMsgKey)
+      returnLink.text() shouldBe messagesApi(returnLinkLabelMsgKey)
     }
 
     "have correct gifts given away input text labels and value" in {
@@ -81,7 +79,7 @@ class GiftsDetailsViewTest extends ViewTestHelper {
       val giftsGivenAwaySectionText = giftsGivenAwaySection.getElementsByTag("span").get(0)
       val giftsGivenAwaySectionValue = giftsGivenAwaySection.getElementsByTag("span").get(1)
 
-      giftsGivenAwaySectionText.text shouldBe Messages("page.iht.application.giftsDetails.value.label")
+      giftsGivenAwaySectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.value.label")
       giftsGivenAwaySectionValue.text shouldBe "£"
     }
 
@@ -92,7 +90,7 @@ class GiftsDetailsViewTest extends ViewTestHelper {
       val exemptionsClaimedSectionText = exemptionsClaimedSection.getElementsByTag("span").get(0)
       val exemptionsClaimedSectionValue = exemptionsClaimedSection.getElementsByTag("span").get(1)
 
-      exemptionsClaimedSectionText.text shouldBe Messages("page.iht.application.giftsDetails.exemptions.label")
+      exemptionsClaimedSectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.exemptions.label")
       exemptionsClaimedSectionValue.text shouldBe "£"
     }
 
@@ -100,7 +98,7 @@ class GiftsDetailsViewTest extends ViewTestHelper {
       val view = giftsDetailsView()
 
       val amountAddedSection = view.getElementById("value-of-gifts-added")
-      amountAddedSection.attr("data-combine-copy", Messages("page.iht.application.giftsDetails.amountAdded"))
+      amountAddedSection.attr("data-combine-copy", messagesApi("page.iht.application.giftsDetails.amountAdded"))
     }
 
   }

@@ -32,7 +32,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by Vineet on 22/06/16.
  */
 class PropertyOwnershipControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -85,7 +85,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
     "display the correct title on page" in {
       val result = propertyOwnershipController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.howOwnedByDeceased"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased"))
     }
 
     "display the correct title on page in edit mode" in {
@@ -101,7 +101,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       val result = propertyOwnershipController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.howOwnedByDeceased"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased"))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

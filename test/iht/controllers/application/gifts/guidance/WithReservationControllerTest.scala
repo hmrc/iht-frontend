@@ -30,7 +30,7 @@ import play.api.test.Helpers._
  * Created by james on 21/01/16.
  */
 class WithReservationControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -85,7 +85,7 @@ class WithReservationControllerTest extends ApplicationControllerTest {
       val result = withReservationController.onPageLoad()(createFakeRequest())
 
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.gifts.withReservation.title"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.gifts.withReservation.title"))
     }
 
     "display description 1 on page" in {
@@ -94,7 +94,7 @@ class WithReservationControllerTest extends ApplicationControllerTest {
       val result = withReservationController.onPageLoad()(createFakeRequest())
 
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.withReservation.description1"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.withReservation.description1"))
     }
 
 
@@ -103,8 +103,8 @@ class WithReservationControllerTest extends ApplicationControllerTest {
 
       val result = withReservationController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("site.link.go.to.giftsGivenAwaySection"))
-      contentAsString(result) should include (Messages("site.link.go.to.estateOverview"))
+      contentAsString(result) should include (messagesApi("site.link.go.to.giftsGivenAwaySection"))
+      contentAsString(result) should include (messagesApi("site.link.go.to.estateOverview"))
     }
   }
 }

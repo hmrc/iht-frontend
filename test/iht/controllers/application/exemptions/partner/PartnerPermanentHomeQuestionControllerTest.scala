@@ -49,7 +49,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
   }
 
   "PartnerPermanentHomeQuestionController" must {
-    implicit val messages: Messages = app.injector.instanceOf[Messages]
+
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = partnerPermanentHomeQuestionControllerNotAuthorised.onPageLoad(createFakeRequest())
       status(result) should be(SEE_OTHER)
@@ -74,7 +74,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val result = partnerPermanentHomeQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.saveAndContinue"))
+      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
 
     }
 
@@ -93,8 +93,8 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val result = partnerPermanentHomeQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.saveAndContinue"))
-      contentAsString(result) should include (Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
+      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
 
     }
 
@@ -140,7 +140,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val result = partnerPermanentHomeQuestionController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
   }
 }

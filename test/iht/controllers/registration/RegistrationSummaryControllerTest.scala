@@ -104,27 +104,27 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       status(result) should be(OK)
       val content = contentAsString(result)
 
-      content should include(Messages("iht.registration.checkYourAnswers"))
-      content should include(Messages("page.iht.registration.registrationSummary.subTitle"))
-      content should include(Messages("page.iht.registration.registrationSummary.deceasedTable.title"))
-      content should include(Messages("iht.name.upperCaseInitial"))
+      content should include(messagesApi("iht.registration.checkYourAnswers"))
+      content should include(messagesApi("page.iht.registration.registrationSummary.subTitle"))
+      content should include(messagesApi("page.iht.registration.registrationSummary.deceasedTable.title"))
+      content should include(messagesApi("iht.name.upperCaseInitial"))
       content should include(deceasedDetails.firstName.get)
       content should include(deceasedDetails.lastName.get)
       content should include(anchorLink(deceasedRoutes.AboutDeceasedController.onEditPageLoad().url, "firstName"))
 
-      content should include(Messages("iht.dateOfDeath"))
+      content should include(messagesApi("iht.dateOfDeath"))
       content should include(deceasedDateOfDeath.dateOfDeath.toString(IhtProperties.dateFormatForDisplay))
       content should include(anchorLink(deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad().url, "date-of-death"))
 
-      content should include(Messages("iht.dateofbirth"))
+      content should include(messagesApi("iht.dateofbirth"))
       content should include(deceasedDetails.dateOfBirth.get.toString(IhtProperties.dateFormatForDisplay))
       content should include(anchorLink(deceasedRoutes.AboutDeceasedController.onEditPageLoad().url, "date-of-birth"))
 
-      content should include(Messages("iht.nationalInsuranceNo"))
+      content should include(messagesApi("iht.nationalInsuranceNo"))
       content should include(deceasedDetails.nino.getOrElse(""))
       content should include(anchorLink(deceasedRoutes.AboutDeceasedController.onEditPageLoad().url, "nino"))
 
-      content should include(Messages("iht.registration.contactAddress"))
+      content should include(messagesApi("iht.registration.contactAddress"))
       content should include(deceasedDetails.ukAddress.get.ukAddressLine1)
       content should include(deceasedDetails.ukAddress.get.ukAddressLine2)
       content should include(deceasedDetails.ukAddress.get.ukAddressLine3.getOrElse(""))
@@ -133,31 +133,31 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       content should include(anchorLink(deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad().url, "details"))
       content should not include deceasedRoutes.DeceasedAddressDetailsOutsideUKController.onEditPageLoad().url
 
-      content should include(Messages("iht.registration.deceased.locationOfPermanentHome"))
+      content should include(messagesApi("iht.registration.deceased.locationOfPermanentHome"))
       content should include(deceasedDetails.domicile.get)
       content should include(anchorLink(deceasedRoutes.DeceasedPermanentHomeController.onEditPageLoad().url, "country"))
 
-      content should include(Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"))
+      content should include(messagesApi("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"))
       content should include(FieldMappings.maritalStatusMap(deceasedDetails.maritalStatus.get))
       content should include(anchorLink(deceasedRoutes.AboutDeceasedController.onEditPageLoad().url, "relationship-status"))
 
-      content should include(Messages("page.iht.registration.registrationSummary.applicantTable.title"))
+      content should include(messagesApi("page.iht.registration.registrationSummary.applicantTable.title"))
 
-      content should include(Messages("iht.name.upperCaseInitial"))
+      content should include(messagesApi("iht.name.upperCaseInitial"))
       content should include(applicantDetails.firstName.get)
       content should include(applicantDetails.lastName.get)
 
-      content should include(Messages("iht.dateofbirth"))
+      content should include(messagesApi("iht.dateofbirth"))
       content should include(applicantDetails.dateOfBirth.get.toString(IhtProperties.dateFormatForDisplay))
 
-      content should include(Messages("iht.nationalInsuranceNo"))
+      content should include(messagesApi("iht.nationalInsuranceNo"))
       content should include(applicantDetails.nino.getOrElse(""))
 
-      content should include(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"))
+      content should include(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"))
       content should include(applicantDetails.phoneNo.get)
       content should include(anchorLink(applicantRoutes.ApplicantTellUsAboutYourselfController.onEditPageLoad().url, "phoneNo"))
 
-      content should include(Messages("iht.address.upperCaseInitial"))
+      content should include(messagesApi("iht.address.upperCaseInitial"))
       content should include(applicantDetails.ukAddress.get.ukAddressLine1)
       content should include(applicantDetails.ukAddress.get.ukAddressLine2)
       content should include(applicantDetails.ukAddress.get.ukAddressLine3.getOrElse(""))
@@ -167,16 +167,16 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       content should include(anchorLink(applicantRoutes.ApplicantAddressController.onEditPageLoadUk().url, "details"))
       content should not include applicantRoutes.ApplicantAddressController.onEditPageLoadAbroad().url
 
-      content should include(Messages("iht.registration.applicant.applyingForProbate"))
+      content should include(messagesApi("iht.registration.applicant.applyingForProbate"))
       content should include(StringHelper.yesNoFormat(applicantDetails.isApplyingForProbate))
       content should include(anchorLink(applicantRoutes.ApplyingForProbateController.onEditPageLoad().url, "applying-for-probate"))
 
-      content should include(Messages("page.iht.registration.applicant.probateLocation.title"))
+      content should include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
       content should include(applicantDetails.country.get)
       content should include(anchorLink(applicantRoutes.ProbateLocationController.onEditPageLoad().url, "country"))
 
-      content should include(Messages("iht.registration.othersApplyingForProbate"))
-      content should include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
+      content should include(messagesApi("iht.registration.othersApplyingForProbate"))
+      content should include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.none"))
       content should include(anchorLink(executorRoutes.OthersApplyingForProbateController.onPageLoadFromOverview().url, "answer"))
     }
 
@@ -233,26 +233,26 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       status(result) should be(OK)
 
       val content = contentAsString(result)
-      content shouldNot include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
+      content shouldNot include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.none"))
 
       content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)
 
-      content should include(Messages("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link"))
-      content should include(Messages("page.iht.registration.registrationSummary.coExecutorTable.sectionTitle", "1"))
-      content should include(Messages("iht.name.upperCaseInitial"))
+      content should include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link"))
+      content should include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.sectionTitle", "1"))
+      content should include(messagesApi("iht.name.upperCaseInitial"))
       content should include(coExec1.firstName)
       content should include(coExec1.lastName)
       content should include(anchorLink(executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad("1").url, "firstName"))
 
-      content should include(Messages("iht.dateofbirth"))
+      content should include(messagesApi("iht.dateofbirth"))
       content should include(coExec1.dateOfBirth.toString(IhtProperties.dateFormatForDisplay))
       content should include(anchorLink(executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad("1").url, "date-of-birth"))
 
-      content should include(Messages("iht.nationalInsuranceNo"))
+      content should include(messagesApi("iht.nationalInsuranceNo"))
       content should include(coExec1.nino)
       content should include(anchorLink(executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad("1").url, "nino"))
 
-      content should include(Messages("iht.address.upperCaseInitial"))
+      content should include(messagesApi("iht.address.upperCaseInitial"))
       content should include(coExec1.ukAddress.get.ukAddressLine1)
       content should include(coExec1.ukAddress.get.ukAddressLine2)
       content should include(coExec1.ukAddress.get.ukAddressLine3.getOrElse(""))
@@ -261,7 +261,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       content should include(iht.utils.countryName(coExec1.ukAddress.get.countryCode))
       content should include(anchorLink(executorRoutes.OtherPersonsAddressController.onEditPageLoadUK("1").url, "details"))
 
-      content should include(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"))
+      content should include(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"))
       content should include(coExec1.contactDetails.phoneNo)
     }
 
@@ -290,22 +290,22 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       status(result) should be(OK)
 
       val content = contentAsString(result)
-      content shouldNot include(Messages("page.iht.registration.registrationSummary.coExecutorTable.none"))
+      content shouldNot include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.none"))
 
       content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)
 
-      content should include(Messages("iht.name.upperCaseInitial"))
+      content should include(messagesApi("iht.name.upperCaseInitial"))
       content should include(coExec1.firstName)
       content should include(coExec1.lastName)
       content should include(anchorLink(executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad("1").url, "firstName"))
 
-      content should include(Messages("iht.dateofbirth"))
+      content should include(messagesApi("iht.dateofbirth"))
       content should include(coExec1.dateOfBirth.toString(IhtProperties.dateFormatForDisplay))
 
-      content should include(Messages("iht.nationalInsuranceNo"))
+      content should include(messagesApi("iht.nationalInsuranceNo"))
       content should include(coExec1.nino)
 
-      content should include(Messages("iht.address.upperCaseInitial"))
+      content should include(messagesApi("iht.address.upperCaseInitial"))
       content should include(coExec1.ukAddress.get.ukAddressLine1)
       content should include(coExec1.ukAddress.get.ukAddressLine2)
       content should include(coExec1.ukAddress.get.ukAddressLine3.getOrElse(""))
@@ -314,7 +314,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       content should include(iht.utils.countryName(coExec1.ukAddress.get.countryCode))
       content should include(anchorLink(executorRoutes.OtherPersonsAddressController.onEditPageLoadUK("1").url, "details"))
 
-      content should include(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"))
+      content should include(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"))
       content should include(coExec1.contactDetails.phoneNo)
 
       content should include(coExec2.ukAddress.get.ukAddressLine1)
@@ -407,7 +407,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)
 
-      contentAsString(result) should include(Messages("error.cannotSend"))
+      contentAsString(result) should include(messagesApi("error.cannotSend"))
     }
 
     "raise an error when accessing the screen without first entering the deceased's date of death" in {
@@ -522,7 +522,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)
 
-      contentAsString(result) should include(Messages("error.cannotSend"))
+      contentAsString(result) should include(messagesApi("error.cannotSend"))
     }
 
     "onSubmit RuntimeException not timeout" in {
@@ -549,7 +549,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)
 
-      contentAsString(result) should include(Messages("error.cannotSend"))
+      contentAsString(result) should include(messagesApi("error.cannotSend"))
     }
 
     "onSubmit for valid input should produce an internal server error if the storage fails" in {

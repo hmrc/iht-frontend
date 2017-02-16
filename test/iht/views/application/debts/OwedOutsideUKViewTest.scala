@@ -18,10 +18,7 @@ package iht.views.application.debts
 
 import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.views.html.application.debts.owed_outside_uk
 
 /**
@@ -35,11 +32,11 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour{
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = Messages("iht.estateReport.debts.owedOutsideUK")
-  override def browserTitle = Messages("page.iht.application.debts.debtsOutsideUk.browserTitle")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.debtsOutsideUk.description.p1"))
-  override def yesNoQuestionText = Messages("page.iht.application.debts.debtsOutsideUk.isOwned")
-  override def inputValueFieldLabel = Messages("iht.estateReport.debts.owedOutsideUK.value")
+  override def pageTitle = messagesApi("iht.estateReport.debts.owedOutsideUK")
+  override def browserTitle = messagesApi("page.iht.application.debts.debtsOutsideUk.browserTitle")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.debtsOutsideUk.description.p1"))
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsOutsideUk.isOwned")
+  override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.owedOutsideUK.value")
 
   override def fixture() = new {
     implicit val request = createFakeRequest()

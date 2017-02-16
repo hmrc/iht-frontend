@@ -20,15 +20,13 @@ import iht.FakeIhtApp
 import org.apache.commons.lang3.StringEscapeUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.twirl.api.Html
 import uk.gov.hmrc.play.test.UnitSpec
 
-trait HtmlSpec extends UnitSpec with FakeIhtApp with I18nSupport { self: UnitSpec =>
+trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
 
-//  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   def asDocument(html: Html): Document = Jsoup.parse(html.toString())
   def asDocument(string: String): Document = Jsoup.parse(string)
@@ -40,14 +38,13 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp with I18nSupport { self: UnitSpe
   }
 
   def assertEqualsMessage(doc : Document, cssSelector : String, expectedMessageKey: String) = {
-    implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
     val elements = doc.select(cssSelector)
 
     if(elements.isEmpty) throw new IllegalArgumentException(s"CSS Selector $cssSelector wasn't rendered.")
 
     assertMessageKeyHasValue(expectedMessageKey)
     //<p> HTML elements are rendered out with a carriage return on some pages, so discount for comparison
-    assert(elements.first().html().replace("\n", "") == Html(Messages(expectedMessageKey)).toString())
+    assert(elements.first().html().replace("\n", "") == Html(messagesApi(expectedMessageKey)).toString())
   }
 
   def assertEqualsValue(doc : Document, cssSelector : String, expectedValue: String) = {
@@ -60,7 +57,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp with I18nSupport { self: UnitSpe
   }
 
   def assertMessageKeyHasValue(expectedMessageKey: String): Unit = {
-    assert(expectedMessageKey != Html(Messages(expectedMessageKey)).toString(), s"$expectedMessageKey has no messages file value setup")
+    assert(expectedMessageKey != Html(messagesApi(expectedMessageKey)).toString(), s"$expectedMessageKey has no messages file value setup")
   }
 
   def assertContainsMessage(doc : Document, cssSelector : String, expectedMessageKey: String) = {
@@ -68,14 +65,13 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp with I18nSupport { self: UnitSpe
   }
 
   def assertContainsDynamicMessage(doc : Document, cssSelector : String, expectedMessageKey: String, messageArgs: String*) = {
-    implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
     val elements = doc.select(cssSelector)
 
     if(elements.isEmpty) throw new IllegalArgumentException(s"CSS Selector $cssSelector wasn't rendered.")
 
     assertMessageKeyHasValue(expectedMessageKey)
     //<p> HTML elements are rendered out with a carriage return on some pages, so discount for comparison
-    val expectedString = Html(Messages(expectedMessageKey, messageArgs: _*)).toString()
+    val expectedString = Html(messagesApi(expectedMessageKey, messageArgs: _*)).toString()
 
     assert(elements.toArray(new Array[Element](elements.size())).exists { element =>
       element.html().replace("\n", "").contains(StringEscapeUtils.escapeHtml4(expectedString))

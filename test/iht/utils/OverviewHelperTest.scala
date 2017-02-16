@@ -25,7 +25,7 @@ import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OverviewHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
 
   "displayValue" must {
 

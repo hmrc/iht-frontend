@@ -46,33 +46,33 @@ class RegistrationChecklistControllerTest extends RegistrationControllerTest {
     "display a title on the page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.registration.checklist.title"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.title"))
     }
 
     "display the introduction paragraph on the page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.registration.checklist.label1"))
-      contentAsString(result) should include (Messages("page.iht.registration.checklist.label2"))
-      contentAsString(result) should include (Messages("page.iht.registration.checklist.label3"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.label1"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.label2"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.label3"))
     }
 
     "display at least one click and reveal link on the page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.registration.checklist.revealText"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.revealText"))
     }
 
     "display start registration button on page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.registration.checklist.startRegistrationButton"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.checklist.startRegistrationButton"))
     }
 
     "display a return link on page" in {
       val result = registrationChecklistController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include(Messages("page.iht.registration.checklist.leaveLink"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.checklist.leaveLink"))
     }
 
     "set up instance for caching connector" in {

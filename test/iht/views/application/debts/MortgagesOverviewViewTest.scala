@@ -29,7 +29,7 @@ import iht.views.html.application.debts.mortgages_overview
   * Created by vineet on 15/11/16.
   */
 class MortgagesOverviewViewTest extends ViewTestHelper {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(

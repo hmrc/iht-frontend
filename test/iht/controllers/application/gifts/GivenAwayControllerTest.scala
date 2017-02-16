@@ -24,9 +24,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -94,14 +92,13 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
     }
 
     "display the guidance on the page" in {
-      implicit val messages: Messages = app.injector.instanceOf[Messages]
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
       setUpMocks(applicationDetails)
 
       val result = givenAwayController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.givenAway.p2",
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.lastYears.givenAway.p2",
                                                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 

@@ -67,7 +67,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
     }
 
     "return OK on page load" in {
-      implicit val messages: Messages = app.injector.instanceOf[Messages]
+
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(CommonBuilder.buildApplicationDetails),
@@ -77,7 +77,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
       val result = partnerNameController.onPageLoad(createFakeRequest(isAuthorised = true))
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.partner.name.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.partner.name.title"))
     }
 
     "respond with error when ApplicationDetails could not be retrieved on page load" in {

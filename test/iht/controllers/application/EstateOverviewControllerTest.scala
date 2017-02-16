@@ -26,9 +26,7 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.views.HtmlSpec
 import org.mockito.Matchers._
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -118,17 +116,17 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
       val doc = asDocument(content)
 
       assertEqualsValue(doc, "h1",
-        Messages("page.iht.application.overview.title2", registrationDetails.deceasedDetails.get.name))
+        messagesApi("page.iht.application.overview.title2", registrationDetails.deceasedDetails.get.name))
       assertEqualsValue(doc, "title",
-        Messages("page.iht.application.overview.browserTitle") + " " + Messages("site.title.govuk"))
+        messagesApi("page.iht.application.overview.browserTitle") + " " + messagesApi("site.title.govuk"))
 
       assertNotRenderedById(doc, "continue-to-declaration")
 
       assertEqualsValue(doc, "p#all-sections-not-complete-declaration-guidance-text1 strong",
-        Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1"))
+        messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1"))
 
       assertEqualsValue(doc, "p#all-sections-not-complete-declaration-guidance-text2",
-        Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
+        messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
     }
 
 

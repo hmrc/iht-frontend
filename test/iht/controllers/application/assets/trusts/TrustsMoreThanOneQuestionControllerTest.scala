@@ -28,7 +28,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 
 class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -70,7 +70,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
 
       val result = trustsMoreThanOneQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.trusts.moreThanOne.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.trusts.moreThanOne.question"))
     }
 
     "save application and go to held in trust overview page on submit when user selects No" in {

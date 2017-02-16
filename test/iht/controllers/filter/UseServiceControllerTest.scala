@@ -45,7 +45,7 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.shouldUseOnlineService"))
+      titleElement.text() should be(messagesApi("iht.shouldUseOnlineService"))
     }
 
     "show paragraph 0 for the under 325000 estimate" in {
@@ -54,7 +54,7 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
-      paragraph0.text() should be(Messages("page.iht.filter.useService.under325000.paragraph0"))
+      paragraph0.text() should be(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
     }
 
     "show paragraph 0 for the between estimate" in {
@@ -63,7 +63,7 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
-      paragraph0.text() should be(Messages("page.iht.filter.useService.between325000And1Million.paragraph0"))
+      paragraph0.text() should be(messagesApi("page.iht.filter.useService.between325000And1Million.paragraph0"))
     }
   }
 }

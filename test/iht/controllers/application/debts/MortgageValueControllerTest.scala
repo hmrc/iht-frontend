@@ -34,7 +34,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by Vineet on 22/06/16.
  */
 class MortgageValueControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -101,7 +101,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
       val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.debts.mortgageValue.title",
+      contentAsString(result) should include (messagesApi("page.iht.application.debts.mortgageValue.title",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 

@@ -31,7 +31,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 class CharitiesOverviewControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
@@ -117,7 +117,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
       contentAsString(result) should include(CommonHelper.escapeApostrophes(
-        Messages("page.iht.application.exemptions.charityOverview.noCharities.text")))
+        messagesApi("page.iht.application.exemptions.charityOverview.noCharities.text")))
     }
 
     "show no charity name and number given message when no charitie name and number added in charities" in {
@@ -139,7 +139,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
       status(result) should be(OK)
       contentAsString(result) should include(CommonHelper.numberWithCommas(charityValue))
       contentAsString(result) should include(CommonHelper.escapeApostrophes(
-        Messages("site.noCharityNameAndNumberGiven")))
+        messagesApi("site.noCharityNameAndNumberGiven")))
     }
 
     "show no charity name given message when no charitie name added but charity number added in charities" in {
@@ -161,7 +161,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
       status(result) should be(OK)
       contentAsString(result) should include(CommonHelper.numberWithCommas(charityValue))
       contentAsString(result) should include(CommonHelper.escapeApostrophes(
-        Messages("site.noCharityNameGiven")))
+        messagesApi("site.noCharityNameGiven")))
     }
 
     "show no charity number given message when no charity number added but charity name added in charities" in {
@@ -183,7 +183,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
       status(result) should be(OK)
       contentAsString(result) should include(CommonHelper.numberWithCommas(charityValue))
       contentAsString(result) should include(CommonHelper.escapeApostrophes(
-        Messages("site.noCharityNumberGiven")))
+        messagesApi("site.noCharityNumberGiven")))
     }
 
     "show asset left to charity question text" in {
@@ -198,7 +198,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                                 CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
   }

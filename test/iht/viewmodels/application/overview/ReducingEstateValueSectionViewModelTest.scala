@@ -23,13 +23,12 @@ import iht.testhelpers.CommonBuilder
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class ReducingEstateValueSectionViewModelTest
-  extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
+  extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val applicationDetails = CommonBuilder.buildApplicationDetails
@@ -48,7 +47,7 @@ class ReducingEstateValueSectionViewModelTest
     "have the correct caption for the exemptions row" in {
       val viewModel = ReducingEstateValueSectionViewModel(applicationDetails, regDetailsMarriedPerson)
 
-      viewModel.exemptionRow.label shouldBe Messages("iht.estateReport.exemptions.title")
+      viewModel.exemptionRow.label shouldBe messagesApi("iht.estateReport.exemptions.title")
     }
 
     "have a blank value for exemptions when there are no exemptions" in {
@@ -71,7 +70,7 @@ class ReducingEstateValueSectionViewModelTest
       val appDetails = CommonBuilder.buildExemptionsWithNoValues(applicationDetails)
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.exemptionRow.value shouldBe Messages("page.iht.application.estateOverview.exemptions.noExemptionsValue")
+      viewModel.exemptionRow.value shouldBe messagesApi("page.iht.application.estateOverview.exemptions.noExemptionsValue")
     }
 
     "have the correct value with a negative pound sign for assets where there are some exemptions" in {
@@ -86,7 +85,7 @@ class ReducingEstateValueSectionViewModelTest
 
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.exemptionRow.linkText shouldBe Messages("iht.viewOrChange")
+      viewModel.exemptionRow.linkText shouldBe messagesApi("iht.viewOrChange")
     }
 
     "show View or Change when all questions are completed and deceased had a marital of single" in {
@@ -94,27 +93,27 @@ class ReducingEstateValueSectionViewModelTest
 
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsSinglePerson)
 
-      viewModel.exemptionRow.linkText shouldBe Messages("iht.viewOrChange")
+      viewModel.exemptionRow.linkText shouldBe messagesApi("iht.viewOrChange")
     }
 
     "have the correct text when all answers to the exemptions questions are 'No'" in {
       val appDetails = CommonBuilder.buildExemptionsWithNoValues(applicationDetails)
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsSinglePerson)
 
-      viewModel.exemptionRow.value shouldBe Messages("page.iht.application.estateOverview.exemptions.noExemptionsValue")
+      viewModel.exemptionRow.value shouldBe messagesApi("page.iht.application.estateOverview.exemptions.noExemptionsValue")
     }
 
     "show Start when no exemption questions have been answered" in {
       val viewModel = ReducingEstateValueSectionViewModel(applicationDetails, regDetailsMarriedPerson)
 
-      viewModel.exemptionRow.linkText shouldBe Messages("iht.start")
+      viewModel.exemptionRow.linkText shouldBe messagesApi("iht.start")
     }
 
     "show Give more details when some exemption questions have been answered" in {
       val appDetails = CommonBuilder.buildSomeExemptions(applicationDetails)
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.exemptionRow.linkText shouldBe Messages("iht.giveMoreDetails")
+      viewModel.exemptionRow.linkText shouldBe messagesApi("iht.giveMoreDetails")
     }
 
     "have the correct URL for the exemptions link" in {
@@ -164,7 +163,7 @@ class ReducingEstateValueSectionViewModelTest
       val appDetails = CommonBuilder.buildSomeExemptions(applicationDetails) copy (allLiabilities = Some(CommonBuilder.buildSomeLiabilities))
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.debtRow.get.label shouldBe Messages("iht.estateReport.debts.owedFromEstate")
+      viewModel.debtRow.get.label shouldBe messagesApi("iht.estateReport.debts.owedFromEstate")
     }
 
     "have a blank value for debts when there are no debts" in {
@@ -193,7 +192,7 @@ class ReducingEstateValueSectionViewModelTest
         allExemptions = Some(buildAllExemptionsWithAssets))
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.debtRow.get.value shouldBe Messages("site.noDebts")
+      viewModel.debtRow.get.value shouldBe messagesApi("site.noDebts")
     }
 
     "show View or Change when all debts are completed" in {
@@ -201,21 +200,21 @@ class ReducingEstateValueSectionViewModelTest
         (allLiabilities = Some(CommonBuilder.buildEveryLiability), allAssets = Some(AllAssets(properties = Some(Properties(Some(false))))))
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.debtRow.get.linkText shouldBe Messages("iht.viewOrChange")
+      viewModel.debtRow.get.linkText shouldBe messagesApi("iht.viewOrChange")
     }
 
     "show Start when no debts questions have been answered" in {
       val appDetails = CommonBuilder.buildSomeExemptions(applicationDetails)
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.debtRow.get.linkText shouldBe Messages("iht.start")
+      viewModel.debtRow.get.linkText shouldBe messagesApi("iht.start")
     }
 
     "show Give more details when some debts questions have been answered" in {
       val appDetails = CommonBuilder.buildSomeExemptions(applicationDetails) copy (allLiabilities = Some(CommonBuilder.buildSomeLiabilities))
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.debtRow.get.linkText shouldBe Messages("iht.giveMoreDetails")
+      viewModel.debtRow.get.linkText shouldBe messagesApi("iht.giveMoreDetails")
     }
 
     "have the correct URL for the debts link" in {
@@ -236,7 +235,7 @@ class ReducingEstateValueSectionViewModelTest
     "have the correct caption for the total row" in {
       val viewModel = ReducingEstateValueSectionViewModel(applicationDetails, regDetailsMarriedPerson)
 
-      viewModel.totalRow.label shouldBe Messages("page.iht.application.exemptions.total")
+      viewModel.totalRow.label shouldBe messagesApi("page.iht.application.exemptions.total")
     }
 
     "have a zero value for total when there are no exemptions and no liabilities" in {

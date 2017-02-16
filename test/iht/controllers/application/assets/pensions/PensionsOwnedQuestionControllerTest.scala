@@ -31,7 +31,7 @@ import play.api.test.Helpers._
  */
 
 class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -111,7 +111,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = pensionsOwnedQuestionController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
   }

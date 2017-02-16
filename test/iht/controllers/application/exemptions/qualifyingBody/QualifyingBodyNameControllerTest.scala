@@ -23,9 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.{AnyContentAsFormUrlEncoded, Request}
 import play.api.test.Helpers._
 
@@ -34,7 +32,6 @@ import play.api.test.Helpers._
  */
 
 class QualifyingBodyNameControllerTest extends ApplicationControllerTest with BeforeAndAfter {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
   val QualifyingBody1Name = "Qualifying Body 1"
@@ -135,10 +132,10 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
     "display the correct content onPageLoad" in {
       createMocksForQualifyingBodyName
       val resultAsString = contentAsString(resultOnPageLoad)
-      resultAsString should include(Messages("page.iht.application.exemptions.qualifyingBody.name.sectionTitle"))
-      resultAsString should include(Messages("page.iht.application.exemptions.qualifyingBody.name.browserTitle"))
-      resultAsString should include(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
-      resultAsString should include(Messages("iht.saveAndContinue"))
+      resultAsString should include(messagesApi("page.iht.application.exemptions.qualifyingBody.name.sectionTitle"))
+      resultAsString should include(messagesApi("page.iht.application.exemptions.qualifyingBody.name.browserTitle"))
+      resultAsString should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
+      resultAsString should include(messagesApi("iht.saveAndContinue"))
     }
 
     "display the correct content onEditPageLoad" in {
@@ -146,10 +143,10 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
       val result = resultOnEditPageLoad("1")
 
       val resultAsString = contentAsString(result)
-      resultAsString should include(Messages("page.iht.application.exemptions.qualifyingBody.name.sectionTitle"))
-      resultAsString should include(Messages("page.iht.application.exemptions.qualifyingBody.name.browserTitle"))
-      resultAsString should include(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
-      resultAsString should include(Messages("iht.saveAndContinue"))
+      resultAsString should include(messagesApi("page.iht.application.exemptions.qualifyingBody.name.sectionTitle"))
+      resultAsString should include(messagesApi("page.iht.application.exemptions.qualifyingBody.name.browserTitle"))
+      resultAsString should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
+      resultAsString should include(messagesApi("iht.saveAndContinue"))
       resultAsString should include(QualifyingBody1Name)
     }
 

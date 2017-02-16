@@ -25,7 +25,7 @@ import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   "validatePrivatePensions" must {
     val vpp = IhtFormValidator.validatePrivatePensions("value", "shared", "radio")
     "displays error if no radio button value selected but value" in {

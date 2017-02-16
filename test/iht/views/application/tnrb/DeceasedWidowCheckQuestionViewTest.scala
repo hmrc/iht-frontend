@@ -21,13 +21,11 @@ import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.views.html.application.tnrb.deceased_widow_check_question
 
 class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val ihtReference = Some("ABC1A1A1A")
   val deceasedDetails = CommonBuilder.buildDeceasedDetails
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -37,18 +35,18 @@ class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour {
   val tnrbModel = CommonBuilder.buildTnrbEligibility
   val widowCheckModel = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.partner.married",
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.partner.married",
                               CommonHelper.getDeceasedNameOrDefaultString(regDetails),
                              TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
                              TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                     Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their")))
+                                     messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.their")))
 
-  override def browserTitle = Messages("iht.estateReport.tnrb.increasingIHTThreshold")
+  override def browserTitle = messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
   override def guidanceParagraphs = Set()
-  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.partner.married")
+  override def yesNoQuestionText = messagesApi("iht.estateReport.tnrb.partner.married")
 
   override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+  override def returnLinkText = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
   override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   override def fixture() = new {

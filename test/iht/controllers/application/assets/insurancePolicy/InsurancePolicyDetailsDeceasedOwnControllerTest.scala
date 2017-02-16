@@ -39,7 +39,7 @@ import scala.concurrent.Future
  *
  */
 class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -171,26 +171,26 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
     "display a yes or no question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.ownName.question",
+      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.ownName.question",
         CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
     }
 
     "display a value question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
     }
 
     "display a yes radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.yes"))
+      contentAsString(result) should include(messagesApi("iht.yes"))
     }
 
     "display a no radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.no"))
+      contentAsString(result) should include(messagesApi("iht.no"))
     }
 
     "redirect to correct page on submit" in {

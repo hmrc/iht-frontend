@@ -61,11 +61,11 @@ class ApplyingForProbateControllerTest
       val result = controller.onPageLoad(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.registration.applicant.applyingForProbate"))
-      contentAsString(result) should include(Messages("page.iht.registration.applicant.applyingForProbate.p1"))
-      contentAsString(result) should include(Messages("page.iht.registration.applicant.applyingForProbate.p2"))
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.registration.applicant.applyingForProbate"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p2"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }
 
     "load when revisited after answering Yes" in {
@@ -97,8 +97,8 @@ class ApplyingForProbateControllerTest
 
       status(result) should be(OK)
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "raise an error when accessing the screen without first entering deceased details" in {
@@ -137,7 +137,7 @@ class ApplyingForProbateControllerTest
 
       val result = controller.onSubmit(request)
       status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(Messages("error.applicantIsApplyingForProbate.select"))
+      contentAsString(result) should include(messagesApi("error.applicantIsApplyingForProbate.select"))
     }
 
     "save and redirect correctly on submit when answering Yes" in {

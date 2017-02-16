@@ -38,7 +38,7 @@ class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.roughEstimateEstateWorth"))
+      titleElement.text() should be(messagesApi("iht.roughEstimateEstateWorth"))
     }
 
     "show an error if no radio button is selected" in {

@@ -19,7 +19,8 @@ package iht
 import iht.config.FrontendAuthConnector
 import iht.testhelpers.CommonBuilder
 import org.scalatest._
-import org.scalatestplus.play.OneAppPerSuite
+import org.scalatestplus.play.{OneAppPerSuite, OneServerPerSuite}
+import play.api.{Application, Mode}
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
@@ -32,11 +33,11 @@ import scala.concurrent.Future
 trait FakeIhtApp extends OneAppPerSuite {
   this: Suite =>
 
-    val config = Map("application.secret" -> "Its secret",
+    val config: Map[String, _] = Map("application.secret" -> "Its secret",
                       "passcodeAuthentication.enabled" -> false,
                       "passcodeAuthentication.regime" -> "iht")
 
-  implicit override lazy val app = GuiceApplicationBuilder(disabled = Seq(classOf[com.kenshoo.play.metrics.PlayModule])).configure(config).build()
+  override implicit lazy val app : Application = new GuiceApplicationBuilder().in(Mode.Test).configure(config).build()
 
   val fakeNino = CommonBuilder.DefaultNino
 

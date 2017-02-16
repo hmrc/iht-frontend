@@ -31,7 +31,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 
 class CharityNumberControllerTest extends ApplicationControllerTest with BeforeAndAfter {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   var mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -97,10 +97,10 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
 
       val result = charityNumberController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("iht.estateReport.exemptions.charities.charityNo.question"))
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.charityNumber.p1"))
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.charityNumber.linkText"))
-      contentAsString(result) should include(Messages("iht.saveAndContinue"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.charities.charityNo.question"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityNumber.p1"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityNumber.linkText"))
+      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
     }
 
     "respond with OK on page load and correct charity id for first charity" in {

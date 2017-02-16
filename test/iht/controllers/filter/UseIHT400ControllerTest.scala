@@ -45,7 +45,7 @@ class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.useIHT400PaperForm"))
+      titleElement.text() should be(messagesApi("iht.useIHT400PaperForm"))
     }
   }
 }

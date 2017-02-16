@@ -21,18 +21,19 @@ import iht.views.html.registration.registration_summary_coexecutor_panel
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 
-class RegistrationSummaryCoExecutorPanelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with I18nSupport {
+class RegistrationSummaryCoExecutorPanelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   "RegistrationSummaryCoExecutorPanelTest" must {
-    implicit val request = createFakeRequest()
+
     "link to the others applying for probate change" in {
-      registration_summary_coexecutor_panel(Seq()).toString should include (OthersApplyingForProbateController.onPageLoadFromOverview().url)
+      implicit val request = createFakeRequest()
+      implicit val messages: MessagesApi = app.injector.instanceOf[MessagesApi]
+      registration_summary_coexecutor_panel(Seq())(request, applicationMessages).toString should include (OthersApplyingForProbateController.onPageLoadFromOverview().url)
     }
   }
 }

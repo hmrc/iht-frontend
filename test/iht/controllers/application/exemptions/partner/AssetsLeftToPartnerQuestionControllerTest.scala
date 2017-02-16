@@ -33,7 +33,7 @@ import play.api.test.Helpers._
  */
 
 class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTest{
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -80,8 +80,8 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
       val result = assetsLeftToPartnerQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"))
-      contentAsString(result) should include (Messages("iht.saveAndContinue"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"))
+      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
     }
 
     "save application and go to Exemptions Overview page on submit" in {
@@ -180,7 +180,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
       val result = assetsLeftToPartnerQuestionController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
   }
 }

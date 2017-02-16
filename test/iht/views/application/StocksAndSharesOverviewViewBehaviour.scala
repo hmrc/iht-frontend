@@ -89,7 +89,7 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
       val f = fixture(dataWithQuestionsAnsweredNo)
       val returnLink = f.doc.getElementById("return-button")
       returnLink.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
-      returnLink.text() shouldBe Messages("page.iht.application.return.to.assetsOf",deceasedName)
+      returnLink.text() shouldBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
     }
   }
 

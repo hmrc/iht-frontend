@@ -99,8 +99,8 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
         createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe(OK)
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include Messages("site.link.cancel")
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include messagesApi("site.link.cancel")
     }
 
     "contain Continue and Cancel buttons when Page is loaded in edit mode" in {
@@ -114,8 +114,8 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
         createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe(OK)
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "respond appropriately to a submit with a value of Yes" in  {

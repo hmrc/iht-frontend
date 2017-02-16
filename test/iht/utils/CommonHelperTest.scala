@@ -544,7 +544,7 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
 
     "return default string where deceased details does not exists " in {
       val regDetailsWithNODeceasedDetails = regDetails.copy(deceasedDetails = None)
-      CommonHelper.getDeceasedNameOrDefaultString(regDetailsWithNODeceasedDetails) shouldBe Messages("iht.the.deceased")
+      CommonHelper.getDeceasedNameOrDefaultString(regDetailsWithNODeceasedDetails) shouldBe messagesApi("iht.the.deceased")
     }
   }
 }

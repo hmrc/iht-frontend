@@ -21,9 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import org.mockito.Matchers._
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 
 
@@ -31,7 +29,7 @@ import play.api.test.Helpers._
  * Created by james on 21/01/16.
  */
 class KindsOfGiftsControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -87,7 +85,7 @@ class KindsOfGiftsControllerTest extends ApplicationControllerTest {
       val result = kindsOfGiftsController.onPageLoad()(createFakeRequest())
 
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.kindOfGifts.description1"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.kindOfGifts.description1"))
     }
 
 
@@ -97,8 +95,8 @@ class KindsOfGiftsControllerTest extends ApplicationControllerTest {
 
       val result = kindsOfGiftsController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("site.link.go.to.giftsGivenAwaySection"))
-      contentAsString(result) should include (Messages("site.link.go.to.estateOverview"))
+      contentAsString(result) should include (messagesApi("site.link.go.to.giftsGivenAwaySection"))
+      contentAsString(result) should include (messagesApi("site.link.go.to.estateOverview"))
     }
   }
 }

@@ -26,14 +26,12 @@ import org.joda.time.LocalDate
 import org.jsoup.nodes.Element
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.Call
 import uk.gov.hmrc.play.test.UnitSpec
 
 class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter{
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val dummyOverviewRow = OverviewRow("", "", "", NotStarted, Call("", ""), "")
   val dummyTotalRow = OverviewRowWithoutLink("", "", "", "")
   val dummyOverviewRowWithoutLink = OverviewRowWithoutLink("", "", "", "", false)
@@ -88,7 +86,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       implicit val request = createFakeRequest()
 
       val view = estate_overview(dummyViewModel).toString
-      view should include(Messages("page.iht.application.overview.timeScale.guidance"))
+      view should include(messagesApi("page.iht.application.overview.timeScale.guidance"))
       view should include("01 Apr 2016")
     }
 
@@ -96,7 +94,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       implicit val request = createFakeRequest()
 
       val view = estate_overview(dummyViewModel).toString
-      view should include(Messages("iht.estateReport.goToEstateReports"))
+      view should include(messagesApi("iht.estateReport.goToEstateReports"))
     }
 
     "show the correct 'Go to your Inheritance Tax estate reports' link" in {
@@ -106,7 +104,7 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val doc = asDocument(view)
       assertRenderedById(doc, "return-to-estate-report-link")
       val link: Element = doc.getElementById("return-to-estate-report-link")
-      link.text() shouldBe Messages("iht.estateReport.goToEstateReports")
+      link.text() shouldBe messagesApi("iht.estateReport.goToEstateReports")
       link.attr("href") shouldBe expectedUrl
     }
 
@@ -221,9 +219,9 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val view = estate_overview(viewModel).toString
       val doc = asDocument(view)
 
-      assertEqualsValue(doc, "a#continue-to-declaration", Messages("iht.continue"))
+      assertEqualsValue(doc, "a#continue-to-declaration", messagesApi("iht.continue"))
       assertEqualsValue(doc, "p#declarable-guidance",
-        Messages("page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text"))
+        messagesApi("page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text"))
 
     }
 

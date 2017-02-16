@@ -33,7 +33,7 @@ import play.api.test.Helpers._
  *
  */
 class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -91,9 +91,9 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
       val result = insurancePolicyDetailsFinalGuidanceController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section7.guidance",
+      contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section7.guidance",
                                             CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
-      contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section7.guidance2"))
+      contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section7.guidance2"))
     }
   }
 

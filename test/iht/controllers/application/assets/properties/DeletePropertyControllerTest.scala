@@ -37,7 +37,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
   // Implicit objects required by play framework.
   implicit val headerCarrier = FakeHeaders()
   implicit val hc = new HeaderCarrier
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
@@ -83,7 +83,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
 
       val result = deletePropertyController.onPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include(Messages("page.iht.application.propertyDetails.deleteProperty.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.propertyDetails.deleteProperty.title"))
     }
 
     "respond with error if property not found" in {

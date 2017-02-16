@@ -28,7 +28,7 @@ import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 class ApplicationKickoutHelperTest extends UnitSpec with MockitoSugar with FakeIhtApp {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC123")

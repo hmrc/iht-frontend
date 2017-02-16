@@ -31,7 +31,7 @@ import play.api.test.Helpers._
  * Created by jennygj on 17/06/16.
  */
 class PropertyTypeControllerTest extends ApplicationControllerTest {
-  implicit val messages: Messages = app.injector.instanceOf[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -116,13 +116,13 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "display the correct title on page load" in {
       val result = propertyTypeController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.whatKind.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.whatKind.question"))
     }
 
     "display correct options for input radio group" in {
       val result = propertyTypeController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.assets.propertyType.otherResidential.label"))
+      contentAsString(result) should include (messagesApi("page.iht.application.assets.propertyType.otherResidential.label"))
     }
   }
 }

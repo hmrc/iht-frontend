@@ -91,7 +91,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.gifts.sevenYears.values.guidance"))
+      contentAsString(result) should include(messagesApi("page.iht.application.gifts.sevenYears.values.guidance"))
     }
 
     "redirect to ida login page on PageLoad if the user is not logged in" in {
@@ -156,7 +156,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.changeValues"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.changeValues"))
 
     }
 
@@ -286,7 +286,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
     {
       val yearLink = doc.getElementById(s"edit-gift-$yearId")
       assertEqualsValue(doc, s"a#edit-gift-$yearId span",
-        Messages("iht.estateReport.changeValues"))
+        messagesApi("iht.estateReport.changeValues"))
       yearLink.attr("href") shouldBe
         routes.GiftsDetailsController.onPageLoad(yearId).url
     }
