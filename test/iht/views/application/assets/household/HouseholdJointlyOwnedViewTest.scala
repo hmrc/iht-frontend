@@ -45,7 +45,7 @@ class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElement
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
 
   "Household Jointly Owned view" must {
-    behave like yesNoValueViewJoint
+    behave like yesNoValueViewJointWithErrorSummaryBox
   }
 
 }

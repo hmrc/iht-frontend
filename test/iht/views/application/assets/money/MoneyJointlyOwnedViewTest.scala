@@ -45,7 +45,7 @@ class MoneyJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInpu
   override def returnLinkUrl = MoneyOverviewController.onPageLoad().url
 
   "Money Jointly Owned view" must {
-    behave like yesNoValueViewJoint
+    behave like yesNoValueViewJointWithErrorSummaryBox
 
     "show the correct guidance" in {
       messagesShouldBePresent(view,

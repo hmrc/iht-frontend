@@ -45,7 +45,7 @@ class MoneyDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInpu
   override def returnLinkUrl = MoneyOverviewController.onPageLoad().url
 
   "Money Deceased Own view" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
 
     "show the correct guidance" in {
       messagesShouldBePresent(view, Messages("page.iht.application.assets.money.deceased.guidance", deceasedName))

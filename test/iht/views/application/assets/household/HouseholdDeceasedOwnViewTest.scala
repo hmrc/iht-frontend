@@ -46,7 +46,7 @@ class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[Sh
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
 
   "Household Deceased Own view" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
   }
 
 }
