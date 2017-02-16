@@ -58,7 +58,7 @@ class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
     behave like applicationPageWithErrorSummaryBox()
   }
 
-  behave like pageWithRadioButton(
+  behave like radioButton(
     testTitle = "freehold tenure",
     titleId = "tenure-freehold-main",
     titleExpectedValue = "page.iht.application.assets.tenure.freehold.label",
@@ -66,7 +66,7 @@ class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
     hintExpectedValue = "page.iht.application.assets.tenure.freehold.hint"
   )
 
-  behave like pageWithRadioButton(
+  behave like radioButton(
     testTitle = "leasehold tenure",
     titleId = "tenure-leasehold-main",
     titleExpectedValue = "page.iht.application.assets.tenure.leasehold.label",
@@ -74,6 +74,6 @@ class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
     hintExpectedValue = "page.iht.application.assets.tenure.leasehold.hint"
   )
 
-  behave like pageWithLink("land-registry-link", IhtProperties.linkLandRegistry,
+  behave like link("land-registry-link", IhtProperties.linkLandRegistry,
     Messages("iht.estateReport.assets.property.findOutFromLandRegistry"))
 }

@@ -16,6 +16,7 @@
 
 package iht.views.application
 
+import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.data.{Form, FormError}
@@ -61,9 +62,8 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     "have a Continue button" in {
       doc.getElementById("save-continue").text shouldBe Messages("iht.saveAndContinue")
     }
-
+    "show the correct guidance paragraphs" in {
     if (guidanceParagraphs.nonEmpty) {
-      "show the correct guidance paragraphs" in {
         for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
       }
     }
@@ -86,7 +86,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     }
   }
 
-  def pageWithLink(anchorId: => String, href: => String, text: => String) = {
+  def link(anchorId: => String, href: => String, text: => String) = {
     def anchor = doc.getElementById(anchorId)
     s"have a link with id $anchorId and correct target" in {
       anchor.attr("href") shouldBe href
@@ -118,13 +118,15 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     }
   }
 
-  def pageWithRadioButton(testTitle:String,
-                          titleId: String, titleExpectedValue: String, hintId: String, hintExpectedValue: String) = {
+  def radioButton(testTitle:String,
+                  titleId: String, titleExpectedValue: String, hintId: String = "", hintExpectedValue: String = "") = {
     s"contain $testTitle radio button with correct title" in {
       doc.getElementById(titleId).text shouldBe Messages(titleExpectedValue)
     }
-    s"contain $testTitle radio buton with correct hint text" in {
-      doc.getElementById(hintId).text shouldBe Messages(hintExpectedValue)
+    if (hintId.nonEmpty) {
+      s"contain $testTitle radio buton with correct hint text" in {
+        doc.getElementById(hintId).text shouldBe Messages(hintExpectedValue)
+      }
     }
   }
 }

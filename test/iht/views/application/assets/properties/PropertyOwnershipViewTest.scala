@@ -62,7 +62,7 @@ class PropertyOwnershipViewTest extends ApplicationPageBehaviour[Property] {
     behave like applicationPageWithErrorSummaryBox()
   }
 
-  behave like pageWithRadioButton(
+  behave like radioButton(
     testTitle = "only by the deceased",
     titleId = "typeOfOwnership-deceased_only-main",
     titleExpectedValue = "page.iht.application.assets.typeOfOwnership.deceasedOnly.label",
@@ -70,7 +70,7 @@ class PropertyOwnershipViewTest extends ApplicationPageBehaviour[Property] {
     hintExpectedValue = "page.iht.application.assets.typeOfOwnership.deceasedOnly.hint"
   )
 
-  behave like pageWithRadioButton(
+  behave like radioButton(
     testTitle = "joint tenants",
     titleId = "typeOfOwnership-joint-main",
     titleExpectedValue = "page.iht.application.assets.typeOfOwnership.joint.label",
@@ -78,7 +78,7 @@ class PropertyOwnershipViewTest extends ApplicationPageBehaviour[Property] {
     hintExpectedValue = "page.iht.application.assets.typeOfOwnership.joint.hint"
   )
 
-  behave like pageWithRadioButton(
+  behave like radioButton(
     testTitle = "tenants in common",
     titleId = "typeOfOwnership-in_common-main",
     titleExpectedValue = "page.iht.application.assets.typeOfOwnership.inCommon.label",
@@ -87,6 +87,6 @@ class PropertyOwnershipViewTest extends ApplicationPageBehaviour[Property] {
   )
 
 
-  behave like pageWithLink("land-registry-link", IhtProperties.linkLandRegistry,
+  behave like link("land-registry-link", IhtProperties.linkLandRegistry,
     Messages("iht.estateReport.assets.property.findOutFromLandRegistry"))
 }
