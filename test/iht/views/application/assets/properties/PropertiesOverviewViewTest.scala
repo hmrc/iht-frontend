@@ -47,6 +47,8 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     )
   )
 
+  override val exitId: String = "return-button"
+
   override def view =
     properties_overview(List(CommonBuilder.property, CommonBuilder.property2),
       Some(Properties(isOwned = Some(true))),
