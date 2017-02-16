@@ -220,11 +220,11 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
   }
 
   def expectedSetRowsAllUKAddresses = expectedSetRows(
-    s"$deceasedAddr1 $deceasedAddr2 $deceasedAddr3 $deceasedAddr4 $postCode1 $unitedKingdom",
-    s"$applicantAddr1 $applicantAddr2 $applicantAddr3 $applicantAddr4 $postCode1 $unitedKingdom",
-    s"$coExecutor1Addr1 $coExecutor1Addr2 $coExecutor1Addr3 $coExecutor1Addr4 $postCode1 $unitedKingdom",
-    s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 $postCode2 $unitedKingdom",
-    s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 $postCode3 $unitedKingdom"
+    s"$deceasedAddr1 $deceasedAddr2 $deceasedAddr3 $deceasedAddr4 $postCode1",
+    s"$applicantAddr1 $applicantAddr2 $applicantAddr3 $applicantAddr4 $postCode1",
+    s"$coExecutor1Addr1 $coExecutor1Addr2 $coExecutor1Addr3 $coExecutor1Addr4 $postCode1",
+    s"$coExecutor2Addr1 $coExecutor2Addr2 $coExecutor2Addr3 $coExecutor2Addr4 $postCode2",
+    s"$coExecutor3Addr1 $coExecutor3Addr2 $coExecutor3Addr3 $coExecutor3Addr4 $postCode3"
   )
 
   def expectedSetRowsAllForeignAddresses = expectedSetRows(

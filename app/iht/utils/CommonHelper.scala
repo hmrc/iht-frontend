@@ -35,6 +35,7 @@ import scala.collection.immutable.ListMap
 import scala.util.Try
 import iht.views.html._
 import iht.constants.IhtProperties
+import play.twirl.api.Html
 
 /**
   *
@@ -361,11 +362,15 @@ object CommonHelper {
       address += " \n" + applicantAddress.postCode.toString
     }
 
-    if (countryName(applicantAddress.countryCode) != "") {
+    if (countryName(applicantAddress.countryCode) != "" && applicantAddress.countryCode != "GB") {
       address += " \n" + countryName(applicantAddress.countryCode)
     }
 
-    address.toString
+    address.toString().trim()
+  }
+
+  def addressLayout(address: UkAddress): Html = {
+    Html(CommonHelper.addressFormater(address).replace("\n", "<br/>"))
   }
 
   /**
