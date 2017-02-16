@@ -35,6 +35,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
   def returnLinkText: String
   def returnLinkUrl: String
   def valueInputBoxId: String = "value"
+  def shareValueInputBoxId: String = "shareValue"
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
   def view: String = formToView(form).toString
@@ -44,7 +45,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
   def yesNoValueView() = viewBehaviour(valueInputBoxId)
 
-  def yesNoValueViewJoint() = viewBehaviour("shareValue")
+  def yesNoValueViewJoint() = viewBehaviour(shareValueInputBoxId)
 
   private def viewBehaviour(valueId: String) = {
     "have the correct title" in {
@@ -92,7 +93,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
   def yesNoValueViewWithErrorSummaryBox(): Unit = {
 
-    viewBehaviour("value")
+    viewBehaviour(valueInputBoxId)
 
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))
@@ -103,7 +104,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
   def yesNoValueViewJointWithErrorSummaryBox(): Unit = {
 
-    viewBehaviour("shareValue")
+    viewBehaviour(shareValueInputBoxId)
 
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))

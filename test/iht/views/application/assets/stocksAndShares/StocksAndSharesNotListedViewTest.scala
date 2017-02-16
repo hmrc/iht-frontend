@@ -48,6 +48,6 @@ class StocksAndSharesNotListedViewTest extends ShareableElementInputViewBehaviou
 
 
   "Stocks and Shares Listed View" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
   }
 }
