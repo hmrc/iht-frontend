@@ -34,6 +34,9 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
 
   def doc: Document = asDocument(view)
 
+  //val exitId: String = "return-button"
+  val exitId: String = "button"
+
   def nonSubmittablePage() = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
@@ -52,7 +55,7 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
     if (exitComponent.isDefined) {
       "show the exit link with the correct target and text" in {
         exitComponent.foreach { attrib =>
-          val cancelButton = doc.getElementsByClass("button").first
+          val cancelButton = doc.getElementById(exitId)
           cancelButton.attr("href") shouldBe attrib.target.url
           cancelButton.text() shouldBe attrib.content
         }
