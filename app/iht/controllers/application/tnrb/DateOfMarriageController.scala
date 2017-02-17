@@ -21,12 +21,13 @@ import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import org.joda.time.LocalDate
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
@@ -40,6 +41,15 @@ object DateOfMarriageController extends DateOfMarriageController with IhtConnect
 trait DateOfMarriageController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
+  private def predeceasedName(appDetails: ApplicationDetails) = {
+    TnrbHelper.spouseOrCivilPartnerLabel(
+      tnrbModel = appDetails.increaseIhtThreshold.fold(
+        TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+      widowCheck = CommonHelper.getOrException(appDetails.widowCheck),
+      prefixText = Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"),
+      wrapName=true)
+  }
+
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       val registrationDetails = cachingConnector.getExistingRegistrationDetails
@@ -51,17 +61,15 @@ trait DateOfMarriageController extends EstateController{
           registrationDetails.acknowledgmentReference)
       } yield {
         applicationDetails match {
-          case Some(appDetails) => {
-
+          case Some(appDetails) =>
             val filledForm = dateOfMarriageForm.fill(appDetails.increaseIhtThreshold.getOrElse(
               TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
             Ok(iht.views.html.application.tnrb.date_of_marriage(
               filledForm,
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              deceasedName)
+              deceasedName, predeceasedName(appDetails))
             )
-          }
           case _ => InternalServerError("Application details not found")
         }
       }
@@ -80,20 +88,19 @@ trait DateOfMarriageController extends EstateController{
       val boundForm = dateOfMarriageForm.bindFromRequest
 
       applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
+        case Some(appDetails) =>
           val dateOfPreDeceased = CommonHelper.getOrException(CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased)
 
           additionalErrorsForForm(boundForm, dateOfPreDeceased).fold(
             formWithErrors=> {
               Future.successful(BadRequest(iht.views.html.application.tnrb.date_of_marriage(formWithErrors,
                 appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                deceasedName)))
+                deceasedName, predeceasedName(appDetails))))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
             }
           )
-        }
         case _ => Future.successful(InternalServerError("Application details not found"))
       }
     }
@@ -131,7 +138,7 @@ trait DateOfMarriageController extends EstateController{
       fold(new TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, dateOfMarriage =
         tnrbModel.dateOfMarriage, None)) (_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
-    ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
-    Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails))
+    ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
+      TnrbHelper.successfulTnrbRedirect(updatedAppDetails))
   }
  }

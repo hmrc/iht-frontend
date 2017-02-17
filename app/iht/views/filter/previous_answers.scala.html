@@ -32,7 +32,7 @@
           </a>
         </div>
     </div>
-    <ul id="previous-answers">
+    <ul id="previous-answers" class="tabular-data tabular-data--list">
         @if(estimatedValue.isDefined) {
         <li id="estimate-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
             <div class="tabular-data__data tabular-data__data--6-12">
@@ -58,7 +58,7 @@
         }
         <li id="domicile-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
             <div class="tabular-data__data tabular-data__data--6-12">
-              @Messages("iht.registration.deceased.permanentHome.where.question")
+              @Messages("page.iht.registration.deceasedPermanentHome.title")
             </div>
             <div class="tabular-data__data tabular-data__data--3-12">
               @country

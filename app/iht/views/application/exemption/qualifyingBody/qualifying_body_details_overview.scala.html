@@ -33,6 +33,7 @@ isFullWidth = false) {
 <p class="lede" id="qb-guidance-1">@Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities")</p>
 
 <section>
+    <ul class="tabular-data tabular-data--list">
     @defining(qualifyingBody.flatMap(_.id))  { qualifyingBodyId =>
 
         @defining(qualifyingBody.flatMap(_.name))  { qualifyingBodyName =>
@@ -41,7 +42,7 @@ isFullWidth = false) {
                     title = Messages("iht.estateReport.qualifyingBodies.qualifyingBodyName"),
                     name = "qualifyingBody.detailsOverview.name",
                     id = "qualifyingBody-name",
-                    value = qualifyingBodyName,
+                    value = ihtHelpers.name(qualifyingBodyName).toString(),
                     valueScreenReader = "",
                     link = qualifyingBodyId match {
                         case Some(id) => Some(QualifyingBodyNameController.onEditPageLoad(qualifyingBodyId))
@@ -93,10 +94,10 @@ isFullWidth = false) {
                     classAllCells = "")
         }
     }
-
+    </ul>
 </section>
 <p>
-@ihtHelpers.return_link(label = Some(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies")),
+@ihtHelpers.return_link(label = Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
     link = Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()))
 </p>
 }

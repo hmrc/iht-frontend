@@ -64,7 +64,7 @@
                                             </xsl:call-template>
                                             <xsl:call-template name="table-row-money-tall">
                                                 <xsl:with-param name="label"
-                                                                select="i18n:getMessagesText($translator, 'iht.estateReport.assets.properties.value.question')"/>
+                                                                select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.properties.value.question', $deceasedName)"/>
                                                 <xsl:with-param name="value">
                                                     <xsl:if test="value">
                                                         <xsl:value-of select='value'/>

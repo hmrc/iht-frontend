@@ -27,6 +27,7 @@ import play.api.mvc.Results.Redirect
 import play.api.mvc.{Call, Result}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.views.html._
 
 /**
   * Created by vineet on 27/04/16.
@@ -51,9 +52,14 @@ object TnrbHelper {
 
   def spouseOrCivilPartnerLabel(tnrbModel: TnrbEligibiltyModel,
                                 widowCheck: WidowCheck,
-                                prefixText: String=""): String  = {
+                                prefixText: String="",
+                                wrapName: Boolean = false): String  = {
     if(tnrbModel.Name.toString.trim!=""){
-      tnrbModel.Name.toString
+      if(wrapName) {
+        ihtHelpers.name(tnrbModel.Name.toString).toString
+      }else{
+        tnrbModel.Name.toString
+      }
     } else {
       prefixText + " " + spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)
     }
@@ -63,10 +69,11 @@ object TnrbHelper {
     * Returns the Spouse name (if exists) otherwise returns the pretext string
     */
   def spouseOrCivilPartnerName(tnrbModel: TnrbEligibiltyModel,
-                                prefixText: String=""): String  = {
+                                prefixText: String="",
+                               wrapName: Boolean = true): String  = {
     CommonHelper.withValue(tnrbModel.Name.toString.trim) {
       case name if name.isEmpty => prefixText
-      case name => name
+      case name => if(wrapName) {ihtHelpers.name(name).toString}else{name}
     }
   }
 

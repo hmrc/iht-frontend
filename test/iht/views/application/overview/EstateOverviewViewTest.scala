@@ -19,18 +19,14 @@ package iht.views.application.overview
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.viewmodels.application.overview._
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.overview.{estate_overview, overview_sidebar}
-import iht.{FakeIhtApp, TestUtils}
 import org.joda.time.LocalDate
 import org.jsoup.nodes.Element
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
-import uk.gov.hmrc.play.test.UnitSpec
 
-class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter{
+class EstateOverviewViewTest extends ViewTestHelper{
 
   val dummyOverviewRow = OverviewRow("", "", "", NotStarted, Call("", ""), "")
   val dummyTotalRow = OverviewRowWithoutLink("", "", "", "")
@@ -73,6 +69,14 @@ class EstateOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar 
   )
 
   "Estate overview view" must {
+
+    "contain the correct guidance text" in {
+      implicit val request = createFakeRequest()
+
+      val view = estate_overview(dummyViewModel).toString
+      val doc = asDocument(view)
+      view should include(Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
+    }
 
     "contain the assets and gifts section" in {
       implicit val request = createFakeRequest()

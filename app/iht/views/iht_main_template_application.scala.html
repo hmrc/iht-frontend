@@ -30,7 +30,8 @@ cancelLabel: => Option[String] = None,
 hasSignOut: Boolean = true,
 hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
-headingClass: String = "heading-xlarge"
+headingClass: String = "",
+headingName: String = ""
 )(mainContent: Html)(implicit messages: Messages)
 
 @iht_main_template(
@@ -48,7 +49,8 @@ headingClass: String = "heading-xlarge"
     cancelLabel = cancelLabel,
     hasTimeOut = hasTimeOut,
     sidebarLinks = sidebarLinks,
-    signOutUrl = if (hasSignOut) Some(iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()) else None,
+    signOutUrl = if (hasSignOut) Some(iht.controllers.application.routes.ApplicationQuestionnaireController.signOutAndLoadPage()) else None,
     headerTitle = Some(Messages("site.application.title")),
-    headingClass = headingClass
+    headingClass = headingClass,
+    headingName = headingName
 )(mainContent)

@@ -15,10 +15,11 @@
 *@
 
 @import iht.constants.IhtProperties
+@import iht.views.html._
 
 @(deceasedName: String, inReview: Boolean)(implicit request:Request[_], messages: Messages)
 
-@Messages("page.iht.application.overview.common.estatevalue", deceasedName)
+@Html(Messages("page.iht.application.overview.common.estatevalue", ihtHelpers.name(deceasedName)))
 @if(inReview) { <p>@Messages("page.iht.application.overview.inreview.helptext")</p> }
 <div class="panel-indent">@Messages("page.iht.application.overview.common.helptext.part1")
     <a id="corrective-account-form" href="@IhtProperties.correctiveAccountsLink">@Messages("iht.estateReport.correctiveAccountForm")</a>.

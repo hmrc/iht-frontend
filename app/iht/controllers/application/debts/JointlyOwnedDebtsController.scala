@@ -58,8 +58,7 @@ trait JointlyOwnedDebtsController extends EstateController {
       jointlyOwnedDebts,
       jointly_owned.apply,
       updateApplicationDetails,
-      debtsRedirectLocation,
-      Some(createValidationFunction("isOwned", _.isDefined, "error.debts.jointlyOwned.select")))
+      debtsRedirectLocation)
     }
   }
 }

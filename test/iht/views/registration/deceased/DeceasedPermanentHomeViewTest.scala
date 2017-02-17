@@ -16,33 +16,48 @@
 
 package iht.views.registration.deceased
 
+import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.forms.registration.DeceasedForms._
+import iht.models.{ApplicantDetails, DeceasedDetails}
+import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.html.registration.deceased.deceased_permanent_home
 import iht.views.registration.RegistrationPageBehaviour
+import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
-import scala.collection.immutable.ListMap
+class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
+  override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
 
-class DeceasedPermanentHomeViewTest  extends RegistrationPageBehaviour {
-
-  override def pageTitle = messagesApi("page.iht.registration.deceasedPermanentHome.title")
   override def browserTitle = messagesApi("page.iht.registration.deceasedPermanentHome.browserTitle")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = deceased_permanent_home(deceasedPermanentHomeForm, ListMap[String, String](),
-      Call("", "")).toString
-    val doc = asDocument(view)
-  }
+  override def form:Form[DeceasedDetails] = deceasedPermanentHomeForm
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_permanent_home(form, Call("", ""))
 
   "Deceased Permanent Home View" must {
-
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'country'" in {
-      val f = fixture()
-      f.doc.getElementsByTag("fieldset").first.id shouldBe "country"
+      doc.getElementsByTag("fieldset").first.id shouldBe "country"
+    }
+  }
+
+  "radio buttons" must {
+    "include england or wales" in {
+      radioButtonShouldBeCorrect(doc, "iht.countries.englandOrWales", "domicile-england_or_wales")
+    }
+
+    "include scotland" in {
+      radioButtonShouldBeCorrect(doc, "iht.countries.scotland", "domicile-scotland")
+    }
+
+    "include northern ireland" in {
+      radioButtonShouldBeCorrect(doc, "iht.countries.northernIreland", "domicile-northern_ireland")
+    }
+
+    "include other" in {
+      radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.domicile.other.label", "domicile-other")
     }
   }
 }

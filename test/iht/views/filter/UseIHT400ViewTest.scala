@@ -22,6 +22,7 @@ import iht.views.html.filter.use_iht400
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.constants.IhtProperties
 
 /**
  * Created by jennygj on 25/10/16.
@@ -77,13 +78,11 @@ class UseIHT400ViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a link with the button class with href attribute pointing to ???" in {
-      // TODO: Confirm with Paul the location of the link
-      pending
-      val result = use_iht400()(fakeRequest, applicationMessages)
+      val result = use_iht400()
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") should be("")
+      button.attr("href") should be(IhtProperties.linkEstateReportKickOut)
     }
 
     "contain a 'Previous answers' section" in {
@@ -91,7 +90,6 @@ class UseIHT400ViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = asDocument(contentAsString(result))
       assertRenderedById(doc, "previous-answers")
     }
-
 
     "contain a 'Start again' link to go back to the domicile page" in {
       val result = use_iht400()(fakeRequest, applicationMessages)
@@ -105,7 +103,7 @@ class UseIHT400ViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val result = use_iht400()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(messagesApi("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(messagesApi("iht.countries.englandOrWales"))
     }
 

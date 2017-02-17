@@ -88,10 +88,9 @@
     </fieldset>
 
 
-    <p>@ihtHelpers.return_link(Some(Messages("iht.registration.changeAddressToUK")),
-    Some(changeNationalityLocation))</p>
+    <p>@ihtHelpers.return_link(Messages("iht.registration.changeAddressToUK"),Some(changeNationalityLocation))</p>
 
-    @ihtHelpers.save_continue_button()
+    @ihtHelpers.continue_button()
     }
 
 }

@@ -18,6 +18,7 @@ package iht.constants
 
 import iht.config.IhtPropertiesReader._
 import org.joda.time.LocalDate
+import play.api.Logger
 
 /**
   * Created by yasar on 25/11/15.
@@ -28,6 +29,7 @@ object IhtProperties {
   lazy val dateFormatForDisplay: String = getProperty("dateFormatForDisplay")
   lazy val maxCoExecutors: Int = getPropertyAsInt("maxCoExecutors")
   lazy val maxNameLength: Int = getPropertyAsInt("maxNameLength")
+  lazy val hyphenateNamesLength: Int = getPropertyAsInt("hyphenateNamesLength")
   lazy val validationMaxLengthAddresslines: Int = getPropertyAsInt("validationMaxLengthAddresslines")
   lazy val validationMaxLengthPostcode: Int = getPropertyAsInt("validationMaxLengthPostcode")
   lazy val validationMaxLengthFirstName: Int = getPropertyAsInt("validationMaxLengthFirstName")
@@ -66,6 +68,11 @@ object IhtProperties {
   lazy val linkRegistrationKickOut: String = getProperty("linkRegistrationKickOut")
   lazy val linkEstateReportKickOut: String = getProperty("linkEstateReportKickOut")
   lazy val linkGovUk: String = getProperty("linkGovUk")
+  lazy val linkIHT401: String = getProperty("linkIHT401")
+  lazy val linkExitToGovUKIHTForms: String = getProperty("linkExitToGovUKIHTForms")
+  lazy val linkScottishCourtAndTribunal: String = getProperty("linkScottishCourtAndTribunal")
+  lazy val linkIHT205: String = getProperty("linkIHT205")
+  lazy val linkContactHMRC: String = getProperty("linkContactHMRC")
   lazy val charityLink: String = getProperty("charityLink")
   lazy val correctiveAccountsLink: String = getProperty("correctiveAccountLink")
   lazy val giftsStartDay: Int = getPropertyAsInt("giftsStartDay")
@@ -113,4 +120,10 @@ object IhtProperties {
   lazy val ETMPExemptionTypeGNCP: String = getProperty("etmpExemptionTypeGNCP")
 
   lazy val DateRangeMonths: Integer = getPropertyAsInt("dateRangeMonths")
+
+  lazy val pdfStaticHeaders: Seq[(String, String)] = {
+    val headers = getPropertyAsSeqStringTuples("pdfStaticHeaders")
+    Logger.debug("PDF static headers read in from property file:" + headers)
+    headers
+  }
 }

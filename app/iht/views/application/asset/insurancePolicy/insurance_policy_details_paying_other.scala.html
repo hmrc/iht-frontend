@@ -25,18 +25,18 @@
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
-@iht_main_template_application(title = Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
-                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedNameWrap = @{ihtHelpers.name(deceasedName)}
+
+@iht_main_template_application(title = Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",deceasedName),
 browserTitle = Some(Messages("page.iht.application.insurance.policies.section3.browserTitle")),
-isFullWidth=false){
+isFullWidth=false,
+headingName = deceasedName){
     @ihtHelpers.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsPayingOtherController.onSubmit,'autoComplete -> "off") {
 
-
-    <p id="guidance-1">@Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p id="guidance-2">@Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p id="guidance-1">@Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1", deceasedNameWrap))</p>
+    <p id="guidance-2">@Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2", deceasedNameWrap))</p>
         @ihtHelpers.input_yes_no_radio_group(
             insurancePolicyForm("isInsurancePremiumsPayedForSomeoneElse"),
             '_legend -> Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question")),
@@ -47,6 +47,6 @@ isFullWidth=false){
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.return_link(Some(Messages("site.link.return.insurance.policies")), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
+        @ihtHelpers.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
     }
 }

@@ -20,6 +20,8 @@
     <xsl:param name="marriageLabel"/>
     <xsl:param name="marriedOrCivilPartnershipLabel"/>
     <xsl:param name="kickout"/>
+    <xsl:param name="giftsTotalExclExemptions"/>
+    <xsl:param name="giftsExemptionsTotal"/>
 
     <xsl:include href="pdf/templates/presubmission/estate-summary.xsl"/>
     <xsl:include href="pdf/templates/presubmission/assets.xsl"/>

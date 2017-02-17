@@ -22,6 +22,7 @@ import iht.views.html.filter.use_paper_form
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.constants.IhtProperties
 
 class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
@@ -68,7 +69,7 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val link = doc.getElementById("scottish-courts-link")
       link.text should be(messagesApi("page.iht.filter.paperform.scotland.link.text"))
       link.attr("rel") should be("external")
-      link.attr("href") should be("http://www.scotcourts.gov.uk/taking-action/dealing-with-a-deceased%27s-estate-in-scotland")
+      link.attr("href") should be(IhtProperties.linkScottishCourtAndTribunal)
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {
@@ -81,7 +82,7 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     "contain a row showing the user's answer to the previous question" in {
       val doc = getPageAsDoc(messagesApi("iht.countries.scotland"))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(messagesApi("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(messagesApi("iht.countries.scotland"))
     }
 
@@ -90,6 +91,13 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val link = doc.getElementById("change-domicile")
       link.text() should be(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+    }
+
+    "contain 'Exit to GOV.UK' button to exit from the service" in {
+      val doc = getPageAsDoc(Messages("iht.countries.scotland"))
+      val link = doc.getElementById("exit")
+      link.text() should be(Messages("iht.exitToGovUK"))
+      link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
     }
   }
 
@@ -137,7 +145,7 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     "contain a row showing the user's answer to the previous question" in {
       val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(messagesApi("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(messagesApi("iht.countries.northernIreland"))
     }
 
@@ -146,6 +154,13 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val link = doc.getElementById("change-domicile")
       link.text() should be(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+    }
+
+    "contain 'Exit to GOV.UK' button to exit from the service" in {
+      val doc = getPageAsDoc(Messages("iht.countries.northernIreland"))
+      val link = doc.getElementById("exit")
+      link.text() should be(Messages("iht.exitToGovUK"))
+      link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
     }
   }
 
@@ -184,7 +199,7 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     "contain a row showing the user's answer to the previous question" in {
       val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
       val row = doc.getElementById("domicile-row")
-      row.text() should include(messagesApi("iht.registration.deceased.permanentHome.where.question"))
+      row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(messagesApi("page.iht.filter.domicile.choice.other"))
     }
 
@@ -193,6 +208,13 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val link = doc.getElementById("change-domicile")
       link.text() should be(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
+    }
+
+    "contain 'Exit to GOV.UK' button to exit from the service" in {
+      val doc = getPageAsDoc(Messages("page.iht.filter.domicile.choice.other"))
+      val link = doc.getElementById("exit")
+      link.text() should be(Messages("iht.exitToGovUK"))
+      link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
     }
   }
 

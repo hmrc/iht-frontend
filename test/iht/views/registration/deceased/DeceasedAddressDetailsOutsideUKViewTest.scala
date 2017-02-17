@@ -16,82 +16,100 @@
 
 package iht.views.registration.deceased
 
+import iht.controllers.registration.routes
 import iht.forms.registration.DeceasedForms.deceasedAddressDetailsOutsideUKForm
+import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_address_details_outside_uk
 import iht.views.registration.RegistrationPageBehaviour
-import org.jsoup.select.Elements
-import play.api.mvc.Call
+import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
-import scala.concurrent.Future
+import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.CommonBuilder
 
-class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour {
+class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
+
+  lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
+  lazy val editSubmitLocation = CommonBuilder.DefaultCall1
+  lazy val addressInTheUK= CommonBuilder.DefaultCall2
 
   override def pageTitle = messagesApi("iht.registration.deceased.lastContactAddress")
   override def browserTitle = messagesApi("iht.registration.contactAddress")
 
-  override def fixture() = new {
+  override def form:Form[DeceasedDetails] = deceasedAddressDetailsOutsideUKForm
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_outside_uk(form,
+                                                                  CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
+
+  def editModeView = {
     implicit val request = createFakeRequest()
-    val view = deceased_address_details_outside_uk(deceasedAddressDetailsOutsideUKForm, Call("", ""), Call("", "")).toString
-    val doc = asDocument(view)
+    val view = deceased_address_details_outside_uk(
+      deceasedAddressDetailsOutsideUKForm, editSubmitLocation, addressInTheUK, Some(regSummaryPage)).toString
+    asDocument(view)
   }
 
   "Deceased Address Details (outside UK) View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have a fieldset with the Id 'details'" in {
-      val f = fixture()
-      f.doc.getElementsByTag("fieldset").first.id shouldBe "details"
+      doc.getElementsByTag("fieldset").first.id shouldBe "details"
     }
 
     "have a line 1 field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddress.addressLine1")
+      assertRenderedById(doc, "ukAddress.addressLine1")
     }
 
     "have the correct label for line 1" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "ukAddress.addressLine1-container", "iht.address.line1")
+      labelShouldBe(doc, "ukAddress.addressLine1-container", "iht.address.line1")
     }
 
     "have a line 2 field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddress.ukAddressLine2")
+      assertRenderedById(doc, "ukAddress.ukAddressLine2")
     }
 
     "have the correct label for line 2" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "ukAddress.ukAddressLine2-container", "iht.address.line2")
+      labelShouldBe(doc, "ukAddress.ukAddressLine2-container", "iht.address.line2")
     }
 
     "have a line 3 field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddress.addressLine3")
+      assertRenderedById(doc, "ukAddress.addressLine3")
     }
 
     "have the correct label for line 3" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "ukAddress.addressLine3-container", "iht.address.line3")
+      labelShouldBe(doc, "ukAddress.addressLine3-container", "iht.address.line3")
     }
 
     "have a line 4 field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddress.addressLine4")
+      assertRenderedById(doc, "ukAddress.addressLine4")
     }
 
     "have the correct label for line 4" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "ukAddress.addressLine4-container", "iht.address.line4")
+      labelShouldBe(doc, "ukAddress.addressLine4-container", "iht.address.line4")
     }
 
     "have a country code field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "ukAddress.countryCode")
+      assertRenderedById(doc, "ukAddress.countryCode")
+    }
+
+    "not have a Cancel button" in {
+      assertNotRenderedById(doc, "cancel-button")
     }
 
     "have a link to change to a UK address" in {
-      val f = fixture()
-      val link = f.doc.getElementById("return-button")
+      val link = doc.getElementById("return-button")
+      link.attr("href") shouldBe (CommonBuilder.DefaultCall1.url)
+      link.text shouldBe messagesApi("iht.registration.changeAddressToUK")
+    }
+  }
+
+  "Deceased Address Details (outside UK) in Edit mode" must {
+
+    behave like registrationPageInEditModeWithErrorSummaryBox(editModeView, regSummaryPage)
+
+    "have a link to change to an address in the UK" in {
+      val link = editModeView.getElementById("return-button")
+
+      link.attr("href") shouldBe (addressInTheUK.url)
       link.text shouldBe messagesApi("iht.registration.changeAddressToUK")
     }
   }

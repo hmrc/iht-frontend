@@ -26,27 +26,32 @@
 regDetails:RegistrationDetails
 )(implicit request:Request[_], messages: Messages))
 
-@gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",CommonHelper.getOrException(regDetails.deceasedDetails).name),
+
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
+@deceasedNameWrapped() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)}
+
+@gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
 relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
 messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
-messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title"
+messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title",
+headingName = deceasedName
 ){
     @ihtHelpers.error_summary(giftsGivenAwayForm)
 
     @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
-    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-             CommonHelper.getDeceasedNameOrDefaultString(regDetails),
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+        deceasedNameWrapped,
              CommonHelper.getDateBeforeSevenYears(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(dateFormatForDisplay),
-             CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay))</p>
-    <p>@Messages("page.iht.application.gifts.lastYears.givenAway.p2", CommonHelper.getDeceasedNameOrDefaultString(regDetails))</p>
+             CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay)))</p>
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedNameWrapped))</p>
 
     @ihtHelpers.input_yes_no_radio_group(
     giftsGivenAwayForm("isGivenAway"),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()),
     '_divClass -> Some("form-group"),
-    '_legend -> Messages("page.iht.application.gifts.lastYears.givenAway.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedNameWrapped))
 )
 
     <div id="action-button" class="form-field form-field--submit">
@@ -55,13 +60,13 @@ messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title"
 
     @giftsGivenAwayForm.data.isEmpty match{
                 case true => {
-                                @ihtHelpers.return_link(Some(Messages("iht.estateReport.returnToEstateOverview")),
+                                @ihtHelpers.return_link(Messages("iht.estateReport.returnToEstateOverview"),
                                     Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
                                         CommonHelper.getOrException(regDetails.ihtReference))))
                                 }
                 case _ => {
                              @regDetails.deceasedDetails.map{dd=>
-                               @ihtHelpers.return_link(Some(Messages("page.iht.application.gifts.return.to.givenAwayBy", dd.name)),
+                               @ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
                                Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
                               }
                             }

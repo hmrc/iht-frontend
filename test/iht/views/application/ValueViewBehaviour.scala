@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package iht.forms.application.assets
+package iht.views.application
 
-import iht.forms.ApplicationForms._
-import iht.forms.FormTestHelper
-import iht.models.application.assets.InsurancePolicy
-import iht.models.application.debts.Mortgage
-import iht.testhelpers.CommonBuilder
-import play.api.libs.json.Json
+trait ValueViewBehaviour[A] extends ApplicationPageBehaviour[A] {
 
-class InsurancePolicyFormTest extends FormTestHelper {
-    "value" must {
-      behave like currencyValue("value", insurancePolicyForm)
+  /**
+    * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
+    */
+  def valueView() = {
+    applicationPageWithErrorSummaryBox()
+
+    "have a value input field" in {
+      Option(doc.getElementById("value")).isDefined shouldBe true
     }
-
-    "shareValue" must {
-      behave like currencyValue("shareValue", insurancePolicyForm)
-    }
-
+  }
 }

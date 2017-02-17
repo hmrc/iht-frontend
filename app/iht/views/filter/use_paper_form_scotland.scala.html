@@ -18,12 +18,13 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
+@import iht.constants.IhtProperties
 
 <p>@Messages("page.iht.filter.paperform.scotland.p1")</p>
 
 <p>
     @Messages("page.iht.filter.paperform.scotland.p2.start")
-    <a id="scottish-courts-link" href="http://www.scotcourts.gov.uk/taking-action/dealing-with-a-deceased%27s-estate-in-scotland" rel="external">
+    <a id="scottish-courts-link" href="@IhtProperties.linkScottishCourtAndTribunal" rel="external">
         @Messages("page.iht.filter.paperform.scotland.link.text")
     </a>
     @Messages("page.iht.filter.paperform.scotland.p2.end")

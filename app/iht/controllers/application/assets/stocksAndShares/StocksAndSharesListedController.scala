@@ -68,8 +68,7 @@ trait StocksAndSharesListedController extends EstateController {
         stockAndShareListedForm,
         stocks_and_shares_listed.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isListed", _.isDefined, "error.assets.stocksAndShares.listed.select"))
+        submitUrl
       )
     }
   }

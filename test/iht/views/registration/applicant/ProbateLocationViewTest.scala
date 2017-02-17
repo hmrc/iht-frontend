@@ -17,31 +17,47 @@
 package iht.views.registration.applicant
 
 import iht.forms.registration.ApplicantForms.probateLocationForm
+import iht.models.ApplicantDetails
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.probate_location
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.i18n.Messages.Implicits._
+import play.api.data.Form
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat.Appendable
 
 import scala.collection.immutable.ListMap
 
-class ProbateLocationViewTest extends RegistrationPageBehaviour {
+class ProbateLocationViewTest extends RegistrationPageBehaviour[ApplicantDetails] {
 
   override def pageTitle = messagesApi("page.iht.registration.applicant.probateLocation.title")
   override def browserTitle = messagesApi("page.iht.registration.applicant.probateLocation.browserTitle")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = probate_location(probateLocationForm, ListMap[String, String](), Call("", "")).toString
-    val doc = asDocument(view)
-  }
+  override def form:Form[ApplicantDetails] = probateLocationForm
+  override def formToView:Form[ApplicantDetails] => Appendable = form => probate_location(form, CommonBuilder.DefaultCall1)
 
   "Probate Location View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
-    "have a fieldset with the Id 'country'" in {
-      val f = fixture()
-      f.doc.getElementsByTag("fieldset").first.id shouldBe "country"
+    "have radio button" which {
+      "has a fieldset with the Id 'country'" in {
+        doc.getElementsByTag("fieldset").first.id shouldBe "country"
+      }
+
+      "includes england or wales" in {
+        radioButtonShouldBeCorrect(doc, "iht.countries.englandOrWales", "country-england_or_wales")
+      }
+
+      "includes scotland" in {
+        radioButtonShouldBeCorrect(doc, "iht.countries.scotland", "country-scotland")
+      }
+
+      "includes northern ireland" in {
+        radioButtonShouldBeCorrect(doc, "iht.countries.northernIreland", "country-northern_ireland")
+      }
     }
+
+
   }
 }

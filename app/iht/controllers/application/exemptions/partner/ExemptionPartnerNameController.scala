@@ -85,9 +85,9 @@ trait ExemptionPartnerNameController extends EstateController {
             registrationDetails = regDetails,
             applicationDetails = appDetails.copy(allExemptions = Some(appDetailsCopy)))
 
-          ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).flatMap{_ =>
-            Future.successful(Redirect(applicationDetails.kickoutReason.fold(
-              routes.PartnerOverviewController.onPageLoad())(_ => kickoutRedirectLocation)))
+          ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map{_ =>
+            Redirect(applicationDetails.kickoutReason.fold(
+              routes.PartnerOverviewController.onPageLoad())(_ => kickoutRedirectLocation))
           }
     }
   }

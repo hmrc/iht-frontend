@@ -21,6 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
@@ -104,7 +105,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display property question sub label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("page.iht.application.property.value.question.hint",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.property.value.question.hint1",
                                                       deceasedName))
     }
 

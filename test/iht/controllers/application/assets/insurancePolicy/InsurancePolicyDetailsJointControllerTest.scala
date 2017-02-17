@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -104,7 +105,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(true), shareValue = Some(20))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceJointValue)
+      val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
@@ -122,7 +123,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(true), shareValue = Some(20))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceJointValue)
+      val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
@@ -140,7 +141,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val insuranceJointValue = CommonBuilder.buildInsurancePolicy.copy(isJointlyOwned = Some(false))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceJointValue)
+      val filledInsuranceForm = insurancePolicyJointQuestionForm.fill(insuranceJointValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
@@ -175,9 +176,9 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
-      contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section2.guidance",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.insurance.policies.section2.guidance",
                                               deceasedName, deceasedName))
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question",
                                                     deceasedName))
     }
 
@@ -202,7 +203,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 
-      val filledForm = insurancePolicyForm.fill(insurancePolicyDetails)
+      val filledForm = insurancePolicyJointQuestionForm.fill(insurancePolicyDetails)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)

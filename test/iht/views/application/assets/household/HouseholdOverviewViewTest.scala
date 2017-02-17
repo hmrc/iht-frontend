@@ -17,14 +17,15 @@
 package iht.views.application.assets.household
 
 import iht.controllers.application.assets.household.routes._
-import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.household.household_overview
-import org.jsoup.nodes.Document
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
-class HouseholdOverviewViewTest extends ShareableElementOverviewViewBehaviour {
+class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   override def deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -49,35 +50,14 @@ class HouseholdOverviewViewTest extends ShareableElementOverviewViewBehaviour {
   override def jointlyOwnedValueRowId = "deceased-share-value"
   override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.household.overview.joint.value")
 
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+  override def viewWithQuestionsAnsweredNo: String = household_overview(dataWithQuestionsAnsweredNo, regDetails).toString
+  override def viewWithQuestionsAnsweredYes: String = household_overview(dataWithQuestionsAnsweredYes, regDetails).toString
+  override def viewWithQuestionsUnanswered: String = household_overview(None, regDetails).toString
+  override def viewWithValues: String = household_overview(dataWithValues, regDetails).toString
+
   "Household overview view" must {
-    behave like overviewView()
+    behave like overviewPage()
   }
 
-  "Household overview view" when {
-    "no questions have been answered" must {
-
-      behave like overviewViewWithQuestionsUnanswered()
-    }
-
-    "the questions have been answered as No" must {
-
-      behave like overviewViewWithQuestionsAnsweredNo()
-    }
-
-    "the questions have been answered as Yes with no value supplied" must {
-
-      behave like overviewViewWithQuestionsAnsweredYes()
-    }
-
-    "the questions have been answered and values given" must {
-
-      behave like overviewViewWithValues()
-    }
-  }
-
-  override def fixture(data: Option[ShareableBasicEstateElement]) = new {
-    implicit val request = createFakeRequest()
-    val view = household_overview(data, regDetails).toString
-    val doc: Document = asDocument(view)
-  }
 }

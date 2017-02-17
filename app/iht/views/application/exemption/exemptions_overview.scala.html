@@ -40,15 +40,18 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
     }
 }
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.deceasedName.title",CommonHelper.getOrException(registrationDetails.deceasedDetails).name),
+@deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
+
+@iht_main_template_application(title = Messages("page.iht.application.exemptions.deceasedName.title", deceasedName),
 browserTitle = Some(Messages("iht.estateReport.exemptions.title")),
-isFullWidth = false) {
+isFullWidth = false,
+headingName = deceasedName) {
 
 <p id="exemption-guidance1" class="lede">@Messages("page.iht.application.exemptions.guidance1")</p>
 <p id="exemption-guidance2">@Messages("iht.estateReport.completeEverySection")</p>
 
 <section id="overview-table" class="section">
-
+    <ul class="tabular-data tabular-data--list">
     @if(married) {
         @defining(exemptions.partner.flatMap(_.isComplete)) { isComplete =>
             @ihtHelpers.generic_overview_item(
@@ -68,9 +71,10 @@ isFullWidth = false) {
                         isComplete = isComplete,
                         screenreaderQualifyingText = getScreenReaderQualifyingText(
                             isComplete,
-                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.moreDetail"),
-                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.value"),
-                            Messages("page.iht.application.exemptions.overview.partner.screenReader.link.noValue"))
+                            Messages("iht.inComplete.screenreader", Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title")),
+                            Messages("iht.complete.screenreader", Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title")),
+                            Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
+                        )
             ),
             linkText = ihtHelpers.generic_overview_status_link(
                   isComplete = isComplete,
@@ -79,7 +83,8 @@ isFullWidth = false) {
                       Messages("page.iht.application.exemptions.overview.partner.screenReader.link.moreDetail"),
                       Messages("page.iht.application.exemptions.overview.partner.screenReader.link.value"),
                       Messages("page.iht.application.exemptions.overview.partner.screenReader.link.noValue"))
-                )
+                ),
+        classValueCell = "u-align--tablet-right"
             )
         }
     }
@@ -101,9 +106,10 @@ isFullWidth = false) {
                         isComplete = isComplete,
                             screenreaderQualifyingText = getScreenReaderQualifyingText(
                                 isComplete,
-                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.moreDetail"),
-                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.value"),
-                                Messages("page.iht.application.exemptions.overview.charity.screenReader.link.noValue"))
+                                Messages("iht.inComplete.screenreader", Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title")),
+                                Messages("iht.complete.screenreader", Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title")),
+                                Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"))
+                            )
             ),
             linkText = ihtHelpers.generic_overview_status_link(
               isComplete = isComplete,
@@ -112,7 +118,8 @@ isFullWidth = false) {
                   Messages("page.iht.application.exemptions.overview.charity.screenReader.link.moreDetail"),
                   Messages("page.iht.application.exemptions.overview.charity.screenReader.link.value"),
                   Messages("page.iht.application.exemptions.overview.charity.screenReader.link.noValue"))
-            )
+            ),
+            classValueCell = "u-align--tablet-right"
         )
     }
 
@@ -133,9 +140,10 @@ isFullWidth = false) {
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
-                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.moreDetail"),
-                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.value"),
-                    Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.noValue"))
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title")),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title")),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
+                )
             ),
             linkText = ihtHelpers.generic_overview_status_link(
               isComplete = isComplete,
@@ -144,10 +152,11 @@ isFullWidth = false) {
                   Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.moreDetail"),
                   Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.value"),
                   Messages("page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.noValue"))
-            )
+            ),
+        classValueCell = "u-align--tablet-right"
         )
     }
-
+    </ul>
     <div class="subsection">
         <div id="total-row" class="grid-layout grid-layout--stacked grid-layout--nogutter">
             <div class="grid-layout__column grid-layout__column--4-12">

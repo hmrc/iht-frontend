@@ -16,20 +16,16 @@
 
 package iht.views.application.tnrb
 
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_overview
-import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 
-class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class TnrbOverviewViewTest extends ViewTestHelper {
 
   val ihtReference =  "ABC"
   val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtReference))
@@ -57,7 +53,7 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
 
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
+      val view = ContentChecker.stripLineBreaks(tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString)
       view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance1",
                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance2",
@@ -66,6 +62,8 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
                              CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString ))
       view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance3"))
+      view should include(messagesApi("iht.estateReport.completeEverySection"))
+
     }
 
     "show the correct headings and all the questions text" in {
@@ -111,11 +109,8 @@ class TnrbOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar wi
 
      assertEqualsValue(doc, "li#partner-marital-status span",
         messagesApi("iht.estateReport.tnrb.partner.married",
-          CommonHelper.getDeceasedNameOrDefaultString(regDetails),
           TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-          TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel,
-                                               widowCheckModel,
-                                      messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.their"))))
+          TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)))
 
     assertEqualsValue(doc, "li#date-of-preDeceased span",
         messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",

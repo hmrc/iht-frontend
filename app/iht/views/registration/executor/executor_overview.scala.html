@@ -52,7 +52,7 @@
   <ul>
       @for(coExecutor <- coExecutors) {
       <li class="grid-layout grid-layout--maintain-width grid-layout--nogutter divider--bottom section">
-        <div class="grid-layout__column grid-layout__column--1-2">@coExecutor.name</div>
+        <div id='executorName-@coExecutor.id.getOrElse("")' class="grid-layout__column grid-layout__column--1-2">@ihtHelpers.name(coExecutor.name.toString)</div>
         <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.DeleteCoExecutorController.onPageLoad(coExecutor.id.getOrElse("")).url' id='delete-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.delete.screenReader", coExecutor.name)</span></a></div>
         <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url' id='change-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.change.screenReader", coExecutor.name)</span></a></div>
       </li>
@@ -65,7 +65,7 @@
 
         @ihtHelpers.input_yes_no_radio_group(
           addMoreCoExecutorsForm("addMoreCoExecutors"),
-          '_legend -> Some(legend),
+          '_legend -> legend,
           '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),
           '_hiddenElementYes -> Some(sectionName+ "-joint "+ sectionName+ "1-details "+ sectionName+ "2-details"),
           '_clearTargetYes -> Some(sectionName+ "1-details "+ sectionName+ "-joint "+sectionName+ "2-details " ),
@@ -75,6 +75,6 @@
   } else {
     <input type="hidden" id="addMoreCoExecutors-false" name="addMoreCoExecutors" value="false"/>
   }
-  @ihtHelpers.save_continue_button()
+  @ihtHelpers.continue_button()
 }
 }

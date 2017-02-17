@@ -17,21 +17,30 @@
 package iht.views.application.debts
 
 import iht.forms.ApplicationForms._
+import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.mortgage_value
-
+import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 /**
   * Created by vineet on 15/11/16.
   */
-class MortgageValueViewTest extends DebtsElementViewBehaviour {
+class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
                                     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
                                                             maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+
+  override def form:Form[BasicEstateElementLiabilities] = funeralExpensesForm
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => mortgage_value(mortgagesForm,
+                              CommonBuilder.buildProperty.copy(id = Some("1"), typeOfOwnership = Some("Deceased only")),
+                              iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1"),
+                              regDetails)
 
   override def pageTitle = messagesApi("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def browserTitle = messagesApi("page.iht.application.debts.mortgageValue.browserTitle")
@@ -41,15 +50,6 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour {
   override def returnLinkId = "cancel-button"
   override def returnLinkText = messagesApi("site.link.return.mortgage.overview")
   override def returnLinkTargetUrl = iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()
-
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = mortgage_value(mortgagesForm,
-                              CommonBuilder.buildProperty.copy(id = Some("1"), typeOfOwnership = Some("Deceased only")),
-                              iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1"),
-                              regDetails).toString
-    val doc = asDocument(view)
-  }
 
   "MortgageValueView" must {
     behave like debtsElement

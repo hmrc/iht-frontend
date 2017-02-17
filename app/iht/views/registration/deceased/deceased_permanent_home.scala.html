@@ -19,9 +19,9 @@
 @import iht.utils.CommonHelper
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
+@import iht.constants.FieldMappings._
 
 @(deceasedPermanentHomeForm:Form[iht.models.DeceasedDetails],
-domicileDropdown: scala.collection.immutable.ListMap[String, String],
 actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.deceasedPermanentHome.title"),
@@ -36,7 +36,7 @@ actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Requ
 <div id="domicile-container">
     @ihtHelpers.input_radio_group(
     deceasedPermanentHomeForm("domicile"),
-    domicileDropdown.toSeq,
+    domicileMap.toSeq,
     '_fieldsetId -> "country",
     '_groupClass -> "form-group  form-label",
     '_labelClass -> "block-label",
@@ -44,7 +44,7 @@ actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Requ
     '_legend -> Html(Messages("page.iht.registration.deceasedPermanentHome.title")),
     '_legendClass -> "visually-hidden")
 </div>
-    @ihtHelpers.save_continue_button()
+    @ihtHelpers.continue_button()
     }
 
 }

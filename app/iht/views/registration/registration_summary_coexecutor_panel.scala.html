@@ -22,15 +22,15 @@
 @import iht.constants.IhtProperties
 
 @(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages)
-<section class="section">
+<section class="section tabular-data">
   <h2 class="heading-medium additionalExecutorHeader">
       @Messages("iht.registration.othersApplyingForProbate")
   </h2>
   <div class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-    <div class="tabular-data__heading tabular-data__data-1--2-col">
+    <div class="tabular-data__data tabular-data__data--10-12">
       @Messages("page.iht.registration.registrationSummary.coExecutorTable.others-are-applying.text")
     </div>
-    <div class="tabular-data__data-2">
+    <div class="tabular-data__data tabular-data__data--2-12">
       <a href="@{iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview}#answer" id="change-others-applying-for-probate">
         <span aria-hidden="true">@Messages("iht.change")</span>
         <span class="visually-hidden"> @Messages("iht.registration.coExecutors.changeIfOthers")</span>
@@ -48,15 +48,19 @@
   @for(i <- (0 to (coExecutors.length - 1))) {
   @defining(coExecutors(i)) { coExecutor =>
   @defining(CommonHelper.getOrException(coExecutor.id, "CoExecutor Id could not be found") ) { id =>
-    <section class="subsection">
-      <h3 class='heading-medium'>@Messages("page.iht.registration.registrationSummary.coExecutorTable.sectionTitle", i + 1)</h3>
-        <ul>
 
+    <section class="subsection">
+      <h3 class='heading-medium'>
+          @Html(Messages(
+            "site.nameDetails",
+            ihtHelpers.name(coExecutor.firstName + " " + coExecutor.lastName).toString)
+          )
+        </h3>
+        <ul class="tabular-data tabular-data--list">
 
         @ihtHelpers.summary_item(
             label = Messages("iht.name.upperCaseInitial"),
-            data = (String.format(coExecutor.firstName
-            + "%n" + coExecutor.lastName)),
+            data = ihtHelpers.name(coExecutor.firstName + " \n" + coExecutor.lastName).toString,
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#firstName",
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader", coExecutor.name),

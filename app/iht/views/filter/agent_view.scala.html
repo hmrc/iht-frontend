@@ -19,6 +19,7 @@
 @import iht.constants.FieldMappings
 @import iht.constants.Constants._
 @import iht.forms.FilterForms._
+@import iht.constants.IhtProperties
 
 @()(implicit request:Request[_], messages: Messages)
 
@@ -30,7 +31,7 @@
   <p id="agent-content">@Messages("page.iht.filter.agent.content")</p>
 
   <p>
-    <a href="https://www.gov.uk" id="exit" class="button"> @Messages("iht.exitToGovUK")</a>
+    <a href="@IhtProperties.linkExitToGovUKIHTForms" id="exit" class="button"> @Messages("iht.exitToGovUK")</a>
   </p>
   <p>
     <a href="@iht.controllers.filter.routes.FilterController.onPageLoad().url" id="back"> @Messages("iht.back")</a>

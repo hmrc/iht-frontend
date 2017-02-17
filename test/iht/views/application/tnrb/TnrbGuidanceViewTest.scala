@@ -16,17 +16,13 @@
 
 package iht.views.application.tnrb
 
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_guidance
-import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 
-class TnrbGuidanceViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class TnrbGuidanceViewTest extends ViewTestHelper {
 
   "tnrb guidance page" must {
 

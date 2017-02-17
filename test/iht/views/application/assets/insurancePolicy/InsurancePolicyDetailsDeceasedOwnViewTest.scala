@@ -18,20 +18,28 @@ package iht.views.application.assets.insurancePolicy
 
 import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
+import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_deceased_own
 import play.api.i18n.Messages.Implicits._
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
-class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputViewBehaviour{
+class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[InsurancePolicy]{
 
     lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
+  override def form:Form[InsurancePolicy] = insurancePolicyDeceasedOwnQuestionForm
+  override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_deceased_own(form, regDetails)
+
     override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
     override def browserTitle = messagesApi("page.iht.application.insurance.policies.section1.browserTitle")
-    override def questionTitle = messagesApi(messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
-    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
+    override def questionTitle = messagesApi(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
+    override def valueQuestion = messagesapi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
     override def hasValueQuestionHelp = false
     override def valueQuestionHelp = ""
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")
@@ -41,23 +49,14 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputVie
       behave like yesNoValueView
 
       "show the correct guidance" in {
-        val f = fixture()
-        messagesShouldBePresent(f.view,
+        messagesShouldBePresent(view,
           messagesApi("page.iht.application.insurance.policies.section1.guidance", deceasedName, deceasedName))
       }
 
       "show the value question in bold " in {
-        val f = fixture()
-
-        val label = f.doc.getElementById("value-container")
+        val label = doc.getElementById("value-container")
         label.getElementsByTag("span").hasClass("form-label bold")
       }
-    }
-
-    override def fixture() = new {
-      implicit val request = createFakeRequest()
-      val view = insurance_policy_details_deceased_own(insurancePolicyForm, regDetails).toString
-      val doc = asDocument(view)
     }
 
 }

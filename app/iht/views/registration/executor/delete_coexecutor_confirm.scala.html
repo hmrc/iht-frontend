@@ -19,6 +19,7 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.constants.IhtProperties
+@import iht.utils.CommonHelper
 
 @iht_main_template_registration(title = Messages("page.iht.registration.deleteExecutor.title", Messages("page.iht.registration.executor-overview.entity-name")),
  browserTitle = Some(Messages("page.iht.registration.deleteExecutor.browserTitle")),
@@ -31,27 +32,15 @@
 
   <input class='hidden'/>
   <div class="panel-indent">
-    <h2 class="heading-24">@coExecutor.name</h2>
+      <p>@ihtHelpers.name(coExecutor.name.toString)</p>
+
       @coExecutor.ukAddress.map { addr =>
-        @addr.ukAddressLine1<br/>
-        @addr.ukAddressLine2<br/>
-        @if(addr.ukAddressLine3) {
-          @addr.ukAddressLine3<br/>
-        }
-        @if(addr.ukAddressLine4) {
-          @addr.ukAddressLine4<br/>
-        }
-        @if(addr.postCode.trim.length > 0) {
-          @addr.postCode<br/>
-        }
-        @if(addr.countryCode != IhtProperties.ukIsoCountryCode) {
-          @addr.countryCode
-        }
+        @CommonHelper.addressLayout(addr)
     }
   </div>
   <div class="form-field form-field--submit">
-  <input class='button' type='submit' value='@Messages("site.button.confirmDelete")'>
+  <input id="confirm-delete" class='button' type='submit' value='@Messages("site.button.confirmDelete")'>
 </div>
-  <a href='@iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad()'>@Messages("iht.back")</a>
+  <a id="cancel" href='@iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad()'>@Messages("site.link.cancel")</a>
 }
 }

@@ -17,7 +17,9 @@
 package iht.controllers.registration
 
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
+import iht.constants.IhtProperties
 import iht.models.QuestionnaireModel
+import iht.utils.IhtSection
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -40,7 +42,7 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
 
   // Create controller object and pass in mock.
   def questionnaireController = new RegistrationQuestionnaireController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = createFakeAuthConnector()
     override val isWhiteListEnabled = false
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
@@ -56,19 +58,6 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
   }
 
   "onApplicationPageLoad method" must {
-
-    "redirect to GG login page on onPageLoad if the user is not logged in" in {
-      val result = questionnaireControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
-    }
-
-    "redirect to GG login page on Submit if the user is not logged in" in {
-      val result = questionnaireControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
-    }
-
     "respond with OK and correct header title on page load" in {
       val result = questionnaireController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
@@ -78,7 +67,7 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
     "respond with redirect on page submit" in {
       val result = questionnaireController.onSubmit()(createFakeRequest())
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(iht.controllers.routes.IhtMainController.signOut().url))
+      redirectLocation(result) should be (Some(IhtProperties.linkGovUkIht))
     }
 
     "set up instance for explicit audit connector" in {
@@ -92,6 +81,24 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
 
       val result = questionnaireController.onSubmit()(request)
       status(result) should be(BAD_REQUEST)
+    }
+  }
+
+  "guardConditions" must {
+    "be empty" in {
+      questionnaireController.guardConditions shouldBe Set.empty
+    }
+  }
+
+  "ihtSection" must {
+    "Registration" in {
+      questionnaireController.ihtSection shouldBe IhtSection.Registration
+    }
+  }
+
+  "callPageLoad" must {
+    "redirect to RegistrationQuestionnaireController onPageLoad" in {
+      questionnaireController.callPageLoad shouldBe iht.controllers.registration.routes.RegistrationQuestionnaireController.onPageLoad()
     }
   }
 }

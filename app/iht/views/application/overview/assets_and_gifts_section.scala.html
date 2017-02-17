@@ -25,7 +25,7 @@
 
     <h2 class="divider--bottom @if(!model.behaveAsIncreasingTheEstateSection) {visually-hidden}">@Messages("page.iht.application.estateOverview.totalAddedToTheEstateValue")</h2>
 
-    <ul class="tabular-data">
+    <ul class="tabular-data tabular-data--list">
         @overview_item(model.assetRow, Some("divider--bottom"))
         @overview_item(model.giftRow)
     </ul>

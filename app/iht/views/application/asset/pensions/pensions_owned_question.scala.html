@@ -25,10 +25,14 @@
 @(pensionsOwnedQuestionForm: Form[PrivatePension],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
-@iht_main_template_application(title = Messages("page.iht.application.pensions.isOwned.title",
-                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
-browserTitle = Some(Messages("page.iht.application.pensions.isOwned.browserTitle")),
-isFullWidth=false){
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+
+@iht_main_template_application(
+    title = Messages("page.iht.application.pensions.isOwned.title",deceasedName),
+    browserTitle = Some(Messages("page.iht.application.pensions.isOwned.browserTitle")),
+    isFullWidth=false,
+    headingName = deceasedName
+){
     @ihtHelpers.error_summary_override_keys(pensionsOwnedQuestionForm, Constants.AppSectionPrivatePension)
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
@@ -45,9 +49,11 @@ isFullWidth=false){
           </div>
 
 
-        @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)),
-        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
-        }
+
+        @ihtHelpers.return_link(
+            Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(deceasedName)),
+            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad())
+        )
+
 }
 }

@@ -26,6 +26,8 @@
 registrationDetails: RegistrationDetails
 )(implicit request:Request[_], messages: Messages)
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.assets.stocksAndSharesNotListed"),
     browserTitle = Some(Messages("page.iht.application.assets.stocksAndSharesNotListed.browserTitle")),
     isFullWidth=false) {
@@ -35,8 +37,7 @@ registrationDetails: RegistrationDetails
     @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onSubmit(),'autoComplete -> "off") {
 
         @ihtHelpers.input_yes_no_radio_group(stockAndSharesNotListed("isNotListed"),
-            '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.notListed.question",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
+            '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName)),
             '_shownElementNo -> None,
             '_shownElementYes -> Some("stocks-and-shares-value"),
             '_hiddenElementYes -> None,
@@ -62,6 +63,6 @@ registrationDetails: RegistrationDetails
         <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }
-    @ihtHelpers.return_link(Some(Messages("site.link.return.stocksAndShares")), Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(Messages("site.link.return.stocksAndShares"), Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()))
 
 }

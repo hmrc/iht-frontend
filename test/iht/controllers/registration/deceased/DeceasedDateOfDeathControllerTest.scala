@@ -34,7 +34,7 @@ import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
-class DeceasedDateOfDeathTest extends RegistrationControllerTest {
+class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
   lazy val defaultReferrerURL="http://localhost:9070/inheritance-tax"
   lazy val defaultHost="localhost:9070"
@@ -158,45 +158,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
     }
 
-    "contain Continue button when Page is loaded in normal mode" in {
-      setupMocks
-      val referrerURL="http://localhost:9070/inheritance-tax"
-      val host="localhost:9070"
-      val result =controller.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,
-        host=host))
-
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should not include(messagesApi("site.link.cancel"))
-    }
-
-    "contain Continue and Cancel button when Page is loaded in edit mode" in {
-      val referrerURL = "http://localhost:9070/inheritance-tax/registration/editDeceasedDateOfDeath"
-      val host = "localhost:9070"
-
-      val deceasedDateOfDeath=CommonBuilder.buildDeceasedDateOfDeath
-      val applicantDetails=CommonBuilder.buildApplicantDetails
-      val deceasedDetails=CommonBuilder.buildDeceasedDetails
-
-      val registrationDetails=CommonBuilder.buildRegistrationDetails copy (deceasedDateOfDeath=Some
-        (deceasedDateOfDeath),applicantDetails=Some(applicantDetails),deceasedDetails=Some(deceasedDetails))
-
-      implicit val requestWithHeaders = FakeRequest().withHeaders(("referer",referrerURL),("host",host))
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-
-      val result =controller.onEditPageLoad(createFakeRequestWithReferrer(referrerURL=referrerURL,
-        host=host))
-
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.deceasedDateOfDeath.title"))
-
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should include(messagesApi("site.link.cancel"))
-    }
-
-    "respond with OK" in new {
+    "respond with OK" in new WithApplication(FakeApplication()) {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2011,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -214,7 +176,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
     }
 
     "return to Reg Summary Page after submit when ApplicantDetails are edited from " +
-      "Reg Summary Page" in {
+      "Reg Summary Page" in new WithApplication(FakeApplication()){
       val referrerURL="http://localhost:9070/inheritance-tax/registration/registrationSummary/focusElementId?"
       val host="localhost:9070"
 
@@ -241,7 +203,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
 
     }
 
-    "respond with bad request on incorrect form data" in {
+    "respond with bad request on incorrect form data" in new WithApplication(FakeApplication()) {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2011,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (maritalStatus=Some("Single"))
@@ -259,7 +221,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       status(result) shouldBe(400)
     }
 
-    "redirect when store registration return empty elements" in {
+    "redirect when store registration return empty elements" in new WithApplication(FakeApplication()) {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -276,7 +238,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       status(result) shouldBe SEE_OTHER
     }
 
-    "redirect to DeceasedDetals when there is no prefilled data" in {
+    "redirect to DeceasedDetals when there is no prefilled data" in new WithApplication(FakeApplication()) {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), None, None)
 
@@ -290,7 +252,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       status(result) shouldBe SEE_OTHER
     }
 
-    "respond when incorrect date" in {
+    "respond when incorrect date" in new WithApplication(FakeApplication()) {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(1985,11, 11))
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), None, None)
       val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeath)
@@ -309,7 +271,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       status(result) shouldBe(SEE_OTHER)
     }
 
-    "onEditSubmit" in {
+    "onEditSubmit" in new WithApplication(FakeApplication()) {
       val deceasedDateOfDeath = DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val deceasedDateOfDeathChanged = DeceasedDateOfDeath(new LocalDate(2011,11, 11))
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -342,7 +304,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
     }
 
     "onEditSubmit where date of birth comes after date of death " +
-      "produces validation error" in {
+      "produces validation error" in new WithApplication(FakeApplication()) {
       val deceasedDateOfDeath = DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val deceasedDateOfDeathChanged = DeceasedDateOfDeath(new LocalDate(2011,11, 11))
       val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (dateOfBirth = Some(new LocalDate(2012,12,12)))
@@ -371,7 +333,7 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       status(result) shouldBe BAD_REQUEST
     }
 
-    "compareDateOfBirthToDateOfDeath compares correctly" in {
+    "compareDateOfBirthToDateOfDeath compares correctly" in new WithApplication(FakeApplication()) {
       val deceasedDateOfDeathChanged = DeceasedDateOfDeath(new LocalDate(2011,4, 1))
       val form = deceasedDateOfDeathForm.fill(deceasedDateOfDeathChanged)
       val result = controller.compareDateOfBirthToDateOfDeath(form,
@@ -406,22 +368,26 @@ class DeceasedDateOfDeathTest extends RegistrationControllerTest {
       }
     }
 
-    "redirect to kickout page if KickoutDeceasedDateOfDeathDateOther conditions apply to onEditSubmit" in {
+    "redirect to kickout page if KickoutDeceasedDateOfDeathDateOther conditions apply to onEditSubmit" in
+      new WithApplication(FakeApplication()) {
       ensureRedirectOnKickout(new LocalDate(2010, 1, 1), KickoutDeceasedDateOfDeathDateOther,
         controller.onEditSubmit)
     }
 
-    "redirect to kickout page if KickoutDeceasedDateOfDeathDateCapitalTax conditions apply to onEditSubmit" in {
+    "redirect to kickout page if KickoutDeceasedDateOfDeathDateCapitalTax conditions apply to onEditSubmit" in
+      new WithApplication(FakeApplication()) {
       ensureRedirectOnKickout(new LocalDate(1985, 1, 1), KickoutDeceasedDateOfDeathDateCapitalTax,
         controller.onEditSubmit)
     }
 
-    "redirect to kickout page if KickoutDeceasedDateOfDeathDateOther conditions apply to onSubmit" in {
+    "redirect to kickout page if KickoutDeceasedDateOfDeathDateOther conditions apply to onSubmit" in
+      new WithApplication(FakeApplication()) {
       ensureRedirectOnKickout(new LocalDate(2010, 1, 1), KickoutDeceasedDateOfDeathDateOther,
         controller.onSubmit)
     }
 
-    "redirect to kickout page if KickoutDeceasedDateOfDeathDateCapitalTax conditions apply to onSubmit" in {
+    "redirect to kickout page if KickoutDeceasedDateOfDeathDateCapitalTax conditions apply to onSubmit" in
+      new WithApplication(FakeApplication()) {
       ensureRedirectOnKickout(new LocalDate(1985, 1, 1), KickoutDeceasedDateOfDeathDateCapitalTax,
         controller.onSubmit)
     }

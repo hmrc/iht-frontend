@@ -26,15 +26,7 @@
 </ul>
 <p>@Messages("page.iht.private.beta.landing.page.can.use.info1")</p>
 
-<h2 class="form-label-bold">@Messages("page.iht.private.beta.landing.page.can.use.title")</h2>
-<p>@Messages("page.iht.private.beta.landing.page.can.use.p1")</p>
-<ul class="bullets">
-    <li>@Messages("page.iht.private.beta.landing.page.can.use.bullet1")</li>
-    <li>@Messages("page.iht.private.beta.landing.page.can.use.bullet2")</li>
-    <li>@Messages("page.iht.private.beta.landing.page.can.use.bullet3")</li>
-    <li>@Messages("page.iht.private.beta.landing.page.can.use.bullet4")</li>
-    <li>@Messages("page.iht.private.beta.landing.page.can.use.bullet5")</li>
-</ul>
+
 <p>
     @Messages("page.iht.private.beta.landing.page.can.use.info2")
     <a href='@iht.controllers.pdf.routes.GuidancePDFController.loadPDF().url'>
@@ -43,39 +35,10 @@
     @Messages("page.iht.private.beta.landing.page.can.use.info2.afterlink")
 </p>
 
-@ihtHelpers.accordion_slider_help_text(
-'_helpText -> Messages("page.iht.private.beta.landing.page.cant.use.title"),
-'_slideOutText -> Html(Messages("page.iht.private.beta.landing.page.cant.use.p1") +
-
-"<ul class='bullets'>" +
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet1")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet2")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet3")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet4")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet5")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet6")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet7")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet8")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet9")+"</li>"+
-    "<li>"+Messages("page.iht.private.beta.landing.page.cant.use.bullet10")+"</li>"+
-"</ul>"+
-"<p>" + Messages("page.iht.private.beta.landing.page.cant.use.info") +" <a href='https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400'>" + Messages("page.iht.private.beta.landing.page.cant.use.info.link") + "</a>.</p>"+
-"<p>" + Messages("page.iht.private.beta.landing.page.cant.use.info2") + "</p>"
-))
-<h2>@Messages("page.iht.private.beta.landing.page.start.title")</h2>
-<p>@Messages("page.iht.private.beta.landing.page.start.p1")</p>
-
-<ol>
-    <li>@Messages("page.iht.private.beta.landing.page.start.bullet1")</li>
-    <li>@Messages("page.iht.private.beta.landing.page.start.bullet2") <a href='https://www.gov.uk/valuing-estate-of-someone-who-died'>@Messages("page.iht.private.beta.landing.page.start.bullet2.link")</a>@Messages("page.iht.private.beta.landing.page.start.bullet2.afterlink")</li>
-</ol>
-
-<p>
-    <a href="@iht.controllers.routes.PrivateBetaLandingPageController.start(p)" id="iht-registration" class="button button--get-started">
-        @Messages("page.iht.private.beta.landing.page.start.button")
+<div class="form-field form-field--submit">
+    <a href="@iht.controllers.routes.PrivateBetaLandingPageController.start(p)" id="iht-registration" class="button">
+        @Messages("iht.continue")
     </a>
-</p>
-
-<a id="iht-home" href='@iht.controllers.home.routes.IhtHomeController.onPageLoad()'>@Messages("page.iht.private.beta.landing.page.return.link")</a>
+</div>
 
 }

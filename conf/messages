@@ -1,5 +1,4 @@
 #Across Site
-
 site.pdf.document.link.text = PDF document
 iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off.
 site.copyApplication.link = copy of the application
@@ -57,7 +56,6 @@ site.noDebts = No debts owed
 site.noAssets = No assets
 site.noAssetsLeft = No assets left
 site.noMortgage = No mortgage
-site.threshold.value = 325,000
 site.threshold.value.display = £325,000.00
 site.tnrb.value = 650,000
 site.tnrb.value.display = £650,000.00
@@ -67,8 +65,8 @@ site.return.inheritance.tax.estate.report.link = Return to Your Inheritance Tax 
 site.previous = Previous
 site.backToLastPage.link = Return to last page
 site.backToLastQuestion.values.link = Return to gift values
+site.nameDetails = {0}’s details
 
-site.changeInput = Change value
 site.changeName = Change name
 site.changeDate = Change date
 site.noCharityNameGiven = No charity name given
@@ -78,6 +76,13 @@ site.noCharityNameAndNumberGiven = No charity name and number given
 site.headers.overview.section = Section
 site.headers.overview.values = Information Provided
 site.headers.overview.action = Action
+
+iht.notStarted = Not started
+iht.notStarted.screenreader = {0} is not started
+iht.inComplete = Incomplete
+iht.inComplete.screenreader = {0} is incomplete
+iht.complete = Complete
+iht.complete.screenreader = {0} is complete
 
 iht.address.line1 = Address line 1
 iht.address.line2 = Address line 2
@@ -89,9 +94,6 @@ iht.address.upperCaseInitial = Address
 iht.back = Back
 iht.change = Change
 iht.continue = Continue
-iht.notStarted = NOT STARTED
-iht.inComplete = INCOMPLETE
-iht.complete = COMPLETE
 iht.countries.englandOrWales = England or Wales
 iht.countries.northernIreland = Northern Ireland
 iht.countries.scotland = Scotland
@@ -103,7 +105,8 @@ iht.dateofbirth = Date of birth
 iht.delete = Delete
 iht.finishAndDeleteThisEstateReport = Finish and delete this estate report
 iht.the.deceased = the deceased
-iht.ifYouWantToChangeYOurAnswer = If you want to change your answer
+iht.ifYouWantToChangeYourAnswer = If you want to change your answer
+iht.ifYouWantToChangeValue =  If you want to change the value
 iht.exitToGovUK = Exit to GOV.UK
 iht.firstName = First name
 iht.firstName.hint = You don’t need to give any middle names
@@ -125,18 +128,18 @@ iht.no = No
 iht.noChangeToHowReportToHMRC = There’s no change to how you report to HMRC
 iht.notPossibleToUseService = It’s not possible for you to use this service
 iht.postcode = Postcode
-
 iht.returnToLastQuestion = Return to last question
-iht.roughEstimateEstateWorth = Using a rough estimate of any houses or money in bank accounts that the deceased might have owned, how much do you think the deceased’s estate is worth?
+iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank accounts that the deceased might’ve owned, how much do you think the deceased’s estate is worth?
 iht.saveAndContinue = Save and continue
-iht.shouldUseOnlineService = You should use the online service
-iht.signedOut = You’ve been signed out
+iht.shouldUseOnlineService = You must use the online service
+iht.signedOut = You have been signed out
+iht.signInAgain = Sign in again
 iht.start = Start
 iht.startAgain = Start again
-iht.timeout.p1 = For your security, we signed you out because you didn’t continue the service for 15 minutes or more.
+iht.timeout.p1 = For your security, we signed you out because you didn’t continue the service for 30 minutes or more.
 iht.timeout.signBackToGG = Sign back in to Government Gateway
-iht.useIHT400PaperForm = You should use an IHT-400 paper form
-iht.usePaperForm = You should use a paper form
+iht.useIHT400PaperForm = You must use an IHT-400 paper form
+iht.usePaperForm = You must use a paper form
 iht.viewOrChange = View or change
 iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
@@ -144,52 +147,16 @@ iht.comma = ,
 iht.fullStop = .
 
 #Private Beta landing page
-page.iht.private.beta.landing.page.intro.title = Inheritance Tax Online
+page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report
 page.iht.private.beta.landing.page.intro.p1 = Use this service to:
 page.iht.private.beta.landing.page.intro.bullet1 = start the process in applying to the Probate Service for a
 page.iht.private.beta.landing.page.intro.bullet1.link = grant of representation
 page.iht.private.beta.landing.page.intro.bullet2 = tell HM Revenue and Customs (HMRC) about a person’s estate
 
-page.iht.private.beta.landing.page.can.use.title = Before you start
-page.iht.private.beta.landing.page.can.use.p1 = You can use this service if:
-page.iht.private.beta.landing.page.can.use.bullet1 = the person died on or after 6 April 2011
-page.iht.private.beta.landing.page.can.use.bullet2 = you’re an executor or administrator of the estate
-page.iht.private.beta.landing.page.can.use.bullet3 = you’re applying for probate in England or Wales
-page.iht.private.beta.landing.page.can.use.bullet4 = the person who has died had their permanent home in England or Wales
-page.iht.private.beta.landing.page.can.use.bullet5 = you already know that there’s no Inheritance Tax to pay - if you haven’t calculated the value of the estate, you’ll be able to do this using this service
-
-page.iht.private.beta.landing.page.can.use.info1 = You can only apply to the Probate Service when you have finished Inheritance Tax Online. This is because you’ll need details from Inheritance Tax Online to finish your Probate Application Form.
+page.iht.private.beta.landing.page.can.use.info1 = You can only apply to the Probate Service when you have finished the estate report. This is because you’ll need details from the estate report to finish your PA1 - Probate application.
 page.iht.private.beta.landing.page.can.use.info2 = HMRC suggest that you
 page.iht.private.beta.landing.page.can.use.info2.link = read the Inheritance Tax guidance notes
-page.iht.private.beta.landing.page.can.use.info2.afterlink = which give more detail on how to correctly complete an Inheritance Tax estate report.
-
-page.iht.private.beta.landing.page.cant.use.title = I’ve already calculated the value of the estate
-page.iht.private.beta.landing.page.cant.use.p1 = You won’t be able to use Inheritance Tax Online if:
-page.iht.private.beta.landing.page.cant.use.bullet1 = there’s Inheritance Tax to pay
-page.iht.private.beta.landing.page.cant.use.bullet2 = the deceased had the right to benefit from more than one trust or a trust was worth more than £150,000
-page.iht.private.beta.landing.page.cant.use.bullet3 = the estate had any insurance policies that had an annuity attached to them
-page.iht.private.beta.landing.page.cant.use.bullet4 = the deceased had a private pension that they changed, or disposed of any part of, in the 2 years before they died
-page.iht.private.beta.landing.page.cant.use.bullet5 = the deceased had foreign assets worth more than £150,000
-page.iht.private.beta.landing.page.cant.use.bullet6 = the deceased gave a gift away in the 7 years before they died that they then benefitted from
-page.iht.private.beta.landing.page.cant.use.bullet7 = a house, building or land was given away to a trust in the 7 years before the deceased died
-page.iht.private.beta.landing.page.cant.use.bullet8 = any gift was given away by the deceased in the 7 years before they died that was not a house, building, land, money, stocks and shares listed on a stock exchange, or household or personal items
-page.iht.private.beta.landing.page.cant.use.bullet9 = the deceased gave away gifts worth over £150,000 in total in the 7 years before they died
-page.iht.private.beta.landing.page.cant.use.bullet10 = the total value of assets in the estate and gifts given away by the deceased in the 7 years before they died is over £1 million
-
-page.iht.private.beta.landing.page.cant.use.info = If any of these apply to the estate then you must
-page.iht.private.beta.landing.page.cant.use.info.link = complete an Inheritance Tax account (IHT 400) paper form
-page.iht.private.beta.landing.page.cant.use.info2 = If you’ve already calculated the value of the estate and know that you can use the Inheritance Tax online service, you’ll need to provide details of all assets, gifts and debts first. This is before you can claim any estate exemptions or transfer any unused nil rate band of the deceased’s previous spouse or civil partner if that person died first.
-
-page.iht.private.beta.landing.page.start.title = Getting started
-page.iht.private.beta.landing.page.start.p1 = You’ll need to sign in to Government Gateway using your user ID and password.
-
-page.iht.private.beta.landing.page.start.bullet1 = To start, you’ll need to register to use Inheritance Tax Online and tell HMRC about both yourself and who has died. You’ll also need to tell HMRC about anyone else who is applying to the Probate Service. You’ll need personal details for everyone, including National Insurance numbers.
-page.iht.private.beta.landing.page.start.bullet2 = You’ll need to tell HMRC about the deceased’s estate. This will include what they owned when they died, any gifts given away in the 7 years before they died and any debts owed from the estate. The service will calculate the total value of the estate. This will be the value of assets and gifts to begin with and you’ll
-page.iht.private.beta.landing.page.start.bullet2.link = need to provide valuations of what the deceased owned and owed
-page.iht.private.beta.landing.page.start.bullet2.afterlink = . You can save your progress and continue at any time.
-page.iht.private.beta.landing.page.start.button = Start now
-
-page.iht.private.beta.landing.page.return.link = Continue an Inheritance Tax estate report
+page.iht.private.beta.landing.page.can.use.info2.afterlink = which give more detail on how to correctly complete an estate report.
 
 #Pre registration filtering
 page.iht.filter.agent.content = There’s no change to how agents report estate values to HMRC. You should continue to use either an IHT-205 or an IHT-400 paper form.
@@ -210,28 +177,28 @@ page.iht.filter.estimate.choice.over = More than £1 million
 page.iht.filter.previous.answers = Previous answers
 
 page.iht.filter.paperform.scotland.p1 = Reporting the estate value in Scotland is completed by using a paper form.
-page.iht.filter.paperform.scotland.p2.start = You should read the
-page.iht.filter.paperform.scotland.p2.end = to find out what form you should use in Scotland.
+page.iht.filter.paperform.scotland.p2.start = You can read the
+page.iht.filter.paperform.scotland.p2.end = to find out what forms to use in Scotland.
 page.iht.filter.paperform.scotland.link.text = Scottish Courts and Tribunals guidance
 
 page.iht.filter.paperform.northern.ireland.p1 = Reporting the estate value in Northern Ireland is completed by using a paper form.
-page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already know that the estate has Inheritance Tax to pay, you should complete the
-page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you aren’t sure of the estate value, you should start filling in the
+page.iht.filter.paperform.northern.ireland.p2.sentence1.start = If you already know that the estate has Inheritance Tax to pay, complete the
+page.iht.filter.paperform.northern.ireland.p2.sentence2.start = If you aren’t sure of the estate value, start filling in the
 page.iht.filter.paperform.northern.ireland.p2.sentence2.end = first.
 page.iht.filter.paperform.northern.ireland.p3 = You can read more about applying for probate in Northern Ireland on
 page.iht.filter.paperform.northern.ireland.iht205.link.text = IHT-205 form
 page.iht.filter.paperform.northern.ireland.nidirect.link.text = NIDIRECT.GOV.UK
 
-page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is completed by filling in an
-page.iht.filter.paperform.other.country.p1.sentence2.start = You should also fill in an
+page.iht.filter.paperform.other.country.p1.sentence1.start = Reporting the estate value when the deceased had their permanent home outside of the UK is done by filling in an
+page.iht.filter.paperform.other.country.p1.sentence2.start = You must also fill in an
 page.iht.filter.paperform.other.country.p2 = Only assets that are in the UK should be included. This includes any UK property or bank accounts.
 page.iht.filter.paperform.other.country.iht401.link.text = IHT-401 paper form
 
 page.iht.filter.paperform.million.p1 = Because you think the deceased’s estate might be worth more than £1 million, you’ll need to report their estate value by filling in an
-page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to provide and will tell you if there is an Inheritance Tax to pay.
-page.iht.filter.paperform.million.exit = Exit to IHT-400 paper form
+page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to give and will tell you if there is any Inheritance Tax to pay.
+page.iht.filter.paperform.million.exit = Exit to the IHT-400 form
 
-page.iht.filter.paperform.iht400.link.text = IHT-400 paper form
+page.iht.filter.paperform.iht400.link.text = IHT-400 form
 
 page.iht.filter.useService.under325000.paragraph0 = Because you think the deceased’s estate might be worth under £325,000, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
 page.iht.filter.useService.paragraphFinal = You’ll need to register to use the service first, but before that, you’ll need to confirm who you are with HMRC.
@@ -245,7 +212,7 @@ iht.registration.checkYourAnswers = Check your answers
 iht.registration.coExecutors.changeIfOthers = Change if other people are applying for probate
 iht.registration.complete = Registration complete
 iht.registration.contactAddress = Contact address
-iht.registration.ninoNotOnPayslip = Their National Insurance number could be found on a payslip.
+iht.registration.ninoNotOnPayslip = Their National Insurance number can be found on a payslip, a P45 or a P60 form.
 iht.registration.othersApplyingForProbate = Other people applying for probate
 page.iht.registration.title = Registration
 
@@ -254,30 +221,30 @@ page.iht.registration.checklist.revealText = How to find these details
 page.iht.registration.checklist.startRegistrationButton = Start registration
 page.iht.registration.checklist.leaveLink = Leave this page to get all of the details you need
 page.iht.registration.checklist.title = Before you start registration
-page.iht.registration.checklist.label1 = You’ll need to have all of the details listed below before you start registration.
-page.iht.registration.checklist.label2 = There’s no way to save your progress until you’ve entered all of the details, so only start registration once you’ve got everything you’ll need.
-page.iht.registration.checklist.label3 = You’ll have 15 minutes to complete each page but it should take you no more than 30 minutes to finish all of registration.
+page.iht.registration.checklist.label1 = You’ll need to have all of the details listed below before you start.
+page.iht.registration.checklist.label2 = There’s no way to save your progress until you have given all of these details, so only start once you have everything you’ll need.
+page.iht.registration.checklist.label3 = It should take you no more than 30 minutes to finish all of registration.
 page.iht.registration.checklist.deceased.title = The deceased is the person who has died. You’ll need their:
 page.iht.registration.checklist.deceased.label3 = date of death
 page.iht.registration.checklist.deceased.label5 = last known contact address
 page.iht.registration.checklist.deceased.label6 = country where they had their permanent home – you can only use this service if the deceased lived in England or Wales
 page.iht.registration.checklist.deceased.label7 = relationship status
-page.iht.registration.checklist.deceased.reveal.label1 = The deceased’s first and last name will be on the death certificate. If you didn’t know the deceased, you might want to ask their family or friends for some details if you don’t have them.
-page.iht.registration.checklist.deceased.reveal.label2 = The last known contact address is where they had their post sent before they died. This could be to a home that that owned or where they last lived.
-page.iht.registration.checklist.deceased.reveal.label4 = The deceased’s relationship status should be taken from their actual situation when they died, not what they, or someone else, might have thought it to be. If the deceased said they were single but they had been married at some time in their life and then divorced, you should select divorced.
+page.iht.registration.checklist.deceased.reveal.label1 = The deceased’s first and last name will be on the death certificate. If you didn’t know the deceased, ask their family or friends for some details if you don’t have them.
+page.iht.registration.checklist.deceased.reveal.label2 = The last known contact address is where they had their post sent before they died. This could be to a home that they owned or where they last lived.
+page.iht.registration.checklist.deceased.reveal.label4 = The deceased’s relationship status is their actual situation when they died, not what they, or someone else, might have thought it to be. If the deceased said they were single but they had been married at some time in their life and then divorced, you should select divorced.
 
 page.iht.registration.checklist.applicant.title = You’ll need your:
 page.iht.registration.checklist.applicant.label4 = choice of country for where you’re applying to the Probate Service – only people applying in England and Wales can use this service
-page.iht.registration.checklist.applicant.label5 = role in the deceased’s estate – you can only use this service if you’re an executor or an administrator of the deceased’s estate
-page.iht.registration.checklist.applicant.reveal.label1 = The location where you’re planning to apply to the Probate Service is where you’re sending your Probate Application form (PA1) to. There are different places throughout the UK but you can only use Inheritance Tax Online if you’re planning to apply in England or Wales.
-page.iht.registration.checklist.applicant.reveal.label2 = If the deceased left a will then you’ll know if you’re an executor of their estate as you’ll be listed in the will. If there’s no will, the court will have named you as an administrator of the estate if that’s your role.
-page.iht.registration.checklist.applicant.reveal.label3 = The phone number you give is one that HMRC can contact you on. This might happen after you’ve finished the estate report and it’s reviewed. The email address is one that HMRC could contact you on for the same reason.
-page.iht.registration.checklist.applicant.reveal.label4 = You can find your National Insurance number on a payslip.
+page.iht.registration.checklist.applicant.label5 = role in the deceased’s estate – you can only use this service if you’re responsible for the estate as an executor or an administrator
+page.iht.registration.checklist.applicant.reveal.label1 = The location where you’re planning to apply to the Probate Service is where you’re sending your PA1 - Probate application form. There are different places throughout the UK but you can only use this service if you’re planning to apply in England or Wales.
+page.iht.registration.checklist.applicant.reveal.label2 = If the deceased left a will then you’ll know if you’re an executor of their estate as you’ll be named in it. If there’s no will, the court will have named you as an administrator.
+page.iht.registration.checklist.applicant.reveal.label3 = The phone number you give is one that HMRC can contact you on. This might happen after you have finished the estate report and it is being reviewed.
+page.iht.registration.checklist.applicant.reveal.label4 = You can find your National Insurance number on a payslip, a P45 or a P60 form.
 
-page.iht.registration.checklist.exec.title = If anyone else is applying to the Probate Service for a grant of representation for the deceased’s estate, you’ll need their:
-page.iht.registration.checklist.exec.reveal.label1 = The easiest thing to do is to ask the person who you’re adding for their details. They’ll be able to find their National Insurance number on a P45 or a P60 form.
-page.iht.registration.checklist.exec.reveal.label2 = Their name should be entered as it is shown on their passport or birth certificate. This might be different to the name that you know them by.
-page.iht.registration.checklist.exec.reveal.label3 = The phone number given is one that HMRC can contact this person on. This might happen after you’ve finished the estate report and it’s being reviewed.
+page.iht.registration.checklist.exec.title = If anyone else is applying to the Probate Service for a grant of representation for the estate, you’ll need their:
+page.iht.registration.checklist.exec.reveal.label1 = The easiest thing to do is to ask the person who you’re adding for their details. They will be able to find their National Insurance number on a payslip, a P45 or a P60 form.
+page.iht.registration.checklist.exec.reveal.label2 = Their name should be given as it is shown on their passport or birth certificate. This might be different to the name that you know them by.
+page.iht.registration.checklist.exec.reveal.label3 = The phone number given is one that HMRC can contact this person on. This might happen after you have finished the estate report and it is being reviewed.
 iht.registration.checklist.dateOfBirth = date of birth
 iht.registration.checklist.phoneNo.lowerCaseInitial = phone number
 iht.registration.checklist.phoneNo.upperCaseInitial = Phone number
@@ -322,7 +289,6 @@ page.iht.registration.deceasedDetails.addressheader.abroad.hint = This is the la
 page.iht.registration.deceasedDetails.country.help = If the deceased’s contact address isn’t in the UK
 page.iht.registration.deceasedDetails.postcode.help = If the deceased’s contact address is in the UK
 iht.registration.deceased.locationOfPermanentHome = Location of deceased’s permanent home
-iht.registration.deceased.permanentHome.where.question = Where did the deceased have their permanent home?
 
 #Registration - Applicant
 page.iht.registration.applicantDetails.title = Tell us about yourself
@@ -360,7 +326,7 @@ page.iht.registration.applicant.probateLocation.title = Where are you going to a
 page.iht.registration.applicant.probateLocation.browserTitle = Probate location
 
 page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
-page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 Probate application form.
+page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 - Probate application form.
 page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if the deceased left a will. If there wasn’t a will, you would’ve been named as the administrator of the estate by a court.
 iht.registration.applicant.applyingForProbate = Are you applying for probate for the deceased’s estate?
 
@@ -395,9 +361,9 @@ page.iht.registration.others-applying-for-probate-address.address.guidance = Thi
 #Registration Summary
 
 #Registration Summary - Deceased info
+page.iht.registration.registrationSummary.deceasedTable.title = Deceased’s details
 page.iht.registration.registrationSummary.subTitle = You’ll not be able to change these details online after you’ve confirmed them.
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
-page.iht.registration.registrationSummary.deceasedTable.title = Deceased’s details
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title
 page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = Deceased’s name is {0}
 page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader = Change the deceased’s name
@@ -477,7 +443,6 @@ page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.l
 
 page.iht.registration.registrationSummary.coExecutorTable.others-are-applying.text = Other people are applying for probate
 page.iht.registration.registrationSummary.coExecutorTable.others-are-applying.link.screenReader = and add or remove another person
-page.iht.registration.registrationSummary.coExecutorTable.sectionTitle = Person {0}’s details
 page.iht.registration.registrationSummary.coExecutorTable.name.id.container = name-container
 page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader = Change {0}’s Name
 page.iht.registration.registrationSummary.coExecutorTable.name.data.screenReader = An additional{0}’s name is {1}
@@ -544,17 +509,18 @@ iht.registration.kickout.content = You should complete the Inheritance Tax estat
 iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
 iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
 iht.registration.kickout.returnToTheLastPageVisited =return to the last page you visited
-iht.registration.kickout.message.MinDOD = If the date of death was between 13 March 1975 to 18 March 1986, Capital Transfer Tax applied to the deceased’s estate. Estate Duty was in place before 13 March 1975.
+iht.registration.kickout.returnToTheDateOfDeath =  return to the date of death
 iht.registration.kickout.message.form2 = If you want to change this date
 iht.registration.kickout.message.phone = Call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
-iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report
+iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report.
 iht.registration.kickout.message.returnToLast = Return to the last page you visited
 iht.registration.kickout.probateLocation.scotland = You should complete the Inheritance Tax estate report by completing either a C1 or a C5 paper form.
+iht.registration.kickout.message.changeTheDate = If you want to change the date
 
 #Estate report - Common
 iht.estateReport.goToEstateReports = Go to your Inheritance Tax estate reports
 iht.estateReport.changeValues = Change values
-iht.estateReport.completeEverySection = Every section must be completed.
+iht.estateReport.completeEverySection = You must complete every section.
 iht.estateReport.correctiveAccountForm = Corrective Account form
 iht.estateReport.ihtThreshold = Inheritance Tax threshold
 iht.estateReport.noInheritanceTaxPayable = no Inheritance Tax is payable
@@ -807,7 +773,8 @@ page.iht.application.propertyDetails.deleteProperty.screenReader = The address o
 page.iht.application.propertyDetails.deleteProperty.button.screenReader = Confirm and delete this property
 
 page.iht.application.property.value.browserTitle = Property value
-page.iht.application.property.value.question.hint = Only include {0}’s share of the value if they jointly owned the property, building or land with someone else. HMRC recommend that you get a professional valuation.
+page.iht.application.property.value.question.hint1 = Give the full value of the property, building or land if {0} owned this on their own. If they owned this with someone else, only include their share of the total property, building or land value.
+page.iht.application.property.value.question.hint2 = HMRC recommend that you get a professional valuation for this property, building or land.
 
 page.iht.application.assets.properties.question.p1 = These are all UK properties, buildings or land owned by {0}, either on their own or jointly with other people. This also includes any business properties, buildings or land.
 page.iht.application.assets.properties.question.question = Did {0} own any properties, buildings or land in the UK?
@@ -816,7 +783,7 @@ page.iht.application.assets.properties.question.change = Change the answer for d
 
 iht.estateReport.assets.properties.freeholdOrLeasehold = Was this owned freehold or leasehold?
 iht.estateReport.assets.properties.returnToAddAProperty = Return to add a property, building or land
-iht.estateReport.assets.properties.value.question = What was the value of this property, building or land?
+iht.estateReport.assets.properties.value.question = What was {0}’s share of the value of this property, building or land?
 iht.estateReport.assets.properties.whatKind.question = What kind of property, building or land was this?
 iht.estateReport.assets.propertiesBuildingsAndLand = Properties, buildings and land
 iht.estateReport.assets.property.findOutFromLandRegistry = find out from the Land Registry
@@ -1050,8 +1017,8 @@ page.iht.application.assets.businessInterest.hint = Don’t include any business
 iht.estateReport.assets.nominated = Nominated assets
 page.iht.application.assets.nominated.sectionName = nominated
 page.iht.application.assets.nominated.browserTitle = Nominated assets owned
-page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These shouldn’t be confused with an assets being left to someone in a will. If something is left to someone in a will, this isn’t a nominated asset
-page.iht.application.assets.nominated.description.p2 = Nominated assets could’ve been set up when an account was opened with friendly societies, or industrial and provident societies. Before 1 March 1981, National Savings certificates and accounts could also be nominated to pass to someone.
+page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These should not be confused with an asset being left to someone in a will. If something is left to someone in a will, this isn’t a nominated asset.
+page.iht.application.assets.nominated.description.p2 = Nominated assets could have been set up when an account was opened with friendly societies, or industrial and provident societies. Before 1 March 1981, National Savings certificates and accounts could also be nominated to pass to someone.
 page.iht.application.assets.nominated.description.p3 = The provider will be able to tell you if the asset was nominated to pass to someone.
 page.iht.application.assets.nominated.description.p4 = Don’t include pension benefits that were nominated to pass to someone. You should include that value with private pensions.
 page.iht.application.assets.nominated.inputLabel1 = Value of the nominated assets when the deceased died
@@ -1165,8 +1132,8 @@ page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description
 page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description5 = If the deceased had a direct debit set up to gift a charity £50 a month, the total amount gifted in a year would be £600. This amount would be exempt if it was the only gift given away on a regular basis by the deceased that year.
 page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description6 = If the deceased also gifted £250 a month to another charity then the value they would receive would be £3,000. Added to the amount given to the first charity, the deceased gifted more than £3,000 in a year and so the gifts out of income exemption can’t be used.
 page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.heading = Gifts that can be claimed using the annual gift exemption
-page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description1 = The annual gifts exemption can be used to cover anything given away and the first £3,000 of gifts made in any tax year is exempt.
-page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description2 = Any unused exemption total can be rolled over to the following tax year. This means that in any one tax year the exemption could be up to £6,000 if the previous year had none of the exempt amount used.
+page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description1 = The annual gifts exemption can be used to cover anything given away and the first £3,000 of gifts made in any financial year is exempt.
+page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description2 = Any unused exemption total can be rolled over to the following financial year. This means that in any one financial year the exemption could be up to £6,000 if the previous year had none of the exempt amount used.
 page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description3 = You can use this exemption with the marriage or civil partnership gift exemption and the gifts out of income exemption.
 page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description4 = If the deceased gave their child £6,000 when they married, you could use the first £5,000 under the marriage or civil partnership gift exemption and the remaining £1,000 under the annual gift exemption.
 
@@ -1184,8 +1151,12 @@ page.iht.application.gifts.guidance.giftsGivenAway.description3 = There’ll als
 page.iht.application.gifts.guidance.giftsGivenAway.description4 = Take your time to understand what gifts are. You’ll be able to read this guide again whenever you want.
 
 page.iht.application.gifts.sevenYears.values.browserTitle = Value of gifts given away
-page.iht.application.gifts.sevenYears.values.guidance = Enter the total value of gifts given away and how much the estate is claiming in gift exemptions in each of the following years. The difference between the total value of gifts and the exemptions being claimed will be added to the estate value.
+page.iht.application.gifts.sevenYears.values.guidance = Enter the total value of gifts given away and how much the estate is claiming in gift exemptions in each of the following years.
+page.iht.application.gifts.sevenYears.values.guidance2 = The difference between the total value of gifts and the exemptions being claimed will be added to the estate value.
 page.iht.application.gifts.return.to.givenAwayBy = Return to gifts given away by {0}
+
+page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader.give = Give values for between the dates {0} and {1}.
+page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader.change = Change the values given for between the dates {0} and {1}.
 
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.gifts.screenReader = The total value of gifts given away between {0} and {1} is £{2}.
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.exemptions.screenReader = The total value of gift exemptions between {0} and {1} is £{2}.
@@ -1249,8 +1220,8 @@ page.iht.application.gifts.lastYears.description.e3 = household and personal goo
 page.iht.application.gifts.lastYears.description.e4 = houses, land and buildings
 page.iht.application.gifts.lastYears.question = Did {0} give anything else away that isn’t listed above in the 7 years before they died?
 
-page.iht.application.gifts.lastYears.tableTitle1 = Total value of gifts
-page.iht.application.gifts.lastYears.tableTitle2 = Total value of exemptions
+page.iht.application.gifts.lastYears.tableTitle1 = Gifts value
+page.iht.application.gifts.lastYears.tableTitle2 = Exemptions value
 page.iht.application.gifts.lastYears.tableTitle3 = Amount added to estate value
 
 page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
@@ -1272,6 +1243,7 @@ iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to 
 iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the London Stock Exchange
 iht.estateReport.gifts.valueOfGiftsGivenAway = Value of gifts given away in the 7 years before death
 iht.estateReport.gifts.withReservation.title = Gifts with reservation of benefit
+iht.estateReport.gifts.totalOverSevenYears = Total over 7 years
 
 #Estate report - Debts
 page.iht.application.debts.subtitle1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate.
@@ -1342,6 +1314,7 @@ page.iht.application.debts.debtsTrust.isOwned = Are there any debts being paid o
 
 page.iht.application.debts.debtsOutsideUk.browserTitle = Foreign debts
 page.iht.application.debts.debtsOutsideUk.description.p1 = This is the value of all debts owed to anyone outside of the UK including anything owed on any foreign assets.
+page.iht.application.debts.debtsOutsideUk.description.p2 = You must change the foreign value to British pounds using the exchange rate on the date of death.
 page.iht.application.debts.debtsOutsideUk.isOwned = Are there any debts being paid out of the estate that are owed to anyone outside of the UK?
 
 page.iht.application.debts.jointlyOwned.browserTitle = Joint debts
@@ -1367,7 +1340,7 @@ iht.estateReport.debts.owedOnJointAssets = Debts owed on any jointly owned asset
 iht.estateReport.debts.owedOnJointAssets.value = Value of any debts owed on jointly owned assets
 iht.estateReport.debts.owedOutsideUK = Debts owed to anyone outside of the UK
 iht.estateReport.debts.owedOutsideUK.value = Value of debts owed to anyone outside of the UK
-iht.estateReport.debts.valueOfFuneralCosts = Value of the funeral costs
+iht.estateReport.debts.valueOfFuneralCosts = Value of the funeral expenses
 
 #Estate report - Exemptions
 page.iht.exemptions.title = Exemptions
@@ -1447,7 +1420,7 @@ page.iht.application.exemptions.partnerPermanentHome.browserTitle = Partner’s 
 page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because the deceased’s spouse or civil partner didn’t have their permanent home in the UK.
 iht.estateReport.exemptions.partner.assetsLeftToSpouse.title = Assets left to a spouse or civil partner
 iht.estateReport.exemptions.partner.homeInUK.question = Is the spouse’s or civil partner’s permanent home in the UK?
-iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse = Return to assets left to spouse or civil partner
+iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse = Return to assets left to a spouse or civil partner
 iht.estateReport.exemptions.spouse.assetLeftToSpouse.question = Did {0} leave any assets to their spouse or civil partner?
 
 #Estate report - Exemptions - Charity
@@ -1516,7 +1489,9 @@ iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities = Return to 
 iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived = Total value of assets the charity received
 
 #Estate report - Exemptions - Qualifying body
-iht.estateReport.assets.qualifyingBodyAdd = Add another qualifying body
+iht.estateReport.assets.qualifyingBodyAddAnother = Add another qualifying body
+iht.estateReport.assets.qualifyingBodyAdd = Add a qualifying body
+
 page.iht.application.exemptions.qualifyingBody.value.sectionTitle = Total value of assets left to the qualifying body
 page.iht.application.exemptions.qualifyingBody.value.browserTitle = Value of assets left to body
 
@@ -1572,13 +1547,13 @@ page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.lin
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.name.link.screenreader.value = Change the qualifying body name
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.link.screenreader.noValue = Give value of assets received by the qualifying body
 page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.link.screenreader.value = Change the value of assets received by the qualifying body
-iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext = If you don’t know if assets passing to another body will be exempt from Inheritance Tax, call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072. Once you’ve given the name of the body, you’ll be told if any assets left to them will be exempt of Inheritance Tax.
+iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext = If you don’t know if assets passing to another body will be exempt from Inheritance Tax, call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072. Once you’ve given the name of the body, you’ll be told if any assets left to them will be exempt from Inheritance Tax.
 iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title = Assets left to other qualifying bodies
 iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharities = These are all of the assets being left to a qualifying body. These will not be charities that have a registered charity number.
 iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody = Confirm that you want to delete this qualifying body
 iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies = How to find out if another body qualifies
 iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies = Return to assets left to other qualifying bodies
-iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to assets left to other qualifying body
+iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody = Return to add another qualifying body
 iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
 
 #Estate report - Tnrb
@@ -1671,7 +1646,6 @@ page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
 page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.none = Give the name of the deceased’s spouse or civil partner.
 page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.some = The name of the deceased’s spouse or civil partner was {2}. Change this name.
 
-page.iht.application.tnrbEligibilty.overview.partner.marriageDate.title = Date of {0} to {1}
 page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.none = Give the date of marriage between the deceased and their spouse or civil partner.
 page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.some = The date of marriage or civil partnership between the deceased and their spouse or civil partner was {2}. Change this date.
 
@@ -1690,7 +1664,6 @@ page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.yes.scre
 page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.no.screenReader.link.value = No, Did the spouse or civil partner have their permanent home in the UK. Change this answer.
 
 page.iht.application.TnrbEligibilty.dateOfMarriage.label = Date of marriage or civil partnership to {0}
-page.iht.application.TnrbEligibilty.dateOfMarriage.label.marriage = Date of marriage to {0}
 
 page.iht.application.TnrbEligibilty.isPartnerLivingInUk.label = Did {0}’s {1} have their permanent home in the UK?
 page.iht.application.TnrbEligibilty.isGiftMadeBeforeDeath.label = Did {0}’s {1} give any gifts away in the 7 years before they died?
@@ -1714,16 +1687,17 @@ page.iht.application.TnrbEligibilty.thresholdLimit.label = The Inheritance Tax t
 page.iht.application.TnrbEligibilty.personalInfoAboutPartner.label = You’ll need to provide some personal details about {0}’s {1}.
 page.iht.application.TnrbEligibilty.ihtThresholdIncreaseNotPossible.label = It is not possible to increase the Inheritance Tax threshold.
 
-page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s Inheritance Tax threshold has increased to £650,000 because of the transfer of {1}’s unused threshold.
+page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s Inheritance Tax threshold has increased to £650,000.00 because of the transfer of {1}’s unused threshold.
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2 = The estate value is now under the Inheritance Tax threshold and there’s no Inheritance Tax to pay.
 iht.estateReport.tnrb.benefitFromTrust.question = Did {0} have the right to benefit from a trust during their lifetime?
 iht.estateReport.tnrb.dateOfMarriage = Date of {0}
+iht.estateReport.tnrb.dateOfMarriage.hint = This is the date of {0} between {1} and {2}
 iht.estateReport.tnrb.giftsMadeBeforeDeath.question = Were any gifts that weren’t exempt given away in the 7 years before {0} died?
 iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts with the reservation of benefit given to anyone apart from {0}?
 iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
-iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. You’ll also need to complete an IHT-402 paper form to increase the threshold.
-iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and {2} died?
+iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 form. You’ll also need to complete an IHT-402 form to increase the threshold. When you finish this service, you will be given a copy of the form.
+iht.estateReport.tnrb.partner.married = Was the deceased {0} at any point in their life and their {1} died?
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
 
@@ -1770,17 +1744,17 @@ page.iht.application.declaration_received.subheading3 = Keeping records for the 
 iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you’re accepting this.
 
 #Estate report - Probate Details
-page.iht.application.probateDetails.content2 = On your PA1 form, turn to page 6. You’ll need to write the following details into section 7.5:
-page.iht.application.probateDetails.content2.bullet1 = Your IHT Identifier is
-page.iht.application.probateDetails.content2.bullet2 = The Gross Estate Figure is £{0}
-page.iht.application.probateDetails.content2.bullet3 = The Net Estate Figure is £{0}
-page.iht.application.probateDetails.content4 = If you haven’t got your PA1 form handy, you can either
-page.iht.application.probateDetails.content4.print = print this page
-page.iht.application.probateDetails.content5 = or write the details down to complete your PA1 at another time.
+page.iht.application.probateDetails.content2 = You’ll need the following details to write on your PA1 – Probate application form:
+page.iht.application.probateDetails.content2.bullet1 = your IHT Identifier is
+page.iht.application.probateDetails.content2.bullet2 = the gross estate figure is £{0}
+page.iht.application.probateDetails.content2.bullet3 = the net estate figure is £{0}
+page.iht.application.probateDetails.content4 = If you have not got your PA1 – Probate application form handy, you can
+page.iht.application.probateDetails.content4.print = download or print this page
+page.iht.application.probateDetails.content5 = or write these details down to fill in on your probate form at another time. You’ll still be able to see these details by choosing this estate report from your Inheritance Tax estate reports page.
 page.iht.application.probateDetails.guidance = What do these figures mean?
-page.iht.application.probateDetails.guidance.bullet1 = The IHT Identifier is a reference number
-page.iht.application.probateDetails.guidance.bullet2 = The Gross Estate Figure is the total of assets and gifts given away
-page.iht.application.probateDetails.guidance.bullet3 = The Net Estate Figure is the value of the estate  minus any debts or exemptions being claimed
+page.iht.application.probateDetails.guidance.bullet1 = the IHT identifier is a reference that can be used by probate to link this estate report
+page.iht.application.probateDetails.guidance.bullet2 = the gross estate figure is the total of assets and gifts in the estate
+page.iht.application.probateDetails.guidance.bullet3 = the net estate figure is the value of assets and gifts in the estate after any debts and estate exemptions have been taken off
 page.iht.application.probateDetails.yourProbateText = For your Probate Application Form:
 page.iht.application.probateDetails.probateDetailsNotAvailableText = You’ll need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
 
@@ -1822,7 +1796,6 @@ pdf.inheritance.tax.declaration.date.text = Date of declaration:
 pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritance Tax estate report completed by {1}. HMRC recommend that you keep a copy of this report for your personal use.
 pdf.inheritance.tax.application.summary.p2 = Do not send this document to HMRC.
 pdf.inheritance.tax.application.summary.tnrb.title = Increasing the Inheritance Tax threshold by transferring {0}’s unused threshold
-pdf.inheritance.tax.application.summary.tnrb.personalDetails.title = {0}’s details
 pdf.inheritance.tax.reference = Inheritance Tax reference:
 pdf.postSubmission.trusts.assetDescription = Trusts
 pdf.registration.lastContactAddress = Last contact address
@@ -1911,9 +1884,11 @@ page.iht.application.kickout.final.getCopy.guidance3 = This will have all of the
 page.iht.application.kickout.final.guidance.onFinish = By selecting finish you will be given a copy of the IHT-400 form and this estate report will be deleted.
 
 #Questionnaire Feedback
-page.iht.questionnaire.title = Before you sign out
-page.iht.questionnaire.p1 = Before you sign out, please complete this short survey to help us improve the service. The survey should take no more than 2 minutes.
-page.iht.questionnaire.button.no-and-signout.text = No thanks - sign me out
+page.iht.questionnaire.completeSurvey = Please complete this short survey to help us improve the service
+page.iht.registration.questionnaire.p1 = Any details you have entered have not been saved. You need to complete registration in one go.
+page.iht.registration.questionnaire.startAgain = Start registration again
+
+page.iht.estateReport.allDetailsSaved = All of your details have been saved.
 
 page.iht.questionnaire.easy-to-use.question = How easy was it to do what you wanted?
 page.iht.questionnaire.easy-to-use.very-easy = Very easy
@@ -1935,7 +1910,7 @@ page.iht.questionnaire.improve.p2 = Please don’t include any personal or finan
 
 page.iht.questionnaire.fullName.p1 = We’re looking for people to help us with user research.
 page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
-page.iht.questionnaire.button.submit-and-signout = Send feedback
+page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 
 page.iht.sign-out.title = You have signed out
 page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.

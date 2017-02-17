@@ -49,19 +49,19 @@ trait ProbateLocationController extends RegistrationApplicantControllerWithEditM
   lazy val editSubmitRoute = routes.ProbateLocationController.onEditSubmit
 
   def okForPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.probate_location(form, applicantCountryMap, submitRoute)
+    Ok(views.probate_location(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.probate_location(form, applicantCountryMap, editSubmitRoute, cancelToRegSummary)
+    Ok(views.probate_location(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.probate_location(form, applicantCountryMap, submitRoute)
+    BadRequest(views.probate_location(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.probate_location(form, applicantCountryMap, editSubmitRoute, cancelToRegSummary)
+    BadRequest(views.probate_location(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {

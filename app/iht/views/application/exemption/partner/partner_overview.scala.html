@@ -31,11 +31,12 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.overview.browserTitle")),
 isFullWidth=false) {
     <section id="overview-table" class="section">
+        <ul class="tabular-data tabular-data--list">
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner).map(_=>true)) { isComplete =>
                 ihtHelpers.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
-                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
                     name="partner.assetsLeftForPartner",
                     id="assetsLeftForPartner",
                     value=displayValue(appDetails, AppSectionExemptionsPartnerIsAssetForDeceasedPartner, isComplete),
@@ -84,7 +85,7 @@ isFullWidth=false) {
                     title = Messages("page.iht.application.exemptions.overview.partner.name.title"),
                     name="partner.name",
                     id="name",
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerName, isComplete),
+                    value=ihtHelpers.name(displayValue(appDetails, AppSectionExemptionsPartnerName, isComplete)).toString,
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onPageLoad()),
                     linkText=ihtHelpers.generic_overview_status_link(
@@ -173,10 +174,11 @@ isFullWidth=false) {
                 )
             }
         }
+        </ul>
     </section>
 
     @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.exemptionsOf", dd.name)),
+        @ihtHelpers.return_link(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.name(dd.name)),
             Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
     }
 }

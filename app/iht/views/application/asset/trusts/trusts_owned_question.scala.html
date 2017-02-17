@@ -24,24 +24,23 @@
 @(trustsOwnedQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question",
-                                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedNameWrap = @{ihtHelpers.name(deceasedName)}
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question",deceasedName),
 browserTitle = Some(Messages("page.iht.application.assets.trusts.isOwned.browserTitle")),
-isFullWidth=false){
+isFullWidth=false,
+headingName = deceasedName){
     @ihtHelpers.error_summary(trustsOwnedQuestionForm)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-      <p class="lede" id="trusts-question-description1">@Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",
-                                                                   CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-      <p id="trusts-question-description2">@Messages("iht.estateReport.assets.trusts.needInclusion",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-      <p id="trusts-question-description3">@Messages("iht.estateReport.assets.heldInTrust.needInclusion",
-                                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+      <p class="lede" id="trusts-question-description1">@Html(Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",deceasedNameWrap))</p>
+      <p id="trusts-question-description2">@Html(Messages("iht.estateReport.assets.trusts.needInclusion",deceasedNameWrap))</p>
+      <p id="trusts-question-description3">@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedNameWrap))</p>
 
             @ihtHelpers.input_yes_no_radio_group(
             trustsOwnedQuestionForm("isOwned"),
-            '_legend -> Html(Messages("iht.estateReport.assets.trusts.question",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
+            '_legend -> Html(Messages("iht.estateReport.assets.trusts.question",deceasedNameWrap)),
             '_shownElementNo -> Some("mortgage-guidance-panel"),
             '_hiddenElementYes -> Some("mortgage-guidance-panel"),
       '_divClass -> Some("form-group"))
@@ -51,7 +50,7 @@ isFullWidth=false){
       </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)),
+        @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
         }
 }

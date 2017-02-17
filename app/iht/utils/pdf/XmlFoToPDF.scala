@@ -120,9 +120,11 @@ trait XmlFoToPDF {
     val dateOfPredeceased = applicationDetails.widowCheck.flatMap { x => x.dateOfPreDeceased }
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
-      applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue,
-      applicationDetails.totalExemptionsValue, applicationDetails.totalGiftsValue)
+      applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalExemptionsValue,
+      applicationDetails.totalGiftsValue)
 
+    transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
+    transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
     transformer.setParameter("estateValue", applicationDetails.totalNetValue)
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
@@ -147,9 +149,8 @@ trait XmlFoToPDF {
       getOrElse(throw new RuntimeException("Declaration Date not available"))
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, Option(dateOfMarriage),
-      ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue,
-      ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue, ihtReturn.totalGiftsValue
-    )
+      ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
+      ihtReturn.totalGiftsValue)
 
     transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer
@@ -168,13 +169,13 @@ trait XmlFoToPDF {
                                                totalAssetsValue: BigDecimal,
                                                totalLiabilitiesValue: BigDecimal,
                                                totalExemptionsValue: BigDecimal,
-                                               totalGiftsValue: BigDecimal) = {
+                                               totalPastYearsGiftsValue: BigDecimal) = {
     setupCommonTransformerParameters(transformer)
     transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("assetsTotal", totalAssetsValue)
     transformer.setParameter("debtsTotal", totalLiabilitiesValue)
     transformer.setParameter("exemptionsTotal", totalExemptionsValue)
-    transformer.setParameter("giftsTotal", totalGiftsValue)
+    transformer.setParameter("giftsTotal", totalPastYearsGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("preDeceasedName", preDeceasedName)
     transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
@@ -196,7 +197,7 @@ trait XmlFoToPDF {
   private def setupTransformerEventHandling(transformer: Transformer) = {
     val errorListener = new ErrorListener {
       override def warning(exception: TransformerException): Unit =
-        Logger.warn(exception.getMessageAndLocation)
+        Logger.debug(exception.getMessageAndLocation)
 
       override def error(exception: TransformerException): Unit = {
         Logger.error(exception.getMessage, exception)
@@ -221,7 +222,7 @@ trait XmlFoToPDF {
             Logger.info(msg)
             None
           case EventSeverity.WARN =>
-            Logger.warn(msg)
+            Logger.debug(msg)
             None
           case EventSeverity.ERROR =>
             Logger.error(msg)

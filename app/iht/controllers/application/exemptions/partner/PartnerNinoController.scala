@@ -73,8 +73,7 @@ trait PartnerNinoController extends EstateController {
         partnerNinoForm,
         partner_nino.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("nino", _.isDefined))
+        submitUrl
       )
     }
   }

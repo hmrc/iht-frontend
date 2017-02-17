@@ -38,7 +38,7 @@ class IhtPropertiesReaderTest extends UnitSpec with OneAppPerTest with MockitoSu
 
       assert(maxExecutors == 3,"Maximum executors value is 3")
       ukIsoCountryCode shouldBe "GB"
-      assert(govUkLink=="https://www.gov.uk/inheritance-tax" , "Link value is https://www.gov.uk/inheritance-tax")
+      assert(govUkLink=="https://www.gov.uk/valuing-estate-of-someone-who-died" , "Link value is https://www.gov.uk/valuing-estate-of-someone-who-died")
     }
   }
 }

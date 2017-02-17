@@ -67,8 +67,7 @@ trait TrustsOwnedQuestionController extends EstateController {
           case Some(true) => submitUrl
           case Some(false) => assetsRedirectLocation
           case _ => throw new RuntimeException("Held in trust value does not exist")
-        },
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.heldInTrust.deceasedOwned.select"))
+        }
       )
     }
   }

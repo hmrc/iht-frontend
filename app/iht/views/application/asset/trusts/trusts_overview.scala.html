@@ -28,6 +28,8 @@
 
 @(trusts:Option[HeldInTrust], registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @getLinkScreenReader(element: Option[_], changeText: String, noValueText: String) = @{
     element match {
         case Some(_) => changeText
@@ -41,13 +43,9 @@ isFullWidth=false
 ) {
 
 <div id='trusts-description' >
-    <p class="lede">@Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("iht.estateReport.assets.trusts.needInclusion",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("iht.estateReport.assets.heldInTrust.needInclusion",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-    <p>@Messages("iht.estateReport.saved.estate")</p>
+    <p class="lede">@Html(Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",deceasedName))</p>
+    <p>@Html(Messages("iht.estateReport.assets.trusts.needInclusion",deceasedName))</p>
+    <p>@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedName))</p>
 </div>
 
 
@@ -55,8 +53,7 @@ isFullWidth=false
         <ul>
             @{
                 generic_overview_table_item(id = "trusts-question",
-                    questionText = Messages("iht.estateReport.assets.trusts.question",
-                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                    questionText = Messages("iht.estateReport.assets.trusts.question",deceasedName),
                     questionScreenReaderText= Messages("iht.estateReport.assets.trusts.question", Messages("iht.the.deceased")),
                     questionCategory= "questionAnswer",
                     answerValue=Messages(getBooleanDisplayValue(trusts.flatMap(_.isOwned.map(x=>x)))),
@@ -69,8 +66,7 @@ isFullWidth=false
             }
             @{
                 generic_overview_table_item(id = "trusts-more-than-one-question",
-                    questionText = Messages("iht.estateReport.assets.trusts.moreThanOne.question",
-                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                    questionText = Messages("iht.estateReport.assets.trusts.moreThanOne.question",deceasedName),
                     questionScreenReaderText= Messages("iht.estateReport.assets.trusts.moreThanOne.question",
                                                         Messages("iht.the.deceased")),
                     questionCategory= "questionAnswer",
@@ -84,8 +80,7 @@ isFullWidth=false
             }
             @{
                 generic_overview_table_item(id = "trusts-value",
-                    questionText = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",
-                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                    questionText = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",deceasedName),
                     questionScreenReaderText= Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",
                                                         Messages("iht.the.deceased")),
                     questionCategory= "change",
@@ -100,7 +95,5 @@ isFullWidth=false
         </ul>
     </section>
 
-@registrationDetails.deceasedDetails.map{ dd=>
-    @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
-    }
+    @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedName), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
 }

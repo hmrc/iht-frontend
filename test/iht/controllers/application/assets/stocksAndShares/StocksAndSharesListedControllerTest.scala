@@ -29,6 +29,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import play.api.test.Helpers.{contentAsString, _}
 
 class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
@@ -117,16 +118,26 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
       capturedValue shouldBe expectedAppDetails
     }
 
-    "display validation message when incomplete form is submitted" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
-      val formFill = stockAndShareListedForm.fill(CommonBuilder.buildStockAndShare)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+    "display validation message when form is submitted with no values entered" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      implicit val request = createFakeRequest()
 
       setUpTests(applicationDetails)
 
       val result = stocksAndSharesListedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
       contentAsString(result) should include (messagesApi("error.problem"))
+    }
+
+    "redirect to overview when form is submitted with answer yes and a value entered" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isListed", "true"), ("valueListed", "233"))
+
+      setUpTests(applicationDetails)
+
+      val result = stocksAndSharesListedController.onSubmit()(request)
+      status(result) should be (SEE_OTHER)
+      redirectLocation(result) should be (Some(routes.StocksAndSharesOverviewController.onPageLoad().url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

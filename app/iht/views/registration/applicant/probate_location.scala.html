@@ -19,9 +19,9 @@
 @import iht.utils.CommonHelper
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
+@import iht.constants.FieldMappings._
 
 @(probateLocationForm:Form[iht.models.ApplicantDetails],
-    countryDropdown: scala.collection.immutable.ListMap[String, String],
     actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.applicant.probateLocation.title"),
@@ -35,17 +35,17 @@ hasTimeOut=true) {
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
     @ihtHelpers.input_radio_group(
-    probateLocationForm("country"),
-    countryDropdown.toSeq,
-    '_fieldsetId -> "country",
-    '_groupClass -> "form-group",
-    '_labelClass -> "form-label block-label",
-    '_labelTextClass -> "form-label",
-    '_legend -> Some(Messages("page.iht.registration.applicant.probateLocation.title")),
-    '_legendClass -> Some("visually-hidden")
+        probateLocationForm("country"),
+        applicantCountryMap.toSeq,
+        '_fieldsetId -> "country",
+        '_groupClass -> "form-group",
+        '_labelClass -> "form-label block-label",
+        '_labelTextClass -> "form-label",
+        '_legend -> Some(Messages("page.iht.registration.applicant.probateLocation.title")),
+        '_legendClass -> Some("visually-hidden")
     )
 
-    @ihtHelpers.save_continue_button()
+    @ihtHelpers.continue_button()
     }
 
 }

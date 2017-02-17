@@ -20,6 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
@@ -97,7 +98,7 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
     "display how the property was owned question on the page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "display freehold leasehold question on page" in {
@@ -109,7 +110,7 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
     "display value of property question on the page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
   }
 }

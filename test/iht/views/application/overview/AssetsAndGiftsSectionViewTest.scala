@@ -17,17 +17,12 @@
 package iht.views.application.overview
 
 import iht.viewmodels.application.overview.{AssetsAndGiftsSectionViewModel, NotStarted, OverviewRow, OverviewRowWithoutLink}
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.overview.assets_and_gifts_section
-import iht.{FakeIhtApp, TestUtils}
-import org.jsoup.select.Elements
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
-import uk.gov.hmrc.play.test.UnitSpec
 
-class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
 
   def dummyOverviewRow = OverviewRow("", "", "", NotStarted, Call("", ""), "")
   def dummyTotalRow = OverviewRowWithoutLink("", "", "", "")

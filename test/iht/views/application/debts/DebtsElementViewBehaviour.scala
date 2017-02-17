@@ -19,10 +19,12 @@ package iht.views.application.debts
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages.Implicits._
+import play.api.data.Form
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
+import play.twirl.api.HtmlFormat.Appendable
 
-trait DebtsElementViewBehaviour extends ViewTestHelper {
+trait DebtsElementViewBehaviour[A] extends ViewTestHelper {
 
   def pageTitle: String
   def browserTitle: String
@@ -34,59 +36,50 @@ trait DebtsElementViewBehaviour extends ViewTestHelper {
   def returnLinkText: String = messagesApi("site.link.return.debts")
   def returnLinkTargetUrl: Call = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
 
-  def fixture() = new {
-    implicit val request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
-    val view: String = ""
-    val doc: Document = new Document("")
-  }
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+  def view: String = formToView(form).toString
+  def doc: Document = asDocument(view)
+  def form:Form[A] = ???
+  def formToView:Form[A] => Appendable = ???
 
   def debtsElement() = {
     "have the correct title" in {
-      val f = fixture()
-      val doc = asDocument(f.view)
       val headers = doc.getElementsByTag("h1")
       headers.size shouldBe 1
       headers.first.text() shouldBe pageTitle
     }
 
     "have the correct browser title" in {
-      val f = fixture()
-      browserTitleShouldBeCorrect(f.view, browserTitle)
+      browserTitleShouldBeCorrect(view, browserTitle)
     }
 
     "show the correct guidance paragraphs" in {
-      val f = fixture()
-      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(f.view, paragraph)
+      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
     }
 
     "show the correct yes/no question text" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, yesNoQuestionText)
+      messagesShouldBePresent(view, yesNoQuestionText)
     }
 
     "show the correct input field value label" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, inputValueFieldLabel)
+      messagesShouldBePresent(view, inputValueFieldLabel)
     }
 
     "show the correct input field value hint text (if there is any)" in {
-      val f = fixture()
       if(inputValueFieldHintText == "default hint") {
-        assertNotContainsText(f.doc, inputValueFieldHintText)
+        assertNotContainsText(doc, inputValueFieldHintText)
       } else {
-        messagesShouldBePresent(f.view, inputValueFieldHintText)
+        messagesShouldBePresent(view, inputValueFieldHintText)
       }
     }
 
     "show the Save and continue button" in {
-      val f = fixture()
-      val saveAndContinueButton = f.doc.getElementById("save-continue")
+      val saveAndContinueButton = doc.getElementById("save-continue")
       saveAndContinueButton.text() shouldBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct return link with text" in {
-      val f = fixture()
-      val returnLink = f.doc.getElementById(returnLinkId)
+      val returnLink = doc.getElementById(returnLinkId)
       returnLink.attr("href") shouldBe returnLinkTargetUrl.url
       returnLink.text() shouldBe returnLinkText
     }

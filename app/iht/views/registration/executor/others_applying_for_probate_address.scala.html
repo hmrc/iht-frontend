@@ -33,7 +33,8 @@
                    browserTitle = Some(Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")),
                    isFullWidth = false,
                    cancelUrl = cancelLocation,
-                   hasTimeOut = true) {
+                   hasTimeOut = true,
+                    headingName = name) {
 
 @ihtHelpers.error_summary(othersApplyingForProbateAddressForm)
 
@@ -101,6 +102,6 @@
 
     </fieldset>
 
-    @ihtHelpers.save_continue_button()
+    @ihtHelpers.continue_button()
 }
 }

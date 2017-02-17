@@ -20,11 +20,12 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.{messagesApi, MessagesApi}
+import play.api.i18n.messagesApi.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 
@@ -77,20 +78,15 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question",
-                                                      deceasedName))
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
 
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
-                                                      deceasedName))
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
-                                                      deceasedName))
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
-                                                      deceasedName))
-      contentAsString(result) should include(messagesApi("page.iht.application.assets.insurance.policies.overview.other.question4",
-                                                      deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.buyAnnuity.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.assets.insurance.policies.overview.other.question4", deceasedName))
     }
 
     "respond with OK and correct question1 text on page load if deceased not married" in {
@@ -101,8 +97,7 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
-                                                      deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
     }
   }
 }

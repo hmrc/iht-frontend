@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@(summary: String, returnToUrl: Call)(contentLines: Seq[String])(implicit request : Request[_], messages: Messages)
+@(summary: String, returnToUrl: Call, returnLinkText: String = "")(contentLines: Seq[String])(implicit request:Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
@@ -31,7 +31,7 @@ hasTimeOut=true) {
 
     <h2 class="heading-medium">@Messages("iht.nextSteps")</h2>
     @contentLines.map { line => <p>@line@if(line == contentLines.last){@Messages("iht.comma")
-    <a id="return-button" href="@returnToUrl">@Messages("iht.registration.kickout.returnToTheLastPageVisited")</a>@Messages("iht.fullStop")}</p> }
+    <a id="return-button" href="@returnToUrl">@if(returnLinkText.isEmpty){@Messages("iht.registration.kickout.returnToTheLastPageVisited")}else {@returnLinkText}</a>@Messages("iht.fullStop")}</p> }
 
 <div id="continue-button" class="form-field form-field--submit">
     @helpers.form(action = iht.controllers.registration.routes.KickoutController.onSubmit) {

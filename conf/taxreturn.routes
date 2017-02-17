@@ -365,8 +365,8 @@ GET         /threshold-increased                                                
 GET         /declaration                                                                        iht.controllers.application.declaration.DeclarationController.onPageLoad
 POST        /declaration                                                                        iht.controllers.application.declaration.DeclarationController.onSubmit
 
-GET         /continue-to-declaration                                                                 iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
-POST        /continue-to-declaration                                                                 iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
+GET         /continue-to-declaration                                                            iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
+POST        /continue-to-declaration                                                            iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
 
 GET         /sent-to-hmrc                                                                       iht.controllers.application.declaration.DeclarationReceivedController.onPageLoad
 
@@ -374,9 +374,11 @@ GET         /not-possible-to-use-this-service                                   
 POST        /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onSubmit
 GET         /delete-estate-report                                                               iht.controllers.application.KickoutController.onPageLoadDeleting
 
-GET         /summarypdf                                                                         iht.controllers.application.pdf.PDFController.onPreSubmissionPDF
-GET         /clearancePDF/:ihtReference                                                         iht.controllers.application.pdf.PDFController.onClearancePDF(ihtReference: String)
-GET         /applicationPDF/:ihtReference                                                       iht.controllers.application.pdf.PDFController.onPostSubmissionPDF(ihtReference: String)
+GET         /inheritance-tax-estate-report                                                      iht.controllers.application.pdf.PDFController.onPreSubmissionPDF
+GET         /clearance-certificate                                                              iht.controllers.application.pdf.PDFController.onClearancePDF
+GET         /completed-estate-report                                                            iht.controllers.application.pdf.PDFController.onPostSubmissionPDF
 
 GET         /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onPageLoad
 POST        /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onSubmit
+
+GET         /questionnaire-application-sign-out                                                 iht.controllers.application.ApplicationQuestionnaireController.signOutAndLoadPage

@@ -84,20 +84,5 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
       val result = tnrbSuccessController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
     }
-
-    "show the appropriate contents on the page" in {
-      val buildWidowCheck = CommonBuilder.buildWidowedCheck
-      val buildTnrbModel = CommonBuilder.buildTnrbEligibility
-      val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck),
-        increaseIhtThreshold = Some(buildTnrbModel))
-
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
-      createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
-
-      val result = tnrbSuccessController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-
-      contentAsString(result) should include(messagesApi("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title"))
-    }
   }
 }

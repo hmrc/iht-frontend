@@ -115,7 +115,7 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
 
       val insuranceAnnuityValue = CommonBuilder.buildInsurancePolicy.copy(isAnnuitiesBought=Some(true))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceAnnuityValue)
+      val filledInsuranceForm = insurancePolicyAnnuityForm.fill(insuranceAnnuityValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
@@ -133,7 +133,7 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
 
       val insuranceAnnuityValue = CommonBuilder.buildInsurancePolicy.copy(isAnnuitiesBought=Some(true))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceAnnuityValue)
+      val filledInsuranceForm = insurancePolicyAnnuityForm.fill(insuranceAnnuityValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
@@ -183,7 +183,7 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
     "redirect to correct page when no selected on submit" in {
       createMocks(applicationDetails)
 
-      val filledForm = insurancePolicyForm.fill(insurancePolicyDetailsAnnuityFalse)
+      val filledForm = insurancePolicyAnnuityForm.fill(insurancePolicyDetailsAnnuityFalse)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
@@ -197,7 +197,7 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
       when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
         .thenReturn(Future.successful(Some(applicationDetails)))
 
-      val filledForm = insurancePolicyForm.fill(insurancePolicyDetailsKickOut)
+      val filledForm = insurancePolicyAnnuityForm.fill(insurancePolicyDetailsKickOut)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)

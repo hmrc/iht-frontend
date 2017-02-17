@@ -18,18 +18,15 @@ package iht.views.application.exemption.qualifyingBody
 
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
-import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 
 /**
  * Created by vineet on 29/11/16.
  */
-class AssetsLeftToQualifyingBodyQuestionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class AssetsLeftToQualifyingBodyQuestionViewTest extends ViewTestHelper{
+
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
   "AssetsLeftToQualifyingBodyQuestionView" must {

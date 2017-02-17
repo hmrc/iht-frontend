@@ -18,21 +18,17 @@ package iht.views.application.gifts
 
 import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, ContentChecker, TestHelper}
 import iht.utils.CommonHelper._
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.gift.given_away
-import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
 import play.api.i18n.Messages.Implicits._
+import play.api.test.Helpers._
 
 /**
   * Created by vineet on 15/11/16.
   */
-class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class GivenAwayViewTest extends ViewTestHelper{
 
   val ihtReference = Some("ABC1234567890")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -58,7 +54,7 @@ class GivenAwayViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with 
 
     "show the correct question and guidance" in {
       implicit val request = createFakeRequest()
-      val viewAsString = given_away(giftsGivenAwayForm, regDetails).toString
+      val viewAsString = ContentChecker.stripLineBreaks(given_away(giftsGivenAwayForm, regDetails).toString)
 
       viewAsString should include(messagesApi("page.iht.application.gifts.lastYears.givenAway.question",
                                               getDeceasedNameOrDefaultString(regDetails)))

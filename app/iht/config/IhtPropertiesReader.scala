@@ -18,15 +18,14 @@ package iht.config
 
 import java.util.PropertyResourceBundle
 
+import iht.utils.{CommonHelper, StringHelper}
 import org.joda.time.LocalDate
 import play.api.Play
 import play.api.Play.current
 import iht.utils.CommonHelper._
 
 /**
- *
  * Created by Vineet Tyagi on 28/09/15.
- *
  */
 object IhtPropertiesReader {
 
@@ -51,4 +50,7 @@ object IhtPropertiesReader {
     withValue(getProperty(key).trim.split("-")) { dateAsArray =>
       new LocalDate(dateAsArray(0).toInt, dateAsArray(1).toInt, dateAsArray(2).toInt)
     }
+
+  def getPropertyAsSeqStringTuples(key: String): Seq[(String,String)] =
+    withValue(getProperty(key).trim)(StringHelper.parseAssignmentsToSeqTuples)
 }

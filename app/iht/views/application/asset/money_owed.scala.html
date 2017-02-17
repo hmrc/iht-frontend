@@ -25,27 +25,26 @@
 @(moneyOwedForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwed",
-                                                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedNameWrap = @{ihtHelpers.name(deceasedName)}
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwed",deceasedName),
     browserTitle = Some(Messages("iht.estateReport.assets.moneyOwed", Messages("iht.the.deceased"))),
-    isFullWidth = false
+    isFullWidth = false,
+    headingName = deceasedName
 ) {
     @ihtHelpers.error_summary_override_keys(moneyOwedForm, Constants.AppSectionMoneyOwed)
 
     @helpers.form(action = iht.controllers.application.assets.routes.MoneyOwedController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Messages("page.iht.application.assets.moneyOwed.description.p1",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-        <p>@Messages("page.iht.application.assets.moneyOwed.description.p2",
-                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
-        <p>@Messages("page.iht.application.assets.moneyOwed.description.p3",
-                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p class="lede">@Html(Messages("page.iht.application.assets.moneyOwed.description.p1",deceasedNameWrap))</p>
+        <p>@Html(Messages("page.iht.application.assets.moneyOwed.description.p2",deceasedNameWrap))</p>
+        <p>@Html(Messages("page.iht.application.assets.moneyOwed.description.p3",deceasedNameWrap))</p>
 
 
         @ihtHelpers.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
-            questionLabel= Messages("page.iht.application.assets.moneyOwed.isOwned",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+            questionLabel= Messages("page.iht.application.assets.moneyOwed.isOwned",deceasedNameWrap),
             inputTextLabel = Messages("page.iht.application.assets.moneyOwed.inputLabel1"),
             sharableElementForm = moneyOwedForm,
             clearTargetInput = Some("value")
@@ -55,9 +54,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.assetsOf", dd.name)),
+            @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
-        }
     }
 }

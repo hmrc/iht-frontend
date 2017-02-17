@@ -26,19 +26,22 @@
 registrationDetails: RegistrationDetails
 )(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
-                                        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedNameWrap = @{ihtHelpers.name(deceasedName)}
+
+@iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName),
     browserTitle = Some(Messages("page.iht.application.insurance.policies.section1.browserTitle")),
-    isFullWidth=false
+    isFullWidth=false,
+    headingName = deceasedName
     ) {
 
     @ihtHelpers.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
 
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit,'autoComplete -> "off") {
 
-        <p class="lede" id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section1.guidance",
-            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
-            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+        <p class="lede" id="insurance-policy-description">
+            @Html(Messages("page.iht.application.insurance.policies.section1.guidance", deceasedNameWrap, deceasedNameWrap))
+        </p>
 
         @defining( "page.iht.application.insurance.policies.section1.guidance2" ) { guidance2 =>
             @if(Messages(guidance2) != guidance2) {
@@ -51,8 +54,7 @@ registrationDetails: RegistrationDetails
 
             @ihtHelpers.input_yes_no_radio_group(
                 insurancePolicyForm("policyInDeceasedName"),
-                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.ownName.question",
-                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
+                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedNameWrap)),
                 '_shownElementNo -> None,
                 '_shownElementYes -> Some("deceaseds-policy"),
                 '_hiddenElementYes -> None,
@@ -77,6 +79,6 @@ registrationDetails: RegistrationDetails
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.return_link(Some(Messages("site.link.return.insurance.policies")), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
     }
 }

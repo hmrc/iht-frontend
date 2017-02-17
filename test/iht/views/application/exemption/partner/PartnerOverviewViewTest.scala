@@ -26,7 +26,7 @@ import iht.views.html.application.exemption.partner.partner_overview
 //TODO Need to add few more tests to write the tests for correct values
 
 
-class PartnerOverviewViewTest extends ViewTestHelper {
+class CharityDetailsOverviewViewTestPartnerOverviewViewTest extends ViewTestHelper {
 
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))

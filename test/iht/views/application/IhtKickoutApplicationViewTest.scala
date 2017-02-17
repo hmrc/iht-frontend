@@ -94,6 +94,25 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
 
     }
+
+  "have correct text and return link for Kickout Reason PartnerDiedBeforeMinDate" in {
+    val view = ihtKickOutApplicationView(KickOutReason.PartnerDiedBeforeMinDate,
+      appDetails,
+      Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation))
+
+    messagesShouldBePresent(view.toString,Messages("page.iht.application.tnrb.kickout.estateMoreThanThreshold.summary"))
+    messagesShouldBePresent(view.toString, Messages("iht.estateReport.kickout.nextSteps"))
+    messagesShouldBePresent(view.toString, Messages("iht.estateReport.kickout.returnToEstateOverview"))
+    messagesShouldBePresent(view.toString, CommonHelper.escapePound(Messages("site.threshold.value.display")))
+    messagesShouldBePresent(view.toString, Messages("iht.estateReport.ihtThreshold"))
+    messagesShouldBePresent(view.toString, CommonHelper.escapePound(Messages("page.iht.application.overview.value")))
+
+    val returnLink = view.getElementById("back-button")
+    returnLink.text shouldBe Messages("iht.estateReport.kickout.returnToEstateOverview.linkText")
+    returnLink.attr("href") shouldBe
+      iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
+
   }
+}
 
 }

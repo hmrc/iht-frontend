@@ -18,15 +18,22 @@ package iht.views.application.assets
 
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
+import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.nominated
 import play.api.i18n.Messages.Implicits._
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
-class NominatedViewTest extends ShareableElementInputViewBehaviour {
+class NominatedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def form:Form[BasicEstateElement] = nominatedForm
+  override def formToView:Form[BasicEstateElement] => Appendable = form => nominated(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.nominated")
   override def browserTitle = messagesApi("page.iht.application.assets.nominated.browserTitle")
@@ -41,8 +48,7 @@ class NominatedViewTest extends ShareableElementInputViewBehaviour {
     behave like yesNoValueView
 
     "show the correct guidance" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view,
+      messagesShouldBePresent(view,
         messagesApi("page.iht.application.assets.nominated.description.p1", deceasedName),
         messagesApi("page.iht.application.assets.nominated.description.p2"),
         messagesApi("page.iht.application.assets.nominated.description.p3"),
@@ -50,9 +56,4 @@ class NominatedViewTest extends ShareableElementInputViewBehaviour {
     }
   }
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = nominated(nominatedForm, regDetails).toString
-    val doc = asDocument(view)
-  }
 }

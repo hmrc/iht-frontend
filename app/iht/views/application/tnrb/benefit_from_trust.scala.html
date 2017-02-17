@@ -26,11 +26,14 @@ tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck
 )(implicit request:Request[_], messages: Messages))
 
+@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.benefitFromTrust.question",
-TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"))),
+partnerName),
 browserTitle = Some(Messages("page.iht.application.tnrb.benefitFromTrust.browserTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
+cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
+headingName = partnerName){
     @ihtHelpers.error_summary(benefitFromTrustForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit,'autoComplete -> "off") {

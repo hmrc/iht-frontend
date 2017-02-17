@@ -30,14 +30,15 @@ cancelLinkUrl:Call,
 cancelLinkText:String
 )(implicit request:Request[_], messages: Messages))
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.partner.married",
-                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
                                             TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-                                            TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                                          Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"))),
+                                            TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)),
                                             browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
                                             cancelUrl = Some(cancelLinkUrl),
-                                            cancelLabel=Some(cancelLinkText)){
+                                            cancelLabel=Some(cancelLinkText),
+                            headingName = deceasedName){
 @ihtHelpers.error_summary(deceasedWidowCheckQuestionForm)
 
 @helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit,'autoComplete -> "off") {

@@ -115,8 +115,8 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
 
     for {
       savedApplicationDetails <- ihtConnector.saveApplication(nino,
-                                                              updatedAppDetailsWithKickOutReason,
-                                                              regDetails.acknowledgmentReference)
+        updatedAppDetailsWithKickOutReason,
+        regDetails.acknowledgmentReference)
     } yield {
       savedApplicationDetails.fold[Result] {
         Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
@@ -124,7 +124,11 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
       } {
         appDetails =>
           if (appDetails.widowCheck.fold(false)(_.widowed.fold(false)(identity))) {
-            Redirect(iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad())
+            appDetails.isWidowCheckSectionCompleted match {
+              case true => Redirect(routes.TnrbOverviewController.onPageLoad())
+              case _ => Redirect(routes.DeceasedWidowCheckDateController.onPageLoad())
+            }
+
           } else {
             Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
               appDetails.ihtRef.fold(throw new RuntimeException("No IHT Reference available"))(identity)))

@@ -27,9 +27,10 @@ import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.money.money_jointly_owned
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.Cookie
 
 object MoneyJointlyOwnedController extends MoneyJointlyOwnedController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait MoneyJointlyOwnedController extends EstateController {
@@ -37,40 +38,40 @@ trait MoneyJointlyOwnedController extends EstateController {
   val submitUrl = iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](moneyJointlyOwnedForm, money_jointly_owned.apply,_.allAssets.flatMap(_.money))
-    }
+    implicit user =>
+      implicit request =>
+        estateElementOnPageLoad[ShareableBasicEstateElement](moneyJointlyOwnedForm, money_jointly_owned.apply, _.allAssets.flatMap(_.money))
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val updateApplicationDetails: (ApplicationDetails, Option[String], ShareableBasicEstateElement) =>
-        (ApplicationDetails, Option[String]) =
-        (appDetails, _, money) => {
-          val existingValue = appDetails.allAssets.flatMap(_.money.flatMap(_.value))
-          val existingIsOwned = appDetails.allAssets.flatMap(_.money.flatMap(_.isOwned))
+    implicit user =>
+      implicit request => {
+        val updateApplicationDetails: (ApplicationDetails, Option[String], ShareableBasicEstateElement) =>
+          (ApplicationDetails, Option[String]) =
+          (appDetails, _, money) => {
+            val existingValue = appDetails.allAssets.flatMap(_.money.flatMap(_.value))
+            val existingIsOwned = appDetails.allAssets.flatMap(_.money.flatMap(_.isOwned))
 
-          val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-          (new AllAssets(action = None, money = Some(money)))
+            val updatedAD = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
+            (new AllAssets(action = None, money = Some(money)))
             (
               money.isOwnedShare match {
-                case Some(true) => _.copy(money = Some(money.copy(value = existingValue, isOwned = existingIsOwned) ))
+                case Some(true) => _.copy(money = Some(money.copy(value = existingValue, isOwned = existingIsOwned)))
                 case Some(false) => _.copy(money = Some(money.copy(shareValue = None, value = existingValue,
-                                                        isOwned = existingIsOwned)))
+                  isOwned = existingIsOwned)))
                 case None => throw new RuntimeException
               }
 
-          )))
-          (updatedAD, None)
-        }
+            )))
+            (updatedAD, None)
+          }
 
-      estateElementOnSubmit[ShareableBasicEstateElement](
-        moneyJointlyOwnedForm,
-        money_jointly_owned.apply,
-        updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isOwnedShare", _.isDefined, "error.assets.money.jointlyOwned.select"))
-      )
-    }
+        estateElementOnSubmit[ShareableBasicEstateElement](
+          moneyJointlyOwnedForm,
+          money_jointly_owned.apply,
+          updateApplicationDetails,
+          submitUrl
+        )
+      }
   }
 }

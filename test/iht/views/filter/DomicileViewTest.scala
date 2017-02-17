@@ -38,7 +38,7 @@ class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
-      titleElement.text should include(messagesApi("iht.registration.deceased.permanentHome.where.question"))
+      titleElement.text should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
     }
 
     "generate appropriate content for the browser title" in {
@@ -46,7 +46,7 @@ class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("title").first
 
-      titleElement.text should include(messagesApi("iht.registration.deceased.permanentHome.where.question"))
+      titleElement.text should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
     }
 
     "contain an appropriate field set" in {

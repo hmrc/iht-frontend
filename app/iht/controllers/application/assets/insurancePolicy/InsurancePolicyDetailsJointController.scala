@@ -35,7 +35,7 @@ trait InsurancePolicyDetailsJointController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesJointlyOwned)
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyForm, insurance_policy_details_joint.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyJointQuestionForm, insurance_policy_details_joint.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -52,9 +52,8 @@ trait InsurancePolicyDetailsJointController extends EstateController {
           ))
           (updatedAD, None)
         }
-      estateElementOnSubmit[InsurancePolicy](insurancePolicyForm,
-        insurance_policy_details_joint.apply, updateApplicationDetails, insurancePoliciesRedirectLocation,
-        Some(createValidationFunction("isJointlyOwned", _.isDefined, "error.assets.insurancePolicy.jointlyOwned.select")))
+      estateElementOnSubmit[InsurancePolicy](insurancePolicyJointQuestionForm,
+        insurance_policy_details_joint.apply, updateApplicationDetails, insurancePoliciesRedirectLocation)
     }
   }
 }

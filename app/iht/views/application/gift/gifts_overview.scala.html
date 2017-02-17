@@ -31,18 +31,27 @@ returnToCall: Option[Call],
 returnToMessagesKey: String
 )(implicit request:Request[_], messages: Messages)
 
+
+@deceasedName() = @{getOrException(registrationDetails.deceasedDetails.map(_.name))}
+
+
 @gifts_main_template(
-    title = Messages("iht.estateReport.gifts.givenAwayBy",getOrException(registrationDetails.deceasedDetails.map(_.name))),
+    title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
     browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
     isFullWidth=false,
     relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
     messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
-    messageKeyAccessibility = "page.iht.application.gifts.guidance.whatsAGift.title")(generic_overview(registrationDetails,
-                                       seqRows,
-                                       Messages("page.iht.application.gifts.overview.guidance1",
-                                                   CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
-                                                   CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
-                                       "iht.estateReport.completeEverySection",
-                                       returnToCall,
-                                       returnToMessagesKey,
-                                       true))
+    messageKeyAccessibility = "page.iht.application.gifts.guidance.whatsAGift.title",
+    headingName = deceasedName
+)(generic_overview(
+    registrationDetails,
+   seqRows,
+   Messages("page.iht.application.gifts.overview.guidance1",
+                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true),
+                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
+   "iht.estateReport.completeEverySection",
+   returnToCall,
+   returnToMessagesKey,
+   true,
+showStatus = false)
+)

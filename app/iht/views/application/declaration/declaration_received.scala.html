@@ -59,7 +59,7 @@ isFullWidth=true
 
 
     <p class="grid-2-3"> @Messages("page.iht.application.probateDetails.content4")
-        <a href="javascript:window.print()">@Messages("page.iht.application.probateDetails.content4.print")</a>
+        <a id="download-and-print" href="javascript:window.print()">@Messages("page.iht.application.probateDetails.content4.print")</a>
         @Messages("page.iht.application.probateDetails.content5")
     </p>
     } else {
@@ -74,7 +74,7 @@ isFullWidth=true
 
 <h3>@Messages("page.iht.application.declaration_received.subheading3")</h3>
 <p>
-    <a id="pdfLink" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference))">@Messages("page.iht.application.declaration_received.paragraph5.link")</a>.
+    <a id="pdfLink" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Messages("page.iht.application.declaration_received.paragraph5.link")</a>.
     @Messages("page.iht.application.declaration_received.paragraph5.part2")
 </p>
 
@@ -93,7 +93,7 @@ isFullWidth=true
     )
 }
 
-<a class="button" href="@iht.controllers.home.routes.IhtHomeController.onPageLoad"/>
+<a id="continue-to-estate-report" class="button" href="@iht.controllers.home.routes.IhtHomeController.onPageLoad">
   @Messages("page.iht.application.declaration_received.continuelink")
 </a>
 

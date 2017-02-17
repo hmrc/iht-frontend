@@ -27,7 +27,7 @@ htmlQuestionValue: => Html)(implicit messages: Messages)
 
 <section id="@sectionId">
     @htmlQuestionTitle
-    <ul>
+    <ul class="tabular-data tabular-data--list">
     @{isQuestionsShown match {
         case Some(true) => {Html(htmlQuestion.toString + htmlQuestionValue.toString)}
         case Some(false) => {

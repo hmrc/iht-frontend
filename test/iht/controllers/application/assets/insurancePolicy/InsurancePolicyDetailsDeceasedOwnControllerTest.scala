@@ -30,6 +30,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.testhelpers.ContentChecker
 
 import scala.concurrent.Future
 
@@ -103,7 +104,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
 
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(true),value=Some(20))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceDeceasedOwnValue)
+      val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
@@ -121,7 +122,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
 
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(true),value=Some(20))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceDeceasedOwnValue)
+      val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
@@ -139,7 +140,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
 
       val insuranceDeceasedOwnValue = CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName=Some(false))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insuranceDeceasedOwnValue)
+      val filledInsuranceForm = insurancePolicyDeceasedOwnQuestionForm.fill(insuranceDeceasedOwnValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
@@ -171,7 +172,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
     "display a yes or no question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.ownName.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.ownName.question",
         CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
     }
 
@@ -196,7 +197,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 
-      val filledForm = insurancePolicyForm.fill(insurancePolicyDetails)
+      val filledForm = insurancePolicyDeceasedOwnQuestionForm.fill(insurancePolicyDetails)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)

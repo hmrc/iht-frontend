@@ -17,98 +17,113 @@
 package iht.views.registration.deceased
 
 import iht.forms.registration.DeceasedForms._
+import iht.models.DeceasedDetails
+import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.about_deceased
 import iht.views.registration.RegistrationPageBehaviour
 import org.joda.time.LocalDate
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Call
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
-class AboutDeceasedViewTest extends RegistrationPageBehaviour {
+class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
   override def pageTitle = messagesApi("iht.registration.deceasedDetails.title")
   override def browserTitle = messagesApi("iht.registration.deceasedDetails.title")
 
-  override def fixture() = new {
+  override def form:Form[DeceasedDetails] = aboutDeceasedForm(new LocalDate())
+  override def formToView:Form[DeceasedDetails] => Appendable = form => about_deceased(form, CommonBuilder.DefaultCall1)
+
+
+  def editModeViewAsDocument = {
     implicit val request = createFakeRequest()
-    val view = about_deceased(aboutDeceasedForm(new LocalDate()), Call("", "")).toString
-    val doc = asDocument(view)
+    val view = about_deceased(form, CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2)).toString
+    asDocument(view)
   }
 
   "About Deceased View" must {
 
-    behave like registrationPage()
+    behave like registrationPageWithErrorSummaryBox()
 
     "have the correct label for first name" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "firstName-container", "iht.firstName")
+      labelShouldBe(doc, "firstName-container", "iht.firstName")
     }
 
     "have hint text for first name" in {
-      val f = fixture()
-      labelHelpTextShouldBe(f.doc, "firstName-container", "iht.firstName.hint")
+      labelHelpTextShouldBe(doc, "firstName-container", "iht.firstName.hint")
     }
 
     "have a first name field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "firstName")
+      assertRenderedById(doc, "firstName")
     }
 
     "have the correct label for last name" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "lastName-container", "iht.lastName")
+      labelShouldBe(doc, "lastName-container", "iht.lastName")
     }
 
     "have a last name field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "lastName")
+      assertRenderedById(doc, "lastName")
     }
 
     "have a fieldset with the Id 'date-of-birth'" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "date-of-birth")
+      assertRenderedById(doc, "date-of-birth")
     }
 
     "have a 'day' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfBirth.day")
+      assertRenderedById(doc, "dateOfBirth.day")
     }
 
     "have a 'month' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfBirth.month")
+      assertRenderedById(doc, "dateOfBirth.month")
     }
 
     "have a 'year' input box" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "dateOfBirth.year")
+      assertRenderedById(doc, "dateOfBirth.year")
     }
 
     "have a form hint for date of birth" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, messagesApi("iht.dateExample"))
+      messagesShouldBePresent(view, messagesApi("iht.dateExample"))
     }
 
     "have the correct label for nino" in {
-      val f = fixture()
-      labelShouldBe(f.doc, "nino-container", "iht.nationalInsuranceNo")
+      labelShouldBe(doc, "nino-container", "iht.nationalInsuranceNo")
     }
 
     "have a nino field" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "nino")
+      assertRenderedById(doc, "nino")
     }
 
-    "have a fieldset with the Id 'relationship-status'" in {
-      val f = fixture()
-      assertRenderedById(f.doc, "relationship-status")
+    "have radio button" which {
+      "has a fieldset with the Id 'relationship-status'" in {
+        assertRenderedById(doc, "relationship-status")
+      }
+
+      "includes Married or in a civil partnership" in {
+        radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label", "maritalStatus-married_or_in_civil_partnership")
+      }
+
+      "includes Divorced or a former civil partner" in {
+        radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label", "maritalStatus-divorced_or_former_civil_partner")
+      }
+
+      "includes Widowed or a surviving civil partner" in {
+        radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.maritalStatus.widowed.label", "maritalStatus-widowed_or_a_surviving_civil_partner")
+      }
+
+      "includes Never married or in a civil partnership" in {
+        radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.maritalStatus.single.label", "maritalStatus-single")
+      }
     }
 
-    "have all the correct marital status on the page'" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view, messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label"))
-      messagesShouldBePresent(f.view, messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label"))
-      messagesShouldBePresent(f.view, messagesApi("page.iht.registration.deceasedDetails.maritalStatus.widowed.label"))
-      messagesShouldBePresent(f.view, messagesApi("page.iht.registration.deceasedDetails.maritalStatus.single.label"))
+    "have a continue and cancel link in edit mode" in {
+      val doc = editModeViewAsDocument
+
+      val continueLink = doc.getElementById("continue-button")
+      continueLink.attr("value") shouldBe messagesApi("iht.continue")
+
+      val cancelLink = doc.getElementById("cancel-button")
+      cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
+      cancelLink.text() shouldBe messagesApi("site.link.cancel")
     }
   }
 }

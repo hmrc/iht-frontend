@@ -23,7 +23,7 @@
 
 <section id="reducing-estate-value-section" class="section">
     <h2 class="divider--bottom">@Messages("page.iht.application.overview.reducingTheEstateValue.total")</h2>
-    <ul id="exemptions-overview" class="tabular-data">
+    <ul id="exemptions-overview" class="tabular-data tabular-data--list">
         @if(model.debtRow.isDefined){@overview_item(model.debtRow.get, Some("divider--bottom"))}
         @overview_item(model.exemptionRow)
 

@@ -134,27 +134,24 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
       registrationDetails = regDetails,
       applicationDetails = appDetails.copy(allExemptions = Some(appDetails.allExemptions.fold(new
           AllExemptions(partner = Some(updatedPartnerExemption)))(_.copy(partner = Some(updatedPartnerExemption))))))
-    ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference)
-
-
-    Future.successful(Redirect(applicationDetails.kickoutReason.fold(partnerOverviewPage)
-    (_ => kickoutRedirectLocation)))
-
+    ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map(_ =>
+      Redirect(applicationDetails.kickoutReason.fold(partnerOverviewPage)
+      (_ => kickoutRedirectLocation)))
   }
 
   private def returnLabel(regDetails: RegistrationDetails, appDetails: ApplicationDetails): String = {
-    val deceasedName = regDetails.deceasedDetails.map(_.name)
+    val deceasedName = ihtHelpers.name(regDetails.deceasedDetails.map(_.name).getOrElse(""))
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
       case Some(x) => {
         if (x.isPartnerHomeInUK.isDefined) {
           Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
         } else {
-          Messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
+          Messages("page.iht.application.return.to.exemptionsOf", deceasedName)
         }
       }
       case None => {
-        Messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
+        Messages("page.iht.application.return.to.exemptionsOf", deceasedName)
       }
     }
   }

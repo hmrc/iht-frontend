@@ -17,12 +17,13 @@
 package iht.views.application.assets.vehicles
 
 import iht.controllers.application.assets.vehicles.routes._
-import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_overview
-import org.jsoup.nodes.Document
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
 class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
 
@@ -50,37 +51,14 @@ class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
   override def jointlyOwnedValueRowId = "deceased-share-value"
   override def jointlyOwnedValueText = messagesApi("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
 
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+  override def viewWithQuestionsAnsweredNo: String = vehicles_overview(dataWithQuestionsAnsweredNo, regDetails).toString
+  override def viewWithQuestionsAnsweredYes: String = vehicles_overview(dataWithQuestionsAnsweredYes, regDetails).toString
+  override def viewWithQuestionsUnanswered: String = vehicles_overview(None, regDetails).toString
+  override def viewWithValues: String = vehicles_overview(dataWithValues, regDetails).toString
 
   "Vehicles overview view" must {
-
-    behave like overviewView()
+    behave like overviewPage()
   }
 
-  "Vehicles overview view" when {
-    "no questions have been answered" must {
-
-      behave like overviewViewWithQuestionsUnanswered()
-    }
-
-    "the questions have been answered as No" must {
-
-      behave like overviewViewWithQuestionsAnsweredNo()
-    }
-
-    "the questions have been answered as Yes with no value supplied" must {
-
-      behave like overviewViewWithQuestionsAnsweredYes()
-    }
-
-    "the questions have been answered and values given" must {
-
-      behave like overviewViewWithValues()
-    }
-  }
-
-  override def fixture(data: Option[ShareableBasicEstateElement]) = new {
-    implicit val request = createFakeRequest()
-    val view = vehicles_overview(data, regDetails).toString
-    val doc: Document = asDocument(view)
-  }
 }

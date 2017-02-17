@@ -18,15 +18,22 @@ package iht.views.application.assets.vehicles
 
 import iht.controllers.application.assets.vehicles.routes._
 import iht.forms.ApplicationForms._
+import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_deceased_own
 import play.api.i18n.Messages.Implicits._
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
-class VehiclesDeceasedOwnViewTest extends ShareableElementInputViewBehaviour {
+class VehiclesDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def form:Form[ShareableBasicEstateElement] = vehiclesFormOwn
+  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => vehicles_deceased_own(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.vehiclesOwned", deceasedName)
   override def browserTitle = messagesApi("page.iht.application.assets.vehicles.deceased.browserTitle")
@@ -41,9 +48,4 @@ class VehiclesDeceasedOwnViewTest extends ShareableElementInputViewBehaviour {
     behave like yesNoValueView
   }
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = vehicles_deceased_own(vehiclesFormOwn, regDetails).toString
-    val doc = asDocument(view)
-  }
 }

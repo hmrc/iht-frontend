@@ -17,10 +17,16 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
+import iht.constants.IhtProperties
 import iht.models.QuestionnaireModel
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.mvc.{Request, Session}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+
+import scala.concurrent.Future
 
 
 /**
@@ -33,38 +39,30 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest w
   val mockIhtConnector = mock[IhtConnector]
   val mockAuditConnector = mock[ExplicitAuditConnector]
 
-
   // Create controller object and pass in mock.
   def questionnaireController = new ApplicationQuestionnaireController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = createFakeAuthConnector()
     override val isWhiteListEnabled = false
+
     override def explicitAuditConnector = mockAuditConnector
+
     def cachingConnector = mockCachingConnector
+
     def ihtConnector = mockIhtConnector
   }
 
   def questionnaireControllerNotAuthorised = new ApplicationQuestionnaireController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=false)
+    override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
+
     override def explicitAuditConnector = mockAuditConnector
+
     def cachingConnector = mockCachingConnector
+
     def ihtConnector = mockIhtConnector
   }
 
   "onApplicationPageLoad method" must {
-
-    "redirect to GG login page on onPageLoad if the user is not logged in" in {
-      val result = questionnaireControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
-    }
-
-    "redirect to GG login page on Submit if the user is not logged in" in {
-      val result = questionnaireControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
-    }
-
     "respond with OK and correct header title on page load" in {
 
       val result = questionnaireController.onPageLoad()(createFakeRequest())
@@ -75,7 +73,7 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest w
     "respond with redirect on page submit" in {
       val result = questionnaireController.onSubmit()(createFakeRequest())
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(iht.controllers.routes.IhtMainController.signOut().url))
+      redirectLocation(result) should be (Some(IhtProperties.linkGovUkIht))
     }
 
     "set up instance for explicit audit connector" in {

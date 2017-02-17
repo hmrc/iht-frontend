@@ -25,6 +25,8 @@ registrationDetails: RegistrationDetails
 
 @import iht.utils._
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("page.iht.application.insurance.policies.section2.title"),
     browserTitle = Some(Messages("page.iht.application.insurance.policies.section2.browserTitle")),
     isFullWidth=false
@@ -34,16 +36,15 @@ registrationDetails: RegistrationDetails
 
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onSubmit,'autoComplete -> "off") {
 
-          <p class="lede" id="insurance-policy-description">@Messages("page.iht.application.insurance.policies.section2.guidance",
-              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails),
-              CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+          <p class="lede" id="insurance-policy-description">
+              @Html(Messages("page.iht.application.insurance.policies.section2.guidance",deceasedName,deceasedName))
+          </p>
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
 
             @ihtHelpers.input_yes_no_radio_group(
                 insurancePolicyForm("isJointlyOwned"),
-                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
+                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName)),
                 '_shownElementNo -> None,
                 '_shownElementYes -> Some("deceaseds-policy"),
                 '_hiddenElementYes -> None,
@@ -69,6 +70,6 @@ registrationDetails: RegistrationDetails
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.return_link(Some(Messages("site.link.return.insurance.policies")), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
     }
 }

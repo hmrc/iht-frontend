@@ -18,18 +18,24 @@ package iht.views.application.assets
 
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
+import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.money_owed
 import play.api.i18n.Messages.Implicits._
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
-class MoneyOwedViewTest extends ShareableElementInputViewBehaviour {
+class MoneyOwedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
+  override def form:Form[BasicEstateElement] = moneyOwedForm
+  override def formToView:Form[BasicEstateElement] => Appendable = form => money_owed(form, regDetails)
+
   override def pageTitle = messagesApi("iht.estateReport.assets.moneyOwed", deceasedName)
-  override def browserTitle = messagesApi("iht.estateReport.assets.moneyOwed", messagesApi("iht.the.deceased"))
+  override def browserTitle = messagesApi("iht.estateReport.assets.moneyOwed", Messages("iht.the.deceased"))
   override def questionTitle = messagesApi("page.iht.application.assets.moneyOwed.isOwned", deceasedName)
   override def valueQuestion = messagesApi("page.iht.application.assets.moneyOwed.inputLabel1")
   override def hasValueQuestionHelp = false
@@ -41,17 +47,11 @@ class MoneyOwedViewTest extends ShareableElementInputViewBehaviour {
     behave like yesNoValueView
 
     "show the correct guidance" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view,
+      messagesShouldBePresent(view,
         messagesApi("page.iht.application.assets.moneyOwed.description.p1", deceasedName),
         messagesApi("page.iht.application.assets.moneyOwed.description.p2", deceasedName),
         messagesApi("page.iht.application.assets.moneyOwed.description.p3", deceasedName))
     }
   }
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = money_owed(moneyOwedForm, regDetails).toString
-    val doc = asDocument(view)
-  }
 }

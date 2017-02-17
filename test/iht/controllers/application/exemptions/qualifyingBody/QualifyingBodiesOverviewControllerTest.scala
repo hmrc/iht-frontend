@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.QualifyingBody
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
+import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
@@ -113,7 +114,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       info("progressive reveal link is present")
       content should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext"))
       info("progressive reveal text is present")
-      content should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.question",
+      ContentChecker.stripLineBreaks(content) should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.question",
                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       info("question label is present")
       content should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text"))
@@ -122,6 +123,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       info("return to exemptions link is present")
       content should include(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad().url)
       info("link to the exemptions overview is present")
+      content should include(Messages("iht.estateReport.assets.qualifyingBodyAdd"))
     }
 
     "include a link to change the Qualifying Bodies question when no qualifying bodies are set up" in {
@@ -159,6 +161,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
+      contentAsString(result) should include(Messages("iht.estateReport.assets.qualifyingBodyAddAnother"))
     }
   }
 }

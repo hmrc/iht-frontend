@@ -25,7 +25,7 @@ submitUrl:Call,
 cancelUrl:Call,
 deceasedName: String)(implicit request:Request[_], messages: Messages))
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.properties.value.question"),
+@iht_main_template_application(title = Messages("iht.estateReport.assets.properties.value.question", deceasedName),
 browserTitle = Some(Messages("page.iht.application.property.value.browserTitle")),
 isFullWidth=false,
 cancelUrl=Some(cancelUrl),
@@ -33,7 +33,8 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 ){
     @ihtHelpers.error_summary(propertyValueForm)
 
-<p id="property-value-guidance">@Messages("page.iht.application.property.value.question.hint", deceasedName)</p>
+<p id="property-value-guidance1">@Messages("page.iht.application.property.value.question.hint1", deceasedName)</p>
+<p id="property-value-guidance2">@Messages("page.iht.application.property.value.question.hint2", deceasedName)</p>
     @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
             @ihtHelpers.input_estate_value(propertyValueForm("value"),

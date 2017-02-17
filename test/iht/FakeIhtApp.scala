@@ -45,6 +45,7 @@ trait FakeIhtApp extends OneAppPerSuite {
     val userId = "ID-" + fakeNino
     if (isAuthorised) {
       FakeRequest().withSession(
+        Constants.NINO -> NinoBuilder.randomNino.nino,
         SessionKeys.sessionId -> s"session-$userId",
         SessionKeys.userId -> userId,
         SessionKeys.token -> "some-gg-token").withHeaders(

@@ -17,14 +17,11 @@
 package iht.views.application.overview
 
 import iht.viewmodels.application.overview._
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.overview.declaration_section
-import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 
-class DeclarationSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec {
+class DeclarationSectionViewTest extends ViewTestHelper {
 
   val ihtRef = "ABC123"
 

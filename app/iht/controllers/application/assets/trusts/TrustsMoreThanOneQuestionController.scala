@@ -62,8 +62,7 @@ trait TrustsMoreThanOneQuestionController extends EstateController {
         trustsMoreThanOneQuestionForm,
         trusts_more_than_one_question.apply,
         updateApplicationDetails,
-        submitUrl,
-        Some(createValidationFunction("isMoreThanOne", _.isDefined, "error.assets.heldInTrust.moreThanOne.select"))
+        submitUrl
       )
     }
   }

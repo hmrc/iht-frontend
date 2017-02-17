@@ -43,21 +43,16 @@ property:Option[Property]=None)(implicit request:Request[_], messages: Messages)
 browserTitle = Some(Messages("iht.estateReport.assets.propertyAdd")),
 isFullWidth = false) {
 
-<ul id="property-details-table">
+<ul id="property-details-table" class="tabular-data tabular-data--list">
     @defining(property.flatMap(_.id))  { propertyId =>
         @defining(property.flatMap(_.address))  { propertyAddress =>
             <li id="property-address" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                 <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.property.whatIsAddress.question")</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
-                    @propertyAddress match {
+                    @propertyAddress match{
                         case Some(x) => {
-                          @x.ukAddressLine1&#44;<br />
-                          @x.ukAddressLine2&#44;<br />
-                          @x.ukAddressLine3.getOrElse("")@if(x.ukAddressLine3.isDefined){&#44;<br />}
-                          @x.ukAddressLine4.getOrElse("")@if(x.ukAddressLine4.isDefined){&#44;<br />}
-                          @if(x.postCode != ""){@x.postCode<br />}
-                          @if(countryName(x.countryCode) != ""){@countryName(x.countryCode)&#46;}
-                    }
+                            @CommonHelper.addressLayout(x)
+                        }
                         case None => {}
                     }
                 </div>
@@ -100,7 +95,7 @@ isFullWidth = false) {
         }
         @defining(property.flatMap(_.typeOfOwnership))  { typeOfOwnership =>
             <li id="type-of-ownership" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName)</div>
+                <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.name(deceasedName)))</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{typeOfOwnership match {
                     case Some(x) => {FieldMappings.typesOfOwnership(x)._1}
@@ -146,7 +141,7 @@ isFullWidth = false) {
         }
         @defining(property.flatMap(_.value)) { value =>
             <li id="property-value" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-                <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.value.question")</div>
+                <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.value.question", deceasedName)</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{value match {
                     case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}

@@ -60,8 +60,7 @@ trait ForeignController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](foreignForm,
         foreign.apply,
         updateApplicationDetails,
-        assetsRedirectLocation,
-        Some(createValidationFunction("isOwned", _.isDefined, "error.assets.foreign.select"))
+        assetsRedirectLocation
       )
     }
   }

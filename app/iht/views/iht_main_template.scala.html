@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *@
-@import iht.constants.Constants._
 
 @(title: String,
 signOutText: String = "",
@@ -33,7 +32,8 @@ hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 signOutUrl: Option[Call],
 headerTitle: Option[String],
-headingClass: String = "heading-xlarge"
+headingClass: String = "",
+headingName: String = ""
 )(mainContent: Html)(implicit messages: Messages)
 
 @import uk.gov.hmrc.play.views.html.layouts
@@ -41,6 +41,26 @@ headingClass: String = "heading-xlarge"
 @import iht.config.ApplicationConfig
 @import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
 @import iht.utils.CommonHelper
+
+@headingClassName() = @{
+    if(headingClass != ""){
+        headingClass
+    }else{
+        if(CommonHelper.isNameLong(headingName)){
+            "heading-large"
+        } else {
+            "heading-xlarge"
+        }
+    }
+}
+
+@parseForName(heading: String, name: String) = @{
+    if(heading contains name){
+        Html(heading.replace(name, ihtHelpers.name(name).toString()));
+    } else {
+        heading;
+    }
+}
 
 @navLinks = {
     @signOutUrl.map{ url =>
@@ -82,7 +102,13 @@ headingClass: String = "heading-xlarge"
 }
 
 @mainContentIht = {
-    <h1 class="@headingClass">@title</h1>
+    <h1 class="@headingClassName">
+        @if(headingName > ""){
+            @parseForName(title, headingName)
+        } else {
+            @title
+        }
+    </h1>
 
     @mainContent
 
@@ -90,7 +116,7 @@ headingClass: String = "heading-xlarge"
         <a id="back-button" class="back-link" href=@url>@Messages("iht.back")</a>
     }
     @cancelUrl.map{ url =>
-        <a id="cancel-button" class="" href=@url>@cancelLabel</a>
+        <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
     }
 
 }

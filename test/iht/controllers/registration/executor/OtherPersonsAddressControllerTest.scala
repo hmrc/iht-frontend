@@ -20,9 +20,10 @@ import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms._
 import iht.models.{RegistrationDetails, UkAddress}
-import iht.testhelpers.{CommonBuilder, NinoBuilder}
-import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper._
+import iht.testhelpers.{CommonBuilder, NinoBuilder}
+import iht.testhelpers.ContentChecker
+import iht.testhelpers.MockObjectBuilder._
 import org.joda.time._
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
@@ -78,9 +79,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/1"))
 
       status(result) should be(OK)
-      contentAsString(result) should include(
-        messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
-        addEscapedApostrophe(rd.coExecutors(0).name)))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
+        Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+          addApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToAbroad"))
       contentAsString(result) should include(msg)
@@ -95,9 +96,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1"))
 
       status(result) should be(OK)
-      contentAsString(result) should include(
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
         messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
-        addEscapedApostrophe(rd.coExecutors(0).name)))
+          addApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToUK"))
       contentAsString(result) should include(msg)
@@ -212,9 +213,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2"))
 
       status(result) should be(OK)
-      contentAsString(result) should include(
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
         messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
-        addEscapedApostrophe(rdWithCoExecs.coExecutors(1).name)))
+          addApostrophe(rdWithCoExecs.coExecutors(1).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToAbroad"))
       contentAsString(result) should include(msg)
@@ -230,9 +231,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
 
       status(result) should be(OK)
-      contentAsString(result) should include(
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(
         messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
-        addEscapedApostrophe(rdWithCoExecs.coExecutors(1).name)))
+          addApostrophe(rdWithCoExecs.coExecutors(1).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToUK"))
       contentAsString(result) should include(msg)

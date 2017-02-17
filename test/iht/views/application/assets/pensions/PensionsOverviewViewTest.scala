@@ -71,6 +71,14 @@ class PensionsOverviewViewTest extends ViewTestHelper {
                                               deceasedName))
     }
 
+    "have return link with correct text" in  {
+      val view = pensionOverviewView(Some(CommonBuilder.buildPrivatePensionExtended))
+
+      val link = view.getElementById("return-button")
+      link.text shouldBe Messages("page.iht.application.return.to.assetsOf", deceasedName)
+      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
+    }
+
   }
 
   "Did the deceased have any private pensions section" must {

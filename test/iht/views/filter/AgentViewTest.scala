@@ -22,7 +22,7 @@ import iht.views.html.filter.agent_view
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
-
+import iht.constants.IhtProperties
 /**
   * Created by adwelly on 21/10/2016.
   */
@@ -63,12 +63,12 @@ class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       button.text() should be(messagesApi("iht.exitToGovUK"))
     }
 
-    "contain a link with a button class with the href 'https://www.gov.uk'" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+    "contain a link with a button class with the correct exit link" in {
+      val result = agent_view()
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") should be(messagesApi("https://www.gov.uk"))
+      button.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
     }
 
     "contain a link with id 'back' with the text 'Back'" in {

@@ -102,7 +102,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
 
       val insurancePayingOtherValue = CommonBuilder.buildInsurancePolicy.copy(isInsurancePremiumsPayedForSomeoneElse=Some(true))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insurancePayingOtherValue)
+      val filledInsuranceForm = insurancePolicyPayingOtherForm.fill(insurancePayingOtherValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)
@@ -122,7 +122,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
 
       val insurancePayingOtherValue = CommonBuilder.buildInsurancePolicy.copy(isInsurancePremiumsPayedForSomeoneElse=Some(false))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insurancePayingOtherValue)
+      val filledInsuranceForm = insurancePolicyPayingOtherForm.fill(insurancePayingOtherValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)
@@ -140,7 +140,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
 
       val insurancePayingOtherValue = CommonBuilder.buildInsurancePolicy.copy(isInsurancePremiumsPayedForSomeoneElse=Some(true))
 
-      val filledInsuranceForm = insurancePolicyForm.fill(insurancePayingOtherValue)
+      val filledInsuranceForm = insurancePolicyPayingOtherForm.fill(insurancePayingOtherValue)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledInsuranceForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)
@@ -199,7 +199,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 
-      val filledForm = insurancePolicyForm.fill(insurancePolicyDetails)
+      val filledForm = insurancePolicyPayingOtherForm.fill(insurancePolicyDetails)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)

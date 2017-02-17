@@ -18,15 +18,21 @@ package iht.views.application.assets.household
 
 import iht.controllers.application.assets.household.routes._
 import iht.forms.ApplicationForms._
+import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_deceased_own
 import play.api.i18n.Messages.Implicits._
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
-class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour {
+class HouseholdDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def form:Form[ShareableBasicEstateElement] = householdFormOwn
+  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => household_deceased_own(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                                     deceasedName)
@@ -39,12 +45,7 @@ class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour {
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
 
   "Household Deceased Own view" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
   }
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = household_deceased_own(householdFormOwn, regDetails).toString
-    val doc = asDocument(view)
-  }
 }

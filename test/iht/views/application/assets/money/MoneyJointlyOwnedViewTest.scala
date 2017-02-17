@@ -18,15 +18,23 @@ package iht.views.application.assets.money
 
 import iht.controllers.application.assets.money.routes._
 import iht.forms.ApplicationForms._
+import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
-import iht.views.html.application.asset.money.money_jointly_owned
 import play.api.i18n.Messages.Implicits._
+import iht.views.html.application.asset.money.{money_deceased_own, money_jointly_owned}
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
-class MoneyJointlyOwnedViewTest extends ShareableElementInputViewBehaviour {
+class MoneyJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
+
+  override def form:Form[ShareableBasicEstateElement] = moneyJointlyOwnedForm
+  override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => money_jointly_owned(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.assets.money.jointlyOwned")
   override def browserTitle = messagesApi("page.iht.application.assets.money.jointly.owned.browserTitle")
@@ -38,20 +46,14 @@ class MoneyJointlyOwnedViewTest extends ShareableElementInputViewBehaviour {
   override def returnLinkUrl = MoneyOverviewController.onPageLoad().url
 
   "Money Jointly Owned view" must {
-    behave like yesNoValueViewJoint
+    behave like yesNoValueViewJointWithErrorSummaryBox
 
     "show the correct guidance" in {
-      val f = fixture()
-      messagesShouldBePresent(f.view,
+      messagesShouldBePresent(view,
         messagesApi("page.iht.application.assets.money.jointly.owned.guidance.p1", deceasedName),
         messagesApi("page.iht.application.assets.money.jointly.owned.guidance.p2", deceasedName),
         messagesApi("page.iht.application.assets.money.jointly.owned.guidance.p3", deceasedName, deceasedName))
     }
   }
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = money_jointly_owned(moneyJointlyOwnedForm, regDetails).toString
-    val doc = asDocument(view)
-  }
 }

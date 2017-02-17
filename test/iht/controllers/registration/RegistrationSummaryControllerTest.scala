@@ -27,7 +27,9 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.ContentChecker
 import iht.utils.StringHelper
+import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -90,8 +92,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       redirectLocation(result) should be (Some(loginUrl))
     }
 
-    "Load the RegistrationSummary page with basic data" in {
-
+    "Load the RegistrationSummary page with title" in {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -102,232 +103,12 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      val content = contentAsString(result)
+      val content = ContentChecker.stripLineBreaks(contentAsString(result))
 
       content should include(messagesApi("iht.registration.checkYourAnswers"))
-      content should include(messagesApi("page.iht.registration.registrationSummary.subTitle"))
-      content should include(messagesApi("page.iht.registration.registrationSummary.deceasedTable.title"))
-      content should include(messagesApi("iht.name.upperCaseInitial"))
-      content should include(deceasedDetails.firstName.get)
-      content should include(deceasedDetails.lastName.get)
-      content should include(anchorLink(deceasedRoutes.AboutDeceasedController.onEditPageLoad().url, "firstName"))
-
-      content should include(messagesApi("iht.dateOfDeath"))
-      content should include(deceasedDateOfDeath.dateOfDeath.toString(IhtProperties.dateFormatForDisplay))
-      content should include(anchorLink(deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad().url, "date-of-death"))
-
-      content should include(messagesApi("iht.dateofbirth"))
-      content should include(deceasedDetails.dateOfBirth.get.toString(IhtProperties.dateFormatForDisplay))
-      content should include(anchorLink(deceasedRoutes.AboutDeceasedController.onEditPageLoad().url, "date-of-birth"))
-
-      content should include(messagesApi("iht.nationalInsuranceNo"))
-      content should include(deceasedDetails.nino.getOrElse(""))
-      content should include(anchorLink(deceasedRoutes.AboutDeceasedController.onEditPageLoad().url, "nino"))
-
-      content should include(messagesApi("iht.registration.contactAddress"))
-      content should include(deceasedDetails.ukAddress.get.ukAddressLine1)
-      content should include(deceasedDetails.ukAddress.get.ukAddressLine2)
-      content should include(deceasedDetails.ukAddress.get.ukAddressLine3.getOrElse(""))
-      content should include(deceasedDetails.ukAddress.get.ukAddressLine4.getOrElse(""))
-      content should include(deceasedDetails.ukAddress.get.postCode)
-      content should include(anchorLink(deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad().url, "details"))
-      content should not include deceasedRoutes.DeceasedAddressDetailsOutsideUKController.onEditPageLoad().url
-
-      content should include(messagesApi("iht.registration.deceased.locationOfPermanentHome"))
-      content should include(deceasedDetails.domicile.get)
-      content should include(anchorLink(deceasedRoutes.DeceasedPermanentHomeController.onEditPageLoad().url, "country"))
-
-      content should include(messagesApi("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"))
-      content should include(FieldMappings.maritalStatusMap(deceasedDetails.maritalStatus.get))
-      content should include(anchorLink(deceasedRoutes.AboutDeceasedController.onEditPageLoad().url, "relationship-status"))
-
-      content should include(messagesApi("page.iht.registration.registrationSummary.applicantTable.title"))
-
-      content should include(messagesApi("iht.name.upperCaseInitial"))
-      content should include(applicantDetails.firstName.get)
-      content should include(applicantDetails.lastName.get)
-
-      content should include(messagesApi("iht.dateofbirth"))
-      content should include(applicantDetails.dateOfBirth.get.toString(IhtProperties.dateFormatForDisplay))
-
-      content should include(messagesApi("iht.nationalInsuranceNo"))
-      content should include(applicantDetails.nino.getOrElse(""))
-
-      content should include(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"))
-      content should include(applicantDetails.phoneNo.get)
-      content should include(anchorLink(applicantRoutes.ApplicantTellUsAboutYourselfController.onEditPageLoad().url, "phoneNo"))
-
-      content should include(messagesApi("iht.address.upperCaseInitial"))
-      content should include(applicantDetails.ukAddress.get.ukAddressLine1)
-      content should include(applicantDetails.ukAddress.get.ukAddressLine2)
-      content should include(applicantDetails.ukAddress.get.ukAddressLine3.getOrElse(""))
-      content should include(applicantDetails.ukAddress.get.ukAddressLine4.getOrElse(""))
-      content should include(applicantDetails.ukAddress.get.postCode)
-      content should include(iht.utils.countryName(applicantDetails.ukAddress.get.countryCode))
-      content should include(anchorLink(applicantRoutes.ApplicantAddressController.onEditPageLoadUk().url, "details"))
-      content should not include applicantRoutes.ApplicantAddressController.onEditPageLoadAbroad().url
-
-      content should include(messagesApi("iht.registration.applicant.applyingForProbate"))
-      content should include(StringHelper.yesNoFormat(applicantDetails.isApplyingForProbate))
-      content should include(anchorLink(applicantRoutes.ApplyingForProbateController.onEditPageLoad().url, "applying-for-probate"))
-
-      content should include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
-      content should include(applicantDetails.country.get)
-      content should include(anchorLink(applicantRoutes.ProbateLocationController.onEditPageLoad().url, "country"))
-
-      content should include(messagesApi("iht.registration.othersApplyingForProbate"))
-      content should include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.none"))
-      content should include(anchorLink(executorRoutes.OthersApplyingForProbateController.onPageLoadFromOverview().url, "answer"))
     }
 
-    "Load the RegistrationSummary page with addresses abroad" in {
-      val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
-      val applicantAddress = UkAddress("App Addr 1", "App Addr 2", Some("App Addr 3"), Some("App Addr 4"), "", "AU")
-      val deceasedAddress = UkAddress("Dec Addr 1", "Dec Addr 2", Some("Dec Addr 3"), Some("Dec Addr 4"), "", "US")
-
-      val applicantDetails = CommonBuilder.buildApplicantDetails copy (ukAddress = Some(applicantAddress), doesLiveInUK = Some(false))
-      val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (ukAddress = Some(deceasedAddress), isAddressInUK = Some(false))
-
-      val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails),
-        Some(deceasedDetails), areOthersApplyingForProbate = Some(false))
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-
-      val result = controller.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      val content = contentAsString(result)
-
-      content should include(deceasedAddress.ukAddressLine1)
-      content should include(deceasedAddress.ukAddressLine2)
-      content should include(deceasedAddress.ukAddressLine3.getOrElse(""))
-      content should include(deceasedAddress.ukAddressLine4.getOrElse(""))
-      content should include(iht.utils.countryName(deceasedAddress.countryCode))
-      content should include(anchorLink(deceasedRoutes.DeceasedAddressDetailsOutsideUKController.onEditPageLoad().url, "details"))
-      content should not include deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad().url
-
-      content should include(applicantAddress.ukAddressLine1)
-      content should include(applicantAddress.ukAddressLine2)
-      content should include(applicantAddress.ukAddressLine3.getOrElse(""))
-      content should include(applicantAddress.ukAddressLine4.getOrElse(""))
-      content should include(iht.utils.countryName(applicantAddress.countryCode))
-      content should include(anchorLink(applicantRoutes.ApplicantAddressController.onEditPageLoadAbroad().url, "details"))
-      content should not include applicantRoutes.ApplicantAddressController.onEditPageLoadUk().url
-    }
-
-    "Load the RegistrationSummary page with 1 co-executor defined" in {
-      val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
-      val applicantDetails = CommonBuilder.buildApplicantDetails
-      val deceasedDetails = CommonBuilder.buildDeceasedDetails
-      val coExec1 = CommonBuilder.buildCoExecutor copy (firstName=CommonBuilder.firstNameGenerator,
-        lastName=CommonBuilder.surnameGenerator, dateOfBirth = new LocalDate(1980, 4, 12),
-        nino = CommonBuilder.DefaultNino, isAddressInUk = Some(true),
-        ukAddress = Some(UkAddress("X1", "X2", Some("X3"), None, "aa1 1aa", "GB")),
-        contactDetails = ContactDetails("0123 456789", Some("")))
-
-      val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails), Some(deceasedDetails),
-        Seq(coExec1), areOthersApplyingForProbate = Some(true))
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-
-      val result = controller.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-
-      val content = contentAsString(result)
-      content shouldNot include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.none"))
-
-      content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)
-
-      content should include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link"))
-      content should include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.sectionTitle", "1"))
-      content should include(messagesApi("iht.name.upperCaseInitial"))
-      content should include(coExec1.firstName)
-      content should include(coExec1.lastName)
-      content should include(anchorLink(executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad("1").url, "firstName"))
-
-      content should include(messagesApi("iht.dateofbirth"))
-      content should include(coExec1.dateOfBirth.toString(IhtProperties.dateFormatForDisplay))
-      content should include(anchorLink(executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad("1").url, "date-of-birth"))
-
-      content should include(messagesApi("iht.nationalInsuranceNo"))
-      content should include(coExec1.nino)
-      content should include(anchorLink(executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad("1").url, "nino"))
-
-      content should include(messagesApi("iht.address.upperCaseInitial"))
-      content should include(coExec1.ukAddress.get.ukAddressLine1)
-      content should include(coExec1.ukAddress.get.ukAddressLine2)
-      content should include(coExec1.ukAddress.get.ukAddressLine3.getOrElse(""))
-      content should include(coExec1.ukAddress.get.ukAddressLine4.getOrElse(""))
-      content should include(coExec1.ukAddress.get.postCode)
-      content should include(iht.utils.countryName(coExec1.ukAddress.get.countryCode))
-      content should include(anchorLink(executorRoutes.OtherPersonsAddressController.onEditPageLoadUK("1").url, "details"))
-
-      content should include(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"))
-      content should include(coExec1.contactDetails.phoneNo)
-    }
-
-    "Load the RegistrationSummary page with 2 co-executors defined" in {
-      val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
-      val applicantDetails = CommonBuilder.buildApplicantDetails
-      val deceasedDetails = CommonBuilder.buildDeceasedDetails
-      val coExec1 = CommonBuilder.buildCoExecutor copy (firstName=CommonBuilder.firstNameGenerator,
-        lastName=CommonBuilder.surnameGenerator, dateOfBirth = new LocalDate(1980, 4, 12),
-        nino = CommonBuilder.DefaultNino, isAddressInUk = Some(true),
-        ukAddress = Some(UkAddress("xX1", "Xx2", Some("x3"), None, "aa1 1aa", "GB")),
-        contactDetails = ContactDetails("0123 456789", Some("")))
-
-      val coExec2 = CommonBuilder.buildCoExecutor copy (id = Some("2"), firstName=CommonBuilder.firstNameGenerator,
-        lastName=CommonBuilder.surnameGenerator, dateOfBirth = new LocalDate(1981, 5, 13),
-        nino = CommonBuilder.DefaultNino, isAddressInUk = Some(false),
-        ukAddress = Some(UkAddress("Z1", "Z2", Some("Z3"), Some("Z4"), "", "AU")),
-        contactDetails = ContactDetails("987654321", Some("")))
-
-      val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails), Some(deceasedDetails),
-        Seq(coExec1, coExec2), areOthersApplyingForProbate = Some(true))
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-
-      val result = controller.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-
-      val content = contentAsString(result)
-      content shouldNot include(messagesApi("page.iht.registration.registrationSummary.coExecutorTable.none"))
-
-      content should include(executorRoutes.ExecutorOverviewController.onPageLoad().url)
-
-      content should include(messagesApi("iht.name.upperCaseInitial"))
-      content should include(coExec1.firstName)
-      content should include(coExec1.lastName)
-      content should include(anchorLink(executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad("1").url, "firstName"))
-
-      content should include(messagesApi("iht.dateofbirth"))
-      content should include(coExec1.dateOfBirth.toString(IhtProperties.dateFormatForDisplay))
-
-      content should include(messagesApi("iht.nationalInsuranceNo"))
-      content should include(coExec1.nino)
-
-      content should include(messagesApi("iht.address.upperCaseInitial"))
-      content should include(coExec1.ukAddress.get.ukAddressLine1)
-      content should include(coExec1.ukAddress.get.ukAddressLine2)
-      content should include(coExec1.ukAddress.get.ukAddressLine3.getOrElse(""))
-      content should include(coExec1.ukAddress.get.ukAddressLine4.getOrElse(""))
-      content should include(coExec1.ukAddress.get.postCode)
-      content should include(iht.utils.countryName(coExec1.ukAddress.get.countryCode))
-      content should include(anchorLink(executorRoutes.OtherPersonsAddressController.onEditPageLoadUK("1").url, "details"))
-
-      content should include(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"))
-      content should include(coExec1.contactDetails.phoneNo)
-
-      content should include(coExec2.ukAddress.get.ukAddressLine1)
-      content should include(coExec2.ukAddress.get.ukAddressLine2)
-      content should include(coExec2.ukAddress.get.ukAddressLine3.getOrElse(""))
-      content should include(coExec2.ukAddress.get.ukAddressLine4.getOrElse(""))
-      content should include(iht.utils.countryName(coExec2.ukAddress.get.countryCode))
-      content should include(executorRoutes.OtherPersonsAddressController.onEditPageLoadAbroad("2").url)
-
-      content should include(coExec2.contactDetails.phoneNo)
-    }
-
-    "onSubmit for valid input should redirect to completed registration" in {
+     "onSubmit for valid input should redirect to completed registration" in {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails

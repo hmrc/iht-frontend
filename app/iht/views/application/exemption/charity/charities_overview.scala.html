@@ -35,7 +35,7 @@ isFullWidth=false
         <ul>
         @generic_overview_table_item(id = "home-in-uk",
         questionText = Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)),
+                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
         questionScreenReaderText= Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question"),
         questionCategory= "change",
         answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToCharity)),
@@ -45,7 +45,7 @@ isFullWidth=false
 
         <div class="subsection">
           <h2>@Messages("page.iht.application.exemptions.charityOverviewTable.header")</h2>
-          <ul>
+          <ul class="tabular-data tabular-data--list">
           @for((element,i) <- charities.zipWithIndex){
           <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
               <div class="tabular-data__data tabular-data__data--4-12">
@@ -54,7 +54,7 @@ isFullWidth=false
                       case (None, None) => { @Messages("site.noCharityNameAndNumberGiven") }
                       case (Some(_), None) => { @Messages("site.noCharityNumberGiven") }
                       case (None, Some(_)) => { @Messages("site.noCharityNameGiven") }
-                      case (Some(name), Some(_)) => { @name }
+                      case (Some(name), Some(_)) => { @ihtHelpers.name(name) }
                   }
               </div>
               <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
@@ -98,7 +98,7 @@ isFullWidth=false
 
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
-    @ihtHelpers.return_link(Some(Messages("page.iht.application.return.to.exemptionsOf", dd.name)),
+    @ihtHelpers.return_link(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.name(dd.name)),
     Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
     }
 </p>

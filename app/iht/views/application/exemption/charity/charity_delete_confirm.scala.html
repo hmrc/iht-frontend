@@ -31,7 +31,7 @@ isFullWidth=false){
     <p>
         <strong>@if(charityName.isEmpty){
             @Messages("iht.estateReport.exemptions.charities.noNameAdded")
-            } else { @charityName }
+            } else { @ihtHelpers.name(charityName) }
         </strong>
     </p>
 </div>

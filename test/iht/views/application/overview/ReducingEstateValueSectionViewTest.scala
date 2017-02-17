@@ -18,16 +18,11 @@ package iht.views.application.overview
 
 import iht.testhelpers.CommonBuilder
 import iht.viewmodels.application.overview.ReducingEstateValueSectionViewModel
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.overview.reducing_estate_value_section
-import iht.{FakeIhtApp, TestUtils}
-import org.jsoup.select.Elements
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 
-class ReducingEstateValueSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class ReducingEstateValueSectionViewTest extends ViewTestHelper {
 
   def appDetails = CommonBuilder.buildApplicationDetails
   def appDetailsWithSomeExemptionsAndLiabilities = CommonBuilder.buildSomeExemptions(CommonBuilder.buildApplicationDetails) copy (

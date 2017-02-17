@@ -22,11 +22,13 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import play.api.test.Helpers.{contentAsString, _}
 
 /**
  * Created by jennygj on 17/06/16.
@@ -123,16 +125,26 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       capturedValue shouldBe expectedAppDetails
     }
 
-    "display validation message when incomplete form is submitted" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
-      val formFill = moneyFormOwn.fill(CommonBuilder.buildShareableBasicElementExtended)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+    "display validation message when form is submitted with no values entered" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      implicit val request = createFakeRequest()
 
       setUpTests(applicationDetails)
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
       contentAsString(result) should include (messagesApi("error.problem"))
+    }
+
+    "redirect to overview when form is submitted with answer yes and a value entered" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isOwned", "true"), ("value", "233"))
+
+      setUpTests(applicationDetails)
+
+      val result = moneyDeceasedOwnController.onSubmit()(request)
+      status(result) should be (SEE_OTHER)
+      redirectLocation(result) should be (Some(routes.MoneyOverviewController.onPageLoad().url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -150,7 +162,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = moneyDeceasedOwnController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.moneyOwned", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.moneyOwned", deceasedName))
     }
   }
 }

@@ -16,17 +16,13 @@
 
 package iht.views.application.exemption
 
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.exemptions_guidance_increasing_threshold
-import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 
-class ExemptionsGuidanceIncreasingThresholdViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
 
   "exemptions guidance increasing threshold page" must {

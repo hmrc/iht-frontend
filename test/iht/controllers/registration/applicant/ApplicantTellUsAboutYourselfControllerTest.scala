@@ -51,7 +51,6 @@ class ApplicantTellUsAboutYourselfControllerTest
    override val authConnector = createFakeAuthConnector(isAuthorised=true)
    override val metrics:Metrics = Metrics
    override val isWhiteListEnabled = false
-   override def guardConditions: Set[Predicate] = Set((_, _) => true)
    override def citizenDetailsConnector = mockCitizenDetailsConnector
  }
 
@@ -266,18 +265,15 @@ class ApplicantTellUsAboutYourselfControllerTest
       ad.phoneNo shouldBe Some("SOMEOTHERPHONENUMBER")
     }
 
-    // TODO: Can't run these tests until the guard conditions are in place for controller. These can't be put
-    // in place until the previous page has been written.
-//
-//    "return true if the guard conditions are true" in {
-//      val rd = CommonBuilder.buildRegistrationDetails copy (deceasedDateOfDeath = Some(DeceasedDateOfDeath(LocalDate.now)))
-//      applicantTellUsAboutYourselfController.checkGuardCondition(rd) shouldBe true
-//    }
-//
-//    "return false if the guard conditions are false" in {
-//      val rd = CommonBuilder.buildRegistrationDetails copy (deceasedDateOfDeath = None)
-//      applicantTellUsAboutYourselfController.checkGuardCondition(rd) shouldBe false
-//    }
+    "return true if the guard conditions are true" in {
+      val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(ApplicantDetails(country=Some(CommonBuilder.DefaultCountry))))
+      controller.checkGuardCondition(rd, "") shouldBe true
+    }
+
+    "return false if the guard conditions are false" in {
+      val rd = CommonBuilder.buildRegistrationDetails copy (applicantDetails = Some(ApplicantDetails(country=None)))
+      controller.checkGuardCondition(rd, "") shouldBe false
+    }
   }
 
   "respond with a server error to a submit with valid values in all fields and living in UK when the storage of registration details fails" in  {

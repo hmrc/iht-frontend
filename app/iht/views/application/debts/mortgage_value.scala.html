@@ -30,50 +30,42 @@ property: Property,
 submitUrl: Call,
 regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
+
+@iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", deceasedName),
     browserTitle = Some(Messages("page.iht.application.debts.mortgageValue.browserTitle")),
     cancelUrl = Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad),
     cancelLabel = Some(Messages("site.link.return.mortgage.overview")),
-    isFullWidth = false
+    isFullWidth = false,
+    headingName = deceasedName
 ) {
     @ihtHelpers.error_summary_override_keys(mortgagesForm, Constants.AppSectionMortgages)
 
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 
         <div class="panel-indent panel-indent--gutter">
-        @property.address match {
-            case Some(x) => {
-                @x.ukAddressLine1 &#44; <br />
-                @x.ukAddressLine2 &#44; <br />
-                @x.ukAddressLine3.getOrElse("") @if(x.ukAddressLine3.isDefined) {
-                        &#44; <br />
+            @property.address match{
+                case Some(x) => {
+                    @CommonHelper.addressLayout(x)
                 }
-                @x.ukAddressLine4.getOrElse("") @if(x.ukAddressLine4.isDefined) {
-                        &#44; <br />
-                }
-                @if(x.postCode != "") {@x.postCode<br />}
-                @if(countryName(x.countryCode) != "") {@countryName(x.countryCode)&#46;}
+                case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
             }
-            case None => {
-                @Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")
-            }
-        }
-    </div>
+        </div>
 
-    @ihtHelpers.generic_estate_element_assets(
-        assetType = Constants.AssetTypeSingle,
-        questionLabel= Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-        legendClass = "visually-hidden",
-        inputTextLabel = if(property.typeOfOwnership.getOrElse(IhtProperties.ownershipDeceasedOnly)== IhtProperties.ownershipDeceasedOnly)
-                                 Messages("page.iht.application.debts.mortgage.inputText.value")
-                            else Messages("iht.estateReport.debts.mortgage.valueOfDeceasedsShare"),
-        sharableElementForm = mortgagesForm,
-        clearTargetInput = Some("value")
-    )
+        @ihtHelpers.generic_estate_element_assets(
+            assetType = Constants.AssetTypeSingle,
+            questionLabel= Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
+            legendClass = "visually-hidden",
+            inputTextLabel = if(property.typeOfOwnership.getOrElse(IhtProperties.ownershipDeceasedOnly)== IhtProperties.ownershipDeceasedOnly)
+                                     Messages("page.iht.application.debts.mortgage.inputText.value")
+                                else Messages("iht.estateReport.debts.mortgage.valueOfDeceasedsShare"),
+            sharableElementForm = mortgagesForm,
+            clearTargetInput = Some("value")
+        )
 
-    <div id="action-button" class="form-field form-field--submit">
-      <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
-    </div>
+        <div id="action-button" class="form-field form-field--submit">
+          <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+        </div>
 
-}
+    }
 }

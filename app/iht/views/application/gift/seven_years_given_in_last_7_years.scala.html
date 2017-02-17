@@ -27,6 +27,8 @@
 @(SevenYearsGiftsForm: Form[AllGifts],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
+@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")),
 relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad(),
@@ -45,13 +47,13 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
         <li>@Messages("page.iht.application.gifts.lastYears.description.e3")</li>
         <li>@Messages("page.iht.application.gifts.lastYears.description.e4")</li>
     </ul>
-    <p>@Messages("page.iht.application.gifts.lastYears.description.p3", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))</p>
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.description.p3", deceasedName))</p>
 </div>
 
 <div id="seven-years-gifts-question">
     @ihtHelpers.input_yes_no_radio_group(
     SevenYearsGiftsForm("givenInPast.isGivenInLast7Years"),
-    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))),
+    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", deceasedName)),
     '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()),
     '_divClass -> Some("form-group"))
 </div>
@@ -60,7 +62,7 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 @registrationDetails.deceasedDetails.map{ dd=>
-@ihtHelpers.return_link(Some(Messages("page.iht.application.gifts.return.to.givenAwayBy", dd.name)),
+@ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
 Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
 }
 }

@@ -34,7 +34,7 @@ trait InsurancePolicyDetailsInTrustController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyForm, insurance_policy_details_in_trust.apply,
+      estateElementOnPageLoad[InsurancePolicy](insurancePolicyInTrustForm, insurance_policy_details_in_trust.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -61,13 +61,12 @@ trait InsurancePolicyDetailsInTrustController extends EstateController {
           ))
           (updatedAD, None)
         }
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyInTrustForm,
         insurance_policy_details_in_trust.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInTrust)
           .fold(insurancePoliciesRedirectLocation)(_=>
             iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad()
-          ),
-        Some(createValidationFunction("isInTrust", _.isDefined, "error.assets.insurancePolicy.isInTrust.select"))
+          )
       )
     }
   }

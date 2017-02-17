@@ -23,6 +23,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.exemptions.Charity
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.ContentChecker
 import iht.utils._
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
@@ -198,7 +199,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         storeAppDetailsInCache = true)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                                 CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
   }
