@@ -16,7 +16,7 @@
 
 package iht.views.application.gifts
 
-import iht.constants.MockIhtProperties
+import iht.constants.{IhtProperties, MockIhtProperties}
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
@@ -27,6 +27,7 @@ import iht.views.html.application.gift.given_away
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import org.mockito.Mockito._
 
 /**
   * Created by vineet on 15/11/16.
@@ -60,14 +61,20 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
   //
   //  }
 
-  override def guidanceParagraphs = Set(
-    Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-      deceasedName,
-      TestHelper.getDateBeforeSevenYears(
-        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(MockIhtProperties.dateFormatForDisplay),
-      getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(MockIhtProperties.dateFormatForDisplay)),
-    Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
-  )
+  val mockIhtProperties: IhtProperties = mock[IhtProperties]
+
+  override def guidanceParagraphs = {
+    when(mockIhtProperties.giftsYears).thenReturn(7)
+    when(mockIhtProperties.dateFormatForDisplay).thenReturn("d MMMM yyyy")
+
+    Set(
+      Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+        deceasedName,
+        TestHelper.getDateBeforeSevenYears(mockIhtProperties,
+          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(mockIhtProperties.dateFormatForDisplay),
+        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(mockIhtProperties.dateFormatForDisplay)),
+      Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
+    )}
 
   override def formTarget = Some(iht.controllers.application.gifts.routes.GivenAwayController.onSubmit())
 

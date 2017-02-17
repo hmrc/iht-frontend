@@ -28,8 +28,8 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 
 object TestHelper {
 
-  def getDateBeforeSevenYears(date: LocalDate) = {
-    date.minusYears(MockIhtProperties.giftsYears.toInt).plusDays(1)
+  def getDateBeforeSevenYears(ihtProperties: IhtProperties, date: LocalDate) = {
+    date.minusYears(ihtProperties.giftsYears).plusDays(1)
   }
 
   val PreIHTKickOut = "preIHT"
