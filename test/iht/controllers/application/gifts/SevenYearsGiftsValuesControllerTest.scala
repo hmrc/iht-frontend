@@ -281,8 +281,8 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
     private def testGiftYearLinkData(doc: Document, yearId: String) =
     {
-      val yearLink = doc.getElementById(s"edit-gift-$yearId")
-      assertEqualsValue(doc, s"a#edit-gift-$yearId span",
+      val yearLink = doc.getElementById(s"value-of-gifts-for-period-$yearId")
+      assertEqualsValue(doc, s"a#value-of-gifts-for-period-$yearId span",
         Messages("iht.change"))
       yearLink.attr("href") shouldBe
         routes.GiftsDetailsController.onPageLoad(yearId).url

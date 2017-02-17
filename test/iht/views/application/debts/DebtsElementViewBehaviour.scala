@@ -35,6 +35,7 @@ trait DebtsElementViewBehaviour[A] extends ViewTestHelper {
   def returnLinkId: String = "return-button"
   def returnLinkText: String = Messages("site.link.return.debts")
   def returnLinkTargetUrl: Call = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
+  def linkHash: String = ""
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
   def view: String = formToView(form).toString
@@ -80,7 +81,7 @@ trait DebtsElementViewBehaviour[A] extends ViewTestHelper {
 
     "show the correct return link with text" in {
       val returnLink = doc.getElementById(returnLinkId)
-      returnLink.attr("href") shouldBe returnLinkTargetUrl.url
+      returnLink.attr("href") shouldBe returnLinkTargetUrl.url + "#" + linkHash
       returnLink.text() shouldBe returnLinkText
     }
   }

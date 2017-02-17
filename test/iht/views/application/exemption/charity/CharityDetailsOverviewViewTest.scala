@@ -37,20 +37,20 @@ class CharityDetailsOverviewViewTest extends ViewTestHelper{
       val view = charity_details_overview(Some(charity)).toString
       val doc = asDocument(view)
 
-      val nameLink: Element = doc.getElementById("charity-name-link")
+      val nameLink: Element = doc.getElementById("charity-name")
       val expectedNameUrl =  routes.CharityNameController.onEditPageLoad(charity.id.getOrElse(""))
       nameLink.attr("href") shouldBe expectedNameUrl.url
-      assertEqualsValue(doc, "a#charity-name-link span", Messages("site.link.giveName"))
+      assertEqualsValue(doc, "a#charity-name span", Messages("site.link.giveName"))
 
-      val numberLink: Element = doc.getElementById("charity-number-link")
+      val numberLink: Element = doc.getElementById("charity-number")
       val expectedNumberUrl =  routes.CharityNumberController.onEditPageLoad(charity.id.getOrElse(""))
       numberLink.attr("href") shouldBe expectedNumberUrl.url
-      assertEqualsValue(doc, "a#charity-number-link span", Messages("site.link.giveNumber"))
+      assertEqualsValue(doc, "a#charity-number span", Messages("site.link.giveNumber"))
 
-      val valueLink: Element = doc.getElementById("charity-value-link")
+      val valueLink: Element = doc.getElementById("charity-value")
       val expectedValueURl = routes.CharityValueController.onEditPageLoad(charity.id.getOrElse(""))
       valueLink.attr("href") shouldBe expectedValueURl.url
-      assertEqualsValue(doc, "a#charity-value-link span", Messages("site.link.giveValue"))
+      assertEqualsValue(doc, "a#charity-value span", Messages("site.link.giveValue"))
     }
 
     "contain correct links and show correct link texts for Charity name, number and value " +
@@ -61,20 +61,20 @@ class CharityDetailsOverviewViewTest extends ViewTestHelper{
       val view = charity_details_overview(Some(charity)).toString
       val doc = asDocument(view)
 
-      val nameLink: Element = doc.getElementById("charity-name-link")
+      val nameLink: Element = doc.getElementById("charity-name")
       val expectedNameUrl =  routes.CharityNameController.onEditPageLoad(charity.id.getOrElse(""))
       nameLink.attr("href") shouldBe expectedNameUrl.url
-      assertEqualsValue(doc, "a#charity-name-link span", Messages("iht.change"))
+      assertEqualsValue(doc, "a#charity-name span", Messages("iht.change"))
 
-      val numberLink: Element = doc.getElementById("charity-number-link")
+      val numberLink: Element = doc.getElementById("charity-number")
       val expectedNumberUrl =  routes.CharityNumberController.onEditPageLoad(charity.id.getOrElse(""))
       numberLink.attr("href") shouldBe expectedNumberUrl.url
-      assertEqualsValue(doc, "a#charity-number-link span", Messages("iht.change"))
+      assertEqualsValue(doc, "a#charity-number span", Messages("iht.change"))
 
-      val valueLink: Element = doc.getElementById("charity-value-link")
+      val valueLink: Element = doc.getElementById("charity-value")
       val expectedValueURl = routes.CharityValueController.onEditPageLoad(charity.id.getOrElse(""))
       valueLink.attr("href") shouldBe expectedValueURl.url
-      assertEqualsValue(doc, "a#charity-value-link span", Messages("iht.change"))
+      assertEqualsValue(doc, "a#charity-value span", Messages("iht.change"))
     }
 
     "contain links with charity ID #1 when charity name is completed, but charity number and value are empty" +
@@ -84,8 +84,8 @@ class CharityDetailsOverviewViewTest extends ViewTestHelper{
       val charity = iht.testhelpers.CommonBuilder.charity.copy(number=None,totalValue=None)
       val view = charity_details_overview(Some(charity)).toString
       val doc = asDocument(view)
-      val numberLink: Element = doc.getElementById("charity-number-link")
-      val valueLink: Element = doc.getElementById("charity-value-link")
+      val numberLink: Element = doc.getElementById("charity-number")
+      val valueLink: Element = doc.getElementById("charity-value")
       val expectedNumberUrl =  "/inheritance-tax/estate-report/charity-number/1"
       val expectedValueURl = "/inheritance-tax/estate-report/assets-value-left-to-charity/1"
 
@@ -100,8 +100,8 @@ class CharityDetailsOverviewViewTest extends ViewTestHelper{
       val charity = iht.testhelpers.CommonBuilder.charity.copy(id=Some("2"), name=None, totalValue=None)
       val view = charity_details_overview(Some(charity)).toString
       val doc = asDocument(view)
-      val nameLink: Element = doc.getElementById("charity-name-link")
-      val valueLink: Element = doc.getElementById("charity-value-link")
+      val nameLink: Element = doc.getElementById("charity-name")
+      val valueLink: Element = doc.getElementById("charity-value")
       val expectedNameUrl =  "/inheritance-tax/estate-report/charity-name/2"
       val expectedValueURl = "/inheritance-tax/estate-report/assets-value-left-to-charity/2"
 
@@ -116,9 +116,9 @@ class CharityDetailsOverviewViewTest extends ViewTestHelper{
       val charity = iht.testhelpers.CommonBuilder.charity.copy(id=Some("3"))
       val view = charity_details_overview(Some(charity)).toString
       val doc = asDocument(view)
-      val nameLink: Element = doc.getElementById("charity-name-link")
-      val numberLink: Element = doc.getElementById("charity-number-link")
-      val valueLink: Element = doc.getElementById("charity-value-link")
+      val nameLink: Element = doc.getElementById("charity-name")
+      val numberLink: Element = doc.getElementById("charity-number")
+      val valueLink: Element = doc.getElementById("charity-value")
       val expectedNameUrl =  "/inheritance-tax/estate-report/charity-name/3"
       val expectedNumberUrl =  "/inheritance-tax/estate-report/charity-number/3"
       val expectedValueURl = "/inheritance-tax/estate-report/assets-value-left-to-charity/3"
@@ -134,9 +134,9 @@ class CharityDetailsOverviewViewTest extends ViewTestHelper{
 
       val view = charity_details_overview().toString
       val doc = asDocument(view)
-      val numberLink: Element = doc.getElementById("charity-number-link")
-      val nameLink: Element = doc.getElementById("charity-name-link")
-      val valueLink: Element = doc.getElementById("charity-value-link")
+      val numberLink: Element = doc.getElementById("charity-number")
+      val nameLink: Element = doc.getElementById("charity-name")
+      val valueLink: Element = doc.getElementById("charity-value")
       val expectedNumberUrl =  "/inheritance-tax/estate-report/charity-number"
       val expectedNameUrl =  "/inheritance-tax/estate-report/charity-name"
       val expectedValueURl = "/inheritance-tax/estate-report/assets-value-left-to-charity"

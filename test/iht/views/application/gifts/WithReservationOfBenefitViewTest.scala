@@ -23,6 +23,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.gift.with_reservation_of_benefit
 import play.api.i18n.Messages
 import play.api.test.Helpers._
+import iht.constants.Constants._
 
 /**
   * Created by vineet on 15/11/16.
@@ -69,7 +70,7 @@ class WithReservationOfBenefitViewTest extends ViewTestHelper{
       link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name)
       link.attr("href") shouldBe
-        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url
+        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url + "#" + GiftsReservationBenefitQuestionID
 
     }
   }

@@ -21,6 +21,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.application.asset.insurancePolicy.insurance_policies_overview
 import play.api.i18n.Messages
+import iht.constants.Constants._
 
 class InsurancePoliciesOverviewViewTest extends ViewTestHelper {
 
@@ -55,7 +56,7 @@ class InsurancePoliciesOverviewViewTest extends ViewTestHelper {
       val view = insurancePoliciesOverviewView(CommonBuilder.buildInsurancePolicy)
 
       val returnLink = view.getElementById("return-button")
-      returnLink.attr("href") shouldBe assetsOverviewPageUrl.url
+      returnLink.attr("href") shouldBe assetsOverviewPageUrl.url + "#" + AppSectionInsurancePolicyID
       returnLink.text() shouldBe Messages(returnUrlTextMsgKey, deceasedName)
 
     }

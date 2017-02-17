@@ -23,6 +23,7 @@ import iht.views.ViewTestHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 import iht.views.html.application.debts.mortgages_overview
+import iht.constants.Constants._
 
 /**
   * Created by vineet on 15/11/16.
@@ -72,7 +73,7 @@ class MortgagesOverviewViewTest extends ViewTestHelper{
 
       val link = doc.getElementById("return-button")
       link.text shouldBe Messages("site.link.return.debts")
-      link.attr("href") shouldBe debtsOverviewPageUrl.url
+      link.attr("href") shouldBe debtsOverviewPageUrl.url + "#" + DebtsMortgagesID
     }
   }
 }
