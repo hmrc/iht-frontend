@@ -76,7 +76,16 @@ trait GiftsDetailsController extends EstateController {
           val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
           prevYearsGifts.find(_.yearId.contains(id))
             .fold(previousYearsGiftsForm)(matchedGift => previousYearsGiftsForm.fill(matchedGift))
-        }(form => Ok(iht.views.html.application.gift.gifts_details(form, rd, cancelUrl, cancelLabel)))
+        }(form => Ok(
+            iht.views.html.application.gift.gifts_details(
+              form,
+              rd,
+              //cancelUrl,
+              Some(addFragmentIdentifier(cancelUrl.get, Some("hello"))),
+              cancelLabel
+            )
+        )
+        )
       })
       Future.successful(result)
     }
@@ -92,8 +101,16 @@ trait GiftsDetailsController extends EstateController {
           boundForm.fold(
             formWithErrors => {
               LogHelper.logFormError(formWithErrors)
-              Future.successful(BadRequest(iht.views.html.application.gift.gifts_details(formWithErrors, rd, Some
-              (sevenYearsGiftsRedirectLocation), Some(Messages(cancelLabelKeyValue)))))
+              Future.successful(
+                BadRequest(
+                  iht.views.html.application.gift.gifts_details(
+                    formWithErrors,
+                    rd,
+                    Some(sevenYearsGiftsRedirectLocation),
+                    Some(Messages(cancelLabelKeyValue))
+                  )
+                )
+              )
             },
             previousYearsGifts => {
               processSubmit(CommonHelper.getNino(user), previousYearsGifts, rd, ad)
@@ -112,7 +129,11 @@ trait GiftsDetailsController extends EstateController {
       val existingSeqPrevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
       val idToUpdate = existingSeqPrevYearsGifts.indexWhere(_.yearId == previousYearsGifts.yearId)
       if (idToUpdate < 0) {
-        Future.successful(Redirect(sevenYearsGiftsRedirectLocation))
+        Future.successful(
+          Redirect(
+            sevenYearsGiftsRedirectLocation
+          )
+        )
       } else {
         withValue {
           val updatedSeqPrevYearsGifts = existingSeqPrevYearsGifts.updated(idToUpdate, previousYearsGifts)
@@ -121,7 +142,7 @@ trait GiftsDetailsController extends EstateController {
             applicationID = previousYearsGifts.yearId)
         }{newAD =>
           ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
-            Redirect(newAD.kickoutReason.fold(sevenYearsGiftsRedirectLocation) {
+            Redirect(newAD.kickoutReason.fold(addFragmentIdentifier(sevenYearsGiftsRedirectLocation, Some("value-of-gifts-for-period-" + (idToUpdate + 1).toString))) {
               _ => {
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
