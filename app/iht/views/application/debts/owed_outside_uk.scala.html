@@ -18,7 +18,7 @@
 @import iht.models.application.debts.BasicEstateElementLiabilities
 
 @(debtsOutsideUkForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_])
-@import iht.constants.Constants
+@import iht.constants.Constants._
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
 
@@ -26,7 +26,7 @@
     browserTitle = Some(Messages("page.iht.application.debts.debtsOutsideUk.browserTitle")),
     isFullWidth = false
 ) {
-    @ihtHelpers.error_summary_override_keys(debtsOutsideUkForm, Constants.AppSectionDebtsOwedToAnyoneOutsideUK)
+    @ihtHelpers.error_summary_override_keys(debtsOutsideUkForm, AppSectionDebtsOwedToAnyoneOutsideUK)
 
     @helpers.form(action = iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onSubmit, 'autoComplete -> "off") {
 
@@ -35,7 +35,7 @@
 
 
         @ihtHelpers.generic_estate_element_assets(
-            assetType = Constants.AssetTypeSingle,
+            assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.debtsOutsideUk.isOwned"),
             inputTextLabel = Messages("iht.estateReport.debts.owedOutsideUK.value"),
             sharableElementForm = debtsOutsideUkForm,
@@ -44,7 +44,11 @@
         <div id="action-button" class="form-field form-field--submit">
                 <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
-        @ihtHelpers.return_link(Messages("site.link.return.debts"), Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
+        @ihtHelpers.return_link(
+            Messages("site.link.return.debts"),
+            Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
+            DebtsOwedOutsideUKID
+        )
 
     }
 }

@@ -32,7 +32,7 @@ a[rel="external"]:after {
     border-right-color: red;
     position: absolute;
     top: 0.25em;
-    right: 0.25em;
+    right: -0.75em;
     border-top-width: 0.75em;
 }
 #content a[id]:not(.button):after {
@@ -40,7 +40,7 @@ a[rel="external"]:after {
     background: red;
     color: white;
     position: absolute;
-    right: -10em;
+    right: -11em;
     width: 10em;
     top: 0.25em;
     padding: 2px;

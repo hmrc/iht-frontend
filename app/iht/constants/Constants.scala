@@ -91,6 +91,12 @@ object Constants {
   val GiftsValueOfGiftsSectionID = "value-of-gifts"
   val GiftsValueOfGiftsQuestionID = "value-of-gifts"
   val GiftsValueDetailID = "value-of-gifts-for-period-"
+  val DebtsMortgagesID = "mortgages"
+  val DebtsFuneralExpensesID = "funeral-expenses"
+  val DebtsOwedFromTrustID = "debts-owed-from-a-trust"
+  val DebtsOwedOutsideUKID = "debts-owed-to-anyone-outside-uk"
+  val DebtsOwedJointlyID = "debts-owed-on-jointly-owned-assets"
+  val DebtsOtherID = "other-debts"
 
   val MaxIterationValueForGiftYears = 8
 

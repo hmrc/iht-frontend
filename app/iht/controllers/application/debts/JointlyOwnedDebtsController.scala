@@ -24,6 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
 import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.debts.jointly_owned
+import iht.constants.Constants._
 
 object JointlyOwnedDebtsController extends JointlyOwnedDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -53,10 +54,11 @@ trait JointlyOwnedDebtsController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-      jointlyOwnedDebts,
-      jointly_owned.apply,
-      updateApplicationDetails,
-      debtsRedirectLocation)
+        jointlyOwnedDebts,
+        jointly_owned.apply,
+        updateApplicationDetails,
+        addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedJointlyID))
+      )
     }
   }
 }

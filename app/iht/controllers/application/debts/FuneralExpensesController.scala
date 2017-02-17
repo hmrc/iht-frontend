@@ -23,6 +23,7 @@ import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
 import iht.views.html.application.debts.funeral_expenses
+import iht.constants.Constants._
 
 object FuneralExpensesController extends FuneralExpensesController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -52,10 +53,11 @@ trait FuneralExpensesController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-      funeralExpensesForm,
-      funeral_expenses.apply,
-      updateApplicationDetails,
-      debtsRedirectLocation)
+        funeralExpensesForm,
+        funeral_expenses.apply,
+        updateApplicationDetails,
+        addFragmentIdentifier(debtsRedirectLocation, Some(DebtsFuneralExpensesID))
+      )
     }
   }
 }

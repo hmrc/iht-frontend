@@ -24,6 +24,7 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.views.html.application.debts._
+import iht.constants.Constants._
 
 object DebtsOwedFromATrustController extends DebtsOwedFromATrustController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -57,7 +58,7 @@ trait DebtsOwedFromATrustController extends EstateController {
       estateElementOnSubmit[BasicEstateElementLiabilities](debtsTrustForm,
         owed_from_trust.apply,
         updateApplicationDetails,
-        debtsRedirectLocation
+        addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedFromTrustID))
       )
     }
   }
