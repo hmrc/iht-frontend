@@ -16,6 +16,7 @@
 
 package iht.testhelpers
 
+import iht.constants.{IhtProperties, MockIhtProperties}
 import org.joda.time.LocalDate
 import iht.models.application.basicElements.ShareableBasicEstateElement
 
@@ -26,6 +27,10 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
  */
 
 object TestHelper {
+
+  def getDateBeforeSevenYears(date: LocalDate) = {
+    date.minusYears(MockIhtProperties.giftsYears.toInt).plusDays(1)
+  }
 
   val PreIHTKickOut = "preIHT"
   val PreService = "preService"
