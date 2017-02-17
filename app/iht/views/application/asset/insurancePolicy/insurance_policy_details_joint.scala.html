@@ -24,6 +24,7 @@ registrationDetails: RegistrationDetails
 @import iht.views.html._
 
 @import iht.utils._
+@import iht.constants.Constants._
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -70,6 +71,10 @@ registrationDetails: RegistrationDetails
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
+    @ihtHelpers.return_link(
+        Messages("site.link.return.insurance.policies"),
+        Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
+        InsuranceJointlyHeldYesNoID
+    )
     }
 }

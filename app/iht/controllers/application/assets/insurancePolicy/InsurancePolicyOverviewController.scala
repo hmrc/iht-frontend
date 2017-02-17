@@ -26,6 +26,7 @@ import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.utils.OverviewHelper._
 import play.api.i18n.Messages
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -95,7 +96,10 @@ trait InsurancePolicyOverviewController extends EstateController {
       questionAnswerExprValue = insurancePolicy.value,
       questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.ownName.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
-      questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
+      questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"),
+      sectionLinkId = InsurancePayingToDeceasedSectionID,
+      questionLinkID = InsurancePayingToDeceasedYesNoID,
+      answerLinkID = InsurancePayingToDeceasedValueID
     )
   }
 
@@ -112,7 +116,10 @@ trait InsurancePolicyOverviewController extends EstateController {
       questionAnswerExprValue = insurancePolicy.shareValue,
       questionTitleYesNoMessage = Messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
-      questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare")
+      questionTitleValueMessage = Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"),
+      sectionLinkId = InsuranceJointlyHeldSectionID,
+      questionLinkID = InsuranceJointlyHeldYesNoID,
+      answerLinkID = InsuranceJointlyHeldValueID
     )
   }
 
@@ -136,8 +143,13 @@ trait InsurancePolicyOverviewController extends EstateController {
       ),
       ad,
       regDetails,
-      sectionLinkId = "",
-      questionLinkIds = Seq("")
+      sectionLinkId = InsurancePaidForSomeoneElseSectionID,
+      questionLinkIds = Seq(
+        InsurancePaidForSomeoneElseYesNoID,
+        InsurancePremiumnsYesNoID,
+        InsuranceAnnuityYesNoID,
+        InsurancePlacedInTrustYesNoID
+      )
     )
   }
 

@@ -97,6 +97,17 @@ object Constants {
   val DebtsOwedOutsideUKID = "debts-owed-to-anyone-outside-uk"
   val DebtsOwedJointlyID = "debts-owed-on-jointly-owned-assets"
   val DebtsOtherID = "other-debts"
+  val InsurancePayingToDeceasedSectionID = "paying-out-to-deceased"
+  val InsurancePayingToDeceasedYesNoID = "paying-out-to-deceased"
+  val InsurancePayingToDeceasedValueID = "paying-out-to-deceased-value"
+  val InsuranceJointlyHeldSectionID = "jointly-held"
+  val InsuranceJointlyHeldYesNoID = "jointly-held"
+  val InsuranceJointlyHeldValueID = "jointly-held-value"
+  val InsurancePaidForSomeoneElseSectionID = "paid-for-someone-else"
+  val InsurancePaidForSomeoneElseYesNoID = "paid-for-someone-else"
+  val InsurancePremiumnsYesNoID = "premiums-not-paying-out"
+  val InsuranceAnnuityYesNoID = "annuity"
+  val InsurancePlacedInTrustYesNoID = "placed-in-trust"
 
   val MaxIterationValueForGiftYears = 8
 

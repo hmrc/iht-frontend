@@ -24,6 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_joint
+import iht.constants.Constants._
 
 object InsurancePolicyDetailsJointController extends InsurancePolicyDetailsJointController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -50,8 +51,12 @@ trait InsurancePolicyDetailsJointController extends EstateController {
           ))
           (updatedAD, None)
         }
-      estateElementOnSubmit[InsurancePolicy](insurancePolicyJointQuestionForm,
-        insurance_policy_details_joint.apply, updateApplicationDetails, insurancePoliciesRedirectLocation)
+      estateElementOnSubmit[InsurancePolicy](
+        insurancePolicyJointQuestionForm,
+        insurance_policy_details_joint.apply,
+        updateApplicationDetails,
+        addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsuranceJointlyHeldYesNoID))
+      )
     }
   }
 }

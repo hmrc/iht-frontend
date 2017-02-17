@@ -207,7 +207,7 @@ object OverviewHelper {
             answerPlusLink.url),
           value = questionDisplayValue,
           status = if (questionDisplayValue.length == 0) messageNotStarted else messageComplete,
-          linkId = questionLinkIds(index)
+          linkId = if(questionLinkIds.length > index) {questionLinkIds(index)} else {""}
         )
         )
       } else {
@@ -254,7 +254,10 @@ object OverviewHelper {
                                            questionAnswerExprYesNo: Option[Boolean],
                                            questionAnswerExprValue: Option[BigDecimal],
                                            questionTitleYesNoMessage: String,
-                                           questionTitleValueMessage: String): Section =
+                                           questionTitleValueMessage: String,
+                                           sectionLinkId: String = "",
+                                           questionLinkID: String = "",
+                                           answerLinkID: String = ""): Section =
     Section(id = id,
       title = title,
       link = Link(getEmptyStringOrElse(questionAnswerExprYesNo, messagesFileGiveAnswer),
@@ -269,7 +272,9 @@ object OverviewHelper {
           id = id + "-yes-no-question",
           title = questionTitleYesNoMessage,
           link = Link(messagesFileChangeAnswer, accessibilityValue, linkUrl),
-          value = displayValue))
+          value = displayValue,
+          linkId = questionLinkID
+        ))
 
         val valueElement =
           if (bool) {
@@ -277,12 +282,15 @@ object OverviewHelper {
               id = id + "-value",
               title = questionTitleValueMessage,
               link = Link(messagesFileChange, questionLevelLinkAccessibilityTextValue, linkUrl),
-              value = getBigDecimalDisplayValue(questionAnswerExprValue)))
+              value = getBigDecimalDisplayValue(questionAnswerExprValue),
+              linkId = answerLinkID
+            ))
           } else {
             Nil
           }
         booleanElement ++ valueElement
-      })
+      }),
+      sectionLinkId = sectionLinkId
     )
 
   def createSectionFromValueQuestions(id: String,
