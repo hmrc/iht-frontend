@@ -90,6 +90,7 @@ object Constants {
   val GiftsSevenYearsQuestionID2 = "seven-years2"
   val GiftsValueOfGiftsSectionID = "value-of-gifts"
   val GiftsValueOfGiftsQuestionID = "value-of-gifts"
+  val GiftsValueDetailID = "value-of-gifts-for-period-"
 
   val MaxIterationValueForGiftYears = 8
 

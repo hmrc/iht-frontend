@@ -36,6 +36,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.utils.CommonHelper._
 import scala.concurrent.Future
+import iht.constants.Constants._
 
 object GiftsDetailsController extends GiftsDetailsController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -74,17 +75,18 @@ trait GiftsDetailsController extends EstateController {
       val result = getOrException(rd.deceasedDateOfDeath.map { ddod =>
         withValue {
           val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+
           prevYearsGifts.find(_.yearId.contains(id))
             .fold(previousYearsGiftsForm)(matchedGift => previousYearsGiftsForm.fill(matchedGift))
-        }(form => Ok(
+        }(form =>
+          Ok(
             iht.views.html.application.gift.gifts_details(
               form,
               rd,
-              //cancelUrl,
-              Some(addFragmentIdentifier(cancelUrl.get, Some("hello"))),
+              Some(addFragmentIdentifier(cancelUrl.get, Some(GiftsValueDetailID + id.toString))),
               cancelLabel
             )
-        )
+          )
         )
       })
       Future.successful(result)
@@ -142,7 +144,7 @@ trait GiftsDetailsController extends EstateController {
             applicationID = previousYearsGifts.yearId)
         }{newAD =>
           ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
-            Redirect(newAD.kickoutReason.fold(addFragmentIdentifier(sevenYearsGiftsRedirectLocation, Some("value-of-gifts-for-period-" + (idToUpdate + 1).toString))) {
+            Redirect(newAD.kickoutReason.fold(addFragmentIdentifier(sevenYearsGiftsRedirectLocation, Some(GiftsValueDetailID + (idToUpdate + 1).toString))) {
               _ => {
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))
