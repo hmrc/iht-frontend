@@ -146,5 +146,5 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
       status(result) shouldBe (BAD_REQUEST)
     }
   }
-  
+
 }
