@@ -41,6 +41,8 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   def formToView: Form[A] => Appendable
 
+  def ook: Set[ () => String] = Set.empty
+
   def guidanceParagraphs: Set[String]
 
   def formTarget: Option[Call]
@@ -59,6 +61,13 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     "have a Continue button" in {
       doc.getElementById("save-continue").text shouldBe Messages("iht.saveAndContinue")
     }
+
+    if (ook.nonEmpty) {
+      "ook" in {
+        for (paragraph <- ook) messagesShouldBePresent(view, paragraph())
+      }
+    }
+
 
     if (guidanceParagraphs.nonEmpty) {
       "show the correct guidance paragraphs" in {

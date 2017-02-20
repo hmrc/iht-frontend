@@ -63,18 +63,36 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
 
   val mockIhtProperties: IhtProperties = mock[IhtProperties]
 
-  override def guidanceParagraphs = {
-    when(mockIhtProperties.giftsYears).thenReturn(7)
-    when(mockIhtProperties.dateFormatForDisplay).thenReturn("d MMMM yyyy")
+  case class OptionSet(bool, set
 
-    Set(
+  override def ook = Set(
+    () => {
       Messages("page.iht.application.gifts.lastYears.givenAway.p1",
         deceasedName,
-        TestHelper.getDateBeforeSevenYears(mockIhtProperties,
-          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(mockIhtProperties.dateFormatForDisplay),
-        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(mockIhtProperties.dateFormatForDisplay)),
-      Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
-    )}
+        TestHelper.getDateBeforeSevenYears(IhtProperties,
+          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
+        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)
+      ,
+      Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName))
+  }
+
+  )
+
+  override def guidanceParagraphs = Set.empty
+
+//  {
+//    when(mockIhtProperties.giftsYears).thenReturn(7)
+//    when(mockIhtProperties.dateFormatForDisplay).thenReturn("d MMMM yyyy")
+//
+//    Set(
+//      Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+//        deceasedName,
+//        TestHelper.getDateBeforeSevenYears(IhtProperties,
+//          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
+//        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
+//      Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
+//    )
+//  }
 
   override def formTarget = Some(iht.controllers.application.gifts.routes.GivenAwayController.onSubmit())
 
