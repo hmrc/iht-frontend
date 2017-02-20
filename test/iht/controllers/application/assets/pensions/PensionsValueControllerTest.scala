@@ -23,33 +23,33 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
 
-class PensionsChangedQuestionControllerTest extends ApplicationControllerTest{
+class PensionsValueControllerTest extends ApplicationControllerTest{
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def pensionsChangedQuestionController = new PensionsChangedQuestionController {
+  def pensionsValueController = new PensionsValueController {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def pensionsChangedQuestionControllerNotAuthorised = new PensionsChangedQuestionController {
+  def pensionsValueControllerNotAuthorised = new PensionsValueController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  "PensionsChangedQuestionController" must {
+  "PensionsValueController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
-      val result = pensionsChangedQuestionControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      val result = pensionsValueControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be (Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-      val result = pensionsChangedQuestionController.onSubmit(createFakeRequest(isAuthorised = false))
+      val result = pensionsValueController.onSubmit(createFakeRequest(isAuthorised = false))
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be (Some(loginUrl))
     }
@@ -64,12 +64,12 @@ class PensionsChangedQuestionControllerTest extends ApplicationControllerTest{
         saveAppDetails= true,
         storeAppDetailsInCache = true)
 
-      val result = pensionsChangedQuestionController.onPageLoad (createFakeRequest())
+      val result = pensionsValueController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
     }
 
-    "save application and go to Pensions overview page on submit when No chosen" in {
-      val privatePension = CommonBuilder.buildPrivatePensionExtended.copy(isChanged = Some(false))
+    "save application and go to Pensions overview page on submit after entering the value" in {
+      val privatePension = CommonBuilder.buildPrivatePensionExtended.copy(value = Some(BigDecimal(1000)))
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
         .buildAllAssets.copy(privatePension = Some(privatePension))))
 
@@ -80,33 +80,13 @@ class PensionsChangedQuestionControllerTest extends ApplicationControllerTest{
         saveAppDetails= true,
         storeAppDetailsInCache = true)
 
-      val filledPensionsChangedQuestionForm = pensionsChangedQuestionForm.fill(privatePension)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPensionsChangedQuestionForm.data.toSeq: _*)
+      val filledPensionsValueForm = pensionsValueForm.fill(privatePension)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPensionsValueForm.data.toSeq: _*)
 
-      val result = pensionsChangedQuestionController.onSubmit (request)
+      val result = pensionsValueController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
       redirectLocation(result) should be
           (Some(routes.PensionsOverviewController.onPageLoad().url))
-    }
-
-    "save application and go to Kick out page on submit when Yes chosen" in {
-      val privatePension = CommonBuilder.buildPrivatePensionExtended.copy(isChanged = Some(true))
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
-        .buildAllAssets.copy(privatePension = Some(privatePension))))
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
-
-      val filledPensionsChangedQuestionForm = pensionsChangedQuestionForm.fill(privatePension)
-      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPensionsChangedQuestionForm.data.toSeq: _*)
-
-      val result = pensionsChangedQuestionController.onSubmit (request)
-      status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -114,7 +94,7 @@ class PensionsChangedQuestionControllerTest extends ApplicationControllerTest{
 
      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
 
-      val result = pensionsChangedQuestionController.onSubmit (fakePostRequest)
+      val result = pensionsValueController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
   }
