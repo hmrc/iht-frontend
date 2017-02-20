@@ -28,17 +28,8 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-/**
-  * Created by vineet on 15/11/16.
-  */
 class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
-
-  val ihtReference = Some("ABC1234567890")
-
-  //def allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
-  //val fakeRequest = createFakeRequest(isAuthorised = false)
-
-  def registrationDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
+  def registrationDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = Some("ABC1234567890"),
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
@@ -80,31 +71,20 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
 
 
   "GivenAway View" must {
-
     behave like applicationPageWithErrorSummaryBox()
 
-    //    "show return to estate overview link when user land on the page first time" in {
-    //      val view = given_away(giftsGivenAwayForm, registrationDetails)(fakeRequest)
-    //      val doc = asDocument(contentAsString(view))
-    //
-    //      val link = doc.getElementById("return-button")
-    //      link.text shouldBe Messages("iht.estateReport.returnToEstateOverview")
-    //      link.attr("href") shouldBe
-    //        iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference.getOrElse("")).url
-    //
-    //    }
+    "show return to gifts given away link when user is in edit mode" in {
+      val fakeRequest = createFakeRequest(isAuthorised = false)
+      val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
+      val filledForm = giftsGivenAwayForm.fill(allGifts)
+      val view = given_away(filledForm, registrationDetails)(fakeRequest)
+      val doc = asDocument(view)
 
-    //    "show return to gifts given away link when user is in edit mode" in {
-    //      val filledForm = giftsGivenAwayForm.fill(allGifts)
-    //      val view = given_away(filledForm, registrationDetails)(fakeRequest)
-    //      val doc = asDocument(contentAsString(view))
-    //
-    //      val link = doc.getElementById("return-button")
-    //      link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
-    //        getOrException(registrationDetails.deceasedDetails).name)
-    //      link.attr("href") shouldBe
-    //        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url
-    //
-    //    }
+      val link = doc.getElementById("return-button")
+      link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
+        getOrException(registrationDetails.deceasedDetails).name)
+      link.attr("href") shouldBe
+        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url
+    }
   }
 }
