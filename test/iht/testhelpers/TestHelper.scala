@@ -16,8 +16,8 @@
 
 package iht.testhelpers
 
-import org.joda.time.LocalDate
 import iht.models.application.basicElements.ShareableBasicEstateElement
+import org.joda.time.LocalDate
 
 /**
  *
@@ -26,7 +26,6 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
  */
 
 object TestHelper {
-
   val PreIHTKickOut = "preIHT"
   val PreService = "preService"
 

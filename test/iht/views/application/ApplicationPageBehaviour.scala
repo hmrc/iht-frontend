@@ -26,6 +26,8 @@ import play.twirl.api.HtmlFormat.Appendable
 
 case class CancelComponent(target: Call, content: String)
 
+case class Guidance(isAnyGuidance: Boolean, content: () => Set[String])
+
 trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   def link(anchorId: => String, href: => String, text: => String) = {
@@ -37,6 +39,10 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
       anchor.text() shouldBe text
     }
   }
+
+  def guidance(content: => Set[String]) = Guidance(isAnyGuidance = true, () => content)
+
+  def noGuidance = Guidance(isAnyGuidance = false, () => Set.empty)
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
@@ -52,7 +58,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   def formToView: Form[A] => Appendable
 
-  def guidanceParagraphs: Set[String]
+  def guidance: Guidance
 
   def formTarget: Option[Call]
 
@@ -72,9 +78,11 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     "have a Continue button" in {
       doc.getElementById("save-continue").text shouldBe Messages("iht.saveAndContinue")
     }
-    "show the correct guidance paragraphs" in {
-    if (guidanceParagraphs.nonEmpty) {
-        for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
+
+
+    if (guidance.isAnyGuidance) {
+      "show the correct guidance paragraphs" in {
+        for (paragraph <- guidance.content()) messagesShouldBePresent(view, paragraph)
       }
     }
 

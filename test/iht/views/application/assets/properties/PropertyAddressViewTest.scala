@@ -30,7 +30,7 @@ class PropertyAddressViewTest extends ApplicationPageBehaviour[Property] {
 
   override def browserTitle = Messages("page.iht.application.assets.property.address.browserTitle")
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def form: Form[Property] = propertyAddressForm
 
