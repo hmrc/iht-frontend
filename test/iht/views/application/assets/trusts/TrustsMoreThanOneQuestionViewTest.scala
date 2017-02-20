@@ -30,7 +30,7 @@ class TrustsMoreThanOneQuestionViewTest extends YesNoQuestionViewBehaviour[HeldI
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def pageTitle = Messages("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName)
 

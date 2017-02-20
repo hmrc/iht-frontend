@@ -37,7 +37,7 @@ class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour
       deceasedDetailsName)
     override def browserTitle = Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit())
 

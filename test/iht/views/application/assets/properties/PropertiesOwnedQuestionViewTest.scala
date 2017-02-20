@@ -31,8 +31,10 @@ class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Propert
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def guidanceParagraphs = Set(
-    Messages("page.iht.application.assets.properties.question.p1", deceasedName)
+  override def guidance = guidance(
+    Set(
+      Messages("page.iht.application.assets.properties.question.p1", deceasedName)
+    )
   )
 
   override def pageTitle = Messages("iht.estateReport.assets.propertiesBuildingsAndLand")

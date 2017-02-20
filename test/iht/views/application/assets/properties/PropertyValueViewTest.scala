@@ -30,9 +30,11 @@ class PropertyValueViewTest extends ValueViewBehaviour[Property] {
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def guidanceParagraphs = Set(
-    Messages("page.iht.application.property.value.question.hint1", deceasedName),
-    Messages("page.iht.application.property.value.question.hint2", deceasedName)
+  override def guidance = guidance(
+    Set(
+      Messages("page.iht.application.property.value.question.hint1", deceasedName),
+      Messages("page.iht.application.property.value.question.hint2", deceasedName)
+    )
   )
 
   override def pageTitle = Messages("iht.estateReport.assets.properties.value.question", deceasedName)

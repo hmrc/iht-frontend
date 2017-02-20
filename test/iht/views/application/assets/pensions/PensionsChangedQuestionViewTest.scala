@@ -34,13 +34,13 @@ class PensionsChangedQuestionViewTest extends YesNoQuestionViewBehaviour[Private
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def pageTitle = Messages("page.iht.application.assets.pensions.changed.title", deceasedName)
 
   override def browserTitle = Messages("page.iht.application.assets.pensions.changed.browserTitle")
 
-  override def formTarget = Some(routes.PensionsChangedQuestionController.onSubmit)
+  override def formTarget = Some(routes.PensionsChangedQuestionController.onSubmit())
 
   override def form: Form[PrivatePension] = pensionsChangedQuestionForm
 
