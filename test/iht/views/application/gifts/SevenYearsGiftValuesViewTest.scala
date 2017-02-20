@@ -16,9 +16,7 @@
 
 package iht.views.application.gifts
 
-import iht.models.application.assets.Properties
 import iht.testhelpers.CommonBuilder
-import iht.views.html.application.asset.properties.properties_overview
 import iht.views.html.application.gift.seven_years_gift_values
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages
@@ -76,37 +74,37 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
     }
   }
 
-  "Properties overview view" must {
+  "seven years gift values view" must {
     behave like nonSubmittablePage()
 
-    behave like link("add-property",
-      iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad().url,
-      Messages("iht.estateReport.assets.propertyAdd"))
-
-    "show ownership question" in {
-      elementShouldHaveText(doc, "home-in-uk-question", Messages("page.iht.application.assets.properties.question.question", deceasedName))
-    }
-
-    "show ownership question value" in {
-      elementShouldHaveText(doc, "home-in-uk-value", Messages("iht.yes"))
-    }
-
-    behave like link("home-in-uk-link",
-      iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
-      Messages("iht.change"))
-
-    behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
-
-    behave like addressWithDeleteAndModify(1, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
-
-    "show you haven't added message when there are no properties" in {
-      val view = properties_overview(List(),
-        Some(Properties(isOwned = Some(true))),
-        registrationDetails).toString()
-      val doc = asDocument(view)
-      doc.getElementById("properties-empty-table-row").text shouldBe
-        Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")
-
-    }
+//    behave like link("add-property",
+//      iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad().url,
+//      Messages("iht.estateReport.assets.propertyAdd"))
+//
+//    "show ownership question" in {
+//      elementShouldHaveText(doc, "home-in-uk-question", Messages("page.iht.application.assets.properties.question.question", deceasedName))
+//    }
+//
+//    "show ownership question value" in {
+//      elementShouldHaveText(doc, "home-in-uk-value", Messages("iht.yes"))
+//    }
+//
+//    behave like link("home-in-uk-link",
+//      iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
+//      Messages("iht.change"))
+//
+//    behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
+//
+//    behave like addressWithDeleteAndModify(1, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
+//
+//    "show you haven't added message when there are no properties" in {
+//      val view = properties_overview(List(),
+//        Some(Properties(isOwned = Some(true))),
+//        registrationDetails).toString()
+//      val doc = asDocument(view)
+//      doc.getElementById("properties-empty-table-row").text shouldBe
+//        Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")
+//
+//    }
   }
 }
