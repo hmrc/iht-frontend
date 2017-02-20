@@ -73,12 +73,6 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be (Some(loginUrl))
     }
-
-    "display the correct content title" in {
-      val result = stocksAndSharesOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.stocksAndShares"))
-    }
-
   }
+
 }

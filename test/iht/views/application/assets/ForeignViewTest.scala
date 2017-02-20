@@ -16,18 +16,18 @@
 
 package iht.views.application.assets
 
+import iht.controllers.application.assets.routes
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.foreign
 import play.api.data.Form
-import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
-class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
+class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -43,6 +43,7 @@ class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBeha
   override def valueQuestionHelp = ""
   override def returnLinkText = Messages("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.ForeignController.onSubmit)
 
   "Foreign assets view" must {
     behave like yesNoValueView
