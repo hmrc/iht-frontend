@@ -21,7 +21,7 @@ import iht.constants.IhtProperties
 import iht.models.QuestionnaireModel
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Session}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -32,8 +32,9 @@ import scala.concurrent.Future
 /**
  * Created by yasar on 6/18/15.
  */
-class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest with I18nSupport {
+class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
 
+  override implicit val messagesApi = app.injector.instanceOf[MessagesApi]
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
