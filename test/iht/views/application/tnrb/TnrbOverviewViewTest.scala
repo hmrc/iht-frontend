@@ -61,7 +61,6 @@ class TnrbOverviewViewTest extends ViewTestHelper {
                              Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
                              CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString ))
-      view should include(Messages("page.iht.application.tnrbEligibilty.overview.guidance3"))
       view should include(Messages("iht.estateReport.completeEverySection"))
 
     }
