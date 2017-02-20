@@ -27,10 +27,12 @@ import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
-  override def guidanceParagraphs = Set(
-    Messages("iht.estateReport.assets.property.youCan"),
-    Messages("iht.estateReport.assets.property.findOutFromLandRegistry"),
-    Messages("page.iht.application.assets.property.tenure.guidance1b")
+  override def guidance = guidance(
+    Set(
+      Messages("iht.estateReport.assets.property.youCan"),
+      Messages("iht.estateReport.assets.property.findOutFromLandRegistry"),
+      Messages("page.iht.application.assets.property.tenure.guidance1b")
+    )
   )
 
   override def pageTitle = Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")

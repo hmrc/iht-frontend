@@ -33,9 +33,11 @@ class PropertyTypeViewTest extends ApplicationPageBehaviour[Property] {
 
   def name(deceasedName: => String) = ihtHelpers.name(deceasedName)
 
-  override def guidanceParagraphs = Set(
-    Messages("page.iht.application.assets.property.type.label1", name(deceasedName)),
-    Messages("page.iht.application.assets.property.type.label2", name(deceasedName))
+  override def guidance = guidance(
+    Set(
+      Messages("page.iht.application.assets.property.type.label1", name(deceasedName)),
+      Messages("page.iht.application.assets.property.type.label2", name(deceasedName))
+    )
   )
 
   override def pageTitle = Messages("iht.estateReport.assets.properties.whatKind.question")

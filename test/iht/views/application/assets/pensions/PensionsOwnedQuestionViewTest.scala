@@ -34,7 +34,7 @@ class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePe
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def pageTitle = Messages("page.iht.application.pensions.isOwned.title",deceasedName)
 

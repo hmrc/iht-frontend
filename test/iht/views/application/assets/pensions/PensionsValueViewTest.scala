@@ -31,7 +31,7 @@ class PensionsValueViewTest extends ValueViewBehaviour[PrivatePension] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def guidanceParagraphs = Set(Messages("page.iht.application.assets.pensions.hint"))
+  override def guidance = guidance(Set(Messages("page.iht.application.assets.pensions.hint")))
 
   override def pageTitle = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid")
 
