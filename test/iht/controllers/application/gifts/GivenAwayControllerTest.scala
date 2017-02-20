@@ -125,7 +125,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
                                             allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
                                               isReservation = Some(false), isToTrust = Some(false),
                                               isGivenInLast7Years = Some(false))),
-                                            giftsList = CommonBuilder.buildGiftsList)
+                                            giftsList = Some(CommonBuilder.buildGiftsList))
 
       setUpMocks(applicationDetails)
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false))
