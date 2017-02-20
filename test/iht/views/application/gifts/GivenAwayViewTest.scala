@@ -40,8 +40,6 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
 
   override def browserTitle = Messages("iht.estateReport.gifts.givenAway.title")
 
-  val mockIhtProperties: IhtProperties = mock[IhtProperties]
-
   override def guidance = guidance(
     Set(
       Messages("page.iht.application.gifts.lastYears.givenAway.p1",

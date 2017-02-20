@@ -16,13 +16,45 @@
 
 package iht.views.application.gifts
 
+import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
-import iht.testhelpers.CommonBuilder
+import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
+import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.utils.CommonHelper
+import iht.utils.CommonHelper.getOrException
 import iht.views.ViewTestHelper
-import iht.views.html.application.gift.gifts_details
+import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.html.application.gift.{gifts_details, given_away}
+import play.api.data.Form
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
-class GiftsDetailsViewTest extends ViewTestHelper {
+class GiftsDetailsViewTest extends ApplicationPageBehaviour[PreviousYearsGifts] {
+
+  override def guidance = guidance(
+    Set(
+      Messages("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007"),
+      Messages("page.iht.application.giftsDetails.browserTitle")
+    )
+  )
+
+  override def formTarget = Some(iht.controllers.application.gifts.routes.GivenAwayController.onSubmit())
+
+  override def cancelComponent = Some(
+    CancelComponent(
+      iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
+        CommonHelper.getOrException(registrationDetails.ihtReference)),
+      Messages("iht.estateReport.returnToEstateOverview")
+    )
+  )
+
+  override def form: Form[AllGifts] = giftsGivenAwayForm
+
+  override def formToView: Form[AllGifts] => Appendable =
+    form =>
+      given_away(form, registrationDetails)
+
+
 
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
@@ -50,19 +82,7 @@ class GiftsDetailsViewTest extends ViewTestHelper {
 
   "GiftsOverview view" must {
 
-    "have correct title and browser title " in {
-      val view = giftsDetailsView().toString
-
-      titleShouldBeCorrect(view, Messages("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007"))
-      browserTitleShouldBeCorrect(view, Messages("page.iht.application.giftsDetails.browserTitle"))
-    }
-
-    "have 'Save and continue' button" in {
-      val view = giftsDetailsView()
-
-      val saveAndContinueButton = view.getElementById("save-continue")
-      saveAndContinueButton.getElementsByAttributeValueContaining("value", Messages("iht.saveAndContinue"))
-    }
+    behave like applicationPageWithErrorSummaryBox()
 
     "have the return link with correct text" in {
       val view = giftsDetailsView()
