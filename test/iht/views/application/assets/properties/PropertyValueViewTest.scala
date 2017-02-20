@@ -56,7 +56,7 @@ class PropertyValueViewTest extends ValueViewBehaviour[Property] {
     form =>
       property_value(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
 
-  "Property value page Question View" must {
+  "Property value page" must {
     behave like valueView()
   }
 }
