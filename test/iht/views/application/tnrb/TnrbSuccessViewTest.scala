@@ -48,8 +48,7 @@ class TnrbSuccessViewTest extends ViewTestHelper {
       val view = tnrbSuccessView.toString
 
       messagesShouldBePresent(view,
-        CommonHelper.escapePound(messagesApi("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1",
-                                deceasedName, preDeceasedName)))
+        messagesApi("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", deceasedName, preDeceasedName))
 
       messagesShouldBePresent(view, messagesApi("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2"))
     }

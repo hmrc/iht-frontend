@@ -103,7 +103,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
     messagesShouldBePresent(view.toString,messagesApi("page.iht.application.tnrb.kickout.estateMoreThanThreshold.summary"))
     messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.nextSteps"))
     messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.returnToEstateOverview"))
-    messagesShouldBePresent(view.toString, CommonHelper.escapePound(messagesApi("site.threshold.value.display")))
+    messagesShouldBePresent(view.toString, messagesApi("site.threshold.value.display"))
     messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.ihtThreshold"))
     messagesShouldBePresent(view.toString, CommonHelper.escapePound(messagesApi("page.iht.application.overview.value")))
 

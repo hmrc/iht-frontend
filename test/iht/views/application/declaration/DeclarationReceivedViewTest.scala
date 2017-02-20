@@ -48,11 +48,11 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
       messagesShouldBePresent(view, messagesApi("page.iht.application.probateDetails.content2"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.probateDetails.content2.bullet1",
                               formattedProbateReference(probateDetails.probateReference)))
-      messagesShouldBePresent(view, CommonHelper.escapePound(messagesApi("page.iht.application.probateDetails.content2.bullet2",
-                              probateDetails.grossEstateforProbatePurposes)))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.probateDetails.content2.bullet2",
+                              probateDetails.grossEstateforProbatePurposes))
       messagesShouldBePresent(view,
-                              CommonHelper.escapePound(messagesApi("page.iht.application.probateDetails.content2.bullet3",
-                              probateDetails.netEstateForProbatePurposes)))
+                              messagesApi("page.iht.application.probateDetails.content2.bullet3",
+                              probateDetails.netEstateForProbatePurposes))
 
       messagesShouldBePresent(view, messagesApi("page.iht.application.probateDetails.guidance"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.probateDetails.guidance.bullet1"))
