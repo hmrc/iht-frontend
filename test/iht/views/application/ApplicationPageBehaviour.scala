@@ -26,7 +26,17 @@ import play.twirl.api.HtmlFormat.Appendable
 
 case class CancelComponent(target: Call, content: String)
 
+case class Guidance(isAnyGuidance: Boolean, content: () => Set[String])
+
 trait ApplicationPageBehaviour[A] extends ViewTestHelper {
+
+  def guidance(content: => Set[String]) = Guidance(isAnyGuidance = true, () => content)
+
+  //def guidance(content: (() => String)* ) = Guidance(isAnyGuidance = true, content)
+
+
+  def noGuidance = Guidance(isAnyGuidance = false, () => Set.empty)
+
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   def pageTitle: String
@@ -41,9 +51,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   def formToView: Form[A] => Appendable
 
-  def ook: Set[ () => String] = Set.empty
-
-  def guidanceParagraphs: Set[String]
+  def guidance: Guidance
 
   def formTarget: Option[Call]
 
@@ -62,18 +70,13 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
       doc.getElementById("save-continue").text shouldBe Messages("iht.saveAndContinue")
     }
 
-    if (ook.nonEmpty) {
-      "ook" in {
-        for (paragraph <- ook) messagesShouldBePresent(view, paragraph())
-      }
-    }
 
-
-    if (guidanceParagraphs.nonEmpty) {
+    if (guidance.isAnyGuidance) {
       "show the correct guidance paragraphs" in {
-        for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
+        for (paragraph <- guidance.content()) messagesShouldBePresent(view, paragraph)
       }
     }
+
     if (formTarget.isDefined) {
       "show the Save/Continue button with the correct target" in {
         formTarget.foreach { target =>

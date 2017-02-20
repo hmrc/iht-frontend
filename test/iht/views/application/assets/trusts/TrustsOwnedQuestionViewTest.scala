@@ -30,11 +30,11 @@ class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def guidanceParagraphs = Set(
+  override def guidance = guidance(Set(
     Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust", deceasedName),
     Messages("iht.estateReport.assets.trusts.needInclusion", deceasedName),
     Messages("iht.estateReport.assets.heldInTrust.needInclusion", deceasedName)
-  )
+  ))
 
   override def pageTitle = Messages("iht.estateReport.assets.trusts.question", deceasedName)
 

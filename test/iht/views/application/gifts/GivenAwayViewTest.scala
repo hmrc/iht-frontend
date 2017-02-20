@@ -16,7 +16,7 @@
 
 package iht.views.application.gifts
 
-import iht.constants.{IhtProperties, MockIhtProperties}
+import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
@@ -27,7 +27,6 @@ import iht.views.html.application.gift.given_away
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
-import org.mockito.Mockito._
 
 /**
   * Created by vineet on 15/11/16.
@@ -50,49 +49,16 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
 
   override def browserTitle = Messages("iht.estateReport.gifts.givenAway.title")
 
-
-  //  "show the correct question and guidance" in {
-  //    implicit val request = createFakeRequest()
-  //    val viewAsString = ContentChecker.stripLineBreaks(given_away(giftsGivenAwayForm, registrationDetails).toString)
-  //
-  //    viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.question",
-  //      getDeceasedNameOrDefaultString(registrationDetails)))
-  //
-  //
-  //  }
-
   val mockIhtProperties: IhtProperties = mock[IhtProperties]
 
-  case class OptionSet(bool, set
-
-  override def ook = Set(
-    () => {
-      Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-        deceasedName,
-        TestHelper.getDateBeforeSevenYears(IhtProperties,
-          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
-        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)
-      ,
-      Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName))
-  }
-
-  )
-
-  override def guidanceParagraphs = Set.empty
-
-//  {
-//    when(mockIhtProperties.giftsYears).thenReturn(7)
-//    when(mockIhtProperties.dateFormatForDisplay).thenReturn("d MMMM yyyy")
-//
-//    Set(
-//      Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-//        deceasedName,
-//        TestHelper.getDateBeforeSevenYears(IhtProperties,
-//          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
-//        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
-//      Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
-//    )
-//  }
+  override def guidance = guidance(Set(
+    Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+      deceasedName,
+      TestHelper.getDateBeforeSevenYears(IhtProperties,
+        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
+      getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
+    Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
+  ))
 
   override def formTarget = Some(iht.controllers.application.gifts.routes.GivenAwayController.onSubmit())
 
