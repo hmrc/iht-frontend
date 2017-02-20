@@ -39,7 +39,7 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
   override def form: Form[CoExecutor] = coExecutorPersonalDetailsForm
 
   override def formToView: Form[CoExecutor] => Appendable =
-    form => coexecutor_personal_details(form, Mode.Standard, CommonBuilder.DefaultCall1)(createFakeRequest())
+    form => coexecutor_personal_details(form, Mode.Standard, CommonBuilder.DefaultCall1)(createFakeRequest(), applicationMessages)
 
 
   def editModeViewAsDocument(): Document = {

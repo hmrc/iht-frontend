@@ -75,7 +75,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
       val view = pensionOverviewView(Some(CommonBuilder.buildPrivatePensionExtended))
 
       val link = view.getElementById("return-button")
-      link.text shouldBe Messages("page.iht.application.return.to.assetsOf", deceasedName)
+      link.text shouldBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
       link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
     }
 

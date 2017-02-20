@@ -54,7 +54,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field","error message"))
       val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe Messages("error.problem")
+      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
     }
   }
 

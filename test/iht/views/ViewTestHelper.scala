@@ -22,7 +22,6 @@ import iht.utils.CommonHelper._
 import iht.testhelpers.ContentChecker
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
@@ -41,7 +40,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
   def radioButtonShouldBeCorrect(doc: Document, labelTextMessagesKey: String, radioID: String,
                                  labelID: Option[String] = None) = {
-    val labelText = Messages(labelTextMessagesKey)
+    val labelText = messagesApi(labelTextMessagesKey)
     val label = doc.getElementById(labelID.fold(s"$radioID-label")(identity))
     label.text shouldBe labelText
     val radio = label.children.first

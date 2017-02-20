@@ -64,17 +64,17 @@ class CharityDetailsOverviewViewTest extends ViewTestHelper{
       val nameLink: Element = doc.getElementById("charity-name-link")
       val expectedNameUrl =  routes.CharityNameController.onEditPageLoad(charity.id.getOrElse(""))
       nameLink.attr("href") shouldBe expectedNameUrl.url
-      assertEqualsValue(doc, "a#charity-name-link span", Messages("iht.change"))
+      assertEqualsValue(doc, "a#charity-name-link span", messagesApi("iht.change"))
 
       val numberLink: Element = doc.getElementById("charity-number-link")
       val expectedNumberUrl =  routes.CharityNumberController.onEditPageLoad(charity.id.getOrElse(""))
       numberLink.attr("href") shouldBe expectedNumberUrl.url
-      assertEqualsValue(doc, "a#charity-number-link span", Messages("iht.change"))
+      assertEqualsValue(doc, "a#charity-number-link span", messagesApi("iht.change"))
 
       val valueLink: Element = doc.getElementById("charity-value-link")
       val expectedValueURl = routes.CharityValueController.onEditPageLoad(charity.id.getOrElse(""))
       valueLink.attr("href") shouldBe expectedValueURl.url
-      assertEqualsValue(doc, "a#charity-value-link span", Messages("iht.change"))
+      assertEqualsValue(doc, "a#charity-value-link span", messagesApi("iht.change"))
     }
 
     "contain links with charity ID #1 when charity name is completed, but charity number and value are empty" +

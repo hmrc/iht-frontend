@@ -18,24 +18,26 @@ package iht.views.iv.failurepages
 
 import iht.views.html.iv.failurepages.locked_out
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
+  implicit val request = createFakeRequest()
+
   def guidanceParagraphs = Set(
-    Messages("page.iht.iv.failure.lockedOut.p1"),
-    Messages("page.iht.iv.failure.lockedOut.p2")
+    messagesApi("page.iht.iv.failure.lockedOut.p1"),
+    messagesApi("page.iht.iv.failure.lockedOut.p2")
   )
 
-  def pageTitle = Messages("page.iht.iv.failure.lockedOut.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.lockedOut.title")
 
-  def browserTitle = Messages("page.iht.iv.failure.lockedOut.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.lockedOut.title")
 
   def view: String = locked_out().toString
 
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.routes.PrivateBetaLandingPageController.showLandingPage(),
-      Messages("iht.iv.exit")
+      messagesApi("iht.iv.exit")
     )
   )
 

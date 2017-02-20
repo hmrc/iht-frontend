@@ -80,7 +80,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
       status(result) should be(OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) should include(
-        Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+        messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
           addApostrophe(rd.coExecutors(0).name)))
       val msg = escapeApostrophes(
         messagesApi("iht.registration.changeAddressToAbroad"))

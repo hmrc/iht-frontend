@@ -19,6 +19,7 @@ package iht.views.application.assets.money
 import iht.controllers.application.assets.money.routes._
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.money.money_overview
 import org.jsoup.nodes.Document

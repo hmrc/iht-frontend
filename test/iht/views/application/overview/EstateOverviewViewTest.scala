@@ -75,7 +75,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
       val view = estate_overview(dummyViewModel).toString
       val doc = asDocument(view)
-      view should include(Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
+      view should include(messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
     }
 
     "contain the assets and gifts section" in {

@@ -35,11 +35,11 @@ class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[Wido
 
   def widowCheck = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.partner.married",
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.partner.married",
     TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased),
     TnrbHelper.spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased))
 
-  override def browserTitle = Messages("iht.estateReport.tnrb.increasingIHTThreshold")
+  override def browserTitle = messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit())
 
@@ -53,7 +53,7 @@ class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[Wido
     form =>
       deceased_widow_check_question(form, widowCheck, tnrbModel, regDetails,
         iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(),
-        Messages("page.iht.application.tnrb.returnToIncreasingThreshold"))
+        messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold"))
   }
 
   override def cancelComponent = None

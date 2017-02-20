@@ -18,7 +18,7 @@ package iht.views.application
 
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
-import iht.utils.{ApplicationKickOutHelper, KickOutReason}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, KickOutReason}
 import iht.views.ViewTestHelper
 import iht.views.html.application.iht_kickout_application
 import play.api.i18n.Messages.Implicits._
@@ -100,15 +100,15 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
       appDetails,
       Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation))
 
-    messagesShouldBePresent(view.toString,Messages("page.iht.application.tnrb.kickout.estateMoreThanThreshold.summary"))
-    messagesShouldBePresent(view.toString, Messages("iht.estateReport.kickout.nextSteps"))
-    messagesShouldBePresent(view.toString, Messages("iht.estateReport.kickout.returnToEstateOverview"))
-    messagesShouldBePresent(view.toString, CommonHelper.escapePound(Messages("site.threshold.value.display")))
-    messagesShouldBePresent(view.toString, Messages("iht.estateReport.ihtThreshold"))
-    messagesShouldBePresent(view.toString, CommonHelper.escapePound(Messages("page.iht.application.overview.value")))
+    messagesShouldBePresent(view.toString,messagesApi("page.iht.application.tnrb.kickout.estateMoreThanThreshold.summary"))
+    messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.nextSteps"))
+    messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.returnToEstateOverview"))
+    messagesShouldBePresent(view.toString, CommonHelper.escapePound(messagesApi("site.threshold.value.display")))
+    messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.ihtThreshold"))
+    messagesShouldBePresent(view.toString, CommonHelper.escapePound(messagesApi("page.iht.application.overview.value")))
 
     val returnLink = view.getElementById("back-button")
-    returnLink.text shouldBe Messages("iht.estateReport.kickout.returnToEstateOverview.linkText")
+    returnLink.text shouldBe messagesApi("iht.estateReport.kickout.returnToEstateOverview.linkText")
     returnLink.attr("href") shouldBe
       iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
 

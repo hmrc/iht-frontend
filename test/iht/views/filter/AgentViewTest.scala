@@ -64,7 +64,7 @@ class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a link with a button class with the correct exit link" in {
-      val result = agent_view()
+      val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 

@@ -19,23 +19,26 @@ package iht.views.iv.failurepages
 import iht.constants.IhtProperties
 import iht.views.html.iv.failurepages.failed_matching
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
+
+  implicit val request = createFakeRequest()
+
   def guidanceParagraphs = Set(
-    Messages("page.iht.iv.failure.failedMatching.p1")
+    messagesApi("page.iht.iv.failure.failedMatching.p1")
   )
 
-  def pageTitle = Messages("page.iht.iv.failure.failedMatching.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.failedMatching.title")
 
-  def browserTitle = Messages("page.iht.iv.failure.failedMatching.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.failedMatching.title")
 
   def view: String = failed_matching().toString
 
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.routes.PrivateBetaLandingPageController.showLandingPage(),
-      Messages("iht.iv.exit")
+      messagesApi("iht.iv.exit")
     )
   )
 
@@ -45,7 +48,7 @@ class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
     "show the contact hmrc link with the correct target and text" in {
       val cancelButton = doc.getElementById("contact-hmrc")
       cancelButton.attr("href") shouldBe IhtProperties.linkContactHMRC
-      cancelButton.text() shouldBe Messages("iht.iv.contactHMRC")
+      cancelButton.text() shouldBe messagesApi("iht.iv.contactHMRC")
     }
   }
 }

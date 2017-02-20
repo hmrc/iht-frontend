@@ -28,7 +28,7 @@ import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
-  override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
+  override def pageTitle = messagesApi("page.iht.registration.deceasedPermanentHome.title")
 
   override def browserTitle = messagesApi("page.iht.registration.deceasedPermanentHome.browserTitle")
 

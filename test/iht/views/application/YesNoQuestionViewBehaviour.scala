@@ -29,8 +29,8 @@ trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
     applicationPageWithErrorSummaryBox()
 
     "show the correct yes/no question text" in {
-      doc.getElementById("yes-label").text shouldBe Messages("iht.yes")
-      doc.getElementById("no-label").text shouldBe Messages("iht.no")
+      doc.getElementById("yes-label").text shouldBe messagesApi("iht.yes")
+      doc.getElementById("no-label").text shouldBe messagesApi("iht.no")
     }
   }
 

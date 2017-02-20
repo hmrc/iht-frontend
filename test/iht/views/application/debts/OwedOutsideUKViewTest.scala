@@ -39,7 +39,7 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour[BasicEstateElement
   override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => owed_outside_uk(form, regDetails)
 
   override def pageTitle = messagesApi("iht.estateReport.debts.owedOutsideUK")
-  override def browserTitle = messagesapi("page.iht.application.debts.debtsOutsideUk.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.debts.debtsOutsideUk.browserTitle")
   override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.debtsOutsideUk.description.p1"),
     messagesApi("page.iht.application.debts.debtsOutsideUk.description.p2"))
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsOutsideUk.isOwned")

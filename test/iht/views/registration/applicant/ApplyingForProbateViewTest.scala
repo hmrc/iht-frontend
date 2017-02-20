@@ -30,9 +30,9 @@ class ApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[ApplicantDet
   override def guidanceParagraphs = Set(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"),
     messagesApi("page.iht.registration.applicant.applyingForProbate.p2"))
 
-  override def pageTitle = Messages("iht.registration.applicant.applyingForProbate")
+  override def pageTitle = messagesApi("iht.registration.applicant.applyingForProbate")
 
-  override def browserTitle = Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
   override def form: Form[ApplicantDetails] = applyingForProbateForm
 

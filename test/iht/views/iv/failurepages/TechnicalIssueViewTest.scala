@@ -19,25 +19,28 @@ package iht.views.iv.failurepages
 import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.technical_issue
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
+
+  implicit val request = createFakeRequest()
+
   def guidanceParagraphs = Set(
-    Messages("page.iht.iv.failure.technicalIssue.p1"),
-    Messages("iht.iv.tryAgainLater"),
-    Messages("page.iht.iv.failure.technicalIssue.p3")
+    messagesApi("page.iht.iv.failure.technicalIssue.p1"),
+    messagesApi("iht.iv.tryAgainLater"),
+    messagesApi("page.iht.iv.failure.technicalIssue.p3")
   )
 
-  def pageTitle = Messages("page.iht.iv.failure.technicalIssue.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.technicalIssue.title")
 
-  def browserTitle = Messages("page.iht.iv.failure.technicalIssue.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.technicalIssue.title")
 
   def view: String = technical_issue(CommonBuilder.DefaultCall1.url).toString
 
   override def exitComponent = Some(
     ExitComponent(
       CommonBuilder.DefaultCall1,
-      Messages("iht.iv.tryAgain")
+      messagesApi("iht.iv.tryAgain")
     )
   )
 

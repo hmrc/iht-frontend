@@ -20,9 +20,10 @@ import iht.controllers.application.assets.household.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_jointly_owned
-import play.api.i18n.Messages.Implicits
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable

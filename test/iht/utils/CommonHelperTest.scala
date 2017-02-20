@@ -27,6 +27,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.Session
 import play.api.test.FakeRequest
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}

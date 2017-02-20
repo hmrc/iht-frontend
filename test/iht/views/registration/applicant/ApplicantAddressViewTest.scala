@@ -19,6 +19,7 @@ package iht.views.registration.applicant
 import iht.forms.registration.ApplicantForms.{applicantAddressAbroadForm, applicantAddressUkForm}
 import iht.models.UkAddress
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.html.registration.applicant.applicant_address
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.i18n.MessagesApi
@@ -27,14 +28,14 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-trait ApplicantAddressViewTest {
-  def guidance: Seq[String] = Seq(Messages("page.iht.registration.applicantAddress.hint"))
+trait ApplicantAddressViewTest extends ViewTestHelper {
+  def guidance: Seq[String] = Seq(messagesApi("page.iht.registration.applicantAddress.hint"))
 }
 
 class ApplicantAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddress] with ApplicantAddressViewTest {
-  override def pageTitle = Messages("page.iht.registration.applicantAddress.title")
+  override def pageTitle = messagesApi("page.iht.registration.applicantAddress.title")
 
-  override def browserTitle = Messages("page.iht.registration.applicantAddress.title")
+  override def browserTitle = messagesApi("page.iht.registration.applicantAddress.title")
 
   override def form: Form[UkAddress] = applicantAddressUkForm
 
@@ -57,9 +58,9 @@ class ApplicantAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddre
 }
 
 class ApplicantAddressViewInAbroadModeTest extends RegistrationPageBehaviour[UkAddress] with ApplicantAddressViewTest {
-  override def pageTitle = Messages("page.iht.registration.applicantAddress.title")
+  override def pageTitle = messagesApi("page.iht.registration.applicantAddress.title")
 
-  override def browserTitle = Messages("page.iht.registration.applicantAddress.title")
+  override def browserTitle = messagesApi("page.iht.registration.applicantAddress.title")
 
   override def form: Form[UkAddress] = applicantAddressAbroadForm
 

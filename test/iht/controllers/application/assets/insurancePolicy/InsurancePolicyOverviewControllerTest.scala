@@ -24,9 +24,6 @@ import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import play.api.i18n.{messagesApi, MessagesApi}
-import play.api.i18n.messagesApi.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 
 import scala.concurrent.Future

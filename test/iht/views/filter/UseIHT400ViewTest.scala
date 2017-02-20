@@ -78,7 +78,7 @@ class UseIHT400ViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain a link with the button class with href attribute pointing to ???" in {
-      val result = use_iht400()
+      val result = use_iht400()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 

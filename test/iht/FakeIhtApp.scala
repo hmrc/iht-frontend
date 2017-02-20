@@ -17,7 +17,8 @@
 package iht
 
 import iht.config.FrontendAuthConnector
-import iht.testhelpers.CommonBuilder
+import iht.constants.Constants
+import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import org.scalatest._
 import org.scalatestplus.play.{OneAppPerSuite, OneServerPerSuite}
 import play.api.{Application, Mode}
