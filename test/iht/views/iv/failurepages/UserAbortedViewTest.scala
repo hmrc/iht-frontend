@@ -23,8 +23,6 @@ import play.api.i18n.Messages.Implicits._
 
 class UserAbortedViewTest extends GenericNonSubmittablePageBehaviour {
 
-  implicit val request = createFakeRequest()
-
   def guidanceParagraphs = Set(
     messagesApi("page.iht.iv.failure.userAborted.p1")
   )
@@ -33,7 +31,7 @@ class UserAbortedViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.userAborted.title")
 
-  def view: String = user_aborted(CommonBuilder.DefaultCall1.url).toString
+  def view: String = user_aborted(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(

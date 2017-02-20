@@ -21,7 +21,6 @@ import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages.Implicits._
 
 class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
-  implicit val request = createFakeRequest()
 
   def guidanceParagraphs = Set(
     messagesApi("page.iht.iv.failure.lockedOut.p1"),
@@ -32,7 +31,7 @@ class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.lockedOut.title")
 
-  def view: String = locked_out().toString
+  def view: String = locked_out()(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(

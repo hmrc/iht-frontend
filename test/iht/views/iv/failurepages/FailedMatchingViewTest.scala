@@ -23,8 +23,6 @@ import play.api.i18n.Messages.Implicits._
 
 class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
 
-  implicit val request = createFakeRequest()
-
   def guidanceParagraphs = Set(
     messagesApi("page.iht.iv.failure.failedMatching.p1")
   )
@@ -33,7 +31,7 @@ class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.failedMatching.title")
 
-  def view: String = failed_matching().toString
+  def view: String = failed_matching()(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(
@@ -46,6 +44,7 @@ class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     "show the contact hmrc link with the correct target and text" in {
+      implicit val request = createFakeRequest()
       val cancelButton = doc.getElementById("contact-hmrc")
       cancelButton.attr("href") shouldBe IhtProperties.linkContactHMRC
       cancelButton.text() shouldBe messagesApi("iht.iv.contactHMRC")

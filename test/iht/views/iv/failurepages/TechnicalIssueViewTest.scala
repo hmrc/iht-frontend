@@ -23,8 +23,6 @@ import play.api.i18n.Messages.Implicits._
 
 class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
 
-  implicit val request = createFakeRequest()
-
   def guidanceParagraphs = Set(
     messagesApi("page.iht.iv.failure.technicalIssue.p1"),
     messagesApi("iht.iv.tryAgainLater"),
@@ -35,7 +33,7 @@ class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.technicalIssue.title")
 
-  def view: String = technical_issue(CommonBuilder.DefaultCall1.url).toString
+  def view: String = technical_issue(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(

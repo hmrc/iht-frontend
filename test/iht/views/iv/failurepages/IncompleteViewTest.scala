@@ -22,8 +22,6 @@ import play.api.i18n.Messages.Implicits._
 
 class IncompleteViewTest extends GenericNonSubmittablePageBehaviour {
 
-  implicit val request = createFakeRequest()
-
   def guidanceParagraphs = Set(
     messagesApi("iht.iv.unableToContinue"),
     messagesApi("iht.iv.tryAgainLater")
@@ -33,7 +31,7 @@ class IncompleteViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("error.problem")
 
-  def view: String = incomplete().toString
+  def view: String = incomplete()(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(

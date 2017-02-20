@@ -27,7 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
+class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)

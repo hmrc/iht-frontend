@@ -23,8 +23,6 @@ import play.api.i18n.Messages.Implicits._
 
 class InsufficientEvidenceViewTest extends GenericNonSubmittablePageBehaviour {
 
-  implicit val request = createFakeRequest()
-
   def guidanceParagraphs = Set(
     messagesApi("iht.iv.unableToContinue"),
     messagesApi("iht.iv.tryAgainLater")
@@ -34,7 +32,7 @@ class InsufficientEvidenceViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("error.problem")
 
-  def view: String = insufficient_evidence(CommonBuilder.DefaultCall1.url).toString
+  def view: String = insufficient_evidence(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(

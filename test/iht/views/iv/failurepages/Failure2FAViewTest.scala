@@ -24,8 +24,6 @@ import play.api.mvc.Call
 
 class Failure2FAViewTest extends GenericNonSubmittablePageBehaviour {
 
-  implicit val request = createFakeRequest()
-
   def guidanceParagraphs = Set(
     messagesApi("page.iht.iv.failure.2fa.p1"),
     messagesApi("page.iht.iv.failure.2fa.p2")
@@ -35,7 +33,7 @@ class Failure2FAViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.2fa.title")
 
-  def view: String = failure_2fa(CommonBuilder.DefaultCall1.url).toString
+  def view: String = failure_2fa(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(
@@ -48,6 +46,7 @@ class Failure2FAViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     "show the verify link with the correct target and text" in {
+      implicit val request = createFakeRequest()
       val cancelButton = doc.getElementById("verify-link")
       cancelButton.attr("href") shouldBe CommonBuilder.DefaultCall1.url
       cancelButton.text() shouldBe messagesApi("page.iht.iv.failure.2fa.verifyLink")
