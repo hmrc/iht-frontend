@@ -32,9 +32,6 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   def guidance(content: => Set[String]) = Guidance(isAnyGuidance = true, () => content)
 
-  //def guidance(content: (() => String)* ) = Guidance(isAnyGuidance = true, content)
-
-
   def noGuidance = Guidance(isAnyGuidance = false, () => Set.empty)
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()

@@ -16,7 +16,7 @@
 
 package iht.testhelpers
 
-import iht.constants.{IhtProperties, MockIhtProperties}
+import iht.constants.IhtProperties
 import org.joda.time.LocalDate
 import iht.models.application.basicElements.ShareableBasicEstateElement
 

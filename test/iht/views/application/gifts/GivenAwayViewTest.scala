@@ -51,14 +51,16 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
 
   val mockIhtProperties: IhtProperties = mock[IhtProperties]
 
-  override def guidance = guidance(Set(
-    Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-      deceasedName,
-      TestHelper.getDateBeforeSevenYears(IhtProperties,
-        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
-      getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
-    Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
-  ))
+  override def guidance = guidance(
+    Set(
+      Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+        deceasedName,
+        TestHelper.getDateBeforeSevenYears(IhtProperties,
+          getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
+        getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
+      Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
+    )
+  )
 
   override def formTarget = Some(iht.controllers.application.gifts.routes.GivenAwayController.onSubmit())
 

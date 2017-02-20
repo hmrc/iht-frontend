@@ -38,11 +38,13 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
 
   override def browserTitle = Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")
 
-  override def guidance = guidance(Set(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
-    TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-      Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetailsName,
-    TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-      Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")))))
+  override def guidance = guidance(
+    Set(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+        Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetailsName,
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+        Messages("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
+  )
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit())
 
