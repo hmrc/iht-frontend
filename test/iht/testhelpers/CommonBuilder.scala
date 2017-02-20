@@ -72,6 +72,7 @@ object CommonBuilder {
   val DefaultDateOfBirthDateTime = new DateTime(DateTime.parse("2000-08-16T07:22:05Z"))
   val DefaultPostCode = "AA1 1AA"
   val DefaultUkAddress = new UkAddress("addr1", "addr2", Some("addr3"), Some("addr4"), DefaultPostCode)
+  val DefaultUkAddress2 = new UkAddress("addr21", "addr22", Some("addr23"), Some("addr24"), "BB1 1BB")
   val DefaultPhoneNo = "02079460093"
   val DefaultContactDetails = new iht.models.ContactDetails(DefaultPhoneNo, Some("a@example.com"))
 
@@ -547,6 +548,15 @@ object CommonBuilder {
     typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly,
     tenure = TestHelper.TenureFreehold,
     value = Some(12345)
+  )
+
+  val property2 = Property(
+    id = Some("2"),
+    address = Some(DefaultUkAddress2),
+    propertyType = TestHelper.PropertyTypeOtherResidentialBuilding,
+    typeOfOwnership = TestHelper.TypesOfOwnershipJoint,
+    tenure = TestHelper.TenureLeasehold,
+    value = Some(489)
   )
 
   lazy val buildLeadExecutor = models.des.LeadExecutor(CommonBuilder.buildApplicantDetails.firstName.fold("")(identity),

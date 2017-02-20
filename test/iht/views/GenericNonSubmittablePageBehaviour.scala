@@ -16,7 +16,7 @@
 
 package iht.views
 
-import org.jsoup.nodes.Document
+import org.jsoup.nodes.{Document, Element}
 import play.api.mvc.Call
 
 case class ExitComponent(target: Call, content: String)
@@ -33,6 +33,8 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
   def exitComponent: Option[ExitComponent]
 
   def doc: Document = asDocument(view)
+
+  val exitId: String = "return-button"
 
   def nonSubmittablePage() = {
     "have the correct title" in {
@@ -52,11 +54,21 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
     if (exitComponent.isDefined) {
       "show the exit link with the correct target and text" in {
         exitComponent.foreach { attrib =>
-          val cancelButton = doc.getElementsByClass("button").first
-          cancelButton.attr("href") shouldBe attrib.target.url
-          cancelButton.text() shouldBe attrib.content
+          val anchor = doc.getElementById(exitId)
+          anchor.attr("href") shouldBe attrib.target.url
+          anchor.text() shouldBe attrib.content
         }
       }
+    }
+  }
+
+  def link(anchorId: => String, href: => String, text: => String) = {
+    def anchor = doc.getElementById(anchorId)
+    s"have a link with id $anchorId and correct target" in {
+      anchor.attr("href") shouldBe href
+    }
+    s"have a link with id $anchorId and correct text" in {
+      getAnchorVisibleText(anchor) shouldBe text
     }
   }
 }

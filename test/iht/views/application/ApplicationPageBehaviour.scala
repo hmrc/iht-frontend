@@ -27,6 +27,17 @@ import play.twirl.api.HtmlFormat.Appendable
 case class CancelComponent(target: Call, content: String)
 
 trait ApplicationPageBehaviour[A] extends ViewTestHelper {
+
+  def link(anchorId: => String, href: => String, text: => String) = {
+    def anchor = doc.getElementById(anchorId)
+    s"have a link with id $anchorId and correct target" in {
+      anchor.attr("href") shouldBe href
+    }
+    s"have a link with id $anchorId and correct text" in {
+      anchor.text() shouldBe text
+    }
+  }
+
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   def pageTitle: String
@@ -47,6 +58,8 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   def cancelComponent: Option[CancelComponent]
 
+  val cancelId: String = "return-button"
+
   def applicationPage() = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
@@ -59,9 +72,8 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     "have a Continue button" in {
       doc.getElementById("save-continue").text shouldBe Messages("iht.saveAndContinue")
     }
-
+    "show the correct guidance paragraphs" in {
     if (guidanceParagraphs.nonEmpty) {
-      "show the correct guidance paragraphs" in {
         for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
       }
     }
@@ -76,7 +88,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     if (cancelComponent.isDefined) {
       "show the return link with the correct target and text" in {
         cancelComponent.foreach { attrib =>
-          val cancelButton = doc.getElementById("return-button")
+          val cancelButton = doc.getElementById(cancelId)
           cancelButton.attr("href") shouldBe attrib.target.url
           cancelButton.text() shouldBe attrib.content
         }
@@ -103,6 +115,69 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
       val cancelLink = view.getElementById("cancel-button")
       cancelLink.attr("href") shouldBe cancelUrl.url
       cancelLink.text() shouldBe Messages("site.link.cancel")
+    }
+  }
+
+  def radioButton(testTitle:String,
+                  titleId: String, titleExpectedValue: String, hintId: String = "", hintExpectedValue: String = "") = {
+    s"contain $testTitle radio button with correct title" in {
+      doc.getElementById(titleId).text shouldBe Messages(titleExpectedValue)
+    }
+    if (hintId.nonEmpty) {
+      s"contain $testTitle radio buton with correct hint text" in {
+        doc.getElementById(hintId).text shouldBe Messages(hintExpectedValue)
+      }
+    }
+  }
+
+  def addressPage(): Unit = {
+
+    "have a line 1 field" in {
+      assertRenderedById(doc, "address.ukAddressLine1")
+    }
+
+    "have the correct label for line 1" in {
+      labelShouldBe(doc, "address.ukAddressLine1-container", "iht.address.line1")
+    }
+
+    "have a line 2 field" in {
+      assertRenderedById(doc, "address.ukAddressLine2")
+    }
+
+    "have the correct label for line 2" in {
+      labelShouldBe(doc, "address.ukAddressLine2-container", "iht.address.line2")
+    }
+
+    "have a line 3 field" in {
+      assertRenderedById(doc, "address.ukAddressLine3")
+    }
+
+    "have the correct label for line 3" in {
+      labelShouldBe(doc, "address.ukAddressLine3-container", "iht.address.line3")
+    }
+
+    "have a line 4 field" in {
+      assertRenderedById(doc, "address.ukAddressLine4")
+    }
+
+    "have the correct label for line 4" in {
+      labelShouldBe(doc, "address.ukAddressLine4-container", "iht.address.line4")
+    }
+  }
+
+  def addressPageUK(): Unit = {
+    addressPage()
+
+    "have a post code field" in {
+      assertRenderedById(doc, "address.postCode")
+    }
+
+    "have the correct label for post code" in {
+      labelShouldBe(doc, "address.postCode-container", "iht.postcode")
+    }
+
+    "not have a country code field" in {
+      assertNotRenderedById(doc, "address.countryCode")
     }
   }
 }
