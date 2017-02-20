@@ -44,7 +44,7 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
     Set(
       Messages("page.iht.application.gifts.lastYears.givenAway.p1",
         deceasedName,
-        TestHelper.getDateBeforeSevenYears(IhtProperties,
+        CommonHelper.getDateBeforeSevenYears(
           getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
         getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
       Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
