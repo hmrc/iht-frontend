@@ -252,24 +252,6 @@
                         Messages("page.iht.application.tnrbEligibilty.overview.benefitFromTrust.question.screenReader.text.no", predeceasedName, ihtHelpers.name(deceasedName)),
                         Messages("page.iht.application.tnrbEligibilty.overview.benefitFromTrust.question.screenReader.text.none", predeceasedName, ihtHelpers.name(deceasedName))
                     ))
-            </ul>
-
-        <h2 id="tnrb-partner-estate22">
-        @Html(
-            Messages("page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading",
-                TnrbHelper.spouseOrCivilPartnerLabel(
-                    tnrbModel,
-                    widowCheckModel,
-                    Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                        getDeceasedNameOrDefaultString(registrationDetails, true)
-                    ),
-                    true
-                )
-            )
-        )
-        </h2>
-
-        <ul id="tnrb-overview-partner-estate-table" class="tabular-data tabular-data--list">
 
             @tnrb_overview_table_row(id = "gifts-given-away",
                 questionText = Html(Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", predeceasedName)),
