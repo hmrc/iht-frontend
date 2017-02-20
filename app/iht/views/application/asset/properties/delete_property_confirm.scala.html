@@ -21,12 +21,13 @@
 @import iht.utils._
 
 @iht_main_template_application(title = Messages("page.iht.application.propertyDetails.deleteProperty.title"),
+browserTitle = Some(Messages("page.iht.application.propertyDetails.deleteProperty.title")),
 isFullWidth=true,
 cancelUrl=Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad)) {
 
 @helpers.form(action = iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit(propertyModel.id.getOrElse(""))) {
 
-<div class="panel-indent">
+<div id="address" class="panel-indent">
     <strong>
         @defining(propertyModel.address)  { propertyAddress =>
             @propertyAddress match{
@@ -44,7 +45,7 @@ cancelUrl=Some(iht.controllers.application.assets.properties.routes.PropertiesOv
 </p>
 
 <div class="form-field form-field--submit">
-<input id="delete" class='button' type='submit' value='@Messages("site.button.confirmDelete")' aria-label='@Messages("page.iht.application.propertyDetails.deleteProperty.button.screenReader")'>
+    <button class="button" id="delete-confirm">@Messages("site.button.confirmDelete")</button>
 </div>
 
 }

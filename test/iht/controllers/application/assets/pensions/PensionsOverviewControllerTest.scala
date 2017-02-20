@@ -14,35 +14,47 @@
  * limitations under the License.
  */
 
-package iht.controllers.application.assets.stocksAndShares
+package iht.controllers.application.assets.pensions
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
 import play.api.test.Helpers._
 
 /**
- * Created by yasar on 30/06/16.
+ * Created by jennygj on 30/06/16.
  */
-class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
-
-  "StocksAndSharesOverviewControllerTest" must {
+class PensionsOverviewControllerTest extends ApplicationControllerTest {
 
     val mockCachingConnector = mock[CachingConnector]
     val mockIhtConnector = mock[IhtConnector]
 
-    def stocksAndSharesOverviewController = new StocksAndSharesOverviewController {
+    def pensionsOverviewController = new PensionsOverviewController {
       override val authConnector = createFakeAuthConnector()
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
     }
 
-    def stocksAndSharesOverviewControllerNotAuthorised = new StocksAndSharesOverviewController {
+    def pensionsOverviewControllerNotAuthorised = new PensionsOverviewController {
       override val authConnector = createFakeAuthConnector(false)
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
+    }
+  "PensionsOverviewController" must {
+    "redirect to login page on PageLoad if the user is not logged in" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = pensionsOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(false))
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be (Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -55,23 +67,8 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails= true,
         storeAppDetailsInCache = true)
 
-      val result = stocksAndSharesOverviewController.onPageLoad(createFakeRequest())
+      val result = pensionsOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe (OK)
-    }
-
-    "redirect to login page on PageLoad if the user is not logged in" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
-
-      val result = stocksAndSharesOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(false))
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
     }
   }
 

@@ -72,9 +72,12 @@ object TestHelper {
   val MaritalStatusWidowed = "Widowed or a Surviving Civil Partner"
 
   val PropertyTypeDeceasedHome = Some("Deceased's home")
+  val PropertyTypeOtherResidentialBuilding = Some("Other residential building")
   val TypesOfOwnershipDeceasedOnly = Some("Deceased only")
+  val TypesOfOwnershipJoint = Some("Joint")
 
   val TenureFreehold = Some("Freehold")
+  val TenureLeasehold = Some("Leasehold")
   val LinkRegistrationKickOut = "https://www.gov.uk/inheritance-tax"
   val LinkEstateReportKickOut = "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
 

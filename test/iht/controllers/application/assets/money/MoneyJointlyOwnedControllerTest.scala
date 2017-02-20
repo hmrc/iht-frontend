@@ -145,14 +145,6 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       val result = moneyJointlyOwnedController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
-
-    "display the correct title on page load" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      setUpTests(applicationDetails)
-
-      val result = moneyJointlyOwnedController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.money.jointlyOwned"))
-    }
   }
+
 }

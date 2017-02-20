@@ -16,6 +16,7 @@
 
 package iht.views.application.assets.vehicles
 
+import iht.controllers.application.assets.vehicles.routes
 import iht.controllers.application.assets.vehicles.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.ShareableBasicEstateElement
@@ -27,7 +28,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class VehiclesJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
+class VehiclesJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -43,7 +44,8 @@ class VehiclesJointlyOwnedViewTest extends ViewTestHelper with ShareableElementI
   override def valueQuestionHelp = ""
   override def returnLinkText = Messages("site.link.return.vehicles")
   override def returnLinkUrl = VehiclesOverviewController.onPageLoad().url
-  vehicles_jointly_owned
+  override def formTarget =Some(routes.VehiclesJointlyOwnedController.onSubmit)
+
   "Vehicles Jointly Owned view" must {
     behave like yesNoValueViewJoint
   }
