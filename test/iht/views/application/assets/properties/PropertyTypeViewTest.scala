@@ -63,21 +63,27 @@ class PropertyTypeViewTest extends ApplicationPageBehaviour[Property] {
     behave like applicationPageWithErrorSummaryBox()
   }
 
-  behave like radioButton(
-    testTitle = "deceased's home",
-    titleId = "propertyType-deceased's_home-label",
-    titleExpectedValue = "page.iht.application.assets.propertyType.deceasedHome.label"
-  )
+  "deceased's home radio button" must {
+    behave like radioButton(
+      testTitle = "deceased's home",
+      titleId = "propertyType-deceased's_home-label",
+      titleExpectedValue = "page.iht.application.assets.propertyType.deceasedHome.label"
+    )
+  }
 
-  behave like radioButton(
-    testTitle = "other residential building",
-    titleId = "propertyType-other_residential_building-label",
-    titleExpectedValue = "page.iht.application.assets.propertyType.otherResidential.label"
-  )
+  "other residential building radio button" must {
+    behave like radioButton(
+      testTitle = "other residential building",
+      titleId = "propertyType-other_residential_building-label",
+      titleExpectedValue = "page.iht.application.assets.propertyType.otherResidential.label"
+    )
+  }
 
-  behave like radioButton(
-    testTitle = "land, non residential or business building",
-    titleId = "propertyType-land,_non-residential_or_business_building-label",
-    titleExpectedValue = "page.iht.application.assets.propertyType.nonResidential.label"
-  )
+  "land, non residential or business building radio button" must {
+    behave like radioButton(
+      testTitle = "land, non residential or business building",
+      titleId = "propertyType-land,_non-residential_or_business_building-label",
+      titleExpectedValue = "page.iht.application.assets.propertyType.nonResidential.label"
+    )
+  }
 }
