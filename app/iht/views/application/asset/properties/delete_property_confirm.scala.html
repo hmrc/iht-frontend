@@ -23,7 +23,9 @@
 @iht_main_template_application(title = Messages("page.iht.application.propertyDetails.deleteProperty.title"),
 browserTitle = Some(Messages("page.iht.application.propertyDetails.deleteProperty.title")),
 isFullWidth=true,
-cancelUrl=Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad)) {
+cancelUrl=Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad),
+cancelLabel = Some(Messages("site.link.cancel"))
+) {
 
 @helpers.form(action = iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit(propertyModel.id.getOrElse(""))) {
 
