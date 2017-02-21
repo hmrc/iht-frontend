@@ -15,7 +15,7 @@
 *@
 
 @import iht.utils.CommonHelper._
-@(form: Form[_], sectionKey: String)
+@(form: Form[_], sectionKey: String)(implicit request:Request[_], messages: Messages)
 
 @{
     defining(

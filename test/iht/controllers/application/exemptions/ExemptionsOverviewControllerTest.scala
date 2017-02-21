@@ -22,6 +22,8 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -58,6 +60,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
 
   "ExemptionsOverviewController" must {
     "respond with OK on page load" in {
+
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(applicationDetails),
@@ -67,7 +70,7 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
 
       val result = exemptionsSummaryController.onPageLoad (createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.title"))
     }
 
 

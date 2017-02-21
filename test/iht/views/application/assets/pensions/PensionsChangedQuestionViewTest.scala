@@ -28,6 +28,7 @@ import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.assets.pensions.routes
 import iht.views.application.CancelComponent
+import play.api.i18n.Messages.Implicits._
 
 class PensionsChangedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePension] {
 
@@ -36,9 +37,9 @@ class PensionsChangedQuestionViewTest extends YesNoQuestionViewBehaviour[Private
 
   override def guidance = noGuidance
 
-  override def pageTitle = Messages("page.iht.application.assets.pensions.changed.title", deceasedName)
+  override def pageTitle = messagesApi("page.iht.application.assets.pensions.changed.title", deceasedName)
 
-  override def browserTitle = Messages("page.iht.application.assets.pensions.changed.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.assets.pensions.changed.browserTitle")
 
   override def formTarget = Some(routes.PensionsChangedQuestionController.onSubmit())
 
@@ -48,7 +49,7 @@ class PensionsChangedQuestionViewTest extends YesNoQuestionViewBehaviour[Private
     form => pensions_changed_question(form, regDetails)
 
   override def cancelComponent = Some(CancelComponent(routes.PensionsOverviewController.onPageLoad(),
-                                      Messages("iht.estateReport.assets.pensions.returnToPrivatePensions")))
+    messagesApi("iht.estateReport.assets.pensions.returnToPrivatePensions")))
 
   "Pensions Changed Question View" must {
     behave like yesNoQuestion

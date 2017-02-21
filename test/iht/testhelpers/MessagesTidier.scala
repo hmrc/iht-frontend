@@ -21,7 +21,9 @@ import java.io._
 import iht.utils.CommonHelper._
 import play.api.Play
 import play.api.Play.current
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages}
+import play.api.i18n.Messages.Implicits._
+import play.i18n.MessagesApi
 
 import scala.collection.immutable.ListMap
 import scala.io.{BufferedSource, Source}
@@ -59,7 +61,7 @@ trait MessagesTidier {
     "error.enter_a_date"
   )
 
-  def readMessages(): Map[String, String] = {
+  def readmessagesApi(): Map[String, String] = {
     val aa: Map[String, String] = getOrException(messages.get("default"))
     aa.filter(xx => !exclusions.contains(xx._1))
   }
@@ -69,7 +71,7 @@ trait MessagesTidier {
     * in .summary, if Some(false) filters out any items not ending in .summary.
     */
   def detectDuplicateValues(filterForSummaryItems: Option[Boolean] = None): Map[String, Set[String]] = {
-    val invertedMap = invertMap(readMessages())
+    val invertedMap = invertMap(readmessagesApi())
     removeUniques(
       filterForSummaryItems match {
         case None => invertedMap
@@ -459,10 +461,10 @@ trait MessagesTidier {
 
   def filterOutDuplicatesWithSameValue(messages: Seq[(String, String)]): Seq[(String, String)] = ???
 
-  def sortErrorMessages(m: Map[String, String]): Seq[(String, String)] =
+  def sortErrormessagesApi(m: Map[String, String]): Seq[(String, String)] =
     m.toSeq.filter(tp => tp._1.contains("error") || tp._1.contains("validation")).sortBy(_._1)
 
-  def sortIhtMessages(m: Map[String, String]): Seq[(String, String)] =
+  def sortIhtmessagesApi(m: Map[String, String]): Seq[(String, String)] =
     m.toSeq.filter(tp => tp._1.startsWith("iht.")).sortBy(_._1)
 
   def getNonErrorMessagesExclCommentedKeys(filePath: String): Seq[(String, String)] = {
@@ -557,5 +559,5 @@ trait MessagesTidier {
 }
 
 object MessagesTidier extends MessagesTidier {
-  override val messages = Messages.messages
+  override val messages: Map[String, Map[String, String]] = Messages.Implicits.applicationMessagesApi.messages
 }

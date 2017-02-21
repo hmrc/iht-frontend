@@ -20,7 +20,9 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -52,7 +54,7 @@ class MoneyOverviewControllerTest extends ApplicationControllerTest {
         mockIhtConnector,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
-        saveAppDetails= true,
+        saveAppDetails = true,
         storeAppDetailsInCache = true)
 
       val result = moneyOverviewController.onPageLoad(createFakeRequest())
@@ -66,13 +68,13 @@ class MoneyOverviewControllerTest extends ApplicationControllerTest {
         mockIhtConnector,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
-        saveAppDetails= true,
+        saveAppDetails = true,
         storeAppDetailsInCache = true)
 
       val result = moneyOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(false))
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      redirectLocation(result) should be(Some(loginUrl))
     }
   }
-
+  
 }

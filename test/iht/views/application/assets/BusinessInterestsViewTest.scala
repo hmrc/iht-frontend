@@ -21,11 +21,13 @@ import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
+import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.business_interests
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages
 
 class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
@@ -35,13 +37,13 @@ class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[Basi
   override def form:Form[BasicEstateElement] = businessInterestForm
   override def formToView:Form[BasicEstateElement] => Appendable = form => business_interests(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.assets.businessInterests.title")
-  override def browserTitle = Messages("page.iht.application.assets.businessInterest.browserTitle")
-  override def questionTitle = Messages("page.iht.application.assets.businessInterest.isOwned", deceasedName)
-  override def valueQuestion = Messages("page.iht.application.assets.businessInterest.inputLabel1")
+  override def pageTitle = messagesApi("iht.estateReport.assets.businessInterests.title")
+  override def browserTitle = messagesApi("page.iht.application.assets.businessInterest.browserTitle")
+  override def questionTitle = messagesApi("page.iht.application.assets.businessInterest.isOwned", deceasedName)
+  override def valueQuestion = messagesApi("page.iht.application.assets.businessInterest.inputLabel1")
   override def hasValueQuestionHelp = true
-  override def valueQuestionHelp = Messages("page.iht.application.assets.businessInterest.hint")
-  override def returnLinkText = Messages("page.iht.application.return.to.assetsOf", deceasedName)
+  override def valueQuestionHelp = messagesApi("page.iht.application.assets.businessInterest.hint")
+  override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
   override def formTarget =Some(routes.BusinessInterestsController.onSubmit)
 
@@ -50,8 +52,8 @@ class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[Basi
 
     "show the correct guidance" in {
       messagesShouldBePresent(view,
-        Messages("page.iht.application.assets.businessInterest.description.p1", deceasedName),
-        Messages("page.iht.application.assets.businessInterest.description.p2", deceasedName))
+        messagesApi("page.iht.application.assets.businessInterest.description.p1", deceasedName),
+        messagesApi("page.iht.application.assets.businessInterest.description.p2", deceasedName))
     }
   }
 

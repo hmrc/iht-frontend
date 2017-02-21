@@ -23,7 +23,7 @@
 @import iht.constants.Constants
 
 @(money: Form[ShareableBasicEstateElement], registrationDetails: RegistrationDetails
-)(implicit request: Request[_])
+)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 

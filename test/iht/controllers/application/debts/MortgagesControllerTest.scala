@@ -23,6 +23,8 @@ import iht.models.application.debts._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -30,6 +32,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 class MortgagesOverviewControllerTest extends ApplicationControllerTest {
+
 
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
@@ -90,7 +93,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
 
       val result = mortgagesOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include(Messages("page.iht.application.debts.mortgages.noProperties.description"))
+      contentAsString(result) should include(messagesApi("page.iht.application.debts.mortgages.noProperties.description"))
     }
 
     "return OK on Page Load where app details exist and liabilities don't exist" in {

@@ -27,6 +27,10 @@ import iht.views.html.application.gift.given_away
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
+import play.api.i18n.Messages.Implicits._
+
 
 class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = Some("ABC1234567890"),
@@ -36,18 +40,18 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def pageTitle = Messages("iht.estateReport.gifts.givenAwayBy", deceasedName)
+  override def pageTitle = messagesApi("iht.estateReport.gifts.givenAwayBy", deceasedName)
 
-  override def browserTitle = Messages("iht.estateReport.gifts.givenAway.title")
+  override def browserTitle = messagesApi("iht.estateReport.gifts.givenAway.title")
 
   override def guidance = guidance(
     Set(
-      Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+      messagesApi("page.iht.application.gifts.lastYears.givenAway.p1",
         deceasedName,
         CommonHelper.getDateBeforeSevenYears(
           getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
         getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
-      Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
+      messagesApi("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)
     )
   )
 
@@ -57,7 +61,7 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
     CancelComponent(
       iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
         CommonHelper.getOrException(registrationDetails.ihtReference)),
-      Messages("iht.estateReport.returnToEstateOverview")
+      messagesApi("iht.estateReport.returnToEstateOverview")
     )
   )
 
@@ -69,17 +73,19 @@ class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
 
 
   "GivenAway View" must {
+
     behave like applicationPageWithErrorSummaryBox()
 
     "show return to gifts given away link when user is in edit mode" in {
+      implicit val request = createFakeRequest()
       val fakeRequest = createFakeRequest(isAuthorised = false)
       val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
       val filledForm = giftsGivenAwayForm.fill(allGifts)
-      val view = given_away(filledForm, registrationDetails)(fakeRequest)
+      val view = given_away(filledForm, registrationDetails)
       val doc = asDocument(view)
 
       val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
+      link.text shouldBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         getOrException(registrationDetails.deceasedDetails).name)
       link.attr("href") shouldBe
         iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url

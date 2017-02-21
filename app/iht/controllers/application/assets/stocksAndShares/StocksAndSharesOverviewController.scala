@@ -24,6 +24,8 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.StockAndShare
 import iht.utils.CommonHelper
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object StocksAndSharesOverviewController extends StocksAndSharesOverviewController with IhtConnectors {
   def metrics : Metrics = Metrics

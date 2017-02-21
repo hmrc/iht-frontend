@@ -20,7 +20,9 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.FilterForms._
 import iht.views.HtmlSpec
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import iht.constants.Constants._
 
@@ -29,6 +31,7 @@ import iht.constants.Constants._
   */
 class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -44,7 +47,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.whatDoYouWantToDo"))
+      titleElement.text() should be(messagesApi("iht.whatDoYouWantToDo"))
     }
 
     "show an error if no radio  button is selected" in {

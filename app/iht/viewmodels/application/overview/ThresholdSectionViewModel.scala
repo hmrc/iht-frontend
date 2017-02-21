@@ -24,6 +24,8 @@ import iht.utils.tnrb.TnrbHelper
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 case class ThresholdSectionViewModel(thresholdRow: OverviewRowWithoutLink,
                                      increasingThresholdRow: Option[OverviewRow],

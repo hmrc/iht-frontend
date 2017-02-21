@@ -57,12 +57,6 @@ object IHTReturnTestHelper {
                                                                acknowledgmentReference: String) = {
 
 
-    val otherAddress = OtherAddress(
-      addressLine1= Some("addr1"), addressLine2= Some("addr2"),
-      addressLine3= None, addressLine4= None,
-      postalCode= Some(CommonBuilder.DefaultPostCode), countryCode= Some("GB"), addressType= Some("?")
-    )
-
     val declaration = Declaration(
       reasonForBeingBelowLimit= Some("Excepted Estate"),
       declarationAccepted= Some(true),
@@ -177,7 +171,7 @@ object IHTReturnTestHelper {
       title= Some("Mrs"), firstName= Some(CommonBuilder.firstNameGenerator), middleName= None,
       lastName= Some(CommonBuilder.surnameGenerator), dateOfBirth= Some(toDate("2011-11-12")),
       gender= None, nino= Some(CommonBuilder.DefaultNino), utr= None,
-      mainAddress= Some(DefaultAddress), OtherAddresses= None,
+      mainAddress= Some(DefaultAddress),
 
       // Other
       dateOfMarriage= Some(dateOfDeath.minusDays(1)), domicile= Some(IHTReturnDummyDomicile),
@@ -188,7 +182,7 @@ object IHTReturnTestHelper {
       title= Some("Ms"), firstName= Some(CommonBuilder.firstNameGenerator), middleName= None,
       lastName= Some(CommonBuilder.surnameGenerator), dateOfBirth= Some(IHTReturnDummyDateOfBirth),
       gender= None, nino= Some(CommonBuilder.DefaultNino), utr= None,
-      mainAddress= Some(DefaultAddress), OtherAddresses= None,
+      mainAddress= Some(DefaultAddress),
 
       // Other
       dateOfMarriage= Some(toDate("2008-12-13")), dateOfDeath=Some(toDate("2010-10-12"))

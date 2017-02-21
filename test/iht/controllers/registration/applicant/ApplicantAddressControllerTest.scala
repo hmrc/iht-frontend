@@ -24,6 +24,8 @@ import iht.models.{ApplicantDetails, UkAddress}
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class ApplicantAddressControllerTest extends RegistrationControllerTest  {
@@ -127,14 +129,14 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val result = controller.onPageLoadUk(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.applicantAddress.title"))
-      contentAsString(result) should include(Messages("page.iht.registration.applicantAddress.hint"))
-      contentAsString(result) should include(Messages("iht.address.line1"))
-      contentAsString(result) should include(Messages("iht.address.line2"))
-      contentAsString(result) should include(Messages("iht.address.line3"))
-      contentAsString(result) should include(Messages("iht.address.line4"))
-      contentAsString(result) should include(Messages("iht.postcode"))
-      contentAsString(result) should include(Messages("iht.registration.changeAddressToAbroad"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicantAddress.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicantAddress.hint"))
+      contentAsString(result) should include(messagesApi("iht.address.line1"))
+      contentAsString(result) should include(messagesApi("iht.address.line2"))
+      contentAsString(result) should include(messagesApi("iht.address.line3"))
+      contentAsString(result) should include(messagesApi("iht.address.line4"))
+      contentAsString(result) should include(messagesApi("iht.postcode"))
+      contentAsString(result) should include(messagesApi("iht.registration.changeAddressToAbroad"))
       contentAsString(result) should include(routes.ApplicantAddressController.onPageLoadAbroad().url)
     }
 
@@ -166,14 +168,14 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       val result = controller.onPageLoadAbroad(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.applicantAddress.title"))
-      contentAsString(result) should include(Messages("page.iht.registration.applicantAddress.hint"))
-      contentAsString(result) should include(Messages("iht.address.line1"))
-      contentAsString(result) should include(Messages("iht.address.line2"))
-      contentAsString(result) should include(Messages("iht.address.line3"))
-      contentAsString(result) should include(Messages("iht.address.line4"))
-      contentAsString(result) should include(Messages("iht.country"))
-      contentAsString(result) should include(Messages("iht.registration.changeAddressToUK"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicantAddress.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicantAddress.hint"))
+      contentAsString(result) should include(messagesApi("iht.address.line1"))
+      contentAsString(result) should include(messagesApi("iht.address.line2"))
+      contentAsString(result) should include(messagesApi("iht.address.line3"))
+      contentAsString(result) should include(messagesApi("iht.address.line4"))
+      contentAsString(result) should include(messagesApi("iht.country"))
+      contentAsString(result) should include(messagesApi("iht.registration.changeAddressToUK"))
       contentAsString(result) should include(routes.ApplicantAddressController.onPageLoadUk().url)
     }
 
@@ -461,7 +463,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val result = if (isInternational) controller.onSubmitAbroad(request) else controller.onSubmitUk(request)
       status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(Messages(expectedError))
+      contentAsString(result) should include(messagesApi(expectedError))
     }
 
     "After a submit, when submitting an address, if the storage operation fails the result must be a server error" in {

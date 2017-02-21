@@ -25,6 +25,7 @@ import iht.views.html.application.gift.with_reservation_of_benefit
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by vineet on 15/11/16.
@@ -36,13 +37,13 @@ class WithReservationOfBenefitViewTest extends ApplicationPageBehaviour[AllGifts
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = Messages("iht.estateReport.gifts.withReservation.title")
+  override def pageTitle = messagesApi("iht.estateReport.gifts.withReservation.title")
 
-  override def browserTitle = Messages("iht.estateReport.gifts.withReservation.title")
+  override def browserTitle = messagesApi("iht.estateReport.gifts.withReservation.title")
 
   override def guidance = guidance(
     Set(
-      Messages("iht.estateReport.gifts.reservation.question",
+      messagesApi("iht.estateReport.gifts.reservation.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails))
     )
   )
@@ -52,7 +53,7 @@ class WithReservationOfBenefitViewTest extends ApplicationPageBehaviour[AllGifts
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
-      Messages("page.iht.application.gifts.return.to.givenAwayBy",
+      messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name)
     )
   )

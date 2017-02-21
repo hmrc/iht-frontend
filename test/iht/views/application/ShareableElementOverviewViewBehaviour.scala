@@ -20,6 +20,10 @@ import iht.testhelpers.SharableOverviewData
 import iht.views.ViewTestHelper
 import iht.views.helpers.GenericOverviewHelper._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
 trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with SharableOverviewData{
 
@@ -73,7 +77,7 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
       val doc = asDocument(viewWithQuestionsAnsweredNo)
       val returnLink = doc.getElementById("return-button")
       returnLink.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
-      returnLink.text() shouldBe Messages("page.iht.application.return.to.assetsOf",deceasedName)
+      returnLink.text() shouldBe messagesApi("page.iht.application.return.to.assetsOf",deceasedName)
     }
   }
 

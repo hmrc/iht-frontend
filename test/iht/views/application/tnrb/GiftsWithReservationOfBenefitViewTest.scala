@@ -21,7 +21,7 @@ import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.tnrb.{gifts_with_reservation_of_benefit, jointly_owned_assets}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
@@ -34,16 +34,16 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
 
   val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetailsName)
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetailsName)
 
-  override def browserTitle = Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")
 
   override def guidance = guidance(
-    Set(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
+    Set(messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
       TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-        Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetailsName,
+        messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetailsName,
       TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-        Messages("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
+        messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
   )
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit())

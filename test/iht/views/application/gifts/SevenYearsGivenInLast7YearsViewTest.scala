@@ -25,6 +25,7 @@ import iht.views.html.application.gift.seven_years_given_in_last_7_years
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by vineet on 15/11/16.
@@ -38,19 +39,19 @@ class SevenYearsGivenInLast7YearsViewTest extends ApplicationPageBehaviour[AllGi
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
-  override def pageTitle = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")
+  override def pageTitle = messagesApi("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")
 
-  override def browserTitle = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")
+  override def browserTitle = messagesApi("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")
 
   override def guidance = guidance(
     Set(
-      Messages("page.iht.application.gifts.lastYears.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-      Messages("page.iht.application.gifts.lastYears.description.p1"),
-      Messages("iht.estateReport.assets.money.lowerCaseInitial"),
-      Messages("iht.estateReport.gifts.stocksAndSharesListed"),
-      Messages("page.iht.application.gifts.lastYears.description.e3"),
-      Messages("page.iht.application.gifts.lastYears.description.e4"),
-      Messages("page.iht.application.gifts.lastYears.description.p3", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+      messagesApi("page.iht.application.gifts.lastYears.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      messagesApi("page.iht.application.gifts.lastYears.description.p1"),
+      messagesApi("iht.estateReport.assets.money.lowerCaseInitial"),
+      messagesApi("iht.estateReport.gifts.stocksAndSharesListed"),
+      messagesApi("page.iht.application.gifts.lastYears.description.e3"),
+      messagesApi("page.iht.application.gifts.lastYears.description.e4"),
+      messagesApi("page.iht.application.gifts.lastYears.description.p3", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
     )
   )
 
@@ -59,7 +60,7 @@ class SevenYearsGivenInLast7YearsViewTest extends ApplicationPageBehaviour[AllGi
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
-      Messages("page.iht.application.gifts.return.to.givenAwayBy",
+      messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name)
     )
   )

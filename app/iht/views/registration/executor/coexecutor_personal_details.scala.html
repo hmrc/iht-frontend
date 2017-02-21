@@ -22,7 +22,7 @@
 @(coExecutorDetails:Form[iht.models.CoExecutor],
 mode: Mode.Value = Mode.Standard,
 actionLocation: Call,
-cancelLocation: Option[Call] = None)(implicit request:Request[_])
+cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.co-executor-personal-details.title"),
   browserTitle = Some(Messages("page.iht.registration.co-executor-personal-details.browserTitle")),

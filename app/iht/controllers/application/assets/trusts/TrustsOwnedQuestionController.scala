@@ -24,6 +24,8 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.views.html.application.asset.trusts.trusts_owned_question
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object TrustsOwnedQuestionController extends TrustsOwnedQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics

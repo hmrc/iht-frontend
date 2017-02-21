@@ -19,39 +19,41 @@ package iht.views.ihtHelpers
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.generic_overview_status_link
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
 
 class GenericOverviewStatusLinkTest extends UnitSpec with FakeIhtApp with HtmlSpec {
-  "GenericOverviewStatusLink helper" must {
-    "return 'Give answer' label when item has not been started" in {
 
+  "GenericOverviewStatusLink helper" must {
+
+    "return 'Give answer' label when item has not been started" in {
+      implicit val request = createFakeRequest()
       val result = generic_overview_status_link(isComplete = None)
       val doc = asDocument(result)
 
-      assertContainsText(doc, Messages("site.link.giveAnswer"))
-      assertNotContainsText(doc, Messages("iht.giveMoreDetails"))
-      assertNotContainsText(doc, Messages("iht.change"))
+      assertContainsText(doc, messagesApi("site.link.giveAnswer"))
+      assertNotContainsText(doc, messagesApi("iht.giveMoreDetails"))
+      assertNotContainsText(doc, messagesApi("iht.change"))
     }
 
     "return 'Give more details' label when item has been started but not completed" in {
-
+      implicit val request = createFakeRequest()
       val result = generic_overview_status_link(isComplete = Some(false))
       val doc = asDocument(result)
 
-      assertContainsText(doc, Messages("iht.giveMoreDetails"))
-      assertNotContainsText(doc, Messages("site.link.giveAnswer"))
-      assertNotContainsText(doc, Messages("iht.change"))
+      assertContainsText(doc, messagesApi("iht.giveMoreDetails"))
+      assertNotContainsText(doc, messagesApi("site.link.giveAnswer"))
+      assertNotContainsText(doc, messagesApi("iht.change"))
     }
 
     "return 'View or change' label when item has completed" in {
-
+      implicit val request = createFakeRequest()
       val result = generic_overview_status_link(isComplete = Some(true))
       val doc = asDocument(result)
 
-      assertContainsText(doc, Messages("iht.change"))
-      assertNotContainsText(doc, Messages("iht.giveMoreDetails"))
-      assertNotContainsText(doc, Messages("site.link.giveAnswer"))
+      assertContainsText(doc, messagesApi("iht.change"))
+      assertNotContainsText(doc, messagesApi("iht.giveMoreDetails"))
+      assertNotContainsText(doc, messagesApi("site.link.giveAnswer"))
     }
 
   }

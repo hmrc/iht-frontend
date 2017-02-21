@@ -16,6 +16,7 @@
 
 package iht.utils
 
+import iht.FakeIhtApp
 import iht.models.UkAddress
 import iht.models.application.assets.Property
 import iht.models.application.basicElements.ShareableBasicEstateElement
@@ -23,9 +24,11 @@ import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ApplicationKickoutHelperTest extends UnitSpec with MockitoSugar with iht.FakeIhtApp {
+class ApplicationKickoutHelperTest extends UnitSpec with MockitoSugar with FakeIhtApp {
+
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC123")

@@ -19,7 +19,6 @@ package iht.views.application
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.data.{Form, FormError}
-import play.api.i18n.Messages
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
@@ -76,7 +75,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     }
 
     "have a Continue button" in {
-      doc.getElementById("save-continue").text shouldBe Messages("iht.saveAndContinue")
+      doc.getElementById("save-continue").text shouldBe messagesApi("iht.saveAndContinue")
     }
 
 
@@ -110,7 +109,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))
       val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe Messages("error.problem")
+      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
     }
   }
 
@@ -119,22 +118,22 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
     "have a continue and cancel link in edit mode" in {
       val continueLink = view.getElementById("continue-button")
-      continueLink.attr("value") shouldBe Messages("iht.continue")
+      continueLink.attr("value") shouldBe messagesApi("iht.continue")
 
       val cancelLink = view.getElementById("cancel-button")
       cancelLink.attr("href") shouldBe cancelUrl.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
+      cancelLink.text() shouldBe messagesApi("site.link.cancel")
     }
   }
 
   def radioButton(testTitle:String,
                   titleId: String, titleExpectedValue: String, hintId: String = "", hintExpectedValue: String = "") = {
     s"contain $testTitle radio button with correct title" in {
-      doc.getElementById(titleId).text shouldBe Messages(titleExpectedValue)
+      doc.getElementById(titleId).text shouldBe messagesApi(titleExpectedValue)
     }
     if (hintId.nonEmpty) {
       s"contain $testTitle radio buton with correct hint text" in {
-        doc.getElementById(hintId).text shouldBe Messages(hintExpectedValue)
+        doc.getElementById(hintId).text shouldBe messagesApi(hintExpectedValue)
       }
     }
   }

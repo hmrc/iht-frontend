@@ -17,7 +17,7 @@
 @import iht.constants.Constants._
 @import iht.views.html._
 
-@(estimatedValue: String)
+@(estimatedValue: String)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("iht.shouldUseOnlineService"),
   browserTitle = Some(Messages("iht.shouldUseOnlineService")),

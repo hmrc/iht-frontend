@@ -16,7 +16,10 @@
 
 package iht.views.application
 
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import play.api.mvc.{AnyContentAsEmpty, Call}
+import play.api.test.FakeRequest
 
 trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
   /**
@@ -26,8 +29,8 @@ trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
     behave like applicationPageWithErrorSummaryBox()
 
     "show the correct yes/no question text" in {
-      doc.getElementById("yes-label").text shouldBe Messages("iht.yes")
-      doc.getElementById("no-label").text shouldBe Messages("iht.no")
+      doc.getElementById("yes-label").text shouldBe messagesApi("iht.yes")
+      doc.getElementById("no-label").text shouldBe messagesApi("iht.no")
     }
   }
 

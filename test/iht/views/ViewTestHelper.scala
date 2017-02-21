@@ -25,10 +25,16 @@ import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.utils.CommonHelper
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
 import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import play.api.test.Helpers._
+import play.api.test.Helpers.{contentAsString, _}
 
 trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+
+  implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   def titleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
     val doc = asDocument(pageContent)
@@ -44,7 +50,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
   def radioButtonShouldBeCorrect(doc: Document, labelTextMessagesKey: String, radioID: String,
                                  labelID: Option[String] = None) = {
-    val labelText = Messages(labelTextMessagesKey)
+    val labelText = messagesApi(labelTextMessagesKey)
     val label = doc.getElementById(labelID.fold(s"$radioID-label")(identity))
     label.text shouldBe labelText
     val radio = label.children.first
@@ -59,23 +65,28 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     for (sentence <- unexpectedSentences) ContentChecker.stripLineBreaks(content) should not include ContentChecker.stripLineBreaks(sentence)
   }
 
-  def buildApplicationTitle(title: String) = title + " " + Messages("site.title.govuk")
+  def buildApplicationTitle(title: String) = {
+
+    title + " " + messagesApi("site.title.govuk")
+  }
 
   def labelShouldBe(doc: Document, labelId: String, messageKey: String) = {
+
     val label = doc.getElementById(labelId)
     val mainLabel = label.getElementsByTag("span").first
-    mainLabel.text shouldBe Messages(messageKey)
+    mainLabel.text shouldBe messagesApi(messageKey)
   }
 
   def labelHelpTextShouldBe(doc: Document, labelId: String, messageKey: String) = {
+
     val label = doc.getElementById(labelId)
     val helpText = label.getElementsByTag("span").get(1)
-    helpText.text shouldBe Messages(messageKey)
+    helpText.text shouldBe messagesApi(messageKey)
   }
 
   def elementShouldHaveText(doc: Document, id: String, expectedValueMessageKey: String) = {
     val element = doc.getElementById(id)
-    element.text shouldBe Messages(expectedValueMessageKey)
+    element.text shouldBe messagesApi(expectedValueMessageKey)
   }
 
   /**
@@ -107,7 +118,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     listItems.get(rowNo).getElementsByTag("div").get(colNo)
   }
 
-  def link(doc:Document, anchorId: => String, href: => String, text: => String): Unit = {
+  def link(doc: => Document, anchorId: => String, href: => String, text: => String): Unit = {
     def anchor = doc.getElementById(anchorId)
     s"have a link with id $anchorId and correct target" in {
       anchor.attr("href") shouldBe href

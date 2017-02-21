@@ -21,7 +21,7 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.helpers.GenericOverviewHelper._
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.asset.trusts.trusts_overview
 import iht.models.application.assets.HeldInTrust
 
@@ -36,15 +36,15 @@ class TrustsOverviewViewTest extends ViewTestHelper {
   lazy val giveAnAnswerMsgKey= "site.link.giveAnswer"
   lazy val giveAValueMsgKey = "site.link.giveAValue"
   lazy val deceasedBenefitFromTheTrustQuestionId = "trusts-question"
-  lazy val deceasedBenefitFromTheTrustQuestionMsg = Messages("iht.estateReport.assets.trusts.question",deceasedName)
+  lazy val deceasedBenefitFromTheTrustQuestionMsg = messagesApi("iht.estateReport.assets.trusts.question",deceasedName)
   lazy val deceasedBenefitFromTheTrustQuestionPageUrl = routes.TrustsOwnedQuestionController.onPageLoad.url
 
   lazy val trustMoreThanOneQuestionId = "trusts-more-than-one-question"
-  lazy val trustMoreThanOneQuestionMsg = Messages("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName)
+  lazy val trustMoreThanOneQuestionMsg = messagesApi("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName)
   lazy val trustMoreThanOneQuestionPageUrl = routes.TrustsMoreThanOneQuestionController.onPageLoad.url
 
   lazy val trustValueQuestionId = "trusts-value"
-  lazy val trustValueQuestionMsg = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName)
+  lazy val trustValueQuestionMsg = messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName)
   lazy val trustValueQuestionPageUrl = routes.TrustsValueController.onPageLoad.url
 
   def trustsOverviewView(heldInTrust:Option[HeldInTrust]) = {
@@ -58,17 +58,17 @@ class TrustsOverviewViewTest extends ViewTestHelper {
     "have correct title and browser title " in {
       val view = trustsOverviewView(Some(CommonBuilder.buildAssetsHeldInTrust)).toString
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.assets.heldInTrust.title"))
-      browserTitleShouldBeCorrect(view, Messages("iht.estateReport.assets.heldInTrust.title"))
+      titleShouldBeCorrect(view, messagesApi("iht.estateReport.assets.heldInTrust.title"))
+      browserTitleShouldBeCorrect(view, messagesApi("iht.estateReport.assets.heldInTrust.title"))
     }
 
     "have correct guidance paragraphs" in {
       val view = trustsOverviewView(Some(CommonBuilder.buildAssetsHeldInTrust)).toString
-      messagesShouldBePresent(view, Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",
+      messagesShouldBePresent(view, messagesApi("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",
                                             deceasedName))
-      messagesShouldBePresent(view, Messages("iht.estateReport.assets.trusts.needInclusion",
+      messagesShouldBePresent(view, messagesApi("iht.estateReport.assets.trusts.needInclusion",
                                               deceasedName))
-      messagesShouldBePresent(view, Messages("iht.estateReport.assets.heldInTrust.needInclusion",
+      messagesShouldBePresent(view, messagesApi("iht.estateReport.assets.heldInTrust.needInclusion",
         deceasedName))
     }
 
@@ -76,7 +76,7 @@ class TrustsOverviewViewTest extends ViewTestHelper {
       val view = trustsOverviewView(Some(CommonBuilder.buildAssetsHeldInTrust))
 
       val link = view.getElementById("return-button")
-      link.text shouldBe Messages("page.iht.application.return.to.assetsOf", deceasedName)
+      link.text shouldBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
       link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
     }
   }

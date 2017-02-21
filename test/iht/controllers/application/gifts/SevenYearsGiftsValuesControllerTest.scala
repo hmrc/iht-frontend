@@ -18,19 +18,24 @@ package iht.controllers.application.gifts
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
+import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.views.HtmlSpec
+import org.joda.time.LocalDate
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 /**
-  * Created by james on 14/01/16.
-  */
+ * Created by james on 14/01/16.
+ */
 class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with HtmlSpec {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
@@ -69,7 +74,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
-      status(result) should be(OK)
+      status(result) should be(OK) 
     }
 
     "redirect to ida login page on PageLoad if the user is not logged in" in {
@@ -77,7 +82,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some(loginUrl))
     }
-
+  
     "page loads when there are no gifts in persist storage" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
@@ -98,7 +103,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
   private def testGiftYearLinkData(doc: Document, yearId: String) = {
     val yearLink = doc.getElementById(s"edit-gift-$yearId")
     assertEqualsValue(doc, s"a#edit-gift-$yearId span",
-      Messages("iht.change"))
+      messagesApi("iht.change"))
     yearLink.attr("href") shouldBe
       routes.GiftsDetailsController.onPageLoad(yearId).url
   }

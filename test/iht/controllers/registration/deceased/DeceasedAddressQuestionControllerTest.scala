@@ -25,6 +25,8 @@ import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest with BeforeAndAfter {
@@ -73,7 +75,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val result = deceasedAddressQuestionController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe(OK)
 
-      contentAsString(result) should include(Messages("iht.continue"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
     }
 
     "redirect to UK address page when question is answered yes" in  {

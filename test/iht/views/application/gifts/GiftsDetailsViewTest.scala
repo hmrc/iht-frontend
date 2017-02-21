@@ -24,6 +24,8 @@ import iht.views.html.application.gift.gifts_details
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
+
 
 class GiftsDetailsViewTest extends ApplicationPageBehaviour[PreviousYearsGifts] {
   lazy val ihtRef = "ABC123"
@@ -34,9 +36,9 @@ class GiftsDetailsViewTest extends ApplicationPageBehaviour[PreviousYearsGifts] 
   lazy val giftsValue = BigDecimal(200)
   lazy val exemptionsValue = BigDecimal(100)
 
-  def pageTitle: String = Messages("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007")
+  def pageTitle: String = messagesApi("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007")
 
-  def browserTitle: String = Messages("page.iht.application.giftsDetails.browserTitle")
+  def browserTitle: String = messagesApi("page.iht.application.giftsDetails.browserTitle")
 
   override def guidance = noGuidance
 
@@ -45,7 +47,7 @@ class GiftsDetailsViewTest extends ApplicationPageBehaviour[PreviousYearsGifts] 
   override def cancelComponent = Some(
     CancelComponent(
       returnLocation,
-      Messages(returnLinkLabelMsgKey)
+      messagesApi(returnLinkLabelMsgKey)
     )
   )
 
@@ -62,7 +64,7 @@ class GiftsDetailsViewTest extends ApplicationPageBehaviour[PreviousYearsGifts] 
       gifts_details(form,
         regDetails,
         Some(returnLocation),
-        Some(Messages(returnLinkLabelMsgKey)))
+        Some(messagesApi(returnLinkLabelMsgKey)))
 
   override val cancelId = "cancel-button"
 
@@ -75,7 +77,7 @@ class GiftsDetailsViewTest extends ApplicationPageBehaviour[PreviousYearsGifts] 
       val giftsGivenAwaySectionText = giftsGivenAwaySection.getElementsByTag("span").get(0)
       val giftsGivenAwaySectionValue = giftsGivenAwaySection.getElementsByTag("span").get(1)
 
-      giftsGivenAwaySectionText.text shouldBe Messages("page.iht.application.giftsDetails.value.label")
+      giftsGivenAwaySectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.value.label")
       giftsGivenAwaySectionValue.text shouldBe "£"
     }
 
@@ -85,13 +87,13 @@ class GiftsDetailsViewTest extends ApplicationPageBehaviour[PreviousYearsGifts] 
       val exemptionsClaimedSectionText = exemptionsClaimedSection.getElementsByTag("span").get(0)
       val exemptionsClaimedSectionValue = exemptionsClaimedSection.getElementsByTag("span").get(1)
 
-      exemptionsClaimedSectionText.text shouldBe Messages("page.iht.application.giftsDetails.exemptions.label")
+      exemptionsClaimedSectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.exemptions.label")
       exemptionsClaimedSectionValue.text shouldBe "£"
     }
 
     "show amount added to the estate value label with correct value" in {
       val amountAddedSection = doc.getElementById("value-of-gifts-added")
-      amountAddedSection.attr("data-combine-copy", Messages("page.iht.application.giftsDetails.amountAdded"))
+      amountAddedSection.attr("data-combine-copy", messagesApi("page.iht.application.giftsDetails.amountAdded"))
     }
 
   }

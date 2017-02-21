@@ -15,7 +15,8 @@
 *@
 
 @import iht.constants.IhtProperties
-@(ivUrl: String)
+@(ivUrl: String)(implicit request : Request[_], messages: Messages)
+
 @message={
 <p>@Messages("page.iht.iv.failure.technicalIssue.p1")</p>
 <p>@Messages("iht.iv.tryAgainLater")</p>

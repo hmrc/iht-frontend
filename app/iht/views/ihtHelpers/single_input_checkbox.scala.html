@@ -17,13 +17,13 @@
 @import play.api.i18n._
 @import views.html.helper._
 @import iht.views.html._
-@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit lang: play.api.i18n.Lang)
-@elements = @{ new FieldElements(field.id, field, null, args.toMap, lang) }
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
+@elements = @{ new FieldElements(field.id, field, null, args.toMap, messages) }
 @value = @{ field.value match { case Some(x) => x case None => "false" case x => x }}
 
 
 <div class="form-field-single @if(elements.hasErrors) {form-field--error}">
-  @elements.errors(elements.lang).map { error =>
+  @elements.errors.map { error =>
   <div class="error-notification">@Messages(error)</div>
   }
 

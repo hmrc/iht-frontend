@@ -16,13 +16,14 @@
 
 package iht.utils
 
-import iht.TestUtils
+import iht.{FakeIhtApp, TestUtils}
 import iht.connector.CachingConnector
 import iht.constants.Constants
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder}
 import org.mockito.Matchers._
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.MessagesApi
 import play.api.mvc.Call
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -30,7 +31,8 @@ import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with iht.FakeIhtApp with TestUtils with BeforeAndAfter {
+class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeIhtApp with TestUtils with BeforeAndAfter {
+
   var mockCachingConnector = mock[CachingConnector]
 
   implicit val headerCarrier = FakeHeaders()

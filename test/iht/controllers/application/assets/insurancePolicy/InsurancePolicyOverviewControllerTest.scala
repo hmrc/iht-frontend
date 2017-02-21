@@ -24,7 +24,6 @@ import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import play.api.i18n.Messages
 import play.api.test.Helpers._
 
 import scala.concurrent.Future
@@ -76,19 +75,15 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
 
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
 
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
-                                                      deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question",
-                                                      deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question",
-                                                      deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.assets.insurance.policies.overview.other.question4",
-                                                      deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.insurancePolicies.buyAnnuity.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.assets.insurance.policies.overview.other.question4", deceasedName))
     }
 
     "respond with OK and correct question1 text on page load if deceased not married" in {
@@ -99,8 +94,7 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
-                                                      deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
     }
   }
 }

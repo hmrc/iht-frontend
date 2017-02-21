@@ -19,31 +19,31 @@ package iht.views.application.gifts
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_sidebar
-import play.api.i18n.Messages
-import play.api.mvc.AnyContentAsEmpty
-import play.api.test.FakeRequest
+import play.api.i18n.MessagesApi
+import play.api.i18n.Messages.Implicits._
+
 
 class GiftsSidebarViewTest extends ViewTestHelper {
-  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
-  def view = {
-    gifts_sidebar(
+  def doc = {
+    implicit val request = createFakeRequest()
+    val view = gifts_sidebar(
       relevantSectionGuidanceUrl = CommonBuilder.DefaultCall1,
       messageKeyUrl = "test",
       messageKeyAccessibility = ""
-    ).toString()
-  }
+    ).toString
 
-  def doc = asDocument(view)
+    asDocument(view)
+  }
 
   "gifts sidebar view" must {
     "have the correct title" in {
 
-      val headers = doc.getElementsByTag("h2")
-      headers.size shouldBe 1
-      headers.first.text() shouldBe Messages("site.getHelp")
+        val headers = doc.getElementsByTag("h2")
+        headers.size shouldBe 1
+        headers.first.text() shouldBe messagesApi("site.getHelp")
     }
 
-    behave like link( doc, "whatIsAGift", CommonBuilder.DefaultCall1.url, "test")
+      behave like link( doc, "whatIsAGift", CommonBuilder.DefaultCall1.url, "test")
   }
 }

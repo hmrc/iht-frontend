@@ -23,7 +23,7 @@
 
 @(qualifyingBodies: Seq[QualifyingBody],
 registrationDetails: RegistrationDetails,
-isAssetLeftToQualifyingBody: Boolean)(implicit request: Request[_])
+isAssetLeftToQualifyingBody: Boolean)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
 

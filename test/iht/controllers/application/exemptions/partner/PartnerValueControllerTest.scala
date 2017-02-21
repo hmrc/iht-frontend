@@ -23,6 +23,8 @@ import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -46,6 +48,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
   }
 
   "PartnerValueControllerTest" must {
+
 
     "redirect to log in page if user is not logged in on page load" in {
       val result = partnerValueControllerNotAuthorised.onPageLoad(createFakeRequest())
@@ -71,8 +74,8 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
       val result = partnerValueController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
-      contentAsString(result) should include (Messages("iht.saveAndContinue"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
+      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
     }
 
     "save and return to parent page if no value is entered and page is submitted" in {
@@ -99,7 +102,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
     "display the correct title on page" in {
       val result = partnerValueController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include (Messages("page.iht.application.exemptions.partner.totalAssets.label"))
+      contentAsString(result) should include (messagesApi("page.iht.application.exemptions.partner.totalAssets.label"))
     }
 
     "redirect to overview page when save and continue is clicked" in {

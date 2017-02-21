@@ -26,11 +26,13 @@ import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
+
   implicit val hc = new HeaderCarrier()
   var mockCachingConnector: CachingConnector = null
   var mockIhtConnector: IhtConnector = null
@@ -103,24 +105,24 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       status(result) shouldBe OK
 
       val content = contentAsString(result)
-      content should include(Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
+      content should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
       info("section title is present")
-      content should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.lede"))
+      content should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.lede"))
       info("lede paragraph is present")
-      content should include(Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies"))
+      content should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies"))
       info("progressive reveal link is present")
-      content should include(Messages("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext"))
+      content should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext"))
       info("progressive reveal text is present")
-      ContentChecker.stripLineBreaks(content) should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
+      ContentChecker.stripLineBreaks(content) should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.question",
                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       info("question label is present")
-      content should include(Messages("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text"))
+      content should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text"))
       info("'no qualifying bodies' text is present")
-      content should include(Messages("site.link.return.exemptions"))
+      content should include(messagesApi("site.link.return.exemptions"))
       info("return to exemptions link is present")
       content should include(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad().url)
       info("link to the exemptions overview is present")
-      content should include(Messages("iht.estateReport.assets.qualifyingBodyAdd"))
+      content should include(messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
     }
 
     "include a link to change the Qualifying Bodies question when no qualifying bodies are set up" in {
@@ -145,10 +147,10 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include("&pound;678.9")
       info("qualifying body 2's value is present")
 
-      contentAsString(result) should not include Messages("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text")
+      contentAsString(result) should not include messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text")
       info("'no qualifying bodies' text is not present")
 
-      contentAsString(result) should include(Messages("site.link.return.exemptions"))
+      contentAsString(result) should include(messagesApi("site.link.return.exemptions"))
       info("return to exemptions link is present")
       contentAsString(result) should include(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad().url)
       info("link to the exemptions overview is present")
@@ -158,7 +160,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
       contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.qualifyingBodyAddAnother"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.qualifyingBodyAddAnother"))
     }
   }
 }

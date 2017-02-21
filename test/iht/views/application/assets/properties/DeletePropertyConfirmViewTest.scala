@@ -23,17 +23,18 @@ import iht.views.html.application.asset.properties.delete_property_confirm
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import play.api.i18n.Messages.Implicits._
 
 class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   override def guidanceParagraphs = Set(
-    Messages("page.iht.application.assets.main-section.properties.delete.warning")
+    messagesApi("page.iht.application.assets.main-section.properties.delete.warning")
   )
 
-  override def pageTitle = Messages("page.iht.application.propertyDetails.deleteProperty.title")
+  override def pageTitle = messagesApi("page.iht.application.propertyDetails.deleteProperty.title")
 
-  override def browserTitle = Messages("page.iht.application.propertyDetails.deleteProperty.title")
+  override def browserTitle = messagesApi("page.iht.application.propertyDetails.deleteProperty.title")
 
   def exitComponent = None
 
@@ -45,13 +46,13 @@ class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
     "show submit button with correct target and text" in {
       doc.getElementsByTag("form").attr("action") shouldBe iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit("1").url
       val submitButton = doc.getElementById("delete-confirm")
-      submitButton.text() shouldBe Messages("site.button.confirmDelete")
+      submitButton.text() shouldBe messagesApi("site.button.confirmDelete")
     }
 
     "show cancel link with correct target and text" in {
       val submitButton = doc.getElementById("cancel-button")
       submitButton.attr("href") shouldBe iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad().url
-      submitButton.text() shouldBe Messages("site.link.cancel")
+      submitButton.text() shouldBe messagesApi("site.link.cancel")
     }
 
     "show the address" in {

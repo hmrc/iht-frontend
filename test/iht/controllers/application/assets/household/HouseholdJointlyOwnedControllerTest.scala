@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 
 /**
@@ -131,7 +131,7 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
@@ -154,5 +154,5 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
       status(result) shouldBe BAD_REQUEST
     }
   }
-
+  
 }

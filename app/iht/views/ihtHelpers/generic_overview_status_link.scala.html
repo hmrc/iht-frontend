@@ -7,7 +7,7 @@
 messagesFileGiveAnswer: String = OverviewHelper.messagesFileGiveAnswer,
 messagesFileViewOrChange: String = OverviewHelper.messagesFileChange,
 messagesFileGiveMoreDetails: String = OverviewHelper.messagesFileGiveMoreDetails,
-screenreaderQualifyingText: String = "[placeholder copy]")
+screenreaderQualifyingText: String = "[placeholder copy]")(implicit request:Request[_], messages: Messages)
 
 @{
     isComplete match{

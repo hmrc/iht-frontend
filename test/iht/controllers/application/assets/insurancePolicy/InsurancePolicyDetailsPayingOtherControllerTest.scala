@@ -25,7 +25,9 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 import scala.concurrent.Future
@@ -170,7 +172,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
     "display a yes or no question on the page if deceased married" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"))
     }
 
     "display a yes or no question on the page if deceased not married" in {
@@ -179,19 +181,19 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
       when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
         .thenReturn(registrationDetails copy (deceasedDetails = Some(deceasedDetailsTemp)))
       val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"))
     }
 
     "display a yes radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.yes"))
+      contentAsString(result) should include(messagesApi("iht.yes"))
     }
 
     "display a no radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.no"))
+      contentAsString(result) should include(messagesApi("iht.no"))
     }
 
     "redirect to correct page on submit" in {

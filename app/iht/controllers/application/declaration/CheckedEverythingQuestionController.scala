@@ -22,7 +22,8 @@ import iht.forms.ApplicationForms
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.utils.{CommonHelper, LogHelper}
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 object CheckedEverythingQuestionController extends CheckedEverythingQuestionController with IhtConnectors {

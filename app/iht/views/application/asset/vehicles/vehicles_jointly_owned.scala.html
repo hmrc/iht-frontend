@@ -24,7 +24,7 @@
 @import iht.utils.CommonHelper
 
 @(vehiclesJointlyOwned: Form[ShareableBasicEstateElement],
-  registrationDetails: RegistrationDetails)(implicit request: Request[_])
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 

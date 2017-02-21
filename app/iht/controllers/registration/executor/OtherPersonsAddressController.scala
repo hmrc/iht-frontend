@@ -26,7 +26,8 @@ import iht.models.UkAddress
 import iht.utils.CommonHelper._
 import iht.views.html.registration.{executor => views}
 import play.api.mvc.Call
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 

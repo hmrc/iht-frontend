@@ -19,24 +19,25 @@ package iht.views.iv.failurepages
 import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.timeout
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
+
   def guidanceParagraphs = Set(
-    Messages("page.iht.iv.failure.timeout.p1"),
-    Messages("page.iht.iv.failure.timeout.p2")
+    messagesApi("page.iht.iv.failure.timeout.p1"),
+    messagesApi("page.iht.iv.failure.timeout.p2")
   )
 
-  def pageTitle = Messages("page.iht.iv.failure.timeout.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.timeout.title")
 
-  def browserTitle = Messages("page.iht.iv.failure.timeout.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.timeout.title")
 
-  def view: String = timeout(CommonBuilder.DefaultCall1.url).toString
+  def view: String = timeout(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(
       CommonBuilder.DefaultCall1,
-      Messages("iht.startAgain")
+      messagesApi("iht.startAgain")
     )
   )
 

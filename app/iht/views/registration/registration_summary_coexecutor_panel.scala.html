@@ -21,7 +21,7 @@
 @import iht.utils.CommonHelper
 @import iht.constants.IhtProperties
 
-@(coExecutors: Seq[CoExecutor])
+@(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages)
 <section class="section tabular-data">
   <h2 class="heading-medium additionalExecutorHeader">
       @Messages("iht.registration.othersApplyingForProbate")

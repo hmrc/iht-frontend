@@ -8,31 +8,32 @@ object FrontendBuild extends Build with MicroService {
 }
 
 private object AppDependencies {
-  import play.PlayImport._
+  import play.sbt.PlayImport._
   import play.core.PlayVersion
 
-  private val httpCachingClientVersion = "5.6.0"
+  private val httpCachingClientVersion = "6.1.0"
   private val jsonSchemaValidatorVersion = "2.2.6"
   private val jsonVersion = "20160212"
 
 val compile = Seq(
   ws, cache,
-  "uk.gov.hmrc" %% "play-health" % "1.1.0",
-  "uk.gov.hmrc" %% "play-ui" % "4.17.2",
-  "uk.gov.hmrc" %% "govuk-template" % "4.0.0",
-  "uk.gov.hmrc" %% "url-builder" % "1.0.0",
+  "uk.gov.hmrc" %% "play-health" % "2.0.0",
+  "uk.gov.hmrc" %% "play-ui" % "5.2.0",
+  "uk.gov.hmrc" %% "govuk-template" % "5.0.0",
+  "uk.gov.hmrc" %% "url-builder" % "2.0.0",
   "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
-  "uk.gov.hmrc" %% "frontend-bootstrap" % "6.7.0",
-  "uk.gov.hmrc" %% "play-partials" % "4.6.0",
-  "uk.gov.hmrc" %% "play-config" % "2.1.0",
-  "uk.gov.hmrc" %% "play-json-logger" % "2.1.1",
-  "uk.gov.hmrc" %% "passcode-verification" % "3.5.0",
-  "uk.gov.hmrc" %% "play-authorised-frontend" % "5.8.0",
-  "uk.gov.hmrc" %% "http-verbs" % "5.0.0",
-  "uk.gov.hmrc" %% "play-auditing" % "1.9.0",
-  "uk.gov.hmrc" %% "domain" % "3.7.0",
+  "uk.gov.hmrc" %% "frontend-bootstrap" % "7.11.0",
+  "uk.gov.hmrc" %% "play-partials" % "5.2.0",
+  "uk.gov.hmrc" %% "play-config" % "3.0.0",
+  "uk.gov.hmrc" %% "play-filters" % "5.6.0",
+  "uk.gov.hmrc" %% "logback-json-logger" % "3.1.0",
+  "uk.gov.hmrc" %% "passcode-verification" % "4.0.0",
+  "uk.gov.hmrc" %% "play-authorised-frontend" % "6.3.0",
+  "uk.gov.hmrc" %% "http-verbs" % "6.2.0",
+  "uk.gov.hmrc" %% "play-auditing" % "2.6.0",
+  "uk.gov.hmrc" %% "domain" % "4.0.0",
   "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion,
-  "uk.gov.hmrc" %% "play-graphite" % "2.0.0",
+  "uk.gov.hmrc" %% "play-graphite" % "3.1.0",
   "org.apache.xmlgraphics" % "fop" % "2.1",
   "org.json" % "json" % jsonVersion
 )
@@ -46,13 +47,14 @@ object Test {
   def apply() = new TestDependencies {
     override lazy val test = Seq(
       "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion % scope,
-      "uk.gov.hmrc" %% "hmrctest" % "1.9.0" % scope,
-      "org.scalatest" %% "scalatest" % "2.2.2" % scope,
-      "org.scalatestplus" %% "play" % "1.2.0" % scope,
-      "org.pegdown" % "pegdown" % "1.4.2" % scope,
-      "org.jsoup" % "jsoup" % "1.7.3" % scope,
+      "uk.gov.hmrc" %% "hmrctest" % "2.2.0" % scope,
+      "org.scalatest" %% "scalatest" % "2.2.6" % scope,
+//      "org.scalatestplus" %% "play" % "1.2.0" % scope,
+      "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1",
+      "org.pegdown" % "pegdown" % "1.6.0" % scope,
+      "org.jsoup" % "jsoup" % "1.8.1" % scope,
       "com.typesafe.play" %% "play-test" % PlayVersion.current % scope,
-      "org.mockito" % "mockito-all" % "1.9.5" % scope,
+      "org.mockito" % "mockito-all" % "1.10.19" % scope,
       "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion % scope,
       "org.json" % "json" % jsonVersion % scope
     )

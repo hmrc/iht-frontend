@@ -20,7 +20,7 @@
 @(ihtReference: String,
 backToLastQuestionUrl: Option[String] = None,
 backToLastQuestionMessageKey: Option[String] = None,
-backToLastQuestionMessageKeyAccessibility: Option[String])(implicit request: Request[_])
+backToLastQuestionMessageKeyAccessibility: Option[String])(implicit request:Request[_], messages: Messages)
 
 @gifts_guidance_main_template(title = Messages("page.iht.application.gifts.guidance.claimingExemptions.title"),
 backUrl = None,

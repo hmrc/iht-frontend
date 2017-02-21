@@ -21,7 +21,9 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -30,6 +32,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by james on 17/06/16.
  */
 class PropertyAddressControllerTest extends ApplicationControllerTest {
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -72,7 +75,13 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
     "display the correct title on page" in {
       val result = propertyAddressController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.property.whatIsAddress.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
+    }
+
+    "display correct content on page" in {
+      val result = propertyAddressController.onPageLoad()(createFakeRequest())
+      status(result) should be (OK)
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
     "display the correct title on page in edit mode" in {
@@ -88,7 +97,7 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
 
       val result = propertyAddressController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.property.whatIsAddress.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

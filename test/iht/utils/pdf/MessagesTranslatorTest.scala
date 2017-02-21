@@ -18,20 +18,22 @@ package iht.utils.pdf
 
 import iht.FakeIhtApp
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
   * Created by vineet on 21/11/16.
   */
-class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
+
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   "getMessagesText" must {
     "return the correct string" in {
 
       val result = MessagesTranslator.getMessagesText("iht.the.deceased")
 
-      result shouldBe  Messages("iht.the.deceased")
+      result shouldBe  messagesApi("iht.the.deceased")
     }
   }
 
@@ -42,7 +44,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
       val result = MessagesTranslator.getMessagesTextWithParameter("iht.estateReport.assets.moneyOwned", name)
 
-      result shouldBe  Messages("iht.estateReport.assets.moneyOwned", name)
+      result shouldBe  messagesApi("iht.estateReport.assets.moneyOwned", name)
     }
   }
 
@@ -54,7 +56,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val result = MessagesTranslator.getMessagesTextWithParameters("pdf.inheritance.tax.application.summary.p1",
         name1, name2)
 
-      result shouldBe  Messages("pdf.inheritance.tax.application.summary.p1", name1, name2)
+      result shouldBe  messagesApi("pdf.inheritance.tax.application.summary.p1", name1, name2)
     }
 
     "return the correct string with 3 parameters" in {
@@ -65,7 +67,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val result = MessagesTranslator.getMessagesTextWithParameters("iht.estateReport.tnrb.partner.married",
         parameter1, parameter2, parameter3)
 
-      result shouldBe  Messages("iht.estateReport.tnrb.partner.married", parameter1, parameter2, parameter3)
+      result shouldBe  messagesApi("iht.estateReport.tnrb.partner.married", parameter1, parameter2, parameter3)
     }
   }
 }

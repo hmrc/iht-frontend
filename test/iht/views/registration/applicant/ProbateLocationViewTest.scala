@@ -21,8 +21,8 @@ import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.probate_location
 import iht.views.registration.RegistrationPageBehaviour
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
@@ -30,8 +30,8 @@ import scala.collection.immutable.ListMap
 
 class ProbateLocationViewTest extends RegistrationPageBehaviour[ApplicantDetails] {
 
-  override def pageTitle = Messages("page.iht.registration.applicant.probateLocation.title")
-  override def browserTitle = Messages("page.iht.registration.applicant.probateLocation.browserTitle")
+  override def pageTitle = messagesApi("page.iht.registration.applicant.probateLocation.title")
+  override def browserTitle = messagesApi("page.iht.registration.applicant.probateLocation.browserTitle")
 
   override def form:Form[ApplicantDetails] = probateLocationForm
   override def formToView:Form[ApplicantDetails] => Appendable = form => probate_location(form, CommonBuilder.DefaultCall1)

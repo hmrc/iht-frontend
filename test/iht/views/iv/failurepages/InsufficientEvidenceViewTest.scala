@@ -19,24 +19,25 @@ package iht.views.iv.failurepages
 import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.insufficient_evidence
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class InsufficientEvidenceViewTest extends GenericNonSubmittablePageBehaviour {
+
   def guidanceParagraphs = Set(
-    Messages("iht.iv.unableToContinue"),
-    Messages("iht.iv.tryAgainLater")
+    messagesApi("iht.iv.unableToContinue"),
+    messagesApi("iht.iv.tryAgainLater")
   )
 
-  def pageTitle = Messages("error.problem")
+  def pageTitle = messagesApi("error.problem")
 
-  def browserTitle = Messages("error.problem")
+  def browserTitle = messagesApi("error.problem")
 
-  def view: String = insufficient_evidence(CommonBuilder.DefaultCall1.url).toString
+  def view: String = insufficient_evidence(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(
       CommonBuilder.DefaultCall1,
-      Messages("iht.iv.tryAgain")
+      messagesApi("iht.iv.tryAgain")
     )
   )
 

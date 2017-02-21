@@ -25,6 +25,8 @@ import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
 import play.api.mvc.Call
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 /**
  * Created by james on 17/08/16.

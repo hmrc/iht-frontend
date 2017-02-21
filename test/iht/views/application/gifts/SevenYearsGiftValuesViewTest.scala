@@ -24,6 +24,7 @@ import org.jsoup.nodes.Document
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import play.api.i18n.Messages.Implicits._
 
 class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -33,18 +34,18 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
   override def guidanceParagraphs = Set(
-    Messages("page.iht.application.gifts.sevenYears.values.guidance"),
-    Messages("page.iht.application.gifts.sevenYears.values.guidance2")
+    messagesApi("page.iht.application.gifts.sevenYears.values.guidance"),
+    messagesApi("page.iht.application.gifts.sevenYears.values.guidance2")
   )
 
-  override def pageTitle = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway")
+  override def pageTitle = messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway")
 
-  override def browserTitle = Messages("page.iht.application.gifts.sevenYears.values.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.gifts.sevenYears.values.browserTitle")
 
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
-      Messages("page.iht.application.gifts.return.to.givenAwayBy", deceasedName)
+      messagesApi("page.iht.application.gifts.return.to.givenAwayBy", deceasedName)
     )
   )
 
@@ -105,7 +106,7 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
       s"show row $displayRowNo change link with correct text and target" in {
         val cellContents = tableCell(doc, giftsTableId, 3, rowNo, elementTypeTD)
         val anchor = cellContents.getElementsByTag("a").first
-        getVisibleText(anchor) shouldBe Messages("iht.change")
+        getVisibleText(anchor) shouldBe messagesApi("iht.change")
         anchor.attr("href") shouldBe iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoad(s"$rowNo").url
       }
     }
@@ -115,15 +116,15 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     "contain gifts value heading" in {
-      tableHeading(doc, 0) shouldBe Messages("page.iht.application.gifts.lastYears.tableTitle1")
+      tableHeading(doc, 0) shouldBe messagesApi("page.iht.application.gifts.lastYears.tableTitle1")
     }
 
     "contain exemptions value heading" in {
-      tableHeading(doc, 1) shouldBe Messages("page.iht.application.gifts.lastYears.tableTitle2")
+      tableHeading(doc, 1) shouldBe messagesApi("page.iht.application.gifts.lastYears.tableTitle2")
     }
 
     "contain amount added to estate heading" in {
-      tableHeading(doc, 2) shouldBe Messages("page.iht.application.gifts.lastYears.tableTitle3")
+      tableHeading(doc, 2) shouldBe messagesApi("page.iht.application.gifts.lastYears.tableTitle3")
     }
 
     behave like valuesWithChangeLink(1, "6 April 2014 to 12 December 2014", "£1,000.00", "£33.00", "£967.00", isChangeLink = true, "span")
@@ -132,7 +133,7 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
 
     behave like valuesWithChangeLink(3, "6 April 2012 to 5 April 2012", "£1,002.00", "£55.00", "£947.00",  isChangeLink = true, "span")
 
-    behave like valuesWithChangeLink(4, Messages("iht.estateReport.gifts.totalOverSevenYears"),
+    behave like valuesWithChangeLink(4, messagesApi("iht.estateReport.gifts.totalOverSevenYears"),
       "£100.00", "£300.00", "£200.00", isChangeLink = false, "div")
   }
 }

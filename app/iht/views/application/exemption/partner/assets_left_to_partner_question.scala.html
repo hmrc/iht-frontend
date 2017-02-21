@@ -24,7 +24,7 @@
 registrationDetails:RegistrationDetails,
 cancelLabel: String,
 cancelUrl: Call
-)(implicit request:Request[_])
+)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{getDeceasedNameOrDefaultString(registrationDetails, false)}
 

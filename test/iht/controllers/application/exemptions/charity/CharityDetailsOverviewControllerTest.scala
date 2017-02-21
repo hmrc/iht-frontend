@@ -23,11 +23,14 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -69,27 +72,27 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
       val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("page.iht.application.exemptions.overview.charity.detailsOverview.title"))
+        messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.title"))
     }
 
     "display charity name question on page" in {
       val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages(
+      contentAsString(result) should include(messagesApi(
         "iht.estateReport.exemptions.charities.charityName.title"))
     }
 
     "display charity number question on page" in {
       val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages(
+      contentAsString(result) should include(messagesApi(
         "iht.estateReport.exemptions.charities.registeredCharityNo"))
     }
 
     "display value of assets left to charity question on the page" in {
       val result = charityDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages(
+      contentAsString(result) should include(messagesApi(
         "iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"))
     }
 
@@ -140,7 +143,7 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(secondCharityName)
       contentAsString(result) should include(secondCharityNumber)
       contentAsString(result) should include(secondCharityValue)
-      contentAsString(result) should include(Messages("iht.change"))
+      contentAsString(result) should include(messagesApi("iht.change"))
     }
 
     "throw RuntimeException when charity ID is accessed that does not exist" in {

@@ -16,6 +16,8 @@
 
 @import iht.constants.IhtProperties
 
+@()(implicit request : Request[_], messages: Messages)
+
 @message={
 <p>@Messages("page.iht.iv.failure.lockedOut.p1")</p>
 <p>@Messages("page.iht.iv.failure.lockedOut.p2")</p>

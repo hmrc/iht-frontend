@@ -23,7 +23,9 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -32,6 +34,7 @@ import play.api.test.Helpers._
  *
  */
 class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationControllerTest {
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -89,9 +92,9 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
       val result = insurancePolicyDetailsFinalGuidanceController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
 
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.insurance.policies.section7.guidance",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.insurance.policies.section7.guidance",
                                             CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
-      contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section7.guidance2"))
+      contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section7.guidance2"))
     }
   }
 

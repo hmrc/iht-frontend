@@ -18,7 +18,6 @@ package iht.testhelpers
 
 import iht.FakeIhtApp
 import play.api.Play
-import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 import iht.utils.CommonHelper
 import scala.io.Source._

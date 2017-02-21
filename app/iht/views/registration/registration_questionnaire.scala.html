@@ -20,7 +20,7 @@
 @import iht.controllers.ControllerHelper
 @import iht.utils.CommonHelper
 
-@(form: Form[_])(implicit request: Request[_])
+@(form: Form[_])(implicit request : Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("iht.signedOut"), hasSignOut=false) {
 <div>
