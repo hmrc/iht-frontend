@@ -83,11 +83,15 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     * type specified which has the attribute aria-hidden set to true, in which case
     * the value of the latter is returned.
     */
-  def getVisibleText(element: Element, containingElement:String = "span") = {
-    val containingElements: Set[Element] = element.getElementsByTag(containingElement).toSet
+  def getVisibleText(element: Element, containingElementType:String = "span", includeTextOfChildElements: Boolean = false) = {
+    val containingElements: Set[Element] = element.getElementsByTag(containingElementType).toSet
     containingElements.find(_.attr("aria-hidden") == "true") match {
       case None =>
-        element.ownText
+        if (includeTextOfChildElements) {
+          element.text
+        } else {
+          element.ownText
+        }
       case Some(ariaHiddenElement) => ariaHiddenElement.text
     }
   }
