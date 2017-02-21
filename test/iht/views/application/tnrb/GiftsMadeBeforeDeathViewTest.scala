@@ -41,10 +41,12 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
 
   override def browserTitle = Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")
 
-  override def guidanceParagraphs = Set(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
-    TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-      Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
-    Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
+  override def guidance = guidance(
+    Set(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+        Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
+      Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
+  )
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit())
 

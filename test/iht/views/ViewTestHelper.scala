@@ -16,10 +16,13 @@
 
 package iht.views
 
+import iht.models.UkAddress
 import iht.{FakeIhtApp, TestUtils}
-import org.jsoup.nodes.Document
-import iht.utils.CommonHelper._
-import iht.testhelpers.ContentChecker
+import org.jsoup.nodes.{Document, Element}
+
+import scala.collection.JavaConversions._
+import iht.testhelpers.{CommonBuilder, ContentChecker}
+import iht.utils.CommonHelper
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages
@@ -68,5 +71,49 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     val label = doc.getElementById(labelId)
     val helpText = label.getElementsByTag("span").get(1)
     helpText.text shouldBe Messages(messageKey)
+  }
+
+  def elementShouldHaveText(doc: Document, id: String, expectedValueMessageKey: String) = {
+    val element = doc.getElementById(id)
+    element.text shouldBe Messages(expectedValueMessageKey)
+  }
+
+  /**
+    * Gets the value of the specified element unless it contains an element of the
+    * type specified which has the attribute aria-hidden set to true, in which case
+    * the value of the latter is returned.
+    */
+  def getVisibleText(element: Element, containingElementType:String = "span", includeTextOfChildElements: Boolean = false) = {
+    val containingElements: Set[Element] = element.getElementsByTag(containingElementType).toSet
+    containingElements.find(_.attr("aria-hidden") == "true") match {
+      case None =>
+        if (includeTextOfChildElements) {
+          element.text
+        } else {
+          element.ownText
+        }
+      case Some(ariaHiddenElement) => ariaHiddenElement.text
+    }
+  }
+
+  def formatAddressForDisplay(address: UkAddress) =
+    CommonHelper.withValue(address) { addr =>
+      s"${addr.ukAddressLine1} ${addr.ukAddressLine2} ${addr.ukAddressLine3.getOrElse("")} ${addr.ukAddressLine4.getOrElse("")} ${addr.postCode}"
+    }
+
+  def tableCell(doc:Document, tableId:String, colNo: Int, rowNo: Int) = {
+    val propertiesUl = doc.getElementById(tableId)
+    val listItems = propertiesUl.getElementsByTag("li")
+    listItems.get(rowNo).getElementsByTag("div").get(colNo)
+  }
+
+  def link(doc:Document, anchorId: => String, href: => String, text: => String): Unit = {
+    def anchor = doc.getElementById(anchorId)
+    s"have a link with id $anchorId and correct target" in {
+      anchor.attr("href") shouldBe href
+    }
+    s"have a link with id $anchorId and correct text" in {
+      anchor.text() shouldBe text
+    }
   }
 }

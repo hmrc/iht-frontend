@@ -16,18 +16,18 @@
 
 package iht.views.application.assets
 
+import iht.controllers.application.assets.routes
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.business_interests
 import play.api.data.Form
-import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 
-class BusinessInterestsViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
+class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -43,6 +43,7 @@ class BusinessInterestsViewTest  extends ViewTestHelper with ShareableElementInp
   override def valueQuestionHelp = Messages("page.iht.application.assets.businessInterest.hint")
   override def returnLinkText = Messages("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.BusinessInterestsController.onSubmit)
 
   "Business Interests view" must {
     behave like yesNoValueView
