@@ -106,4 +106,14 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     val listItems = propertiesUl.getElementsByTag("li")
     listItems.get(rowNo).getElementsByTag("div").get(colNo)
   }
+
+  def link(doc:Document, anchorId: => String, href: => String, text: => String): Unit = {
+    def anchor = doc.getElementById(anchorId)
+    s"have a link with id $anchorId and correct target" in {
+      anchor.attr("href") shouldBe href
+    }
+    s"have a link with id $anchorId and correct text" in {
+      anchor.text() shouldBe text
+    }
+  }
 }
