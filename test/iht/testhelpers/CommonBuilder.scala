@@ -426,11 +426,11 @@ object CommonBuilder {
   val buildAllGiftsWithValues = buildAllGifts.copy(isGivenAway = Some(true),isReservation = Some(false),
                                 isToTrust = Some(false), isGivenInLast7Years = Some(true))
 
-  val buildGiftsList = Some(Seq(
+  val buildGiftsList = Seq(
     PreviousYearsGifts(Some("1"), Some(1000.00), Some(0), Some("6 April 2014"), Some("12 December 2014")),
-    PreviousYearsGifts(Some("2"), Some(1000.00), Some(0), Some("6 April 2013"), Some("5 April 2013")),
-    PreviousYearsGifts(Some("3"), Some(1000.00), Some(0), Some("6 April 2012"), Some("5 April 2012"))
-  ))
+    PreviousYearsGifts(Some("2"), Some(1001.00), Some(0), Some("6 April 2013"), Some("5 April 2013")),
+    PreviousYearsGifts(Some("3"), Some(1002.00), Some(0), Some("6 April 2012"), Some("5 April 2012"))
+  )
 
   //Creates the ApplicationDetails with default values
   val buildApplicationDetails2 = ApplicationDetails(allAssets = None,
@@ -728,7 +728,7 @@ object CommonBuilder {
   val buildApplicationDetailsWithAssetsGiftsAndDebts = buildApplicationDetails.copy(
     allAssets = Some(buildAllAssetsWithAllSectionsFilled),
     allGifts = Some(buildAllGiftsWithValues),
-    giftsList = buildGiftsList,
+    giftsList = Some(buildGiftsList),
     propertyList = buildPropertyList,
     allLiabilities = Some(buildAllLiabilitiesWithAllSectionsFilled),
     ihtRef = DefaultIHTReference)

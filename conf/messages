@@ -51,6 +51,8 @@ site.link.giveDetails = Give details
 site.link.giveValue = Give value
 site.link.giveAValue = Give a value
 
+site.getHelp = Get help
+
 site.noneInEstate = None in estate
 site.noDebts = No debts owed
 site.noAssets = No assets

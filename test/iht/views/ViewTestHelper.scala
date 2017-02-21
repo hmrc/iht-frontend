@@ -78,12 +78,21 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     element.text shouldBe Messages(expectedValueMessageKey)
   }
 
-  def getAnchorVisibleText(anchor: Element) = {
-    val spans: Set[Element] = anchor.getElementsByTag("span").toSet
-    spans.find(_.attr("aria-hidden") == "true") match {
+  /**
+    * Gets the value of the specified element unless it contains an element of the
+    * type specified which has the attribute aria-hidden set to true, in which case
+    * the value of the latter is returned.
+    */
+  def getVisibleText(element: Element, containingElementType:String = "span", includeTextOfChildElements: Boolean = false) = {
+    val containingElements: Set[Element] = element.getElementsByTag(containingElementType).toSet
+    containingElements.find(_.attr("aria-hidden") == "true") match {
       case None =>
-        anchor.text
-      case Some(visibleSpan) => visibleSpan.text
+        if (includeTextOfChildElements) {
+          element.text
+        } else {
+          element.ownText
+        }
+      case Some(ariaHiddenElement) => ariaHiddenElement.text
     }
   }
 
@@ -96,5 +105,15 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     val propertiesUl = doc.getElementById(tableId)
     val listItems = propertiesUl.getElementsByTag("li")
     listItems.get(rowNo).getElementsByTag("div").get(colNo)
+  }
+
+  def link(doc:Document, anchorId: => String, href: => String, text: => String): Unit = {
+    def anchor = doc.getElementById(anchorId)
+    s"have a link with id $anchorId and correct target" in {
+      anchor.attr("href") shouldBe href
+    }
+    s"have a link with id $anchorId and correct text" in {
+      anchor.text() shouldBe text
+    }
   }
 }
