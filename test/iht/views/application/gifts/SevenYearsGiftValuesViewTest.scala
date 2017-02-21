@@ -16,9 +16,11 @@
 
 package iht.views.application.gifts
 
+import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
 import iht.views.html.application.gift.seven_years_gift_values
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
+import org.jsoup.nodes.Document
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
@@ -45,39 +47,86 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
     )
   )
 
-  override def view =
+  override def view = {
+    val giftsList = Seq(
+      PreviousYearsGifts(Some("1"), Some(1000.00), Some(33), Some("6 April 2014"), Some("12 December 2014")),
+      PreviousYearsGifts(Some("2"), Some(1001.00), Some(44), Some("6 April 2013"), Some("5 April 2013")),
+      PreviousYearsGifts(Some("3"), Some(1002.00), Some(55), Some("6 April 2012"), Some("5 April 2012"))
+    )
     seven_years_gift_values(
-      giftsList = CommonBuilder.buildGiftsList,
-      registrationDetails=registrationDetails,
-      BigDecimal(0),
-      BigDecimal(0),
-      BigDecimal(0),
-      previousYearsGiftsExemptionsIsDefined=true, previousYearsGiftsValueIsDefined=true).toString()
+      giftsList = giftsList,
+      registrationDetails = registrationDetails,
+      BigDecimal(100),
+      BigDecimal(200),
+      BigDecimal(300),
+      previousYearsGiftsExemptionsIsDefined = true, previousYearsGiftsValueIsDefined = true).toString()
+  }
 
-  val addressTableId = "properties"
+  val giftsTableId = "gifts-list-table"
 
-  def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
-    s"show address number ${rowNo + 1}" in {
-      tableCell(doc, addressTableId, 0, rowNo).ownText shouldBe expectedValue
+  override def tableCell(doc:Document, tableId:String, colNo: Int, rowNo: Int) = {
+    val propertiesUl = doc.getElementById(tableId)
+    val listItems = propertiesUl.getElementsByTag("tr")
+    listItems.get(rowNo).getElementsByTag("td").get(colNo)
+  }
+
+  def tableHeading(doc:Document, colNo: Int) = {
+    val propertiesUl = doc.getElementById(giftsTableId)
+    val listItems = propertiesUl.getElementsByTag("tr")
+    listItems.get(0).getElementsByTag("th").get(colNo).text
+  }
+
+  val ariaContainingElement = "div"
+
+  def valuesWithChangeLink(rowNo: Int,
+                           expectedGiftsValue: String,
+                           expectedExemptionsValue: String,
+                           expectedAmountAdded: String,
+                           isChangeLink: Boolean = true) = {
+    val displayRowNo = rowNo + 1
+    s"show row $displayRowNo gifts value" in {
+      getVisibleText(tableCell(doc, giftsTableId, 0, rowNo), ariaContainingElement) shouldBe expectedGiftsValue
     }
-
-    s"show address number ${rowNo + 1} delete link" in {
-      val deleteDiv = tableCell(doc, addressTableId, 3, rowNo)
-      val anchor = deleteDiv.getElementsByTag("a").first
-      getAnchorVisibleText(anchor) shouldBe Messages("iht.delete")
+    s"show row $displayRowNo exemptions value" in {
+      getVisibleText(tableCell(doc, giftsTableId, 1, rowNo), ariaContainingElement) shouldBe expectedExemptionsValue
     }
-
-    s"show address number ${rowNo + 1} give details link" in {
-      val deleteDiv = tableCell(doc, addressTableId, 4, rowNo)
-      val anchor = deleteDiv.getElementsByTag("a").first
-      getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
+    s"show row $displayRowNo amount added to estate value" in {
+      getVisibleText(tableCell(doc, giftsTableId, 2, rowNo), ariaContainingElement) shouldBe expectedAmountAdded
+    }
+    if (isChangeLink) {
+      s"show row $displayRowNo change link with correct text and target" in {
+        val cellContents = tableCell(doc, giftsTableId, 3, rowNo)
+        val anchor = cellContents.getElementsByTag("a").first
+        getVisibleText(anchor) shouldBe Messages("iht.change")
+        anchor.attr("href") shouldBe iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoad(s"$rowNo").url
+      }
     }
   }
 
   "seven years gift values view" must {
     behave like nonSubmittablePage()
 
-//    behave like link("add-property",
+    "contain gifts value heading" in {
+      tableHeading(doc, 0) shouldBe Messages("page.iht.application.gifts.lastYears.tableTitle1")
+    }
+
+    "contain exemptions value heading" in {
+      tableHeading(doc, 1) shouldBe Messages("page.iht.application.gifts.lastYears.tableTitle2")
+    }
+
+    "contain amount added to estate heading" in {
+      tableHeading(doc, 2) shouldBe Messages("page.iht.application.gifts.lastYears.tableTitle3")
+    }
+
+    behave like valuesWithChangeLink(1, "£1,000.00", "£33.00", "£967.00")
+
+    behave like valuesWithChangeLink(2, "£1,001.00", "£44.00", "£957.00")
+
+    behave like valuesWithChangeLink(3, "£1,002.00", "£55.00", "£947.00")
+
+    behave like valuesWithChangeLink(4, "£100.00", "£300.00", "£200.00", isChangeLink = false)
+
+    //    behave like link("add-property",
 //      iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad().url,
 //      Messages("iht.estateReport.assets.propertyAdd"))
 //

@@ -62,13 +62,13 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     s"show address number ${rowNo + 1} delete link" in {
       val deleteDiv = tableCell(doc, addressTableId, 3, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
-      getAnchorVisibleText(anchor) shouldBe Messages("iht.delete")
+      getVisibleText(anchor) shouldBe Messages("iht.delete")
     }
 
     s"show address number ${rowNo + 1} give details link" in {
       val deleteDiv = tableCell(doc, addressTableId, 4, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
-      getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
+      getVisibleText(anchor) shouldBe Messages("iht.change")
     }
   }
 

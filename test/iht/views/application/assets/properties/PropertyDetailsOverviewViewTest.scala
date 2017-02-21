@@ -64,7 +64,7 @@ class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour
     s"show attribute number ${rowNo + 1} change link" in {
       val changeDiv = tableCell(doc, propertyAttributesTableId, 2, rowNo)
       val anchor = changeDiv.getElementsByTag("a").first
-      getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
+      getVisibleText(anchor) shouldBe Messages("iht.change")
     }
   }
 

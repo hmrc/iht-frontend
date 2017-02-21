@@ -78,12 +78,17 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     element.text shouldBe Messages(expectedValueMessageKey)
   }
 
-  def getAnchorVisibleText(anchor: Element) = {
-    val spans: Set[Element] = anchor.getElementsByTag("span").toSet
-    spans.find(_.attr("aria-hidden") == "true") match {
+  /**
+    * Gets the value of the specified element unless it contains an element of the
+    * type specified which has the attribute aria-hidden set to true, in which case
+    * the value of the latter is returned.
+    */
+  def getVisibleText(element: Element, containingElement:String = "span") = {
+    val containingElements: Set[Element] = element.getElementsByTag(containingElement).toSet
+    containingElements.find(_.attr("aria-hidden") == "true") match {
       case None =>
-        anchor.text
-      case Some(visibleSpan) => visibleSpan.text
+        element.ownText
+      case Some(ariaHiddenElement) => ariaHiddenElement.text
     }
   }
 
