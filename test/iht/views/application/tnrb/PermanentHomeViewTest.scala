@@ -20,13 +20,13 @@ import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.application.YesNoQuestionViewBehaviourSubmittable
 import iht.views.html.application.tnrb.permanent_home
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+class PermanentHomeViewTest extends YesNoQuestionViewBehaviourSubmittable[TnrbEligibiltyModel] {
 
   override def guidance = noGuidance
 

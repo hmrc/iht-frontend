@@ -19,13 +19,13 @@ package iht.views.application.tnrb
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.application.YesNoQuestionViewBehaviourSubmittable
 import iht.views.html.application.tnrb.estate_passed_to_deceased_or_charity
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviourSubmittable[TnrbEligibiltyModel] {
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 

@@ -20,13 +20,13 @@ import iht.forms.TnrbForms._
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.application.YesNoQuestionViewBehaviourSubmittable
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.tnrb.deceased_widow_check_question
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[WidowCheck] {
+class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviourSubmittable[WidowCheck] {
 
   override def guidance = noGuidance
 

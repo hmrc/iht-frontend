@@ -19,7 +19,7 @@ package iht.views.application.gifts
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.gift.gifts_details
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -27,7 +27,7 @@ import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
 
 
-class GiftsDetailsViewTest extends ApplicationPageBehaviour[PreviousYearsGifts] {
+class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousYearsGifts] {
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
   lazy val returnLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()

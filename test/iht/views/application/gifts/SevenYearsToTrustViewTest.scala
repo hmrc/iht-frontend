@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.gift.seven_years_to_trust
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -30,7 +30,7 @@ import play.api.i18n.Messages.Implicits._
 /**
   * Created by vineet on 15/11/16.
   */
-class SevenYearsToTrustViewTest extends ApplicationPageBehaviour[AllGifts] {
+class SevenYearsToTrustViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(

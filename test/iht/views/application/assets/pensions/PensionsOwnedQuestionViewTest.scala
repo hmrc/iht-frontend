@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms.pensionsOwnedQuestionForm
 import iht.models.application.assets.PrivatePension
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.application.YesNoQuestionViewBehaviourSubmittable
 import iht.views.html.application.asset.pensions.pensions_owned_question
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -30,7 +30,7 @@ import iht.controllers.application.assets.pensions.routes
 import iht.views.application.CancelComponent
 import play.api.i18n.Messages.Implicits._
 
-class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePension] {
+class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviourSubmittable[PrivatePension] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
