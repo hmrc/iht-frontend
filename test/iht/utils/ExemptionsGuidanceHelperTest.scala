@@ -35,7 +35,6 @@ class ExemptionsGuidanceHelperTest extends UnitSpec with MockitoSugar with FakeI
 
   var mockCachingConnector = mock[CachingConnector]
 
-
   implicit val headerCarrier = FakeHeaders()
   implicit val request = FakeRequest()
   implicit val hc = new HeaderCarrier
