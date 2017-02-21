@@ -29,6 +29,7 @@ import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages
 import play.api.test.Helpers._
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -205,7 +206,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
-      redirectLocation(result) should be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsuranceJointlyHeldYesNoID))
     }
   }
 }

@@ -23,6 +23,7 @@ import iht.views.html.application.debts.owed_outside_uk
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
 
 /**
   * Created by vineet on 15/11/16.
@@ -44,6 +45,7 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour[BasicEstateElement
     Messages("page.iht.application.debts.debtsOutsideUk.description.p2"))
   override def yesNoQuestionText = Messages("page.iht.application.debts.debtsOutsideUk.isOwned")
   override def inputValueFieldLabel = Messages("iht.estateReport.debts.owedOutsideUK.value")
+  override def linkHash = DebtsOwedOutsideUKID
 
   "OwedOutsideUKView" must {
     behave like debtsElement

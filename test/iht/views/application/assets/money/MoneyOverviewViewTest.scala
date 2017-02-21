@@ -24,6 +24,7 @@ import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.money.money_overview
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import iht.constants.Constants._
 
 class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
@@ -49,6 +50,7 @@ class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverview
   override def jointlyOwnedQuestionText = Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName)
   override def jointlyOwnedValueRowId = "deceased-shared-value"
   override def jointlyOwnedValueText = Messages("page.iht.application.assets.money.jointly.owned.input.value.label")
+  override def linkHash = AppSectionMoneyID
 
   "Money overview view" must {
     behave like overviewView()

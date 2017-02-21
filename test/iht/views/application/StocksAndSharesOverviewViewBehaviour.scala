@@ -44,6 +44,7 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
   def stocksAndSharesNotListedValueRowId: String
   def stocksAndSharesNotListedValueText: String
   def deceasedName: String
+  def linkHash: String = ""
 
   val dataWithQuestionsAnsweredNo =
     Some(StockAndShare(valueNotListed = None, valueListed = None,value = None, isNotListed = Some(false), isListed = Some(false)))
@@ -86,7 +87,7 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
     "show the correct return link with right text" in {
       val f = fixture(dataWithQuestionsAnsweredNo)
       val returnLink = f.doc.getElementById("return-button")
-      returnLink.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      returnLink.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#" + linkHash
       returnLink.text() shouldBe Messages("page.iht.application.return.to.assetsOf",deceasedName)
     }
   }

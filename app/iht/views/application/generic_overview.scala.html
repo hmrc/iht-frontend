@@ -82,7 +82,7 @@ returnHash: String = ""
               </div>
           }
 
-          <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right" data-link-type="answer">
+          <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right" data-link-type="answer @{detail.linkId}">
             @if(detail.link.linkText.length>0){
               <a id='@{detail.linkId}' href="@detail.link.linkUrl">
                 <span aria-hidden="true">@Messages(detail.link.linkText)</span>

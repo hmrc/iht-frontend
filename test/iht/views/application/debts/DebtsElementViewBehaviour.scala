@@ -81,7 +81,11 @@ trait DebtsElementViewBehaviour[A] extends ViewTestHelper {
 
     "show the correct return link with text" in {
       val returnLink = doc.getElementById(returnLinkId)
-      returnLink.attr("href") shouldBe returnLinkTargetUrl.url + "#" + linkHash
+      if(linkHash > "") {
+        returnLink.attr("href") shouldBe (returnLinkTargetUrl.url + "#" + linkHash)
+      } else {
+        returnLink.attr("href") shouldBe returnLinkTargetUrl.url
+      }
       returnLink.text() shouldBe returnLinkText
     }
   }

@@ -24,6 +24,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.gift.given_away
 import play.api.i18n.Messages
 import play.api.test.Helpers._
+import iht.constants.Constants._
 
 /**
   * Created by vineet on 15/11/16.
@@ -88,7 +89,7 @@ class GivenAwayViewTest extends ViewTestHelper{
       link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
         getOrException(regDetails.deceasedDetails).name)
       link.attr("href") shouldBe
-        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url
+        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url + "#" + GiftsGivenAwayQuestionID
 
     }
   }

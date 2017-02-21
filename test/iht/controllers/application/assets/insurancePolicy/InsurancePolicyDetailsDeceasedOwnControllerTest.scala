@@ -29,6 +29,7 @@ import org.mockito.Mockito._
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 import iht.testhelpers.ContentChecker
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -199,7 +200,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
-      redirectLocation(result) should be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsurancePayingToDeceasedYesNoID))
     }
   }
 }

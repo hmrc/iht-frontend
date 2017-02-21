@@ -24,6 +24,7 @@ import iht.views.application.ShareableElementOverviewViewBehaviour
 import iht.views.html.application.asset.household.household_overview
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import iht.constants.Constants._
 
 class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
@@ -49,6 +50,7 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
   override def jointlyOwnedQuestionText = Messages("iht.estateReport.assets.household.joint.question", deceasedName)
   override def jointlyOwnedValueRowId = "deceased-share-value"
   override def jointlyOwnedValueText = Messages("page.iht.application.assets.household.overview.joint.value")
+  override def linkHash = AppSectionHouseholdID
 
   "Household overview view" must {
     behave like overviewView()

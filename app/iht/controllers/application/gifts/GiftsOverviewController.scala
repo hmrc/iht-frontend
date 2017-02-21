@@ -161,8 +161,7 @@ trait GiftsOverviewController extends EstateController {
                                     } else { None },
       questionTitlesMessagesFilePrefix = "page.iht.application.gifts.overview.value",
       _.isValueEnteredForPastYearsGifts,
-      ad
-      ,
+      ad,
       sectionLinkId = GiftsValueOfGiftsSectionID,
       questionLinkId = GiftsValueOfGiftsQuestionID
     )

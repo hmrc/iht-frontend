@@ -24,6 +24,8 @@ import play.api.i18n.Messages
 import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+
 /**
   * Created by vineet on 15/11/16.
   */
@@ -49,6 +51,7 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElement
   override def returnLinkId = "cancel-button"
   override def returnLinkText = Messages("site.link.return.mortgage.overview")
   override def returnLinkTargetUrl = iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()
+
 
   "MortgageValueView" must {
     behave like debtsElement

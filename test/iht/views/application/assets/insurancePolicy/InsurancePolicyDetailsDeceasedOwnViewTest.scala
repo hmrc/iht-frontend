@@ -26,6 +26,7 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
 
 class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[InsurancePolicy]{
 
@@ -43,6 +44,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
     override def valueQuestionHelp = ""
     override def returnLinkText = Messages("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
+    override def linkHash = InsurancePayingToDeceasedYesNoID
 
     "InsurancePolicyDetailsDeceasedOwn view" must {
       behave like yesNoValueView

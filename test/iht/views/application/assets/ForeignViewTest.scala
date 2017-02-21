@@ -26,6 +26,7 @@ import iht.views.html.application.asset.foreign
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages
+import iht.constants.Constants._
 
 class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
 
@@ -43,6 +44,7 @@ class ForeignViewTest  extends ViewTestHelper with ShareableElementInputViewBeha
   override def valueQuestionHelp = ""
   override def returnLinkText = Messages("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def linkHash = AppSectionForeignID
 
   "Foreign assets view" must {
     behave like yesNoValueView

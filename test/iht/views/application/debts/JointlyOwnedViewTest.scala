@@ -24,6 +24,7 @@ import play.api.i18n.Messages
 import iht.views.html.application.debts.{funeral_expenses, jointly_owned}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
 
 /**
   * Created by vineet on 15/11/16.
@@ -46,6 +47,7 @@ class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementL
   override def yesNoQuestionText = Messages("page.iht.application.debts.jointlyOwned.isOwned")
   override def inputValueFieldLabel = Messages("iht.estateReport.debts.owedOnJointAssets.value")
   override def inputValueFieldHintText = Messages("page.iht.application.debts.jointlyOwned.description.p2")
+  override def linkHash = DebtsOwedJointlyID
 
   "JointlyOwnedView" must {
     behave like debtsElement

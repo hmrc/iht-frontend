@@ -24,7 +24,7 @@ import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
 
-case class CancelComponent(target: Call, content: String)
+case class CancelComponent(target: Call, content: String, hash: String = "")
 
 trait ApplicationPageBehaviour[A] extends ViewTestHelper {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -77,7 +77,11 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
       "show the return link with the correct target and text" in {
         cancelComponent.foreach { attrib =>
           val cancelButton = doc.getElementById("return-button")
-          cancelButton.attr("href") shouldBe attrib.target.url
+          if(attrib.hash > ""){
+            cancelButton.attr("href") shouldBe attrib.target.url + "#" + attrib.hash
+          } else {
+            cancelButton.attr("href") shouldBe attrib.target.url
+          }
           cancelButton.text() shouldBe attrib.content
         }
       }

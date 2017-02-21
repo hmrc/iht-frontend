@@ -24,6 +24,7 @@ import iht.views.html.application.debts.any_other_debts
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
 
 /**
   * Created by vineet on 15/11/16.
@@ -47,6 +48,7 @@ class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour[BasicEstateElement
                                         Messages("page.iht.application.debts.other.description.p3"))
   override def yesNoQuestionText = Messages("page.iht.application.debts.other.isOwned")
   override def inputValueFieldLabel = Messages("page.iht.application.debts.other.inputLabel1")
+  override def linkHash = DebtsOtherID
 
  "AnyOtherDebtsView" must {
     behave like debtsElement

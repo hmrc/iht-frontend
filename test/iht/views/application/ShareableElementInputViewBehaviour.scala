@@ -33,6 +33,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
   def valueQuestionHelp: String
   def returnLinkText: String
   def returnLinkUrl: String
+  def linkHash: String = ""
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
   def view: String = formToView(form).toString
@@ -84,7 +85,11 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
     "show a return link" in {
       val link = doc.getElementById("return-button")
       link.text shouldBe returnLinkText
-      link.attr("href") shouldBe returnLinkUrl
+      if(linkHash > ""){
+        link.attr("href") shouldBe returnLinkUrl + "#" + linkHash
+      }else{
+        link.attr("href") shouldBe returnLinkUrl
+      }
     }
   }
 }

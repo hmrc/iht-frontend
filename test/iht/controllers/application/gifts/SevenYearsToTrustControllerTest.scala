@@ -22,6 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
+import iht.constants.Constants._
 
 /**
  *
@@ -93,7 +94,7 @@ class SevenYearsToTrustControllerTest  extends ApplicationControllerTest{
 
       val result = sevenYearsToTrustController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be (Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + GiftsSevenYearsQuestionID2))
     }
 
     "display error if user submit the page without selecting the answer " in {

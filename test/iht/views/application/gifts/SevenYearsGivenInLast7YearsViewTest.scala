@@ -23,6 +23,7 @@ import iht.views.ViewTestHelper
 import play.api.i18n.Messages
 import play.api.test.Helpers._
 import iht.views.html.application.gift.seven_years_given_in_last_7_years
+import iht.constants.Constants._
 
 /**
   * Created by vineet on 15/11/16.
@@ -79,7 +80,7 @@ class SevenYearsGivenInLast7YearsViewTest extends ViewTestHelper{
       link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name)
       link.attr("href") shouldBe
-        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url
+        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url + "#" + GiftsSevenYearsQuestionID
 
     }
   }
