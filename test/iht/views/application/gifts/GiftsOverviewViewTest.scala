@@ -178,7 +178,11 @@ println(doc)
         ad.totalPastYearsGiftsOption
       } else { None },
       questionTitlesMessagesFilePrefix = "page.iht.application.gifts.overview.value",
-      _.isValueEnteredForPastYearsGifts, ad)
+      _.isValueEnteredForPastYearsGifts,
+      ad,
+      sectionLinkId = GiftsValueOfGiftsSectionID,
+      questionLinkId = GiftsValueOfGiftsQuestionID
+    )
 
     allGifts.isGivenAway match {
       case Some(false) => Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears)
