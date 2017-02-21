@@ -22,7 +22,8 @@ import iht.controllers.application.ApplicationController
 import iht.models.application.assets.AllAssets
 import iht.utils.CommonHelper
 import iht.utils.ExemptionsGuidanceHelper._
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 /**

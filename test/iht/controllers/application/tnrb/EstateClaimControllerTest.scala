@@ -22,15 +22,15 @@ import iht.forms.TnrbForms._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 
 /**
  *
  * Created by Vineet Tyagi on 14/01/16.
- *l
+ *
  */
-class EstateClaimControllerTest  extends ApplicationControllerTest{
+class EstateClaimControllerTest  extends ApplicationControllerTest {
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
@@ -87,7 +87,7 @@ class EstateClaimControllerTest  extends ApplicationControllerTest{
 
       val result = estateClaimController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("iht.estateReport.tnrb.stateClaim.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.tnrb.stateClaim.question"))
     }
 
     "save application and go to Tnrb Overview page on submit" in {

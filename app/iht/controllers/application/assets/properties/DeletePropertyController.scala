@@ -23,6 +23,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
 import iht.utils.CommonHelper
 import play.api.Logger
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object DeletePropertyController extends DeletePropertyController with IhtConnectors
 

@@ -17,7 +17,7 @@
 @(pageTitle: String,
 summaryMessage: String,
 returnToUrl: Call,
-hasTimeOut:Boolean = false)(nextStepsContent: Html)(implicit request:Request[_])
+hasTimeOut:Boolean = false)(nextStepsContent: Html)(implicit request : Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._

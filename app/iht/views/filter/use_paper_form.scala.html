@@ -20,7 +20,7 @@
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties
 
-@(country: String)
+@(country: String)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("iht.usePaperForm"),
     browserTitle = Some(Messages("iht.usePaperForm")),

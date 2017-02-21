@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@(errorType:String)(implicit request:Request[_])
+@(errorType:String)(implicit request : Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
@@ -23,8 +23,8 @@
 hasTimeOut=true) {
 @{
 errorType match {
-case "requestTimeOut" => registration_error_timeOut(request)
-case _ => registration_error_systemError(request)
+case "requestTimeOut" => registration_error_timeOut(request, messages)
+case _ => registration_error_systemError(request, messages)
 }
 }
 }

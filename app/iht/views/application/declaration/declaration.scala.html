@@ -22,7 +22,7 @@
 @import iht.views.application.declaration.DeclarationViewHelper
 @import iht.viewmodels.application.DeclarationViewModel._
 
-@(model: iht.viewmodels.application.DeclarationViewModel)(implicit request:Request[_])
+@(model: iht.viewmodels.application.DeclarationViewModel)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("iht.estateReport.declaration.title"),
 browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {

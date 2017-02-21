@@ -19,20 +19,26 @@ package iht
 import iht.config.FrontendAuthConnector
 import iht.constants.Constants
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
-import org.scalatest.Suite
+import org.scalatest._
+import org.scalatestplus.play.{OneAppPerSuite, OneServerPerSuite}
+import play.api.{Application, Mode}
+import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.AnyContentAsEmpty
-import play.api.test.{FakeApplication, FakeRequest}
+import play.api.test.FakeRequest
 import uk.gov.hmrc.domain.{Nino, SaUtr}
 import uk.gov.hmrc.play.frontend.auth.connectors.domain._
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
-import uk.gov.hmrc.play.test.WithFakeApplication
 
 import scala.concurrent.Future
 
-trait FakeIhtApp extends WithFakeApplication {
+trait FakeIhtApp extends OneAppPerSuite {
   this: Suite =>
 
-  override lazy val fakeApplication = FakeApplication()
+    val config: Map[String, _] = Map("application.secret" -> "Its secret",
+                      "passcodeAuthentication.enabled" -> false,
+                      "passcodeAuthentication.regime" -> "iht")
+
+  override implicit lazy val app : Application = new GuiceApplicationBuilder().in(Mode.Test).configure(config).build()
 
   val fakeNino = CommonBuilder.DefaultNino
 

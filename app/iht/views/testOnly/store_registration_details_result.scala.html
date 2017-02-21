@@ -20,7 +20,7 @@
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
 
-@(message: String)
+@(message: String)(implicit request : Request[_], messages: Messages)
 
 @iht_main_template_application(title = "Store Registration Details",
 browserTitle = Some("Store Registration Details"),

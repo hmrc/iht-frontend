@@ -23,6 +23,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.RegistrationDetails
 import iht.utils.CommonHelper
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 /**
  * Created by jennygj on 30/06/16.

@@ -19,7 +19,7 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview.{NotStarted, OverviewRow, OverviewRowWithoutLink, ThresholdSectionViewModel}
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.threshold_section
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 
 class ThresholdSectionViewTest extends ViewTestHelper {
@@ -72,7 +72,7 @@ class ThresholdSectionViewTest extends ViewTestHelper {
       val doc = asDocument(view)
       assertRenderedById(doc, "tnrb-link")
       val link = doc.getElementById("tnrb-link")
-      link.text shouldBe Messages("page.iht.application.estateOverview.increaseThreshold.link")
+      link.text shouldBe messagesApi("page.iht.application.estateOverview.increaseThreshold.link")
       link.attr("href") shouldBe iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad().url
     }
 

@@ -21,7 +21,7 @@ import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_success
 import org.jsoup.nodes.Element
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class TnrbSuccessViewTest extends ViewTestHelper {
 
@@ -40,18 +40,17 @@ class TnrbSuccessViewTest extends ViewTestHelper {
 
     "show correct title and browserTitle" in {
       val view = tnrbSuccessView.toString
-      titleShouldBeCorrect(view, Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title"))
-      browserTitleShouldBeCorrect(view, Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle"))
+      titleShouldBeCorrect(view, messagesApi("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title"))
+      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle"))
     }
 
     "show the correct paragraphs" in {
       val view = tnrbSuccessView.toString
 
       messagesShouldBePresent(view,
-        CommonHelper.escapePound(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1",
-                                deceasedName, preDeceasedName)))
+        messagesApi("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", deceasedName, preDeceasedName))
 
-      messagesShouldBePresent(view, Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2"))
     }
 
     "show a return button to estate overview button with correct text" in {
@@ -60,7 +59,7 @@ class TnrbSuccessViewTest extends ViewTestHelper {
 
 
       val button: Element = doc.getElementById("continue-to-estate-overview")
-      button.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      button.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       button.className() shouldBe "button"
       button.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference).url
@@ -71,7 +70,7 @@ class TnrbSuccessViewTest extends ViewTestHelper {
       val doc = asDocument(view)
 
       val link = doc.getElementById("return-button")
-      link.text() shouldBe Messages("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty")
+      link.text() shouldBe messagesApi("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty")
       link.attr("href") shouldBe routes.TnrbOverviewController.onPageLoad().url
     }
 

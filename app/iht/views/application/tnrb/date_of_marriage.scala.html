@@ -24,7 +24,7 @@
 @(dateOfMarriageForm: Form[TnrbEligibiltyModel],
         widowCheckModel: WidowCheck,
         deceasedName: String,
-        predeceasedName: String)(implicit request: Request[_])
+        predeceasedName: String)(implicit request: Request[_], messages: Messages)
 
 @defining(Messages("iht.estateReport.tnrb.dateOfMarriage",
     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>

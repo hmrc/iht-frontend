@@ -23,16 +23,16 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.applicant_tell_us_about_yourself
 import iht.views.registration.{PersonalDetailsViewBehaviour, YesNoQuestionViewBehaviour}
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 class TellUsAboutYourselfViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] with PersonalDetailsViewBehaviour[ApplicantDetails]{
 
   override def guidanceParagraphs = Set.empty
 
-  override def pageTitle = Messages("iht.registration.applicant.tellUsAboutYourself")
+  override def pageTitle = messagesApi("iht.registration.applicant.tellUsAboutYourself")
 
-  override def browserTitle = Messages("iht.registration.applicant.tellUsAboutYourself")
+  override def browserTitle = messagesApi("iht.registration.applicant.tellUsAboutYourself")
 
   override def form: Form[ApplicantDetails] = applicantTellUsAboutYourselfForm
 

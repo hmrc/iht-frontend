@@ -23,7 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContentAsFormUrlEncoded, Request}
 import play.api.test.Helpers._
 
@@ -32,7 +32,6 @@ import play.api.test.Helpers._
  */
 
 class QualifyingBodyValueControllerTest extends ApplicationControllerTest with BeforeAndAfter {
-
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
   val qualifyingBody1 = QualifyingBody(Some("1"), Some("Qualifying Body 1"), Some(BigDecimal(324)))
@@ -129,20 +128,20 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
 
     "display the correct content onPageLoad" in {
       createMocksForQualifyingBodyValue
-      contentAsString(resultOnPageLoad) should include(Messages("page.iht.application.exemptions.qualifyingBody.value.sectionTitle"))
-      contentAsString(resultOnPageLoad) should include(Messages("page.iht.application.exemptions.qualifyingBody.value.browserTitle"))
-      contentAsString(resultOnPageLoad) should include(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
-      contentAsString(resultOnPageLoad) should include(Messages("iht.saveAndContinue"))
+      contentAsString(resultOnPageLoad) should include(messagesApi("page.iht.application.exemptions.qualifyingBody.value.sectionTitle"))
+      contentAsString(resultOnPageLoad) should include(messagesApi("page.iht.application.exemptions.qualifyingBody.value.browserTitle"))
+      contentAsString(resultOnPageLoad) should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
+      contentAsString(resultOnPageLoad) should include(messagesApi("iht.saveAndContinue"))
     }
 
     "display the correct content onEditPageLoad" in {
       createMocksForQualifyingBodyValue
       val result = resultOnEditPageLoad("1")
 
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.qualifyingBody.value.sectionTitle"))
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.qualifyingBody.value.browserTitle"))
-      contentAsString(result) should include(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
-      contentAsString(result) should include(Messages("iht.saveAndContinue"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.qualifyingBody.value.sectionTitle"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.qualifyingBody.value.browserTitle"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
+      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
       contentAsString(result) should include("324")
     }
 

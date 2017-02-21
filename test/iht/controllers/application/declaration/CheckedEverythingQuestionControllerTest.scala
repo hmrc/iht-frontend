@@ -23,7 +23,7 @@ import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 import play.api.mvc.Result
 import play.api.test.Helpers._
 
@@ -38,13 +38,13 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def checkedEverythingQuestionController = new CheckedEverythingQuestionController {
+  lazy val checkedEverythingQuestionController = new CheckedEverythingQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def checkedEverythingQuestionNotAuthorised = new CheckedEverythingQuestionController {
+  lazy val checkedEverythingQuestionNotAuthorised = new CheckedEverythingQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -85,14 +85,14 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
     }
 
     "save application and go to declaration page on submit when yes is chosen" in {
-      val result = answerAndSubmit(booleanValue=true, CommonBuilder.buildRegistrationDetails1)
+      val result = answerAndSubmit(booleanValue = true, CommonBuilder.buildRegistrationDetails1)
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) shouldBe Some(iht.controllers.application.declaration.routes.DeclarationController.onPageLoad().url)
     }
 
     "save application and go to declaration page on submit when no is chosen" in {
       val rd = CommonBuilder.buildRegistrationDetails1
-      val result = answerAndSubmit(booleanValue=false, rd)
+      val result = answerAndSubmit(booleanValue = false, rd)
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) shouldBe Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
         CommonHelper.getOrExceptionNoIHTRef(rd.ihtReference)).url)
@@ -100,16 +100,16 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
 
     "display validation message when incomplete form is submitted" in {
       implicit val request = createFakeRequest()
-
+      implicit val messagesApi = app.injector.instanceOf[MessagesApi]
       createMockForRegistration(mockCachingConnector,
         regDetails = Option(CommonBuilder.buildRegistrationDetails1),
         getRegDetailsFromCache = true)
 
       val result = checkedEverythingQuestionController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
+      status(result) should be(BAD_REQUEST)
       val resultAsString = contentAsString(result)
-      resultAsString should include (Messages("error.problem"))
-      resultAsString should include (Messages("error.hasCheckedEverything.select"))
+      resultAsString should include(messagesApi("error.problem"))
+      resultAsString should include(messagesApi("error.hasCheckedEverything.select"))
     }
   }
 }

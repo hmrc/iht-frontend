@@ -22,7 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.estate_claim
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -33,9 +33,9 @@ class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel
 
   val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.stateClaim.question")
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.stateClaim.question")
 
-  override def browserTitle = Messages("page.iht.application.tnrb.stateClaim.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.tnrb.stateClaim.browserTitle")
 
   override def guidanceParagraphs = Set.empty
 

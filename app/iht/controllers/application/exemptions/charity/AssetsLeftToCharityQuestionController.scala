@@ -25,6 +25,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.{AllExemptions, BasicExemptionElement}
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.assets_left_to_charity_question
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object AssetsLeftToCharityQuestionController extends AssetsLeftToCharityQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics

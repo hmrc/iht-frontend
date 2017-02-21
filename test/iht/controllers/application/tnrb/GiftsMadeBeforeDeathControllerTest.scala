@@ -24,7 +24,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.ContentChecker
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 
 /**
@@ -91,7 +91,7 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
 
       val result = giftsMadeBeforeDeathController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
         s"$firstName $secondName"))
     }
 

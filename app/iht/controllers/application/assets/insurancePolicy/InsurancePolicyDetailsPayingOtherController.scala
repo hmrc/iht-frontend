@@ -23,6 +23,8 @@ import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object InsurancePolicyDetailsPayingOtherController extends InsurancePolicyDetailsPayingOtherController with IhtConnectors {
   def metrics : Metrics = Metrics

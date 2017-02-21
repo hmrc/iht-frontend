@@ -28,7 +28,9 @@ import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -38,6 +40,7 @@ import play.api.test.Helpers._
  */
 class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -189,11 +192,11 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val headers = doc.getElementsByTag("h1")
       headers.size() shouldBe 1
 
-      val expectedTitle = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
+      val expectedTitle = messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
         TnrbHelper.spouseOrCivilPartnerLabel(
           CommonHelper.getOrException(ad.increaseIhtThreshold),
           CommonHelper.getOrException(ad.widowCheck),
-          Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")
+          messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")
         )
       )
 
@@ -205,7 +208,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val result = deceasedWidowCheckDateController.onPageLoad (createFakeRequest())
       val doc = asDocument(contentAsString(result))
       assertEqualsValue(doc, "title",
-        Messages("iht.estateReport.tnrb.increasingIHTThreshold") + " " + Messages("site.title.govuk"))
+        messagesApi("iht.estateReport.tnrb.increasingIHTThreshold") + " " + messagesApi("site.title.govuk"))
     }
 
     "return html containing link which points to estate overview when widow check date is empty" in {
@@ -229,7 +232,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       assertRenderedById(doc, "cancel-button")
 
       val link = doc.getElementById("cancel-button")
-      link.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      link.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       link.attr("href") shouldBe expectedUrl
     }
 
@@ -252,7 +255,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       assertRenderedById(doc, "cancel-button")
 
       val link = doc.getElementById("cancel-button")
-      link.text() shouldBe Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+      link.text() shouldBe messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
       link.attr("href") shouldBe expectedUrl
     }
 

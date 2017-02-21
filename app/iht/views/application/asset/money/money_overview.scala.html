@@ -26,7 +26,7 @@
 @import scala.collection.immutable.Seq
 @import iht.utils.CommonHelper
 
-@(money:Option[ShareableBasicEstateElement], registrationDetails: RegistrationDetails)(implicit request: Request[_])
+@(money:Option[ShareableBasicEstateElement], registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 

@@ -23,7 +23,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
  * Created by yusuf on 06/10/15.
  */
-class UtilPackageTest extends UnitSpec with FakeIhtApp with MockitoSugar{
+class UtilPackageTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
   "UtilsPackage" must {
     "split IHT reference numbers into XXX XXXX XXXX XXXX" in {

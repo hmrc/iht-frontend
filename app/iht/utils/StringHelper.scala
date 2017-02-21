@@ -18,6 +18,8 @@ package iht.utils
 
 import iht.utils.CommonHelper.withValue
 import play.api.i18n.Messages
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
 object StringHelper {
   private val StartOfPrefix = 0

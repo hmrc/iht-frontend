@@ -20,7 +20,8 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -34,6 +35,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 class TnrbSuccessControllerTest extends ApplicationControllerTest {
 
   // Implicit objects required by play framework.
+
   implicit val headerCarrier = FakeHeaders()
   implicit val request = FakeRequest()
   implicit val hc = new HeaderCarrier

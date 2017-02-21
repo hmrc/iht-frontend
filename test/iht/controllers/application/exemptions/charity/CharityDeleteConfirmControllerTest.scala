@@ -22,9 +22,13 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with BeforeAndAfter {
+
+
   var mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -89,7 +93,7 @@ class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with 
 
       val result = charityDeleteConfirmController.onPageLoad("1")(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.charityDelete.sectionTitle"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityDelete.sectionTitle"))
     }
 
     "display main back link text" in {
@@ -101,7 +105,7 @@ class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with 
 
       val result = charityDeleteConfirmController.onPageLoad("1")(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"))
     }
 
     "contain href with link back to overview page" in {
@@ -127,7 +131,7 @@ class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with 
 
     val result = charityDeleteConfirmController.onPageLoad("1")(createFakeRequest())
     status(result) shouldBe OK
-    contentAsString(result) should include(Messages("site.button.confirmDelete"))
+    contentAsString(result) should include(messagesApi("site.button.confirmDelete"))
 
   }
 

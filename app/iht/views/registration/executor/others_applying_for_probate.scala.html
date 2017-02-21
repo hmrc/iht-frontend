@@ -23,7 +23,7 @@
 
 @(othersApplyingForProbateForm: Form[Option[Boolean]],
     actionCall: Call,
-    cancelCall: Option[Call] = None)(implicit request: Request[_])
+    cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.others-applying-for-probate.sectionTitle"),
 browserTitle = Some(Messages("page.iht.registration.others-applying-for-probate.browserTitle")),

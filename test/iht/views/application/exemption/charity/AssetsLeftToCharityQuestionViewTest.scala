@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.exemption.charity.assets_left_to_charity_question
 
 /**
@@ -44,19 +44,19 @@ class AssetsLeftToCharityQuestionViewTest extends ViewTestHelper{
     "have correct title and browser title " in {
       val view = assetsLeftToPartnerQuestionView().toString
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.exemptions.charities.assetsLeftToACharity.title"))
-      browserTitleShouldBeCorrect(view, Messages("page.iht.application.exemptions.assetLeftToCharity.browserTitle"))
+      titleShouldBeCorrect(view, messagesApi("iht.estateReport.exemptions.charities.assetsLeftToACharity.title"))
+      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.exemptions.assetLeftToCharity.browserTitle"))
     }
 
     "have 'Save and continue' button" in {
       val view = assetsLeftToPartnerQuestionView()
 
       val saveAndContinueButton = view.getElementById("save-continue")
-      saveAndContinueButton.getElementsByAttributeValueContaining("value", Messages("iht.saveAndContinue"))
+      saveAndContinueButton.getElementsByAttributeValueContaining("value", messagesApi("iht.saveAndContinue"))
     }
 
     "have the return link with correct text" in {
-      val returnLinkLabelMsgKey  = Messages("page.iht.application.return.to.exemptionsOf",
+      val returnLinkLabelMsgKey  = messagesApi("page.iht.application.return.to.exemptionsOf",
                                             regDetails.deceasedDetails.map(_.name).fold("")(identity))
 
       val returnLocation = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
@@ -65,13 +65,13 @@ class AssetsLeftToCharityQuestionViewTest extends ViewTestHelper{
 
       val returnLink = view.getElementById("cancel-button")
       returnLink.attr("href") shouldBe returnLocation.url
-      returnLink.text() shouldBe Messages(returnLinkLabelMsgKey)
+      returnLink.text() shouldBe messagesApi(returnLinkLabelMsgKey)
     }
 
     "have the question with the right text" in {
       val view = assetsLeftToPartnerQuestionView()
 
-      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 

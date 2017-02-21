@@ -21,11 +21,14 @@ import iht.{FakeIhtApp, TestUtils}
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
 class EstateOverviewViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val ihtReference = Some("ABC")
   val registrationDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = ihtReference)
   val applicationDetailsGuidanceSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(true))
@@ -104,7 +107,7 @@ class EstateOverviewViewModelTest extends UnitSpec with FakeIhtApp with MockitoS
       val viewModel = EstateOverviewViewModel(registrationDetails, applicationDetailsGuidanceSeen, fakeDeadline)
 
       viewModel.grandTotalRow.isDefined shouldBe true
-      viewModel.grandTotalRow.get.label shouldBe Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")
+      viewModel.grandTotalRow.get.label shouldBe messagesApi("page.iht.application.estateOverview.valueOfAssetsAndGifts")
     }
 
     "contain a total row entitled 'Value of assets and gifts' if exemptions questions have been answered but no value entered" in {
@@ -112,14 +115,14 @@ class EstateOverviewViewModelTest extends UnitSpec with FakeIhtApp with MockitoS
       val viewModel = EstateOverviewViewModel(registrationDetails, appDetails, fakeDeadline)
 
       viewModel.grandTotalRow.isDefined shouldBe true
-      viewModel.grandTotalRow.get.label shouldBe Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")    }
+      viewModel.grandTotalRow.get.label shouldBe messagesApi("page.iht.application.estateOverview.valueOfAssetsAndGifts")    }
 
     "contain a total row entitled 'Total value of the estate' if an exemption value has been added" in {
       val appDetails = CommonBuilder.buildSomeExemptions(applicationDetailsGuidanceNotSeen)
       val viewModel = EstateOverviewViewModel(registrationDetails, appDetails, fakeDeadline)
 
       viewModel.grandTotalRow.isDefined shouldBe true
-      viewModel.grandTotalRow.get.label shouldBe Messages("page.iht.application.estateOverview.totalValueOfTheEstate")
+      viewModel.grandTotalRow.get.label shouldBe messagesApi("page.iht.application.estateOverview.totalValueOfTheEstate")
     }
 
     "contain ihtReference when created" in {

@@ -25,7 +25,7 @@ import iht.testhelpers.CommonBuilder
 import org.joda.time.LocalDate
 import org.scalatestplus.play.OneAppPerSuite
 
-class DeceasedFormsTest extends FormTestHelper with FakeIhtApp with OneAppPerSuite {
+class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   def dateOfDeath(day: String, month: String, year: String) =
     Map("dateOfDeath.day" -> day, "dateOfDeath.month" -> month, "dateOfDeath.year" -> year)
 

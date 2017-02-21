@@ -19,14 +19,17 @@ package iht.controllers.filter
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.views.HtmlSpec
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
   * Created by adwelly on 25/10/2016.
   */
-class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec{
+class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -42,7 +45,7 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec{
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(Messages("iht.shouldUseOnlineService"))
+      titleElement.text() should be(messagesApi("iht.shouldUseOnlineService"))
     }
 
     "show paragraph 0 for the under 325000 estimate" in {
@@ -51,7 +54,7 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec{
 
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
-      paragraph0.text() should be(Messages("page.iht.filter.useService.under325000.paragraph0"))
+      paragraph0.text() should be(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
     }
 
     "show paragraph 0 for the between estimate" in {
@@ -60,7 +63,7 @@ class UseServiceControllerTest extends ApplicationControllerTest with HtmlSpec{
 
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
-      paragraph0.text() should be(Messages("page.iht.filter.useService.between325000And1Million.paragraph0"))
+      paragraph0.text() should be(messagesApi("page.iht.filter.useService.between325000And1Million.paragraph0"))
     }
   }
 }

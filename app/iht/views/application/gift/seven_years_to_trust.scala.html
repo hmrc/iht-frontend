@@ -24,7 +24,7 @@
 @import iht.utils.CommonHelper._
 
 @(GiftSevenYearsToTrustForm: Form[AllGifts],
-registrationDetails: RegistrationDetails)(implicit request: Request[_])
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")),

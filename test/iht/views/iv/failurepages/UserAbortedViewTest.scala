@@ -19,23 +19,24 @@ package iht.views.iv.failurepages
 import iht.testhelpers.CommonBuilder
 import iht.views.html.iv.failurepages.user_aborted
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class UserAbortedViewTest extends GenericNonSubmittablePageBehaviour {
+
   def guidanceParagraphs = Set(
-    Messages("page.iht.iv.failure.userAborted.p1")
+    messagesApi("page.iht.iv.failure.userAborted.p1")
   )
 
-  def pageTitle = Messages("page.iht.iv.failure.userAborted.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.userAborted.title")
 
-  def browserTitle = Messages("page.iht.iv.failure.userAborted.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.userAborted.title")
 
-  def view: String = user_aborted(CommonBuilder.DefaultCall1.url).toString
+  def view: String = user_aborted(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(
       CommonBuilder.DefaultCall1,
-      Messages("iht.iv.tryAgain")
+      messagesApi("iht.iv.tryAgain")
     )
   )
 

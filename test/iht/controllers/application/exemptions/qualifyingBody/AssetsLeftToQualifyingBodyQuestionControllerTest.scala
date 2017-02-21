@@ -23,6 +23,8 @@ import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -46,6 +48,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
   }
 
   "AssetsLeftToQualifyingBodyQuestionControllerTest" must {
+
 
     "redirect to login page on page load if the user is not logged in" in {
       val result = assetsLeftToQualifyingBodyQuestionControllerNotAuthorised.onPageLoad()(createFakeRequest())
@@ -85,8 +88,8 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
 
       val result = assetsLeftToQualifyingBodyQuestionController.onPageLoad()(createFakeRequest())
       val resultAsString = contentAsString(result)
-      resultAsString should include (Messages("iht.saveAndContinue"))
-      resultAsString should include (Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"))
+      resultAsString should include (messagesApi("iht.saveAndContinue"))
+      resultAsString should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"))
     }
 
     "save application and go to Exemptions Overview page on submit" in {
@@ -126,7 +129,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
 
       val result = assetsLeftToQualifyingBodyQuestionController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include(Messages("error.problem"))
+      contentAsString(result) should include(messagesApi("error.problem"))
 
     }
 

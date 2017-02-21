@@ -25,7 +25,10 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import play.api.test.Helpers._
 import play.api.test.Helpers.{contentAsString, _}
 
 class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
@@ -123,7 +126,7 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
       val result = stocksAndSharesListedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
@@ -152,7 +155,7 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
       val result = stocksAndSharesListedController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.stocksAndSharesListed"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.stocksAndSharesListed"))
     }
   }
 }

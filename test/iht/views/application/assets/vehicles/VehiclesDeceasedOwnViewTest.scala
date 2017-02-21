@@ -23,8 +23,8 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.vehicles.vehicles_deceased_own
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class VehiclesDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
@@ -35,13 +35,13 @@ class VehiclesDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementI
   override def form:Form[ShareableBasicEstateElement] = vehiclesFormOwn
   override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => vehicles_deceased_own(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.assets.vehiclesOwned", deceasedName)
-  override def browserTitle = Messages("page.iht.application.assets.vehicles.deceased.browserTitle")
-  override def questionTitle = Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedName)
-  override def valueQuestion = Messages("page.iht.application.assets.vehicles.deceased.value")
+  override def pageTitle = messagesApi("iht.estateReport.assets.vehiclesOwned", deceasedName)
+  override def browserTitle = messagesApi("page.iht.application.assets.vehicles.deceased.browserTitle")
+  override def questionTitle = messagesApi("iht.estateReport.assets.vehicles.ownName.question", deceasedName)
+  override def valueQuestion = messagesApi("page.iht.application.assets.vehicles.deceased.value")
   override def hasValueQuestionHelp = true
-  override def valueQuestionHelp = Messages("iht.estateReport.assets.getProfessionalValuation")
-  override def returnLinkText = Messages("site.link.return.vehicles")
+  override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
+  override def returnLinkText = messagesApi("site.link.return.vehicles")
   override def returnLinkUrl = VehiclesOverviewController.onPageLoad().url
 
   "Vehicles Deceased Own view" must {

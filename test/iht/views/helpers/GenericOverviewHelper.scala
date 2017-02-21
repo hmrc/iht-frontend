@@ -18,22 +18,25 @@ package iht.views.helpers
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object GenericOverviewHelper extends ViewTestHelper {
+
 
   def headerQuestionShouldBeUnanswered(doc: Document, elementId: String, message: String, url: String) = {
     val heading = doc.getElementById(elementId).getElementsByTag("h2").first
     heading.text shouldBe message
 
     val link = doc.getElementById(s"$elementId-link")
-    messagesShouldBePresent(link.text, Messages("site.link.giveAnswer"))
+    messagesShouldBePresent(link.text, messagesApi("site.link.giveAnswer"))
     link.attr("href") shouldBe url
   }
 
   def headerShouldBeAnswered(doc: Document, elementId: String, messageKey: String) = {
     val heading = doc.getElementById(elementId).getElementsByTag("h2").first
-    heading.text shouldBe Messages(messageKey)
+    heading.text shouldBe messagesApi(messageKey)
 
     assertNotRenderedById(doc, s"$elementId-link")
   }
@@ -45,7 +48,7 @@ object GenericOverviewHelper extends ViewTestHelper {
     divs.get(1).text shouldBe value
 
     val link = doc.getElementById(s"$elementId-link")
-    messagesShouldBePresent(link.text, Messages(linkMessageKey))
+    messagesShouldBePresent(link.text, messagesApi(linkMessageKey))
     link.attr("href") shouldBe url
 
   }
@@ -53,11 +56,11 @@ object GenericOverviewHelper extends ViewTestHelper {
   def rowShouldBeUnAnswered(doc: Document, elementId: String, messageKey: String, linkMessageKey: String, url: String) = {
     val li = doc.getElementById(elementId)
     val divs = li.getElementsByTag("div")
-    divs.get(0).text shouldBe Messages(messageKey)
+    divs.get(0).text shouldBe messagesApi(messageKey)
     divs.get(1).text shouldBe ""
 
     val link = doc.getElementById(s"$elementId-link")
-    messagesShouldBePresent(link.text, Messages(linkMessageKey))
+    messagesShouldBePresent(link.text, messagesApi(linkMessageKey))
     link.attr("href") shouldBe url
 
   }

@@ -20,7 +20,7 @@
 @import iht.constants.Constants._
 
 
-@(form: Form[Option[String]])(implicit request: Request[_])
+@(form: Form[Option[String]])(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.deceasedPermanentHome.title"),
     browserTitle = Some(Messages("page.iht.registration.deceasedPermanentHome.title")),

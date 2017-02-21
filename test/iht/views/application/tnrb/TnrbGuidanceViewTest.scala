@@ -20,10 +20,9 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_guidance
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class TnrbGuidanceViewTest extends ViewTestHelper {
-
 
   "tnrb guidance page" must {
 
@@ -33,7 +32,7 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
       val doc = asDocument(view)
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() shouldBe 1
-      headers.first().text() shouldBe Messages("iht.estateReport.tnrb.increasingIHTThreshold")
+      headers.first().text() shouldBe messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
     }
 
     "show the correct browser title" in {
@@ -41,15 +40,15 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
       val view = tnrb_guidance("ihtReference", "url").toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
-        Messages("iht.estateReport.tnrb.increasingThreshold") + " " + Messages("site.title.govuk"))
+        messagesApi("iht.estateReport.tnrb.increasingThreshold") + " " + messagesApi("site.title.govuk"))
     }
 
     "show the correct paragraphs" in {
       implicit val request = createFakeRequest()
       val view = tnrb_guidance("ihtReference", "url").toString
-      view should include(Messages("page.iht.application.tnrb.guidance.p1"))
-      view should include(Messages("page.iht.application.tnrb.guidance.p2"))
-      view should include(Messages("page.iht.application.tnrb.guidance.p3"))
+      view should include(messagesApi("page.iht.application.tnrb.guidance.p1"))
+      view should include(messagesApi("page.iht.application.tnrb.guidance.p2"))
+      view should include(messagesApi("page.iht.application.tnrb.guidance.p3"))
     }
 
     "show the correct indent paragraph" in {
@@ -65,7 +64,7 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
       val doc = asDocument(view)
       assertRenderedById(doc, "continue-to-estate-overview-button")
       val button: Element = doc.getElementById("continue-to-estate-overview-button")
-      button.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      button.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       button.className() shouldBe "button"
       button.attr("href") shouldBe iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("ihtReference").url
    }
@@ -77,7 +76,7 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
       val doc = asDocument(view)
       assertRenderedById(doc, "continue-to-increasing-threshold-link")
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.text() shouldBe Messages("page.iht.application.tnrb.guidance.continueLink.text")
+      link.text() shouldBe messagesApi("page.iht.application.tnrb.guidance.continueLink.text")
       link.attr("href") shouldBe expectedUrl
     }
 

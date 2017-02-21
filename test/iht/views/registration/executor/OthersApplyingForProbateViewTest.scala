@@ -21,15 +21,15 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.others_applying_for_probate
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 trait OthersApplyingForProbateViewFixture extends YesNoQuestionViewBehaviour[Option[Boolean]] {
-  override def guidanceParagraphs = Set(Messages("page.iht.registration.others-applying-for-probate.description"))
+  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.others-applying-for-probate.description"))
 
-  override def pageTitle = Messages("page.iht.registration.others-applying-for-probate.sectionTitle")
+  override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate.sectionTitle")
 
-  override def browserTitle = Messages("page.iht.registration.others-applying-for-probate.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate.browserTitle")
 
   override def form: Form[Option[Boolean]] = othersApplyingForProbateForm
 }

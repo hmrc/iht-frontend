@@ -25,6 +25,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.trusts.trusts_more_than_one_question
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object TrustsMoreThanOneQuestionController extends TrustsMoreThanOneQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics

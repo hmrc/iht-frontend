@@ -22,11 +22,13 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.views.HtmlSpec
 import org.jsoup.nodes.Element
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 
-class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpec{
+class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpec {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -67,7 +69,7 @@ class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpe
       val content = contentAsString(result)
       val doc = asDocument(content)
       assertEqualsValue(doc, "h1",
-        Messages("iht.estateReport.tnrb.increasingIHTThreshold"))
+        messagesApi("iht.estateReport.tnrb.increasingIHTThreshold"))
     }
 
     "respond with continue link with correct content in on page load when deceased was widowed" in {
@@ -79,7 +81,7 @@ class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpe
       val doc = asDocument(content)
 
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
-      link.text() shouldBe Messages("page.iht.application.tnrb.guidance.continueLink.text")
+      link.text() shouldBe messagesApi("page.iht.application.tnrb.guidance.continueLink.text")
     }
 
     "respond with correct link (deceased spouse date of death page) in on page load when deceased was widowed" in {

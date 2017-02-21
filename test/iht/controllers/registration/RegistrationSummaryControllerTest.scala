@@ -36,6 +36,8 @@ import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.{ConflictException, GatewayTimeoutException}
 
@@ -103,7 +105,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       status(result) should be(OK)
       val content = ContentChecker.stripLineBreaks(contentAsString(result))
 
-      content should include(Messages("iht.registration.checkYourAnswers"))
+      content should include(messagesApi("iht.registration.checkYourAnswers"))
     }
 
      "onSubmit for valid input should redirect to completed registration" in {
@@ -186,7 +188,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)
 
-      contentAsString(result) should include(Messages("error.cannotSend"))
+      contentAsString(result) should include(messagesApi("error.cannotSend"))
     }
 
     "raise an error when accessing the screen without first entering the deceased's date of death" in {
@@ -301,7 +303,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)
 
-      contentAsString(result) should include(Messages("error.cannotSend"))
+      contentAsString(result) should include(messagesApi("error.cannotSend"))
     }
 
     "onSubmit RuntimeException not timeout" in {
@@ -328,7 +330,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)
 
-      contentAsString(result) should include(Messages("error.cannotSend"))
+      contentAsString(result) should include(messagesApi("error.cannotSend"))
     }
 
     "onSubmit for valid input should produce an internal server error if the storage fails" in {

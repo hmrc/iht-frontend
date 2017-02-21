@@ -26,6 +26,8 @@ import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
 import play.api.data.Form
 import play.api.mvc._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object DeceasedPermanentHomeController extends DeceasedPermanentHomeController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -45,19 +47,19 @@ trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWith
 
   def okForPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, submitRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, submitRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def onwardRoute(rd: RegistrationDetails) = routes.AboutDeceasedController.onPageLoad
 

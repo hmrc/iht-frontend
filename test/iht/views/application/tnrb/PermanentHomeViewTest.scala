@@ -23,7 +23,7 @@ import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.permanent_home
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -34,11 +34,11 @@ class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyMod
 
   def widowCheck = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.permanentHome.question",
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.permanentHome.question",
     TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
-      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
+      messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
-  override def browserTitle = Messages("page.iht.application.tnrb.permanentHome.browerTitle")
+  override def browserTitle = messagesApi("page.iht.application.tnrb.permanentHome.browerTitle")
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit())
 

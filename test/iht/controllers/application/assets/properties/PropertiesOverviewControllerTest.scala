@@ -21,12 +21,14 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.test.Helpers._
 
 /**
  * Created by sam on 22/12/15.
  */
 class PropertiesOverviewControllerTest extends ApplicationControllerTest {
+
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]

@@ -23,6 +23,8 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -78,6 +80,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
     }
 
     "display correct hint content on page" in {
+
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(CommonBuilder.buildApplicationDetails),
@@ -87,7 +90,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
       val result = partnerDateOfBirthController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.dateExample"))
+      contentAsString(result) should include (messagesApi("iht.dateExample"))
     }
 
     "display the correct stored date on page load" in {

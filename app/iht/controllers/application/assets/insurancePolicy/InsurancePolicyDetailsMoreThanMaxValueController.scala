@@ -24,6 +24,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_more_than_max_value
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object InsurancePolicyDetailsMoreThanMaxValueController extends InsurancePolicyDetailsMoreThanMaxValueController with IhtConnectors {
   def metrics : Metrics = Metrics

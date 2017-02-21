@@ -23,6 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_deceased_own
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
@@ -35,13 +36,13 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
   override def form:Form[InsurancePolicy] = insurancePolicyDeceasedOwnQuestionForm
   override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_deceased_own(form, regDetails)
 
-    override def pageTitle = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
-    override def browserTitle = Messages("page.iht.application.insurance.policies.section1.browserTitle")
-    override def questionTitle = Messages(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedName))
-    override def valueQuestion = Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
+    override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
+    override def browserTitle = messagesApi("page.iht.application.insurance.policies.section1.browserTitle")
+    override def questionTitle = messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName)
+    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
     override def hasValueQuestionHelp = false
     override def valueQuestionHelp = ""
-    override def returnLinkText = Messages("site.link.return.insurance.policies")
+    override def returnLinkText = messagesApi("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
 
     "InsurancePolicyDetailsDeceasedOwn view" must {
@@ -49,7 +50,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
 
       "show the correct guidance" in {
         messagesShouldBePresent(view,
-          Messages("page.iht.application.insurance.policies.section1.guidance", deceasedName, deceasedName))
+          messagesApi("page.iht.application.insurance.policies.section1.guidance", deceasedName, deceasedName))
       }
 
       "show the value question in bold " in {

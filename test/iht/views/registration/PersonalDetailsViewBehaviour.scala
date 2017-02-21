@@ -64,7 +64,7 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     }
 
     "have a form hint for date of birth" in {
-      messagesShouldBePresent(view, Messages("iht.dateExample"))
+      messagesShouldBePresent(view, messagesApi("iht.dateExample"))
     }
 
     "have the correct label for nino" in {
@@ -86,7 +86,7 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     }
 
     "have a form hint for phone number" in {
-      messagesShouldBePresent(view, Messages(hint))
+      messagesShouldBePresent(view, messagesApi(hint))
     }
   }
 
@@ -95,14 +95,14 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
 
 		"have a continue button with correct text" in {
 		  val continueLink = view.getElementById("continue-button")
-		  continueLink.attr("value") shouldBe Messages("iht.continue")
+		  continueLink.attr("value") shouldBe messagesApi("iht.continue")
 
 		}
 
 		"have a cancel link with correct text" in {
 		  val cancelLink = view.getElementById("cancel-button")
 		  cancelLink.attr("href") shouldBe cancelUrl.url
-		  cancelLink.text() shouldBe Messages("site.link.cancel")
+		  cancelLink.text() shouldBe messagesApi("site.link.cancel")
 		}
 	  }
 }

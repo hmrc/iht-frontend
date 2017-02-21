@@ -23,7 +23,7 @@
 @import iht.utils.CommonHelper
 
 @(moneyOwedForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request: Request[_])
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 @deceasedNameWrap = @{ihtHelpers.name(deceasedName)}

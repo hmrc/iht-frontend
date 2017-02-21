@@ -23,15 +23,15 @@ import iht.views.html.registration.deceased.deceased_date_of_death
 import iht.views.registration.RegistrationPageBehaviour
 import org.jsoup.nodes.Document
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 import iht.testhelpers.CommonBuilder
 
 class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDateOfDeath] {
 
-  override def pageTitle = Messages("page.iht.registration.deceasedDateOfDeath.title")
-  override def browserTitle = Messages("iht.dateOfDeath")
+  override def pageTitle = messagesApi("page.iht.registration.deceasedDateOfDeath.title")
+  override def browserTitle = messagesApi("iht.dateOfDeath")
   override def form:Form[DeceasedDateOfDeath] = deceasedDateOfDeathForm
   override def formToView:Form[DeceasedDateOfDeath] => Appendable = form => deceased_date_of_death(form, CommonBuilder.DefaultCall1)
 
@@ -65,7 +65,7 @@ class DeceasedDateOfDeathViewTest extends RegistrationPageBehaviour[DeceasedDate
     }
 
     "have a form hint" in {
-     messagesShouldBePresent(view, Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
+     messagesShouldBePresent(view, messagesApi("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"))
     }
 
     "not have a Cancel button" in {

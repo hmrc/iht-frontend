@@ -20,7 +20,7 @@
 @import play.twirl.api.Html
 @import iht.constants.IhtProperties
 
-@(model: EstateOverviewViewModel)
+@(model: EstateOverviewViewModel)(implicit request:Request[_], messages: Messages)
 
 @checkNameSize(name: String) = @{
   var nameislong = false;

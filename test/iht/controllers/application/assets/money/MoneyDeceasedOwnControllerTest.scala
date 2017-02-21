@@ -24,7 +24,10 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import play.api.test.Helpers._
 import play.api.test.Helpers.{contentAsString, _}
 
 /**
@@ -130,7 +133,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
@@ -159,7 +162,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = moneyDeceasedOwnController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("iht.estateReport.assets.moneyOwned", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.moneyOwned", deceasedName))
     }
   }
 }

@@ -20,7 +20,8 @@ import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import iht.views.html.application.debts.mortgage_value
 import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
@@ -41,13 +42,13 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElement
                               iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1"),
                               regDetails)
 
-  override def pageTitle = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
-  override def browserTitle = Messages("page.iht.application.debts.mortgageValue.browserTitle")
+  override def pageTitle = messagesApi("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+  override def browserTitle = messagesApi("page.iht.application.debts.mortgageValue.browserTitle")
   override def guidanceParagraphs = Set()
-  override def yesNoQuestionText = Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
-  override def inputValueFieldLabel = Messages("page.iht.application.debts.mortgage.inputText.value")
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+  override def inputValueFieldLabel = messagesApi("page.iht.application.debts.mortgage.inputText.value")
   override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("site.link.return.mortgage.overview")
+  override def returnLinkText = messagesApi("site.link.return.mortgage.overview")
   override def returnLinkTargetUrl = iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()
 
   "MortgageValueView" must {

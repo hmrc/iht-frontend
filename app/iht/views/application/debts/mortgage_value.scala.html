@@ -28,7 +28,7 @@
 @(mortgagesForm: Form[iht.models.application.debts.Mortgage],
 property: Property,
 submitUrl: Call,
-regDetails: RegistrationDetails)(implicit request: Request[_])
+regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 

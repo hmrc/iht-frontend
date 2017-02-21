@@ -17,13 +17,13 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
+import play.api.i18n.Messages.Implicits._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.gifts_made_before_death
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -34,17 +34,17 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
 
   val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
     TnrbHelper.spouseOrCivilPartnerLabel(
       tnrbModel, widowCheck,
-      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
+      messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
-  override def browserTitle = Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")
 
-  override def guidanceParagraphs = Set(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
     TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-      Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
-    Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
+      messagesApi("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
+    messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit())
 

@@ -17,7 +17,7 @@
 @import iht.models._
 @import iht.models.application.debts.BasicEstateElementLiabilities
 
-@(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_])
+@(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.constants._

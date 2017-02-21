@@ -23,7 +23,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
 import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 object TnrbOverviewController extends TnrbOverviewController with IhtConnectors {

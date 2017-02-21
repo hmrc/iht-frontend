@@ -22,7 +22,9 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers.{contentAsString, _}
 
 /**
@@ -124,7 +126,7 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesJointlyOwnedController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
@@ -153,7 +155,7 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesJointlyOwnedController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.assets.vehicles.jointly.owned.title"))
+      contentAsString(result) should include (messagesApi("page.iht.application.assets.vehicles.jointly.owned.title"))
     }
   }
 }

@@ -22,11 +22,14 @@ import iht.testhelpers.CommonBuilder
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OtherDetailsSectionViewModelTest
   extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   val applicationDetailsGuidanceSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(true))
   val applicationDetailsGuidanceNotSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(false))
@@ -44,7 +47,7 @@ class OtherDetailsSectionViewModelTest
 
     "have the correct caption for the debts row" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.label shouldBe Messages("iht.estateReport.debts.owedFromEstate")
+      viewModel.debtRow.label shouldBe messagesApi("iht.estateReport.debts.owedFromEstate")
     }
 
     "have a blank value for debts when there are no debts" in {
@@ -69,7 +72,7 @@ class OtherDetailsSectionViewModelTest
       val appDetails = applicationDetailsGuidanceNotSeen copy (allLiabilities = Some(CommonBuilder.buildAllLiabilitiesAnsweredNo))
       val viewModel = OtherDetailsSectionViewModel(appDetails, ihtRef)
 
-      viewModel.debtRow.value shouldBe Messages("site.noDebts")
+      viewModel.debtRow.value shouldBe messagesApi("site.noDebts")
     }
 
     "show View or Change when all debts are completed" in {
@@ -78,12 +81,12 @@ class OtherDetailsSectionViewModelTest
 
       val viewModel = OtherDetailsSectionViewModel(appDetails, ihtRef)
 
-      viewModel.debtRow.linkText shouldBe Messages("iht.viewOrChange")
+      viewModel.debtRow.linkText shouldBe messagesApi("iht.viewOrChange")
     }
 
     "show Start when no debts questions have been answered" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.linkText shouldBe Messages("iht.start")
+      viewModel.debtRow.linkText shouldBe messagesApi("iht.start")
     }
 
     "show Give more details when some debts questions have been answered" in {
@@ -91,7 +94,7 @@ class OtherDetailsSectionViewModelTest
 
       val viewModel = OtherDetailsSectionViewModel(appDetails, ihtRef)
 
-      viewModel.debtRow.linkText shouldBe Messages("iht.giveMoreDetails")
+      viewModel.debtRow.linkText shouldBe messagesApi("iht.giveMoreDetails")
     }
 
     "have the correct URL for the debts link" in {

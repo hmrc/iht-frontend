@@ -28,7 +28,8 @@ import iht.views.html.registration.{applicant => views}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
 import uk.gov.hmrc.domain.Nino
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 
@@ -52,19 +53,19 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   def okForPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     Ok(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     Ok(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
-    (request, request.acceptLanguages.head))
+    (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
     BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary)
-  (request, request.acceptLanguages.head))
+  (request, request.acceptLanguages.head, applicationMessages))
 
   // Implementation not required as we are overriding the submit method
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value = Mode.Standard) = ???
