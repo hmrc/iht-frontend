@@ -30,7 +30,15 @@ case class Guidance(isAnyGuidance: Boolean, content: () => Set[String])
 
 trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
-  def link(anchorId: => String, href: => String, text: => String): Unit = link(doc, anchorId, href, text)
+  def link(anchorId: => String, href: => String, text: => String): Unit = {
+    def anchor = doc.getElementById(anchorId)
+    s"have a link with id $anchorId and correct target" in {
+      anchor.attr("href") shouldBe href
+    }
+    s"have a link with id $anchorId and correct text" in {
+      anchor.text() shouldBe text
+    }
+  }
 
   def guidance(content: => Set[String]) = Guidance(isAnyGuidance = true, () => content)
 
