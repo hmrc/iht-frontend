@@ -52,6 +52,10 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
 
   val cancelId: String = "return-button"
 
+  val continueId: String = "save-continue"
+
+  val continueContent: String = "iht.saveAndContinue"
+
   def applicationPage() = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
@@ -62,7 +66,7 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
     }
 
     "have a Continue button" in {
-      doc.getElementById("save-continue").text shouldBe messagesApi("iht.saveAndContinue")
+      doc.getElementById(continueId).text shouldBe messagesApi(continueContent)
     }
 
 

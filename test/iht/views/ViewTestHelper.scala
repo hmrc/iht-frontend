@@ -94,7 +94,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     * type specified which has the attribute aria-hidden set to true, in which case
     * the value of the latter is returned.
     */
-  def getVisibleText(element: Element, containingElementType:String = "span", includeTextOfChildElements: Boolean = false) = {
+  def getVisibleText(element: Element, containingElementType:String = "span", includeTextOfChildElements: Boolean = true) = {
     val containingElements: Set[Element] = element.getElementsByTag(containingElementType).toSet
     containingElements.find(_.attr("aria-hidden") == "true") match {
       case None =>
@@ -124,7 +124,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
       anchor.attr("href") shouldBe href
     }
     s"have a link with id $anchorId and correct text" in {
-      anchor.text() shouldBe text
+      getVisibleText(anchor) shouldBe text
     }
   }
 }
