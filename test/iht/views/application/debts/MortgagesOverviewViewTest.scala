@@ -34,8 +34,6 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
   val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-  val addressTableId = "properties"
-
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val debtsOverviewPageUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
 
@@ -67,10 +65,26 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
     FieldMappings.typesOfOwnership,
     regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, applicationMessages).toString
 
+  val addressTableId = "properties"
+
+  def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
+    s"show address number ${rowNo + 1}" in {
+      tableCell(doc, addressTableId, 0, rowNo).ownText shouldBe expectedValue
+    }
+
+    s"show address number ${rowNo + 1} Give details link" in {
+      val deleteDiv = tableCell(doc, addressTableId, 2, rowNo)
+      val anchor = deleteDiv.getElementsByTag("a").first
+      getVisibleText(anchor) shouldBe messagesApi("site.link.giveDetails")
+    }
+  }
 
   "MortgagesOverview Page" must {
     behave like applicationPage()
 
+    behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
+
+    behave like addressWithDeleteAndModify(1, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
 
     //    "show the correct properties" in {
     //
