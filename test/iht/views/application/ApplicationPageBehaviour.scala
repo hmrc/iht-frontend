@@ -65,11 +65,6 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
       browserTitleShouldBeCorrect(view, browserTitle)
     }
 
-    "have a Continue button" in {
-      doc.getElementById(continueId).text shouldBe messagesApi(continueContent)
-    }
-
-
     if (guidance.isAnyGuidance) {
       "show the correct guidance paragraphs" in {
         for (paragraph <- guidance.content()) messagesShouldBePresent(view, paragraph)
@@ -81,6 +76,7 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
         formTarget.foreach { target =>
           doc.getElementsByTag("form").attr("action") shouldBe target.url
         }
+        doc.getElementById(continueId).text shouldBe messagesApi(continueContent)
       }
     }
 
