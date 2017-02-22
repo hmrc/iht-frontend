@@ -85,9 +85,5 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
     behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
 
     behave like addressWithDeleteAndModify(1, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
-
-    //    "show the correct properties" in {
-    //
-    //    }
   }
 }
