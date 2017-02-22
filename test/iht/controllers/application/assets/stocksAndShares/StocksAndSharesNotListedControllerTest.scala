@@ -146,14 +146,6 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
       val result = stocksAndSharesNotListedController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
-
-    "display the correct title on page load" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      setUpTests(applicationDetails)
-
-      val result = stocksAndSharesNotListedController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.stocksAndSharesNotListed"))
-    }
   }
+
 }

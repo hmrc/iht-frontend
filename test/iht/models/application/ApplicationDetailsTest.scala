@@ -828,7 +828,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
   "netValueAfterExemptionAndDebtsForPositiveExemption" must {
 
     "return correct value when there is no exemptions" in {
-      applicationDetailsWithValues.netValueAfterExemptionAndDebtsForPositiveExemption shouldBe BigDecimal(29190)
+      applicationDetailsWithValues.netValueAfterExemptionAndDebtsForPositiveExemption shouldBe BigDecimal(29193)
     }
 
     "return correct value when there is positive exemptions value" in {
@@ -841,7 +841,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Seq(qualifyingBody)
       )
 
-      appDetailsWithExemptions.netValueAfterExemptionAndDebtsForPositiveExemption shouldBe BigDecimal(11490)
+      appDetailsWithExemptions.netValueAfterExemptionAndDebtsForPositiveExemption shouldBe BigDecimal(11493)
     }
   }
 
@@ -984,7 +984,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
   "totalValue" must {
     "return correct value of assets entered" in {
-      applicationDetailsWithValues.totalValue shouldBe BigDecimal(29190)
+      applicationDetailsWithValues.totalValue shouldBe BigDecimal(29193)
     }
 
     "return assets value as 0" in {
@@ -994,7 +994,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
   "totalNetValue" must {
     "return corret net value when there is no exemptions" in {
-      applicationDetailsWithValues.totalNetValue shouldBe BigDecimal(11790)
+      applicationDetailsWithValues.totalNetValue shouldBe BigDecimal(11793)
     }
 
     "return corret net value when there are some exemptions entered" in {
@@ -1007,7 +1007,7 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         qualifyingBodies = Seq(qualifyingBody)
       )
 
-      appDetailsWithExemptions.totalNetValue shouldBe BigDecimal(10690)
+      appDetailsWithExemptions.totalNetValue shouldBe BigDecimal(10693)
     }
   }
 

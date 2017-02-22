@@ -19,18 +19,18 @@ package iht.views.application.assets.trusts
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
+import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviourSubmittable}
 import iht.views.html.application.asset.trusts.{trusts_more_than_one_question, trusts_owned_question}
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-class TrustsMoreThanOneQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust] {
+class TrustsMoreThanOneQuestionViewTest extends YesNoQuestionViewBehaviourSubmittable[HeldInTrust] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def pageTitle = messagesApi("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName)
 

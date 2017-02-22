@@ -91,7 +91,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
                                                       isGivenInLast7Years = Some(true),
                                                       action = None)
 
-      val giftsList = CommonBuilder.buildGiftsList
+      val giftsList = Some(CommonBuilder.buildGiftsList)
 
       val appDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(allGifts), giftsList = giftsList)
       val seqOfQuestions = createSeqOfQuestions(regDetails, appDetails, allGifts)

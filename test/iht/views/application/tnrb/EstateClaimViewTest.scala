@@ -19,13 +19,13 @@ package iht.views.application.tnrb
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.application.YesNoQuestionViewBehaviourSubmittable
 import iht.views.html.application.tnrb.estate_claim
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+class EstateClaimViewTest extends YesNoQuestionViewBehaviourSubmittable[TnrbEligibiltyModel] {
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 
@@ -37,7 +37,7 @@ class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel
 
   override def browserTitle = messagesApi("page.iht.application.tnrb.stateClaim.browserTitle")
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit())
 

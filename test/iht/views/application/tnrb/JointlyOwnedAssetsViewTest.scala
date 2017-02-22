@@ -19,15 +19,15 @@ package iht.views.application.tnrb
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.application.YesNoQuestionViewBehaviourSubmittable
 import iht.views.html.application.tnrb.{jointly_owned_assets, permanent_home}
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviourSubmittable[TnrbEligibiltyModel] {
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 

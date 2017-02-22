@@ -20,13 +20,13 @@ import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
-import iht.views.application.YesNoQuestionViewBehaviour
+import iht.views.application.YesNoQuestionViewBehaviourSubmittable
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.tnrb.{gifts_with_reservation_of_benefit, jointly_owned_assets}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviourSubmittable[TnrbEligibiltyModel] {
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 
@@ -38,11 +38,13 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
 
   override def browserTitle = messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")
 
-  override def guidanceParagraphs = Set(messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
-    TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-      messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetailsName,
-    TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-      messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
+  override def guidance = guidance(
+    Set(messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+        messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner")), deceasedDetailsName,
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+        messagesApi("iht.estateReport.tnrb.thSouseAndCivilPartner"))))
+  )
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit())
 

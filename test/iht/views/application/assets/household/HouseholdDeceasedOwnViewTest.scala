@@ -16,6 +16,7 @@
 
 package iht.views.application.assets.household
 
+import iht.controllers.application.assets.household.routes
 import iht.controllers.application.assets.household.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.ShareableBasicEstateElement
@@ -27,7 +28,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-class HouseholdDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
+class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -44,6 +45,7 @@ class HouseholdDeceasedOwnViewTest extends ViewTestHelper with ShareableElementI
   override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.HouseholdDeceasedOwnController.onSubmit)
 
   "Household Deceased Own view" must {
     behave like yesNoValueViewWithErrorSummaryBox
