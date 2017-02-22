@@ -16,15 +16,10 @@
 
 package iht.views.application.gifts.guidance
 
-import iht.views.application.ApplicationPageBehaviour
 import iht.views.html.application.gift.guidance.kinds_of_gifts
 import play.api.i18n.Messages.Implicits._
 
-class KindsOfGiftsViewTest extends ApplicationPageBehaviour {
-  override def pageTitle = messagesApi("page.iht.application.gifts.guidance.title")
-
-  override def browserTitle = messagesApi("page.iht.application.gifts.guidance.title")
-
+class KindsOfGiftsViewTest extends GiftsGuidancePageBehaviour {
   override def guidance = guidance(
     Set(
       messagesApi("page.iht.application.gifts.guidance.kindOfGifts.description1"),
@@ -41,8 +36,8 @@ class KindsOfGiftsViewTest extends ApplicationPageBehaviour {
 
   override def view = kinds_of_gifts(
     ihtReference = "",
-    backToLastQuestionUrl = None,
-    backToLastQuestionMessageKey = None,
+    backToLastQuestionUrl = Some(backToLastQuestionUrl),
+    backToLastQuestionMessageKey = Some(backToLastQuestionMessageKey),
     backToLastQuestionMessageKeyAccessibility = None
   ).toString
 
@@ -51,7 +46,7 @@ class KindsOfGiftsViewTest extends ApplicationPageBehaviour {
   override def cancelComponent = None
 
   "Kinds of Gifts View" must {
-    behave like applicationPage()
+    behave like guidancePage()
 
     "contain the correct guidance section title" in {
       doc.getElementById("guidance-section-title").text shouldBe messagesApi("page.iht.application.gifts.guidance.kindOfGifts.title")

@@ -16,14 +16,10 @@
 
 package iht.views.application.gifts.guidance
 
-import iht.views.application.ApplicationPageBehaviour
 import iht.views.html.application.gift.guidance.gifts_given_away
 import play.api.i18n.Messages.Implicits._
 
-class GiftsGivenAwayViewTest extends ApplicationPageBehaviour {
-  override def pageTitle = messagesApi("page.iht.application.gifts.guidance.title")
-
-  override def browserTitle = messagesApi("page.iht.application.gifts.guidance.title")
+class GiftsGivenAwayViewTest extends GiftsGuidancePageBehaviour {
 
   override def guidance = guidance(
     Set(
@@ -36,8 +32,8 @@ class GiftsGivenAwayViewTest extends ApplicationPageBehaviour {
 
   override def view = gifts_given_away(
     ihtReference = "",
-    backToLastQuestionUrl = None,
-    backToLastQuestionMessageKey = None,
+    backToLastQuestionUrl = Some(backToLastQuestionUrl),
+    backToLastQuestionMessageKey = Some(backToLastQuestionMessageKey),
     backToLastQuestionMessageKeyAccessibility = None
   ).toString
 
@@ -50,7 +46,7 @@ class GiftsGivenAwayViewTest extends ApplicationPageBehaviour {
   override val continueContent: String = "page.iht.application.gifts.guidance.button.continueToGifts"
 
   "Gifts Given Away View" must {
-    behave like applicationPage()
+    behave like guidancePage()
 
     "contain the correct guidance section title" in {
       doc.getElementById("guidance-section-title").text shouldBe messagesApi("page.iht.application.gifts.guidance.giftsGivenAway.title")

@@ -20,10 +20,7 @@ import iht.views.application.ApplicationPageBehaviour
 import iht.views.html.application.gift.guidance.{what_is_a_gift, with_reservation}
 import play.api.i18n.Messages.Implicits._
 
-class WithReservationViewTest extends ApplicationPageBehaviour {
-  override def pageTitle = messagesApi("page.iht.application.gifts.guidance.title")
-
-  override def browserTitle = messagesApi("page.iht.application.gifts.guidance.title")
+class WithReservationViewTest extends GiftsGuidancePageBehaviour {
 
   override def guidance = guidance(
     Set(
@@ -36,8 +33,8 @@ class WithReservationViewTest extends ApplicationPageBehaviour {
 
   override def view = with_reservation(
     ihtReference = "",
-    backToLastQuestionUrl = None,
-    backToLastQuestionMessageKey = None,
+    backToLastQuestionUrl = Some(backToLastQuestionUrl),
+    backToLastQuestionMessageKey = Some(backToLastQuestionMessageKey),
     backToLastQuestionMessageKeyAccessibility = None
   ).toString
 
@@ -46,7 +43,7 @@ class WithReservationViewTest extends ApplicationPageBehaviour {
   override def cancelComponent = None
 
   "Kinds of Gifts View" must {
-    behave like applicationPage()
+    behave like guidancePage()
 
     "contain the correct guidance section title" in {
       doc.getElementById("guidance-section-title").text shouldBe messagesApi("iht.estateReport.gifts.withReservation.title")

@@ -20,10 +20,7 @@ import iht.views.application.ApplicationPageBehaviour
 import iht.views.html.application.gift.guidance.increasing_annual_limit
 import play.api.i18n.Messages.Implicits._
 
-class IncreasingAnnualLimitViewTest extends ApplicationPageBehaviour {
-  override def pageTitle = messagesApi("page.iht.application.gifts.guidance.title")
-
-  override def browserTitle = messagesApi("page.iht.application.gifts.guidance.title")
+class IncreasingAnnualLimitViewTest extends GiftsGuidancePageBehaviour {
 
   override def guidance = guidance(
     Set(
@@ -37,8 +34,8 @@ class IncreasingAnnualLimitViewTest extends ApplicationPageBehaviour {
 
   override def view = increasing_annual_limit(
     ihtReference = "",
-    backToLastQuestionUrl = None,
-    backToLastQuestionMessageKey = None,
+    backToLastQuestionUrl = Some(backToLastQuestionUrl),
+    backToLastQuestionMessageKey = Some(backToLastQuestionMessageKey),
     backToLastQuestionMessageKeyAccessibility = None
   ).toString
 
@@ -47,7 +44,7 @@ class IncreasingAnnualLimitViewTest extends ApplicationPageBehaviour {
   override def cancelComponent = None
 
   "Increasing Annual Limit View" must {
-    behave like applicationPage()
+    behave like guidancePage()
 
     "contain the correct guidance section title" in {
       doc.getElementById("guidance-section-title").text shouldBe messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.title")
