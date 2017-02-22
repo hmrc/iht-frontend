@@ -19,7 +19,7 @@ package iht.viewmodels.application.home
 import iht.connector.IhtConnector
 import iht.constants.IhtProperties
 import iht.models.application.IhtApplication
-import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
+import iht.utils.{ApplicationStatus => AppStatus, MessagesApiInjection, CommonHelper}
 import play.api.Logger
 import play.api.i18n.Messages
 import play.api.mvc.Call
@@ -40,7 +40,7 @@ case class IhtHomeRowViewModel(deceasedName: String,
                                link: Call,
                                linkScreenreader: String)
 
-object IhtHomeRowViewModel {
+object IhtHomeRowViewModel extends MessagesApiInjection{
   def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier) = {
 
     val currentStatus = getStatus(nino, ihtApp, ihtConnector)
@@ -58,20 +58,20 @@ object IhtHomeRowViewModel {
 
   private def getLinkLabel(currentStatus: String) = {
     currentStatus match {
-      case AppStatus.NotStarted => Messages("iht.start")
-      case AppStatus.InProgress => Messages("iht.continue")
-      case AppStatus.KickOut => Messages("iht.continue")
-      case _ => Messages("page.iht.home.button.viewApplication.label")
+      case AppStatus.NotStarted => messageApi("iht.start")
+      case AppStatus.InProgress => messageApi("iht.continue")
+      case AppStatus.KickOut => messageApi("iht.continue")
+      case _ => messageApi("page.iht.home.button.viewApplication.label")
 
     }
   }
 
   private def getLinkScreenreader(currentStatus: String, deceasedName: String) = {
     currentStatus match {
-      case AppStatus.NotStarted => Messages("page.iht.home.button.startApplication.screenReader", deceasedName)
-      case AppStatus.InProgress => Messages("page.iht.home.button.continueApplication.screenReader", deceasedName)
-      case AppStatus.KickOut => Messages("page.iht.home.button.continueApplication.screenReader", deceasedName)
-      case _ => Messages("page.iht.home.button.viewApplication.screenReader", deceasedName)
+      case AppStatus.NotStarted => messageApi("page.iht.home.button.startApplication.screenReader", deceasedName)
+      case AppStatus.InProgress => messageApi("page.iht.home.button.continueApplication.screenReader", deceasedName)
+      case AppStatus.KickOut => messageApi("page.iht.home.button.continueApplication.screenReader", deceasedName)
+      case _ => messageApi("page.iht.home.button.viewApplication.screenReader", deceasedName)
 
     }
   }

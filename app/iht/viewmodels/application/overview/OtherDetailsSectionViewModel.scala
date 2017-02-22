@@ -17,6 +17,7 @@
 package iht.viewmodels.application.overview
 
 import iht.models.application.ApplicationDetails
+import iht.utils.MessagesApiInjection
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -25,7 +26,7 @@ case class OtherDetailsSectionViewModel(debtRow: OverviewRow,
                                         showClaimExemptionLink: Boolean,
                                         ihtReference: String)
 
-object OtherDetailsSectionViewModel {
+object OtherDetailsSectionViewModel extends MessagesApiInjection{
   def getDebtsDisplayValue(applicationDetails: ApplicationDetails) = applicationDetails.allLiabilities match {
     case None => NoValueEntered
     case Some(allLiabilities) if allLiabilities.areAllDebtsSectionsAnsweredNo => AllAnsweredNo("site.noDebts")
@@ -44,15 +45,15 @@ object OtherDetailsSectionViewModel {
 
     val debtsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      Messages("page.iht.application.overview.debts.screenReader.moreDetails.link"),
-      Messages("page.iht.application.overview.debts.screenReader.value.link"),
-      Messages("page.iht.application.overview.debts.screenReader.noValue.link")
+      messageApi("page.iht.application.overview.debts.screenReader.moreDetails.link"),
+      messageApi("page.iht.application.overview.debts.screenReader.value.link"),
+      messageApi("page.iht.application.overview.debts.screenReader.noValue.link")
     )
 
     OtherDetailsSectionViewModel(
       debtRow = OverviewRow(
         id = "debts",
-        label = Messages("iht.estateReport.debts.owedFromEstate"),
+        label = messageApi("iht.estateReport.debts.owedFromEstate"),
         value = DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails), areThereNoExemptions = true),
         completionStatus = RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
         linkUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(),

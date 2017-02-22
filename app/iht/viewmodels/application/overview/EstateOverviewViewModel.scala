@@ -18,7 +18,7 @@ package iht.viewmodels.application.overview
 
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.CommonHelper
+import iht.utils.{MessagesApiInjection, CommonHelper}
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.mvc.Call
@@ -67,10 +67,10 @@ case class OverviewRow(id: String,
                        value: String,
                        completionStatus: RowCompletionStatus,
                        linkUrl: Call,
-                       qualifyingText: String) {
+                       qualifyingText: String) extends MessagesApiInjection{
   def linkText = this.completionStatus match {
-    case NotStarted => Messages("iht.start")
-    case PartiallyComplete => Messages("iht.giveMoreDetails")
+    case NotStarted => messageApi("iht.start")
+    case PartiallyComplete => messageApi("iht.giveMoreDetails")
     case _ => Messages("iht.viewOrChange")
   }
 }
@@ -94,7 +94,7 @@ case class EstateOverviewViewModel (ihtReference: String,
                                     declarationSection: DeclarationSectionViewModel,
                                     increasingThresholdRow: Option[OverviewRow])
 
-object EstateOverviewViewModel {
+object EstateOverviewViewModel extends MessagesApiInjection{
 
   def apply(registrationDetails: RegistrationDetails,
             applicationDetails: ApplicationDetails,
@@ -135,8 +135,8 @@ object EstateOverviewViewModel {
       case (Some(hasSeen), isEntered) if hasSeen || isEntered => Some(OverviewRowWithoutLink(
         id = "grand-total-section",
         label = applicationDetails.totalExemptionsValueOption match {
-          case Some(x) if x > 0 => Messages("page.iht.application.estateOverview.totalValueOfTheEstate")
-          case _ => Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")
+          case Some(x) if x > 0 => messageApi("page.iht.application.estateOverview.totalValueOfTheEstate")
+          case _ => messageApi("page.iht.application.estateOverview.valueOfAssetsAndGifts")
         },
         value = applicationDetails.totalExemptionsValueOption match {
           case Some(x) if x > 0 => DisplayValue(CurrentValue(applicationDetails.totalNetValue.max(0)))

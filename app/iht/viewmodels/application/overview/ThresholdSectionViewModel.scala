@@ -26,15 +26,19 @@ import play.api.Logger
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.inject._
+import play.api.Play
+import play.api.i18n.MessagesApi
+import iht.utils.MessagesApiInjection
 
 case class ThresholdSectionViewModel(thresholdRow: OverviewRowWithoutLink,
                                      increasingThresholdRow: Option[OverviewRow],
                                      showIncreaseThresholdLink: Boolean,
                                      thresholdIncreased: Boolean)
 
-object ThresholdSectionViewModel {
+object ThresholdSectionViewModel extends MessagesApiInjection {
 
-  def getScreenReaderQualifyingText(isComplete: RowCompletionStatus, moreDetailText: String, valueText: String) =
+ def getScreenReaderQualifyingText(isComplete: RowCompletionStatus, moreDetailText: String, valueText: String) =
     isComplete match {
       case NotStarted => moreDetailText
       case PartiallyComplete => moreDetailText
@@ -48,8 +52,8 @@ object ThresholdSectionViewModel {
     val thresholdIncreaseSectionAccessed = applicationDetails.isWidowCheckQuestionAnswered
 
     val thresholdValueMessage = thresholdIncreased match {
-      case true => Messages("site.tnrb.value.display")
-      case _ => Messages("site.threshold.value.display")
+      case true => messageApi("site.tnrb.value.display")
+      case _ => messageApi("site.threshold.value.display")
     }
 
     val showIncreaseThresholdLink = {
@@ -71,7 +75,7 @@ object ThresholdSectionViewModel {
     ThresholdSectionViewModel(
       thresholdRow = OverviewRowWithoutLink(
         id = "threshold",
-        label = Messages("iht.estateReport.ihtThreshold"),
+        label = messageApi("iht.estateReport.ihtThreshold"),
         value = thresholdValueMessage,
         qualifyingText = "",
         renderAsTotalRow = thresholdIncreased,
@@ -94,26 +98,26 @@ object ThresholdSectionViewModel {
 
     val thresholdScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      Messages("page.iht.application.overview.threshold.screenReader.moreDetails.link"),
-      Messages("page.iht.application.overview.threshold.screenReader.value.link")
+      messageApi("page.iht.application.overview.threshold.screenReader.moreDetails.link"),
+      messageApi("page.iht.application.overview.threshold.screenReader.value.link")
     )
 
     val thresholdValueMessage = thresholdIncreased match {
-      case true => Messages("site.tnrb.value.display")
-      case _ => Messages("site.threshold.value.display")
+      case true => messageApi("site.tnrb.value.display")
+      case _ => messageApi("site.threshold.value.display")
     }
 
     lazy val thresholdRowValue = if (thresholdIncreased) {
-      Messages("page.iht.application.estateOverview.increaseThreshold.increased")
+      messageApi("page.iht.application.estateOverview.increaseThreshold.increased")
     } else if (thresholdIncreaseNotAvailable) {
-      Messages("page.iht.application.estateOverview.increaseThreshold.notAvailable")
+      messageApi("page.iht.application.estateOverview.increaseThreshold.notAvailable")
     } else {
       ""
     }
 
     OverviewRow(
       id = "increasing-threshold",
-      label = Messages("iht.estateReport.tnrb.increasingThreshold"),
+      label = messageApi("iht.estateReport.tnrb.increasingThreshold"),
       value = thresholdRowValue,
       completionStatus = if (thresholdIncreased || thresholdIncreaseNotAvailable) Complete else PartiallyComplete,
       linkUrl = TnrbHelper.getEntryPointForTnrb(registrationDetails, applicationDetails),
