@@ -27,6 +27,10 @@ class GiftsGivenAwayViewTest extends ApplicationPageBehaviour {
 
   override def guidance = guidance(
     Set(
+      messagesApi("page.iht.application.gifts.guidance.giftsGivenAway.description1"),
+      messagesApi("page.iht.application.gifts.guidance.giftsGivenAway.description2"),
+      messagesApi("page.iht.application.gifts.guidance.giftsGivenAway.description3"),
+      messagesApi("page.iht.application.gifts.guidance.giftsGivenAway.description4")
     )
   )
 
