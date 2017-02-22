@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.gift.with_reservation_of_benefit
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -30,7 +30,7 @@ import play.api.i18n.Messages.Implicits._
 /**
   * Created by vineet on 15/11/16.
   */
-class WithReservationOfBenefitViewTest extends ApplicationPageBehaviour[AllGifts] {
+class WithReservationOfBenefitViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
 
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = Some("ABC1234567890"),
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(

@@ -21,7 +21,7 @@ import play.api.Play.current
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 
-trait YesNoQuestionViewBehaviour[A] extends ApplicationPageBehaviour[A] {
+trait YesNoQuestionViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A] {
   /**
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
     */

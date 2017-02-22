@@ -22,17 +22,13 @@ import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.given_away
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.i18n.Messages.Implicits._
-import play.api.i18n.MessagesApi
-import play.api.i18n.Messages.Implicits._
 
-
-class GivenAwayViewTest extends ApplicationPageBehaviour[AllGifts] {
+class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = Some("ABC1234567890"),
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),

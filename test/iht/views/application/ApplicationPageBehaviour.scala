@@ -18,26 +18,17 @@ package iht.views.application
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
-import play.api.data.{Form, FormError}
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
-import play.twirl.api.HtmlFormat.Appendable
 
 case class CancelComponent(target: Call, content: String)
 
 case class Guidance(isAnyGuidance: Boolean, content: () => Set[String])
 
-trait ApplicationPageBehaviour[A] extends ViewTestHelper {
+trait ApplicationPageBehaviour extends ViewTestHelper {
 
-  def link(anchorId: => String, href: => String, text: => String): Unit = {
-    def anchor = doc.getElementById(anchorId)
-    s"have a link with id $anchorId and correct target" in {
-      anchor.attr("href") shouldBe href
-    }
-    s"have a link with id $anchorId and correct text" in {
-      anchor.text() shouldBe text
-    }
-  }
+  def link(anchorId: => String, href: => String, text: => String): Unit =
+    super.link(doc, anchorId, href, text)
 
   def guidance(content: => Set[String]) = Guidance(isAnyGuidance = true, () => content)
 
@@ -49,13 +40,9 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   def browserTitle: String
 
-  def view: String = formToView(form).toString
+  def view: String
 
   def doc: Document = asDocument(view)
-
-  def form: Form[A]
-
-  def formToView: Form[A] => Appendable
 
   def guidance: Guidance
 
@@ -65,6 +52,10 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
 
   val cancelId: String = "return-button"
 
+  val continueId: String = "save-continue"
+
+  val continueContent: String = "iht.saveAndContinue"
+
   def applicationPage() = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
@@ -73,11 +64,6 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     "have the correct browser title" in {
       browserTitleShouldBeCorrect(view, browserTitle)
     }
-
-    "have a Continue button" in {
-      doc.getElementById("save-continue").text shouldBe messagesApi("iht.saveAndContinue")
-    }
-
 
     if (guidance.isAnyGuidance) {
       "show the correct guidance paragraphs" in {
@@ -90,6 +76,7 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
         formTarget.foreach { target =>
           doc.getElementsByTag("form").attr("action") shouldBe target.url
         }
+        doc.getElementById(continueId).text shouldBe messagesApi(continueContent)
       }
     }
 
@@ -101,28 +88,6 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
           cancelButton.text() shouldBe attrib.content
         }
       }
-    }
-  }
-
-  def applicationPageWithErrorSummaryBox() = {
-    applicationPage()
-    "display the 'There's a problem' box if there's an error" in {
-      val newForm = form.withError(FormError("field", "error message"))
-      val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
-    }
-  }
-
-  def applicationPageInEditModeWithErrorSummaryBox(view: => Document, cancelUrl: => Call) = {
-    applicationPageWithErrorSummaryBox()
-
-    "have a continue and cancel link in edit mode" in {
-      val continueLink = view.getElementById("continue-button")
-      continueLink.attr("value") shouldBe messagesApi("iht.continue")
-
-      val cancelLink = view.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe cancelUrl.url
-      cancelLink.text() shouldBe messagesApi("site.link.cancel")
     }
   }
 
