@@ -46,7 +46,7 @@ class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateEl
   override def formTarget =Some(routes.NominatedController.onSubmit)
 
   "Nominated assets view" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
 
     "show the correct guidance" in {
       messagesShouldBePresent(view,

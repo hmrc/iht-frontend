@@ -73,7 +73,6 @@ class NominatedControllerTest extends ApplicationControllerTest{
     }
 
     "save application and go to Asset Overview page on submit when user selects Yes" in {
-
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
         .buildAllAssets.copy(businessInterest = Some(CommonBuilder.buildBasicElement.copy(
         value = Some(20), isOwned = Some(true))))))
@@ -95,7 +94,6 @@ class NominatedControllerTest extends ApplicationControllerTest{
     }
 
     "save application and go to Asset Overview page on submit when user selects No" in {
-
       val nominatedAsset = CommonBuilder.buildBasicElement.copy(value = Some(20), isOwned = Some(false))
 
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
@@ -130,9 +128,7 @@ class NominatedControllerTest extends ApplicationControllerTest{
       status(result) shouldBe (BAD_REQUEST)
     }
 
-
     "save application and go to Asset Overview page on submit where no assets previously saved" in {
-
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = None)
 
       createMocksForApplication(mockCachingConnector,
@@ -151,4 +147,5 @@ class NominatedControllerTest extends ApplicationControllerTest{
       status(result) shouldBe (SEE_OTHER)
     }
   }
+
 }
