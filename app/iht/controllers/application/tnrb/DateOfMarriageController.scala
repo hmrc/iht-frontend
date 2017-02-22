@@ -30,6 +30,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -39,6 +40,7 @@ object DateOfMarriageController extends DateOfMarriageController with IhtConnect
 
 trait DateOfMarriageController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
+  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   private def predeceasedName(appDetails: ApplicationDetails) = {
     TnrbHelper.spouseOrCivilPartnerLabel(
@@ -67,7 +69,10 @@ trait DateOfMarriageController extends EstateController{
             Ok(iht.views.html.application.tnrb.date_of_marriage(
               filledForm,
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              deceasedName, predeceasedName(appDetails))
+              deceasedName,
+              predeceasedName(appDetails),
+              addFragmentIdentifier(cancelUrl, Some(TnrbSpouseDateOfMarriageID))
+            )
             )
           case _ => InternalServerError("Application details not found")
         }
@@ -94,7 +99,10 @@ trait DateOfMarriageController extends EstateController{
             formWithErrors=> {
               Future.successful(BadRequest(iht.views.html.application.tnrb.date_of_marriage(formWithErrors,
                 appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                deceasedName, predeceasedName(appDetails))))
+                deceasedName,
+                predeceasedName(appDetails),
+                cancelUrl
+              )))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
@@ -138,6 +146,6 @@ trait DateOfMarriageController extends EstateController{
         tnrbModel.dateOfMarriage, None)) (_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
     ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
-    Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails))
+    Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails, TnrbSpouseDateOfMarriageID))
   }
  }

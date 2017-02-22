@@ -28,6 +28,7 @@ import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -38,6 +39,7 @@ object GiftsMadeBeforeDeathController extends GiftsMadeBeforeDeathController wit
 
 trait GiftsMadeBeforeDeathController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
+  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -57,7 +59,9 @@ trait GiftsMadeBeforeDeathController extends EstateController{
             Ok(iht.views.html.application.tnrb.gifts_made_before_death(
               filledForm,
               appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-              appDetails.widowCheck.fold(WidowCheck(None, None))(identity))
+              appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+              addFragmentIdentifier(cancelUrl, Some(TnrbGiftsGivenAwayID))
+            )
             )
           }
           case _ => InternalServerError("Application details not found")
@@ -84,7 +88,9 @@ trait GiftsMadeBeforeDeathController extends EstateController{
 
               Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_made_before_death(formWithErrors,
                 appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-                appDetails.widowCheck.fold(WidowCheck(None, None))(identity))))
+                appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                cancelUrl
+              )))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
@@ -118,7 +124,7 @@ trait GiftsMadeBeforeDeathController extends EstateController{
         InternalServerError
       } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
         case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason)
+        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, TnrbGiftsGivenAwayID)
       }
       }
     }

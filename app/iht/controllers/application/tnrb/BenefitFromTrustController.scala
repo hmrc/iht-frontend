@@ -30,6 +30,7 @@ import play.api.data.FormError
 import play.api.i18n.Messages
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -40,6 +41,7 @@ object BenefitFromTrustController extends BenefitFromTrustController with IhtCon
 
 trait BenefitFromTrustController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
+  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -59,7 +61,8 @@ trait BenefitFromTrustController extends EstateController{
             Ok(iht.views.html.application.tnrb.benefit_from_trust(
               filledForm,
               appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-              appDetails.widowCheck.fold(WidowCheck(None, None))(identity))
+              appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+              addFragmentIdentifier(cancelUrl, Some(TnrbSpouseBenefitFromTrustID)))
             )
           }
           case _ => InternalServerError("Application details not found")
@@ -84,7 +87,8 @@ trait BenefitFromTrustController extends EstateController{
             formWithErrors=> {
               Future.successful(BadRequest(iht.views.html.application.tnrb.benefit_from_trust(formWithErrors,
                 appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-                appDetails.widowCheck.fold(WidowCheck(None, None))(identity))))
+                appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                cancelUrl)))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
@@ -118,7 +122,7 @@ trait BenefitFromTrustController extends EstateController{
         InternalServerError
       } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
         case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason)
+        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, TnrbSpouseBenefitFromTrustID)
       }
       }
     }

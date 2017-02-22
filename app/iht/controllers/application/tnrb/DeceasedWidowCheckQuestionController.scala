@@ -28,6 +28,7 @@ import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -59,7 +60,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
               appDetails.increaseIhtThreshold.fold(
                 TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
               registrationDetails,
-              cancelLinkUrlForWidowCheckPages(appDetails),
+              addFragmentIdentifier(cancelLinkUrlForWidowCheckPages(appDetails), Some(TnrbSpouseMartialStatusID)),
               cancelLinkTextForWidowCheckPages(appDetails)))
           }
           case _ => InternalServerError("Application details not found")
@@ -124,7 +125,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
         appDetails =>
           if (appDetails.widowCheck.fold(false)(_.widowed.fold(false)(identity))) {
             appDetails.isWidowCheckSectionCompleted match {
-              case true => Redirect(routes.TnrbOverviewController.onPageLoad())
+              case true => Redirect(addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(TnrbSpouseMartialStatusID)))
               case _ => Redirect(routes.DeceasedWidowCheckDateController.onPageLoad())
             }
 

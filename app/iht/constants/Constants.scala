@@ -108,6 +108,17 @@ object Constants {
   val InsurancePremiumnsYesNoID = "premiums-not-paying-out"
   val InsuranceAnnuityYesNoID = "annuity"
   val InsurancePlacedInTrustYesNoID = "placed-in-trust"
+  val TnrbSpousePermanentHomeInUKID = "spouse-permanent-home-in-uk"
+  val TnrbGiftsGivenAwayID = "gifts-given-away-before-death"
+  val TnrbGiftsWithReservationID = "gifts-with-reservation-of-benefit"
+  val TnrbEstateReliefID = "business-or-agricultural-relief"
+  val TnrbSpouseBenefitFromTrustID = "spouse-benefit-from-trust"
+  val TnrbEstatePassedToDeceasedID = "estate-passed-to-deceased"
+  val TnrbJointAssetsPassedToDeceasedID = "joint-assets-passed-to-deceased"
+  val TnrbSpouseMartialStatusID = "spouse-martial-status"
+  val TnrbSpouseDateOfDeathID = "spouse-date-of-death"
+  val TnrbSpouseNameID = "spouse-name"
+  val TnrbSpouseDateOfMarriageID = "spouse-date-of-marriage"
 
   val MaxIterationValueForGiftYears = 8
 

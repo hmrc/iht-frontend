@@ -24,12 +24,13 @@
 @import iht.constants.IhtProperties
 
 @(partnerNameForm:Form[TnrbEligibiltyModel],
-predeceasedDate: Option[LocalDate]
+predeceasedDate: Option[LocalDate],
+cancelUrl: Call
 )(implicit request:Request[_])
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.increasingIHTThreshold"),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
+cancelUrl = Some(cancelUrl)){
     @ihtHelpers.error_summary(partnerNameForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.PartnerNameController.onSubmit,'autoComplete -> "off") {

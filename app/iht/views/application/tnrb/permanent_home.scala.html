@@ -24,14 +24,15 @@
 
 @(partnerLivingInUkForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
-widowCheck: WidowCheck)(implicit request:Request[_])
+widowCheck: WidowCheck,
+cancelUrl:Call)(implicit request:Request[_])
 
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.permanentHome.question",partnerName),
 browserTitle = Some(Messages("page.iht.application.tnrb.permanentHome.browerTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
+cancelUrl = Some(cancelUrl),
 headingName = partnerName
 ){
     @ihtHelpers.error_summary(partnerLivingInUkForm)

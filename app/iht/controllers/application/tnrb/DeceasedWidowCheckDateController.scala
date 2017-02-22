@@ -31,6 +31,7 @@ import play.api.Logger
 import play.api.data.Form
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -61,7 +62,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
               appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None,None,None,None,None,None,None,None,None,None))(identity),
               registrationDetails,
-              cancelLinkUrlForWidowCheckPages(appDetails),
+              addFragmentIdentifier(cancelLinkUrlForWidowCheckPages(appDetails), Some(TnrbSpouseDateOfDeathID)),
               cancelLinkTextForWidowCheckPages(appDetails)))
           }
           case _ => InternalServerError("Application details not found")
@@ -148,7 +149,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
         InternalServerError
       } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
         case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason)
+        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, TnrbSpouseDateOfDeathID)
       }
       }
     }

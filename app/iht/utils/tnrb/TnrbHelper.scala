@@ -37,6 +37,13 @@ object TnrbHelper {
   val deceasedWidowCheckDatePage= iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
   val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
 
+  def addFragmentIdentifier(call:Call, identifier:Option[String] = None) = {
+    identifier match {
+      case None => call
+      case Some(id) => Call(call.method, call.url + "#" + id)
+    }
+  }
+
   def spouseOrCivilPartnerLabelWithOptions(optionTnrbModel: Option[TnrbEligibiltyModel],
                                 optionWidowCheck: Option[WidowCheck],
                                 optionPrefixText: Option[String]=None): String  = {
@@ -117,11 +124,11 @@ object TnrbHelper {
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label",
       dateOfPreDeceased = date)
 
-  def successfulTnrbRedirect(appDetails: ApplicationDetails): Result = {
+  def successfulTnrbRedirect(appDetails: ApplicationDetails, linkHash: String = ""): Result = {
     if(appDetails.isSuccessfulTnrbCase) {
       Redirect(iht.controllers.application.tnrb.routes.TnrbSuccessController.onPageLoad())
     } else {
-      Redirect(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())
+      Redirect(addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), Some(linkHash)))
     }
   }
 

@@ -21,12 +21,13 @@
 @import iht.models.RegistrationDetails
 
 @(estatePassedToDeceasedOrCharityForm:Form[TnrbEligibiltyModel],
-deceasedName:String)(implicit request:Request[_])
+deceasedName:String,
+cancelUrl:Call)(implicit request:Request[_])
 
 @iht_main_template_application(title = Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", deceasedName),
 browserTitle = Some(Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
+cancelUrl = Some(cancelUrl),
 headingName = deceasedName){
     @ihtHelpers.error_summary(estatePassedToDeceasedOrCharityForm)
 

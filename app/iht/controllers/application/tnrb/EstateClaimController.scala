@@ -28,6 +28,7 @@ import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -37,6 +38,7 @@ object EstateClaimController extends EstateClaimController with IhtConnectors {
 
 trait EstateClaimController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
+  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -53,7 +55,10 @@ trait EstateClaimController extends EstateController{
             val filledForm = estateClaimAnyBusinessForm.fill(appDetails.increaseIhtThreshold.getOrElse(
               TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-            Ok(iht.views.html.application.tnrb.estate_claim(filledForm))
+            Ok(iht.views.html.application.tnrb.estate_claim(
+              filledForm,
+              addFragmentIdentifier(cancelUrl, Some(TnrbEstateReliefID))
+            ))
           }
           case _ => InternalServerError("Application details not found")
         }
@@ -75,7 +80,7 @@ trait EstateClaimController extends EstateController{
         case Some(appDetails) => {
           boundForm.fold(
             formWithErrors=> {
-              Future.successful(BadRequest(iht.views.html.application.tnrb.estate_claim(formWithErrors)))
+              Future.successful(BadRequest(iht.views.html.application.tnrb.estate_claim(formWithErrors, cancelUrl)))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
@@ -109,7 +114,7 @@ trait EstateClaimController extends EstateController{
         InternalServerError
       } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
         case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason)
+        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, TnrbEstateReliefID)
       }
       }
     }

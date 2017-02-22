@@ -28,6 +28,7 @@ import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
 
 import scala.concurrent.Future
 
@@ -37,6 +38,7 @@ object GiftsWithReservationOfBenefitController extends GiftsWithReservationOfBen
 
 trait GiftsWithReservationOfBenefitController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
+  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -59,7 +61,9 @@ trait GiftsWithReservationOfBenefitController extends EstateController{
             Ok(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(
               filledForm,
               tnrbModel,
-              deceasedName))
+              deceasedName,
+              addFragmentIdentifier(cancelUrl, Some(TnrbGiftsWithReservationID))
+            ))
           }
           case _ => InternalServerError("Application details not found")
         }
@@ -87,7 +91,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController{
           boundForm.fold(
             formWithErrors=> {
               Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(formWithErrors,
-                                                                                             tnrbModel, deceasedName)))
+                                                                                             tnrbModel, deceasedName, cancelUrl)))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
@@ -121,7 +125,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController{
         InternalServerError
       } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
         case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason)
+        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, TnrbGiftsWithReservationID)
       }
       }
     }
