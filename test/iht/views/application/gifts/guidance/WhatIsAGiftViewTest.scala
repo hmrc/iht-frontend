@@ -17,25 +17,23 @@
 package iht.views.application.gifts.guidance
 
 import iht.views.application.ApplicationPageBehaviour
-import iht.views.html.application.gift.guidance.increasing_annual_limit
+import iht.views.html.application.gift.guidance.{kinds_of_gifts, what_is_a_gift}
 import play.api.i18n.Messages.Implicits._
 
-class IncreasingAnnualLimitViewTest extends ApplicationPageBehaviour {
+class WhatIsAGiftViewTest extends ApplicationPageBehaviour {
   override def pageTitle = messagesApi("page.iht.application.gifts.guidance.title")
 
   override def browserTitle = messagesApi("page.iht.application.gifts.guidance.title")
 
   override def guidance = guidance(
     Set(
-      messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.description1"),
-      messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.description2"),
-      messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.description3"),
-      messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.description4"),
-      messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.description5")
+      messagesApi("page.iht.application.gifts.guidance.whatsAGift.description1"),
+      messagesApi("page.iht.application.gifts.guidance.whatsAGift.description2"),
+      messagesApi("page.iht.application.gifts.guidance.whatsAGift.description3")
     )
   )
 
-  override def view = increasing_annual_limit(
+  override def view = what_is_a_gift(
     ihtReference = "",
     backToLastQuestionUrl = None,
     backToLastQuestionMessageKey = None,
@@ -46,19 +44,15 @@ class IncreasingAnnualLimitViewTest extends ApplicationPageBehaviour {
 
   override def cancelComponent = None
 
-  "Increasing Annual Limit View" must {
+  "Kinds of Gifts View" must {
     behave like applicationPage()
 
     "contain the correct guidance section title" in {
-      doc.getElementById("guidance-section-title").text shouldBe messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.title")
+      doc.getElementById("guidance-section-title").text shouldBe messagesApi("page.iht.application.gifts.guidance.whatsAGift.title")
     }
 
-    behave like link("continue-to-previous",
-      iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad().url,
-      messagesApi("site.previous") + " " + messagesApi("page.iht.application.gifts.guidance.claimingExemptions.title"))
-
     behave like link("continue-to-next",
-      iht.controllers.application.gifts.guidance.routes.GiftsGivenAwayController.onPageLoad().url,
-      messagesApi("iht.next") + " " + messagesApi("page.iht.application.gifts.guidance.giftsGivenAway.title"))
+      iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad().url,
+      messagesApi("iht.next") + " " + messagesApi("page.iht.application.gifts.guidance.kindOfGifts.title"))
   }
 }
