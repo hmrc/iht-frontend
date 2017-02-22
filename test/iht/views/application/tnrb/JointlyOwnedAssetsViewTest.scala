@@ -45,7 +45,7 @@ class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibil
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      jointly_owned_assets(form, deceasedDetailsName)
+      jointly_owned_assets(form, deceasedDetailsName, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

@@ -45,7 +45,7 @@ class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      estate_passed_to_deceased_or_charity(form, deceasedDetailsName)
+      estate_passed_to_deceased_or_charity(form, deceasedDetailsName, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

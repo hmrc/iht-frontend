@@ -50,7 +50,7 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      gifts_with_reservation_of_benefit(form, tnrbModel, deceasedDetailsName)
+      gifts_with_reservation_of_benefit(form, tnrbModel, deceasedDetailsName, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

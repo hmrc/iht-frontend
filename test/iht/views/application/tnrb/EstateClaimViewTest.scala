@@ -45,7 +45,7 @@ class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      estate_claim(form)
+      estate_claim(form, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 
