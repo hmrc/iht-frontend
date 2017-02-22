@@ -19,7 +19,7 @@ package iht.views.application.assets.pensions
 import iht.forms.ApplicationForms.pensionsValueForm
 import iht.models.application.assets.PrivatePension
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{CancelComponent, ValueViewBehaviourSubmittable}
+import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.asset.pensions.pensions_value
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -27,7 +27,7 @@ import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.assets.pensions.routes
 import play.api.i18n.Messages.Implicits._
 
-class PensionsValueViewTest extends ValueViewBehaviourSubmittable[PrivatePension] {
+class PensionsValueViewTest extends ValueViewBehaviour[PrivatePension] {
 
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)

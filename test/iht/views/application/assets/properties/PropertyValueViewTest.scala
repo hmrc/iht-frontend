@@ -19,14 +19,14 @@ package iht.views.application.assets.properties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{CancelComponent, ValueViewBehaviourSubmittable}
+import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.asset.properties.property_value
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
 
-class PropertyValueViewTest extends ValueViewBehaviourSubmittable[Property] {
+class PropertyValueViewTest extends ValueViewBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)

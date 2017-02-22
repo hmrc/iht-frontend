@@ -21,13 +21,13 @@ import play.api.i18n.Messages.Implicits._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
 import iht.utils.tnrb.TnrbHelper
-import iht.views.application.YesNoQuestionViewBehaviourSubmittable
+import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.gifts_made_before_death
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviourSubmittable[TnrbEligibiltyModel] {
+class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 

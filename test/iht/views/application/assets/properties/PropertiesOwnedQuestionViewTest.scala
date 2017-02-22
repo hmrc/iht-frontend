@@ -19,7 +19,7 @@ package iht.views.application.assets.properties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Properties
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviourSubmittable}
+import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.properties.properties_owned_question
 import iht.views.html.application.asset.trusts.trusts_owned_question
 import play.api.data.Form
@@ -27,7 +27,7 @@ import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
 
-class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviourSubmittable[Properties] {
+class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Properties] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)

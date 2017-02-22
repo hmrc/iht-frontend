@@ -20,13 +20,13 @@ import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.tnrb.TnrbHelper
-import iht.views.application.YesNoQuestionViewBehaviourSubmittable
+import iht.views.application.YesNoQuestionViewBehaviour
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.tnrb.{gifts_with_reservation_of_benefit, jointly_owned_assets}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviourSubmittable[TnrbEligibiltyModel] {
+class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 

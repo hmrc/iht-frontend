@@ -16,29 +16,16 @@
 
 package iht.views.application
 
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.mvc.{AnyContentAsEmpty, Call}
-import play.api.test.FakeRequest
+trait ValueViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A] {
 
-trait YesNoQuestionViewBehaviourSubmittable[A] extends SubmittableApplicationPageBehaviour[A] {
   /**
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
     */
-  def yesNoQuestion() = {
-    behave like applicationPageWithErrorSummaryBox()
+  def valueView() = {
+    applicationPageWithErrorSummaryBox()
 
-    "show the correct yes/no question text" in {
-      doc.getElementById("yes-label").text shouldBe messagesApi("iht.yes")
-      doc.getElementById("no-label").text shouldBe messagesApi("iht.no")
-    }
-  }
-
-  def yesNoQuestionWithLegend(questionLegend: => String) = {
-    behave like yesNoQuestion()
-
-    "show the correct question text" in {
-      doc.getElementById("yes-no-question-legend").text shouldBe questionLegend
+    "have a value input field" in {
+      Option(doc.getElementById("value")).isDefined shouldBe true
     }
   }
 }
