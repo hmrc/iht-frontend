@@ -2254,7 +2254,7 @@ error.address.length = Enter an address of less than 36 characters
 
 error.cannotSend = The details you have entered could not be sent at the moment.
 error.checkCorrect = Check the details are correct, in the right place and in the right format.
-error.country.select = Select a country
+error.country.select = Enter a country
 
 error.currencyValue.incorrect = Enter a value using only numbers
 error.currencyValue.incorrect.summary = enter a value using only numbers
