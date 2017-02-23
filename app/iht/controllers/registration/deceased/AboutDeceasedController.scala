@@ -26,6 +26,8 @@ import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -44,16 +46,16 @@ trait AboutDeceasedController extends RegistrationDeceasedControllerWithEditMode
   lazy val editSubmitRoute = routes.AboutDeceasedController.onEditSubmit
 
   def okForPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.about_deceased(form, submitRoute)(request))
+    Ok(views.about_deceased(form, submitRoute)(request, applicationMessages))
 
   def okForEditPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request))
+    Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.about_deceased(form, submitRoute)(request))
+    BadRequest(views.about_deceased(form, submitRoute)(request, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request))
+    BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
 
   def onwardRoute(rd: RegistrationDetails) = routes.DeceasedAddressQuestionController.onPageLoad
 

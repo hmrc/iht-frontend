@@ -24,6 +24,7 @@ import iht.views.html.application.asset.properties.property_value
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
 class PropertyValueViewTest extends ValueViewBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -32,14 +33,14 @@ class PropertyValueViewTest extends ValueViewBehaviour[Property] {
 
   override def guidance = guidance(
     Set(
-      Messages("page.iht.application.property.value.question.hint1", deceasedName),
-      Messages("page.iht.application.property.value.question.hint2", deceasedName)
+      messagesApi("page.iht.application.property.value.question.hint1", deceasedName),
+      messagesApi("page.iht.application.property.value.question.hint2", deceasedName)
     )
   )
 
-  override def pageTitle = Messages("iht.estateReport.assets.properties.value.question", deceasedName)
+  override def pageTitle = messagesApi("iht.estateReport.assets.properties.value.question", deceasedName)
 
-  override def browserTitle = Messages("page.iht.application.property.value.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.property.value.browserTitle")
 
   override def formTarget = Some(CommonBuilder.DefaultCall1)
 
@@ -48,7 +49,7 @@ class PropertyValueViewTest extends ValueViewBehaviour[Property] {
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      Messages("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
     )
   )
 

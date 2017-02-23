@@ -20,31 +20,32 @@ import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.asset.properties.property_tenure
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
-class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
+class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Property] {
   override def guidance = guidance(
     Set(
-      Messages("iht.estateReport.assets.property.youCan"),
-      Messages("iht.estateReport.assets.property.findOutFromLandRegistry"),
-      Messages("page.iht.application.assets.property.tenure.guidance1b")
+      messagesApi("iht.estateReport.assets.property.youCan"),
+      messagesApi("iht.estateReport.assets.property.findOutFromLandRegistry"),
+      messagesApi("page.iht.application.assets.property.tenure.guidance1b")
     )
   )
 
-  override def pageTitle = Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")
+  override def pageTitle = messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold")
 
-  override def browserTitle = Messages("page.iht.application.assets.property.tenure.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.assets.property.tenure.browserTitle")
 
   override def formTarget = Some(CommonBuilder.DefaultCall1)
 
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      Messages("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
     )
   )
 
@@ -77,5 +78,5 @@ class PropertyTenureViewTest extends ApplicationPageBehaviour[Property] {
   )
 
   behave like link("land-registry-link", IhtProperties.linkLandRegistry,
-    Messages("iht.estateReport.assets.property.findOutFromLandRegistry"))
+    messagesApi("iht.estateReport.assets.property.findOutFromLandRegistry"))
 }

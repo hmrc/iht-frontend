@@ -19,23 +19,24 @@ package iht.views.iv.failurepages
 import iht.constants.IhtProperties
 import iht.views.html.iv.failurepages.precondition_failed
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class PreconditionFailedViewTest extends GenericNonSubmittablePageBehaviour {
+
   def guidanceParagraphs = Set(
-    Messages("page.iht.iv.failure.preconditionFailed.p1")
+    messagesApi("page.iht.iv.failure.preconditionFailed.p1")
   )
 
-  def pageTitle = Messages("page.iht.iv.failure.preconditionFailed.title")
+  def pageTitle = messagesApi("page.iht.iv.failure.preconditionFailed.title")
 
-  def browserTitle = Messages("page.iht.iv.failure.preconditionFailed.title")
+  def browserTitle = messagesApi("page.iht.iv.failure.preconditionFailed.title")
 
-  def view: String = precondition_failed().toString
+  def view: String = precondition_failed()(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.routes.PrivateBetaLandingPageController.showLandingPage(),
-      Messages("iht.iv.exit")
+      messagesApi("iht.iv.exit")
     )
   )
 
@@ -43,9 +44,10 @@ class PreconditionFailedViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     "show the contact hmrc link with the correct target and text" in {
+      implicit val request = createFakeRequest()
       val cancelButton = doc.getElementById("contact-hmrc")
       cancelButton.attr("href") shouldBe IhtProperties.linkContactHMRC
-      cancelButton.text() shouldBe Messages("page.iht.iv.failure.preconditionFailed.p1.link.text")
+      cancelButton.text() shouldBe messagesApi("page.iht.iv.failure.preconditionFailed.p1.link.text")
     }
   }
 }

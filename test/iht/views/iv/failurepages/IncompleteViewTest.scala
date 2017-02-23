@@ -18,24 +18,25 @@ package iht.views.iv.failurepages
 
 import iht.views.html.iv.failurepages.incomplete
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class IncompleteViewTest extends GenericNonSubmittablePageBehaviour {
+
   def guidanceParagraphs = Set(
-    Messages("iht.iv.unableToContinue"),
-    Messages("iht.iv.tryAgainLater")
+    messagesApi("iht.iv.unableToContinue"),
+    messagesApi("iht.iv.tryAgainLater")
   )
 
-  def pageTitle = Messages("error.problem")
+  def pageTitle = messagesApi("error.problem")
 
-  def browserTitle = Messages("error.problem")
+  def browserTitle = messagesApi("error.problem")
 
-  def view: String = incomplete().toString
+  def view: String = incomplete()(createFakeRequest(), applicationMessages).toString
 
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.routes.PrivateBetaLandingPageController.showLandingPage(),
-      Messages("iht.iv.tryAgain")
+      messagesApi("iht.iv.tryAgain")
     )
   )
 

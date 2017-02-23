@@ -24,6 +24,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 /**
  *

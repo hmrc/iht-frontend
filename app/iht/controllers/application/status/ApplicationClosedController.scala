@@ -17,9 +17,11 @@
 package iht.controllers.application.status
 
 import iht.controllers.IhtConnectors
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
 
 object ApplicationClosedController extends ApplicationStatusController with IhtConnectors {
   def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
-    iht.views.html.application.status.closed_application(ihtReference, deceasedName, probateDetails)(request)
+    iht.views.html.application.status.closed_application(ihtReference, deceasedName, probateDetails)(request, applicationMessages)
 }

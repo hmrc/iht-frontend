@@ -17,9 +17,10 @@
 package iht.views.registration.kickout
 
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.Html
 import iht.views.html.registration.kickout.kickout_template
+
 /**
   * Created by vineet on 15/11/16.
   */
@@ -41,8 +42,8 @@ class KickoutTemplateViewTest extends ViewTestHelper{
     "have the correct title and summary message" in {
       val view = kickOutTemplateView()
 
-      titleShouldBeCorrect(view.toString, Messages("iht.notPossibleToUseService"))
-      browserTitleShouldBeCorrect(view.toString, Messages("iht.notPossibleToUseService"))
+      titleShouldBeCorrect(view.toString, messagesApi("iht.notPossibleToUseService"))
+      browserTitleShouldBeCorrect(view.toString, messagesApi("iht.notPossibleToUseService"))
       messagesShouldBePresent(view.toString, summaryMessage)
     }
 
@@ -50,7 +51,7 @@ class KickoutTemplateViewTest extends ViewTestHelper{
       val view = kickOutTemplateView
       val headers = view.getElementsByTag("h2")
 
-      headers.first.text() shouldBe Messages("iht.nextSteps")
+      headers.first.text() shouldBe messagesApi("iht.nextSteps")
     }
 
     "have the sequence of contents" in {
@@ -63,7 +64,7 @@ class KickoutTemplateViewTest extends ViewTestHelper{
       val view = kickOutTemplateView
 
       val detailsAreCorrectButton = view.getElementById("finish")
-      detailsAreCorrectButton.attr("value") shouldBe Messages("site.button.details.correct.exitToGovK")
+      detailsAreCorrectButton.attr("value") shouldBe messagesApi("site.button.details.correct.exitToGovK")
     }
 
     "have return link with correct text" in {
@@ -71,7 +72,7 @@ class KickoutTemplateViewTest extends ViewTestHelper{
 
       val detailsAreCorrectButton = view.getElementById("return-button")
       detailsAreCorrectButton.attr("href") shouldBe returnLinkUrl.url
-      detailsAreCorrectButton.text shouldBe Messages("iht.registration.kickout.returnToTheLastPageVisited")
+      detailsAreCorrectButton.text shouldBe messagesApi("iht.registration.kickout.returnToTheLastPageVisited")
     }
   }
 

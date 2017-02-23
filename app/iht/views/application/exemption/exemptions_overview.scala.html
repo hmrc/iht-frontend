@@ -30,7 +30,7 @@ exemptions:AllExemptions,
 charities: Seq[Charity] = Seq(),
 qualifyingBodies: Seq[QualifyingBody]= Seq(),
 married: Boolean,
-registrationDetails: RegistrationDetails)(implicit request: Request[_])
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
     isComplete match {

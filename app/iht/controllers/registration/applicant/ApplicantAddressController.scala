@@ -25,7 +25,8 @@ import iht.metrics.Metrics
 import iht.utils.CommonHelper
 import iht.views.html.registration.{applicant => views}
 import play.api.mvc.Call
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 object ApplicantAddressController extends ApplicantAddressController with IhtConnectors {

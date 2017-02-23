@@ -26,6 +26,8 @@ import iht.models.application.debts.Mortgage
 import iht.utils.CommonHelper
 import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 

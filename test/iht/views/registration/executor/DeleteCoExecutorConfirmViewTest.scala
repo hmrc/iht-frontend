@@ -19,7 +19,7 @@ package iht.views.registration.executor
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.registration.executor.delete_coexecutor_confirm
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.utils._
 
 class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
@@ -49,10 +49,10 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
       val view = deleteCoExecutorUKAddressConfirmView().toString
 
       titleShouldBeCorrect(view,
-        Messages("page.iht.registration.deleteExecutor.title",
-                  Messages("page.iht.registration.executor-overview.entity-name")))
+        messagesApi("page.iht.registration.deleteExecutor.title",
+                  messagesApi("page.iht.registration.executor-overview.entity-name")))
 
-     browserTitleShouldBeCorrect(view, Messages("page.iht.registration.deleteExecutor.browserTitle"))
+     browserTitleShouldBeCorrect(view, messagesApi("page.iht.registration.deleteExecutor.browserTitle"))
     }
 
     "show the CoExecutor name" in {
@@ -99,14 +99,14 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
       val view = deleteCoExecutorUKAddressConfirmView().toString
 
       val button = asDocument(view).getElementById("confirm-delete")
-      button.attr("value") shouldBe Messages("site.button.confirmDelete")
+      button.attr("value") shouldBe messagesApi("site.button.confirmDelete")
     }
 
     "show the cancel link with correct text" in {
       val view = deleteCoExecutorUKAddressConfirmView().toString
 
       val link = asDocument(view).getElementById("cancel")
-      link.text() shouldBe Messages("site.link.cancel")
+      link.text() shouldBe messagesApi("site.link.cancel")
       link.attr("href") shouldBe
         iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
     }

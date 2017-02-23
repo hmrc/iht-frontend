@@ -22,7 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.{CancelComponent, ValueViewBehaviour}
 import iht.views.html.application.asset.trusts.trusts_value
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 class TrustsValueViewTest extends ValueViewBehaviour[HeldInTrust] {
@@ -32,16 +32,16 @@ class TrustsValueViewTest extends ValueViewBehaviour[HeldInTrust] {
 
   override def guidance = noGuidance
 
-  override def pageTitle = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName)
+  override def pageTitle = messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName)
 
-  override def browserTitle = Messages("page.iht.application.assets.trusts.value.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.assets.trusts.value.browserTitle")
 
   override def formTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit())
 
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),
-      Messages("site.link.return.trusts", deceasedName)
+      messagesApi("site.link.return.trusts", deceasedName)
     )
   )
 

@@ -19,60 +19,71 @@ package iht.views.application.debts
 import iht.constants.FieldMappings
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import iht.views.ViewTestHelper
-import play.api.i18n.Messages
-import play.api.test.Helpers._
+import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.debts.mortgages_overview
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by vineet on 15/11/16.
   */
-class MortgagesOverviewViewTest extends ViewTestHelper{
-
+class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
-  val debtsOverviewPageUrl= iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
+  val debtsOverviewPageUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
 
-  private def mortgageOverview() = {
-    val returnLinkText = Messages("site.link.return.debts")
-    val view = mortgages_overview(Nil, Nil, FieldMappings.typesOfOwnership,
-      regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest)
+  override def guidance = guidance(
+    Set(
+      messagesApi("page.iht.application.debts.mortgages.description.p1"),
+      messagesApi("page.iht.application.debts.mortgages.description", deceasedName),
+      messagesApi("page.iht.application.debts.mortgages.description.p3", deceasedName)
+    )
+  )
 
-    contentAsString(view)
+  override def pageTitle = messagesApi("iht.estateReport.debts.mortgages")
+
+  override def browserTitle = messagesApi("iht.estateReport.debts.mortgages")
+
+  override def formTarget = None
+
+  override def cancelComponent = Some(
+    CancelComponent(
+      debtsOverviewPageUrl,
+      returnLinkText
+    )
+  )
+
+  val returnLinkText = messagesApi("site.link.return.debts")
+
+  override def view = mortgages_overview(List(CommonBuilder.property, CommonBuilder.property2),
+    Nil,
+    FieldMappings.typesOfOwnership,
+    regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, applicationMessages).toString
+
+  val addressTableId = "properties"
+
+  def addressWithDeleteAndModify(rowNo: Int, expectedValue: String) = {
+    s"show address number ${rowNo + 1}" in {
+      tableCell(doc, addressTableId, 0, rowNo).ownText shouldBe expectedValue
+    }
+
+    s"show address number ${rowNo + 1} Give details link" in {
+      val deleteDiv = tableCell(doc, addressTableId, 2, rowNo)
+      val anchor = deleteDiv.getElementsByTag("a").first
+      getVisibleText(anchor) shouldBe messagesApi("site.link.giveDetails")
+    }
   }
 
   "MortgagesOverview Page" must {
+    behave like applicationPage()
 
-    "contain the title, browser title " in {
-      val view = mortgageOverview
-      val doc = asDocument(view)
+    behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.debts.mortgages"))
-      browserTitleShouldBeCorrect(view, Messages("iht.estateReport.debts.mortgages"))
-    }
-
-    "contain the correct guidance" in {
-      val view = mortgageOverview
-
-      messagesShouldBePresent(view, Messages("page.iht.application.debts.mortgages.description.p1"))
-      messagesShouldBePresent(view, Messages("page.iht.application.debts.mortgages.description",
-                                                CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      messagesShouldBePresent(view, Messages("page.iht.application.debts.mortgages.description.p3",
-                                                CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-    }
-
-   "show the correct text and link for the return link" in {
-      val view = mortgageOverview
-      val doc = asDocument(view)
-
-      val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("site.link.return.debts")
-      link.attr("href") shouldBe debtsOverviewPageUrl.url
-    }
+    behave like addressWithDeleteAndModify(1, formatAddressForDisplay(CommonBuilder.DefaultUkAddress2))
   }
 }

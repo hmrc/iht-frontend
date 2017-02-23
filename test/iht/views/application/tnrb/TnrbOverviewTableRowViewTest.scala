@@ -18,7 +18,7 @@ package iht.views.application.tnrb
 
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_overview_table_row
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import play.twirl.api.Html
 
@@ -84,14 +84,14 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
 
       val questionLink = view.getElementById(s"$id-link")
       questionLink.attr("href") shouldBe link.url
-      questionLink.text() shouldBe Messages("iht.change")
+      questionLink.text() shouldBe messagesApi("iht.change")
     }
 
     "show the correct question category when answer value is empty" in {
       val view = tnrbOverviewTableRow(answerValue = "", link = Some(link))
 
       val questionLink = view.getElementById(s"$id-link")
-      questionLink.text() shouldBe Messages("site.link.giveAnswer")
+      questionLink.text() shouldBe messagesApi("site.link.giveAnswer")
     }
   }
 

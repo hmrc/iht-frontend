@@ -23,7 +23,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_summary
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import iht.views.html._
@@ -147,49 +147,49 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
   def expectedExecutor(id: String, name: String, nino: String, addr: String, phone: String, dob: String) = {
     Set(
-      SharableOverviewRow(Messages("iht.name.upperCaseInitial"), name, Messages("iht.change"),
+      SharableOverviewRow(messagesApi("iht.name.upperCaseInitial"), name, messagesApi("iht.change"),
         executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#firstName"),
-      SharableOverviewRow(Messages("iht.nationalInsuranceNo"), nino, Messages("iht.change"),
+      SharableOverviewRow(messagesApi("iht.nationalInsuranceNo"), nino, messagesApi("iht.change"),
         executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#nino"),
-      SharableOverviewRow(Messages("iht.address.upperCaseInitial"),
-        addr, Messages("iht.change"),
+      SharableOverviewRow(messagesApi("iht.address.upperCaseInitial"),
+        addr, messagesApi("iht.change"),
         executorRoutes.OtherPersonsAddressController.onEditPageLoadUK(id).url + "#details"),
-      SharableOverviewRow(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"),
-        phone, Messages("iht.change"),
+      SharableOverviewRow(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"),
+        phone, messagesApi("iht.change"),
         executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#phoneNo"),
-      SharableOverviewRow(Messages("iht.dateofbirth"), dob, Messages("iht.change"),
+      SharableOverviewRow(messagesApi("iht.dateofbirth"), dob, messagesApi("iht.change"),
         executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#date-of-birth"))
   }
 
   def expectedSetRows(deceasedAddress: String, applicantAddress: String,
                       coExecutor1Address: String, coExecutor2Address: String, coExecutor3Address: String) = Set(
-    SharableOverviewRow(Messages("iht.dateOfDeath"), "12 December 2011", Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.dateOfDeath"), "12 December 2011", messagesApi("iht.change"),
       deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad().url + "#date-of-death"),
-    SharableOverviewRow(Messages("iht.name.upperCaseInitial"), s"$deceasedFirstName $deceasedLastName", Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.name.upperCaseInitial"), s"$deceasedFirstName $deceasedLastName", messagesApi("iht.change"),
       deceasedRoutes.AboutDeceasedController.onEditPageLoad().url + "#firstName"),
-    SharableOverviewRow(Messages("iht.registration.deceased.locationOfPermanentHome"), englandOrWales, Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.registration.deceased.locationOfPermanentHome"), englandOrWales, messagesApi("iht.change"),
       deceasedRoutes.DeceasedPermanentHomeController.onEditPageLoad().url + "#country"),
-    SharableOverviewRow(Messages("iht.registration.contactAddress"), deceasedAddress, Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.registration.contactAddress"), deceasedAddress, messagesApi("iht.change"),
       deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad().url + "#details"),
-    SharableOverviewRow(Messages("iht.dateofbirth"), dob, Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.dateofbirth"), dob, messagesApi("iht.change"),
       deceasedRoutes.AboutDeceasedController.onEditPageLoad().toString + "#date-of-birth"),
-    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), deceasedNino, Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.nationalInsuranceNo"), deceasedNino, messagesApi("iht.change"),
       deceasedRoutes.AboutDeceasedController.onEditPageLoad().url + "#nino"),
-    SharableOverviewRow(Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
-      "Never married or in a civil partnership", Messages("iht.change"),
+    SharableOverviewRow(messagesApi("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
+      "Never married or in a civil partnership", messagesApi("iht.change"),
       deceasedRoutes.AboutDeceasedController.onEditPageLoad().url + "#relationship-status"),
 
-    SharableOverviewRow(Messages("iht.registration.applicant.applyingForProbate"), "Yes", Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.registration.applicant.applyingForProbate"), "Yes", messagesApi("iht.change"),
       applicantRoutes.ApplyingForProbateController.onEditPageLoad().url + "#applying-for-probate"),
-    SharableOverviewRow(Messages("iht.name.upperCaseInitial"), s"$applicantFirstName $applicantLastName"),
-    SharableOverviewRow(Messages("page.iht.registration.applicant.probateLocation.title"), englandOrWales, Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.name.upperCaseInitial"), s"$applicantFirstName $applicantLastName"),
+    SharableOverviewRow(messagesApi("page.iht.registration.applicant.probateLocation.title"), englandOrWales, messagesApi("iht.change"),
       applicantRoutes.ProbateLocationController.onEditPageLoad().url + "#country"),
-    SharableOverviewRow(Messages("iht.registration.checklist.phoneNo.upperCaseInitial"), coExecutorPhoneNo3, Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.registration.checklist.phoneNo.upperCaseInitial"), coExecutorPhoneNo3, messagesApi("iht.change"),
       applicantRoutes.ApplicantTellUsAboutYourselfController.onEditPageLoad().url + "#phoneNo"),
-    SharableOverviewRow(Messages("iht.address.upperCaseInitial"), applicantAddress, Messages("iht.change"),
+    SharableOverviewRow(messagesApi("iht.address.upperCaseInitial"), applicantAddress, messagesApi("iht.change"),
       applicantRoutes.ApplicantAddressController.onEditPageLoadUk().url + "#details"),
-    SharableOverviewRow(Messages("iht.nationalInsuranceNo"), applicantNino),
-    SharableOverviewRow(Messages("iht.dateofbirth"), dob)
+    SharableOverviewRow(messagesApi("iht.nationalInsuranceNo"), applicantNino),
+    SharableOverviewRow(messagesApi("iht.dateofbirth"), dob)
   ) ++ expectedExecutor("1", s"$coExecutorFirstName1 $coExecutorLastName1", coExecutorNino1,
     coExecutor1Address, coExecutorPhoneNo1, dob) ++
     expectedExecutor("2", s"$coExecutorFirstName2 $coExecutorLastName2", coExecutorNino2,
@@ -245,41 +245,41 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
   "Registration summary view" must {
     "have the correct title" in {
-      titleShouldBeCorrect(viewAsString, Messages("iht.registration.checkYourAnswers"))
+      titleShouldBeCorrect(viewAsString, messagesApi("iht.registration.checkYourAnswers"))
     }
 
     "have the correct browser title" in {
-      browserTitleShouldBeCorrect(viewAsString, Messages("iht.registration.checkYourAnswers"))
+      browserTitleShouldBeCorrect(viewAsString, messagesApi("iht.registration.checkYourAnswers"))
     }
 
     "have a Confirm details button" in {
-      doc.getElementsByClass("button").first.attr("value") shouldBe Messages("page.iht.registration.registrationSummary.button")
+      doc.getElementsByClass("button").first.attr("value") shouldBe messagesApi("page.iht.registration.registrationSummary.button")
     }
 
     "have text paragraphs" in {
-      messagesShouldBePresent(viewAsString, Messages("page.iht.registration.registrationSummary.subTitle"),
-        Messages("page.iht.registration.registrationSummary.applicantTable.title"),
-        Messages("iht.registration.othersApplyingForProbate"))
+      messagesShouldBePresent(viewAsString, messagesApi("page.iht.registration.registrationSummary.subTitle"),
+        messagesApi("page.iht.registration.registrationSummary.applicantTable.title"),
+        messagesApi("iht.registration.othersApplyingForProbate"))
     }
 
     "have section title for deceased" in {
       messagesShouldBePresent(viewAsString,
-        Messages("site.nameDetails", ihtHelpers.name(deceasedName)).toString)
+        messagesApi("site.nameDetails", ihtHelpers.name(deceasedName)).toString)
     }
 
     "have section title for co-executor 1" in {
       messagesShouldBePresent(viewAsString,
-        Messages("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors.head.name)).toString)
+        messagesApi("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors.head.name)).toString)
     }
 
     "have section title for co-executor 2" in {
       messagesShouldBePresent(viewAsString,
-        Messages("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors(1).name)).toString)
+        messagesApi("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors(1).name)).toString)
     }
 
     "have section title for co-executor 3" in {
       messagesShouldBePresent(viewAsString,
-        Messages("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors(2).name)).toString)
+        messagesApi("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors(2).name)).toString)
     }
 
     "display the correct values in the table of entered details where all UK addresses" in {
@@ -296,7 +296,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
     "have a link to add or delete an executor" in {
       val anchor = doc.getElementById("coexecutors-summary")
-      anchor.text shouldBe Messages("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link")
+      anchor.text shouldBe messagesApi("page.iht.registration.registrationSummary.coExecutorTable.changeOthersApplying.link")
       anchor.attr("href") shouldBe iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url
     }
   }

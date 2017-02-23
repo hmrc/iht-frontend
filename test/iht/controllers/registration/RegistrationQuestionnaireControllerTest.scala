@@ -21,6 +21,8 @@ import iht.constants.IhtProperties
 import iht.models.QuestionnaireModel
 import iht.utils.IhtSection
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -59,7 +61,7 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
     "respond with OK and correct header title on page load" in {
       val result = questionnaireController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("site.registration.title"))
+      contentAsString(result) should include(messagesApi("site.registration.title"))
     }
 
     "respond with redirect on page submit" in {

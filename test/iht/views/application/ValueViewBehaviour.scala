@@ -16,7 +16,7 @@
 
 package iht.views.application
 
-trait ValueViewBehaviour[A] extends ApplicationPageBehaviour[A] {
+trait ValueViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A] {
 
   /**
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.

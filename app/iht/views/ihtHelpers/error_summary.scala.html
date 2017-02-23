@@ -15,7 +15,7 @@
 *@
 
 @import iht.utils.CommonHelper._
-@(form: Form[_], overrideKeys: Option[Map[String, String]] = None, endLineMessageKey: Option[String] = None)
+@(form: Form[_], overrideKeys: Option[Map[String, String]] = None, endLineMessageKey: Option[String] = None)(implicit messages: Messages)
 
 @*
 * In general this template will be called with a single parameter, the form - which in turn contains the keys of the

@@ -23,7 +23,8 @@ mortgageList: List[Mortgage] = List.empty[Mortgage],
 typesOfOwnership: scala.collection.immutable.ListMap[String, (String, Option[String],Option[Boolean])],
 registrationDetails: RegistrationDetails,
 onCancel: Call,
-onCancelMessageKey: String)(implicit request: Request[_])
+onCancelMessageKey: String)(implicit request:Request[_], messages: Messages)
+
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 
@@ -50,7 +51,7 @@ isFullWidth= false) {
 
         <section id="property-table" class="section">
             <h2 class="heading-small divider--bottom" id="properties-header">@Messages("page.iht.application.assets.deceased-permanent-home.table.header")</h2>
-            <ul class="tabular-data tabular-data--list">
+            <ul id="properties" class="tabular-data tabular-data--list">
             @for((element,i) <- propertyList.zipWithIndex){
                 <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                       <div class="tabular-data__data tabular-data__data--6-12">

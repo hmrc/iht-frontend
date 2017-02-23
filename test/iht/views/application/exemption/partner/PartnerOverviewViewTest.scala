@@ -20,7 +20,7 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
 import iht.utils.OverviewHelper.Section
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.exemption.partner.partner_overview
 
 //TODO Need to add few more tests to write the tests for correct values
@@ -45,19 +45,19 @@ class CharityDetailsOverviewViewTestPartnerOverviewViewTest extends ViewTestHelp
     "have correct title and browser title " in {
       val view = partnerOverviewView().toString
 
-      titleShouldBeCorrect(view, Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
-      browserTitleShouldBeCorrect(view, Messages("page.iht.application.exemptions.partner.overview.browserTitle"))
+      titleShouldBeCorrect(view, messagesApi("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
+      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.exemptions.partner.overview.browserTitle"))
     }
 
     "have correct questions" in {
       val view = partnerOverviewView()
-      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
+      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      messagesShouldBePresent(view.toString, Messages("iht.estateReport.exemptions.partner.homeInUK.question"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.exemptions.overview.partner.name.title"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.exemptions.overview.partner.dob.title"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.exemptions.overview.partner.nino.title"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.exemptions.overview.partner.totalAssets.title"))
+      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.partner.homeInUK.question"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.overview.partner.name.title"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.overview.partner.dob.title"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.overview.partner.nino.title"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.overview.partner.totalAssets.title"))
     }
 
     "have the return link with correct text" in {
@@ -65,7 +65,7 @@ class CharityDetailsOverviewViewTestPartnerOverviewViewTest extends ViewTestHelp
 
       val returnLink = view.getElementById("return-button")
       returnLink.attr("href") shouldBe exemptionsOverviewPageUrl.url
-      returnLink.text() shouldBe Messages("page.iht.application.return.to.exemptionsOf",
+      returnLink.text() shouldBe messagesApi("page.iht.application.return.to.exemptionsOf",
                                           CommonHelper.getOrException(regDetails.deceasedDetails.map(_.name)))
     }
 

@@ -26,7 +26,7 @@
 @import scala.collection.immutable.Seq
 @import iht.utils.CommonHelper
 
-@(trusts:Option[HeldInTrust], registrationDetails: RegistrationDetails)(implicit request: Request[_])
+@(trusts:Option[HeldInTrust], registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 

@@ -22,9 +22,11 @@ import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.test.Helpers._
 
 class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
+
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]

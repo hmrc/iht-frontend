@@ -23,6 +23,8 @@ import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.views.html.application.exemption.partner.partner_value
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 /**
   * Created by jennygj on 03/08/16.

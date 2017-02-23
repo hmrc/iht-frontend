@@ -22,7 +22,7 @@ import iht.forms.TnrbForms._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 
 /**
@@ -87,7 +87,7 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
 
       val result = giftsWithReservationOfBenefitController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question",
+      contentAsString(result) should include(messagesApi("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question",
         CommonBuilder.DefaultFirstName + " " +CommonBuilder.DefaultLastName))
     }
 

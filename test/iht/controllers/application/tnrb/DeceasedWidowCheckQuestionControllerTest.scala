@@ -26,16 +26,19 @@ import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
 import org.jsoup.select.Elements
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
   *
   * Created by Vineet Tyagi on 14/01/16.
-  * l
+  *
   */
 class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -241,7 +244,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       assertRenderedById(doc, "cancel-button")
 
       val link = doc.getElementById("cancel-button")
-      link.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      link.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       link.attr("href") shouldBe expectedUrl
     }
 
@@ -264,7 +267,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       assertRenderedById(doc, "cancel-button")
 
       val link = doc.getElementById("cancel-button")
-      link.text() shouldBe Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+      link.text() shouldBe messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
       link.attr("href") shouldBe expectedUrl
     }
   }

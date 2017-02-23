@@ -22,7 +22,7 @@ import iht.models.enums.IdentityVerificationResult
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import play.api.test.Helpers.{OK, _}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -46,14 +46,14 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
           .thenReturn(Future.successful(ivResult))
         val result = showFailure(Some(""))
         status(result) should be(OK)
-        contentAsString(result) should include(Messages(titleMessagesKey))
+        contentAsString(result) should include(messagesApi(titleMessagesKey))
       }
     }
 
     "go to 2fa failure page if no journey id" in {
       val result = showFailure(None)
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.iv.failure.2fa.title"))
+      contentAsString(result) should include(messagesApi("page.iht.iv.failure.2fa.title"))
     }
 
     behave like ivFailure(showFailure, "failed matching", IdentityVerificationResult.FailedMatching, "page.iht.iv.failure.failedMatching.title")

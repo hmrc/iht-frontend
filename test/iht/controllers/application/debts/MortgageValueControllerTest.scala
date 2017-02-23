@@ -25,6 +25,8 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -33,6 +35,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by Vineet on 22/06/16.
  */
 class MortgageValueControllerTest extends ApplicationControllerTest {
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -99,7 +102,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
       val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.debts.mortgageValue.title",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.debts.mortgageValue.title",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 

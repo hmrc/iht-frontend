@@ -25,6 +25,7 @@ import iht.views.html.application.asset.trusts.trusts_owned_question
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
 class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Properties] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -33,20 +34,20 @@ class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Propert
 
   override def guidance = guidance(
     Set(
-      Messages("page.iht.application.assets.properties.question.p1", deceasedName)
+      messagesApi("page.iht.application.assets.properties.question.p1", deceasedName)
     )
   )
 
-  override def pageTitle = Messages("iht.estateReport.assets.propertiesBuildingsAndLand")
+  override def pageTitle = messagesApi("iht.estateReport.assets.propertiesBuildingsAndLand")
 
-  override def browserTitle = Messages("iht.estateReport.assets.propertiesBuildingsAndLand")
+  override def browserTitle = messagesApi("iht.estateReport.assets.propertiesBuildingsAndLand")
 
   override def formTarget = Some(iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit())
 
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-      Messages("page.iht.application.return.to.assetsOf", deceasedName)
+      messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
     )
   )
 
@@ -57,6 +58,6 @@ class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Propert
       properties_owned_question(form, registrationDetails)
 
   "Properties Owned Question View" must {
-    behave like yesNoQuestionWithLegend(Messages("page.iht.application.assets.properties.question.question", deceasedName))
+    behave like yesNoQuestionWithLegend(messagesApi("page.iht.application.assets.properties.question.question", deceasedName))
   }
 }

@@ -20,21 +20,22 @@ import iht.forms.registration.CoExecutorForms.{coExecutorAddressAbroadForm, coEx
 import iht.models.UkAddress
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
+import iht.views.ViewTestHelper
 import iht.views.html.registration.executor.others_applying_for_probate_address
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-trait OthersApplyingForProbateAddressViewTest {
-  def guidance: Seq[String] = Seq(Messages("page.iht.registration.others-applying-for-probate-address.address.guidance"))
+trait OthersApplyingForProbateAddressViewTest extends ViewTestHelper {
+  def guidance: Seq[String] = Seq(messagesApi("page.iht.registration.others-applying-for-probate-address.address.guidance"))
   def executorName: String = CommonBuilder.firstNameGenerator
 }
 
 class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
-  override def pageTitle = Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+  override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
     CommonHelper.addApostrophe(executorName))
-  override def browserTitle = Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.browserTitle")
 
   override def form:Form[UkAddress] = coExecutorAddressUkForm
   override def formToView:Form[UkAddress] => Appendable = form =>
@@ -51,9 +52,9 @@ class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBe
 }
 
 class OthersApplyingForProbateAddressViewInAbroadModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
-  override def pageTitle = Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
+  override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
     CommonHelper.addApostrophe(executorName))
-  override def browserTitle = Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.browserTitle")
 
   override def form:Form[UkAddress] = coExecutorAddressAbroadForm
   override def formToView:Form[UkAddress] => Appendable = form =>

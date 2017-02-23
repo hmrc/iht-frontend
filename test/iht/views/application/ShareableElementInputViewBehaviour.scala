@@ -22,7 +22,6 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.i18n.Messages
 
 trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
@@ -107,7 +106,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))
       val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe Messages("error.problem")
+      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
     }
   }
 
@@ -118,7 +117,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))
       val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe Messages("error.problem")
+      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
     }
   }
 }

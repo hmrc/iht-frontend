@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@(summary: String, returnToUrl: Call, returnLinkText: String = "")(contentLines: Seq[String])(implicit request:Request[_])
+@(summary: String, returnToUrl: Call, returnLinkText: String = "")(contentLines: Seq[String])(implicit request:Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._

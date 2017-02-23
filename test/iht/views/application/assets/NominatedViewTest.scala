@@ -23,8 +23,8 @@ import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.nominated
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateElement] {
@@ -35,25 +35,25 @@ class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateEl
   override def form:Form[BasicEstateElement] = nominatedForm
   override def formToView:Form[BasicEstateElement] => Appendable = form => nominated(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.assets.nominated")
-  override def browserTitle = Messages("page.iht.application.assets.nominated.browserTitle")
-  override def questionTitle = Messages("page.iht.application.assets.nominated.question", deceasedName)
-  override def valueQuestion = Messages("page.iht.application.assets.nominated.inputLabel1")
+  override def pageTitle = messagesApi("iht.estateReport.assets.nominated")
+  override def browserTitle = messagesApi("page.iht.application.assets.nominated.browserTitle")
+  override def questionTitle = messagesApi("page.iht.application.assets.nominated.question", deceasedName)
+  override def valueQuestion = messagesApi("page.iht.application.assets.nominated.inputLabel1")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
-  override def returnLinkText = Messages("page.iht.application.return.to.assetsOf", deceasedName)
+  override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
   override def formTarget =Some(routes.NominatedController.onSubmit)
 
   "Nominated assets view" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
 
     "show the correct guidance" in {
       messagesShouldBePresent(view,
-        Messages("page.iht.application.assets.nominated.description.p1", deceasedName),
-        Messages("page.iht.application.assets.nominated.description.p2"),
-        Messages("page.iht.application.assets.nominated.description.p3"),
-        Messages("page.iht.application.assets.nominated.description.p4"))
+        messagesApi("page.iht.application.assets.nominated.description.p1", deceasedName),
+        messagesApi("page.iht.application.assets.nominated.description.p2"),
+        messagesApi("page.iht.application.assets.nominated.description.p3"),
+        messagesApi("page.iht.application.assets.nominated.description.p4"))
     }
   }
 

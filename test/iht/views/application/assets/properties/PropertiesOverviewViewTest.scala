@@ -23,6 +23,7 @@ import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import play.api.i18n.Messages.Implicits._
 
 class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -32,18 +33,18 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
   override def guidanceParagraphs = Set(
-    Messages("page.iht.application.assets.deceased-permanent-home.description.p1", deceasedName),
-    Messages("page.iht.application.assets.deceased-permanent-home.description.p2", deceasedName)
+    messagesApi("page.iht.application.assets.deceased-permanent-home.description.p1", deceasedName),
+    messagesApi("page.iht.application.assets.deceased-permanent-home.description.p2", deceasedName)
   )
 
-  override def pageTitle = Messages("page.iht.application.assets.deceased-permanent-home.sectionTitle")
+  override def pageTitle = messagesApi("page.iht.application.assets.deceased-permanent-home.sectionTitle")
 
-  override def browserTitle = Messages("iht.estateReport.assets.propertiesBuildingsAndLand")
+  override def browserTitle = messagesApi("iht.estateReport.assets.propertiesBuildingsAndLand")
 
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-      Messages("site.link.return.assets")
+      messagesApi("site.link.return.assets")
     )
   )
 
@@ -62,13 +63,13 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     s"show address number ${rowNo + 1} delete link" in {
       val deleteDiv = tableCell(doc, addressTableId, 3, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
-      getAnchorVisibleText(anchor) shouldBe Messages("iht.delete")
+      getVisibleText(anchor) shouldBe messagesApi("iht.delete")
     }
 
     s"show address number ${rowNo + 1} give details link" in {
       val deleteDiv = tableCell(doc, addressTableId, 4, rowNo)
       val anchor = deleteDiv.getElementsByTag("a").first
-      getAnchorVisibleText(anchor) shouldBe Messages("iht.change")
+      getVisibleText(anchor) shouldBe messagesApi("iht.change")
     }
   }
 
@@ -77,19 +78,19 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
 
     behave like link("add-property",
       iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad().url,
-      Messages("iht.estateReport.assets.propertyAdd"))
+      messagesApi("iht.estateReport.assets.propertyAdd"))
 
     "show ownership question" in {
-      elementShouldHaveText(doc, "home-in-uk-question", Messages("page.iht.application.assets.properties.question.question", deceasedName))
+      elementShouldHaveText(doc, "home-in-uk-question", messagesApi("page.iht.application.assets.properties.question.question", deceasedName))
     }
 
     "show ownership question value" in {
-      elementShouldHaveText(doc, "home-in-uk-value", Messages("iht.yes"))
+      elementShouldHaveText(doc, "home-in-uk-value", messagesApi("iht.yes"))
     }
 
     behave like link("home-in-uk-link",
       iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
-      Messages("iht.change"))
+      messagesApi("iht.change"))
 
     behave like addressWithDeleteAndModify(0, formatAddressForDisplay(CommonBuilder.DefaultUkAddress))
 
@@ -101,7 +102,7 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
         registrationDetails).toString()
       val doc = asDocument(view)
       doc.getElementById("properties-empty-table-row").text shouldBe
-        Messages("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")
+        messagesApi("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")
 
     }
   }

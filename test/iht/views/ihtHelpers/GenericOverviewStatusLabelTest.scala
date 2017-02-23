@@ -19,19 +19,20 @@ package iht.views.ihtHelpers
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.generic_overview_status_label
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
 
 class GenericOverviewStatusLabelTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+
   "GenericOverviewStatusLabel helper" must {
    "return 'NOT STARTED' label when item has not been started" in {
 
       val result = generic_overview_status_label(isComplete = None, "iht.notStarted", "iht.complete", "iht.inComplete")
       val doc = asDocument(result)
 
-      assertContainsText(doc, Messages("iht.notStarted"))
-      assertNotContainsText(doc, Messages("iht.inComplete"))
-      assertNotContainsText(doc, Messages("iht.complete"))
+      assertContainsText(doc, messagesApi("iht.notStarted"))
+      assertNotContainsText(doc, messagesApi("iht.inComplete"))
+      assertNotContainsText(doc, messagesApi("iht.complete"))
     }
 
     "return 'INCOMPLETE' label when item has been started but not completed" in {
@@ -39,8 +40,8 @@ class GenericOverviewStatusLabelTest extends UnitSpec with FakeIhtApp with HtmlS
       val result = generic_overview_status_label(isComplete = Some(false), "iht.notStarted", "iht.complete", "iht.inComplete")
       val doc = asDocument(result)
 
-      assertContainsText(doc, Messages("iht.inComplete"))
-      assertNotContainsText(doc, Messages("iht.notStarted"))
+      assertContainsText(doc, messagesApi("iht.inComplete"))
+      assertNotContainsText(doc, messagesApi("iht.notStarted"))
     }
 
     "return 'COMPLETE' label when item has completed" in {
@@ -48,9 +49,9 @@ class GenericOverviewStatusLabelTest extends UnitSpec with FakeIhtApp with HtmlS
       val result = generic_overview_status_label(isComplete = Some(true), "iht.notStarted", "iht.complete", "iht.inComplete")
       val doc = asDocument(result)
 
-      assertContainsText(doc, Messages("iht.complete"))
-      assertNotContainsText(doc, Messages("iht.inComplete"))
-      assertNotContainsText(doc, Messages("iht.notStarted"))
+      assertContainsText(doc, messagesApi("iht.complete"))
+      assertNotContainsText(doc, messagesApi("iht.inComplete"))
+      assertNotContainsText(doc, messagesApi("iht.notStarted"))
     }
 
   }

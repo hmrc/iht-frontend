@@ -20,33 +20,34 @@ import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.asset.properties.{property_ownership, property_tenure}
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
-class PropertyOwnershipViewTest extends ApplicationPageBehaviour[Property] {
+class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
   override def guidance = guidance(Set(
-    Messages("iht.estateReport.assets.property.youCan"),
-    Messages("iht.estateReport.assets.property.findOutFromLandRegistry"),
-    Messages("page.iht.application.assets.property.ownership.guidance1b")
+    messagesApi("iht.estateReport.assets.property.youCan"),
+    messagesApi("iht.estateReport.assets.property.findOutFromLandRegistry"),
+    messagesApi("page.iht.application.assets.property.ownership.guidance1b")
   ))
 
-  override def pageTitle = Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName)
+  override def pageTitle = messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName)
 
-  override def browserTitle = Messages("page.iht.application.assets.property.ownership.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.assets.property.ownership.browserTitle")
 
   override def formTarget = Some(CommonBuilder.DefaultCall1)
 
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      Messages("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
     )
   )
 
@@ -88,5 +89,5 @@ class PropertyOwnershipViewTest extends ApplicationPageBehaviour[Property] {
 
 
   behave like link("land-registry-link", IhtProperties.linkLandRegistry,
-    Messages("iht.estateReport.assets.property.findOutFromLandRegistry"))
+    messagesApi("iht.estateReport.assets.property.findOutFromLandRegistry"))
 }

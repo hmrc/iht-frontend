@@ -17,8 +17,8 @@
 package iht.controllers.application.gifts
 
 /**
-  * Created by xavierzanatta on 8/5/15.
-  */
+ * Created by xavierzanatta on 8/5/15.
+ */
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.IhtConnectors
@@ -30,11 +30,14 @@ import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.RegistrationDetails
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
 import iht.utils.GiftsHelper._
+import iht.utils.CommonHelper._
 import play.api.i18n.Messages
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import iht.utils.CommonHelper._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+
 import scala.concurrent.Future
 
 object GiftsDetailsController extends GiftsDetailsController with IhtConnectors {

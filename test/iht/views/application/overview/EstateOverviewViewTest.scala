@@ -23,7 +23,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.overview.{estate_overview, overview_sidebar}
 import org.joda.time.LocalDate
 import org.jsoup.nodes.Element
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 
 class EstateOverviewViewTest extends ViewTestHelper{
@@ -75,7 +75,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
       val view = estate_overview(dummyViewModel).toString
       val doc = asDocument(view)
-      view should include(Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
+      view should include(messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
     }
 
     "contain the assets and gifts section" in {
@@ -90,7 +90,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
       implicit val request = createFakeRequest()
 
       val view = estate_overview(dummyViewModel).toString
-      view should include(Messages("page.iht.application.overview.timeScale.guidance"))
+      view should include(messagesApi("page.iht.application.overview.timeScale.guidance"))
       view should include("01 Apr 2016")
     }
 
@@ -98,7 +98,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
       implicit val request = createFakeRequest()
 
       val view = estate_overview(dummyViewModel).toString
-      view should include(Messages("iht.estateReport.goToEstateReports"))
+      view should include(messagesApi("iht.estateReport.goToEstateReports"))
     }
 
     "show the correct 'Go to your Inheritance Tax estate reports' link" in {
@@ -108,7 +108,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
       val doc = asDocument(view)
       assertRenderedById(doc, "return-to-estate-report-link")
       val link: Element = doc.getElementById("return-to-estate-report-link")
-      link.text() shouldBe Messages("iht.estateReport.goToEstateReports")
+      link.text() shouldBe messagesApi("iht.estateReport.goToEstateReports")
       link.attr("href") shouldBe expectedUrl
     }
 
@@ -177,6 +177,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
     "contain the Debts row if there are debts in the model and show as non negative value " +
       "if there are no exemptions" in {
+      implicit val request = createFakeRequest()
 
       val appDetails = CommonBuilder.buildApplicationDetails
       val regDetails = CommonBuilder.buildRegistrationDetails1
@@ -189,13 +190,13 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
       assertRenderedById(doc, "debts-row")
       assertRenderedById(doc, "debts-value")
-      assertEqualsValue(doc, "div#debts-value", CommonHelper.escapePound("£500.00"))
+      assertEqualsValue(doc, "div#debts-value", "£500.00")
 
     }
 
     "contain the Debts row if there are debts in the model and show as negative value " +
       "if there are some exemptions values present" in {
-
+      implicit val request = createFakeRequest()
       val appDetails = CommonBuilder.buildApplicationDetails
       val regDetails = CommonBuilder.buildRegistrationDetails1
 
@@ -210,7 +211,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
       assertRenderedById(doc, "debts-row")
       assertRenderedById(doc, "debts-value")
-      assertEqualsValue(doc, "div#debts-value", CommonHelper.escapePound("-£500.00"))
+      assertEqualsValue(doc, "div#debts-value", "-£500.00")
 
     }
 
@@ -222,9 +223,9 @@ class EstateOverviewViewTest extends ViewTestHelper{
       val view = estate_overview(viewModel).toString
       val doc = asDocument(view)
 
-      assertEqualsValue(doc, "a#continue-to-declaration", Messages("iht.continue"))
+      assertEqualsValue(doc, "a#continue-to-declaration", messagesApi("iht.continue"))
       assertEqualsValue(doc, "p#declarable-guidance",
-        Messages("page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text"))
+        messagesApi("page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text"))
 
     }
 

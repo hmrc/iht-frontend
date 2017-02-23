@@ -19,7 +19,7 @@
 @import iht.views.html.ihtHelpers._
 @import play.twirl.api.Html
 
-@(model: ThresholdSectionViewModel, sectionClass: String = "")
+@(model: ThresholdSectionViewModel, sectionClass: String = "")(implicit request:Request[_], messages: Messages)
 
 <section id="threshold-section" class="@sectionClass">
     <h2 class="visually-hidden">@Messages("iht.estateReport.ihtThreshold")</h2>

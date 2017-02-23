@@ -20,7 +20,7 @@
 @(ihtReference: String,
 backToLastQuestionUrl: Option[String] = None,
 backToLastQuestionMessageKey: Option[String] = None,
-backToLastQuestionMessageKeyAccessibility: Option[String] = None)(implicit request: Request[_])
+backToLastQuestionMessageKeyAccessibility: Option[String] = None)(implicit request:Request[_], messages: Messages)
 
 @gifts_guidance_main_template(title = Messages("page.iht.application.gifts.guidance.giftsGivenAway.title"),
 backUrl = None,
@@ -39,7 +39,7 @@ backToLastQuestionMessageKeyAccessibility) {
 
 @helpers.form(action = iht.controllers.application.gifts.guidance.routes.GiftsGivenAwayController.onSubmit()) {
     <div id="continue-to-gifts-overview-page-button" class="form-field form-field--submit">
-        <input id='continue' class='button' type='submit' value='@Messages("page.iht.application.gifts.guidance.button.continueToGifts")'>
+        <button class="button" id="continue">@Messages("page.iht.application.gifts.guidance.button.continueToGifts")</button>
     </div>
 }
 

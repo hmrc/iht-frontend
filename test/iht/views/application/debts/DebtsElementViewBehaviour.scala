@@ -18,8 +18,8 @@ package iht.views.application.debts
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
@@ -33,7 +33,7 @@ trait DebtsElementViewBehaviour[A] extends ViewTestHelper {
   def inputValueFieldLabel: String
   def inputValueFieldHintText: String = "default hint"
   def returnLinkId: String = "return-button"
-  def returnLinkText: String = Messages("site.link.return.debts")
+  def returnLinkText: String = messagesApi("site.link.return.debts")
   def returnLinkTargetUrl: Call = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -75,7 +75,7 @@ trait DebtsElementViewBehaviour[A] extends ViewTestHelper {
 
     "show the Save and continue button" in {
       val saveAndContinueButton = doc.getElementById("save-continue")
-      saveAndContinueButton.text() shouldBe Messages("iht.saveAndContinue")
+      saveAndContinueButton.text() shouldBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct return link with text" in {

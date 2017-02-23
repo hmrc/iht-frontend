@@ -23,7 +23,7 @@
 @(deceasedAddressDetailsOutsideUKForm:Form[iht.models.DeceasedDetails],
     actionLocation: Call,
     changeNationalityLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
 
 @iht_main_template_registration(title = Messages("iht.registration.deceased.lastContactAddress"),
     browserTitle = Some(Messages("iht.registration.contactAddress")),

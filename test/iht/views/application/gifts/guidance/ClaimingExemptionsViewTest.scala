@@ -17,10 +17,9 @@
 package iht.views.application.gifts.guidance
 
 import iht.controllers.application.gifts.guidance.routes
-import iht.utils.CommonHelper._
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.guidance.claiming_exemptions
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class ClaimingExemptionsViewTest extends ViewTestHelper {
 
@@ -39,104 +38,104 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
     "have correct title" in {
       val view = claimingExemptionsView().toString
 
-      messagesShouldBePresent(view, Messages("page.iht.application.gifts.guidance.claimingExemptions.title"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.gifts.guidance.claimingExemptions.title"))
     }
 
     "have correct guidance paragraphs" in {
       val view = claimingExemptionsView().toString
-      messagesShouldBePresent(view, Messages("page.iht.application.gifts.guidance.claimingExemptions.description1"))
-      messagesShouldBePresent(view, Messages("page.iht.application.gifts.guidance.claimingExemptions.description2"))
-      messagesShouldBePresent(view, Messages("page.iht.application.gifts.guidance.claimingExemptions.description3"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.gifts.guidance.claimingExemptions.description1"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.gifts.guidance.claimingExemptions.description2"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.gifts.guidance.claimingExemptions.description3"))
     }
 
     "have correct 'Gifts that can be claimed using the small gifts exemption' guidance" in {
       val view = claimingExemptionsView()
       assertEqualsValue(view, "summary#small-gifts-summary-heading",
-                              Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.heading"))
+                              messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.heading"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description1")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description1"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description2")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description2"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description3")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description3"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description4")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.description4"))
     }
 
     "have correct 'Gifts that can be claimed using the marriage or civil partnership gift exemption' guidance" in {
       val view = claimingExemptionsView()
       assertEqualsValue(view, "summary#marriage-civil-partnership-gifts-summary-heading",
-                   Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.heading"))
+                   messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.heading"))
 
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description1"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description1"))
 
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description2"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description2"))
 
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part1")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part1"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part2")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part2"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part3")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part3"))
 
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4"))
 
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part1"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part1"))
 
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part2"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part2"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description5")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description5"))
 
     }
 
     "have correct 'Gifts that can be claimed using the gifts out of income exemption' guidance" in {
       val view = claimingExemptionsView()
       assertEqualsValue(view, "summary#gifts-out-of-income-exemption-summary-heading",
-                   Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.heading"))
+                   messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.heading"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description1")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description1"))
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description2"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description2"))
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description3"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description3"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description4")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description4"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description5")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description5"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description6")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.description6"))
 
     }
 
     "have correct 'Gifts that can be claimed using the annual gift exemption' guidance" in {
       val view = claimingExemptionsView()
       assertEqualsValue(view, "summary#annual-gift-exemption-summary-heading",
-                   Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.heading"))
+                   messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.heading"))
 
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description1")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description1"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description2")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description2"))
       messagesShouldBePresent(view.toString,
-        Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description3"))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description3"))
       messagesShouldBePresent(view.toString,
-        escapePound(Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description4")))
+        messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.description4"))
     }
 
     "have the correct navigation links" in {
@@ -146,20 +145,20 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
 
       val previousLinkLabel = view.getElementById("continue-to-previous")
       val previousLinkText = previousLinkLabel.getElementsByTag("span").get(0)
-      previousLinkText.text shouldBe Messages("site.previous")
+      previousLinkText.text shouldBe messagesApi("site.previous")
 
       val previousLinkTitle = previousLinkLabel.getElementsByTag("span").get(1)
-      previousLinkTitle.text shouldBe Messages("iht.estateReport.gifts.withReservation.title")
+      previousLinkTitle.text shouldBe messagesApi("iht.estateReport.gifts.withReservation.title")
 
       val nextLink = view.getElementById("continue-to-next")
       nextLink.attr("href") shouldBe routes.IncreasingAnnualLimitController.onPageLoad().url
 
       val nextLinkLabel = view.getElementById("continue-to-next")
       val nextLinkText = nextLinkLabel.getElementsByTag("span").get(0)
-      nextLinkText.text shouldBe Messages("iht.next")
+      nextLinkText.text shouldBe messagesApi("iht.next")
 
       val nextLinkTitle = nextLinkLabel.getElementsByTag("span").get(1)
-      nextLinkTitle.text shouldBe Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.title")
+      nextLinkTitle.text shouldBe messagesApi("page.iht.application.gifts.guidance.increasingAnnualLimit.title")
 
     }
   }

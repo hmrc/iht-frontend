@@ -18,6 +18,9 @@ package iht.controllers
 
 import iht.controllers.auth.CustomPasscodeAuthentication
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import uk.gov.hmrc.passcode.authentication.{PasscodeAuthenticationProvider, PasscodeVerificationConfig}
 
 import scala.concurrent.Future
 

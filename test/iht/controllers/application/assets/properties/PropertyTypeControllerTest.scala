@@ -22,7 +22,9 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -114,13 +116,13 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "display the correct title on page load" in {
       val result = propertyTypeController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.whatKind.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.whatKind.question"))
     }
 
     "display correct options for input radio group" in {
       val result = propertyTypeController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("page.iht.application.assets.propertyType.otherResidential.label"))
+      contentAsString(result) should include (messagesApi("page.iht.application.assets.propertyType.otherResidential.label"))
     }
   }
 }

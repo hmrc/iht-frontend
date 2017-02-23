@@ -22,6 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import play.api.i18n.Messages
 import play.api.test.Helpers._
 
 class AnyOtherDebtsControllerTest extends ApplicationControllerTest{

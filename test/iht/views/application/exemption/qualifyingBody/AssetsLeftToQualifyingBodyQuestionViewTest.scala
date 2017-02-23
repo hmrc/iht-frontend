@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 /**
  * Created by vineet on 29/11/16.
@@ -37,17 +37,17 @@ class AssetsLeftToQualifyingBodyQuestionViewTest extends ViewTestHelper{
       val view = assets_left_to_qualifying_body_question(assetsLeftToQualifyingBodyQuestionForm, regDetails).toString
       val doc = asDocument(view)
 
-      view should include (Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"))
-      view should include (Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1"))
-      view should include (Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2"))
-      view should include (Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3"))
+      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"))
+      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1"))
+      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2"))
+      view should include (messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3"))
 
       assertRenderedById(doc, "save-continue")
-      assertEqualsValue(doc, "button#save-continue", Messages("iht.saveAndContinue"))
+      assertEqualsValue(doc, "button#save-continue", messagesApi("iht.saveAndContinue"))
 
       val cancelLink = doc.getElementById("cancel-button")
       cancelLink.text shouldBe
-        Messages("page.iht.application.return.to.exemptionsOf", regDetails.deceasedDetails.map(_.name).fold("")(identity))
+        messagesApi("page.iht.application.return.to.exemptionsOf", regDetails.deceasedDetails.map(_.name).fold("")(identity))
       cancelLink.attr("href") shouldBe
         iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad.url
 

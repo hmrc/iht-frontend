@@ -24,7 +24,7 @@
 @import iht.views.html.ihtHelpers._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
-@(qualifyingBody:Option[QualifyingBody]=None)(implicit request: Request[_])
+@(qualifyingBody:Option[QualifyingBody]=None)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.qualifyingBodyAdd"),
 browserTitle = Some(Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.browserTitle")),

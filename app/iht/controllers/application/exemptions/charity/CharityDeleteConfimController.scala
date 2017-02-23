@@ -22,7 +22,8 @@ import iht.metrics.Metrics
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.charity_delete_confirm
 import play.api.Logger
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 object CharityDeleteConfirmController extends CharityDeleteConfirmController with IhtConnectors {

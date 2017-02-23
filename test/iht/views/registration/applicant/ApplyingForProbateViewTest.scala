@@ -20,19 +20,19 @@ import iht.forms.registration.ApplicantForms.applyingForProbateForm
 import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.applicant.applying_for_probate
+import play.api.i18n.Messages.Implicits._
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class ApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] {
 
-  override def guidanceParagraphs = Set(Messages("page.iht.registration.applicant.applyingForProbate.p1"),
-    Messages("page.iht.registration.applicant.applyingForProbate.p2"))
+  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"),
+    messagesApi("page.iht.registration.applicant.applyingForProbate.p2"))
 
-  override def pageTitle = Messages("iht.registration.applicant.applyingForProbate")
+  override def pageTitle = messagesApi("iht.registration.applicant.applyingForProbate")
 
-  override def browserTitle = Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
   override def form: Form[ApplicantDetails] = applyingForProbateForm
 

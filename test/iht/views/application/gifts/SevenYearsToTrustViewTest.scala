@@ -17,18 +17,20 @@
 package iht.views.application.gifts
 
 import iht.forms.ApplicationForms._
+import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import iht.views.ViewTestHelper
-import play.api.i18n.Messages
-import play.api.test.Helpers._
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.gift.seven_years_to_trust
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by vineet on 15/11/16.
   */
-class SevenYearsToTrustViewTest extends ViewTestHelper{
-
+class SevenYearsToTrustViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
@@ -38,40 +40,35 @@ class SevenYearsToTrustViewTest extends ViewTestHelper{
   val allGifts = CommonBuilder.buildAllGifts.copy(isReservation = Some(false))
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
-  "SevenYearsToTrust Page" must {
 
-    "contain the title, browser title and save and continue button " in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
-      val viewAsString = contentAsString(view)
-      val doc = asDocument(viewAsString)
+  override def pageTitle = messagesApi("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")
 
-      titleShouldBeCorrect(viewAsString, Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
-      browserTitleShouldBeCorrect(viewAsString, Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
+  override def browserTitle = messagesApi("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")
 
-      val saveAndContinueLink = doc.getElementById("save-continue")
-      saveAndContinueLink.text shouldBe Messages("iht.saveAndContinue")
+  override def guidance = guidance(
+    Set(
+      messagesApi("page.iht.application.gifts.trust.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+    )
+  )
 
-    }
+  override def formTarget = Some(iht.controllers.application.gifts.routes.SevenYearsToTrustController.onSubmit())
 
-    "contain the correct question" in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
-
-      messagesShouldBePresent(contentAsString(view), Messages("page.iht.application.gifts.trust.question",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-
-    }
-
-    "show the correct text and link for the return link" in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
-      val viewAsString = contentAsString(view)
-
-      val doc = asDocument(viewAsString)
-      val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
+  override def cancelComponent = Some(
+    CancelComponent(
+      iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
+      messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name)
-      link.attr("href") shouldBe
-        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url
+    )
+  )
 
-    }
+  override def form: Form[AllGifts] = giftSevenYearsGivenInLast7YearsForm
+
+  override def formToView: Form[AllGifts] => Appendable =
+    form =>
+      seven_years_to_trust(form, regDetails)
+
+
+  "SevenYearsToTrust Page" must {
+    behave like applicationPageWithErrorSummaryBox()
   }
 }

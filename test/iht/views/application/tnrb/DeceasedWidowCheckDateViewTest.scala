@@ -21,7 +21,7 @@ import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.tnrb.deceased_widow_check_date
 
 class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
@@ -36,17 +36,17 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
   val widowCheckModel = CommonBuilder.buildWidowedCheck
 
 
-  lazy val pageTitle = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
+  lazy val pageTitle = messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
                               TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
-                                   Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
+                                   messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                                CommonHelper.getDeceasedNameOrDefaultString(regDetails))))
 
 
-  lazy val browserTitle = Messages("iht.estateReport.tnrb.increasingIHTThreshold")
-  lazy val guidanceParagraphs = Set(Messages("iht.dateExample2"))
+  lazy val browserTitle = messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
+  lazy val guidanceParagraphs = Set(messagesApi("iht.dateExample2"))
 
   lazy val returnLinkId = "cancel-button"
-  lazy val returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+  lazy val returnLinkText = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
   lazy val returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   "DeceasedWidowCheckDateView " must {
@@ -88,7 +88,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
         returnLinkTargetUrl, returnLinkText).toString
 
       val saveAndContinueButton = asDocument(view).getElementById("save-continue")
-      saveAndContinueButton.text() shouldBe Messages("iht.saveAndContinue")
+      saveAndContinueButton.text() shouldBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct return link with text" in {

@@ -18,7 +18,7 @@ package iht.controllers.home
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.models.application.{IhtApplication, ApplicationDetails}
+import iht.models.application.{ApplicationDetails, IhtApplication}
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
@@ -26,7 +26,8 @@ import org.mockito.Matchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
+import play.api.i18n.Messages.Implicits._
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.{HeaderCarrier, Upstream4xxResponse}
@@ -38,6 +39,7 @@ import scala.concurrent._
  *
  */
 class IhtHomeControllerTest  extends ApplicationControllerTest{
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -76,8 +78,8 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("page.iht.home.title"))
-      contentAsString(result) should include(Messages("page.iht.home.applicationList.table.guidance.label"))
+      contentAsString(result) should include(messagesApi("page.iht.home.title"))
+      contentAsString(result) should include(messagesApi("page.iht.home.applicationList.table.guidance.label"))
     }
 
    "respond with OK on page load when des status Awaiting Return and nothing in secure storage" in {
@@ -89,7 +91,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages(CommonHelper.formatStatus(TestHelper.AppStatusNotStarted)))
+      contentAsString(result) should include(messagesApi(CommonHelper.formatStatus(TestHelper.AppStatusNotStarted)))
     }
 
     "respond with OK on page load when des status Awaiting Return and something in secure storage" in {
@@ -101,7 +103,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages(CommonHelper.formatStatus(TestHelper.AppStatusInProgress)))
+      contentAsString(result) should include(messagesApi(CommonHelper.formatStatus(TestHelper.AppStatusInProgress)))
     }
 
     "respond with OK on page load when des status Closed" in {
@@ -113,7 +115,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages(CommonHelper.formatStatus(TestHelper.AppStatusClosed)))
+      contentAsString(result) should include(messagesApi(CommonHelper.formatStatus(TestHelper.AppStatusClosed)))
     }
 
     "respond with OK on page load when des status In Review" in {
@@ -125,7 +127,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages(CommonHelper.formatStatus(TestHelper.AppStatusInReview)))
+      contentAsString(result) should include(messagesApi(CommonHelper.formatStatus(TestHelper.AppStatusInReview)))
     }
 
     "respond normally when 404 occurs" in {

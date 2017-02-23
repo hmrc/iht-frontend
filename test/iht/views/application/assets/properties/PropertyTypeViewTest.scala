@@ -19,14 +19,15 @@ package iht.views.application.assets.properties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html._
 import iht.views.html.application.asset.properties.property_type
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
-class PropertyTypeViewTest extends ApplicationPageBehaviour[Property] {
+class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
@@ -35,21 +36,21 @@ class PropertyTypeViewTest extends ApplicationPageBehaviour[Property] {
 
   override def guidance = guidance(
     Set(
-      Messages("page.iht.application.assets.property.type.label1", name(deceasedName)),
-      Messages("page.iht.application.assets.property.type.label2", name(deceasedName))
+      messagesApi("page.iht.application.assets.property.type.label1", name(deceasedName)),
+      messagesApi("page.iht.application.assets.property.type.label2", name(deceasedName))
     )
   )
 
-  override def pageTitle = Messages("iht.estateReport.assets.properties.whatKind.question")
+  override def pageTitle = messagesApi("iht.estateReport.assets.properties.whatKind.question")
 
-  override def browserTitle = Messages("page.iht.application.assets.property.type.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.assets.property.type.browserTitle")
 
   override def formTarget = Some(CommonBuilder.DefaultCall1)
 
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      Messages("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
     )
   )
 

@@ -22,7 +22,7 @@
 @import iht.constants.FieldMappings._
 
 @(deceasedPermanentHomeForm:Form[iht.models.DeceasedDetails],
-actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang)
+actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.deceasedPermanentHome.title"),
                     cancelUrl=cancelLocation,

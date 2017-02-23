@@ -19,7 +19,7 @@ package iht.views.application.overview
 import iht.viewmodels.application.overview.{NotStarted, OtherDetailsSectionViewModel, OverviewRow}
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.other_details_section
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 
 class OtherDetailsSectionViewTest extends ViewTestHelper {
@@ -30,29 +30,33 @@ class OtherDetailsSectionViewTest extends ViewTestHelper {
   "other details section" must {
 
     "have the correct title" in {
+      implicit val request = createFakeRequest()
       val view = other_details_section(dummyOtherDetailsSection)
       val doc = asDocument(view)
-      val assetsSection = doc.getElementById("other-details-section");
+      val assetsSection = doc.getElementById("other-details-section")
       val header = assetsSection.getElementsByTag("h2")
-      header.text() shouldBe Messages("page.iht.application.estateOverview.otherDetailsNeeded")
+      header.text() shouldBe messagesApi("page.iht.application.estateOverview.otherDetailsNeeded")
     }
 
     "contain the Debts row" in {
+      implicit val request = createFakeRequest()
       val view = other_details_section(dummyOtherDetailsSection)
       val doc = asDocument(view)
       assertRenderedById(doc, "debts-row")
     }
 
     "show the exemptions link when asked to" in {
+      implicit val request = createFakeRequest()
       val viewModel = dummyOtherDetailsSection copy (showClaimExemptionLink = true, ihtReference = "123")
       val view = other_details_section(viewModel)
       val doc = asDocument(view)
       val link = doc.getElementById("exemptions-link")
-      link.text shouldBe Messages("page.iht.application.estateOverview.claimExemptions.link")
+      link.text shouldBe messagesApi("page.iht.application.estateOverview.claimExemptions.link")
       link.attr("href") shouldBe iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onPageLoad("123").url
     }
 
     "not show the exemptions link when asked not to" in {
+      implicit val request = createFakeRequest()
       val view = other_details_section(dummyOtherDetailsSection)
       val doc = asDocument(view)
       assertNotRenderedById(doc, "exemptions-link")

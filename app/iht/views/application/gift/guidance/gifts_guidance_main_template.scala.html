@@ -23,7 +23,7 @@ isFullWidth: Boolean,
 ihtReference: String,
 backToLastQuestionUrl: Option[String] = None,
 backToLastQuestionMessageKey: Option[String] = None,
-backToLastQuestionMessageKeyAccessibility: Option[String] = None)(mainContent: Html)(implicit request: Request[_])
+backToLastQuestionMessageKeyAccessibility: Option[String] = None)(mainContent: Html)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("page.iht.application.gifts.guidance.title"),
     browserTitle = Some(Messages("page.iht.application.gifts.guidance.title")),
@@ -88,7 +88,7 @@ backToLastQuestionMessageKeyAccessibility: Option[String] = None)(mainContent: H
     </nav>
 
 
-    <h2 class="heading-48">@Messages(title)</h2>
+    <h2 id="guidance-section-title" class="heading-48">@Messages(title)</h2>
     @mainContent
 
 

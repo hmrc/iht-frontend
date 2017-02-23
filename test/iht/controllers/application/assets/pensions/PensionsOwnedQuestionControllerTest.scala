@@ -21,7 +21,9 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -109,7 +111,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = pensionsOwnedQuestionController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
 
   }

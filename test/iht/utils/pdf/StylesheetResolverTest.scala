@@ -16,7 +16,6 @@
 
 package iht.utils.pdf
 
-import java.net.URI
 import javax.xml.transform.stream.StreamSource
 
 import iht.FakeIhtApp
@@ -26,7 +25,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
   * Created by david-beer on 28/10/16.
   */
-class StylesheetResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar{
+class StylesheetResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
   "Must return a valid StreamSource" in {
     val inputResource = "/pdf/templates/postsubmission/iht-return.xsl"

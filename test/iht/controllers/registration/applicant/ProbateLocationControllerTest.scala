@@ -27,6 +27,8 @@ import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class ProbateLocationControllerTest
@@ -65,9 +67,9 @@ class ProbateLocationControllerTest
       val result = controller.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("page.iht.registration.applicant.probateLocation.title"))
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }
 
     "contain Continue and Cancel buttons when page is loaded in edit mode" in {
@@ -81,9 +83,9 @@ class ProbateLocationControllerTest
       val result = controller.onEditPageLoad()(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("page.iht.registration.applicant.probateLocation.title"))
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.probateLocation.title"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "respond appropriately to a submit with valid values in all fields" in  {

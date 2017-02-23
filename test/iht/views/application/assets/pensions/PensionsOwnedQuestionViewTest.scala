@@ -28,6 +28,7 @@ import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.assets.pensions.routes
 import iht.views.application.CancelComponent
+import play.api.i18n.Messages.Implicits._
 
 class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePension] {
 
@@ -36,9 +37,9 @@ class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePe
 
   override def guidance = noGuidance
 
-  override def pageTitle = Messages("page.iht.application.pensions.isOwned.title",deceasedName)
+  override def pageTitle = messagesApi("page.iht.application.pensions.isOwned.title",deceasedName)
 
-  override def browserTitle = Messages("page.iht.application.pensions.isOwned.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.pensions.isOwned.browserTitle")
 
   override def formTarget = Some(routes.PensionsOwnedQuestionController.onSubmit)
 
@@ -49,7 +50,7 @@ class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePe
 
   override def cancelComponent = Some(
                         CancelComponent(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-                                      Messages("page.iht.application.return.to.assetsOf", deceasedName)))
+                                      messagesApi("page.iht.application.return.to.assetsOf", deceasedName)))
 
   "Pensions Owned Question View" must {
     behave like yesNoQuestion

@@ -22,6 +22,8 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -48,8 +50,8 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
   val registrationDetailsWithNoIhtRef = CommonBuilder.buildRegistrationDetails copy (
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
-    ihtReference = None)  
-  
+    ihtReference = None)
+
   "ExemptionPartnerNameController" must {
 
     "redirect to login page on PageLoad if the user is not logged in" in {
@@ -65,6 +67,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
     }
 
     "return OK on page load" in {
+
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         appDetails = Some(CommonBuilder.buildApplicationDetails),
@@ -74,7 +77,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
       val result = partnerNameController.onPageLoad(createFakeRequest(isAuthorised = true))
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.partner.name.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.partner.name.title"))
     }
 
     "respond with error when ApplicationDetails could not be retrieved on page load" in {

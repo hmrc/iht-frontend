@@ -22,8 +22,9 @@ import iht.constants.Constants
 import iht.controllers.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.models.application.ProbateDetails
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.utils.CommonHelper
-
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 

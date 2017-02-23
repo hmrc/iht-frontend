@@ -19,12 +19,14 @@ package iht.controllers.registration
 import iht.controllers.{IhtConnectors, QuestionnaireController}
 import iht.utils.IhtSection
 import iht.views.html.registration.registration_questionnaire
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object RegistrationQuestionnaireController extends RegistrationQuestionnaireController with IhtConnectors {}
 
 trait RegistrationQuestionnaireController extends RegistrationController with QuestionnaireController {
   override def guardConditions: Set[Predicate] = Set.empty
   override lazy val ihtSection = IhtSection.Registration
-  def questionnaireView = (form, request) => registration_questionnaire(form)(request)
+  def questionnaireView = (form, request) => registration_questionnaire(form)(request, applicationMessages)
   override def callPageLoad = iht.controllers.registration.routes.RegistrationQuestionnaireController.onPageLoad()
 }

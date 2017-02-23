@@ -19,16 +19,17 @@ package iht.views.application.assets.properties
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Property
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.asset.properties.property_address
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
-class PropertyAddressViewTest extends ApplicationPageBehaviour[Property] {
-  override def pageTitle = Messages("iht.estateReport.assets.property.whatIsAddress.question")
+class PropertyAddressViewTest extends SubmittableApplicationPageBehaviour[Property] {
+  override def pageTitle = messagesApi("iht.estateReport.assets.property.whatIsAddress.question")
 
-  override def browserTitle = Messages("page.iht.application.assets.property.address.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.assets.property.address.browserTitle")
 
   override def guidance = noGuidance
 
@@ -42,7 +43,7 @@ class PropertyAddressViewTest extends ApplicationPageBehaviour[Property] {
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      Messages("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
     )
   )
 

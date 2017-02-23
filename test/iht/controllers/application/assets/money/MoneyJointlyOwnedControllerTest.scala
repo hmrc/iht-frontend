@@ -22,7 +22,10 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import play.api.test.Helpers._
 import play.api.test.Helpers.{contentAsString, _}
 
 /**
@@ -64,13 +67,13 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
     "redirect to login page on PageLoad if the user is not logged in" in {
       val result = moneyJointlyOwnedControllerNotAuthorised.onPageLoad(createFakeRequest())
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      redirectLocation(result) should be(Some(loginUrl))
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
       val result = moneyJointlyOwnedControllerNotAuthorised.onSubmit(createFakeRequest())
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      redirectLocation(result) should be(Some(loginUrl))
     }
 
     "respond with OK on page load" in {
@@ -89,8 +92,8 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.MoneyOverviewController.onPageLoad.url))
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some(routes.MoneyOverviewController.onPageLoad.url))
     }
 
     "wipe out the money value if user selects No, save application and go to vehicles overview page on submit" in {
@@ -105,8 +108,8 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.MoneyOverviewController.onPageLoad.url))
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some(routes.MoneyOverviewController.onPageLoad.url))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -122,8 +125,8 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
-      status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      status(result) should be(BAD_REQUEST)
+      contentAsString(result) should include(messagesApi("error.problem"))
     }
 
     "redirect to overview when form is submitted with answer yes and a value entered" in {
@@ -133,8 +136,8 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       setUpTests(applicationDetails)
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
-      status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.MoneyOverviewController.onPageLoad().url))
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some(routes.MoneyOverviewController.onPageLoad().url))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
@@ -142,7 +145,7 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
 
-      val result = moneyJointlyOwnedController.onSubmit (fakePostRequest)
+      val result = moneyJointlyOwnedController.onSubmit(fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
   }

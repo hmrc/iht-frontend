@@ -22,29 +22,29 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.executor.executor_overview
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 import iht.views.html._
 
 class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean]] {
 
-  override def guidanceParagraphs = Set(Messages("page.iht.registration.executor-overview.description"),
-    Messages("page.iht.registration.executor-overview.othersApplyingStatement.are"))
+  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.executor-overview.description"),
+    messagesApi("page.iht.registration.executor-overview.othersApplyingStatement.are"))
 
-  override def pageTitle = Messages("iht.registration.othersApplyingForProbate")
+  override def pageTitle = messagesApi("iht.registration.othersApplyingForProbate")
 
-  override def browserTitle = Messages("page.iht.registration.executor-overview.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.executor-overview.browserTitle")
 
   override def form: Form[Option[Boolean]] = executorOverviewForm
 
   override def formToView: Form[Option[Boolean]] => Appendable =
     form => executor_overview(form, true,
       Seq(CommonBuilder.DefaultCoExecutor1, CommonBuilder.DefaultCoExecutor2),
-      CommonBuilder.DefaultCall1)(createFakeRequest())
+      CommonBuilder.DefaultCall1)(createFakeRequest(), applicationMessages)
 
   def editModeViewAsDocument = {
     implicit val request = createFakeRequest()
-    val view = executor_overview(form, true, Seq(), CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))(createFakeRequest())
+    val view = executor_overview(form, true, Seq(), CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))(createFakeRequest(), applicationMessages)
     asDocument(view)
   }
 
@@ -53,8 +53,8 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
     deleteLink.attr("href") shouldBe
       iht.controllers.registration.executor.routes.DeleteCoExecutorController
         .onPageLoad(coExecutor.id.getOrElse("")).url
-    deleteLink.text() shouldBe Messages("iht.delete") +
-      Messages("page.iht.registration.executor-overview.executor.delete.screenReader",
+    deleteLink.text() shouldBe messagesApi("iht.delete") +
+      messagesApi("page.iht.registration.executor-overview.executor.delete.screenReader",
         coExecutor.name)
   }
 
@@ -62,20 +62,20 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
     val changeLink = doc.getElementById("change-executor-" + id)
     changeLink.attr("href") shouldBe
       iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url
-    changeLink.text() shouldBe Messages("iht.change") +
-      Messages("page.iht.registration.executor-overview.executor.change.screenReader",
+    changeLink.text() shouldBe messagesApi("iht.change") +
+      messagesApi("page.iht.registration.executor-overview.executor.change.screenReader",
         coExecutor.name)
   }
 
   "Executor overview View" must {
     behave like yesNoQuestionWithLegend(
-      questionLegend = Messages("page.iht.registration.executor-overview.yesnoQuestion")
+      questionLegend = messagesApi("page.iht.registration.executor-overview.yesnoQuestion")
     )
 
     "Display a change link for other people applying for probate" in {
       val othersApplyingLink = doc.getElementById("edit-others-applying-for-probate")
       othersApplyingLink.attr("href") shouldBe iht.controllers.registration.executor.routes.OthersApplyingForProbateController.onPageLoadFromOverview().url
-      othersApplyingLink.text() shouldBe Messages("iht.change") + Messages("iht.registration.coExecutors.changeIfOthers")
+      othersApplyingLink.text() shouldBe messagesApi("iht.change") + messagesApi("iht.registration.coExecutors.changeIfOthers")
     }
 
     "Display executor 1 name in table" in {
@@ -109,11 +109,11 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
       val doc = editModeViewAsDocument
 
       val continueLink = doc.getElementById("continue-button")
-      continueLink.attr("value") shouldBe Messages("iht.continue")
+      continueLink.attr("value") shouldBe messagesApi("iht.continue")
 
       val cancelLink = doc.getElementById("cancel-button")
       cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
+      cancelLink.text() shouldBe messagesApi("site.link.cancel")
     }
   }
 }

@@ -25,22 +25,23 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.assets.pensions.routes
+import play.api.i18n.Messages.Implicits._
 
 class PensionsValueViewTest extends ValueViewBehaviour[PrivatePension] {
 
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def guidance = guidance(Set(Messages("page.iht.application.assets.pensions.hint")))
+  override def guidance = guidance(Set(messagesApi("page.iht.application.assets.pensions.hint")))
 
-  override def pageTitle = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid")
+  override def pageTitle = messagesApi("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid")
 
-  override def browserTitle = Messages("page.iht.application.assets.pensions.value.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.assets.pensions.value.browserTitle")
 
   override def formTarget = Some(routes.PensionsValueController.onSubmit)
 
   override def cancelComponent = Some(CancelComponent(routes.PensionsOverviewController.onPageLoad(),
-                                        Messages("iht.estateReport.assets.pensions.returnToPrivatePensions")
+                                        messagesApi("iht.estateReport.assets.pensions.returnToPrivatePensions")
                                       )
   )
 

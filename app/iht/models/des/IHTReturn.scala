@@ -17,32 +17,21 @@
 package models.des.iht_return
 
 
-import iht.constants.Constants
 import iht.models.Joda._
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
-import play.api.libs.json.Json
-
-import scala.collection.immutable.ListMap
+import play.api.libs.functional.syntax._
+import play.api.libs.json.Reads._
+import play.api.libs.json.{JsPath, Json, Reads}
 
 // Can reuse the address object from Event Registration
 import models.des.Address
 
-case class OtherAddress(addressLine1: Option[String] = None, addressLine2: Option[String] = None,
-                        addressLine3: Option[Option[String]] = None, addressLine4: Option[Option[String]] = None,
-                        postalCode: Option[String] = None, countryCode: Option[String] = None,
-                        addressType: Option[String] = None)
-
-object OtherAddress {
-  implicit val formats = Json.format[OtherAddress]
-}
-
-case class SpousesEstate(domiciledInUk: Option[Boolean] = None, whollyExempt: Option[Boolean] = None,
-                         jointAssetsPassingToOther: Option[Boolean] = None,
-                         otherGifts: Option[Boolean] = None,
-                         agriculturalOrBusinessRelief: Option[Boolean] = None,
-                         giftsWithReservation: Option[Boolean] = None,
-                         benefitFromTrust: Option[Boolean] = None, unusedNilRateBand: Option[BigDecimal] = None)
+case class SpousesEstate(domiciledInUk: Option[Boolean]=None, whollyExempt: Option[Boolean]=None,
+                         jointAssetsPassingToOther: Option[Boolean]=None,
+                         otherGifts: Option[Boolean]=None,
+                         agriculturalOrBusinessRelief: Option[Boolean]=None,
+                         giftsWithReservation: Option[Boolean]=None,
+                         benefitFromTrust: Option[Boolean]=None, unusedNilRateBand: Option[BigDecimal]=None)
 
 object SpousesEstate {
   implicit val formats = Json.format[SpousesEstate]
@@ -53,7 +42,7 @@ case class Spouse(
                    title: Option[String] = None, firstName: Option[String] = None, middleName: Option[String] = None,
                    lastName: Option[String] = None, dateOfBirth: Option[LocalDate] = None,
                    gender: Option[String] = None, nino: Option[String] = None, utr: Option[String] = None,
-                   mainAddress: Option[Address] = None, OtherAddresses: Option[Set[OtherAddress]] = None,
+                   mainAddress: Option[Address] = None,
 
                    // Other
                    dateOfMarriage: Option[LocalDate] = None, dateOfDeath: Option[LocalDate] = None
@@ -82,7 +71,7 @@ case class SurvivingSpouse(
                             middleName: Option[String] = None,
                             lastName: Option[String] = None, dateOfBirth: Option[LocalDate] = None,
                             gender: Option[String] = None, nino: Option[String] = None, utr: Option[String] = None,
-                            mainAddress: Option[Address] = None, OtherAddresses: Option[Set[OtherAddress]] = None,
+                            mainAddress: Option[Address] = None,
 
                             // Other
                             dateOfMarriage: Option[LocalDate] = None, domicile: Option[String] = None,
@@ -111,7 +100,7 @@ case class JointOwner(
                        middleName: Option[String] = None,
                        lastName: Option[String] = None, dateOfBirth: Option[LocalDate] = None,
                        gender: Option[String] = None, nino: Option[String] = None, utr: Option[String] = None,
-                       mainAddress: Option[Address] = None, OtherAddresses: Option[Set[OtherAddress]] = None,
+                       mainAddress: Option[Address] = None,
 
                        // Organisation
                        name: Option[String] = None, ctUtr: Option[String] = None,
@@ -152,7 +141,7 @@ case class OtherBeneficiary(
                              middleName: Option[String] = None,
                              lastName: Option[String] = None, dateOfBirth: Option[LocalDate] = None,
                              gender: Option[String] = None, nino: Option[String] = None, utr: Option[String] = None,
-                             mainAddress: Option[Address] = None, OtherAddresses: Option[Set[OtherAddress]] = None,
+                             mainAddress: Option[Address] = None,
 
                              // Organisation
                              name: Option[String] = None, ctUtr: Option[String] = None,
@@ -229,7 +218,7 @@ case class InterestInOtherEstate(
                                   title: Option[String] = None, firstName: Option[String] = None, middleName: Option[String] = None,
                                   lastName: Option[String] = None, dateOfBirth: Option[LocalDate] = None,
                                   gender: Option[String] = None, nino: Option[String] = None, utr: Option[String] = None,
-                                  mainAddress: Option[Address] = None, OtherAddresses: Option[Set[OtherAddress]] = None,
+                                  mainAddress: Option[Address] = None,
 
                                   // Other
                                   otherEstateAssets: Option[Set[Asset]] = None
@@ -245,7 +234,6 @@ case class Trustee(
                     lastName: Option[String] = None, dateOfBirth: Option[LocalDate] = None,
                     gender: Option[String] = None, nino: Option[String] = None, utr: Option[String] = None,
                     mainAddress: Option[Address] = None,
-                    OtherAddresses: Option[Set[OtherAddress]] = None,
 
                     // Organisation
                     name: Option[String] = None, ctUtr: Option[String] = None,

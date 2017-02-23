@@ -27,7 +27,7 @@
 @import iht.controllers.registration.applicant.{routes => applicantRoutes}
 @import iht.controllers.registration.deceased.{routes => deceasedRoutes}
 
-@(registrationDetails: RegistrationDetails, role:String)(implicit request:Request[_])
+@(registrationDetails: RegistrationDetails, role:String)(implicit request : Request[_], messages: Messages)
 
 @deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 

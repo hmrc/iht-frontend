@@ -25,7 +25,7 @@ import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 
 /**
@@ -125,7 +125,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
                                             allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
                                               isReservation = Some(false), isToTrust = Some(false),
                                               isGivenInLast7Years = Some(false))),
-                                            giftsList = CommonBuilder.buildGiftsList)
+                                            giftsList = Some(CommonBuilder.buildGiftsList))
 
       setUpMocks(applicationDetails)
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false))

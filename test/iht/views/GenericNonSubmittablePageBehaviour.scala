@@ -68,7 +68,7 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
       anchor.attr("href") shouldBe href
     }
     s"have a link with id $anchorId and correct text" in {
-      getAnchorVisibleText(anchor) shouldBe text
+      getVisibleText(anchor) shouldBe text
     }
   }
 }

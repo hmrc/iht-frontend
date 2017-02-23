@@ -23,8 +23,8 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import play.api.i18n.Messages.Implicits._
 import org.mockito.Matchers.same
-import play.api.i18n.Messages
 import play.api.mvc.Request
 import play.api.test.Helpers._
 
@@ -34,7 +34,7 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
   def applicationStatusController = new ApplicationStatusController {
     def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
-      iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)(request)
+      iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)(request, applicationMessages)
 
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -57,7 +57,6 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
   "ApplicationStatusController" must {
     "return the correct page on load" in {
-
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
       val applicationDetails = CommonBuilder.buildApplicationDetailsWithAllAssets
 
@@ -65,7 +64,7 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
 
       val result = applicationStatusController.onPageLoad("")(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("page.iht.application.overview.inreview.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.overview.inreview.title"))
     }
   }
 }

@@ -24,7 +24,7 @@ import iht.views.html.registration.executor.coexecutor_personal_details
 import iht.views.registration.{PersonalDetailsViewBehaviour, YesNoQuestionViewBehaviour}
 import org.jsoup.nodes.Document
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.mvc.Call
 
@@ -32,14 +32,14 @@ class CoexecutorPersonalDetailsViewTest extends YesNoQuestionViewBehaviour[CoExe
 
   override def guidanceParagraphs = Set.empty
 
-  override def pageTitle = Messages("page.iht.registration.co-executor-personal-details.title")
+  override def pageTitle = messagesApi("page.iht.registration.co-executor-personal-details.title")
 
-  override def browserTitle = Messages("page.iht.registration.co-executor-personal-details.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.co-executor-personal-details.browserTitle")
 
   override def form: Form[CoExecutor] = coExecutorPersonalDetailsForm
 
   override def formToView: Form[CoExecutor] => Appendable =
-    form => coexecutor_personal_details(form, Mode.Standard, CommonBuilder.DefaultCall1)(createFakeRequest())
+    form => coexecutor_personal_details(form, Mode.Standard, CommonBuilder.DefaultCall1)(createFakeRequest(), applicationMessages)
 
 
   def editModeViewAsDocument(): Document = {

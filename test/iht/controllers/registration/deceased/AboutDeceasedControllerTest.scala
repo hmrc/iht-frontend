@@ -25,6 +25,8 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class AboutDeceasedControllerTest
@@ -91,8 +93,8 @@ class AboutDeceasedControllerTest
         createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }
 
     "contain Continue and Cancel buttons when page is loaded in edit mode" in {
@@ -105,8 +107,8 @@ class AboutDeceasedControllerTest
       val result = controller.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "load the page with the fields filled from DB" in {
@@ -171,7 +173,7 @@ class AboutDeceasedControllerTest
 
       val result = await(controller.onSubmit()(request))
       status(result) shouldBe BAD_REQUEST
-      contentAsString(result) should include(Messages("error.firstName.give"))
+      contentAsString(result) should include(messagesApi("error.firstName.give"))
     }
 
     "respond appropriately to an invalid submit: Invalid NINO format" in {
@@ -188,7 +190,7 @@ class AboutDeceasedControllerTest
 
       val result = await(controller.onSubmit()(request))
       status(result) shouldBe BAD_REQUEST
-      contentAsString(result) should include(Messages("error.nino.giveUsingOnlyLettersAndNumbers"))
+      contentAsString(result) should include(messagesApi("error.nino.giveUsingOnlyLettersAndNumbers"))
     }
 
     "respond appropriately to an invalid submit: date of birth after date of death" in {
@@ -206,7 +208,7 @@ class AboutDeceasedControllerTest
 
       val result = controller.onSubmit()(request)
       status(result) shouldBe BAD_REQUEST
-      contentAsString(result) should include(Messages("error.deceasedDateOfBirth.giveBeforeDateOfDeath"))
+      contentAsString(result) should include(messagesApi("error.deceasedDateOfBirth.giveBeforeDateOfDeath"))
     }
 
     "respond with an internal server error to a submit with valid values in all fields but the storage fails" in  {
@@ -251,7 +253,7 @@ class AboutDeceasedControllerTest
 
       val result = await(controller.onEditSubmit()(request))
       status(result) shouldBe BAD_REQUEST
-      contentAsString(result) should include(Messages("error.firstName.give"))
+      contentAsString(result) should include(messagesApi("error.firstName.give"))
     }
 
     "save valid data correctly when coming to this screen for the first time" in {

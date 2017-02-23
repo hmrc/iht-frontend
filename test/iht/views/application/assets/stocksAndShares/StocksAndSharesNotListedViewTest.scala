@@ -25,21 +25,22 @@ import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_not_li
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.i18n.Messages.Implicits._
 
 class StocksAndSharesNotListedViewTest extends ShareableElementInputViewBehaviour[StockAndShare] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def pageTitle = Messages("iht.estateReport.assets.stocksAndSharesNotListed")
-  override def browserTitle = Messages("page.iht.application.assets.stocksAndSharesNotListed.browserTitle")
+  override def pageTitle = messagesApi("iht.estateReport.assets.stocksAndSharesNotListed")
+  override def browserTitle = messagesApi("page.iht.application.assets.stocksAndSharesNotListed.browserTitle")
 
-  override def questionTitle = Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName)
-  override def valueQuestion = Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed")
+  override def questionTitle = messagesApi("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName)
+  override def valueQuestion = messagesApi("iht.estateReport.assets.stocksAndShares.valueOfNotListed")
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def valueInputBoxId = "valueNotListed"
-  override def returnLinkText = Messages("site.link.return.stocksAndShares")
+  override def returnLinkText = messagesApi("site.link.return.stocksAndShares")
   override def returnLinkUrl = routes.StocksAndSharesOverviewController.onPageLoad().url
   override def formTarget = Some(routes.StocksAndSharesNotListedController.onSubmit())
 

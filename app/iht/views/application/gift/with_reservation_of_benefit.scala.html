@@ -22,7 +22,7 @@
 @import iht.models.application.gifts.AllGifts
 
 @(giftWithReservationFromBenefitForm:Form[AllGifts],
-registrationDetails:RegistrationDetails)(implicit request:Request[_])
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
 
 @gifts_main_template(title = Messages("iht.estateReport.gifts.withReservation.title"),
 browserTitle = Some(Messages("iht.estateReport.gifts.withReservation.title")),

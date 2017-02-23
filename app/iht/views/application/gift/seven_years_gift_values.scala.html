@@ -32,7 +32,7 @@ totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
 totalExemptionsValue: BigDecimal,
 previousYearsGiftsExemptionsIsDefined: Boolean,
 previousYearsGiftsValueIsDefined: Boolean
-)(implicit request: Request[_])
+)(implicit request:Request[_], messages: Messages)
 
 @gifts_main_template(title = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"),
 browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.browserTitle")),
@@ -85,7 +85,7 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.claimingExemption
                 }
                 <tr class="table__row--responsive table--font-reset highlight table--spaced-top">
                 @CommonHelper.previousYearsGiftsAccessibilityTotals(totalPastYearsGifts, totalExemptionsValue, totalPastYearsGiftsValueExcludingExemptions, giftsList).map{ totals =>
-                    <td class="table__detail--responsive"><strong>@Messages("iht.estateReport.gifts.totalOverSevenYears")</strong></td>
+                    <th class="table__detail--responsive"><strong>@Messages("iht.estateReport.gifts.totalOverSevenYears")</strong></th>
                     <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle1")" id="total-gifts-value"><div aria-hidden="true">@if(previousYearsGiftsValueIsDefined){&pound;@CommonHelper.numberWithCommas(totalPastYearsGifts)}</div>
                         <span class="visually-hidden">@totals._1</span>
                     </td>

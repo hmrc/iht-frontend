@@ -25,7 +25,7 @@ import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 
 /**
@@ -144,7 +144,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.no"))
+      contentAsString(result) should include(messagesApi("iht.no"))
     }
 
     "display YES on page when there is no reservation of benefit" in {
@@ -162,7 +162,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.yes"))
+      contentAsString(result) should include(messagesApi("iht.yes"))
     }
 
     "display return to estate overview link on page" in {
@@ -180,7 +180,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.returnToEstateOverview"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.returnToEstateOverview"))
     }
 
     "display gift guidance on page" in {
@@ -200,7 +200,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("page.iht.application.gifts.overview.guidance1",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.gifts.overview.guidance1",
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails),
                                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
@@ -220,7 +220,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.gifts.overview.value.question1"))
+      contentAsString(result) should include(messagesApi("page.iht.application.gifts.overview.value.question1"))
       contentAsString(result) should include("£0")
     }
 
@@ -240,7 +240,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should not include Messages("page.iht.application.gifts.overview.value.question1")
+      contentAsString(result) should not include messagesApi("page.iht.application.gifts.overview.value.question1")
     }
 
     "not display 'value of gifts given away' question when initial question answered 'No'" in {
@@ -257,7 +257,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should not include Messages("iht.estateReport.gifts.valueOfGiftsGivenAway")
+      contentAsString(result) should not include messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway")
     }
 
     "display 'value of gifts given away' question when initial question answered 'Yes'" in {
@@ -274,7 +274,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway"))
     }
 
 
@@ -295,7 +295,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.overview.sevenYears.question2",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.overview.sevenYears.question2",
         deceasedName))
     }
 
@@ -313,7 +313,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) shouldNot include (Messages("page.iht.application.gifts.overview.sevenYears.question2"))
+      contentAsString(result) shouldNot include (messagesApi("page.iht.application.gifts.overview.sevenYears.question2"))
     }
 
 

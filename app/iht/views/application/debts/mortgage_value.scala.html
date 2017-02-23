@@ -28,7 +28,7 @@
 @(mortgagesForm: Form[iht.models.application.debts.Mortgage],
 property: Property,
 submitUrl: Call,
-regDetails: RegistrationDetails)(implicit request: Request[_])
+regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 
@@ -43,7 +43,7 @@ regDetails: RegistrationDetails)(implicit request: Request[_])
 
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 
-        <div class="panel-indent panel-indent--gutter">
+        <div id="address" class="panel-indent panel-indent--gutter">
             @property.address match{
                 case Some(x) => {
                     @CommonHelper.addressLayout(x)

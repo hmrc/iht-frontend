@@ -16,7 +16,7 @@
 
 @(propertyAddressForm: Form[iht.models.application.assets.Property],
 cancelUrl: Call,
-submitUrl: Call)(implicit request: Request[_])
+submitUrl: Call)(implicit request:Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
