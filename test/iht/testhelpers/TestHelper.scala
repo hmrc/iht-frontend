@@ -108,6 +108,7 @@ object TestHelper {
   lazy val spouseOrCivilPartnerMessageKey = "page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText"
   lazy val marriedMessageKey = "page.iht.application.tnrbEligibilty.partner.married.label"
   lazy val marriedOrInCivilPartnershipMessageKey = "page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label"
+  lazy val ihtPropertiesCorrectiveAccountsLink = "https://www.gov.uk/government/publications/inheritance-tax-corrective-account-c4"
 }
 
 trait SharableOverviewData {
@@ -126,5 +127,4 @@ trait SharableOverviewData {
   val dataWithValues =
     Some(ShareableBasicEstateElement(value = Some(ownedAmount), shareValue = Some(jointAmount),
       isOwned = Some(true), isOwnedShare = Some(true)))
-
 }
