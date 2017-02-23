@@ -24,6 +24,7 @@
 @(ihtref: String, deceasedName: String, probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("page.iht.application.overview.inreview.title"),
+browserTitle = Some(Messages("page.iht.application.overview.inreview.title")),
 isFullWidth=false,
 sidebarLinks= iht.views.html.application.status.post_submission_sidebar(ihtref, probateDetails, "page.iht.application.overview.inreview.sidebartitle")
 ) {
@@ -32,7 +33,7 @@ sidebarLinks= iht.views.html.application.status.post_submission_sidebar(ihtref, 
     @post_submit_common(deceasedName, true)
     <div id="return-button">
         @helpers.form(action = iht.controllers.home.routes.IhtHomeController.onPageLoad) {
-        <p><input class="button" type="submit" value="@Messages("page.iht.application.overview.common.return")"></p>
+        <p><input id="return-input" class="button" type="submit" value="@Messages("page.iht.application.overview.common.return")"></p>
         }
     </div>
 </div>

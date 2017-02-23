@@ -38,7 +38,7 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
 
   override val exitId: String = "return-link"
 
-  override def exitComponent = Some(
+  override def exitComponent: Option[ExitComponent] = Some(
     ExitComponent(
       iht.controllers.home.routes.IhtHomeController.onPageLoad(),
       messagesApi("page.iht.application.overview.common.return")
