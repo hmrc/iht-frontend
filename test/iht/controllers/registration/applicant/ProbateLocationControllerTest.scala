@@ -38,14 +38,14 @@ class ProbateLocationControllerTest
  def controller = new ProbateLocationController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector(isAuthorised=true)
-   override val metrics:Metrics = Metrics
+   override val metrics:Metrics = mock[Metrics]
    override val isWhiteListEnabled = false
  }
 
   def controllerNotAuthorised = new ProbateLocationController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val metrics:Metrics = Metrics
+    override val metrics:Metrics = mock[Metrics]
     override val isWhiteListEnabled = false
   }
 
