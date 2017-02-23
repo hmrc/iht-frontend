@@ -40,6 +40,8 @@ import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 object CommonBuilder {
   val rng = new Random
 
+  val emptyString = ""
+
   def currencyValue(x:BigDecimal) = "£" + CommonHelper.numberWithCommas(x)
 
   def randomElement[T](elements: List[T]) = elements(rng.nextInt(elements.length))
@@ -509,6 +511,12 @@ object CommonBuilder {
     id = Some("1"),
     name = Some("Qualifying Body"),
     totalValue = Some(12345)
+  )
+
+  val qualifyingBody2 = QualifyingBody(
+    id = Some("2"),
+    name = Some("Qualifying Body 2"),
+    totalValue = Some(54321)
   )
 
   val buildProperty = Property(
