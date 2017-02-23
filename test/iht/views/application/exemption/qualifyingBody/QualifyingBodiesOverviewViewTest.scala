@@ -25,7 +25,7 @@ import play.api.test.FakeRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class QualifyingBodiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
+trait QualifyingBodiesOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -47,6 +47,15 @@ class QualifyingBodiesOverviewViewTest extends GenericNonSubmittablePageBehaviou
       messagesApi("site.link.return.exemptions")
     )
   )
+}
+
+class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehaviour {
+  val qualifyingBodyName1 = CommonBuilder.qualifyingBody.map(_.name).fold("")(identity)
+  val qualifyingBodyValue1 = CommonBuilder.currencyValue(CommonBuilder.qualifyingBody.map(_.totalValue).fold(BigDecimal(0))(identity))
+  val qualifyingBodyName2 = CommonBuilder.qualifyingBody2.map(_.name).fold("")(identity)
+  val qualifyingBodyValue2 = CommonBuilder.currencyValue(CommonBuilder.qualifyingBody2.map(_.totalValue).fold(BigDecimal(0))(identity))
+
+  val qualifyingBodyTableId = "qualifying_bodies_table"
 
   override def view =
     qualifying_bodies_overview(
@@ -54,8 +63,6 @@ class QualifyingBodiesOverviewViewTest extends GenericNonSubmittablePageBehaviou
       registrationDetails,
       isAssetLeftToQualifyingBody = true
     ).toString()
-
-  val qualifyingBodyTableId = "qualifying_bodies_table"
 
   def qualifyingBodyWithDeleteAndModify(rowNo: Int, expectedName: String, expectedValue: String) = {
     s"show qualifyingBody number ${rowNo + 1} name" in {
@@ -77,14 +84,7 @@ class QualifyingBodiesOverviewViewTest extends GenericNonSubmittablePageBehaviou
       val anchor = div.getElementsByTag("a").first
       getVisibleText(anchor) shouldBe messagesApi("iht.delete")
     }
-
-
   }
-
-  val qualifyingBodyName1 = CommonBuilder.qualifyingBody.map(_.name).fold("")(identity)
-  val qualifyingBodyValue1 = CommonBuilder.currencyValue(CommonBuilder.qualifyingBody.map(_.totalValue).fold(BigDecimal(0))(identity))
-  val qualifyingBodyName2 = CommonBuilder.qualifyingBody2.map(_.name).fold("")(identity)
-  val qualifyingBodyValue2 = CommonBuilder.currencyValue(CommonBuilder.qualifyingBody2.map(_.totalValue).fold(BigDecimal(0))(identity))
 
   "Qualifying bodies overview view" must {
     behave like nonSubmittablePage()
@@ -108,17 +108,20 @@ class QualifyingBodiesOverviewViewTest extends GenericNonSubmittablePageBehaviou
     behave like qualifyingBodyWithDeleteAndModify(0, qualifyingBodyName1, qualifyingBodyValue1)
 
     behave like qualifyingBodyWithDeleteAndModify(1, qualifyingBodyName2, qualifyingBodyValue2)
+  }
+}
 
+class QualifyingBodiesOverviewViewWithNoBodiesTest extends QualifyingBodiesOverviewViewBehaviour {
+  override def view =
+    qualifying_bodies_overview(
+      Seq.empty,
+      registrationDetails,
+      isAssetLeftToQualifyingBody = true
+    ).toString()
 
-//
-//    "show you haven't added message when there are no properties" in {
-//      val view = properties_overview(List(),
-//        Some(Properties(isOwned = Some(true))),
-//        registrationDetails).toString()
-//      val doc = asDocument(view)
-//      doc.getElementById("properties-empty-table-row").text shouldBe
-//        messagesApi("page.iht.application.assets.deceased-permanent-home.table.emptyRow.text")
-//
-//    }
+  "Qualifying bodies overview view with no qualifying bodies" must {
+    behave like link("add-qualifyingBody",
+      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url,
+      messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
   }
 }
