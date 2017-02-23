@@ -25,6 +25,8 @@ import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import play.api.Logger
 import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants
 
 /**

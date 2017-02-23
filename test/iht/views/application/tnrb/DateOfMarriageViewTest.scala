@@ -22,21 +22,21 @@ import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.date_of_marriage
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.constants.Constants._
 
 class DateOfMarriageViewTest extends ViewTestHelper {
   val tnrbModel = CommonBuilder.buildTnrbEligibility
   val widowCheckModel = CommonBuilder.buildWidowedCheck
 
-  lazy val pageTitle = Messages("iht.estateReport.tnrb.dateOfMarriage",
+  lazy val pageTitle = messagesApi("iht.estateReport.tnrb.dateOfMarriage",
     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))
 
-  lazy val guidanceParagraphs = Set(Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
+  lazy val guidanceParagraphs = Set(messagesApi("iht.estateReport.tnrb.dateOfMarriage.hint",
     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName, predeceasedName))
 
   lazy val returnLinkId = "cancel-button"
-  lazy val returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+  lazy val returnLinkText = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
   lazy val returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   lazy val deceasedName = "Xyz zzm"
@@ -73,7 +73,7 @@ class DateOfMarriageViewTest extends ViewTestHelper {
       val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
 
       val saveAndContinueButton = asDocument(view).getElementById("save-continue")
-      saveAndContinueButton.text() shouldBe Messages("iht.saveAndContinue")
+      saveAndContinueButton.text() shouldBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct return link with text" in {

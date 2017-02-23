@@ -17,12 +17,15 @@
 package iht.constants
 
 import java.net.URL
+import java.nio.file.{Path, Paths}
 
 import play.api.Play
 import play.api.Play.current
 
 import scala.collection.immutable.ListMap
 import iht.constants.IhtProperties._
+import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by dbeer on 04/08/15.
@@ -123,6 +126,7 @@ object Constants {
   val MaxIterationValueForGiftYears = 8
 
   val PDFHMRCGuidance: URL = Play.classloader.getResource("pdf/151001 Notes to help you fill in IHT online - final - for DDCN.pdf")
+  val pDFHMRCGuidance: Path = Paths.get(PDFHMRCGuidance.toURI)
 
   val yesAnswer = "Yes"
   val noAnswer = "No"

@@ -25,6 +25,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.seven_years_to_trust
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants._
 
 

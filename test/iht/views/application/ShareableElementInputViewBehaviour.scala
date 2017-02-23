@@ -18,7 +18,7 @@ package iht.views.application
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
-import play.api.data.Form
+import play.api.data.{Form, FormError}
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
@@ -90,6 +90,28 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
       }else{
         link.attr("href") shouldBe returnLinkUrl
       }
+    }
+  }
+
+  def yesNoValueViewWithErrorSummaryBox(): Unit = {
+
+    viewBehaviour("value")
+
+    "display the 'There's a problem' box if there's an error" in {
+      val newForm = form.withError(FormError("field", "error message"))
+      val document = asDocument(formToView(newForm).toString)
+      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
+    }
+  }
+
+  def yesNoValueViewJointWithErrorSummaryBox(): Unit = {
+
+    viewBehaviour("shareValue")
+
+    "display the 'There's a problem' box if there's an error" in {
+      val newForm = form.withError(FormError("field", "error message"))
+      val document = asDocument(formToView(newForm).toString)
+      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
     }
   }
 }

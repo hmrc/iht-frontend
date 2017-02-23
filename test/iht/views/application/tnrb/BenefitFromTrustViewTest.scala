@@ -23,7 +23,7 @@ import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.benefit_from_trust
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -33,11 +33,11 @@ class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibilty
 
   def widowCheck = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.benefitFromTrust.question",
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.benefitFromTrust.question",
     TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
-      Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
+      messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
-  override def browserTitle = Messages("page.iht.application.tnrb.benefitFromTrust.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.tnrb.benefitFromTrust.browserTitle")
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit())
 

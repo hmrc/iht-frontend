@@ -30,7 +30,7 @@ import play.api.test.Helpers._
  * Created by Vineet Tyagi on 07/12/15.
  *
  */
-class AssetsOverviewControllerTest extends ApplicationControllerTest{
+class AssetsOverviewControllerTest extends ApplicationControllerTest {
 
   var mockCachingConnector: CachingConnector = mock[CachingConnector]
   var mockIhtConnector: IhtConnector = mock[IhtConnector]

@@ -30,7 +30,7 @@
 seqRows:Seq[Section],
 returnToCall: Option[Call],
 returnToMessagesKey: String
-)(implicit request: Request[_])
+)(implicit request:Request[_], messages: Messages)
 
 
 @iht_main_template_application(

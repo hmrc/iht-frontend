@@ -19,7 +19,8 @@ package iht.controllers.application.exemptions.partner
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.IhtConnectors
 import iht.controllers.application.ApplicationController
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 object PartnerOverviewController extends PartnerOverviewController with IhtConnectors

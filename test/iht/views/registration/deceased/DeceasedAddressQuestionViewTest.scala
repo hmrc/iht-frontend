@@ -22,16 +22,16 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.deceased_address_question
 import iht.views.registration.YesNoQuestionViewBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[DeceasedDetails] {
 
-  override def guidanceParagraphs = Set(Messages("page.iht.registration.deceasedAddressQuestion.p1"))
+  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.deceasedAddressQuestion.p1"))
 
-  override def pageTitle = Messages("page.iht.registration.deceasedAddressQuestion.title")
+  override def pageTitle = messagesApi("page.iht.registration.deceasedAddressQuestion.title")
 
-  override def browserTitle = Messages("iht.registration.contactAddress")
+  override def browserTitle = messagesApi("iht.registration.contactAddress")
 
   override def form: Form[DeceasedDetails] = deceasedAddressQuestionForm
 

@@ -21,8 +21,8 @@ import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.html.application.debts.funeral_expenses
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
 
@@ -40,13 +40,13 @@ class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateEleme
   override def form:Form[BasicEstateElementLiabilities] = funeralExpensesForm
   override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => funeral_expenses(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.debts.funeralExpenses.title")
-  override def browserTitle = Messages("iht.estateReport.debts.funeralExpenses.title")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.funeralExpenses.description.p1"),
-                                        Messages("page.iht.application.debts.funeralExpenses.description.p2",
+  override def pageTitle = messagesApi("iht.estateReport.debts.funeralExpenses.title")
+  override def browserTitle = messagesApi("iht.estateReport.debts.funeralExpenses.title")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.funeralExpenses.description.p1"),
+                                        messagesApi("page.iht.application.debts.funeralExpenses.description.p2",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-  override def yesNoQuestionText = Messages("page.iht.application.debts.funeralExpenses.isOwned")
-  override def inputValueFieldLabel = Messages("iht.estateReport.debts.valueOfFuneralCosts")
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.funeralExpenses.isOwned")
+  override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.valueOfFuneralCosts")
   override def linkHash = DebtsFuneralExpensesID
 
   "FuneralExpensesView" must {

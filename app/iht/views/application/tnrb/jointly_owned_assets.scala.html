@@ -22,7 +22,7 @@
 
 @(jointAssetPassedForm:Form[TnrbEligibiltyModel],
 deceasedName:String,
-cancelUrl:Call)(implicit request:Request[_])
+cancelUrl:Call)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedName),
 browserTitle = Some(Messages("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")),

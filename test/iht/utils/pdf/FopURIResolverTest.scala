@@ -27,6 +27,7 @@ import uk.gov.hmrc.play.test.UnitSpec
   * Created by david-beer on 27/10/16.
   */
 class FopURIResolverTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+
   "Must return a valid Resource" in {
 
     val inputResource = new URI("/pdf/templates/clearance/main.xsl")

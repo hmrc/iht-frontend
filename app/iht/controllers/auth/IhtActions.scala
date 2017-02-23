@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.frontend.auth._
 
 import scala.concurrent.Future
 
-trait IhtActions extends Actions with PasscodeAuthentication {
+trait IhtActions extends Actions with CustomPasscodeAuthentication {
   private type AsyncPlayUserRequest = AuthContext => (Request[AnyContent] => Future[Result])
 
   private def grantAccessIfOnWhitelist(body: AsyncPlayUserRequest)(implicit authContext: AuthContext, request: Request[AnyContent]): Future[Result] = {

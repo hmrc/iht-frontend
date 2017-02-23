@@ -27,6 +27,8 @@ import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.mvc.Result
 import play.api.test.Helpers._
 
@@ -84,7 +86,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val result = controller.onPageLoad(None)(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.co-executor-personal-details.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
     }
 
 
@@ -95,8 +97,8 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val result = controller.onPageLoad(None)(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include Messages("site.link.cancel")
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include messagesApi("site.link.cancel")
     }
 
     "contain Continue and Cancel buttons when Page is loaded in edit mode" in {
@@ -109,8 +111,8 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val result = controller.onEditPageLoad("1")(createFakeRequest())
       status(result) shouldBe OK
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "not contain the 'Do you live in the UK' question when loaded in edit mode" in {
@@ -123,7 +125,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val result = controller.onEditPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe OK
 
-      contentAsString(result) should not include Messages("page.iht.registration.co-executor-personal-details.isAddressInUk")
+      contentAsString(result) should not include messagesApi("page.iht.registration.co-executor-personal-details.isAddressInUk")
     }
 
 
@@ -138,7 +140,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val result = controller.onPageLoad(Some("1"))(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.co-executor-personal-details.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
       contentAsString(result) should include(firstName)
       contentAsString(result) should include(surname)
     }
@@ -154,7 +156,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val result = controller.onPageLoad(None)(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.registration.co-executor-personal-details.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
       contentAsString(result) should not include firstName
       contentAsString(result) should not include surname
     }
@@ -479,14 +481,14 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val result = submitCoExecutorPersonalDetails(
         CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate, detailsToSubmit, None)
       status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(Messages(expectedError))
+      contentAsString(result) should include(messagesApi(expectedError))
     }
 
     def checkForErrorOnSubmissionOfModel(coExecutor: CoExecutor,expectedError: String): Unit = {
       val result = submitCoExecutorPersonalDetailsModel(
         CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate, coExecutor, None)
       status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(Messages(expectedError))
+      contentAsString(result) should include(messagesApi(expectedError))
     }
 
     def prepareForm(coExecutor: CoExecutor): Form[CoExecutor] = {

@@ -27,7 +27,8 @@ import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 

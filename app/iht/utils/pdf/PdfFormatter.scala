@@ -17,12 +17,13 @@
 package iht.utils.pdf
 
 import iht.constants.{Constants, IhtProperties}
-import iht.utils.CommonHelper
-import models.des.iht_return.{Asset, Exemption, IHTReturn, Liability}
+import models.des.iht_return.{Asset, Exemption, IHTReturn}
 import org.joda.time.LocalDate
+import play.api.Play.current
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
-import scala.collection.immutable.{ListMap, SortedSet}
+import scala.collection.immutable.ListMap
 
 /**
   * Created by vineet on 13/06/16.

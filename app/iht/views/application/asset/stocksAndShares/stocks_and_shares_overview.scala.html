@@ -26,7 +26,7 @@
 @import iht.constants.Constants._
 
 @(stocks:Option[StockAndShare],
-  registrationDetails: RegistrationDetails)(implicit request: Request[_])
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 

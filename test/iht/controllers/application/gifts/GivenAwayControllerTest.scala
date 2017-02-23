@@ -25,7 +25,7 @@ import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 
 /**
@@ -99,7 +99,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
 
       val result = givenAwayController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.givenAway.p2",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.lastYears.givenAway.p2",
                                                           CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 

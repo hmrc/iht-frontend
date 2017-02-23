@@ -26,7 +26,7 @@
         deceasedName: String,
         predeceasedName: String,
         cancelUrl: Call
-)(implicit request: Request[_])
+)(implicit request: Request[_], messages: Messages)
 
 @defining(Messages("iht.estateReport.tnrb.dateOfMarriage",
     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>

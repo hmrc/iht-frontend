@@ -23,7 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_deceased_own
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
@@ -35,18 +35,18 @@ class HouseholdDeceasedOwnViewTest extends ViewTestHelper with ShareableElementI
   override def form:Form[ShareableBasicEstateElement] = householdFormOwn
   override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => household_deceased_own(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+  override def pageTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                                     deceasedName)
-  override def browserTitle = Messages("page.iht.application.assets.household.deceased.browserTitle")
-  override def questionTitle = Messages("iht.estateReport.assets.household.ownName.question", deceasedName)
-  override def valueQuestion = Messages("iht.estateReport.assets.household.deceasedOwnedValue")
+  override def browserTitle = messagesApi("page.iht.application.assets.household.deceased.browserTitle")
+  override def questionTitle = messagesApi("iht.estateReport.assets.household.ownName.question", deceasedName)
+  override def valueQuestion = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue")
   override def hasValueQuestionHelp = true
-  override def valueQuestionHelp = Messages("iht.estateReport.assets.getProfessionalValuation")
-  override def returnLinkText = Messages("site.link.return.household")
+  override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
+  override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
 
   "Household Deceased Own view" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
   }
 
 }

@@ -17,7 +17,7 @@
 package iht.views.application
 
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.iht_kickout_final_application
 
 /**
@@ -39,27 +39,27 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
     "have the correct title and browser title" in {
       val view = ihtKickOutFinalApplicationView.toString
 
-      titleShouldBeCorrect(view.toString, Messages("page.iht.application.kickout.final.browserTitle"))
-      browserTitleShouldBeCorrect(view, Messages("page.iht.application.kickout.final.browserTitle"))
+      titleShouldBeCorrect(view.toString, messagesApi("page.iht.application.kickout.final.browserTitle"))
+      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.kickout.final.browserTitle"))
     }
 
     "have correct guidance" in {
       val view = ihtKickOutFinalApplicationView
 
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.title"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.guidance1"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.guidance2.youShould"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.getCopy.title"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.getCopy.guidance1"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.getCopy.guidance2.youShould"))
       messagesShouldBePresent(view.toString,
-                                        Messages("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.getCopy.guidance3"))
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.kickout.final.guidance.onFinish"))
+                                        messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.getCopy.guidance3"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.guidance.onFinish"))
     }
 
     "have save and print link with correct text " in {
       val view = ihtKickOutFinalApplicationView
 
       val returnButton = view.getElementById("save-and-print")
-      returnButton.text() shouldBe Messages("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint")
+      returnButton.text() shouldBe messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint")
       returnButton.attr("href") shouldBe
         iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF.url
     }
@@ -68,7 +68,7 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
       val view = ihtKickOutFinalApplicationView
 
       val returnButton = view.getElementById("return-button")
-      returnButton.text() shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      returnButton.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       returnButton.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef).url
     }
@@ -77,7 +77,7 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
       val view = ihtKickOutFinalApplicationView
 
       val finishButton = view.getElementById("finish")
-      finishButton.attr("value") shouldBe Messages("iht.finishAndDeleteThisEstateReport")
+      finishButton.attr("value") shouldBe messagesApi("iht.finishAndDeleteThisEstateReport")
     }
   }
 

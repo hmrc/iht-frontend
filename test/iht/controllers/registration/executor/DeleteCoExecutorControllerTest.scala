@@ -25,7 +25,10 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
+import iht.utils._
 
 class DeleteCoExecutorControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
@@ -130,7 +133,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("site.button.confirmDelete"))
+      contentAsString(result) should include(messagesApi("site.button.confirmDelete"))
     }
 
     "if the coexecutor with given id exists - a cancel link must be visible" in {
@@ -141,8 +144,8 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL = referrerURL, host = "localhost:9070"))
 
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("site.link.cancel"))
-      contentAsString(result) should include(Messages(routes.ExecutorOverviewController.onPageLoad().url))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
+      contentAsString(result) should include(messagesApi(routes.ExecutorOverviewController.onPageLoad().url))
     }
 
     "if the coexecutor with given id exists - the name of the coexecutor must be visible" in {
@@ -294,7 +297,7 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequestWithReferrer(referrerURL=referrerURL, host="localhost:9070"))
 
       status(result) shouldBe OK
-      contentAsString(result) should include(coExecutor.ukAddress.get.countryCode)
+      contentAsString(result) should include(countryName(coExecutor.ukAddress.get.countryCode))
     }
 
     "After a submit, when the coexecutor with the given id does not exist, should result in a server error" in {

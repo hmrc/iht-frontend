@@ -24,6 +24,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationKickOutHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.with_reservation_of_benefit
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants._
 
 /**

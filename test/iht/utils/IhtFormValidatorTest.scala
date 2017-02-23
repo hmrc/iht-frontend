@@ -16,13 +16,16 @@
 
 package iht.utils
 
+import iht.FakeIhtApp
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator._
 import org.scalatest.mock.MockitoSugar
 import play.api.data.FormError
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
-class IhtFormValidatorTest extends UnitSpec with MockitoSugar with iht.FakeIhtApp {
+class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
+
   "validatePrivatePensions" must {
     val vpp = IhtFormValidator.validatePrivatePensions("value", "shared", "radio")
     "displays error if no radio button value selected but value" in {

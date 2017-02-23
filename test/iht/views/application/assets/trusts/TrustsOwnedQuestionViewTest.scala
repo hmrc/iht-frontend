@@ -22,7 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.trusts.trusts_owned_question
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
 
@@ -32,21 +32,21 @@ class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
   override def guidanceParagraphs = Set(
-    Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust", deceasedName),
-    Messages("iht.estateReport.assets.trusts.needInclusion", deceasedName),
-    Messages("iht.estateReport.assets.heldInTrust.needInclusion", deceasedName)
+    messagesApi("iht.estateReport.assets.trusts.benefittedFromHeldInTrust", deceasedName),
+    messagesApi("iht.estateReport.assets.trusts.needInclusion", deceasedName),
+    messagesApi("iht.estateReport.assets.heldInTrust.needInclusion", deceasedName)
   )
 
-  override def pageTitle = Messages("iht.estateReport.assets.trusts.question", deceasedName)
+  override def pageTitle = messagesApi("iht.estateReport.assets.trusts.question", deceasedName)
 
-  override def browserTitle = Messages("page.iht.application.assets.trusts.isOwned.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.assets.trusts.isOwned.browserTitle")
 
   override def formTarget = Some(iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit())
 
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-      Messages("page.iht.application.return.to.assetsOf", deceasedName),
+      messagesApi("page.iht.application.return.to.assetsOf", deceasedName),
       AppSectionHeldInTrustID
     )
   )
@@ -58,6 +58,6 @@ class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust
       trusts_owned_question(form, registrationDetails)
 
   "Permanent home page Question View" must {
-    behave like yesNoQuestionWithLegend(Messages("iht.estateReport.assets.trusts.question", deceasedName))
+    behave like yesNoQuestionWithLegend(messagesApi("iht.estateReport.assets.trusts.question", deceasedName))
   }
 }

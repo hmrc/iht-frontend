@@ -23,7 +23,7 @@
 isQuestionsShown:Option[Boolean],
 htmlQuestionTitle: Html,
 htmlQuestion: => Html,
-htmlQuestionValue: => Html)(implicit lang: play.api.i18n.Lang)
+htmlQuestionValue: => Html)(implicit messages: Messages)
 
 <section id="@sectionId">
     @htmlQuestionTitle

@@ -19,7 +19,7 @@
 @import iht.constants.FieldMappings
 @import iht.constants.Constants._
 
-@(country: String, estimatedValue: Option[String] = None)
+@(country: String, estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Messages)
 
 <section class="section">
     <div class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">

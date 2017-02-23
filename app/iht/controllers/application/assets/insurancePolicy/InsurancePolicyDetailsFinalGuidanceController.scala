@@ -22,6 +22,8 @@ import iht.metrics.Metrics
 import iht.utils._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_final_guidance
 import play.api.mvc.{Call, Request, Result}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object InsurancePolicyDetailsFinalGuidanceController extends InsurancePolicyDetailsFinalGuidanceController with IhtConnectors {
   def metrics : Metrics = Metrics

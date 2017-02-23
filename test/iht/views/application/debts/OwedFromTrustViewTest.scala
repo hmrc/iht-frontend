@@ -20,6 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
+import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.owed_from_trust
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -40,13 +41,13 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour[BasicEstateElement
   override def form:Form[BasicEstateElementLiabilities] = debtsTrustForm
   override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => owed_from_trust(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.debts.debtsTrust.title")
-  override def browserTitle = Messages("page.iht.application.debts.debtsTrust.browserTitle")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.debtsTrust.description.p1",
+  override def pageTitle = messagesApi("iht.estateReport.debts.debtsTrust.title")
+  override def browserTitle = messagesApi("page.iht.application.debts.debtsTrust.browserTitle")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.debtsTrust.description.p1",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-  override def yesNoQuestionText = Messages("page.iht.application.debts.debtsTrust.isOwned",
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsTrust.isOwned",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails))
-  override def inputValueFieldLabel = Messages("iht.estateReport.debts.debtsTrust.value")
+  override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.debtsTrust.value")
   override def linkHash = DebtsOwedFromTrustID
 
   "OwedFromTrustView" must {

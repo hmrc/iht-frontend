@@ -26,6 +26,8 @@ import iht.utils.{CommonHelper, DeclarationHelper}
 import models.des.iht_return.IHTReturn
 import play.api.Logger
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.http.HeaderCarrier
 

@@ -26,7 +26,7 @@
 @(partnerNameForm:Form[TnrbEligibiltyModel],
 predeceasedDate: Option[LocalDate],
 cancelUrl: Call
-)(implicit request:Request[_])
+)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.increasingIHTThreshold"),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),

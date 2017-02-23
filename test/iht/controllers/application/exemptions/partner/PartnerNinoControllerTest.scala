@@ -23,6 +23,8 @@ import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -61,6 +63,7 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
     }
 
     "respond with OK on page load, page contains Return link and Save button" in {
+
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,
@@ -72,8 +75,8 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
 
       val result = partnerNinoController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
-      contentAsString(result) should include (Messages("iht.saveAndContinue"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
+      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
 
     }
 

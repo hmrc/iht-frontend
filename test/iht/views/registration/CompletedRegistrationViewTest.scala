@@ -17,7 +17,7 @@
 package iht.views.registration
 
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.utils._
 import iht.views.html.registration.completed_registration
 
@@ -31,22 +31,22 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       implicit val request = createFakeRequest()
       val view = completed_registration(ihtRef).toString
 
-      titleShouldBeCorrect(view, Messages("iht.registration.complete"))
-      browserTitleShouldBeCorrect(view, Messages("iht.registration.complete"))
+      titleShouldBeCorrect(view, messagesApi("iht.registration.complete"))
+      browserTitleShouldBeCorrect(view, messagesApi("iht.registration.complete"))
     }
 
     "contain the correct guidance" in {
       implicit val request = createFakeRequest()
       val view = completed_registration(ihtRef).toString
 
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.ref.title"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.ref.text"))
-      messagesShouldBePresent(view, Messages("iht.nextSteps"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p1"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p2"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p2.bullet1"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p2.bullet2"))
-      messagesShouldBePresent(view, Messages("page.iht.registration.completedRegistration.p2.bullet3"))
+      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.ref.title"))
+      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.ref.text"))
+      messagesShouldBePresent(view, messagesApi("iht.nextSteps"))
+      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p1"))
+      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p2"))
+      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p2.bullet1"))
+      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p2.bullet2"))
+      messagesShouldBePresent(view, messagesApi("page.iht.registration.completedRegistration.p2.bullet3"))
     }
 
     "contain the second paragraph with bullets" in {
@@ -73,7 +73,7 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
       val doc = asDocument(view)
 
       val button = doc.getElementById("go-to-inheritance-tax-report")
-      button.text shouldBe Messages("iht.estateReport.goToEstateReports")
+      button.text shouldBe messagesApi("iht.estateReport.goToEstateReports")
       button.attr("href") shouldBe iht.controllers.home.routes.IhtHomeController.onPageLoad.url
 
     }

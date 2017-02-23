@@ -22,7 +22,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -69,20 +69,20 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
       val result = qualifyingBodyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
       contentAsString(result) should include(
-        Messages("iht.estateReport.assets.qualifyingBodyAdd"))
+        messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
     }
 
     "display qualifyingBody name question on page" in {
       val result = qualifyingBodyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages(
+      contentAsString(result) should include(messagesApi(
         "iht.estateReport.qualifyingBodies.qualifyingBodyName"))
     }
 
     "display value of assets left to qualifyingBody question on the page" in {
       val result = qualifyingBodyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages(
+      contentAsString(result) should include(messagesApi(
         "page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title"))
     }
 
@@ -129,7 +129,7 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
       status(result) should be(OK)
       contentAsString(result) should include(secondQualifyingBodyName)
       contentAsString(result) should include(secondQualifyingBodyValue)
-      contentAsString(result) should include(Messages("iht.change"))
+      contentAsString(result) should include(messagesApi("iht.change"))
     }
 
     "throw RuntimeException when qualifyingBody ID is accessed that does not exist" in {

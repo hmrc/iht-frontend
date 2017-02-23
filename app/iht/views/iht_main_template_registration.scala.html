@@ -26,13 +26,13 @@ backUrl: Option[Call] = None,
 jsFile: Option[String]= None,
 cssFile: Option[String]= None,
 cancelUrl: Option[Call]=None,
-cancelLabel: => Option[String] = Some(Messages("site.link.cancel")),
+cancelLabel: => Option[String] = Some(""),
 hasSignOut: Boolean = true,
 hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
 headingName: String = ""
-)(mainContent: Html)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @iht_main_template(
     title = title,
@@ -46,7 +46,7 @@ headingName: String = ""
     jsFile = jsFile,
     cssFile = cssFile,
     cancelUrl = cancelUrl,
-    cancelLabel = cancelLabel,
+    cancelLabel = Some(Messages("site.link.cancel")),
     hasTimeOut = hasTimeOut,
     sidebarLinks = sidebarLinks,
     signOutUrl = if (hasSignOut) Some(iht.controllers.registration.routes.RegistrationQuestionnaireController.signOutAndLoadPage()) else None,

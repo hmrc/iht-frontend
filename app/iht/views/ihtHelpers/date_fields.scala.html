@@ -14,8 +14,7 @@
 * limitations under the License.
 *@
 
-@(formItem:Form[_], fieldName: String, label: String, childFormName: Option[String],args:(Symbol,Any)*)(implicit lang:
-play.api.i18n.Lang)
+@(formItem:Form[_], fieldName: String, label: String, childFormName: Option[String],args:(Symbol,Any)*)(implicit messages: Messages)
 
 @import play.api.i18n._
 @import views.html.helper._
@@ -23,7 +22,7 @@ play.api.i18n.Lang)
 
 
 @childFormField={@if(!childFormName.getOrElse("").isEmpty){@childFormName.getOrElse("").}else{}}
-@elements = @{ new FieldElements(formItem(childFormField+fieldName).id, formItem(childFormField+fieldName),null,args.toMap, lang) }
+@elements = @{ new FieldElements(formItem(childFormField+fieldName).id, formItem(childFormField+fieldName),null,args.toMap, messages) }
 
 
 <div id="@{elements.field.name}-container" class="form-group @elements.args.get('_groupClass) @if(elements.hasErrors) {form-field--error}">

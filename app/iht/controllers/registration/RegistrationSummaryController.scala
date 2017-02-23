@@ -26,6 +26,8 @@ import iht.utils._
 import play.api.Logger
 import play.api.mvc.Result
 import uk.gov.hmrc.play.http.{ConflictException, GatewayTimeoutException, HeaderCarrier}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

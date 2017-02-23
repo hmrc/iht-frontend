@@ -23,6 +23,8 @@ import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
 import iht.views.html.application.debts.owed_outside_uk
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants._
 
 object OwedOutsideUKDebtsController extends OwedOutsideUKDebtsController with IhtConnectors {

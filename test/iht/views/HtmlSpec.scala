@@ -22,11 +22,13 @@ import iht.utils.CommonHelper._
 import iht.testhelpers.ContentChecker
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 import play.twirl.api.Html
 import uk.gov.hmrc.play.test.UnitSpec
 
 trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
+
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   def asDocument(html: Html): Document = Jsoup.parse(html.toString())
   def asDocument(string: String): Document = Jsoup.parse(string)
@@ -44,7 +46,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
 
     assertMessageKeyHasValue(expectedMessageKey)
     //<p> HTML elements are rendered out with a carriage return on some pages, so discount for comparison
-    assert(ContentChecker.stripLineBreaks(elements.first().html()) == Html(Messages(expectedMessageKey)).toString())
+    assert(ContentChecker.stripLineBreaks(elements.first().html()) == Html(messagesApi(expectedMessageKey)).toString())
   }
 
   def assertEqualsValue(doc : Document, cssSelector : String, expectedValue: String) = {
@@ -57,7 +59,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
   }
 
   def assertMessageKeyHasValue(expectedMessageKey: String): Unit = {
-    assert(expectedMessageKey != Html(Messages(expectedMessageKey)).toString(), s"$expectedMessageKey has no messages file value setup")
+    assert(expectedMessageKey != Html(messagesApi(expectedMessageKey)).toString(), s"$expectedMessageKey has no messages file value setup")
   }
 
   def assertContainsMessage(doc : Document, cssSelector : String, expectedMessageKey: String) = {
@@ -71,7 +73,7 @@ trait HtmlSpec extends UnitSpec with FakeIhtApp { self: UnitSpec =>
 
     assertMessageKeyHasValue(expectedMessageKey)
     //<p> HTML elements are rendered out with a carriage return on some pages, so discount for comparison
-    val expectedString = Html(Messages(expectedMessageKey, messageArgs: _*)).toString()
+    val expectedString = Html(messagesApi(expectedMessageKey, messageArgs: _*)).toString()
 
     assert(elements.toArray(new Array[Element](elements.size())).exists { element =>
       ContentChecker.stripLineBreaks(element.html()).contains(StringEscapeUtils.escapeHtml4(expectedString))

@@ -27,6 +27,8 @@ import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants._
 
 import scala.concurrent.Future
@@ -107,7 +109,7 @@ trait PartnerNameController extends EstateController{
             firstName = tnrbModel.firstName, lastName = tnrbModel.lastName, None, None))
           (_.copy(firstName = tnrbModel.firstName, lastName = tnrbModel.lastName))))
 
-        ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
-        Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseNameID)))
+        ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
+          TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseNameID)))
     }
  }

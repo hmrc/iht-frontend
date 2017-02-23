@@ -23,6 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.money.money_deceased_own
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
@@ -35,20 +36,20 @@ class MoneyDeceasedOwnViewTest  extends ViewTestHelper with ShareableElementInpu
   override def form:Form[ShareableBasicEstateElement] = moneyFormOwn
   override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => money_deceased_own(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.assets.moneyOwned", deceasedName)
-  override def browserTitle = Messages("page.iht.application.assets.money.deceased.browserTitle")
-  override def questionTitle = Messages("iht.estateReport.assets.money.ownName.question", deceasedName)
-  override def valueQuestion = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName")
+  override def pageTitle = messagesApi("iht.estateReport.assets.moneyOwned", deceasedName)
+  override def browserTitle = messagesApi("page.iht.application.assets.money.deceased.browserTitle")
+  override def questionTitle = messagesApi("iht.estateReport.assets.money.ownName.question", deceasedName)
+  override def valueQuestion = messagesApi("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName")
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = ""
-  override def returnLinkText = Messages("site.link.return.money")
+  override def returnLinkText = messagesApi("site.link.return.money")
   override def returnLinkUrl = MoneyOverviewController.onPageLoad().url
 
   "Money Deceased Own view" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
 
     "show the correct guidance" in {
-      messagesShouldBePresent(view, Messages("page.iht.application.assets.money.deceased.guidance", deceasedName))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.assets.money.deceased.guidance", deceasedName))
     }
   }
 

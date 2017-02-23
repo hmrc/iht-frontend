@@ -22,7 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.{jointly_owned_assets, permanent_home}
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -35,9 +35,9 @@ class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibil
 
   val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
-  override def pageTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedDetailsName)
+  override def pageTitle = messagesApi("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedDetailsName)
 
-  override def browserTitle = Messages("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.tnrb.jointlyOwnedAssets.browserTitle")
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit())
 

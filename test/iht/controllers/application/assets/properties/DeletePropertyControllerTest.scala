@@ -21,7 +21,9 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -35,6 +37,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
   // Implicit objects required by play framework.
   implicit val headerCarrier = FakeHeaders()
   implicit val hc = new HeaderCarrier
+
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
@@ -80,7 +83,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
 
       val result = deletePropertyController.onPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include(Messages("page.iht.application.propertyDetails.deleteProperty.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.propertyDetails.deleteProperty.title"))
     }
 
     "respond with error if property not found" in {

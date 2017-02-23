@@ -29,7 +29,7 @@
 @(registrationDetails: RegistrationDetails,
 widowCheckModel: WidowCheck,
 tnrbModel: TnrbEligibiltyModel,
-ihtReference: String)(implicit request:Request[_])
+ihtReference: String)(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(
 title = Messages("iht.estateReport.tnrb.increasingIHTThreshold"),

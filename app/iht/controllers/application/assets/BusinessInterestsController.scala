@@ -26,6 +26,8 @@ import iht.models.application.assets._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants._
 
 object BusinessInterestsController extends BusinessInterestsController with IhtConnectors {

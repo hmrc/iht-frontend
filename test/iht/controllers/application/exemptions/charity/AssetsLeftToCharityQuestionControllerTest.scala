@@ -23,6 +23,8 @@ import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTest {
@@ -68,8 +70,8 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
 
       val result = assetsLeftToCharityQuestionController.onPageLoad(createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.assetLeftToCharity.browserTitle"))
-      contentAsString(result) should include(Messages("iht.saveAndContinue"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.assetLeftToCharity.browserTitle"))
+      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
     }
 
     "save application and go to Exemptions Overview page on submit" in {
@@ -147,7 +149,7 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
 
       val result = assetsLeftToCharityQuestionController.onSubmit()(request)
       status(result) should be(BAD_REQUEST)
-      contentAsString(result) should include(Messages("error.problem"))
+      contentAsString(result) should include(messagesApi("error.problem"))
     }
 
     "updating application details with No chosen blanks the charities list and sets value to No" in {

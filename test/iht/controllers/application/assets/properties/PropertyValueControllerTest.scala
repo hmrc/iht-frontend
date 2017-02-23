@@ -23,7 +23,9 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -32,6 +34,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by james on 16/06/16.
  */
 class PropertyValueControllerTest extends ApplicationControllerTest {
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -90,19 +93,19 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display the page title on page load" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
     }
 
     "display property value label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
     }
 
     "display property question sub label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.property.value.question.hint1",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.property.value.question.hint1",
                                                       deceasedName))
     }
 
@@ -129,7 +132,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

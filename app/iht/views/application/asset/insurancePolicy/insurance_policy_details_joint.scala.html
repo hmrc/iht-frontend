@@ -19,7 +19,7 @@
 
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails: RegistrationDetails
-)(implicit request: Request[_])
+)(implicit request:Request[_], messages: Messages)
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 

@@ -16,12 +16,14 @@
 
 package iht.utils
 
+import iht.FakeIhtApp
 import iht.constants.FieldMappings
-import iht.testhelpers.{NinoBuilder, CommonBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
 import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
 import play.api.data.{FieldMapping, FormError}
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.collection.immutable.ListMap
@@ -29,7 +31,7 @@ import scala.collection.immutable.ListMap
 /**
  * Created by xavierzanatta on 3/20/15.
  */
-class FormValidatorTest extends UnitSpec with MockitoSugar with iht.FakeIhtApp {
+class FormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
   val nino = CommonBuilder.DefaultNino
 

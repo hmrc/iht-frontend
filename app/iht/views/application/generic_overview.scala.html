@@ -32,7 +32,7 @@ returnToMessagesKey: String,
 returnAsButton: Boolean = false,
 showStatus: Boolean = true,
 returnHash: String = ""
-)(implicit request: Request[_])
+)(implicit request:Request[_], messages: Messages)
 
 <p id="assets-guidance1" class="lede">@Html(Messages(messagesFileSectionLine1))</p>
 @if(Messages.isDefinedAt(messagesFileSectionLine2)) {

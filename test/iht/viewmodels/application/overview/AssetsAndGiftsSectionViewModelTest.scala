@@ -23,11 +23,14 @@ import iht.testhelpers.CommonBuilder
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 class AssetsAndGiftsSectionViewModelTest
   extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   val applicationDetails = CommonBuilder.buildApplicationDetails
 
@@ -44,7 +47,7 @@ class AssetsAndGiftsSectionViewModelTest
     "have the correct caption for the assets row" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.assetRow.label shouldBe Messages("iht.estateReport.assets.inEstate")
+      viewModel.assetRow.label shouldBe messagesApi("iht.estateReport.assets.inEstate")
     }
 
     "have a blank value for assets when there are no assets" in {
@@ -72,7 +75,7 @@ class AssetsAndGiftsSectionViewModelTest
       val appDetails = applicationDetails.copy (allAssets = Some(buildAllAssetsAnsweredNo))
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
-      viewModel.assetRow.value shouldBe Messages("site.noAssets")
+      viewModel.assetRow.value shouldBe messagesApi("site.noAssets")
     }
 
     "show View or Change when all assets are completed" in {
@@ -80,13 +83,13 @@ class AssetsAndGiftsSectionViewModelTest
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
-      viewModel.assetRow.linkText shouldBe Messages("iht.viewOrChange")
+      viewModel.assetRow.linkText shouldBe messagesApi("iht.viewOrChange")
     }
 
     "show Start when no assets questions have been answered" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.assetRow.linkText shouldBe Messages("iht.start")
+      viewModel.assetRow.linkText shouldBe messagesApi("iht.start")
     }
 
     "show Give more details when some assets questions have been answered" in {
@@ -99,7 +102,7 @@ class AssetsAndGiftsSectionViewModelTest
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
-      viewModel.assetRow.linkText shouldBe Messages("iht.giveMoreDetails")
+      viewModel.assetRow.linkText shouldBe messagesApi("iht.giveMoreDetails")
     }
 
     "have the correct URL for the assets link" in {
@@ -121,7 +124,7 @@ class AssetsAndGiftsSectionViewModelTest
     "have the correct caption for the gifts row" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.giftRow.label shouldBe Messages("iht.estateReport.gifts.givenAway.title")
+      viewModel.giftRow.label shouldBe messagesApi("iht.estateReport.gifts.givenAway.title")
     }
 
     "have a blank value for gifts when there are no gifts" in {
@@ -149,7 +152,7 @@ class AssetsAndGiftsSectionViewModelTest
       val appDetails = applicationDetails copy (allGifts = Some(buildAllGiftsAnsweredNo))
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
-      viewModel.giftRow.value shouldBe Messages("page.iht.application.overview.gifts.nonGiven")
+      viewModel.giftRow.value shouldBe messagesApi("page.iht.application.overview.gifts.nonGiven")
     }
 
     "show View or Change when all gifts are completed" in {
@@ -157,13 +160,13 @@ class AssetsAndGiftsSectionViewModelTest
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
-      viewModel.giftRow.linkText shouldBe Messages("iht.viewOrChange")
+      viewModel.giftRow.linkText shouldBe messagesApi("iht.viewOrChange")
     }
 
     "show Start when no gifts questions have been answered" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.giftRow.linkText shouldBe Messages("iht.start")
+      viewModel.giftRow.linkText shouldBe messagesApi("iht.start")
     }
 
     "show Give more details when some gifts questions have been answered" in {
@@ -172,7 +175,7 @@ class AssetsAndGiftsSectionViewModelTest
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
-      viewModel.giftRow.linkText shouldBe Messages("iht.giveMoreDetails")
+      viewModel.giftRow.linkText shouldBe messagesApi("iht.giveMoreDetails")
     }
 
     "show Give more details when only gift with reservation and gifts given away in 7 years have been answered" in {
@@ -182,7 +185,7 @@ class AssetsAndGiftsSectionViewModelTest
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
-      viewModel.giftRow.linkText shouldBe Messages("iht.giveMoreDetails")
+      viewModel.giftRow.linkText shouldBe messagesApi("iht.giveMoreDetails")
     }
 
     "have the correct URL for the gifts link when the user has not answered any gifts questions" in {
@@ -212,7 +215,7 @@ class AssetsAndGiftsSectionViewModelTest
     "have the correct caption for the assets and gifts total" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.totalRow.label shouldBe Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")
+      viewModel.totalRow.label shouldBe messagesApi("page.iht.application.estateOverview.valueOfAssetsAndGifts")
     }
 
     "have a blank value for assets and gifts total when there are no assets or debts" in {

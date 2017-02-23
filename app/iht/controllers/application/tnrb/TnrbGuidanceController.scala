@@ -23,7 +23,8 @@ import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.html.application.tnrb.tnrb_guidance
 import play.api.mvc.{Action, AnyContent}
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 object TnrbGuidanceController extends TnrbGuidanceController with IhtConnectors {

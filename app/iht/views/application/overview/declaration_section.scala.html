@@ -21,7 +21,7 @@
 @import iht.utils.CommonHelper._
 @import iht.controllers.application.routes
 
-@(model: DeclarationSectionViewModel)
+@(model: DeclarationSectionViewModel)(implicit request:Request[_], messages: Messages)
 
 <div id="declaration-section">
     @model.declarationSectionStatus match{

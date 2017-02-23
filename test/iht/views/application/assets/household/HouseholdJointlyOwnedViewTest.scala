@@ -23,6 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_jointly_owned
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
@@ -35,17 +36,17 @@ class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElement
   override def form:Form[ShareableBasicEstateElement] = householdJointlyOwnedForm
   override def formToView:Form[ShareableBasicEstateElement] => Appendable = form => household_jointly_owned(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title", deceasedName)
-  override def browserTitle = Messages("page.iht.application.assets.household.joint.browserTitle")
-  override def questionTitle = Messages("iht.estateReport.assets.household.joint.question", deceasedName)
-  override def valueQuestion = Messages("iht.estateReport.assets.household.valueOfJointlyOwned")
+  override def pageTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title", deceasedName)
+  override def browserTitle = messagesApi("page.iht.application.assets.household.joint.browserTitle")
+  override def questionTitle = messagesApi("iht.estateReport.assets.household.joint.question", deceasedName)
+  override def valueQuestion = messagesApi("iht.estateReport.assets.household.valueOfJointlyOwned")
   override def hasValueQuestionHelp = true
-  override def valueQuestionHelp = Messages("iht.estateReport.assets.getProfessionalValuation")
-  override def returnLinkText = Messages("site.link.return.household")
+  override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
+  override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
 
   "Household Jointly Owned view" must {
-    behave like yesNoValueViewJoint
+    behave like yesNoValueViewJointWithErrorSummaryBox
   }
 
 }

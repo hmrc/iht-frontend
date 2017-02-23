@@ -23,14 +23,14 @@ import iht.views.html.registration.applicant.applying_for_probate
 import iht.views.html.registration.deceased.deceased_permanent_home
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
-  override def pageTitle = Messages("page.iht.registration.deceasedPermanentHome.title")
+  override def pageTitle = messagesApi("page.iht.registration.deceasedPermanentHome.title")
 
-  override def browserTitle = Messages("page.iht.registration.deceasedPermanentHome.browserTitle")
+  override def browserTitle = messagesApi("page.iht.registration.deceasedPermanentHome.browserTitle")
 
   override def form:Form[DeceasedDetails] = deceasedPermanentHomeForm
   override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_permanent_home(form, Call("", ""))

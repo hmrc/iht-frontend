@@ -25,6 +25,8 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper._
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 
@@ -81,7 +83,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val result = executorOverviewController.onPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host="localhost:9070"))
 
       status(result) shouldBe(OK)
-      contentAsString(result) should include(Messages("iht.registration.othersApplyingForProbate"))
+      contentAsString(result) should include(messagesApi("iht.registration.othersApplyingForProbate"))
     }
 
    "load the existing coexecutors when they exist" in {
@@ -116,8 +118,8 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       contentAsString(result) should include(CommonBuilder.DefaultName)
       contentAsString(result) should include(CommonBuilder.DefaultCoExecutor1.name)
       contentAsString(result) should include(CommonBuilder.DefaultCoExecutor2.name)
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include Messages("page.iht.registration.executor-overview.yesnoQuestion")
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include messagesApi("page.iht.registration.executor-overview.yesnoQuestion")
       contentAsString(result) should not include "radio" // There are some radio buttons
     }
   }
@@ -187,7 +189,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     val result = executorOverviewController.onSubmit()(request)
 
     status(result) shouldBe BAD_REQUEST
-    contentAsString(result) should include(escapeApostrophes(Messages("error.applicant.insufficientCoExecutors")))
-    contentAsString(result) should include(Messages("error.applicant.insufficientCoExecutors"))
+    contentAsString(result) should include(escapeApostrophes(messagesApi("error.applicant.insufficientCoExecutors")))
+    contentAsString(result) should include(messagesApi("error.applicant.insufficientCoExecutors"))
   }
 }

@@ -24,7 +24,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 
 /**
@@ -94,7 +94,7 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
 
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.lastYears.question",
                                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
@@ -112,13 +112,13 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
 
       val result = sevenYearsGivenInLast7YearsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.p1"))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (Messages("page.iht.application.gifts.lastYears.description.p3",
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.lastYears.description.p1"))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.lastYears.description.p3",
                                                         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      contentAsString(result) should include (Messages("iht.estateReport.assets.money.lowerCaseInitial"))
-      contentAsString(result) should include (Messages("iht.estateReport.gifts.stocksAndSharesListed"))
-      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.e3"))
-      contentAsString(result) should include (Messages("page.iht.application.gifts.lastYears.description.e4"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.money.lowerCaseInitial"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.gifts.stocksAndSharesListed"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.lastYears.description.e3"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.lastYears.description.e4"))
     }
 
     "save application and go to Seven Years To Trust page on submit" in {

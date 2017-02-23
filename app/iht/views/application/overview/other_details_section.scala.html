@@ -19,7 +19,7 @@
 @import iht.views.html.ihtHelpers._
 @import play.twirl.api.Html
 
-@(model: OtherDetailsSectionViewModel)
+@(model: OtherDetailsSectionViewModel)(implicit request:Request[_], messages: Messages)
 
 <section id="other-details-section" class="section">
 

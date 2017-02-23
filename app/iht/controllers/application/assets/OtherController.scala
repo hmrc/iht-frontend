@@ -26,7 +26,8 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.BasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset._
-import play.api.mvc.Call
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants._
 
 object OtherController extends OtherController with IhtConnectors {
@@ -40,8 +41,6 @@ trait OtherController extends EstateController {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElement](otherForm, other.apply, _.allAssets.flatMap(_.other))
   }
-
-
 
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {

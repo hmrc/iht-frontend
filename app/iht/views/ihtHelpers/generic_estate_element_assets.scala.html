@@ -26,7 +26,8 @@ inputTextHelp: String = "",
 sharableElementForm:Form[_],
 questionHint:Option[Html] = None,
 clearTargetInput: Option[String] = None
-)
+)(implicit messages: Messages)
+
     @defining(if(assetType==Constants.AssetTypeSingle) "isOwned" else "isOwnedShare") { assetOwnedType =>
 
             @{

@@ -19,7 +19,7 @@
 @import iht.views.html._
 
 @(pageTitle: String, message: Html, exitLinkHref:String, exitLinkText:String,
-    verifyLinkHref:Option[String]=None, verifyLinkText:Option[String]=None)
+    verifyLinkHref:Option[String]=None, verifyLinkText:Option[String]=None)(implicit request : Request[_], messages: Messages)
 
 @mainContent = {
     @message
@@ -29,9 +29,9 @@
     </div>
 
     @verifyLinkText.map{ text =>
-        <a href='@verifyLinkHref.fold("")(identity)'>@text</a>
+        <a id="verify-link" href='@verifyLinkHref.fold("")(identity)'>@text</a>
     }
 
 }
 
-@iht_main_template_application(title = pageTitle)(mainContent)
+@iht_main_template_application(title = pageTitle, browserTitle = Some(pageTitle))(mainContent)

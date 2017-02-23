@@ -24,6 +24,8 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.views.html.application.debts._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants._
 
 object DebtsOwedFromATrustController extends DebtsOwedFromATrustController with IhtConnectors {

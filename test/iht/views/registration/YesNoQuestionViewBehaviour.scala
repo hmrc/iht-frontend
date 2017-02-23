@@ -38,13 +38,13 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
     }
 
     "show the correct yes/no question text" in {
-      doc.getElementById("yes-label").text shouldBe Messages("iht.yes")
-      doc.getElementById("no-label").text shouldBe Messages("iht.no")
+      doc.getElementById("yes-label").text shouldBe messagesApi("iht.yes")
+      doc.getElementById("no-label").text shouldBe messagesApi("iht.no")
     }
 
     "show the Continue button with the correct target" in {
       val continueButton = doc.getElementById("continue-button")
-      continueButton.`val` shouldBe Messages("iht.continue")
+      continueButton.`val` shouldBe messagesApi("iht.continue")
       doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
     }
   }
@@ -66,12 +66,12 @@ trait YesNoQuestionViewBehaviour[A] extends RegistrationPageBehaviour[A] {
 
     "show the Cancel link with the correct target" in {
       val continueButton = doc.getElementById("continue-button")
-      continueButton.`val` shouldBe Messages("iht.continue")
+      continueButton.`val` shouldBe messagesApi("iht.continue")
       doc.getElementsByTag("form").attr("action") shouldBe CommonBuilder.DefaultCall1.url
 
       val cancelLink = doc.getElementById("cancel-button")
       cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
+      cancelLink.text() shouldBe messagesApi("site.link.cancel")
     }
   }
 }

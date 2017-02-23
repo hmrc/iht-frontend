@@ -24,6 +24,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
 import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.debts.jointly_owned
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.constants.Constants._
 
 object JointlyOwnedDebtsController extends JointlyOwnedDebtsController with IhtConnectors {

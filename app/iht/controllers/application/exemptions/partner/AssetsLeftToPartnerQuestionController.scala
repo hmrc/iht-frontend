@@ -30,7 +30,8 @@ import play.api.i18n.Messages
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 object AssetsLeftToPartnerQuestionController extends AssetsLeftToPartnerQuestionController with IhtConnectors {
@@ -120,10 +121,8 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
       registrationDetails = regDetails,
       applicationDetails = appDetails.copy(allExemptions = Some(appDetails.allExemptions.fold(new
           AllExemptions(partner = Some(updatedPartnerExemption)))(_.copy(partner = Some(updatedPartnerExemption))))))
-    ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference)
-
-
-    Future.successful(Redirect(applicationDetails.kickoutReason.fold(
+    ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map( _=>
+      Redirect(applicationDetails.kickoutReason.fold(
       updatedPartnerExemption.isAssetForDeceasedPartner match {
         case Some(true) => {
           if (updatedPartnerExemption.isPartnerHomeInUK.isEmpty) partnerPermanentHomePage else partnerOverviewPage

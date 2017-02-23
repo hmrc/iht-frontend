@@ -20,7 +20,8 @@ import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import iht.views.html.application.debts.jointly_owned
 import iht.views.html.application.debts.{funeral_expenses, jointly_owned}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
@@ -40,13 +41,13 @@ class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementL
   override def form:Form[BasicEstateElementLiabilities] = jointlyOwnedDebts
   override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => jointly_owned(form, regDetails)
 
-  override def pageTitle = Messages("iht.estateReport.debts.owedOnJointAssets")
-  override def browserTitle = Messages("page.iht.application.debts.jointlyOwned.browserTitle")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.jointlyOwned.description.p1",
+  override def pageTitle = messagesApi("iht.estateReport.debts.owedOnJointAssets")
+  override def browserTitle = messagesApi("page.iht.application.debts.jointlyOwned.browserTitle")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.jointlyOwned.description.p1",
                                                   CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-  override def yesNoQuestionText = Messages("page.iht.application.debts.jointlyOwned.isOwned")
-  override def inputValueFieldLabel = Messages("iht.estateReport.debts.owedOnJointAssets.value")
-  override def inputValueFieldHintText = Messages("page.iht.application.debts.jointlyOwned.description.p2")
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.jointlyOwned.isOwned")
+  override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.owedOnJointAssets.value")
+  override def inputValueFieldHintText = messagesApi("page.iht.application.debts.jointlyOwned.description.p2")
   override def linkHash = DebtsOwedJointlyID
 
   "JointlyOwnedView" must {

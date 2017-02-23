@@ -22,7 +22,7 @@ import iht.testhelpers.{CommonBuilder, ContentChecker, TestHelper}
 import iht.utils.CommonHelper._
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.given_away
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import iht.constants.Constants._
 
@@ -42,39 +42,39 @@ class GivenAwayViewTest extends ViewTestHelper{
 
   "GivenAway View" must {
     "contain the title and save and continue button " in {
-      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest)
+      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
       val title = doc.getElementsByTag("h1").first
 
-      title.text should include(Messages("iht.estateReport.gifts.givenAwayBy",
+      title.text should include(messagesApi("iht.estateReport.gifts.givenAwayBy",
         getOrException(regDetails.deceasedDetails).name))
 
       val saveAndContinueLink = doc.getElementById("save-continue")
-      saveAndContinueLink.text shouldBe Messages("iht.saveAndContinue")
+      saveAndContinueLink.text shouldBe messagesApi("iht.saveAndContinue")
     }
 
     "show the correct question and guidance" in {
       implicit val request = createFakeRequest()
       val viewAsString = ContentChecker.stripLineBreaks(given_away(giftsGivenAwayForm, regDetails).toString)
 
-      viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.question",
+      viewAsString should include(messagesApi("page.iht.application.gifts.lastYears.givenAway.question",
                                               getDeceasedNameOrDefaultString(regDetails)))
 
-      viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.p1",
+      viewAsString should include(messagesApi("page.iht.application.gifts.lastYears.givenAway.p1",
         getDeceasedNameOrDefaultString(regDetails),
         getDateBeforeSevenYears(getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
         getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)))
 
-      viewAsString should include(Messages("page.iht.application.gifts.lastYears.givenAway.p2",
+      viewAsString should include(messagesApi("page.iht.application.gifts.lastYears.givenAway.p2",
         getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "show return to estate overview link when user land on the page first time" in {
-      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest)
+      val view = given_away(giftsGivenAwayForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
 
       val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("iht.estateReport.returnToEstateOverview")
+      link.text shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       link.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference.getOrElse("")).url
 
@@ -82,11 +82,11 @@ class GivenAwayViewTest extends ViewTestHelper{
 
     "show return to gifts given away link when user is in edit mode" in {
       val filledForm = giftsGivenAwayForm.fill(allGifts)
-      val view = given_away(filledForm, regDetails)(fakeRequest)
+      val view = given_away(filledForm, regDetails)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(view))
 
       val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
+      link.text shouldBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         getOrException(regDetails.deceasedDetails).name)
       link.attr("href") shouldBe
         iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url + "#" + GiftsGivenAwayQuestionID

@@ -31,7 +31,8 @@ import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger
 import play.api.mvc.Result
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
@@ -41,7 +42,7 @@ import scala.concurrent.{Await, Future}
   */
 
 object DeclarationController extends DeclarationController with IhtConnectors {
-  def metrics: Metrics = Metrics
+  lazy val metrics: Metrics = Metrics
 }
 
 trait DeclarationController extends ApplicationController {
@@ -50,7 +51,7 @@ trait DeclarationController extends ApplicationController {
 
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
-  def metrics: Metrics
+  val metrics: Metrics
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -116,7 +117,7 @@ trait DeclarationController extends ApplicationController {
 
   private def processApplication(nino: String)(implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
     val errorHandler: PartialFunction[Throwable, Result] = {
-      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex)))
+      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages))
     }
     val regDetails = cachingConnector.getExistingRegistrationDetails
     val ihtAppReference = regDetails.ihtReference

@@ -16,25 +16,30 @@
 
 package iht.views.ihtHelpers
 
-import iht.FakeIhtApp
+import iht.{FakeIhtApp, TestUtils}
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers._
 import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
+
 
 class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
   "GenericOverviewItem helper" must {
-
+//    implicit val request = createFakeRequest()
+//    implicit val messages: MessagesApi = app.injector.instanceOf[MessagesApi]
     val linkUrl = iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()
     val title = "Money"
     val name = "money"
     val id = "money"
     val value = "3000"
     val valueScreenReader = "screenReaderText"
-    lazy val linkText = generic_overview_status_link(Some(true))
-    lazy val itemStatus = generic_overview_status_label(Some(true))
 
     def genericOverviewItemView() = {
+      implicit val request = createFakeRequest()
+      lazy val linkText = generic_overview_status_link(Some(true))
+      lazy val itemStatus = generic_overview_status_label(Some(true))
       generic_overview_item(title = title, name = name, id = id, value = value,
                             valueScreenReader = valueScreenReader, link = Some(linkUrl), linkText = linkText,
         itemStatus = itemStatus)
@@ -64,7 +69,9 @@ class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "have the correct Item status" in {
+      implicit val request = createFakeRequest()
      val itemStatus = generic_overview_status_label(Some(true))
+     val linkText = generic_overview_status_link(Some(true))
 
      val view = generic_overview_item(title = title, name = name, id = id, value = value,
         valueScreenReader = valueScreenReader, link = Some(linkUrl), linkText = linkText,
