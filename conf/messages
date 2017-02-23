@@ -159,7 +159,7 @@ page.iht.private.beta.landing.page.can.use.info2.link = read the Inheritance Tax
 page.iht.private.beta.landing.page.can.use.info2.afterlink = which give more detail on how to correctly complete an estate report.
 
 #Pre registration filtering
-page.iht.filter.agent.content = There’s no change to how agents report estate values to HMRC. You should continue to use either an IHT-205 or an IHT-400 paper form.
+page.iht.filter.agent.content = There’s no change to how agents report estate values to HMRC. You must continue to use either an IHT-205 or an IHT-400 paper form.
 
 page.iht.filter.filter.choice.main.continue = I want to continue an estate report that I’ve already started
 page.iht.filter.filter.choice.main.register = I want to register so I can tell HMRC about a person’s estate
