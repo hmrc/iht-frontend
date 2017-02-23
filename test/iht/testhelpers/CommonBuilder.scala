@@ -513,6 +513,12 @@ object CommonBuilder {
     totalValue = Some(12345)
   )
 
+  val qualifyingBody2 = QualifyingBody(
+    id = Some("2"),
+    name = Some("Qualifying Body 2"),
+    totalValue = Some(54321)
+  )
+
   val buildProperty = Property(
     id = None,
     address = None,
