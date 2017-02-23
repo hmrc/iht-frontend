@@ -29,6 +29,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
 
 /**
  * Created by james on 14/01/16.
@@ -284,8 +285,8 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
     private def testGiftYearLinkData(doc: Document, yearId: String) =
     {
-      val yearLink = doc.getElementById(s"value-of-gifts-for-period-$yearId")
-      assertEqualsValue(doc, s"a#value-of-gifts-for-period-$yearId span",
+      val yearLink = doc.getElementById(s"$GiftsValueDetailID$yearId")
+      assertEqualsValue(doc, s"a#$GiftsValueDetailID$yearId span",
         messagesApi("iht.change"))
       yearLink.attr("href") shouldBe
         routes.GiftsDetailsController.onPageLoad(yearId).url

@@ -108,25 +108,25 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       assertRenderedById(doc, "givenAway")
       messagesShouldBePresent(doc.toString,
         messagesApi("page.iht.application.gifts.overview.givenAway.question1", deceasedName))
-      val givenAwayLink = doc.getElementById("gave-away-seven-years")
+      val givenAwayLink = doc.getElementById(GiftsGivenAwayQuestionID)
       givenAwayLink.text shouldBe messagesApi("iht.change")
       givenAwayLink.attr("href") shouldBe giftGivenAwayPageUrl.url
 
       assertRenderedById(doc, "reservation")
       messagesShouldBePresent(doc.toString, messagesApi("iht.estateReport.gifts.reservation.question", deceasedName))
-      val reservationLink = doc.getElementById("with-reservation-of-benefit")
+      val reservationLink = doc.getElementById(GiftsReservationBenefitQuestionID)
       reservationLink.text shouldBe messagesApi("iht.change")
       reservationLink.attr("href") shouldBe giftWithReservationUrl.url
 
       assertRenderedById(doc, "sevenYear")
       messagesShouldBePresent(doc.toString, messagesApi("page.iht.application.gifts.overview.sevenYears.question1", deceasedName))
-      val sevenYearsLink = doc.getElementById("seven-years-anything-else")
+      val sevenYearsLink = doc.getElementById(GiftsSevenYearsQuestionID)
       sevenYearsLink.text shouldBe messagesApi("iht.change")
       sevenYearsLink.attr("href") shouldBe giftGivenInLastSevenYearsPageUrl.url
 
       assertRenderedById(doc, "value")
       messagesShouldBePresent(doc.toString, messagesApi("page.iht.application.gifts.overview.value.question1"))
-      val valueLink = doc.getElementById("value-of-gifts")
+      val valueLink = doc.getElementById(GiftsValueOfGiftsQuestionID)
       valueLink.text shouldBe messagesApi("iht.estateReport.changeValues")
       valueLink.attr("href") shouldBe giftSevenYearsValuesPageUrl.url
     }
