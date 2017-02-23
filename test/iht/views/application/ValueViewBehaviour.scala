@@ -26,7 +26,7 @@ trait ValueViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A] {
   def valueView() = {
     applicationPageWithErrorSummaryBox()
 
-    s"have a value input field with an ID of $value_id" in {
+    s"have an input field with an ID of $value_id" in {
       Option(doc.getElementById(value_id)).isDefined shouldBe true
     }
   }
