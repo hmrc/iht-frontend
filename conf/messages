@@ -827,7 +827,7 @@ iht.estateReport.assets.money.jointlyOwned = Money jointly owned with other peop
 iht.estateReport.assets.money.lowerCaseInitial = money
 iht.estateReport.assets.money.ownName.question = Did {0} own any money in their own name?
 iht.estateReport.assets.money.upperCaseInitial = Money
-iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money had by the deceased only in their name
+iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money owned by the deceased only in their name
 iht.estateReport.assets.moneyOwed = Money owed to {0}
 iht.estateReport.assets.moneyOwned = Money owned only by {0}
 
