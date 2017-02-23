@@ -25,7 +25,9 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 import scala.concurrent.Future
@@ -170,19 +172,19 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
     "display a yes or no question on the page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsInTrustController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("page.iht.application.insurance.policies.section4.title"))
+      contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section4.title"))
     }
 
     "display a yes radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsInTrustController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.yes"))
+      contentAsString(result) should include(messagesApi("iht.yes"))
     }
 
     "display a no radio button on page" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsInTrustController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(Messages("iht.no"))
+      contentAsString(result) should include(messagesApi("iht.no"))
     }
 
     "redirect to correct page on submit" in {

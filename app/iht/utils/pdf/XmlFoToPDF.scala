@@ -143,7 +143,7 @@ trait XmlFoToPDF {
     setupTransformerEventHandling(transformer)
     val preDeceasedName = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head
       .spouse.map(xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)))).fold("")(identity)
-    val dateOfMarriage = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head.spouse.
+    val dateOfMarriage: LocalDate = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head.spouse.
       flatMap(_.dateOfMarriage))).fold(new LocalDate)(identity)
     val declarationDate: LocalDate = CommonHelper.getOrException(ihtReturn.declaration, "No declaration found").declarationDate.
       getOrElse(throw new RuntimeException("Declaration Date not available"))
@@ -197,7 +197,7 @@ trait XmlFoToPDF {
   private def setupTransformerEventHandling(transformer: Transformer) = {
     val errorListener = new ErrorListener {
       override def warning(exception: TransformerException): Unit =
-        Logger.warn(exception.getMessageAndLocation)
+        Logger.debug(exception.getMessageAndLocation)
 
       override def error(exception: TransformerException): Unit = {
         Logger.error(exception.getMessage, exception)
@@ -222,7 +222,7 @@ trait XmlFoToPDF {
             Logger.info(msg)
             None
           case EventSeverity.WARN =>
-            Logger.warn(msg)
+            Logger.debug(msg)
             None
           case EventSeverity.ERROR =>
             Logger.error(msg)

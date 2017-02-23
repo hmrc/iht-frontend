@@ -22,7 +22,7 @@
 applicationDetails: ApplicationDetails,
 applicationLastSection: Option[String],
 applicationLastID: Option[String],
-summaryParameter1:Option[String]=None)(implicit request:Request[_])
+summaryParameter1:Option[String]=None)(implicit request:Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
@@ -63,7 +63,7 @@ summaryParameter1:Option[String]=None)(implicit request:Request[_])
 
             <div class="grid-layout">
                 <div class="grid-layout__column--3-4">@Messages("iht.estateReport.ihtThreshold")</div>
-                <div class="grid-layout__column--1-4">&pound;@Messages("site.threshold.value")</div>
+                <div class="grid-layout__column--1-4">@Messages("site.threshold.value.display")</div>
             </div>
         </div>
     }

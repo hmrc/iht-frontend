@@ -56,7 +56,6 @@ site.noDebts = No debts owed
 site.noAssets = No assets
 site.noAssetsLeft = No assets left
 site.noMortgage = No mortgage
-site.threshold.value = 325,000
 site.threshold.value.display = £325,000.00
 site.tnrb.value = 650,000
 site.tnrb.value.display = £650,000.00
@@ -68,7 +67,6 @@ site.backToLastPage.link = Return to last page
 site.backToLastQuestion.values.link = Return to gift values
 site.nameDetails = {0}’s details
 
-site.changeInput = Change value
 site.changeName = Change name
 site.changeDate = Change date
 site.noCharityNameGiven = No charity name given
@@ -291,7 +289,6 @@ page.iht.registration.deceasedDetails.addressheader.abroad.hint = This is the la
 page.iht.registration.deceasedDetails.country.help = If the deceased’s contact address isn’t in the UK
 page.iht.registration.deceasedDetails.postcode.help = If the deceased’s contact address is in the UK
 iht.registration.deceased.locationOfPermanentHome = Location of deceased’s permanent home
-iht.registration.deceased.permanentHome.where.question = Where did the deceased have their permanent home?
 
 #Registration - Applicant
 page.iht.registration.applicantDetails.title = Tell us about yourself
@@ -1690,7 +1687,7 @@ page.iht.application.TnrbEligibilty.thresholdLimit.label = The Inheritance Tax t
 page.iht.application.TnrbEligibilty.personalInfoAboutPartner.label = You’ll need to provide some personal details about {0}’s {1}.
 page.iht.application.TnrbEligibilty.ihtThresholdIncreaseNotPossible.label = It is not possible to increase the Inheritance Tax threshold.
 
-page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s Inheritance Tax threshold has increased to £650,000 because of the transfer of {1}’s unused threshold.
+page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s Inheritance Tax threshold has increased to £650,000.00 because of the transfer of {1}’s unused threshold.
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2 = The estate value is now under the Inheritance Tax threshold and there’s no Inheritance Tax to pay.
 iht.estateReport.tnrb.benefitFromTrust.question = Did {0} have the right to benefit from a trust during their lifetime?
 iht.estateReport.tnrb.dateOfMarriage = Date of {0}

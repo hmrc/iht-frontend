@@ -21,18 +21,19 @@ import iht.views.HtmlSpec
 import iht.views.html.filter.estimate
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
 
 class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val fakeForm =  Form(single("s"-> optional(text)))
 
   def getPageAsDoc(form: Form[Option[String]] = fakeForm, request: FakeRequest[AnyContentAsEmpty.type] = fakeRequest) = {
-    val result = estimate(form)(request)
+    val result = estimate(form)(request, applicationMessages)
     asDocument(contentAsString(result))
   }
 
@@ -42,14 +43,14 @@ class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = getPageAsDoc()
       val titleElement = doc.getElementsByTag("h1").first
 
-      titleElement.text should include(Messages("iht.roughEstimateEstateWorth"))
+      titleElement.text should include(messagesApi("iht.roughEstimateEstateWorth"))
     }
 
     "generate appropriate content for the browser title" in {
       val doc = getPageAsDoc()
       val titleElement = doc.getElementsByTag("title").first
 
-      titleElement.text should include(Messages("iht.roughEstimateEstateWorth"))
+      titleElement.text should include(messagesApi("iht.roughEstimateEstateWorth"))
     }
 
     "contain an appropriate field set" in {
@@ -61,24 +62,24 @@ class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
     "contain an 'Under £325,000' radio button" in {
       val doc = getPageAsDoc()
-      doc.getElementById("estimate-under-325000-label").text() should be(Messages("page.iht.filter.estimate.choice.under"))
+      doc.getElementById("estimate-under-325000-label").text() should be(messagesApi("page.iht.filter.estimate.choice.under"))
     }
 
     "contain a 'Between £325,000 and £1 million' radio button" in {
       val doc = getPageAsDoc()
-      doc.getElementById("estimate-between-325000-and-1million-label").text() should be(Messages("page.iht.filter.estimate.choice.between"))
+      doc.getElementById("estimate-between-325000-and-1million-label").text() should be(messagesApi("page.iht.filter.estimate.choice.between"))
     }
 
     "contain a 'More than £1 million' radio button" in {
       val doc = getPageAsDoc()
-      doc.getElementById("estimate-more-than-1million-label").text() should be(Messages("page.iht.filter.estimate.choice.over"))
+      doc.getElementById("estimate-more-than-1million-label").text() should be(messagesApi("page.iht.filter.estimate.choice.over"))
     }
 
     "contain a continue button with the text 'Continue'" in {
       val doc = getPageAsDoc()
       val button = doc.select("input#continue").first
 
-      button.attr("value") should be(Messages("iht.continue"))
+      button.attr("value") should be(messagesApi("iht.continue"))
     }
 
     "contain a form with the action attribute set to the Estimate Controller onSubmit URL" in {
@@ -96,21 +97,21 @@ class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     "contain a 'Start again' link to go back to the domicile page" in {
       val doc = getPageAsDoc()
       val link = doc.getElementById("start-again")
-      link.text() should be(Messages("iht.startAgain"))
+      link.text() should be(messagesApi("iht.startAgain"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
       val doc = getPageAsDoc()
       val row = doc.getElementById("domicile-row")
-      row.text() should include(Messages("iht.registration.deceased.permanentHome.where.question"))
-      row.text() should include(Messages("iht.countries.englandOrWales"))
+      row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
+      row.text() should include(messagesApi("iht.countries.englandOrWales"))
     }
 
     "contain a 'Change' link to go back to the domicile page" in {
       val doc = getPageAsDoc()
       val link = doc.getElementById("change-domicile")
-      link.text() should be(Messages("iht.change"))
+      link.text() should be(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
   }

@@ -19,11 +19,14 @@ package iht.controllers.application
 import iht.controllers.{IhtConnectors, QuestionnaireController}
 import iht.utils.IhtSection
 import iht.views.html.application.application_questionnaire
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import uk.gov.hmrc.passcode.authentication.{PasscodeAuthenticationProvider, PasscodeVerificationConfig}
 
 object ApplicationQuestionnaireController extends ApplicationQuestionnaireController  with IhtConnectors {}
 
 trait ApplicationQuestionnaireController extends ApplicationController with QuestionnaireController {
   override lazy val ihtSection = IhtSection.Application
-  override def questionnaireView = (form, request) => application_questionnaire(form)(request)
+  override def questionnaireView = (form, request) => application_questionnaire(form)(request, applicationMessages)
   override def callPageLoad = iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
 }

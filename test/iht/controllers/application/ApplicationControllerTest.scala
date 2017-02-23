@@ -20,8 +20,10 @@ import iht.utils.IhtSection
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.{I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.test.UnitSpec
 
 trait ApplicationControllerTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def loginUrl = buildLoginUrl(IhtSection.Application)
 }

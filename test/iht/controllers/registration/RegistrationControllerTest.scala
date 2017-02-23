@@ -21,12 +21,14 @@ import iht.utils.IhtSection
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.test.FakeHeaders
 import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 
-trait RegistrationControllerTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+trait RegistrationControllerTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
 
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   def loginUrl = buildLoginUrl(IhtSection.Registration)
 
   implicit val headerCarrier = FakeHeaders()

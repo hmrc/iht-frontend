@@ -17,38 +17,39 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.models.application.tnrb.TnrbEligibiltyModel
+import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.Messages
 import iht.views.html.application.tnrb.estate_claim
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.twirl.api.HtmlFormat.Appendable
 
-class EstateClaimViewTest extends YesNoQuestionViewBehaviour {
+class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
-  val ihtReference = Some("ABC1A1A1A")
-  val deceasedDetails = CommonBuilder.buildDeceasedDetails
-  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-    deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  def tnrbModel = CommonBuilder.buildTnrbEligibility
 
-  val tnrbModel = CommonBuilder.buildTnrbEligibility
+  def widowCheck = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.stateClaim.question")
-  override def browserTitle = Messages("page.iht.application.tnrb.stateClaim.browserTitle")
-  override def guidanceParagraphs = Set()
-  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.stateClaim.question")
+  val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
-  override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.stateClaim.question")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = estate_claim(estateClaimAnyBusinessForm).toString
-    val doc = asDocument(view)
-  }
+  override def browserTitle = messagesApi("page.iht.application.tnrb.stateClaim.browserTitle")
 
-  "EstateClaimView" must {
+  override def guidanceParagraphs = Set.empty
+
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit())
+
+  override def form: Form[TnrbEligibiltyModel] = estateClaimAnyBusinessForm
+
+  override def formToView: Form[TnrbEligibiltyModel] => Appendable =
+    form =>
+      estate_claim(form)
+
+  override def cancelComponent = None
+
+  "Gifts With Reservation Of Benefit page Question View" must {
     behave like yesNoQuestion
   }
-
 }

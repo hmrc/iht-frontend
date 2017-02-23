@@ -22,11 +22,13 @@ import iht.{FakeIhtApp, TestUtils}
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
-
+class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val dodWithInClaimDate = LocalDate.now().minusYears(1)
   val deceasedDateOfDeath = CommonBuilder.buildDeceasedDateOfDeath.copy(dodWithInClaimDate)
 
@@ -49,7 +51,7 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
     "have the correct caption for the threshold row" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, applicationDetails)
 
-      viewModel.thresholdRow.label shouldBe Messages("iht.estateReport.ihtThreshold")
+      viewModel.thresholdRow.label shouldBe messagesApi("iht.estateReport.ihtThreshold")
     }
 
     "have the correct value for the threshold row when it has not been increased" in {
@@ -138,7 +140,7 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
 
     "have the correct caption for the Increasing the Threshold row" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbUnlocked)
-      viewModel.increasingThresholdRow.get.label shouldBe Messages("iht.estateReport.tnrb.increasingThreshold")
+      viewModel.increasingThresholdRow.get.label shouldBe messagesApi("iht.estateReport.tnrb.increasingThreshold")
     }
 
     "not show a value in the Increasing the Threshold row if the section is incomplete" in {
@@ -148,27 +150,27 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
 
     "show link text of Give more details in the Increasing the Threshold row if the section is incomplete" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbUnlocked)
-      viewModel.increasingThresholdRow.get.linkText shouldBe Messages("iht.giveMoreDetails")
+      viewModel.increasingThresholdRow.get.linkText shouldBe messagesApi("iht.giveMoreDetails")
     }
 
     "show 'Increased' as the value in the Increasing the Threshold row if the section is complete" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, appDetailsTnrbComplete)
-      viewModel.increasingThresholdRow.get.value shouldBe Messages("page.iht.application.estateOverview.increaseThreshold.increased")
+      viewModel.increasingThresholdRow.get.value shouldBe messagesApi("page.iht.application.estateOverview.increaseThreshold.increased")
     }
 
     "show link text of View or change in the Increasing the Threshold row if the section is complete" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbComplete)
-      viewModel.increasingThresholdRow.get.linkText shouldBe Messages("iht.viewOrChange")
+      viewModel.increasingThresholdRow.get.linkText shouldBe messagesApi("iht.viewOrChange")
     }
 
     "show 'Not available' as the value in the Increasing the Threshold row if the Widow Check was answered No'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbNotAvailable)
-      viewModel.increasingThresholdRow.get.value shouldBe Messages("page.iht.application.estateOverview.increaseThreshold.notAvailable")
+      viewModel.increasingThresholdRow.get.value shouldBe messagesApi("page.iht.application.estateOverview.increaseThreshold.notAvailable")
     }
 
     "show link text of View or change in the Increasing the Threshold row if the Widow Check was answered No'" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbNotAvailable)
-      viewModel.increasingThresholdRow.get.linkText shouldBe Messages("iht.viewOrChange")
+      viewModel.increasingThresholdRow.get.linkText shouldBe messagesApi("iht.viewOrChange")
     }
 
     "have target link for Widowed check question page in the Increasing the Threshold row if predeceased date has not been saved" +

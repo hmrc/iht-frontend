@@ -30,7 +30,8 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.Future
 
 object DateOfMarriageController extends DateOfMarriageController with IhtConnectors {
@@ -137,7 +138,7 @@ trait DateOfMarriageController extends EstateController{
       fold(new TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, dateOfMarriage =
         tnrbModel.dateOfMarriage, None)) (_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
-    ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
-    Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails))
+    ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
+      TnrbHelper.successfulTnrbRedirect(updatedAppDetails))
   }
  }

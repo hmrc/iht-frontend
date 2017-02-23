@@ -15,7 +15,8 @@
 *@
 
 @import iht.constants.IhtProperties
-@(ivUrl:String)
+@(ivUrl:String)(implicit request : Request[_], messages: Messages)
+
 @message={
     <p>@Messages("page.iht.iv.failure.2fa.p1")</p>
     <p>@Messages("page.iht.iv.failure.2fa.p2")</p>
@@ -23,7 +24,7 @@
 
 @iv_failure_template(pageTitle = Messages("page.iht.iv.failure.2fa.title"),
     message=message,
-    exitLinkHref="https://www.gov.uk/inheritance-tax",
+    exitLinkHref=IhtProperties.linkRegistrationKickOut,
     exitLinkText=Messages("page.iht.iv.failure.2fa.exitLink"),
     verifyLinkHref=Some(ivUrl),
     verifyLinkText=Some(Messages("page.iht.iv.failure.2fa.verifyLink")))

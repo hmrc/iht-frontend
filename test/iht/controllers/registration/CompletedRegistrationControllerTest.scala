@@ -21,6 +21,8 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
@@ -64,11 +66,13 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
 
     "respond with correct page" in {
       import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
       val registrationDetails = CommonBuilder.buildRegistrationDetails copy(ihtReference = Some(""))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       val result = completedRegistrationController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include(Messages("iht.registration.complete"))
+      contentAsString(result) should include(messagesApi("iht.registration.complete"))
     }
 
     "respond with a reference number" in {
@@ -87,7 +91,7 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val result = completedRegistrationController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(Messages("page.iht.registration.completedRegistration.ref.error.title"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.completedRegistration.ref.error.title"))
     }
 
     "respond with not implemented" in {
@@ -101,9 +105,9 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       val result = completedRegistrationController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.ref.text"))
-      contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p1"))
-      contentAsString(result) should include (Messages("page.iht.registration.completedRegistration.p2"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.ref.text"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.p1"))
+      contentAsString(result) should include (messagesApi("page.iht.registration.completedRegistration.p2"))
     }
   }
 }

@@ -22,14 +22,14 @@ import iht.testhelpers.CommonBuilder
 import iht.views.html.registration.deceased.about_deceased
 import iht.views.registration.RegistrationPageBehaviour
 import org.joda.time.LocalDate
+import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
-  override def pageTitle = Messages("iht.registration.deceasedDetails.title")
-  override def browserTitle = Messages("iht.registration.deceasedDetails.title")
+  override def pageTitle = messagesApi("iht.registration.deceasedDetails.title")
+  override def browserTitle = messagesApi("iht.registration.deceasedDetails.title")
 
   override def form:Form[DeceasedDetails] = aboutDeceasedForm(new LocalDate())
   override def formToView:Form[DeceasedDetails] => Appendable = form => about_deceased(form, CommonBuilder.DefaultCall1)
@@ -82,7 +82,7 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
     }
 
     "have a form hint for date of birth" in {
-      messagesShouldBePresent(view, Messages("iht.dateExample"))
+      messagesShouldBePresent(view, messagesApi("iht.dateExample"))
     }
 
     "have the correct label for nino" in {
@@ -119,11 +119,11 @@ class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
       val doc = editModeViewAsDocument
 
       val continueLink = doc.getElementById("continue-button")
-      continueLink.attr("value") shouldBe Messages("iht.continue")
+      continueLink.attr("value") shouldBe messagesApi("iht.continue")
 
       val cancelLink = doc.getElementById("cancel-button")
       cancelLink.attr("href") shouldBe CommonBuilder.DefaultCall2.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
+      cancelLink.text() shouldBe messagesApi("site.link.cancel")
     }
   }
 }

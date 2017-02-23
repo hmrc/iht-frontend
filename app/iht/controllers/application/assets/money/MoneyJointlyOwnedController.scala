@@ -25,6 +25,8 @@ import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.money.money_jointly_owned
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.mvc.Cookie
 
 object MoneyJointlyOwnedController extends MoneyJointlyOwnedController with IhtConnectors {

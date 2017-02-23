@@ -17,14 +17,11 @@
 package iht.views.application.overview
 
 import iht.viewmodels.application.overview._
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.overview.declaration_section
-import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Messages.Implicits._
 
-class DeclarationSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec {
+class DeclarationSectionViewTest extends ViewTestHelper {
 
   val ihtRef = "ABC123"
 
@@ -42,10 +39,10 @@ class DeclarationSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSu
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "p#all-sections-not-complete-declaration-guidance-text1 strong",
-        Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1"))
+        messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1"))
 
       assertEqualsValue(doc, "p#all-sections-not-complete-declaration-guidance-text2",
-        Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
+        messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
     }
 
     "contain the NotDeclarable guidance text when Declaration status is NotDeclarable" in {
@@ -55,7 +52,7 @@ class DeclarationSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSu
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "p#not-declarable-guidance",
-        Messages("page.iht.application.estateOverview.declaration.continue.guidance.text"))
+        messagesApi("page.iht.application.estateOverview.declaration.continue.guidance.text"))
 
     }
 
@@ -66,7 +63,7 @@ class DeclarationSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSu
       val doc = asDocument(view)
 
       assertEqualsValue(doc, "p#declarable-guidance",
-        Messages("page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text"))
+        messagesApi("page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text"))
 
     }
 
@@ -77,7 +74,7 @@ class DeclarationSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSu
       val doc = asDocument(view)
 
       val link = doc.getElementById("continue")
-      link.text shouldBe Messages("iht.continue")
+      link.text shouldBe messagesApi("iht.continue")
       link.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onContinueOrDeclarationRedirect(ihtRef).url
     }
@@ -89,7 +86,7 @@ class DeclarationSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSu
       val doc = asDocument(view)
 
       val link = doc.getElementById("continue-to-declaration")
-      link.text shouldBe Messages("iht.continue")
+      link.text shouldBe messagesApi("iht.continue")
       link.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onContinueOrDeclarationRedirect(ihtRef).url
     }

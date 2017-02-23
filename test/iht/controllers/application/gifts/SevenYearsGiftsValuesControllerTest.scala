@@ -24,7 +24,9 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.views.HtmlSpec
 import org.joda.time.LocalDate
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -33,6 +35,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  */
 class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with HtmlSpec {
 
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
@@ -88,7 +91,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("page.iht.application.gifts.sevenYears.values.guidance"))
+      contentAsString(result) should include(messagesApi("page.iht.application.gifts.sevenYears.values.guidance"))
     }
 
     "redirect to ida login page on PageLoad if the user is not logged in" in {
@@ -153,7 +156,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.change"))
+      contentAsString(result) should include(messagesApi("iht.change"))
 
     }
 
@@ -283,7 +286,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
     {
       val yearLink = doc.getElementById(s"edit-gift-$yearId")
       assertEqualsValue(doc, s"a#edit-gift-$yearId span",
-        Messages("iht.change"))
+        messagesApi("iht.change"))
       yearLink.attr("href") shouldBe
         routes.GiftsDetailsController.onPageLoad(yearId).url
     }

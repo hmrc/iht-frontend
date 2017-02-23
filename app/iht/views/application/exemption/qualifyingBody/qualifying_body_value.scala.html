@@ -23,7 +23,7 @@
 @(qualifyingBodyValueForm: Form[QualifyingBody],
         rd: RegistrationDetails,
         submitUrl: Call,
-        cancelUrl: Call)(implicit request: Request[_])
+        cancelUrl: Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.qualifyingBody.value.sectionTitle"),
     browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBody.value.browserTitle")),

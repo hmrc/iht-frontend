@@ -21,7 +21,7 @@ import iht.testhelpers.CommonBuilder
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, KickOutReason}
 import iht.views.ViewTestHelper
 import iht.views.html.application.iht_kickout_application
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by vineet on 15/11/16.
@@ -52,8 +52,8 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
       val view = ihtKickOutApplicationView("",
                                           appDetails,
                                           Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed)).toString
-      titleShouldBeCorrect(view, Messages("iht.notPossibleToUseService"))
-      browserTitleShouldBeCorrect(view, Messages("iht.notPossibleToUseService"))
+      titleShouldBeCorrect(view, messagesApi("iht.notPossibleToUseService"))
+      browserTitleShouldBeCorrect(view, messagesApi("iht.notPossibleToUseService"))
 
     }
 
@@ -64,7 +64,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
 
       val headers = view.getElementsByTag("h2")
       headers.size shouldBe 2
-      headers.first.text() shouldBe Messages("iht.nextSteps")
+      headers.first.text() shouldBe messagesApi("iht.nextSteps")
     }
 
     "have details are correct button " in {
@@ -73,7 +73,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
         Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed))
 
       val detailsAreCorrectButton = view.getElementById("finish")
-      detailsAreCorrectButton.attr("value") shouldBe Messages("site.button.details.correct")
+      detailsAreCorrectButton.attr("value") shouldBe messagesApi("site.button.details.correct")
     }
   }
 
@@ -84,16 +84,35 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
         appDetails,
         Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed))
 
-      messagesShouldBePresent(view.toString, Messages("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"))
-      messagesShouldBePresent(view.toString, CommonHelper.escapePound(Messages("iht.estateReport.assets.kickout.MoreThan1Million")))
-      messagesShouldBePresent(view.toString, Messages("iht.estateReport.kickout.returnToEstateOverview"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"))
+      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.assets.kickout.MoreThan1Million"))
+      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.returnToEstateOverview"))
 
       val returnLink = view.getElementById("back-button")
-      returnLink.text shouldBe Messages("iht.estateReport.kickout.returnToEstateOverview.linkText")
+      returnLink.text shouldBe messagesApi("iht.estateReport.kickout.returnToEstateOverview.linkText")
       returnLink.attr("href") shouldBe
         iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
 
     }
+
+  "have correct text and return link for Kickout Reason PartnerDiedBeforeMinDate" in {
+    val view = ihtKickOutApplicationView(KickOutReason.PartnerDiedBeforeMinDate,
+      appDetails,
+      Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation))
+
+    messagesShouldBePresent(view.toString,messagesApi("page.iht.application.tnrb.kickout.estateMoreThanThreshold.summary"))
+    messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.nextSteps"))
+    messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.returnToEstateOverview"))
+    messagesShouldBePresent(view.toString, messagesApi("site.threshold.value.display"))
+    messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.ihtThreshold"))
+    messagesShouldBePresent(view.toString, CommonHelper.escapePound(messagesApi("page.iht.application.overview.value")))
+
+    val returnLink = view.getElementById("back-button")
+    returnLink.text shouldBe messagesApi("iht.estateReport.kickout.returnToEstateOverview.linkText")
+    returnLink.attr("href") shouldBe
+      iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
+
   }
+}
 
 }

@@ -21,6 +21,8 @@ import iht.controllers.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.models.application.debts.AllLiabilities
 import iht.utils._
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.Future
 

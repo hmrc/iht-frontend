@@ -24,7 +24,7 @@
 
 @(partnerLivingInUkForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
-widowCheck: WidowCheck)(implicit request:Request[_])
+widowCheck: WidowCheck)(implicit request:Request[_], messages: Messages))
 
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
 

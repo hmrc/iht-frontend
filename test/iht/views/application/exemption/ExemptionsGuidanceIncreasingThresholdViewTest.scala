@@ -16,17 +16,13 @@
 
 package iht.views.application.exemption
 
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.exemptions_guidance_increasing_threshold
-import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Messages.Implicits._
 
-class ExemptionsGuidanceIncreasingThresholdViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
 
   "exemptions guidance increasing threshold page" must {
@@ -37,7 +33,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends UnitSpec with FakeIh
       val doc = asDocument(view)
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() shouldBe 1
-      headers.first().text() shouldBe Messages("page.iht.application.exemptions.guidance.increasing.threshold.title")
+      headers.first().text() shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title")
     }
 
     "show the correct browser title" in {
@@ -45,15 +41,15 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends UnitSpec with FakeIh
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
-        Messages("page.iht.application.exemptions.guidance.increasing.threshold.title") + " " + Messages("site.title.govuk"))
+        messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.title") + " " + messagesApi("site.title.govuk"))
     }
 
     "show the correct paragraphs" in {
       implicit val request = createFakeRequest()
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
-      view should include(Messages("page.iht.application.exemptions.guidance.increasing.threshold.p1"))
-      view should include(Messages("page.iht.application.exemptions.guidance.increasing.threshold.p2"))
-      view should include(Messages("iht.estateReport.exemptions.guidance.provideAssetsDetails"))
+      view should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.p1"))
+      view should include(messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.p2"))
+      view should include(messagesApi("iht.estateReport.exemptions.guidance.provideAssetsDetails"))
     }
 
     "show the correct indent paragraph" in {
@@ -70,7 +66,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends UnitSpec with FakeIh
 
       assertRenderedById(doc, "exemptions-link")
       val link = doc.getElementById("exemptions-link")
-      link.text shouldBe Messages("page.iht.application.exemptions.guidance.increasing.threshold.link.text")
+      link.text shouldBe messagesApi("page.iht.application.exemptions.guidance.increasing.threshold.link.text")
       link.attr("href") shouldBe iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad().url
     }
 
@@ -79,7 +75,7 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends UnitSpec with FakeIh
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString
       val doc = asDocument(view)
       val button: Element = doc.getElementById("continue")
-      button.text() shouldBe Messages("iht.continue")
+      button.text() shouldBe messagesApi("iht.continue")
     }
   }
 }

@@ -27,7 +27,7 @@
     isInternational: Boolean,
     actionCall: Call,
     changeNationalityLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request: Request[_])
+    cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix", addApostrophe(name)),
                    browserTitle = Some(Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")),

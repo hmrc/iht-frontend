@@ -26,6 +26,8 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class CharityNameControllerTest extends ApplicationControllerTest with BeforeAndAfter {
@@ -94,8 +96,8 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
 
       val result = charityNameController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(Messages("page.iht.application.exemptions.charityName.sectionTitle"))
-      contentAsString(result) should include(Messages("iht.saveAndContinue"))
+      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityName.sectionTitle"))
+      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
     }
 
     "respond with OK on page load and correct charity id for first charity" in {

@@ -22,7 +22,9 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -31,6 +33,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by james on 16/06/16.
  */
 class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -77,37 +80,37 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
     "display the page title on page load" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.propertyAdd"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.propertyAdd"))
     }
 
     "display property address details question on page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.property.whatIsAddress.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
     "display kind of property question on page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.properties.whatKind.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.whatKind.question"))
     }
 
     "display how the property was owned question on the page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "display freehold leasehold question on page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.properties.freeholdOrLeasehold"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }
 
     "display value of property question on the page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(Messages("iht.estateReport.assets.properties.value.question", deceasedName))
+      contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
   }
 }

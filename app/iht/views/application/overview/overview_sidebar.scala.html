@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@(submitDate: String)
+@(submitDate: String)(implicit request:Request[_], messages: Messages)
 
 <div id="estate-report-deadline-date" class="panel-indent panel-indent--gutter">
     <p>@Messages("page.iht.application.overview.time.limit1") <br/><strong>@submitDate </strong><br />@Messages("page.iht.application.overview.time.limit2")</p>

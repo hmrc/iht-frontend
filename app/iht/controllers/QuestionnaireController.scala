@@ -27,6 +27,10 @@ import play.api.data.Form
 import play.api.mvc._
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+
+import scala.concurrent.Future
 
 trait QuestionnaireController extends FrontendController with IhtActions {
 

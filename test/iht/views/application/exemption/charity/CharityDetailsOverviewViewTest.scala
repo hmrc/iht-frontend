@@ -17,19 +17,15 @@
 package iht.views.application.exemption.charity
 
 import iht.controllers.application.exemptions.charity.routes
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.exemption.charity.charity_details_overview
-import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.Element
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.Messages.Implicits._
 
 /**
  * Created by jennygj on 13/10/16.
  */
-class CharityDetailsOverviewViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter{
+class CharityDetailsOverviewViewTest extends ViewTestHelper{
 
   "CharityDetailsOverviewView" must {
 
@@ -44,17 +40,41 @@ class CharityDetailsOverviewViewTest extends UnitSpec with FakeIhtApp with Mocki
       val nameLink: Element = doc.getElementById("charity-name-link")
       val expectedNameUrl =  routes.CharityNameController.onEditPageLoad(charity.id.getOrElse(""))
       nameLink.attr("href") shouldBe expectedNameUrl.url
-      assertEqualsValue(doc, "a#charity-name-link span", Messages("site.link.giveName"))
+      assertEqualsValue(doc, "a#charity-name-link span", messagesApi("site.link.giveName"))
 
       val numberLink: Element = doc.getElementById("charity-number-link")
       val expectedNumberUrl =  routes.CharityNumberController.onEditPageLoad(charity.id.getOrElse(""))
       numberLink.attr("href") shouldBe expectedNumberUrl.url
-      assertEqualsValue(doc, "a#charity-number-link span", Messages("site.link.giveNumber"))
+      assertEqualsValue(doc, "a#charity-number-link span", messagesApi("site.link.giveNumber"))
 
       val valueLink: Element = doc.getElementById("charity-value-link")
       val expectedValueURl = routes.CharityValueController.onEditPageLoad(charity.id.getOrElse(""))
       valueLink.attr("href") shouldBe expectedValueURl.url
-      assertEqualsValue(doc, "a#charity-value-link span", Messages("site.link.giveValue"))
+      assertEqualsValue(doc, "a#charity-value-link span", messagesApi("site.link.giveValue"))
+    }
+
+    "contain correct links and show correct link texts for Charity name, number and value " +
+      "when charily details have been entered" in {
+      implicit val request = createFakeRequest()
+
+      val charity = iht.testhelpers.CommonBuilder.charity
+      val view = charity_details_overview(Some(charity)).toString
+      val doc = asDocument(view)
+
+      val nameLink: Element = doc.getElementById("charity-name-link")
+      val expectedNameUrl =  routes.CharityNameController.onEditPageLoad(charity.id.getOrElse(""))
+      nameLink.attr("href") shouldBe expectedNameUrl.url
+      assertEqualsValue(doc, "a#charity-name-link span", messagesApi("iht.change"))
+
+      val numberLink: Element = doc.getElementById("charity-number-link")
+      val expectedNumberUrl =  routes.CharityNumberController.onEditPageLoad(charity.id.getOrElse(""))
+      numberLink.attr("href") shouldBe expectedNumberUrl.url
+      assertEqualsValue(doc, "a#charity-number-link span", messagesApi("iht.change"))
+
+      val valueLink: Element = doc.getElementById("charity-value-link")
+      val expectedValueURl = routes.CharityValueController.onEditPageLoad(charity.id.getOrElse(""))
+      valueLink.attr("href") shouldBe expectedValueURl.url
+      assertEqualsValue(doc, "a#charity-value-link span", messagesApi("iht.change"))
     }
 
     "contain links with charity ID #1 when charity name is completed, but charity number and value are empty" +

@@ -24,6 +24,8 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.CommonHelper
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object VehiclesOverviewController extends VehiclesOverviewController with IhtConnectors {
   def metrics : Metrics = Metrics

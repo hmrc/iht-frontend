@@ -21,14 +21,13 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import org.mockito.Matchers._
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 
 /**
  * Created by james on 21/01/16.
  */
 class ClaimingExemptionsControllerTest extends ApplicationControllerTest {
-
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -84,7 +83,7 @@ class ClaimingExemptionsControllerTest extends ApplicationControllerTest {
 
       val result = claimingExemptionsController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.claimingExemptions.title"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.claimingExemptions.title"))
     }
 
     "display four click and reveal headings on page" in {
@@ -92,10 +91,10 @@ class ClaimingExemptionsControllerTest extends ApplicationControllerTest {
 
       val result = claimingExemptionsController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.heading"))
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.heading"))
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.heading"))
-      contentAsString(result) should include (Messages("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.heading"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.smallGifts.heading"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.heading"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.income.heading"))
+      contentAsString(result) should include (messagesApi("page.iht.application.gifts.guidance.claimingExemptions.reveal.annualGift.heading"))
     }
 
     "display link for Gifts Given Away and Estate Overview as part of side bar links on the page" in {
@@ -103,8 +102,8 @@ class ClaimingExemptionsControllerTest extends ApplicationControllerTest {
 
       val result = claimingExemptionsController.onPageLoad()(createFakeRequest())
 
-      contentAsString(result) should include (Messages("site.link.go.to.giftsGivenAwaySection"))
-      contentAsString(result) should include (Messages("site.link.go.to.estateOverview"))
+      contentAsString(result) should include (messagesApi("site.link.go.to.giftsGivenAwaySection"))
+      contentAsString(result) should include (messagesApi("site.link.go.to.estateOverview"))
     }
   }
 }

@@ -21,7 +21,7 @@ import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicat
 import models.des.iht_return.Asset
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.collection.immutable.ListMap
@@ -31,6 +31,7 @@ import scala.collection.immutable.ListMap
   */
 class PdfFormatterTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "disply value" must {
 
     "must return date in format of d MMMM yyyy" in {
@@ -77,7 +78,7 @@ class PdfFormatterTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val newAssetDescription = asset.assetDescription.map(x=>
         etmpTitlesMappedToPDFMessageKeys.get(x) match {
           case None => x
-          case Some(newMessageKey) => Messages(newMessageKey)
+          case Some(newMessageKey) => messagesApi(newMessageKey)
         }
       )
       asset copy(assetDescription = newAssetDescription)

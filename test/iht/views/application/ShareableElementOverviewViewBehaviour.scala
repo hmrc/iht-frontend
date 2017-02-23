@@ -16,15 +16,16 @@
 
 package iht.views.application
 
-import iht.models.application.basicElements.ShareableBasicEstateElement
+import iht.testhelpers.SharableOverviewData
 import iht.views.ViewTestHelper
 import iht.views.helpers.GenericOverviewHelper._
-import org.jsoup.nodes.Document
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 
-trait ShareableElementOverviewViewBehaviour extends ViewTestHelper {
+trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with SharableOverviewData{
 
   def pageTitle: String
   def browserTitle: String
@@ -45,180 +46,152 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper {
   def jointlyOwnedValueText: String
   def deceasedName: String
 
-  val dataWithQuestionsAnsweredNo =
-    Some(ShareableBasicEstateElement(value = None, shareValue = None, isOwned = Some(false), isOwnedShare = Some(false)))
+  def viewWithQuestionsAnsweredNo: String
+  def viewWithQuestionsAnsweredYes: String
+  def viewWithQuestionsUnanswered: String
+  def viewWithValues: String
 
-  val dataWithQuestionsAnsweredYes =
-    Some(ShareableBasicEstateElement(value = None, shareValue = None, isOwned = Some(true), isOwnedShare = Some(true)))
-
-  val ownedAmount = 1234.0
-  val ownedAmountDisplay = "£1,234.00"
-  val jointAmount = 2345.0
-  val jointAmountDisplay = "£2,345.00"
-
-  val dataWithValues =
-    Some(ShareableBasicEstateElement(value = Some(ownedAmount), shareValue = Some(jointAmount),
-      isOwned = Some(true), isOwnedShare = Some(true)))
-
-  def fixture(data: Option[ShareableBasicEstateElement]) = new {
-    implicit val request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
-    val view: String = ""
-    val doc: Document = new Document("")
+  def overviewPage()  = {
+    overviewViewWithGenericContents()
+    overviewViewWithQuestionsUnanswered("questionsUnanswered view")
+    overviewViewWithQuestionsAnsweredNo("questionsAnsweredNo view")
+    overviewViewWithQuestionsAnsweredYes("questionsAnsweredYes view")
+    overviewViewWithValues("view with values")
   }
 
-  def overviewView() = {
+  def overviewViewWithGenericContents() = {
 
     "have the correct title" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      titleShouldBeCorrect(f.view, pageTitle)
+      titleShouldBeCorrect(viewWithQuestionsAnsweredNo, pageTitle)
     }
 
     "have the correct browser title" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      browserTitleShouldBeCorrect(f.view, browserTitle)
+      browserTitleShouldBeCorrect(viewWithQuestionsAnsweredNo, browserTitle)
     }
 
     "show the correct guidance paragraphs" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(f.view, paragraph)
+      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(viewWithQuestionsAnsweredNo, paragraph)
     }
 
     "show the correct return link with right text" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      val returnLink = f.doc.getElementById("return-button")
+      val doc = asDocument(viewWithQuestionsAnsweredNo)
+      val returnLink = doc.getElementById("return-button")
       returnLink.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
-      returnLink.text() shouldBe Messages("page.iht.application.return.to.assetsOf",deceasedName)
+      returnLink.text() shouldBe messagesApi("page.iht.application.return.to.assetsOf",deceasedName)
     }
   }
 
-  def overviewViewWithQuestionsUnanswered() = {
-    "show the 'owned only by the deceased' question header as being unanswered with a link to give details" in {
-      val f = fixture(None)
-      headerQuestionShouldBeUnanswered(f.doc, ownHeadingElementId, ownHeaderText, urlToOwnPage)
+  def overviewViewWithQuestionsUnanswered(sectionName: String) = {
+    "show the 'owned only by the deceased' question header as unanswered with a link to give details in " + sectionName in {
+
+      headerQuestionShouldBeUnanswered(asDocument(viewWithQuestionsUnanswered), ownHeadingElementId, ownHeaderText, urlToOwnPage)
     }
 
-    "show the 'jointly owned' question header as being unanswered with a link to give details" in {
-      val f = fixture(None)
-      headerQuestionShouldBeUnanswered(f.doc, jointlyOwnedHeadingElementId, jointlyOwnedHeaderText, urlToJointlyOwnedPage)
+    "show the 'jointly owned' question header as unanswered with a link to give details in " + sectionName in {
+      headerQuestionShouldBeUnanswered(asDocument(viewWithQuestionsUnanswered),
+                                jointlyOwnedHeadingElementId, jointlyOwnedHeaderText, urlToJointlyOwnedPage)
     }
 
-    "not show the 'owned only by the deceased' question row" in {
-      val f = fixture(None)
-      assertNotRenderedById(f.doc, ownQuestionRowId)
+    "not show the 'owned only by the deceased' question row in " + sectionName in {
+      assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), ownQuestionRowId)
     }
 
-    "not show the 'value owned only be the deceased' row" in {
-      val f = fixture(None)
-      assertNotRenderedById(f.doc, ownValueRowId)
+    "not show the 'value owned only be the deceased' row in " + sectionName in {
+      assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), ownValueRowId)
     }
 
-    "not show the 'jointly owned' question row" in {
-      val f = fixture(None)
-      assertNotRenderedById(f.doc, jointlyOwnedQuestionRowId)
+    "not show the 'jointly owned' question row in " + sectionName in {
+      assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), jointlyOwnedQuestionRowId)
     }
 
-    "not show the 'value jointly owned' row" in {
-      val f = fixture(None)
-      assertNotRenderedById(f.doc, jointlyOwnedValueRowId)
+    "not show the 'value jointly owned' row in " + sectionName in {
+      assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), jointlyOwnedValueRowId)
     }
   }
 
-  def overviewViewWithQuestionsAnsweredNo() = {
+  def overviewViewWithQuestionsAnsweredNo(sectionName: String) = {
 
-    "show the 'only owned by the deceased' question header as being answered with no link" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      headerShouldBeAnswered(f.doc, ownHeadingElementId, ownHeaderText)
+    "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
+      headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo), ownHeadingElementId, ownHeaderText)
     }
 
-    "show the 'jointly owned' question header as being answered with no link" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      headerShouldBeAnswered(f.doc, jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
+    "show the 'jointly owned' question header as answered with no link in " + sectionName in {
+      headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo), jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
     }
 
-    "show the 'owned only by the deceased' question row with an answer of No" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      rowShouldBeAnswered(f.doc, ownQuestionRowId, ownQuestionText, "No", "iht.change", urlToOwnPage)
+    "show the 'owned only by the deceased' question row with an answer of No in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo), ownQuestionRowId, ownQuestionText, "No", "iht.change", urlToOwnPage)
     }
 
-    "not show the 'value owned only be the deceased' row" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      assertNotRenderedById(f.doc, ownValueRowId)
+    "not show the 'value owned only be the deceased' row in " + sectionName in {
+      assertNotRenderedById(asDocument(viewWithQuestionsAnsweredNo), ownValueRowId)
     }
 
-    "show the 'jointly owned' question row with an answer of No" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      rowShouldBeAnswered(f.doc, jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "No", "iht.change", urlToJointlyOwnedPage)
+    "show the 'jointly owned' question row with an answer of No in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo),
+        jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "No", "iht.change", urlToJointlyOwnedPage)
     }
 
-    "not show the 'value jointly owned' row" in {
-      val f = fixture(dataWithQuestionsAnsweredNo)
-      assertNotRenderedById(f.doc, jointlyOwnedValueRowId)
+    "not show the 'value jointly owned' row in " + sectionName in {
+      assertNotRenderedById(asDocument(viewWithQuestionsAnsweredNo), jointlyOwnedValueRowId)
     }
   }
 
-  def overviewViewWithQuestionsAnsweredYes() = {
+  def overviewViewWithQuestionsAnsweredYes(sectionName: String) = {
 
-    "show the 'only owned by the deceased' question header as being answered with no link" in {
-      val f = fixture(dataWithQuestionsAnsweredYes)
-      headerShouldBeAnswered(f.doc, ownHeadingElementId, ownHeaderText)
+    "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
+      headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), ownHeadingElementId, ownHeaderText)
     }
 
-    "show the 'jointly owned' question header as being answered with no link" in {
-      val f = fixture(dataWithQuestionsAnsweredYes)
-      headerShouldBeAnswered(f.doc, jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
+    "show the 'jointly owned' question header as answered with no link in " + sectionName in {
+      headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
     }
 
-    "show the 'owned only by the deceased' question row with an answer of Yes" in {
-      val f = fixture(dataWithQuestionsAnsweredYes)
-      rowShouldBeAnswered(f.doc, ownQuestionRowId, ownQuestionText, "Yes", "iht.change", urlToOwnPage)
+    "show the 'owned only by the deceased' question row with an answer of Yes in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), ownQuestionRowId, ownQuestionText, "Yes", "iht.change", urlToOwnPage)
     }
 
-    "show the 'value owned only be the deceased' row as unanswered" in {
-      val f = fixture(dataWithQuestionsAnsweredYes)
-      rowShouldBeAnswered(f.doc, ownValueRowId, ownValueText, "", "site.link.giveAValue", urlToOwnPage)
+    "show the 'value owned only be the deceased' row as unanswered in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), ownValueRowId, ownValueText, "", "site.link.giveAValue", urlToOwnPage)
     }
 
-    "show the 'jointly owned' question row with an answer of Yes" in {
-      val f = fixture(dataWithQuestionsAnsweredYes)
-      rowShouldBeAnswered(f.doc, jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "Yes", "iht.change", urlToJointlyOwnedPage)
+    "show the 'jointly owned' question row with an answer of Yes in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes),
+                      jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "Yes", "iht.change", urlToJointlyOwnedPage)
     }
 
-    "show the 'value jointly owned' row as unanswered" in {
-      val f = fixture(dataWithQuestionsAnsweredYes)
-      rowShouldBeAnswered(f.doc, jointlyOwnedValueRowId, jointlyOwnedValueText, "", "site.link.giveAValue", urlToJointlyOwnedPage)
+    "show the 'value jointly owned' row as unanswered in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes),
+                      jointlyOwnedValueRowId, jointlyOwnedValueText, "", "site.link.giveAValue", urlToJointlyOwnedPage)
     }
   }
 
-  def overviewViewWithValues() = {
+  def overviewViewWithValues(sectionName: String) = {
 
-    "show the 'only owned by the deceased' question header as being answered with no link" in {
-      val f = fixture(dataWithValues)
-      headerShouldBeAnswered(f.doc, ownHeadingElementId, ownHeaderText)
+    "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
+      headerShouldBeAnswered(asDocument(viewWithValues), ownHeadingElementId, ownHeaderText)
     }
 
-    "show the 'jointly owned' question header as being answered with no link" in {
-      val f = fixture(dataWithValues)
-      headerShouldBeAnswered(f.doc, jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
+    "show the 'jointly owned' question header as answered with no link in " + sectionName in {
+      headerShouldBeAnswered(asDocument(viewWithValues), jointlyOwnedHeadingElementId, jointlyOwnedHeaderText)
     }
 
-    "show the 'owned only by the deceased' question row with an answer of Yes" in {
-      val f = fixture(dataWithValues)
-      rowShouldBeAnswered(f.doc, ownQuestionRowId, ownQuestionText, "Yes", "iht.change", urlToOwnPage)
+    "show the 'owned only by the deceased' question row with an answer of Yes in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithValues), ownQuestionRowId, ownQuestionText, "Yes", "iht.change", urlToOwnPage)
     }
 
-    "show the 'value owned only by the deceased' row a value" in {
-      val f = fixture(dataWithValues)
-      rowShouldBeAnswered(f.doc, ownValueRowId, ownValueText, ownedAmountDisplay, "iht.change", urlToOwnPage)
+    "show the 'value owned only by the deceased' row a value in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithValues), ownValueRowId, ownValueText, ownedAmountDisplay, "iht.change", urlToOwnPage)
     }
 
-    "show the 'jointly owned' question row with an answer of Yes" in {
-      val f = fixture(dataWithValues)
-      rowShouldBeAnswered(f.doc, jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "Yes", "iht.change", urlToJointlyOwnedPage)
+    "show the 'jointly owned' question row with an answer of Yes in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithValues),
+                      jointlyOwnedQuestionRowId, jointlyOwnedQuestionText, "Yes", "iht.change", urlToJointlyOwnedPage)
     }
 
-    "show the 'value jointly owned' row with a value" in {
-      val f = fixture(dataWithValues)
-      rowShouldBeAnswered(f.doc, jointlyOwnedValueRowId, jointlyOwnedValueText, jointAmountDisplay, "iht.change", urlToJointlyOwnedPage)
+    "show the 'value jointly owned' row with a value in " + sectionName in {
+      rowShouldBeAnswered(asDocument(viewWithValues),
+                      jointlyOwnedValueRowId, jointlyOwnedValueText, jointAmountDisplay, "iht.change", urlToJointlyOwnedPage)
     }
   }
 }

@@ -22,7 +22,7 @@ import iht.models.DeceasedDetails
 import iht.views.html.registration.deceased.deceased_address_details_uk
 import iht.views.registration.RegistrationPageBehaviour
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
 import iht.testhelpers.CommonBuilder
@@ -33,8 +33,8 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
   lazy val editSubmitLocation = CommonBuilder.DefaultCall1
   lazy val addressOutsideUK= CommonBuilder.DefaultCall2
 
-  override def pageTitle = Messages("iht.registration.deceased.lastContactAddress")
-  override def browserTitle = Messages("iht.registration.contactAddress")
+  override def pageTitle = messagesApi("iht.registration.deceased.lastContactAddress")
+  override def browserTitle = messagesApi("iht.registration.contactAddress")
 
   override def form:Form[DeceasedDetails] = deceasedAddressDetailsUKForm
   override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_uk(form,
@@ -102,7 +102,7 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
     "have a link to change to an address abroad" in {
       val link = doc.getElementById("return-button")
       link.attr("href") shouldBe (addressOutsideUK.url)
-      link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
+      link.text shouldBe messagesApi("iht.registration.changeAddressToAbroad")
     }
   }
 
@@ -112,7 +112,7 @@ class DeceasedAddressDetailsUKViewTest extends RegistrationPageBehaviour[Decease
     "have a link to change to an address abroad" in {
       val link = editModeView.getElementById("return-button")
       link.attr("href") shouldBe (addressOutsideUK.url)
-      link.text shouldBe Messages("iht.registration.changeAddressToAbroad")
+      link.text shouldBe messagesApi("iht.registration.changeAddressToAbroad")
     }
   }
 }

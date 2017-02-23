@@ -26,6 +26,8 @@ import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class DeceasedPermanentHomeControllerTest
@@ -67,8 +69,8 @@ class DeceasedPermanentHomeControllerTest
         referrerURL=referrerURL,host=host))
       status(result) shouldBe(OK)
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should not include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }
 
     "contain Continue and Cancel buttons when page is loaded in edit mode" in {
@@ -81,8 +83,8 @@ class DeceasedPermanentHomeControllerTest
       val result = controller.onEditPageLoad()(createFakeRequestWithReferrer(referrerURL=referrerURL,host=host))
       status(result) shouldBe(OK)
 
-      contentAsString(result) should include(Messages("iht.continue"))
-      contentAsString(result) should include(Messages("site.link.cancel"))
+      contentAsString(result) should include(messagesApi("iht.continue"))
+      contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
     "respond appropriately to a submit with valid values in all fields" in  {

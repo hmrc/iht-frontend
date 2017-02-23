@@ -17,15 +17,19 @@
 package iht.views.application.debts
 
 import iht.forms.ApplicationForms._
+import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.jointly_owned
+import iht.views.html.application.debts.{funeral_expenses, jointly_owned}
+import play.api.data.Form
+import play.twirl.api.HtmlFormat.Appendable
 
 /**
   * Created by vineet on 15/11/16.
   */
-class JointlyOwnedViewTest extends DebtsElementViewBehaviour{
+class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -33,19 +37,16 @@ class JointlyOwnedViewTest extends DebtsElementViewBehaviour{
                                                                maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                                       deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = Messages("iht.estateReport.debts.owedOnJointAssets")
-  override def browserTitle = Messages("page.iht.application.debts.jointlyOwned.browserTitle")
-  override def guidanceParagraphs = Set(Messages("page.iht.application.debts.jointlyOwned.description.p1",
-                                                  CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-  override def yesNoQuestionText = Messages("page.iht.application.debts.jointlyOwned.isOwned")
-  override def inputValueFieldLabel = Messages("iht.estateReport.debts.owedOnJointAssets.value")
-  override def inputValueFieldHintText = Messages("page.iht.application.debts.jointlyOwned.description.p2")
+  override def form:Form[BasicEstateElementLiabilities] = jointlyOwnedDebts
+  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => jointly_owned(form, regDetails)
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = jointly_owned(jointlyOwnedDebts, regDetails).toString
-    val doc = asDocument(view)
-  }
+  override def pageTitle = messagesApi("iht.estateReport.debts.owedOnJointAssets")
+  override def browserTitle = messagesApi("page.iht.application.debts.jointlyOwned.browserTitle")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.jointlyOwned.description.p1",
+                                                  CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.jointlyOwned.isOwned")
+  override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.owedOnJointAssets.value")
+  override def inputValueFieldHintText = messagesApi("page.iht.application.debts.jointlyOwned.description.p2")
 
   "JointlyOwnedView" must {
     behave like debtsElement

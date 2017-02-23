@@ -16,7 +16,7 @@
 
 @(relevantSectionGuidanceUrl: Call,
 messageKeyUrl: String,
-messageKeyAccessibility: String)
+messageKeyAccessibility: String)(implicit request:Request[_], messages: Messages)
 <div class="section--blue-top">
     <h2 id="get-help-text">Get help</h2>
     <p>

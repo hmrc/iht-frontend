@@ -17,7 +17,7 @@
 @import iht.constants.IhtProperties
 @import iht.views.html._
 
-@(deceasedName: String, inReview: Boolean)
+@(deceasedName: String, inReview: Boolean)(implicit request:Request[_], messages: Messages)
 
 @Html(Messages("page.iht.application.overview.common.estatevalue", ihtHelpers.name(deceasedName)))
 @if(inReview) { <p>@Messages("page.iht.application.overview.inreview.helptext")</p> }

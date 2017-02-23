@@ -25,6 +25,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.seven_years_given_in_last_7_years
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 
 object SevenYearsGivenInLast7YearsController extends SevenYearsGivenInLast7YearsController with IhtConnectors {

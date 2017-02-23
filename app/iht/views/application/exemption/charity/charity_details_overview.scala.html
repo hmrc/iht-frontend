@@ -24,7 +24,7 @@
 @import iht.views.html.ihtHelpers._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
-@(charity:Option[Charity]=None)(implicit request: Request[_])
+@(charity:Option[Charity]=None)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.overview.charity.detailsOverview.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.overview.charity.detailsOverview.browserTitle")),
@@ -49,7 +49,7 @@ isFullWidth = false) {
                         case None => None
                     },
                       messagesFileGiveAnswer = Messages("site.link.giveName"),
-                      messagesFileViewOrChange = Messages("iht.viewOrChange"),
+                      messagesFileViewOrChange = Messages("iht.change"),
                       screenreaderQualifyingText = charityName match {
                           case Some(id) => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.name.screenreader.link.value")
                           case None => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.name.screenreader.link.noValue")
@@ -76,7 +76,7 @@ isFullWidth = false) {
                         case None => None
                       },
                       messagesFileGiveAnswer = Messages("site.link.giveNumber"),
-                      messagesFileViewOrChange = Messages("iht.viewOrChange"),
+                      messagesFileViewOrChange = Messages("iht.change"),
                       screenreaderQualifyingText = charityNumber match {
                           case Some(id) => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.number.screenreader.link.value")
                           case None => Messages("error.charityNumber.give")
@@ -105,7 +105,7 @@ isFullWidth = false) {
                         case None => None
                       },
                       messagesFileGiveAnswer = Messages("site.link.giveValue"),
-                      messagesFileViewOrChange = Messages("iht.viewOrChange"),
+                      messagesFileViewOrChange = Messages("iht.change"),
                       screenreaderQualifyingText = charityId match {
                           case Some(x) => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.value.screenreader.link.value")
                           case None => Messages("page.iht.application.exemptions.overview.charity.detailsOverview.value.screenreader.link.noValue")

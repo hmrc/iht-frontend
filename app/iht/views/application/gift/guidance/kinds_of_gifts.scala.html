@@ -20,7 +20,7 @@
 @(ihtReference: String,
 backToLastQuestionUrl: Option[String] = None,
 backToLastQuestionMessageKey: Option[String] = None,
-backToLastQuestionMessageKeyAccessibility: Option[String] = None)(implicit request: Request[_])
+backToLastQuestionMessageKeyAccessibility: Option[String] = None)(implicit request:Request[_], messages: Messages)
 
 @gifts_guidance_main_template(title = Messages("page.iht.application.gifts.guidance.kindOfGifts.title"),
 backUrl = None,

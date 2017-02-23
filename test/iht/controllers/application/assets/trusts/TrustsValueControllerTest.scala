@@ -22,7 +22,9 @@ import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 class TrustsValueControllerTest extends ApplicationControllerTest{
@@ -68,7 +70,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
 
       val result = trustsValueController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.heldInTrust.valueOfTrust"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust"))
     }
 
     "save the trusts value and go to held in trust overview page on submit" in {

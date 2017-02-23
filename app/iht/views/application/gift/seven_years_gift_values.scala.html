@@ -32,7 +32,7 @@ totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
 totalExemptionsValue: BigDecimal,
 previousYearsGiftsExemptionsIsDefined: Boolean,
 previousYearsGiftsValueIsDefined: Boolean
-)(implicit request: Request[_])
+)(implicit request:Request[_], messages: Messages)
 
 @gifts_main_template(title = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"),
 browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.browserTitle")),

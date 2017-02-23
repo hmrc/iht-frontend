@@ -15,7 +15,7 @@
 *@
 
 @(title: String,
-signOutText: String = Messages("site.button.signOut"),
+signOutText: String = "",
 browserTitle: Option[String] = None,
 stage: Option[String] = None,
 contentHeader: Option[Html] = None,
@@ -26,7 +26,7 @@ backUrl: Option[Call] = None,
 jsFile: Option[String]= None,
 cssFile: Option[String]= None,
 cancelUrl: Option[Call]=None,
-cancelLabel: => Option[String] = Some(Messages("site.link.cancel")),
+cancelLabel: => Option[String] = Some(""),
 saveAndViewAppUrl: Option[Call]= None,
 hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
@@ -34,7 +34,7 @@ signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = ""
-)(mainContent: Html)
+)(mainContent: Html)(implicit messages: Messages)
 
 @import uk.gov.hmrc.play.views.html.layouts
 @import iht.config._

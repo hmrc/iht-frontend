@@ -27,13 +27,26 @@ import uk.gov.hmrc.play.test.UnitSpec
   */
 class XmlFoToPDFTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val appDetails = CommonBuilder.buildApplicationDetails
+
   "XmlFoToPDF.createClearancePDF" must {
     "have correct contents for the certificate" in {
-      val regDetails = CommonBuilder.buildRegistrationDetails1
       val declarationDate = new LocalDate(2015, 10, 10)
 
       val result: Array[Byte] = XmlFoToPDF.createClearancePDF(regDetails, declarationDate)
+      result.length should be >0
+    }
 
+    "have correct contents for the Pre Submission PDF" in {
+      val result: Array[Byte] = XmlFoToPDF.createPreSubmissionPDF(regDetails, appDetails, "declaration_type")
+      result.length should be >0
+    }
+
+    "have correct contents for the Post Submission PDF" in {
+      lazy val ihtReturn = CommonBuilder.buildIHTReturn
+
+      val result: Array[Byte] = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)
       result.length should be >0
     }
   }

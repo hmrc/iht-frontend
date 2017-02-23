@@ -23,7 +23,8 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import iht.models.application.assets.Properties
 import iht.utils.CommonHelper
 

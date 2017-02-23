@@ -16,10 +16,12 @@
 
 package iht.metrics
 
-import com.kenshoo.play.metrics.MetricsRegistry
+import com.codahale.metrics.MetricRegistry
 import iht.models.enums.KickOutSource._
 import iht.models.enums.StatsSource.StatsSource
 import iht.models.enums.{KickOutSource, _}
+import uk.gov.hmrc.play.graphite.MicroserviceMetrics
+
 /**
  *
  * Created by Vineet Tyagi on 29/09/15.
@@ -31,26 +33,28 @@ trait Metrics {
   def generalStatsCounter (source: StatsSource):Unit
 }
 
-object Metrics extends Metrics {
+object Metrics extends Metrics with MicroserviceMetrics {
 
-  val kickOutCounters = Map(
-    KickOutSource.REGISTRATION-> MetricsRegistry.defaultRegistry.counter("registration-kickout-counter"),
-    KickOutSource.ASSET-> MetricsRegistry.defaultRegistry.counter("asset-kickout-counter"),
-    KickOutSource.GIFT-> MetricsRegistry.defaultRegistry.counter("gift-kickout-counter"),
-    KickOutSource.TNRB-> MetricsRegistry.defaultRegistry.counter("tnrb-kickout-counter"),
-    KickOutSource.EXEMPTIONS-> MetricsRegistry.defaultRegistry.counter("exemptions-kickout-counter"),
-    KickOutSource.HOME-> MetricsRegistry.defaultRegistry.counter("home-kickout-counter")
+  lazy val registry: MetricRegistry = metrics.defaultRegistry
+
+  lazy val kickOutCounters = Map(
+    KickOutSource.REGISTRATION-> registry.counter("registration-kickout-counter"),
+    KickOutSource.ASSET-> registry.counter("asset-kickout-counter"),
+    KickOutSource.GIFT-> registry.counter("gift-kickout-counter"),
+    KickOutSource.TNRB-> registry.counter("tnrb-kickout-counter"),
+    KickOutSource.EXEMPTIONS-> registry.counter("exemptions-kickout-counter"),
+    KickOutSource.HOME-> registry.counter("home-kickout-counter")
   )
 
- val statsCounter = Map(
-   StatsSource.COMPLETED_REG-> MetricsRegistry.defaultRegistry.counter("completedReg-counter"),
-   StatsSource.COMPLETED_REG_ADDITIONAL_EXECUTORS-> MetricsRegistry.defaultRegistry.counter("completedReg-with-additional-executors-counter"),
-   StatsSource.COMPLETED_APP-> MetricsRegistry.defaultRegistry.counter("completedApp-counter"),
-   StatsSource.ADDITIONAL_EXECUTOR_APP-> MetricsRegistry.defaultRegistry.counter("with-additional-executor-counter"),
-   StatsSource.NO_ASSETS_DEBTS_EXEMPTIONS_APP-> MetricsRegistry.defaultRegistry.counter("no-assets-debts-exemptions-app-counter"),
-   StatsSource.ASSETS_ONLY_APP-> MetricsRegistry.defaultRegistry.counter("assets-anly-app-counter"),
-   StatsSource.ASSETS_AND_DEBTS_ONLY_APP-> MetricsRegistry.defaultRegistry.counter("assets-and-debts-only-app-counter"),
-   StatsSource.ASSET_DEBTS_EXEMPTIONS_TNRB_APP-> MetricsRegistry.defaultRegistry.counter("asset-debt-exemption-tnrb-app-counter")
+ lazy val statsCounter = Map(
+   StatsSource.COMPLETED_REG-> registry.counter("completedReg-counter"),
+   StatsSource.COMPLETED_REG_ADDITIONAL_EXECUTORS-> registry.counter("completedReg-with-additional-executors-counter"),
+   StatsSource.COMPLETED_APP-> registry.counter("completedApp-counter"),
+   StatsSource.ADDITIONAL_EXECUTOR_APP-> registry.counter("with-additional-executor-counter"),
+   StatsSource.NO_ASSETS_DEBTS_EXEMPTIONS_APP-> registry.counter("no-assets-debts-exemptions-app-counter"),
+   StatsSource.ASSETS_ONLY_APP-> registry.counter("assets-anly-app-counter"),
+   StatsSource.ASSETS_AND_DEBTS_ONLY_APP-> registry.counter("assets-and-debts-only-app-counter"),
+   StatsSource.ASSET_DEBTS_EXEMPTIONS_TNRB_APP-> registry.counter("asset-debt-exemption-tnrb-app-counter")
 
  )
 

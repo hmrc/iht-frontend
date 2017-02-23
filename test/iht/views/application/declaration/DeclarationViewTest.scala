@@ -24,7 +24,7 @@ import iht.viewmodels.application.DeclarationViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 
 class DeclarationViewTest extends ViewTestHelper {
 
@@ -93,27 +93,27 @@ class DeclarationViewTest extends ViewTestHelper {
   }
 
   def assertMultipleExecutorsSection(doc: Document) = {
-    assertEqualsValue(doc, s"#$prologue1Id", Messages(coExecutorsPrologue1MsgKey))
-    assertEqualsValue(doc, s"#$prologue2Id", Messages(coExecutorsPrologue2MsgKey))
-    assertEqualsValue(doc, s"#$prologue3Id", Messages(coExecutorsPrologue3MsgKey))
+    assertEqualsValue(doc, s"#$prologue1Id", messagesApi(coExecutorsPrologue1MsgKey))
+    assertEqualsValue(doc, s"#$prologue2Id", messagesApi(coExecutorsPrologue2MsgKey))
+    assertEqualsValue(doc, s"#$prologue3Id", messagesApi(coExecutorsPrologue3MsgKey))
     assertRenderedById(doc, prologue4Id)
-    assertContainsText(doc, Messages(coExecutorsPrologue4MsgKey))
+    assertContainsText(doc, messagesApi(coExecutorsPrologue4MsgKey))
     assertContainsText(doc, escapeSpace(CommonBuilder.DefaultCoExecutor1.name))
     assertContainsText(doc, escapeSpace(CommonBuilder.DefaultCoExecutor2.name))
     assertContainsText(doc, escapeSpace(CommonBuilder.DefaultCoExecutor3.name))
 
     assertRenderedById(doc, confirmationCheckBoxId)
-    assertContainsText(doc, Messages(coExecutorsConfirmationTextMsgKey))
+    assertContainsText(doc, messagesApi(coExecutorsConfirmationTextMsgKey))
 
     assertLinkHasValue(doc, "pdf-summary-link", iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF.url)
-    assertEqualsValue(doc, "p a#pdf-summary-link", Messages("iht.estateReport.copyOfTheEstateReportAndPrint"))
+    assertEqualsValue(doc, "p a#pdf-summary-link", messagesApi("iht.estateReport.copyOfTheEstateReportAndPrint"))
   }
 
   "Declaration Page" must {
    "show correct title and browserTitle" in {
      val page = declarationView(isMultipleExecutor = false, declarationType = DeclarationReason.ValueLessThanNilRateBand).toString
-     titleShouldBeCorrect(page, Messages("iht.estateReport.declaration.title"))
-     browserTitleShouldBeCorrect(page, Messages("iht.estateReport.declaration.title"))
+     titleShouldBeCorrect(page, messagesApi("iht.estateReport.declaration.title"))
+     browserTitleShouldBeCorrect(page, messagesApi("iht.estateReport.declaration.title"))
 
    }
   }
@@ -125,16 +125,16 @@ class DeclarationViewTest extends ViewTestHelper {
 
       assertSingleExecutorSection(doc)
 
-      assertEqualsValue(doc, s"#$summaryTextId", Messages(youMayFaceProsecutionMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet1TextId", Messages(withholdInformationMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet2TextId", Messages(dontTellHMRCMsgKey))
+      assertEqualsValue(doc, s"#$summaryTextId", messagesApi(youMayFaceProsecutionMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
 
       assertNotRenderedById(doc, summaryBullet3TextId)
 
-      assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(completedAllReasonableEnquiriesMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(noInheritanceTaxPayableMsgKey))
+      assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(correctAndCompleteMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet4TextId)
       assertNotRenderedById(doc, mainBullet5TextId)
@@ -146,17 +146,17 @@ class DeclarationViewTest extends ViewTestHelper {
 
       assertSingleExecutorSection(doc)
 
-      assertEqualsValue(doc, s"#$summaryTextId", Messages(youMayFaceProsecutionMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet1TextId", Messages(withholdInformationMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet2TextId", Messages(dontTellHMRCMsgKey))
+      assertEqualsValue(doc, s"#$summaryTextId", messagesApi(youMayFaceProsecutionMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
 
       assertNotRenderedById(doc, summaryBullet3TextId)
 
-      assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(completedAllReasonableEnquiriesMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", escapePound(Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey)))
-      assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(noInheritanceTaxPayableMsgKey))
+      assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(correctAndCompleteMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet5TextId)
       assertNotRenderedById(doc, mainBullet6TextId)
@@ -167,17 +167,17 @@ class DeclarationViewTest extends ViewTestHelper {
 
       assertSingleExecutorSection(doc)
 
-      assertEqualsValue(doc, s"#$summaryTextId", Messages(youMayFaceProsecutionMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet1TextId", Messages(withholdInformationMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet2TextId", Messages(dontTellHMRCMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet3TextId", Messages(haveProvidedNonMatchingDetails))
+      assertEqualsValue(doc, s"#$summaryTextId", messagesApi(youMayFaceProsecutionMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails))
 
-      assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(deceasedMarriedWhenPartnerDied))
-      assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(didntUseAnyOfThreshold))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(completedAllReasonableEnquiriesMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet5TextId", Messages(noInheritanceTaxPayableMsgKey))
+      assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied))
+      assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(didntUseAnyOfThreshold))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet6TextId)
     }
@@ -187,18 +187,18 @@ class DeclarationViewTest extends ViewTestHelper {
 
       assertSingleExecutorSection(doc)
 
-      assertEqualsValue(doc, s"#$summaryTextId", Messages(youMayFaceProsecutionMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet1TextId", Messages(withholdInformationMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet2TextId", Messages(dontTellHMRCMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet3TextId", Messages(haveProvidedNonMatchingDetails))
+      assertEqualsValue(doc, s"#$summaryTextId", messagesApi(youMayFaceProsecutionMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails))
 
-      assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(deceasedMarriedWhenPartnerDied))
-      assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(didntUseAnyOfThreshold))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(completedAllReasonableEnquiriesMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet5TextId", escapePound(Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey)))
-      assertEqualsValue(doc, s"#$mainBullet6TextId", Messages(noInheritanceTaxPayableMsgKey))
+      assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied))
+      assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(didntUseAnyOfThreshold))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet6TextId", messagesApi(noInheritanceTaxPayableMsgKey))
     }
   }
 
@@ -209,16 +209,16 @@ class DeclarationViewTest extends ViewTestHelper {
 
       assertMultipleExecutorsSection(doc)
 
-      assertEqualsValue(doc, s"#$summaryTextId", Messages(executorsMayFaceProsecution))
-      assertEqualsValue(doc, s"#$summaryBullet1TextId", Messages(withholdInformationMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet2TextId", Messages(dontTellHMRCMsgKey))
+      assertEqualsValue(doc, s"#$summaryTextId", messagesApi(executorsMayFaceProsecution))
+      assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
 
       assertNotRenderedById(doc, summaryBullet3TextId)
 
-      assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(completedAllReasonableEnquiriesMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(noInheritanceTaxPayableMsgKey))
+      assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(correctAndCompleteMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet4TextId)
       assertNotRenderedById(doc, mainBullet5TextId)
@@ -231,17 +231,17 @@ class DeclarationViewTest extends ViewTestHelper {
 
       assertMultipleExecutorsSection(doc)
 
-      assertEqualsValue(doc, s"#$summaryTextId", Messages(executorsMayFaceProsecution))
-      assertEqualsValue(doc, s"#$summaryBullet1TextId", Messages(withholdInformationMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet2TextId", Messages(dontTellHMRCMsgKey))
+      assertEqualsValue(doc, s"#$summaryTextId", messagesApi(executorsMayFaceProsecution))
+      assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
 
       assertNotRenderedById(doc, summaryBullet3TextId)
 
-      assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(completedAllReasonableEnquiriesMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", escapePound(Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey)))
-      assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(noInheritanceTaxPayableMsgKey))
+      assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(correctAndCompleteMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet5TextId)
       assertNotRenderedById(doc, mainBullet6TextId)
@@ -252,17 +252,17 @@ class DeclarationViewTest extends ViewTestHelper {
 
       assertMultipleExecutorsSection(doc)
 
-      assertEqualsValue(doc, s"#$summaryTextId", Messages(executorsMayFaceProsecution))
-      assertEqualsValue(doc, s"#$summaryBullet1TextId", Messages(withholdInformationMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet2TextId", Messages(dontTellHMRCMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet3TextId", Messages(haveProvidedNonMatchingDetails))
+      assertEqualsValue(doc, s"#$summaryTextId", messagesApi(executorsMayFaceProsecution))
+      assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails))
 
-      assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(deceasedMarriedWhenPartnerDied))
-      assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(didntUseAnyOfThreshold))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(completedAllReasonableEnquiriesMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet5TextId", Messages(noInheritanceTaxPayableMsgKey))
+      assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied))
+      assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(didntUseAnyOfThreshold))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet6TextId)
     }
@@ -272,18 +272,18 @@ class DeclarationViewTest extends ViewTestHelper {
 
       assertMultipleExecutorsSection(doc)
 
-      assertEqualsValue(doc, s"#$summaryTextId", Messages(executorsMayFaceProsecution))
-      assertEqualsValue(doc, s"#$summaryBullet1TextId", Messages(withholdInformationMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet2TextId", Messages(dontTellHMRCMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet3TextId", Messages(haveProvidedNonMatchingDetails))
+      assertEqualsValue(doc, s"#$summaryTextId", messagesApi(executorsMayFaceProsecution))
+      assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
+      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails))
 
-      assertEqualsValue(doc, s"#$mainTextId", Messages(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", Messages(deceasedMarriedWhenPartnerDied))
-      assertEqualsValue(doc, s"#$mainBullet2TextId", Messages(didntUseAnyOfThreshold))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", Messages(completedAllReasonableEnquiriesMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet4TextId", Messages(correctAndCompleteMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet5TextId", escapePound(Messages(estateValueBeforeExemptionsLessThan1MillionMsgKey)))
-      assertEqualsValue(doc, s"#$mainBullet6TextId", Messages(noInheritanceTaxPayableMsgKey))
+      assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied))
+      assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(didntUseAnyOfThreshold))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet6TextId", messagesApi(noInheritanceTaxPayableMsgKey))
     }
 
   }

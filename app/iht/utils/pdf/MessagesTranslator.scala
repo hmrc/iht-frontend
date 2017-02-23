@@ -17,6 +17,8 @@
 package iht.utils.pdf
 
 import play.api.i18n.Messages
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by grant on 02/12/16.

@@ -1,20 +1,22 @@
+import play.routes.compiler.StaticRoutesGenerator
 import sbt.Keys._
 import sbt._
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin._
 import wartremover._
+import play.sbt.routes.RoutesKeys.routesGenerator
 
 // imports for Asset Pipeline
+import com.typesafe.sbt.digest.Import._
 import com.typesafe.sbt.uglify.Import._
 import com.typesafe.sbt.web.Import._
 import net.ground5hark.sbt.concat.Import._
-import com.typesafe.sbt.uglify.Import._
-import com.typesafe.sbt.digest.Import._
 import uk.gov.hmrc.versioning.SbtGitVersioning
 
 trait MicroService {
 
   import uk.gov.hmrc._
+  import DefaultBuildSettings._
 
   val appName: String
 
@@ -26,7 +28,7 @@ trait MicroService {
     import scoverage.ScoverageKeys
     Seq(
       // Semicolon-separated list of regexs matching classes to exclude
-      ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;.*AuthService.*;models/.data/..*;.*BuildInfo.*;prod.Routes;app.Routes;testOnlyDoNotUseInAppConf.Routes;iht.controllers.wraith.*;iht.controllers.testonly.*;wraith.Routes;taxreturn.Routes;registration.Routes;iht.auth.*;iht.controllers.auth.*;",
+      ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;.*AuthService.*;models/.data/..*;.*BuildInfo.*;prod.Routes;app.Routes;testOnlyDoNotUseInAppConf.Routes;iht.controllers.wraith.*;iht.controllers.testonly.*;iht.views.html.testOnly.*;wraith.Routes;taxreturn.Routes;registration.Routes;iht.auth.*;iht.controllers.auth.*;",
       ScoverageKeys.coverageMinimum := 80,
       ScoverageKeys.coverageFailOnMinimum := false,
       ScoverageKeys.coverageHighlighting := true,
@@ -38,13 +40,16 @@ trait MicroService {
   val wartRemovedExcludedClasses = Seq()
 
   lazy val microservice = Project(appName, file("."))
-    .enablePlugins(Seq(play.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin) ++ plugins : _*)
+    .enablePlugins(Seq(play.sbt.PlayScala, SbtAutoBuildPlugin, SbtGitVersioning, SbtDistributablesPlugin) ++ plugins : _*)
     .settings(playSettings ++ scoverageSettings : _*)
+//    .settings(scalaSettings: _*)
     .settings(publishingSettings: _*)
     .settings(
       libraryDependencies ++= appDependencies,
       fork in Test := false,
-      retrieveManaged := true
+      retrieveManaged := true,
+      evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
+      routesGenerator := StaticRoutesGenerator
   )
     .settings(
       // concatenate js
@@ -64,6 +69,7 @@ trait MicroService {
       wartremoverWarnings ++= Warts.unsafe,
       wartremoverExcluded ++= wartRemovedExcludedClasses,
       wartremoverExcluded ++= WartRemoverConfig.makeExcludedFiles(baseDirectory.value))
+    .settings(resolvers ++= Seq(Resolver.bintrayRepo("hmrc", "releases"), Resolver.jcenterRepo))
 }
 
 private object WartRemoverConfig{

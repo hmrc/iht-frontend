@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.models.basicElements
+package iht.models.application.basicElements
 
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
@@ -23,12 +23,9 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
   * Created by vineet on 03/11/16.
   */
-
 class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar{
-
   "isComplete" must {
-
-    "returns Some(true) if ShareableBasicEstateElement is complete" in {
+    "return Some(true) if ShareableBasicEstateElement is complete" in {
       val estateElement = CommonBuilder.buildShareableBasicElementExtended.copy(
         value = Some(BigDecimal(1000)),
         shareValue = Some(BigDecimal(1000)),
@@ -38,7 +35,7 @@ class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar{
       estateElement.isComplete shouldBe Some(true)
     }
 
-    "returns Some(false) if ShareableBasicEstateElement is not complete" in {
+    "return Some(false) if ShareableBasicEstateElement is not complete" in {
       val estateElement = CommonBuilder.buildShareableBasicElementExtended.copy(
         value = Some(BigDecimal(1000)),
         shareValue = Some(BigDecimal(1000)),
@@ -48,10 +45,40 @@ class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar{
       estateElement.isComplete shouldBe Some(false)
     }
 
-    "returns None if every field is None in ShareableBasicEstateElement" in {
+    "return None if every field is None in ShareableBasicEstateElement" in {
       val estateElement = CommonBuilder.buildShareableBasicElementExtended
 
       estateElement.isComplete shouldBe empty
+    }
+  }
+
+  "totalValue" must {
+    "return correct total value" in {
+      val shareableBasicElement = CommonBuilder.buildShareableBasicElement.copy(value = Some(BigDecimal(10000)),
+        shareValue = Some(BigDecimal(20000)))
+
+      shareableBasicElement.totalValue shouldBe Some(BigDecimal(30000))
+    }
+
+    "returns None, if value and sharedValue are None" in {
+      val shareableBasicElement = CommonBuilder.buildShareableBasicElement
+
+      shareableBasicElement.totalValue shouldBe empty
+    }
+  }
+
+  "isValueEntered" must {
+    "return true if both value and shareValue or any of it are entered " in {
+      val shareableBasicElement = CommonBuilder.buildShareableBasicElement.copy(value = Some(BigDecimal(10000)),
+        shareValue = None)
+
+      shareableBasicElement.isValueEntered shouldBe true
+    }
+
+    "return false if value and sharedValue are not entered" in {
+      val shareableBasicElement = CommonBuilder.buildShareableBasicElement
+
+      shareableBasicElement.isValueEntered shouldBe false
     }
   }
 }

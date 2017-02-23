@@ -17,17 +17,12 @@
 package iht.views.application.overview
 
 import iht.viewmodels.application.overview.{AssetsAndGiftsSectionViewModel, NotStarted, OverviewRow, OverviewRowWithoutLink}
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.application.overview.assets_and_gifts_section
-import iht.{FakeIhtApp, TestUtils}
-import org.jsoup.select.Elements
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
-import uk.gov.hmrc.play.test.UnitSpec
 
-class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
 
   def dummyOverviewRow = OverviewRow("", "", "", NotStarted, Call("", ""), "")
   def dummyTotalRow = OverviewRowWithoutLink("", "", "", "")
@@ -42,15 +37,17 @@ class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with Mockit
   "assets and gifts section" must {
 
     "show the correct title when asked to" in {
-      val viewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = true)
+      implicit val request = createFakeRequest()
+      val viewModel: AssetsAndGiftsSectionViewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = true)
 
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)
       val header = doc.getElementsByTag("h2")
-      header.text() should include(Messages("page.iht.application.estateOverview.totalAddedToTheEstateValue"))
+      header.text() should include(messagesApi("page.iht.application.estateOverview.totalAddedToTheEstateValue"))
     }
 
     "not show a title when asked not to" in {
+      implicit val request = createFakeRequest()
       val viewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = false)
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)
@@ -61,7 +58,7 @@ class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with Mockit
       implicit val request = createFakeRequest()
 
       val viewModel = dummyAssetsAndGiftsSection copy (
-        assetRow = OverviewRow(id = "assets", label = Messages("iht.estateReport.assets.inEstate"),
+        assetRow = OverviewRow(id = "assets", label = messagesApi("iht.estateReport.assets.inEstate"),
           completionStatus = NotStarted,
           value = "",
           linkUrl = Call("Get","localhost"),
@@ -69,7 +66,7 @@ class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with Mockit
 
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)
-      view should include(Messages("iht.estateReport.assets.inEstate"))
+      view should include(messagesApi("iht.estateReport.assets.inEstate"))
       assertRenderedById(doc, "assets-row")
     }
 
@@ -77,7 +74,7 @@ class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with Mockit
       implicit val request = createFakeRequest()
 
       val viewModel = dummyAssetsAndGiftsSection copy (
-        giftRow = OverviewRow(id = "gifts", label = Messages("iht.estateReport.gifts.givenAway.title"),
+        giftRow = OverviewRow(id = "gifts", label = messagesApi("iht.estateReport.gifts.givenAway.title"),
           completionStatus = NotStarted,
           value = "",
           linkUrl = Call("Get","localhost"),
@@ -86,7 +83,7 @@ class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with Mockit
 
       val view = assets_and_gifts_section(viewModel).toString
       val doc = asDocument(view)
-      view should include(Messages("iht.estateReport.gifts.givenAway.title"))
+      view should include(messagesApi("iht.estateReport.gifts.givenAway.title"))
       assertRenderedById(doc, "gifts-row")
     }
 
@@ -101,7 +98,7 @@ class AssetsAndGiftsSectionViewTest extends UnitSpec with FakeIhtApp with Mockit
         )
 
       val view = assets_and_gifts_section(viewModel).toString()
-      view should include(Messages("£1,234.56"))
+      view should include(messagesApi("£1,234.56"))
     }
   }
 }

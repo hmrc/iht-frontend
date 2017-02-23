@@ -17,45 +17,38 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.models.application.tnrb.TnrbEligibiltyModel
+import iht.testhelpers.CommonBuilder
 import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.Messages
 import iht.views.html.application.tnrb.benefit_from_trust
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.twirl.api.HtmlFormat.Appendable
 
-class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour {
+class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
+  override def guidanceParagraphs = Set.empty
 
-  val ihtReference = Some("ABC1A1A1A")
-  val deceasedDetails = CommonBuilder.buildDeceasedDetails
-  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-    deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  def tnrbModel = CommonBuilder.buildTnrbEligibility
 
-  val tnrbModel = CommonBuilder.buildTnrbEligibility
-  val widowCheck = CommonBuilder.buildWidowedCheck
+  def widowCheck = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = Messages("iht.estateReport.tnrb.benefitFromTrust.question",
-                                TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
-                                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
+  override def pageTitle = messagesApi("iht.estateReport.tnrb.benefitFromTrust.question",
+    TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
+      messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
-  override def browserTitle = Messages("page.iht.application.tnrb.benefitFromTrust.browserTitle")
-  override def guidanceParagraphs = Set()
-  override def yesNoQuestionText = Messages("iht.estateReport.tnrb.benefitFromTrust.question",
-                                      TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
-                                            Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
+  override def browserTitle = messagesApi("page.iht.application.tnrb.benefitFromTrust.browserTitle")
 
-  override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit())
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = benefit_from_trust(benefitFromTrustForm, tnrbModel, widowCheck).toString
-    val doc = asDocument(view)
-  }
+  override def form: Form[TnrbEligibiltyModel] = benefitFromTrustForm
 
-  "BenefitFromTrustView" must {
+  override def formToView: Form[TnrbEligibiltyModel] => Appendable =
+    form => benefit_from_trust(form, tnrbModel, widowCheck)
+
+  override def cancelComponent = None
+
+  "Applying For Probate View" must {
     behave like yesNoQuestion
   }
-
 }

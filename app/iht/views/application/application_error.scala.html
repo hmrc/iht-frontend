@@ -14,7 +14,7 @@
 * limitations under the License.
 *@
 
-@(errorType:String)(implicit request:Request[_])
+@(errorType:String)(implicit request:Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
@@ -22,9 +22,9 @@
 @iht_main_template_application(title = Messages("error.problem")) {
     @{
     errorType match {
-    case "serviceUnavailable" => application_error_timeOut(errorType)(request)
-    case "requestTimeOut" => application_error_timeOut(errorType)(request)
-    case _ => application_error_systemError(request)
+    case "serviceUnavailable" => application_error_timeOut(errorType)(request, messages)
+    case "requestTimeOut" => application_error_timeOut(errorType)(request, messages)
+    case _ => application_error_systemError(request, messages)
     }
     }
 }

@@ -24,6 +24,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_annuity
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 object InsurancePolicyDetailsAnnuityController extends InsurancePolicyDetailsAnnuityController with IhtConnectors {
   def metrics : Metrics = Metrics

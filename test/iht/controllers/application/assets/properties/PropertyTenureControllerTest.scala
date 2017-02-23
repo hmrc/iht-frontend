@@ -21,7 +21,9 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -30,6 +32,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
  * Created by Vineet on 22/06/16.
  */
 class PropertyTenureControllerTest extends ApplicationControllerTest {
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -72,7 +75,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
     "display the correct title on page" in {
       val result = propertyTenureController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.freeholdOrLeasehold"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }
 
     "display the correct title on page in edit mode" in {
@@ -88,7 +91,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       val result = propertyTenureController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (Messages("iht.estateReport.assets.properties.freeholdOrLeasehold"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

@@ -22,6 +22,9 @@ import iht.views.html.iv.failurepages._
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+
 
 import scala.concurrent.Future
 

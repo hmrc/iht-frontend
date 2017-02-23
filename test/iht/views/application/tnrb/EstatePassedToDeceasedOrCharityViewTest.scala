@@ -17,40 +17,39 @@
 package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.models.application.tnrb.TnrbEligibiltyModel
+import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
-import play.api.i18n.Messages
 import iht.views.html.application.tnrb.estate_passed_to_deceased_or_charity
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.twirl.api.HtmlFormat.Appendable
 
-class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour {
+class EstatePassedToDeceasedOrCharityViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
-  val ihtReference = Some("ABC1A1A1A")
-  val deceasedDetails = CommonBuilder.buildDeceasedDetails
-  val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
-    deceasedDetails = Some(deceasedDetails.copy(maritalStatus = Some(TestHelper.MaritalStatusMarried))),
-    deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
+  def tnrbModel = CommonBuilder.buildTnrbEligibility
 
-  val tnrbModel = CommonBuilder.buildTnrbEligibility
+  def widowCheck = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question",
-                                      deceasedDetails.name)
-  override def browserTitle = Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")
-  override def guidanceParagraphs = Set()
-  override def yesNoQuestionText = Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question",
-                                      deceasedDetails.name)
+  val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
-  override def returnLinkId = "cancel-button"
-  override def returnLinkText = Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-  override def returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+    override def pageTitle = messagesApi("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question",
+      deceasedDetailsName)
+    override def browserTitle = messagesApi("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")
 
-  override def fixture() = new {
-    implicit val request = createFakeRequest()
-    val view = estate_passed_to_deceased_or_charity(estatePassedToDeceasedOrCharityForm, deceasedDetails.name).toString
-    val doc = asDocument(view)
-  }
+  override def guidanceParagraphs = Set.empty
 
-  "EstatePassedToDeceasedOrCharityView" must {
+  override def formTarget = Some(iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit())
+
+  override def form: Form[TnrbEligibiltyModel] = estatePassedToDeceasedOrCharityForm
+
+  override def formToView: Form[TnrbEligibiltyModel] => Appendable =
+    form =>
+      estate_passed_to_deceased_or_charity(form, deceasedDetailsName)
+
+  override def cancelComponent = None
+
+  "Gifts With Reservation Of Benefit page Question View" must {
     behave like yesNoQuestion
   }
-
 }

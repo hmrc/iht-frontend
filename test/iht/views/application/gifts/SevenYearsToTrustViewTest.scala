@@ -20,7 +20,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.ViewTestHelper
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import iht.views.html.application.gift.seven_years_to_trust
 
@@ -41,33 +41,33 @@ class SevenYearsToTrustViewTest extends ViewTestHelper{
   "SevenYearsToTrust Page" must {
 
     "contain the title, browser title and save and continue button " in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
       val viewAsString = contentAsString(view)
       val doc = asDocument(viewAsString)
 
-      titleShouldBeCorrect(viewAsString, Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
-      browserTitleShouldBeCorrect(viewAsString, Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
+      titleShouldBeCorrect(viewAsString, messagesApi("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
+      browserTitleShouldBeCorrect(viewAsString, messagesApi("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
 
       val saveAndContinueLink = doc.getElementById("save-continue")
-      saveAndContinueLink.text shouldBe Messages("iht.saveAndContinue")
+      saveAndContinueLink.text shouldBe messagesApi("iht.saveAndContinue")
 
     }
 
     "contain the correct question" in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
 
-      messagesShouldBePresent(contentAsString(view), Messages("page.iht.application.gifts.trust.question",
+      messagesShouldBePresent(contentAsString(view), messagesApi("page.iht.application.gifts.trust.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
 
     }
 
     "show the correct text and link for the return link" in {
-      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest)
+      val view = seven_years_to_trust(giftSevenYearsToTrustForm, regDetails)(fakeRequest, applicationMessages)
       val viewAsString = contentAsString(view)
 
       val doc = asDocument(viewAsString)
       val link = doc.getElementById("return-button")
-      link.text shouldBe Messages("page.iht.application.gifts.return.to.givenAwayBy",
+      link.text shouldBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         CommonHelper.getOrException(regDetails.deceasedDetails).name)
       link.attr("href") shouldBe
         iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad.url

@@ -23,6 +23,8 @@ import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import play.api.test.Helpers._
 
 /**
@@ -72,7 +74,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val result = partnerPermanentHomeQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.saveAndContinue"))
+      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
 
     }
 
@@ -91,8 +93,8 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val result = partnerPermanentHomeQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (Messages("iht.saveAndContinue"))
-      contentAsString(result) should include (Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
+      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
 
     }
 
@@ -138,7 +140,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val result = partnerPermanentHomeQuestionController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
-      contentAsString(result) should include (Messages("error.problem"))
+      contentAsString(result) should include (messagesApi("error.problem"))
     }
   }
 }

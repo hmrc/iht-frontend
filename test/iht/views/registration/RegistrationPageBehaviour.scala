@@ -18,8 +18,9 @@ package iht.views.registration
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
+import play.api.i18n.MessagesApi
+import play.api.mvc.AnyContentAsEmpty
 import play.api.data.{Form, FormError}
-import play.api.i18n.Messages
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
@@ -34,7 +35,7 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
   def form:Form[A] = ???
   def formToView:Form[A] => Appendable = ???
 
-  def registrationPage() = {
+  def registrationPage(): Unit = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
     }
@@ -44,29 +45,100 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
     }
 
     "have a Continue button" in {
-      doc.getElementsByClass("button").first.attr("value") shouldBe Messages("iht.continue")
+      doc.getElementsByClass("button").first.attr("value") shouldBe messagesApi("iht.continue")
     }
   }
 
-  def registrationPageWithErrorSummaryBox() = {
+  def registrationPageWithErrorSummaryBox(): Unit = {
     registrationPage()
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field","error message"))
       val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe Messages("error.problem")
+      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
     }
   }
 
-  def registrationPageInEditModeWithErrorSummaryBox(view: => Document, cancelUrl: => Call) = {
+  def registrationPageInEditModeWithErrorSummaryBox(view: => Document, cancelUrl: => Call): Unit = {
     registrationPageWithErrorSummaryBox()
 
     "have a continue and cancel link in edit mode" in {
       val continueLink = view.getElementById("continue-button")
-      continueLink.attr("value") shouldBe Messages("iht.continue")
+      continueLink.attr("value") shouldBe messagesApi("iht.continue")
 
       val cancelLink = view.getElementById("cancel-button")
       cancelLink.attr("href") shouldBe cancelUrl.url
-      cancelLink.text() shouldBe Messages("site.link.cancel")
+      cancelLink.text() shouldBe messagesApi("site.link.cancel")
+    }
+  }
+
+  def addressPage(guidance: => Seq[String]): Unit = {
+
+    "show the correct guidance" in {
+      messagesShouldBePresent(view, guidance:_*)
+    }
+
+    "have a line 1 field" in {
+      assertRenderedById(doc, "ukAddressLine1")
+    }
+
+    "have the correct label for line 1" in {
+      labelShouldBe(doc, "ukAddressLine1-container", "iht.address.line1")
+    }
+
+    "have a line 2 field" in {
+      assertRenderedById(doc, "ukAddressLine2")
+    }
+
+    "have the correct label for line 2" in {
+      labelShouldBe(doc, "ukAddressLine2-container", "iht.address.line2")
+    }
+
+    "have a line 3 field" in {
+      assertRenderedById(doc, "ukAddressLine3")
+    }
+
+    "have the correct label for line 3" in {
+      labelShouldBe(doc, "ukAddressLine3-container", "iht.address.line3")
+    }
+
+    "have a line 4 field" in {
+      assertRenderedById(doc, "ukAddressLine4")
+    }
+
+    "have the correct label for line 4" in {
+      labelShouldBe(doc, "ukAddressLine4-container", "iht.address.line4")
+    }
+  }
+
+  def addressPageUK(guidance: => Seq[String]): Unit = {
+    addressPage(guidance)
+
+    "have a post code field" in {
+      assertRenderedById(doc, "postCode")
+    }
+
+    "have the correct label for post code" in {
+      labelShouldBe(doc, "postCode-container", "iht.postcode")
+    }
+
+    "not have a country code field" in {
+      assertNotRenderedById(doc, "countryCode")
+    }
+  }
+
+  def addressPageAbroad(guidance: => Seq[String]): Unit = {
+    addressPage( guidance )
+
+    "have a fieldset with the Id 'details'" in {
+      doc.getElementsByTag("fieldset").first.id shouldBe "details"
+    }
+
+    "have a country code field" in {
+      assertRenderedById(doc, "countryCode")
+    }
+
+    "not have a post code field" in {
+      assertNotRenderedById(doc, "postCode")
     }
   }
 }

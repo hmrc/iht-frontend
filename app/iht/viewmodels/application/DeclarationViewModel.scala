@@ -24,7 +24,8 @@ import play.api.Logger
 import play.api.data.Form
 import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
-
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
