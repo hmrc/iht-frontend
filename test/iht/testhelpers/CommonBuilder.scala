@@ -40,6 +40,10 @@ import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 object CommonBuilder {
   val rng = new Random
 
+  val emptyString = ""
+
+  def currencyValue(x:BigDecimal) = "£" + CommonHelper.numberWithCommas(x)
+
   def randomElement[T](elements: List[T]) = elements(rng.nextInt(elements.length))
 
   def firstNameGenerator = {
