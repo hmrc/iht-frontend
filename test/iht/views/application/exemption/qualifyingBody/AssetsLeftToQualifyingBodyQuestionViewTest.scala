@@ -17,41 +17,47 @@
 package iht.views.application.exemption.qualifyingBody
 
 import iht.forms.ApplicationForms._
+import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
+import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
 import play.api.i18n.Messages.Implicits._
 
-/**
- * Created by vineet on 29/11/16.
- */
-class AssetsLeftToQualifyingBodyQuestionViewTest extends ViewTestHelper{
-
+class AssetsLeftToQualifyingBodyQuestionViewTest extends YesNoQuestionViewBehaviour[BasicExemptionElement] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
+  val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
+
+  override def form = assetsLeftToQualifyingBodyQuestionForm
+
+  override def formToView = form => assets_left_to_qualifying_body_question(form, regDetails)
+
+  override def pageTitle = messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName)
+
+  override def browserTitle = messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle")
+
+  override def guidance = guidance(
+    Set(
+      messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1"),
+      messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2"),
+      messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3"),
+      messagesApi("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies"),
+      messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.help.contents")
+    )
+  )
+
+  override def formTarget = Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit())
+
+  override val cancelId: String = "cancel-button"
+
+  override def cancelComponent = Some(
+    CancelComponent(
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName)
+    )
+  )
+
   "AssetsLeftToQualifyingBodyQuestionView" must {
-
-    "contain correct question, guidance and links with correct text  " in {
-      implicit val request = createFakeRequest()
-
-      val view = assets_left_to_qualifying_body_question(assetsLeftToQualifyingBodyQuestionForm, regDetails).toString
-      val doc = asDocument(view)
-
-      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"))
-      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1"))
-      view should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2"))
-      view should include (messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3"))
-
-      assertRenderedById(doc, "save-continue")
-      assertEqualsValue(doc, "button#save-continue", messagesApi("iht.saveAndContinue"))
-
-      val cancelLink = doc.getElementById("cancel-button")
-      cancelLink.text shouldBe
-        messagesApi("page.iht.application.return.to.exemptionsOf", regDetails.deceasedDetails.map(_.name).fold("")(identity))
-      cancelLink.attr("href") shouldBe
-        iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad.url
-
-    }
+    behave like yesNoQuestion()
   }
-
 }
