@@ -53,7 +53,7 @@ returnHash: String = ""
                     </span>
                 </div>
             }
-        <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right" data-link-type="section">
+        <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
             <a class="font-xsmall" id='@{section.sectionLinkId}' href="@section.link.linkUrl">
                 <span aria-hidden="true">@Messages(section.link.linkText)</span>
                 <span class="visually-hidden">@Messages(section.link.linkTextAccessibility)</span>
@@ -82,7 +82,7 @@ returnHash: String = ""
               </div>
           }
 
-          <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right" data-link-type="answer @{detail.linkId}">
+          <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
             @if(detail.link.linkText.length>0){
               <a id='@{detail.linkId}' href="@detail.link.linkUrl">
                 <span aria-hidden="true">@Messages(detail.link.linkText)</span>

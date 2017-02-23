@@ -146,6 +146,6 @@ trait DateOfMarriageController extends EstateController{
         tnrbModel.dateOfMarriage, None)) (_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
     ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
-    Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails, TnrbSpouseDateOfMarriageID))
+    Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseDateOfMarriageID)))
   }
  }

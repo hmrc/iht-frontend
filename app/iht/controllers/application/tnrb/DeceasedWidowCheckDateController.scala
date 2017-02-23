@@ -62,7 +62,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
               appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None,None,None,None,None,None,None,None,None,None))(identity),
               registrationDetails,
-              addFragmentIdentifier(cancelLinkUrlForWidowCheckPages(appDetails), Some(TnrbSpouseDateOfDeathID)),
+              cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
               cancelLinkTextForWidowCheckPages(appDetails)))
           }
           case _ => InternalServerError("Application details not found")
@@ -90,7 +90,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
                 appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                 appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None,None,None,None,None,None,None,None,None,None))(identity),
                 regDetails,
-                cancelLinkUrlForWidowCheckPages(appDetails),
+                cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
                 cancelLinkTextForWidowCheckPages(appDetails))))
             },
             widowModel => {
@@ -149,7 +149,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
         InternalServerError
       } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
         case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, TnrbSpouseDateOfDeathID)
+        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseDateOfDeathID))
       }
       }
     }

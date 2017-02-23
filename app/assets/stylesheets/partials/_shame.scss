@@ -20,38 +20,3 @@
 a[rel="external"]:after {
     content: none;
 }
-
-
-div[data-link-type="section"] {
-    background: rgba(208, 201, 171, 0.37);
-}
-div[data-link-type="answer"] {
-    background: rgba(171, 171, 208, 0.37);
-}
-
-
-#content a[id] {position: relative}
-
-#content a[id]:before {
-    content: "";
-    width: 0;
-    height: 0;
-    border: 0.5em solid transparent;
-    border-bottom-width: 0.75em;
-    border-right-color: red;
-    position: absolute;
-    top: 0;
-    right: -0.75em;
-    border-top-width: 0.75em;
-}
-#content a[id]:after {
-    content: attr(id);
-    background: red;
-    color: white;
-    position: absolute;
-    right: -11em;
-    width: 10em;
-    top: 0;
-    padding: 2px;
-}
-

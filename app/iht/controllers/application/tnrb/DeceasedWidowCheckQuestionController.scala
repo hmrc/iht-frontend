@@ -60,7 +60,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
               appDetails.increaseIhtThreshold.fold(
                 TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
               registrationDetails,
-              addFragmentIdentifier(cancelLinkUrlForWidowCheckPages(appDetails), Some(TnrbSpouseMartialStatusID)),
+              cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
               cancelLinkTextForWidowCheckPages(appDetails)))
           }
           case _ => InternalServerError("Application details not found")
@@ -88,7 +88,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
                 appDetails.increaseIhtThreshold.fold(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                 regDetails,
-                cancelLinkUrlForWidowCheckPages(appDetails),
+                cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
                 cancelLinkTextForWidowCheckPages(appDetails))))
             },
             widowModel => {

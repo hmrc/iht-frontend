@@ -108,6 +108,6 @@ trait PartnerNameController extends EstateController{
           (_.copy(firstName = tnrbModel.firstName, lastName = tnrbModel.lastName))))
 
         ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference)
-        Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails, TnrbSpouseNameID))
+        Future.successful(TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseNameID)))
     }
  }

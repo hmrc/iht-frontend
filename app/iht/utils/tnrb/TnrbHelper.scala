@@ -124,16 +124,16 @@ object TnrbHelper {
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label",
       dateOfPreDeceased = date)
 
-  def successfulTnrbRedirect(appDetails: ApplicationDetails, linkHash: String = ""): Result = {
+  def successfulTnrbRedirect(appDetails: ApplicationDetails, linkHash: Option[String] = None): Result = {
     if(appDetails.isSuccessfulTnrbCase) {
       Redirect(iht.controllers.application.tnrb.routes.TnrbSuccessController.onPageLoad())
     } else {
-      Redirect(addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), Some(linkHash)))
+      Redirect(addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), linkHash))
     }
   }
 
-  def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails) = if(appDetails.isWidowCheckSectionCompleted) {
-    iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
+  def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails, linkHash: Option[String] = None) = if(appDetails.isWidowCheckSectionCompleted) {
+    addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, linkHash)
   }else {
     iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrException(appDetails.ihtRef))
   }

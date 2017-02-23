@@ -23,6 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.test.Helpers._
+import iht.constants.Constants._
 
 /**
  *
@@ -126,7 +127,7 @@ class DateOfMarriageControllerTest  extends ApplicationControllerTest{
 
       val result = dateOfMarriageController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseDateOfMarriageID))
     }
 
     "go to successful Tnrb page on submit when its satisfies happy path" in {

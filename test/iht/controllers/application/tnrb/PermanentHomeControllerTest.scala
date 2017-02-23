@@ -26,6 +26,7 @@ import iht.testhelpers.ContentChecker
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.test.Helpers._
+import iht.constants.Constants._
 
 /**
  *
@@ -112,7 +113,7 @@ class PermanentHomeControllerTest  extends ApplicationControllerTest{
 
       val result = permanentHomeController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpousePermanentHomeInUKID))
     }
 
     "go to KickOut page when Partner Home not in the UK " in {
