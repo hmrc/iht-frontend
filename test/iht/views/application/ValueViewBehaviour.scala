@@ -18,14 +18,16 @@ package iht.views.application
 
 trait ValueViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A] {
 
+  val value_id = "value"
+
   /**
     * Assumes that the Call for the continue button has been set up as CommonBuilder.DefaultCall1.
     */
   def valueView() = {
     applicationPageWithErrorSummaryBox()
 
-    "have a value input field" in {
-      Option(doc.getElementById("value")).isDefined shouldBe true
+    s"have a value input field with an ID of $value_id" in {
+      Option(doc.getElementById(value_id)).isDefined shouldBe true
     }
   }
 }

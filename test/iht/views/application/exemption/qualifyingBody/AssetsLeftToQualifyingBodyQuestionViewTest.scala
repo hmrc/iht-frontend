@@ -19,7 +19,7 @@ package iht.views.application.exemption.qualifyingBody
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
-import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour, YesNoQuestionViewBehaviour}
+import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
 import play.api.i18n.Messages.Implicits._
 
