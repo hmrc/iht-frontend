@@ -72,66 +72,6 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
         messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
     }
 
-    "display qualifyingBody name question on page" in {
-      val result = qualifyingBodyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi(
-        "iht.estateReport.qualifyingBodies.qualifyingBodyName"))
-    }
-
-    "display value of assets left to qualifyingBody question on the page" in {
-      val result = qualifyingBodyDetailsOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi(
-        "page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title"))
-    }
-
-    "load the page with qualifyingBody details where one qualifyingBody stored" in {
-
-      val firstQualifyingBody = iht.testhelpers.CommonBuilder.qualifyingBody
-      val firstQualifyingBodyName = iht.testhelpers.CommonBuilder.qualifyingBody.name.get
-
-      val applicationModel = new ApplicationDetails(qualifyingBodies = Seq(firstQualifyingBody))
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationModel),
-        getAppDetails = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
-
-      val result = qualifyingBodyDetailsOverviewController.onEditPageLoad("1")(createFakeRequest())
-
-      status(result) should be(OK)
-      contentAsString(result) should include(firstQualifyingBodyName)
-    }
-
-    "load the page with details second qualifyingBody details where two qualifyingBodies stored" in {
-
-      val firstQualifyingBody = iht.testhelpers.CommonBuilder.qualifyingBody
-      val secondQualifyingBody = iht.testhelpers.CommonBuilder.qualifyingBody copy (
-        id = Some("2"), name = Some("A Charity 2"),
-        totalValue = Some(BigDecimal(5000)))
-      val secondQualifyingBodyName = secondQualifyingBody.name.get
-      val secondQualifyingBodyValue = CommonHelper.numberWithCommas(secondQualifyingBody.totalValue.get)
-
-      val applicationModel = new ApplicationDetails(qualifyingBodies = Seq(firstQualifyingBody, secondQualifyingBody))
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationModel),
-        getAppDetails = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
-
-      val result = qualifyingBodyDetailsOverviewController.onEditPageLoad("2")(createFakeRequest())
-
-      status(result) should be(OK)
-      contentAsString(result) should include(secondQualifyingBodyName)
-      contentAsString(result) should include(secondQualifyingBodyValue)
-      contentAsString(result) should include(messagesApi("iht.change"))
-    }
-
     "throw RuntimeException when qualifyingBody ID is accessed that does not exist" in {
 
       val firstQualifyingBody = iht.testhelpers.CommonBuilder.qualifyingBody
