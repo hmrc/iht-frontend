@@ -40,20 +40,24 @@ showHideContent.init()
 
 
 // =====================================================
-// Declaration - needs refactoring
+// Declaration
 // =====================================================
-  $(".toDisableButton").prop( "disabled", true ).attr('id', 'accept-button');
-  $("#isDeclared").attr('aria-controls', 'accept-button');
-  $("#isDeclared").click(function(){
-      if($(this).is(":checked")){
+    function runDec(btn){
+      if(btn[0].checked){
           $(".toDisableButton").prop( "disabled", false );
       }else{
           $(".toDisableButton").prop( "disabled", true );
-          $(this).parent().focusout(function(){
-              $(this).removeClass("checkbox-checked")
-          });
       }
-  });
+    }
+    if($("#isDeclared").length > 0){
+        runDec($("#isDeclared"));
+
+        $(".toDisableButton").attr('id', 'accept-button');
+        $("#isDeclared").attr('aria-controls', 'accept-button');
+        $("#isDeclared").click(function(){
+            runDec($(this));
+        });
+    }
 
 
 // =====================================================
