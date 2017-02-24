@@ -33,8 +33,8 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputVie
     lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  override def form:Form[InsurancePolicy] = insurancePolicyDeceasedOwnQuestionForm
-  override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_deceased_own(form, regDetails)
+    override def form:Form[InsurancePolicy] = insurancePolicyDeceasedOwnQuestionForm
+    override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_deceased_own(form, regDetails)
 
     override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
     override def browserTitle = messagesApi("page.iht.application.insurance.policies.section1.browserTitle")
@@ -47,7 +47,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputVie
     override def formTarget =Some(routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit)
 
     "InsurancePolicyDetailsDeceasedOwn view" must {
-      behave like yesNoValueView
+      behave like yesNoValueViewWithErrorSummaryBox()
 
       "show the correct guidance" in {
         messagesShouldBePresent(view,
@@ -59,5 +59,4 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputVie
         label.getElementsByTag("span").hasClass("form-label bold")
       }
     }
-
 }
