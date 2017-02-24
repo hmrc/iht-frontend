@@ -1808,7 +1808,7 @@ iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
 page.iht.application.liabilities.title = {0}’s debts
 pdf.liabilities.total.title = Total Debts
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold
-iht.estateReport.kickout.nextSteps = You should complete the Inheritance Tax estate report by using an IHT-400 form. When you finish this service, you will be given a copy of the form.
+iht.estateReport.kickout.nextSteps = You must complete the Inheritance Tax estate report by using an IHT-400 form. When you finish this service, you will be given a copy of the form.
 iht.estateReport.kickout.returnToEstateOverview = If you want to change any value
 
 #Kickouts - Estate report -Assets
