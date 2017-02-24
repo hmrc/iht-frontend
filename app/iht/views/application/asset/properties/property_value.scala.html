@@ -29,7 +29,8 @@ deceasedName: String)(implicit request:Request[_], messages: Messages))
 browserTitle = Some(Messages("page.iht.application.property.value.browserTitle")),
 isFullWidth=false,
 cancelUrl=Some(cancelUrl),
-cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
+cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
+headingName = deceasedName
 ){
     @ihtHelpers.error_summary(propertyValueForm)
 
