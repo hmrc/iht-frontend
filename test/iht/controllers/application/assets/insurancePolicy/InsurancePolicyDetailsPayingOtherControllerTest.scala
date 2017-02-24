@@ -171,33 +171,6 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
       status(result) should be (OK)
     }
 
-    "display a yes or no question on the page if deceased married" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
-    }
-
-    "display a yes or no question on the page if deceased not married" in {
-      createMocks(applicationDetails)
-      val deceasedDetailsTemp = CommonBuilder.buildDeceasedDetails copy (maritalStatus=Some(TestHelper.MaritalStatusSingle))
-      when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-        .thenReturn(registrationDetails copy (deceasedDetails = Some(deceasedDetailsTemp)))
-      val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
-    }
-
-    "display a yes radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.yes"))
-    }
-
-    "display a no radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.no"))
-    }
-
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 

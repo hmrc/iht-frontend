@@ -164,24 +164,6 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
       status(result) should be (OK)
     }
 
-    "display a question on the page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.buyAnnuity.question", deceasedName))
-    }
-
-    "display a yes radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.yes"))
-    }
-
-    "display a no radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.no"))
-    }
-
     "redirect to correct page when no selected on submit" in {
       createMocks(applicationDetails)
 
