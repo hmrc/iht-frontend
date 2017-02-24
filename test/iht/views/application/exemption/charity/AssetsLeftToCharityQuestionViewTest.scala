@@ -17,64 +17,47 @@
 package iht.views.application.exemption.charity
 
 import iht.forms.ApplicationForms._
+import iht.models.application.exemptions.BasicExemptionElement
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper
-import iht.views.ViewTestHelper
-import play.api.i18n.Messages.Implicits._
+import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.charity.assets_left_to_charity_question
+import play.api.i18n.Messages.Implicits._
 
-/**
- * Created by vineet on 29/11/16.
- */
-class AssetsLeftToCharityQuestionViewTest extends ViewTestHelper{
-
+class AssetsLeftToCharityQuestionViewTest extends YesNoQuestionViewBehaviour[BasicExemptionElement] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
-  def assetsLeftToPartnerQuestionView() = {
-    implicit val request = createFakeRequest()
+  val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-    val basicExemptionElement = CommonBuilder.buildBasicExemptionElement
-    val assetsLeftToPartnerQuestionForm = assetsLeftToCharityQuestionForm.fill(basicExemptionElement)
+  override def form = assetsLeftToCharityQuestionForm
 
-    val view = assets_left_to_charity_question(assetsLeftToPartnerQuestionForm,regDetails)
-    asDocument(view)
+  override def formToView = form => assets_left_to_charity_question(form, regDetails)
+
+  override def pageTitle = messagesApi("page.iht.application.exemptions.assetsLeftToCharity.sectionTitle", deceasedName)
+
+  override def browserTitle = messagesApi("page.iht.application.exemptions.assetsLeftToCharity.browserTitle")
+
+  override def guidance = guidance(
+    Set(
+      messagesApi("page.iht.application.exemptions.assetsLeftToCharity.p1"),
+      messagesApi("page.iht.application.exemptions.assetsLeftToCharity.p2"),
+      messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharity.p3"),
+      messagesApi("iht.estateReport.exemptions.charities.howFindOutQualifies"),
+      messagesApi("page.iht.application.exemptions.assetsLeftToCharity.help.contents")
+    )
+  )
+
+  override def formTarget = Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit())
+
+  override val cancelId: String = "cancel-button"
+
+  override def cancelComponent = Some(
+    CancelComponent(
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName)
+    )
+  )
+
+  "AssetsLeftToCharityQuestionView" must {
+    behave like yesNoQuestion()
   }
-
-  "AssetsLeftToCharityQuestion View" must {
-    "have correct title and browser title " in {
-      val view = assetsLeftToPartnerQuestionView().toString
-
-      titleShouldBeCorrect(view, messagesApi("iht.estateReport.exemptions.charities.assetsLeftToACharity.title"))
-      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.exemptions.assetLeftToCharity.browserTitle"))
-    }
-
-    "have 'Save and continue' button" in {
-      val view = assetsLeftToPartnerQuestionView()
-
-      val saveAndContinueButton = view.getElementById("save-continue")
-      saveAndContinueButton.getElementsByAttributeValueContaining("value", messagesApi("iht.saveAndContinue"))
-    }
-
-    "have the return link with correct text" in {
-      val returnLinkLabelMsgKey  = messagesApi("page.iht.application.return.to.exemptionsOf",
-                                            regDetails.deceasedDetails.map(_.name).fold("")(identity))
-
-      val returnLocation = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-
-      val view = assetsLeftToPartnerQuestionView()
-
-      val returnLink = view.getElementById("cancel-button")
-      returnLink.attr("href") shouldBe returnLocation.url
-      returnLink.text() shouldBe messagesApi(returnLinkLabelMsgKey)
-    }
-
-    "have the question with the right text" in {
-      val view = assetsLeftToPartnerQuestionView()
-
-      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
-                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-    }
-
-  }
-
 }

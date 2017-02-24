@@ -16,135 +16,102 @@
 
 package iht.views.application.exemption.charity
 
-import iht.controllers.application.exemptions.charity.routes
-import iht.views.ViewTestHelper
+import iht.models.application.exemptions.Charity
+import iht.testhelpers.CommonBuilder
+import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.charity.charity_details_overview
-import org.jsoup.nodes.Element
+import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
-/**
- * Created by jennygj on 13/10/16.
- */
-class CharityDetailsOverviewViewTest extends ViewTestHelper{
+import scala.concurrent.ExecutionContext.Implicits.global
 
-  "CharityDetailsOverviewView" must {
+trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
-    "contain correct links and show correct link texts for Charity name, number and value " +
-      "when charily details has not been entered" in {
-      implicit val request = createFakeRequest()
+  override def guidanceParagraphs = Set(
+    messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharityNotCharities")
+  )
 
-      val charity = iht.testhelpers.CommonBuilder.charity.copy(number = None, name = None, totalValue = None)
-      val view = charity_details_overview(Some(charity)).toString
-      val doc = asDocument(view)
+  override def pageTitle = messagesApi("iht.estateReport.assets.charityAdd")
 
-      val nameLink: Element = doc.getElementById("charity-name-link")
-      val expectedNameUrl =  routes.CharityNameController.onEditPageLoad(charity.id.getOrElse(""))
-      nameLink.attr("href") shouldBe expectedNameUrl.url
-      assertEqualsValue(doc, "a#charity-name-link span", messagesApi("site.link.giveName"))
+  override def browserTitle = messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.browserTitle")
 
-      val numberLink: Element = doc.getElementById("charity-number-link")
-      val expectedNumberUrl =  routes.CharityNumberController.onEditPageLoad(charity.id.getOrElse(""))
-      numberLink.attr("href") shouldBe expectedNumberUrl.url
-      assertEqualsValue(doc, "a#charity-number-link span", messagesApi("site.link.giveNumber"))
+  override val exitId: String = "return-button"
 
-      val valueLink: Element = doc.getElementById("charity-value-link")
-      val expectedValueURl = routes.CharityValueController.onEditPageLoad(charity.id.getOrElse(""))
-      valueLink.attr("href") shouldBe expectedValueURl.url
-      assertEqualsValue(doc, "a#charity-value-link span", messagesApi("site.link.giveValue"))
+  override def exitComponent = Some(
+    ExitComponent(
+      iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(),
+      messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities")
+    )
+  )
+
+  val propertyAttributesTableId = "qualifying-body-details-table"
+
+  def propertyAttributeWithValueAndChange(rowNo: Int,
+                                          expectedAttributeName: => String,
+                                          expectedAttributeValue: => String,
+                                          expectedLinkText: => String) = {
+    s"show attribute number ${rowNo + 1} name" in {
+      tableCell(doc, propertyAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
     }
 
-    "contain correct links and show correct link texts for Charity name, number and value " +
-      "when charily details have been entered" in {
-      implicit val request = createFakeRequest()
-
-      val charity = iht.testhelpers.CommonBuilder.charity
-      val view = charity_details_overview(Some(charity)).toString
-      val doc = asDocument(view)
-
-      val nameLink: Element = doc.getElementById("charity-name-link")
-      val expectedNameUrl =  routes.CharityNameController.onEditPageLoad(charity.id.getOrElse(""))
-      nameLink.attr("href") shouldBe expectedNameUrl.url
-      assertEqualsValue(doc, "a#charity-name-link span", messagesApi("iht.change"))
-
-      val numberLink: Element = doc.getElementById("charity-number-link")
-      val expectedNumberUrl =  routes.CharityNumberController.onEditPageLoad(charity.id.getOrElse(""))
-      numberLink.attr("href") shouldBe expectedNumberUrl.url
-      assertEqualsValue(doc, "a#charity-number-link span", messagesApi("iht.change"))
-
-      val valueLink: Element = doc.getElementById("charity-value-link")
-      val expectedValueURl = routes.CharityValueController.onEditPageLoad(charity.id.getOrElse(""))
-      valueLink.attr("href") shouldBe expectedValueURl.url
-      assertEqualsValue(doc, "a#charity-value-link span", messagesApi("iht.change"))
+    s"show attribute number ${rowNo + 1} value" in {
+      tableCell(doc, propertyAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
     }
 
-    "contain links with charity ID #1 when charity name is completed, but charity number and value are empty" +
-      "and page is visited to amend charity ID 1" in {
-      implicit val request = createFakeRequest()
-
-      val charity = iht.testhelpers.CommonBuilder.charity.copy(number=None,totalValue=None)
-      val view = charity_details_overview(Some(charity)).toString
-      val doc = asDocument(view)
-      val numberLink: Element = doc.getElementById("charity-number-link")
-      val valueLink: Element = doc.getElementById("charity-value-link")
-      val expectedNumberUrl =  "/inheritance-tax/estate-report/charity-number/1"
-      val expectedValueURl = "/inheritance-tax/estate-report/assets-value-left-to-charity/1"
-
-      numberLink.attr("href") shouldBe expectedNumberUrl
-      valueLink.attr("href") shouldBe expectedValueURl
-    }
-
-    "contain links with charity ID 2 when charity number is completed, but charity name and value are empty " +
-      "and page is visited to amend charity ID 2" in {
-      implicit val request = createFakeRequest()
-
-      val charity = iht.testhelpers.CommonBuilder.charity.copy(id=Some("2"), name=None, totalValue=None)
-      val view = charity_details_overview(Some(charity)).toString
-      val doc = asDocument(view)
-      val nameLink: Element = doc.getElementById("charity-name-link")
-      val valueLink: Element = doc.getElementById("charity-value-link")
-      val expectedNameUrl =  "/inheritance-tax/estate-report/charity-name/2"
-      val expectedValueURl = "/inheritance-tax/estate-report/assets-value-left-to-charity/2"
-
-      nameLink.attr("href") shouldBe expectedNameUrl
-      valueLink.attr("href") shouldBe expectedValueURl
-    }
-
-    "contain links with charity ID 3 when all charity values have been completed" +
-      "and page is visited to amend charity ID 3" in {
-      implicit val request = createFakeRequest()
-
-      val charity = iht.testhelpers.CommonBuilder.charity.copy(id=Some("3"))
-      val view = charity_details_overview(Some(charity)).toString
-      val doc = asDocument(view)
-      val nameLink: Element = doc.getElementById("charity-name-link")
-      val numberLink: Element = doc.getElementById("charity-number-link")
-      val valueLink: Element = doc.getElementById("charity-value-link")
-      val expectedNameUrl =  "/inheritance-tax/estate-report/charity-name/3"
-      val expectedNumberUrl =  "/inheritance-tax/estate-report/charity-number/3"
-      val expectedValueURl = "/inheritance-tax/estate-report/assets-value-left-to-charity/3"
-
-      nameLink.attr("href") shouldBe expectedNameUrl
-      numberLink.attr("href") shouldBe expectedNumberUrl
-      valueLink.attr("href") shouldBe expectedValueURl
-    }
-
-
-    "contain a links without charity ID when the page is visited to add a completely new charity" in {
-      implicit val request = createFakeRequest()
-
-      val view = charity_details_overview().toString
-      val doc = asDocument(view)
-      val numberLink: Element = doc.getElementById("charity-number-link")
-      val nameLink: Element = doc.getElementById("charity-name-link")
-      val valueLink: Element = doc.getElementById("charity-value-link")
-      val expectedNumberUrl =  "/inheritance-tax/estate-report/charity-number"
-      val expectedNameUrl =  "/inheritance-tax/estate-report/charity-name"
-      val expectedValueURl = "/inheritance-tax/estate-report/assets-value-left-to-charity"
-
-      nameLink.attr("href") shouldBe expectedNameUrl
-      numberLink.attr("href") shouldBe expectedNumberUrl
-      valueLink.attr("href") shouldBe expectedValueURl
+    s"show attribute number ${rowNo + 1} change link" in {
+      val changeDiv = tableCell(doc, propertyAttributesTableId, 2, rowNo)
+      val anchor = changeDiv.getElementsByTag("a").first
+      getVisibleText(anchor) shouldBe messagesApi(expectedLinkText)
     }
   }
+}
 
+class CharityDetailsOverviewViewTest extends CharityDetailsOverviewViewBehaviour {
+  override def view =
+    charity_details_overview(Some(CommonBuilder.charity)).toString()
+
+  "Qualifying body details overview view" must {
+    behave like nonSubmittablePage()
+
+    behave like propertyAttributeWithValueAndChange(0,
+      messagesApi("iht.estateReport.charities.charityName"),
+      CommonBuilder.charity.map(_.name).fold("")(identity),
+      messagesApi("iht.change")
+    )
+
+    behave like propertyAttributeWithValueAndChange(1,
+      messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.value.title"),
+      CommonBuilder.currencyValue(getOrException(CommonBuilder.charity.map(_.totalValue))),
+      messagesApi("iht.change")
+    )
+  }
+}
+
+class CharityDetailsOverviewViewWithNoValuesTest extends CharityDetailsOverviewViewBehaviour {
+  override def view = {
+    val charity2 = Charity(
+      id = Some("1"),
+      name = None,
+      number = None,
+      totalValue = None
+    )
+    charity_details_overview(Some(charity2)).toString()
+  }
+
+  "Qualifying body details overview view where no values entered" must {
+    behave like propertyAttributeWithValueAndChange(0,
+      messagesApi("iht.estateReport.charities.charityName"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveDetails")
+    )
+
+    behave like propertyAttributeWithValueAndChange(1,
+      messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.value.title"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveValue")
+    )
+  }
 }
