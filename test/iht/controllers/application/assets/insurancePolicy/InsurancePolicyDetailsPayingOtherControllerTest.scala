@@ -57,6 +57,8 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC123"))
 
+  lazy val deceasedName = registrationDetails.deceasedDetails.fold("")(x => x.name)
+
   val insurancePolicyDetails = InsurancePolicy(
     isAnnuitiesBought = Some(false),
     isInsurancePremiumsPayedForSomeoneElse = Some(true),
@@ -172,7 +174,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
     "display a yes or no question on the page if deceased married" in {
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
     }
 
     "display a yes or no question on the page if deceased not married" in {
@@ -181,7 +183,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
       when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
         .thenReturn(registrationDetails copy (deceasedDetails = Some(deceasedDetailsTemp)))
       val result = insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question"))
+      contentAsString(result) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
     }
 
     "display a yes radio button on page" in {
