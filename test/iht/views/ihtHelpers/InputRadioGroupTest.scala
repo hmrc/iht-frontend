@@ -29,19 +29,30 @@ import uk.gov.hmrc.play.test.UnitSpec
  */
 class InputRadioGroupTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
-  def view = {
+  def view(args: (Symbol, Any)*) = {
     val radio = Seq(("a", "b"), ("c", "d"))
     val form = Form("testing" -> optional(text))
     val field = form("testing")
-    input_radio_group(field, radio, '_ariaHintID -> "testID2")
+    input_radio_group(field, radio, args: _*)
   }
-
-  def doc = asDocument(view)
 
   "input radio group" must {
     "display the correct data-target attribute based on field mappings" in {
+      val doc = asDocument(view())
       doc.getElementById("testing-a-label").text shouldBe "b"
       doc.getElementById("testing-c-label").text shouldBe "d"
+    }
+
+    "display the legend when specified" in {
+      val expectedLegend = "test-legend"
+      val doc = asDocument(view('_legend -> expectedLegend))
+      doc.getElementById("testing-container").getElementsByTag("legend").first.text shouldBe expectedLegend
+    }
+
+    "display the hint text when specified" in {
+      val expectedHint = "test-hint"
+      val doc = asDocument(view('_hintText -> expectedHint))
+      doc.getElementsByTag("div").first.children.first.text shouldBe expectedHint
     }
   }
 }
