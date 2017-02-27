@@ -17,7 +17,6 @@
 package iht.viewmodels.application.overview
 
 import iht.models.application.ApplicationDetails
-import iht.utils.MessagesApiInjection
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -27,7 +26,7 @@ case class AssetsAndGiftsSectionViewModel(behaveAsIncreasingTheEstateSection: Bo
                                           giftRow: OverviewRow,
                                           totalRow: OverviewRowWithoutLink)
 
-object AssetsAndGiftsSectionViewModel extends MessagesApiInjection{
+object AssetsAndGiftsSectionViewModel {
 
   def getAssetsDisplayValue(applicationDetails: ApplicationDetails) = applicationDetails.allAssets match {
     case None => NoValueEntered
@@ -58,36 +57,36 @@ object AssetsAndGiftsSectionViewModel extends MessagesApiInjection{
 
     val assetsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      messageApi("page.iht.application.overview.assets.screenReader.moreDetails.link"),
-      messageApi("page.iht.application.overview.assets.screenReader.value.link"),
-      messageApi("page.iht.application.overview.assets.screenReader.noValue.link")
+      Messages("page.iht.application.overview.assets.screenReader.moreDetails.link"),
+      Messages("page.iht.application.overview.assets.screenReader.value.link"),
+      Messages("page.iht.application.overview.assets.screenReader.noValue.link")
     )
 
     val giftsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      messageApi("page.iht.application.overview.gifts.screenReader.moreDetails.link"),
-      messageApi("page.iht.application.overview.gifts.screenReader.value.link"),
-      messageApi("page.iht.application.overview.gifts.screenReader.noValue.link")
+      Messages("page.iht.application.overview.gifts.screenReader.moreDetails.link"),
+      Messages("page.iht.application.overview.gifts.screenReader.value.link"),
+      Messages("page.iht.application.overview.gifts.screenReader.noValue.link")
     )
 
     AssetsAndGiftsSectionViewModel(
       behaveAsIncreasingTheEstateSection = behaveAsIncreasingTheEstateSection,
       assetRow = OverviewRow("assets",
-        messageApi("iht.estateReport.assets.inEstate"),
+        Messages("iht.estateReport.assets.inEstate"),
         DisplayValue(getAssetsDisplayValue(applicationDetails)),
         RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         assetsScreenreaderText),
       giftRow = OverviewRow("gifts",
-        messageApi("iht.estateReport.gifts.givenAway.title"),
+        Messages("iht.estateReport.gifts.givenAway.title"),
         DisplayValue(getGiftsDisplayValue(applicationDetails)),
         RowCompletionStatus(applicationDetails.areAllGiftSectionsCompleted),
         giftsRoute,
         giftsScreenreaderText),
       totalRow = OverviewRowWithoutLink(
         id = "assetsGiftsTotal",
-        label = messageApi("page.iht.application.estateOverview.valueOfAssetsAndGifts"),
-        // label = if (behaveAsIncreasingTheEstateSection) "" else messageApi("page.iht.application.estateOverview.valueOfAssetsAndGifts"),
+        label = Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts"),
+        // label = if (behaveAsIncreasingTheEstateSection) "" else Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts"),
         value = DisplayValue(CurrentValue(applicationDetails.totalValue)),
         qualifyingText = "",
         headingLevel = "h3",

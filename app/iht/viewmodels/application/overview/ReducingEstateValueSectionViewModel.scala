@@ -19,7 +19,7 @@ package iht.viewmodels.application.overview
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.{MessagesApiInjection, CommonHelper}
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -28,7 +28,7 @@ case class ReducingEstateValueSectionViewModel(debtRow: Option[OverviewRow],
                                       exemptionRow: OverviewRow,
                                       totalRow: OverviewRowWithoutLink)
 
-object ReducingEstateValueSectionViewModel extends MessagesApiInjection{
+object ReducingEstateValueSectionViewModel {
 
   private def isExemptionsCompletedWithNoValueDependentOnMaritalStatus(applicationDetails: ApplicationDetails,
                                                                registrationDetails: RegistrationDetails) = {
@@ -63,7 +63,7 @@ object ReducingEstateValueSectionViewModel extends MessagesApiInjection{
   def apply(applicationDetails: ApplicationDetails,
             registrationDetails: RegistrationDetails): ReducingEstateValueSectionViewModel = {
     val displayValue = if (isExemptionsCompletedWithNoValueDependentOnMaritalStatus(applicationDetails, registrationDetails)) {
-        messageApi("page.iht.application.estateOverview.exemptions.noExemptionsValue")
+        Messages("page.iht.application.estateOverview.exemptions.noExemptionsValue")
       } else {
         DisplayValueAsNegative(getExemptionsDisplayValue(applicationDetails))
       }
@@ -77,18 +77,18 @@ object ReducingEstateValueSectionViewModel extends MessagesApiInjection{
     val areDebtsIncluded: Boolean = exemptionCompletionStatus != NotStarted && (applicationDetails.totalExemptionsValue > BigDecimal(0))
     val exemptionsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      messageApi("page.iht.application.overview.exemptions.screenReader.moreDetails.link"),
-      messageApi("page.iht.application.overview.exemptions.screenReader.value.link"),
-      messageApi("page.iht.application.overview.exemptions.screenReader.noValue.link")
+      Messages("page.iht.application.overview.exemptions.screenReader.moreDetails.link"),
+      Messages("page.iht.application.overview.exemptions.screenReader.value.link"),
+      Messages("page.iht.application.overview.exemptions.screenReader.noValue.link")
     )
     val debtsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      messageApi("page.iht.application.overview.debts.screenReader.moreDetails.link"),
-      messageApi("page.iht.application.overview.debts.screenReader.value.link"),
-      messageApi("page.iht.application.overview.debts.screenReader.noValue.link")
+      Messages("page.iht.application.overview.debts.screenReader.moreDetails.link"),
+      Messages("page.iht.application.overview.debts.screenReader.value.link"),
+      Messages("page.iht.application.overview.debts.screenReader.noValue.link")
     )
     val theDebtRow = if (areDebtsIncluded) {
-            Some(OverviewRow("debts", messageApi("iht.estateReport.debts.owedFromEstate"),
+            Some(OverviewRow("debts", Messages("iht.estateReport.debts.owedFromEstate"),
               DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails)),
               RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
               iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(), debtsScreenreaderText))
@@ -100,11 +100,11 @@ object ReducingEstateValueSectionViewModel extends MessagesApiInjection{
 
     ReducingEstateValueSectionViewModel(
       debtRow = theDebtRow,
-      exemptionRow = OverviewRow("exemptions", messageApi("iht.estateReport.exemptions.title"),
+      exemptionRow = OverviewRow("exemptions", Messages("iht.estateReport.exemptions.title"),
         displayValue, exemptionCompletionStatus,
         iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
         exemptionsScreenreaderText),
-      totalRow = OverviewRowWithoutLink("reducing-estate-totals", messageApi("page.iht.application.exemptions.total"),
+      totalRow = OverviewRowWithoutLink("reducing-estate-totals", Messages("page.iht.application.exemptions.total"),
          DisplayValueAsNegative(CurrentValue(totalValue)), qualifyingText = "", headingLevel = "h3", headingClass = "visually-hidden")
     )
   }

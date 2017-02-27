@@ -16,34 +16,29 @@
 
 package iht.views.application.declaration
 
-import iht.utils.{MessagesApiInjection, DeclarationReason}
+import iht.utils.DeclarationReason
 import play.api.i18n.Messages
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import javax.inject._
-import play.api.libs.ws._
-import play.api.inject._
-import play.api.Play
-import play.api.i18n.MessagesApi
 
 /**
   * Created by vineettyagi on 1/12/16.
   *
   * This helper has been kept in views package as its only used in declaration view
   */
-object DeclarationViewHelper extends MessagesApiInjection{
+object DeclarationViewHelper {
 
-  lazy val haveProvidedNonMatchingDetailsMsg = messageApi("iht.estateReport.declaration.haveProvidedNonMatchingDetails")
-  lazy val completedAllReasonableEnquiriesMsg = messageApi("iht.estateReport.declaration.completedAllReasonableEnquiries")
-  lazy val deceasedMarriedWhenPartnerDied = messageApi("iht.estateReport.declaration.deceasedMarriedWhenPartnerDied")
-  lazy val correctAndCompleteMsg  = messageApi("iht.estateReport.declaration.correctAndComplete")
-  lazy val didNotUseAnyOfThresholdMsg = messageApi("iht.estateReport.declaration.didntUseAnyOfThreshold")
-  lazy val noInheritanceTaxPayableMsg= messageApi("iht.estateReport.noInheritanceTaxPayable")
+  lazy val haveProvidedNonMatchingDetailsMsg = Messages("iht.estateReport.declaration.haveProvidedNonMatchingDetails")
+  lazy val completedAllReasonableEnquiriesMsg = Messages("iht.estateReport.declaration.completedAllReasonableEnquiries")
+  lazy val deceasedMarriedWhenPartnerDied = Messages("iht.estateReport.declaration.deceasedMarriedWhenPartnerDied")
+  lazy val correctAndCompleteMsg  = Messages("iht.estateReport.declaration.correctAndComplete")
+  lazy val didNotUseAnyOfThresholdMsg = Messages("iht.estateReport.declaration.didntUseAnyOfThreshold")
+  lazy val noInheritanceTaxPayableMsg= Messages("iht.estateReport.noInheritanceTaxPayable")
   lazy val estateValueBeforeExemptionsLessThan1MillionMsg =
-                                      messageApi("iht.estateReport.declaration.estateValueBeforeExemptionsLessThan1Million")
+                                      Messages("iht.estateReport.declaration.estateValueBeforeExemptionsLessThan1Million")
 
   def summaryText(declarationType: String, isMultipleExecutor: Boolean) = {
-    messageApi(
+    Messages(
       isMultipleExecutor match {
         case false => "iht.estateReport.declaration.youMayFaceProsecution"
         case true => "iht.estateReport.declaration.coExecutors.mayFaceProsecution"
