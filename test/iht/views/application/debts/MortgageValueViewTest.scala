@@ -26,6 +26,7 @@ import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   * Created by vineet on 15/11/16.

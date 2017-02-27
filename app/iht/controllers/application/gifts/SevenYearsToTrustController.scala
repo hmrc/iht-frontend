@@ -28,7 +28,7 @@ import iht.views.html.application.gift.seven_years_to_trust
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
-
+import iht.constants.IhtProperties._
 
 object SevenYearsToTrustController extends SevenYearsToTrustController with IhtConnectors {
   def metrics : Metrics = Metrics

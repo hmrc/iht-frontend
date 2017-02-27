@@ -28,6 +28,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[InsurancePolicy]{
 

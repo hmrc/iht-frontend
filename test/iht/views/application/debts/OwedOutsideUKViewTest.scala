@@ -24,6 +24,7 @@ import iht.views.html.application.debts.owed_outside_uk
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   * Created by vineet on 15/11/16.

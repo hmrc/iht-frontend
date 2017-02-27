@@ -26,6 +26,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_overview
 import play.api.i18n.Messages.Implicits._
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class GiftsOverviewViewTest extends ViewTestHelper {
 

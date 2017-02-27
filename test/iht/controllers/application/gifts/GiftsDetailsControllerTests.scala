@@ -30,6 +30,7 @@ import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, redirectLoca
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  * Created by jamestuttle on 09/10/15.

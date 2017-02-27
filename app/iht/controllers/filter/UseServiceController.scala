@@ -19,6 +19,7 @@ package iht.controllers.filter
 import iht.config.FrontendAuthConnector
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 import iht.controllers.auth.CustomPasscodeAuthentication
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.controller.FrontendController

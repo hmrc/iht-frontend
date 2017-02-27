@@ -25,6 +25,7 @@ import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.asset.trusts.trusts_overview
 import iht.models.application.assets.HeldInTrust
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class TrustsOverviewViewTest extends ViewTestHelper {
 

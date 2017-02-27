@@ -24,6 +24,7 @@ import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.test.Helpers._
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  *

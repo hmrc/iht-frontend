@@ -27,6 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 

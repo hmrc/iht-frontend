@@ -31,7 +31,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.views.html._
 import iht.constants.Constants._
-
+import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 object GiftsOverviewController extends GiftsOverviewController with IhtConnectors {

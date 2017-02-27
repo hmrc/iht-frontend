@@ -24,6 +24,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import iht.views.html.application.gift.seven_years_to_trust
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   * Created by vineet on 15/11/16.

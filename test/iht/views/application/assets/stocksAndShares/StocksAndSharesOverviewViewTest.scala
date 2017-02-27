@@ -24,6 +24,7 @@ import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overvi
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages.Implicits._
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehaviour {
 

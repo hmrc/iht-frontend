@@ -27,6 +27,7 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 object InsurancePolicyDetailsJointController extends InsurancePolicyDetailsJointController with IhtConnectors {
   def metrics : Metrics = Metrics

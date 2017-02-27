@@ -18,7 +18,7 @@
 @import iht.views.html._
 @import iht.models.application.tnrb._
 @import iht.models.RegistrationDetails
-@import iht.constants.IhtProperties
+@import iht.constants.IhtProperties._
 @import iht.controllers.ControllerHelper
 @import iht.utils.CommonHelper
 @import iht.utils.tnrb.TnrbHelper
@@ -207,7 +207,7 @@ hasTimeOut=true) {
            </h2>
 
          <ul class="tabular-data tabular-data--list">
-            @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(IhtProperties.statusWidowed)){
+            @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(statusWidowed)){
                 @tnrb_overview_table_row(
                     id = "partner-marital-status",
                     questionText = Html(Messages("iht.estateReport.tnrb.partner.married",
@@ -228,7 +228,7 @@ hasTimeOut=true) {
                     linkID = TnrbSpouseMartialStatusID
                 )
             }
-                @defining(widowCheckModel.dateOfPreDeceased.map(x=>x.toString(IhtProperties.dateFormatForDisplay)).fold("")(identity)) { answerValue =>
+                @defining(widowCheckModel.dateOfPreDeceased.map(x=>x.toString(dateFormatForDisplay)).fold("")(identity)) { answerValue =>
                     @tnrb_overview_table_row(
                         id = "date-of-preDeceased",
                         questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
@@ -270,7 +270,7 @@ hasTimeOut=true) {
                 }
 
                 @defining( if(tnrbModel.dateOfMarriage.isDefined) "some" else "none" ) { messageFileSuffix =>
-                    @defining(tnrbModel.dateOfMarriage.map(x=>x.toString(IhtProperties.dateFormatForDisplay)).fold("")(identity)) { answerValue =>
+                    @defining(tnrbModel.dateOfMarriage.map(x=>x.toString(dateFormatForDisplay)).fold("")(identity)) { answerValue =>
                         @tnrb_overview_table_row(
                             id = "date-of-marriage",
                             questionText = Html(Messages("iht.estateReport.tnrb.dateOfMarriage",

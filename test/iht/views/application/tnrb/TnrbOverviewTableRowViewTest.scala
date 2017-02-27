@@ -22,6 +22,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import play.twirl.api.Html
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class TnrbOverviewTableRowViewTest extends ViewTestHelper {
 

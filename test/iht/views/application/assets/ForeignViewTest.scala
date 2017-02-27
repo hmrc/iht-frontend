@@ -27,6 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 

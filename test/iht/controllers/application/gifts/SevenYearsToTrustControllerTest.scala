@@ -23,6 +23,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  *

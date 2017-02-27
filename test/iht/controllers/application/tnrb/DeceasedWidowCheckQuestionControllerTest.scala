@@ -31,6 +31,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   *

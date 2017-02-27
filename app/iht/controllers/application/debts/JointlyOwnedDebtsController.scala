@@ -27,6 +27,7 @@ import iht.views.html.application.debts.jointly_owned
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 object JointlyOwnedDebtsController extends JointlyOwnedDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics

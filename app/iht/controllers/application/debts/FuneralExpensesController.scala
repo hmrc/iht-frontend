@@ -26,6 +26,7 @@ import iht.views.html.application.debts.funeral_expenses
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 object FuneralExpensesController extends FuneralExpensesController with IhtConnectors {
   def metrics : Metrics = Metrics

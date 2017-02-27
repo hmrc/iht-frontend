@@ -28,6 +28,7 @@ import iht.views.html.application.debts.any_other_debts
 import iht.constants.Constants._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 object AnyOtherDebtsController extends AnyOtherDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics

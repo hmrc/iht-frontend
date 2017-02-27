@@ -32,7 +32,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.testhelpers.ContentChecker
 import iht.constants.Constants._
-
+import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 /**

@@ -27,7 +27,7 @@ import iht.views.html.application.gift.with_reservation_of_benefit
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
-
+import iht.constants.IhtProperties._
 /**
  *
  * Created by Vineet Tyagi on 14/01/16.

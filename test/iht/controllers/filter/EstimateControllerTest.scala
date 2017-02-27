@@ -24,6 +24,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.forms.FilterForms._
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class EstimateControllerTest extends ApplicationControllerTest with HtmlSpec {
 

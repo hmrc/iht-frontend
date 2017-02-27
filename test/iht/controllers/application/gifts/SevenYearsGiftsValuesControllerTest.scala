@@ -30,6 +30,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  * Created by james on 14/01/16.

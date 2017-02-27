@@ -25,6 +25,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import play.api.i18n.Messages.Implicits._
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class TnrbOverviewViewTest extends ViewTestHelper {
 

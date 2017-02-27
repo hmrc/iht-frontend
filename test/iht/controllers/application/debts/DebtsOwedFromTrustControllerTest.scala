@@ -25,6 +25,7 @@ import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 

@@ -29,6 +29,7 @@ import iht.views.html.application.asset._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 object NominatedController extends NominatedController with IhtConnectors {
   def metrics : Metrics = Metrics

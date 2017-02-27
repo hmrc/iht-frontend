@@ -25,6 +25,7 @@ import iht.views.helpers.GenericOverviewHelper._
 import iht.views.html.application.asset.pensions.pensions_overview
 import play.api.i18n.Messages.Implicits._
 import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class PensionsOverviewViewTest extends ViewTestHelper {
 
