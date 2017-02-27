@@ -16,35 +16,51 @@
 
 package iht.views.application.exemption.partner
 
+import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
+import org.joda.time.LocalDate
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 
 trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
+  val regDetails = CommonBuilder.buildRegistrationDetails1
+
+  val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
+
+  val applicationDetails =
+    CommonBuilder.buildApplicationDetails copy (allExemptions = Some(
+    AllExemptions(
+    partner =
+      Some(PartnerExemption(
+        isAssetForDeceasedPartner = Some(true),
+        isPartnerHomeInUK = Some(true),
+        firstName = Some(CommonBuilder.DefaultFirstName),
+        lastName = Some(CommonBuilder.DefaultLastName),
+        dateOfBirth = Some(CommonBuilder.DefaultDateOfBirth),
+        nino = Some(CommonBuilder.DefaultNino),
+        totalAssets = Some(CommonBuilder.DefaultTotalAssets)))
+    )))
+
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
-  override def guidanceParagraphs = Set(
-    messagesApi("iht.estateReport.exemptions.partner.assetsLeftToPartnerNotCharities")
-  )
+  override def guidanceParagraphs = Set.empty
 
-  override def pageTitle = messagesApi("iht.estateReport.assets.partnerAdd")
+  override def pageTitle = messagesApi("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title")
 
-  override def browserTitle = messagesApi("page.iht.application.exemptions.overview.partner.detailsOverview.browserTitle")
-
-  override val exitId: String = "return-button"
+  override def browserTitle = messagesApi("page.iht.application.exemptions.partner.overview.browserTitle")
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
-      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToPartner")
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName)
     )
   )
 
-  val propertyAttributesTableId = "qualifying-body-details-table"
+  val propertyAttributesTableId = "partner-overview-table"
 
   def propertyAttributeWithValueAndChange(rowNo: Int,
                                           expectedAttributeName: => String,
@@ -67,11 +83,8 @@ trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
 }
 
 class PartnerOverviewViewTest extends PartnerOverviewViewBehaviour {
-  override def view = {
-    val applicationDetails = CommonBuilder.buildApplicationDetails
-    val registrationDetails = CommonBuilder.buildRegistrationDetails
-    partner_overview(applicationDetails, registrationDetails).toString()
-  }
+  override def view =
+    partner_overview(applicationDetails, regDetails).toString()
 
   "Qualifying body details overview view" must {
     behave like nonSubmittablePage()
@@ -91,11 +104,8 @@ class PartnerOverviewViewTest extends PartnerOverviewViewBehaviour {
 }
 
 class PartnerOverviewViewWithNoValuesTest extends PartnerOverviewViewBehaviour {
-  override def view = {
-    val applicationDetails = CommonBuilder.buildApplicationDetails
-    val registrationDetails = CommonBuilder.buildRegistrationDetails
-    partner_overview(applicationDetails, registrationDetails).toString()
-  }
+  override def view =
+    partner_overview(applicationDetails, regDetails).toString()
 
   "Qualifying body details overview view where no values entered" must {
     behave like propertyAttributeWithValueAndChange(0,

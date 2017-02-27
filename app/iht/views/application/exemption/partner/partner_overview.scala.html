@@ -31,7 +31,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.overview.browserTitle")),
 isFullWidth=false) {
     <section id="overview-table" class="section">
-        <ul class="tabular-data tabular-data--list">
+        <ul id="partner-overview-table" class="tabular-data tabular-data--list">
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner).map(_=>true)) { isComplete =>
                 ihtHelpers.generic_overview_item(
