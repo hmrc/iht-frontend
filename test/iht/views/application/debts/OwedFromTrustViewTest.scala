@@ -25,10 +25,12 @@ import iht.views.html.application.debts.owed_from_trust
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.controllers.application.debts.routes
 
 /**
   * Created by vineet on 15/11/16.
   */
+
 class OwedFromTrustViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
@@ -42,11 +44,17 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def pageTitle = messagesApi("iht.estateReport.debts.debtsTrust.title")
   override def browserTitle = messagesApi("page.iht.application.debts.debtsTrust.browserTitle")
-  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.debtsTrust.description.p1",
-                                                     CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+
+  override def guidance  = guidance(
+    Set(messagesApi("page.iht.application.debts.debtsTrust.description.p1",
+      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+  )
+
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsTrust.isOwned",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.debtsTrust.value")
+
+  override def formTarget = Some(routes.DebtsOwedFromATrustController.onSubmit)
 
   "OwedFromTrustView" must {
     behave like debtsElement

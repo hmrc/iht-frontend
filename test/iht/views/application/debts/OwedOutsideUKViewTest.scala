@@ -23,10 +23,12 @@ import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.owed_outside_uk
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.controllers.application.debts.routes
 
 /**
   * Created by vineet on 15/11/16.
   */
+
 class OwedOutsideUKViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
@@ -40,10 +42,16 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def pageTitle = messagesApi("iht.estateReport.debts.owedOutsideUK")
   override def browserTitle = messagesApi("page.iht.application.debts.debtsOutsideUk.browserTitle")
-  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.debtsOutsideUk.description.p1"),
-    messagesApi("page.iht.application.debts.debtsOutsideUk.description.p2"))
+
+  override def guidance  = guidance(
+    Set(messagesApi("page.iht.application.debts.debtsOutsideUk.description.p1"),
+      messagesApi("page.iht.application.debts.debtsOutsideUk.description.p2"))
+  )
+
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsOutsideUk.isOwned")
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.owedOutsideUK.value")
+
+  override def formTarget = Some(routes.OwedOutsideUKDebtsController.onSubmit)
 
   "OwedOutsideUKView" must {
     behave like debtsElement

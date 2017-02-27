@@ -20,14 +20,17 @@ import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
+import iht.views.application.CancelComponent
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.mortgage_value
 import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.controllers.application.debts.routes
 /**
   * Created by vineet on 15/11/16.
   */
+
 class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
@@ -41,17 +44,24 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElement
                               CommonBuilder.buildProperty.copy(id = Some("1"), typeOfOwnership = Some("Deceased only"),
                                 address = Some(CommonBuilder.DefaultUkAddress)
                               ),
-                              iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1"),
+                              routes.MortgageValueController.onSubmit("1"),
                               regDetails)
 
   override def pageTitle = messagesApi("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def browserTitle = messagesApi("page.iht.application.debts.mortgageValue.browserTitle")
-  override def guidanceParagraphs = Set()
+  override def guidance = noGuidance
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = messagesApi("page.iht.application.debts.mortgage.inputText.value")
-  override def returnLinkId = "cancel-button"
-  override def returnLinkText = messagesApi("site.link.return.mortgage.overview")
-  override def returnLinkTargetUrl = iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()
+
+  override val cancelId = "cancel-button"
+  override def cancelComponent = Some(
+    CancelComponent(
+      routes.MortgagesOverviewController.onPageLoad,
+      messagesApi("site.link.return.mortgage.overview")
+    )
+  )
+
+  override def formTarget = Some(routes.MortgageValueController.onSubmit("1"))
 
   "MortgageValueView" must {
     behave like debtsElement
