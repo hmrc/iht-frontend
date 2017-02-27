@@ -79,20 +79,6 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
       status(result) should be (OK)
     }
 
-    "display correct hint content on page" in {
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(CommonBuilder.buildApplicationDetails),
-        getAppDetails = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
-
-      val result = partnerDateOfBirthController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.dateExample"))
-    }
-
     "display the correct stored date on page load" in {
 
       val applicationDetails = CommonBuilder.buildApplicationDetails

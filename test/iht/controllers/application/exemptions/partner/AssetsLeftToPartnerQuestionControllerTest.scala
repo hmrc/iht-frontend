@@ -81,7 +81,6 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
       val result = assetsLeftToPartnerQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
       contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"))
-      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
     }
 
     "save application and go to Exemptions Overview page on submit" in {
