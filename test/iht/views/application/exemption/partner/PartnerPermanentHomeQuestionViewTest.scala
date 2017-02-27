@@ -20,17 +20,17 @@ import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
-import iht.views.html.application.exemption.partner.assets_left_to_partner_question
+import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import play.api.i18n.Messages.Implicits._
 
-class AssetsLeftToPartnerQuestionViewTest extends YesNoQuestionViewBehaviour[PartnerExemption] {
+class PartnerPermanentHomeQuestionViewTest extends YesNoQuestionViewBehaviour[PartnerExemption] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
   val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def form = assetsLeftToSpouseQuestionForm
+  override def form = partnerPermanentHomeQuestionForm
 
-  override def formToView = form => assets_left_to_partner_question(form, regDetails, "", CommonBuilder.DefaultCall1)
+  override def formToView = form => partner_permanent_home_question(form, regDetails, "", CommonBuilder.DefaultCall1)
 
   override def pageTitle = messagesApi("page.iht.application.exemptions.assetsLeftToPartner.sectionTitle", deceasedName)
 
@@ -57,7 +57,7 @@ class AssetsLeftToPartnerQuestionViewTest extends YesNoQuestionViewBehaviour[Par
     )
   )
 
-  "PartnerDateOfBirthView" must {
+  "AssetsLeftToPartnerQuestionView" must {
     behave like yesNoQuestion()
   }
 }
