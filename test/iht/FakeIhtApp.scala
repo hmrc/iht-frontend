@@ -36,7 +36,8 @@ trait FakeIhtApp extends OneAppPerSuite {
 
     val config: Map[String, _] = Map("application.secret" -> "Its secret",
                       "passcodeAuthentication.enabled" -> false,
-                      "passcodeAuthentication.regime" -> "iht")
+                      "passcodeAuthentication.regime" -> "iht",
+                      "metrics.enabled" -> false)
 
   override implicit lazy val app : Application = new GuiceApplicationBuilder().in(Mode.Test).configure(config).build()
 

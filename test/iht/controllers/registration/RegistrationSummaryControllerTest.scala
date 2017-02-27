@@ -52,7 +52,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val metrics:Metrics = Metrics
+    override val metrics:Metrics = mock[Metrics]
     override val isWhiteListEnabled = false
   }
 
@@ -60,7 +60,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
-    override val metrics:Metrics = Metrics
+    override val metrics:Metrics = mock[Metrics]
     override val isWhiteListEnabled = false
   }
 
