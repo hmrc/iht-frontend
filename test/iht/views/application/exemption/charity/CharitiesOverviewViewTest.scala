@@ -123,6 +123,6 @@ class CharitiesOverviewViewWithNoBodiesTest extends CharitiesOverviewViewBehavio
   "Charities overview view with no qualifying bodies" must {
     behave like link("add-charity",
       iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad().url,
-      messagesApi("iht.estateReport.assets.charityAdd"))
+      messagesApi("page.iht.application.exemptions.assetLeftToCharity.addCharity"))
   }
 }

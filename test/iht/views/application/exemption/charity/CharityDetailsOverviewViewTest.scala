@@ -30,11 +30,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
-  override def guidanceParagraphs = Set(
-    messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharityNotCharities")
-  )
+  override def guidanceParagraphs = Set.empty
 
-  override def pageTitle = messagesApi("iht.estateReport.assets.charityAdd")
+  override def pageTitle = messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.title")
 
   override def browserTitle = messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.browserTitle")
 
@@ -47,7 +45,7 @@ trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehav
     )
   )
 
-  val propertyAttributesTableId = "qualifying-body-details-table"
+  val propertyAttributesTableId = "charity-details-table"
 
   def propertyAttributeWithValueAndChange(rowNo: Int,
                                           expectedAttributeName: => String,
@@ -77,13 +75,19 @@ class CharityDetailsOverviewViewTest extends CharityDetailsOverviewViewBehaviour
     behave like nonSubmittablePage()
 
     behave like propertyAttributeWithValueAndChange(0,
-      messagesApi("iht.estateReport.charities.charityName"),
+      messagesApi("iht.estateReport.exemptions.charities.charityName.title"),
       CommonBuilder.charity.map(_.name).fold("")(identity),
       messagesApi("iht.change")
     )
 
     behave like propertyAttributeWithValueAndChange(1,
-      messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.value.title"),
+      messagesApi("iht.estateReport.exemptions.charities.registeredCharityNo"),
+      getOrException(CommonBuilder.charity.map(_.number)),
+      messagesApi("iht.change")
+    )
+
+    behave like propertyAttributeWithValueAndChange(2,
+      messagesApi("iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"),
       CommonBuilder.currencyValue(getOrException(CommonBuilder.charity.map(_.totalValue))),
       messagesApi("iht.change")
     )
@@ -103,13 +107,19 @@ class CharityDetailsOverviewViewWithNoValuesTest extends CharityDetailsOverviewV
 
   "Qualifying body details overview view where no values entered" must {
     behave like propertyAttributeWithValueAndChange(0,
-      messagesApi("iht.estateReport.charities.charityName"),
+      messagesApi("iht.estateReport.exemptions.charities.charityName.title"),
       CommonBuilder.emptyString,
-      messagesApi("site.link.giveDetails")
+      messagesApi("site.link.giveName")
     )
 
     behave like propertyAttributeWithValueAndChange(1,
-      messagesApi("page.iht.application.exemptions.overview.charity.detailsOverview.value.title"),
+      messagesApi("iht.estateReport.exemptions.charities.registeredCharityNo"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveNumber")
+    )
+
+    behave like propertyAttributeWithValueAndChange(2,
+      messagesApi("iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"),
       CommonBuilder.emptyString,
       messagesApi("site.link.giveValue")
     )

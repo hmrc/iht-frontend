@@ -32,9 +32,9 @@ class CharityNameViewTest extends ValueViewBehaviour[Charity] {
 
   override def guidance = noGuidance
 
-  override def pageTitle = messagesApi("page.iht.application.exemptions.charity.name.sectionTitle")
+  override def pageTitle = messagesApi("page.iht.application.exemptions.charityName.sectionTitle")
 
-  override def browserTitle = messagesApi("page.iht.application.exemptions.charity.name.browserTitle")
+  override def browserTitle = messagesApi("iht.estateReport.exemptions.charities.charityName.title")
 
   override def formTarget = Some(CommonBuilder.DefaultCall1)
 
@@ -43,7 +43,7 @@ class CharityNameViewTest extends ValueViewBehaviour[Charity] {
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharity")
+      messagesApi("iht.estateReport.exemptions.charities.returnToAddACharity")
     )
   )
 

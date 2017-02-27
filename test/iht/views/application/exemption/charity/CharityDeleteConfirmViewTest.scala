@@ -29,9 +29,11 @@ class CharityDeleteConfirmViewTest extends GenericNonSubmittablePageBehaviour {
 
   override def guidanceParagraphs = Set.empty
 
-  override def pageTitle = messagesApi("iht.estateReport.exemptions.charities.confirmDeleteCharity")
+  override def pageTitle = messagesApi("page.iht.application.exemptions.charityDelete.sectionTitle")
 
   override def browserTitle = messagesApi("page.iht.application.exemptions.charityDelete.browserTitle")
+
+  override val exitId: String = "return-link"
 
   def exitComponent = Some(
     ExitComponent(
@@ -53,8 +55,8 @@ class CharityDeleteConfirmViewTest extends GenericNonSubmittablePageBehaviour {
       submitButton.text() shouldBe messagesApi("site.button.confirmDelete")
     }
 
-    "show the name of the qualifying body" in {
-      val nameParagraph = doc.getElementById("qualifying-body-name")
+    "show the name of the charity" in {
+      val nameParagraph = doc.getElementById("charity-name")
       nameParagraph.text shouldBe nameOfCharity
     }
   }

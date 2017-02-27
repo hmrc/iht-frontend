@@ -32,17 +32,14 @@ class AssetsLeftToCharityQuestionViewTest extends YesNoQuestionViewBehaviour[Bas
 
   override def formToView = form => assets_left_to_charity_question(form, regDetails)
 
-  override def pageTitle = messagesApi("page.iht.application.exemptions.assetsLeftToCharity.sectionTitle", deceasedName)
+  override def pageTitle = messagesApi("iht.estateReport.exemptions.charities.assetsLeftToACharity.title", deceasedName)
 
-  override def browserTitle = messagesApi("page.iht.application.exemptions.assetsLeftToCharity.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.exemptions.assetLeftToCharity.browserTitle")
 
   override def guidance = guidance(
     Set(
-      messagesApi("page.iht.application.exemptions.assetsLeftToCharity.p1"),
-      messagesApi("page.iht.application.exemptions.assetsLeftToCharity.p2"),
-      messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharity.p3"),
-      messagesApi("iht.estateReport.exemptions.charities.howFindOutQualifies"),
-      messagesApi("page.iht.application.exemptions.assetsLeftToCharity.help.contents")
+      messagesApi("page.iht.application.exemptions.assetLeftToCharity.p1"),
+      messagesApi("page.iht.application.exemptions.assetLeftToCharity.p2")
     )
   )
 
