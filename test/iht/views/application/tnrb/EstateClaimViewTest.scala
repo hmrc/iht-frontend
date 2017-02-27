@@ -37,7 +37,7 @@ class EstateClaimViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel
 
   override def browserTitle = messagesApi("page.iht.application.tnrb.stateClaim.browserTitle")
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit())
 

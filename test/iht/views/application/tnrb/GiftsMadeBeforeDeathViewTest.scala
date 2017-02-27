@@ -24,6 +24,7 @@ import iht.utils.tnrb.TnrbHelper
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.tnrb.gifts_made_before_death
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
 class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
@@ -41,10 +42,12 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
 
   override def browserTitle = messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")
 
-  override def guidanceParagraphs = Set(messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
-    TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
-      messagesApi("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
-    messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
+  override def guidance = guidance(
+    Set(messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
+      TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
+        messagesApi("page.iht.application.tnrb.spouseOrCivilPartner.hint"))),
+      messagesApi("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"))
+  )
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit())
 

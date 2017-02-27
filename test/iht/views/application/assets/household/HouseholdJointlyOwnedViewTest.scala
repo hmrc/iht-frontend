@@ -16,11 +16,11 @@
 
 package iht.views.application.assets.household
 
+import iht.controllers.application.assets.household.routes
 import iht.controllers.application.assets.household.routes._
 import iht.forms.ApplicationForms._
-import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
+import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.household.household_jointly_owned
 import play.api.i18n.Messages.Implicits._
@@ -28,7 +28,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
+class HouseholdJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -44,6 +44,7 @@ class HouseholdJointlyOwnedViewTest extends ViewTestHelper with ShareableElement
   override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.HouseholdJointlyOwnedController.onSubmit)
 
   "Household Jointly Owned view" must {
     behave like yesNoValueViewJointWithErrorSummaryBox

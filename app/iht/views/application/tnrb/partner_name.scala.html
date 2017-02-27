@@ -28,6 +28,7 @@ predeceasedDate: Option[LocalDate]
 )(implicit request:Request[_], messages: Messages))
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.increasingIHTThreshold"),
+browserTitle = Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
     @ihtHelpers.error_summary(partnerNameForm)

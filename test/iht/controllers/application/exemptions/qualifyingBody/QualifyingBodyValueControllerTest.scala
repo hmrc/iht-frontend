@@ -126,25 +126,6 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
       status(resultOnPageLoad) should be(OK)
     }
 
-    "display the correct content onPageLoad" in {
-      createMocksForQualifyingBodyValue
-      contentAsString(resultOnPageLoad) should include(messagesApi("page.iht.application.exemptions.qualifyingBody.value.sectionTitle"))
-      contentAsString(resultOnPageLoad) should include(messagesApi("page.iht.application.exemptions.qualifyingBody.value.browserTitle"))
-      contentAsString(resultOnPageLoad) should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
-      contentAsString(resultOnPageLoad) should include(messagesApi("iht.saveAndContinue"))
-    }
-
-    "display the correct content onEditPageLoad" in {
-      createMocksForQualifyingBodyValue
-      val result = resultOnEditPageLoad("1")
-
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.qualifyingBody.value.sectionTitle"))
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.qualifyingBody.value.browserTitle"))
-      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
-      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
-      contentAsString(result) should include("324")
-    }
-
     "display an error message when a non-numeric value is entered" in {
       createMocksForQualifyingBodyValue
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("totalValue", "blaaaaah"))

@@ -94,8 +94,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
       exception.getMessage should include("Illegal page navigation")
     }
 
-    "load the page when no qualifying bodies are set up" in {
-
+    "load the page" in {
       val regDetails = buildRegistrationDetails copy (
         deceasedDetails = Some(buildDeceasedDetails), ihtReference = Some("AbC123"))
 
@@ -106,61 +105,6 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
 
       val content = contentAsString(result)
       content should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
-      info("section title is present")
-      content should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.lede"))
-      info("lede paragraph is present")
-      content should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies"))
-      info("progressive reveal link is present")
-      content should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext"))
-      info("progressive reveal text is present")
-      ContentChecker.stripLineBreaks(content) should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.question",
-                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      info("question label is present")
-      content should include(messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text"))
-      info("'no qualifying bodies' text is present")
-      content should include(messagesApi("site.link.return.exemptions"))
-      info("return to exemptions link is present")
-      content should include(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad().url)
-      info("link to the exemptions overview is present")
-      content should include(messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
-    }
-
-    "include a link to change the Qualifying Bodies question when no qualifying bodies are set up" in {
-      setupMocks(appDetailsWithNoQualifyingBodies)
-
-      val result = controller.onPageLoad()(request)
-      pending // TODO: Change this to check for the link to Qualifying Bodies question when implemented
-      contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
-    }
-
-    "load the page when two qualifying bodies are set up" in {
-      setupMocks(appDetailsWithQualifyingBodies)
-
-      val result = controller.onPageLoad()(request)
-      status(result) shouldBe OK
-      contentAsString(result) should include("QB 1")
-      info("qualifying body 1's name is present")
-      contentAsString(result) should include("QB 2")
-      info("qualifying body 2's name is present")
-      contentAsString(result) should include("&pound;123.45")
-      info("qualifying body 1's value is present")
-      contentAsString(result) should include("&pound;678.9")
-      info("qualifying body 2's value is present")
-
-      contentAsString(result) should not include messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text")
-      info("'no qualifying bodies' text is not present")
-
-      contentAsString(result) should include(messagesApi("site.link.return.exemptions"))
-      info("return to exemptions link is present")
-      contentAsString(result) should include(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad().url)
-      info("link to the exemptions overview is present")
-
-      pending // TODO: Change these four lines to check the Change and Delete links for the two qualifying bodies when implemented
-      contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
-      contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
-      contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
-      contentAsString(result) should include(qualifyingBodyRoutes.QualifyingBodiesOverviewController.onPageLoad.url)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.qualifyingBodyAddAnother"))
     }
   }
 }

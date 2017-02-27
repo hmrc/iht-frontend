@@ -27,7 +27,7 @@ import play.twirl.api.HtmlFormat.Appendable
 
 class JointlyOwnedAssetsViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 

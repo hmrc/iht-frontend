@@ -54,7 +54,7 @@ class MoneyOverviewControllerTest extends ApplicationControllerTest {
         mockIhtConnector,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
-        saveAppDetails= true,
+        saveAppDetails = true,
         storeAppDetailsInCache = true)
 
       val result = moneyOverviewController.onPageLoad(createFakeRequest())
@@ -68,19 +68,13 @@ class MoneyOverviewControllerTest extends ApplicationControllerTest {
         mockIhtConnector,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
-        saveAppDetails= true,
+        saveAppDetails = true,
         storeAppDetailsInCache = true)
 
       val result = moneyOverviewControllerNotAuthorised.onPageLoad(createFakeRequest(false))
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(loginUrl))
+      redirectLocation(result) should be(Some(loginUrl))
     }
-
-    "display the correct content title" in {
-      val result = moneyOverviewController.onPageLoad(createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.money.upperCaseInitial"))
-    }
-
   }
+  
 }

@@ -38,7 +38,9 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def form:Form[BasicEstateElementLiabilities] = funeralExpensesForm
   override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => mortgage_value(mortgagesForm,
-                              CommonBuilder.buildProperty.copy(id = Some("1"), typeOfOwnership = Some("Deceased only")),
+                              CommonBuilder.buildProperty.copy(id = Some("1"), typeOfOwnership = Some("Deceased only"),
+                                address = Some(CommonBuilder.DefaultUkAddress)
+                              ),
                               iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1"),
                               regDetails)
 
@@ -53,5 +55,10 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   "MortgageValueView" must {
     behave like debtsElement
+
+    "show the address" in {
+      val addressDiv = doc.getElementById("address")
+      addressDiv.text shouldBe formatAddressForDisplay(CommonBuilder.DefaultUkAddress)
+    }
   }
 }

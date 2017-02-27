@@ -18,7 +18,7 @@ package iht.forms
 
 import iht.constants.IhtProperties
 import iht.forms.mappings.DateMapping
-import iht.forms.validators.{MandatoryCurrencyForOptions, OptionalCurrency, MandatoryCurrency}
+import iht.forms.validators.{MandatoryCurrencyForOptions, OptionalCurrency}
 import iht.models._
 import iht.models.application.assets._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}

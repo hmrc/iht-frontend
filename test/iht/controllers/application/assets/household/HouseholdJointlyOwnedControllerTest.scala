@@ -32,7 +32,6 @@ import play.api.test.Helpers._
 
 class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
-
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -154,16 +153,6 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
       val result = householdJointlyOwnedController.onSubmit (fakePostRequest)
       status(result) shouldBe BAD_REQUEST
     }
-
-    "display the correct title on page load" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      setUpTests(applicationDetails)
-
-      val result = householdJointlyOwnedController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include
-      (messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title"),
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails))
-    }
   }
+  
 }
