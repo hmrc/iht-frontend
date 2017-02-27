@@ -86,7 +86,7 @@ class PartnerOverviewViewTest extends PartnerOverviewViewBehaviour {
   override def view =
     partner_overview(applicationDetails, regDetails).toString()
 
-  "Qualifying body details overview view" must {
+  "partner overview view" must {
     behave like nonSubmittablePage()
 
 //    behave like propertyAttributeWithValueAndChange(0,
@@ -107,7 +107,7 @@ class PartnerOverviewViewWithNoValuesTest extends PartnerOverviewViewBehaviour {
   override def view =
     partner_overview(applicationDetails, regDetails).toString()
 
-  "Qualifying body details overview view where no values entered" must {
+  "Partner overview view where no values entered" must {
     behave like propertyAttributeWithValueAndChange(0,
       messagesApi("iht.estateReport.partner.partnerName"),
       CommonBuilder.emptyString,

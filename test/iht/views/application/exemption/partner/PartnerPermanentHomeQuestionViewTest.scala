@@ -30,31 +30,22 @@ class PartnerPermanentHomeQuestionViewTest extends YesNoQuestionViewBehaviour[Pa
 
   override def form = partnerPermanentHomeQuestionForm
 
-  override def formToView = form => partner_permanent_home_question(form, regDetails, "", CommonBuilder.DefaultCall1)
+  override def formToView = form => partner_permanent_home_question(form, regDetails, CommonBuilder.DefaultString, CommonBuilder.DefaultCall1)
 
-  override def pageTitle = messagesApi("page.iht.application.exemptions.assetsLeftToPartner.sectionTitle", deceasedName)
+  override def pageTitle = messagesApi("iht.estateReport.exemptions.partner.homeInUK.question")
 
-  override def browserTitle = messagesApi("page.iht.application.exemptions.assetsLeftToPartner.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.exemptions.partnerPermanentHome.browserTitle")
 
-  override def guidance = guidance(
-    Set(
-      messagesApi("page.iht.application.exemptions.assetsLeftToPartner.p1"),
-      messagesApi("page.iht.application.exemptions.assetsLeftToPartner.p2"),
-      messagesApi("iht.estateReport.exemptions.partner.assetsLeftToPartner.p3"),
-      messagesApi("iht.estateReport.exemptions.partner.howFindOutQualifies"),
-      messagesApi("page.iht.application.exemptions.assetsLeftToPartner.help.contents")
-    )
-  )
+  override def guidance = noGuidance
 
-  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onSubmit())
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
-      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
-      messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName)
-    )
+      CommonBuilder.DefaultCall1,
+      CommonBuilder.DefaultString)
   )
 
   "AssetsLeftToPartnerQuestionView" must {

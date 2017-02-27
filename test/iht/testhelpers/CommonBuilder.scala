@@ -65,6 +65,7 @@ object CommonBuilder {
   val DefaultCall2 = Call("GET", "Call2")
 
   val DefaultId = "1"
+  val DefaultString = DefaultId
   val DefaultDeceasedDOD = new LocalDate(2011, 12, 12)
   val DefaultFirstName = firstNameGenerator
   val DefaultMiddleName = ""

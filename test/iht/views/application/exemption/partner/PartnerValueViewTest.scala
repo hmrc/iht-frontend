@@ -32,18 +32,18 @@ class PartnerValueViewTest extends ValueViewBehaviour[PartnerExemption] {
 
   override def guidance = noGuidance
 
-  override def pageTitle = messagesApi("page.iht.application.exemptions.partner.value.sectionTitle")
+  override def pageTitle = messagesApi("page.iht.application.exemptions.partner.totalAssets.label")
 
-  override def browserTitle = messagesApi("page.iht.application.exemptions.partner.value.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.exemptions.partner.totalAssets.browserTitle")
 
-  override def formTarget = Some(CommonBuilder.DefaultCall1)
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerValueController.onSubmit())
 
-  override val cancelId: String = "cancel-button"
+  override val cancelId:String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
-      CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToPartner")
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
     )
   )
 
@@ -52,9 +52,9 @@ class PartnerValueViewTest extends ValueViewBehaviour[PartnerExemption] {
   override def formToView: Form[PartnerExemption] => Appendable =
     form => partner_value(form, registrationDetails)
 
-  override val value_id = "totalValue"
+  override val value_id = "totalAssets"
 
-  "Qualifying Body Value View" must {
+  "Partner value View" must {
     behave like valueView()
   }
 }

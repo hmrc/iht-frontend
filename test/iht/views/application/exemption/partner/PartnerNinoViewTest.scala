@@ -32,18 +32,18 @@ class PartnerNinoViewTest extends ValueViewBehaviour[PartnerExemption] {
 
   override def guidance = noGuidance
 
-  override def pageTitle = messagesApi("page.iht.application.exemptions.partner.name.sectionTitle")
+  override def pageTitle = messagesApi("page.iht.application.exemptions.partner.nino.sectionTitle")
 
-  override def browserTitle = messagesApi("page.iht.application.exemptions.partner.name.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.exemptions.partner.nino.browserTitle")
 
-  override def formTarget = Some(CommonBuilder.DefaultCall1)
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onSubmit())
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
-      CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToPartner")
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
     )
   )
 
@@ -52,9 +52,9 @@ class PartnerNinoViewTest extends ValueViewBehaviour[PartnerExemption] {
   override def formToView: Form[PartnerExemption] => Appendable =
     form => partner_nino(form, registrationDetails)
 
-  override val value_id = "name"
+  override val value_id = "nino"
 
-  "Qualifying Body Name View" must {
+  "Partner Nino View" must {
     behave like valueView()
   }
 }

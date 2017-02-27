@@ -32,18 +32,16 @@ class PartnerNameViewTest extends ValueViewBehaviour[PartnerExemption] {
 
   override def guidance = noGuidance
 
-  override def pageTitle = messagesApi("page.iht.application.exemptions.partner.name.sectionTitle")
+  override def pageTitle = messagesApi("page.iht.application.exemptions.partner.name.title")
 
   override def browserTitle = messagesApi("page.iht.application.exemptions.partner.name.browserTitle")
 
-  override def formTarget = Some(CommonBuilder.DefaultCall1)
-
-  override val cancelId: String = "cancel-button"
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onSubmit())
 
   override def cancelComponent = Some(
     CancelComponent(
-      CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToPartner")
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
     )
   )
 
@@ -52,9 +50,13 @@ class PartnerNameViewTest extends ValueViewBehaviour[PartnerExemption] {
   override def formToView: Form[PartnerExemption] => Appendable =
     form => partner_name(form, registrationDetails)
 
-  override val value_id = "name"
+  override val value_id = "firstName"
 
-  "Qualifying Body Name View" must {
+  "Partner Name View" must {
     behave like valueView()
+
+    "have an input field with an ID of lastName" in {
+      Option(doc.getElementById("lastName")).isDefined shouldBe true
+    }
   }
 }
