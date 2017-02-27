@@ -709,7 +709,7 @@
                                 <xsl:if test="allAssets/heldInTrust/isOwned='true'">
                                     <xsl:call-template name="table-row-short-vpad">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'iht.estateReport.assets.trusts.moreThanOne.question')"/>
+                                                        select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.trusts.moreThanOne.question', $deceasedName)"/>
                                         <xsl:with-param name="value">
                                             <xsl:if test="not(allAssets/heldInTrust/isMoreThanOne)">
                                                 <xsl:value-of select="i18n:getMessagesText($translator, 'site.noneInEstate')"/>
@@ -727,7 +727,7 @@
                                         </xsl:with-param>
                                     </xsl:call-template>
                                     <xsl:call-template name="table-row-money-tall">
-                                        <xsl:with-param name="label" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.heldInTrust.valueOfTrust')" />
+                                        <xsl:with-param name="label" select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.heldInTrust.valueOfTrust', $deceasedName)" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/heldInTrust/value">
                                                 <xsl:value-of select='allAssets/heldInTrust/value'/>
