@@ -16,8 +16,10 @@
 
 package iht.views.application.exemption.partner
 
+import iht.constants.IhtProperties
 import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.testhelpers.CommonBuilder
+import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
@@ -31,19 +33,13 @@ trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
 
   val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  val applicationDetails =
+  val partner: PartnerExemption
+
+  def applicationDetails =
     CommonBuilder.buildApplicationDetails copy (allExemptions = Some(
-    AllExemptions(
-    partner =
-      Some(PartnerExemption(
-        isAssetForDeceasedPartner = Some(true),
-        isPartnerHomeInUK = Some(true),
-        firstName = Some(CommonBuilder.DefaultFirstName),
-        lastName = Some(CommonBuilder.DefaultLastName),
-        dateOfBirth = Some(CommonBuilder.DefaultDateOfBirth),
-        nino = Some(CommonBuilder.DefaultNino),
-        totalAssets = Some(CommonBuilder.DefaultTotalAssets)))
-    )))
+      AllExemptions(
+        partner = Some(partner)
+      )))
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
@@ -60,62 +56,119 @@ trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
     )
   )
 
-  val propertyAttributesTableId = "partner-overview-table"
+  val assetsLeftToSpouseAttributesTableId = "partner-overview-table"
 
-  def propertyAttributeWithValueAndChange(rowNo: Int,
+  def assetsLeftToSpouseAttributeWithValueAndChange(rowNo: Int,
                                           expectedAttributeName: => String,
                                           expectedAttributeValue: => String,
                                           expectedLinkText: => String) = {
     s"show attribute number ${rowNo + 1} name" in {
-      tableCell(doc, propertyAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
+      tableCell(doc, assetsLeftToSpouseAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
     }
 
     s"show attribute number ${rowNo + 1} value" in {
-      tableCell(doc, propertyAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
+      tableCell(doc, assetsLeftToSpouseAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
     }
 
     s"show attribute number ${rowNo + 1} change link" in {
-      val changeDiv = tableCell(doc, propertyAttributesTableId, 2, rowNo)
+      val changeDiv = tableCell(doc, assetsLeftToSpouseAttributesTableId, 2, rowNo)
       val anchor = changeDiv.getElementsByTag("a").first
       getVisibleText(anchor) shouldBe messagesApi(expectedLinkText)
     }
   }
+
+  def getDateDisplayValue(optDate: Option[LocalDate]): String =
+    optDate.fold("")(_.toString("d MMMM yyyy"))
 }
 
 class PartnerOverviewViewTest extends PartnerOverviewViewBehaviour {
+  val partner = PartnerExemption(
+    isAssetForDeceasedPartner = Some(true),
+    isPartnerHomeInUK = Some(true),
+    firstName = Some(CommonBuilder.DefaultFirstName),
+    lastName = Some(CommonBuilder.DefaultLastName),
+    dateOfBirth = Some(CommonBuilder.DefaultDateOfBirth),
+    nino = Some(CommonBuilder.DefaultNino),
+    totalAssets = Some(CommonBuilder.DefaultTotalAssets))
+
   override def view =
     partner_overview(applicationDetails, regDetails).toString()
 
-  "partner overview view" must {
+  "Partner overview view" must {
     behave like nonSubmittablePage()
 
-//    behave like propertyAttributeWithValueAndChange(0,
-//      messagesApi("iht.estateReport.partner.partnerName"),
-//      CommonBuilder.partner.map(_.name).fold("")(identity),
-//      messagesApi("iht.change")
-//    )
-//
-//    behave like propertyAttributeWithValueAndChange(1,
-//      messagesApi("page.iht.application.exemptions.overview.partner.detailsOverview.value.title"),
-//      CommonBuilder.currencyValue(getOrException(CommonBuilder.partner.map(_.totalValue))),
-//      messagesApi("iht.change")
-//    )
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(0,
+      messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName),
+      messagesApi("iht.yes"),
+      messagesApi("iht.change")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(1,
+      messagesApi("iht.estateReport.exemptions.partner.homeInUK.question"),
+      messagesApi("iht.yes"),
+      messagesApi("iht.change")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(2,
+      messagesApi("page.iht.application.exemptions.overview.partner.name.title"),
+      partner.name.fold("")(identity),
+      messagesApi("iht.change")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(3,
+      messagesApi("page.iht.application.exemptions.overview.partner.dob.title"),
+      getDateDisplayValue(partner.dateOfBirth),
+      messagesApi("iht.change")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(4,
+      messagesApi("page.iht.application.exemptions.overview.partner.nino.title"),
+      CommonHelper.getOrException(partner.nino),
+      messagesApi("iht.change")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(5,
+      messagesApi("page.iht.application.exemptions.overview.partner.totalAssets.title"),
+      "£" + numberWithCommas(CommonHelper.getOrException(partner.totalAssets)),
+      messagesApi("iht.change")
+    )
   }
 }
 
 class PartnerOverviewViewWithNoValuesTest extends PartnerOverviewViewBehaviour {
+  val partner = PartnerExemption(
+    isAssetForDeceasedPartner = Some(true),
+    isPartnerHomeInUK = Some(true),
+    firstName = None,
+    lastName = None,
+    dateOfBirth = None,
+    nino = None,
+    totalAssets = None)
+
   override def view =
     partner_overview(applicationDetails, regDetails).toString()
 
   "Partner overview view where no values entered" must {
-    behave like propertyAttributeWithValueAndChange(0,
-      messagesApi("iht.estateReport.partner.partnerName"),
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(2,
+      messagesApi("page.iht.application.exemptions.overview.partner.name.title"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveName")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(3,
+      messagesApi("page.iht.application.exemptions.overview.partner.dob.title"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveDate")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(4,
+      messagesApi("page.iht.application.exemptions.overview.partner.nino.title"),
       CommonBuilder.emptyString,
       messagesApi("site.link.giveDetails")
     )
 
-    behave like propertyAttributeWithValueAndChange(1,
-      messagesApi("page.iht.application.exemptions.overview.partner.detailsOverview.value.title"),
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(5,
+      messagesApi("page.iht.application.exemptions.overview.partner.totalAssets.title"),
       CommonBuilder.emptyString,
       messagesApi("site.link.giveValue")
     )
