@@ -348,15 +348,15 @@ object CommonHelper {
   }
 
   def addressFormater(applicantAddress: UkAddress): String = {
-    var address: String = applicantAddress.ukAddressLine1.toString +
-      " \n" + applicantAddress.ukAddressLine2.toString
+    var address: String = ihtHelpers.name(applicantAddress.ukAddressLine1.toString) +
+      " \n" + ihtHelpers.name(applicantAddress.ukAddressLine2.toString).toString.replace("\n", "")
 
     if (applicantAddress.ukAddressLine3.isDefined) {
-      address += " \n" + applicantAddress.ukAddressLine3.getOrElse("").toString
+      address += " \n" + ihtHelpers.name(applicantAddress.ukAddressLine3.getOrElse("").toString).toString.replace("\n", "")
     }
 
     if (applicantAddress.ukAddressLine4.isDefined) {
-      address += " \n" + applicantAddress.ukAddressLine4.getOrElse("").toString
+      address += " \n" + ihtHelpers.name(applicantAddress.ukAddressLine4.getOrElse("").toString).toString.replace("\n", "")
     }
 
     if (applicantAddress.postCode.toString != "") {
