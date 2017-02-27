@@ -26,6 +26,9 @@ import play.api.Logger
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.inject._
+import play.api.Play
+import play.api.i18n.MessagesApi
 
 case class ThresholdSectionViewModel(thresholdRow: OverviewRowWithoutLink,
                                      increasingThresholdRow: Option[OverviewRow],
@@ -34,7 +37,7 @@ case class ThresholdSectionViewModel(thresholdRow: OverviewRowWithoutLink,
 
 object ThresholdSectionViewModel {
 
-  def getScreenReaderQualifyingText(isComplete: RowCompletionStatus, moreDetailText: String, valueText: String) =
+ def getScreenReaderQualifyingText(isComplete: RowCompletionStatus, moreDetailText: String, valueText: String) =
     isComplete match {
       case NotStarted => moreDetailText
       case PartiallyComplete => moreDetailText
