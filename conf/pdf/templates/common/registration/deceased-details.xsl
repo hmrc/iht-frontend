@@ -24,6 +24,7 @@
                     <fo:table-column column-number="1" column-width="60%"/>
                     <fo:table-column column-number="2" column-width="40%"/>
                     <fo:table-body font-size="12pt">
+
                         <xsl:call-template name="table-row-short-vpad-border-top-black">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.firstName')"/>

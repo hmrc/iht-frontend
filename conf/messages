@@ -161,7 +161,7 @@ page.iht.private.beta.landing.page.can.use.info2.link = read the Inheritance Tax
 page.iht.private.beta.landing.page.can.use.info2.afterlink = which give more detail on how to correctly complete an estate report.
 
 #Pre registration filtering
-page.iht.filter.agent.content = There’s no change to how agents report estate values to HMRC. You should continue to use either an IHT-205 or an IHT-400 paper form.
+page.iht.filter.agent.content = There’s no change to how agents report estate values to HMRC. You must continue to use either an IHT-205 or an IHT-400 paper form.
 
 page.iht.filter.filter.choice.main.continue = I want to continue an estate report that I’ve already started
 page.iht.filter.filter.choice.main.register = I want to register so I can tell HMRC about a person’s estate
@@ -827,7 +827,7 @@ iht.estateReport.assets.money.jointlyOwned = Money jointly owned with other peop
 iht.estateReport.assets.money.lowerCaseInitial = money
 iht.estateReport.assets.money.ownName.question = Did {0} own any money in their own name?
 iht.estateReport.assets.money.upperCaseInitial = Money
-iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money had by the deceased only in their name
+iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money owned by the deceased only in their name
 iht.estateReport.assets.moneyOwed = Money owed to {0}
 iht.estateReport.assets.moneyOwned = Money owned only by {0}
 
@@ -1808,7 +1808,7 @@ iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
 page.iht.application.liabilities.title = {0}’s debts
 pdf.liabilities.total.title = Total Debts
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold
-iht.estateReport.kickout.nextSteps = You should complete the Inheritance Tax estate report by using an IHT-400 form. When you finish this service, you will be given a copy of the form.
+iht.estateReport.kickout.nextSteps = You must complete the Inheritance Tax estate report by using an IHT-400 form. When you finish this service, you will be given a copy of the form.
 iht.estateReport.kickout.returnToEstateOverview = If you want to change any value
 
 #Kickouts - Estate report -Assets
@@ -2256,7 +2256,7 @@ error.address.length = Enter an address of less than 36 characters
 
 error.cannotSend = The details you have entered could not be sent at the moment.
 error.checkCorrect = Check the details are correct, in the right place and in the right format.
-error.country.select = Select a country
+error.country.select = Enter a country
 
 error.currencyValue.incorrect = Enter a value using only numbers
 error.currencyValue.incorrect.summary = enter a value using only numbers

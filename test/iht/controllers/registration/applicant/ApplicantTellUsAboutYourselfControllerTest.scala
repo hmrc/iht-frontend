@@ -49,7 +49,7 @@ class ApplicantTellUsAboutYourselfControllerTest
  def controller = new ApplicantTellUsAboutYourselfController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector(isAuthorised=true)
-   override val metrics:Metrics = Metrics
+   override val metrics:Metrics = mock[Metrics]
    override val isWhiteListEnabled = false
    override def citizenDetailsConnector = mockCitizenDetailsConnector
  }
@@ -57,7 +57,7 @@ class ApplicantTellUsAboutYourselfControllerTest
   def controllerNotAuthorised = new ApplicantTellUsAboutYourselfController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val metrics:Metrics = Metrics
+    override val metrics:Metrics = mock[Metrics]
     override val isWhiteListEnabled = false
     override def guardConditions: Set[Predicate] = Set((_, _) => true)
     override def citizenDetailsConnector = mockCitizenDetailsConnector
