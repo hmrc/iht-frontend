@@ -90,38 +90,6 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
         messagesApi("page.iht.application.exemptions.charityValue.sectionTitle"))
     }
 
-    "return a view containing the currency symbol" in {
-      createMocksForApplicationWithCharity
-
-      val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include("&pound;")
-    }
-
-    "return a view containing the save and continue button" in {
-      createMocksForApplicationWithCharity
-
-      val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
-    }
-
-    "return a view containing a link with the text to 'Return to add a charity'" in {
-      createMocksForApplicationWithCharity
-
-      val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(
-        messagesApi("iht.estateReport.exemptions.charities.returnToAddACharity"))
-    }
-
-    "return a view containing a link with the href pointing to the overview'" in {
-      pending
-      val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
-      status(result) should be(OK)
-      // Contents should include the route to CharityOverviewController when it exists
-    }
-
     "if the charity with given id does not exist - load should respond with a server error" in {
       createMocksForApplicationWithCharity
 

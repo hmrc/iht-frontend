@@ -88,7 +88,6 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
     }
 
     "respond with OK on page load with correct content" in {
-
       createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -98,31 +97,6 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
       val result = charityNumberController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.charities.charityNo.question"))
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityNumber.p1"))
-      contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityNumber.linkText"))
-      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
-    }
-
-    "respond with OK on page load and correct charity id for first charity" in {
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsTwoCharities),
-        getAppDetails = true)
-
-      val result = charityNumberController.onEditPageLoad("1")(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(CommonHelper.getOrException(charity1.number))
-    }
-
-    "respond with OK on page load and correct charity id for second charity" in {
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsTwoCharities),
-        getAppDetails = true)
-
-      val result = charityNumberController.onEditPageLoad("2")(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(CommonHelper.getOrException(charity2.number))
     }
 
     "if the charity with given id does not exist - load should respond with a server error" in {
