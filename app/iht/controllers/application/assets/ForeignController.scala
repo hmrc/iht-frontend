@@ -30,6 +30,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object ForeignController extends ForeignController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -62,7 +63,7 @@ trait ForeignController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](foreignForm,
         foreign.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionForeignID))
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionForeignID))
       )
     }
   }

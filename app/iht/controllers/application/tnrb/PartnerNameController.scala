@@ -61,7 +61,7 @@ trait PartnerNameController extends EstateController{
             Ok(iht.views.html.application.tnrb.partner_name(
               filledForm,
               CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased,
-              addFragmentIdentifier(cancelUrl, Some(TnrbSpouseNameID))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseNameID))
             )
             )
           }

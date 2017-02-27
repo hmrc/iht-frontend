@@ -28,6 +28,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object InsurancePolicyDetailsJointController extends InsurancePolicyDetailsJointController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -58,7 +59,7 @@ trait InsurancePolicyDetailsJointController extends EstateController {
         insurancePolicyJointQuestionForm,
         insurance_policy_details_joint.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsuranceJointlyHeldYesNoID))
+        CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsuranceJointlyHeldYesNoID))
       )
     }
   }

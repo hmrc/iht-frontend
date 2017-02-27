@@ -59,7 +59,7 @@ trait EstateClaimController extends EstateController{
 
             Ok(iht.views.html.application.tnrb.estate_claim(
               filledForm,
-              addFragmentIdentifier(cancelUrl, Some(TnrbEstateReliefID))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbEstateReliefID))
             ))
           }
           case _ => InternalServerError("Application details not found")

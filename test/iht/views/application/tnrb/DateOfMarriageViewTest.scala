@@ -80,7 +80,7 @@ class DateOfMarriageViewTest extends ViewTestHelper {
     "show the correct return link with text" in {
       implicit val request = createFakeRequest()
 
-      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, TnrbHelper.addFragmentIdentifier(returnLinkTargetUrl, Some(TnrbSpouseDateOfMarriageID))).toString
+      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, CommonHelper.addFragmentIdentifier(returnLinkTargetUrl, Some(TnrbSpouseDateOfMarriageID))).toString
 
       val returnLink = asDocument(view).getElementById(returnLinkId)
       returnLink.attr("href") shouldBe returnLinkTargetUrl.url + "#" + TnrbSpouseDateOfMarriageID

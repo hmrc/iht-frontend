@@ -63,7 +63,7 @@ trait JointlyOwnedAssetsController extends EstateController{
             Ok(iht.views.html.application.tnrb.jointly_owned_assets(
               filledForm,
               deceasedName,
-              addFragmentIdentifier(cancelUrl, Some(TnrbJointAssetsPassedToDeceasedID))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbJointAssetsPassedToDeceasedID))
             ))
           }
           case _ => InternalServerError("Application details not found")

@@ -27,6 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object OwedOutsideUKDebtsController extends OwedOutsideUKDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -59,7 +60,7 @@ trait OwedOutsideUKDebtsController extends EstateController {
         debtsOutsideUkForm,
         owed_outside_uk.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedOutsideUKID))
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedOutsideUKID))
       )
     }
   }

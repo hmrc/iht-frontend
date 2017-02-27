@@ -30,6 +30,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object MoneyOwedController extends MoneyOwedController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -63,7 +64,7 @@ trait MoneyOwedController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](moneyOwedForm,
         money_owed.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionMoneyOwedID))
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionMoneyOwedID))
       )
     }
   }

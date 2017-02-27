@@ -27,7 +27,7 @@ import iht.models.application.gifts.PreviousYearsGifts
 import org.joda.time.{DateTime, LocalDate}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
-import play.api.mvc.{Request, Session}
+import play.api.mvc.{Call, Request, Session}
 import play.api.{Logger, Play}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.Play.current
@@ -474,4 +474,12 @@ object CommonHelper {
       }
       optionSession.fold(session + (Constants.NINO -> currentNino))(identity)
     }
+
+
+  def addFragmentIdentifier(call:Call, identifier:Option[String] = None) = {
+    identifier match {
+      case None => call
+      case Some(id) => Call(call.method, call.url + "#" + id)
+    }
+  }
 }

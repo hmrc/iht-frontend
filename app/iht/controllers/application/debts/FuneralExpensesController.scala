@@ -27,6 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object FuneralExpensesController extends FuneralExpensesController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -59,7 +60,7 @@ trait FuneralExpensesController extends EstateController {
         funeralExpensesForm,
         funeral_expenses.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(debtsRedirectLocation, Some(DebtsFuneralExpensesID))
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsFuneralExpensesID))
       )
     }
   }

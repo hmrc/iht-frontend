@@ -62,7 +62,7 @@ trait GiftsMadeBeforeDeathController extends EstateController{
               filledForm,
               appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              addFragmentIdentifier(cancelUrl, Some(TnrbGiftsGivenAwayID))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbGiftsGivenAwayID))
             )
             )
           }

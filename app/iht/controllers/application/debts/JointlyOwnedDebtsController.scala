@@ -28,6 +28,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object JointlyOwnedDebtsController extends JointlyOwnedDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -60,7 +61,7 @@ trait JointlyOwnedDebtsController extends EstateController {
         jointlyOwnedDebts,
         jointly_owned.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedJointlyID))
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedJointlyID))
       )
     }
   }

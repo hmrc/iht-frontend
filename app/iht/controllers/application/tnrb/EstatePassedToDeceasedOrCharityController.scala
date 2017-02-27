@@ -62,7 +62,7 @@ trait EstatePassedToDeceasedOrCharityController extends EstateController{
             Ok(iht.views.html.application.tnrb.estate_passed_to_deceased_or_charity(
               filledForm,
               deceasedName,
-              addFragmentIdentifier(cancelUrl, Some(TnrbEstatePassedToDeceasedID))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbEstatePassedToDeceasedID))
             ))
           }
           case _ => InternalServerError("Application details not found")

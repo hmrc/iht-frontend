@@ -30,6 +30,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object BusinessInterestsController extends BusinessInterestsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -63,7 +64,7 @@ trait BusinessInterestsController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](businessInterestForm,
         business_interests.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionBusinessInterestID))
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionBusinessInterestID))
       )
     }
   }

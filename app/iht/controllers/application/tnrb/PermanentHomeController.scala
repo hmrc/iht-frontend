@@ -64,7 +64,7 @@ trait PermanentHomeController extends EstateController{
               filledForm,
               appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              addFragmentIdentifier(cancelUrl, Some(TnrbSpousePermanentHomeInUKID)))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpousePermanentHomeInUKID)))
             )
           }
           case _ => InternalServerError("Application details not found")

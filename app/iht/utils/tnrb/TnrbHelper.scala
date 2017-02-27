@@ -37,14 +37,7 @@ object TnrbHelper {
   val tnrbOverviewPage= iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
   val deceasedWidowCheckDatePage= iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
   val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
-
-  def addFragmentIdentifier(call:Call, identifier:Option[String] = None) = {
-    identifier match {
-      case None => call
-      case Some(id) => Call(call.method, call.url + "#" + id)
-    }
-  }
-
+  
   def spouseOrCivilPartnerLabelWithOptions(optionTnrbModel: Option[TnrbEligibiltyModel],
                                 optionWidowCheck: Option[WidowCheck],
                                 optionPrefixText: Option[String]=None): String  = {
@@ -129,12 +122,12 @@ object TnrbHelper {
     if(appDetails.isSuccessfulTnrbCase) {
       Redirect(iht.controllers.application.tnrb.routes.TnrbSuccessController.onPageLoad())
     } else {
-      Redirect(addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), linkHash))
+      Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), linkHash))
     }
   }
 
   def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails, linkHash: Option[String] = None) = if(appDetails.isWidowCheckSectionCompleted) {
-    addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, linkHash)
+    CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, linkHash)
   }else {
     iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrException(appDetails.ihtRef))
   }

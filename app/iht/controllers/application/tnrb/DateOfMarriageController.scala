@@ -73,7 +73,7 @@ trait DateOfMarriageController extends EstateController{
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
               deceasedName,
               predeceasedName(appDetails),
-              addFragmentIdentifier(cancelUrl, Some(TnrbSpouseDateOfMarriageID))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseDateOfMarriageID))
             )
             )
           case _ => InternalServerError("Application details not found")

@@ -30,6 +30,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object NominatedController extends NominatedController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -61,7 +62,7 @@ trait NominatedController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](nominatedForm,
         nominated.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionNominatedID))
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionNominatedID))
       )
     }
   }

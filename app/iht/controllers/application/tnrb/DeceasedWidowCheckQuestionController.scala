@@ -127,7 +127,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
         appDetails =>
           if (appDetails.widowCheck.fold(false)(_.widowed.fold(false)(identity))) {
             appDetails.isWidowCheckSectionCompleted match {
-              case true => Redirect(addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(TnrbSpouseMartialStatusID)))
+              case true => Redirect(CommonHelper.addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(TnrbSpouseMartialStatusID)))
               case _ => Redirect(routes.DeceasedWidowCheckDateController.onPageLoad())
             }
 

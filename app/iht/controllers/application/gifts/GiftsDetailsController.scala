@@ -86,7 +86,7 @@ trait GiftsDetailsController extends EstateController {
             iht.views.html.application.gift.gifts_details(
               form,
               rd,
-              Some(addFragmentIdentifier(cancelUrl.get, Some(GiftsValueDetailID + id.toString))),
+              Some(CommonHelper.addFragmentIdentifier(cancelUrl.get, Some(GiftsValueDetailID + id.toString))),
               cancelLabel
             )
           )
@@ -147,7 +147,7 @@ trait GiftsDetailsController extends EstateController {
             applicationID = previousYearsGifts.yearId)
         }{newAD =>
           ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
-            Redirect(newAD.kickoutReason.fold(addFragmentIdentifier(sevenYearsGiftsRedirectLocation, Some(GiftsValueDetailID + (idToUpdate + 1).toString))) {
+            Redirect(newAD.kickoutReason.fold(CommonHelper.addFragmentIdentifier(sevenYearsGiftsRedirectLocation, Some(GiftsValueDetailID + (idToUpdate + 1).toString))) {
               _ => {
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))

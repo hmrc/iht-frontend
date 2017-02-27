@@ -29,6 +29,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object SevenYearsToTrustController extends SevenYearsToTrustController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -58,7 +59,7 @@ trait SevenYearsToTrustController extends EstateController {
       estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm,
         seven_years_to_trust.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(GiftsSevenYearsQuestionID2))
+        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(GiftsSevenYearsQuestionID2))
       )
     }
   }

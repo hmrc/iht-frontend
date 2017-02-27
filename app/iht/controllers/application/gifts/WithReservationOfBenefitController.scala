@@ -28,6 +28,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 /**
  *
  * Created by Vineet Tyagi on 14/01/16.
@@ -62,7 +63,7 @@ trait WithReservationOfBenefitController extends EstateController{
       estateElementOnSubmit[AllGifts](giftWithReservationFromBenefitForm,
         with_reservation_of_benefit.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(giftsRedirectLocation, Some(GiftsReservationBenefitQuestionID))
+        CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsReservationBenefitQuestionID))
       )
     }
   }

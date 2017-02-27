@@ -65,7 +65,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController{
               filledForm,
               tnrbModel,
               deceasedName,
-              addFragmentIdentifier(cancelUrl, Some(TnrbGiftsWithReservationID))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbGiftsWithReservationID))
             ))
           }
           case _ => InternalServerError("Application details not found")

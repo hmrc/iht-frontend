@@ -35,6 +35,7 @@ import iht.constants.IhtProperties._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.utils.CommonHelper
 
 
 object BenefitFromTrustController extends BenefitFromTrustController with IhtConnectors {
@@ -64,7 +65,7 @@ trait BenefitFromTrustController extends EstateController{
               filledForm,
               appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              addFragmentIdentifier(cancelUrl, Some(TnrbSpouseBenefitFromTrustID)))
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseBenefitFromTrustID)))
             )
           }
           case _ => InternalServerError("Application details not found")

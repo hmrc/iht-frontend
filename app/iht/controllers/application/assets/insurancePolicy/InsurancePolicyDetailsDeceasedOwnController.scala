@@ -28,6 +28,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object InsurancePolicyDetailsDeceasedOwnController extends InsurancePolicyDetailsDeceasedOwnController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -59,7 +60,7 @@ trait InsurancePolicyDetailsDeceasedOwnController extends EstateController {
         insurancePolicyDeceasedOwnQuestionForm,
         insurance_policy_details_deceased_own.apply,
         updateApplicationDetails,
-        addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePayingToDeceasedYesNoID))
+        CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePayingToDeceasedYesNoID))
       )
     }
   }
