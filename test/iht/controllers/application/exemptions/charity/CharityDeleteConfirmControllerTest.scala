@@ -95,31 +95,6 @@ class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with 
       status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityDelete.sectionTitle"))
     }
-
-    "display main back link text" in {
-      createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsTwoCharities),
-        getAppDetails = true)
-
-      val result = charityDeleteConfirmController.onPageLoad("1")(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"))
-    }
-
-    "contain href with link back to overview page" in {
-      pending
-      createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsTwoCharities),
-        getAppDetails = true)
-
-      val result = charityDeleteConfirmController.onPageLoad("1")(createFakeRequest())
-      status(result) shouldBe OK
-      //TODO Should link to charities overview page when it exists
-    }
   }
 
   "display a confirm and delete button" in {
@@ -133,18 +108,6 @@ class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with 
     status(result) shouldBe OK
     contentAsString(result) should include(messagesApi("site.button.confirmDelete"))
 
-  }
-
-  "display the charity name in" in {
-    createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
-    createMocksForApplication(mockCachingConnector,
-      mockIhtConnector,
-      appDetails = Some(applicationDetailsTwoCharities),
-      getAppDetails = true)
-
-    val result = charityDeleteConfirmController.onPageLoad("1")(createFakeRequest())
-    status(result) shouldBe OK
-    contentAsString(result) should include(charity1.name.get)
   }
 
   "when given a valid charity id the charity should redirect" in {

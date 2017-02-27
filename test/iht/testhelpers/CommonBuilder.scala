@@ -507,6 +507,13 @@ object CommonBuilder {
     totalValue = Some(44.45)
   )
 
+  val charity2 = Charity(
+    id = Some(DefaultId),
+    name = Some("A Charity"),
+    number = Some("1234567"),
+    totalValue = Some(45.44)
+  )
+
   val qualifyingBody = QualifyingBody(
     id = Some("1"),
     name = Some("Qualifying Body"),
