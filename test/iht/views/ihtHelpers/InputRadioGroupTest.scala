@@ -29,8 +29,9 @@ import uk.gov.hmrc.play.test.UnitSpec
  */
 class InputRadioGroupTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
-  def view(args: (Symbol, Any)*) = {
-    val radio = Seq(("a", "b"), ("c", "d"))
+  val items = Seq(("a", "b"), ("c", "d"))
+
+  def view(radio: Seq[(String,String)], args: (Symbol, Any)*) = {
     val form = Form("testing" -> optional(text))
     val field = form("testing")
     input_radio_group(field, radio, args: _*)
@@ -38,20 +39,27 @@ class InputRadioGroupTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
   "input radio group" must {
     "display the correct data-target attribute based on field mappings" in {
-      val doc = asDocument(view())
+      val doc = asDocument(view(items))
+      doc.getElementById("testing-a-label").text shouldBe "b"
+      doc.getElementById("testing-c-label").text shouldBe "d"
+    }
+
+    "display the correct data-target attribute based on field mappings where space in label" in {
+      val itemsWithSpaces = Seq(("a", "b"), ("c", "d"))
+      val doc = asDocument(view(itemsWithSpaces))
       doc.getElementById("testing-a-label").text shouldBe "b"
       doc.getElementById("testing-c-label").text shouldBe "d"
     }
 
     "display the legend when specified" in {
       val expectedLegend = "test-legend"
-      val doc = asDocument(view('_legend -> expectedLegend))
+      val doc = asDocument(view(items, '_legend -> expectedLegend))
       doc.getElementById("testing-container").getElementsByTag("legend").first.text shouldBe expectedLegend
     }
 
     "display the hint text when specified" in {
       val expectedHint = "test-hint"
-      val doc = asDocument(view('_hintText -> expectedHint))
+      val doc = asDocument(view(items, '_hintText -> expectedHint))
       doc.getElementsByTag("div").first.children.first.text shouldBe expectedHint
     }
   }
