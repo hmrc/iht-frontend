@@ -16,6 +16,7 @@
 
 package iht.views.application.assets
 
+import iht.controllers.application.assets.routes
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
@@ -28,6 +29,7 @@ import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import play.api.i18n.Messages
 
 class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
@@ -45,6 +47,7 @@ class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateEle
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.ForeignController.onSubmit)
   override def linkHash = AppSectionForeignID
 
   "Foreign assets view" must {

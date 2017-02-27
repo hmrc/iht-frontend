@@ -25,12 +25,14 @@ import iht.views.html.application.debts.jointly_owned
 import iht.views.html.application.debts.{funeral_expenses, jointly_owned}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.controllers.application.debts.routes
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 
 /**
   * Created by vineet on 15/11/16.
   */
+
 class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
@@ -44,12 +46,18 @@ class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementL
 
   override def pageTitle = messagesApi("iht.estateReport.debts.owedOnJointAssets")
   override def browserTitle = messagesApi("page.iht.application.debts.jointlyOwned.browserTitle")
-  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.jointlyOwned.description.p1",
-                                                  CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+
+  override def guidance  = guidance(
+    Set(messagesApi("page.iht.application.debts.jointlyOwned.description.p1",
+      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+  )
+
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.jointlyOwned.isOwned")
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.owedOnJointAssets.value")
   override def inputValueFieldHintText = messagesApi("page.iht.application.debts.jointlyOwned.description.p2")
   override def linkHash = DebtsOwedJointlyID
+
+  override def formTarget = Some(routes.JointlyOwnedDebtsController.onSubmit)
 
   "JointlyOwnedView" must {
     behave like debtsElement

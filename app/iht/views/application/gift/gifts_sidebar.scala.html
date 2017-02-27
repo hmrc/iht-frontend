@@ -14,11 +14,16 @@
 * limitations under the License.
 *@
 
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+
+
 @(relevantSectionGuidanceUrl: Call,
 messageKeyUrl: String,
-messageKeyAccessibility: String)(implicit request:Request[_], messages: Messages)
+messageKeyAccessibility: String
+)(implicit request:Request[_], messages: Messages)
 <div class="section--blue-top">
-    <h2 id="get-help-text">Get help</h2>
+    <h2 id="get-help-text">@Messages("site.getHelp")</h2>
     <p>
         <a id='whatIsAGift' href=@relevantSectionGuidanceUrl>@Messages(messageKeyUrl)</a>
     </p>

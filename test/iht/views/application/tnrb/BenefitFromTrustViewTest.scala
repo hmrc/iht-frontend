@@ -27,7 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
 class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 

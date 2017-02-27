@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.views.assets
+package iht.views.application.assets
 
 import iht.FakeIhtApp
 import iht.controllers.application.assets.pensions.routes._

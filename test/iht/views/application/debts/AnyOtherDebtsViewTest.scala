@@ -26,10 +26,12 @@ import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.controllers.application.debts.routes
 
 /**
   * Created by vineet on 15/11/16.
   */
+
 class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
@@ -43,13 +45,19 @@ class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def pageTitle = messagesApi("iht.estateReport.debts.other.title")
   override def browserTitle = messagesApi("page.iht.application.debts.other.browserTitle")
-  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.other.description.p1"),
-                                        messagesApi("page.iht.application.debts.other.description.p2",
-                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
-                                        messagesApi("page.iht.application.debts.other.description.p3"))
+
+  override def guidance  = guidance(
+    Set(messagesApi("page.iht.application.debts.other.description.p1"),
+      messagesApi("page.iht.application.debts.other.description.p2",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      messagesApi("page.iht.application.debts.other.description.p3"))
+  )
+
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.other.isOwned")
   override def inputValueFieldLabel = messagesApi("page.iht.application.debts.other.inputLabel1")
   override def linkHash = DebtsOtherID
+
+  override def formTarget = Some(routes.AnyOtherDebtsController.onSubmit)
 
  "AnyOtherDebtsView" must {
     behave like debtsElement

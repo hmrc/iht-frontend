@@ -92,17 +92,6 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       status(result) shouldBe OK
     }
 
-    "display the guidance on the page" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-
-      setUpMocks(applicationDetails)
-
-      val result = givenAwayController.onPageLoad (createFakeRequest())
-      status(result) shouldBe OK
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.lastYears.givenAway.p2",
-                                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-    }
-
     "save application and go to Gifts Overview page on submit if answered Yes" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
                                           allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))))
@@ -136,7 +125,7 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
                                             allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
                                               isReservation = Some(false), isToTrust = Some(false),
                                               isGivenInLast7Years = Some(false))),
-                                            giftsList = CommonBuilder.buildGiftsList)
+                                            giftsList = Some(CommonBuilder.buildGiftsList))
 
       setUpMocks(applicationDetails)
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false))

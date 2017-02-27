@@ -16,11 +16,11 @@
 
 package iht.views.application.assets
 
+import iht.controllers.application.assets.routes
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.nominated
 import play.api.i18n.Messages.Implicits._
@@ -29,7 +29,7 @@ import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 
-class NominatedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
+class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -45,10 +45,11 @@ class NominatedViewTest extends ViewTestHelper with ShareableElementInputViewBeh
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.NominatedController.onSubmit)
   override def linkHash = AppSectionNominatedID
 
   "Nominated assets view" must {
-    behave like yesNoValueView
+    behave like yesNoValueViewWithErrorSummaryBox
 
     "show the correct guidance" in {
       messagesShouldBePresent(view,

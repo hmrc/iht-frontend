@@ -62,7 +62,7 @@ class DeclarationHelperTest extends ApplicationControllerTest {
       val appDetailsWithRequiredValues = appDetails.copy(
         allAssets = Some(buildAllAssetsWithAllSectionsFilled),
         allGifts = Some(buildAllGiftsWithValues),
-        giftsList = buildGiftsList,
+        giftsList = Some(buildGiftsList),
         allLiabilities = Some(buildAllLiabilitiesWithAllSectionsFilled.copy(funeralExpenses =
           Some(BasicEstateElementLiabilities(value = Some(BigDecimal(4000)), isOwned = Some(true))))),
         allExemptions = Some(buildAllExemptions.copy(
@@ -79,7 +79,7 @@ class DeclarationHelperTest extends ApplicationControllerTest {
       val appDetailsWithRequiredValues = appDetails.copy(
         allAssets = Some(buildAllAssetsWithAllSectionsFilled),
         allGifts = Some(buildAllGiftsWithValues),
-        giftsList = buildGiftsList,
+        giftsList = Some(buildGiftsList),
         allLiabilities = Some(buildAllLiabilitiesWithAllSectionsFilled.copy(funeralExpenses =
           Some(BasicEstateElementLiabilities(value = Some(BigDecimal(4000)), isOwned = Some(true))))),
         increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility.copy(
@@ -96,7 +96,7 @@ class DeclarationHelperTest extends ApplicationControllerTest {
       val appDetailsWithRequiredValues = appDetails.copy(
         allAssets = Some(buildAllAssetsWithAllSectionsFilled),
         allGifts = Some(buildAllGiftsWithValues),
-        giftsList = buildGiftsList,
+        giftsList = Some(buildGiftsList),
         allLiabilities = Some(buildAllLiabilitiesWithAllSectionsFilled.copy(funeralExpenses =
           Some(BasicEstateElementLiabilities(value = Some(BigDecimal(4000)), isOwned = Some(true))))),
         allExemptions = Some(buildAllExemptions.copy(

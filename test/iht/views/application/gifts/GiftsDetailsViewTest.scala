@@ -17,13 +17,17 @@
 package iht.views.application.gifts
 
 import iht.forms.ApplicationForms._
+import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.gift.gifts_details
+import play.api.data.Form
+import play.api.i18n.Messages
+import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
 
-class GiftsDetailsViewTest extends ViewTestHelper {
 
+class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousYearsGifts] {
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
   lazy val returnLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
@@ -32,50 +36,44 @@ class GiftsDetailsViewTest extends ViewTestHelper {
   lazy val giftsValue = BigDecimal(200)
   lazy val exemptionsValue = BigDecimal(100)
 
-  def giftsDetailsView() = {
-    implicit val request = createFakeRequest()
+  def pageTitle: String = messagesApi("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007")
 
+  def browserTitle: String = messagesApi("page.iht.application.giftsDetails.browserTitle")
+
+  override def guidance = noGuidance
+
+  override def formTarget = Some(iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit())
+
+  override def cancelComponent = Some(
+    CancelComponent(
+      returnLocation,
+      messagesApi(returnLinkLabelMsgKey)
+    )
+  )
+
+  override def form: Form[PreviousYearsGifts] = {
     val previousYearsGifts = CommonBuilder.buildPreviousYearsGifts.copy(yearId = Some("1"),
-                               value  = Some(giftsValue), exemptions = Some(exemptionsValue),
-                               startDate = Some("13 March 2007"),endDate = Some("5 April 2007"))
+      value = Some(giftsValue), exemptions = Some(exemptionsValue),
+      startDate = Some("13 March 2007"), endDate = Some("5 April 2007"))
 
-    val filledPreviousYearsGiftsForm = previousYearsGiftsForm.fill(previousYearsGifts)
-
-    val view = gifts_details(filledPreviousYearsGiftsForm,
-                            regDetails,
-                            Some(returnLocation),
-                            Some(messagesApi(returnLinkLabelMsgKey))).toString()
-    asDocument(view)
+    previousYearsGiftsForm.fill(previousYearsGifts)
   }
+
+  override def formToView: Form[PreviousYearsGifts] => Appendable =
+    form =>
+      gifts_details(form,
+        regDetails,
+        Some(returnLocation),
+        Some(messagesApi(returnLinkLabelMsgKey)))
+
+  override val cancelId = "cancel-button"
 
   "GiftsOverview view" must {
 
-    "have correct title and browser title " in {
-      val view = giftsDetailsView().toString
-
-      titleShouldBeCorrect(view, messagesApi("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007"))
-      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.giftsDetails.browserTitle"))
-    }
-
-    "have 'Save and continue' button" in {
-      val view = giftsDetailsView()
-
-      val saveAndContinueButton = view.getElementById("save-continue")
-      saveAndContinueButton.getElementsByAttributeValueContaining("value", messagesApi("iht.saveAndContinue"))
-    }
-
-    "have the return link with correct text" in {
-      val view = giftsDetailsView()
-
-      val returnLink = view.getElementById("cancel-button")
-      returnLink.attr("href") shouldBe returnLocation.url
-      returnLink.text() shouldBe messagesApi(returnLinkLabelMsgKey)
-    }
+    behave like applicationPageWithErrorSummaryBox()
 
     "have correct gifts given away input text labels and value" in {
-      val view = giftsDetailsView()
-
-      val giftsGivenAwaySection = view.getElementById("value-container")
+      val giftsGivenAwaySection = doc.getElementById("value-container")
       val giftsGivenAwaySectionText = giftsGivenAwaySection.getElementsByTag("span").get(0)
       val giftsGivenAwaySectionValue = giftsGivenAwaySection.getElementsByTag("span").get(1)
 
@@ -84,9 +82,8 @@ class GiftsDetailsViewTest extends ViewTestHelper {
     }
 
     "have correct exemptions being claimed input text labels and value" in {
-      val view = giftsDetailsView()
 
-      val exemptionsClaimedSection = view.getElementById("exemptions-container")
+      val exemptionsClaimedSection = doc.getElementById("exemptions-container")
       val exemptionsClaimedSectionText = exemptionsClaimedSection.getElementsByTag("span").get(0)
       val exemptionsClaimedSectionValue = exemptionsClaimedSection.getElementsByTag("span").get(1)
 
@@ -95,9 +92,7 @@ class GiftsDetailsViewTest extends ViewTestHelper {
     }
 
     "show amount added to the estate value label with correct value" in {
-      val view = giftsDetailsView()
-
-      val amountAddedSection = view.getElementById("value-of-gifts-added")
+      val amountAddedSection = doc.getElementById("value-of-gifts-added")
       amountAddedSection.attr("data-combine-copy", messagesApi("page.iht.application.giftsDetails.amountAdded"))
     }
 

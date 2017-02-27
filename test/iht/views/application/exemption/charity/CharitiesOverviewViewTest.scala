@@ -18,66 +18,111 @@ package iht.views.application.exemption.charity
 
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
-import iht.utils.OverviewHelper.Section
-import iht.views.ViewTestHelper
-import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.exemption.charity.charities_overview
+import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
-//TODO Need to add few more tests to write the tests for correct values
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class CharitiesOverviewViewTest extends ViewTestHelper {
+trait CharitiesOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
-  lazy val ihtRef = "ABC123"
-  lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
-  lazy val appDetails = CommonBuilder.buildApplicationDetails
-  lazy val exemptionsOverviewPageUrl = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-  lazy val  charityDetailsPageUrl= iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad()
+  def registrationDetails = CommonBuilder.buildRegistrationDetails1
 
-  def charitiesOverviewView() = {
-    implicit val request = createFakeRequest()
-    
-    val view = charities_overview(Nil, regDetails, true).toString()
-    asDocument(view)
+  def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
+
+  override def guidanceParagraphs = Set(
+    messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
+      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))
+  )
+
+  override def pageTitle = messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharities.title", deceasedName)
+
+  override def browserTitle = messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharities.title")
+
+  override def exitComponent = Some(
+    ExitComponent(
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName)
+    )
+  )
+}
+
+class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
+  val charityName1 = CommonBuilder.charity.map(_.name).fold("")(identity)
+  val charityValue1 = CommonBuilder.currencyValue(CommonBuilder.charity.map(_.totalValue).fold(BigDecimal(0))(identity))
+  val charityName2 = CommonBuilder.charity2.map(_.name).fold("")(identity)
+  val charityValue2 = CommonBuilder.currencyValue(CommonBuilder.charity2.map(_.totalValue).fold(BigDecimal(0))(identity))
+
+  val charityTableId = "charities_table"
+
+  override def view =
+    charities_overview(
+      Seq(CommonBuilder.charity, CommonBuilder.charity2),
+      registrationDetails,
+      isAssetLeftToCharity = true
+    ).toString()
+
+  def charityWithDeleteAndModify(rowNo: Int, expectedName: String, expectedValue: String) = {
+    s"show charity number ${rowNo + 1} name" in {
+      tableCell(doc, charityTableId, 0, rowNo).ownText shouldBe expectedName
+    }
+
+    s"show charity number ${rowNo + 1} value" in {
+      tableCell(doc, charityTableId, 1, rowNo).text shouldBe expectedValue
+    }
+
+    s"show charity number ${rowNo + 1} change link" in {
+      val div = tableCell(doc, charityTableId, 2, rowNo)
+      val anchor = div.getElementsByTag("a").first
+      getVisibleText(anchor) shouldBe messagesApi("iht.delete")
+    }
+
+    s"show charity number ${rowNo + 1} delete link" in {
+      val div = tableCell(doc, charityTableId, 3, rowNo)
+      val anchor = div.getElementsByTag("a").first
+      getVisibleText(anchor) shouldBe messagesApi("iht.change")
+    }
   }
 
-  "CharitiesOverview view" must {
+  "Charities overview view" must {
+    behave like nonSubmittablePage()
 
-    "have correct title and browser title " in {
-      val view = charitiesOverviewView().toString
+    behave like link("add-charity",
+      iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad().url,
+      messagesApi("page.iht.application.exemptions.assetLeftToCharity.addCharity"))
 
-      titleShouldBeCorrect(view, messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"))
-      browserTitleShouldBeCorrect(view, messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"))
+    "show ownership question" in {
+      elementShouldHaveText(doc, "charities-question", messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question", deceasedName))
     }
 
-    "have correct questions" in {
-      val view = charitiesOverviewView()
-      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
-                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+    "show ownership question value" in {
+      elementShouldHaveText(doc, "charities-value", messagesApi("iht.yes"))
     }
 
-    "have Add a charity link with correct target" in {
-      val view = charitiesOverviewView()
+    behave like link("charities-link",
+      iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad().url,
+      messagesApi("iht.change"))
 
-      val returnLink = view.getElementById("add-charity")
-      returnLink.attr("href") shouldBe charityDetailsPageUrl.url
-      returnLink.text() shouldBe messagesApi("page.iht.application.exemptions.assetLeftToCharity.addCharity")
-    }
+    behave like charityWithDeleteAndModify(0, charityName1, charityValue1)
 
-    "show no charities added message when the is no charity present" in {
-      val view = charitiesOverviewView()
-
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.charityOverview.noCharities.text"))
-    }
-
-    "have the return link with correct text" in {
-      val view = charitiesOverviewView()
-
-      val returnLink = view.getElementById("return-button")
-      returnLink.attr("href") shouldBe exemptionsOverviewPageUrl.url
-      returnLink.text() shouldBe messagesApi("page.iht.application.return.to.exemptionsOf",
-                                          CommonHelper.getOrException(regDetails.deceasedDetails.map(_.name)))
-    }
-
+    behave like charityWithDeleteAndModify(1, charityName2, charityValue2)
   }
+}
 
+class CharitiesOverviewViewWithNoBodiesTest extends CharitiesOverviewViewBehaviour {
+  override def view =
+    charities_overview(
+      Seq.empty,
+      registrationDetails,
+      isAssetLeftToCharity = true
+    ).toString()
+
+  "Charities overview view with no qualifying bodies" must {
+    behave like link("add-charity",
+      iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad().url,
+      messagesApi("page.iht.application.exemptions.assetLeftToCharity.addCharity"))
+  }
 }

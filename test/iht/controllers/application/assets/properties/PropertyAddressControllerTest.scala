@@ -82,12 +82,6 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
       val result = propertyAddressController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
       contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
-      contentAsString(result) should include (messagesApi("iht.address.line1"))
-      contentAsString(result) should include (messagesApi("iht.address.line2"))
-      contentAsString(result) should include (messagesApi("iht.address.line3"))
-      contentAsString(result) should include (messagesApi("iht.address.line4"))
-      contentAsString(result) should include (messagesApi("iht.postcode"))
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.returnToAddAProperty"))
     }
 
     "display the correct title on page in edit mode" in {

@@ -19,7 +19,7 @@ package iht.views.application
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.data.{Form, FormError}
-import play.api.mvc.AnyContentAsEmpty
+import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
 
@@ -33,6 +33,9 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
   def valueQuestionHelp: String
   def returnLinkText: String
   def returnLinkUrl: String
+  def formTarget: Option[Call]
+  def valueInputBoxId: String = "value"
+  def shareValueInputBoxId: String = "shareValue"
   def linkHash: String = ""
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -41,9 +44,9 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
   def form:Form[A] = ???
   def formToView:Form[A] => Appendable = ???
 
-  def yesNoValueView() = viewBehaviour("value")
+  def yesNoValueView() = viewBehaviour(valueInputBoxId)
 
-  def yesNoValueViewJoint() = viewBehaviour("shareValue")
+  def yesNoValueViewJoint() = viewBehaviour(shareValueInputBoxId)
 
   private def viewBehaviour(valueId: String) = {
     "have the correct title" in {
@@ -91,11 +94,19 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
         link.attr("href") shouldBe returnLinkUrl
       }
     }
+
+    if (formTarget.isDefined) {
+      "have the Save/Continue button with the correct target" in {
+        formTarget.foreach { target =>
+          doc.getElementsByTag("form").attr("action") shouldBe target.url
+        }
+      }
+    }
   }
 
   def yesNoValueViewWithErrorSummaryBox(): Unit = {
 
-    viewBehaviour("value")
+    viewBehaviour(valueInputBoxId)
 
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))
@@ -106,7 +117,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
   def yesNoValueViewJointWithErrorSummaryBox(): Unit = {
 
-    viewBehaviour("shareValue")
+    viewBehaviour(shareValueInputBoxId)
 
     "display the 'There's a problem' box if there's an error" in {
       val newForm = form.withError(FormError("field", "error message"))

@@ -30,7 +30,7 @@ import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 
-class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[InsurancePolicy]{
+class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[InsurancePolicy]{
 
     lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -46,6 +46,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ViewTestHelper with Shar
     override def valueQuestionHelp = ""
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
+    override def formTarget =Some(routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit)
     override def linkHash = InsurancePayingToDeceasedYesNoID
 
     "InsurancePolicyDetailsDeceasedOwn view" must {

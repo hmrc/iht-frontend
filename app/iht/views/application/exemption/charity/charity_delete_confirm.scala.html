@@ -28,7 +28,7 @@ browserTitle = Some(Messages("page.iht.application.exemptions.charityDelete.brow
 isFullWidth=false){
 @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 <div class="panel-indent">
-    <p>
+    <p id="charity-name">
         <strong>@if(charityName.isEmpty){
             @Messages("iht.estateReport.exemptions.charities.noNameAdded")
             } else { @ihtHelpers.name(charityName) }
@@ -39,7 +39,7 @@ isFullWidth=false){
         <button class="button" id="confirm-delete" name="action" value="save">@Messages("site.button.confirmDelete")</button>
     </div>
 
-    <a href="@iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad">@Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities")</a>
+    <a id="return-link" href="@iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad">@Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities")</a>
 
 }
 }

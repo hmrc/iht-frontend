@@ -26,6 +26,7 @@ import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.controllers.application.debts.routes
 
 /**
   * Created by vineet on 15/11/16.
@@ -43,12 +44,18 @@ class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateEleme
 
   override def pageTitle = messagesApi("iht.estateReport.debts.funeralExpenses.title")
   override def browserTitle = messagesApi("iht.estateReport.debts.funeralExpenses.title")
-  override def guidanceParagraphs = Set(messagesApi("page.iht.application.debts.funeralExpenses.description.p1"),
-                                        messagesApi("page.iht.application.debts.funeralExpenses.description.p2",
-                                                     CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.funeralExpenses.isOwned")
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.valueOfFuneralCosts")
   override def linkHash = DebtsFuneralExpensesID
+
+  override def guidance  = guidance(
+    Set(messagesApi("page.iht.application.debts.funeralExpenses.description.p1"),
+      messagesApi("page.iht.application.debts.funeralExpenses.description.p2",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+  )
+
+  override def formTarget = Some(routes.FuneralExpensesController.onSubmit)
 
   "FuneralExpensesView" must {
     behave like debtsElement

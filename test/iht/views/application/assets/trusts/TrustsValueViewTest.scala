@@ -30,7 +30,7 @@ class TrustsValueViewTest extends ValueViewBehaviour[HeldInTrust] {
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   override def pageTitle = messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName)
 

@@ -16,6 +16,7 @@
 
 package iht.views.application.assets
 
+import iht.controllers.application.assets.routes
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
@@ -28,6 +29,7 @@ import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import play.api.i18n.Messages
 
 class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
@@ -45,6 +47,7 @@ class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[Basi
   override def valueQuestionHelp = messagesApi("page.iht.application.assets.businessInterest.hint")
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.BusinessInterestsController.onSubmit)
   override def linkHash = AppSectionBusinessInterestID
 
   "Business Interests view" must {
