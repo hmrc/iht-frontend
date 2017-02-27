@@ -76,17 +76,17 @@ class PartnerOverviewViewTest extends PartnerOverviewViewBehaviour {
   "Qualifying body details overview view" must {
     behave like nonSubmittablePage()
 
-    behave like propertyAttributeWithValueAndChange(0,
-      messagesApi("iht.estateReport.partner.partnerName"),
-      CommonBuilder.partner.map(_.name).fold("")(identity),
-      messagesApi("iht.change")
-    )
-
-    behave like propertyAttributeWithValueAndChange(1,
-      messagesApi("page.iht.application.exemptions.overview.partner.detailsOverview.value.title"),
-      CommonBuilder.currencyValue(getOrException(CommonBuilder.partner.map(_.totalValue))),
-      messagesApi("iht.change")
-    )
+//    behave like propertyAttributeWithValueAndChange(0,
+//      messagesApi("iht.estateReport.partner.partnerName"),
+//      CommonBuilder.partner.map(_.name).fold("")(identity),
+//      messagesApi("iht.change")
+//    )
+//
+//    behave like propertyAttributeWithValueAndChange(1,
+//      messagesApi("page.iht.application.exemptions.overview.partner.detailsOverview.value.title"),
+//      CommonBuilder.currencyValue(getOrException(CommonBuilder.partner.map(_.totalValue))),
+//      messagesApi("iht.change")
+//    )
   }
 }
 
