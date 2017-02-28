@@ -59,7 +59,8 @@ class SevenYearsToTrustViewTest extends SubmittableApplicationPageBehaviour[AllG
     CancelComponent(
       iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
       messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
-        CommonHelper.getOrException(regDetails.deceasedDetails).name)
+        CommonHelper.getOrException(regDetails.deceasedDetails).name),
+      TestHelper.GiftsSevenYearsQuestionID2
     )
   )
 

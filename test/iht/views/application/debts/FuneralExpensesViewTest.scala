@@ -47,7 +47,7 @@ class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateEleme
 
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.funeralExpenses.isOwned")
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.valueOfFuneralCosts")
-  override def linkHash = DebtsFuneralExpensesID
+  override def linkHash = TestHelper.DebtsFuneralExpensesID
 
   override def guidance  = guidance(
     Set(messagesApi("page.iht.application.debts.funeralExpenses.description.p1"),

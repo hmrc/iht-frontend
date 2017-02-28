@@ -63,11 +63,12 @@ class SevenYearsGivenInLast7YearsViewTest extends SubmittableApplicationPageBeha
     CancelComponent(
       iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
       messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
-        CommonHelper.getOrException(regDetails.deceasedDetails).name)
+        CommonHelper.getOrException(regDetails.deceasedDetails).name),
+      TestHelper.GiftsSevenYearsQuestionID
     )
   )
 
-  override def linkHash = GiftsSevenYearsQuestionID
+  override def linkHash = TestHelper.GiftsSevenYearsQuestionID
 
   override def form: Form[AllGifts] = giftSevenYearsGivenInLast7YearsForm
 

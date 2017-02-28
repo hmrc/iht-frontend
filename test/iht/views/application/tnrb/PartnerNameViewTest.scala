@@ -19,6 +19,8 @@ package iht.views.application.tnrb
 import iht.forms.TnrbForms._
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
+import iht.utils.CommonHelper
+import iht.testhelpers.TestHelper
 import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.tnrb.partner_name
 import org.joda.time.LocalDate
@@ -50,13 +52,17 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      partner_name(form, Some(new LocalDate(2000,10,1)), CommonBuilder.DefaultCall2)
+      partner_name(form, Some(new LocalDate(2000,10,1)),
+        CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), Some(TestHelper.TnrbSpouseNameID))
+        )
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(),
-      messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold"))
+      messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold"),
+      TestHelper.TnrbSpouseNameID
+    )
   )
 
   "Gifts With Reservation Of Benefit page Question View" must {

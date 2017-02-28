@@ -19,7 +19,7 @@ package iht.views
 import org.jsoup.nodes.{Document, Element}
 import play.api.mvc.Call
 
-case class ExitComponent(target: Call, content: String)
+case class ExitComponent(target: Call, content: String, hash: String = "")
 
 trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
   def guidanceParagraphs: Set[String]
@@ -55,7 +55,11 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
       "show the exit link with the correct target and text" in {
         exitComponent.foreach { attrib =>
           val anchor = doc.getElementById(exitId)
-          anchor.attr("href") shouldBe attrib.target.url
+          if(attrib.hash > ""){
+            anchor.attr("href") shouldBe attrib.target.url + "#" + attrib.hash
+          } else {
+            anchor.attr("href") shouldBe attrib.target.url
+          }
           anchor.text() shouldBe attrib.content
         }
       }

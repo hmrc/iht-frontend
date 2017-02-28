@@ -32,7 +32,8 @@ trait DebtsElementViewBehaviour[A] extends ApplicationPageBehaviour {
   override def cancelComponent = Some(
     CancelComponent(
       routes.DebtsOverviewController.onPageLoad,
-      messagesApi("site.link.return.debts")
+      messagesApi("site.link.return.debts"),
+      linkHash
     )
   )
 

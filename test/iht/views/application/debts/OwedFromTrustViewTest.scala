@@ -55,7 +55,7 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour[BasicEstateElement
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsTrust.isOwned",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.debtsTrust.value")
-  override def linkHash = DebtsOwedFromTrustID
+  override def linkHash = TestHelper.DebtsOwedFromTrustID
 
   override def formTarget = Some(routes.DebtsOwedFromATrustController.onSubmit)
 

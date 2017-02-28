@@ -76,11 +76,7 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
     if (formTarget.isDefined) {
       "show the Save/Continue button with the correct target" in {
         formTarget.foreach { target =>
-          if(linkHash > ""){
-            doc.getElementsByTag("form").attr("action") shouldBe target.url + "#" + linkHash
-          } else {
-            doc.getElementsByTag("form").attr("action") shouldBe target.url
-          }
+          doc.getElementsByTag("form").attr("action") shouldBe target.url
         }
         doc.getElementById(continueId).text shouldBe messagesApi(continueContent)
       }

@@ -57,7 +57,8 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
   override def cancelComponent = Some(
     CancelComponent(
       debtsOverviewPageUrl,
-      returnLinkText
+      returnLinkText,
+      TestHelper.DebtsMortgagesID
     )
   )
 

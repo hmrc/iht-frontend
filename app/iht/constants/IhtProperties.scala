@@ -128,6 +128,10 @@ object IhtProperties {
     headers
   }
 
+  /*
+  * Fragment Identifiers
+  * Used to return user to where they were in a list
+  * */
   lazy val AppSectionPropertiesID =  getProperty("AppSectionPropertiesID")
   lazy val AppSectionMoneyID =  getProperty("AppSectionMoneyID")
   lazy val AppSectionHouseholdID =  getProperty("AppSectionHouseholdID")
@@ -143,7 +147,7 @@ object IhtProperties {
   lazy val AppSectionOtherID =  getProperty("AppSectionOtherID")
   lazy val GiftsGivenAwayQuestionID =  getProperty("GiftsGivenAwayQuestionID")
   lazy val GiftsReservationBenefitSectionID =  getProperty("GiftsReservationBenefitSectionID")
-  lazy val GiftsReservationBenefitQuestionID =  getProperty("GiftsReservationBenefitQuestionID")
+  lazy val GiftsReservationBenefitQuestionID = getProperty("GiftsReservationBenefitQuestionID")
   lazy val GiftsSevenYearsSectionID =  getProperty("GiftsSevenYearsSectionID")
   lazy val GiftsSevenYearsQuestionID =  getProperty("GiftsSevenYearsQuestionID")
   lazy val GiftsSevenYearsQuestionID2 =  getProperty("GiftsSevenYearsQuestionID2")

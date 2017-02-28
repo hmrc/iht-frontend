@@ -52,7 +52,7 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsOutsideUk.isOwned")
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.owedOutsideUK.value")
-  override def linkHash = DebtsOwedOutsideUKID
+  override def linkHash = TestHelper.DebtsOwedOutsideUKID
 
   override def formTarget = Some(routes.OwedOutsideUKDebtsController.onSubmit)
 

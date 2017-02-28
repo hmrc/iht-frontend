@@ -29,6 +29,8 @@ trait SubmittableApplicationPageBehaviour[A] extends ApplicationPageBehaviour {
 
   def formToView: Form[A] => Appendable
 
+  override def linkHash: String = ""
+
   def applicationPageWithErrorSummaryBox() = {
     applicationPage()
     "display the 'There's a problem' box if there's an error" in {
@@ -46,7 +48,11 @@ trait SubmittableApplicationPageBehaviour[A] extends ApplicationPageBehaviour {
       continueLink.attr("value") shouldBe messagesApi("iht.continue")
 
       val cancelLink = view.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe cancelUrl.url
+      if(linkHash > ""){
+        cancelLink.attr("href") shouldBe cancelUrl.url + "#" + linkHash
+      } else {
+        cancelLink.attr("href") shouldBe cancelUrl.url
+      }
       cancelLink.text() shouldBe messagesApi("site.link.cancel")
     }
   }

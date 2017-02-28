@@ -55,7 +55,7 @@ class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementL
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.jointlyOwned.isOwned")
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.owedOnJointAssets.value")
   override def inputValueFieldHintText = messagesApi("page.iht.application.debts.jointlyOwned.description.p2")
-  override def linkHash = DebtsOwedJointlyID
+  override def linkHash = TestHelper.DebtsOwedJointlyID
 
   override def formTarget = Some(routes.JointlyOwnedDebtsController.onSubmit)
 

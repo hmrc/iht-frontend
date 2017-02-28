@@ -55,7 +55,7 @@ class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.other.isOwned")
   override def inputValueFieldLabel = messagesApi("page.iht.application.debts.other.inputLabel1")
-  override def linkHash = DebtsOtherID
+  override def linkHash = TestHelper.DebtsOtherID
 
   override def formTarget = Some(routes.AnyOtherDebtsController.onSubmit)
 
