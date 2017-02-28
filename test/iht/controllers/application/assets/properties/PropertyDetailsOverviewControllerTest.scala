@@ -18,26 +18,25 @@ package iht.controllers.application.assets.properties
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.mvc.{Request, Result}
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
+import scala.concurrent.Future
+
 /**
- * Created by james on 16/06/16.
- */
-class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
+  * Created by james on 16/06/16.
+  */
+trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTest {
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
+  lazy val regDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
 
   lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
@@ -59,11 +58,15 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
   implicit val headerCarrier = FakeHeaders()
   implicit val hc = new HeaderCarrier
 
+  val applicationDetails = CommonBuilder.buildApplicationDetails copy (
+    propertyList = CommonBuilder.buildPropertyList
+    )
+
+  def pageLoad(request: Request[_]): Future[Result]
+
   "Property details overview controller" must {
 
     "return OK on page load" in {
-
-      val applicationDetails = CommonBuilder.buildApplicationDetails
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
@@ -73,7 +76,7 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
+      val result = pageLoad(createFakeRequest())
       status(result) should be(OK)
     }
 
@@ -113,4 +116,12 @@ class PropertyDetailsOverviewControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
   }
+}
+
+class PropertyDetailsOverviewControllerTest extends PropertyDetailsOverviewControllerBehaviour {
+  def pageLoad(request: Request[_]): Future[Result] = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
+}
+
+class PropertyDetailsOverviewControllerInEditModeTest extends PropertyDetailsOverviewControllerBehaviour {
+  def pageLoad(request: Request[_]): Future[Result] = propertyDetailsOverviewController.onEditPageLoad("1")(createFakeRequest())
 }
