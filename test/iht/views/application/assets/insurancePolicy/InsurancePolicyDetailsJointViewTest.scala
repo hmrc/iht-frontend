@@ -20,6 +20,7 @@ import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_joint
 import play.api.data.Form
@@ -43,6 +44,7 @@ class InsurancePolicyDetailsJointViewTest extends ShareableElementInputViewBehav
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
     override def formTarget =Some(routes.InsurancePolicyDetailsJointController.onSubmit)
+    override def linkHash = TestHelper.InsuranceJointlyHeldYesNoID
 
     "InsurancePolicyDetailsJoint view" must {
       behave like yesNoValueViewJointWithErrorSummaryBox()
