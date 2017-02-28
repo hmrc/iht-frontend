@@ -20,42 +20,40 @@ import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
-import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_deceased_own
-import play.api.i18n.Messages.Implicits._
+import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_joint
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 
-class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[InsurancePolicy]{
+class InsurancePolicyDetailsJointViewTest extends ShareableElementInputViewBehaviour[InsurancePolicy]{
 
     lazy val regDetails = CommonBuilder.buildRegistrationDetails1
     lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-    override def form:Form[InsurancePolicy] = insurancePolicyDeceasedOwnQuestionForm
-    override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_deceased_own(form, regDetails)
+    override def form:Form[InsurancePolicy] = insurancePolicyJointQuestionForm
+    override def formToView:Form[InsurancePolicy] => Appendable = form => insurance_policy_details_joint(form, regDetails)
 
-    override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
-    override def browserTitle = messagesApi("page.iht.application.insurance.policies.section1.browserTitle")
-    override def questionTitle = messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName)
-    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
-    override def hasValueQuestionHelp = false
-    override def valueQuestionHelp = ""
+    override def pageTitle = messagesApi("page.iht.application.insurance.policies.section2.title", deceasedName)
+    override def browserTitle = messagesApi("page.iht.application.insurance.policies.section2.browserTitle")
+    override def questionTitle = messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName)
+    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare")
+    override def hasValueQuestionHelp = true
+    override def valueQuestionHelp = messagesApi("page.iht.application.insurance.policies.section2.guidance2")
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
-    override def formTarget =Some(routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit)
+    override def formTarget =Some(routes.InsurancePolicyDetailsJointController.onSubmit)
 
-    "InsurancePolicyDetailsDeceasedOwn view" must {
-      behave like yesNoValueViewWithErrorSummaryBox()
+    "InsurancePolicyDetailsJoint view" must {
+      behave like yesNoValueViewJointWithErrorSummaryBox()
 
       "show the correct guidance" in {
         messagesShouldBePresent(view,
-          messagesApi("page.iht.application.insurance.policies.section1.guidance", deceasedName, deceasedName))
+          messagesApi("page.iht.application.insurance.policies.section2.guidance", deceasedName, deceasedName))
       }
 
       "show the value question in bold " in {
-        val label = doc.getElementById("value-container")
+        val label = doc.getElementById("shareValue-container")
         label.getElementsByTag("span").hasClass("form-label bold")
       }
     }
