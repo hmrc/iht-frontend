@@ -16,50 +16,34 @@
 
 package iht.views.application.assets.insurancePolicy
 
-import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
+import iht.views.application.{ApplicationPageBehaviour, CancelComponent, Guidance}
 import iht.views.html.application.asset.insurancePolicy.insurance_policies_overview
-import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.Call
 
-class InsurancePoliciesOverviewViewTest extends ViewTestHelper {
+class InsurancePoliciesOverviewViewTest extends ApplicationPageBehaviour {
 
-  lazy val assetsOverviewPageUrl = iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()
-  lazy val returnUrlTextMsgKey = "page.iht.application.return.to.assetsOf"
+  lazy val call = CommonBuilder.DefaultCall1
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  lazy val returnUrlTextMsgKey = "page.iht.application.return.to.assetsOf"
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
 
-  def insurancePoliciesOverviewView(insurancePolicy:InsurancePolicy) = {
-    implicit val request = createFakeRequest()
+  override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies")
 
-    val view = insurance_policies_overview(regDetails, Nil, Some(assetsOverviewPageUrl), returnUrlTextMsgKey).toString()
-    asDocument(view)
+  override def browserTitle = messagesApi("iht.estateReport.assets.insurancePolicies")
+
+  override def view:String = insurance_policies_overview(regDetails, Nil, Some(call), returnUrlTextMsgKey).toString()
+
+  override def guidance: Guidance = guidance(Set(messagesApi("page.iht.application.assets.insurance.policies.overview.guidance1",
+    deceasedName)))
+
+  override def formTarget: Option[Call] = None
+
+  override def cancelComponent: Option[CancelComponent] =
+    Some(CancelComponent(call, messagesApi("page.iht.application.return.to.assetsOf", deceasedName)))
+
+  "InsurancePolicyDetailsGuidanceView" must {
+    behave like applicationPage
   }
-
-  "InsurancePoliciesOverview view" must {
-
-    "have correct title and browser title " in {
-      val view = insurancePoliciesOverviewView(CommonBuilder.buildInsurancePolicy).toString
-
-      titleShouldBeCorrect(view, messagesApi("iht.estateReport.assets.insurancePolicies"))
-      browserTitleShouldBeCorrect(view, messagesApi("iht.estateReport.assets.insurancePolicies"))
-    }
-
-    "have correct guidance paragraphs" in {
-      val view = insurancePoliciesOverviewView(CommonBuilder.buildInsurancePolicy).toString
-      messagesShouldBePresent(view, messagesApi("page.iht.application.assets.insurance.policies.overview.guidance1",
-        deceasedName))
-    }
-
-    "have correct return link with text" in {
-      val view = insurancePoliciesOverviewView(CommonBuilder.buildInsurancePolicy)
-
-      val returnLink = view.getElementById("return-button")
-      returnLink.attr("href") shouldBe assetsOverviewPageUrl.url
-      returnLink.text() shouldBe messagesApi(returnUrlTextMsgKey, deceasedName)
-
-    }
-  }
-
 }

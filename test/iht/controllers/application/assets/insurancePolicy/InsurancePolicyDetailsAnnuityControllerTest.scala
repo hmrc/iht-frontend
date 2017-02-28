@@ -57,6 +57,8 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC123"))
 
+  lazy val deceasedName = registrationDetails.deceasedDetails.fold("")(x => x.name)
+
   val insurancePolicyDetailsKickOut = InsurancePolicy(
     isAnnuitiesBought = Some(true),
     isInsurancePremiumsPayedForSomeoneElse = Some(true),
@@ -160,24 +162,6 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
       createMocks(applicationDetails)
       val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
       status(result) should be (OK)
-    }
-
-    "display a question on the page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.buyAnnuity.question"))
-    }
-
-    "display a yes radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.yes"))
-    }
-
-    "display a no radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.no"))
     }
 
     "redirect to correct page when no selected on submit" in {

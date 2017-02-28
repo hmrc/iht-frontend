@@ -38,7 +38,7 @@ headingName = deceasedName){
         @ihtHelpers.standard.input_yes_no_radio_group(
             insurancePolicyForm("isAnnuitiesBought"),
             '_divClass -> Some("form-group"),
-            '_legend -> Html(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question")),
+            '_legend -> Html(Messages("iht.estateReport.assets.insurancePolicies.buyAnnuity.question", deceasedName)),
             '_legendClass -> Some("visually-hidden")
         )
         <div id="action-button" class="form-field form-field--submit">

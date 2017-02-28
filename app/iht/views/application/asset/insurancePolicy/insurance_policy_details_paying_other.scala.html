@@ -39,7 +39,7 @@ headingName = deceasedName){
     <p id="guidance-2">@Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2", deceasedNameWrap))</p>
         @ihtHelpers.standard.input_yes_no_radio_group(
             insurancePolicyForm("isInsurancePremiumsPayedForSomeoneElse"),
-            '_legend -> Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question")),
+            '_legend -> Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName)),
             '_legendClass -> Some("visually-hidden"),
             '_divClass -> Some("form-group"))
 

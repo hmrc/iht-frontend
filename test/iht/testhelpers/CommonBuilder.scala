@@ -65,6 +65,7 @@ object CommonBuilder {
   val DefaultCall2 = Call("GET", "Call2")
 
   val DefaultId = "1"
+  val DefaultString = DefaultId
   val DefaultDeceasedDOD = new LocalDate(2011, 12, 12)
   val DefaultFirstName = firstNameGenerator
   val DefaultMiddleName = ""
@@ -374,8 +375,21 @@ object CommonBuilder {
     coveredByExemption = None,
     sevenYearsBefore = None,
     moreThanMaxValue = None
-
   )
+
+  val buildCompleteInsurancePolicy = buildInsurancePolicy.copy(
+    isAnnuitiesBought = Some(false),
+    isInsurancePremiumsPayedForSomeoneElse = Some(true),
+    value = Some(BigDecimal(7)),
+    shareValue = Some(BigDecimal(8)),
+    policyInDeceasedName = Some(true),
+    isJointlyOwned = Some(true),
+    isInTrust = Some(false),
+    coveredByExemption = Some(false),
+    sevenYearsBefore = Some(false),
+    moreThanMaxValue = Some(false)
+  )
+
 
   val buildPrivatePension = PrivatePension(
     isChanged = None,

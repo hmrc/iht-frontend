@@ -20,37 +20,35 @@ import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
-import iht.views.html.application.exemption.partner.assets_left_to_partner_question
+import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import play.api.i18n.Messages.Implicits._
 
-class AssetsLeftToPartnerQuestionViewTest extends YesNoQuestionViewBehaviour[PartnerExemption] {
+class PartnerPermanentHomeQuestionViewTest extends YesNoQuestionViewBehaviour[PartnerExemption] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
   val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def form = assetsLeftToSpouseQuestionForm
+  override def form = partnerPermanentHomeQuestionForm
 
-  override def formToView = form => assets_left_to_partner_question(form, regDetails,
-    CommonBuilder.DefaultString, CommonBuilder.DefaultCall1)
+  override def formToView = form => partner_permanent_home_question(form, regDetails, CommonBuilder.DefaultString, CommonBuilder.DefaultCall1)
 
-  override def pageTitle = messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName)
+  override def pageTitle = messagesApi("iht.estateReport.exemptions.partner.homeInUK.question")
 
-  override def browserTitle = messagesApi("page.iht.application.exemptions.assetLeftToPartner.browserTitle")
+  override def browserTitle = messagesApi("page.iht.application.exemptions.partnerPermanentHome.browserTitle")
 
   override def guidance = noGuidance
 
-  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onSubmit())
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onSubmit())
 
   override val cancelId: String = "cancel-button"
 
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall1,
-      CommonBuilder.DefaultString
-    )
+      CommonBuilder.DefaultString)
   )
 
-  "Assets left to partner question view" must {
+  "AssetsLeftToPartnerQuestionView" must {
     behave like yesNoQuestion()
   }
 }

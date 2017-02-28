@@ -29,6 +29,7 @@ import iht.controllers.application.debts.routes
 /**
   * Created by vineet on 15/11/16.
   */
+
 class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
 
   val ihtReference = Some("ABC1A1A1A")
