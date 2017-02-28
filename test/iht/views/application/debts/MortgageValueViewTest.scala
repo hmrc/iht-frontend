@@ -17,7 +17,7 @@
 package iht.views.application.debts
 
 import iht.forms.ApplicationForms._
-import iht.models.application.debts.BasicEstateElementLiabilities
+import iht.models.application.debts.{Mortgage, BasicEstateElementLiabilities}
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.views.application.CancelComponent
@@ -34,7 +34,7 @@ import iht.controllers.application.debts.routes
   * Created by vineet on 15/11/16.
   */
 
-class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElementLiabilities]{
+class MortgageValueViewTest extends DebtsElementViewBehaviour[Mortgage]{
 
   val ihtReference = Some("ABC1A1A1A")
   val regDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = ihtReference,
@@ -42,12 +42,12 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[BasicEstateElement
                                                             maritalStatus = Some(TestHelper.MaritalStatusMarried))),
                                     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def form:Form[BasicEstateElementLiabilities] = funeralExpensesForm
-  override def formToView:Form[BasicEstateElementLiabilities] => Appendable = form => mortgage_value(mortgagesForm,
+  override def form:Form[Mortgage] = mortgagesForm
+  override def formToView:Form[Mortgage] => Appendable = form => mortgage_value(form,
                               CommonBuilder.buildProperty.copy(id = Some("1"), typeOfOwnership = Some("Deceased only"),
                                 address = Some(CommonBuilder.DefaultUkAddress)
                               ),
-                              routes.MortgageValueController.onSubmit("1"),
+                              iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1"),
                               regDetails)
 
   override def pageTitle = messagesApi("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))

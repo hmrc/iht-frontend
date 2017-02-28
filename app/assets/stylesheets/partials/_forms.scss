@@ -69,3 +69,14 @@ Taken from GDS Elements
 @media screen and (min-width: 641px) {
     @include form-control-sizes;
 }
+
+/*
+====================================
+Removed float from submit button wrapper
+As this is sometimes the bottom-most element in the main column
+it can mess with the sidebar margins when stacked for smaller screens
+====================================
+*/
+.form-field--submit {
+    float: none
+}

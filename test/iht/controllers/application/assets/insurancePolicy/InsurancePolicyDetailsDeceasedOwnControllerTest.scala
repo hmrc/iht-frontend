@@ -170,31 +170,6 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       status(result) should be (OK)
     }
 
-    "display a yes or no question on the page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.ownName.question",
-        CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
-    }
-
-    "display a value question on the page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"))
-    }
-
-    "display a yes radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.yes"))
-    }
-
-    "display a no radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.no"))
-    }
-
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 

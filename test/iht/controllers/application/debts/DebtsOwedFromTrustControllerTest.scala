@@ -79,6 +79,23 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
       redirectLocation(result) should be(Some(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID))
     }
 
+    "respond with bad request on submit when request is malformed" in {
+      val testValue = CommonBuilder.buildBasicEstateElementLiabilities.copy(isOwned = None)
+      val filledForm = debtsTrustForm.fill(testValue)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allLiabilities = Some(CommonBuilder
+        .buildAllLiabilities.copy(trust = Some(testValue))))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val result = debtsOwedFromTrustController.onSubmit()(request)
+      status(result) should be(BAD_REQUEST)
+    }
+
     "take you to internal server error on failure" in {
       val testValue = BasicEstateElementLiabilities(isOwned = Some(true), value = Some(BigDecimal(33)))
       val filledForm = debtsTrustForm.fill(testValue)

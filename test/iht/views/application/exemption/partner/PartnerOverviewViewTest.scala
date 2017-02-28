@@ -16,59 +16,161 @@
 
 package iht.views.application.exemption.partner
 
+import iht.constants.IhtProperties
+import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper
-import iht.utils.OverviewHelper.Section
-import iht.views.ViewTestHelper
-import play.api.i18n.Messages.Implicits._
+import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_overview
+import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
+import org.joda.time.LocalDate
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.AnyContentAsEmpty
+import play.api.test.FakeRequest
 
-//TODO Need to add few more tests to write the tests for correct values
+trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
+  val regDetails = CommonBuilder.buildRegistrationDetails1
 
+  val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-class CharityDetailsOverviewViewTestPartnerOverviewViewTest extends ViewTestHelper {
+  val partner: PartnerExemption
 
-  lazy val ihtRef = "ABC123"
-  lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
-  lazy val appDetails = CommonBuilder.buildApplicationDetails
-  lazy val exemptionsOverviewPageUrl = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
+  def applicationDetails =
+    CommonBuilder.buildApplicationDetails copy (allExemptions = Some(
+      AllExemptions(
+        partner = Some(partner)
+      )))
 
-  def partnerOverviewView(sectionsToDisplay: Seq[Section] = Nil) = {
-    implicit val request = createFakeRequest()
-    
-    val view = partner_overview(appDetails, regDetails).toString()
-    asDocument(view)
+  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
+
+  override def guidanceParagraphs = Set.empty
+
+  override def pageTitle = messagesApi("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title")
+
+  override def browserTitle = messagesApi("page.iht.application.exemptions.partner.overview.browserTitle")
+
+  override def exitComponent = Some(
+    ExitComponent(
+      iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName)
+    )
+  )
+
+  val assetsLeftToSpouseAttributesTableId = "partner-overview-table"
+
+  def assetsLeftToSpouseAttributeWithValueAndChange(rowNo: Int,
+                                          expectedAttributeName: => String,
+                                          expectedAttributeValue: => String,
+                                          expectedLinkText: => String) = {
+    s"show attribute number ${rowNo + 1} name" in {
+      tableCell(doc, assetsLeftToSpouseAttributesTableId, 0, rowNo).text shouldBe expectedAttributeName
+    }
+
+    s"show attribute number ${rowNo + 1} value" in {
+      tableCell(doc, assetsLeftToSpouseAttributesTableId, 1, rowNo).text shouldBe expectedAttributeValue
+    }
+
+    s"show attribute number ${rowNo + 1} change link" in {
+      val changeDiv = tableCell(doc, assetsLeftToSpouseAttributesTableId, 2, rowNo)
+      val anchor = changeDiv.getElementsByTag("a").first
+      getVisibleText(anchor) shouldBe messagesApi(expectedLinkText)
+    }
   }
 
-  "PartnerOverview view" must {
+  def getDateDisplayValue(optDate: Option[LocalDate]): String =
+    optDate.fold("")(_.toString("d MMMM yyyy"))
+}
 
-    "have correct title and browser title " in {
-      val view = partnerOverviewView().toString
+class PartnerOverviewViewTest extends PartnerOverviewViewBehaviour {
+  val partner = PartnerExemption(
+    isAssetForDeceasedPartner = Some(true),
+    isPartnerHomeInUK = Some(true),
+    firstName = Some(CommonBuilder.DefaultFirstName),
+    lastName = Some(CommonBuilder.DefaultLastName),
+    dateOfBirth = Some(CommonBuilder.DefaultDateOfBirth),
+    nino = Some(CommonBuilder.DefaultNino),
+    totalAssets = Some(CommonBuilder.DefaultTotalAssets))
 
-      titleShouldBeCorrect(view, messagesApi("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
-      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.exemptions.partner.overview.browserTitle"))
-    }
+  override def view =
+    partner_overview(applicationDetails, regDetails).toString()
 
-    "have correct questions" in {
-      val view = partnerOverviewView()
-      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
-                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.partner.homeInUK.question"))
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.overview.partner.name.title"))
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.overview.partner.dob.title"))
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.overview.partner.nino.title"))
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.exemptions.overview.partner.totalAssets.title"))
-    }
+  "Partner overview view" must {
+    behave like nonSubmittablePage()
 
-    "have the return link with correct text" in {
-      val view = partnerOverviewView()
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(0,
+      messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName),
+      messagesApi("iht.yes"),
+      messagesApi("iht.change")
+    )
 
-      val returnLink = view.getElementById("return-button")
-      returnLink.attr("href") shouldBe exemptionsOverviewPageUrl.url
-      returnLink.text() shouldBe messagesApi("page.iht.application.return.to.exemptionsOf",
-                                          CommonHelper.getOrException(regDetails.deceasedDetails.map(_.name)))
-    }
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(1,
+      messagesApi("iht.estateReport.exemptions.partner.homeInUK.question"),
+      messagesApi("iht.yes"),
+      messagesApi("iht.change")
+    )
 
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(2,
+      messagesApi("page.iht.application.exemptions.overview.partner.name.title"),
+      partner.name.fold("")(identity),
+      messagesApi("iht.change")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(3,
+      messagesApi("page.iht.application.exemptions.overview.partner.dob.title"),
+      getDateDisplayValue(partner.dateOfBirth),
+      messagesApi("iht.change")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(4,
+      messagesApi("page.iht.application.exemptions.overview.partner.nino.title"),
+      CommonHelper.getOrException(partner.nino),
+      messagesApi("iht.change")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(5,
+      messagesApi("page.iht.application.exemptions.overview.partner.totalAssets.title"),
+      "£" + numberWithCommas(CommonHelper.getOrException(partner.totalAssets)),
+      messagesApi("iht.change")
+    )
   }
+}
 
+class PartnerOverviewViewWithNoValuesTest extends PartnerOverviewViewBehaviour {
+  val partner = PartnerExemption(
+    isAssetForDeceasedPartner = Some(true),
+    isPartnerHomeInUK = Some(true),
+    firstName = None,
+    lastName = None,
+    dateOfBirth = None,
+    nino = None,
+    totalAssets = None)
+
+  override def view =
+    partner_overview(applicationDetails, regDetails).toString()
+
+  "Partner overview view where no values entered" must {
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(2,
+      messagesApi("page.iht.application.exemptions.overview.partner.name.title"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveName")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(3,
+      messagesApi("page.iht.application.exemptions.overview.partner.dob.title"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveDate")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(4,
+      messagesApi("page.iht.application.exemptions.overview.partner.nino.title"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveDetails")
+    )
+
+    behave like assetsLeftToSpouseAttributeWithValueAndChange(5,
+      messagesApi("page.iht.application.exemptions.overview.partner.totalAssets.title"),
+      CommonBuilder.emptyString,
+      messagesApi("site.link.giveValue")
+    )
+  }
 }

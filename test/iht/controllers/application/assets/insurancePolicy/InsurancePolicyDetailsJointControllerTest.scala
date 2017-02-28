@@ -171,36 +171,6 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       status(result) should be(OK)
     }
 
-    "display a yes or no question on the page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-
-      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
-
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.insurance.policies.section2.guidance",
-                                              deceasedName, deceasedName))
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question",
-                                                    deceasedName))
-    }
-
-    "display a value question on the page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"))
-    }
-
-    "display a yes radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.yes"))
-    }
-
-    "display a no radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsJointController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.no"))
-    }
-
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 

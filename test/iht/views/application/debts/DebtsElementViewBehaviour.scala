@@ -16,13 +16,13 @@
 
 package iht.views.application.debts
 
-import iht.views.application.{CancelComponent, ApplicationPageBehaviour}
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent, ApplicationPageBehaviour}
 import play.api.data.Form
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.debts.routes
 
-trait DebtsElementViewBehaviour[A] extends ApplicationPageBehaviour {
+trait DebtsElementViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A] {
 
   def yesNoQuestionText: String
   def inputValueFieldLabel: String
@@ -37,13 +37,13 @@ trait DebtsElementViewBehaviour[A] extends ApplicationPageBehaviour {
     )
   )
 
-  def view: String = formToView(form).toString
+  override def view: String = formToView(form).toString
   def form:Form[A]
   def formToView:Form[A] => Appendable
 
   def debtsElement() = {
 
-    behave like applicationPage()
+    behave like applicationPageWithErrorSummaryBox()
 
     "show the correct yes/no question text" in {
       messagesShouldBePresent(view, yesNoQuestionText)
