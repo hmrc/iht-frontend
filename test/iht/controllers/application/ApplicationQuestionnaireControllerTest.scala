@@ -19,15 +19,10 @@ package iht.controllers.application
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.constants.IhtProperties
 import iht.models.QuestionnaireModel
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import iht.utils.IhtSection
 import play.api.i18n.MessagesApi
-import play.api.mvc.{Request, Session}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
-
-import scala.concurrent.Future
-
 
 /**
  * Created by yasar on 6/18/15.
@@ -88,6 +83,15 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
 
       val result = questionnaireController.onSubmit()(request)
       status(result) should be(BAD_REQUEST)
+    }
+
+    "have the correct iht section" in {
+      questionnaireController.ihtSection shouldBe IhtSection.Application
+    }
+
+    "have the correct callPageLoad" in {
+      questionnaireController.callPageLoad shouldBe
+        iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
     }
   }
 }
