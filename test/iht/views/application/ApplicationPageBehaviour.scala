@@ -18,33 +18,43 @@ package iht.views.application
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
-import play.api.data.{Form, FormError}
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
-import play.twirl.api.HtmlFormat.Appendable
 
 case class CancelComponent(target: Call, content: String)
 
-trait ApplicationPageBehaviour[A] extends ViewTestHelper {
+case class Guidance(isAnyGuidance: Boolean, content: () => Set[String])
+
+trait ApplicationPageBehaviour extends ViewTestHelper {
+
+  def link(anchorId: => String, href: => String, text: => String): Unit =
+    super.link(doc, anchorId, href, text)
+
+  def guidance(content: => Set[String]) = Guidance(isAnyGuidance = true, () => content)
+
+  def noGuidance = Guidance(isAnyGuidance = false, () => Set.empty)
+
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   def pageTitle: String
 
   def browserTitle: String
 
-  def view: String = formToView(form).toString
+  def view: String
 
   def doc: Document = asDocument(view)
 
-  def form: Form[A]
-
-  def formToView: Form[A] => Appendable
-
-  def guidanceParagraphs: Set[String]
+  def guidance: Guidance
 
   def formTarget: Option[Call]
 
   def cancelComponent: Option[CancelComponent]
+
+  val cancelId: String = "return-button"
+
+  val continueId: String = "save-continue"
+
+  val continueContent: String = "iht.saveAndContinue"
 
   def applicationPage() = {
     "have the correct title" in {
@@ -55,27 +65,25 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
       browserTitleShouldBeCorrect(view, browserTitle)
     }
 
-    "have a Continue button" in {
-      doc.getElementById("save-continue").text shouldBe messagesApi("iht.saveAndContinue")
-    }
-
-    if (guidanceParagraphs.nonEmpty) {
+    if (guidance.isAnyGuidance) {
       "show the correct guidance paragraphs" in {
-        for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
+        for (paragraph <- guidance.content()) messagesShouldBePresent(view, paragraph)
       }
     }
+
     if (formTarget.isDefined) {
       "show the Save/Continue button with the correct target" in {
         formTarget.foreach { target =>
           doc.getElementsByTag("form").attr("action") shouldBe target.url
         }
+        doc.getElementById(continueId).text shouldBe messagesApi(continueContent)
       }
     }
 
     if (cancelComponent.isDefined) {
       "show the return link with the correct target and text" in {
         cancelComponent.foreach { attrib =>
-          val cancelButton = doc.getElementById("return-button")
+          val cancelButton = doc.getElementById(cancelId)
           cancelButton.attr("href") shouldBe attrib.target.url
           cancelButton.text() shouldBe attrib.content
         }
@@ -83,25 +91,66 @@ trait ApplicationPageBehaviour[A] extends ViewTestHelper {
     }
   }
 
-  def applicationPageWithErrorSummaryBox() = {
-    applicationPage()
-    "display the 'There's a problem' box if there's an error" in {
-      val newForm = form.withError(FormError("field", "error message"))
-      val document = asDocument(formToView(newForm).toString)
-      document.getElementById("errors").children.first.text shouldBe messagesApi("error.problem")
+  def radioButton(testTitle:String,
+                  titleId: String, titleExpectedValue: String, hintId: String = "", hintExpectedValue: String = "") = {
+    s"contain $testTitle radio button with correct title" in {
+      doc.getElementById(titleId).text shouldBe messagesApi(titleExpectedValue)
+    }
+    if (hintId.nonEmpty) {
+      s"contain $testTitle radio buton with correct hint text" in {
+        doc.getElementById(hintId).text shouldBe messagesApi(hintExpectedValue)
+      }
     }
   }
 
-  def applicationPageInEditModeWithErrorSummaryBox(view: => Document, cancelUrl: => Call) = {
-    applicationPageWithErrorSummaryBox()
+  def addressPage(): Unit = {
 
-    "have a continue and cancel link in edit mode" in {
-      val continueLink = view.getElementById("continue-button")
-      continueLink.attr("value") shouldBe messagesApi("iht.continue")
+    "have a line 1 field" in {
+      assertRenderedById(doc, "address.ukAddressLine1")
+    }
 
-      val cancelLink = view.getElementById("cancel-button")
-      cancelLink.attr("href") shouldBe cancelUrl.url
-      cancelLink.text() shouldBe messagesApi("site.link.cancel")
+    "have the correct label for line 1" in {
+      labelShouldBe(doc, "address.ukAddressLine1-container", "iht.address.line1")
+    }
+
+    "have a line 2 field" in {
+      assertRenderedById(doc, "address.ukAddressLine2")
+    }
+
+    "have the correct label for line 2" in {
+      labelShouldBe(doc, "address.ukAddressLine2-container", "iht.address.line2")
+    }
+
+    "have a line 3 field" in {
+      assertRenderedById(doc, "address.ukAddressLine3")
+    }
+
+    "have the correct label for line 3" in {
+      labelShouldBe(doc, "address.ukAddressLine3-container", "iht.address.line3")
+    }
+
+    "have a line 4 field" in {
+      assertRenderedById(doc, "address.ukAddressLine4")
+    }
+
+    "have the correct label for line 4" in {
+      labelShouldBe(doc, "address.ukAddressLine4-container", "iht.address.line4")
+    }
+  }
+
+  def addressPageUK(): Unit = {
+    addressPage()
+
+    "have a post code field" in {
+      assertRenderedById(doc, "address.postCode")
+    }
+
+    "have the correct label for post code" in {
+      labelShouldBe(doc, "address.postCode-container", "iht.postcode")
+    }
+
+    "not have a country code field" in {
+      assertNotRenderedById(doc, "address.countryCode")
     }
   }
 }

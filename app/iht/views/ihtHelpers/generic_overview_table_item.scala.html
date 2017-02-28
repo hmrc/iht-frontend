@@ -28,8 +28,8 @@ link:Option[Call] = None,
 linkScreenReader:String
 )(implicit messages: Messages)
 <li id="@id" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-    <div class="tabular-data__data tabular-data__data--6-12">@Html(questionText)</div>
-    <div class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
+    <div id="@id-question" class="tabular-data__data tabular-data__data--6-12">@Html(questionText)</div>
+    <div id="@id-value" class="tabular-data__data tabular-data__data--3-12 u-align--tablet-right">
         @if(answerValue.nonEmpty){
         @answerValue
         }

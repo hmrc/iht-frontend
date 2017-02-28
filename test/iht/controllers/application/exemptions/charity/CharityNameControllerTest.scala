@@ -97,29 +97,6 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
       val result = charityNameController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("page.iht.application.exemptions.charityName.sectionTitle"))
-      contentAsString(result) should include(messagesApi("iht.saveAndContinue"))
-    }
-
-    "respond with OK on page load and correct charity id for first charity" in {
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsTwoCharities),
-        getAppDetails = true)
-
-      val result = charityNameController.onEditPageLoad("1")(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(CommonHelper.getOrException(charity1.name))
-    }
-
-    "respond with OK on page load and correct charity id for second charity" in {
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsTwoCharities),
-        getAppDetails = true)
-
-      val result = charityNameController.onEditPageLoad("2")(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(CommonHelper.getOrException(charity2.name))
     }
 
     "update the existing Charity in ApplicationDetails" in {

@@ -58,12 +58,6 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
     totalValue = Some(46.45)
   )
 
-  val qualifyingBody3 = CommonBuilder.buildQualifyingBody.copy(
-    id = Some("3"),
-    name = Some("A QualifyingBody 3"),
-    totalValue = Some(47.45)
-  )
-
   val applicationDetailsTwoQualifyingBodies = CommonBuilder.buildApplicationDetails copy (qualifyingBodies
     = Seq(qualifyingBody1, qualifyingBody2))
 
@@ -91,56 +85,6 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
       status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody"))
     }
-
-    "display main back link text" in {
-      createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsTwoQualifyingBodies),
-        getAppDetails = true)
-
-      val result = qualifyingBodyDeleteConfirmController.onPageLoad("1")(createFakeRequest())
-      status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"))
-    }
-
-    "contain href with link back to overview page" in {
-      pending
-      createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsTwoQualifyingBodies),
-        getAppDetails = true)
-
-      val result = qualifyingBodyDeleteConfirmController.onPageLoad("1")(createFakeRequest())
-      status(result) shouldBe OK
-      //TODO Should link to qualifyingBodies overview page when it exists
-    }
-  }
-
-  "display a confirm and delete button" in {
-    createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
-    createMocksForApplication(mockCachingConnector,
-      mockIhtConnector,
-      appDetails = Some(applicationDetailsTwoQualifyingBodies),
-      getAppDetails = true)
-
-    val result = qualifyingBodyDeleteConfirmController.onPageLoad("1")(createFakeRequest())
-    status(result) shouldBe OK
-    contentAsString(result) should include(messagesApi("site.button.confirmDelete"))
-
-  }
-
-  "display the qualifyingBody name in" in {
-    createMockForRegistration(mockCachingConnector, getRegDetailsFromCache = true)
-    createMocksForApplication(mockCachingConnector,
-      mockIhtConnector,
-      appDetails = Some(applicationDetailsTwoQualifyingBodies),
-      getAppDetails = true)
-
-    val result = qualifyingBodyDeleteConfirmController.onPageLoad("1")(createFakeRequest())
-    status(result) shouldBe OK
-    contentAsString(result) should include(qualifyingBody1.name.get)
   }
 
   "when given a valid qualifyingBody id the qualifyingBody should redirect" in {

@@ -16,6 +16,7 @@
 
 package iht.views.application.assets.money
 
+import iht.controllers.application.assets.money.routes
 import iht.controllers.application.assets.money.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.ShareableBasicEstateElement
@@ -28,7 +29,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 
-class MoneyJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
+class MoneyJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -44,6 +45,7 @@ class MoneyJointlyOwnedViewTest extends ViewTestHelper with ShareableElementInpu
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.money")
   override def returnLinkUrl = MoneyOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.MoneyJointlyOwnedController.onSubmit)
 
   "Money Jointly Owned view" must {
     behave like yesNoValueViewJointWithErrorSummaryBox

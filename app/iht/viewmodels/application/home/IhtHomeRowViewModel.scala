@@ -19,7 +19,7 @@ package iht.viewmodels.application.home
 import iht.connector.IhtConnector
 import iht.constants.IhtProperties
 import iht.models.application.IhtApplication
-import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
+import iht.utils.{ApplicationStatus => AppStatus, CommonHelper}
 import play.api.Logger
 import play.api.i18n.Messages
 import play.api.mvc.Call

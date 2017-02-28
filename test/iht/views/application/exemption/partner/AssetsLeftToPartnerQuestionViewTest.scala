@@ -17,66 +17,40 @@
 package iht.views.application.exemption.partner
 
 import iht.forms.ApplicationForms._
+import iht.models.application.exemptions.PartnerExemption
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper
-import iht.views.ViewTestHelper
+import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.i18n.Messages.Implicits._
 
-/**
- * Created by vineet on 29/11/16.
- */
-class AssetsLeftToPartnerQuestionViewTest extends ViewTestHelper{
-
+class AssetsLeftToPartnerQuestionViewTest extends YesNoQuestionViewBehaviour[PartnerExemption] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
-  val returnLinkLabelMsgKey = "iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"
-  val returnLocation = iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()
 
-  def assetsLeftToPartnerQuestionView() = {
-    implicit val request = createFakeRequest()
+  val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-    val partnerExemption = CommonBuilder.buildPartnerExemption
-    val assetsLeftToPartnerQuestionForm = assetsLeftToSpouseQuestionForm.fill(partnerExemption)
+  override def form = assetsLeftToSpouseQuestionForm
 
-    val view = assets_left_to_partner_question(assetsLeftToPartnerQuestionForm,
-      regDetails,
-      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
-      returnLocation)
+  override def formToView = form => assets_left_to_partner_question(form, regDetails,
+    CommonBuilder.DefaultString, CommonBuilder.DefaultCall1)
 
-    asDocument(view)
+  override def pageTitle = messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName)
+
+  override def browserTitle = messagesApi("page.iht.application.exemptions.assetLeftToPartner.browserTitle")
+
+  override def guidance = noGuidance
+
+  override def formTarget = Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onSubmit())
+
+  override val cancelId: String = "cancel-button"
+
+  override def cancelComponent = Some(
+    CancelComponent(
+      CommonBuilder.DefaultCall1,
+      CommonBuilder.DefaultString
+    )
+  )
+
+  "Assets left to partner question view" must {
+    behave like yesNoQuestion()
   }
-
-  "AssetsLeftToPartnerQuestion View" must {
-    "have correct title and browser title " in {
-      val view = assetsLeftToPartnerQuestionView().toString
-
-      titleShouldBeCorrect(view, messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
-                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-      browserTitleShouldBeCorrect(view, messagesApi("page.iht.application.exemptions.assetLeftToPartner.browserTitle"))
-    }
-
-    "have 'Save and continue' button" in {
-      val view = assetsLeftToPartnerQuestionView()
-
-      val saveAndContinueButton = view.getElementById("save-continue")
-      saveAndContinueButton.getElementsByAttributeValueContaining("value", messagesApi("iht.saveAndContinue"))
-    }
-
-    "have the return link with correct text" in {
-      val view = assetsLeftToPartnerQuestionView()
-
-      val returnLink = view.getElementById("cancel-button")
-      returnLink.attr("href") shouldBe returnLocation.url
-      returnLink.text() shouldBe messagesApi(returnLinkLabelMsgKey)
-    }
-
-    "have the question with the right text" in {
-      val view = assetsLeftToPartnerQuestionView()
-
-      messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",
-                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-    }
-
-  }
-
 }

@@ -16,46 +16,32 @@
 
 package iht.views.application.debts
 
-import iht.views.ViewTestHelper
-import org.jsoup.nodes.Document
-import play.api.i18n.Messages.Implicits._
+import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent, ApplicationPageBehaviour}
 import play.api.data.Form
 import play.api.mvc.{AnyContentAsEmpty, Call}
-import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
+import iht.controllers.application.debts.routes
 
-trait DebtsElementViewBehaviour[A] extends ViewTestHelper {
+trait DebtsElementViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A] {
 
-  def pageTitle: String
-  def browserTitle: String
-  def guidanceParagraphs: Set[String]
   def yesNoQuestionText: String
   def inputValueFieldLabel: String
   def inputValueFieldHintText: String = "default hint"
-  def returnLinkId: String = "return-button"
-  def returnLinkText: String = messagesApi("site.link.return.debts")
-  def returnLinkTargetUrl: Call = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad
 
-  implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
-  def view: String = formToView(form).toString
-  def doc: Document = asDocument(view)
-  def form:Form[A] = ???
-  def formToView:Form[A] => Appendable = ???
+  override def cancelComponent = Some(
+    CancelComponent(
+      routes.DebtsOverviewController.onPageLoad,
+      messagesApi("site.link.return.debts")
+    )
+  )
+
+  override def view: String = formToView(form).toString
+  def form:Form[A]
+  def formToView:Form[A] => Appendable
 
   def debtsElement() = {
-    "have the correct title" in {
-      val headers = doc.getElementsByTag("h1")
-      headers.size shouldBe 1
-      headers.first.text() shouldBe pageTitle
-    }
 
-    "have the correct browser title" in {
-      browserTitleShouldBeCorrect(view, browserTitle)
-    }
-
-    "show the correct guidance paragraphs" in {
-      for (paragraph <- guidanceParagraphs) messagesShouldBePresent(view, paragraph)
-    }
+    behave like applicationPageWithErrorSummaryBox()
 
     "show the correct yes/no question text" in {
       messagesShouldBePresent(view, yesNoQuestionText)
@@ -67,21 +53,11 @@ trait DebtsElementViewBehaviour[A] extends ViewTestHelper {
 
     "show the correct input field value hint text (if there is any)" in {
       if(inputValueFieldHintText == "default hint") {
-        assertNotContainsText(doc, inputValueFieldHintText)
+        assertNotContainsText(asDocument(view), inputValueFieldHintText)
       } else {
         messagesShouldBePresent(view, inputValueFieldHintText)
       }
     }
 
-    "show the Save and continue button" in {
-      val saveAndContinueButton = doc.getElementById("save-continue")
-      saveAndContinueButton.text() shouldBe messagesApi("iht.saveAndContinue")
-    }
-
-    "show the correct return link with text" in {
-      val returnLink = doc.getElementById(returnLinkId)
-      returnLink.attr("href") shouldBe returnLinkTargetUrl.url
-      returnLink.text() shouldBe returnLinkText
-    }
   }
 }

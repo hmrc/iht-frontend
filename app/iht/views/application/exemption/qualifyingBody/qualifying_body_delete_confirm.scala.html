@@ -28,7 +28,7 @@ browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyDele
 isFullWidth=false){
 @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 <div>
-    <p class="panel-indent">
+    <p id="qualifying-body-name" class="panel-indent">
         <strong>
             @if(qualifyingBodyName.isEmpty){
                 @Messages("iht.estateReport.exemptions.charities.noNameAdded")
@@ -36,7 +36,7 @@ isFullWidth=false){
         </strong>
     </p>
     <p id="action-button"><button class="button" id="confirm-delete" name="action" value="save">@Messages("site.button.confirmDelete")</button></p>
-    <p><a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad">@Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies")</a></p>
+    <p><a id="return-button" href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad">@Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies")</a></p>
 </div>
 }
 }

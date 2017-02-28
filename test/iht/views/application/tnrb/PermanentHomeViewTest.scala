@@ -28,7 +28,7 @@ import play.twirl.api.HtmlFormat.Appendable
 
 class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
 
-  override def guidanceParagraphs = Set.empty
+  override def guidance = noGuidance
 
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 

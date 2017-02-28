@@ -35,9 +35,9 @@ trait Metrics {
 
 object Metrics extends Metrics with MicroserviceMetrics {
 
-  lazy val registry: MetricRegistry = metrics.defaultRegistry
+  val registry: MetricRegistry = metrics.defaultRegistry
 
-  lazy val kickOutCounters = Map(
+  val kickOutCounters = Map(
     KickOutSource.REGISTRATION-> registry.counter("registration-kickout-counter"),
     KickOutSource.ASSET-> registry.counter("asset-kickout-counter"),
     KickOutSource.GIFT-> registry.counter("gift-kickout-counter"),
@@ -46,7 +46,7 @@ object Metrics extends Metrics with MicroserviceMetrics {
     KickOutSource.HOME-> registry.counter("home-kickout-counter")
   )
 
- lazy val statsCounter = Map(
+ val statsCounter = Map(
    StatsSource.COMPLETED_REG-> registry.counter("completedReg-counter"),
    StatsSource.COMPLETED_REG_ADDITIONAL_EXECUTORS-> registry.counter("completedReg-with-additional-executors-counter"),
    StatsSource.COMPLETED_APP-> registry.counter("completedApp-counter"),

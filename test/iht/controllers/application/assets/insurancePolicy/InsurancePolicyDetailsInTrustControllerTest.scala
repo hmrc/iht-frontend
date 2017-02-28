@@ -169,24 +169,6 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
       status(result) should be (OK)
     }
 
-    "display a yes or no question on the page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsInTrustController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section4.title"))
-    }
-
-    "display a yes radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsInTrustController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.yes"))
-    }
-
-    "display a no radio button on page" in {
-      createMocks(applicationDetails)
-      val result = insurancePolicyDetailsInTrustController.onPageLoad(createFakeRequest())
-      contentAsString(result) should include(messagesApi("iht.no"))
-    }
-
     "redirect to correct page on submit" in {
       createMocks(applicationDetails)
 

@@ -16,8 +16,8 @@
 
 package iht.testhelpers
 
-import org.joda.time.LocalDate
 import iht.models.application.basicElements.ShareableBasicEstateElement
+import org.joda.time.LocalDate
 
 /**
  *
@@ -26,7 +26,6 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
  */
 
 object TestHelper {
-
   val PreIHTKickOut = "preIHT"
   val PreService = "preService"
 
@@ -73,9 +72,12 @@ object TestHelper {
   val MaritalStatusWidowed = "Widowed or a Surviving Civil Partner"
 
   val PropertyTypeDeceasedHome = Some("Deceased's home")
+  val PropertyTypeOtherResidentialBuilding = Some("Other residential building")
   val TypesOfOwnershipDeceasedOnly = Some("Deceased only")
+  val TypesOfOwnershipJoint = Some("Joint")
 
   val TenureFreehold = Some("Freehold")
+  val TenureLeasehold = Some("Leasehold")
   val LinkRegistrationKickOut = "https://www.gov.uk/inheritance-tax"
   val LinkEstateReportKickOut = "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
 
@@ -106,6 +108,7 @@ object TestHelper {
   lazy val spouseOrCivilPartnerMessageKey = "page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText"
   lazy val marriedMessageKey = "page.iht.application.tnrbEligibilty.partner.married.label"
   lazy val marriedOrInCivilPartnershipMessageKey = "page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label"
+  lazy val ihtPropertiesCorrectiveAccountsLink = "https://www.gov.uk/government/publications/inheritance-tax-corrective-account-c4"
 }
 
 trait SharableOverviewData {
@@ -124,5 +127,4 @@ trait SharableOverviewData {
   val dataWithValues =
     Some(ShareableBasicEstateElement(value = Some(ownedAmount), shareValue = Some(jointAmount),
       isOwned = Some(true), isOwnedShare = Some(true)))
-
 }

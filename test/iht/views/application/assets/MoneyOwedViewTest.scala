@@ -16,18 +16,18 @@
 
 package iht.views.application.assets
 
+import iht.controllers.application.assets.routes
 import iht.controllers.application.assets.routes._
 import iht.forms.ApplicationForms._
 import iht.models.application.basicElements.BasicEstateElement
 import iht.testhelpers.CommonBuilder
-import iht.views.ViewTestHelper
 import iht.views.application.ShareableElementInputViewBehaviour
 import iht.views.html.application.asset.money_owed
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 
-class MoneyOwedViewTest extends ViewTestHelper with ShareableElementInputViewBehaviour[BasicEstateElement] {
+class MoneyOwedViewTest extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val deceasedName = regDetails.deceasedDetails.fold("")(x => x.name)
@@ -43,6 +43,7 @@ class MoneyOwedViewTest extends ViewTestHelper with ShareableElementInputViewBeh
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
+  override def formTarget =Some(routes.MoneyOwedController.onSubmit)
 
   "Money Owed view" must {
     behave like yesNoValueView

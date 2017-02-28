@@ -40,6 +40,10 @@ import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 object CommonBuilder {
   val rng = new Random
 
+  val emptyString = ""
+
+  def currencyValue(x:BigDecimal) = "£" + CommonHelper.numberWithCommas(x)
+
   def randomElement[T](elements: List[T]) = elements(rng.nextInt(elements.length))
 
   def firstNameGenerator = {
@@ -61,6 +65,7 @@ object CommonBuilder {
   val DefaultCall2 = Call("GET", "Call2")
 
   val DefaultId = "1"
+  val DefaultString = DefaultId
   val DefaultDeceasedDOD = new LocalDate(2011, 12, 12)
   val DefaultFirstName = firstNameGenerator
   val DefaultMiddleName = ""
@@ -72,6 +77,7 @@ object CommonBuilder {
   val DefaultDateOfBirthDateTime = new DateTime(DateTime.parse("2000-08-16T07:22:05Z"))
   val DefaultPostCode = "AA1 1AA"
   val DefaultUkAddress = new UkAddress("addr1", "addr2", Some("addr3"), Some("addr4"), DefaultPostCode)
+  val DefaultUkAddress2 = new UkAddress("addr21", "addr22", Some("addr23"), Some("addr24"), "BB1 1BB")
   val DefaultPhoneNo = "02079460093"
   val DefaultContactDetails = new iht.models.ContactDetails(DefaultPhoneNo, Some("a@example.com"))
 
@@ -369,8 +375,21 @@ object CommonBuilder {
     coveredByExemption = None,
     sevenYearsBefore = None,
     moreThanMaxValue = None
-
   )
+
+  val buildCompleteInsurancePolicy = buildInsurancePolicy.copy(
+    isAnnuitiesBought = Some(false),
+    isInsurancePremiumsPayedForSomeoneElse = Some(true),
+    value = Some(BigDecimal(7)),
+    shareValue = Some(BigDecimal(8)),
+    policyInDeceasedName = Some(true),
+    isJointlyOwned = Some(true),
+    isInTrust = Some(false),
+    coveredByExemption = Some(false),
+    sevenYearsBefore = Some(false),
+    moreThanMaxValue = Some(false)
+  )
+
 
   val buildPrivatePension = PrivatePension(
     isChanged = None,
@@ -425,11 +444,11 @@ object CommonBuilder {
   val buildAllGiftsWithValues = buildAllGifts.copy(isGivenAway = Some(true),isReservation = Some(false),
                                 isToTrust = Some(false), isGivenInLast7Years = Some(true))
 
-  val buildGiftsList = Some(Seq(
+  val buildGiftsList = Seq(
     PreviousYearsGifts(Some("1"), Some(1000.00), Some(0), Some("6 April 2014"), Some("12 December 2014")),
-    PreviousYearsGifts(Some("2"), Some(1000.00), Some(0), Some("6 April 2013"), Some("5 April 2013")),
-    PreviousYearsGifts(Some("3"), Some(1000.00), Some(0), Some("6 April 2012"), Some("5 April 2012"))
-  ))
+    PreviousYearsGifts(Some("2"), Some(1001.00), Some(0), Some("6 April 2013"), Some("5 April 2013")),
+    PreviousYearsGifts(Some("3"), Some(1002.00), Some(0), Some("6 April 2012"), Some("5 April 2012"))
+  )
 
   //Creates the ApplicationDetails with default values
   val buildApplicationDetails2 = ApplicationDetails(allAssets = None,
@@ -502,10 +521,23 @@ object CommonBuilder {
     totalValue = Some(44.45)
   )
 
+  val charity2 = Charity(
+    id = Some(DefaultId),
+    name = Some("A Charity"),
+    number = Some("1234567"),
+    totalValue = Some(45.44)
+  )
+
   val qualifyingBody = QualifyingBody(
     id = Some("1"),
     name = Some("Qualifying Body"),
     totalValue = Some(12345)
+  )
+
+  val qualifyingBody2 = QualifyingBody(
+    id = Some("2"),
+    name = Some("Qualifying Body 2"),
+    totalValue = Some(54321)
   )
 
   val buildProperty = Property(
@@ -547,6 +579,15 @@ object CommonBuilder {
     typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly,
     tenure = TestHelper.TenureFreehold,
     value = Some(12345)
+  )
+
+  val property2 = Property(
+    id = Some("2"),
+    address = Some(DefaultUkAddress2),
+    propertyType = TestHelper.PropertyTypeOtherResidentialBuilding,
+    typeOfOwnership = TestHelper.TypesOfOwnershipJoint,
+    tenure = TestHelper.TenureLeasehold,
+    value = Some(489)
   )
 
   lazy val buildLeadExecutor = models.des.LeadExecutor(CommonBuilder.buildApplicantDetails.firstName.fold("")(identity),
@@ -718,7 +759,7 @@ object CommonBuilder {
   val buildApplicationDetailsWithAssetsGiftsAndDebts = buildApplicationDetails.copy(
     allAssets = Some(buildAllAssetsWithAllSectionsFilled),
     allGifts = Some(buildAllGiftsWithValues),
-    giftsList = buildGiftsList,
+    giftsList = Some(buildGiftsList),
     propertyList = buildPropertyList,
     allLiabilities = Some(buildAllLiabilitiesWithAllSectionsFilled),
     ihtRef = DefaultIHTReference)

@@ -78,26 +78,6 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
     }
 
-    "respond with OK on page load, page contains Return link to go to PartnerOverview page " +
-      "when PartnerHome question has a value" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
-        allExemptions = Some(CommonBuilder.buildAllExemptions.copy(partner = Some(PartnerExemption(
-          Some(true), Some(true), None, None, None, None, Some(1000))))))
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
-
-      val result = partnerPermanentHomeQuestionController.onPageLoad (createFakeRequest())
-      status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.saveAndContinue"))
-      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"))
-
-    }
-
     "save application and go to Exemptions Overview page on submit" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
         allExemptions = Some(CommonBuilder.buildAllExemptions.copy(partner = Some(PartnerExemption(

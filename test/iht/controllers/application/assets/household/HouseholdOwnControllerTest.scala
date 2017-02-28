@@ -151,16 +151,6 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
       val result = householdDeceasedOwnController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
-
-    "display the correct title on page load" in {
-      val applicationDetails = CommonBuilder.buildApplicationDetails
-      setUpTests(applicationDetails)
-
-      val result = householdDeceasedOwnController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include
-      (messagesApi("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
-    }
   }
+ 
 }

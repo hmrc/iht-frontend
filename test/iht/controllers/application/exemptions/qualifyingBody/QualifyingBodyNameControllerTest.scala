@@ -129,27 +129,6 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
       status(resultOnPageLoad) should be(OK)
     }
 
-    "display the correct content onPageLoad" in {
-      createMocksForQualifyingBodyName
-      val resultAsString = contentAsString(resultOnPageLoad)
-      resultAsString should include(messagesApi("page.iht.application.exemptions.qualifyingBody.name.sectionTitle"))
-      resultAsString should include(messagesApi("page.iht.application.exemptions.qualifyingBody.name.browserTitle"))
-      resultAsString should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
-      resultAsString should include(messagesApi("iht.saveAndContinue"))
-    }
-
-    "display the correct content onEditPageLoad" in {
-      createMocksForQualifyingBodyName
-      val result = resultOnEditPageLoad("1")
-
-      val resultAsString = contentAsString(result)
-      resultAsString should include(messagesApi("page.iht.application.exemptions.qualifyingBody.name.sectionTitle"))
-      resultAsString should include(messagesApi("page.iht.application.exemptions.qualifyingBody.name.browserTitle"))
-      resultAsString should include(messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"))
-      resultAsString should include(messagesApi("iht.saveAndContinue"))
-      resultAsString should include(QualifyingBody1Name)
-    }
-
     "display errors when a blank value is submitted" in {
       createMocksForQualifyingBodyName
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("name", ""))
