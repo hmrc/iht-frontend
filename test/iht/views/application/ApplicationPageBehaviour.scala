@@ -56,6 +56,8 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
 
   val continueContent: String = "iht.saveAndContinue"
 
+  def linkHash: String = ""
+
   def applicationPage() = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
@@ -74,7 +76,11 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
     if (formTarget.isDefined) {
       "show the Save/Continue button with the correct target" in {
         formTarget.foreach { target =>
-          doc.getElementsByTag("form").attr("action") shouldBe target.url
+          if(linkHash > ""){
+            doc.getElementsByTag("form").attr("action") shouldBe target.url + "#" + linkHash
+          } else {
+            doc.getElementsByTag("form").attr("action") shouldBe target.url
+          }
         }
         doc.getElementById(continueId).text shouldBe messagesApi(continueContent)
       }

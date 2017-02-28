@@ -65,7 +65,7 @@
                 <section class="section">
 
                     <ul class="tabular-data tabular-data--list">
-                        @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(IhtProperties.statusWidowed)) {
+                        @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(statusWidowed)) {
                             @tnrb_overview_table_row(id = "partner-marital-status",
                                 questionText = Html(Messages("iht.estateReport.tnrb.partner.married",
                                     TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
@@ -84,7 +84,7 @@
                                 ),
                                 linkID = TnrbSpouseMartialStatusID)
                         }
-                        @defining(widowCheckModel.dateOfPreDeceased.map(x => x.toString(IhtProperties.dateFormatForDisplay)).fold("")(identity)) { answerValue =>
+                        @defining(widowCheckModel.dateOfPreDeceased.map(x => x.toString(dateFormatForDisplay)).fold("")(identity)) { answerValue =>
                             @tnrb_overview_table_row(id = "date-of-preDeceased",
                                 questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
 
@@ -153,7 +153,7 @@
                 }
 
                 @defining(if(tnrbModel.dateOfMarriage.isDefined) "some" else "none") { messageFileSuffix =>
-                    @defining(tnrbModel.dateOfMarriage.map(x => x.toString(IhtProperties.dateFormatForDisplay)).fold("")(identity)) { answerValue =>
+                    @defining(tnrbModel.dateOfMarriage.map(x => x.toString(dateFormatForDisplay)).fold("")(identity)) { answerValue =>
                         @tnrb_overview_table_row(id = "date-of-marriage",
                             questionText = Html(Messages("iht.estateReport.tnrb.dateOfMarriage",
                                 TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))),

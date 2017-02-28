@@ -50,7 +50,7 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      partner_name(form, Some(new LocalDate(2000,10,1)))
+      partner_name(form, Some(new LocalDate(2000,10,1)), CommonBuilder.DefaultCall2)
 
   override val cancelId: String = "cancel-button"
 

@@ -27,7 +27,7 @@ trait DebtsElementViewBehaviour[A] extends ApplicationPageBehaviour {
   def yesNoQuestionText: String
   def inputValueFieldLabel: String
   def inputValueFieldHintText: String = "default hint"
-  def linkHash: String = ""
+  override def linkHash: String = ""
 
   override def cancelComponent = Some(
     CancelComponent(
