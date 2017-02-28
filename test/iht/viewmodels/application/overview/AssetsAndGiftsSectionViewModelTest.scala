@@ -72,7 +72,7 @@ class AssetsAndGiftsSectionViewModelTest
     }
 
     "have the correct text when all answers to assets questions are 'No'" in {
-      val appDetails = applicationDetails.copy (allAssets = Some(buildAllAssetsAnsweredNo))
+      val appDetails = applicationDetails.copy (allAssets = Some(CommonBuilder.buildAllAssetsAnsweredNo))
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
       viewModel.assetRow.value shouldBe messagesApi("site.noAssets")
@@ -149,7 +149,13 @@ class AssetsAndGiftsSectionViewModelTest
     }
 
     "have the correct text when all answers to gifts questions are 'No'" in {
-      val appDetails = applicationDetails copy (allGifts = Some(buildAllGiftsAnsweredNo))
+      val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
+        isReservation = Some(false),
+        isToTrust = Some(false),
+        isGivenInLast7Years = Some(false),
+        action = None)
+
+      val appDetails = applicationDetails copy (allGifts = Some(allGifts))
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
       viewModel.giftRow.value shouldBe messagesApi("page.iht.application.overview.gifts.nonGiven")
@@ -233,30 +239,5 @@ class AssetsAndGiftsSectionViewModelTest
 
     //endregion
 
-    // TODO: Move these elsewhere if and when common builder is refactored
-    lazy val buildAllAssetsAnsweredNo = AllAssets(
-        money = Some(ShareableBasicEstateElement(isOwned = Some(false), isOwnedShare = Some(false), value = None, shareValue = None)),
-        household = Some(ShareableBasicEstateElement(isOwned = Some(false), isOwnedShare = Some(false), value = None, shareValue = None)),
-        vehicles = Some(ShareableBasicEstateElement(isOwned = Some(false), isOwnedShare = Some(false), value = None, shareValue = None)),
-        privatePension = Some(PrivatePension(isOwned = Some(false), isChanged = None, value = None)),
-        stockAndShare = Some(StockAndShare(isListed = Some(false), isNotListed = Some(false), value = None, valueListed = None,
-          valueNotListed = None)),
-        insurancePolicy = Some(InsurancePolicy(policyInDeceasedName = Some(false), isJointlyOwned = Some(false),
-          isInsurancePremiumsPayedForSomeoneElse = Some(false), isAnnuitiesBought = None, value = None, shareValue = None, isInTrust = None,
-          coveredByExemption = None, sevenYearsBefore = None, moreThanMaxValue = None)),
-        businessInterest = Some(BasicEstateElement(isOwned = Some(false), value = None)),
-        moneyOwed = Some(BasicEstateElement(isOwned = Some(false), value = None)),
-        nominated = Some(BasicEstateElement(isOwned = Some(false), value = None)),
-        heldInTrust = Some(HeldInTrust(isOwned = Some(false), value = None, isMoreThanOne = None)),
-        foreign = Some(BasicEstateElement(isOwned = Some(false), value = None)),
-        other = Some(BasicEstateElement(isOwned = Some(false), value = None)),
-        properties = Some(Properties(isOwned = Some(false))))
-
-    lazy val buildAllGiftsAnsweredNo = AllGifts(
-      isGivenAway = Some(false),
-      isReservation = Some(false),
-      isToTrust = Some(false),
-      isGivenInLast7Years = Some(false),
-      action = None)
   }
 }
