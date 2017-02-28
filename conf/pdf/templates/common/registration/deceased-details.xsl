@@ -21,8 +21,8 @@
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="0.5cm">
             <fo:block>
                 <fo:table space-before="0.5cm">
-                    <fo:table-column column-number="1" column-width="60%"/>
-                    <fo:table-column column-number="2" column-width="40%"/>
+                    <fo:table-column column-number="1" column-width="22%"/>
+                    <fo:table-column column-number="2" column-width="78%"/>
                     <fo:table-body font-size="12pt">
 
                         <xsl:call-template name="table-row-short-vpad-border-top-black">
