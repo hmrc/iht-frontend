@@ -30,3 +30,26 @@ https://github.com/hmrc/assets-frontend/issues/727
   padding: 0;
   border: 0;
 }
+
+@media (min-width: 641px) {
+    .content__body {
+        float: none;
+        width: auto;
+    }
+    .sidebar {
+        float: none;
+        width: auto;
+        margin: 30px 0 0 0;
+    }
+}
+@media (min-width: 841px) {
+    .content__body {
+        float: left;
+        width: 61.666667%;
+    }
+    .sidebar {
+        float: right;
+        width: 33.333333%;
+        margin: 0;
+    }
+}
