@@ -20,7 +20,7 @@ import iht.FakeIhtApp
 import iht.utils.CommonHelper
 import iht.viewmodels.application.overview._
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers.overview_item
+import iht.views.html.ihtHelpers.custom.overview_item
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
 

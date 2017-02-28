@@ -32,7 +32,7 @@ registrationDetails: RegistrationDetails
     isFullWidth=false
     ) {
 
-    @ihtHelpers.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
+    @ihtHelpers.custom.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
 
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsJointController.onSubmit,'autoComplete -> "off") {
 
@@ -42,7 +42,7 @@ registrationDetails: RegistrationDetails
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
 
-            @ihtHelpers.input_yes_no_radio_group(
+            @ihtHelpers.standard.input_yes_no_radio_group(
                 insurancePolicyForm("isJointlyOwned"),
                 '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName)),
                 '_shownElementNo -> None,
@@ -54,7 +54,7 @@ registrationDetails: RegistrationDetails
                 '_mainQuestion -> true)
 
             <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
-                @ihtHelpers.input_estate_value(insurancePolicyForm("shareValue"),
+                @ihtHelpers.custom.input_estate_value(insurancePolicyForm("shareValue"),
                 '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"),
                 '_help -> Messages("page.iht.application.insurance.policies.section2.guidance2"),
                 '_sectionName -> (sectionName + "1"),
@@ -70,6 +70,6 @@ registrationDetails: RegistrationDetails
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
     }
 }

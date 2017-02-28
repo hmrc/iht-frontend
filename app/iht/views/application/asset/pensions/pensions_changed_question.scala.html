@@ -36,12 +36,12 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
     <p class="lede">@Messages("page.iht.application.assets.pensions.changed.question")</p>
 
-    @ihtHelpers.error_summary_override_keys(pensionsChangedQuestionForm, Constants.AppSectionPrivatePension)
+    @ihtHelpers.custom.error_summary_override_keys(pensionsChangedQuestionForm, Constants.AppSectionPrivatePension)
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onSubmit,'autoComplete -> "off") {
 
 
-            @ihtHelpers.input_yes_no_radio_group(
+            @ihtHelpers.standard.input_yes_no_radio_group(
             pensionsChangedQuestionForm("isChanged"),
             '_legend -> Html(Messages("page.iht.application.assets.pensions.changed.title")),
             '_legendClass -> Some("visually-hidden"),
@@ -54,7 +54,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     }
 
 
-@ihtHelpers.return_link(Messages("iht.estateReport.assets.pensions.returnToPrivatePensions"), Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()))
+@ihtHelpers.custom.return_link(Messages("iht.estateReport.assets.pensions.returnToPrivatePensions"), Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()))
 
 
 }

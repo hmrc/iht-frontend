@@ -26,11 +26,11 @@
 browserTitle = Some(Messages("page.iht.application.tnrb.stateClaim.browserTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
-    @ihtHelpers.error_summary(estateClaimAnyBusinessForm)
+    @ihtHelpers.custom.error_summary(estateClaimAnyBusinessForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
           estateClaimAnyBusinessForm("isStateClaimAnyBusiness"),
           '_divClass -> Some("form-group"),
           '_legend -> Messages("iht.estateReport.tnrb.stateClaim.question"),

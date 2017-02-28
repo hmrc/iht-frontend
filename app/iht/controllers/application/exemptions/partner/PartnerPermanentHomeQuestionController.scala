@@ -141,7 +141,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
   }
 
   private def returnLabel(regDetails: RegistrationDetails, appDetails: ApplicationDetails): String = {
-    val deceasedName = ihtHelpers.name(regDetails.deceasedDetails.map(_.name).getOrElse(""))
+    val deceasedName = ihtHelpers.custom.name(regDetails.deceasedDetails.map(_.name).getOrElse(""))
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
       case Some(x) => {

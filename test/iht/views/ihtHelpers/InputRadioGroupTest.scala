@@ -18,7 +18,7 @@ package iht.views.ihtHelpers
 
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers.input_radio_group
+import iht.views.html.ihtHelpers.standard.input_radio_group
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages.Implicits._

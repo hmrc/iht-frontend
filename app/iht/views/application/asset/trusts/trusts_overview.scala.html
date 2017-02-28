@@ -21,7 +21,7 @@
 @import iht.views.html._
 
 @import iht.utils._
-@import iht.views.html.ihtHelpers._
+@import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import scala.collection.immutable.Seq
 @import iht.utils.CommonHelper
@@ -95,5 +95,5 @@ isFullWidth=false
         </ul>
     </section>
 
-    @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedName), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedName), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
 }

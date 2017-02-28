@@ -30,12 +30,12 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 browserTitle = Some(Messages("iht.estateReport.assets.propertiesBuildingsAndLand")),
 isFullWidth=false){
 
-    @ihtHelpers.error_summary(propertiesForm)
+    @ihtHelpers.custom.error_summary(propertiesForm)
     @helpers.form(action = iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
         <p class="lede" id="properties-question-description">@Html(Messages("page.iht.application.assets.properties.question.p1", deceasedName))</p>
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
         propertiesForm("isOwned"),
         '_legend -> Html(Messages("page.iht.application.assets.properties.question.question", deceasedName)),
         '_shownElementNo -> Some("mortgage-guidance-panel"),
@@ -50,7 +50,7 @@ isFullWidth=false){
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
+        @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
         }
 }

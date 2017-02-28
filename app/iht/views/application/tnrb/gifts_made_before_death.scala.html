@@ -34,11 +34,11 @@ cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold
 cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
 headingName = partnerName
 ){
-    @ihtHelpers.error_summary(giftMadeBeforeDeathForm)
+    @ihtHelpers.custom.error_summary(giftMadeBeforeDeathForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
         giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),
         '_hintText -> Html("<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
     TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint")))

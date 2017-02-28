@@ -34,11 +34,11 @@ cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold
 cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
 headingName = partnerName
 ){
-    @ihtHelpers.error_summary(partnerLivingInUkForm)
+    @ihtHelpers.custom.error_summary(partnerLivingInUkForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
         partnerLivingInUkForm("isPartnerLivingInUk"),
         '_hintText -> Html(Messages("page.iht.application.tnrb.permanentHome.question.hint")),
         '_divClass -> Some("form-group"),

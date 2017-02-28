@@ -348,15 +348,15 @@ object CommonHelper {
   }
 
   def addressFormater(applicantAddress: UkAddress): String = {
-    var address: String = ihtHelpers.name(applicantAddress.ukAddressLine1.toString) +
-      " \n" + ihtHelpers.name(applicantAddress.ukAddressLine2.toString).toString.replace("\n", "")
+    var address: String = ihtHelpers.custom.name(applicantAddress.ukAddressLine1.toString) +
+      " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine2.toString).toString.replace("\n", "")
 
     if (applicantAddress.ukAddressLine3.isDefined) {
-      address += " \n" + ihtHelpers.name(applicantAddress.ukAddressLine3.getOrElse("").toString).toString.replace("\n", "")
+      address += " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine3.getOrElse("").toString).toString.replace("\n", "")
     }
 
     if (applicantAddress.ukAddressLine4.isDefined) {
-      address += " \n" + ihtHelpers.name(applicantAddress.ukAddressLine4.getOrElse("").toString).toString.replace("\n", "")
+      address += " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine4.getOrElse("").toString).toString.replace("\n", "")
     }
 
     if (applicantAddress.postCode.toString != "") {
@@ -436,7 +436,7 @@ object CommonHelper {
 
   def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails, wrapName: Boolean = false): String =
     if (wrapName) {
-      ihtHelpers.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
+      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
     } else {
       regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
     }

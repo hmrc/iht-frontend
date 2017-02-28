@@ -30,11 +30,11 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     cancelLabel = Some(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")),
     isFullWidth = false) {
 
-    @ihtHelpers.error_summary(partnerValueForm)
+    @ihtHelpers.custom.error_summary(partnerValueForm)
 
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerValueController.onSubmit, 'autoComplete -> "off") {
 
-        @ihtHelpers.input_with_help(partnerValueForm("totalAssets"),
+        @ihtHelpers.standard.input_with_help(partnerValueForm("totalAssets"),
             '_currency -> "GBP",
             '_divClass -> "form-group",
             '_label -> Html(Messages("page.iht.application.exemptions.partner.totalAssets.label")),

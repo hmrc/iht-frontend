@@ -31,7 +31,7 @@ predeceasedDate: Option[LocalDate]
 browserTitle = Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
-    @ihtHelpers.error_summary(partnerNameForm)
+    @ihtHelpers.custom.error_summary(partnerNameForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.PartnerNameController.onSubmit,'autoComplete -> "off") {
 
@@ -40,14 +40,14 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
 <p class="form-hint">@Messages("page.iht.application.TnrbEligibilty.partnerName.hint",
     CommonHelper.getOrException(predeceasedDate).getYear.toString)</p>
 
-    @ihtHelpers.input_with_help(partnerNameForm("firstName"),
+    @ihtHelpers.standard.input_with_help(partnerNameForm("firstName"),
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.firstName"))
          )
 
-    @ihtHelpers.input_with_help(partnerNameForm("lastName"),
+    @ihtHelpers.standard.input_with_help(partnerNameForm("lastName"),
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",

@@ -32,7 +32,7 @@ isFullWidth=false){
         <strong>
             @if(qualifyingBodyName.isEmpty){
                 @Messages("iht.estateReport.exemptions.charities.noNameAdded")
-            } else { @ihtHelpers.name(qualifyingBodyName) }
+            } else { @ihtHelpers.custom.name(qualifyingBodyName) }
         </strong>
     </p>
     <p id="action-button"><button class="button" id="confirm-delete" name="action" value="save">@Messages("site.button.confirmDelete")</button></p>

@@ -28,14 +28,14 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid"),
 browserTitle = Some(Messages("page.iht.application.assets.pensions.value.browserTitle")),
 isFullWidth=false){
-    @ihtHelpers.error_summary_override_keys(pensionsValueForm, Constants.AppSectionPrivatePension)
+    @ihtHelpers.custom.error_summary_override_keys(pensionsValueForm, Constants.AppSectionPrivatePension)
 
     <p class="lede">@Messages("page.iht.application.assets.pensions.hint")</p>
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsValueController.onSubmit,'autoComplete -> "off") {
 
 
-            @ihtHelpers.input_estate_value(pensionsValueForm("value"),
+            @ihtHelpers.custom.input_estate_value(pensionsValueForm("value"),
             '_currency -> "GBP",
             '_divClass -> "form-group",
             '_labelTextClass -> "visually-hidden",
@@ -48,6 +48,6 @@ isFullWidth=false){
 
     }
 
-@ihtHelpers.return_link(Messages("iht.estateReport.assets.pensions.returnToPrivatePensions"), Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()))
+@ihtHelpers.custom.return_link(Messages("iht.estateReport.assets.pensions.returnToPrivatePensions"), Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()))
 
 }

@@ -21,7 +21,7 @@
 @import iht.controllers.application.exemptions.charity.routes._
 @import iht.constants.FieldMappings
 @import iht.utils.CommonHelper
-@import iht.views.html.ihtHelpers._
+@import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
 @(charity:Option[Charity]=None)(implicit request:Request[_], messages: Messages)
@@ -34,16 +34,16 @@ isFullWidth = false) {
     <ul id="charity-details-table" class="tabular-data tabular-data--list">
     @defining(charity.flatMap(_.id))  { charityId =>
         @defining(charity.flatMap(_.name))  { charityName =>
-                @ihtHelpers.generic_overview_item(
+                @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.charityName.title"),
                     name = "charity.detailsOverview.name",
                     id = "charity-name",
-                    value = ihtHelpers.name(charityName).toString(),
+                    value = ihtHelpers.custom.name(charityName).toString(),
                     valueScreenReader = "",
                     link = charityId match {
                         case Some(name) => Some(CharityNameController.onEditPageLoad(charityId))
                         case None => Some(CharityNameController.onPageLoad) } ,
-                    linkText=ihtHelpers.generic_overview_status_link(
+                    linkText=ihtHelpers.custom.generic_overview_status_link(
                       isComplete = charityName match {
                         case Some(name) => Some(true)
                         case None => None
@@ -61,7 +61,7 @@ isFullWidth = false) {
         }
 
         @defining(charity.flatMap(_.number))  { charityNumber =>
-                @ihtHelpers.generic_overview_item(
+                @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.registeredCharityNo"),
                     name = "charity.detailsOverview.number",
                     id = "charity-number",
@@ -70,7 +70,7 @@ isFullWidth = false) {
                     link = charityId match {
                         case Some(id) => Some(CharityNumberController.onEditPageLoad(charityId))
                         case None => Some(CharityNumberController.onPageLoad) } ,
-                    linkText=ihtHelpers.generic_overview_status_link(
+                    linkText=ihtHelpers.custom.generic_overview_status_link(
                       isComplete = charityNumber match {
                         case Some(name) => Some(true)
                         case None => None
@@ -87,7 +87,7 @@ isFullWidth = false) {
         }
 
         @defining(charity.flatMap(_.totalValue))  { charityValue =>
-                @ihtHelpers.generic_overview_item(
+                @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"),
                     name = "charity.detailsOverview.value",
                     id = "charity-value",
@@ -99,7 +99,7 @@ isFullWidth = false) {
                     link = charityId match {
                         case Some(id) => Some(CharityValueController.onEditPageLoad(charityId))
                         case None => Some(CharityValueController.onPageLoad) } ,
-                    linkText = ihtHelpers.generic_overview_status_link(
+                    linkText = ihtHelpers.custom.generic_overview_status_link(
                       isComplete = charityValue match {
                         case Some(name) => Some(true)
                         case None => None
@@ -118,7 +118,7 @@ isFullWidth = false) {
 
 </section>
 <p>
-@ihtHelpers.return_link(label = Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
+@ihtHelpers.custom.return_link(label = Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
     link = Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()))
 </p>
 }

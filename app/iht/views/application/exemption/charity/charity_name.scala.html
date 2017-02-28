@@ -31,10 +31,10 @@ browserTitle = Some(Messages("iht.estateReport.exemptions.charities.charityName.
 cancelUrl = Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
 isFullWidth=false){
-@ihtHelpers.error_summary(charityNameForm)
+@ihtHelpers.custom.error_summary(charityNameForm)
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
-    @ihtHelpers.input_with_help(charityNameForm("name"),
+    @ihtHelpers.standard.input_with_help(charityNameForm("name"),
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_label -> Html(Messages("page.iht.application.exemptions.charityName.sectionTitle")),
