@@ -28,7 +28,7 @@ tnrbModel: TnrbEligibiltyModel,
 registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
 cancelLinkText:String
-)(implicit request:Request[_], messages: Messages))
+)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 
