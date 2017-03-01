@@ -22,6 +22,7 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat.Appendable
+import iht.utils.CommonHelper._
 
 trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
 
@@ -88,11 +89,7 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
     "show a return link" in {
       val link = doc.getElementById("return-button")
       link.text shouldBe returnLinkText
-      if(linkHash > ""){
-        link.attr("href") shouldBe returnLinkUrl + "#" + linkHash
-      }else{
-        link.attr("href") shouldBe returnLinkUrl
-      }
+      link.attr("href") shouldBe addFragmentIdentifierToUrl(returnLinkUrl, linkHash)
     }
 
     if (formTarget.isDefined) {

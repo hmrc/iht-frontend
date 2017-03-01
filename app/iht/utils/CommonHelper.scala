@@ -479,7 +479,14 @@ object CommonHelper {
   def addFragmentIdentifier(call:Call, identifier:Option[String] = None) = {
     identifier match {
       case None => call
-      case Some(id) => Call(call.method, call.url + "#" + id)
+      case Some(id) => Call(call.method, addFragmentIdentifierToUrl(call.url, id))
+    }
+  }
+  def addFragmentIdentifierToUrl(url:String, identifier: String) = {
+    if(identifier.nonEmpty) {
+      url + "#" + identifier
+    }else{
+      url
     }
   }
 }

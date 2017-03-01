@@ -20,6 +20,7 @@ import org.jsoup.nodes.Document
 import play.api.data.{Form, FormError}
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat.Appendable
+import iht.utils.CommonHelper._
 
 trait SubmittableApplicationPageBehaviour[A] extends ApplicationPageBehaviour {
 
@@ -48,11 +49,7 @@ trait SubmittableApplicationPageBehaviour[A] extends ApplicationPageBehaviour {
       continueLink.attr("value") shouldBe messagesApi("iht.continue")
 
       val cancelLink = view.getElementById("cancel-button")
-      if(linkHash > ""){
-        cancelLink.attr("href") shouldBe cancelUrl.url + "#" + linkHash
-      } else {
-        cancelLink.attr("href") shouldBe cancelUrl.url
-      }
+      cancelLink.attr("href") shouldBe addFragmentIdentifierToUrl(cancelUrl.url, linkHash)
       cancelLink.text() shouldBe messagesApi("site.link.cancel")
     }
   }

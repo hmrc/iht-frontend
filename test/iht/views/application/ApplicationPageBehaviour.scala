@@ -20,6 +20,7 @@ import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
+import iht.utils.CommonHelper._
 
 case class CancelComponent(target: Call, content: String, hash: String = "")
 
@@ -86,11 +87,7 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
       "show the return link with the correct target and text" in {
         cancelComponent.foreach { attrib =>
           val cancelButton = doc.getElementById(cancelId)
-          if(attrib.hash > ""){
-            cancelButton.attr("href") shouldBe attrib.target.url + "#" + attrib.hash
-          } else {
-            cancelButton.attr("href") shouldBe attrib.target.url
-          }
+          cancelButton.attr("href") shouldBe addFragmentIdentifierToUrl(attrib.target.url, attrib.hash)
           cancelButton.text() shouldBe attrib.content
         }
       }
