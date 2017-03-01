@@ -1,0 +1,66 @@
+/*
+ * Copyright 2017 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package iht.views.application
+
+import iht.views.GenericNonSubmittablePageBehaviour
+import iht.views.html.application.application_error
+import play.api.i18n.Messages.Implicits.applicationMessages
+
+trait ApplicationErrorViewBehaviour extends GenericNonSubmittablePageBehaviour {
+
+  def pageTitle = messagesApi("error.problem")
+
+  def browserTitle = messagesApi("error.problem")
+
+  override def exitComponent = None
+}
+
+class ApplicationErrorViewServiceUnavailableTest extends ApplicationErrorViewBehaviour {
+  def guidanceParagraphs = Set(messagesApi("error.report.redo"))
+
+  def view: String = application_error("serviceUnavailable")(createFakeRequest(), applicationMessages).toString
+
+  "Application error view for service unavailable" must {
+    behave like nonSubmittablePage()
+
+
+  }
+}
+
+class ApplicationErrorViewRequestTimeOutTest extends ApplicationErrorViewBehaviour {
+  def guidanceParagraphs = Set(messagesApi("error.cannotSend"))
+
+  def view: String = application_error("requestTimeOut")(createFakeRequest(), applicationMessages).toString
+
+  "Application error view for request timeOut" must {
+    behave like nonSubmittablePage()
+
+    "not have service unavailable content" in {
+      messagesShouldNotBePresent(view, messagesApi("error.report.redo"))
+    }
+  }
+}
+
+class ApplicationErrorViewSomeOtherTest extends ApplicationErrorViewBehaviour {
+  def guidanceParagraphs = Set(messagesApi("error.cannotSend"), messagesApi("error.report.redo"))
+
+  def view: String = application_error("someOther")(createFakeRequest(), applicationMessages).toString
+
+  "Application error view for some other error" must {
+    behave like nonSubmittablePage()
+  }
+}
