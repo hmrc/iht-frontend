@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package iht.controllers.application
+package iht.controllers.application.status
 
-import iht.utils.IhtSection
-import iht.views.ViewTestHelper
+import iht.controllers.application.ApplicationControllerTest
+import iht.testhelpers.CommonBuilder
+import iht.views.HtmlSpec
 
-trait ApplicationControllerTest extends ViewTestHelper {
-  def loginUrl = buildLoginUrl(IhtSection.Application)
+class ApplicationInReviewControllerTest extends ApplicationControllerTest with HtmlSpec {
+  "ApplicationInReviewController" must {
+    "implement the correct view" in {
+      val request = createFakeRequest()
+      val pageContent = ApplicationInReviewController.getView("","",CommonBuilder.buildProbateDetails)(request).toString
+      titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.inreview.title"))
+    }
+  }
 }

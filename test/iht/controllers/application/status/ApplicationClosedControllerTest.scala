@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package iht.controllers.application
+package iht.controllers.application.status
 
-import iht.utils.IhtSection
-import iht.views.ViewTestHelper
+import iht.controllers.application.ApplicationControllerTest
+import iht.testhelpers.CommonBuilder
+import iht.views.HtmlSpec
 
-trait ApplicationControllerTest extends ViewTestHelper {
-  def loginUrl = buildLoginUrl(IhtSection.Application)
+class ApplicationClosedControllerTest extends ApplicationControllerTest with HtmlSpec {
+  "ApplicationClosedController" must {
+    "implement a view" in {
+      val request = createFakeRequest()
+      val pageContent = ApplicationClosedController.getView("","",CommonBuilder.buildProbateDetails)(request).toString
+      titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.common.title"))
+    }
+  }
 }

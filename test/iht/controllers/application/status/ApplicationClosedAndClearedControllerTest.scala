@@ -16,12 +16,16 @@
 
 package iht.controllers.application.status
 
-import iht.controllers.IhtConnectors
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Request
+import iht.controllers.application.ApplicationControllerTest
+import iht.testhelpers.CommonBuilder
+import iht.views.HtmlSpec
 
-object ApplicationClosedAndClearedController extends ApplicationStatusController with IhtConnectors {
-  def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
-    iht.views.html.application.status.closed_cleared_application(ihtReference, deceasedName, probateDetails)(request, applicationMessages)
+class ApplicationClosedAndClearedControllerTest extends ApplicationControllerTest with HtmlSpec {
+  "ApplicationClosedAndClearedController" must {
+    "implement a view" in {
+      val request = createFakeRequest()
+      val pageContent = ApplicationClosedAndClearedController.getView("","",CommonBuilder.buildProbateDetails)(request).toString
+      titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.common.title"))
+    }
+  }
 }
