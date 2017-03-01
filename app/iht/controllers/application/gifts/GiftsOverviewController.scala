@@ -16,8 +16,9 @@
 
 package iht.controllers.application.gifts
 
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
-import iht.controllers.{ControllerHelper, IhtConnectors}
+import iht.controllers.ControllerHelper
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -30,6 +31,7 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.views.html._
+
 import scala.concurrent.Future
 
 object GiftsOverviewController extends GiftsOverviewController with IhtConnectors {

@@ -17,7 +17,7 @@
 package iht.controllers.registration.deceased
 
 import iht.controllers.ControllerHelper.Mode
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.forms.registration.DeceasedForms._
 import iht.metrics.Metrics
 import iht.models.{DeceasedDetails, RegistrationDetails}

@@ -16,7 +16,7 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.utils.CommonHelper
 import play.api.i18n.Messages.Implicits._

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package iht.controllers
+package iht.connector
 
 import iht.config.FrontendAuthConnector
-import iht.connector.{CachingConnector, IhtConnector}
 
 /**
  * Created by yasar on 9/28/15.

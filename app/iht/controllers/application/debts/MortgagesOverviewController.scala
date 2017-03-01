@@ -18,7 +18,7 @@ package iht.controllers.application.debts
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.FieldMappings
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.models.RegistrationDetails
 import iht.models.application.assets.Property

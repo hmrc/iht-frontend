@@ -17,7 +17,7 @@
 package iht.controllers.testonly
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.forms.testonly.TestOnlyForms.{storeRegistrationDetailsForm, _}
 import iht.models.RegistrationDetails
