@@ -33,7 +33,7 @@
 
                                         <xsl:call-template name="table-row-money-tall">
                                             <xsl:with-param name="label"
-                                                            select="i18n:getMessagesText($translator, 'pdf.assetTotal.text')"/>
+                                                            select="i18n:getMessagesText($translator, 'iht.value')"/>
                                             <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
                                         </xsl:call-template>
 
@@ -81,7 +81,7 @@
 
                                         <xsl:call-template name="table-row-money-tall">
                                             <xsl:with-param name="label"
-                                                            select="i18n:getMessagesText($translator, 'pdf.assetTotal.text')"/>
+                                                            select="i18n:getMessagesText($translator, 'iht.value')"/>
                                             <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
                                         </xsl:call-template>
                                         <xsl:comment>Blank row to display line at end of section</xsl:comment>

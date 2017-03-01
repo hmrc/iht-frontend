@@ -22,7 +22,7 @@ import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
 import iht.utils._
-import iht.constants.IhtProperties
+import iht.constants.{FieldMappings, IhtProperties}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
@@ -38,6 +38,7 @@ import org.apache.fop.events.Event
 import org.apache.fop.events.EventFormatter
 import org.apache.fop.events.EventListener
 import org.apache.fop.events.model.EventSeverity
+import FieldMappings._
 
 /**
   * Created by david-beer on 07/06/16.
@@ -50,6 +51,26 @@ trait XmlFoToPDF {
   private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance/main.xsl"
   private val filePathForPreSubmissionXSL = s"$folderForPDFTemplates/presubmission/main.xsl"
   private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
+
+  def formatForDisplay(rd: RegistrationDetails): RegistrationDetails = {
+    val optionDeceasedDetails = rd.deceasedDetails.map { dd =>
+      dd copy (maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(ms)))
+    }
+    rd copy (deceasedDetails = optionDeceasedDetails)
+  }
+
+  def formatForDisplay(ihtReturn: IHTReturn): IHTReturn = {
+    def changeAssetDescription(s:String):String = {
+      s match {
+        case "Deceased's residence" => "Deceased's home"
+        case _ => s
+      }
+    }
+    def optionSetAsset = ihtReturn.freeEstate.flatMap(_.estateAssets)
+      .map(_.map(asset=>asset copy(assetDescription = asset.assetDescription.map( ad => changeAssetDescription(ad)))))
+    def optionFreeEstate = ihtReturn.freeEstate.map( freeEstate => freeEstate copy( estateAssets = optionSetAsset ))
+    ihtReturn copy (freeEstate = optionFreeEstate)
+  }
 
   def createPreSubmissionPDF(regDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String): Array[Byte] = {
@@ -67,12 +88,14 @@ trait XmlFoToPDF {
   }
 
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
+    val rd = formatForDisplay(registrationDetails)
+    val ir = formatForDisplay(ihtReturn)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
-      getPostSubmissionDetailsXMLSource(registrationDetails, ihtReturn)))
+      getPostSubmissionDetailsXMLSource(rd, ir)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPostSubmissionTransformer(registrationDetails, ihtReturn)
+    createPostSubmissionTransformer(rd, ir)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.toByteArray
@@ -163,13 +186,13 @@ trait XmlFoToPDF {
   }
 
   private def setupCommonTransformerParametersPreAndPost(transformer: Transformer,
-                                               registrationDetails: RegistrationDetails,
-                                               preDeceasedName: String,
-                                               dateOfMarriage: Option[LocalDate],
-                                               totalAssetsValue: BigDecimal,
-                                               totalLiabilitiesValue: BigDecimal,
-                                               totalExemptionsValue: BigDecimal,
-                                               totalPastYearsGiftsValue: BigDecimal) = {
+                                                         registrationDetails: RegistrationDetails,
+                                                         preDeceasedName: String,
+                                                         dateOfMarriage: Option[LocalDate],
+                                                         totalAssetsValue: BigDecimal,
+                                                         totalLiabilitiesValue: BigDecimal,
+                                                         totalExemptionsValue: BigDecimal,
+                                                         totalPastYearsGiftsValue: BigDecimal) = {
     setupCommonTransformerParameters(transformer)
     transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("assetsTotal", totalAssetsValue)

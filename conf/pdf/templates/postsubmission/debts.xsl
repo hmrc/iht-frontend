@@ -36,7 +36,7 @@
 
                                     <xsl:call-template name="table-row-money-tall">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'pdf.liabilityAmount.text')"/>
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value" select='format-number(number(liabilityAmount), "##,###.00")'/>
                                     </xsl:call-template>
 
