@@ -22,17 +22,17 @@ import play.api.i18n.Messages.Implicits.applicationMessages
 
 trait ApplicationErrorViewBehaviour extends GenericNonSubmittablePageBehaviour {
 
-  def pageTitle = messagesApi("error.problem")
+  override def pageTitle = messagesApi("error.problem")
 
-  def browserTitle = messagesApi("error.problem")
+  override def browserTitle = messagesApi("error.problem")
 
   override def exitComponent = None
 }
 
 class ApplicationErrorViewServiceUnavailableTest extends ApplicationErrorViewBehaviour {
-  def guidanceParagraphs = Set(messagesApi("error.report.redo"))
+  override def guidanceParagraphs = Set(messagesApi("error.report.redo"))
 
-  def view: String = application_error("serviceUnavailable")(createFakeRequest(), applicationMessages).toString
+  override def view: String = application_error("serviceUnavailable")(createFakeRequest(), applicationMessages).toString
 
   "Application error view for service unavailable" must {
     behave like nonSubmittablePage()
@@ -42,9 +42,9 @@ class ApplicationErrorViewServiceUnavailableTest extends ApplicationErrorViewBeh
 }
 
 class ApplicationErrorViewRequestTimeOutTest extends ApplicationErrorViewBehaviour {
-  def guidanceParagraphs = Set(messagesApi("error.cannotSend"))
+  override def guidanceParagraphs = Set(messagesApi("error.cannotSend"))
 
-  def view: String = application_error("requestTimeOut")(createFakeRequest(), applicationMessages).toString
+  override def view: String = application_error("requestTimeOut")(createFakeRequest(), applicationMessages).toString
 
   "Application error view for request timeOut" must {
     behave like nonSubmittablePage()
@@ -56,9 +56,9 @@ class ApplicationErrorViewRequestTimeOutTest extends ApplicationErrorViewBehavio
 }
 
 class ApplicationErrorViewSomeOtherTest extends ApplicationErrorViewBehaviour {
-  def guidanceParagraphs = Set(messagesApi("error.cannotSend"), messagesApi("error.report.redo"))
+  override def guidanceParagraphs = Set(messagesApi("error.cannotSend"), messagesApi("error.report.redo"))
 
-  def view: String = application_error("someOther")(createFakeRequest(), applicationMessages).toString
+  override def view: String = application_error("someOther")(createFakeRequest(), applicationMessages).toString
 
   "Application error view for some other error" must {
     behave like nonSubmittablePage()
