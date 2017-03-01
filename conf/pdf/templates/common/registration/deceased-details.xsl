@@ -43,6 +43,12 @@
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
+                                            select="i18n:getMessagesText($translator, 'iht.dateOfDeath')"/>
+                            <xsl:with-param name="value"
+                                            select="formatter:getDateForDisplay($pdfFormatter,deceasedDateOfDeath/dateOfDeath)"/>
+                        </xsl:call-template>
+                        <xsl:call-template name="table-row-short-vpad">
+                            <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
                             <xsl:with-param name="value" select="deceasedDetails/nino"/>
                         </xsl:call-template>
@@ -60,12 +66,6 @@
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'page.iht.registration.deceasedDetails.maritalStatus.label')"/>
                             <xsl:with-param name="value" select="deceasedDetails/maritalStatus"/>
-                        </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
-                            <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.dateOfDeath')"/>
-                            <xsl:with-param name="value"
-                                            select="formatter:getDateForDisplay($pdfFormatter,deceasedDateOfDeath/dateOfDeath)"/>
                         </xsl:call-template>
                         <xsl:comment>Blank row to display line at end of section</xsl:comment>
                         <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>

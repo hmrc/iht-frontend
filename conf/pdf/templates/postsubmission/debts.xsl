@@ -45,19 +45,15 @@
                                 </fo:table-body>
                             </fo:table>
                         </xsl:for-each>
-                        <!-- Total Debts row-->
-                        <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm">
-                            <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.liabilities.total.title')"/>
-                        </fo:block>
 
                         <fo:table space-before="0.5cm">
                             <fo:table-column column-number="1" column-width="60%"/>
                             <fo:table-column column-number="2" column-width="40%"/>
                             <fo:table-body font-size="12pt">
 
-                                <xsl:call-template name="table-row-money-tall-border-top-black">
+                                <xsl:call-template name="table-row-money-short-vpad-no-border">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
+                                                    select="i18n:getMessagesText($translator, 'iht.valueOfDebts')"/>
                                     <xsl:with-param name="value" select='format-number(number($debtsTotal), "##,###.00")'/>
                                 </xsl:call-template>
 
