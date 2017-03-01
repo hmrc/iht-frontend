@@ -420,18 +420,9 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(applicantAddressAbroadForm, data, expectedErrors)
     }
 
-    "give an error when the country code is too long" in {
-      pending // TODO: Review.  Is this not a valid test?
-      val data = completeAddressAbroad + ("countryCode" -> "AUS")
-      val expectedErrors = error("countryCode", "validation.error.invalid.countrycode")
-
-      checkForError(applicantAddressAbroadForm, data, expectedErrors)
-    }
-
     "give an error when the country code is invalid" in {
-      pending // TODO: Review.  Is this not a valid test?
       val data = completeAddressAbroad + ("countryCode" -> "XY")
-      val expectedErrors = error("countryCode", "validation.error.invalid.countrycode")
+      val expectedErrors = error("countryCode", "error.country.select")
 
       checkForError(applicantAddressAbroadForm, data, expectedErrors)
     }

@@ -65,7 +65,11 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain the first radio button without a hint" in {
-      pending
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val doc = asDocument(contentAsString(result))
+
+      val label =  doc.getElementById("filter-choices-continue-label")
+      label.attr("span") shouldBe empty
     }
 
     "contain the second radio button with the text 'I want to register so I can tell HMRC about a person's estate" in {
@@ -90,7 +94,11 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain the third radio button without a hint" in {
-      pending
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val doc = asDocument(contentAsString(result))
+
+      val label =  doc.getElementById("filter-choices-already-started-label")
+      label.attr("span") shouldBe empty
     }
 
     "contain the fourth radio button with the text 'I'm an agent and reporting on behalf of a client'" in {
@@ -101,7 +109,11 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
     }
 
     "contain the fourth radio button without a hint" in {
-      pending
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val doc = asDocument(contentAsString(result))
+
+      val label =  doc.getElementById("filter-choices-agent-label")
+      label.attr("span") shouldBe empty
     }
 
     "contain a continue button with the text 'Continue'" in {
