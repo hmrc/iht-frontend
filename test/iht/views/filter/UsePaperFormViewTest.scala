@@ -27,6 +27,9 @@ import iht.constants.IhtProperties
 class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
+  lazy val iht400FormUrl= "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
+  lazy val iht205FormUrl= "https://www.gov.uk/government/publications/inheritance-tax-return-of-estate-information-iht205-2011"
+  lazy val iht401FormUrl= "https://www.gov.uk/government/publications/inheritance-tax-domicile-outside-the-united-kingdom-iht401"
 
   def getPageAsDoc(country: String = "") = {
     val result = use_paper_form(country)(fakeRequest, applicationMessages)
@@ -117,14 +120,14 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
       val link = doc.getElementById("iht-400-link")
       link.text should be(messagesApi("page.iht.filter.paperform.iht400.link.text"))
-      pending // TODO: Check destination URL
+      link.attr("href") should be (iht400FormUrl)
     }
 
     "contain a link to the IHT-205 paper form" in {
       val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
       val link = doc.getElementById("iht-205-link")
       link.text should be(messagesApi("page.iht.filter.paperform.northern.ireland.iht205.link.text"))
-      pending // TODO: Check destination URL
+      link.attr("href") should be (iht205FormUrl)
     }
 
     "contain a link to NI Direct" in {
@@ -179,14 +182,14 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
       val link = doc.getElementById("iht-400-link")
       link.text should be(messagesApi("page.iht.filter.paperform.iht400.link.text"))
-      pending // TODO: Check destination URL
+      link.attr("href") should be (iht400FormUrl)
     }
 
     "contain a link to the IHT-401 paper form" in {
       val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
       val link = doc.getElementById("iht-401-link")
       link.text should be(messagesApi("page.iht.filter.paperform.other.country.iht401.link.text"))
-      pending // TODO: Check destination URL
+      link.attr("href") should be (iht401FormUrl)
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {

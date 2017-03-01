@@ -531,22 +531,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
     }
 
-    "give an error when the country code is too long" in {
-      pending // TODO: Review.  Is this not a valid test?
-      val data = completeAddressAbroad + ("ukAddress.countryCode" -> "AUS")
-      val expectedErrors = error("ukAddress.countryCode", "validation.error.invalid.countrycode")
-
-      checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
-    }
-
-    "give an error when the country code is invalid" in {
-      pending // TODO: Review.  Is this not a valid test?
-      val data = completeAddressAbroad + ("ukAddress.countryCode" -> "XY")
-      val expectedErrors = error("ukAddress.countryCode", "validation.error.invalid.countrycode")
-
-      checkForError(deceasedAddressDetailsOutsideUKForm, data, expectedErrors)
-    }
-
     "give multiple errors when no data is supplied" in {
       val expectedErrors = error("ukAddress.addressLine1", "error.required") ++
         error("ukAddress.ukAddressLine2", "error.required") ++

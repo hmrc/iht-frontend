@@ -24,7 +24,7 @@
 @(charityNameForm: Form[iht.models.application.exemptions.Charity],
 registrationDetails:RegistrationDetails,
 submitUrl:Call,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages))
+cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.charityName.sectionTitle"),
 browserTitle = Some(Messages("iht.estateReport.exemptions.charities.charityName.title")),

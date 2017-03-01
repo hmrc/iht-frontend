@@ -22,7 +22,7 @@
 @import iht.utils.CommonHelper
 
 @(trustsOwnedQuestionForm: Form[HeldInTrust],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 @deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}

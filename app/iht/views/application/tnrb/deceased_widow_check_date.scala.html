@@ -27,7 +27,7 @@ widowCheckModel: WidowCheck,
 tnrbModel: TnrbEligibiltyModel,
 registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
-cancelLinkText:String)(implicit request:Request[_], messages: Messages))
+cancelLinkText:String)(implicit request:Request[_], messages: Messages)
 
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(
                         tnrbModel,
