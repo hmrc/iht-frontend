@@ -24,7 +24,7 @@
 @(partnerGiftWithResToOtherForm:Form[TnrbEligibiltyModel],
 tnrbModel:TnrbEligibiltyModel,
 deceasedName:String,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages))
+cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedName),
 browserTitle = Some(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")),

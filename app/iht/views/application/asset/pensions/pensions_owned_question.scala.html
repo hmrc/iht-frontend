@@ -24,7 +24,7 @@
 @import iht.constants.IhtProperties._
 
 @(pensionsOwnedQuestionForm: Form[PrivatePension],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages))
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 

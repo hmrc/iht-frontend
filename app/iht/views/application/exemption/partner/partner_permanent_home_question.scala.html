@@ -23,7 +23,7 @@
 @(partnerPermanentHomeQuestionForm: Form[iht.models.application.exemptions.PartnerExemption],
 registrationDetails:RegistrationDetails,
 cancelLabel: String,
-cancelUrl: Call)(implicit request:Request[_], messages: Messages))
+cancelUrl: Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.partner.homeInUK.question"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partnerPermanentHome.browserTitle")),
