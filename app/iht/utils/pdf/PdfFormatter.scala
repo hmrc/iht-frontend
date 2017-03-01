@@ -61,17 +61,17 @@ object PdfFormatter {
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
         lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
-  def transform(ihtReturn:IHTReturn): IHTReturn = {
+  def transform(ihtReturn:IHTReturn, deceasedName: String): IHTReturn = {
     val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
       _.assetCode,
       Constants.ETMPAssetCodesToIHTMessageKeys,
-      (asset, newDescription) => asset.copy(assetDescription = Option(Messages(newDescription)))
+      (asset, newDescription) => asset.copy(assetDescription = Option(Messages(newDescription, deceasedName)))
     )
 
     val optionSetExemption = updateETMPOptionSet[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
       _.exemptionType,
       Constants.ETMPExemptionTypesToIHTMessageKeys,
-      (exemption, newDescription) => exemption.copy(exemptionType = Option(Messages(newDescription)))
+      (exemption, newDescription) => exemption.copy(exemptionType = Option(Messages(newDescription, deceasedName)))
     )
 
     val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (
