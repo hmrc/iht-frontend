@@ -52,13 +52,6 @@ trait XmlFoToPDF {
   private val filePathForPreSubmissionXSL = s"$folderForPDFTemplates/presubmission/main.xsl"
   private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
 
-  def formatForDisplay(rd: RegistrationDetails): RegistrationDetails = {
-    val optionDeceasedDetails = rd.deceasedDetails.map { dd =>
-      dd copy (maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(ms)))
-    }
-    rd copy (deceasedDetails = optionDeceasedDetails)
-  }
-
   def createPreSubmissionPDF(regDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String): Array[Byte] = {
     val declaration = if (declarationType.isEmpty) false else true
@@ -75,7 +68,7 @@ trait XmlFoToPDF {
   }
 
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
-    val rd = formatForDisplay(registrationDetails)
+    val rd = PdfFormatter.transform(registrationDetails)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
       getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
 

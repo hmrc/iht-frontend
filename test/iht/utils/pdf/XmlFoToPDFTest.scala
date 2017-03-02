@@ -32,14 +32,6 @@ class XmlFoToPDFTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val appDetails = CommonBuilder.buildApplicationDetails
 
-  "formatForDisplay" must {
-    "transform the marital status" in {
-      val rd = XmlFoToPDF.formatForDisplay(CommonBuilder.buildRegistrationDetails4 )
-      val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
-      result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
-    }
-  }
-
   "XmlFoToPDF.createClearancePDF" must {
     "have correct contents for the certificate" in {
       val declarationDate = new LocalDate(2015, 10, 10)

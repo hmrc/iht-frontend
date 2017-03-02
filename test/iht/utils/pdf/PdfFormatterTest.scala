@@ -90,4 +90,12 @@ class PdfFormatterTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     setOfAssets shouldBe expectedSetOfAssets
   }
 
+  "transform" must {
+    "transform the marital status" in {
+      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4 )
+      val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
+      result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
+    }
+  }
+
 }
