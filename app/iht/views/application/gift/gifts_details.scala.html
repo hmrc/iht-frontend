@@ -36,11 +36,10 @@ cancelLabel = cancelLabel) {
 
 @ihtHelpers.form(id="giftsDetails-form", action = iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit,'autoComplete -> "off") {
 
-@defining( Messages("page.iht.applicationgiftsDetails.sectionName"))  { sectionName =>
 
     @ihtHelpers.input_estate_value(previousYearGiftsForm("value"),
     '_label -> Messages("page.iht.application.giftsDetails.value.label"),
-    '_sectionName -> sectionName,
+    '_sectionName -> "gifts-value",
     '_divJsHide -> false,
     '_currency -> "GBP",
     '_divClass -> "form-group",
@@ -50,7 +49,7 @@ cancelLabel = cancelLabel) {
 
     @ihtHelpers.input_estate_value(previousYearGiftsForm("exemptions"),
     '_label -> Messages("page.iht.application.giftsDetails.exemptions.label"),
-    '_sectionName -> sectionName,
+    '_sectionName -> "gifts-exemption",
     '_divJsHide -> false,
     '_currency -> "GBP",
     '_divClass -> "form-group",
@@ -69,6 +68,6 @@ cancelLabel = cancelLabel) {
     <button class="button" id="save-continue">@Messages("iht.saveAndContinue")</button>
 </div>
 
-}
+
 }
 }
