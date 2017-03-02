@@ -22,7 +22,7 @@ import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
 import iht.utils._
-import iht.constants.IhtProperties
+import iht.constants.{FieldMappings, IhtProperties}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
@@ -38,6 +38,7 @@ import org.apache.fop.events.Event
 import org.apache.fop.events.EventFormatter
 import org.apache.fop.events.EventListener
 import org.apache.fop.events.model.EventSeverity
+import FieldMappings._
 
 /**
   * Created by david-beer on 07/06/16.
@@ -67,12 +68,13 @@ trait XmlFoToPDF {
   }
 
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
+    val rd = PdfFormatter.transform(registrationDetails)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
-      getPostSubmissionDetailsXMLSource(registrationDetails, ihtReturn)))
+      getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPostSubmissionTransformer(registrationDetails, ihtReturn)
+    createPostSubmissionTransformer(rd, ihtReturn)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.toByteArray
@@ -163,13 +165,13 @@ trait XmlFoToPDF {
   }
 
   private def setupCommonTransformerParametersPreAndPost(transformer: Transformer,
-                                               registrationDetails: RegistrationDetails,
-                                               preDeceasedName: String,
-                                               dateOfMarriage: Option[LocalDate],
-                                               totalAssetsValue: BigDecimal,
-                                               totalLiabilitiesValue: BigDecimal,
-                                               totalExemptionsValue: BigDecimal,
-                                               totalPastYearsGiftsValue: BigDecimal) = {
+                                                         registrationDetails: RegistrationDetails,
+                                                         preDeceasedName: String,
+                                                         dateOfMarriage: Option[LocalDate],
+                                                         totalAssetsValue: BigDecimal,
+                                                         totalLiabilitiesValue: BigDecimal,
+                                                         totalExemptionsValue: BigDecimal,
+                                                         totalPastYearsGiftsValue: BigDecimal) = {
     setupCommonTransformerParameters(transformer)
     transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("assetsTotal", totalAssetsValue)
