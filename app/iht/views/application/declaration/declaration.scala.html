@@ -106,9 +106,7 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
         </div>
 
         <div id="continue-button" role="region" aria-live="polite" class="form-field form-field--submit">
-            @helpers.form(action = iht.controllers.application.declaration.routes.DeclarationController.onSubmit) {
-                <input class='button @if(model.isMultipleExecutor){ toDisableButton}' type='submit' value='@Messages("site.button.declare")'>
-            }
+            <input class='button @if(model.isMultipleExecutor){ toDisableButton}' type='submit' value='@Messages("site.button.declare")'>
         </div>
         <a id="return-to-overview" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
                 CommonHelper.getOrExceptionNoIHTRef(model.registrationDetails.ihtReference))'>

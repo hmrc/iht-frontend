@@ -36,7 +36,7 @@ headingName = deceasedName){
         @ihtHelpers.input_yes_no_radio_group(
             insurancePolicyForm("isInTrust"),
             '_divClass -> Some("-change form-group"),
-            '_legend -> Html(Messages("page.iht.application.insurance.policies.section4.title")),
+            '_legend -> Html(Messages("page.iht.application.insurance.policies.section4.title",deceasedName)),
             '_legendClass -> Some("visually-hidden")
         )
 

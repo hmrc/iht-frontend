@@ -35,7 +35,7 @@ headingName = deceasedName){
 
         @ihtHelpers.input_yes_no_radio_group(
             insurancePolicyForm("moreThanMaxValue"),
-            '_legend -> Html(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question")),
+            '_legend -> Html(Messages("iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question", deceasedName)),
             '_legendClass -> Some("visually-hidden"),
             '_divClass -> Some("form-group"))
 

@@ -42,9 +42,9 @@
         )
 
         @helpers.form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit, 'autoComplete -> "off") {
-            <p>@Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
+            <p>@Html(Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
                 TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel),
-                deceasedName, predeceasedName)</p>
+                deceasedName, predeceasedName))</p>
             @ihtHelpers.date_fields(
                 dateOfMarriageForm,
                 "dateOfMarriage",

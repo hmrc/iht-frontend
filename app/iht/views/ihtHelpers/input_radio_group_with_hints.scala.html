@@ -53,7 +53,7 @@
                    class="block-label--with-hint @elements.args.get('_labelClass).map{labelClass => @labelClass}">
 
             @if(!labelAfter) {
-                <div id="@inputId-main" class="bold">
+                <span id="@inputId-main" class="label__hint bold">
                 @if(elements.args.get('_stackedLabel)) {
                     @if(label.split(" ").length < 2) {<br>@label
                     } else {
@@ -62,13 +62,13 @@
                         }
                     }
                 } else { @label }
-              </div>
+              </span>
             }
 
             @hint match {
                 case Some(hint) => {
 
-                    <span id="@inputId-hint">@hint</span>
+                    <span id="@inputId-hint" class="label__hint">@hint</span>
 
                 }
                 case None => {}
