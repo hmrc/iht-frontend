@@ -59,19 +59,6 @@ trait XmlFoToPDF {
     rd copy (deceasedDetails = optionDeceasedDetails)
   }
 
-  def formatForDisplay(ihtReturn: IHTReturn): IHTReturn = {
-    def changeAssetDescription(s:String):String = {
-      s match {
-        case "Deceased's residence" => "Deceased's home"
-        case _ => s
-      }
-    }
-    def optionSetAsset = ihtReturn.freeEstate.flatMap(_.estateAssets)
-      .map(_.map(asset=>asset copy(assetDescription = asset.assetDescription.map( ad => changeAssetDescription(ad)))))
-    def optionFreeEstate = ihtReturn.freeEstate.map( freeEstate => freeEstate copy( estateAssets = optionSetAsset ))
-    ihtReturn copy (freeEstate = optionFreeEstate)
-  }
-
   def createPreSubmissionPDF(regDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String): Array[Byte] = {
     val declaration = if (declarationType.isEmpty) false else true
@@ -89,13 +76,12 @@ trait XmlFoToPDF {
 
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
     val rd = formatForDisplay(registrationDetails)
-    val ir = formatForDisplay(ihtReturn)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
-      getPostSubmissionDetailsXMLSource(rd, ir)))
+      getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPostSubmissionTransformer(rd, ir)
+    createPostSubmissionTransformer(rd, ihtReturn)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.toByteArray
