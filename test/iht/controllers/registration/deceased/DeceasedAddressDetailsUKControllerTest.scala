@@ -87,6 +87,21 @@ class DeceasedAddressDetailsUKControllerTest
       redirectLocation(result) should be(Some(applicantRoutes.ApplyingForProbateController.onPageLoad().url))
     }
 
+    "respond appropriately to a edit page load with valid values in all fields in edit mode" in {
+      val deceasedDetails = CommonBuilder.buildDeceasedDetails
+      val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
+      val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
+      val request = createFakeRequestWithReferrerWithBody(
+        referrerURL = referrerURL, host = host, data = deceasedDetailsForm1.data.toSeq)
+
+      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+
+      val result = controller.onEditPageLoad()(request)
+      status(result) shouldBe OK
+    }
+
     "respond appropriately to a submit in edit mode with valid values in all fields" in {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
@@ -101,6 +116,19 @@ class DeceasedAddressDetailsUKControllerTest
       val result = controller.onEditSubmit()(request)
       status(result) shouldBe (SEE_OTHER)
       redirectLocation(result) should be (Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+    }
+
+    "respond appropriately to a submit in edit mode with invalid values in one or more fields" in {
+      val deceasedDetails = CommonBuilder.buildDeceasedDetails
+      val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
+      val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("ukAddress.addressLine1", "addr1"))
+      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+
+      val result = controller.onEditSubmit()(request)
+      status(result) shouldBe BAD_REQUEST
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {
