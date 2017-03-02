@@ -92,6 +92,12 @@ if(typeof window.navigator != "undefined" && typeof window.navigator.userAgent !
 $('#country-code-auto-complete').on('keyup', function(){
     $('.suggestions-list li').each(function(){
         $(this).html($(this).attr('data-suggestion-title'));
+        // update aria-descendant
+        var ccID = "country" + $(this).attr('data-suggestion-value');
+        $(this).attr('id', ccID)
+        if($(this).hasClass('suggestion--selected')){
+            $('#country-code-auto-complete').attr('aria-activedescendant', ccID);
+        }
     });
 });
 // hide clear icon if there is no initial value selected
