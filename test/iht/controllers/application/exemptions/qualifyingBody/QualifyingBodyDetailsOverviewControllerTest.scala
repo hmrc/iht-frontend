@@ -72,10 +72,38 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
         messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
     }
 
-    "throw RuntimeException when qualifyingBody ID is accessed that does not exist" in {
+    "show page in edit mode" in {
+      val firstQualifyingBody = CommonBuilder.qualifyingBody
+      val applicationModel = CommonBuilder.buildApplicationDetails.copy(qualifyingBodies = Seq(firstQualifyingBody))
 
-      val firstQualifyingBody = iht.testhelpers.CommonBuilder.qualifyingBody
-      val applicationModel = new ApplicationDetails(qualifyingBodies = Seq(firstQualifyingBody))
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationModel),
+        getAppDetails = true,
+        saveAppDetails = true,
+        storeAppDetailsInCache = true)
+
+      val result = qualifyingBodyDetailsOverviewController.onEditPageLoad("1")(createFakeRequest())
+      status(result) should be(OK)
+    }
+
+    "respond with Internal Server Error where application details could not be retrieved" in {
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails = true,
+        storeAppDetailsInCache = true)
+
+        val result = qualifyingBodyDetailsOverviewController.onEditPageLoad("2")(createFakeRequest())
+        status(result) should be (INTERNAL_SERVER_ERROR)
+
+    }
+
+    "throw RuntimeException when qualifyingBody ID is accessed that does not exist" in {
+      val firstQualifyingBody = CommonBuilder.qualifyingBody
+      val applicationModel = CommonBuilder.buildApplicationDetails.copy(qualifyingBodies = Seq(firstQualifyingBody))
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
