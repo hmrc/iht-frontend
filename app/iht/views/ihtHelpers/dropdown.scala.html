@@ -83,11 +83,14 @@
                data-select-elem="@elements.field.name"
                data-target-elem="@elements.field.name"
                data-rule-suggestion="true"
+               role="combobox"
+               aria-live="assertive"
+               aria-expanded="false"
                aria-autocomplete="list"
                aria-haspopup="true"
                aria-controls="suggestions-list-container" />
         <i class="suggestions-clear js-suggestions-clear"></i>
-        <span role="status" aria-live="assertive" aria-relevant="additions" class="visuallyhidden js-suggestions-status-message" id="autoCompleteSuggestionStatus"></span>
+        <span role="status" aria-live="polite" aria-relevant="additions" class="visuallyhidden js-suggestions-status-message" id="autoCompleteSuggestionStatus"></span>
         <div class="suggestions js-suggestions" id="suggestions-list-container" aria-describedby="autoCompleteSuggestionStatus"></div>
     </div>
 
