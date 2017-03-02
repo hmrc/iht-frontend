@@ -76,19 +76,6 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
       val buildWidowCheck = CommonBuilder.buildWidowedCheck
       val buildTnrbModel = CommonBuilder.buildTnrbEligibility
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck),
-                                increaseIhtThreshold = Some(buildTnrbModel))
-
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
-      createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
-
-      val result = tnrbOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-    }
-
-    "show the appropriate contents on the page" in {
-      val buildWidowCheck = CommonBuilder.buildWidowedCheck
-      val buildTnrbModel = CommonBuilder.buildTnrbEligibility
-      val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck),
         increaseIhtThreshold = Some(buildTnrbModel))
 
       createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
@@ -96,8 +83,18 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
 
       val result = tnrbOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
+    }
+    
+    "respond with OK on page load when the user lands on the page first time" in {
+      val buildWidowCheck = CommonBuilder.buildWidowedCheck
+      val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck))
 
-      contentAsString(result) should include(messagesApi("iht.estateReport.returnToEstateOverview"))
+      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
+
+      val result = tnrbOverviewController.onPageLoad()(createFakeRequest())
+      status(result) should be (OK)
     }
   }
+
 }
