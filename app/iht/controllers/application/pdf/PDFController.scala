@@ -21,6 +21,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
 import iht.controllers.application.ApplicationController
 import iht.controllers.auth.IhtActions
+import iht.models.RegistrationDetails
 import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper}
 import models.des.iht_return.IHTReturn
@@ -82,8 +83,7 @@ trait PDFController extends ApplicationController with IhtActions {
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
             getSubmittedApplicationDetails(nino,
-              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-              registrationDetails.updatedReturnId) map {
+              registrationDetails) map {
               case Some(ihtReturn) =>
                 val pdfByteArray = xmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
                   ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
@@ -106,7 +106,7 @@ trait PDFController extends ApplicationController with IhtActions {
           val fileName = s"${Messages("iht.inheritanceTaxEstateReport")}.pdf"
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
-            getSubmittedApplicationDetails(nino, ihtReference, regDetails.updatedReturnId) map {
+            getSubmittedApplicationDetails(nino, regDetails) map {
               case Some(ihtReturn) =>
                 val pdfByteArray = xmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
@@ -127,15 +127,17 @@ trait PDFController extends ApplicationController with IhtActions {
   /**
     * Retrieves IHTReturn for given ihtRef and returnId
     */
-  private def getSubmittedApplicationDetails(nino: String, ihtReference: String, returnId: String)
+  private def getSubmittedApplicationDetails(nino: String, registrationDetails:RegistrationDetails)
                                             (implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]] = {
+    val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)
+    val returnId = registrationDetails.updatedReturnId
     ihtConnector.getSubmittedApplicationDetails(nino, ihtReference, returnId) map {
       case None =>
         Logger.warn("IhtReturn details not found")
         None
       case Some(ihtReturn) =>
         Logger.info("IhtReturn details have been successfully retrieved ")
-        Some(PdfFormatter.transform(ihtReturn))
+        Some(PdfFormatter.transform(ihtReturn, registrationDetails.deceasedDetails.fold("")(_.name)))
     }
   }
 }
