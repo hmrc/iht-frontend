@@ -87,7 +87,7 @@ class DeceasedAddressDetailsUKControllerTest
       redirectLocation(result) should be(Some(applicantRoutes.ApplyingForProbateController.onPageLoad().url))
     }
 
-    "respond appropriately to a submit with valid values in all fields in edit mode" in {
+    "respond appropriately to a edit page load with valid values in all fields in edit mode" in {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
       val deceasedDetailsForm1 = deceasedAddressDetailsUKForm.fill(deceasedDetails)
