@@ -42,7 +42,7 @@
 
     <fieldset id="details">
         <legend class="visually-hidden">
-            Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix", addApostrophe(name))
+           @Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix", addApostrophe(name))
         </legend>
 
         <p class="lede" id="other-persons-address-guidance">@Messages("page.iht.registration.others-applying-for-probate-address.address.guidance")</p>
@@ -81,7 +81,7 @@
         '_inputClass -> "form-control",
         '_id -> "ukAddress.countryCode",
         '_labelid -> "countryCode-container",
-        '_emptyValueText -> Messages("iht.country"),
+        '_emptyValueText -> " ",
         '_emptyValue -> "GB",
         '_labelClass -> "form-label",
         '_label -> Html(Messages("iht.country"))
