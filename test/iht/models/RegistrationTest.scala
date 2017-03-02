@@ -18,7 +18,7 @@ package iht.models
 
 import iht.FakeIhtApp
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, StringHelper}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -50,6 +50,25 @@ class RegistrationTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       an [RuntimeException] shouldBe thrownBy (CommonBuilder.buildRegistrationDetails.updatedReturnId)
     }
    }
+
+  "Deceased details" must {
+    "respond correctly when isCompleted is called for completed object" in {
+      val dd = CommonBuilder.buildDeceasedDetails
+      dd.isCompleted shouldBe true
+    }
+    "respond correctly when isCompleted is called for non-completed object" in {
+      val dd = CommonBuilder.buildDeceasedDetails copy(firstName=None)
+      dd.isCompleted shouldBe false
+    }
+    "respond correctly when ninoFormatted is called" in {
+      val dd = CommonBuilder.buildDeceasedDetails
+      dd.ninoFormatted shouldBe StringHelper.ninoFormat(dd.nino.getOrElse(""))
+    }
+    "respond correctly when ninoFormatted is called with nino of None" in {
+      val dd = CommonBuilder.buildDeceasedDetails copy(nino = None)
+      dd.ninoFormatted shouldBe ""
+    }
+  }
 }
 
 object tempDetails {
