@@ -34,9 +34,9 @@ class XmlFoToPDFTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
   "formatForDisplay" must {
     "transform the marital status" in {
-      val rd = XmlFoToPDF.formatForDisplay(regDetails)
+      val rd = XmlFoToPDF.formatForDisplay(CommonBuilder.buildRegistrationDetails4 )
       val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
-      result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.single.label")
+      result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
     }
   }
 
