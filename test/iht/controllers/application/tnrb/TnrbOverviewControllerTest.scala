@@ -84,7 +84,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
       val result = tnrbOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
     }
-    
+
     "respond with OK on page load when the user lands on the page first time" in {
       val buildWidowCheck = CommonBuilder.buildWidowedCheck
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck))
