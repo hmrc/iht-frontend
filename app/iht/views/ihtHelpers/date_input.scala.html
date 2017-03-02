@@ -55,12 +55,12 @@
     @if(labelHighlight){</strong>}
 
     <input
-    @if(elements.args.contains('_type)){type="@elements.args.get('_type)" min="1" }else{type="text" }
+    @if(elements.args.contains('_type)){type="@elements.args.get('_type)" }else{type="text" }
     @if( elements.args.get('_inputClass) ){ class="@elements.args.get('_inputClass) " }
     @if( elements.args.get('_autoComplete) ){ autocomplete="@elements.args.get('_autoComplete)" }
     @if( elements.args.get('_placeholder) ){ placeholder="@elements.args.get('_placeholder)" }
     @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
-    @if(elements.args.contains('_lengthMax) ){maxlength = "@elements.args.get('_lengthMax)"}
+    @if(elements.args.contains('_lengthMax) ){ minlength="1" pattern=".{1,@elements.args.get('_lengthMax)}" maxlength = "@elements.args.get('_lengthMax)"}
 
     name="@elements.field.name"
     id="@elements.field.name"
