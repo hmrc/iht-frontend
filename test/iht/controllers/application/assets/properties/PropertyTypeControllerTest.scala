@@ -27,6 +27,9 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+
 /**
  * Created by jennygj on 17/06/16.
  */
@@ -87,7 +90,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       status(result) should be(OK)
     }
 
-    "save application and go to property overview page edit mode on submit" in {
+    "save application and go to property overview page non-edit mode on submit" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
@@ -123,6 +126,42 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       val result = propertyTypeController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
       contentAsString(result) should include (messagesApi("page.iht.application.assets.propertyType.otherResidential.label"))
+    }
+
+    "save application and go to property overview page edit mode on submit" in {
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(propertyList = List())
+      val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      setUpTests(applicationDetails)
+
+      val result = propertyTypeController.onEditSubmit("1")(request)
+      status(result) should be (SEE_OTHER)
+      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
+    }
+
+    "respond with exception on edit page load where property id does not exist" in {
+      val id: String = "15542"
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property))
+      setUpTests(applicationDetails)
+
+      a[RuntimeException] shouldBe thrownBy {
+        Await.result(propertyTypeController.onEditPageLoad(id)(createFakeRequest()), Duration.Inf)
+      }
+    }
+
+    "respond with InternalServerError on edit page load where no application details" in {
+      val id: String = "1"
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property))
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails = true,
+        storeAppDetailsInCache = true)
+
+      val result = propertyTypeController.onEditPageLoad(id)(createFakeRequest())
+      status(result) should be(INTERNAL_SERVER_ERROR)
     }
   }
 }
