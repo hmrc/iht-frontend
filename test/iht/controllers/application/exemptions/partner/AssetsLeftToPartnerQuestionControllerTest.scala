@@ -70,17 +70,22 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
+      val regDetails = CommonBuilder.buildRegistrationDetails1
+      val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails= true,
         storeAppDetailsInCache = true)
 
+
+
       val result = assetsLeftToPartnerQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName))
     }
 
     "save application and go to Exemptions Overview page on submit" in {

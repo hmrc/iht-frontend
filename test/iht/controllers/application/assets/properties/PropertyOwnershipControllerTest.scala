@@ -84,16 +84,22 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
     "display the correct title on page" in {
       val result = propertyOwnershipController.onPageLoad()(createFakeRequest())
+      val regDetails = CommonBuilder.buildRegistrationDetails1
+      val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
+
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "display the correct title on page in edit mode" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
+      val regDetails = CommonBuilder.buildRegistrationDetails1
+      val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails= true,
@@ -101,7 +107,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       val result = propertyOwnershipController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "redirect to PropertyDetails overview page on submit" in {
