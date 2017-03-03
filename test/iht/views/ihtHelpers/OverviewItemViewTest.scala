@@ -37,7 +37,7 @@ class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
-      assertEqualsValue(doc, "div#assets-caption", messagesApi("iht.estateReport.assets.inEstate"))
+      assertEqualsValue(doc, "div#assets-caption span", messagesApi("iht.estateReport.assets.inEstate"))
       assertRenderedById(doc, "assets-row")
     }
 
