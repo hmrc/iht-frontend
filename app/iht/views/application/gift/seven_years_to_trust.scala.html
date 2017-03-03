@@ -41,7 +41,6 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
         @ihtHelpers.standard.input_yes_no_radio_group(
         GiftSevenYearsToTrustForm("trust.isToTrust"),
         '_legend -> Html(Messages("page.iht.application.gifts.trust.question", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true))),
-        '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()),
         '_divClass -> Some("form-group"))
 </div>
 <div id="action-button" class="form-field form-field--submit">

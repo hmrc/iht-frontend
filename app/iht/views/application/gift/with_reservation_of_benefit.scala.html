@@ -36,7 +36,6 @@ messageKeyAccessibility = "iht.estateReport.gifts.withReservation.title"){
         @ihtHelpers.standard.input_yes_no_radio_group(
         giftWithReservationFromBenefitForm("reservation.isReservation"),
         '_legend -> Html(Messages("iht.estateReport.gifts.reservation.question", getDeceasedNameOrDefaultString(registrationDetails, true))),
-        '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()),
         '_divClass -> Some("form-group"))
 
         <div id="action-button" class="form-field form-field--submit">
