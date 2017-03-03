@@ -78,12 +78,6 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
     }
 
-    "display correct content on page" in {
-      val result = propertyAddressController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
-    }
-
     "display the correct title on page in edit mode" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
@@ -98,6 +92,34 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
       val result = propertyAddressController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
       contentAsString(result) should include (messagesApi("iht.estateReport.assets.property.whatIsAddress.question"))
+    }
+
+    "respond with INTERNAL_SERVER_ERROR on page load in edit mode when application details could not be retrieved" in {
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = propertyAddressController.onEditPageLoad("1")(createFakeRequest())
+      status(result) should be (INTERNAL_SERVER_ERROR)
+    }
+
+    "respond with RuntimeException on page load in edit mode when matched property is not found" in {
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List(CommonBuilder.property.copy(id = Some("1"))))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      intercept[RuntimeException] {
+        await(propertyAddressController.onEditPageLoad("2")(createFakeRequest()))
+      }
     }
 
     "redirect to PropertyDetails overview page on submit" in {
@@ -146,8 +168,25 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
       redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url))
     }
 
+    "respond with BAD_REQUEST on submit when request is malformed" in {
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List())
 
-    
+      val formFill = propertyAddressForm.fill(CommonBuilder.property.copy(address = None))
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = propertyAddressController.onSubmit()(request)
+
+      status(result) should be (BAD_REQUEST)
+    }
   }
 
 }

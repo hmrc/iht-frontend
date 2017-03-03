@@ -26,6 +26,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.utils.ApplicationKickOutHelper
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -81,6 +82,12 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       status(result) should be(OK)
     }
 
+    "display the correct title on page load" in {
+      val result = propertyTypeController.onPageLoad()(createFakeRequest())
+      status(result) should be (OK)
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.whatKind.question"))
+    }
+
     "respond with OK on edit page load" in {
       val id: String = "1"
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property))
@@ -90,8 +97,19 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       status(result) should be(OK)
     }
 
-    "save application and go to property overview page non-edit mode on submit" in {
-      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(propertyList = List())
+    "respond with BAD_REQUEST on submit if request is malformed" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
+      val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = None))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      setUpTests(applicationDetails)
+
+      val result = propertyTypeController.onSubmit()(request)
+      status(result) should be (BAD_REQUEST)
+    }
+
+    "save application and go to property overview page in non-edit mode on submit" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
@@ -116,20 +134,8 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       result should equal ((propertyListNew, "2"))
     }
 
-    "display the correct title on page load" in {
-      val result = propertyTypeController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.whatKind.question"))
-    }
-
-    "display correct options for input radio group" in {
-      val result = propertyTypeController.onPageLoad()(createFakeRequest())
-      status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("page.iht.application.assets.propertyType.otherResidential.label"))
-    }
-
     "save application and go to property overview page edit mode on submit" in {
-      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(propertyList = List())
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
@@ -148,6 +154,20 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       a[RuntimeException] shouldBe thrownBy {
         Await.result(propertyTypeController.onEditPageLoad(id)(createFakeRequest()), Duration.Inf)
       }
+    }
+
+    "save application and go to property overview page in edit mode on submit where user add new property" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property,
+        CommonBuilder.property.copy(id = Some("2"))))
+      val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      setUpTests(applicationDetails)
+
+      val result = propertyTypeController.onEditSubmit("2")(request)
+      status(result) should be (SEE_OTHER)
+      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("2").url))
     }
 
     "respond with InternalServerError on edit page load where no application details" in {

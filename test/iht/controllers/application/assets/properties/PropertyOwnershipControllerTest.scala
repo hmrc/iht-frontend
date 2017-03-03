@@ -104,6 +104,34 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased"))
     }
 
+    "respond with INTERNAL_SERVER_ERROR on page load in edit mode when application details could not be retrieved" in {
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = propertyOwnershipController.onEditPageLoad("1")(createFakeRequest())
+      status(result) should be (INTERNAL_SERVER_ERROR)
+    }
+
+    "respond with RuntimeException on page load in edit mode when matched property is not found" in {
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List(CommonBuilder.property.copy(id = Some("1"))))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      intercept[RuntimeException] {
+        await(propertyOwnershipController.onEditPageLoad("2")(createFakeRequest()))
+      }
+    }
+
     "redirect to PropertyDetails overview page on submit" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List())
@@ -149,5 +177,28 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       status(result) should be (SEE_OTHER)
       redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url))
     }
+
+    "respond with BAD_REQUEST on submit when request is malformed" in {
+      val propertyId = "1"
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List(CommonBuilder.buildProperty.copy(id = Some(propertyId),
+          typeOfOwnership = TestHelper.PropertyTypeDeceasedHome,
+          value = Some(1234))))
+
+      val formFill = typeOfOwnershipForm.fill(CommonBuilder.buildProperty.copy(typeOfOwnership = None))
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = propertyOwnershipController.onEditSubmit(propertyId)(request)
+      status(result) should be (BAD_REQUEST)
+    }
   }
+
 }
