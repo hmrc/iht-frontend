@@ -41,20 +41,20 @@ linkScreenReader:String
         <a id="@id-link" href="@link">
             @if(answerValue.nonEmpty) {
                         <span aria-hidden="true">@Messages("iht.change")</span>
-                        <span class="visually-hidden">@linkScreenReader</span>
+                        <span class="visually-hidden">@Html(linkScreenReader)</span>
             } else {
                 @questionCategory match {
                 case "questionAnswer" => {
                         <span aria-hidden="true">@Messages("site.link.giveAnswer")</span>
-                        <span class="visually-hidden">@linkScreenReader</span>
+                        <span class="visually-hidden">@Html(linkScreenReader)</span>
                 }
                 case "date" => {
                        <span aria-hidden="true">@Messages("site.link.giveDate")</span>
-                       <span class="visually-hidden">@linkScreenReader</span>
+                       <span class="visually-hidden">@Html(linkScreenReader)</span>
                 }
                 case "name" => {
                         <span aria-hidden="true">@Messages("site.link.giveName")</span>
-                        <span class="visually-hidden">@linkScreenReader</span>
+                        <span class="visually-hidden">@Html(linkScreenReader)</span>
                 }
               }
             }
