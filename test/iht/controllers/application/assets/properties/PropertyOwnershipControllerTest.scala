@@ -27,6 +27,7 @@ import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.models.application.ApplicationDetails
 
 /**
  * Created by Vineet on 22/06/16.
@@ -35,6 +36,15 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
+
+  def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
+    createMocksForApplication(mockCachingConnector,
+      mockIhtConnector,
+      appDetails = applicationDetails,
+      getAppDetails = true,
+      saveAppDetails = true,
+      storeAppDetailsInCache = true)
+  }
 
   def propertyOwnershipController = new PropertyOwnershipController {
     override val cachingConnector = mockCachingConnector
@@ -71,12 +81,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyOwnershipController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
@@ -92,12 +97,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyOwnershipController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
@@ -105,12 +105,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
     }
 
     "respond with INTERNAL_SERVER_ERROR on page load in edit mode when application details could not be retrieved" in {
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = None,
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests()
 
       val result = propertyOwnershipController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (INTERNAL_SERVER_ERROR)
@@ -120,12 +115,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property.copy(id = Some("1"))))
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       intercept[RuntimeException] {
         await(propertyOwnershipController.onEditPageLoad("2")(createFakeRequest()))
@@ -136,19 +126,13 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List())
 
-      val formFill = typeOfOwnershipForm.fill(CommonBuilder.buildProperty.copy(typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly))
-
+      val formFill = typeOfOwnershipForm.fill(
+                            CommonBuilder.buildProperty.copy(typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyOwnershipController.onSubmit()(request)
-
       status(result) should be (SEE_OTHER)
       redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
     }
@@ -161,19 +145,13 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
           typeOfOwnership = TestHelper.PropertyTypeDeceasedHome,
           value = Some(1234))))
 
-      val formFill = typeOfOwnershipForm.fill(CommonBuilder.buildProperty.copy(typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly))
-
+      val formFill = typeOfOwnershipForm.fill(CommonBuilder.buildProperty.copy(
+                                                  typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyOwnershipController.onEditSubmit(propertyId)(request)
-
       status(result) should be (SEE_OTHER)
       redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url))
     }
@@ -186,15 +164,9 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
           value = Some(1234))))
 
       val formFill = typeOfOwnershipForm.fill(CommonBuilder.buildProperty.copy(typeOfOwnership = None))
-
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyOwnershipController.onEditSubmit(propertyId)(request)
       status(result) should be (BAD_REQUEST)

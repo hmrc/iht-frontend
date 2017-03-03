@@ -27,6 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import iht.utils.ApplicationKickOutHelper
+import iht.models.application.ApplicationDetails
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -39,10 +40,10 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def setUpTests(applicationDetails: ApplicationDetails) = {
+  def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,
       mockIhtConnector,
-      appDetails = Some(applicationDetails),
+      appDetails = applicationDetails,
       getAppDetails = true,
       saveAppDetails = true,
       storeAppDetailsInCache = true)
@@ -76,7 +77,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
 
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
-      setUpTests(applicationDetails)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onPageLoad(createFakeRequest())
       status(result) should be(OK)
@@ -91,7 +92,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "respond with OK on edit page load" in {
       val id: String = "1"
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property))
-      setUpTests(applicationDetails)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onEditPageLoad(id)(createFakeRequest())
       status(result) should be(OK)
@@ -102,7 +103,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = None))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      setUpTests(applicationDetails)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
@@ -113,7 +114,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      setUpTests(applicationDetails)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
@@ -122,7 +123,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
 
     "add property to property list should add new property to list if property doesn't exist " in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List())
-      setUpTests(applicationDetails)
+      setUpTests(Some(applicationDetails))
 
       val property1 = CommonBuilder.property
       val property2WithoutId = CommonBuilder.property.copy(id = None, value = Some(BigDecimal(2)))
@@ -139,7 +140,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
       val formFill = propertyTypeForm.fill(CommonBuilder.buildProperty.copy(propertyType = TestHelper.PropertyTypeDeceasedHome))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      setUpTests(applicationDetails)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onEditSubmit("1")(request)
       status(result) should be (SEE_OTHER)
@@ -149,7 +150,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "respond with exception on edit page load where property id does not exist" in {
       val id: String = "15542"
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property))
-      setUpTests(applicationDetails)
+      setUpTests(Some(applicationDetails))
 
       a[RuntimeException] shouldBe thrownBy {
         Await.result(propertyTypeController.onEditPageLoad(id)(createFakeRequest()), Duration.Inf)
@@ -163,7 +164,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
 
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      setUpTests(applicationDetails)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTypeController.onEditSubmit("2")(request)
       status(result) should be (SEE_OTHER)
@@ -173,12 +174,8 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     "respond with InternalServerError on edit page load where no application details" in {
       val id: String = "1"
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = List(CommonBuilder.property))
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = None,
-        getAppDetails = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
+
+      setUpTests()
 
       val result = propertyTypeController.onEditPageLoad(id)(createFakeRequest())
       status(result) should be(INTERNAL_SERVER_ERROR)
