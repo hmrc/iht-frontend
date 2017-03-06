@@ -63,7 +63,19 @@
     }
 
 @input = {<input
-    @if( elements.args.get('_type) ){ type="@elements.args.get('_type)" } else {type="text"}
+
+    @if(elements.args.contains('_currency)){
+        type="number"
+        step="any"
+        min="0"
+    } else {
+        @if( elements.args.get('_type) ){
+            type="@elements.args.get('_type)"
+        } else {
+            type="text"
+        }
+    }
+
     @if( elements.args.get('_inputClass) ){ class="@elements.args.get('_inputClass)
     @if(elements.args.contains('_currency)){form-control-1-3}
     @if(elements.errors.size>0){error-field}" }

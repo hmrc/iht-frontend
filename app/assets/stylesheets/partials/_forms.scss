@@ -80,3 +80,19 @@ it can mess with the sidebar margins when stacked for smaller screens
 .form-field--submit {
     float: none
 }
+
+/*
+====================================
+Remove spinners from number inputs
+====================================
+*/
+input[type="number"] {
+    -moz-appearance: textfield;
+    border: 8px solid lightblue;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
