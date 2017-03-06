@@ -30,15 +30,15 @@ browserTitle = Some(Messages("page.iht.application.tnrb.giftsWithReservationOfBe
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
 headingName = deceasedName){
-    @ihtHelpers.error_summary(partnerGiftWithResToOtherForm)
+    @ihtHelpers.custom.error_summary(partnerGiftWithResToOtherForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
         partnerGiftWithResToOtherForm("isPartnerGiftWithResToOther"),
         '_hintText -> Html(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
                             spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")),
-                            ihtHelpers.name(deceasedName),
+                            ihtHelpers.custom.name(deceasedName),
                                 spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")))),
         '_divClass -> Some("-change form-group"),
         '_legend -> Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedName),

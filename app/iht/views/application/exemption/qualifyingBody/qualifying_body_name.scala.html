@@ -30,11 +30,11 @@ browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBody.nam
 cancelUrl = Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody")),
 isFullWidth=false){
-@ihtHelpers.error_summary(qualifyingBodyNameForm)
+@ihtHelpers.custom.error_summary(qualifyingBodyNameForm)
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
 
-    @ihtHelpers.input_with_help(qualifyingBodyNameForm("name"),
+    @ihtHelpers.standard.input_with_help(qualifyingBodyNameForm("name"),
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_label -> Html(Messages("page.iht.application.exemptions.qualifyingBody.name.sectionTitle")),

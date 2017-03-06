@@ -28,15 +28,15 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 browserTitle = Some(Messages("page.iht.application.exemptions.assetLeftToCharity.browserTitle")),
 isFullWidth=false,
 cancelUrl = Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
-cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))){
-    @ihtHelpers.error_summary(assetsLeftToCharityQuestionForm)
+cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))){
+    @ihtHelpers.custom.error_summary(assetsLeftToCharityQuestionForm)
     @helpers.form(action = iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit,'autoComplete -> "off") {
 
         <p class="lede">@Messages("page.iht.application.exemptions.assetLeftToCharity.p1")</p>
         <p>@Messages("page.iht.application.exemptions.assetLeftToCharity.p2")</p>
 
 
-            @ihtHelpers.input_yes_no_radio_group(
+            @ihtHelpers.standard.input_yes_no_radio_group(
             assetsLeftToCharityQuestionForm("isAssetForCharity"),
             '_legend -> Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
                                       getDeceasedNameOrDefaultString(registrationDetails, true)),

@@ -20,7 +20,7 @@
 @import iht.models._
 @import iht.models.application.assets.StockAndShare
 @import iht.utils._
-@import iht.views.html.ihtHelpers._
+@import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import scala.collection.immutable.Seq
 
@@ -103,7 +103,7 @@ isFullWidth=false
 
     <div class="form-field form-field--submit">
 
-                 @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedName),
+                 @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedName),
                                     Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
 
     </div>

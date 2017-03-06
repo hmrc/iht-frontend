@@ -53,21 +53,21 @@
       <h3 class='heading-medium'>
           @Html(Messages(
             "site.nameDetails",
-            ihtHelpers.name(coExecutor.firstName + " " + coExecutor.lastName).toString)
+            ihtHelpers.custom.name(coExecutor.firstName + " " + coExecutor.lastName).toString)
           )
         </h3>
         <ul class="tabular-data tabular-data--list">
 
-        @ihtHelpers.summary_item(
+        @ihtHelpers.custom.summary_item(
             label = Messages("iht.name.upperCaseInitial"),
-            data = ihtHelpers.name(coExecutor.firstName + " \n" + coExecutor.lastName).toString,
+            data = ihtHelpers.custom.name(coExecutor.firstName + " \n" + coExecutor.lastName).toString,
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#firstName",
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader", coExecutor.name),
             linkId = "change-coexecutor-" + i + "-name"
         )
 
-        @ihtHelpers.summary_item(
+        @ihtHelpers.custom.summary_item(
             label = Messages("iht.dateofbirth"),
             data = coExecutor.dateOfBirth.toString(IhtProperties.dateFormatForDisplay),
             dataScreenReaderText = "",
@@ -76,7 +76,7 @@
             linkId = "change-coexecutor-" + i + "-date-of-birth"
         )
 
-        @ihtHelpers.summary_item(
+        @ihtHelpers.custom.summary_item(
             label = Messages("iht.nationalInsuranceNo"),
             data = coExecutor.nino,
             dataScreenReaderText = "",
@@ -85,7 +85,7 @@
             linkId = "change-coexecutor-" + i + "-nino"
         )
 
-        @ihtHelpers.summary_item(
+        @ihtHelpers.custom.summary_item(
             label = Messages("iht.address.upperCaseInitial"),
             data = CommonHelper.addressFormater(CommonHelper.getOrException(coExecutor.ukAddress)),
             dataScreenReaderText = "",
@@ -97,7 +97,7 @@
             linkId = "change-coexecutor-" + i + "-address"
         )
 
-        @ihtHelpers.summary_item(
+        @ihtHelpers.custom.summary_item(
             label = Messages("iht.registration.checklist.phoneNo.upperCaseInitial"),
             data = coExecutor.contactDetails.phoneNo,
             dataScreenReaderText = "",

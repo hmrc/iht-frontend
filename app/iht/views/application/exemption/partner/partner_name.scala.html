@@ -28,19 +28,19 @@
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.name.browserTitle")),
 isFullWidth=false) {
 
-@ihtHelpers.error_summary(partnerExemptionNameForm)
+@ihtHelpers.custom.error_summary(partnerExemptionNameForm)
 
 @helpers.form(action = iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onSubmit,
 'autoComplete -> "off"){
 
-@ihtHelpers.input_with_help(partnerExemptionNameForm("firstName"),
+@ihtHelpers.standard.input_with_help(partnerExemptionNameForm("firstName"),
 '_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
 '_label -> Html(Messages("page.iht.application.exemptions.partner.name.firstName.label")),
 '_help -> Html(Messages("iht.firstName.hint")))
 
-@ihtHelpers.input_with_help(partnerExemptionNameForm("lastName"),
+@ihtHelpers.standard.input_with_help(partnerExemptionNameForm("lastName"),
 '_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
@@ -51,7 +51,7 @@ isFullWidth=false) {
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 
-@ihtHelpers.return_link(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
+@ihtHelpers.custom.return_link(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
 Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()))
 
 }

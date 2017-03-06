@@ -32,12 +32,12 @@ browserTitle = Some(Messages("page.iht.application.giftsDetails.browserTitle")),
 cancelUrl=cancelUrl,
 cancelLabel = cancelLabel) {
 
-@ihtHelpers.error_summary_override_keys(previousYearGiftsForm, Constants.AppSectionEstateGifts)
+@ihtHelpers.custom.error_summary_override_keys(previousYearGiftsForm, Constants.AppSectionEstateGifts)
 
-@ihtHelpers.form(id="giftsDetails-form", action = iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit,'autoComplete -> "off") {
+@ihtHelpers.standard.form(id="giftsDetails-form", action = iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit,'autoComplete -> "off") {
 
 
-    @ihtHelpers.input_estate_value(previousYearGiftsForm("value"),
+    @ihtHelpers.custom.input_estate_value(previousYearGiftsForm("value"),
     '_label -> Messages("page.iht.application.giftsDetails.value.label"),
     '_sectionName -> "gifts-value",
     '_divJsHide -> false,
@@ -47,7 +47,7 @@ cancelLabel = cancelLabel) {
     '_ariaControls -> "value-of-gifts-added",
     '_inputClass -> "form-control")
 
-    @ihtHelpers.input_estate_value(previousYearGiftsForm("exemptions"),
+    @ihtHelpers.custom.input_estate_value(previousYearGiftsForm("exemptions"),
     '_label -> Messages("page.iht.application.giftsDetails.exemptions.label"),
     '_sectionName -> "gifts-exemption",
     '_divJsHide -> false,

@@ -17,7 +17,7 @@
 package iht.controllers.application.exemptions.charity
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils.CommonHelper

@@ -103,7 +103,7 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.claimingExemption
 
       
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
+            @ihtHelpers.custom.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
             Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
         }
 

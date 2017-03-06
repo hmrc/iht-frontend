@@ -28,11 +28,11 @@ browserTitle = Some(Messages("page.iht.application.tnrb.jointlyOwnedAssets.brows
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
 headingName = deceasedName){
-    @ihtHelpers.error_summary(jointAssetPassedForm)
+    @ihtHelpers.custom.error_summary(jointAssetPassedForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
         jointAssetPassedForm("isJointAssetPassed"),
         '_divClass -> Some("-change form-group"),
         '_legend -> Messages("page.iht.application.tnrb.jointlyOwnedAssets.question", deceasedName),

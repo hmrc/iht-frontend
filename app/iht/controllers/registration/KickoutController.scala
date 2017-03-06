@@ -18,7 +18,7 @@ package iht.controllers.registration
 
 import iht.connector.CachingConnector
 import iht.constants.IhtProperties
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.metrics.Metrics
 import iht.models.enums.KickOutSource
 import iht.utils.CommonHelper

@@ -24,11 +24,21 @@ import iht.models.application.assets.Properties
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
+import iht.models.application.ApplicationDetails
 
 class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
+
+  def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
+    createMocksForApplication(mockCachingConnector,
+      mockIhtConnector,
+      appDetails = applicationDetails,
+      getAppDetails = true,
+      saveAppDetails = true,
+      storeAppDetailsInCache = true)
+  }
 
   def propertiesOwnedQuestionController = new PropertiesOwnedQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
@@ -59,12 +69,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertiesOwnedQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
@@ -74,12 +79,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
         .buildAllAssets.copy(properties = Some(Properties(Some(false))))))
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(false)))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
@@ -87,11 +87,9 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
       redirectLocation(result) should be (Some(AssetsOverviewController.onPageLoad().url))
-
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
-
      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
@@ -101,14 +99,9 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
     }
 
     "save application and go to Property list page on submit where no assets previously saved" in {
-
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = None)
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+
+      setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(true)))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
@@ -122,12 +115,8 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       val property = CommonBuilder.buildProperty.copy(value = Some(10000000))
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
         .buildAllAssets.copy(properties = Some(Properties(Some(true))))), propertyList = List(property))
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+
+      setUpTests(Some(applicationDetails))
 
       val filledPropertiesForm = propertiesForm.fill(Properties(Some(true)))
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPropertiesForm.data.toSeq: _*)
@@ -137,4 +126,5 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
       redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
     }
   }
+
 }

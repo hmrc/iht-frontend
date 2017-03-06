@@ -31,13 +31,13 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
     browserTitle = Some(Messages("page.iht.application.assets.businessInterest.browserTitle")),
     isFullWidth = false
 ) {
-    @ihtHelpers.error_summary_override_keys(businessInterestForm, Constants.AppSectionBusinessInterest)
+    @ihtHelpers.custom.error_summary_override_keys(businessInterestForm, Constants.AppSectionBusinessInterest)
 
     @helpers.form(action = iht.controllers.application.assets.routes.BusinessInterestsController.onSubmit, 'autoComplete -> "off") {
         <p class="lede">@Html(Messages("page.iht.application.assets.businessInterest.description.p1",deceasedName))</p>
         <p>@Html(Messages("page.iht.application.assets.businessInterest.description.p2",deceasedName))</p>
 
-        @ihtHelpers.generic_estate_element_assets(
+        @ihtHelpers.custom.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
             questionLabel= Messages("page.iht.application.assets.businessInterest.isOwned",deceasedName),
             inputTextLabel = Messages("page.iht.application.assets.businessInterest.inputLabel1"),
@@ -51,7 +51,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
+            @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                                     Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
         }
     }

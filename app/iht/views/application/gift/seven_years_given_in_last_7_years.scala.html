@@ -35,7 +35,7 @@ relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.K
 messageKeyUrl = "page.iht.application.gifts.guidance.kindOfGifts.title",
 messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title"){
 
-@ihtHelpers.error_summary(SevenYearsGiftsForm)
+@ihtHelpers.custom.error_summary(SevenYearsGiftsForm)
 
 @helpers.form(action = iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onSubmit,'autoComplete -> "off") {
 
@@ -51,10 +51,9 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
 </div>
 
 <div id="seven-years-gifts-question">
-    @ihtHelpers.input_yes_no_radio_group(
+    @ihtHelpers.standard.input_yes_no_radio_group(
     SevenYearsGiftsForm("givenInPast.isGivenInLast7Years"),
     '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", deceasedName)),
-    '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()),
     '_divClass -> Some("form-group"))
 </div>
 
@@ -62,7 +61,7 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 @registrationDetails.deceasedDetails.map{ dd=>
-@ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
+@ihtHelpers.custom.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
 Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
 }
 }

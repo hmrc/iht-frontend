@@ -29,14 +29,13 @@ browserTitle = Some(Messages("iht.estateReport.gifts.withReservation.title")),
 relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad(),
 messageKeyUrl = "iht.estateReport.gifts.withReservation.title",
 messageKeyAccessibility = "iht.estateReport.gifts.withReservation.title"){
-    @ihtHelpers.error_summary(giftWithReservationFromBenefitForm)
+    @ihtHelpers.custom.error_summary(giftWithReservationFromBenefitForm)
 
     @helpers.form(action = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
         giftWithReservationFromBenefitForm("reservation.isReservation"),
         '_legend -> Html(Messages("iht.estateReport.gifts.reservation.question", getDeceasedNameOrDefaultString(registrationDetails, true))),
-        '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()),
         '_divClass -> Some("form-group"))
 
         <div id="action-button" class="form-field form-field--submit">
@@ -44,7 +43,7 @@ messageKeyAccessibility = "iht.estateReport.gifts.withReservation.title"){
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
+            @ihtHelpers.custom.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
             Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
         }
 

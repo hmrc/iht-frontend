@@ -19,6 +19,7 @@ package iht.controllers.application.exemptions.charity
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
+import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.Charity
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
@@ -81,10 +82,19 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       redirectLocation(result) should be(Some(loginUrl))
     }
 
-    "return a view containing the section title on page load" in {
+    "return a view containing the section title on edit page load" in {
       createMocksForApplicationWithCharity
 
       val result = assetsLeftToCharityValueController.onEditPageLoad("1")(createFakeRequest())
+      status(result) should be(OK)
+      contentAsString(result) should include(
+        messagesApi("page.iht.application.exemptions.charityValue.sectionTitle"))
+    }
+
+    "return a view containing the section title on page load" in {
+      createMocksForApplicationWithCharity
+
+      val result = assetsLeftToCharityValueController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
       contentAsString(result) should include(
         messagesApi("page.iht.application.exemptions.charityValue.sectionTitle"))
@@ -117,10 +127,23 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       createMocksForApplicationWithCharity
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-                                                          host = "localhost:9070",
-                                                          data = valueForm.data.toSeq)
+        host = "localhost:9070",
+        data = valueForm.data.toSeq)
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
+
+      status(result) shouldBe(SEE_OTHER)
+    }
+
+    "when given a valid charity id and a value by the user on the form, " +
+      "the page should redirect to the next one on submission when not in edit mode" in {
+      createMocksForApplicationWithCharity
+      val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
+      val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
+        host = "localhost:9070",
+        data = valueForm.data.toSeq)
+
+      val result = assetsLeftToCharityValueController.onSubmit()(request)
 
       status(result) shouldBe(SEE_OTHER)
     }
@@ -130,8 +153,8 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       createMocksForApplicationWithCharity
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-                                                          host = "localhost:9070",
-                                                          data = valueForm.data.toSeq)
+        host = "localhost:9070",
+        data = valueForm.data.toSeq)
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
 
@@ -146,8 +169,8 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       createMocksForApplicationWithCharity
       val valueForm = assetsLeftToCharityValueForm.fill(defaultCharity copy (totalValue = Some(1000)))
       val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
-                                                          host = "localhost:9070",
-                                                          data = valueForm.data.toSeq)
+        host = "localhost:9070",
+        data = valueForm.data.toSeq)
 
       val result = assetsLeftToCharityValueController.onEditSubmit("1")(request)
 

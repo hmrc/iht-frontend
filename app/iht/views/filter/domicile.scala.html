@@ -31,10 +31,10 @@
 
 @helpers.form(action = iht.controllers.filter.routes.DomicileController.onSubmit,'autoComplete -> "off") {
 
-@ihtHelpers.error_summary(form)
+@ihtHelpers.custom.error_summary(form)
 
 
-@ihtHelpers.input_radio_group(
+@ihtHelpers.standard.input_radio_group(
 form("domicile"),
 FieldMappings.domicileChoices.toSeq,
 '_groupClass -> "form-group",

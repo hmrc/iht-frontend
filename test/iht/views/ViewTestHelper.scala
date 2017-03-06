@@ -17,20 +17,16 @@
 package iht.views
 
 import iht.models.UkAddress
+import iht.testhelpers.ContentChecker
+import iht.utils.CommonHelper
 import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.nodes.{Document, Element}
-
-import scala.collection.JavaConversions._
-import iht.testhelpers.{CommonBuilder, ContentChecker}
-import iht.utils.CommonHelper
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.test.Helpers._
-import play.api.test.Helpers.{contentAsString, _}
+
+import scala.collection.JavaConversions._
 
 trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
 

@@ -25,20 +25,20 @@
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
-@deceasedNameWrap = @{ihtHelpers.name(deceasedName)}
+@deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question",deceasedName),
 browserTitle = Some(Messages("page.iht.application.assets.trusts.isOwned.browserTitle")),
 isFullWidth=false,
 headingName = deceasedName){
-    @ihtHelpers.error_summary(trustsOwnedQuestionForm)
+    @ihtHelpers.custom.error_summary(trustsOwnedQuestionForm)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
       <p class="lede" id="trusts-question-description1">@Html(Messages("iht.estateReport.assets.trusts.benefittedFromHeldInTrust",deceasedNameWrap))</p>
       <p id="trusts-question-description2">@Html(Messages("iht.estateReport.assets.trusts.needInclusion",deceasedNameWrap))</p>
       <p id="trusts-question-description3">@Html(Messages("iht.estateReport.assets.heldInTrust.needInclusion",deceasedNameWrap))</p>
 
-            @ihtHelpers.input_yes_no_radio_group(
+            @ihtHelpers.standard.input_yes_no_radio_group(
             trustsOwnedQuestionForm("isOwned"),
             '_legend -> Html(Messages("iht.estateReport.assets.trusts.question",deceasedNameWrap)),
             '_shownElementNo -> Some("mortgage-guidance-panel"),
@@ -50,7 +50,7 @@ headingName = deceasedName){
       </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-        @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
+        @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
         Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
         }
 }

@@ -30,11 +30,11 @@
     cancelUrl = Some(cancelUrl),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody")),
     isFullWidth = false) {
-    @ihtHelpers.error_summary(qualifyingBodyValueForm)
+    @ihtHelpers.custom.error_summary(qualifyingBodyValueForm)
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 
 
-        @ihtHelpers.input_estate_value(qualifyingBodyValueForm("totalValue"),
+        @ihtHelpers.custom.input_estate_value(qualifyingBodyValueForm("totalValue"),
             '_currency -> "GBP",
             '_divClass -> "form-group",
             '_labelTextClass -> "visually-hidden",

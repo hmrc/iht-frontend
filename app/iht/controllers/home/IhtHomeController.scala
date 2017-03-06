@@ -19,7 +19,7 @@ package iht.controllers.home
 import java.util.UUID
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.application.home.IhtHomeRowViewModel

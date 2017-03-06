@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._

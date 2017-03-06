@@ -16,9 +16,9 @@
 
 package iht.controllers.application.gifts
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.EstateController
-import iht.controllers.{ControllerHelper, IhtConnectors}
+import iht.controllers.ControllerHelper
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
@@ -26,6 +26,7 @@ import iht.utils.CommonHelper
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.utils.GiftsHelper._
+
 import scala.concurrent.Future
 
 
