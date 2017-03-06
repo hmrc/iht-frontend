@@ -27,17 +27,15 @@
 predeceasedDate: Option[LocalDate]
 )(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.tnrb.increasingIHTThreshold"),
-browserTitle = Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+@iht_main_template_application(title = Messages("page.iht.application.TnrbEligibilty.partnerName.label",TnrbHelper.spouseOrCivilPartnerMessage(predeceasedDate)),
+browserTitle = Some(Messages("page.iht.application.TnrbEligibilty.partnerName.label",TnrbHelper.spouseOrCivilPartnerMessage(predeceasedDate))),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
     @ihtHelpers.error_summary(partnerNameForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.PartnerNameController.onSubmit,'autoComplete -> "off") {
 
-<fieldset>
-<legend class="bold-small">@Messages("page.iht.application.TnrbEligibilty.partnerName.label",TnrbHelper.spouseOrCivilPartnerMessage(predeceasedDate))</legend>
-<p class="form-hint">@Messages("page.iht.application.TnrbEligibilty.partnerName.hint",
+    <p class="form-hint">@Messages("page.iht.application.TnrbEligibilty.partnerName.hint",
     CommonHelper.getOrException(predeceasedDate).getYear.toString)</p>
 
     @ihtHelpers.input_with_help(partnerNameForm("firstName"),
@@ -53,7 +51,6 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.lastName"))
         )
-</fieldset>
         <div id="action-button" class="form-field form-field--submit">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>

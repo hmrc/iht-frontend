@@ -25,6 +25,7 @@ import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper
 
 class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligibiltyModel] {
 
@@ -34,9 +35,9 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
 
   val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
-  override def pageTitle = messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")
+  override def pageTitle = messagesApi("page.iht.application.TnrbEligibilty.partnerName.label", messagesApi(TestHelper.spouseMessageKey))
 
-  override def browserTitle = messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
+  override def browserTitle = messagesApi("page.iht.application.TnrbEligibilty.partnerName.label", messagesApi(TestHelper.spouseMessageKey))
 
   override def guidance = guidance(
     Set(

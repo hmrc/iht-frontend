@@ -894,8 +894,8 @@ page.iht.application.assets.pensions.question.screenreader.link.change = Change 
 page.iht.application.assets.pensions.changed.question = This includes a transfer of any benefits or disposing of any part of a private pension in the 2 years before they died.
 page.iht.application.assets.pensions.changed.title = Did {0} make any changes to their private pension in the 2 years before they died?
 page.iht.application.assets.pensions.changed.browserTitle = Changes to pension
-page.iht.application.assets.pensions.changed.screenreader.link.change = Change the answer for did the deceased make any changes to a private pension, transfer any of its benefits or dispose of any part of their pensions in the 2 years before they died
-page.iht.application.assets.pensions.changed.screenreader.link.noValue = Give an answer for did the deceased make any changes to a private pension, transfer any of its benefits or dispose of any part of their pensions in the 2 years before they died
+page.iht.application.assets.pensions.changed.screenreader.link.change = Change the answer for did the deceased make any changes to a private pension in the 2 years before they died
+page.iht.application.assets.pensions.changed.screenreader.link.noValue = Give an answer for did the deceased make any changes to a private pension in the 2 years before they died
 
 page.iht.application.assets.pensions.value.browserTitle = Pension value
 page.iht.application.assets.pensions.value.screenreader.link.change = Change the answer for the value of remaining pension payments being paid to the estate
@@ -912,12 +912,12 @@ page.iht.application.assets.stocks.description.p1 = These are any UK stocks and 
 page.iht.application.assets.stocks.inputLabel1 = Value of stocks and shares listed on the Stock Exchange
 
 page.iht.application.assets.stocksAndShares.listed.browserTitle = Listed stocks and shares
-page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.change = Change the value for stocks and shares listed on an exchange
+page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.change = Change the answer for any stocks and shares listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.noValue = Give an answer for stocks and shares listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.value = Change the value given for stocks and shares listed on an exchange
 
 page.iht.application.assets.stocksAndSharesNotListed.browserTitle = Unlisted stocks and shares
-page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.change = Change the value for stocks and shares not listed on an exchange
+page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.change = Change the answer for any stocks and shares not listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.noValue = Give an answer for stocks and shares not listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.value = Change the value given for stocks and shares not listed on an exchange
 
@@ -945,7 +945,7 @@ page.iht.application.assets.property.value.screenReader = The value of {0}{1} is
 
 page.iht.application.return.to.assetsOf = Return to {0}’s assets
 
-page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did the deceased have any policies in their own name that were to pay out to them or are there any policies that were paying out to their estate? Give an answer.
+page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did the deceased have any policies in their own name that were to pay out to them? Give an answer.
 page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, the deceased had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value = No, the deceased didn’t have insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by the deceased and any policies being paid to their estate is {0}. Change this value.
@@ -1723,7 +1723,7 @@ iht.estateReport.declaration.haveProvidedNonMatchingDetails = have provided any 
 iht.estateReport.declaration.title = Declaration
 iht.estateReport.declaration.withholdInformation = withhold or give false information
 iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or have to pay a penalty if you:
-iht.estateReport.declaration.executors = Executors
+iht.estateReport.declaration.executors = Other executors
 
 iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in {0}’s estate?
 iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.

@@ -35,14 +35,13 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
             }
 
         @if(model.isMultipleExecutor){
-            <div class="form-group">
+            <p id="prologue1">@Messages("iht.estateReport.declaration.coExecutors.prologue1")</p>
+            <p id="prologue2">@Messages("iht.estateReport.declaration.coExecutors.prologue2")</p>
+            <p id="prologue3">@Messages("iht.estateReport.declaration.coExecutors.prologue3")</p>
 
-                <p id="prologue1">@Messages("iht.estateReport.declaration.coExecutors.prologue1")</p>
-                <p id="prologue2">@Messages("iht.estateReport.declaration.coExecutors.prologue2")</p>
-                <p id="prologue3">@Messages("iht.estateReport.declaration.coExecutors.prologue3")</p>
-
-                <section class="panel-indent panel-indent--gutter">
-                    <h2 class="visually-hidden">@Messages("iht.estateReport.declaration.executors")</h2>
+            <section class="form-group">
+                <h2 class="heading-medium">@Messages("iht.estateReport.declaration.executors")</h2>
+                <div class="panel-indent">
                     <ul>
                         @for(executor <- model.executors) {
                         <li>@executor.firstName&nbsp;@executor.lastName</li>
@@ -54,16 +53,17 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                         </a>
                     </p>
 
-                </section>
+                </div>
 
                 @ihtHelpers.single_input_checkbox(
                     model.declarationForm("isDeclared"),
                     '_label -> Messages("iht.estateReport.declaration.coExecutors.confirmationText"),
+                    '_divClass -> "form-field--submit",
                     '_inputClass -> "",
                     '_labelClass -> "block-label"
                 )
 
-            </div>
+            </section>
         }
 
         <div class="form-group">
