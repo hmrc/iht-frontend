@@ -20,6 +20,7 @@
 @import iht.controllers.ControllerHelper
 @import iht.constants.IhtProperties
 @import iht.utils._
+@import iht.constants._
 
 @(form:Form[iht.models.UkAddress],
     isInternational: Boolean,
@@ -46,24 +47,28 @@
 
         <div id="ukAddress_ukAddressLine1-container" class="form-group">
           @ihtHelpers.input_with_help(form("ukAddressLine1"),
+            '_maxlength -> validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "form-label",
             '_label -> Html(Messages("iht.address.line1")))
             </div>
         <div id="ukAddress_ukAddressLine2-container" class="form-group">
           @ihtHelpers.input_with_help(form("ukAddressLine2"),
+            '_maxlength -> validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "form-label",
             '_label -> Html(Messages("iht.address.line2")))
         </div>
         <div id="ukAddress_ukAddressLine3-container" class="form-group">
           @ihtHelpers.input_with_help(form("ukAddressLine3"),
+            '_maxlength -> validationMaxLengthAddresslines,
             '_inputClass -> "form-control ",
             '_labelTextClass -> "form-label",
             '_label -> Html(Messages("iht.address.line3")))
         </div>
         <div id="ukAddress_ukAddressLine4-container" class="form-group">
           @ihtHelpers.input_with_help(form("ukAddressLine4"),
+            '_maxlength -> validationMaxLengthAddresslines,
             '_inputClass -> "form-control ", '_labelTextClass -> "form-label",
             '_label -> Html(Messages("iht.address.line4")))
         </div>
@@ -91,6 +96,7 @@
         } else {
             <div id="ukAddress_postCode-container" class="form-group">
                 @ihtHelpers.input_with_help(form("postCode"),
+                '_maxlength -> validationMaxLengthPostcode,
                 '_divClass -> "form-group",
                 '_inputClass -> "form-control form-control-1-4",
                 '_labelTextClass -> "form-label",
