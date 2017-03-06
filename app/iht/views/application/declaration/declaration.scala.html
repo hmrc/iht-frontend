@@ -41,7 +41,8 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                 <p id="prologue2">@Messages("iht.estateReport.declaration.coExecutors.prologue2")</p>
                 <p id="prologue3">@Messages("iht.estateReport.declaration.coExecutors.prologue3")</p>
 
-                <div class="panel-indent panel-indent--gutter">
+                <section class="panel-indent panel-indent--gutter">
+                    <h2 class="visually-hidden">@Messages("iht.estateReport.declaration.executors")</h2>
                     <ul>
                         @for(executor <- model.executors) {
                         <li>@executor.firstName&nbsp;@executor.lastName</li>
@@ -53,7 +54,7 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                         </a>
                     </p>
 
-                </div>
+                </section>
 
                 @ihtHelpers.single_input_checkbox(
                     model.declarationForm("isDeclared"),
