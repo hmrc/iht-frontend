@@ -27,7 +27,9 @@ import iht.utils.{ApplicationKickOutHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.with_reservation_of_benefit
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 /**
  *
  * Created by Vineet Tyagi on 14/01/16.
@@ -59,8 +61,11 @@ trait WithReservationOfBenefitController extends EstateController{
             (_.copy(isReservation = gifts.isReservation))))
           (updatedAD, None)
         }
-      estateElementOnSubmit[AllGifts](giftWithReservationFromBenefitForm, with_reservation_of_benefit.apply,
-        updateApplicationDetails, giftsRedirectLocation)
+      estateElementOnSubmit[AllGifts](giftWithReservationFromBenefitForm,
+        with_reservation_of_benefit.apply,
+        updateApplicationDetails,
+        CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsReservationBenefitQuestionID))
+      )
     }
   }
 }

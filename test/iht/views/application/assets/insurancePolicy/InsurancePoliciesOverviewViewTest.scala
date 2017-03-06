@@ -20,7 +20,10 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent, Guidance}
 import iht.views.html.application.asset.insurancePolicy.insurance_policies_overview
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper
 import play.api.mvc.Call
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class InsurancePoliciesOverviewViewTest extends ApplicationPageBehaviour {
 
@@ -40,10 +43,9 @@ class InsurancePoliciesOverviewViewTest extends ApplicationPageBehaviour {
 
   override def formTarget: Option[Call] = None
 
-  override def cancelComponent: Option[CancelComponent] =
-    Some(CancelComponent(call, messagesApi("page.iht.application.return.to.assetsOf", deceasedName)))
+  override def cancelComponent: Option[CancelComponent] = None
 
-  "InsurancePolicyDetailsGuidanceView" must {
+  "InsurancePoliciesOverviewView" must {
     behave like applicationPage
   }
 }

@@ -30,7 +30,8 @@ messagesFileSectionLine2: String,
 returnToCall: Option[Call],
 returnToMessagesKey: String,
 returnAsButton: Boolean = false,
-showStatus: Boolean = true
+showStatus: Boolean = true,
+returnHash: String = ""
 )(implicit request:Request[_], messages: Messages)
 
 <p id="assets-guidance1" class="lede">@Html(Messages(messagesFileSectionLine1))</p>
@@ -53,7 +54,7 @@ showStatus: Boolean = true
                 </div>
             }
         <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-            <a class="font-xsmall" id='@{section.id + "-edit"}' href="@section.link.linkUrl">
+            <a class="font-xsmall" id='@{section.sectionLinkId}' href="@section.link.linkUrl">
                 <span aria-hidden="true">@Messages(section.link.linkText)</span>
                 <span class="visually-hidden">@Messages(section.link.linkTextAccessibility)</span>
             </a>
@@ -83,7 +84,7 @@ showStatus: Boolean = true
 
           <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
             @if(detail.link.linkText.length>0){
-            <a id='@{detail.id + "-edit"}' href="@detail.link.linkUrl">
+              <a id='@{detail.linkId}' href="@detail.link.linkUrl">
                 <span aria-hidden="true">@Messages(detail.link.linkText)</span>
                 <span class="visually-hidden">@Messages(detail.link.linkTextAccessibility, detail.value)</span>
             </a>

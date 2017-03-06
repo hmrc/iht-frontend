@@ -26,6 +26,9 @@ import iht.models.application.debts._
 import iht.views.html.application.debts._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object DebtsOwedFromATrustController extends DebtsOwedFromATrustController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -59,7 +62,7 @@ trait DebtsOwedFromATrustController extends EstateController {
       estateElementOnSubmit[BasicEstateElementLiabilities](debtsTrustForm,
         owed_from_trust.apply,
         updateApplicationDetails,
-        debtsRedirectLocation
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedFromTrustID))
       )
     }
   }

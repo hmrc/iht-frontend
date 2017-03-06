@@ -22,6 +22,8 @@ import iht.utils.CommonHelper
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.debts.mortgages_overview
 import play.api.i18n.Messages.Implicits._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   * Created by vineet on 15/11/16.
@@ -50,11 +52,13 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
   override def browserTitle = messagesApi("iht.estateReport.debts.mortgages")
 
   override def formTarget = None
+  override def linkHash = DebtsMortgagesID
 
   override def cancelComponent = Some(
     CancelComponent(
       debtsOverviewPageUrl,
-      returnLinkText
+      returnLinkText,
+      TestHelper.DebtsMortgagesID
     )
   )
 

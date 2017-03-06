@@ -29,6 +29,9 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 
@@ -38,6 +41,7 @@ object PartnerNameController extends PartnerNameController with IhtConnectors {
 
 trait PartnerNameController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
+  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -56,7 +60,9 @@ trait PartnerNameController extends EstateController{
 
             Ok(iht.views.html.application.tnrb.partner_name(
               filledForm,
-              CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased)
+              CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased,
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseNameID))
+            )
             )
           }
           case _ => InternalServerError("Application details not found")
@@ -81,7 +87,7 @@ trait PartnerNameController extends EstateController{
           boundForm.fold(
             formWithErrors=> {
               Future.successful(BadRequest(iht.views.html.application.tnrb.partner_name(formWithErrors,
-                CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased)))
+                CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
@@ -105,6 +111,6 @@ trait PartnerNameController extends EstateController{
           (_.copy(firstName = tnrbModel.firstName, lastName = tnrbModel.lastName))))
 
         ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
-          TnrbHelper.successfulTnrbRedirect(updatedAppDetails))
+          TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseNameID)))
     }
  }

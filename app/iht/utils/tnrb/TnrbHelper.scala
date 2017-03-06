@@ -37,7 +37,7 @@ object TnrbHelper {
   val tnrbOverviewPage= iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
   val deceasedWidowCheckDatePage= iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
   val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
-
+  
   def spouseOrCivilPartnerLabelWithOptions(optionTnrbModel: Option[TnrbEligibiltyModel],
                                 optionWidowCheck: Option[WidowCheck],
                                 optionPrefixText: Option[String]=None): String  = {
@@ -118,16 +118,16 @@ object TnrbHelper {
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label",
       dateOfPreDeceased = date)
 
-  def successfulTnrbRedirect(appDetails: ApplicationDetails): Result = {
+  def successfulTnrbRedirect(appDetails: ApplicationDetails, linkHash: Option[String] = None): Result = {
     if(appDetails.isSuccessfulTnrbCase) {
       Redirect(iht.controllers.application.tnrb.routes.TnrbSuccessController.onPageLoad())
     } else {
-      Redirect(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())
+      Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), linkHash))
     }
   }
 
-  def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails) = if(appDetails.isWidowCheckSectionCompleted) {
-    iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad
+  def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails, linkHash: Option[String] = None) = if(appDetails.isWidowCheckSectionCompleted) {
+    CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, linkHash)
   }else {
     iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrException(appDetails.ihtRef))
   }

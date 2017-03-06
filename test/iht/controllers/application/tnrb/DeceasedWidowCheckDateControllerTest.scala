@@ -32,6 +32,8 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  *
@@ -102,7 +104,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
 
       val result = deceasedWidowCheckDateController.onSubmit (request)
-      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseDateOfDeathID))
     }
 
     "when saving application must set the widowed field of the widowed check to Some(true)" in {
@@ -363,7 +365,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
         getAppDetails = true,
         saveAppDetails = true)
 
-      val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url
+      val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url + "#" + TnrbSpouseDateOfDeathID
 
       val result = deceasedWidowCheckDateController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK

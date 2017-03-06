@@ -30,6 +30,8 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   *
@@ -194,7 +196,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()url))
+      redirectLocation(result) should be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseMartialStatusID))
     }
 
     "wipe out the WidowCheck date and tnrb eligibility data, go to estate overview page on submit " +
@@ -323,7 +325,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         getAppDetails = true,
         saveAppDetails = true)
 
-      val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url
+      val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url + "#" + TnrbSpouseMartialStatusID
 
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK

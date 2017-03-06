@@ -24,6 +24,8 @@ import iht.views.html.application.asset.vehicles.vehicles_overview
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
 
@@ -56,6 +58,7 @@ class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
   override def viewWithQuestionsAnsweredYes: String = vehicles_overview(dataWithQuestionsAnsweredYes, regDetails).toString
   override def viewWithQuestionsUnanswered: String = vehicles_overview(None, regDetails).toString
   override def viewWithValues: String = vehicles_overview(dataWithValues, regDetails).toString
+  override def linkHash = AppSectionVehiclesID
 
   "Vehicles overview view" must {
     behave like overviewPage()

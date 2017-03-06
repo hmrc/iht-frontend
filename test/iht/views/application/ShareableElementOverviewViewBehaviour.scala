@@ -45,6 +45,7 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
   def jointlyOwnedValueRowId: String
   def jointlyOwnedValueText: String
   def deceasedName: String
+  def linkHash: String = ""
 
   def viewWithQuestionsAnsweredNo: String
   def viewWithQuestionsAnsweredYes: String
@@ -76,7 +77,7 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
     "show the correct return link with right text" in {
       val doc = asDocument(viewWithQuestionsAnsweredNo)
       val returnLink = doc.getElementById("return-button")
-      returnLink.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
+      returnLink.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url + "#" + linkHash
       returnLink.text() shouldBe messagesApi("page.iht.application.return.to.assetsOf",deceasedName)
     }
   }

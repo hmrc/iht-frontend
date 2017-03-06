@@ -26,6 +26,8 @@ import iht.views.html.application.asset.nominated
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
@@ -44,6 +46,7 @@ class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateEl
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
   override def formTarget =Some(routes.NominatedController.onSubmit)
+  override def linkHash = AppSectionNominatedID
 
   "Nominated assets view" must {
     behave like yesNoValueViewWithErrorSummaryBox

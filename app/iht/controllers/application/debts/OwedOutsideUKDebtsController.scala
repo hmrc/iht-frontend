@@ -25,6 +25,9 @@ import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabiliti
 import iht.views.html.application.debts.owed_outside_uk
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object OwedOutsideUKDebtsController extends OwedOutsideUKDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -54,10 +57,11 @@ trait OwedOutsideUKDebtsController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-      debtsOutsideUkForm,
-      owed_outside_uk.apply,
-      updateApplicationDetails,
-      debtsRedirectLocation)
+        debtsOutsideUkForm,
+        owed_outside_uk.apply,
+        updateApplicationDetails,
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedOutsideUKID))
+      )
     }
   }
 }

@@ -22,7 +22,8 @@
 @import iht.utils._
 @import iht.forms.ApplicationForms._
 @import iht.utils.CommonHelper
-
+@import iht.constants.Constants._
+@import iht.constants.IhtProperties._
 
 @(
 giftsList: Seq[PreviousYearsGifts],
@@ -66,20 +67,17 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.claimingExemption
                         <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle1")">@element.value.fold("")(xx=>"£" + CommonHelper.numberWithCommas(xx).toString)</td>
                         <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle2")">@element.exemptions.fold("")(xx=>"£" + CommonHelper.numberWithCommas(xx).toString)</td>
                         <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle3")">
-
-                                @if((element.value.fold(BigDecimal(0))(identity) - element.exemptions.fold(BigDecimal(0))(identity)) < 0) {
-                                    £0
-                                } else {
-                                   £@CommonHelper.numberWithCommas({element.value.fold(BigDecimal(0))(identity) - element.exemptions.fold(BigDecimal(0))(identity)})
-                                }
-
+                            @if((element.value.fold(BigDecimal(0))(identity) - element.exemptions.fold(BigDecimal(0))(identity)) < 0) {
+                                £0
+                            } else {
+                               £@CommonHelper.numberWithCommas({element.value.fold(BigDecimal(0))(identity) - element.exemptions.fold(BigDecimal(0))(identity)})
+                            }
                         </td>
                         <td class="table__detail--responsive">
-
-                                <a id='edit-gift-@element.yearId' href='@iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoad(element.yearId.getOrElse(""))'>
+                            <a id="value-of-gifts-for-period-@element.yearId" href='@iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoad(element.yearId.getOrElse(""))'>
                                 <span aria-hidden="true">@Messages("iht.change")</span>
                                 <span class="visually-hidden">@CommonHelper.previousYearsGiftsAccessibility(element)</span>
-                                </a>
+                            </a>
                         </td>
                     </tr>
                 }
@@ -103,8 +101,11 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.claimingExemption
 
       
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.custom.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
-            Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+            @ihtHelpers.custom.return_link(
+                Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
+                Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
+                GiftsValueOfGiftsQuestionID
+            )
         }
 
 }

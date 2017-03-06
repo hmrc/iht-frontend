@@ -18,7 +18,7 @@
 @import iht.views.html._
 @import iht.constants.FieldMappings
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties
+@import iht.constants.IhtProperties._
 
 @()(implicit request:Request[_], messages: Messages)
 
@@ -28,12 +28,12 @@
     hasSignOut = false,
     hasTimeOut = false) {
 
-    <p id="paragraph0">@Messages("page.iht.filter.paperform.million.p1") <a href="@IhtProperties.linkEstateReportKickOut" id="form-link">@Messages("page.iht.filter.paperform.iht400.link.text")</a>
+    <p id="paragraph0">@Messages("page.iht.filter.paperform.million.p1") <a href="@linkEstateReportKickOut" id="form-link">@Messages("page.iht.filter.paperform.iht400.link.text")</a>
         .</p>
     <p id="paragraph1">@Messages("page.iht.filter.paperform.million.p2")</p>
 
     <p>
-        <a href="@IhtProperties.linkEstateReportKickOut" class="button"> @Messages("page.iht.filter.paperform.million.exit")</a>
+        <a href="@linkEstateReportKickOut" class="button"> @Messages("page.iht.filter.paperform.million.exit")</a>
     </p>
 
     @previous_answers(Messages("iht.countries.englandOrWales"), Some(moreThan1million))

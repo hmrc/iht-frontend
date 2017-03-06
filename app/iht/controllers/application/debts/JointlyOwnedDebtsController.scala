@@ -26,6 +26,9 @@ import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.debts.jointly_owned
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object JointlyOwnedDebtsController extends JointlyOwnedDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -55,10 +58,11 @@ trait JointlyOwnedDebtsController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-      jointlyOwnedDebts,
-      jointly_owned.apply,
-      updateApplicationDetails,
-      debtsRedirectLocation)
+        jointlyOwnedDebts,
+        jointly_owned.apply,
+        updateApplicationDetails,
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedJointlyID))
+      )
     }
   }
 }

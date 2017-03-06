@@ -26,7 +26,8 @@
 @import iht.controllers.application.assets.properties.routes._
 @import iht.controllers.application.assets.pensions.routes._
 @import iht.controllers.application.assets.trusts.routes._
-@import iht.constants.Constants._
+@import iht.constants.Constants
+@import iht.constants.IhtProperties._
 
 @(appDetails:ApplicationDetails,
 assets:AllAssets,
@@ -53,8 +54,8 @@ isFullWidth=false) {
 
     @defining(appDetails.isCompleteProperties) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.propertiesBuildingsAndLand"),
-            "properties", "properties",
-            displayValue(appDetails, AppSectionProperties, isComplete),
+            "properties", AppSectionPropertiesID,
+            displayValue(appDetails, Constants.AppSectionProperties, isComplete),
             "",
             Some(if(assets.properties.flatMap(_.isOwned).getOrElse(false)) {
                 PropertiesOverviewController.onPageLoad()
@@ -83,8 +84,8 @@ isFullWidth=false) {
 
     @defining(assets.money.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.money.upperCaseInitial"),
-            "money", "money",
-            displayValue(appDetails, AppSectionMoney, isComplete), "",
+            "money", AppSectionMoneyID,
+            displayValue(appDetails, Constants.AppSectionMoney, isComplete), "",
             Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()),
              ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -106,8 +107,8 @@ isFullWidth=false) {
 
     @defining(assets.household.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.householdAndPersonalItems.title"),
-            "household", "household",
-            displayValue(appDetails, AppSectionHousehold, isComplete), "",
+            "household", AppSectionHouseholdID,
+            displayValue(appDetails, Constants.AppSectionHousehold, isComplete), "",
             Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -131,8 +132,8 @@ isFullWidth=false) {
 
     @defining(assets.vehicles.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.vehicles"),
-            "vehicles", "vehicles",
-            displayValue(appDetails, AppSectionVehicles, isComplete), "",
+            "vehicles", AppSectionVehiclesID,
+            displayValue(appDetails, Constants.AppSectionVehicles, isComplete), "",
             Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()),
         ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -156,8 +157,8 @@ isFullWidth=false) {
 
     @defining(assets.privatePension.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.privatePensions"),
-            "privatePension", "private-pension",
-            displayValue(appDetails, AppSectionPrivatePension, isComplete), "",
+            "privatePension", AppSectionPrivatePensionID,
+            displayValue(appDetails, Constants.AppSectionPrivatePension, isComplete), "",
             Some(if (assets.privatePension.flatMap(_.isOwned).getOrElse(false)) {
                 PensionsOverviewController.onPageLoad()
             } else {
@@ -185,8 +186,8 @@ isFullWidth=false) {
 
     @defining(assets.stockAndShare.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.stocksAndShares"),
-            "stockAndShare", "stock-and-share",
-            displayValue(appDetails, AppSectionStockAndShare, isComplete), "",
+            "stockAndShare", AppSectionStockAndShareID,
+            displayValue(appDetails, Constants.AppSectionStockAndShare, isComplete), "",
             Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -210,8 +211,8 @@ isFullWidth=false) {
 
     @defining(assets.insurancePolicy.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.insurancePolicies"),
-            "insurancePolicy", "insurance-policy",
-            displayValue(appDetails, AppSectionInsurancePolicy, isComplete), "",
+            "insurancePolicy", AppSectionInsurancePolicyID,
+            displayValue(appDetails, Constants.AppSectionInsurancePolicy, isComplete), "",
             Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -235,8 +236,8 @@ isFullWidth=false) {
 
     @defining(assets.businessInterest.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.businessInterests.title"),
-            "businessInterest", "business-interest",
-            displayValue(appDetails, AppSectionBusinessInterest, isComplete), "",
+            "businessInterest", AppSectionBusinessInterestID,
+            displayValue(appDetails, Constants.AppSectionBusinessInterest, isComplete), "",
             Some(iht.controllers.application.assets.routes.BusinessInterestsController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -260,8 +261,8 @@ isFullWidth=false) {
 
     @defining(assets.nominated.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.nominated"),
-            "nominated", "nominated",
-            displayValue(appDetails, AppSectionNominated, isComplete), "",
+            "nominated", AppSectionNominatedID,
+            displayValue(appDetails, Constants.AppSectionNominated, isComplete), "",
             Some(iht.controllers.application.assets.routes.NominatedController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -285,8 +286,8 @@ isFullWidth=false) {
 
     @defining(assets.heldInTrust.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.heldInATrust.title"),
-            "heldInTrust", "held-in-trust",
-            displayValue(appDetails, AppSectionHeldInTrust, isComplete), "",
+            "heldInTrust", AppSectionHeldInTrustID,
+            displayValue(appDetails, Constants.AppSectionHeldInTrust, isComplete), "",
             Some(if(assets.heldInTrust.flatMap(x => x.isOwned).getOrElse(false)) {
                 TrustsOverviewController.onPageLoad()
             } else {
@@ -314,8 +315,8 @@ isFullWidth=false) {
 
     @defining(assets.foreign.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.foreign.title"),
-            "foreign", "foreign",
-            displayValue(appDetails, AppSectionForeign, isComplete), "",
+            "foreign", AppSectionForeignID,
+            displayValue(appDetails, Constants.AppSectionForeign, isComplete), "",
             Some(iht.controllers.application.assets.routes.ForeignController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -339,8 +340,8 @@ isFullWidth=false) {
 
     @defining(assets.moneyOwed.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.moneyOwed", ihtHelpers.custom.name(deceasedName)),
-            "moneyOwed", "money-owed",
-            displayValue(appDetails, AppSectionMoneyOwed, isComplete), "",
+            "moneyOwed", AppSectionMoneyOwedID,
+            displayValue(appDetails, Constants.AppSectionMoneyOwed, isComplete), "",
             Some(iht.controllers.application.assets.routes.MoneyOwedController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -364,8 +365,8 @@ isFullWidth=false) {
 
     @defining(assets.other.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.assets.other.title"),
-            "other", "other",
-            displayValue(appDetails, AppSectionOther, isComplete), "",
+            "other", AppSectionOtherID,
+            displayValue(appDetails, Constants.AppSectionOther, isComplete), "",
             Some(iht.controllers.application.assets.routes.OtherController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,

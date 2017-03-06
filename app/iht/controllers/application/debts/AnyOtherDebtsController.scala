@@ -25,8 +25,11 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.debts.any_other_debts
+import iht.constants.Constants._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object AnyOtherDebtsController extends AnyOtherDebtsController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -56,10 +59,11 @@ trait AnyOtherDebtsController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-      anyOtherDebtsForm,
-      any_other_debts.apply,
-      updateApplicationDetails,
-      debtsRedirectLocation)
+        anyOtherDebtsForm,
+        any_other_debts.apply,
+        updateApplicationDetails,
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOtherID))
+      )
     }
   }
 }

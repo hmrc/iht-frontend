@@ -23,6 +23,7 @@
 
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.constants.IhtProperties._
 @import iht.utils.CommonHelper
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
@@ -51,8 +52,11 @@
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
-                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+            @ihtHelpers.custom.return_link(
+                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+                AppSectionOtherID
+            )
         }
     }
 }

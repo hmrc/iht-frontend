@@ -22,14 +22,15 @@
 @import iht.views.html._
 
 @import iht.utils._
-@import iht.constants.Constants
+@import iht.constants.Constants._
+@import iht.constants.IhtProperties._
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.funeralExpenses.title"),
     browserTitle = Some(Messages("iht.estateReport.debts.funeralExpenses.title")),
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(funeralExpensesForm, Constants.AppSectionFuneralExpenses)
+    @ihtHelpers.custom.error_summary_override_keys(funeralExpensesForm, AppSectionFuneralExpenses)
 
     @helpers.form(action = iht.controllers.application.debts.routes.FuneralExpensesController.onSubmit, 'autoComplete -> "off") {
 
@@ -37,7 +38,7 @@
         <p>@Html(Messages("page.iht.application.debts.funeralExpenses.description.p2", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
         @ihtHelpers.custom.generic_estate_element_assets(
-            assetType = Constants.AssetTypeSingle,
+            assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.funeralExpenses.isOwned"),
             inputTextLabel = Messages("iht.estateReport.debts.valueOfFuneralCosts"),
             sharableElementForm = funeralExpensesForm,
@@ -48,7 +49,11 @@
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.custom.return_link(Messages("site.link.return.debts"), Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
+        @ihtHelpers.custom.return_link(
+            Messages("site.link.return.debts"),
+            Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
+            DebtsFuneralExpensesID
+        )
 
     }
 }

@@ -23,6 +23,8 @@
 @import iht.utils._
 @import iht.forms.ApplicationForms._
 @import iht.utils.CommonHelper._
+@import iht.constants.Constants._
+@import iht.constants.IhtProperties._
 
 @(SevenYearsGiftsForm: Form[AllGifts],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -53,16 +55,19 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
 <div id="seven-years-gifts-question">
     @ihtHelpers.standard.input_yes_no_radio_group(
     SevenYearsGiftsForm("givenInPast.isGivenInLast7Years"),
-    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", deceasedName)),
+    '_legend -> Html(Messages("page.iht.application.gifts.lastYears.question", deceasedName)),    
     '_divClass -> Some("form-group"))
 </div>
 
 <div id="action-button" class="form-field form-field--submit">
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
-@registrationDetails.deceasedDetails.map{ dd=>
-@ihtHelpers.custom.return_link(Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
-Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
-}
+    @registrationDetails.deceasedDetails.map{ dd=>
+        @ihtHelpers.custom.return_link(
+            Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
+            Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
+            GiftsSevenYearsQuestionID
+        )
+    }
 }
 }

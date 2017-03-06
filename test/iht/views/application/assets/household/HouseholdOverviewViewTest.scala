@@ -24,6 +24,8 @@ import iht.views.html.application.asset.household.household_overview
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
@@ -55,6 +57,7 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
   override def viewWithQuestionsAnsweredYes: String = household_overview(dataWithQuestionsAnsweredYes, regDetails).toString
   override def viewWithQuestionsUnanswered: String = household_overview(None, regDetails).toString
   override def viewWithValues: String = household_overview(dataWithValues, regDetails).toString
+  override def linkHash = AppSectionHouseholdID
 
   "Household overview view" must {
     behave like overviewPage()

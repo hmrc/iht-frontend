@@ -16,11 +16,12 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-@import iht.constants.Constants
+@import iht.constants.Constants._
 @import iht.models._
 @import iht.models.application.assets._
 @import iht.utils.CommonHelper._
 @import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -47,6 +48,10 @@ headingName = deceasedName){
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.custom.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
+        @ihtHelpers.custom.return_link(
+            Messages("site.link.return.insurance.policies"),
+            Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
+            InsurancePaidForSomeoneElseYesNoID
+        )
     }
 }

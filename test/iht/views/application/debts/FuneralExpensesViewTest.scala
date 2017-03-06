@@ -24,6 +24,8 @@ import iht.views.html.application.debts.funeral_expenses
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 import iht.controllers.application.debts.routes
 
 /**
@@ -46,6 +48,7 @@ class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateEleme
 
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.funeralExpenses.isOwned")
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.valueOfFuneralCosts")
+  override def linkHash = TestHelper.DebtsFuneralExpensesID
 
   override def guidance  = guidance(
     Set(messagesApi("page.iht.application.debts.funeralExpenses.description.p1"),

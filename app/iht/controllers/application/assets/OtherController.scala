@@ -28,6 +28,9 @@ import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object OtherController extends OtherController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -61,7 +64,7 @@ trait OtherController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](otherForm,
         other.apply,
         updateApplicationDetails,
-        assetsRedirectLocation
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionOtherID))
       )
     }
   }

@@ -29,6 +29,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  * Created by james on 14/01/16.
@@ -74,7 +76,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
         storeAppDetailsInCache = true)
 
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
-      status(result) should be(OK) 
+      status(result) should be(OK)
     }
 
     "redirect to ida login page on PageLoad if the user is not logged in" in {
@@ -82,7 +84,7 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some(loginUrl))
     }
-  
+
     "page loads when there are no gifts in persist storage" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
 

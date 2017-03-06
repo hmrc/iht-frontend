@@ -63,9 +63,9 @@ class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
     "have the correct link with text" in {
       val doc = asDocument(genericOverviewItemView)
-      val link = doc.getElementById(s"$id-link")
+      val link = doc.getElementById(s"$id")
       link.attr("href") shouldBe linkUrl.url
-      assertEqualsValue(doc, s"a#$id-link span", "Change")
+      assertEqualsValue(doc, s"a#$id span", "Change")
     }
 
     "have the correct Item status" in {

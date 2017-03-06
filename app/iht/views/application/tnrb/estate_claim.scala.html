@@ -20,12 +20,14 @@
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.RegistrationDetails
 
-@(estateClaimAnyBusinessForm:Form[TnrbEligibiltyModel])(implicit request:Request[_], messages: Messages)
+@(estateClaimAnyBusinessForm:Form[TnrbEligibiltyModel],
+cancelUrl:Call
+)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.stateClaim.question"),
 browserTitle = Some(Messages("page.iht.application.tnrb.stateClaim.browserTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad())){
+cancelUrl = Some(cancelUrl)){
     @ihtHelpers.custom.error_summary(estateClaimAnyBusinessForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit,'autoComplete -> "off") {

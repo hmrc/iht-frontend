@@ -24,6 +24,8 @@ import iht.views.html.application.tnrb.tnrb_overview
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import play.api.i18n.Messages.Implicits._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class TnrbOverviewViewTest extends ViewTestHelper {
 
@@ -135,47 +137,47 @@ class TnrbOverviewViewTest extends ViewTestHelper {
       val view = tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString
       val doc = asDocument(view)
 
-      val homeInTheUKQuestion = doc.getElementById("home-in-uk-link")
+      val homeInTheUKQuestion = doc.getElementById(TnrbSpousePermanentHomeInUKID)
       homeInTheUKQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad.url
 
-      val giftsGivenAwayQuestion = doc.getElementById("gifts-given-away-link")
+      val giftsGivenAwayQuestion = doc.getElementById(TnrbGiftsGivenAwayID)
       giftsGivenAwayQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onPageLoad.url
 
-      val giftsWithReservationQuestion = doc.getElementById("gifts-with-reservation-link")
+      val giftsWithReservationQuestion = doc.getElementById(TnrbGiftsWithReservationID)
       giftsWithReservationQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onPageLoad.url
 
-      val claimAnyBusinessUKQuestion = doc.getElementById("state-claim-any-business-link")
+      val claimAnyBusinessUKQuestion = doc.getElementById(TnrbEstateReliefID)
       claimAnyBusinessUKQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.EstateClaimController.onPageLoad.url
 
-      val partnerBenefitFromTrustQuestion = doc.getElementById("is-partner-ben-from-trust-link")
+      val partnerBenefitFromTrustQuestion = doc.getElementById(TnrbSpouseBenefitFromTrustID)
       partnerBenefitFromTrustQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.BenefitFromTrustController.onPageLoad.url
 
-      val estatePassedToCharityKQuestion = doc.getElementById("is-estate-below-iht-threshold-applied-link")
+      val estatePassedToCharityKQuestion = doc.getElementById(TnrbEstatePassedToDeceasedID)
       estatePassedToCharityKQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onPageLoad.url
 
-      val jointAssetsPassedQuestion = doc.getElementById("is-joint-asset-passed-link")
+      val jointAssetsPassedQuestion = doc.getElementById(TnrbJointAssetsPassedToDeceasedID)
       jointAssetsPassedQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.JointlyOwnedAssetsController.onPageLoad.url
 
-      val partnerMaritalStatusQuestion = doc.getElementById("partner-marital-status-link")
+      val partnerMaritalStatusQuestion = doc.getElementById(TnrbSpouseMartialStatusID)
       partnerMaritalStatusQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad.url
 
-      val dateOfPreDeceasedQuestion = doc.getElementById("date-of-preDeceased-link")
+      val dateOfPreDeceasedQuestion = doc.getElementById(TnrbSpouseDateOfDeathID)
       dateOfPreDeceasedQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad.url
 
-      val partnerNameQuestion = doc.getElementById("partner-name-link")
+      val partnerNameQuestion = doc.getElementById(TnrbSpouseNameID)
       partnerNameQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.PartnerNameController.onPageLoad.url
 
-      val dateOfMarriageQuestion = doc.getElementById("date-of-marriage-link")
+      val dateOfMarriageQuestion = doc.getElementById(TnrbSpouseDateOfMarriageID)
       dateOfMarriageQuestion.attr("href") shouldBe
         iht.controllers.application.tnrb.routes.DateOfMarriageController.onPageLoad.url
 

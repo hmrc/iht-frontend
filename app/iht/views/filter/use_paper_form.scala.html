@@ -18,7 +18,7 @@
 @import iht.views.html._
 @import iht.constants.FieldMappings
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties
+@import iht.constants.IhtProperties._
 
 @(country: String)(implicit request:Request[_], messages: Messages)
 
@@ -38,7 +38,7 @@
     @use_paper_form_other_country()
 }
 <div id='continue-button' class="subsection">
-    <a id="exit" href="@IhtProperties.linkExitToGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
+    <a id="exit" href="@linkExitToGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
 </div>
 @previous_answers(country)
 }

@@ -22,21 +22,22 @@
 @import iht.views.html._
 
 @import iht.utils._
-@import iht.constants.Constants
+@import iht.constants.Constants._
+@import iht.constants.IhtProperties._
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.debtsTrust.title"),
     browserTitle = Some(Messages("page.iht.application.debts.debtsTrust.browserTitle")),
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(debtsTrustForm, Constants.AppSectionDebtsOwedFromTrust)
+    @ihtHelpers.custom.error_summary_override_keys(debtsTrustForm, AppSectionDebtsOwedFromTrust)
 
     @helpers.form(action = iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Html(Messages("page.iht.application.debts.debtsTrust.description.p1", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
         @ihtHelpers.custom.generic_estate_element_assets(
-            assetType = Constants.AssetTypeSingle,
+            assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.debtsTrust.isOwned", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             inputTextLabel = Messages("iht.estateReport.debts.debtsTrust.value"),
             sharableElementForm = debtsTrustForm,
@@ -47,7 +48,11 @@
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.custom.return_link(Messages("site.link.return.debts"), Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()))
+        @ihtHelpers.custom.return_link(
+            Messages("site.link.return.debts"),
+            Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
+            DebtsOwedFromTrustID
+        )
 
     }
 }

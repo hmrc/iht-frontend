@@ -44,7 +44,7 @@ class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibilty
   override def form: Form[TnrbEligibiltyModel] = benefitFromTrustForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
-    form => benefit_from_trust(form, tnrbModel, widowCheck)
+    form => benefit_from_trust(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

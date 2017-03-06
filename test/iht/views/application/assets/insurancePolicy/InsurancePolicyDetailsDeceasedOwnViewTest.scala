@@ -27,6 +27,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[InsurancePolicy]{
 
@@ -45,6 +47,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputVie
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
     override def formTarget =Some(routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit)
+    override def linkHash = InsurancePayingToDeceasedYesNoID
 
     "InsurancePolicyDetailsDeceasedOwn view" must {
       behave like yesNoValueViewWithErrorSummaryBox()

@@ -24,6 +24,8 @@ import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  *
@@ -110,7 +112,7 @@ class BenefitFromTrustControllerTest  extends ApplicationControllerTest{
 
       val result = benefitFromTrustController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseBenefitFromTrustID))
     }
 
     "go to KickOut page if spouse has the right to benefit from the trust" in {

@@ -31,6 +31,8 @@ onCancelMessageKey: String)(implicit request:Request[_], messages: Messages)
 @import iht.utils._
 @import iht.utils.CommonHelper
 @import iht.constants.FieldMappings
+@import iht.constants.Constants._
+@import iht.constants.IhtProperties._
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
@@ -112,5 +114,9 @@ isFullWidth= false) {
           </section>
 
     }
-@ihtHelpers.custom.return_link(Messages(onCancelMessageKey), Some(onCancel))
+    @ihtHelpers.custom.return_link(
+        Messages(onCancelMessageKey),
+        Some(onCancel),
+        DebtsMortgagesID
+    )
 }

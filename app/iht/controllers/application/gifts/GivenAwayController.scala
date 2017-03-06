@@ -27,7 +27,9 @@ import iht.utils.{ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 /**
  *
  * Created by Vineet Tyagi on 14/01/16.
@@ -59,7 +61,11 @@ trait GivenAwayController extends EstateController{
           (updateApplicationDetailsWithUpdatedAllGifts(updatedAllDetails), None)
         }
 
-      estateElementOnSubmit[AllGifts](giftsGivenAwayForm, given_away.apply, updateApplicationDetails, giftsRedirectLocation)
+      estateElementOnSubmit[AllGifts](giftsGivenAwayForm,
+        given_away.apply,
+        updateApplicationDetails,
+        CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsGivenAwayQuestionID))
+      )
     }
   }
 

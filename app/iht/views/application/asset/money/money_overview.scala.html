@@ -25,6 +25,9 @@
 @import iht.utils.OverviewHelper._
 @import scala.collection.immutable.Seq
 @import iht.utils.CommonHelper
+@import iht.constants.Constants._
+@import iht.constants.IhtProperties._
+
 
 @(money:Option[ShareableBasicEstateElement], registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
@@ -105,7 +108,9 @@ isFullWidth=false
         <div class="form-field form-field--submit">
         @registrationDetails.deceasedDetails.map{ dd=>
             @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
-                                            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+                                            Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+            AppSectionMoneyID
+            )
         }
         </div>
 }
