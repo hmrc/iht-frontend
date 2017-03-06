@@ -209,6 +209,18 @@ class ApplyingForProbateControllerTest
       applicant.isApplyingForProbate shouldBe Some(true)
     }
 
+    "show bad request when errors" in {
+      createMockToGetRegDetailsFromCache(mockCachingConnector,
+        Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails))))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
+
+      val form = applyingForProbateForm.fill(ApplicantDetails(isApplyingForProbate = Some(true)))
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("isApplyingForProbate", ""))
+      val result = controller.onEditSubmit(request)
+      status(result) should be(BAD_REQUEST)
+    }
+
     "save and redirect correctly on submit in edit mode when answering No" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails copy(applicantDetails = Some(new ApplicantDetails))))
