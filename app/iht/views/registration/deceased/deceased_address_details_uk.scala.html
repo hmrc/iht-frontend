@@ -19,6 +19,7 @@
 @import iht.utils.CommonHelper
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
+@import iht.constants._
 
 @(deceasedAddressDetailsUKForm:Form[iht.models.DeceasedDetails],
     actionLocation: Call,
@@ -44,6 +45,7 @@
 
     @ihtHelpers.input_with_help(
     deceasedAddressDetailsUKForm("ukAddress.addressLine1"),
+    '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "form-label ",
@@ -51,6 +53,7 @@
 
     @ihtHelpers.input_with_help(
     deceasedAddressDetailsUKForm("ukAddress.ukAddressLine2"),
+    '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "form-label ",
@@ -58,6 +61,7 @@
 
     @ihtHelpers.input_with_help(
     deceasedAddressDetailsUKForm("ukAddress.addressLine3"),
+    '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "form-label ",
@@ -65,6 +69,7 @@
 
     @ihtHelpers.input_with_help(
     deceasedAddressDetailsUKForm("ukAddress.addressLine4"),
+    '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "form-label ",
@@ -72,6 +77,7 @@
 
     @ihtHelpers.input_with_help(
     deceasedAddressDetailsUKForm("ukAddress.postCode"),
+    '_maxlength -> IhtProperties.validationMaxLengthPostcode,
     '_divClass -> "form-group",
     '_inputClass -> "form-control form-control-1-4",
     '_labelTextClass -> "form-label ",
