@@ -106,7 +106,9 @@ class DeclarationViewTest extends ViewTestHelper {
     assertContainsText(doc, messagesApi(coExecutorsConfirmationTextMsgKey))
 
     assertLinkHasValue(doc, "pdf-summary-link", iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF.url)
-    assertEqualsValue(doc, "p a#pdf-summary-link", messagesApi("iht.estateReport.copyOfTheEstateReportAndPrint"))
+
+    val pdfLink = doc.getElementById("pdf-summary-link")
+    pdfLink.text() shouldBe messagesApi("iht.estateReport.copyOfTheEstateReportAndPrint")
   }
 
   "Declaration Page" must {

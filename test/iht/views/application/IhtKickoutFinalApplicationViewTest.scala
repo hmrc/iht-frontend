@@ -44,20 +44,21 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
     }
 
     "have correct guidance" in {
-      val view = ihtKickOutFinalApplicationView
+      val view = ihtKickOutFinalApplicationView.toString
 
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.getCopy.title"))
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.getCopy.guidance1"))
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.getCopy.guidance2.youShould"))
-      messagesShouldBePresent(view.toString,
-                                        messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint"))
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.getCopy.guidance3"))
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.kickout.final.guidance.onFinish"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.title"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.guidance1"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.guidance2.youShould"))
+      ihtKickOutFinalApplicationView.getElementsByClass("panel-indent").first.text() shouldBe
+        (messagesApi("page.iht.application.kickout.final.getCopy.guidance2.youShould") + " " +
+          messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint") +
+          messagesApi("iht.fullStop"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.getCopy.guidance3"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.kickout.final.guidance.onFinish"))
     }
 
     "have save and print link with correct text " in {
       val view = ihtKickOutFinalApplicationView
-
       val returnButton = view.getElementById("save-and-print")
       returnButton.text() shouldBe messagesApi("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint")
       returnButton.attr("href") shouldBe

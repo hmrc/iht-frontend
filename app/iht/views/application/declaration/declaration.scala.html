@@ -49,7 +49,7 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                     </ul>
                     <p id="prologue4">@Messages("iht.estateReport.declaration.coExecutors.prologue4")
                         <a id="pdf-summary-link" class="backButton" href="@iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF">
-                            @Messages("iht.estateReport.copyOfTheEstateReportAndPrint")
+                            @Html(Messages("iht.estateReport.copyOfTheEstateReportAndPrint"))
                         </a>
                     </p>
 
