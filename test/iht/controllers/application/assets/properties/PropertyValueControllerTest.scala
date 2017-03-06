@@ -29,6 +29,7 @@ import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.models.application.ApplicationDetails
 
 /**
  * Created by james on 16/06/16.
@@ -42,6 +43,15 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
 
   lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+
+  def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
+    createMocksForApplication(mockCachingConnector,
+      mockIhtConnector,
+      appDetails = applicationDetails,
+      getAppDetails = true,
+      saveAppDetails = true,
+      storeAppDetailsInCache = true)
+  }
 
   def propertyValueController = new PropertyValueController {
     override val cachingConnector = mockCachingConnector
@@ -76,15 +86,9 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     }
 
     "return OK on page load" in {
-
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
@@ -122,13 +126,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
-
+      setUpTests(Some(applicationDetails))
 
       val result = propertyValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
@@ -140,18 +138,11 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
         copy(propertyList = List())
 
       val formFill = propertyValueForm.fill(CommonBuilder.buildProperty.copy(value = Some(10)))
-
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyValueController.onSubmit()(request)
-
       status(result) should be (SEE_OTHER)
       redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
     }
@@ -165,18 +156,11 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
           value = Some(1234))))
 
       val formFill = propertyValueForm.fill(CommonBuilder.buildProperty.copy(value = Some(10)))
-
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyValueController.onEditSubmit(propertyId)(request)
-
       status(result) should be (SEE_OTHER)
       redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url))
     }
@@ -197,12 +181,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
         ("value", "1000001")
       )
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyValueController.onSubmit(request)
       status(result) should be (SEE_OTHER)
@@ -213,12 +192,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
         propertyList = List(iht.testhelpers.CommonBuilder.property)
       )
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyValueController.onEditPageLoadForKickout("1")(createFakeRequest())
       status(result) should be (OK)

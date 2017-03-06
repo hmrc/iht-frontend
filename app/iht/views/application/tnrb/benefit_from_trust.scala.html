@@ -35,11 +35,11 @@ browserTitle = Some(Messages("page.iht.application.tnrb.benefitFromTrust.browser
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(cancelUrl),
 headingName = partnerName){
-    @ihtHelpers.error_summary(benefitFromTrustForm)
+    @ihtHelpers.custom.error_summary(benefitFromTrustForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
         benefitFromTrustForm("isPartnerBenFromTrust"),
         '_divClass -> Some("form-group"),
         '_legend -> Messages("iht.estateReport.tnrb.benefitFromTrust.question",

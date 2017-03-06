@@ -36,7 +36,7 @@
         cancelUrl = Some(cancelUrl),
         headingName = deceasedName) {
 
-        @ihtHelpers.error_summary(dateOfMarriageForm, Some(
+        @ihtHelpers.custom.error_summary(dateOfMarriageForm, Some(
                 Map(
                     "error.predeceasedDateOfMarriage.beforeDateOfDeath" -> "error.dateOfMarriage.incorrect.summary"
                 )
@@ -44,10 +44,10 @@
         )
 
         @helpers.form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit, 'autoComplete -> "off") {
-            <p>@Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
+            <p>@Html(Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
                 TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel),
-                deceasedName, predeceasedName)</p>
-            @ihtHelpers.date_fields(
+                deceasedName, predeceasedName))</p>
+            @ihtHelpers.standard.date_fields(
                 dateOfMarriageForm,
                 "dateOfMarriage",
                 pageTitle,

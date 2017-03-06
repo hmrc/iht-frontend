@@ -30,11 +30,11 @@ actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Requ
                     isFullWidth=false,
                     hasTimeOut=true) {
 
-    @ihtHelpers.error_summary(deceasedPermanentHomeForm)
+    @ihtHelpers.custom.error_summary(deceasedPermanentHomeForm)
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 <div id="domicile-container">
-    @ihtHelpers.input_radio_group(
+    @ihtHelpers.standard.input_radio_group(
     deceasedPermanentHomeForm("domicile"),
     domicileMap.toSeq,
     '_fieldsetId -> "country",
@@ -44,7 +44,7 @@ actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Requ
     '_legend -> Html(Messages("page.iht.registration.deceasedPermanentHome.title")),
     '_legendClass -> "visually-hidden")
 </div>
-    @ihtHelpers.continue_button()
+    @ihtHelpers.custom.continue_button()
     }
 
 }

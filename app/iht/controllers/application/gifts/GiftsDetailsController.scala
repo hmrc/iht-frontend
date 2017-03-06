@@ -21,7 +21,7 @@ package iht.controllers.application.gifts
  */
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics

@@ -30,14 +30,14 @@
     isFullWidth = false
 ) {
 
-    @ihtHelpers.error_summary_override_keys(funeralExpensesForm, AppSectionFuneralExpenses)
+    @ihtHelpers.custom.error_summary_override_keys(funeralExpensesForm, AppSectionFuneralExpenses)
 
     @helpers.form(action = iht.controllers.application.debts.routes.FuneralExpensesController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Messages("page.iht.application.debts.funeralExpenses.description.p1")</p>
         <p>@Html(Messages("page.iht.application.debts.funeralExpenses.description.p2", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
-        @ihtHelpers.generic_estate_element_assets(
+        @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.funeralExpenses.isOwned"),
             inputTextLabel = Messages("iht.estateReport.debts.valueOfFuneralCosts"),
@@ -49,7 +49,7 @@
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.return_link(
+        @ihtHelpers.custom.return_link(
             Messages("site.link.return.debts"),
             Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
             DebtsFuneralExpensesID

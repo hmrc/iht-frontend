@@ -98,9 +98,9 @@ returnHash: String = ""
 <div class="form-field form-field--submit">
   @registrationDetails.deceasedDetails.map{ dd=>
     @if(returnAsButton){
-      @ihtHelpers.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
+      @ihtHelpers.custom.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
     } else {
-        @ihtHelpers.return_link(Messages(returnToMessagesKey, ihtHelpers.name(dd.name)), returnToCall, returnHash)
+        @ihtHelpers.custom.return_link(Messages(returnToMessagesKey, ihtHelpers.custom.name(dd.name)), returnToCall)
     }
   }
 </div>

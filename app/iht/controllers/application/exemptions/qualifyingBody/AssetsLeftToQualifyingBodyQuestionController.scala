@@ -16,7 +16,7 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics

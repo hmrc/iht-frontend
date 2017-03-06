@@ -264,22 +264,22 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
     "have section title for deceased" in {
       messagesShouldBePresent(viewAsString,
-        messagesApi("site.nameDetails", ihtHelpers.name(deceasedName)).toString)
+        messagesApi("site.nameDetails", ihtHelpers.custom.name(deceasedName)).toString)
     }
 
     "have section title for co-executor 1" in {
       messagesShouldBePresent(viewAsString,
-        messagesApi("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors.head.name)).toString)
+        messagesApi("site.nameDetails", ihtHelpers.custom.name(registrationDetailsAllUKAddresses.coExecutors.head.name)).toString)
     }
 
     "have section title for co-executor 2" in {
       messagesShouldBePresent(viewAsString,
-        messagesApi("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors(1).name)).toString)
+        messagesApi("site.nameDetails", ihtHelpers.custom.name(registrationDetailsAllUKAddresses.coExecutors(1).name)).toString)
     }
 
     "have section title for co-executor 3" in {
       messagesShouldBePresent(viewAsString,
-        messagesApi("site.nameDetails", ihtHelpers.name(registrationDetailsAllUKAddresses.coExecutors(2).name)).toString)
+        messagesApi("site.nameDetails", ihtHelpers.custom.name(registrationDetailsAllUKAddresses.coExecutors(2).name)).toString)
     }
 
     "display the correct values in the table of entered details where all UK addresses" in {

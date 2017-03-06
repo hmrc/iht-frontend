@@ -30,7 +30,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
     isFullWidth = false
 ) {
 
-    @ihtHelpers.error_summary_override_keys(anyOtherDebtsForm, AppSectionDebtsOther)
+    @ihtHelpers.custom.error_summary_override_keys(anyOtherDebtsForm, AppSectionDebtsOther)
 
     @helpers.form(action = iht.controllers.application.debts.routes.AnyOtherDebtsController.onSubmit, 'autoComplete -> "off") {
 
@@ -38,7 +38,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
         <p>@Html(Messages("page.iht.application.debts.other.description.p2",
                       CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
         <p>@Messages("page.iht.application.debts.other.description.p3")</p>
-        @ihtHelpers.generic_estate_element_assets(
+        @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.other.isOwned"),
             inputTextLabel = Messages("page.iht.application.debts.other.inputLabel1"),
@@ -51,7 +51,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
         </div>
 
 
-        @ihtHelpers.return_link(
+        @ihtHelpers.custom.return_link(
             Messages("site.link.return.debts"),
             Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
             DebtsOtherID

@@ -117,6 +117,7 @@ object IhtProperties {
   lazy val ETMPAssetCodeOtherAsset:String = getProperty("etmpAssetCodeOtherAsset")
   lazy val ETMPAssetCodeTrust:String = getProperty("etmpAssetCodeTrust")
   lazy val ETMPAssetCodeGift:String = getProperty("etmpAssetCodeGift")
+  lazy val ETMPAssetCodeDeceasedsHome:String = getProperty("etmpAssetCodeDeceasedsHome")
 
   lazy val ETMPExemptionTypeGNCP: String = getProperty("etmpExemptionTypeGNCP")
 

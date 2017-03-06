@@ -30,7 +30,7 @@ browserTitle = Some(Messages("page.iht.application.assets.property.tenure.browse
 cancelUrl=Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))) {
 
-@ihtHelpers.error_summary(propertyTenure)
+@ihtHelpers.custom.error_summary(propertyTenure)
 
 <p id="tenure-guidance">@Messages("iht.estateReport.assets.property.youCan")
 <span id="land-registry"><a id="land-registry-link" href="@IhtProperties.linkLandRegistry">
@@ -39,7 +39,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
-@ihtHelpers.input_radio_group_with_hints(
+@ihtHelpers.standard.input_radio_group_with_hints(
 propertyTenure("tenure"),
 FieldMappings.tenures.toSeq,
 '_fieldsetId -> "role2",

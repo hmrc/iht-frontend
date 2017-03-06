@@ -18,7 +18,7 @@ package iht.views.ihtHelpers
 
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers.input_radio_group_with_hints
+import iht.views.html.ihtHelpers.standard.input_radio_group_with_hints
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.play.test.UnitSpec

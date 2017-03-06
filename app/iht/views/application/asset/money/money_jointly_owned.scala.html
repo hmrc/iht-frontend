@@ -42,11 +42,11 @@
         <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p3", deceasedName, deceasedName))</p>
     </div>
 
-    @ihtHelpers.error_summary_override_keys(moneyJointlyOwned, Constants.AppSectionMoney)
+    @ihtHelpers.custom.error_summary_override_keys(moneyJointlyOwned, Constants.AppSectionMoney)
 
     @helpers.form(action = iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
 
-    @ihtHelpers.generic_estate_element_assets(
+    @ihtHelpers.custom.generic_estate_element_assets(
       assetType = Constants.AssetTypeJoint,
       questionLabel= Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
       inputTextLabel = Messages("page.iht.application.assets.money.jointly.owned.input.value.label"),
@@ -57,6 +57,6 @@
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
     }
-    @ihtHelpers.return_link(Messages("site.link.return.money"), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(Messages("site.link.return.money"), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
 
 }

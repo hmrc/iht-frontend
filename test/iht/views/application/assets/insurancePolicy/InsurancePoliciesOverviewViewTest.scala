@@ -43,10 +43,9 @@ class InsurancePoliciesOverviewViewTest extends ApplicationPageBehaviour {
 
   override def formTarget: Option[Call] = None
 
-  override def cancelComponent: Option[CancelComponent] =
-    Some(CancelComponent(call, messagesApi("page.iht.application.return.to.assetsOf", deceasedName), TestHelper.AppSectionInsurancePolicyID))
+  override def cancelComponent: Option[CancelComponent] = None
 
-  "InsurancePolicyDetailsGuidanceView" must {
+  "InsurancePoliciesOverviewView" must {
     behave like applicationPage
   }
 }

@@ -17,7 +17,8 @@
 package iht.controllers.application.gifts
 
 import iht.controllers.application.EstateController
-import iht.controllers.{ControllerHelper, IhtConnectors}
+import iht.controllers.ControllerHelper
+import iht.connector.IhtConnectors
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails

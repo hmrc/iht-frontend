@@ -42,11 +42,11 @@ TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))}
     cancelLabel=Some(cancelLinkText),
     headingName = deceasedName
 ){
-@ihtHelpers.error_summary(deceasedWidowCheckQuestionForm)
+@ihtHelpers.custom.error_summary(deceasedWidowCheckQuestionForm)
 
 @helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit,'autoComplete -> "off") {
 
-@ihtHelpers.input_yes_no_radio_group(
+@ihtHelpers.standard.input_yes_no_radio_group(
 deceasedWidowCheckQuestionForm("widowed"),
 '_divClass -> Some("form-group"),
 '_legend -> Html(question),

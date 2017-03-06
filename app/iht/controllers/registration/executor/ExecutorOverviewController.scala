@@ -17,7 +17,7 @@
 package iht.controllers.registration.executor
 
 import iht.connector.CachingConnector
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics

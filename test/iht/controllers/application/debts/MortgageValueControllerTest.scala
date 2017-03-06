@@ -31,6 +31,9 @@ import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+
 /**
  * Created by Vineet on 22/06/16.
  */
@@ -85,6 +88,22 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
       status(result) should be (OK)
     }
 
+    "respond ok on page load when it has some debts but mortgage" in {
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List(CommonBuilder.property),
+          allLiabilities = Some(CommonBuilder.buildAllLiabilities.copy(mortgages = None)))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
+      status(result) should be (OK)
+    }
+
     "display the correct title on page" in {
 
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
@@ -102,16 +121,76 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
 
       val result = mortgageValueController.onPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.debts.mortgageValue.title",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (
+        messagesApi("page.iht.application.debts.mortgageValue.title",
+          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
-    "redirect to Mortgage overview page on submit" in {
+    "respond with bad request when form has some error" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
 
+      val formFill = mortgagesForm.fill(CommonBuilder.buildMortgage.copy("1", None, None))
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = mortgageValueController.onSubmit("1")(request)
+
+      status(result) should be (BAD_REQUEST)
+
+    }
+
+    "respond with Internal server when there is no application details" in {
+      val formFill = mortgagesForm.fill(CommonBuilder.buildMortgage.copy("1", None, None))
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = mortgageValueController.onSubmit("1")(request)
+      status(result) should be (INTERNAL_SERVER_ERROR)
+    }
+    
+    "respond with Runtime exception when there if no matched property found" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List(CommonBuilder.property))
+
+      val formFill = mortgagesForm.fill(CommonBuilder.buildMortgage.copy("1", isOwned = Some(true),
+        value = Some(BigDecimal(2000))))
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      intercept[RuntimeException] {
+        Await.result(mortgageValueController.onSubmit("3")(request), Duration.Inf)
+      }
+    }
+
+    "redirect to Mortgage overview page on submit" in {
       val formFill = mortgagesForm.fill(CommonBuilder.buildMortgage.copy(isOwned = Some(true),
         value = Some(BigDecimal(2000))))
+
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List(CommonBuilder.property, CommonBuilder.property2),
+          allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled))
 
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 

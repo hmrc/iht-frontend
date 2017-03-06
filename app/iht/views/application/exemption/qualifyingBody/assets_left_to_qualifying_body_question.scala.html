@@ -30,11 +30,11 @@ browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualif
 isFullWidth = false,
 cancelUrl = Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
 cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
-                            ihtHelpers.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))),
+                            ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))),
 headingName = deceasedName
 ){
 
-@ihtHelpers.error_summary(assetsLeftToQualifyingBodyQuestionForm)
+@ihtHelpers.custom.error_summary(assetsLeftToQualifyingBodyQuestionForm)
 @helpers.form(action = iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit,
                        'autocomplete -> "off") {
 
@@ -50,7 +50,7 @@ headingName = deceasedName
     </details>
 
 
-    @ihtHelpers.input_yes_no_radio_group(
+    @ihtHelpers.standard.input_yes_no_radio_group(
     assetsLeftToQualifyingBodyQuestionForm("isAssetForQualifyingBody"),
     '_divClass -> Some("form-group"),
     '_legend -> Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"),

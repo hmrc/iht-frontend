@@ -20,7 +20,7 @@
 @import iht.models._
 @import iht.models.application.assets.PrivatePension
 @import iht.utils.CommonHelper
-@import iht.constants.Constants._
+@import iht.constants.Constants
 @import iht.constants.IhtProperties._
 
 @(pensionsOwnedQuestionForm: Form[PrivatePension],
@@ -34,12 +34,12 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     isFullWidth=false,
     headingName = deceasedName
 ){
-    @ihtHelpers.error_summary_override_keys(pensionsOwnedQuestionForm, AppSectionPrivatePension)
+    @ihtHelpers.custom.error_summary_override_keys(pensionsOwnedQuestionForm, Constants.AppSectionPrivatePension)
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
             <p id="pensions-question-description1">@Messages("page.iht.application.assets.pensions.isOwned.p1")</p>
-            @ihtHelpers.input_yes_no_radio_group(
+            @ihtHelpers.standard.input_yes_no_radio_group(
             pensionsOwnedQuestionForm("isOwned"),
             '_shownElementNo -> Some("mortgage-guidance-panel"),
             '_hiddenElementYes -> Some("mortgage-guidance-panel"),
@@ -51,8 +51,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
 
 
-        @ihtHelpers.return_link(
-            Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(deceasedName)),
+        @ihtHelpers.custom.return_link(
+            Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(deceasedName)),
             Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
             AppSectionPrivatePensionID
         )

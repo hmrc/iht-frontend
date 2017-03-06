@@ -16,8 +16,9 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
-import iht.controllers.{ControllerHelper, IhtConnectors}
+import iht.controllers.ControllerHelper
 import iht.metrics.Metrics
 import iht.utils._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_final_guidance

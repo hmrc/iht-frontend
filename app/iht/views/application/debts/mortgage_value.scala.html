@@ -39,7 +39,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
     isFullWidth = false,
     headingName = deceasedName
 ) {
-    @ihtHelpers.error_summary_override_keys(mortgagesForm, Constants.AppSectionMortgages)
+    @ihtHelpers.custom.error_summary_override_keys(mortgagesForm, Constants.AppSectionMortgages)
 
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 
@@ -52,7 +52,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
             }
         </div>
 
-        @ihtHelpers.generic_estate_element_assets(
+        @ihtHelpers.custom.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
             legendClass = "visually-hidden",

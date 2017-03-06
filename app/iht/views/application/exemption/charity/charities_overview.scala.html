@@ -17,7 +17,7 @@
 @import iht.models._
 @import iht.views.html._
 @import iht.utils._
-@import ihtHelpers._
+@import ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
 
@@ -54,7 +54,7 @@ isFullWidth=false
                       case (None, None) => { @Messages("site.noCharityNameAndNumberGiven") }
                       case (Some(_), None) => { @Messages("site.noCharityNumberGiven") }
                       case (None, Some(_)) => { @Messages("site.noCharityNameGiven") }
-                      case (Some(name), Some(_)) => { @ihtHelpers.name(name) }
+                      case (Some(name), Some(_)) => { @ihtHelpers.custom.name(name) }
                   }
               </div>
               <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
@@ -98,7 +98,7 @@ isFullWidth=false
 
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
-    @ihtHelpers.return_link(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.name(dd.name)),
+    @ihtHelpers.custom.return_link(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.custom.name(dd.name)),
     Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
     }
 </p>

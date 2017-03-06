@@ -80,18 +80,6 @@ class FormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     "Report correctly for invalid numeric value length>10" in {
       optionalCurrencyWithoutFieldName.bind(Map("" -> "11111111111111111111")) shouldBe Left(List(FormError("", "error.currencyValue.length")))
     }
-
-    "Report correctly for invalid numeric value length zero" in {
-      mandatoryCurrencyWithParameter("").bind(Map("" -> "")) shouldBe Left(List(FormError("", "error.blank.")))
-    }
-
-    "Report correctly for invalid numeric value invalid number format - length" in {
-      mandatoryCurrencyWithParameter("").bind(Map("" -> "123&^4411111111111111")) shouldBe Left(List(FormError("", "error.length.")))
-    }
-
-    "Report correctly for invalid numeric value invalid number format" in {
-      mandatoryCurrencyWithParameter("").bind(Map("" -> "123&^4")) shouldBe Left(List(FormError("", "error.currency.")))
-    }
  }
 
   "mandatoryPhoneNumberFormatter" should {
@@ -226,32 +214,6 @@ class FormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     "Return a formatter which responds suitably to no item being selected" in {
       formatter.bind("radiokey", Map( "option1"->"option1" ))
         .left.get.contains(FormError("radiokey", "no-selection")) shouldBe true
-    }
-  }
-
-  "validateDate" should {
-    "respond appropriately to invalid month and day" in {
-      val fv = new FormValidator{}
-
-      val result = fv.validateDate("2000", "17", "17", None, Some("blank"), Some("mdm"), Some("invalid"), Some("fd"))
-      result shouldBe Some("mdm")
-    }
-  }
-
-  "validateDateInvalidCharAndFutureDate" should {
-    "respond appropriate to invalid char" in {
-      val fv = new FormValidator{}
-
-      val result = fv.validateDateInvalidCharAndFutureDate("@$", "12", "11", Some("ic"), Some("fd"))
-      result shouldBe Some("ic")
-    }
-  }
-
-  "isDayAndMonthLessThanMax" should {
-    "respond appropriate when can't get int values from components" in {
-      val fv = new FormValidator{}
-      val result = fv.isDayAndMonthLessThanMax("$$", "@@")
-      result shouldBe true
     }
   }
 }

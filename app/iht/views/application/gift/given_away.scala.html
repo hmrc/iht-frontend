@@ -38,7 +38,7 @@ messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
 messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title",
 headingName = deceasedName
 ){
-    @ihtHelpers.error_summary(giftsGivenAwayForm)
+    @ihtHelpers.custom.error_summary(giftsGivenAwayForm)
 
     @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
@@ -48,9 +48,8 @@ headingName = deceasedName
              CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay)))</p>
     <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedNameWrapped))</p>
 
-    @ihtHelpers.input_yes_no_radio_group(
-    giftsGivenAwayForm("isGivenAway"),
-    '_intersperseHtml -> gifts_accessibility_sidebar(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()),
+    @ihtHelpers.standard.input_yes_no_radio_group(
+    giftsGivenAwayForm("isGivenAway"),    
     '_divClass -> Some("form-group"),
     '_legend -> Html(Messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedNameWrapped))
 )
@@ -61,14 +60,14 @@ headingName = deceasedName
 
     @giftsGivenAwayForm.data.isEmpty match{
                 case true => {
-                                @ihtHelpers.return_link(Messages("iht.estateReport.returnToEstateOverview"),
+                                @ihtHelpers.custom.return_link(Messages("iht.estateReport.returnToEstateOverview"),
                                     Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
                                         CommonHelper.getOrException(regDetails.ihtReference))))
                                 }
                 case _ => {
                              @regDetails.deceasedDetails.map{dd=>
-                               @ihtHelpers.return_link(
-                                    Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.name(dd.name)),
+                               @ihtHelpers.custom.return_link(
+                                    Messages("page.iht.application.gifts.return.to.givenAwayBy", ihtHelpers.custom.name(dd.name)),
                                     Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()),
                                     GiftsGivenAwayQuestionID
                                 )

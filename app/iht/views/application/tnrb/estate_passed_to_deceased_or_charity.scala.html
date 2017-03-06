@@ -29,11 +29,11 @@ browserTitle = Some(Messages("page.iht.application.tnrb.estatePassedToDeceasedOr
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(cancelUrl),
 headingName = deceasedName){
-    @ihtHelpers.error_summary(estatePassedToDeceasedOrCharityForm)
+    @ihtHelpers.custom.error_summary(estatePassedToDeceasedOrCharityForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit,'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
         estatePassedToDeceasedOrCharityForm("isEstateBelowIhtThresholdApplied"),
         '_divClass -> Some("form-group"),
         '_legend -> Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", deceasedName),

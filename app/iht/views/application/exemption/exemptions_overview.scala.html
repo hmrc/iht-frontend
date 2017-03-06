@@ -55,7 +55,7 @@ headingName = deceasedName) {
     <ul class="tabular-data tabular-data--list">
     @if(married) {
         @defining(exemptions.partner.flatMap(_.isComplete)) { isComplete =>
-            @ihtHelpers.generic_overview_item(
+            @ihtHelpers.custom.generic_overview_item(
                 title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
                 name= "partner",
                 id = "assetsLeftToPartner",
@@ -68,7 +68,7 @@ headingName = deceasedName) {
                 } else {
                   Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad())
                 },
-            itemStatus = ihtHelpers.generic_overview_status_label(
+            itemStatus = ihtHelpers.custom.generic_overview_status_label(
                         isComplete = isComplete,
                         screenreaderQualifyingText = getScreenReaderQualifyingText(
                             isComplete,
@@ -77,7 +77,7 @@ headingName = deceasedName) {
                             Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
                         )
             ),
-            linkText = ihtHelpers.generic_overview_status_link(
+            linkText = ihtHelpers.custom.generic_overview_status_link(
                   isComplete = isComplete,
                   screenreaderQualifyingText = getScreenReaderQualifyingText(
                       isComplete,
@@ -91,7 +91,7 @@ headingName = deceasedName) {
     }
 
     @defining(appDetails.isCompleteCharities) { isComplete =>
-        @ihtHelpers.generic_overview_item(
+        @ihtHelpers.custom.generic_overview_item(
             title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"),
             name = "charity",
             id = "charities",
@@ -103,7 +103,7 @@ headingName = deceasedName) {
             link = if(exemptions.charity.flatMap(x=>x.isSelected).contains(true))
                 Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad())
                 else Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad()),
-            itemStatus = ihtHelpers.generic_overview_status_label(
+            itemStatus = ihtHelpers.custom.generic_overview_status_label(
                         isComplete = isComplete,
                             screenreaderQualifyingText = getScreenReaderQualifyingText(
                                 isComplete,
@@ -112,7 +112,7 @@ headingName = deceasedName) {
                                 Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"))
                             )
             ),
-            linkText = ihtHelpers.generic_overview_status_link(
+            linkText = ihtHelpers.custom.generic_overview_status_link(
               isComplete = isComplete,
               screenreaderQualifyingText = getScreenReaderQualifyingText(
                   isComplete,
@@ -125,7 +125,7 @@ headingName = deceasedName) {
     }
 
     @defining(appDetails.isCompleteQualifyingBodies) { isComplete =>
-        @ihtHelpers.generic_overview_item(
+        @ihtHelpers.custom.generic_overview_item(
             title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"),
             name = "qualifyingBody",
             id = "qualifyingBodies",
@@ -137,7 +137,7 @@ headingName = deceasedName) {
             link = if(exemptions.qualifyingBody.flatMap(x=>x.isSelected).contains(true))
             Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad())
             else Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad()),
-            itemStatus = ihtHelpers.generic_overview_status_label(
+            itemStatus = ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -146,7 +146,7 @@ headingName = deceasedName) {
                     Messages("iht.notStarted.screenreader", Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"))
                 )
             ),
-            linkText = ihtHelpers.generic_overview_status_link(
+            linkText = ihtHelpers.custom.generic_overview_status_link(
               isComplete = isComplete,
               screenreaderQualifyingText = getScreenReaderQualifyingText(
                   isComplete,

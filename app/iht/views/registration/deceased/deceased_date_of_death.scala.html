@@ -26,10 +26,10 @@ cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Message
 @iht_main_template_registration(title = Messages("page.iht.registration.deceasedDateOfDeath.title"),
 browserTitle = Some(Messages("iht.dateOfDeath")),
     cancelUrl=cancelLocation, hasTimeOut=true) {
-        @ihtHelpers.error_summary(deceasedDateOfDeath)
+        @ihtHelpers.custom.error_summary(deceasedDateOfDeath)
 
         @helpers.form(action = actionLocation, 'autoComplete -> "off") {
-        @ihtHelpers.date_fields(
+        @ihtHelpers.standard.date_fields(
             deceasedDateOfDeath,
             "dateOfDeath",
             "",
@@ -42,6 +42,6 @@ browserTitle = Some(Messages("iht.dateOfDeath")),
                 '_legendClass -> "visually-hidden",
                 '_fieldsetId -> "date-of-death"
             )
-            @ihtHelpers.continue_button()
+            @ihtHelpers.custom.continue_button()
     }
 }

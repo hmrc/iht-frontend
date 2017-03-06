@@ -169,6 +169,122 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       val result = deceasedWidowCheckDateController.onSubmit (request)
       redirectLocation(result) should be(Some(routes.TnrbSuccessController.onPageLoad().url))
     }
+
+    "show errors when incorrect submit is made" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
+        Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
+          lastName = Some(CommonBuilder.surnameGenerator),
+          dateOfMarriage= Some(new LocalDate(1984, 12, 11)))),
+        widowCheck = Some(CommonBuilder.buildWidowedCheck))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(
+        ("dateOfPreDeceased.day", "44"),
+        ("dateOfPreDeceased.month", "12"),
+        ("dateOfPreDeceased.year", "2000")
+      )
+
+      val result = deceasedWidowCheckDateController.onSubmit (request)
+      status(result) shouldBe BAD_REQUEST
+    }
+
+    "Give internal server error when no application details and onsubmit called" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
+        Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
+          lastName = Some(CommonBuilder.surnameGenerator),
+          dateOfMarriage= Some(new LocalDate(1984, 12, 11)))),
+        widowCheck = Some(CommonBuilder.buildWidowedCheck))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
+
+      val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+
+      val result = deceasedWidowCheckDateController.onSubmit (request)
+      status(result) shouldBe INTERNAL_SERVER_ERROR
+    }
+
+    "have error when date of marriage is >= predeceased date of death" in {
+      val widowCheck = WidowCheck(
+        widowed = CommonBuilder.DefaultWidowed,
+        dateOfPreDeceased = Some(new LocalDate(1987, 12, 12))
+      )
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
+        Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
+          lastName = Some(CommonBuilder.surnameGenerator),
+          dateOfMarriage= Some(new LocalDate(1992, 12, 11)))),
+        widowCheck = Some(CommonBuilder.buildWidowedCheck))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
+
+      val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+
+      val result = deceasedWidowCheckDateController.onSubmit (request)
+      status(result) shouldBe BAD_REQUEST
+    }
+
+    "go to successful Tnrb page on submit when its satisfies happy path when widow check is empty" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
+        Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
+          lastName = Some(CommonBuilder.surnameGenerator),
+          dateOfMarriage= Some(new LocalDate(1984, 12, 11)))),
+        widowCheck = None)
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
+
+      val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+
+      val result = deceasedWidowCheckDateController.onSubmit (request)
+      redirectLocation(result) should be(Some(routes.TnrbSuccessController.onPageLoad().url))
+    }
+
+    "return internal server error when save of app details fails" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(increaseIhtThreshold =
+        Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
+          lastName = Some(CommonBuilder.surnameGenerator),
+          dateOfMarriage= Some(new LocalDate(1984, 12, 11)))),
+        widowCheck = Some(CommonBuilder.buildWidowedCheck))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        saveAppDetailsObject = None,
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val withWidowedValue = CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = Some(new LocalDate(1986, 12, 11)))
+
+      val filledDeceasedWidowCheckDateForm = deceasedWidowCheckDateForm.fill(withWidowedValue)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledDeceasedWidowCheckDateForm.data.toSeq: _*)
+
+      val result = deceasedWidowCheckDateController.onSubmit (request)
+      status(result) shouldBe INTERNAL_SERVER_ERROR
+    }
   }
 
   "onPageLoad" should {

@@ -18,7 +18,7 @@ package iht.controllers.registration.applicant
 
 import iht.constants.FieldMappings._
 import iht.controllers.ControllerHelper.Mode
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, RegistrationDetails}

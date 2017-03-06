@@ -56,7 +56,7 @@ object TnrbHelper {
                                 wrapName: Boolean = false): String  = {
     if(tnrbModel.Name.toString.trim!=""){
       if(wrapName) {
-        ihtHelpers.name(tnrbModel.Name.toString).toString
+        ihtHelpers.custom.name(tnrbModel.Name.toString).toString
       }else{
         tnrbModel.Name.toString
       }
@@ -73,7 +73,7 @@ object TnrbHelper {
                                wrapName: Boolean = true): String  = {
     CommonHelper.withValue(tnrbModel.Name.toString.trim) {
       case name if name.isEmpty => prefixText
-      case name => if(wrapName) {ihtHelpers.name(name).toString}else{name}
+      case name => if(wrapName) {ihtHelpers.custom.name(name).toString}else{name}
     }
   }
 

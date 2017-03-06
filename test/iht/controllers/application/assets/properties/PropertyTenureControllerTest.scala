@@ -27,7 +27,7 @@ import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
-
+import iht.models.application.ApplicationDetails
 /**
  * Created by Vineet on 22/06/16.
  */
@@ -35,6 +35,15 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
+
+  def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
+    createMocksForApplication(mockCachingConnector,
+      mockIhtConnector,
+      appDetails = applicationDetails,
+      getAppDetails = true,
+      saveAppDetails= true,
+      storeAppDetailsInCache = true)
+  }
 
   def propertyTenureController = new PropertyTenureController {
     override val cachingConnector = mockCachingConnector
@@ -82,16 +91,41 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTenureController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
       contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"))
+    }
+
+    "respond with RuntimeException on edit page load if propery is not found in propertyList" in {
+      val id: String = "1"
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(propertyList =
+                                                                    List(CommonBuilder.property.copy(id = Some(id))))
+      setUpTests(Some(applicationDetails))
+
+      intercept[RuntimeException] {
+        await(propertyTenureController.onEditPageLoad("2")(createFakeRequest()))
+      }
+    }
+
+    "respond with Internal_Server_Error in Edit mode when applicationDetails could not be retrieved" in {
+      setUpTests()
+
+      val result = propertyTenureController.onEditPageLoad("1")(createFakeRequest())
+      status(result) should be (INTERNAL_SERVER_ERROR)
+    }
+
+    "respond with BAD_RQUEST on submit when request is malformed" in {
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.copy(propertyList = List())
+      val formFill = propertyTenureForm.fill(CommonBuilder.buildProperty.copy(tenure = None))
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
+
+      setUpTests(Some(applicationDetails))
+
+      val result = propertyTenureController.onSubmit()(request)
+      status(result) should be (BAD_REQUEST)
     }
 
     "redirect to PropertyDetails overview page on submit" in {
@@ -102,12 +136,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTenureController.onSubmit()(request)
 
@@ -127,12 +156,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
 
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(Some(applicationDetails))
 
       val result = propertyTenureController.onEditSubmit(propertyId)(request)
 

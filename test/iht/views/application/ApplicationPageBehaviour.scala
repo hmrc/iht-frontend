@@ -64,6 +64,10 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
       titleShouldBeCorrect(view, pageTitle)
     }
 
+    "does not incude any message strings" in {
+      view should not include("iht.");
+    }
+
     "have the correct browser title" in {
       browserTitleShouldBeCorrect(view, browserTitle)
     }

@@ -33,9 +33,9 @@
 
   @helpers.form(action = iht.controllers.filter.routes.FilterController.onSubmit,'autoComplete -> "off") {
 
-      @ihtHelpers.error_summary(form)
+      @ihtHelpers.custom.error_summary(form)
 
-      @ihtHelpers.input_radio_group_with_hints(
+      @ihtHelpers.standard.input_radio_group_with_hints(
           form(filterChoices),
           FieldMappings.filterChoices.toSeq,
           '_legendClass -> "visually-hidden",

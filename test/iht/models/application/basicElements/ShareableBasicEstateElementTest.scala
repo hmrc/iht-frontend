@@ -25,6 +25,21 @@ import uk.gov.hmrc.play.test.UnitSpec
   */
 class ShareableBasicEstateElementTest extends UnitSpec with MockitoSugar{
   "isComplete" must {
+
+    "return Some(true) if share yes no answered false" in {
+      val shareableBasicEstateElement = ShareableBasicEstateElement(
+        Some(BigDecimal(1)), Some(BigDecimal(1)), Some(false), Some(true)
+      )
+      shareableBasicEstateElement.isComplete shouldBe Some(true)
+    }
+
+    "return Some(true) if non share yes no answered false" in {
+      val shareableBasicEstateElement = ShareableBasicEstateElement(
+        Some(BigDecimal(1)), Some(BigDecimal(1)), Some(true), Some(false)
+      )
+      shareableBasicEstateElement.isComplete shouldBe Some(true)
+    }
+
     "return Some(true) if ShareableBasicEstateElement is complete" in {
       val estateElement = CommonBuilder.buildShareableBasicElementExtended.copy(
         value = Some(BigDecimal(1000)),

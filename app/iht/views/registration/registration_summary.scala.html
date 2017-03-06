@@ -39,20 +39,20 @@
     <p class="lede">@Messages("page.iht.registration.registrationSummary.subTitle")</p>
 
     <section class="section">
-        <h2>@Html(Messages("site.nameDetails", ihtHelpers.name(deceasedName).toString))</h2>
+        <h2>@Html(Messages("site.nameDetails", ihtHelpers.custom.name(deceasedName).toString))</h2>
         <ul class="tabular-data tabular-data--list">
             @defining(CommonHelper.getOrException(registrationDetails.deceasedDetails, "Deceased Details could not be found")) { deceasedDetails=>
 
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.name.upperCaseInitial"),
-                    data = ihtHelpers.name(CommonHelper.getOrException(deceasedDetails.firstName) + " \n" + CommonHelper.getOrException(deceasedDetails.lastName)).toString,
+                    data = ihtHelpers.custom.name(CommonHelper.getOrException(deceasedDetails.firstName) + " \n" + CommonHelper.getOrException(deceasedDetails.lastName)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#firstName",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader"),
                     linkId="change-deceased-name"
                 )
 
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.dateofbirth"),
                     data = CommonHelper.getOrException(deceasedDetails.dateOfBirth).toString(IhtProperties.dateFormatForDisplay),
                     dataScreenReaderText = "",
@@ -61,7 +61,7 @@
                     linkId="change-deceased-date-of-birth"
                 )
 
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.dateOfDeath"),
                     data = registrationDetails.deceasedDateOfDeath.getOrElse(throw new RuntimeException("Deceased Date of death could not be found"))
                     .dateOfDeath.toString(IhtProperties.dateFormatForDisplay),
@@ -71,7 +71,7 @@
                     linkId="change-date-of-death"
                 )
 
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.nationalInsuranceNo"),
                     data = deceasedDetails.nino.getOrElse(""),
                     dataScreenReaderText = "",
@@ -80,7 +80,7 @@
                     linkId="change-deceased-nino"
                 )
 
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.registration.contactAddress"),
                     data = CommonHelper.addressFormater(CommonHelper.getOrException(deceasedDetails.ukAddress)),
                     dataScreenReaderText = "",
@@ -93,7 +93,7 @@
                 )
 
 
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.registration.deceased.locationOfPermanentHome"),
                     data = FieldMappings.domicileMap(CommonHelper.getOrException(deceasedDetails.domicile)).toString,
                     dataScreenReaderText = "",
@@ -102,7 +102,7 @@
                     linkId="change-location-of-deceaseds-permanent-home"
                 )
 
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
                     data = FieldMappings.maritalStatusMap(CommonHelper.getOrException(deceasedDetails.maritalStatus)).toString,
                     dataScreenReaderText = "",
@@ -120,25 +120,25 @@
         <ul class="tabular-data tabular-data--list">
             @defining( CommonHelper.getOrException(registrationDetails.applicantDetails, "Applicant Details could not be found") ) { applicantDetails=>
 
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.name.upperCaseInitial"),
-                    data = ihtHelpers.name(CommonHelper.getOrException(applicantDetails.firstName) + " \n" + CommonHelper.getOrException(applicantDetails.lastName)).toString,
+                    data = ihtHelpers.custom.name(CommonHelper.getOrException(applicantDetails.firstName) + " \n" + CommonHelper.getOrException(applicantDetails.lastName)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.name.data.screenReader", CommonHelper.getOrException(applicantDetails.firstName) + " " + CommonHelper.getOrException(applicantDetails.lastName)),
                     hasChangeLink = false
                 )
-                    @ihtHelpers.summary_item(
+                    @ihtHelpers.custom.summary_item(
                     label = Messages("iht.dateofbirth"),
                     data = CommonHelper.getOrException(applicantDetails.dateOfBirth).toString(IhtProperties.dateFormatForDisplay),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.dateOfBirth.data.screenReader", CommonHelper.getOrException(applicantDetails.dateOfBirth).toString),
                     hasChangeLink = false
                 )
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.nationalInsuranceNo"),
                     data = applicantDetails.nino.getOrElse(""),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.nino.data.screenReader", applicantDetails.ninoFormatted),
                     hasChangeLink = false
                 )
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.address.upperCaseInitial"),
                     data = CommonHelper.addressFormater(CommonHelper.getOrException(applicantDetails.ukAddress)),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.address.data.screenReader", CommonHelper.addressFormater(CommonHelper.getOrException(applicantDetails.ukAddress))),
@@ -149,7 +149,7 @@
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.address.link.screenReader"),
                     linkId="change-address"
                 )
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.registration.checklist.phoneNo.upperCaseInitial"),
                     data = CommonHelper.getOrException(applicantDetails.phoneNo),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.phoneNumber.data.screenReader", CommonHelper.getOrException(applicantDetails.phoneNo)),
@@ -157,7 +157,7 @@
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.phoneNumber.link.screenReader"),
                     linkId="change-phone-number"
                 )
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("iht.registration.applicant.applyingForProbate"),
                     data = StringHelper.yesNoFormat(applicantDetails.isApplyingForProbate),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.data.screenReader", StringHelper.yesNoFormat(applicantDetails.isApplyingForProbate)),
@@ -165,7 +165,7 @@
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader"),
                     linkId="change-applying-for-probate"
                 )
-                @ihtHelpers.summary_item(
+                @ihtHelpers.custom.summary_item(
                     label = Messages("page.iht.registration.applicant.probateLocation.title"),
                     data = CommonHelper.getOrException(applicantDetails.country),
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.data.screenReader", CommonHelper.getOrException(applicantDetails.country)),

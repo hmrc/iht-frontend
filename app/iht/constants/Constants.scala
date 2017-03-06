@@ -120,7 +120,8 @@ object Constants {
     ETMPAssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
     ETMPAssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
     ETMPAssetCodeOtherAsset -> "page.iht.application.assets.main-section.other.title",
-    ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title"
+    ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title",
+    ETMPAssetCodeDeceasedsHome -> "page.iht.application.assets.propertyType.deceasedHome.label"
   )
 
   lazy val ETMPExemptionTypesToIHTMessageKeys = ListMap(

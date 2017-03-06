@@ -16,26 +16,26 @@
 
 @import iht.models._
 @import iht.models.application.debts.BasicEstateElementLiabilities
-
-@(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
+@(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
+
 @iht_main_template_application(title = Messages("iht.estateReport.debts.owedOnJointAssets"),
     browserTitle = Some(Messages("page.iht.application.debts.jointlyOwned.browserTitle")),
     isFullWidth = false
 ) {
 
-    @ihtHelpers.error_summary_override_keys(jointlyOwnedDebtsForm, AppSectionDebtsOwedOnJointAssets)
+    @ihtHelpers.custom.error_summary_override_keys(jointlyOwnedDebtsForm, AppSectionDebtsOwedOnJointAssets)
 
     @helpers.form(action = iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Html(Messages("page.iht.application.debts.jointlyOwned.description.p1", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
-        @ihtHelpers.generic_estate_element_assets(
+        @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.jointlyOwned.isOwned"),
             inputTextLabel = Messages("iht.estateReport.debts.owedOnJointAssets.value"),
@@ -48,7 +48,7 @@
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-        @ihtHelpers.return_link(
+        @ihtHelpers.custom.return_link(
             Messages("site.link.return.debts"),
             Some(iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()),
             DebtsOwedJointlyID
