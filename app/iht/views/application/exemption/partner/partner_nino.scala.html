@@ -28,11 +28,11 @@ browserTitle = Some(Messages("page.iht.application.exemptions.partner.nino.brows
 cancelUrl = Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")),
 isFullWidth=false){
-    @ihtHelpers.error_summary(partnerNinoForm)
+    @ihtHelpers.custom.error_summary(partnerNinoForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onSubmit,'autoComplete -> "off") {
 
 
-            @ihtHelpers.input_with_help(partnerNinoForm("nino"),
+            @ihtHelpers.standard.input_with_help(partnerNinoForm("nino"),
             '_divClass -> "form-group ",
             '_inputClass -> "form-control",
             '_labelTextClass -> "form-label",

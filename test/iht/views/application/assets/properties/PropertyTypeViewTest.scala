@@ -32,7 +32,7 @@ class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property]
 
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  def name(deceasedName: => String) = ihtHelpers.name(deceasedName)
+  def name(deceasedName: => String) = ihtHelpers.custom.name(deceasedName)
 
   override def guidance = guidance(
     Set(

@@ -16,7 +16,7 @@
 
 package iht.controllers.application.tnrb
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.metrics.Metrics
@@ -30,6 +30,9 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 
@@ -39,6 +42,7 @@ object JointlyOwnedAssetsController extends JointlyOwnedAssetsController with Ih
 
 trait JointlyOwnedAssetsController extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
+  val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -58,7 +62,9 @@ trait JointlyOwnedAssetsController extends EstateController{
 
             Ok(iht.views.html.application.tnrb.jointly_owned_assets(
               filledForm,
-              deceasedName))
+              deceasedName,
+              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbJointAssetsPassedToDeceasedID))
+            ))
           }
           case _ => InternalServerError("Application details not found")
         }
@@ -81,7 +87,7 @@ trait JointlyOwnedAssetsController extends EstateController{
         case Some(appDetails) => {
           boundForm.fold(
             formWithErrors=> {
-              Future.successful(BadRequest(iht.views.html.application.tnrb.jointly_owned_assets(formWithErrors, deceasedName)))
+              Future.successful(BadRequest(iht.views.html.application.tnrb.jointly_owned_assets(formWithErrors, deceasedName, cancelUrl)))
             },
             tnrbModel => {
               saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
@@ -115,7 +121,7 @@ trait JointlyOwnedAssetsController extends EstateController{
         InternalServerError
       } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
         case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason)
+        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbJointAssetsPassedToDeceasedID))
       }
       }
     }

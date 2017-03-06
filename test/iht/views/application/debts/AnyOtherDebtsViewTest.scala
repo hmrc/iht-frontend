@@ -24,6 +24,8 @@ import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.any_other_debts
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 import iht.controllers.application.debts.routes
 
 /**
@@ -53,6 +55,7 @@ class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.other.isOwned")
   override def inputValueFieldLabel = messagesApi("page.iht.application.debts.other.inputLabel1")
+  override def linkHash = TestHelper.DebtsOtherID
 
   override def formTarget = Some(routes.AnyOtherDebtsController.onSubmit)
 

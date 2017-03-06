@@ -117,6 +117,7 @@ object IhtProperties {
   lazy val ETMPAssetCodeOtherAsset:String = getProperty("etmpAssetCodeOtherAsset")
   lazy val ETMPAssetCodeTrust:String = getProperty("etmpAssetCodeTrust")
   lazy val ETMPAssetCodeGift:String = getProperty("etmpAssetCodeGift")
+  lazy val ETMPAssetCodeDeceasedsHome:String = getProperty("etmpAssetCodeDeceasedsHome")
 
   lazy val ETMPExemptionTypeGNCP: String = getProperty("etmpExemptionTypeGNCP")
 
@@ -127,4 +128,60 @@ object IhtProperties {
     Logger.debug("PDF static headers read in from property file:" + headers)
     headers
   }
+
+  /*
+  * Fragment Identifiers
+  * Used to return user to where they were in a list
+  * */
+  lazy val AppSectionPropertiesID =  getProperty("AppSectionPropertiesID")
+  lazy val AppSectionMoneyID =  getProperty("AppSectionMoneyID")
+  lazy val AppSectionHouseholdID =  getProperty("AppSectionHouseholdID")
+  lazy val AppSectionVehiclesID =  getProperty("AppSectionVehiclesID")
+  lazy val AppSectionPrivatePensionID =  getProperty("AppSectionPrivatePensionID")
+  lazy val AppSectionStockAndShareID =  getProperty("AppSectionStockAndShareID")
+  lazy val AppSectionInsurancePolicyID =  getProperty("AppSectionInsurancePolicyID")
+  lazy val AppSectionBusinessInterestID =  getProperty("AppSectionBusinessInterestID")
+  lazy val AppSectionNominatedID =  getProperty("AppSectionNominatedID")
+  lazy val AppSectionHeldInTrustID =  getProperty("AppSectionHeldInTrustID")
+  lazy val AppSectionForeignID =  getProperty("AppSectionForeignID")
+  lazy val AppSectionMoneyOwedID =  getProperty("AppSectionMoneyOwedID")
+  lazy val AppSectionOtherID =  getProperty("AppSectionOtherID")
+  lazy val GiftsGivenAwayQuestionID =  getProperty("GiftsGivenAwayQuestionID")
+  lazy val GiftsReservationBenefitSectionID =  getProperty("GiftsReservationBenefitSectionID")
+  lazy val GiftsReservationBenefitQuestionID = getProperty("GiftsReservationBenefitQuestionID")
+  lazy val GiftsSevenYearsSectionID =  getProperty("GiftsSevenYearsSectionID")
+  lazy val GiftsSevenYearsQuestionID =  getProperty("GiftsSevenYearsQuestionID")
+  lazy val GiftsSevenYearsQuestionID2 =  getProperty("GiftsSevenYearsQuestionID2")
+  lazy val GiftsValueOfGiftsSectionID =  getProperty("GiftsValueOfGiftsSectionID")
+  lazy val GiftsValueOfGiftsQuestionID =  getProperty("GiftsValueOfGiftsQuestionID")
+  lazy val GiftsValueDetailID =  getProperty("GiftsValueDetailID")
+  lazy val DebtsMortgagesID =  getProperty("DebtsMortgagesID")
+  lazy val DebtsFuneralExpensesID =  getProperty("DebtsFuneralExpensesID")
+  lazy val DebtsOwedFromTrustID =  getProperty("DebtsOwedFromTrustID")
+  lazy val DebtsOwedOutsideUKID =  getProperty("DebtsOwedOutsideUKID")
+  lazy val DebtsOwedJointlyID =  getProperty("DebtsOwedJointlyID")
+  lazy val DebtsOtherID =  getProperty("DebtsOtherID")
+  lazy val InsurancePayingToDeceasedSectionID =  getProperty("InsurancePayingToDeceasedSectionID")
+  lazy val InsurancePayingToDeceasedYesNoID =  getProperty("InsurancePayingToDeceasedYesNoID")
+  lazy val InsurancePayingToDeceasedValueID =  getProperty("InsurancePayingToDeceasedValueID")
+  lazy val InsuranceJointlyHeldSectionID =  getProperty("InsuranceJointlyHeldSectionID")
+  lazy val InsuranceJointlyHeldYesNoID =  getProperty("InsuranceJointlyHeldYesNoID")
+  lazy val InsuranceJointlyHeldValueID =  getProperty("InsuranceJointlyHeldValueID")
+  lazy val InsurancePaidForSomeoneElseSectionID =  getProperty("InsurancePaidForSomeoneElseSectionID")
+  lazy val InsurancePaidForSomeoneElseYesNoID =  getProperty("InsurancePaidForSomeoneElseYesNoID")
+  lazy val InsurancePremiumnsYesNoID =  getProperty("InsurancePremiumnsYesNoID")
+  lazy val InsuranceAnnuityYesNoID =  getProperty("InsuranceAnnuityYesNoID")
+  lazy val InsurancePlacedInTrustYesNoID =  getProperty("InsurancePlacedInTrustYesNoID")
+  lazy val TnrbSpousePermanentHomeInUKID =  getProperty("TnrbSpousePermanentHomeInUKID")
+  lazy val TnrbGiftsGivenAwayID =  getProperty("TnrbGiftsGivenAwayID")
+  lazy val TnrbGiftsWithReservationID =  getProperty("TnrbGiftsWithReservationID")
+  lazy val TnrbEstateReliefID =  getProperty("TnrbEstateReliefID")
+  lazy val TnrbSpouseBenefitFromTrustID =  getProperty("TnrbSpouseBenefitFromTrustID")
+  lazy val TnrbEstatePassedToDeceasedID =  getProperty("TnrbEstatePassedToDeceasedID")
+  lazy val TnrbJointAssetsPassedToDeceasedID =  getProperty("TnrbJointAssetsPassedToDeceasedID")
+  lazy val TnrbSpouseMartialStatusID =  getProperty("TnrbSpouseMartialStatusID")
+  lazy val TnrbSpouseDateOfDeathID =  getProperty("TnrbSpouseDateOfDeathID")
+  lazy val TnrbSpouseNameID =  getProperty("TnrbSpouseNameID")
+  lazy val TnrbSpouseDateOfMarriageID =  getProperty("TnrbSpouseDateOfMarriageID")
+
 }

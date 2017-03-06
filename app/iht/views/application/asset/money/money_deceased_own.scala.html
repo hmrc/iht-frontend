@@ -34,15 +34,15 @@
     headingName = deceasedName
 ) {
 
-    @ihtHelpers.error_summary_override_keys(money, Constants.AppSectionMoney)
+    @ihtHelpers.custom.error_summary_override_keys(money, Constants.AppSectionMoney)
 
     @helpers.form(action = iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
-    <p>@Html(Messages("page.iht.application.assets.money.deceased.guidance", ihtHelpers.name(deceasedName)))</p>
+    <p>@Html(Messages("page.iht.application.assets.money.deceased.guidance", ihtHelpers.custom.name(deceasedName)))</p>
 
-    @ihtHelpers.generic_estate_element_assets(
+    @ihtHelpers.custom.generic_estate_element_assets(
       assetType = Constants.AssetTypeSingle,
-      questionLabel= Messages("iht.estateReport.assets.money.ownName.question", ihtHelpers.name(deceasedName)),
+      questionLabel= Messages("iht.estateReport.assets.money.ownName.question", ihtHelpers.custom.name(deceasedName)),
       inputTextLabel = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName"),
       sharableElementForm = money,
       clearTargetInput = Some("value")
@@ -52,6 +52,6 @@
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }
-    @ihtHelpers.return_link(Messages("site.link.return.money"), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(Messages("site.link.return.money"), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
 
 }

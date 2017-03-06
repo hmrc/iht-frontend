@@ -21,6 +21,7 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.models.application.debts._
+@import iht.constants.IhtProperties._
 
 @import iht.utils._
 @import iht.constants.Constants._
@@ -50,11 +51,11 @@ isFullWidth=false) {
 <div id="table-overview" class="section">
     <ul class="tabular-data tabular-data--list">
     @defining(appDetails.isCompleteMortgages) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.mortgages"),
-            "mortgages", "mortgages",
+        @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.mortgages"),
+            "mortgages", DebtsMortgagesID,
             displayValue(appDetails, AppSectionMortgages, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()),
-            ihtHelpers.generic_overview_status_label(
+            ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -63,7 +64,7 @@ isFullWidth=false) {
                     Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.mortgages"))
                 )
             ),
-            ihtHelpers.generic_overview_status_link(
+            ihtHelpers.custom.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -76,11 +77,11 @@ isFullWidth=false) {
     }
 
     @defining(debts.funeralExpenses.flatMap(_.isComplete)) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.funeralExpenses.title"),
-    "funeralExpenses", "funeralExpenses",
+        @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.funeralExpenses.title"),
+    "funeralExpenses", DebtsFuneralExpensesID,
             displayValue(appDetails, AppSectionFuneralExpenses, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.FuneralExpensesController.onPageLoad()),
-            ihtHelpers.generic_overview_status_label(
+            ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
                     Messages("iht.inComplete.screenreader", Messages("iht.estateReport.debts.funeralExpenses.title")),
@@ -88,7 +89,7 @@ isFullWidth=false) {
                     Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.funeralExpenses.title"))
                 )
         ),
-            ihtHelpers.generic_overview_status_link(
+            ihtHelpers.custom.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(isComplete,
                     Messages("page.iht.application.debts.overview.funeralExpenses.screenReader.link.moreDetail"),
@@ -100,11 +101,11 @@ isFullWidth=false) {
     }
 
     @defining(debts.trust.flatMap(_.isComplete)) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.debtsTrust.title"),
-    "debtsFromTrust", "debtsFromTrust",
+        @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.debtsTrust.title"),
+    "debtsFromTrust", DebtsOwedFromTrustID,
             displayValue(appDetails, AppSectionDebtsOwedFromTrust, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onPageLoad()),
-            ihtHelpers.generic_overview_status_label(
+            ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -113,7 +114,7 @@ isFullWidth=false) {
                     Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.debtsTrust.title"))
                     )
             ),
-             ihtHelpers.generic_overview_status_link(
+             ihtHelpers.custom.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -126,11 +127,11 @@ isFullWidth=false) {
     }
 
     @defining(debts.debtsOutsideUk.flatMap(_.isComplete)) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.owedOutsideUK"),
-    "debtsOutsideUk", "debtsOutsideUk",
+        @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.owedOutsideUK"),
+    "debtsOutsideUk", DebtsOwedOutsideUKID,
             displayValue(appDetails, AppSectionDebtsOwedToAnyoneOutsideUK, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onPageLoad()),
-            ihtHelpers.generic_overview_status_label(
+            ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -139,7 +140,7 @@ isFullWidth=false) {
                     Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.owedOutsideUK"))
                     )
             ),
-            ihtHelpers.generic_overview_status_link(
+            ihtHelpers.custom.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -152,11 +153,11 @@ isFullWidth=false) {
     }
 
     @defining(debts.jointlyOwned.flatMap(_.isComplete)) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.owedOnJointAssets"),
-    "jointlyOwned", "jointlyOwned",
+        @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.owedOnJointAssets"),
+    "jointlyOwned", DebtsOwedJointlyID,
             displayValue(appDetails, AppSectionDebtsOwedOnJointAssets, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onPageLoad()),
-            ihtHelpers.generic_overview_status_label(
+            ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -165,7 +166,7 @@ isFullWidth=false) {
                     Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.owedOnJointAssets"))
                     )
             ),
-            ihtHelpers.generic_overview_status_link(
+            ihtHelpers.custom.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -178,11 +179,11 @@ isFullWidth=false) {
     }
 
     @defining(debts.other.flatMap(_.isComplete)) { isComplete =>
-        @ihtHelpers.generic_overview_item(Messages("iht.estateReport.debts.other.title"),
-    "other", "other",
+        @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.other.title"),
+    "other", DebtsOtherID,
             displayValue(appDetails, AppSectionDebtsOther, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.AnyOtherDebtsController.onPageLoad()),
-            ihtHelpers.generic_overview_status_label(
+            ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
@@ -191,7 +192,7 @@ isFullWidth=false) {
                     Messages("iht.notStarted.screenreader", Messages("iht.estateReport.debts.other.title"))
                     )
             ),
-            ihtHelpers.generic_overview_status_link(
+            ihtHelpers.custom.generic_overview_status_link(
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,

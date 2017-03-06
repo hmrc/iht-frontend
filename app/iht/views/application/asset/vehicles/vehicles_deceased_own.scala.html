@@ -37,11 +37,11 @@ registrationDetails: RegistrationDetails
     headingName = deceasedName
 ) {
 
-@ihtHelpers.error_summary_override_keys(vehicles, Constants.AppSectionVehicles)
+@ihtHelpers.custom.error_summary_override_keys(vehicles, Constants.AppSectionVehicles)
 
 @helpers.form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
-@ihtHelpers.generic_estate_element_assets(
+@ihtHelpers.custom.generic_estate_element_assets(
                                     assetType = Constants.AssetTypeSingle,
                                     questionLabel= Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedNameWrap),
                                     inputTextLabel = Messages("page.iht.application.assets.vehicles.deceased.value"),
@@ -56,6 +56,6 @@ registrationDetails: RegistrationDetails
     <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 }
-    @ihtHelpers.return_link(Messages("site.link.return.vehicles"), Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(Messages("site.link.return.vehicles"), Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()))
 
 }

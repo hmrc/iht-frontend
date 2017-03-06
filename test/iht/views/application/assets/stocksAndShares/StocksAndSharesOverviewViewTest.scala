@@ -23,6 +23,8 @@ import iht.views.application.StocksAndSharesOverviewViewBehaviour
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview
 import org.jsoup.nodes.Document
 import play.api.i18n.Messages.Implicits._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehaviour {
 
@@ -50,6 +52,8 @@ class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehavio
                                                                 deceasedName)
   override def stocksAndSharesNotListedValueRowId = "stocks-and-shares-notListed-value"
   override def stocksAndSharesNotListedValueText = messagesApi("iht.estateReport.assets.stocksAndShares.valueOfNotListed")
+
+  override def linkHash = AppSectionStockAndShareID
 
   "StocksAnsShares overview view" must {
 

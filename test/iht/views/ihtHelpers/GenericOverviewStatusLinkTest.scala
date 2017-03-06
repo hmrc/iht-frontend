@@ -18,7 +18,7 @@ package iht.views.ihtHelpers
 
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers.generic_overview_status_link
+import iht.views.html.ihtHelpers.custom.generic_overview_status_link
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
 

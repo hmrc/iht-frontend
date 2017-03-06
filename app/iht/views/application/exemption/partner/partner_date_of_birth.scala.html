@@ -23,10 +23,10 @@
 browserTitle=Some(Messages("page.iht.application.exemptions.partner.dateOfBirth.browserTitle")),
 isFullWidth=false) {
 
-    @ihtHelpers.error_summary(spouseDateOfBirthForm)
+    @ihtHelpers.custom.error_summary(spouseDateOfBirthForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onSubmit,
         'autoComplete -> "off") {
-        @ihtHelpers.date_fields(spouseDateOfBirthForm,
+        @ihtHelpers.standard.date_fields(spouseDateOfBirthForm,
             "dateOfBirth",
             "",
             None,
@@ -41,7 +41,7 @@ isFullWidth=false) {
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.return_link(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
+    @ihtHelpers.custom.return_link(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
         Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()))
     }
 }

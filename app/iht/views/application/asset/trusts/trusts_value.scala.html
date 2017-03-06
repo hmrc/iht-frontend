@@ -31,11 +31,11 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 browserTitle = Some(Messages("page.iht.application.assets.trusts.value.browserTitle")),
 isFullWidth=false,
 headingName = deceasedName){
-    @ihtHelpers.error_summary_override_keys(trustsValueForm, Constants.AppSectionHeldInTrust)
+    @ihtHelpers.custom.error_summary_override_keys(trustsValueForm, Constants.AppSectionHeldInTrust)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit,'autoComplete -> "off") {
 
 
-            @ihtHelpers.input_estate_value(trustsValueForm("value"),
+            @ihtHelpers.custom.input_estate_value(trustsValueForm("value"),
             '_label -> Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",deceasedName),
             '_currency -> "GBP",
             '_divClass -> "form-group",
@@ -47,6 +47,6 @@ headingName = deceasedName){
 
     }
 
-@ihtHelpers.return_link(Messages("site.link.return.trusts"), Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()))
+@ihtHelpers.custom.return_link(Messages("site.link.return.trusts"), Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()))
 
 }

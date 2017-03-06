@@ -16,10 +16,10 @@
 
 package iht.controllers.application.declaration
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationController
-import iht.controllers.{ControllerHelper, IhtConnectors}
+import iht.controllers.ControllerHelper
 import iht.forms.ApplicationForms
 import iht.metrics.Metrics
 import iht.models._
@@ -33,6 +33,7 @@ import play.api.mvc.Result
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}

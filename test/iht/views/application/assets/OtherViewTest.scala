@@ -26,6 +26,8 @@ import iht.views.html.application.asset.other
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class OtherViewTest extends ShareableElementInputViewBehaviour[BasicEstateElement] {
 
@@ -44,6 +46,7 @@ class OtherViewTest extends ShareableElementInputViewBehaviour[BasicEstateElemen
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
   override def returnLinkUrl = AssetsOverviewController.onPageLoad().url
   override def formTarget =Some(routes.OtherController.onSubmit)
+  override def linkHash = AppSectionOtherID
 
   "Money Owed view" must {
     behave like yesNoValueView

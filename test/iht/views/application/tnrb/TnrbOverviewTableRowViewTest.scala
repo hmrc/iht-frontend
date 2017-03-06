@@ -21,6 +21,8 @@ import iht.views.html.application.tnrb.tnrb_overview_table_row
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
 import play.twirl.api.Html
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class TnrbOverviewTableRowViewTest extends ViewTestHelper {
 
@@ -30,6 +32,7 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
   lazy val questionCategory = "questionAnswer"
   lazy val link = iht.controllers.application.tnrb.routes.PermanentHomeController.onPageLoad()
   lazy val answerValue = "Sample value"
+  lazy val linkID = TnrbSpousePermanentHomeInUKID
 
   def tnrbOverviewTableRow(id: String = "home-in-uk",
                            questionText:Html = Html("Sample question"),
@@ -38,17 +41,21 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
                            answerValue:String = "Sample value",
                            answerValueFormatted:Option[Html] = None,
                            link:Option[Call] = None,
-                           linkScreenReader:String = "") =  {
+                           linkScreenReader:String = "",
+                           linkID: String = TnrbSpousePermanentHomeInUKID
+                          ) =  {
 
     implicit val request = createFakeRequest()
       val view = tnrb_overview_table_row(id,
-                                        questionText,
-                                        questionScreenReaderText,
-                                        questionCategory,
-                                        answerValue,
-                                        answerValueFormatted,
-                                        link:Option[Call],
-                                        linkScreenReader).toString
+          questionText,
+          questionScreenReaderText,
+          questionCategory,
+          answerValue,
+          answerValueFormatted,
+          link:Option[Call],
+          linkScreenReader,
+          linkID
+      ).toString
 
      asDocument(view)
   }
@@ -82,7 +89,7 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
     "show the correct link with text" in {
       val view = tnrbOverviewTableRow(link = Some(link))
 
-      val questionLink = view.getElementById(s"$id-link")
+      val questionLink = view.getElementById(s"$linkID")
       questionLink.attr("href") shouldBe link.url
       questionLink.text() shouldBe messagesApi("iht.change")
     }
@@ -90,7 +97,7 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
     "show the correct question category when answer value is empty" in {
       val view = tnrbOverviewTableRow(answerValue = "", link = Some(link))
 
-      val questionLink = view.getElementById(s"$id-link")
+      val questionLink = view.getElementById(s"$linkID")
       questionLink.text() shouldBe messagesApi("site.link.giveAnswer")
     }
   }

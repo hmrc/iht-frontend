@@ -31,7 +31,7 @@
 @helpers.form(action = iht.controllers.registration.executor.routes.DeleteCoExecutorController.onSubmit(coExecutor.id.getOrElse(""))) {
 
   <div class="panel-indent">
-      <p>@ihtHelpers.name(coExecutor.name.toString)</p>
+      <p>@ihtHelpers.custom.name(coExecutor.name.toString)</p>
 
       @coExecutor.ukAddress.map { addr =>
         @CommonHelper.addressLayout(addr)

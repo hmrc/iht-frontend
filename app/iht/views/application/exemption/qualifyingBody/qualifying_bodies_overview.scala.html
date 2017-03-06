@@ -17,7 +17,7 @@
 @import iht.models._
 @import iht.views.html._
 @import iht.utils._
-@import ihtHelpers._
+@import ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
 
@@ -58,7 +58,7 @@ headingName = deceasedName
                 <span class="visually-hidden">@Messages("page.iht.application.exemptions.qualifyingBodyOverview.screenreader.ident", (i + 1)) </span>
                 @(element.name) match {
                     case (None) => { @Messages("iht.estateReport.exemptions.charities.noNameAdded") }
-                    case (Some(name)) => { @ihtHelpers.name(name) }
+                    case (Some(name)) => { @ihtHelpers.custom.name(name) }
                 }
             </div>
             <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
@@ -115,7 +115,7 @@ headingName = deceasedName
 
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
-    @ihtHelpers.return_link(Messages("site.link.return.exemptions"),
+    @ihtHelpers.custom.return_link(Messages("site.link.return.exemptions"),
     Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
     }
 </p>

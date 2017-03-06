@@ -18,15 +18,13 @@ package iht.controllers.registration.deceased
 
 import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
-import iht.forms.registration.DeceasedForms._
+import iht.forms.registration.DeceasedForms.deceasedAddressQuestionForm
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.data.Form
 import play.api.test.Helpers._
 
 class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest with BeforeAndAfter {
@@ -186,5 +184,12 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
 
     val result = deceasedAddressQuestionController.onSubmit()(request)
     status(result) shouldBe(INTERNAL_SERVER_ERROR)
+  }
+
+  "use form when deceased details is empty" in {
+    val rd = CommonBuilder.buildRegistrationDetails
+    val result: Form[DeceasedDetails] = deceasedAddressQuestionController.fillForm(rd)
+    result shouldBe deceasedAddressQuestionForm
+
   }
 }

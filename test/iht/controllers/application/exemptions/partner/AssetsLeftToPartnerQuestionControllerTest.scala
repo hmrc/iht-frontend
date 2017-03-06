@@ -88,6 +88,20 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
       contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName))
     }
 
+    "respond with internal server error on page load when no app details" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val result = assetsLeftToPartnerQuestionController.onPageLoad (createFakeRequest())
+      status(result) shouldBe INTERNAL_SERVER_ERROR
+    }
+
     "save application and go to Exemptions Overview page on submit" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
         allExemptions = Some(CommonBuilder.buildAllExemptions.copy(partner = Some(PartnerExemption(
@@ -108,6 +122,28 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
       val result = assetsLeftToPartnerQuestionController.onSubmit(request)
       status(result) shouldBe (SEE_OTHER)
+    }
+
+    "give internal server error when no app details on submit" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
+        allExemptions = Some(CommonBuilder.buildAllExemptions.copy(partner = Some(PartnerExemption(
+          Some(true), Some(true), None, None, None, None, Some(1000))))))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val assetLeftToSpouse = CommonBuilder.buildPartnerExemption.copy(isAssetForDeceasedPartner = Some(true))
+
+      val filledAssetLeftToSpouseQuestionForm = assetsLeftToSpouseQuestionForm.fill(assetLeftToSpouse)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledAssetLeftToSpouseQuestionForm.data
+        .toSeq: _*)
+
+      val result = assetsLeftToPartnerQuestionController.onSubmit(request)
+      status(result) shouldBe INTERNAL_SERVER_ERROR
     }
 
     "wipe out all the partner exemption data if user selects the assets left to partner question as No, " +

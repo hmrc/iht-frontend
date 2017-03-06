@@ -39,21 +39,21 @@ backToLastQuestionMessageKeyAccessibility: Option[String] = None)(mainContent: H
             <ol class="two-col-list--padded">
                 <li class="font-xsmall">
                   @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad().toString().trim){
-                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.whatsAGift.title")</span>
+                    <span id="guidance1-span" aria-describedby="current">@Messages("page.iht.application.gifts.guidance.whatsAGift.title")</span>
                   } else {
                     <a id="guidance1" href="@iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.whatsAGift.title")</a>
                   }
                 </li>
                 <li class="font-xsmall">
                   @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad().toString().trim){
-                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.kindOfGifts.title")</span>
+                    <span id="guidance2-span" aria-describedby="current">@Messages("page.iht.application.gifts.guidance.kindOfGifts.title")</span>
                   } else {
                     <a id="guidance2" href="@iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.kindOfGifts.title")</a>
                   }
                 </li>
                 <li class="font-xsmall">
                   @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad().toString().trim){
-                    <span aria-describedby="current">@Messages("iht.estateReport.gifts.withReservation.title")</span>
+                    <span id="guidance3-span" aria-describedby="current">@Messages("iht.estateReport.gifts.withReservation.title")</span>
                   } else {
                     <a id="guidance3" href="@iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()">@Messages("iht.estateReport.gifts.withReservation.title")</a>
                   }
@@ -64,21 +64,21 @@ backToLastQuestionMessageKeyAccessibility: Option[String] = None)(mainContent: H
             <ol start="4" class="two-col-list--padded">
                 <li class="font-xsmall">
                   @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad().toString().trim){
-                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.claimingExemptions.title")</span>
+                    <span id="guidance4-span" aria-describedby="current">@Messages("page.iht.application.gifts.guidance.claimingExemptions.title")</span>
                   } else {
                     <a id="guidance4" href="@iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.claimingExemptions.title")</a>
                   }
                 </li>
                 <li class="font-xsmall">
                   @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.IncreasingAnnualLimitController.onPageLoad().toString().trim){
-                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.title")</span>
+                    <span id="guidance5-span" aria-describedby="current">@Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.title")</span>
                   } else {
                     <a id="guidance5" href="@iht.controllers.application.gifts.guidance.routes.IncreasingAnnualLimitController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.increasingAnnualLimit.title")</a>
                   }
                 </li>
                 <li class="font-xsmall">
                   @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.GiftsGivenAwayController.onPageLoad().toString().trim){
-                    <span aria-describedby="current">@Messages("page.iht.application.gifts.guidance.giftsGivenAway.title")</span>
+                    <span id="guidance6-span" aria-describedby="current">@Messages("page.iht.application.gifts.guidance.giftsGivenAway.title")</span>
                   } else {
                     <a id="guidance6" href="@iht.controllers.application.gifts.guidance.routes.GiftsGivenAwayController.onPageLoad()">@Messages("page.iht.application.gifts.guidance.giftsGivenAway.title")</a>
                   }

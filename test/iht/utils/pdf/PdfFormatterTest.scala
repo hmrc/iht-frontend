@@ -17,6 +17,7 @@
 package iht.utils.pdf
 
 import iht.FakeIhtApp
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
 import models.des.iht_return.Asset
 import org.joda.time.LocalDate
@@ -70,7 +71,8 @@ class PdfFormatterTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       "Rolled up trust assets" -> "iht.estateReport.assets.heldInATrust.title",
       "Rolled up foreign assets" -> "iht.estateReport.assets.foreign.title",
       "Rolled up money owed to deceased" -> "iht.estateReport.assets.moneyOwed",
-      "Rolled up other assets" -> "page.iht.application.assets.main-section.other.title"
+      "Rolled up other assets" -> "page.iht.application.assets.main-section.other.title",
+      "Deceased's residence" -> "page.iht.application.assets.propertyType.deceasedHome.label"
     )
     val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "")
     val expectedSetOfAssets = ihtReturn.freeEstate.flatMap(_.estateAssets)
@@ -78,14 +80,22 @@ class PdfFormatterTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val newAssetDescription = asset.assetDescription.map(x=>
         etmpTitlesMappedToPDFMessageKeys.get(x) match {
           case None => x
-          case Some(newMessageKey) => messagesApi(newMessageKey)
+          case Some(newMessageKey) => messagesApi(newMessageKey, CommonBuilder.DefaultString)
         }
       )
       asset copy(assetDescription = newAssetDescription)
     }
-    val result = PdfFormatter.transform(ihtReturn)
+    val result = PdfFormatter.transform(ihtReturn, CommonBuilder.DefaultString)
     val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
     setOfAssets shouldBe expectedSetOfAssets
+  }
+
+  "transform" must {
+    "transform the marital status" in {
+      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4 )
+      val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
+      result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
+    }
   }
 
 }

@@ -20,6 +20,7 @@ import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
 import play.api.data.Form
@@ -46,7 +47,9 @@ class InsurancePolicyDetailsPayingOtherViewTest extends YesNoQuestionViewBehavio
   form => insurance_policy_details_paying_other(form, regDetails)
 
   override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
-  messagesApi("site.link.return.insurance.policies")))
+    messagesApi("site.link.return.insurance.policies"),
+    TestHelper.InsurancePaidForSomeoneElseYesNoID
+  ))
 
   "InsurancePolicyDetailsPayingOtherViewTest" must {
   behave like yesNoQuestionWithLegend(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))

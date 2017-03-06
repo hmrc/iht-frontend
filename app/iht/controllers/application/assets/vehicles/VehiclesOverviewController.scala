@@ -17,7 +17,7 @@
 package iht.controllers.application.assets.vehicles
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.metrics.Metrics
 import iht.models._

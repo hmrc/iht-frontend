@@ -79,7 +79,7 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
     }
 
     "Display executor 1 name in table" in {
-      ihtHelpers.name(CommonBuilder.DefaultCoExecutor1.name.toString).toString should
+      ihtHelpers.custom.name(CommonBuilder.DefaultCoExecutor1.name.toString).toString should
         include(doc.getElementById("executorName-1").text)
     }
 
@@ -93,7 +93,7 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
 
     "Display executor 2 name in table" in {
       doc.getElementById("executorName-2").text
-      ihtHelpers.name(CommonBuilder.DefaultCoExecutor2.name.toString).toString should
+      ihtHelpers.custom.name(CommonBuilder.DefaultCoExecutor2.name.toString).toString should
         include(doc.getElementById("executorName-2").text)
     }
 

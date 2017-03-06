@@ -21,11 +21,13 @@ import iht.testhelpers.CommonBuilder
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.MessagesApi
 
 /**
   * Created by david-beer on 21/11/16.
   */
 class XmlFoToPDFTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val appDetails = CommonBuilder.buildApplicationDetails

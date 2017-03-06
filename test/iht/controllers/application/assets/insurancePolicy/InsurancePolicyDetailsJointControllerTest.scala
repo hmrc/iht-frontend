@@ -31,7 +31,8 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
-
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 /**
@@ -177,7 +178,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = insurancePolicyDetailsJointController.onSubmit(request)
-      redirectLocation(result) should be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsuranceJointlyHeldYesNoID))
     }
   }
 }

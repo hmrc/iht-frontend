@@ -18,6 +18,7 @@
 @import iht.views.html._
 @import iht.constants.FieldMappings
 @import iht.constants.Constants._
+@import iht.constants.IhtProperties._
 
 @(form: Form[Option[String]])(implicit request:Request[_], messages: Messages)
 
@@ -30,9 +31,9 @@ headingClass = "heading-medium"){
 
 @helpers.form(action = iht.controllers.filter.routes.EstimateController.onSubmit,'autoComplete -> "off") {
 
-@ihtHelpers.error_summary(form)
+@ihtHelpers.custom.error_summary(form)
 
-@ihtHelpers.input_radio_group(
+@ihtHelpers.standard.input_radio_group(
 form("estimate"),
 FieldMappings.estimateChoices.toSeq,
 '_legendClass -> "visually-hidden",

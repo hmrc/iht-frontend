@@ -34,7 +34,7 @@
   cancelUrl = cancelCall,
   hasTimeOut = true) {
 
-@ihtHelpers.error_summary(addMoreCoExecutorsForm)
+@ihtHelpers.custom.error_summary(addMoreCoExecutorsForm)
 
 @helpers.form(action = actionCall,'autoComplete -> "off") {
   <p class="lede">@Messages("page.iht.registration.executor-overview.description")</p>
@@ -52,7 +52,7 @@
   <ul>
       @for(coExecutor <- coExecutors) {
       <li class="grid-layout grid-layout--maintain-width grid-layout--nogutter divider--bottom section">
-        <div id='executorName-@coExecutor.id.getOrElse("")' class="grid-layout__column grid-layout__column--1-2">@ihtHelpers.name(coExecutor.name.toString)</div>
+        <div id='executorName-@coExecutor.id.getOrElse("")' class="grid-layout__column grid-layout__column--1-2">@ihtHelpers.custom.name(coExecutor.name.toString)</div>
         <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.DeleteCoExecutorController.onPageLoad(coExecutor.id.getOrElse("")).url' id='delete-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.delete")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.delete.screenReader", coExecutor.name)</span></a></div>
         <div class="grid-layout__column grid-layout__column--1-4 u-align--right"><a href='@iht.controllers.registration.executor.routes.CoExecutorPersonalDetailsController.onPageLoad(coExecutor.id).url' id='change-executor-@coExecutor.id.getOrElse("")'><span aria-hidden="true">@Messages("iht.change")</span><span class="visually-hidden">@Messages("page.iht.registration.executor-overview.executor.change.screenReader", coExecutor.name)</span></a></div>
       </li>
@@ -63,7 +63,7 @@
     @defining( Messages("page.iht.registration.executor-overview.sectionName"))  { sectionName =>
       @defining( Messages("page.iht.registration.executor-overview.yesnoQuestion")) { legend =>
 
-        @ihtHelpers.input_yes_no_radio_group(
+        @ihtHelpers.standard.input_yes_no_radio_group(
           addMoreCoExecutorsForm("addMoreCoExecutors"),
           '_legend -> legend,
           '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),
@@ -75,6 +75,6 @@
   } else {
     <input type="hidden" id="addMoreCoExecutors-false" name="addMoreCoExecutors" value="false"/>
   }
-  @ihtHelpers.continue_button()
+  @ihtHelpers.custom.continue_button()
 }
 }

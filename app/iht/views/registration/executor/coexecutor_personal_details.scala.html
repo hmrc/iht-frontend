@@ -31,7 +31,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
   hasTimeOut=true,
   headingClass=Some("heading-large")) {
 
-@ihtHelpers.error_summary(coExecutorDetails, Some(
+@ihtHelpers.custom.error_summary(coExecutorDetails, Some(
     Map(
       "error.dateOfBirth.numeric" -> "error.dateOfBirth.incorrect.summary"
     )
@@ -39,21 +39,21 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 )
 
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
-      @ihtHelpers.input_with_help(coExecutorDetails("firstName"),
+      @ihtHelpers.standard.input_with_help(coExecutorDetails("firstName"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.firstName")),
           '_help -> Html(Messages("iht.firstName.hint")))
 
-      @ihtHelpers.input_with_help(coExecutorDetails("lastName"),
+      @ihtHelpers.standard.input_with_help(coExecutorDetails("lastName"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.lastName")))
 
 
-      @ihtHelpers.date_fields(
+      @ihtHelpers.standard.date_fields(
           coExecutorDetails,
           "dateOfBirth",
           Messages("iht.dateofbirth"),
@@ -64,7 +64,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_fieldsetId -> "date-of-birth",
           '_legend -> Html(Messages("iht.dateofbirth")))
 
-      @ihtHelpers.input_with_help(coExecutorDetails("nino"),
+      @ihtHelpers.standard.input_with_help(coExecutorDetails("nino"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -72,7 +72,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_help -> Html(Messages("iht.ninoExample")))
 
 
-      @ihtHelpers.input_with_help(coExecutorDetails("phoneNo"),
+      @ihtHelpers.standard.input_with_help(coExecutorDetails("phoneNo"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -81,7 +81,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 
     @if(mode == Mode.Standard) {
         @defining("co-executor-personal-details")  { sectionName =>
-          @ihtHelpers.input_yes_no_radio_group(
+          @ihtHelpers.standard.input_yes_no_radio_group(
               coExecutorDetails("isAddressInUk"),
               '_legend -> Html(Messages("page.iht.registration.co-executor-personal-details.isAddressInUk")),
               '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),
@@ -91,6 +91,6 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
       }
     }
 
-    @ihtHelpers.continue_button()
+    @ihtHelpers.custom.continue_button()
   }
 }

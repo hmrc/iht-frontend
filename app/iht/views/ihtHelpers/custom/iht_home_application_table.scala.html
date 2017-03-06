@@ -37,7 +37,7 @@
   @for(application <- applications){
     <tr class="table__row--responsive">
         <td class="table__detail--responsive" data-heading="@Messages("page.iht.home.deceasedName.label")">
-          @ihtHelpers.name(application.deceasedName)
+          @ihtHelpers.custom.name(application.deceasedName)
         </td>
         <td class="table__detail--responsive" data-heading="@Messages("page.iht.home.ihtReference.label")">
           @formattedIHTReference(application.ihtRefNo)

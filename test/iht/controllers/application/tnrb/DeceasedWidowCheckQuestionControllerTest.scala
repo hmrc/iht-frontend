@@ -30,6 +30,8 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   *
@@ -94,6 +96,45 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       redirectLocation(result) should be(Some(routes.DeceasedWidowCheckDateController.onPageLoad().url))
     }
 
+    "show errors if invalid fields" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(widowCheck =
+        Some(CommonBuilder.buildWidowedCheck.copy(dateOfPreDeceased = None)),
+        ihtRef = Some(CommonBuilder.DefaultString)
+      )
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val withWidowedValue = CommonBuilder.buildWidowedCheck
+
+      val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
+
+      val result = deceasedWidowCheckQuestionController.onSubmit(request)
+      status(result) shouldBe BAD_REQUEST
+    }
+
+    "give internal server error if no app details" in {
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val withWidowedValue = CommonBuilder.buildWidowedCheck
+
+      val filledDeceasedWidowCheckQuestionForm = deceasedWidowCheckQuestionForm.fill(withWidowedValue)
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("widowed", ""), ("shareValue", "233"))
+
+      val result = deceasedWidowCheckQuestionController.onSubmit(request)
+      status(result) shouldBe INTERNAL_SERVER_ERROR
+    }
+
     "save application and go to Widow check date page on submit if WidowCheck section is not completed" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
         widowCheck = Some(CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = None)))
@@ -155,7 +196,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
 
       val result = deceasedWidowCheckQuestionController.onSubmit(request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()url))
+      redirectLocation(result) should be(Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbSpouseMartialStatusID))
     }
 
     "wipe out the WidowCheck date and tnrb eligibility data, go to estate overview page on submit " +
@@ -209,6 +250,31 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       status(result) shouldBe OK
     }
 
+    "respond with OK when widow check is None" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+        .copy(ihtRef = Some(CommonBuilder.DefaultString), widowCheck = None)
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
+      status(result) shouldBe OK
+    }
+
+    "respond with internal server error when no app details" in {
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = None,
+        getAppDetails = true,
+        saveAppDetails = true)
+
+      val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
+      status(result) shouldBe INTERNAL_SERVER_ERROR
+    }
+
     def setupMocksForTitleTests = {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(widowCheck = Some(CommonBuilder.buildWidowedCheck),
         increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility.copy(firstName = Some(CommonBuilder.firstNameGenerator),
@@ -259,7 +325,7 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
         getAppDetails = true,
         saveAppDetails = true)
 
-      val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url
+      val expectedUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad.url + "#" + TnrbSpouseMartialStatusID
 
       val result = deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK

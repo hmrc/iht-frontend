@@ -32,13 +32,13 @@ cancelUrl=Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
 headingName = deceasedName
 ){
-    @ihtHelpers.error_summary(propertyValueForm)
+    @ihtHelpers.custom.error_summary(propertyValueForm)
 
 <p id="property-value-guidance1">@Messages("page.iht.application.property.value.question.hint1", deceasedName)</p>
 <p id="property-value-guidance2">@Messages("page.iht.application.property.value.question.hint2", deceasedName)</p>
     @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
-            @ihtHelpers.input_estate_value(propertyValueForm("value"),
+            @ihtHelpers.custom.input_estate_value(propertyValueForm("value"),
             '_currency -> "GBP",
             '_divClass -> "form-group",
         '_labelTextClass -> "visually-hidden",

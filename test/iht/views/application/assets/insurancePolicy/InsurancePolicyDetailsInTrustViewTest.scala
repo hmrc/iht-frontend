@@ -20,6 +20,7 @@ import iht.controllers.application.assets.insurancePolicy.routes
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_in_trust
 import play.api.data.Form
@@ -45,7 +46,9 @@ class InsurancePolicyDetailsInTrustViewTest extends YesNoQuestionViewBehaviour[I
     form => insurance_policy_details_in_trust(form, regDetails)
 
   override def cancelComponent = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
-    messagesApi("site.link.return.insurance.policies")))
+    messagesApi("site.link.return.insurance.policies"),
+    TestHelper.InsurancePlacedInTrustYesNoID
+  ))
 
   "InsurancePolicyDetailsInTrustViewTest" must {
     behave like yesNoQuestion

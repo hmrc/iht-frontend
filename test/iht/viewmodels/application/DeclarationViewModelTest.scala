@@ -18,9 +18,13 @@ package iht.viewmodels.application
 
 import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
+import iht.models.application.assets.Properties
 import iht.models.application.basicElements.ShareableBasicEstateElement
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -107,6 +111,72 @@ class DeclarationViewModelTest extends ApplicationControllerTest{
 
       DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector).riskMessageFromEdh should be (riskMessage)
     }
+
+    "return correct riskMessageFromEdh when there is money value of zero" in {
+      val regDetails = buildRegistrationDetails
+      implicit val fakeRequest = createFakeRequest()
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(mockIhtConnector, riskMessage)
+
+      val appDetails = {
+        val allAssets = buildAllAssets.copy(
+          money = Some(buildShareableBasicElementExtended.copy(
+            Some(BigDecimal(0)), None, Some(true), Some(false)))
+        )
+        buildApplicationDetails.copy(allAssets = Some(allAssets))
+      }
+
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector).riskMessageFromEdh should be (riskMessage)
+    }
+
+    "return None when there is money value which is non-zero" in {
+      val regDetails = buildRegistrationDetails
+      implicit val fakeRequest = createFakeRequest()
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(mockIhtConnector, riskMessage)
+
+      val appDetails = {
+        val allAssets = buildAllAssets.copy(
+          money = Some(buildShareableBasicElementExtended.copy(
+            Some(BigDecimal(10)), None, Some(true), Some(false)))
+        )
+        buildApplicationDetails.copy(allAssets = Some(allAssets))
+      }
+
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector).riskMessageFromEdh shouldBe None
+    }
+
+    "return correct riskMessageFromEdh when there is money value of None" in {
+      val regDetails = buildRegistrationDetails
+      implicit val fakeRequest = createFakeRequest()
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(mockIhtConnector, riskMessage)
+
+      val appDetails = {
+        val allAssets = buildAllAssets.copy(
+          money = Some(buildShareableBasicElementExtended.copy(
+            None, None, Some(true), Some(false)))
+        )
+        buildApplicationDetails.copy(allAssets = Some(allAssets))
+      }
+
+      DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector).riskMessageFromEdh should be (riskMessage)
+    }
+
+    "return None when there is an error in getting risk message" in {
+      val regDetails = buildRegistrationDetails
+      implicit val fakeRequest = createFakeRequest()
+      val riskMessage = Some("Risk Message")
+      createMockToGetRealtimeRiskMessage(mockIhtConnector, riskMessage)
+      when(mockIhtConnector.getRealtimeRiskingMessage(any(), any())(any()))
+          .thenThrow(new RuntimeException("error"))
+
+      a[RuntimeException] shouldBe thrownBy{
+        DeclarationViewModel(form, appDetails, regDetails, nino, mockIhtConnector).riskMessageFromEdh
+      }
+    }
+
+
 
     "return correct riskMessageFromEdh when the money entered is of value 0 and shared value is None" in {
 

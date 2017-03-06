@@ -20,8 +20,9 @@ import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
+import iht.utils.CommonHelper._
 
-case class CancelComponent(target: Call, content: String)
+case class CancelComponent(target: Call, content: String, hash: String = "")
 
 case class Guidance(isAnyGuidance: Boolean, content: () => Set[String])
 
@@ -56,9 +57,15 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
 
   val continueContent: String = "iht.saveAndContinue"
 
+  def linkHash: String = ""
+
   def applicationPage() = {
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
+    }
+
+    "does not incude any message strings" in {
+      view should not include("iht.");
     }
 
     "have the correct browser title" in {
@@ -84,7 +91,7 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
       "show the return link with the correct target and text" in {
         cancelComponent.foreach { attrib =>
           val cancelButton = doc.getElementById(cancelId)
-          cancelButton.attr("href") shouldBe attrib.target.url
+          cancelButton.attr("href") shouldBe addFragmentIdentifierToUrl(attrib.target.url, attrib.hash)
           cancelButton.text() shouldBe attrib.content
         }
       }

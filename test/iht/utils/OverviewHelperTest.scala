@@ -18,16 +18,226 @@ package iht.utils
 
 import iht.FakeIhtApp
 import iht.constants.Constants
+import iht.models.application.assets.InsurancePolicy
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OverviewHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
+  val allAssetsAllFilled = CommonBuilder.buildAllAssetsWithAllSectionsFilled copy(
+    insurancePolicy = Some(InsurancePolicy(policyInDeceasedName = Some(false), isJointlyOwned = Some(false),
+    isInsurancePremiumsPayedForSomeoneElse = Some(false), isAnnuitiesBought = None,
+      value = Some(BigDecimal(55.44)), shareValue = Some(BigDecimal(66.7)), isInTrust = None,
+    coveredByExemption = None, sevenYearsBefore = None, moreThanMaxValue = None))
+  )
+
+  val allLiabilitiesAllFilled = CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled
 
   "displayValue" must {
+
+    "display total for properties" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        propertyList = CommonBuilder.buildPropertyList)
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionProperties, Some(true), Some(""))
+
+      result shouldBe "£24,690.00"
+    }
+
+    "display total for money" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionMoney, Some(true), Some(""))
+
+      result shouldBe "£200.00"
+    }
+
+    "display total for household" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionHousehold, Some(true), Some(""))
+
+      result shouldBe "£200.00"
+    }
+
+    "display total for private pension" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionPrivatePension, Some(true), Some(""))
+
+      result shouldBe "£100.00"
+    }
+
+    "display total for stocks and shares" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionStockAndShare, Some(true), Some(""))
+
+      result shouldBe "£200.00"
+    }
+
+    "display total for insurance policies" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionInsurancePolicy, Some(true), Some(""))
+
+      result shouldBe "£122.14"
+    }
+
+    "display total for business interests" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionBusinessInterest, Some(true), Some(""))
+
+      result shouldBe "£100.00"
+    }
+
+    "display total for vehicles" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionVehicles, Some(true), Some(""))
+
+      result shouldBe "£200.00"
+    }
+
+    "display total for nominated" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionNominated, Some(true), Some(""))
+
+      result shouldBe "£100.00"
+    }
+
+    "display total for held in trust" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionHeldInTrust, Some(true), Some(""))
+
+      result shouldBe "£100.00"
+    }
+
+    "display total for foreign" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionForeign, Some(true), Some(""))
+
+      result shouldBe "£100.00"
+    }
+
+    "display total for money owed" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionMoneyOwed, Some(true), Some(""))
+
+      result shouldBe "£100.00"
+    }
+
+    "display total for other" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allAssets = Some(allAssetsAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionOther, Some(true), Some(""))
+
+      result shouldBe "£100.00"
+    }
+
+    "display total for mortgages" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        propertyList = CommonBuilder.buildPropertyList,
+        allLiabilities = Some(allLiabilitiesAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionMortgages, Some(true), Some(""))
+
+      result shouldBe "£7,000.00"
+    }
+
+    "display total for funeral expenses" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allLiabilities = Some(allLiabilitiesAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionFuneralExpenses, Some(true), Some(""))
+
+      result shouldBe "£4,200.00"
+    }
+
+    "display total for debts owed from trust" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allLiabilities = Some(allLiabilitiesAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionDebtsOwedFromTrust, Some(true), Some(""))
+
+      result shouldBe "£1,200.00"
+    }
+
+    "display total for debts outside uk" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allLiabilities = Some(allLiabilitiesAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionDebtsOwedToAnyoneOutsideUK, Some(true), Some(""))
+
+      result shouldBe "£3,000.00"
+    }
+
+    "display total for joint assets" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allLiabilities = Some(allLiabilitiesAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionDebtsOwedOnJointAssets, Some(true), Some(""))
+
+      result shouldBe "£1,000.00"
+    }
+
+    "display total for debts other" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        allLiabilities = Some(allLiabilitiesAllFilled))
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionDebtsOther, Some(true), Some(""))
+
+      result shouldBe "£1,000.00"
+    }
+
+    "display total for charities" in {
+      val appDetails = CommonBuilder.buildApplicationDetails copy (
+        charities = Seq(CommonBuilder.charity, CommonBuilder.charity2)
+      )
+
+      val result = OverviewHelper.displayValue(appDetails,
+        Constants.AppSectionExemptionsCharityValue, Some(true), Some(""))
+
+      result shouldBe "£89.89"
+    }
 
     "returns total assets value when all tests are completed" in {
       val appDetails = CommonBuilder.buildApplicationDetails copy (

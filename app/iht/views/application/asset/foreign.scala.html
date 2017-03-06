@@ -21,6 +21,7 @@
 
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.constants.IhtProperties._
 @import iht.utils.CommonHelper
 
 @(foreignForm: Form[BasicEstateElement],
@@ -33,13 +34,13 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
     isFullWidth = false
 ) {
 
-    @ihtHelpers.error_summary_override_keys(foreignForm, Constants.AppSectionForeign)
+    @ihtHelpers.custom.error_summary_override_keys(foreignForm, Constants.AppSectionForeign)
 
     @helpers.form(action = iht.controllers.application.assets.routes.ForeignController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Html(Messages("page.iht.application.assets.foreign.description.p1",deceasedName))</p>
 
-        @ihtHelpers.generic_estate_element_assets(
+        @ihtHelpers.custom.generic_estate_element_assets(
                                 assetType = Constants.AssetTypeSingle,
                                 questionLabel= Messages("page.iht.application.assets.foreign.deceasedOwned.question",deceasedName),
                                 inputTextLabel = Messages("page.iht.application.assets.foreign.inputLabel1"),
@@ -52,8 +53,11 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
         </div>
 
         @registrationDetails.deceasedDetails.map{ dd=>
-            @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", ihtHelpers.name(dd.name)),
-                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+            @ihtHelpers.custom.return_link(
+                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+                AppSectionForeignID
+            )
         }
     }
 }

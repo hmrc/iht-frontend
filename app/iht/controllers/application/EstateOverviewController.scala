@@ -18,7 +18,7 @@ package iht.controllers.application
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties._
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
