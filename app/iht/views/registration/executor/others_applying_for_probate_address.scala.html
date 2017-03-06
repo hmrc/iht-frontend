@@ -20,6 +20,7 @@
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
 @import iht.constants.IhtProperties
+@import iht.constants._
 
 @(othersApplyingForProbateAddressForm: Form[iht.models.UkAddress],
     id: String,
@@ -49,24 +50,28 @@
 
     <div id="ukAddress_ukAddressLine1-container" class="form-group">
       @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine1"),
+        '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
         '_inputClass -> "form-control ",
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.address.line1")))
         </div>
     <div id="ukAddress_ukAddressLine2-container" class="form-group">
       @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine2"),
+        '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
         '_inputClass -> "form-control ",
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.address.line2")))
     </div>
     <div id="ukAddress_ukAddressLine3-container" class="form-group">
       @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine3"),
+        '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
         '_inputClass -> "form-control ",
         '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.address.line3")))
     </div>
     <div id="ukAddress_ukAddressLine4-container" class="form-group">
       @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine4"),
+        '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
         '_inputClass -> "form-control ", '_labelTextClass -> "form-label",
         '_label -> Html(Messages("iht.address.line4")))
     </div>
@@ -92,6 +97,7 @@
     } else {
       <div id="ukAddress_postCode-container" class="form-group">
           @ihtHelpers.input_with_help(othersApplyingForProbateAddressForm("postCode"),
+            '_maxlength -> IhtProperties.validationMaxLengthPostcode,
             '_divClass -> "form-group",
             '_inputClass -> "form-control form-control-1-4",
             '_labelTextClass -> "form-label",

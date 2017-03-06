@@ -18,6 +18,7 @@
 @import iht.views.html._
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
+@import iht.constants._
 
 @(coExecutorDetails:Form[iht.models.CoExecutor],
 mode: Mode.Value = Mode.Standard,
@@ -41,6 +42,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
     <div id="firstName-container" class="form-group">
       @ihtHelpers.input_with_help(coExecutorDetails("firstName"),
+          '_maxlength -> IhtProperties.validationMaxLengthFirstName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -50,6 +52,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 
     <div id="lastName-container" class="form-group">
       @ihtHelpers.input_with_help(coExecutorDetails("lastName"),
+          '_maxlength -> IhtProperties.validationMaxLengthLastName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -80,6 +83,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 
     <div id="phoneNumber-container" class="form-group">
       @ihtHelpers.input_with_help(coExecutorDetails("phoneNo"),
+          '_maxlength -> IhtProperties.validationMaxLengthPhoneNo,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
