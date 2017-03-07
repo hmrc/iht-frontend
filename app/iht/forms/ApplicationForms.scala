@@ -511,7 +511,7 @@ object ApplicationForms {
 
   val qualifyingBodyNameForm: Form[QualifyingBody] = Form(mapping(
     "name" -> ihtNonEmptyText("error.qualifyingBodyName.enterName")
-      .verifying("error.qualifyingBodyName.giveUsing35CharactersOrLess", f=>f.length < 36))
+      .verifying("error.qualifyingBodyName.giveUsing35CharactersOrLess", f=>f.length <= IhtProperties.validationMaxLengthQualifyingBodyName))
   (
     name => QualifyingBody(None, Some(name), None)
   )(

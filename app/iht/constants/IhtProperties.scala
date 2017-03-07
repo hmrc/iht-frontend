@@ -40,6 +40,7 @@ object IhtProperties {
   lazy val validationMaxCharityNumberLength: Int = getPropertyAsInt("validationMaxCharityNumberLength")
   lazy val validationMinCharityNumberLength: Int = getPropertyAsInt("validationMinCharityNumberLength")
   lazy val validationMaxLengthCharityName: Int = getPropertyAsInt("validationMaxLengthCharityName")
+  lazy val validationMaxLengthQualifyingBodyName: Int = getPropertyAsInt("validationMaxLengthQualifyingBodyName")
 
   lazy val validationTrustMaxValue: BigDecimal = getPropertyAsBigDecimal("validationTrustMaxValue")
   lazy val validationForeignAssetMaxValue: BigDecimal = getPropertyAsBigDecimal("validationForeignAssetMaxValue")
