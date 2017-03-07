@@ -872,7 +872,7 @@
                     <xsl:call-template name="table-row-money-tall-border-top-black">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
-                        <xsl:with-param name="value" select='format-number(number($assetsTotal), "##,###.00")'/>
+                        <xsl:with-param name="value" select='format-number(number($assetsTotal), "##,##0.00")'/>
                     </xsl:call-template>
 
                     <xsl:comment>Blank row to display line at end of section</xsl:comment>
