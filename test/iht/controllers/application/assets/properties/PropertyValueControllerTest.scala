@@ -47,6 +47,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,
       mockIhtConnector,
+      regDetails = regDetails,
       appDetails = applicationDetails,
       getAppDetails = true,
       saveAppDetails = true,
@@ -97,13 +98,13 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display the page title on page load" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "display property value label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "display property question sub label on page" in {
@@ -125,12 +126,14 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display the correct title on page in edit mode" in {
       val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
         copy(propertyList = List(CommonBuilder.property))
+      val regDetails = CommonBuilder.buildRegistrationDetails1
+      val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
       setUpTests(Some(applicationDetails))
 
       val result = propertyValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

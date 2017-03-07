@@ -55,6 +55,13 @@ nested spans are reverted to normal wrapping state
 }
 
 /*
+Fix to override '.tabular-data__entry *'
+*/
+.bold > .copy--restricted {
+    font-weight: inherit;
+}
+
+/*
 fix for browsers which don't support hyphens but can understand this syntax
 (i.e. Chrome < 55 and Android)
 restricted to here as it doesn't give as nice a break as break-word

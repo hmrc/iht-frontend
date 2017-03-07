@@ -60,9 +60,12 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
 
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
+      val regDetails = CommonBuilder.buildRegistrationDetails1
+      val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails= true,
@@ -70,7 +73,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
 
       val result = trustsMoreThanOneQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.trusts.moreThanOne.question"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName))
     }
 
     "save application and go to held in trust overview page on submit when user selects No" in {

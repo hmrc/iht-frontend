@@ -80,3 +80,12 @@ it can mess with the sidebar margins when stacked for smaller screens
 .form-field--submit {
     float: none
 }
+
+/*
+====================================
+Make sure hints inside labels are blocks
+====================================
+*/
+.label__hint {
+    display: block;
+}

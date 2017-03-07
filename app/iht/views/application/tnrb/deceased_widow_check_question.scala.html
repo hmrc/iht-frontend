@@ -31,9 +31,12 @@ cancelLinkText:String
 )(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@maritalStatus() = @{TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased)}
+@spouseCivilPartner() = @{TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)}
 @question() = @{Messages("iht.estateReport.tnrb.partner.married",
-TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))}
+    maritalStatus,
+    spouseCivilPartner
+    )}
 
 @iht_main_template_application(
     title = question,

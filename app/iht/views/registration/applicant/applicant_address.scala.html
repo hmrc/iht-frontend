@@ -41,7 +41,7 @@
 
     <fieldset id="details">
         <legend class="visually-hidden">
-            Messages("page.iht.registration.applicantAddress.title")
+            @Messages("page.iht.registration.applicantAddress.title")
         </legend>
 
         <div id="ukAddress_ukAddressLine1-container" class="form-group">
@@ -78,7 +78,7 @@
                 '_inputClass -> "form-control",
                 '_id -> "countryCode",
                 '_labelid -> "countryCode-container",
-                '_emptyValueText -> "",
+                '_emptyValueText -> " ",
                 '_emptyValue -> "GB",
                 '_labelClass -> "form-label",
                 '_label -> Html(Messages("iht.country"))

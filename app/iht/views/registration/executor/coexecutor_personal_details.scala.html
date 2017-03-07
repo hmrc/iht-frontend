@@ -39,24 +39,20 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 )
 
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
-    <div id="firstName-container" class="form-group">
       @ihtHelpers.standard.input_with_help(coExecutorDetails("firstName"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.firstName")),
           '_help -> Html(Messages("iht.firstName.hint")))
-    </div>
 
-    <div id="lastName-container" class="form-group">
       @ihtHelpers.standard.input_with_help(coExecutorDetails("lastName"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.lastName")))
-    </div>
 
-    <div id="dateOfBirth-container" class="form-group">
+
       @ihtHelpers.standard.date_fields(
           coExecutorDetails,
           "dateOfBirth",
@@ -67,28 +63,23 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_labelTextClass -> "bold",
           '_fieldsetId -> "date-of-birth",
           '_legend -> Html(Messages("iht.dateofbirth")))
-    </div>
 
-    <div id="nino-container" class="form-group">
       @ihtHelpers.standard.input_with_help(coExecutorDetails("nino"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.nationalInsuranceNo")),
           '_help -> Html(Messages("iht.ninoExample")))
-    </div>
 
-    <div id="phoneNumber-container" class="form-group">
+
       @ihtHelpers.standard.input_with_help(coExecutorDetails("phoneNo"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.registration.checklist.phoneNo.upperCaseInitial")),
           '_help -> Html(Messages("site.phoneNo.hint")))
-    </div>
 
     @if(mode == Mode.Standard) {
-      <div id="isAddressInUk-container" class="form-group">
         @defining("co-executor-personal-details")  { sectionName =>
           @ihtHelpers.standard.input_yes_no_radio_group(
               coExecutorDetails("isAddressInUk"),
@@ -98,7 +89,6 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
               '_clearTargetYes -> Some(sectionName+ "1-details "+ sectionName+ "-joint "+sectionName+ "2-details " ),
               '_divClass -> Some("form-group"))
       }
-      </div>
     }
 
     @ihtHelpers.custom.continue_button()

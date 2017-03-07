@@ -78,9 +78,12 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
 
     "display the correct content on the page on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
+      val regDetails = CommonBuilder.buildRegistrationDetails1
+      val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails = true,
@@ -89,7 +92,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
       val result = assetsLeftToQualifyingBodyQuestionController.onPageLoad()(createFakeRequest())
       val resultAsString = contentAsString(result)
       resultAsString should include (messagesApi("iht.saveAndContinue"))
-      resultAsString should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle"))
+      resultAsString should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName))
     }
 
     "save application and go to Exemptions Overview page on submit" in {

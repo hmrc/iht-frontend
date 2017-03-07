@@ -65,22 +65,22 @@ headingName = deceasedName
                 <span id="qualifying-body-total">&pound;@CommonHelper.numberWithCommas(element.totalValue.getOrElse(BigDecimal(0)))</span>
             </div>
             <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-               <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url"
-               id="edit-@element.id.getOrElse("")">
-                <span aria-hidden="true">@Messages("iht.change")</span>
-                <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.edit.screenReader", element.name match {
+                <!--@* TODO Change link to correct edit link when implemented
+                <a href='@iht.controllers.application.exemptions.routes.AddQualifyingBodyController.onEditPageLoad(element.id.getOrElse("")).url' *@-->
+                <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDeleteConfirmController.onPageLoad(element.id.getOrElse("")).url"
+                id="delete-@element.id.getOrElse("")">
+                <span aria-hidden="true">@Messages("iht.delete")</span>
+                <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.delete.screenReader", element.name match {
                         case Some(name) => {name}
                         case _ => {""}
                     }, (i + 1))</span>
                 </a>
             </div>
             <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                <!--@* TODO Change link to correct edit link when implemented
-                <a href='@iht.controllers.application.exemptions.routes.AddQualifyingBodyController.onEditPageLoad(element.id.getOrElse("")).url' *@-->
-                <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDeleteConfirmController.onPageLoad(element.id.getOrElse("")).url"
-                   id="delete-@element.id.getOrElse("")">
-                    <span aria-hidden="true">@Messages("iht.delete")</span>
-                    <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.delete.screenReader", element.name match {
+               <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url"
+               id="edit-@element.id.getOrElse("")">
+                <span aria-hidden="true">@Messages("iht.change")</span>
+                <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.edit.screenReader", element.name match {
                         case Some(name) => {name}
                         case _ => {""}
                     }, (i + 1))</span>

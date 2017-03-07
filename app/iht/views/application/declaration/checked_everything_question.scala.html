@@ -46,6 +46,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
                         @ihtHelpers.standard.input_yes_no_radio_group(
                             checkedEverythingQuestionForm("hasChecked"),
+                            '_legend -> fullTitle,
+                            '_legendClass -> "visually-hidden",
                             '_shownElementNo -> Some("mortgage-guidance-panel"),
                             '_hiddenElementYes -> Some("mortgage-guidance-panel"),
                             '_divClass -> Some("form-group"))

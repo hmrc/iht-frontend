@@ -90,7 +90,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
-      assertEqualsMessage(doc, "label#filter-choices-already-started-label > div", "page.iht.filter.filter.choice.main.alreadyStarted")
+      assertEqualsMessage(doc, "label#filter-choices-already-started-label > span", "page.iht.filter.filter.choice.main.alreadyStarted")
     }
 
     "contain the third radio button without a hint" in {
@@ -105,7 +105,7 @@ class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
       val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))
 
-      assertEqualsMessage(doc, "label#filter-choices-agent-label > div", "page.iht.filter.filter.choice.main.agent")
+      assertEqualsMessage(doc, "label#filter-choices-agent-label > span", "page.iht.filter.filter.choice.main.agent")
     }
 
     "contain the fourth radio button without a hint" in {
