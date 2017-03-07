@@ -22,6 +22,7 @@
 @import iht.utils.CommonHelper
 @import org.joda.time.LocalDate
 @import iht.constants.IhtProperties
+@import iht.constants._
 
 @(partnerNameForm:Form[TnrbEligibiltyModel],
 predeceasedDate: Option[LocalDate]
@@ -41,6 +42,7 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
     CommonHelper.getOrException(predeceasedDate).getYear.toString)</p>
 
     @ihtHelpers.input_with_help(partnerNameForm("firstName"),
+        '_maxlength -> IhtProperties.validationMaxLengthFirstName,
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",
@@ -48,6 +50,7 @@ cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.
          )
 
     @ihtHelpers.input_with_help(partnerNameForm("lastName"),
+        '_maxlength -> IhtProperties.validationMaxLengthLastName,
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",

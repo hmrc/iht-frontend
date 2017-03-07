@@ -491,7 +491,7 @@ object ApplicationForms {
 
   val charityNameForm = Form(mapping(
     "name" -> ihtNonEmptyText("error.charityName.enterName")
-      .verifying("error.charityName.giveUsing35CharactersOrLess", f=>f.length < 36))
+      .verifying("error.charityName.giveUsing35CharactersOrLess", f=>f.length <= IhtProperties.validationMaxLengthCharityName))
   (
     (name) => Charity(None, Some(name), None, None)
   )
