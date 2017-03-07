@@ -21,13 +21,15 @@
 
 @import iht.utils._
 @import iht.utils.CommonHelper
+@import iht.constants.Constants._
+@import iht.constants.IhtProperties._
 
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails: RegistrationDetails
 )(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
-@deceasedNameWrap = @{ihtHelpers.name(deceasedName)}
+@deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName),
     browserTitle = Some(Messages("page.iht.application.insurance.policies.section1.browserTitle")),
@@ -35,7 +37,7 @@ registrationDetails: RegistrationDetails
     headingName = deceasedName
     ) {
 
-    @ihtHelpers.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
+    @ihtHelpers.custom.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
 
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsDeceasedOwnController.onSubmit,'autoComplete -> "off") {
 
@@ -52,7 +54,7 @@ registrationDetails: RegistrationDetails
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
 
-            @ihtHelpers.input_yes_no_radio_group(
+            @ihtHelpers.standard.input_yes_no_radio_group(
                 insurancePolicyForm("policyInDeceasedName"),
                 '_legend -> Html(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedNameWrap)),
                 '_shownElementNo -> None,
@@ -60,11 +62,11 @@ registrationDetails: RegistrationDetails
                 '_hiddenElementYes -> None,
                 '_hiddenElementNo -> Some("deceaseds-policy"),
                 '_divClass -> Some(sectionName+"4-change form-group indeceasedsname"),
-                '_clearTargetNo -> Some("indeceasednamevalue"),
+                '_clearTargetNo -> Some("value"),
                 '_mainQuestion -> true)
 
             <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
-                @ihtHelpers.input_estate_value(insurancePolicyForm("value"),
+                @ihtHelpers.custom.input_estate_value(insurancePolicyForm("value"),
                 '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"),
                 '_sectionName -> (sectionName + "1"),
                 '_currency -> "GBP",
@@ -79,6 +81,10 @@ registrationDetails: RegistrationDetails
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))
-    }
+    @ihtHelpers.custom.return_link(
+        Messages("site.link.return.insurance.policies"),
+        Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
+        InsurancePayingToDeceasedYesNoID
+    )
+}
 }

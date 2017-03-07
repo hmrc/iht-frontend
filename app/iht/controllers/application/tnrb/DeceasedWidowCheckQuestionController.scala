@@ -16,7 +16,7 @@
 
 package iht.controllers.application.tnrb
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.metrics.Metrics
@@ -30,6 +30,8 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 object DeceasedWidowCheckQuestionController extends DeceasedWidowCheckQuestionController with IhtConnectors {
@@ -60,7 +62,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
               appDetails.increaseIhtThreshold.fold(
                 TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
               registrationDetails,
-              cancelLinkUrlForWidowCheckPages(appDetails),
+              cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
               cancelLinkTextForWidowCheckPages(appDetails)))
           }
           case _ => InternalServerError("Application details not found")
@@ -88,7 +90,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
                 appDetails.increaseIhtThreshold.fold(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                 regDetails,
-                cancelLinkUrlForWidowCheckPages(appDetails),
+                cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
                 cancelLinkTextForWidowCheckPages(appDetails))))
             },
             widowModel => {
@@ -125,7 +127,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
         appDetails =>
           if (appDetails.widowCheck.fold(false)(_.widowed.fold(false)(identity))) {
             appDetails.isWidowCheckSectionCompleted match {
-              case true => Redirect(routes.TnrbOverviewController.onPageLoad())
+              case true => Redirect(CommonHelper.addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(TnrbSpouseMartialStatusID)))
               case _ => Redirect(routes.DeceasedWidowCheckDateController.onPageLoad())
             }
 

@@ -20,20 +20,21 @@
 @import iht.views.html._
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.constants.IhtProperties._
 @import iht.utils.CommonHelper
 
 @(moneyOwedForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
-@deceasedNameWrap = @{ihtHelpers.name(deceasedName)}
+@deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwed",deceasedName),
     browserTitle = Some(Messages("iht.estateReport.assets.moneyOwed", Messages("iht.the.deceased"))),
     isFullWidth = false,
     headingName = deceasedName
 ) {
-    @ihtHelpers.error_summary_override_keys(moneyOwedForm, Constants.AppSectionMoneyOwed)
+    @ihtHelpers.custom.error_summary_override_keys(moneyOwedForm, Constants.AppSectionMoneyOwed)
 
     @helpers.form(action = iht.controllers.application.assets.routes.MoneyOwedController.onSubmit, 'autoComplete -> "off") {
 
@@ -42,7 +43,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
         <p>@Html(Messages("page.iht.application.assets.moneyOwed.description.p3",deceasedNameWrap))</p>
 
 
-        @ihtHelpers.generic_estate_element_assets(
+        @ihtHelpers.custom.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
             questionLabel= Messages("page.iht.application.assets.moneyOwed.isOwned",deceasedNameWrap),
             inputTextLabel = Messages("page.iht.application.assets.moneyOwed.inputLabel1"),
@@ -54,7 +55,10 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
 
-            @ihtHelpers.return_link(Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
-                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+            @ihtHelpers.custom.return_link(
+                Messages("page.iht.application.return.to.assetsOf", deceasedNameWrap),
+                Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+                AppSectionMoneyOwedID
+            )
     }
 }

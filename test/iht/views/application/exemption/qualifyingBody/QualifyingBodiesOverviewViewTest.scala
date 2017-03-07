@@ -73,17 +73,18 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
       tableCell(doc, qualifyingBodyTableId, 1, rowNo).text shouldBe expectedValue
     }
 
-    s"show qualifyingBody number ${rowNo + 1} change link" in {
+    s"show qualifyingBody number ${rowNo + 1} delete link" in {
       val div = tableCell(doc, qualifyingBodyTableId, 2, rowNo)
+      val anchor = div.getElementsByTag("a").first
+      getVisibleText(anchor) shouldBe messagesApi("iht.delete")
+    }
+
+    s"show qualifyingBody number ${rowNo + 1} change link" in {
+      val div = tableCell(doc, qualifyingBodyTableId, 3, rowNo)
       val anchor = div.getElementsByTag("a").first
       getVisibleText(anchor) shouldBe messagesApi("iht.change")
     }
 
-    s"show qualifyingBody number ${rowNo + 1} delete link" in {
-      val div = tableCell(doc, qualifyingBodyTableId, 3, rowNo)
-      val anchor = div.getElementsByTag("a").first
-      getVisibleText(anchor) shouldBe messagesApi("iht.delete")
-    }
   }
 
   "Qualifying bodies overview view" must {

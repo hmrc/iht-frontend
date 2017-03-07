@@ -24,6 +24,8 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
@@ -74,7 +76,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.DebtsOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID))
     }
 
     "respond with bad request on submit when request is malformed" in {
@@ -126,7 +128,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       val result = debtsOwedFromTrustController.onSubmit()(request)
       status(result) should be(SEE_OTHER)
-      redirectLocation(result).get should be(routes.DebtsOverviewController.onPageLoad().url)
+      redirectLocation(result).get should be(routes.DebtsOverviewController.onPageLoad().url + "#" + DebtsOwedFromTrustID)
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allLiabilities = applicationDetails.allLiabilities.map(_.copy(

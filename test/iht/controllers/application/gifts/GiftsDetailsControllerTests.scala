@@ -29,6 +29,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, redirectLocation}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  * Created by jamestuttle on 09/10/15.
@@ -142,7 +144,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
 
       val result = giftsDetailsController.onSubmit()(request)
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url))
+      redirectLocation(result) should be(Some(routes.SevenYearsGiftsValuesController.onPageLoad().url + "#" + GiftsValueDetailID + "1"))
     }
 
     "On processSubmit if no Gift found then redirect" in {

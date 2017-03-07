@@ -29,12 +29,12 @@ isFullWidth = false,
 cancelUrl = Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))) {
 
-@ihtHelpers.error_summary(propertyAddressForm)
+@ihtHelpers.custom.error_summary(propertyAddressForm)
 
 @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 
 <div class="form-group">
-    @ihtHelpers.input_with_help(propertyAddressForm("address.ukAddressLine1"),
+    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine1"),
     '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
     '_inputClass -> "form-control js-nonNumeric",
     '_labelTextClass -> "form-label",
@@ -42,7 +42,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
     )
 </div>
 <div class="form-group">
-    @ihtHelpers.input_with_help(propertyAddressForm("address.ukAddressLine2"),
+    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine2"),
     '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
     '_inputClass -> "form-control js-nonNumeric",
     '_labelTextClass -> "form-label",
@@ -50,7 +50,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
     )
 </div>
 <div class="form-group">
-    @ihtHelpers.input_with_help(propertyAddressForm("address.ukAddressLine3"),
+    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine3"),
     '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
     '_inputClass -> "form-control js-nonNumeric",
     '_labelTextClass -> "form-label",
@@ -58,7 +58,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
     )
 </div>
 <div class="form-group">
-    @ihtHelpers.input_with_help(propertyAddressForm("address.ukAddressLine4"),
+    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.ukAddressLine4"),
     '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
     '_inputClass -> "form-control js-nonNumeric",
     '_labelTextClass -> "form-label",
@@ -66,7 +66,7 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
     )
 </div>
 <div class="form-group">
-    @ihtHelpers.input_with_help(propertyAddressForm("address.postCode"),
+    @ihtHelpers.standard.input_with_help(propertyAddressForm("address.postCode"),
     '_maxlength -> IhtProperties.validationMaxLengthPostcode,
     '_divClass -> "",
     '_inputClass -> "form-control form-control-1-4 js-nonNumeric",

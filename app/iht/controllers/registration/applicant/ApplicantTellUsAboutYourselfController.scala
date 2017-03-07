@@ -18,7 +18,7 @@ package iht.controllers.registration.applicant
 
 import iht.connector.CitizenDetailsConnector
 import iht.controllers.ControllerHelper.Mode
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.Metrics

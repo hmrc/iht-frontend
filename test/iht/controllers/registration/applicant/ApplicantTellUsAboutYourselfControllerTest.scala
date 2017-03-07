@@ -128,6 +128,23 @@ class ApplicantTellUsAboutYourselfControllerTest
       redirectLocation(result) should be(Some(routes.ApplicantAddressController.onPageLoadUk().url))
     }
 
+    "respond appropriately to a submit with valid values in all fields and living in UK but no applicant details" in  {
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+      val registrationDetails = RegistrationDetails(None, None, None)
+      val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
+      val request =
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+
+      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+      createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
+
+      val result = controller.onSubmit()(request)
+      status(result) shouldBe (SEE_OTHER)
+      redirectLocation(result) should be(Some(routes.ApplicantAddressController.onPageLoadUk().url))
+    }
+
     "respond appropriately to a submit with valid values in all fields and living abroad" in  {
       val applicantDetails = CommonBuilder.buildApplicantDetails copy (doesLiveInUK = Some(false))
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
@@ -163,6 +180,24 @@ class ApplicantTellUsAboutYourselfControllerTest
       redirectLocation(result) should be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
     }
 
+    "respond appropriately to a submit in edit mode with valid values in all fields and living in UK and no applicant details" in  {
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+      val registrationDetails = RegistrationDetails(None, None, None)
+      val applicantDetailsForm1 = applicantTellUsAboutYourselfForm.fill(applicantDetails)
+      val request =
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
+          data=applicantDetailsForm1.data.toSeq)
+
+      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+      createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
+
+      val result = controller.onEditSubmit()(request)
+      status(result) shouldBe (SEE_OTHER)
+      redirectLocation(result) should be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+    }
+
     "respond appropriately to a submit in edit mode with valid values in all fields and living abroad" in  {
       val applicantDetails = CommonBuilder.buildApplicantDetails copy (doesLiveInUK = Some(false))
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
@@ -178,6 +213,22 @@ class ApplicantTellUsAboutYourselfControllerTest
       val result = controller.onEditSubmit()(request)
       status(result) shouldBe (SEE_OTHER)
       redirectLocation(result) should be(Some(registrationRoutes.RegistrationSummaryController.onPageLoad().url))
+    }
+
+    "respond appropriately to a submit in edit mode with invalid values" in  {
+      val applicantDetails = CommonBuilder.buildApplicantDetails copy (doesLiveInUK = Some(false))
+      val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
+      val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
+
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(("phoneNo", CommonBuilder.emptyString))
+
+      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+      createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
+
+      val result = controller.onEditSubmit()(request)
+      status(result) shouldBe BAD_REQUEST
     }
 
     "respond appropriately to an invalid submit: Missing mandatory fields" in {

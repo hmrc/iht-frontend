@@ -20,6 +20,7 @@ import iht.models.application.assets.Properties
 import iht.testhelpers.CommonBuilder
 import iht.views.html.application.asset.properties.properties_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
+import iht.testhelpers.TestHelper
 import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
@@ -44,7 +45,8 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-      messagesApi("site.link.return.assets")
+      messagesApi("site.link.return.assets"),
+      TestHelper.AppSectionPropertiesID
     )
   )
 

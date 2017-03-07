@@ -57,6 +57,16 @@ class DeceasedPermanentHomeControllerTest
 
     behave like securedRegistrationDeceasedController()
 
+    "areate the new form when there is no deceased details present" in {
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+      val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
+
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+
+      val result = controller.fillForm(registrationDetails)
+      result shouldBe deceasedPermanentHomeForm
+    }
+
     "contain Continue button when Page is loaded in normal mode" in {
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails=CommonBuilder.buildRegistrationDetails copy (

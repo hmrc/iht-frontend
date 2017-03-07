@@ -14,12 +14,16 @@
 * limitations under the License.
 *@
 
-@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
+@(label: String = "",
+link: Option[Call] = None,
+hash: String = "")
 
-@import play.api.i18n._
-@import views.html.helper._
-@import iht.views.html._
+@url = @{
+    if(hash.length > 0){
+        link.getOrElse("") + "#" + hash
+    } else {
+        link.getOrElse("")
+    }
+}
 
-<div id="@args.toMap.get('_sectionName)-details" @if(args.toMap.getOrElse('_divJsHide,"")==true){class="js-hidden"} >
-    @ihtHelpers.input_with_help(field,args: _*)
-</div>
+    <a id="return-button" href="@url">@Html(label)</a>

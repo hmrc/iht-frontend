@@ -22,7 +22,7 @@
 @value = @{ field.value match { case Some(x) => x case None => "false" case x => x }}
 
 
-<div class="form-field-single @if(elements.hasErrors) {form-field--error}">
+<div class="form-field-single @if(elements.hasErrors) {form-field--error} @if(elements.args.get('_divClass).isDefined) {@elements.args.get('_divClass)}">
   @elements.errors.map { error =>
   <div class="error-notification">@Messages(error)</div>
   }

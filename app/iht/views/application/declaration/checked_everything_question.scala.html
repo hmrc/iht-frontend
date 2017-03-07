@@ -36,7 +36,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
             browserTitle = Some(fullTitle),
             isFullWidth=false,
             headingName = getOrException(registrationDetails.deceasedDetails.map(_.name))){
-                @ihtHelpers.error_summary(checkedEverythingQuestionForm)
+                @ihtHelpers.custom.error_summary(checkedEverythingQuestionForm)
 
                 @helpers.form(action = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onSubmit,'autoComplete -> "off") {
 
@@ -44,8 +44,10 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
                         <p>@Messages("iht.estateReport.declaration.checkedEverything.p2")</p>
 
-                        @ihtHelpers.input_yes_no_radio_group(
+                        @ihtHelpers.standard.input_yes_no_radio_group(
                             checkedEverythingQuestionForm("hasChecked"),
+                            '_legend -> fullTitle,
+                            '_legendClass -> "visually-hidden",
                             '_shownElementNo -> Some("mortgage-guidance-panel"),
                             '_hiddenElementYes -> Some("mortgage-guidance-panel"),
                             '_divClass -> Some("form-group"))

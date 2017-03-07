@@ -26,6 +26,9 @@ import iht.views.html.application.debts.mortgage_value
 import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+
 import iht.controllers.application.debts.routes
 /**
   * Created by vineet on 15/11/16.
@@ -62,6 +65,7 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[Mortgage]{
   )
 
   override def formTarget = Some(routes.MortgageValueController.onSubmit("1"))
+
 
   "MortgageValueView" must {
     behave like debtsElement

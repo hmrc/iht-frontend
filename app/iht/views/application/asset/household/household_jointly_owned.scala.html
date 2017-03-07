@@ -37,11 +37,11 @@
 ) {
 
 
-    @ihtHelpers.error_summary_override_keys(householdJointlyOwned, Constants.AppSectionHousehold)
+    @ihtHelpers.custom.error_summary_override_keys(householdJointlyOwned, Constants.AppSectionHousehold)
 
     @helpers.form(action = iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
 
-    @ihtHelpers.generic_estate_element_assets(
+    @ihtHelpers.custom.generic_estate_element_assets(
                                                 assetType = Constants.AssetTypeJoint,
                                                 questionLabel= Messages("iht.estateReport.assets.household.joint.question",deceasedNameWrap),
                                                 inputTextLabel = Messages("iht.estateReport.assets.household.valueOfJointlyOwned"),
@@ -54,6 +54,6 @@
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
     }
-    @ihtHelpers.return_link(Messages("site.link.return.household"), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(Messages("site.link.return.household"), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
 
 }

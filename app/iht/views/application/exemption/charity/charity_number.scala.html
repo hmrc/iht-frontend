@@ -32,13 +32,13 @@ browserTitle = Some(Messages("page.iht.application.exemptions.charityNumber.brow
 cancelUrl = Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
 isFullWidth=false){
-    @ihtHelpers.error_summary(charityNumberForm)
+    @ihtHelpers.custom.error_summary(charityNumberForm)
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
         <p class="lede">@Messages("page.iht.application.exemptions.charityNumber.p1")
             <a rel="external" href='@IhtProperties.charityLink'>@Messages("page.iht.application.exemptions.charityNumber.linkText")</a>.
         </p>
 
-            @ihtHelpers.input_with_help(charityNumberForm("charityNumber"),
+            @ihtHelpers.standard.input_with_help(charityNumberForm("charityNumber"),
                 '_maxlength -> IhtProperties.validationMaxCharityNumberLength,
                 '_divClass -> "form-group ",
                 '_inputClass -> "form-control",

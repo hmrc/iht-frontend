@@ -27,6 +27,9 @@ import iht.views.html.application.gift.given_away
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
+import play.api.test.Helpers._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = Some("ABC1234567890"),
@@ -84,7 +87,8 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
       link.text shouldBe messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
         getOrException(registrationDetails.deceasedDetails).name)
       link.attr("href") shouldBe
-        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url
+        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + GiftsGivenAwayQuestionID
+
     }
   }
 }

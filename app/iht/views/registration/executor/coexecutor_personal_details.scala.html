@@ -32,7 +32,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
   hasTimeOut=true,
   headingClass=Some("heading-large")) {
 
-@ihtHelpers.error_summary(coExecutorDetails, Some(
+@ihtHelpers.custom.error_summary(coExecutorDetails, Some(
     Map(
       "error.dateOfBirth.numeric" -> "error.dateOfBirth.incorrect.summary"
     )
@@ -41,26 +41,24 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
     <div id="firstName-container" class="form-group">
-      @ihtHelpers.input_with_help(coExecutorDetails("firstName"),
+      @ihtHelpers.standard.input_with_help(coExecutorDetails("firstName"),
           '_maxlength -> IhtProperties.validationMaxLengthFirstName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.firstName")),
           '_help -> Html(Messages("iht.firstName.hint")))
-    </div>
 
     <div id="lastName-container" class="form-group">
-      @ihtHelpers.input_with_help(coExecutorDetails("lastName"),
+      @ihtHelpers.standard.input_with_help(coExecutorDetails("lastName"),
           '_maxlength -> IhtProperties.validationMaxLengthLastName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.lastName")))
-    </div>
 
-    <div id="dateOfBirth-container" class="form-group">
-      @ihtHelpers.date_fields(
+
+      @ihtHelpers.standard.date_fields(
           coExecutorDetails,
           "dateOfBirth",
           Messages("iht.dateofbirth"),
@@ -70,31 +68,26 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_labelTextClass -> "bold",
           '_fieldsetId -> "date-of-birth",
           '_legend -> Html(Messages("iht.dateofbirth")))
-    </div>
 
-    <div id="nino-container" class="form-group">
-      @ihtHelpers.input_with_help(coExecutorDetails("nino"),
+      @ihtHelpers.standard.input_with_help(coExecutorDetails("nino"),
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.nationalInsuranceNo")),
           '_help -> Html(Messages("iht.ninoExample")))
-    </div>
 
-    <div id="phoneNumber-container" class="form-group">
-      @ihtHelpers.input_with_help(coExecutorDetails("phoneNo"),
+
+      @ihtHelpers.standard.input_with_help(coExecutorDetails("phoneNo"),
           '_maxlength -> IhtProperties.validationMaxLengthPhoneNo,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.registration.checklist.phoneNo.upperCaseInitial")),
           '_help -> Html(Messages("site.phoneNo.hint")))
-    </div>
 
     @if(mode == Mode.Standard) {
-      <div id="isAddressInUk-container" class="form-group">
         @defining("co-executor-personal-details")  { sectionName =>
-          @ihtHelpers.input_yes_no_radio_group(
+          @ihtHelpers.standard.input_yes_no_radio_group(
               coExecutorDetails("isAddressInUk"),
               '_legend -> Html(Messages("page.iht.registration.co-executor-personal-details.isAddressInUk")),
               '_shownElementNo -> Some(sectionName+ "1-details "+ sectionName+ "-joint "),
@@ -102,9 +95,8 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
               '_clearTargetYes -> Some(sectionName+ "1-details "+ sectionName+ "-joint "+sectionName+ "2-details " ),
               '_divClass -> Some("form-group"))
       }
-      </div>
     }
 
-    @ihtHelpers.continue_button()
+    @ihtHelpers.custom.continue_button()
   }
 }

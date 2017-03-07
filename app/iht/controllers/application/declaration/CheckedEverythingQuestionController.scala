@@ -16,7 +16,7 @@
 
 package iht.controllers.application.declaration
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
 import iht.forms.ApplicationForms._

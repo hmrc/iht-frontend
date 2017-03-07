@@ -33,10 +33,10 @@ cancelUrl=cancelLocation,
 isFullWidth=false) {
 
 
-@ihtHelpers.error_summary(aboutDeceased)
+@ihtHelpers.custom.error_summary(aboutDeceased)
 
 @helpers.form(action = actionLocation, 'autoComplete -> "off") {
-    @ihtHelpers.input_with_help(aboutDeceased("firstName"),
+    @ihtHelpers.standard.input_with_help(aboutDeceased("firstName"),
         '_maxlength -> IhtProperties.validationMaxLengthFirstName,
         '_divClass -> "form-group",
         '_inputClass -> "form-control form-control--block",
@@ -46,7 +46,7 @@ isFullWidth=false) {
         '_hintText -> Messages("iht.firstName.hint"),
         '_label -> Html(Messages("iht.firstName")))
 
-    @ihtHelpers.input_with_help(aboutDeceased("lastName"),
+    @ihtHelpers.standard.input_with_help(aboutDeceased("lastName"),
         '_maxlength -> IhtProperties.validationMaxLengthLastName,
         '_divClass -> "form-group",
         '_inputClass -> "form-control form-control--block",
@@ -54,7 +54,7 @@ isFullWidth=false) {
         '_labelClass -> "",
         '_label -> Html(Messages("iht.lastName")))
 
-    @ihtHelpers.date_fields(aboutDeceased,
+    @ihtHelpers.standard.date_fields(aboutDeceased,
         "dateOfBirth",
         Messages("iht.dateofbirth"),
         None,
@@ -64,7 +64,7 @@ isFullWidth=false) {
         '_legend -> Html(Messages("iht.dateofbirth")),
         '_fieldsetId -> "date-of-birth")
 
-    @ihtHelpers.input_with_help(aboutDeceased("nino"),
+    @ihtHelpers.standard.input_with_help(aboutDeceased("nino"),
         '_divClass -> "form-group",
         '_inputClass -> "form-control form-control--block",
         '_labelClass -> "",
@@ -74,7 +74,7 @@ isFullWidth=false) {
         '_hintText -> Html(Messages("iht.ninoExample")))))
 
         <div id="maritalStatus-container">
-            @ihtHelpers.input_radio_group(
+            @ihtHelpers.standard.input_radio_group(
             aboutDeceased("maritalStatus"),
             FieldMappings.maritalStatusMap.toSeq,
             '_legend -> Html(Messages("page.iht.registration.deceasedDetails.maritalStatus.label")),
@@ -86,7 +86,7 @@ isFullWidth=false) {
             '_labelAfter -> false
             )
         </div>
-            @ihtHelpers.continue_button()
+            @ihtHelpers.custom.continue_button()
 
     }
 }

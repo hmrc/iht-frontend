@@ -16,12 +16,13 @@
 
 package iht.controllers.application.gifts.guidance
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.ApplicationController
-import iht.controllers.{ControllerHelper, IhtConnectors}
+import iht.controllers.ControllerHelper
 import iht.utils.CommonHelper
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 

@@ -20,7 +20,7 @@ import iht.FakeIhtApp
 import iht.utils.CommonHelper
 import iht.viewmodels.application.overview._
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers.overview_item
+import iht.views.html.ihtHelpers.custom.overview_item
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -37,7 +37,7 @@ class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
-      assertEqualsValue(doc, "div#assets-caption", messagesApi("iht.estateReport.assets.inEstate"))
+      assertEqualsValue(doc, "div#assets-caption span", messagesApi("iht.estateReport.assets.inEstate"))
       assertRenderedById(doc, "assets-row")
     }
 

@@ -31,22 +31,28 @@ cancelLinkText:String
 )(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@maritalStatus() = @{TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased)}
+@spouseCivilPartner() = @{TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)}
+@question() = @{Messages("iht.estateReport.tnrb.partner.married",
+    maritalStatus,
+    spouseCivilPartner
+    )}
 
-@iht_main_template_application(title = Messages("iht.estateReport.tnrb.partner.married",
-                                            TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
-                                            TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)),
-                                            browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
-                                            cancelUrl = Some(cancelLinkUrl),
-                                            cancelLabel=Some(cancelLinkText),
-                            headingName = deceasedName){
-@ihtHelpers.error_summary(deceasedWidowCheckQuestionForm)
+@iht_main_template_application(
+    title = question,
+    browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
+    cancelUrl = Some(cancelLinkUrl),
+    cancelLabel=Some(cancelLinkText),
+    headingName = deceasedName
+){
+@ihtHelpers.custom.error_summary(deceasedWidowCheckQuestionForm)
 
 @helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onSubmit,'autoComplete -> "off") {
 
-@ihtHelpers.input_yes_no_radio_group(
+@ihtHelpers.standard.input_yes_no_radio_group(
 deceasedWidowCheckQuestionForm("widowed"),
 '_divClass -> Some("form-group"),
-'_legend -> Html(Messages("iht.estateReport.tnrb.partner.married")),
+'_legend -> Html(question),
 '_legendClass -> Some("visually-hidden")
 )
 

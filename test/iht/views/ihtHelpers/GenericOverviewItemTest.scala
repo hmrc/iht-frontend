@@ -18,7 +18,7 @@ package iht.views.ihtHelpers
 
 import iht.{FakeIhtApp, TestUtils}
 import iht.views.HtmlSpec
-import iht.views.html.ihtHelpers._
+import iht.views.html.ihtHelpers.custom._
 import uk.gov.hmrc.play.test.UnitSpec
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
@@ -63,9 +63,9 @@ class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {
 
     "have the correct link with text" in {
       val doc = asDocument(genericOverviewItemView)
-      val link = doc.getElementById(s"$id-link")
+      val link = doc.getElementById(s"$id")
       link.attr("href") shouldBe linkUrl.url
-      assertEqualsValue(doc, s"a#$id-link span", "Change")
+      assertEqualsValue(doc, s"a#$id span", "Change")
     }
 
     "have the correct Item status" in {

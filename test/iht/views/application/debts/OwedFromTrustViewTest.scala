@@ -25,6 +25,8 @@ import iht.views.html.application.debts.owed_from_trust
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 import iht.controllers.application.debts.routes
 
 /**
@@ -53,6 +55,7 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour[BasicEstateElement
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsTrust.isOwned",
                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.debtsTrust.value")
+  override def linkHash = TestHelper.DebtsOwedFromTrustID
 
   override def formTarget = Some(routes.DebtsOwedFromATrustController.onSubmit)
 

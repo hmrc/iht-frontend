@@ -42,7 +42,7 @@ cancelUrl = Some(cancelLinkUrl),
 cancelLabel=Some(cancelLinkText),
 headingName = partnerName){
 
-@ihtHelpers.error_summary(deceasedWidowCheckDateForm, Some(
+@ihtHelpers.custom.error_summary(deceasedWidowCheckDateForm, Some(
     Map(
       "error.predeceasedDateOfDeath.afterMarriage" -> "error.dateOfDeath.incorrect.summary"
     )
@@ -51,7 +51,7 @@ headingName = partnerName){
 
 @helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onSubmit,'autoComplete -> "off") {
 
-@ihtHelpers.date_fields(
+@ihtHelpers.standard.date_fields(
 deceasedWidowCheckDateForm,
 "dateOfPreDeceased",
 "",
@@ -59,7 +59,7 @@ None,
 '_hintText -> Messages("iht.dateExample2"),
 '_labelTextClass -> "bold",
 '_groupId -> "responsibleFromDateFieldSet",
-'_legend -> Messages("iht.estateReport.tnrb.predeceasedDateOfDeath.title"),
+'_legend -> Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",partnerName),
 '_legendClass -> Some("visually-hidden")
 )
 <div id="action-button" class="form-field form-field--submit">

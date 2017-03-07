@@ -26,6 +26,8 @@ import iht.testhelpers.ContentChecker
 import org.joda.time.LocalDate
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  *
@@ -113,7 +115,7 @@ class GiftsMadeBeforeDeathControllerTest  extends ApplicationControllerTest{
 
       val result = giftsMadeBeforeDeathController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbGiftsGivenAwayID))
     }
 
     "go to KickOut page if gifts were given away in last 7 years " in {

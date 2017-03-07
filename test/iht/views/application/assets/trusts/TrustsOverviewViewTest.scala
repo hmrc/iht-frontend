@@ -24,6 +24,8 @@ import iht.views.helpers.GenericOverviewHelper._
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.asset.trusts.trusts_overview
 import iht.models.application.assets.HeldInTrust
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class TrustsOverviewViewTest extends ViewTestHelper {
 
@@ -77,7 +79,7 @@ class TrustsOverviewViewTest extends ViewTestHelper {
 
       val link = view.getElementById("return-button")
       link.text shouldBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
+      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + AppSectionHeldInTrustID
     }
   }
 

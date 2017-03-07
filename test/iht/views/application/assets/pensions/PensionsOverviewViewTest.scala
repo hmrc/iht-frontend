@@ -24,6 +24,8 @@ import iht.views.ViewTestHelper
 import iht.views.helpers.GenericOverviewHelper._
 import iht.views.html.application.asset.pensions.pensions_overview
 import play.api.i18n.Messages.Implicits._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class PensionsOverviewViewTest extends ViewTestHelper {
 
@@ -76,7 +78,7 @@ class PensionsOverviewViewTest extends ViewTestHelper {
 
       val link = view.getElementById("return-button")
       link.text shouldBe messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
-      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url
+      link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad.url + "#" + AppSectionPrivatePensionID
     }
 
   }

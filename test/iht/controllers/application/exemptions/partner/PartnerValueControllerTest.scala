@@ -26,6 +26,7 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.models.application.ApplicationDetails
 
 /**
  * Created by jennygj on 03/08/16.
@@ -34,6 +35,15 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
+
+  def setUpTests(applicationDetails: ApplicationDetails) = {
+    createMocksForApplication(mockCachingConnector,
+      mockIhtConnector,
+      appDetails = Some(applicationDetails),
+      getAppDetails = true,
+      saveAppDetails= true,
+      storeAppDetailsInCache = true)
+  }
 
   def partnerValueController = new PartnerValueController {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
@@ -65,12 +75,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
     "return an OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(applicationDetails)
 
       val result = partnerValueController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
@@ -88,12 +93,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerValueForm.data.toSeq: _*)
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
+      setUpTests(applicationDetails)
 
       val result = partnerValueController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
@@ -110,12 +110,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
         allExemptions = Some(CommonBuilder.buildAllExemptions.copy(partner = Some(PartnerExemption(
           Some(true), Some(true), None, None, None, None, None)))))
 
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails= true,
-        storeAppDetailsInCache = true)
+      setUpTests(applicationDetails)
 
       val partnerValue = CommonBuilder.buildPartnerExemption.copy(isAssetForDeceasedPartner = Some(true))
 
@@ -128,6 +123,20 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
       redirectLocation(result) should be(Some(routes.PartnerOverviewController.onPageLoad().url))
     }
 
+    "redirect to overview page on submit when there is no exemptions present" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails
+
+      setUpTests(applicationDetails)
+
+      val partnerValue = CommonBuilder.buildPartnerExemption.copy(totalAssets = Some(BigDecimal(1000)))
+      val filledPartnerValueForm = partnerValueForm.fill(partnerValue)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPartnerValueForm.data
+        .toSeq: _*)
+
+      val result = partnerValueController.onSubmit(request)
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) should be(Some(routes.PartnerOverviewController.onPageLoad().url))
+    }
   }
 
 }

@@ -21,9 +21,11 @@
 @import iht.models.application.assets.Property
 @import iht.models.application.assets.Properties
 @import iht.utils._
-@import iht.views.html.ihtHelpers._
+@import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import iht.utils.CommonHelper
+@import iht.constants.Constants._
+@import iht.constants.IhtProperties._
 
 @(propertyList: List[Property] = List.empty[Property],
     properties:Option[Properties],
@@ -108,6 +110,10 @@ isFullWidth=false
     <a id="add-property" href="@iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad()"> @Messages("iht.estateReport.assets.propertyAdd") </a>
 </div>
 
-@ihtHelpers.return_link(Messages("site.link.return.assets"), Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()))
+@ihtHelpers.custom.return_link(
+    Messages("site.link.return.assets"),
+    Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+    AppSectionPropertiesID
+)
 
 }

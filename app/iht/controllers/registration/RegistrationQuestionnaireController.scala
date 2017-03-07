@@ -16,7 +16,8 @@
 
 package iht.controllers.registration
 
-import iht.controllers.{IhtConnectors, QuestionnaireController}
+import iht.connector.IhtConnectors
+import iht.controllers.QuestionnaireController
 import iht.utils.IhtSection
 import iht.views.html.registration.registration_questionnaire
 import play.api.i18n.Messages.Implicits._

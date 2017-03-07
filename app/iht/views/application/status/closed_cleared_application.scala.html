@@ -35,7 +35,7 @@ sidebarLinks=iht.views.html.application.status.post_submission_sidebar(ihtref, p
     <p>@Messages("page.iht.application.overview.cleared.helptext1")</p>
     <p>@Messages("page.iht.application.overview.cleared.helptext2")</p>
     <p><a class="button" id="view-certificate-button" href="@iht.controllers.application.pdf.routes.PDFController.onClearancePDF()">
-        @Messages("page.iht.application.overview.common.viewcertificate")
+        @Html(Messages("page.iht.application.overview.common.viewcertificate"))
     </a> </p>
     
     <p><a id="return-link" href="@iht.controllers.home.routes.IhtHomeController.onPageLoad">@Messages("page.iht.application.overview.common.return")</a></p>

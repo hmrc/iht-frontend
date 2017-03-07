@@ -50,6 +50,16 @@ nested spans are reverted to normal wrapping state
     -moz-hyphens: auto;
     hyphens: auto;
 }
+.bold > .copy--restricted {
+    font-weight: 700;
+}
+
+/*
+Fix to override '.tabular-data__entry *'
+*/
+.bold > .copy--restricted {
+    font-weight: inherit;
+}
 
 /*
 fix for browsers which don't support hyphens but can understand this syntax

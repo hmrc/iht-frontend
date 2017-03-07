@@ -17,7 +17,7 @@
 package iht.controllers.application.exemptions
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.utils.ExemptionsGuidanceHelper
 import play.api.i18n.Messages.Implicits._

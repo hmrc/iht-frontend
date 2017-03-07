@@ -34,13 +34,13 @@ isFullWidth=false,
 cancelUrl = Some(cancelUrl),
 cancelLabel = Some(cancelLabel),
 headingName = deceasedName){
-    @ihtHelpers.error_summary(assetsLeftToSpouseQuestionForm)
+    @ihtHelpers.custom.error_summary(assetsLeftToSpouseQuestionForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onSubmit,'autoComplete -> "off") {
 
-            @ihtHelpers.input_yes_no_radio_group(
+            @ihtHelpers.standard.input_yes_no_radio_group(
             assetsLeftToSpouseQuestionForm("isAssetForDeceasedPartner"),
             '_divClass -> Some("form-group"),
-            '_legend -> Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question"),
+            '_legend -> Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName),
             '_legendClass -> Some("visually-hidden")
             )
 

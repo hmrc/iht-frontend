@@ -24,6 +24,8 @@ import iht.views.html.application.debts.owed_outside_uk
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.debts.routes
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   * Created by vineet on 15/11/16.
@@ -50,6 +52,7 @@ class OwedOutsideUKViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsOutsideUk.isOwned")
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.owedOutsideUK.value")
+  override def linkHash = TestHelper.DebtsOwedOutsideUKID
 
   override def formTarget = Some(routes.OwedOutsideUKDebtsController.onSubmit)
 

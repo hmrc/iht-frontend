@@ -50,6 +50,7 @@ object Constants {
   val AppSectionMoneyOwed = "moneyOwed"
   val AppSectionOther = "otherAsset"
 
+
   val AppSectionMortgages = "mortgages"
   val AppSectionFuneralExpenses = "funeralExpenses"
   val AppSectionDebtsOwedFromTrust = "debtsFromTrust"

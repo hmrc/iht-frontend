@@ -37,7 +37,7 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
   override def pageTitle = messagesApi("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedDetailsName)
 
   override def browserTitle = messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")
-
+  
   override def guidance = guidance(
     Set(messagesApi("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
       TnrbHelper.spouseOrCivilPartnerName(tnrbModel,
@@ -52,7 +52,7 @@ class GiftsWithReservationOfBenefitViewTest extends YesNoQuestionViewBehaviour[T
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      gifts_with_reservation_of_benefit(form, tnrbModel, deceasedDetailsName)
+      gifts_with_reservation_of_benefit(form, tnrbModel, deceasedDetailsName, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

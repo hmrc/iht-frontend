@@ -17,7 +17,8 @@
 package iht.controllers.application.gifts
 
 import iht.controllers.application.EstateController
-import iht.controllers.{ControllerHelper, IhtConnectors}
+import iht.controllers.ControllerHelper
+import iht.connector.IhtConnectors
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -30,6 +31,8 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.views.html._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 object GiftsOverviewController extends GiftsOverviewController with IhtConnectors {
@@ -117,7 +120,11 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.GivenAwayController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.givenAway.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)),ad, regDetails)
+      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)),
+      ad,
+      regDetails,
+      questionLinkIds = Seq(GiftsGivenAwayQuestionID)
+    )
 
     lazy val sectionReservation = createSectionFromYesNoQuestions(
       id = "reservation",
@@ -125,7 +132,12 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.WithReservationOfBenefitController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq(Messages("iht.estateReport.gifts.reservation.question", deceasedName)), ad, regDetails)
+      questionTitlesMessagesFileItems = Seq(Messages("iht.estateReport.gifts.reservation.question", deceasedName)),
+      ad,
+      regDetails,
+      sectionLinkId = GiftsReservationBenefitSectionID,
+      questionLinkIds = Seq(GiftsReservationBenefitQuestionID)
+    )
 
     lazy val sectionSevenYears = createSectionFromYesNoQuestions(
       id = "sevenYear",
@@ -134,7 +146,12 @@ trait GiftsOverviewController extends EstateController {
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
       questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName),
-                                            Messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)), ad, regDetails)
+                                            Messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)),
+      ad,
+      regDetails,
+      sectionLinkId = GiftsSevenYearsSectionID,
+      questionLinkIds = Seq(GiftsSevenYearsQuestionID, GiftsSevenYearsQuestionID2)
+    )
 
     lazy val sectionValueGivenAway = createSectionFromValueQuestions(
       id = "value",
@@ -146,7 +163,11 @@ trait GiftsOverviewController extends EstateController {
                                       ad.totalPastYearsGiftsOption
                                     } else { None },
       questionTitlesMessagesFilePrefix = "page.iht.application.gifts.overview.value",
-      _.isValueEnteredForPastYearsGifts, ad)
+      _.isValueEnteredForPastYearsGifts,
+      ad,
+      sectionLinkId = GiftsValueOfGiftsSectionID,
+      questionLinkId = GiftsValueOfGiftsQuestionID
+    )
 
      allGifts.isGivenAway match {
       case Some(false) => Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears)
