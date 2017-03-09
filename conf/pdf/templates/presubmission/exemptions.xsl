@@ -223,7 +223,7 @@
                 <fo:table-column column-number="2" column-width="30%"/>
                 <fo:table-body font-size="12pt">
 
-                    <xsl:call-template name="table-row-money-tall-border-top-black">
+                    <xsl:call-template name="table-row-money-tall-border-top-black-value-decimal-zero">
                         <xsl:with-param name="label"
                                         select="i18n:getMessagesText($translator, 'pdf.totalexemptions.text')"/>
                         <xsl:with-param name="value" select='$exemptionsTotal'/>
