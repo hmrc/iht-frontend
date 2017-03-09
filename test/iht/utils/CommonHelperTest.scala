@@ -618,5 +618,10 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
       val number = ""
       CommonHelper.formatCurrencyForInput(number) shouldBe ""
     }
+
+    "return the initial value if number not provided" in {
+      val number = "thisIsNotANumber"
+      CommonHelper.formatCurrencyForInput(number) shouldBe "thisIsNotANumber"
+    }
   }
 }

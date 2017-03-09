@@ -72,11 +72,16 @@ object CommonHelper {
 
   def formatCurrencyForInput(n: String): Any = {
     if(!Option(n).getOrElse("").isEmpty) {
-      val b = BigDecimal(n)
-      val fmt = new java.text.DecimalFormat("#####.##")
-      fmt.setDecimalSeparatorAlwaysShown(false)
-      fmt.setMinimumFractionDigits(2)
-      fmt.format(b)
+      try{
+        val b = BigDecimal(n)
+        val fmt = new java.text.DecimalFormat("#####.##")
+        fmt.setDecimalSeparatorAlwaysShown(false)
+        fmt.setMinimumFractionDigits(2)
+        fmt.format(b)
+      } catch {
+        case _: Throwable => n
+      }
+
     } else {
       n
     }
