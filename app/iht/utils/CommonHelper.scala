@@ -18,27 +18,25 @@ package iht.utils
 
 import java.util.UUID._
 
-import iht.constants.IhtProperties.statusMarried
 import iht.constants.{Constants, IhtProperties}
+import iht.constants.IhtProperties.statusMarried
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import iht.models.application.gifts.PreviousYearsGifts
+import iht.views.html._
 import org.joda.time.{DateTime, LocalDate}
+import play.api.Logger
+import play.api.Play.current
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
-import play.api.mvc.{Call, Request, Session}
-import play.api.{Logger, Play}
-import uk.gov.hmrc.play.frontend.auth.AuthContext
-import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Call, Request, Session}
+import play.twirl.api.Html
+import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.collection.immutable.ListMap
 import scala.util.Try
-import iht.views.html._
-import iht.constants.IhtProperties
-import iht.models.application.exemptions.Charity
-import play.twirl.api.Html
 
 /**
   *
@@ -478,16 +476,17 @@ object CommonHelper {
     }
 
 
-  def addFragmentIdentifier(call:Call, identifier:Option[String] = None) = {
+  def addFragmentIdentifier(call: Call, identifier: Option[String] = None) = {
     identifier match {
       case None => call
       case Some(id) => Call(call.method, addFragmentIdentifierToUrl(call.url, id))
     }
   }
-  def addFragmentIdentifierToUrl(url:String, identifier: String) = {
-    if(identifier.nonEmpty) {
+
+  def addFragmentIdentifierToUrl(url: String, identifier: String) = {
+    if (identifier.nonEmpty) {
       url + "#" + identifier
-    }else{
+    } else {
       url
     }
   }
