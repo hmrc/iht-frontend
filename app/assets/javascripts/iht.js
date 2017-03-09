@@ -124,6 +124,18 @@ if($('#countryCode').val() == "GB" || $('#countryCode').val() == undefined) {
       $("form").trigger('submit');
   });
 
+
+
+// =====================================================
+// Number input trailing zero fix
+// Changes input from number to text (Firefox only)
+// =======================================================
+    if(window.navigator.userAgent.indexOf("Firefox") > 0){
+      $('[data-type="currency"]').each(function(){
+        $(this).attr('type', 'text');
+      });
+  }
+
   // end of on doc ready
 });
 

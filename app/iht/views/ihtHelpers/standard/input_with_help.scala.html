@@ -62,12 +62,14 @@
         '_needHighlight -> true)
     }
 
-@input = {<input
+@input = {
+<input
 
     @if(elements.args.contains('_currency)){
         type="number"
         step="any"
         min="0"
+        data-type="currency"
     } else {
         @if( elements.args.get('_type) ){
             type="@elements.args.get('_type)"
@@ -85,7 +87,7 @@
     @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
     name="@elements.field.name"
     id="@elements.field.name"
-    value="@value"
+    value="@CommonHelper.formatCurrencyForInput(value.toString())"
     @if(elements.args.contains('_screenReader)){aria-label="@screenReader"}/>
 }
     @elements.args.get('_currency) match {

@@ -70,6 +70,18 @@ object CommonHelper {
     fmt.format(n)
   }
 
+  def formatCurrencyForInput(n: String): Any = {
+    if(!Option(n).getOrElse("").isEmpty) {
+      val b = BigDecimal(n)
+      val fmt = new java.text.DecimalFormat("#####.##")
+      fmt.setDecimalSeparatorAlwaysShown(false)
+      fmt.setMinimumFractionDigits(2)
+      fmt.format(b)
+    } else {
+      n
+    }
+  }
+
   def trimAndUpperCaseNino(nino: String) = {
     nino.trim.replace(" ", "").toUpperCase
   }

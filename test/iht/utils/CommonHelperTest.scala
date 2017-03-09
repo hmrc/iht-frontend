@@ -591,4 +591,32 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
       result.get(Constants.NINO) shouldBe Some(newNino.nino)
     }
   }
+
+
+  "formatCurrencyForInput" must {
+    "return a properly formatted number if no trailing zero provided" in {
+      val number = "5000.5"
+      CommonHelper.formatCurrencyForInput(number) shouldBe "5000.50"
+    }
+
+    "return a properly formatted number if two decimal places provided" in {
+      val number = "5000.55"
+      CommonHelper.formatCurrencyForInput(number) shouldBe "5000.55"
+    }
+
+    "return a properly formatted number if no decimal places provided" in {
+      val number = "5000"
+      CommonHelper.formatCurrencyForInput(number) shouldBe "5000.00"
+    }
+
+    "return a properly formatted number if no decimal point provided" in {
+      val number = "5000."
+      CommonHelper.formatCurrencyForInput(number) shouldBe "5000.00"
+    }
+
+    "return a blank string if no number provided" in {
+      val number = ""
+      CommonHelper.formatCurrencyForInput(number) shouldBe ""
+    }
+  }
 }
