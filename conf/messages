@@ -71,9 +71,9 @@ site.nameDetails = {0}’s details
 
 site.changeName = Change name
 site.changeDate = Change date
-site.noCharityNameGiven = No charity name given
+site.noCharityNameGiven = No charity name added
 site.noCharityNumberGiven = No charity number given
-site.noCharityNameAndNumberGiven = No charity name and number given
+site.noCharityNameAndNumberGiven = No charity name or number added
 
 site.headers.overview.section = Section
 site.headers.overview.values = Information Provided

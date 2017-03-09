@@ -32,10 +32,12 @@ import play.api.{Logger, Play}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+
 import scala.collection.immutable.ListMap
 import scala.util.Try
 import iht.views.html._
 import iht.constants.IhtProperties
+import iht.models.application.exemptions.Charity
 import play.twirl.api.Html
 
 /**

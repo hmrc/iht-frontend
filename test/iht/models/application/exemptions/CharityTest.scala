@@ -16,14 +16,18 @@
 
 package iht.models.application.exemptions
 
+import iht.FakeIhtApp
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
   * Created by vineet on 06/11/16.
   */
-class CharityTest extends UnitSpec with MockitoSugar{
+class CharityTest extends UnitSpec with MockitoSugar with FakeIhtApp{
+
+  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   "isComplete" must {
 
@@ -48,6 +52,29 @@ class CharityTest extends UnitSpec with MockitoSugar{
 
     "return false when all the fields are None" in {
         CommonBuilder.buildCharity.isComplete shouldBe false
+    }
+  }
+
+  "nameValidationMessage" must {
+    "respond correctly for scenario 1 (No charity name, no charity number, charity value)" in {
+      val result = CommonBuilder.charity.copy(name = None, number = None)
+      result.nameValidationMessage shouldBe Some(messagesApi("site.noCharityNameAndNumberGiven"))
+    }
+    "respond correctly for scenario 2 (Charity name, no charity number, no charity value)" in {
+      val result = CommonBuilder.charity.copy(number = None, totalValue = None)
+      result.nameValidationMessage shouldBe None
+    }
+    "respond correctly for scenario 3 (No charity name, charity number, no charity value)" in {
+      val result = CommonBuilder.charity.copy(name = None, totalValue = None)
+      result.nameValidationMessage shouldBe Some(messagesApi("site.noCharityNameGiven"))
+    }
+    "respond correctly for scenario 4 (Charity name, no charity number, charity value)" in {
+      val result = CommonBuilder.charity.copy(number = None)
+      result.nameValidationMessage shouldBe None
+    }
+    "respond correctly for scenario 5 (No charity name, charity number, charity value)" in {
+      val result = CommonBuilder.charity.copy(name = None)
+      result.nameValidationMessage shouldBe Some(messagesApi("site.noCharityNameGiven"))
     }
   }
 }

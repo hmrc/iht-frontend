@@ -25,11 +25,15 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.ContentChecker
 import iht.utils._
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+
+import scala.concurrent.Future
 
 class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
@@ -107,26 +111,11 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
       }
     }
 
-    "show no charities added message when no charities are added in exemptions" in {
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetailsWithCharityLeftTrue),
-        getAppDetails = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
-
-      val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(CommonHelper.escapeApostrophes(
-        messagesApi("page.iht.application.exemptions.charityOverview.noCharities.text")))
-    }
-
-    "show no charity name and number given message when no charitie name and number added in charities" in {
-      val charityName = None
-      val charityNumber = None
-      val charityValue = BigDecimal(2345)
+    "show name validation message when one mocked on the charity object" in {
+      val validationMessage = "Test validation message"
+      val mockCharity = mock[Charity]
       val applicationDetails = applicationDetailsWithCharityLeftTrue.copy(
-        charities = Seq(Charity(Some("1"), charityName, charityNumber, Some(charityValue)))
+        charities = Seq(mockCharity)
       )
 
       createMocksForApplication(mockCachingConnector,
@@ -136,19 +125,22 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
+      when(mockCharity.name).thenReturn(Some(CommonBuilder.DefaultString))
+      when(mockCharity.number).thenReturn(Some(CommonBuilder.DefaultString))
+      when(mockCharity.totalValue).thenReturn(Some(CommonBuilder.DefaultTotalAssets))
+      when(mockCharity.id).thenReturn(Some(CommonBuilder.DefaultId))
+      when(mockCharity.nameValidationMessage).thenReturn(Some(validationMessage))
+
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(CommonHelper.numberWithCommas(charityValue))
-      contentAsString(result) should include(CommonHelper.escapeApostrophes(
-        messagesApi("site.noCharityNameAndNumberGiven")))
+      contentAsString(result) should include(CommonHelper.escapeApostrophes(validationMessage))
     }
 
-    "show no charity name given message when no charitie name added but charity number added in charities" in {
-      val charityName = None
-      val charityNumber = Some("C12345")
-      val charityValue = BigDecimal(2345)
+    "show name when no name validation message mocked on the charity object" in {
+      val charityName = "Test charity name"
+      val mockCharity = mock[Charity]
       val applicationDetails = applicationDetailsWithCharityLeftTrue.copy(
-        charities = Seq(Charity(Some("1"), charityName, charityNumber, Some(charityValue)))
+        charities = Seq(mockCharity)
       )
 
       createMocksForApplication(mockCachingConnector,
@@ -158,33 +150,15 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
         saveAppDetails = true,
         storeAppDetailsInCache = true)
 
-      val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
-      status(result) should be(OK)
-      contentAsString(result) should include(CommonHelper.numberWithCommas(charityValue))
-      contentAsString(result) should include(CommonHelper.escapeApostrophes(
-        messagesApi("site.noCharityNameGiven")))
-    }
-
-    "show no charity number given message when no charity number added but charity name added in charities" in {
-      val charityName = Some("Charity1")
-      val charityNumber = None
-      val charityValue = BigDecimal(2345)
-      val applicationDetails = applicationDetailsWithCharityLeftTrue.copy(
-        charities = Seq(Charity(Some("1"), charityName, charityNumber, Some(charityValue)))
-      )
-
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
+      when(mockCharity.name).thenReturn(Some(charityName))
+      when(mockCharity.number).thenReturn(Some(CommonBuilder.DefaultString))
+      when(mockCharity.totalValue).thenReturn(Some(CommonBuilder.DefaultTotalAssets))
+      when(mockCharity.id).thenReturn(Some(CommonBuilder.DefaultId))
+      when(mockCharity.nameValidationMessage).thenReturn(None)
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(CommonHelper.numberWithCommas(charityValue))
-      contentAsString(result) should include(CommonHelper.escapeApostrophes(
-        messagesApi("site.noCharityNumberGiven")))
+      contentAsString(result) should include(CommonHelper.escapeApostrophes(charityName))
     }
 
     "show asset left to charity question text" in {
