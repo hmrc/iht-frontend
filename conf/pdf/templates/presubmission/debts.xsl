@@ -59,19 +59,17 @@
                     </fo:block>
                 </xsl:when>
                 <xsl:otherwise>
-
                     <fo:block font-family="OpenSans" font-size="12pt">
-                    <fo:table space-before="0.5cm">
-                    <fo:table-column column-number="1" column-width="70%"/>
-                    <fo:table-column column-number="2" column-width="30%"/>
-                    <fo:table-body font-size="12pt">
-
-                    <xsl:call-template name="table-row-short-vpad-no-value">
-                        <xsl:with-param name="label"
-                                        select="i18n:getMessagesText($translator, 'site.noneInEstate')"/>
-                    </xsl:call-template>
-                    </fo:table-body>
-                    </fo:table>
+                        <fo:table space-before="0.5cm">
+                            <fo:table-column column-number="1" column-width="70%"/>
+                            <fo:table-column column-number="2" column-width="30%"/>
+                            <fo:table-body font-size="12pt">
+                            <xsl:call-template name="table-row-short-vpad-no-value">
+                                <xsl:with-param name="label"
+                                                select="i18n:getMessagesText($translator, 'site.noneInEstate')"/>
+                            </xsl:call-template>
+                        </fo:table-body>
+                        </fo:table>
                     </fo:block>
                 </xsl:otherwise>
             </xsl:choose>
