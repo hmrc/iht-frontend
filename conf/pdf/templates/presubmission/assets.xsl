@@ -863,7 +863,6 @@
         </fo:block>
         <xsl:comment>Assets Total section starts</xsl:comment>
         <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.application.assets.overview.total')"/>
             <fo:table space-before="0.5cm">
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>
@@ -871,7 +870,7 @@
 
                     <xsl:call-template name="table-row-money-tall-border-top-black">
                         <xsl:with-param name="label"
-                                        select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
+                                        select="i18n:getMessagesText($translator, 'page.iht.application.assets.overview.total')"/>
                         <xsl:with-param name="value" select='format-number(number($assetsTotal), "##,##0.00")'/>
                     </xsl:call-template>
 

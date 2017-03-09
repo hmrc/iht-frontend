@@ -65,6 +65,23 @@
         </fo:table-row>
     </xsl:template>
 
+    <xsl:template name="table-row-money-tall-value-align-right">
+        <xsl:param name="label"/>
+        <xsl:param name="value"/>
+        <fo:table-row border-top="solid 0.1mm gray" line-height="30pt">
+            <fo:table-cell text-align="left" padding-left="4pt">
+                <fo:block>
+                    <xsl:value-of select="$label"/>
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell text-align="right" padding-left="4pt">
+                <fo:block>
+                    &#xA3;<xsl:value-of select='format-number(number($value), "##,###0.00")'/>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+    </xsl:template>
+
     <xsl:template name="table-row-money-tall-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value"/>

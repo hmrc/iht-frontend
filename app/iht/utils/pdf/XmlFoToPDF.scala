@@ -52,17 +52,18 @@ trait XmlFoToPDF {
   private val filePathForPreSubmissionXSL = s"$folderForPDFTemplates/presubmission/main.xsl"
   private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
 
-  def createPreSubmissionPDF(regDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
+  def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String): Array[Byte] = {
+    val rd = PdfFormatter.transform(registrationDetails)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(
-      ModelToXMLSource.getPreSubmissionXMLSource(regDetails, applicationDetails)))
+      ModelToXMLSource.getPreSubmissionXMLSource(rd, applicationDetails)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPreSubmissionTransformer(regDetails, applicationDetails)
+    createPreSubmissionTransformer(rd, applicationDetails)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
     pdfoutStream.toByteArray
   }
