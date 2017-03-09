@@ -18,6 +18,7 @@ package iht.views.application.gifts
 
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper
 import iht.views.html.application.gift.seven_years_gift_values
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import org.jsoup.nodes.Document
@@ -45,7 +46,8 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
-      messagesApi("page.iht.application.gifts.return.to.givenAwayBy", deceasedName)
+      messagesApi("page.iht.application.gifts.return.to.givenAwayBy", deceasedName),
+      TestHelper.GiftsValueOfGiftsQuestionID
     )
   )
 

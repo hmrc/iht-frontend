@@ -16,7 +16,7 @@
 
 package iht.controllers.application.tnrb
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.metrics.Metrics
@@ -33,6 +33,8 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 object DeceasedWidowCheckDateController extends DeceasedWidowCheckDateController with IhtConnectors {
@@ -62,7 +64,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
               appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
               appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None,None,None,None,None,None,None,None,None,None))(identity),
               registrationDetails,
-              cancelLinkUrlForWidowCheckPages(appDetails),
+              cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
               cancelLinkTextForWidowCheckPages(appDetails)))
           }
           case _ => InternalServerError("Application details not found")
@@ -90,7 +92,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
                 appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                 appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None,None,None,None,None,None,None,None,None,None))(identity),
                 regDetails,
-                cancelLinkUrlForWidowCheckPages(appDetails),
+                cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
                 cancelLinkTextForWidowCheckPages(appDetails))))
             },
             widowModel => {
@@ -149,7 +151,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
         InternalServerError
       } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
         case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason)
+        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseDateOfDeathID))
       }
       }
     }

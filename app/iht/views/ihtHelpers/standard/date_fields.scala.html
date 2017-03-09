@@ -40,7 +40,7 @@
 }
 
     @if(elements.args.get('_hintText).isDefined) {
-    <div class="form-hint" id="@elements.args.get('_hintId)">
+    <div class="form-hint" @if(elements.args.contains('_hintId)){id="@elements.args.get('_hintId)"}>
         @elements.args.get('_hintText)
     </div>
     }

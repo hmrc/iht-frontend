@@ -30,11 +30,11 @@ isFullWidth=false,
 cancelUrl=cancelLocation,
 hasTimeOut=true) {
 
-    @ihtHelpers.error_summary(applicantTellUsAboutYourselfForm)
+    @ihtHelpers.custom.error_summary(applicantTellUsAboutYourselfForm)
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.input_with_help(applicantTellUsAboutYourselfForm("phoneNo"),
+    @ihtHelpers.standard.input_with_help(applicantTellUsAboutYourselfForm("phoneNo"),
         '_label -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.label"),
         '_help -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.sublabel"),
         '_divJsHide -> false,
@@ -43,13 +43,13 @@ hasTimeOut=true) {
         '_inputClass -> "form-control js-valInput")
 
     @if(mode == Mode.Standard) {
-    @ihtHelpers.input_yes_no_radio_group(
+    @ihtHelpers.standard.input_yes_no_radio_group(
         applicantTellUsAboutYourselfForm("doesLiveInUK"),
         '_legend -> Html(Messages("page.iht.registration.applicantTellUsAboutYourself.question.label")),
         '_divClass -> Some("form-group"))
     }
 
-    @ihtHelpers.continue_button()
+    @ihtHelpers.custom.continue_button()
 
     }
 

@@ -24,6 +24,8 @@ import iht.views.html.application.asset.trusts.trusts_owned_question
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -47,7 +49,8 @@ class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-      messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
+      messagesApi("page.iht.application.return.to.assetsOf", deceasedName),
+      AppSectionHeldInTrustID
     )
   )
 

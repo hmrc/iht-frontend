@@ -24,6 +24,8 @@ import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
  *
@@ -109,7 +111,7 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
 
       val result = giftsWithReservationOfBenefitController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(routes.TnrbOverviewController.onPageLoad().url + "#" + TnrbGiftsWithReservationID))
     }
 
     "go to KickOut page if gifts with reservation of benefit given other than spouse" in {

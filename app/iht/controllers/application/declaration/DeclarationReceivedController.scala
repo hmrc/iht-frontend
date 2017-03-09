@@ -19,7 +19,7 @@ package iht.controllers.application.declaration
 
 import iht.connector.CachingConnector
 import iht.constants.Constants
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.models.application.ProbateDetails
 import play.api.i18n.Messages.Implicits._

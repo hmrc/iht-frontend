@@ -23,6 +23,7 @@ import iht.views.html.filter.{agent_view, use_service}
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.constants.IhtProperties._
 
 /**
   * Created by adwelly on 25/10/2016.

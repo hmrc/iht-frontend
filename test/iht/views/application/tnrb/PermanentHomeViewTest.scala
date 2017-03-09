@@ -46,7 +46,7 @@ class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyMod
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      permanent_home(form, tnrbModel, widowCheck)
+      permanent_home(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

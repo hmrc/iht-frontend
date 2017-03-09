@@ -26,6 +26,9 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
+import play.api.test.Helpers._
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
 
 /**
   * Created by vineet on 15/11/16.
@@ -54,11 +57,13 @@ class WithReservationOfBenefitViewTest extends SubmittableApplicationPageBehavio
     CancelComponent(
       iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
       messagesApi("page.iht.application.gifts.return.to.givenAwayBy",
-        CommonHelper.getOrException(regDetails.deceasedDetails).name)
+        CommonHelper.getOrException(regDetails.deceasedDetails).name),
+      TestHelper.GiftsReservationBenefitQuestionID
     )
   )
 
   override def form: Form[AllGifts] = giftWithReservationFromBenefitForm
+  override def linkHash = TestHelper.GiftsReservationBenefitQuestionID
 
   override def formToView: Form[AllGifts] => Appendable =
     form =>

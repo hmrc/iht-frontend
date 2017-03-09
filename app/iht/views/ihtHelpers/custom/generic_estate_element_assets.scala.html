@@ -33,7 +33,7 @@ clearTargetInput: Option[String] = None
             @{
 
                 questionHint.fold(
-                    ihtHelpers.input_yes_no_radio_group(sharableElementForm(assetOwnedType),
+                    ihtHelpers.standard.input_yes_no_radio_group(sharableElementForm(assetOwnedType),
                     '_legend -> Html(questionLabel),
                     '_legendClass -> legendClass,
                     '_shownElementNo -> None,
@@ -44,7 +44,7 @@ clearTargetInput: Option[String] = None
                     '_clearTargetNo -> clearTargetInput,
                     '_mainQuestion -> true)
                 )(hintText =>
-                    ihtHelpers.input_yes_no_radio_group(sharableElementForm(assetOwnedType),
+                    ihtHelpers.standard.input_yes_no_radio_group(sharableElementForm(assetOwnedType),
                     '_legend -> Html(questionLabel),
                     '_legendClass -> legendClass,
                     '_hintText -> hintText,
@@ -64,7 +64,7 @@ clearTargetInput: Option[String] = None
     @defining( if(assetType==Constants.AssetTypeSingle) "value" else "shareValue") { assetValueType =>
 
                 <div class="js-hidden panel-indent panel-indent--gutter" id="asset-value-type">
-                    @ihtHelpers.input_estate_value(sharableElementForm(assetValueType),
+                    @ihtHelpers.custom.input_estate_value(sharableElementForm(assetValueType),
                     '_label -> inputTextLabel,
                     '_help -> inputTextHelp,
                     '_sectionName -> ("1"),

@@ -56,7 +56,7 @@
     }
     @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
     @if(elements.args.contains('_help) && elements.args.contains('_slideOutText)) {
-        @ihtHelpers.accordion_slider_help_text(
+        @ihtHelpers.standard.accordion_slider_help_text(
         '_helpText -> elements.args.get('_help),
         '_slideOutText -> elements.args.get('_slideOutText),
         '_needHighlight -> true)
@@ -86,7 +86,7 @@
     name="@elements.field.name"
     id="@elements.field.name"
     value="@value"
-    aria-label="@screenReader"/>
+    @if(elements.args.contains('_screenReader)){aria-label="@screenReader"}/>
 }
     @elements.args.get('_currency) match {
     case Some("GBP") => {<span data-currency="GBP">&pound;</span> @input}

@@ -27,11 +27,13 @@ trait DebtsElementViewBehaviour[A] extends SubmittableApplicationPageBehaviour[A
   def yesNoQuestionText: String
   def inputValueFieldLabel: String
   def inputValueFieldHintText: String = "default hint"
+  override def linkHash: String = ""
 
   override def cancelComponent = Some(
     CancelComponent(
       routes.DebtsOverviewController.onPageLoad,
-      messagesApi("site.link.return.debts")
+      messagesApi("site.link.return.debts"),
+      linkHash
     )
   )
 

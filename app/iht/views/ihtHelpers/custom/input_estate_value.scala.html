@@ -14,10 +14,12 @@
 * limitations under the License.
 *@
 
-@(link: Call)
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
 
-@*<div class='screen-reader'>
-    <span aria-labelledby='get-help-text'></span>
-    <span><a aria-labelledby='whatIsAGift' href=@link.url></a></span>
+@import play.api.i18n._
+@import views.html.helper._
+@import iht.views.html._
+
+<div id="@args.toMap.get('_sectionName)-details" @if(args.toMap.getOrElse('_divJsHide,"")==true){class="js-hidden"} >
+    @ihtHelpers.standard.input_with_help(field,args: _*)
 </div>
-*@

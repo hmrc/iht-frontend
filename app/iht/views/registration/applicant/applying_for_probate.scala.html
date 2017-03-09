@@ -30,21 +30,21 @@ isFullWidth=false,
 cancelUrl=cancelLocation,
 hasTimeOut=true) {
 
-@ihtHelpers.error_summary(applyingForProbateForm)
+@ihtHelpers.custom.error_summary(applyingForProbateForm)
 
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
 <p class="lede">@Messages("page.iht.registration.applicant.applyingForProbate.p1")</p>
 <p>@Messages("page.iht.registration.applicant.applyingForProbate.p2")</p>
 
-  @ihtHelpers.input_yes_no_radio_group(
+  @ihtHelpers.standard.input_yes_no_radio_group(
     applyingForProbateForm("isApplyingForProbate"),
-    '_legend -> Some(Messages("iht.registration.applicant.applyingForProbate")),
+    '_legend -> Messages("iht.registration.applicant.applyingForProbate"),
     '_legendClass -> Some("visually-hidden"),
     '_fieldsetId -> "applying-for-probate",
     '_divClass -> "form-group")
 
-@ihtHelpers.continue_button()
+@ihtHelpers.custom.continue_button()
 }
 
 }

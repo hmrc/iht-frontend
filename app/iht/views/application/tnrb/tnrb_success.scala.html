@@ -21,7 +21,7 @@
 @(deceasedName: String,
 preDeceasedName: String,
 ihtReference: String
-)(implicit request:Request[_], messages: Messages), messages: Messages)
+)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(
 title = Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title"),
@@ -29,7 +29,7 @@ browserTitle = Some(Messages("page.iht.application.tnrbEligibilty.increasedTnrbT
 ){
 
 <div class="panel-indent">
-    <p id="increased-tnrb-threshold-paragraph1">@Html(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", ihtHelpers.name(deceasedName), ihtHelpers.name(preDeceasedName)))</p>
+    <p id="increased-tnrb-threshold-paragraph1">@Html(Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1", ihtHelpers.custom.name(deceasedName), ihtHelpers.custom.name(preDeceasedName)))</p>
 </div>
 
 <p id="increased-tnrb-threshold-paragraph2">@Messages("page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2")</p>
@@ -39,6 +39,6 @@ browserTitle = Some(Messages("page.iht.application.tnrbEligibilty.increasedTnrbT
         @Messages("iht.estateReport.returnToEstateOverview")
     </a>
 </div>
-@ihtHelpers.return_link(Messages("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty"), Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()))
+@ihtHelpers.custom.return_link(Messages("page.iht.application.tnrbEligibilty.returnToTnrbEligibilty"), Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()))
 
 }

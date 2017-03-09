@@ -16,7 +16,7 @@
 
 package iht.controllers.application.debts
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
@@ -25,6 +25,9 @@ import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabiliti
 import iht.views.html.application.debts.funeral_expenses
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object FuneralExpensesController extends FuneralExpensesController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -54,10 +57,11 @@ trait FuneralExpensesController extends EstateController {
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-      funeralExpensesForm,
-      funeral_expenses.apply,
-      updateApplicationDetails,
-      debtsRedirectLocation)
+        funeralExpensesForm,
+        funeral_expenses.apply,
+        updateApplicationDetails,
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsFuneralExpensesID))
+      )
     }
   }
 }

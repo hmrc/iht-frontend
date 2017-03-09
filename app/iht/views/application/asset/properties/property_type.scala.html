@@ -30,14 +30,14 @@ isFullWidth = false,
 cancelUrl = cancelUrl,
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))) {
 
-@ihtHelpers.error_summary(propertyTypeForm)
+@ihtHelpers.custom.error_summary(propertyTypeForm)
 
-<p id="property-type-guidance-1">@Html(Messages("page.iht.application.assets.property.type.label1", ihtHelpers.name(deceasedName)))</p>
-<p id="property-type-guidance-2">@Html(Messages("page.iht.application.assets.property.type.label2", ihtHelpers.name(deceasedName)))</p>
+<p id="property-type-guidance-1">@Html(Messages("page.iht.application.assets.property.type.label1", ihtHelpers.custom.name(deceasedName)))</p>
+<p id="property-type-guidance-2">@Html(Messages("page.iht.application.assets.property.type.label2", ihtHelpers.custom.name(deceasedName)))</p>
 
 @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 
-@ihtHelpers.input_radio_group(
+@ihtHelpers.standard.input_radio_group(
 propertyTypeForm("propertyType"),
 FieldMappings.propertyType.toSeq,
 '_fieldsetId -> "propertyType-container",
@@ -45,7 +45,7 @@ FieldMappings.propertyType.toSeq,
 '_labelClass -> "block-label radio-label",
 '_labelTextClass -> "bold",
 '_labelAfter -> false,
-'_legend -> Some(Messages("iht.estateReport.assets.properties.whatKind.question")),
+'_legend -> Messages("iht.estateReport.assets.properties.whatKind.question"),
 '_legendClass -> Some("visually-hidden")
 )
 

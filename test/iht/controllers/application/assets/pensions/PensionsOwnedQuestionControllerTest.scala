@@ -75,7 +75,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
       status(result) shouldBe (OK)
     }
 
-    "save application and go to Private Pensions Overview page on submit" in {
+    "save application and go to Private Pensions Overview page when user selects yes and submit" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
         .buildAllAssets.copy(privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isOwned = Some(true))))))
 
@@ -96,9 +96,32 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
       status(result) shouldBe (SEE_OTHER)
     }
 
+    "save application and go to Assets Overview page when user selects no and submit" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = None)
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails= true,
+        storeAppDetailsInCache = true)
+
+      val privatePensionOwned = CommonBuilder.buildPrivatePensionExtended.copy(isOwned = Some(false))
+
+      val filledPrivatePensionForm = privatePensionForm.fill(privatePensionOwned)
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledPrivatePensionForm.data
+        .toSeq: _*)
+
+      val result = pensionsOwnedQuestionController.onSubmit(request)
+      status(result) shouldBe (SEE_OTHER)
+      redirectLocation(result) shouldBe
+        Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url)
+    }
+
     "display validation message when incomplete form is submitted" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
         .buildAllAssets.copy(privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isOwned = None)))))
+
       val formFill = privatePensionForm.fill(CommonBuilder.buildPrivatePensionExtended)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(formFill.data.toSeq: _*)
 

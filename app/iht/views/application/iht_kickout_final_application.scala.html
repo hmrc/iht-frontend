@@ -30,12 +30,12 @@
         <p>
             @Messages("page.iht.application.kickout.final.getCopy.guidance2.youShould")
             <a id="save-and-print" class="backButton" href="@iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF">
-                @Messages("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint")</a>@Messages("iht.fullStop")
+                @Html(Messages("page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint"))</a>@Messages("iht.fullStop")
         </p>
     </div>
     <p>@Messages("page.iht.application.kickout.final.getCopy.guidance3")</p>
 
-    <p>@ihtHelpers.return_link(Messages("iht.estateReport.returnToEstateOverview"),
+    <p>@ihtHelpers.custom.return_link(Messages("iht.estateReport.returnToEstateOverview"),
     Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)))</p>
 
     <p><strong>@Messages("page.iht.application.kickout.final.guidance.onFinish")</strong></p>

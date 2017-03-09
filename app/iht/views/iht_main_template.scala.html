@@ -56,7 +56,7 @@ headingName: String = ""
 
 @parseForName(heading: String, name: String) = @{
     if(heading contains name){
-        Html(heading.replace(name, ihtHelpers.name(name).toString()));
+        Html(heading.replace(name, ihtHelpers.custom.name(name).toString()));
     } else {
         heading;
     }
@@ -136,7 +136,7 @@ headingName: String = ""
         serviceInfoContent = None)
 }
 
-@getHelpForm = @{ihtHelpers.report_a_problem_link(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+@getHelpForm = @{ihtHelpers.custom.report_a_problem_link(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
 
 
 @sidebarIht = @{layouts.sidebar(sidebarLinks, Some("sidebar"))}
@@ -144,7 +144,7 @@ headingName: String = ""
 
 @content = {
     @layouts.main_content(
-        article = ihtHelpers.article(content = mainContentIht, includeGridWrapper = false, isFullWidth = isFullWidth),
+        article = ihtHelpers.standard.article(content = mainContentIht, includeGridWrapper = false, isFullWidth = isFullWidth),
         mainContentHeader = commonContentHeader,
         serviceInfo = serviceInfo,
         getHelpForm = getHelpForm,

@@ -16,7 +16,7 @@
 
 package iht.controllers.application.exemptions.partner
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
@@ -141,7 +141,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
   }
 
   private def returnLabel(regDetails: RegistrationDetails, appDetails: ApplicationDetails): String = {
-    val deceasedName = ihtHelpers.name(regDetails.deceasedDetails.map(_.name).getOrElse(""))
+    val deceasedName = ihtHelpers.custom.name(regDetails.deceasedDetails.map(_.name).getOrElse(""))
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
       case Some(x) => {

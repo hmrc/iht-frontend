@@ -28,15 +28,15 @@ browserTitle = Some(Messages("iht.registration.contactAddress")),
 isFullWidth=false,
 hasTimeOut=true) {
 
-    @ihtHelpers.error_summary(deceasedAddressQuestionForm)
+    @ihtHelpers.custom.error_summary(deceasedAddressQuestionForm)
 
     <p class="lede">@Messages("page.iht.registration.deceasedAddressQuestion.p1")</p>
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
-    @ihtHelpers.input_yes_no_radio_group(
+    @ihtHelpers.standard.input_yes_no_radio_group(
       deceasedAddressQuestionForm("isAddressInUk"),
-      '_legend -> Some(Messages("page.iht.registration.deceasedAddressQuestion.title")),
+      '_legend -> Messages("page.iht.registration.deceasedAddressQuestion.title"),
       '_legendClass -> Some("visually-hidden"),
         '_fieldsetId -> "last-contact-address-in-uk",
       '_divClass -> Some("form-group"))

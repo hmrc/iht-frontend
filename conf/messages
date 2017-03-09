@@ -1,6 +1,6 @@
 #Across Site
 site.pdf.document.link.text = PDF document
-iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off.
+iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off. (PDF, <500KB)
 site.copyApplication.link = copy of the application
 site.title.govuk = - GOV.UK
 site.application.title = Complete an estate report
@@ -572,8 +572,8 @@ page.iht.application.overview.common.estatevalue = Based on the details you have
 page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by the deceased that weren’t included in this estate report, let HMRC know by using a
 page.iht.application.overview.common.helptext.part2 = Only do this if these assets increase the value of the estate over the Inheritance Tax threshold.
 page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
-page.iht.application.overview.common.viewcopy = View a copy of this estate report
-page.iht.application.overview.common.viewcertificate = View clearance certificate
+page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, <500KB)
+page.iht.application.overview.common.viewcertificate = View clearance certificate (PDF, <500KB)
 
 #Estate report - Estate overview
 page.iht.application.estateOverview.noValue = No value given
@@ -898,8 +898,8 @@ page.iht.application.assets.pensions.question.screenreader.link.change = Change 
 page.iht.application.assets.pensions.changed.question = This includes a transfer of any benefits or disposing of any part of a private pension in the 2 years before they died.
 page.iht.application.assets.pensions.changed.title = Did {0} make any changes to their private pension in the 2 years before they died?
 page.iht.application.assets.pensions.changed.browserTitle = Changes to pension
-page.iht.application.assets.pensions.changed.screenreader.link.change = Change the answer for did the deceased make any changes to a private pension, transfer any of its benefits or dispose of any part of their pensions in the 2 years before they died
-page.iht.application.assets.pensions.changed.screenreader.link.noValue = Give an answer for did the deceased make any changes to a private pension, transfer any of its benefits or dispose of any part of their pensions in the 2 years before they died
+page.iht.application.assets.pensions.changed.screenreader.link.change = Change the answer for did the deceased make any changes to a private pension in the 2 years before they died
+page.iht.application.assets.pensions.changed.screenreader.link.noValue = Give an answer for did the deceased make any changes to a private pension in the 2 years before they died
 
 page.iht.application.assets.pensions.value.browserTitle = Pension value
 page.iht.application.assets.pensions.value.screenreader.link.change = Change the answer for the value of remaining pension payments being paid to the estate
@@ -916,12 +916,12 @@ page.iht.application.assets.stocks.description.p1 = These are any UK stocks and 
 page.iht.application.assets.stocks.inputLabel1 = Value of stocks and shares listed on the Stock Exchange
 
 page.iht.application.assets.stocksAndShares.listed.browserTitle = Listed stocks and shares
-page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.change = Change the value for stocks and shares listed on an exchange
+page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.change = Change the answer for any stocks and shares listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.noValue = Give an answer for stocks and shares listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.listed.screenreader.link.value = Change the value given for stocks and shares listed on an exchange
 
 page.iht.application.assets.stocksAndSharesNotListed.browserTitle = Unlisted stocks and shares
-page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.change = Change the value for stocks and shares not listed on an exchange
+page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.change = Change the answer for any stocks and shares not listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.noValue = Give an answer for stocks and shares not listed on an exchange
 page.iht.application.assets.stocksAndShares.overview.notListed.screenreader.link.value = Change the value given for stocks and shares not listed on an exchange
 
@@ -949,7 +949,7 @@ page.iht.application.assets.property.value.screenReader = The value of {0}{1} is
 
 page.iht.application.return.to.assetsOf = Return to {0}’s assets
 
-page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did the deceased have any policies in their own name that were to pay out to them or are there any policies that were paying out to their estate? Give an answer.
+page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did the deceased have any policies in their own name that were to pay out to them? Give an answer.
 page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, the deceased had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value = No, the deceased didn’t have insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by the deceased and any policies being paid to their estate is {0}. Change this value.
@@ -1727,6 +1727,7 @@ iht.estateReport.declaration.haveProvidedNonMatchingDetails = have provided any 
 iht.estateReport.declaration.title = Declaration
 iht.estateReport.declaration.withholdInformation = withhold or give false information
 iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or have to pay a penalty if you:
+iht.estateReport.declaration.executors = Other executors
 
 iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in {0}’s estate?
 iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.
@@ -1740,7 +1741,7 @@ page.iht.application.declaration_received.probate.paragraph1 = HMRC will review 
 page.iht.application.declaration_received.paragraph2 = HMRC might also check the valuation of any properties that you’ve entered – if they do this, the Valuation Office might call you.
 page.iht.application.declaration_received.paragraph3 = When you’ve sent off your Probate Application form (PA1), you’ll be told by the Probate Service what to do next to receive your grant of representation.
 page.iht.application.declaration_received.paragraph4 = Once you’ve received this and completed everything you need to do with the deceased’s estate, you can get a statutory certificate of discharge from HMRC by clearing this estate report. To do this, view this estate report from your Inheritance Tax estate reports page.
-page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it
+page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it (PDF,<500KB)
 page.iht.application.declaration_received.paragraph5.part2 = HMRC recommend that you keep a copy for your own use along with anything you’ve used to give any details about what the deceased owned or owed. You should keep these for 5 years in case anyone asks to see these details.
 page.iht.application.declaration_received.hint = What happens if you find assets that you haven’t included in this estate report
 page.iht.application.declaration_received.continuelink = Continue to your Inheritance Tax estate reports
@@ -1883,7 +1884,7 @@ page.iht.application.kickout.final.summary = Because you can’t use Inheritance
 page.iht.application.kickout.final.getCopy.title = Get a copy of the estate report
 page.iht.application.kickout.final.getCopy.guidance1 = You will not be able to get a copy of the estate report when you finish.
 page.iht.application.kickout.final.getCopy.guidance2.youShould = You should
-page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or print a copy of the estate report
+page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or print a copy of the estate report (PDF, <500KB)
 page.iht.application.kickout.final.getCopy.guidance3 = This will have all of the details you have entered so that you can write them on the IHT-400 form. If you are not able to save or print a copy at the moment, return to the estate overview and come back when you are able to do this.
 page.iht.application.kickout.final.guidance.onFinish = By selecting finish you will be given a copy of the IHT-400 form and this estate report will be deleted.
 

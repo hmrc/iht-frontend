@@ -16,7 +16,7 @@
 
 @import iht.views.html._
 @import iht.viewmodels.application.overview._
-@import iht.views.html.ihtHelpers._
+@import iht.views.html.ihtHelpers.custom._
 @import play.twirl.api.Html
 @import iht.constants.IhtProperties
 
@@ -41,7 +41,7 @@
     headingName = model.deceasedName
 ){
 
-  <p id="estate-overview-guidance">@Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2")</p>
+  <p id="estate-overview-guidance" aria-describedby="estate-report-deadline-date" role="heading" aria-level="2">@Messages("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2")</p>
   <section id="assets-gifts-section" @if(model.reducingEstateValueSection.isDefined) {class="section"}>
     @assets_and_gifts_section(model.assetsAndGiftsSection)
   </section>

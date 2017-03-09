@@ -51,7 +51,7 @@ isFullWidth=true
         +"</ul>"
     +"</div>"
     )) { slideHTML =>
-    @ihtHelpers.accordion_slider_help_text(
+    @ihtHelpers.standard.accordion_slider_help_text(
     '_helpText -> Messages("page.iht.application.probateDetails.guidance"),
     '_slideOutText -> slideHTML
     )
@@ -74,7 +74,7 @@ isFullWidth=true
 
 <h3>@Messages("page.iht.application.declaration_received.subheading3")</h3>
 <p>
-    <a id="pdfLink" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Messages("page.iht.application.declaration_received.paragraph5.link")</a>.
+    <a id="pdfLink" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">@Html(Messages("page.iht.application.declaration_received.paragraph5.link"))</a>.
     @Messages("page.iht.application.declaration_received.paragraph5.part2")
 </p>
 
@@ -86,7 +86,7 @@ isFullWidth=true
   +" <a id=\"correctiveAccount\" href="+IhtProperties.correctiveAccountsLink+"> "
   + Messages("iht.estateReport.correctiveAccountForm")+"</a>"
   + Messages("page.iht.application.overview.helptext.part2"))) { slideHTML =>
-    @ihtHelpers.accordion_slider_help_text(
+    @ihtHelpers.standard.accordion_slider_help_text(
       '_helpText -> Messages("page.iht.application.declaration_received.hint"),
       '_slideOutText -> slideHTML,
       '_needHighlight -> true

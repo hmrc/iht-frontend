@@ -16,8 +16,8 @@
 
 package iht.controllers.registration
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.{ControllerHelper, IhtConnectors}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.controllers.ControllerHelper
 import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails

@@ -60,9 +60,12 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
 
     "respond with OK on page load" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
+      val regDetails = CommonBuilder.buildRegistrationDetails1
+      val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
+        regDetails = regDetails,
         appDetails = Some(applicationDetails),
         getAppDetails = true,
         saveAppDetails= true,
@@ -70,12 +73,30 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
 
       val result = trustsValueController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust"))
+      contentAsString(result) should include (messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName))
     }
 
     "save the trusts value and go to held in trust overview page on submit" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = Some(CommonBuilder
         .buildAllAssets))
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        appDetails = Some(applicationDetails),
+        getAppDetails = true,
+        saveAppDetails = true,
+        storeAppDetailsInCache = true)
+
+      val filledHeldInTrustForm = trustsValueForm.fill(HeldInTrust(Some(false), Some(1000), None))
+      implicit val request = createFakeRequest().withFormUrlEncodedBody(filledHeldInTrustForm.data.toSeq: _*)
+
+      val result = trustsValueController.onSubmit(request)
+      status(result) shouldBe (SEE_OTHER)
+      redirectLocation(result) should be (Some(routes.TrustsOverviewController.onPageLoad().url))
+    }
+
+    "save the trusts value and go to held in trust overview page on submit where there is no other assets present" in {
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allAssets = None)
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

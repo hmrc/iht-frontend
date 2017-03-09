@@ -32,7 +32,7 @@
     hasTimeOut=true) {
 
 
-    @ihtHelpers.error_summary(deceasedAddressDetailsOutsideUKForm)
+    @ihtHelpers.custom.error_summary(deceasedAddressDetailsOutsideUKForm)
 
     <p class="lede">@Messages("page.iht.registration.deceasedDetails.addressheader.abroad.hint")</p>
 
@@ -43,28 +43,28 @@
             @Messages("iht.registration.deceased.lastContactAddress")
         </legend>
 
-    @ihtHelpers.input_with_help(
+    @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsOutsideUKForm("ukAddress.addressLine1"),
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "form-label ",
     '_label -> Html(Messages("iht.address.line1")))
 
-    @ihtHelpers.input_with_help(
+    @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsOutsideUKForm("ukAddress.ukAddressLine2"),
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "form-label ",
     '_label -> Html(Messages("iht.address.line2")))
 
-    @ihtHelpers.input_with_help(
+    @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsOutsideUKForm("ukAddress.addressLine3"),
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_labelTextClass -> "form-label ",
     '_label -> Html(Messages("iht.address.line3")))
 
-    @ihtHelpers.input_with_help(
+    @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsOutsideUKForm("ukAddress.addressLine4"),
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
@@ -72,7 +72,7 @@
     '_label -> Html(Messages("iht.address.line4")))
 
 
-    @ihtHelpers.dropdown(deceasedAddressDetailsOutsideUKForm("ukAddress.countryCode"),
+    @ihtHelpers.standard.dropdown(deceasedAddressDetailsOutsideUKForm("ukAddress.countryCode"),
     countryCodes,
     true,
     true,
@@ -81,16 +81,16 @@
     '_labelTextClass -> "form-label",
     '_id -> Messages("page.iht.registration.registrationSummary.deceasedInfo.countryCode.id"),
     '_labelid -> "ukAddress.countryCode-container",
-    '_emptyValueText -> ""
+    '_emptyValueText -> " "
     )
 
 
     </fieldset>
 
 
-    <p>@ihtHelpers.return_link(Messages("iht.registration.changeAddressToUK"),Some(changeNationalityLocation))</p>
+    <p>@ihtHelpers.custom.return_link(Messages("iht.registration.changeAddressToUK"),Some(changeNationalityLocation))</p>
 
-    @ihtHelpers.continue_button()
+    @ihtHelpers.custom.continue_button()
     }
 
 }

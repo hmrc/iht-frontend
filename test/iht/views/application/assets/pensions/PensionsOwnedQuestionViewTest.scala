@@ -22,6 +22,7 @@ import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.testhelpers.CommonBuilder
 import iht.views.application.YesNoQuestionViewBehaviour
 import iht.views.html.application.asset.pensions.pensions_owned_question
+import iht.testhelpers.TestHelper
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.mvc.Call
@@ -50,7 +51,9 @@ class PensionsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePe
 
   override def cancelComponent = Some(
                         CancelComponent(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-                                      messagesApi("page.iht.application.return.to.assetsOf", deceasedName)))
+                                      messagesApi("page.iht.application.return.to.assetsOf", deceasedName),
+                          TestHelper.AppSectionPrivatePensionID
+                        ))
 
   "Pensions Owned Question View" must {
     behave like yesNoQuestion

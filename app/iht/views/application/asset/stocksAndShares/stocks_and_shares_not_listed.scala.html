@@ -32,11 +32,11 @@ registrationDetails: RegistrationDetails
     browserTitle = Some(Messages("page.iht.application.assets.stocksAndSharesNotListed.browserTitle")),
     isFullWidth=false) {
 
-    @ihtHelpers.error_summary_override_keys(stockAndSharesNotListed, Constants.AppSectionStockAndShare)
+    @ihtHelpers.custom.error_summary_override_keys(stockAndSharesNotListed, Constants.AppSectionStockAndShare)
 
     @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onSubmit(),'autoComplete -> "off") {
 
-        @ihtHelpers.input_yes_no_radio_group(stockAndSharesNotListed("isNotListed"),
+        @ihtHelpers.standard.input_yes_no_radio_group(stockAndSharesNotListed("isNotListed"),
             '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName)),
             '_shownElementNo -> None,
             '_shownElementYes -> Some("stocks-and-shares-value"),
@@ -47,7 +47,7 @@ registrationDetails: RegistrationDetails
             '_mainQuestion -> true)
 
         <div class="js-hidden panel-indent panel-indent--gutter" id="stocks-and-shares-value">
-            @ihtHelpers.input_estate_value(stockAndSharesNotListed("valueNotListed"),
+            @ihtHelpers.custom.input_estate_value(stockAndSharesNotListed("valueNotListed"),
             '_label -> Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed"),
             '_help -> "",
             '_sectionName -> ("1"),
@@ -63,6 +63,6 @@ registrationDetails: RegistrationDetails
         <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }
-    @ihtHelpers.return_link(Messages("site.link.return.stocksAndShares"), Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(Messages("site.link.return.stocksAndShares"), Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()))
 
 }

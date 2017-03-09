@@ -83,6 +83,15 @@ it can mess with the sidebar margins when stacked for smaller screens
 
 /*
 ====================================
+Make sure hints inside labels are blocks
+====================================
+*/
+.label__hint {
+    display: block;
+}
+
+/*
+====================================
 Remove spinners from number inputs
 ====================================
 */

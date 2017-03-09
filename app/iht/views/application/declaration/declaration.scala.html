@@ -35,13 +35,13 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
             }
 
         @if(model.isMultipleExecutor){
-            <div class="form-group">
+            <p id="prologue1">@Messages("iht.estateReport.declaration.coExecutors.prologue1")</p>
+            <p id="prologue2">@Messages("iht.estateReport.declaration.coExecutors.prologue2")</p>
+            <p id="prologue3">@Messages("iht.estateReport.declaration.coExecutors.prologue3")</p>
 
-                <p id="prologue1">@Messages("iht.estateReport.declaration.coExecutors.prologue1")</p>
-                <p id="prologue2">@Messages("iht.estateReport.declaration.coExecutors.prologue2")</p>
-                <p id="prologue3">@Messages("iht.estateReport.declaration.coExecutors.prologue3")</p>
-
-                <div class="panel-indent panel-indent--gutter">
+            <section class="form-group">
+                <h2 class="heading-medium">@Messages("iht.estateReport.declaration.executors")</h2>
+                <div class="panel-indent">
                     <ul>
                         @for(executor <- model.executors) {
                         <li>@executor.firstName&nbsp;@executor.lastName</li>
@@ -49,20 +49,21 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                     </ul>
                     <p id="prologue4">@Messages("iht.estateReport.declaration.coExecutors.prologue4")
                         <a id="pdf-summary-link" class="backButton" href="@iht.controllers.application.pdf.routes.PDFController.onPreSubmissionPDF">
-                            @Messages("iht.estateReport.copyOfTheEstateReportAndPrint")
+                            @Html(Messages("iht.estateReport.copyOfTheEstateReportAndPrint"))
                         </a>
                     </p>
 
                 </div>
 
-                @ihtHelpers.single_input_checkbox(
+                @ihtHelpers.standard.single_input_checkbox(
                     model.declarationForm("isDeclared"),
                     '_label -> Messages("iht.estateReport.declaration.coExecutors.confirmationText"),
+                    '_divClass -> "form-field--submit",
                     '_inputClass -> "",
                     '_labelClass -> "block-label"
                 )
 
-            </div>
+            </section>
         }
 
         <div class="form-group">
@@ -106,9 +107,7 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
         </div>
 
         <div id="continue-button" role="region" aria-live="polite" class="form-field form-field--submit">
-            @helpers.form(action = iht.controllers.application.declaration.routes.DeclarationController.onSubmit) {
-                <input class='button @if(model.isMultipleExecutor){ toDisableButton}' type='submit' value='@Messages("site.button.declare")'>
-            }
+            <input class='button @if(model.isMultipleExecutor){ toDisableButton}' type='submit' value='@Messages("site.button.declare")'>
         </div>
         <a id="return-to-overview" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(
                 CommonHelper.getOrExceptionNoIHTRef(model.registrationDetails.ihtReference))'>

@@ -24,17 +24,19 @@
 @(dateOfMarriageForm: Form[TnrbEligibiltyModel],
         widowCheckModel: WidowCheck,
         deceasedName: String,
-        predeceasedName: String)(implicit request: Request[_], messages: Messages)
+        predeceasedName: String,
+        cancelUrl: Call
+)(implicit request: Request[_], messages: Messages)
 
 @defining(Messages("iht.estateReport.tnrb.dateOfMarriage",
     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>
     @iht_main_template_application(title = pageTitle,
         browserTitle = Some(pageTitle),
         cancelLabel = Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-        cancelUrl = Some(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()),
+        cancelUrl = Some(cancelUrl),
         headingName = deceasedName) {
 
-        @ihtHelpers.error_summary(dateOfMarriageForm, Some(
+        @ihtHelpers.custom.error_summary(dateOfMarriageForm, Some(
                 Map(
                     "error.predeceasedDateOfMarriage.beforeDateOfDeath" -> "error.dateOfMarriage.incorrect.summary"
                 )
@@ -45,7 +47,7 @@
             <p>@Html(Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
                 TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel),
                 deceasedName, predeceasedName))</p>
-            @ihtHelpers.date_fields(
+            @ihtHelpers.standard.date_fields(
                 dateOfMarriageForm,
                 "dateOfMarriage",
                 pageTitle,

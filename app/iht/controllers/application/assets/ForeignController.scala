@@ -16,7 +16,7 @@
 
 package iht.controllers.application.assets
 
-import iht.controllers.IhtConnectors
+import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
@@ -28,6 +28,9 @@ import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.Constants._
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 object ForeignController extends ForeignController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -60,7 +63,7 @@ trait ForeignController extends EstateController {
       estateElementOnSubmit[BasicEstateElement](foreignForm,
         foreign.apply,
         updateApplicationDetails,
-        assetsRedirectLocation
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionForeignID))
       )
     }
   }
