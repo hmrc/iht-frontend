@@ -455,10 +455,10 @@ object ApplicationForms {
   val partnerExemptionNameForm = Form(mapping(
   "firstName" -> ihtNonEmptyText( "error.firstName.give")
     .verifying("error.firstName.giveUsingXCharsOrLess",
-      _.trim.length < IhtProperties.validationMaxLengthFirstName),
+      _.trim.length <= IhtProperties.validationMaxLengthFirstName),
   "lastName" -> ihtNonEmptyText( "error.lastName.give")
     .verifying( "error.lastName.giveUsingXCharsOrLess",
-      _.trim.length < IhtProperties.validationMaxLengthLastName))
+      _.trim.length <= IhtProperties.validationMaxLengthLastName))
     (
       (firstName, lastName) => PartnerExemption(None, None, Some(firstName), Some(lastName), None, None, None)
     )
