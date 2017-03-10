@@ -20,6 +20,7 @@
 @import iht.models._
 @import iht.utils.CommonHelper._
 @import iht.constants.IhtProperties
+@import iht.constants._
 
 @(charityNumberForm: Form[iht.models.application.exemptions.Charity],
 registrationDetails:RegistrationDetails,
@@ -38,6 +39,7 @@ isFullWidth=false){
         </p>
 
             @ihtHelpers.standard.input_with_help(charityNumberForm("charityNumber"),
+                '_maxlength -> IhtProperties.validationMaxCharityNumberLength,
                 '_divClass -> "form-group ",
                 '_inputClass -> "form-control",
                 '_label -> Html(Messages("iht.estateReport.exemptions.charities.charityNo.question")),
