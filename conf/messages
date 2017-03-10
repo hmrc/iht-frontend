@@ -962,10 +962,12 @@ page.iht.application.assets.insurance.policies.overview.joint.amount.screenReade
 
 page.iht.application.assets.insurance.policies.overview.other.question4 = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died?
 page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Insurance premiums paid by the deceased for someone else. Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried = No, the deceased wasn’t paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married = No, the deceased wasn’t paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value = No, the deceased didn’t spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value = No, there wasn’t an annuity on a policy being paid for by the deceased. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value = No, there weren’t any policies paid by the deceased for someone else that were held in a trust. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried = Yes, the deceased was paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married = Yes, the deceased was paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value = Yes, the deceased spent over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value = Yes, there were policies paid by the deceased for someone else that were held in a trust. Change this answer.
