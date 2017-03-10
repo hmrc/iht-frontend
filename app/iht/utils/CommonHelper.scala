@@ -33,7 +33,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import scala.collection.immutable.ListMap
-import scala.util.Try
+import scala.util.{Try,Success,Failure}
 import iht.views.html._
 import iht.constants.IhtProperties
 import play.twirl.api.Html
@@ -71,20 +71,15 @@ object CommonHelper {
   }
 
   def formatCurrencyForInput(n: String): Any = {
-    if(!Option(n).getOrElse("").isEmpty) {
-      try{
-        val b = BigDecimal(n)
-        val fmt = new java.text.DecimalFormat("#####.##")
-        fmt.setDecimalSeparatorAlwaysShown(false)
-        fmt.setMinimumFractionDigits(2)
-        fmt.format(b)
-      } catch {
-        case _: Throwable => n
+      Try(BigDecimal(n)) match {
+        case Success (b) =>
+          val fmt = new java.text.DecimalFormat("#####.##")
+          fmt.setDecimalSeparatorAlwaysShown(false)
+          fmt.setMinimumFractionDigits(2)
+          fmt.format(b)
+        case Failure(exception) =>
+          n
       }
-
-    } else {
-      n
-    }
   }
 
   def trimAndUpperCaseNino(nino: String) = {
