@@ -58,6 +58,20 @@
                         </fo:table>
                     </fo:block>
                 </xsl:when>
+                <xsl:otherwise>
+                    <fo:block font-family="OpenSans" font-size="12pt">
+                        <fo:table space-before="0.5cm">
+                            <fo:table-column column-number="1" column-width="70%"/>
+                            <fo:table-column column-number="2" column-width="30%"/>
+                            <fo:table-body font-size="12pt">
+                            <xsl:call-template name="table-row-short-vpad-no-value">
+                                <xsl:with-param name="label"
+                                                select="i18n:getMessagesText($translator, 'site.noneInEstate')"/>
+                            </xsl:call-template>
+                        </fo:table-body>
+                        </fo:table>
+                    </fo:block>
+                </xsl:otherwise>
             </xsl:choose>
         </fo:block>
         <xsl:comment>Debts Funeral Expenses section starts</xsl:comment>
@@ -261,15 +275,14 @@
         </fo:block>
         <xsl:comment>Assets Total section starts</xsl:comment>
         <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.application.debts.overview.total')"/>
             <fo:table space-before="0.5cm">
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>
                 <fo:table-body font-size="12pt">
 
-                    <xsl:call-template name="table-row-money-tall-border-top-black">
+                    <xsl:call-template name="table-row-money-tall-border-top-black-value-decimal-zero">
                         <xsl:with-param name="label"
-                                        select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
+                                        select="i18n:getMessagesText($translator, 'page.iht.application.debts.overview.total')"/>
                         <xsl:with-param name="value" select='$debtsTotal'/>
                     </xsl:call-template>
 
