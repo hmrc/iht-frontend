@@ -50,12 +50,7 @@ isFullWidth=false
           <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
               <div class="tabular-data__data tabular-data__data--4-12">
                   <span class="visually-hidden">@Messages("page.iht.application.exemptions.assetLeftToCharity.screenreader.ident", (i + 1)) </span>
-                  @(element.name, element.number) match {
-                      case (None, None) => { @Messages("site.noCharityNameAndNumberGiven") }
-                      case (Some(_), None) => { @Messages("site.noCharityNumberGiven") }
-                      case (None, Some(_)) => { @Messages("site.noCharityNameGiven") }
-                      case (Some(name), Some(_)) => { @ihtHelpers.custom.name(name) }
-                  }
+                  @element.nameValidationMessage.fold(ihtHelpers.custom.name(element.name))(message=>Html(message))
               </div>
               <div class="tabular-data__data tabular-data__data--4-12 u-align--tablet-right">
                   <span id="charity-total">@if(element.totalValue.isDefined){&pound;@CommonHelper.numberWithCommas(element.totalValue.getOrElse(BigDecimal(0)))}</span>

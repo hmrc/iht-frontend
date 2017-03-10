@@ -19,7 +19,7 @@
 @import iht.models.application.exemptions._
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
+@import iht.constants._
 @import iht.utils._
 
 @(partnerExemptionNameForm: Form[iht.models.application.exemptions.PartnerExemption], registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -34,6 +34,7 @@ isFullWidth=false) {
 'autoComplete -> "off"){
 
 @ihtHelpers.standard.input_with_help(partnerExemptionNameForm("firstName"),
+'_maxlength -> IhtProperties.validationMaxLengthFirstName,
 '_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
@@ -41,6 +42,7 @@ isFullWidth=false) {
 '_help -> Html(Messages("iht.firstName.hint")))
 
 @ihtHelpers.standard.input_with_help(partnerExemptionNameForm("lastName"),
+'_maxlength -> IhtProperties.validationMaxLengthLastName,
 '_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",

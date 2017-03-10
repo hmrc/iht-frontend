@@ -17,6 +17,9 @@
 package iht.models.application.exemptions
 
 import iht.utils.CommonHelper
+import play.api.Play.current
+import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.libs.json.Json
 
 case class Charity(id: Option[String],
@@ -25,6 +28,24 @@ case class Charity(id: Option[String],
                    totalValue: Option[BigDecimal]) {
 
   def isComplete = CommonHelper.isSectionComplete(Seq(id, name, number, totalValue))
+
+  /**
+    * If there is no charity name then returns an Option of an appropriate message to indicate this. If there is
+    * a name then it returns None. The possible scenarios are listed below:-
+    *
+    * Scenario 1: No charity name, no charity number, charity value => "No charity name or number added", charity value displayed
+    * Scenario 2: Charity name, no charity number, no charity value => Charity name
+    * Scenario 3: No charity name, charity number, no charity value => "No charity name added"
+    * Scenario 4: Charity name, no charity number, charity value => Charity name, charity value displayed
+    * Scenario 5: No charity name, charity number, charity value => "No charity name given", charity value displayed
+    */
+  def nameValidationMessage: Option[String] = {
+    (name, number, totalValue) match {
+      case (None, None, Some(_)) => Some(Messages("site.noCharityNameAndNumberGiven")) // scenario 1
+      case (Some(_), _, _) => None // scenarios 2 & 4
+      case (None, _, _) => Some(Messages("site.noCharityNameGiven")) // scenario 3 & 5
+    }
+  }
 }
 
 object Charity {

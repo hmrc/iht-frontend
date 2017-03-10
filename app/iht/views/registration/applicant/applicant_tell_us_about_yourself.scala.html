@@ -19,6 +19,7 @@
 @import iht.utils.CommonHelper
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
+@import iht.constants._
 
 @(applicantTellUsAboutYourselfForm:Form[iht.models.ApplicantDetails],
     mode: Mode.Value = Mode.Standard,
@@ -35,6 +36,7 @@ hasTimeOut=true) {
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
     @ihtHelpers.standard.input_with_help(applicantTellUsAboutYourselfForm("phoneNo"),
+        '_maxlength -> IhtProperties.validationMaxLengthPhoneNo,
         '_label -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.label"),
         '_help -> Messages("page.iht.registration.applicantTellUsAboutYourself.value.sublabel"),
         '_divJsHide -> false,

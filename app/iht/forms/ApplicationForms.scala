@@ -455,10 +455,10 @@ object ApplicationForms {
   val partnerExemptionNameForm = Form(mapping(
   "firstName" -> ihtNonEmptyText( "error.firstName.give")
     .verifying("error.firstName.giveUsingXCharsOrLess",
-      _.trim.length < IhtProperties.validationMaxLengthFirstName),
+      _.trim.length <= IhtProperties.validationMaxLengthFirstName),
   "lastName" -> ihtNonEmptyText( "error.lastName.give")
     .verifying( "error.lastName.giveUsingXCharsOrLess",
-      _.trim.length < IhtProperties.validationMaxLengthLastName))
+      _.trim.length <= IhtProperties.validationMaxLengthLastName))
     (
       (firstName, lastName) => PartnerExemption(None, None, Some(firstName), Some(lastName), None, None, None)
     )
@@ -491,7 +491,7 @@ object ApplicationForms {
 
   val charityNameForm = Form(mapping(
     "name" -> ihtNonEmptyText("error.charityName.enterName")
-      .verifying("error.charityName.giveUsing35CharactersOrLess", f=>f.length < 36))
+      .verifying("error.charityName.giveUsing35CharactersOrLess", f=>f.length <= IhtProperties.validationMaxLengthCharityName))
   (
     (name) => Charity(None, Some(name), None, None)
   )
@@ -511,7 +511,7 @@ object ApplicationForms {
 
   val qualifyingBodyNameForm: Form[QualifyingBody] = Form(mapping(
     "name" -> ihtNonEmptyText("error.qualifyingBodyName.enterName")
-      .verifying("error.qualifyingBodyName.giveUsing35CharactersOrLess", f=>f.length < 36))
+      .verifying("error.qualifyingBodyName.giveUsing35CharactersOrLess", f=>f.length <= IhtProperties.validationMaxLengthQualifyingBodyName))
   (
     name => QualifyingBody(None, Some(name), None)
   )(

@@ -19,6 +19,7 @@
 @import iht.models.application.exemptions._
 @import iht.models._
 @import iht.utils.CommonHelper._
+@import iht.constants._
 
 @(qualifyingBodyNameForm: Form[QualifyingBody],
 rd: RegistrationDetails,
@@ -35,6 +36,7 @@ isFullWidth=false){
 
 
     @ihtHelpers.standard.input_with_help(qualifyingBodyNameForm("name"),
+    '_maxlength -> IhtProperties.validationMaxLengthQualifyingBodyName,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_label -> Html(Messages("page.iht.application.exemptions.qualifyingBody.name.sectionTitle")),
