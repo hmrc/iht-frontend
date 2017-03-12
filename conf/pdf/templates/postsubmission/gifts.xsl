@@ -16,12 +16,7 @@
 
         <xsl:choose>
             <xsl:when test="gifts/array != ''">
-                <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.5cm">
-                    <xsl:value-of
-                            select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.givenAway.title')"/>
-                </fo:block>
-
-                <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm">
+                <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.0cm">
                     <xsl:value-of
                             select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath')"/>
                 </fo:block>
@@ -49,11 +44,17 @@
                                                     select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle2')"/>
                                         </fo:block>
                                     </fo:table-cell>
+                                    <fo:table-cell text-align="right" padding-left="4pt">
+                                        <fo:block>
+                                            <xsl:value-of
+                                                    select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle3')"/>
+                                        </fo:block>
+                                    </fo:table-cell>
                                 </fo:table-row>
                             </fo:table-header>
                             <fo:table-body font-size="12pt">
                                 <xsl:for-each select="gifts/array">
-                                    <fo:table-row border-top="solid 0.3mm black" line-height="30pt">
+                                    <fo:table-row border-top="solid 0.1mm gray" line-height="30pt">
                                         <fo:table-cell text-align="left" padding-left="4pt">
                                             <fo:block>
                                                 <xsl:value-of
@@ -94,32 +95,59 @@
                                                 <xsl:value-of select='$exemptionsValue'/>
                                             </fo:block>
                                         </fo:table-cell>
+
+                                        <fo:table-cell text-align="right" padding-left="4pt">
+                                            <fo:block>
+                                                <xsl:variable name="giftsNumericValue" select="number($giftsValue)"/>
+                                                <xsl:variable name="exemptionsNumericValue" select="number($exemptionsValue)"/>
+
+                                                <xsl:choose>
+                                                    <xsl:when test="$giftsNumericValue and $exemptionsNumericValue">
+                                                        <xsl:choose>
+                                                            <xsl:when test="$giftsNumericValue - $exemptionsNumericValue &gt; 0">
+                                                                &#xA3;<xsl:value-of
+                                                                    select='format-number(($giftsNumericValue - $exemptionsNumericValue), "##,##0.00")'/>
+                                                            </xsl:when>
+                                                            <xsl:otherwise>
+                                                                &#xA3;<xsl:value-of
+                                                                    select='format-number(($giftsNumericValue - $exemptionsNumericValue), "0.00")'/>
+                                                            </xsl:otherwise>
+                                                        </xsl:choose>
+                                                    </xsl:when>
+                                                    <xsl:when test="$giftsNumericValue and $giftsNumericValue &gt; 0">
+                                                        &#xA3;<xsl:value-of
+                                                            select='format-number($giftsNumericValue, "##,##0.00")'/>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        &#xA3;0.00
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                            </fo:block>
+                                        </fo:table-cell>
+
                                     </fo:table-row>
                                 </xsl:for-each>
                                 <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                <xsl:call-template name="table-row-blank-tall-border-both-black-thick"/>
+
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
                     <!-- Total Gifts row-->
-                    <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.gifts.total.title')"/>
-                    </fo:block>
-
                     <fo:table space-before="0.5cm">
-                        <fo:table-column column-number="1" column-width="60%"/>
-                        <fo:table-column column-number="2" column-width="40%"/>
-                        <fo:table-body font-size="12pt">
+                        <fo:table-column column-number="1" column-width="25%"/>
+                        <fo:table-column column-number="2" column-width="25%"/>
+                        <fo:table-column column-number="3" column-width="25%"/>
+                        <fo:table-column column-number="4" column-width="25%"/>
 
+                        <fo:table-body font-size="12pt">
                             <xsl:call-template name="table-row-money-tall-border-top-black">
                                 <xsl:with-param name="label"
-                                                select="i18n:getMessagesText($translator, 'pdf.total.text')"/>
+                                                select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
                                 <xsl:with-param name="value" select='format-number(number($giftsTotal), "##,###.00")'/>
                             </xsl:call-template>
 
                             <xsl:comment>Blank row to display line at end of section</xsl:comment>
                             <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
-
                         </fo:table-body>
                     </fo:table>
                 </fo:block>
