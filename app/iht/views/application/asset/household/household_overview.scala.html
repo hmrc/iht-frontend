@@ -32,11 +32,10 @@
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@getLinkScreenReader(household: Option[ShareableBasicEstateElement], changeText: String, noValueText: String) = @{
-    if (household.flatMap(_.isOwned.map(identity))) {
-        changeText
-    } else {
-        noValueText
+@getLinkScreenReader(element: Option[_], changeText: String, noValueText: String) = @{
+    element match {
+        case Some(_) => changeText
+        case None => noValueText
     }
 }
 
@@ -59,7 +58,7 @@ isFullWidth=false
                                                             Messages("iht.the.deceased")),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(
-                            household,
+                            household.flatMap(_.isOwned.map(identity)),
                             Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change"),
                             Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue")),
                         isAnswerValue = household.flatMap(_.isOwned).isEmpty
@@ -95,7 +94,7 @@ isFullWidth=false
                                                     Messages("iht.the.deceased")),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(
-                            household,
+                            household.flatMap(_.isOwnedShare.map(identity)),
                             Messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change"),
                             Messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.noValue")),
                         isAnswerValue = household.flatMap(_.isOwnedShare).isEmpty
