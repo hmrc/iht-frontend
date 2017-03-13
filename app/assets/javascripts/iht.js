@@ -89,26 +89,37 @@ if(typeof window.navigator != "undefined" && typeof window.navigator.userAgent !
 // Patch to update autocomplete suggestions
 // This updates the standard template used for the component in favour of the basic title
 // =====================================================
-$('#country-code-auto-complete').on('keyup', function(){
-    if($('.suggestions-list li').length > 0){
-        $(this).attr('aria-expanded', 'true');
-    } else {
-        $(this).attr('aria-expanded', 'false');
-    }
-    $('.suggestions-list li').each(function(){
-        $(this).html($(this).attr('data-suggestion-title'));
-        // update aria-descendant
-        var ccID = "country" + $(this).attr('data-suggestion-value');
-        $(this).attr('id', ccID)
-        if($(this).hasClass('suggestion--selected')){
-            $('#country-code-auto-complete').attr('aria-activedescendant', ccID);
-        }
-    });
-});
-// hide clear icon if there is no initial value selected
-if($('#countryCode').val() == "GB" || $('#countryCode').val() == undefined) {
-    $('.js-suggestions-clear').addClass('hidden');
+if($('#iht-auto-complete').length > 0){
+    autobox($('select'), $('#iht-auto-complete'), $('#iht-suggestions-list'), $("#iht-autoCompleteSuggestionStatus"));
 }
+
+//$('#country-code-auto-complete').on('keyup', function(){
+//    if($('.suggestions-list li').length > 0){
+//        $(this).attr('aria-expanded', 'true');
+//    } else {
+//        $(this).attr('aria-expanded', 'false');
+//    }
+//    $('.suggestions-list li').each(function(){
+//        $(this).html($(this).attr('data-suggestion-title'));
+//        // update aria-descendant
+//        var ccID = "country" + $(this).attr('data-suggestion-value');
+//        $(this).attr('id', ccID)
+//        if($(this).hasClass('suggestion--selected')){
+//            $('#country-code-auto-complete').attr('aria-activedescendant', ccID);
+//        }
+//    });
+//});
+//// hide clear icon if there is no initial value selected
+//if($('#countryCode').val() == "GB" || $('#countryCode').val() == undefined) {
+//    $('.js-suggestions-clear').addClass('hidden');
+//}
+
+
+
+
+
+
+
 
 // =====================================================
 // Submit trigger
@@ -306,3 +317,129 @@ function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
+
+// ======================================================
+// autocomplete
+// ======================================================
+function autobox(selectInput, enhancedInput, suggestionList, statusContainer){
+    var select = selectInput;
+    var input = enhancedInput;
+    var list = suggestionList;
+    var status = statusContainer;
+
+    //initial value
+    select.find('option').each(function(){
+        $(this).attr('data-title', $(this).text().toLowerCase())
+        if($(this).attr('value') == select.val()){
+            input.val($(this).text());
+        }
+    });
+
+    //select item from suggestion
+    list.on('click', 'li', function(){
+        selectOption(input, $(this), list, status, select)
+    });
+
+    //listen for changes
+    input.on('input', function(e){
+        update(input, list, select, status);
+    });
+
+    //capture non-input keys (suggestion navigation, suggestion selection, space)
+    input.on('keydown', function(e){
+        var hasActiveOptions = list.find('.suggestion--active').length > 0;
+        switch(e.keyCode) {
+        case 32: //space
+            update(input, list, select, status);
+            break;
+        case 27: //escape
+            // removes suggestion list
+            if(list.hasClass('suggestions--with-options')){
+                list.html("");
+                list.removeClass('suggestions--with-options');
+                status.html("Suggestions list closed");
+            }
+            break;
+        case 40:
+        case 38:
+            e.preventDefault();
+            var listItems = list.find("li");
+            if(hasActiveOptions) {
+                var cList = list.find('.suggestion--active');
+                if(e.which == 40){
+                    //down
+                    if(cList.next('li').length > 0){
+                        cList.removeClass('suggestion--active');
+                        var nList = cList.next('li');
+                        nList.addClass('suggestion--active');
+                        status.html(nList.text() + displayPosition(listItems, nList));
+                    }
+                }
+                if(e.which == 38){
+                    //up
+                    if(cList.prev('li').length > 0){
+                        cList.removeClass('suggestion--active');
+                        var nList = cList.prev('li');
+                        nList.addClass('suggestion--active');
+                        status.html(nList.text() + displayPosition(listItems, nList));
+                    }
+                }
+            } else {
+                if(e.which == 40){
+                    //highlight first item
+                    var nList = list.find('li').first();
+                    nList.addClass('suggestion--active');
+                    status.html(nList.text() + displayPosition(listItems, nList));
+                }
+            }
+            break;
+        default:
+            if(e.which == 13 && hasActiveOptions) {
+                e.preventDefault();
+                var cList = list.find('.suggestion--active');
+                selectOption(input, cList, list, status, select)
+            }
+            break;
+        }
+
+    });
+
+
+
+    function selectOption(input, cList, list, status, select){
+        input.val(cList.text());
+        list.html("");
+        list.removeClass('suggestions--with-options');
+        status.html(cList.text() + " selected");
+        select.val("").change();
+        var selectedValue = select.find('option[data-title="' + cList.text().toLowerCase() + '"]').val();
+        select.val(selectedValue).change();
+    }
+
+    function displayPosition(list, item){
+        return " (" + (list.index(item) + 1) + " of " + list.length + ")"
+    }
+
+    function update(input, list, select, status){
+        var inputEntered = input.val().toLowerCase().trim();
+        list.html("");
+        select.val("").change();
+        var foundMatches = select.find('option[data-title^="' + inputEntered + '"]');
+
+        if(foundMatches.length > 0){
+            list.addClass('suggestions--with-options');
+        } else {
+            list.removeClass('suggestions--with-options');
+        }
+
+        foundMatches.each(function(){
+            list.append('<li role="option" tabindex="-1" class="suggestion">' + $(this).text() + '</li>');
+
+            // update select if this value is an exact match
+            if($(this).text().toLowerCase().trim() == inputEntered){
+                select.val($(this).val()).change();
+            }
+        })
+        status.html(foundMatches.length + " matches found. Use arrow keys or swipe to navigate the list");
+    }
+}

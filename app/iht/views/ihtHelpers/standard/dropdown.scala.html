@@ -75,23 +75,43 @@
     @if(isComboBox){
     <div class="suggestions-input-container js-visible" hidden>
         <input type="text"
-               name="country-code-auto-complete"
-               id="country-code-auto-complete"
-               class="form-control form-control--block js-hmrc-auto-complete"
+               name="iht-auto-complete"
+               id="iht-auto-complete"
+               class="form-control form-control--block js-iht-auto-complete"
                autocomplete="off"
                spellcheck="false"
-               data-select-elem="@elements.field.name"
-               data-target-elem="@elements.field.name"
                data-rule-suggestion="true"
                role="combobox"
-               aria-live="assertive"
+               aria-owns="iht-suggestions-list"
                aria-expanded="false"
-               aria-autocomplete="list"
-               aria-haspopup="true"
-               aria-controls="suggestions-list-container" />
-        <i class="suggestions-clear js-suggestions-clear"></i>
-        <span role="status" aria-live="polite" aria-relevant="additions" class="visuallyhidden js-suggestions-status-message" id="autoCompleteSuggestionStatus"></span>
-        <div class="suggestions js-suggestions" id="suggestions-list-container" aria-describedby="autoCompleteSuggestionStatus"></div>
+        />
+        <ul role="listbox" class="suggestions js-suggestions" id="iht-suggestions-list"></ul>
+        <span role="status" aria-live="assertive" aria-relevant="text" class="visuallyhidden js-suggestions-status-message" id="iht-autoCompleteSuggestionStatus"></span>
+
+
+
+
+
+
+
+        <!--<input type="text"-->
+               <!--name="country-code-auto-complete"-->
+               <!--id="country-code-auto-complete"-->
+               <!--class="form-control form-control&#45;&#45;block js-iht-auto-complete"-->
+               <!--autocomplete="off"-->
+               <!--spellcheck="false"-->
+               <!--data-select-elem="@elements.field.name"-->
+               <!--data-target-elem="@elements.field.name"-->
+               <!--data-rule-suggestion="true"-->
+               <!--role="combobox"-->
+               <!--aria-live="assertive"-->
+               <!--aria-expanded="false"-->
+               <!--aria-autocomplete="list"-->
+               <!--aria-haspopup="true"-->
+               <!--aria-controls="suggestions-list-container" />-->
+        <!--<i class="suggestions-clear js-suggestions-clear"></i>-->
+        <!--<span role="status" aria-live="polite" aria-relevant="additions" class="visuallyhidden js-suggestions-status-message" id="autoCompleteSuggestionStatus"></span>-->
+        <!--<div class="suggestions js-suggestions" id="suggestions-list-container" aria-describedby="autoCompleteSuggestionStatus"></div>-->
     </div>
 
     }
