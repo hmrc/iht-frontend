@@ -114,13 +114,6 @@
                                                             </xsl:otherwise>
                                                         </xsl:choose>
                                                     </xsl:when>
-                                                    <xsl:when test="$giftsNumericValue and $giftsNumericValue &gt; 0">
-                                                        &#xA3;<xsl:value-of
-                                                            select='format-number($giftsNumericValue, "##,##0.00")'/>
-                                                    </xsl:when>
-                                                    <xsl:otherwise>
-                                                        &#xA3;0.00
-                                                    </xsl:otherwise>
                                                 </xsl:choose>
                                             </fo:block>
                                         </fo:table-cell>

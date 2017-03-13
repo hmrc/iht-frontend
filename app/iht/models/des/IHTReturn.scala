@@ -350,6 +350,15 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
       setOfAsset.foldLeft(BigDecimal(0))((a, b) => a + b.assetTotalValue.fold(BigDecimal(0))(identity))
     }
   }
+
+  def giftsTotalExclExemptions = {
+    gifts.fold[Set[Gift]](Set())(_.flatten)
+      .foldLeft(BigDecimal(0))((a, b) => a + b.assetTotalValue.fold(BigDecimal(0))(identity))
+  }
+
+  def giftsExemptionsTotal = {
+    0.0
+  }
 }
 
 object IHTReturn {
