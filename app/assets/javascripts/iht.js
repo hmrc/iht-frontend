@@ -321,29 +321,47 @@ function isNumeric(n) {
 // ======================================================
 // autocomplete
 // ======================================================
-function autobox(selectInput, enhancedInput, suggestionList, statusContainer){
-    var select = selectInput;
-    var input = enhancedInput;
-    var list = suggestionList;
-    var status = statusContainer;
+Autobox.prototype.addEvents = function(){
+    //select item from suggestion
+    this.list.on('click', 'li', function(){
+        this.selectOption(input, $(this), list, status, select)
+    });
+
+    //listen for changes
+    this.input.on('input', function(e){
+        this.update(input, list, select, status);
+    });
+}
+
+Autobox.prototype.selectOption = function(option){
+    this.input.val(this.cList.text());
+    this.list.html("");
+    this.list.removeClass('suggestions--with-options');
+    this.status.html(cList.text() + " selected");
+    this.select.val("").change();
+    var selectedValue = this.select.find('option[data-title="' + this.cList.text().toLowerCase() + '"]').val();
+    this.select.val(selectedValue).change();
+}
+
+
+ var Autobox = function(selectInput, enhancedInput, suggestionList, statusContainer){
+    this.select = selectInput;
+    this.input = enhancedInput;
+    this.list = suggestionList;
+    this.status = statusContainer;
+    this.cList;
 
     //initial value
-    select.find('option').each(function(){
+    this.select.find('option').each(function(){
         $(this).attr('data-title', $(this).text().toLowerCase())
         if($(this).attr('value') == select.val()){
             input.val($(this).text());
         }
     });
 
-    //select item from suggestion
-    list.on('click', 'li', function(){
-        selectOption(input, $(this), list, status, select)
-    });
+    this.addEvents();
 
-    //listen for changes
-    input.on('input', function(e){
-        update(input, list, select, status);
-    });
+
 
     //capture non-input keys (suggestion navigation, suggestion selection, space)
     input.on('keydown', function(e){
@@ -407,13 +425,6 @@ function autobox(selectInput, enhancedInput, suggestionList, statusContainer){
 
 
     function selectOption(input, cList, list, status, select){
-        input.val(cList.text());
-        list.html("");
-        list.removeClass('suggestions--with-options');
-        status.html(cList.text() + " selected");
-        select.val("").change();
-        var selectedValue = select.find('option[data-title="' + cList.text().toLowerCase() + '"]').val();
-        select.val(selectedValue).change();
     }
 
     function displayPosition(list, item){
