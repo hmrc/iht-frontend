@@ -16,7 +16,7 @@
 
 package iht.controllers
 
-import javax.inject.Inject
+import javax.inject.{Inject, _}
 
 import iht.config.ApplicationConfig
 import play.api.Play
@@ -24,14 +24,10 @@ import play.api.i18n.{Lang, MessagesApi}
 import play.api.mvc.{Action, AnyContent, Call}
 import uk.gov.hmrc.play.config.RunMode
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
-import javax.inject._
 
 @Singleton
 class CustomLanguageController @Inject()(implicit val messagesApi: MessagesApi) extends LanguageController with RunMode {
-
   /** Converts a string to a URL, using the route to this controller. **/
-  //def langToCall(lang: String): Call = uk.gov.hmrc.exampleplay25.controllers.routes.CustomLanguageController.switchToLanguage(lang)
-
   val englishLang = Lang("en")
 
   def langToCall(lang: String): Call = {
