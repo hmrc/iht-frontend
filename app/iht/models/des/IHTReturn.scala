@@ -17,21 +17,21 @@
 package models.des.iht_return
 
 
+import iht.constants.IhtProperties
 import iht.models.Joda._
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import org.joda.time.LocalDate
-import play.api.libs.functional.syntax._
-import play.api.libs.json.Reads._
-import play.api.libs.json.{JsPath, Json, Reads}
+import play.api.libs.json.Json
 
 // Can reuse the address object from Event Registration
 import models.des.Address
 
-case class SpousesEstate(domiciledInUk: Option[Boolean]=None, whollyExempt: Option[Boolean]=None,
-                         jointAssetsPassingToOther: Option[Boolean]=None,
-                         otherGifts: Option[Boolean]=None,
-                         agriculturalOrBusinessRelief: Option[Boolean]=None,
-                         giftsWithReservation: Option[Boolean]=None,
-                         benefitFromTrust: Option[Boolean]=None, unusedNilRateBand: Option[BigDecimal]=None)
+case class SpousesEstate(domiciledInUk: Option[Boolean] = None, whollyExempt: Option[Boolean] = None,
+                         jointAssetsPassingToOther: Option[Boolean] = None,
+                         otherGifts: Option[Boolean] = None,
+                         agriculturalOrBusinessRelief: Option[Boolean] = None,
+                         giftsWithReservation: Option[Boolean] = None,
+                         benefitFromTrust: Option[Boolean] = None, unusedNilRateBand: Option[BigDecimal] = None)
 
 object SpousesEstate {
   implicit val formats = Json.format[SpousesEstate]
@@ -350,6 +350,51 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
       setOfAsset.foldLeft(BigDecimal(0))((a, b) => a + b.assetTotalValue.fold(BigDecimal(0))(identity))
     }
   }
+
+  private def optionSpousesEstate: Option[SpousesEstate] = deceased.flatMap(_.transferOfNilRateBand.map(_.deceasedSpouses))
+    .map(_.head).flatMap(_.spousesEstate)
+
+  private def optionSpouse: Option[Spouse] = deceased.flatMap(_.transferOfNilRateBand.map(_.deceasedSpouses))
+    .map(_.head).flatMap(_.spouse)
+
+  def toOptionTNRBEligibilityModel: Option[TnrbEligibiltyModel] =
+    optionSpousesEstate.map { spousesEstate =>
+      TnrbEligibiltyModel(
+        spousesEstate.domiciledInUk,
+        spousesEstate.otherGifts,
+        spousesEstate.agriculturalOrBusinessRelief,
+        spousesEstate.giftsWithReservation,
+        spousesEstate.benefitFromTrust,
+        spousesEstate.whollyExempt,
+        spousesEstate.jointAssetsPassingToOther,
+        optionSpouse.flatMap(_.firstName),
+        optionSpouse.flatMap(_.lastName),
+        optionSpouse.flatMap(_.dateOfMarriage),
+        optionSpouse.flatMap(_.dateOfDeath)
+      )
+  }
+
+  def toOptionWidowCheck: Option[WidowCheck] =
+    optionSpouse.map { spouse =>
+    WidowCheck(
+      Some(spouse.dateOfDeath.isDefined),
+      spouse.dateOfDeath
+    )
+  }
+
+  def isSuccessfulTnrbCase: Boolean = {
+    (toOptionTNRBEligibilityModel, toOptionWidowCheck) match {
+      case (Some(TnrbEligibiltyModel(Some(true), Some(false), Some(false), Some(false),
+      Some(false), Some(true), Some(true), Some(_), Some(_), Some(_), _)),
+      Some(WidowCheck(Some(true), Some(_)))) => true
+      case _ => false
+    }
+  }
+
+  def totalNetValue: BigDecimal = (totalAssetsValue + totalGiftsValue) - totalExemptionsValue - totalDebtsValue
+
+  def currentThreshold: BigDecimal =
+    if (isSuccessfulTnrbCase) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
 }
 
 object IHTReturn {

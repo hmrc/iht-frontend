@@ -155,6 +155,9 @@ trait XmlFoToPDF {
       ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
       ihtReturn.totalGiftsValue)
 
+//    transformer.setParameter("estateValue", applicationDetails.totalNetValue)
+//    transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
+
     transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer
   }
