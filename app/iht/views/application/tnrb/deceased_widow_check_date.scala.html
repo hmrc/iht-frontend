@@ -29,14 +29,15 @@ registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
 cancelLinkText:String)(implicit request:Request[_], messages: Messages)
 
-@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(
+@partnerName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@spouseLabel() = @{TnrbHelper.spouseOrCivilPartnerLabel(
                         tnrbModel,
                         widowCheckModel,
-                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)),
+                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",partnerName),
                         false
                 )}
 
-@iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",partnerName),
+@iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",spouseLabel),
 browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
 cancelUrl = Some(cancelLinkUrl),
 cancelLabel=Some(cancelLinkText),
@@ -59,7 +60,7 @@ None,
 '_hintText -> Messages("iht.dateExample2"),
 '_labelTextClass -> "bold",
 '_groupId -> "responsibleFromDateFieldSet",
-'_legend -> Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",partnerName),
+'_legend -> Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",spouseLabel),
 '_legendClass -> Some("visually-hidden")
 )
 <div id="action-button" class="form-field form-field--submit">
