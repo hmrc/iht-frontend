@@ -48,3 +48,5 @@ GET         /transition-northern-ireland                             iht.control
 GET         /transition-other                                        iht.controllers.filter.TransitionController.onPageLoadOtherCountry
 GET         /use-service-under-325000                                iht.controllers.filter.UseServiceController.onPageLoadUnder
 GET         /use-service-over-325000                                 iht.controllers.filter.UseServiceController.onPageLoadOver
+
+GET     /language/:lang       @iht.controllers.CustomLanguageController.switchToLanguage(lang: String)
