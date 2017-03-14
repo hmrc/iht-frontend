@@ -107,7 +107,7 @@
                                                             select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle2')"/>
                                                 </fo:block>
                                             </fo:table-cell>
-                                            <fo:table-cell text-align="right        " padding-left="4pt">
+                                            <fo:table-cell text-align="right" padding-left="4pt">
                                                 <fo:block>
                                                     <xsl:value-of
                                                             select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle3')"/>

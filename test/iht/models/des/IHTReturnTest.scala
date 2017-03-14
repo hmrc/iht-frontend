@@ -52,12 +52,12 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
     "total values of gifts excluding exemptions" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.giftsTotalExclExemptions shouldBe BigDecimal(17)
+      ihtReturn.giftsTotalExclExemptions shouldBe BigDecimal(28000)
     }
 
     "total values of gifts exemption" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.giftsExemptionsTotal shouldBe BigDecimal(17)
+      ihtReturn.giftsExemptionsTotal shouldBe BigDecimal(200)
     }
   }
 }

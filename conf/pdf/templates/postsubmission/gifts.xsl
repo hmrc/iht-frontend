@@ -10,6 +10,8 @@
     <xsl:param name="pdfFormatter"/>
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="giftsTotal"/>
+    <xsl:param name="giftsExemptionsTotal"/>
+    <xsl:param name="giftsTotalExclExemptions"/>
 
     <xsl:template name="gifts">
         <xsl:param name="value"/>
@@ -26,19 +28,17 @@
                     <fo:block>
                         <fo:table space-before="0.5cm">
                             <fo:table-header>
-                                <fo:table-row>
-                                    <fo:table-cell>
-                                        <fo:block>
-                                            <xsl:text/>
-                                        </fo:block>
+                                <fo:table-row line-height="18pt">
+                                    <fo:table-cell text-align="left" padding-left="4pt">
+                                        <fo:block/>
                                     </fo:table-cell>
-                                    <fo:table-cell>
+                                    <fo:table-cell text-align="right" padding-left="4pt">
                                         <fo:block>
                                             <xsl:value-of
                                                     select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle1')"/>
                                         </fo:block>
                                     </fo:table-cell>
-                                    <fo:table-cell>
+                                    <fo:table-cell text-align="right" padding-left="4pt">
                                         <fo:block>
                                             <xsl:value-of
                                                     select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle2')"/>
@@ -61,63 +61,58 @@
                                                         select="formatter:getDateForDisplay($pdfFormatter,dateOfGift)"/>
                                             </fo:block>
                                         </fo:table-cell>
+
                                         <xsl:variable name="giftsValue">
                                             <xsl:value-of select="assetTotalValue"/>
                                         </xsl:variable>
                                         <xsl:variable name="exemptionsValue">
                                             <xsl:choose>
-                                                <xsl:when
-                                                        test="string-length(assetDescription)>0 and contains(assetDescription, '&#xA3;')">
-                                                    &#xA3;<xsl:value-of
-                                                        select="format-number(number(substring-after(assetDescription, '&#xA3;')), '##,###.##')"/>
+                                                <xsl:when test="string-length(assetDescription)>0 and contains(assetDescription, '&#xA3;')">
+                                                    <xsl:value-of select="number(substring-after(assetDescription, '&#xA3;'))"/>
                                                 </xsl:when>
                                                 <xsl:otherwise>
-
+                                                    0.00
                                                 </xsl:otherwise>
                                             </xsl:choose>
                                         </xsl:variable>
-                                        <fo:table-cell text-align="left" padding-left="4pt">
+
+                                        <fo:table-cell text-align="right" padding-left="4pt">
                                             <fo:block>
                                                 <xsl:if test="$giftsValue">
                                                     <xsl:choose>
-                                                        <xsl:when test="$giftsValue &gt; 1">
-                                                            &#xA3;<xsl:value-of select='format-number(number($giftsValue), "##,###.00")'/>
+                                                        <xsl:when test="valuePrevOwned &gt; 0">
+                                                            &#xA3;<xsl:value-of select='format-number(number(valuePrevOwned), "##,##0.00")'/>
                                                         </xsl:when>
-                                                        <xsl:otherwise>
-                                                            &#xA3;<xsl:value-of select="$giftsValue"/>
-                                                        </xsl:otherwise>
                                                     </xsl:choose>
                                                 </xsl:if>
-                                            </fo:block>
-                                        </fo:table-cell>
-                                        <fo:table-cell text-align="left" padding-left="4pt">
-                                            <fo:block>
-                                                <xsl:value-of select='$exemptionsValue'/>
                                             </fo:block>
                                         </fo:table-cell>
 
                                         <fo:table-cell text-align="right" padding-left="4pt">
                                             <fo:block>
-                                                <xsl:variable name="giftsNumericValue" select="number($giftsValue)"/>
-                                                <xsl:variable name="exemptionsNumericValue" select="number($exemptionsValue)"/>
-
                                                 <xsl:choose>
-                                                    <xsl:when test="$giftsNumericValue and $exemptionsNumericValue">
-                                                        <xsl:choose>
-                                                            <xsl:when test="$giftsNumericValue - $exemptionsNumericValue &gt; 0">
-                                                                &#xA3;<xsl:value-of
-                                                                    select='format-number(($giftsNumericValue - $exemptionsNumericValue), "##,##0.00")'/>
-                                                            </xsl:when>
-                                                            <xsl:otherwise>
-                                                                &#xA3;<xsl:value-of
-                                                                    select='format-number(($giftsNumericValue - $exemptionsNumericValue), "0.00")'/>
-                                                            </xsl:otherwise>
-                                                        </xsl:choose>
-                                                    </xsl:when>
+                                                    <xsl:when test="$exemptionsValue &gt; 0">
+                                                        <xsl:value-of select='format-number($exemptionsValue, "##,##0.00")'/>
+                                                     </xsl:when>
+                                                    <xsl:otherwise>
+                                                    </xsl:otherwise>
                                                 </xsl:choose>
                                             </fo:block>
                                         </fo:table-cell>
 
+                                        <fo:table-cell text-align="right" padding-left="4pt">
+                                            <fo:block>
+                                                <xsl:choose>
+                                                    <xsl:when test="$giftsValue &gt; 0">
+                                                        &#xA3;<xsl:value-of
+                                                            select='format-number(($giftsValue), "##,##0.00")'/>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        &#xA3;0.00
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                            </fo:block>
+                                        </fo:table-cell>
                                     </fo:table-row>
                                 </xsl:for-each>
                                 <xsl:comment>Blank row to display line at end of section</xsl:comment>
@@ -133,18 +128,28 @@
                         <fo:table-column column-number="4" column-width="25%"/>
 
                         <fo:table-body font-size="12pt">
-                            <xsl:call-template name="table-row-money-tall-border-top-black">
+                            <xsl:call-template name="table-row-money-3-values-border-top-black">
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
-                                <xsl:with-param name="value" select='format-number(number($giftsTotal), "##,###.00")'/>
+                                <xsl:with-param name="value1">
+                                    <xsl:value-of select='format-number($giftsTotalExclExemptions, "##,##0.00")'/>
+                                </xsl:with-param>
+                                <xsl:with-param name="value2">
+                                    <xsl:value-of select='format-number($giftsExemptionsTotal, "##,##0.00")'/>
+                                </xsl:with-param>
+                                <xsl:with-param name="value3">
+                                    <xsl:value-of select='format-number($giftsTotal, "##,##0.00")'/>
+                                </xsl:with-param>
                             </xsl:call-template>
-
-                            <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                            <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                            <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
                         </fo:table-body>
+
                     </fo:table>
                 </fo:block>
             </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="i18n:getMessagesText($translator, 'site.noneInEstate')"/>
+            </xsl:otherwise>
         </xsl:choose>
 
     </xsl:template>
