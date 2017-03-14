@@ -357,7 +357,16 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
   }
 
   def giftsExemptionsTotal = {
-    0.0
+    gifts.fold[Set[Gift]](Set())(_.flatten)
+      .foldLeft(BigDecimal(0))((a, b) => a + b.assetDescription.fold(BigDecimal(0))(x => {
+        if(x.length>0){
+          val str = x.split("£")
+          println("***********************"+str.length)
+        BigDecimal(0)
+        } else{
+          BigDecimal(0)
+        }
+      }))
   }
 }
 
