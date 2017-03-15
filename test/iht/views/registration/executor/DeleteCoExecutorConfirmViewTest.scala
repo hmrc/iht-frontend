@@ -21,6 +21,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.registration.executor.delete_coexecutor_confirm
 import play.api.i18n.Messages.Implicits._
 import iht.utils._
+import play.api.test.Helpers.contentAsString
 
 class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
 
@@ -44,6 +45,11 @@ class DeleteCoExecutorConfirmViewTest extends ViewTestHelper{
   }
 
   "DeleteCoExecutorConfirmView" must {
+
+    "have no message keys in html" in {
+      val view = deleteCoExecutorUKAddressConfirmView().toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "have the correct title and browser title" in {
       val view = deleteCoExecutorUKAddressConfirmView().toString

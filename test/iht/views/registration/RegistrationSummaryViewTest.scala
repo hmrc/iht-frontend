@@ -33,6 +33,7 @@ import scala.util.{Failure, Success, Try}
 import iht.controllers.registration.applicant.{routes => applicantRoutes}
 import iht.controllers.registration.deceased.{routes => deceasedRoutes}
 import iht.controllers.registration.executor.{routes => executorRoutes}
+import play.api.i18n.MessagesApi
 
 class RegistrationSummaryViewTest extends ViewTestHelper {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -244,6 +245,11 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
   def docForeign = asDocument(viewAsStringForeign)
 
   "Registration summary view" must {
+
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(viewAsString)
+    }
+
     "have the correct title" in {
       titleShouldBeCorrect(viewAsString, messagesApi("iht.registration.checkYourAnswers"))
     }

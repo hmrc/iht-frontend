@@ -27,6 +27,11 @@ class ExemptionsGuidanceIncreasingThresholdViewTest extends ViewTestHelper {
 
   "exemptions guidance increasing threshold page" must {
 
+    "have no message keys in html" in {
+      val view = exemptions_guidance_increasing_threshold("ihtReference").toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "show the correct title" in {
       implicit val request = createFakeRequest()
       val view = exemptions_guidance_increasing_threshold("ihtReference").toString

@@ -16,15 +16,18 @@
 
 package iht.views.registration
 
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_checklist
-import iht.{FakeIhtApp, TestUtils}
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 
-class RegistrationChecklistViewTest extends UnitSpec with FakeIhtApp with TestUtils with HtmlSpec{
+class RegistrationChecklistViewTest extends ViewTestHelper {
 
   "RegistrationChecklistView" must {
+
+    "have no message keys in html" in {
+      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "contain the correct page heading and contents for first paragraph of guidance" in {
 

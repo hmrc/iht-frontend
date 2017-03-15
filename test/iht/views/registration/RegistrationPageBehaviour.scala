@@ -18,8 +18,6 @@ package iht.views.registration
 
 import iht.views.ViewTestHelper
 import org.jsoup.nodes.Document
-import play.api.i18n.MessagesApi
-import play.api.mvc.AnyContentAsEmpty
 import play.api.data.{Form, FormError}
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
@@ -36,6 +34,11 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
   def formToView:Form[A] => Appendable = ???
 
   def registrationPage(): Unit = {
+
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
     }

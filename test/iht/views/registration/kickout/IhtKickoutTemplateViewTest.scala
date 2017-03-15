@@ -41,6 +41,12 @@ class IhtKickoutTemplateViewTest extends ViewTestHelper{
   }
 
   "IhtKickoutApplication View" must {
+
+    "have no message keys in html" in {
+      val view = ihtKickOutTemplateView().toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title and summary message" in {
       val view = ihtKickOutTemplateView()
 
