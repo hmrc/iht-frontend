@@ -37,8 +37,13 @@ Autobox.prototype.addEvents = function(){
 
     //listen for changes to the input
     _autobox.input.on('input', function(e){
-        console.log('event - input');
         _autobox.update();
+    });
+
+    //add focus item for screenreader touch
+    _autobox.list.on('focus', 'li', function(){
+        _autobox.updateCurrentSuggestion($(this));
+        _autobox.status.html($(this).text() + _autobox.displayPosition($(this)));
     });
 
     //capture non-input keys (suggestion navigation, suggestion selection, space)
@@ -144,9 +149,8 @@ Autobox.prototype.selectOption = function(){
     _autobox.select.val("").change();
 
     var selectedValue = _autobox.select.find('option[data-title="' + _autobox.cListVal.toLowerCase() + '"]').val();
-    console.log(_autobox.cList);
-    console.log(selectedValue);
     _autobox.select.val(selectedValue).change();
+    _autobox.input.focus();
 }
 
 //=============================================
