@@ -16,18 +16,22 @@
 
 package iht.views.application.assets
 
-import iht.FakeIhtApp
 import iht.controllers.application.assets.pensions.routes._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
+import iht.views.ViewTestHelper
 import iht.views.html.application.asset.assets_overview
-import uk.gov.hmrc.play.test.UnitSpec
 import play.api.i18n.Messages.Implicits._
-import play.api.i18n.MessagesApi
 
-class AssetsOverviewViewTest extends UnitSpec with FakeIhtApp  {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class AssetsOverviewViewTest extends ViewTestHelper  {
   "assets_overview" must {
+
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val assets = AllAssets(privatePension = Some(PrivatePension(isChanged = None, value = None, isOwned = Some(true))))
+      val view = assets_overview(ApplicationDetails(allAssets = Some(assets)), assets, "", "").toString()
+      noMessageKeysShouldBePresent(view)
+    }
 
     def assertPensionOvervewLinkPointsToCorrectPage(hasPension: Option[Boolean], url: String) = {
       implicit val request = createFakeRequest()

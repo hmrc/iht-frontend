@@ -38,6 +38,10 @@ trait GenericNonSubmittablePageBehaviour extends ViewTestHelper {
   val exitId: String = "return-button"
 
   def nonSubmittablePage() = {
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
     }

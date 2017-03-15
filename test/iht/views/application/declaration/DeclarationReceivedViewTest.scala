@@ -35,6 +35,11 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
   }
 
   "DeclarationReceivedView Page" must {
+    "have no message keys in html" in {
+      val view = declarationReceivedView().toString
+      noMessageKeysShouldBePresent(view)
+    }
+
    "show correct title and browserTitle" in {
      val view = declarationReceivedView().toString
      titleShouldBeCorrect(view, messagesApi("page.iht.application.declaration_received.title"))
