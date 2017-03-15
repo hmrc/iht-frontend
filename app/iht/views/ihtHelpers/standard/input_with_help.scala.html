@@ -70,12 +70,14 @@
         step="any"
         min="0"
         data-type="currency"
+        value="@CommonHelper.formatCurrencyForInput(value.toString())"
     } else {
         @if( elements.args.get('_type) ){
             type="@elements.args.get('_type)"
         } else {
             type="text"
         }
+        value="@value"
     }
 
     @if( elements.args.get('_inputClass) ){ class="@elements.args.get('_inputClass)
@@ -87,7 +89,7 @@
     @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
     name="@elements.field.name"
     id="@elements.field.name"
-    value="@CommonHelper.formatCurrencyForInput(value.toString())"
+
     @if(elements.args.contains('_screenReader)){aria-label="@screenReader"}/>
 }
     @elements.args.get('_currency) match {
