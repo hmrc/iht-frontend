@@ -50,6 +50,16 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
   lazy val returnLinkTargetUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   "DeceasedWidowCheckDateView " must {
+
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+
+      val view = deceased_widow_check_date(deceasedWidowCheckQuestionForm,
+        widowCheckModel, tnrbModel, regDetails,
+        returnLinkTargetUrl, returnLinkText).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       implicit val request = createFakeRequest()
 

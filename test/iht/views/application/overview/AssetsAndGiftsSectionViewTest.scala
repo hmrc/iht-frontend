@@ -36,6 +36,14 @@ class AssetsAndGiftsSectionViewTest extends ViewTestHelper {
 
   "assets and gifts section" must {
 
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val viewModel: AssetsAndGiftsSectionViewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = true)
+
+      val view = assets_and_gifts_section(viewModel).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "show the correct title when asked to" in {
       implicit val request = createFakeRequest()
       val viewModel: AssetsAndGiftsSectionViewModel = dummyAssetsAndGiftsSection copy (behaveAsIncreasingTheEstateSection = true)

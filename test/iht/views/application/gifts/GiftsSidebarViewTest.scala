@@ -37,8 +37,13 @@ class GiftsSidebarViewTest extends ViewTestHelper {
   }
 
   "gifts sidebar view" must {
-    "have the correct title" in {
 
+    "have no message keys in html" in {
+      val view = doc.toString
+      noMessageKeysShouldBePresent(view)
+    }
+
+    "have the correct title" in {
         val headers = doc.getElementsByTag("h2")
         headers.size shouldBe 1
         headers.first.text() shouldBe messagesApi("site.getHelp")

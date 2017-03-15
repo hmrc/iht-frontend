@@ -59,9 +59,8 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     val cleanedContent = Jsoup.clean(content, Whitelist.basic)
     val doc = asDocument(cleanedContent)
     doc.select("a").unwrap
-    val docAsString = doc.toString
     val regex = """([A-Za-z]+\.){1,}[\w]+""".r
-    val iterator = regex.findAllIn(docAsString)
+    val iterator = regex.findAllIn(doc.toString)
     val errorMessage = iterator.foldRight[String](""){ (a,b) =>
       if (a.contains("GOV.UK")) {
         b

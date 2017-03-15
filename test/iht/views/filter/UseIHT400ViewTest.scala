@@ -16,23 +16,27 @@
 
 package iht.views.filter
 
-import iht.FakeIhtApp
-import iht.views.HtmlSpec
+import iht.constants.IhtProperties
+import iht.views.ViewTestHelper
 import iht.views.html.filter.use_iht400
 import play.api.i18n.Messages.Implicits._
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
-import iht.constants.IhtProperties
+import play.api.test.Helpers.{contentAsString, _}
 
 /**
  * Created by jennygj on 25/10/16.
  */
-class UseIHT400ViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class UseIHT400ViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val iht400PaperFormLink = "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
 
   "Use Paper Form view, when rendering for an estate exceeding £1 million" must {
+
+    "have no message keys in html" in {
+      val result = use_iht400()(fakeRequest, applicationMessages)
+      val view = asDocument(contentAsString(result)).toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "display the correct title" in {
       val result = use_iht400()(fakeRequest, applicationMessages)

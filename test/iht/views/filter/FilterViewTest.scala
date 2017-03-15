@@ -16,23 +16,27 @@
 
 package iht.views.filter
 
-import iht.FakeIhtApp
-import iht.views.HtmlSpec
-import iht.views.html.filter.filter_view
-import play.api.test.Helpers._
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 import iht.forms.FilterForms.filterForm
-import org.jsoup.nodes.Element
+import iht.views.ViewTestHelper
+import iht.views.html.filter.filter_view
+import play.api.i18n.Messages.Implicits._
+import play.api.test.Helpers._
 
 /**
   * Created by adwelly on 20/10/2016.
   */
-class FilterViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class FilterViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
   "filter_view" must {
+
+    "have no message keys in html" in {
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val view = asDocument(contentAsString(result)).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "generate appropriate content for the title" in {
       val result = filter_view(filterForm)(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))

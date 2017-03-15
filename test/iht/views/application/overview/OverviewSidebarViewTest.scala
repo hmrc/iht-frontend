@@ -30,6 +30,11 @@ class OverviewSidebarViewTest extends ViewTestHelper {
 
   "Overview Sidebar view" must {
 
+    "have no message keys in html" in {
+      val view = viewAsDoc.toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "show the correct date that has been input to the view " in {
       assertRenderedById(viewAsDoc, "estate-report-deadline-date")
       assertContainsText(viewAsDoc, submissionDate)

@@ -16,15 +16,13 @@
 
 package iht.views.filter
 
-import iht.FakeIhtApp
-import iht.views.HtmlSpec
+import iht.constants.IhtProperties
+import iht.views.ViewTestHelper
 import iht.views.html.filter.use_paper_form
 import play.api.i18n.Messages.Implicits._
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
-import iht.constants.IhtProperties
+import play.api.test.Helpers.{contentAsString, _}
 
-class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class UsePaperFormViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
   lazy val iht400FormUrl= "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
@@ -37,6 +35,11 @@ class UsePaperFormViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
   }
 
   "Use Paper Form view" must {
+
+    "have no message keys in html" in {
+      val view = getPageAsDoc().toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "have the correct title" in {
       val doc = getPageAsDoc()

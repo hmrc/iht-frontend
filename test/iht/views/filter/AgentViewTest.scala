@@ -16,21 +16,26 @@
 
 package iht.views.filter
 
-import iht.FakeIhtApp
-import iht.views.HtmlSpec
+import iht.constants.IhtProperties
+import iht.views.ViewTestHelper
 import iht.views.html.filter.agent_view
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
-import iht.constants.IhtProperties
 /**
   * Created by adwelly on 21/10/2016.
   */
-class AgentViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class AgentViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
   "FilterView" must {
+
+    "have no message keys in html" in {
+      val result = agent_view()(fakeRequest, applicationMessages)
+      val view = asDocument(contentAsString(result)).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "generate appropriate content for the title" in {
       val result = agent_view()(fakeRequest, applicationMessages)
       val doc = asDocument(contentAsString(result))

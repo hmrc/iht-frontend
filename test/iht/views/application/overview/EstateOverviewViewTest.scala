@@ -70,6 +70,13 @@ class EstateOverviewViewTest extends ViewTestHelper{
 
   "Estate overview view" must {
 
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+
+      val view = estate_overview(dummyViewModel).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "contain the correct guidance text" in {
       implicit val request = createFakeRequest()
 

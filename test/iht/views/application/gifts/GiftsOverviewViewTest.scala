@@ -52,6 +52,11 @@ class GiftsOverviewViewTest extends ViewTestHelper {
 
   "GiftsOverview view" must {
 
+    "have no message keys in html" in {
+      val view = giftsOverviewView().toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have correct title and browser title " in {
       val view = giftsOverviewView().toString
 

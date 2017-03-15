@@ -17,22 +17,25 @@
 package iht.views.filter
 
 import iht.constants.Constants._
-import iht.FakeIhtApp
-import iht.views.HtmlSpec
-import iht.views.html.filter.{agent_view, use_service}
+import iht.views.ViewTestHelper
+import iht.views.html.filter.use_service
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
-import iht.constants.IhtProperties._
 
 /**
   * Created by adwelly on 25/10/2016.
   */
-class UseServiceTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class UseServiceTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
 
   "use_service" must {
+
+    "have no message keys in html" in {
+      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val view = asDocument(contentAsString(result)).toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "generate appropriate content for the title" in {
       val result = use_service(under325000)(fakeRequest, applicationMessages)

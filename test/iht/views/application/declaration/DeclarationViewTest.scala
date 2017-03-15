@@ -199,7 +199,10 @@ class DeclarationViewTest extends ViewTestHelper {
       assertNotRenderedById(doc, mainBullet6TextId)
     }
 
-    //I AM HERE
+    "have no message keys in html for declaration type ValueLessThanTransferredNilRateBand" in {
+      val view = declarationView(isMultipleExecutor = false, declarationType = DeclarationReason.ValueLessThanTransferredNilRateBand).toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "display correct contents for declaration type ValueLessThanTransferredNilRateBandAfterExemption" in {
       val doc = declarationView(isMultipleExecutor = false, declarationType = DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption)
@@ -218,6 +221,11 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet6TextId", messagesApi(noInheritanceTaxPayableMsgKey))
+    }
+
+    "have no message keys in html for declaration type ValueLessThanTransferredNilRateBandAfterExemption" in {
+      val view = declarationView(isMultipleExecutor = false, declarationType = DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption).toString
+      noMessageKeysShouldBePresent(view)
     }
   }
 
@@ -244,6 +252,11 @@ class DeclarationViewTest extends ViewTestHelper {
       assertNotRenderedById(doc, mainBullet6TextId)
     }
 
+    "have no message keys in html for declaration type ValueLessThanNilRateBand" in {
+      val view = declarationView(isMultipleExecutor = true, declarationType = DeclarationReason.ValueLessThanNilRateBand).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
 
     "display correct contents for declaration type ValueLessThanNilRateBandAfterExemption" in {
       val doc = declarationView(isMultipleExecutor = true, declarationType = DeclarationReason.ValueLessThanNilRateBandAfterExemption)
@@ -266,6 +279,11 @@ class DeclarationViewTest extends ViewTestHelper {
       assertNotRenderedById(doc, mainBullet6TextId)
     }
 
+    "have no message keys in html for declaration type ValueLessThanNilRateBandAfterExemption" in {
+      val view = declarationView(isMultipleExecutor = true, declarationType = DeclarationReason.ValueLessThanNilRateBandAfterExemption).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "display correct contents for declaration type ValueLessThanTransferredNilRateBand" in {
       val doc = declarationView(isMultipleExecutor = true, declarationType = DeclarationReason.ValueLessThanTransferredNilRateBand)
 
@@ -284,6 +302,11 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
       assertNotRenderedById(doc, mainBullet6TextId)
+    }
+
+    "have no message keys in html for declaration type ValueLessThanTransferredNilRateBand" in {
+      val view = declarationView(isMultipleExecutor = true, declarationType = DeclarationReason.ValueLessThanTransferredNilRateBand).toString
+      noMessageKeysShouldBePresent(view)
     }
 
     "display correct contents for declaration type ValueLessThanTransferredNilRateBandAfterExemption" in {
@@ -305,6 +328,9 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$mainBullet6TextId", messagesApi(noInheritanceTaxPayableMsgKey))
     }
 
+    "have no message keys in html for declaration type ValueLessThanTransferredNilRateBandAfterExemption" in {
+      val view = declarationView(isMultipleExecutor = true, declarationType = DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption).toString
+      noMessageKeysShouldBePresent(view)
+    }
   }
-
 }
