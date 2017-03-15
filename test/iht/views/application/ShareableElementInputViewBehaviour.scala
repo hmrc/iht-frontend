@@ -50,6 +50,10 @@ trait ShareableElementInputViewBehaviour[A] extends ViewTestHelper {
   def yesNoValueViewJoint() = viewBehaviour(shareValueInputBoxId)
 
   private def viewBehaviour(valueId: String) = {
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
     }

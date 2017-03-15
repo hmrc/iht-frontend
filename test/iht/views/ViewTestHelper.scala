@@ -20,7 +20,9 @@ import iht.models.UkAddress
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import iht.{FakeIhtApp, TestUtils}
+import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
+import org.jsoup.safety.Whitelist
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
@@ -51,6 +53,27 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     label.text shouldBe labelText
     val radio = label.children.first
     radio.id shouldBe radioID
+  }
+
+  def noMessageKeysShouldBePresent(content:String) = {
+    val cleanedContent = Jsoup.clean(content, Whitelist.basic)
+    val doc = asDocument(cleanedContent)
+    doc.select("a").unwrap
+    val docAsString = doc.toString
+    val regex = """([A-Za-z]+\.){1,}[\w]+""".r
+    val iterator = regex.findAllIn(docAsString)
+    val errorMessage = iterator.foldRight[String](""){ (a,b) =>
+      if (a.contains("GOV.UK")) {
+        b
+      } else {
+        if (b.nonEmpty) {
+          b ++ "," ++ a
+        } else {
+          b ++ a
+        }
+      }
+    }
+    errorMessage shouldBe ""
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {

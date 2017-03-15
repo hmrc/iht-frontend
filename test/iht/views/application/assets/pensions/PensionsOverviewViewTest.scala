@@ -26,6 +26,8 @@ import iht.views.html.application.asset.pensions.pensions_overview
 import play.api.i18n.Messages.Implicits._
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 
 class PensionsOverviewViewTest extends ViewTestHelper {
 
@@ -57,6 +59,11 @@ class PensionsOverviewViewTest extends ViewTestHelper {
   }
 
   "PensionsOverview view" must {
+
+    "have no message keys in html" in {
+      val view = pensionOverviewView(Some(CommonBuilder.buildPrivatePensionExtended)).toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "have correct title and browser title " in {
       val view = pensionOverviewView(Some(CommonBuilder.buildPrivatePensionExtended)).toString
