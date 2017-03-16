@@ -22,7 +22,7 @@ import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
 import iht.utils._
-import iht.constants.{FieldMappings, IhtProperties}
+import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
@@ -38,7 +38,6 @@ import org.apache.fop.events.Event
 import org.apache.fop.events.EventFormatter
 import org.apache.fop.events.EventListener
 import org.apache.fop.events.model.EventSeverity
-import FieldMappings._
 
 /**
   * Created by david-beer on 07/06/16.
@@ -52,30 +51,28 @@ trait XmlFoToPDF {
   private val filePathForPreSubmissionXSL = s"$folderForPDFTemplates/presubmission/main.xsl"
   private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
 
-  def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
+  def createPreSubmissionPDF(regDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String): Array[Byte] = {
-    val rd = PdfFormatter.transform(registrationDetails)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(
-      ModelToXMLSource.getPreSubmissionXMLSource(rd, applicationDetails)))
+      ModelToXMLSource.getPreSubmissionXMLSource(regDetails, applicationDetails)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPreSubmissionTransformer(rd, applicationDetails)
+    createPreSubmissionTransformer(regDetails, applicationDetails)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
     pdfoutStream.toByteArray
   }
 
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
-    val rd = PdfFormatter.transform(registrationDetails)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
-      getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
+      getPostSubmissionDetailsXMLSource(registrationDetails, ihtReturn)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPostSubmissionTransformer(rd, ihtReturn)
+    createPostSubmissionTransformer(registrationDetails, ihtReturn)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.toByteArray
@@ -154,9 +151,6 @@ trait XmlFoToPDF {
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, Option(dateOfMarriage),
       ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
       ihtReturn.totalGiftsValue)
-
-//    transformer.setParameter("estateValue", applicationDetails.totalNetValue)
-//    transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
 
     transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer

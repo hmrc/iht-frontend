@@ -72,7 +72,7 @@ object IHTReturnTestHelper {
 
     IHTReturn(Some(acknowledgmentReference),
       submitter=Some(Submitter(submitterRole=Some("Lead Executor"))),
-      deceased=Some(buildTNRB()),
+      deceased=Some(buildTNRB),
       freeEstate=Some(freeEstate),
       gifts=Some(buildGifts),
       trusts=Some(buildTrusts),
@@ -165,7 +165,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  def buildTNRB(useDateOfDeath:Option[String] = Some("2010-10-12")) = {
+  private def buildTNRB = {
     val survivingSpouse = SurvivingSpouse(
       // Person
       title= Some("Mrs"), firstName= Some(CommonBuilder.firstNameGenerator), middleName= None,
@@ -185,7 +185,7 @@ object IHTReturnTestHelper {
       mainAddress= Some(DefaultAddress),
 
       // Other
-      dateOfMarriage= Some(toDate("2008-12-13")), dateOfDeath= useDateOfDeath.map(x=>toDate(x))
+      dateOfMarriage= Some(toDate("2008-12-13")), dateOfDeath=Some(toDate("2010-10-12"))
     )
 
     val spousesEstate = SpousesEstate(
@@ -205,6 +205,8 @@ object IHTReturnTestHelper {
         deceasedSpouses = Set(tnrbForm)))
     )
   }
+
+
 
   // Liabilities excluding mortgages, split into funeral expenses and other.
   private def buildLiabilities = {
