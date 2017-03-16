@@ -53,6 +53,12 @@ class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
   }
 
   "IhtHome view" must {
+    "have no message keys in html" in {
+      running(app) {
+        val view = ihtHomeView(ihtApplications).toString
+        noMessageKeysShouldBePresent(view)
+      }
+    }
 
     "have correct title and browser title " in {
       running(app) {

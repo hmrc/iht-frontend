@@ -31,6 +31,15 @@ import uk.gov.hmrc.play.test.UnitSpec
 import scala.collection.JavaConversions._
 
 trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+  val messageKeysRegex = """([A-Za-z]+\.){1,}[\w]+""".r
+  /**
+    * Items which look like message keys but actually are real content, so instances of them
+    * found in generated HTML should not cause the message key detection unit test to fail :-
+    *   GOV.UK: Displayed in browser titles
+    *   U.S: The United States
+    */
+  val messageKeyExclusions = Set("GOV.UK", "U.S")
+  val messageKeysDelimiter = ", "
 
   implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
@@ -56,23 +65,22 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   }
 
   def noMessageKeysShouldBePresent(content:String) = {
-    val cleanedContent = Jsoup.clean(content, Whitelist.basic)
+    val cleanedContent = Jsoup.clean(content, Whitelist.basic) // Remove javascript
     val doc = asDocument(cleanedContent)
-    doc.select("a").unwrap
-    val regex = """([A-Za-z]+\.){1,}[\w]+""".r
-    val iterator = regex.findAllIn(doc.toString)
-    val errorMessage = iterator.foldRight[String](""){ (a,b) =>
-      if (a.contains("GOV.UK") || a.contains("country.") || a.contains("U.S")) {
-        b
+    doc.select("a").unwrap // Remove anchor tags but keep the content within them
+    val candidatesIterator = messageKeysRegex.findAllIn(doc.toString) // Find all possible message key candidates
+    val messageKeysFound = candidatesIterator.foldRight[String](""){ (currentCandidate, previousCandidates) =>
+      if (messageKeyExclusions.exists( exclusion => currentCandidate.contains(exclusion) )) {
+        previousCandidates
       } else {
-        if (b.nonEmpty) {
-          b ++ "," ++ a
+        if (previousCandidates.nonEmpty) {
+          previousCandidates + messageKeysDelimiter + currentCandidate
         } else {
-          b ++ a
+          previousCandidates + currentCandidate
         }
       }
     }
-    errorMessage shouldBe ""
+    messageKeysFound shouldBe ""
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {

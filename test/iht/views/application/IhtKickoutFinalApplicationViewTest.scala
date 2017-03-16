@@ -36,6 +36,10 @@ class IhtKickoutFinalApplicationViewTest extends ViewTestHelper{
 
   "IhtKickoutFinalApplication View" must {
 
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(ihtKickOutFinalApplicationView.toString)
+    }
+
     "have the correct title and browser title" in {
       val view = ihtKickOutFinalApplicationView.toString
 

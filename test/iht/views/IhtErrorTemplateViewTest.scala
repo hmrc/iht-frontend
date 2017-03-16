@@ -26,6 +26,10 @@ class IhtErrorTemplateViewTest extends ViewTestHelper {
   def view: String = iht_error_template(title, heading, message)(createFakeRequest(), applicationMessages).toString
 
   "Application error template" must {
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       val doc = asDocument(view)
       val headers = doc.getElementsByTag("h1")

@@ -25,6 +25,11 @@ import play.api.i18n.Messages.Implicits._
 class TnrbGuidanceViewTest extends ViewTestHelper {
 
   "tnrb guidance page" must {
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val view = tnrb_guidance("ihtReference", "url").toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "show the correct title" in {
       implicit val request = createFakeRequest()
