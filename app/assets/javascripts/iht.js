@@ -22,6 +22,9 @@ showHideContent.init()
   combinedValue();
 
 
+  numberInputs();
+
+
 // =====================================================
 // Check for hashed url and jump to input if needed
 // The non-error-list focus will not focus on the input for iOS due to security restrictions
@@ -120,6 +123,18 @@ if($('#countryCode').val() == "GB" || $('#countryCode').val() == undefined) {
       $("form").append("<input type='hidden' name='action' value='"+submitValue+"'>");
       $("form").trigger('submit');
   });
+
+
+
+// =====================================================
+// Number input trailing zero fix
+// Changes input from number to text (Firefox only)
+// =======================================================
+    if(window.navigator.userAgent.indexOf("Firefox") > 0){
+      $('[data-type="currency"]').each(function(){
+        $(this).attr('type', 'text');
+      });
+  }
 
   // end of on doc ready
 });
@@ -306,3 +321,21 @@ function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
+
+
+function numberInputs() {
+    $("form").on("focus", "input[type=number]", function(e) {
+        $(this).on('wheel', function(e) {
+            e.preventDefault();
+        });
+    });
+
+    $("form").on("blur", "input[type=number]", function(e) {
+        $(this).off('wheel');
+    });
+
+    $("form").on("keydown", "input[type=number]", function(e) {
+        if ( e.which == 38 || e.which == 40 )
+            e.preventDefault();
+    });
+}
