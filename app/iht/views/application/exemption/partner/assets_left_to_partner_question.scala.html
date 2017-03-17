@@ -33,7 +33,8 @@ browserTitle = Some(Messages("page.iht.application.exemptions.assetLeftToPartner
 isFullWidth=false,
 cancelUrl = Some(cancelUrl),
 cancelLabel = Some(cancelLabel),
-headingName = deceasedName){
+headingName = deceasedName,
+headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary(assetsLeftToSpouseQuestionForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onSubmit,'autoComplete -> "off") {
 

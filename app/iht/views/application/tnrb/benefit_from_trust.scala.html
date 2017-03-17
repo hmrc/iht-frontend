@@ -34,7 +34,8 @@ partnerName),
 browserTitle = Some(Messages("page.iht.application.tnrb.benefitFromTrust.browserTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(cancelUrl),
-headingName = partnerName){
+headingName = partnerName,
+headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary(benefitFromTrustForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit,'autoComplete -> "off") {

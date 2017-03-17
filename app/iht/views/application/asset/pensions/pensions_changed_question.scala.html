@@ -31,7 +31,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     title = Messages("page.iht.application.assets.pensions.changed.title", deceasedName),
     browserTitle = Some(Messages("page.iht.application.assets.pensions.changed.browserTitle")),
     isFullWidth=false,
-    headingName = deceasedName
+    headingName = deceasedName,
+    headingClass = "heading-large"
 ){
 
     <p class="lede">@Messages("page.iht.application.assets.pensions.changed.question")</p>

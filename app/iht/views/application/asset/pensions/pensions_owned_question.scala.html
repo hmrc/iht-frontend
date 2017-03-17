@@ -32,7 +32,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     title = Messages("page.iht.application.pensions.isOwned.title",deceasedName),
     browserTitle = Some(Messages("page.iht.application.pensions.isOwned.browserTitle")),
     isFullWidth=false,
-    headingName = deceasedName
+    headingName = deceasedName,
+    headingClass = "heading-large"
 ){
     @ihtHelpers.custom.error_summary_override_keys(pensionsOwnedQuestionForm, Constants.AppSectionPrivatePension)
 

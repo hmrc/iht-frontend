@@ -27,7 +27,9 @@ submitUrl: Call)(implicit request:Request[_], messages: Messages)
 browserTitle = Some(Messages("page.iht.application.assets.property.address.browserTitle")),
 isFullWidth = false,
 cancelUrl = Some(cancelUrl),
-cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))) {
+cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
+headingClass = "heading-large"
+) {
 
 @ihtHelpers.custom.error_summary(propertyAddressForm)
 
