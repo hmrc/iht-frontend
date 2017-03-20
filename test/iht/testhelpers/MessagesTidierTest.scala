@@ -671,7 +671,7 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
           val sortedErrorMessages = MessagesTidier.sortErrormessagesApi(messagesAsTuples)
           mockedMessagesTidier.writeToFile("/home/grant/Desktop/waa1.txt", sortedErrorMessages)
 
-          val inputFilePath = getResourceAsFilePath("messages")
+          val inputFilePath = getResourceAsFilePath("messages.en")
 
           val result1: Seq[(String, String)] = MessagesTidier.getNonErrorMessagesExclCommentedKeys(inputFilePath)
           mockedMessagesTidier.writeToFile("/home/grant/Desktop/waa2.txt", result1)
