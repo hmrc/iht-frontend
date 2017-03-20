@@ -62,7 +62,7 @@ trait MessagesTidier {
   )
 
   def readmessagesApi(): Map[String, String] = {
-    val aa: Map[String, String] = getOrException(messages.get("default"))
+    val aa: Map[String, String] = getOrException(messages.get("en"))
     aa.filter(xx => !exclusions.contains(xx._1))
   }
 
