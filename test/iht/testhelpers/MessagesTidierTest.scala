@@ -28,7 +28,7 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
 
   val runTestsThatUseFileSystem = false
   val runTestsThatSortErrorMessages = false
-  val runTestsThatSortIhtMessages = true
+  val runTestsThatSortIhtMessages = false
   val runTestsThatReplaceMessageKeys = false
   val runTestsThatGenerateAllErrorMessageKeysForReplace = false
 
