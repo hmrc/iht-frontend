@@ -16,19 +16,23 @@
 
 package iht.views.registration
 
+import iht.TestUtils
 import iht.controllers.registration.executor.routes._
+import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_summary_coexecutor_panel
-import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.play.test.UnitSpec
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 
-class RegistrationSummaryCoExecutorPanelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils {
-
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class RegistrationSummaryCoExecutorPanelTest extends ViewTestHelper with TestUtils {
 
   "RegistrationSummaryCoExecutorPanelTest" must {
+
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      implicit val messages: MessagesApi = app.injector.instanceOf[MessagesApi]
+      val view = registration_summary_coexecutor_panel(Seq())(request, applicationMessages).toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "link to the others applying for probate change" in {
       implicit val request = createFakeRequest()

@@ -57,6 +57,11 @@ class TrustsOverviewViewTest extends ViewTestHelper {
   }
 
   "TrustsOverview view" must {
+    "have no message keys in html" in {
+      val view = trustsOverviewView(Some(CommonBuilder.buildAssetsHeldInTrust)).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have correct title and browser title " in {
       val view = trustsOverviewView(Some(CommonBuilder.buildAssetsHeldInTrust)).toString
 

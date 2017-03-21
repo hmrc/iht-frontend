@@ -32,6 +32,11 @@ class CheckedEverythingViewTest extends ViewTestHelper {
   }
 
   "Checked everything page" must {
+    "have no message keys in html" in {
+      val view = page(CommonBuilder.buildRegistrationDetails1)
+      noMessageKeysShouldBePresent(view)
+    }
+
     "show correct title and browserTitle" in {
       val rd = CommonBuilder.buildRegistrationDetails1
       val deceasedName = getOrException(rd.deceasedDetails.map(_.name))

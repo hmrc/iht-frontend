@@ -47,8 +47,8 @@ class GiftsGuidanceMainTemplateViewTest extends GenericNonSubmittablePageBehavio
       isFullWidth = false,
       ihtReference = ihtReference,
       backToLastQuestionUrl = Some(CommonBuilder.DefaultCall2.url),
-      backToLastQuestionMessageKey = Some("a.b"),
-      backToLastQuestionMessageKeyAccessibility = Some("c.d")
+      backToLastQuestionMessageKey = Some("first"),
+      backToLastQuestionMessageKeyAccessibility = Some("second")
     )(mainContent = Html("html content")).toString
   }
 
@@ -59,8 +59,8 @@ class GiftsGuidanceMainTemplateViewTest extends GenericNonSubmittablePageBehavio
       isFullWidth = false,
       ihtReference = ihtReference,
       backToLastQuestionUrl = Some(CommonBuilder.DefaultCall2.url),
-      backToLastQuestionMessageKey = Some("a.b"),
-      backToLastQuestionMessageKeyAccessibility = Some("c.d")
+      backToLastQuestionMessageKey = Some("first"),
+      backToLastQuestionMessageKeyAccessibility = Some("second")
     )(mainContent = Html("html content"))(request, play.api.i18n.Messages.Implicits.applicationMessages).toString
     asDocument(view)
   }

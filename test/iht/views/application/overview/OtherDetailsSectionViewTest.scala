@@ -29,6 +29,12 @@ class OtherDetailsSectionViewTest extends ViewTestHelper {
 
   "other details section" must {
 
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val view = other_details_section(dummyOtherDetailsSection).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       implicit val request = createFakeRequest()
       val view = other_details_section(dummyOtherDetailsSection)

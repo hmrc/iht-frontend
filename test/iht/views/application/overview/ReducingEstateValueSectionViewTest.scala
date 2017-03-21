@@ -32,6 +32,12 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
 
   "reducing the estate value section" must {
 
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val view = reducing_estate_value_section(viewModel).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       implicit val request = createFakeRequest()
       val view = reducing_estate_value_section(viewModel)

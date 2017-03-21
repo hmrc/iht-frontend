@@ -62,6 +62,10 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
 
   def overviewViewWithGenericContents() = {
 
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(viewWithQuestionsAnsweredNo)
+    }
+
     "have the correct title" in {
       titleShouldBeCorrect(viewWithQuestionsAnsweredNo, pageTitle)
     }
@@ -83,6 +87,10 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
   }
 
   def overviewViewWithQuestionsUnanswered(sectionName: String) = {
+    "have no message keys in html when the questions are unanswered" in {
+      noMessageKeysShouldBePresent(viewWithQuestionsUnanswered)
+    }
+
     "show the 'owned only by the deceased' question header as unanswered with a link to give details in " + sectionName in {
 
       headerQuestionShouldBeUnanswered(asDocument(viewWithQuestionsUnanswered), ownHeadingElementId, ownHeaderText, urlToOwnPage)
@@ -111,6 +119,9 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
   }
 
   def overviewViewWithQuestionsAnsweredNo(sectionName: String) = {
+    "have no message keys in html when the questions are all answered no" in {
+      noMessageKeysShouldBePresent(viewWithQuestionsAnsweredNo)
+    }
 
     "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredNo), ownHeadingElementId, ownHeaderText)
@@ -139,6 +150,9 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
   }
 
   def overviewViewWithQuestionsAnsweredYes(sectionName: String) = {
+    "have no message keys in html when the questions are all answered yes" in {
+      noMessageKeysShouldBePresent(viewWithQuestionsAnsweredYes)
+    }
 
     "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithQuestionsAnsweredYes), ownHeadingElementId, ownHeaderText)
@@ -168,6 +182,9 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
   }
 
   def overviewViewWithValues(sectionName: String) = {
+    "have no message keys in html when there are values" in {
+      noMessageKeysShouldBePresent(viewWithValues)
+    }
 
     "show the 'only owned by the deceased' question header as answered with no link in " + sectionName in {
       headerShouldBeAnswered(asDocument(viewWithValues), ownHeadingElementId, ownHeaderText)

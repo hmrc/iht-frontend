@@ -36,6 +36,12 @@ class ThresholdSectionViewTest extends ViewTestHelper {
 
   "threshold section" must {
 
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val view = threshold_section(thresholdSection).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "contain the threshold row" in {
       implicit val request = createFakeRequest()
 

@@ -27,6 +27,12 @@ class CompletedRegistrationViewTest extends ViewTestHelper{
 
   "CompletedRegistrationView" must {
 
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val view = completed_registration(ihtRef).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "contain the correct title and browser title" in {
       implicit val request = createFakeRequest()
       val view = completed_registration(ihtRef).toString

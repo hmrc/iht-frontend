@@ -62,6 +62,10 @@ class TnrbOverviewTableRowViewTest extends ViewTestHelper {
 
   "TnrbOverviewTableRow" must {
 
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(tnrbOverviewTableRow().toString)
+    }
+
     "have the correct id" in {
       val view = tnrbOverviewTableRow()
       assertRenderedById(view, id)

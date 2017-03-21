@@ -16,17 +16,26 @@
 
 package iht.views.ihtHelpers
 
-import iht.FakeIhtApp
-import iht.utils.CommonHelper
 import iht.viewmodels.application.overview._
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.overview_item
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.test.UnitSpec
 
-class OverviewItemViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class OverviewItemViewTest extends ViewTestHelper {
 
   "OverviewItem helper" must {
+    "have no message keys in html" in {
+      val overviewRow = OverviewRow("assets",
+        messagesApi("iht.estateReport.assets.inEstate"),
+        "",
+        NotStarted,
+        iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
+        "")
+
+      val view = overview_item(overviewRow)
+      noMessageKeysShouldBePresent(view.toString)
+    }
+
     "show the correct label and row id" in {
       val overviewRow = OverviewRow("assets",
         messagesApi("iht.estateReport.assets.inEstate"),

@@ -27,6 +27,10 @@ class TimeoutApplicationViewTest extends ViewTestHelper {
   }
 
   "TimeoutApplication View" must {
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(viewAsDocument.toString)
+    }
+
     "have the correct title" in {
       titleShouldBeCorrect(viewAsDocument.toString, messagesApi("iht.signedOut"))
     }

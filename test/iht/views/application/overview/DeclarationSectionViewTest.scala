@@ -32,6 +32,12 @@ class DeclarationSectionViewTest extends ViewTestHelper {
 
   "declarationSection " must {
 
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val view = declaration_section(declarationSectionViewModel.copy(declarationSectionStatus = InComplete)).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "contain the incomplete guidance text when Declaration status is InComplete" in {
       implicit val request = createFakeRequest()
 

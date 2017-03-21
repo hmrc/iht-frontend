@@ -60,6 +60,10 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
   def linkHash: String = ""
 
   def applicationPage() = {
+    "have no message keys in html" in {
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       titleShouldBeCorrect(view, pageTitle)
     }

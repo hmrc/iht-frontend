@@ -44,6 +44,13 @@ class DateOfMarriageViewTest extends ViewTestHelper {
   lazy val predeceasedName = "Pll Zbb"
 
   "DateOfMarriageView " must {
+
+    "have no message keys in html" in {
+      implicit val request = createFakeRequest()
+      val view = date_of_marriage(dateOfMarriageForm, widowCheckModel, deceasedName, predeceasedName, returnLinkTargetUrl).toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have the correct title" in {
       implicit val request = createFakeRequest()
 

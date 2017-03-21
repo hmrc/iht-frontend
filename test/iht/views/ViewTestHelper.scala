@@ -20,7 +20,9 @@ import iht.models.UkAddress
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
 import iht.{FakeIhtApp, TestUtils}
+import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element}
+import org.jsoup.safety.Whitelist
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
@@ -29,6 +31,15 @@ import uk.gov.hmrc.play.test.UnitSpec
 import scala.collection.JavaConversions._
 
 trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with HtmlSpec with BeforeAndAfter {
+  val messageKeysRegex = """([A-Za-z]+\.){1,}[\w]+""".r
+  /**
+    * Items which look like message keys but actually are real content, so instances of them
+    * found in generated HTML should not cause the message key detection unit test to fail :-
+    *   GOV.UK: Displayed in browser titles
+    *   U.S: The United States
+    */
+  val messageKeyExclusions = Set("GOV.UK", "U.S")
+  val messageKeysDelimiter = ", "
 
   implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
@@ -51,6 +62,25 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
     label.text shouldBe labelText
     val radio = label.children.first
     radio.id shouldBe radioID
+  }
+
+  def noMessageKeysShouldBePresent(content:String) = {
+    val cleanedContent = Jsoup.clean(content, Whitelist.basic) // Remove javascript
+    val doc = asDocument(cleanedContent)
+    doc.select("a").unwrap // Remove anchor tags but keep the content within them
+    val candidatesIterator = messageKeysRegex.findAllIn(doc.toString) // Find all possible message key candidates
+    val messageKeysFound = candidatesIterator.foldRight[String](""){ (currentCandidate, previousCandidates) =>
+      if (messageKeyExclusions.exists( exclusion => currentCandidate.contains(exclusion) )) {
+        previousCandidates
+      } else {
+        if (previousCandidates.nonEmpty) {
+          previousCandidates + messageKeysDelimiter + currentCandidate
+        } else {
+          previousCandidates + currentCandidate
+        }
+      }
+    }
+    messageKeysFound shouldBe ""
   }
 
   def messagesShouldBePresent(content: String, expectedSentences: String*) = {

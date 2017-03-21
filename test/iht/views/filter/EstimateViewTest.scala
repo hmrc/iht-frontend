@@ -16,18 +16,16 @@
 
 package iht.views.filter
 
-import iht.FakeIhtApp
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.filter.estimate
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.test.Helpers.{contentAsString, _}
 
-class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class EstimateViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val fakeForm =  Form(single("s"-> optional(text)))
@@ -38,6 +36,11 @@ class EstimateViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
   }
 
   "Estimate view" must {
+
+    "have no message keys in html" in {
+      val view = getPageAsDoc().toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "generate appropriate content for the title" in {
       val doc = getPageAsDoc()

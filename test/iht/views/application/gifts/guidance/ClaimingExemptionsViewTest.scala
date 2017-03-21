@@ -35,6 +35,11 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
 
   "ClaimingExemptions view" must {
 
+    "have no message keys in html" in {
+      val view = claimingExemptionsView().toString
+      noMessageKeysShouldBePresent(view)
+    }
+
     "have correct title" in {
       val view = claimingExemptionsView().toString
 

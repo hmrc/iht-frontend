@@ -16,22 +16,25 @@
 
 package iht.views.filter
 
-import iht.FakeIhtApp
-import iht.views.HtmlSpec
+import iht.views.ViewTestHelper
 import iht.views.html.filter.domicile
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.test.Helpers.{contentAsString, _}
 
-class DomicileViewTest extends UnitSpec with FakeIhtApp with HtmlSpec {
+class DomicileViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val fakeForm =  Form(single("s"-> optional(text)))
 
   "Domicile view" must {
+
+    "have no message keys in html" in {
+      val result = domicile(fakeForm)(fakeRequest, applicationMessages)
+      val view = asDocument(contentAsString(result)).toString
+      noMessageKeysShouldBePresent(view)
+    }
 
     "generate appropriate content for the title" in {
       val result = domicile(fakeForm)(fakeRequest, applicationMessages)
