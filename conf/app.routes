@@ -42,6 +42,8 @@ GET         /agent-no-change                                         iht.control
 
 GET         /use-iht400                                              iht.controllers.filter.UseIHT400Controller.onPageLoad
 
+GET         /language/:lang                                          @iht.controllers.CustomLanguageController.switchToLanguage(lang: String)
+
 # TODO: Temporary end points, change as transition pages are implemented
 GET         /transition-scotland                                     iht.controllers.filter.TransitionController.onPageLoadScotland
 GET         /transition-northern-ireland                             iht.controllers.filter.TransitionController.onPageLoadNorthernIreland

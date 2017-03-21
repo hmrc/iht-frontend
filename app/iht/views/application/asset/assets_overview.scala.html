@@ -347,9 +347,9 @@ isFullWidth=false) {
                 isComplete = isComplete,
                 screenreaderQualifyingText = getScreenReaderQualifyingText(
                     isComplete,
-                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.assets.moneyOwed")),
-                    Messages("iht.complete.screenreader", Messages("iht.estateReport.assets.moneyOwed")),
-                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.assets.moneyOwed")))
+                    Messages("iht.inComplete.screenreader", Messages("iht.estateReport.assets.moneyOwed", deceasedName)),
+                    Messages("iht.complete.screenreader", Messages("iht.estateReport.assets.moneyOwed", deceasedName)),
+                    Messages("iht.notStarted.screenreader", Messages("iht.estateReport.assets.moneyOwed", deceasedName)))
             ),
             ihtHelpers.custom.generic_overview_status_link(
                 isComplete = isComplete,

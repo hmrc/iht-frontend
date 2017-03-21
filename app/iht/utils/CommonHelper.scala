@@ -36,7 +36,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.collection.immutable.ListMap
-import scala.util.Try
+import scala.util.{Try,Success,Failure}
 
 /**
   *
@@ -68,6 +68,18 @@ object CommonHelper {
     fmt.setDecimalSeparatorAlwaysShown(true)
     fmt.setMinimumFractionDigits(2)
     fmt.format(n)
+  }
+
+  def formatCurrencyForInput(n: String): Any = {
+      Try(BigDecimal(n)) match {
+        case Success (b) =>
+          val fmt = new java.text.DecimalFormat("#####.##")
+          fmt.setDecimalSeparatorAlwaysShown(false)
+          fmt.setMinimumFractionDigits(2)
+          fmt.format(b)
+        case Failure(exception) =>
+          n
+      }
   }
 
   def trimAndUpperCaseNino(nino: String) = {
