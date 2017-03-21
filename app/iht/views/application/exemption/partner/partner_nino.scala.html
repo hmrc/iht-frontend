@@ -27,7 +27,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.nino.browserTitle")),
 cancelUrl = Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")),
-isFullWidth=false){
+isFullWidth=false,
+headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary(partnerNinoForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onSubmit,'autoComplete -> "off") {
 

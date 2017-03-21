@@ -33,7 +33,8 @@ cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(cancelUrl),
-headingName = partnerName
+headingName = partnerName,
+headingClass = "heading-large"
 ){
     @ihtHelpers.custom.error_summary(giftMadeBeforeDeathForm)
 

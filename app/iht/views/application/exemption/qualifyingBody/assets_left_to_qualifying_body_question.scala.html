@@ -31,7 +31,8 @@ isFullWidth = false,
 cancelUrl = Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
 cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
                             ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))),
-headingName = deceasedName
+headingName = deceasedName,
+headingClass = "heading-large"
 ){
 
 @ihtHelpers.custom.error_summary(assetsLeftToQualifyingBodyQuestionForm)

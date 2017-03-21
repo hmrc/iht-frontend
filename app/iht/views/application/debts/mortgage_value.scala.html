@@ -37,7 +37,8 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
     cancelUrl = Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad),
     cancelLabel = Some(Messages("site.link.return.mortgage.overview")),
     isFullWidth = false,
-    headingName = deceasedName
+    headingName = deceasedName,
+    headingClass = "heading-large"
 ) {
     @ihtHelpers.custom.error_summary_override_keys(mortgagesForm, Constants.AppSectionMortgages)
 

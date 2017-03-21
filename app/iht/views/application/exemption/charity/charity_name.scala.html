@@ -31,7 +31,8 @@ cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 browserTitle = Some(Messages("iht.estateReport.exemptions.charities.charityName.title")),
 cancelUrl = Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
-isFullWidth=false){
+isFullWidth=false,
+headingClass = "heading-large"){
 @ihtHelpers.custom.error_summary(charityNameForm)
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 

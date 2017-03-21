@@ -30,7 +30,8 @@ deceasedName: String
 browserTitle = Some(Messages("page.iht.application.assets.property.ownership.browserTitle")),
 cancelUrl=Some(cancelUrl),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
-headingName = deceasedName) {
+headingName = deceasedName,
+headingClass = "heading-large") {
 
 @ihtHelpers.custom.error_summary(propertyOwnership)
 

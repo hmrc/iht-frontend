@@ -29,7 +29,9 @@
     browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBody.value.browserTitle")),
     cancelUrl = Some(cancelUrl),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody")),
-    isFullWidth = false) {
+    isFullWidth = false,
+    headingClass = "heading-large"
+) {
     @ihtHelpers.custom.error_summary(qualifyingBodyValueForm)
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
 

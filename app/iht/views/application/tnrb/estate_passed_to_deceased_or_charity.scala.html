@@ -28,7 +28,8 @@ cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 browserTitle = Some(Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(cancelUrl),
-headingName = deceasedName){
+headingName = deceasedName,
+headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary(estatePassedToDeceasedOrCharityForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit,'autoComplete -> "off") {

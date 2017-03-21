@@ -32,7 +32,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 @iht_main_template_application(title = Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",deceasedName),
 browserTitle = Some(Messages("page.iht.application.insurance.policies.section3.browserTitle")),
 isFullWidth=false,
-headingName = deceasedName){
+headingName = deceasedName,
+headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary(insurancePolicyForm, None, CommonHelper.insurancePoliciesEndLineMessageKey(insurancePolicyForm))
     @helpers.form(action = iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsPayingOtherController.onSubmit,'autoComplete -> "off") {
 

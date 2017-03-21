@@ -26,7 +26,8 @@
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.partner.name.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.name.browserTitle")),
-isFullWidth=false) {
+isFullWidth=false,
+headingClass = "heading-large") {
 
 @ihtHelpers.custom.error_summary(partnerExemptionNameForm)
 

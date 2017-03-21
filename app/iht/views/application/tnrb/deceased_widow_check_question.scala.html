@@ -43,7 +43,8 @@ cancelLinkText:String
     browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
     cancelUrl = Some(cancelLinkUrl),
     cancelLabel=Some(cancelLinkText),
-    headingName = deceasedName
+    headingName = deceasedName,
+    headingClass = "heading-large"
 ){
 @ihtHelpers.custom.error_summary(deceasedWidowCheckQuestionForm)
 
@@ -57,7 +58,7 @@ deceasedWidowCheckQuestionForm("widowed"),
 )
 
 <div id="action-button" class="form-field form-field--submit">
-  <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
+  <button class="button" id="save-continue" name="action">@Messages("iht.saveAndContinue")</button>
 </div>
 }
 }
