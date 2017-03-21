@@ -22,9 +22,6 @@ showHideContent.init()
   combinedValue();
 
 
-  numberInputs();
-
-
 // =====================================================
 // Check for hashed url and jump to input if needed
 // The non-error-list focus will not focus on the input for iOS due to security restrictions
@@ -124,17 +121,11 @@ if($('#countryCode').val() == "GB" || $('#countryCode').val() == undefined) {
       $("form").trigger('submit');
   });
 
-
-
 // =====================================================
-// Number input trailing zero fix
-// Changes input from number to text (Firefox only)
-// =======================================================
-    if(window.navigator.userAgent.indexOf("Firefox") > 0){
-      $('[data-type="currency"]').each(function(){
-        $(this).attr('type', 'text');
-      });
-  }
+// Handle number inputs
+// =====================================================
+  numberInputs();
+
 
   // end of on doc ready
 });
@@ -324,18 +315,31 @@ function isNumeric(n) {
 
 
 function numberInputs() {
+    // =====================================================
+    // Set currency fields to number inputs on touch devices
+    // this ensures on-screen keyboards display the correct style
+    // don't do this for FF as it has issues with trailing zeroes
+    // =====================================================
+    if($('html.touchevents').length > 0 && window.navigator.userAgent.indexOf("Firefox") == -1){
+        $('[data-type="currency"]').each(function(){
+          $(this).attr('type', 'number');
+        });
+    }
+
+    // =====================================================
+    // Disable mouse wheel and arrow keys (38,40) for number inputs to prevent mis-entry
+    // also disable commas (188) as they will silently invalidate entry on Safari 10.0.3 and IE11
+    // =====================================================
     $("form").on("focus", "input[type=number]", function(e) {
         $(this).on('wheel', function(e) {
             e.preventDefault();
         });
     });
-
     $("form").on("blur", "input[type=number]", function(e) {
         $(this).off('wheel');
     });
-
     $("form").on("keydown", "input[type=number]", function(e) {
-        if ( e.which == 38 || e.which == 40 )
+        if ( e.which == 38 || e.which == 40 || e.which == 188 )
             e.preventDefault();
     });
 }
