@@ -19,8 +19,20 @@ Restricting the suggestions list to the input width
 
 .suggestions {
     width: 100%;
+    margin-top: 0;
+    display: none;
+}
+.suggestions--with-options {
+    border: 1px solid #2e3133;
+    display: block;
 }
 
 .suggestions-input-container .form-control {
     width: 100%;
+}
+
+.suggestion:hover,
+.suggestion--active {
+    background: #2b8cc4;
+    color: #fff;
 }

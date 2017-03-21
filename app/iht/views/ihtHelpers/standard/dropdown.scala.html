@@ -31,7 +31,7 @@
 <div class="form-group @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}">
 
     @if(isComboBox){
-        <label for="country-code-auto-complete" hidden class="js-visible @elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)-js} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
+        <label for="iht-auto-complete" hidden class="js-visible @elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)-js} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
             @if(labelHighlight){<strong>}
             @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
             @if(labelHighlight){</strong>}
@@ -75,23 +75,18 @@
     @if(isComboBox){
     <div class="suggestions-input-container js-visible" hidden>
         <input type="text"
-               name="country-code-auto-complete"
-               id="country-code-auto-complete"
-               class="form-control form-control--block js-hmrc-auto-complete"
+               name="iht-auto-complete"
+               id="iht-auto-complete"
+               class="form-control form-control--block js-iht-auto-complete"
                autocomplete="off"
                spellcheck="false"
-               data-select-elem="@elements.field.name"
-               data-target-elem="@elements.field.name"
                data-rule-suggestion="true"
                role="combobox"
-               aria-live="assertive"
+               aria-owns="iht-suggestions-list"
                aria-expanded="false"
-               aria-autocomplete="list"
-               aria-haspopup="true"
-               aria-controls="suggestions-list-container" />
-        <i class="suggestions-clear js-suggestions-clear"></i>
-        <span role="status" aria-live="polite" aria-relevant="additions" class="visuallyhidden js-suggestions-status-message" id="autoCompleteSuggestionStatus"></span>
-        <div class="suggestions js-suggestions" id="suggestions-list-container" aria-describedby="autoCompleteSuggestionStatus"></div>
+        />
+        <ul role="listbox" class="suggestions js-suggestions" id="iht-suggestions-list"></ul>
+        <span role="status" aria-live="assertive" aria-relevant="text" class="visually-hidden js-suggestions-status-message" id="iht-autoCompleteSuggestionStatus"></span>
     </div>
 
     }

@@ -89,29 +89,12 @@ if(typeof window.navigator != "undefined" && typeof window.navigator.userAgent !
 }
 
 // =====================================================
-// Patch to update autocomplete suggestions
-// This updates the standard template used for the component in favour of the basic title
+// Country code autocomplete
 // =====================================================
-$('#country-code-auto-complete').on('keyup', function(){
-    if($('.suggestions-list li').length > 0){
-        $(this).attr('aria-expanded', 'true');
-    } else {
-        $(this).attr('aria-expanded', 'false');
-    }
-    $('.suggestions-list li').each(function(){
-        $(this).html($(this).attr('data-suggestion-title'));
-        // update aria-descendant
-        var ccID = "country" + $(this).attr('data-suggestion-value');
-        $(this).attr('id', ccID)
-        if($(this).hasClass('suggestion--selected')){
-            $('#country-code-auto-complete').attr('aria-activedescendant', ccID);
-        }
-    });
-});
-// hide clear icon if there is no initial value selected
-if($('#countryCode').val() == "GB" || $('#countryCode').val() == undefined) {
-    $('.js-suggestions-clear').addClass('hidden');
+if($('#iht-auto-complete').length > 0){
+    var countryCode = new Autobox($('select'), $('#iht-auto-complete'), $('#iht-suggestions-list'), $("#iht-autoCompleteSuggestionStatus"));
 }
+
 
 // =====================================================
 // Submit trigger
