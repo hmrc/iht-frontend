@@ -32,6 +32,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 object PropertyTenureController extends PropertyTenureController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -45,7 +46,7 @@ trait PropertyTenureController extends EstateController {
   def editCancelUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onEditPageLoad(id)
   val submitUrl = iht.controllers.application.assets.properties.routes.PropertyTenureController.onSubmit()
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyTenureController.onEditSubmit(id)
-  def locationAfterSuccessfulSave(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesTenureID))
 
   def ihtConnector: IhtConnector
   def cachingConnector: CachingConnector

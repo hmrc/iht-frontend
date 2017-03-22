@@ -186,5 +186,13 @@ object IhtProperties {
   lazy val TnrbSpouseDateOfDeathID =  getProperty("TnrbSpouseDateOfDeathID")
   lazy val TnrbSpouseNameID =  getProperty("TnrbSpouseNameID")
   lazy val TnrbSpouseDateOfMarriageID =  getProperty("TnrbSpouseDateOfMarriageID")
-
+  lazy val AssetsPropertiesChangeID = getProperty("AssetsPropertiesChangeID")
+  lazy val AssetsPropertiesDeleteID = getProperty("AssetsPropertiesDeleteID")
+  lazy val AssetsPropertiesOwnedID = getProperty("AssetsPropertiesOwnedID")
+  lazy val AssetsPropertiesAddPropertyID = getProperty("AssetsPropertiesAddPropertyID")
+  lazy val AssetsPropertiesPropertyAddressID = getProperty("AssetsPropertiesPropertyAddressID")
+  lazy val AssetsPropertiesPropertyKindID = getProperty("AssetsPropertiesPropertyKindID")
+  lazy val AssetsPropertiesPropertyOwnershipID = getProperty("AssetsPropertiesPropertyOwnershipID")
+  lazy val AssetsPropertiesTenureID = getProperty("AssetsPropertiesTenureID")
+  lazy val AssetsPropertiesPropertyValueID = getProperty("AssetsPropertiesPropertyValueID")
 }

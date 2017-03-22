@@ -19,12 +19,11 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
+@import iht.constants.IhtProperties._
 
 @iht_main_template_application(title = Messages("page.iht.application.propertyDetails.deleteProperty.title"),
 browserTitle = Some(Messages("page.iht.application.propertyDetails.deleteProperty.title")),
-isFullWidth=true,
-cancelUrl=Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad),
-cancelLabel = Some(Messages("site.link.cancel"))
+isFullWidth=true
 ) {
 
 @helpers.form(action = iht.controllers.application.assets.properties.routes.DeletePropertyController.onSubmit(propertyModel.id.getOrElse(""))) {
@@ -49,6 +48,12 @@ cancelLabel = Some(Messages("site.link.cancel"))
 <div class="form-field form-field--submit">
     <button class="button" id="delete-confirm">@Messages("site.button.confirmDelete")</button>
 </div>
+
+@ihtHelpers.custom.return_link(
+    Messages("site.link.cancel"),
+    Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad()),
+    AssetsPropertiesDeleteID + propertyModel.id.getOrElse("")
+)
 
 }
 }

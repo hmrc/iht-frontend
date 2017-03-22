@@ -60,7 +60,7 @@ class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property]
 
   override def formToView: Form[Property] => Appendable =
     form =>
-      property_type(form, Some(CommonBuilder.DefaultCall2), CommonBuilder.DefaultCall1, deceasedName)
+      property_type(form, CommonBuilder.DefaultCall2, CommonBuilder.DefaultCall1, deceasedName)
 
   "Property Type View" must {
     behave like applicationPageWithErrorSummaryBox()
