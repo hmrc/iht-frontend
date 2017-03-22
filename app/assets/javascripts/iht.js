@@ -323,6 +323,8 @@ function numberInputs() {
     if($('html.touchevents').length > 0 && window.navigator.userAgent.indexOf("Firefox") == -1){
         $('[data-type="currency"]').each(function(){
           $(this).attr('type', 'number');
+          $(this).attr('step', 'any'); 
+          $(this).attr('min', '0');
         });
     }
 
