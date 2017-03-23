@@ -25,6 +25,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper
 
 class PropertyAddressViewTest extends SubmittableApplicationPageBehaviour[Property] {
   override def pageTitle = messagesApi("iht.estateReport.assets.property.whatIsAddress.question")
@@ -43,7 +44,8 @@ class PropertyAddressViewTest extends SubmittableApplicationPageBehaviour[Proper
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty"),
+      TestHelper.AssetsPropertiesPropertyAddressID
     )
   )
 

@@ -161,7 +161,15 @@ lazy val TnrbSpouseMartialStatusID = "spouse-martial-status"
 lazy val TnrbSpouseDateOfDeathID = "spouse-date-of-death"
 lazy val TnrbSpouseNameID = "spouse-name"
 lazy val TnrbSpouseDateOfMarriageID = "spouse-date-of-marriage"
-  
+lazy val AssetsPropertiesChangeID = "change-property-"
+lazy val AssetsPropertiesDeleteID = "delete-property-"
+lazy val AssetsPropertiesOwnedID = "property-owned"
+lazy val AssetsPropertiesAddPropertyID = "add-property"
+lazy val AssetsPropertiesPropertyAddressID = "property-address"
+lazy val AssetsPropertiesPropertyKindID = "kind-of-property"
+lazy val AssetsPropertiesPropertyOwnershipID = "type-of-ownership"
+lazy val AssetsPropertiesTenureID = "freehold-leasehold"
+lazy val AssetsPropertiesPropertyValueID = "property-value"
   
 }
 

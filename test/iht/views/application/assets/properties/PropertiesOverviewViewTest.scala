@@ -83,14 +83,14 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
       messagesApi("iht.estateReport.assets.propertyAdd"))
 
     "show ownership question" in {
-      elementShouldHaveText(doc, "home-in-uk-question", messagesApi("page.iht.application.assets.properties.question.question", deceasedName))
+      elementShouldHaveText(doc, "property-owned-question", messagesApi("page.iht.application.assets.properties.question.question", deceasedName))
     }
 
     "show ownership question value" in {
-      elementShouldHaveText(doc, "home-in-uk-value", messagesApi("iht.yes"))
+      elementShouldHaveText(doc, TestHelper.AssetsPropertiesOwnedID + "-value", messagesApi("iht.yes"))
     }
 
-    behave like link("home-in-uk-link",
+    behave like link("property-owned-link",
       iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
       messagesApi("iht.change"))
 
