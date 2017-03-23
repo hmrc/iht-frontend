@@ -64,7 +64,9 @@ object IHTReturnTestHelper {
       declarationDate= Some(declarationDate))
 
     val freeEstate = FreeEstate(
-      estateAssets= Some(buildAssets),
+      estateAssets= {
+        println("***********************************  ::: "+buildAssets)
+        Some(buildAssets)},
       interestInOtherEstate= None,
       estateLiabilities= Some(buildLiabilities),
       estateExemptions= Some(buildExemptions)
@@ -74,7 +76,11 @@ object IHTReturnTestHelper {
       submitter=Some(Submitter(submitterRole=Some("Lead Executor"))),
       deceased=Some(buildTNRB),
       freeEstate=Some(freeEstate),
-      gifts=Some(buildGifts),
+      gifts={
+        val t = buildGifts
+        println("***************************  Gifts are ::: "+t)
+        Some(t)
+      },
       trusts=Some(buildTrusts),
       declaration=Some(declaration))
   }

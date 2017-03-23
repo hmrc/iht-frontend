@@ -4,6 +4,7 @@
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan">
 
+    <xsl:include href="pdf/templates/postsubmission/estate-summary.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/assets.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/debts.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/exemptions.xsl"/>

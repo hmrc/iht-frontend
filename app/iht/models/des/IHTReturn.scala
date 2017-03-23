@@ -370,6 +370,14 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
         }
       }))
   }
+
+  def totalNetValue:BigDecimal = {
+    if(totalExemptionsValue > 0) {
+      (totalAssetsValue + totalGiftsValue) - totalExemptionsValue - totalDebtsValue
+    } else {
+      (totalAssetsValue + totalGiftsValue)
+    }
+  }
 }
 
 object IHTReturn {

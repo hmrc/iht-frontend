@@ -158,6 +158,7 @@ trait XmlFoToPDF {
     transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
+    transformer.setParameter("estateValue", ihtReturn.totalNetValue)
 
 
     transformer
