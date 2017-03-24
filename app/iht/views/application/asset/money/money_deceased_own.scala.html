@@ -18,7 +18,7 @@
 @import iht.models.application.basicElements.ShareableBasicEstateElement
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
+@import iht.constants.IhtProperties._
 @import iht.utils._
 @import iht.constants.Constants
 
@@ -52,6 +52,10 @@
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }
-    @ihtHelpers.custom.return_link(Messages("site.link.return.money"), Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(
+        Messages("site.link.return.money"),
+        Some(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()),
+        AssetsMoneyOwnID
+    )
 
 }

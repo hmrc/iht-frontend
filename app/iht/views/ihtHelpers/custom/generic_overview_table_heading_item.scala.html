@@ -26,13 +26,13 @@ link:Option[Call] = None,
 linkScreenReader:String,
 isAnswerValue:Boolean)(implicit messages: Messages)
 
-<div id="@id" class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">
+<div id="@id-heading" class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">
     <div class="grid-layout__column grid-layout__column--3-4">
         <h2 class="font-xsmall bold">@Html(questionText)</h2>
     </div>
     <div class="grid-layout__column grid-layout__column--1-4 u-align--tablet-right">
             @if(isAnswerValue) {
-                <a id="@id-link" href="@link" class="font-xsmall">
+                <a id="@id" href="@link" class="font-xsmall">
                         <span aria-hidden="true">@Messages("site.link.giveAnswer")</span>
                         <span class="visually-hidden">@linkScreenReader</span>
                 </a>
