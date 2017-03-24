@@ -24,7 +24,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 
 class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   "IHTReturn" must {
-    "total assets values" in {
+   "total assets values" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
       ihtReturn.totalAssetsValue shouldBe BigDecimal(754)
     }
@@ -62,7 +62,21 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
     "total net value" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      ihtReturn.totalNetValue shouldBe BigDecimal(200)
+      ihtReturn.totalNetValue shouldBe BigDecimal(28303)
+    }
+
+    "show 650K as the threshold value when there is TNRB" in {
+      val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
+      ihtReturn.currentThreshold shouldBe BigDecimal(650000)
+    }
+
+    "show 325K as the threshold value when there is no TNRB" in {
+      val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
+      val deceasedValue = ihtReturn.deceased
+
+      ihtReturn.copy(deceased = deceasedValue.map{
+        x => x.copy(transferOfNilRateBand = None)
+      }).currentThreshold shouldBe BigDecimal(325000)
     }
   }
 }

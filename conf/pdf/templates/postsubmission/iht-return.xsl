@@ -4,6 +4,15 @@
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan">
 
+    <xsl:param name="translator"/>
+    <xsl:param name="pdfFormatter"/>
+    <xsl:param name="assetsTotal"/>
+    <xsl:param name="debtsTotal"/>
+    <xsl:param name="exemptionsTotal"/>
+    <xsl:param name="giftsTotal"/>
+    <xsl:param name="estateValue"/>
+    <xsl:param name="thresholdValue"/>
+
     <xsl:include href="pdf/templates/postsubmission/estate-summary.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/assets.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/debts.xsl"/>
@@ -12,6 +21,8 @@
     <xsl:include href="pdf/templates/postsubmission/tnrb.xsl"/>
 
     <xsl:template match="IHTReturn">
+        <xsl:call-template name="estate-summary"/>
+
         <xsl:comment>Free Estate section starts</xsl:comment>
         <xsl:call-template name="assets">
             <xsl:with-param name="value" select="freeEstate"></xsl:with-param>

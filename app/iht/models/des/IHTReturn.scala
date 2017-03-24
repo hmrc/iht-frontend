@@ -17,6 +17,7 @@
 package models.des.iht_return
 
 
+import iht.constants.IhtProperties
 import iht.models.Joda._
 import org.joda.time.LocalDate
 import play.api.libs.functional.syntax._
@@ -377,6 +378,14 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
     } else {
       (totalAssetsValue + totalGiftsValue)
     }
+  }
+
+  def currentThreshold: BigDecimal = {
+    val isTnrbApplicable = deceased.fold(false) {
+      x => x.transferOfNilRateBand.fold(false)(_=> true)
+    }
+
+    if (isTnrbApplicable) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
   }
 }
 

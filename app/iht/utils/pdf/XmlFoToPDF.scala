@@ -159,6 +159,7 @@ trait XmlFoToPDF {
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
     transformer.setParameter("estateValue", ihtReturn.totalNetValue)
+    transformer.setParameter("thresholdValue", ihtReturn.currentThreshold)
 
 
     transformer
