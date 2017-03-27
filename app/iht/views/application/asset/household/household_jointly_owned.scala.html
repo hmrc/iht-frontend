@@ -22,6 +22,7 @@
 @import iht.utils._
 @import iht.constants.Constants
 @import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @(householdJointlyOwned: Form[ShareableBasicEstateElement],
      registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -54,6 +55,10 @@
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
     }
-    @ihtHelpers.custom.return_link(Messages("site.link.return.household"), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(
+        Messages("site.link.return.household"),
+        Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()),
+        AssetsHouseholdSharedID
+    )
 
 }
