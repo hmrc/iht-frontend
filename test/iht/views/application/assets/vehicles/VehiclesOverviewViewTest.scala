@@ -43,14 +43,14 @@ class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
   override def ownHeaderText = messagesApi("iht.estateReport.assets.vehiclesOwned", deceasedName)
   override def jointlyOwnedHeaderText = messagesApi("page.iht.application.assets.vehicles.overview.joint.title",
                                                  deceasedName)
-  override def ownQuestionRowId = "deceased-own-vehicles"
+  override def ownQuestionRowId = "deceased-own-vehicles-block"
   override def ownQuestionText = messagesApi("iht.estateReport.assets.vehicles.ownName.question", deceasedName)
-  override def ownValueRowId = "deceased-own-value"
+  override def ownValueRowId = "deceased-own-value-block"
   override def ownValueText = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue")
-  override def jointlyOwnedQuestionRowId = "deceased-shared-vehicles"
+  override def jointlyOwnedQuestionRowId = "deceased-shared-vehicles-block"
   override def jointlyOwnedQuestionText = messagesApi("iht.estateReport.assets.vehicles.jointly.owned.question",
                                                     deceasedName)
-  override def jointlyOwnedValueRowId = "deceased-shared-value"
+  override def jointlyOwnedValueRowId = "deceased-shared-value-block"
   override def jointlyOwnedValueText = messagesApi("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
