@@ -178,6 +178,9 @@ lazy val AssetsStocksListedID = "stocks-and-shares-listed"
 lazy val AssetsStocksNotListedID = "stocks-and-shares-not-listed"
 lazy val AssetsHouseholdOwnID = "deceased-own-household"
 lazy val AssetsHouseholdSharedID = "deceased-shared-household"
+lazy val AssetsPensionsOwnedID = "pensions-owned"
+lazy val AssetsPensionChangesID = "private-pension-changes"
+lazy val AssetsPensionsValueID = "value-pension-payments"
 }
 
 trait SharableOverviewData {
