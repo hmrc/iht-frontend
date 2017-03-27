@@ -87,10 +87,10 @@ class PropertiesOverviewViewTest extends GenericNonSubmittablePageBehaviour {
     }
 
     "show ownership question value" in {
-      elementShouldHaveText(doc, TestHelper.AssetsPropertiesOwnedID + "-value", messagesApi("iht.yes"))
+      elementShouldHaveText(doc, "property-owned-question-value", messagesApi("iht.yes"))
     }
 
-    behave like link("property-owned-link",
+    behave like link("property-owned",
       iht.controllers.application.assets.properties.routes.PropertiesOwnedQuestionController.onPageLoad().url,
       messagesApi("iht.change"))
 

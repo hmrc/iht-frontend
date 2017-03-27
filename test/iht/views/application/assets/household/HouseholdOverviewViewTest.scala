@@ -43,13 +43,13 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
                                         deceasedName)
   override def jointlyOwnedHeaderText = messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
                                                   deceasedName)
-  override def ownQuestionRowId = "deceased-own-question"
+  override def ownQuestionRowId = "deceased-own-question-block"
   override def ownQuestionText = messagesApi("iht.estateReport.assets.household.ownName.question", deceasedName)
-  override def ownValueRowId = "deceased-own-value"
+  override def ownValueRowId = "deceased-own-value-block"
   override def ownValueText = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue")
-  override def jointlyOwnedQuestionRowId = "deceased-shared-question"
+  override def jointlyOwnedQuestionRowId = "deceased-shared-question-block"
   override def jointlyOwnedQuestionText = messagesApi("iht.estateReport.assets.household.joint.question", deceasedName)
-  override def jointlyOwnedValueRowId = "deceased-share-value"
+  override def jointlyOwnedValueRowId = "deceased-share-value-block"
   override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.household.overview.joint.value")
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()

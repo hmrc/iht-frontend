@@ -52,7 +52,7 @@ isFullWidth=false
             generic_overview_table_section(
                     "household-deceased-owned-section",
                     household.flatMap(_.isOwned),
-                    generic_overview_table_heading_item(id = "deceased-own-heading",
+                    generic_overview_table_heading_item(id = "deceased-own",
                         questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",deceasedName),
                         questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                                                             Messages("iht.the.deceased")),
@@ -88,7 +88,7 @@ isFullWidth=false
             generic_overview_table_section(
                     "household-joint-owned-section",
                     household.flatMap(_.isOwnedShare),
-                    generic_overview_table_heading_item(id = "deceased-shared-heading",
+                    generic_overview_table_heading_item(id = "deceased-shared",
                         questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",deceasedName),
                         questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
                                                     Messages("iht.the.deceased")),
