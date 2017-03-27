@@ -114,7 +114,7 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
 
     "not show the 'Stocks and shares listed on an exchange' row" in {
       val f = fixture(None)
-      assertNotRenderedById(f.doc, s"$stocksAndSharesListedValueRowId-block")
+      assertNotRenderedById(f.doc, stocksAndSharesListedValueRowId)
     }
 
     "not show the 'Stocks and shares not listed on an exchange' question row" in {
@@ -124,7 +124,7 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
 
     "not show the 'Stocks and shares not listed on an exchange' row" in {
       val f = fixture(None)
-      assertNotRenderedById(f.doc, s"$stocksAndSharesNotListedValueRowId-block")
+      assertNotRenderedById(f.doc, stocksAndSharesNotListedValueRowId)
     }
   }
 
@@ -148,7 +148,7 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
 
     "not show the 'value of listed stocks and shares' row" in {
       val f = fixture(dataWithQuestionsAnsweredNo)
-      assertNotRenderedById(f.doc, s"$stocksAndSharesListedValueRowId-block")
+      assertNotRenderedById(f.doc, stocksAndSharesListedValueRowId)
     }
 
     "show the 'Stocks and shares not listed on an exchange' question row with an answer of No" in {
@@ -159,7 +159,7 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
 
     "not show the 'value of stocks and shares not listed' row" in {
       val f = fixture(dataWithQuestionsAnsweredNo)
-      assertNotRenderedById(f.doc, s"$stocksAndSharesNotListedValueRowId-block")
+      assertNotRenderedById(f.doc, stocksAndSharesNotListedValueRowId)
     }
   }
 
@@ -184,11 +184,8 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
     "show the 'value of listed stocks and shares' row as unanswered" in {
       val f = fixture(dataWithQuestionsAnsweredYes)
 
-      val questionText = f.doc.getElementById(s"$stocksAndSharesListedRowId-value-question")
-      questionText.text() shouldBe messagesApi(stocksAndSharesListedValueText)
-      val answerLink = f.doc.getElementById(s"$stocksAndSharesListedRowId-value")
-      answerLink.attr("href") shouldBe urlToStocksAnsSharesListedPage
-      answerLink.getElementsByTag("span").get(0).text() shouldBe messagesApi("site.link.giveAValue")
+      rowShouldBeAnswered(f.doc, stocksAndSharesListedValueRowId,
+        stocksAndSharesListedValueText, "", "site.link.giveAValue", urlToStocksAnsSharesListedPage)
     }
 
     "show the 'Stocks and shares not listed on an exchange' question row with an answer of Yes" in {
@@ -199,11 +196,9 @@ trait StocksAndSharesOverviewViewBehaviour extends ViewTestHelper {
 
     "show the 'value of stocks and shares not listed' row as unanswered" in {
       val f = fixture(dataWithQuestionsAnsweredYes)
-      val questionText = f.doc.getElementById(s"$stocksAndSharesNotListedQuestionRowId-value-question")
-      questionText.text() shouldBe messagesApi(stocksAndSharesNotListedValueText)
-      val answerLink = f.doc.getElementById(s"$stocksAndSharesNotListedQuestionRowId-value")
-      answerLink.attr("href") shouldBe urlToStocksAnsSharesNotListedPage
-      answerLink.getElementsByTag("span").get(0).text() shouldBe messagesApi("site.link.giveAValue")
+
+      rowShouldBeAnswered(f.doc, stocksAndSharesNotListedValueRowId,
+        stocksAndSharesNotListedValueText, "", "site.link.giveAValue", urlToStocksAnsSharesNotListedPage)
     }
   }
 
