@@ -35,21 +35,21 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
   override def pageTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItems.title")
   override def browserTitle = messagesApi("iht.estateReport.assets.householdAndPersonalItems.title")
   override def guidanceParagraphs = Set(messagesApi("page.iht.application.assets.household.overview.guidance"))
-  override def ownHeadingElementId = "deceased-own-heading"
-  override def jointlyOwnedHeadingElementId = "deceased-shared-heading"
+  override def ownHeadingElementId = "deceased-own-household"
+  override def jointlyOwnedHeadingElementId = "deceased-shared-household"
   override def urlToOwnPage = HouseholdDeceasedOwnController.onPageLoad().url
   override def urlToJointlyOwnedPage = HouseholdJointlyOwnedController.onPageLoad().url
   override def ownHeaderText = messagesApi("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                                         deceasedName)
   override def jointlyOwnedHeaderText = messagesApi("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
                                                   deceasedName)
-  override def ownQuestionRowId = "deceased-own-question-block"
+  override def ownQuestionRowId = "deceased-own-household-block"
   override def ownQuestionText = messagesApi("iht.estateReport.assets.household.ownName.question", deceasedName)
   override def ownValueRowId = "deceased-own-value-block"
   override def ownValueText = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue")
-  override def jointlyOwnedQuestionRowId = "deceased-shared-question-block"
+  override def jointlyOwnedQuestionRowId = "deceased-shared-household-block"
   override def jointlyOwnedQuestionText = messagesApi("iht.estateReport.assets.household.joint.question", deceasedName)
-  override def jointlyOwnedValueRowId = "deceased-share-value-block"
+  override def jointlyOwnedValueRowId = "deceased-shared-value-block"
   override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.household.overview.joint.value")
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
