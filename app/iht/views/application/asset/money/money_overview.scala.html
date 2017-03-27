@@ -47,7 +47,7 @@ isFullWidth=false
 
     @{
         generic_overview_table_section(
-        "money-deceased-owned-section",
+        "deceased-own-money-section",
          money.flatMap(_.isOwned),
             generic_overview_table_heading_item(id = AssetsMoneyOwnID,
                 questionText = Messages("iht.estateReport.assets.moneyOwned",deceasedName),
@@ -78,7 +78,7 @@ isFullWidth=false
 
     @{
         generic_overview_table_section(
-        "money-joint-owned-section",
+        "deceased-shared-money-section",
         money.flatMap(_.isOwnedShare),
             generic_overview_table_heading_item(id = AssetsMoneySharedID,
                 questionText = Messages("iht.estateReport.assets.money.jointlyOwned"),

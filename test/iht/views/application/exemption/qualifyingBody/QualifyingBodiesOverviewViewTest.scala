@@ -102,7 +102,7 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
       elementShouldHaveText(doc, "qualifying-bodies-value", messagesApi("iht.yes"))
     }
 
-    behave like link("qualifying-bodies-link",
+    behave like link("qualifying-bodies",
       iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad().url,
       messagesApi("iht.change"))
 

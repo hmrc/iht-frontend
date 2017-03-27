@@ -170,7 +170,12 @@ lazy val AssetsPropertiesPropertyKindID = "kind-of-property"
 lazy val AssetsPropertiesPropertyOwnershipID = "type-of-ownership"
 lazy val AssetsPropertiesTenureID = "freehold-leasehold"
 lazy val AssetsPropertiesPropertyValueID = "property-value"
-  
+lazy val AssetsMoneyOwnID = "deceased-own-money"
+lazy val AssetsMoneySharedID = "deceased-shared-money"
+lazy val AssetsVehiclesOwnID = "deceased-own-vehicles"
+lazy val AssetsVehiclesSharedID = "deceased-shared-vehicles"
+lazy val AssetsStocksListedID = "stocks-and-shares-listed"
+lazy val AssetsStocksNotListedID = "stocks-and-shares-not-listed"
 }
 
 trait SharableOverviewData {

@@ -36,21 +36,26 @@ class StocksAndSharesOverviewViewTest extends StocksAndSharesOverviewViewBehavio
   override def guidanceParagraphs = Set(messagesApi("page.iht.application.assets.stocksAndShares.overview.guidance",
                                                   deceasedName),
                                         messagesApi("page.iht.application.assets.stocksAndShares.overview.guidance2"))
-  override def stocksAndSharesListedHeadingElementId = "stocks-and-shares-listed-heading"
-  override def stocksAndSharesNotListedHeadingElementId = "stocks-and-shares-notListed-heading"
+
+  override def stocksAndSharesListedHeadingElementId = "stocks-and-shares-listed"
+  override def stocksAndSharesNotListedHeadingElementId = "stocks-and-shares-not-listed"
+
   override def urlToStocksAnsSharesListedPage = StocksAndSharesListedController.onPageLoad().url
   override def urlToStocksAnsSharesNotListedPage = StocksAndSharesNotListedController.onPageLoad().url
+
   override def stocksAndSharesListedHeaderText = messagesApi("iht.estateReport.assets.stocksAndSharesListed")
   override def stocksAndSharesNotListedHeaderText = messagesApi("iht.estateReport.assets.stocksAndSharesNotListed")
-  override def stocksAndSharesListedRowId = "stocks-and-shares-listed-question"
+
+  override def stocksAndSharesListedRowId = "stocks-and-shares-listed"
   override def stocksAndSharesListedQuestionText = messagesApi("iht.estateReport.assets.stocksAndShares.listed.question",
                                                              deceasedName)
   override def stocksAndSharesListedValueRowId = "stocks-and-shares-listed-value"
   override def stocksAndSharesListedValueText = messagesApi("iht.estateReport.assets.stocksAndShares.valueOfListed")
-  override def stocksAndSharesNotListedQuestionRowId = "stocks-and-shares-notListed-question"
+
+  override def stocksAndSharesNotListedQuestionRowId = "stocks-and-shares-not-listed"
   override def stocksAndSharesNotListedQuestionText = messagesApi("iht.estateReport.assets.stocksAndShares.notListed.question",
                                                                 deceasedName)
-  override def stocksAndSharesNotListedValueRowId = "stocks-and-shares-notListed-value"
+  override def stocksAndSharesNotListedValueRowId = "stocks-and-shares-not-listed-value"
   override def stocksAndSharesNotListedValueText = messagesApi("iht.estateReport.assets.stocksAndShares.valueOfNotListed")
 
   override def linkHash = AppSectionStockAndShareID

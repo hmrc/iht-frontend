@@ -102,7 +102,7 @@ class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
       elementShouldHaveText(doc, "charities-value", messagesApi("iht.yes"))
     }
 
-    behave like link("charities-link",
+    behave like link("charities",
       iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad().url,
       messagesApi("iht.change"))
 
