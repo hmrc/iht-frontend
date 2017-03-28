@@ -18,8 +18,328 @@
                     <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
                 </fo:block>
                 <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="0.5cm">
-                    <fo:block>
-                        <xsl:for-each select="freeEstate/estateAssets">
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='0016'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9001'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9004'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9005'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9006'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9008'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9010'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9013'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9015'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9021'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:comment>Trust section starts</xsl:comment>
+                    <xsl:call-template name="trusts">
+                        <xsl:with-param name="value" select="trusts"></xsl:with-param>
+                    </xsl:call-template>
+                    <xsl:comment>Trust section ends</xsl:comment>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9098'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <xsl:for-each select="freeEstate/estateAssets">
+                        <xsl:if test="assetCode='9099'">
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
+
+                                    <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                        <xsl:with-param name="value" select="assetDescription"/>
+                                    </xsl:call-template>
+
+                                    <xsl:call-template name="table-row-money-tall">
+                                        <xsl:with-param name="label"
+                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number(assetTotalValue), "##,###.00")'/>
+                                    </xsl:call-template>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </xsl:if>
+                    </xsl:for-each>
+
+                    <!--<fo:block>-->
+                        <!--<xsl:for-each select="freeEstate/estateAssets">
                             <fo:table>
                                 <fo:table-column column-number="1" column-width="60%"/>
                                 <fo:table-column column-number="2" column-width="40%"/>
@@ -60,8 +380,8 @@
                                 </fo:table-body>
                             </fo:table>
                         </xsl:for-each>
-
-                        <xsl:comment>Trust section starts</xsl:comment>
+-->
+                        <!--<xsl:comment>Trust section starts</xsl:comment>
                         <xsl:call-template name="trusts">
                             <xsl:with-param name="value" select="trusts"></xsl:with-param>
                         </xsl:call-template>
@@ -89,7 +409,7 @@
                                     </fo:table-body>
                                 </fo:table>
                             </xsl:if>
-                        </xsl:for-each>
+                        </xsl:for-each>-->
 
                          <fo:table space-before="0.5cm">
                             <fo:table-column column-number="1" column-width="60%"/>
@@ -107,7 +427,6 @@
                             </fo:table-body>
                         </fo:table>
 
-                    </fo:block>
                 </fo:block>
             </xsl:when>
         </xsl:choose>

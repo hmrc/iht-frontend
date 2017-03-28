@@ -17,6 +17,8 @@
 package models.des.iht_return
 
 
+import java.time.LocalDate
+
 import iht.models.Joda._
 import org.joda.time.LocalDate
 import play.api.libs.functional.syntax._
@@ -333,8 +335,32 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
       (a, b) => a + b.assetTotalValue.fold(BigDecimal(0))(identity)))
 
   def totalDebtsValue =
-    freeEstate.flatMap(_.estateLiabilities).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
-      (a, b) => a + b.liabilityAmount.fold(BigDecimal(0))(identity)))
+    {
+      val debtsVlaueWithoutMortgage = freeEstate.flatMap(_.estateLiabilities).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
+        (a, b) => a + b.liabilityAmount.fold(BigDecimal(0))(identity)))
+
+      val mortgageValue: BigDecimal = freeEstate.flatMap(_.estateAssets).fold(BigDecimal(0)){
+        x => {
+          val y: Set[Asset] = x
+          val lia: Set[Set[Liability]] = y.flatMap{
+            t=>if(t.assetCode=="0016") t.liabilities else None
+          }
+
+          val liability = lia.flatMap{
+            z => {
+              val tt: Set[Liability] = z
+             val tr =  z.flatMap{
+                tts => tts.liabilityAmount.fold(BigDecimal(0))(identity)
+              }
+              tr
+            }
+          }
+
+        }
+      }
+
+      debtsVlaueWithoutMortgage
+    }
 
 
   def totalExemptionsValue =
