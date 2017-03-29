@@ -26,13 +26,15 @@ import iht.models.application.assets._
 import iht.views.html.application.asset.trusts.trusts_owned_question
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper
+import iht.constants.IhtProperties._
 
 object TrustsOwnedQuestionController extends TrustsOwnedQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait TrustsOwnedQuestionController extends EstateController {
-  val submitUrl = iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsBenefitedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

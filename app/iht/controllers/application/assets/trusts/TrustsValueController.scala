@@ -27,6 +27,8 @@ import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.trusts.trusts_value
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper
+import iht.constants.IhtProperties._
 
 object TrustsValueController extends TrustsValueController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -34,7 +36,7 @@ object TrustsValueController extends TrustsValueController with IhtConnectors {
 
 trait TrustsValueController extends EstateController {
 
-  val submitUrl = iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsValueID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsTrustsValue)
 
   def onPageLoad = authorisedForIht {
