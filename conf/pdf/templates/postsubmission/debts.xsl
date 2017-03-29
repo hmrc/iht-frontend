@@ -46,6 +46,9 @@
                                             <xsl:with-param name="value" select='format-number(number(./liabilities/liabilityAmount), "##,###.00")'/>
                                         </xsl:call-template>
                                     </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                    </xsl:otherwise>
                                 </xsl:choose>
 
                             </fo:table-body>

@@ -16,14 +16,12 @@
 
 package models.des.iht_return
 
-
-import java.time.LocalDate
-
 import iht.models.Joda._
 import org.joda.time.LocalDate
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
 import play.api.libs.json.{JsPath, Json, Reads}
+import iht.constants.Constants
 
 // Can reuse the address object from Event Registration
 import models.des.Address
@@ -334,34 +332,26 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
     freeEstate.flatMap(_.estateAssets).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
       (a, b) => a + b.assetTotalValue.fold(BigDecimal(0))(identity)))
 
-  def totalDebtsValue =
-    {
-      val debtsVlaueWithoutMortgage = freeEstate.flatMap(_.estateLiabilities).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
-        (a, b) => a + b.liabilityAmount.fold(BigDecimal(0))(identity)))
+  def totalDebtsValue = {
+    val debtsValueWithoutMortgage = freeEstate.flatMap(_.estateLiabilities).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
+      (a, b) => a + b.liabilityAmount.fold(BigDecimal(0))(identity)))
 
-      val mortgageValue: BigDecimal = freeEstate.flatMap(_.estateAssets).fold(BigDecimal(0)){
-        x => {
-          val y: Set[Asset] = x
-          val lia: Set[Set[Liability]] = y.flatMap{
-            t=>if(t.assetCode=="0016") t.liabilities else None
-          }
+    val mortgageValue: BigDecimal = freeEstate.flatMap(_.estateAssets).fold(BigDecimal(0)) {
+      assets => {
 
-          val liability = lia.flatMap{
-            z => {
-              val tt: Set[Liability] = z
-             val tr =  z.flatMap{
-                tts => tts.liabilityAmount.fold(BigDecimal(0))(identity)
-              }
-              tr
-            }
-          }
+        val setOfMatchedAssets: Set[Asset] = assets.filter(Constants.PropertyAssetCodes contains _.assetCode.getOrElse(""))
 
-        }
+        val matchedLiabilities: Set[Liability] = setOfMatchedAssets.flatMap(_.liabilities).flatten
+
+        val liabilitiesWithMortgage: Set[Liability] = matchedLiabilities.filter(
+                                                        _.liabilityType.getOrElse("") == Constants.MortgageLiabilityType)
+        liabilitiesWithMortgage.map(_.liabilityAmount.getOrElse(BigDecimal(0))).sum
+
       }
-
-      debtsVlaueWithoutMortgage
     }
 
+    debtsValueWithoutMortgage + mortgageValue
+  }
 
   def totalExemptionsValue =
     freeEstate.flatMap(_.estateExemptions).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
