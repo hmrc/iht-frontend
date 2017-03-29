@@ -55,15 +55,12 @@
                             </fo:table>
                             </xsl:if>
                         </xsl:for-each>
-
                 </fo:block>
             </xsl:when>
-
         </xsl:choose>
 
         <xsl:choose>
             <xsl:when test="freeEstate/estateLiabilities != ''">
-
                 <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal">
                     <fo:block>
                        <xsl:for-each select="freeEstate/estateLiabilities">
