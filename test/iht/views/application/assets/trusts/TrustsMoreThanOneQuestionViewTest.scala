@@ -24,6 +24,7 @@ import iht.views.html.application.asset.trusts.{trusts_more_than_one_question, t
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper._
 
 class TrustsMoreThanOneQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -41,7 +42,8 @@ class TrustsMoreThanOneQuestionViewTest extends YesNoQuestionViewBehaviour[HeldI
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),
-      messagesApi("site.link.return.trusts", deceasedName)
+      messagesApi("site.link.return.trusts", deceasedName),
+      AssetsTrustsMultipleID
     )
   )
 

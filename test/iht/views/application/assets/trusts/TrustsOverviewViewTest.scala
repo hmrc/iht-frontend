@@ -37,15 +37,15 @@ class TrustsOverviewViewTest extends ViewTestHelper {
   lazy val changeMsgKey = "iht.change"
   lazy val giveAnAnswerMsgKey= "site.link.giveAnswer"
   lazy val giveAValueMsgKey = "site.link.giveAValue"
-  lazy val deceasedBenefitFromTheTrustQuestionId = "trusts-question"
+  lazy val deceasedBenefitFromTheTrustQuestionId = "benefited-from-trust-block"
   lazy val deceasedBenefitFromTheTrustQuestionMsg = messagesApi("iht.estateReport.assets.trusts.question",deceasedName)
   lazy val deceasedBenefitFromTheTrustQuestionPageUrl = routes.TrustsOwnedQuestionController.onPageLoad.url
 
-  lazy val trustMoreThanOneQuestionId = "trusts-more-than-one-question"
+  lazy val trustMoreThanOneQuestionId = "more-than-one-trust-block"
   lazy val trustMoreThanOneQuestionMsg = messagesApi("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName)
   lazy val trustMoreThanOneQuestionPageUrl = routes.TrustsMoreThanOneQuestionController.onPageLoad.url
 
-  lazy val trustValueQuestionId = "trusts-value"
+  lazy val trustValueQuestionId = "value-of-trust-block"
   lazy val trustValueQuestionMsg = messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName)
   lazy val trustValueQuestionPageUrl = routes.TrustsValueController.onPageLoad.url
 
