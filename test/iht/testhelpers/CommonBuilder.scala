@@ -148,7 +148,6 @@ object CommonBuilder {
     middleName = Some(DefaultMiddleName),
     lastName = Some(DefaultLastName),
     nino = Some(DefaultNino),
-    utr = DefaultUtr,
     dateOfBirth = Some(DefaultDateOfBirth),
     ukAddress = Some(DefaultUkAddress),
     country = Some(DefaultCountry),
