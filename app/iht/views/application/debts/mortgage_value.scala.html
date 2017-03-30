@@ -23,7 +23,7 @@
 @import iht.utils.CommonHelper
 @import iht.constants.FieldMappings
 @import iht.constants.Constants
-@import iht.constants.IhtProperties
+@import iht.constants.IhtProperties._
 
 @(mortgagesForm: Form[iht.models.application.debts.Mortgage],
 property: Property,
@@ -34,7 +34,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
 
 @iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", deceasedName),
     browserTitle = Some(Messages("page.iht.application.debts.mortgageValue.browserTitle")),
-    cancelUrl = Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad),
+    cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad, Some(DebtsMortgagesPropertyID + property.id.getOrElse("")))),
     cancelLabel = Some(Messages("site.link.return.mortgage.overview")),
     isFullWidth = false,
     headingName = deceasedName,
@@ -57,7 +57,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
             assetType = Constants.AssetTypeSingle,
             questionLabel= Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
             legendClass = "visually-hidden",
-            inputTextLabel = if(property.typeOfOwnership.getOrElse(IhtProperties.ownershipDeceasedOnly)== IhtProperties.ownershipDeceasedOnly)
+            inputTextLabel = if(property.typeOfOwnership.getOrElse(ownershipDeceasedOnly)== ownershipDeceasedOnly)
                                      Messages("page.iht.application.debts.mortgage.inputText.value")
                                 else Messages("iht.estateReport.debts.mortgage.valueOfDeceasedsShare"),
             sharableElementForm = mortgagesForm,

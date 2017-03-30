@@ -209,4 +209,5 @@ object IhtProperties {
   lazy val AssetsTrustsBenefitedID = getProperty("AssetsTrustsBenefitedID")
   lazy val AssetsTrustsMultipleID = getProperty("AssetsTrustsMultipleID")
   lazy val AssetsTrustsValueID = getProperty("AssetsTrustsValueID")
+  lazy val DebtsMortgagesPropertyID = getProperty("DebtsMortgagesPropertyID")
 }
