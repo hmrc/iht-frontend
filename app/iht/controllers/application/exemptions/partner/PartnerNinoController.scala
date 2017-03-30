@@ -26,13 +26,15 @@ import iht.models.application.exemptions._
 import iht.views.html.application.exemption.partner.partner_nino
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper._
+import iht.constants.IhtProperties._
 
 object PartnerNinoController extends PartnerNinoController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait PartnerNinoController extends EstateController {
-  val submitUrl = iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()
+  val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNinoID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

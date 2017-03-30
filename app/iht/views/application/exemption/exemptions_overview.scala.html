@@ -58,7 +58,7 @@ headingName = deceasedName) {
             @ihtHelpers.custom.generic_overview_item(
                 title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
                 name= "partner",
-                id = "assetsLeftToPartner",
+                id = ExemptionsPartnerID,
                 value = displayValue(appDetails, AppSectionExemptionsPartnerTotalAssets, isComplete, Some("site.noAssetsLeft")),
                 valueScreenReader = "",
                 link = if(exemptions.partner.fold(false){
@@ -94,7 +94,7 @@ headingName = deceasedName) {
         @ihtHelpers.custom.generic_overview_item(
             title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"),
             name = "charity",
-            id = "charities",
+            id = ExemptionsCharityID,
             value = displayValue(appDetails,
                         AppSectionExemptionsCharityValue,
                         isComplete,
@@ -128,7 +128,7 @@ headingName = deceasedName) {
         @ihtHelpers.custom.generic_overview_item(
             title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"),
             name = "qualifyingBody",
-            id = "qualifyingBodies",
+            id = ExemptionsOtherID,
             value = displayValue(appDetails,
                         AppSectionExemptionsQualifyingBodyValue,
                         isComplete,

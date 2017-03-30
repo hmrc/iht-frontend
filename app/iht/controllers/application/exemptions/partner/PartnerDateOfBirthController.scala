@@ -22,7 +22,8 @@ import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.ApplicationKickOutHelper
+import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_date_of_birth
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
@@ -30,6 +31,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 /**
  * Created by james on 01/08/16.
@@ -56,7 +58,7 @@ trait PartnerDateOfBirthController extends EstateController {
       boundForm.fold(
         formWithErrors =>
           Future.successful(Ok(iht.views.html.application.exemption.partner.partner_date_of_birth(formWithErrors, regDetails))),
-        pe => saveApplication(CommonHelper.getNino(user), pe, regDetails)
+        pe => saveApplication(getNino(user), pe, regDetails)
       )
     }
   }
@@ -75,7 +77,9 @@ trait PartnerDateOfBirthController extends EstateController {
         registrationDetails = regDetails,
         applicationDetails = copyOfAD)
       ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).flatMap { _ =>
-        Future.successful(Redirect(applicationDetails.kickoutReason.fold(routes.PartnerOverviewController.onPageLoad())(_ => kickoutRedirectLocation)))
+        Future.successful(Redirect(applicationDetails.kickoutReason.fold(
+          addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerDobID))
+        )(_ => kickoutRedirectLocation)))
       }
     }
   }

@@ -19,6 +19,7 @@
 @import iht.models.application.exemptions._
 @import iht.models._
 @import iht.utils.CommonHelper._
+@import iht.constants.IhtProperties._
 
 @(partnerPermanentHomeQuestionForm: Form[iht.models.application.exemptions.PartnerExemption],
 registrationDetails:RegistrationDetails,
@@ -27,7 +28,7 @@ cancelUrl: Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.partner.homeInUK.question"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partnerPermanentHome.browserTitle")),
-cancelUrl = Some(cancelUrl),
+cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsPartnerHomeID))),
 cancelLabel = Some(cancelLabel),
 isFullWidth=false,
 headingClass = "heading-large"){
