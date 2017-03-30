@@ -46,8 +46,6 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
   val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerID))
   val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerHomeID))
 
-  val submitUrl = iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()
-
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
 
@@ -164,7 +162,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
     partner match {
       case Some(x) => {
         if (x.isPartnerHomeInUK.isDefined) {
-          partnerOverviewPage
+          routes.PartnerOverviewController.onPageLoad()
         } else {
           exemptionsOverviewPage
         }

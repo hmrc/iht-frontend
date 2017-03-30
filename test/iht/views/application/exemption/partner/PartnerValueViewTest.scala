@@ -24,6 +24,7 @@ import iht.views.html.application.exemption.partner.partner_value
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper._
 
 class PartnerValueViewTest extends ValueViewBehaviour[PartnerExemption] {
 
@@ -43,7 +44,8 @@ class PartnerValueViewTest extends ValueViewBehaviour[PartnerExemption] {
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
-      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
+      messagesApi("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
+      ExemptionsPartnerValueID
     )
   )
 

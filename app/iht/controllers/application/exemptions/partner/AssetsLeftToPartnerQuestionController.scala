@@ -195,7 +195,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
     partner match {
       case Some(x) => {
         if (x.isAssetForDeceasedPartner.isDefined && x.isPartnerHomeInUK.isDefined) {
-          partnerOverviewPage
+          routes.PartnerOverviewController.onPageLoad()
         } else {
           exemptionsOverviewPage
         }
