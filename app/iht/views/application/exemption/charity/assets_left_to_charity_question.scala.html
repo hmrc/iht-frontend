@@ -28,7 +28,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToACharity.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetLeftToCharity.browserTitle")),
 isFullWidth=false,
-cancelUrl = Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
+cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsCharityID))),
 cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf", ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))){
     @ihtHelpers.custom.error_summary(assetsLeftToCharityQuestionForm)
     @helpers.form(action = iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onSubmit,'autoComplete -> "off") {

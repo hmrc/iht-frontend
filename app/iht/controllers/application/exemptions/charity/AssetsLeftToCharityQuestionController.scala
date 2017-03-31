@@ -27,15 +27,16 @@ import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.assets_left_to_charity_question
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 object AssetsLeftToCharityQuestionController extends AssetsLeftToCharityQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait AssetsLeftToCharityQuestionController extends EstateController {
-  val exemptionsOverviewPage = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-  val charityOverviewPage = iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()
-  val charityDetailsOverviewPage = iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad()
+  val exemptionsOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsCharityID))
+  val charityOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
+  val charityDetailsOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

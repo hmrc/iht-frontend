@@ -29,6 +29,7 @@ import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
@@ -38,11 +39,11 @@ object CharityValueController extends CharityValueController with IhtConnectors 
 
 trait CharityValueController extends EstateController {
 
-  val submitUrl = routes.CharityValueController.onSubmit()
+  val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onSubmit(), Some(ExemptionsCharitiesValueID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.CharityDetailsOverviewController.onEditPageLoad(id)
-  private def editSubmitUrl(id: String) = routes.CharityValueController.onEditSubmit(id)
+  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onEditSubmit(id), Some(ExemptionsCharitiesValueID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))

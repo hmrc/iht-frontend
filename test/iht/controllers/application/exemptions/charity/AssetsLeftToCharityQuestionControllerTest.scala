@@ -25,6 +25,8 @@ import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper._
+import iht.testhelpers.TestHelper._
 import play.api.test.Helpers._
 
 class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTest {
@@ -113,7 +115,7 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
 
       val result = assetsLeftToCharityQuestionController.onSubmit()(request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be (Some(routes.CharityDetailsOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(addFragmentIdentifierToUrl(routes.CharityDetailsOverviewController.onPageLoad.url, ExemptionsCharitiesAssetsID)))
     }
 
     "throw exception when no application details are present" in {
