@@ -164,7 +164,6 @@ object CommonBuilder {
     lastName = Some(DefaultLastName),
     nino = Some(DefaultNino),
     ukAddress = Some(DefaultUkAddress),
-//    utr = DefaultUtr,
     dateOfBirth = Some(DefaultDateOfBirth),
     domicile = Some(DefaultDomicile),
     maritalStatus = Some(DefaultMaritalStatus),
@@ -592,7 +591,6 @@ object CommonBuilder {
   lazy val buildLeadExecutor = models.des.LeadExecutor(CommonBuilder.buildApplicantDetails.firstName.fold("")(identity),
     CommonBuilder.buildApplicantDetails.lastName.fold("")(identity),
     CommonBuilder.buildApplicantDetails.nino,
-    CommonBuilder.buildApplicantDetails.utr,
     "1998-12-12",
     models.des.Address(
       CommonBuilder.buildApplicantDetails.ukAddress.map(_.ukAddressLine1).fold("")(identity),
@@ -611,7 +609,6 @@ object CommonBuilder {
     "1998-12-12",
     None,
     Some(DefaultNino),
-    CommonBuilder.buildDeceasedDetails.utr,
     models.des.Address(
       CommonBuilder.buildDeceasedDetails.ukAddress.fold("addr1")(_.ukAddressLine1),
       CommonBuilder.buildDeceasedDetails.ukAddress.fold("addr2")(_.ukAddressLine2),

@@ -151,7 +151,7 @@ class DeceasedAddressDetailsOutsideUKControllerTest
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
 
       val newDeceasedDetails = DeceasedDetails(None, None, None, None,
-        Some(UkAddress("New Line 1", "New Line 2", None, None, "", "US")), None, None, None, None, None)
+        Some(UkAddress("New Line 1", "New Line 2", None, None, "", "US")), None, None, None, None)
 
       val form = deceasedAddressDetailsOutsideUKForm.fill(newDeceasedDetails)
 
