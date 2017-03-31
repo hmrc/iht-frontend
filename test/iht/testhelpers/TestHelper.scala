@@ -205,6 +205,8 @@ object TestHelper {
   lazy val ExemptionsOtherDeleteID = "delete-qualifying-body-"
   lazy val ExemptionsOtherChangeID = "change-qualifying-body-"
   lazy val ExemptionsOtherAddID = "add-qualifying-body"
+  lazy val ExemptionsOtherNameID = "qualifying-body-name"
+  lazy val ExemptionsOtherValueID = "assets-value-left-to-qualifying-body"
 }
 
 trait SharableOverviewData {

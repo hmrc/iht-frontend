@@ -42,7 +42,7 @@ class QualifyingBodyDeleteConfirmViewTest extends GenericNonSubmittablePageBehav
 
   val nameOfQualifyingBody = CommonBuilder.qualifyingBody.map(_.name).fold("")(identity)
 
-  def view = qualifying_body_delete_confirm(nameOfQualifyingBody, CommonBuilder.DefaultCall1).toString
+  def view = qualifying_body_delete_confirm(CommonBuilder.qualifyingBody, CommonBuilder.DefaultCall1).toString
 
   "Delete qualifying body confirmation page Question View" must {
     behave like nonSubmittablePage()

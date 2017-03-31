@@ -117,7 +117,9 @@ headingName = deceasedName
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
     @ihtHelpers.custom.return_link(Messages("site.link.return.exemptions"),
-    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
+    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
+    ExemptionsOtherID
+    )
     }
 </p>
 }

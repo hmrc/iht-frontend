@@ -230,4 +230,6 @@ object IhtProperties {
   lazy val ExemptionsOtherDeleteID = getProperty("ExemptionsOtherDeleteID")
   lazy val ExemptionsOtherChangeID = getProperty("ExemptionsOtherChangeID")
   lazy val ExemptionsOtherAddID = getProperty("ExemptionsOtherAddID")
+  lazy val ExemptionsOtherNameID = getProperty("ExemptionsOtherNameID")
+  lazy val ExemptionsOtherValueID = getProperty("ExemptionsOtherValueID")
 }
