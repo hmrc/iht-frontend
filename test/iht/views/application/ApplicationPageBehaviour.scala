@@ -93,7 +93,6 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
 
     if (cancelComponent.isDefined) {
       "show the return link with the correct target and text" in {
-        println(doc)
         cancelComponent.foreach { attrib =>
           val cancelButton = doc.getElementById(cancelId)
           cancelButton.attr("href") shouldBe addFragmentIdentifierToUrl(attrib.target.url, attrib.hash)

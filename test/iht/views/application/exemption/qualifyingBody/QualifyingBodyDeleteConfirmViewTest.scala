@@ -23,6 +23,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import scala.concurrent.ExecutionContext.Implicits.global
+import iht.testhelpers.TestHelper._
 
 class QualifyingBodyDeleteConfirmViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -36,7 +37,8 @@ class QualifyingBodyDeleteConfirmViewTest extends GenericNonSubmittablePageBehav
   def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(),
-      messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies")
+      messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
+      ExemptionsOtherDeleteID + "1"
     )
   )
 

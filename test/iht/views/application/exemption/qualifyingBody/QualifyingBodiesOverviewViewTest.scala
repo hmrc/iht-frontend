@@ -22,6 +22,7 @@ import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import iht.testhelpers.TestHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -44,7 +45,8 @@ trait QualifyingBodiesOverviewViewBehaviour extends GenericNonSubmittablePageBeh
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
-      messagesApi("site.link.return.exemptions")
+      messagesApi("site.link.return.exemptions"),
+      ExemptionsOtherID
     )
   )
 }
@@ -90,19 +92,19 @@ class QualifyingBodiesOverviewViewTest extends QualifyingBodiesOverviewViewBehav
   "Qualifying bodies overview view" must {
     behave like nonSubmittablePage()
 
-    behave like link("add-qualifyingBody",
+    behave like link(ExemptionsOtherAddID,
       iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url,
       messagesApi("iht.estateReport.assets.qualifyingBodyAddAnother"))
 
     "show ownership question" in {
-      elementShouldHaveText(doc, "qualifying-bodies-question", messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.question", deceasedName))
+      elementShouldHaveText(doc, ExemptionsOtherAssetsID + "-question", messagesApi("page.iht.application.exemptions.qualifyingBodyOverview.question", deceasedName))
     }
 
     "show ownership question value" in {
-      elementShouldHaveText(doc, "qualifying-bodies-value", messagesApi("iht.yes"))
+      elementShouldHaveText(doc, ExemptionsOtherAssetsID + "-question-value", messagesApi("iht.yes"))
     }
 
-    behave like link("qualifying-bodies",
+    behave like link(ExemptionsOtherAssetsID,
       iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad().url,
       messagesApi("iht.change"))
 
@@ -121,7 +123,7 @@ class QualifyingBodiesOverviewViewWithNoBodiesTest extends QualifyingBodiesOverv
     ).toString()
 
   "Qualifying bodies overview view with no qualifying bodies" must {
-    behave like link("add-qualifyingBody",
+    behave like link(ExemptionsOtherAddID,
       iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url,
       messagesApi("iht.estateReport.assets.qualifyingBodyAdd"))
   }
