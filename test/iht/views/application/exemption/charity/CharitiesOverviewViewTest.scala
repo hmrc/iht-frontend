@@ -23,6 +23,7 @@ import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import iht.testhelpers.TestHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -90,19 +91,19 @@ class CharitiesOverviewViewTest extends CharitiesOverviewViewBehaviour {
   "Charities overview view" must {
     behave like nonSubmittablePage()
 
-    behave like link("add-charity",
+    behave like link(ExemptionsCharitiesAddID,
       iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad().url,
       messagesApi("page.iht.application.exemptions.assetLeftToCharity.addCharity"))
 
     "show ownership question" in {
-      elementShouldHaveText(doc, "charities-question", messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question", deceasedName))
+      elementShouldHaveText(doc, ExemptionsCharitiesAssetsID + "-question", messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question", deceasedName))
     }
 
     "show ownership question value" in {
-      elementShouldHaveText(doc, "charities-value", messagesApi("iht.yes"))
+      elementShouldHaveText(doc, ExemptionsCharitiesAssetsID + "-question-value", messagesApi("iht.yes"))
     }
 
-    behave like link("charities",
+    behave like link(ExemptionsCharitiesAssetsID,
       iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad().url,
       messagesApi("iht.change"))
 
