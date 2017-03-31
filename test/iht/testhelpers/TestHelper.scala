@@ -207,6 +207,11 @@ object TestHelper {
   lazy val ExemptionsOtherAddID = "add-qualifying-body"
   lazy val ExemptionsOtherNameID = "qualifying-body-name"
   lazy val ExemptionsOtherValueID = "assets-value-left-to-qualifying-body"
+  lazy val EstateAssetsID = "assets-in-estate"
+  lazy val EstateGiftsID = "gifts-given-away"
+  lazy val EstateDebtsID = "debts-owed-from-estate"
+  lazy val EstateExemptionsID = "estate-exemptions"
+  lazy val EstateIncreasingID = "increasing-the-threshold"
 }
 
 trait SharableOverviewData {

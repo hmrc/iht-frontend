@@ -20,6 +20,7 @@ import iht.models.application.ApplicationDetails
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 case class OtherDetailsSectionViewModel(debtRow: OverviewRow,
                                         showClaimExemptionLink: Boolean,
@@ -51,7 +52,7 @@ object OtherDetailsSectionViewModel {
 
     OtherDetailsSectionViewModel(
       debtRow = OverviewRow(
-        id = "debts",
+        id = EstateDebtsID,
         label = Messages("iht.estateReport.debts.owedFromEstate"),
         value = DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails), areThereNoExemptions = true),
         completionStatus = RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
