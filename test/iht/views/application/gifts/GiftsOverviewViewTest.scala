@@ -26,7 +26,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_overview
 import play.api.i18n.Messages.Implicits._
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+import iht.testhelpers.TestHelper._
 
 class GiftsOverviewViewTest extends ViewTestHelper {
 
@@ -86,7 +86,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       val view = giftsOverviewView()
 
       val returnLink = view.getElementById("return-button")
-      returnLink.attr("href") shouldBe estateOverviewPageUrl.url
+      returnLink.attr("href") shouldBe CommonHelper.addFragmentIdentifierToUrl(estateOverviewPageUrl.url, EstateGiftsID)
       returnLink.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
     }
 

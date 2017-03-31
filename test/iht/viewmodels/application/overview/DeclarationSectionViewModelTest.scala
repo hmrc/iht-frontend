@@ -23,6 +23,7 @@ import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.testhelpers.TestHelper._
 
 class DeclarationSectionViewModelTest
   extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
