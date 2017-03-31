@@ -403,7 +403,7 @@ isFullWidth=false) {
 </section>
 
 
-<a id ="continue-to-estate-overview-button" class="button" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)'>
+<a id ="continue-to-estate-overview-button" class="button" href='@CommonHelper.addFragmentIdentifier(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), Some(EstateAssetsID))'>
     @Messages("iht.estateReport.returnToEstateOverview")
 </a>
 }
