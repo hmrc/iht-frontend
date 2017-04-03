@@ -52,5 +52,6 @@ headingName: String = ""
     signOutUrl = if (hasSignOut) Some(iht.controllers.application.routes.ApplicationQuestionnaireController.signOutAndLoadPage()) else None,
     headerTitle = Some(Messages("site.application.title")),
     headingClass = headingClass,
-    headingName = headingName
+    headingName = headingName,
+    timeoutRoute = "/inheritance-tax/estate-report/timeout"
 )(mainContent)

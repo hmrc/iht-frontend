@@ -52,5 +52,6 @@ headingName: String = ""
     signOutUrl = if (hasSignOut) Some(iht.controllers.registration.routes.RegistrationQuestionnaireController.signOutAndLoadPage()) else None,
     headerTitle = Some(Messages("site.registration.title")),
     headingClass = headingClass,
-    headingName = headingName
+    headingName = headingName,
+    timeoutRoute = "/inheritance-tax/register/timeout"
 )(mainContent)
