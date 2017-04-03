@@ -149,7 +149,7 @@ Autobox.prototype.selectOption = function(){
     _autobox.list.html("");
     _autobox.list.removeClass('suggestions--with-options');
     // update status with selected item
-    _autobox.status.html(_autobox.cListVal + " " + _autobox.messageSelected);
+    _autobox.status.html(_autobox.messageSelected.replace("{0}", _autobox.cListVal));
     // update select
     _autobox.select.val("").change();
 
@@ -186,7 +186,7 @@ Autobox.prototype.update = function(){
     })
 
     // update status
-    _autobox.status.html(foundMatches.length + " " + _autobox.messageMatches);
+    _autobox.status.html(_autobox.messageMatches.replace("{0}", foundMatches.length));
 }
 
 //=============================================
@@ -194,5 +194,5 @@ Autobox.prototype.update = function(){
 //=============================================
 Autobox.prototype.displayPosition = function(item){
     var _autobox = this;
-    return " (" + ( _autobox.listItems.index(item) + 1) + " " + _autobox.messageOf + " " + _autobox.listItems.length + ")"
+    return " " + _autobox.messageOf.replace("{0}", ( _autobox.listItems.index(item) + 1)).replace("{1}", _autobox.listItems.length)
 }
