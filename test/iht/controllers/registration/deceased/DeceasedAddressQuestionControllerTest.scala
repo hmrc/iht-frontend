@@ -129,7 +129,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
 
-      val newDeceasedDetails = DeceasedDetails(None, None, None, None, None, None, None, None, None, Some(true))
+      val newDeceasedDetails = DeceasedDetails(None, None, None, None, None, None, None, None, Some(true))
 
       val form = deceasedAddressQuestionForm.fill(newDeceasedDetails)
 

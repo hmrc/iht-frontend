@@ -70,7 +70,7 @@ class AboutDeceasedControllerTest
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(Some(CommonBuilder.buildDeceasedDateOfDeath), Some(applicantDetails),
-        Some(DeceasedDetails(None, None, None, None, None, None, None, Some(CommonBuilder.DefaultDomicile), None, None)))
+        Some(DeceasedDetails(None, None, None, None, None, None, Some(CommonBuilder.DefaultDomicile), None, None)))
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
@@ -265,7 +265,7 @@ class AboutDeceasedControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
 
       val newDetails = DeceasedDetails(Some(CommonBuilder.firstNameGenerator), None, Some(CommonBuilder.surnameGenerator),
-        Some(CommonBuilder.DefaultNino), None, None, Some(new LocalDate(1980, 2, 2)), None, Some(IhtProperties.statusMarried))
+        Some(CommonBuilder.DefaultNino), None, Some(new LocalDate(1980, 2, 2)), None, Some(IhtProperties.statusMarried))
 
       val form = aboutDeceasedForm().fill(newDetails)
 
@@ -282,7 +282,7 @@ class AboutDeceasedControllerTest
     "save valid data correctly when returning to this screen" in {
       val existingDod = DeceasedDateOfDeath(new LocalDate(2014, 1, 1))
       val existingDeceasedDetails = DeceasedDetails(Some(CommonBuilder.firstNameGenerator), None,
-        Some(CommonBuilder.surnameGenerator), Some(CommonBuilder.DefaultNino), None, None,
+        Some(CommonBuilder.surnameGenerator), Some(CommonBuilder.DefaultNino), None,
         Some(new LocalDate(1980, 2, 2)), Some(IhtProperties.domicileEnglandOrWales), Some(IhtProperties.statusMarried))
       val existingRegistrationDetails = RegistrationDetails(Some(existingDod), None, Some(existingDeceasedDetails))
 
@@ -290,7 +290,7 @@ class AboutDeceasedControllerTest
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(existingRegistrationDetails))
 
       val newDetails = DeceasedDetails(Some(CommonBuilder.firstNameGenerator), None, Some(CommonBuilder.surnameGenerator),
-        Some(CommonBuilder.DefaultNino), None, None, Some(new LocalDate(1990, 3, 3)), None, Some(IhtProperties.statusMarried))
+        Some(CommonBuilder.DefaultNino), None, Some(new LocalDate(1990, 3, 3)), None, Some(IhtProperties.statusMarried))
 
       val form = aboutDeceasedForm().fill(newDetails)
 
