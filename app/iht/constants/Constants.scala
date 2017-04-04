@@ -129,4 +129,7 @@ object Constants {
   )
 
   lazy val  NINO= "customerNino"
+
+  lazy val PropertyAssetCodes = Set("0016", "0017", "0018")
+  lazy val  MortgageLiabilityType= "Mortgage"
 }
