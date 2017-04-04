@@ -28,7 +28,7 @@ cancelUrl: Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.partner.homeInUK.question"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partnerPermanentHome.browserTitle")),
-cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsPartnerHomeID))),
+cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad, Some(ExemptionsPartnerHomeID))),
 cancelLabel = Some(cancelLabel),
 isFullWidth=false,
 headingClass = "heading-large"){

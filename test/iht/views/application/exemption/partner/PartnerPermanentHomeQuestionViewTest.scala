@@ -45,7 +45,7 @@ class PartnerPermanentHomeQuestionViewTest extends YesNoQuestionViewBehaviour[Pa
 
   override def cancelComponent = Some(
     CancelComponent(
-      CommonBuilder.DefaultCall1,
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
       CommonBuilder.DefaultString,
       ExemptionsPartnerHomeID
     )

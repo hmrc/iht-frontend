@@ -32,7 +32,7 @@ cancelUrl: Call
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question",deceasedName),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetLeftToPartner.browserTitle")),
 isFullWidth=false,
-cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsPartnerAssetsID))),
+cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad, Some(ExemptionsPartnerAssetsID))),
 cancelLabel = Some(cancelLabel),
 headingName = deceasedName,
 headingClass = "heading-large"){
