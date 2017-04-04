@@ -15,9 +15,9 @@
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -58,7 +58,7 @@ String.prototype.format = function () {
       countdown: 60,
       time: 'minutes',
       title: 'You’re about to be signed out',
-      message: 'For your security, you’ll be signed out in <span class="countdown">{0} {1}</span> if there’s no activity on your account. ',
+      message: 'For your security, you’ll be signed out in <span class="countdown">{0}</span> if there’s no activity on your account. ',
       keep_alive_url: '/keep-alive',
       logout_url: '/sign-out',
       restart_on_yes: true,
@@ -93,14 +93,19 @@ String.prototype.format = function () {
         var time = secondsToTime(settings.countdown)
         var timeout = secondsToTime(settings.timeout)
          // ignored seconds time.m used below
-        $('<div id="timeout-dialog" class="timeout-dialog" role="dialog" aria-labelledby="timeout-message" tabindex="-1">' + 
-            '<h2 class="heading-medium">' + settings.title + '</h2>' + 
-            '<p id="timeout-message">' + settings.message.format('<span id="timeout-countdown">' + time.m + '</span>' ,
-                '<span id="timeout-Seconds">' + settings.time + '</span>') + '</p>' + 
-            '<button id="timeout-keep-signin-btn" class="button">' + settings.keep_alive_button_text.format('<span id="timeout-countdown">' + settings.timeout / 60 + '</span>') + '</button>' + 
+         // AL: Add live region and edit dialog structure
+        $('<div id="timeout-dialog" class="timeout-dialog" role="dialog" aria-labelledby="timeout-heading timeout-message" tabindex="-1" aria-live="polite">' + 
+            '<h2 id="timeout-heading" class="heading-medium">' + settings.title + '</h2>' + 
+            '<p id="timeout-message">' +
+                settings.message.format('<span id="timeout-countdown">' + time.m + ' ' + settings.time + '</span>') +
+            '</p>' + 
+            '<button id="timeout-keep-signin-btn" class="button">' + settings.keep_alive_button_text.format(settings.timeout / 60) + '</button>' + 
         '</div>' + 
         '<div id="timeout-overlay" class="timeout-overlay"></div>') 
         .appendTo('body')
+
+        // AL: disable the non-dialog page to prevent confusion for VoiceOver users
+        $('#skiplink-container, body>header, #global-cookie-message, body>main, body>footer').attr('aria-hidden', 'true')
 
         var activeElement = document.activeElement
 
@@ -132,19 +137,30 @@ String.prototype.format = function () {
           }
         }
 
+        // AL: prevent scrolling on touch, but allow pinch zoom
+        self.handleTouch = function(e){
+            if ($('#timeout-dialog').length) {
+                if(e.touches.length == 1){
+                    e.preventDefault();
+                }
+            }
+        }
+        // AL: add touchmove handler
+        document.addEventListener('touchmove', self.handleTouch, true)
         document.addEventListener('keydown', self.escPress, true)
         document.getElementById('timeout-keep-signin-btn').addEventListener('click', self.closeDialog, true)
       },
 
       destroyDialog: function () {
+        document.removeEventListener('touchmove', self.handleTouch)
         if ($('#timeout-dialog').length) {
           dialogOpen = false
-          $('.timeout-overlay').remove();
+          $('.timeout-overlay').remove()
           $('#timeout-dialog').remove()
-          if (settings.background_no_scroll) {
-            $('html').removeClass('noScroll')
-          }
+          if (settings.background_no_scroll) {$('html').removeClass('noScroll')}
         }
+        // AL: re-enable the non-dialog page
+        $('#skiplink-container, body>header, #global-cookie-message, body>main, body>footer').removeAttr('aria-hidden')
       },
 
       startCountdown: function () {
@@ -154,11 +170,9 @@ String.prototype.format = function () {
         this.countdown = window.setInterval(function () {
           counter -= 1
           if (counter < 60) {
-            $('#timeout-countdown').html(counter)
-            $('#timeout-Seconds').html('seconds')
+            $('#timeout-countdown').html(counter + " seconds")
           } else if (counter % 60 === 0) {
-            $('#timeout-countdown').html(counter / 60)
-            $('#timeout-Seconds').html('minutes')
+            $('#timeout-countdown').html(counter / 60 + " minutes")
           }
 
           if (counter <= 0) {

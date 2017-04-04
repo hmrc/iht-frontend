@@ -83,7 +83,15 @@ timeoutRoute: String = ""
 
 @scriptElement = {
 
-    <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
+    <!--<script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>-->
+
+    <script src="/inheritance-tax/assets/javascripts/ie9-polyfill-input.js"></script>
+    <script src="/inheritance-tax/assets/javascripts/timeout-dialog.js"></script>
+    <script src="/inheritance-tax/assets/javascripts/autobox.js"></script>
+    <script src="/inheritance-tax/assets/javascripts/show-hide-content.js"></script>
+    <script src="/inheritance-tax/assets/javascripts/iht.js"></script>
+
+
     @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
     @if(hasTimeOut && appConfig.enableRefresh) {
     <script>
@@ -94,7 +102,7 @@ timeoutRoute: String = ""
             keep_alive_url: "/inheritance-tax/keep-alive",
             logout_url: "@timeoutRoute",
             title: "You’re about to be signed out",
-            message: 'For your security, you’ll be signed out in <span class="countdown">{0} {1}</span> if there’s no activity on your account.',
+            message: 'For your security, you’ll be signed out in <span class="countdown">{0}</span> if there’s no activity on your account.',
             keep_alive_button_text: "Get another {0} minutes"
         });
         var dialogOpen;

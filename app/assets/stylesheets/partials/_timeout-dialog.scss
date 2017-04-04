@@ -42,8 +42,9 @@ html.noScroll {
   }
 
   .countdown {
-      display: inline-block;
-      white-space: nowrap;
+  // AL: removed as interrupts VO reading
+//      display: inline-block;
+//      white-space: nowrap;
       font-weight: 700;
   }
 
