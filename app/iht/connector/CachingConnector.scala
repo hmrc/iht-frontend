@@ -17,6 +17,7 @@
 package iht.connector
 
 import iht.config.WSHttp
+import iht.exceptions.NoRegistrationDetailsException
 import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
 import iht.utils.CommonHelper
@@ -51,7 +52,8 @@ trait CachingConnector {
   private val probateDetailsKey = "probateDetails"
 
   def getExistingRegistrationDetails(implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): RegistrationDetails = {
-    CommonHelper.getOrExceptionNoRegistration(Await.result(getRegistrationDetails, Duration.Inf))
+    val optionRD: Option[RegistrationDetails] = Await.result(getRegistrationDetails, Duration.Inf)
+    optionRD.fold(throw new NoRegistrationDetailsException)(identity)
   }
 
   def delete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
