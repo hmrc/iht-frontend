@@ -27,31 +27,32 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 /**
- * Created by jennygj on 30/06/16.
- */
+  * Created by jennygj on 30/06/16.
+  */
 
 object PensionsOverviewController extends PensionsOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait PensionsOverviewController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions)
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
 
-      for {
-
-        applicationDetails: Option[ApplicationDetails]<- ihtConnector.getApplication(
-          CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference
-        )
-        pensions:Option[PrivatePension] = applicationDetails.flatMap(_.allAssets.flatMap(_.privatePension))
-      } yield {
-        Ok(iht.views.html.application.asset.pensions.pensions_overview(pensions, registrationDetails))
+            applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+              CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference
+            )
+            pensions: Option[PrivatePension] = applicationDetails.flatMap(_.allAssets.flatMap(_.privatePension))
+          } yield {
+            Ok(iht.views.html.application.asset.pensions.pensions_overview(pensions, registrationDetails))
+          }
+        }
       }
-    }
   }
 }

@@ -34,25 +34,26 @@ trait ApplicationController extends FrontendController with IhtActions {
   override lazy val ihtSection = IhtSection.Application
 
   def cachingConnector: CachingConnector
+
   def ihtConnector: IhtConnector
 
   def withApplicationDetails(body: RegistrationDetails => ApplicationDetails => Future[Result])
                             (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
-    val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
+    withExistingRegistrationDetails { registrationDetails =>
+      val optionApplicationDetailsFuture = ihtConnector.getApplication(
+        CommonHelper.getNino(user),
+        CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+        registrationDetails.acknowledgmentReference)
 
-    val optionApplicationDetailsFuture = ihtConnector.getApplication(
-      CommonHelper.getNino(user),
-      CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-      registrationDetails.acknowledgmentReference)
-
-    optionApplicationDetailsFuture.flatMap { oad =>
-      val applicationDetails = CommonHelper.getOrException(oad)
-      body(registrationDetails)(applicationDetails)
+      optionApplicationDetailsFuture.flatMap { oad =>
+        val applicationDetails = CommonHelper.getOrException(oad)
+        body(registrationDetails)(applicationDetails)
+      }
     }
   }
 
   def getApplicationDetails(ihtReference: String, acknowledgementReference: String)
-                                   (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier) = {
+                           (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier) = {
     for {
       Some(applicationDetails) <- ihtConnector.getApplication(
         CommonHelper.getNino(user),
@@ -68,5 +69,13 @@ trait ApplicationController extends FrontendController with IhtActions {
       val registrationDetails = optionRD.fold(throw new RuntimeException("Registration details couldn't be found"))(identity)
       body(registrationDetails)
     })
+  }
+
+  def withExistingRegistrationDetails(success: RegistrationDetails => Future[Result])
+                                     (implicit request: Request[_], user: AuthContext): Future[Result] = {
+    cachingConnector.getRegistrationDetails flatMap {
+      case None => Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+      case Some(rd) => success(rd)
+    }
   }
 }

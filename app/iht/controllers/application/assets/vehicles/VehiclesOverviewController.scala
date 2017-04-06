@@ -39,18 +39,17 @@ trait VehiclesOverviewController extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-
-      for {
-
-        applicationDetails: Option[ApplicationDetails]<- ihtConnector.getApplication(
-          CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference
-        )
-        vehicles:Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.vehicles))
-      } yield {
-        Ok(iht.views.html.application.asset.vehicles.vehicles_overview(vehicles ,registrationDetails))
+      withExistingRegistrationDetails { registrationDetails =>
+        for {
+          applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+            CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+            registrationDetails.acknowledgmentReference
+          )
+          vehicles: Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.vehicles))
+        } yield {
+          Ok(iht.views.html.application.asset.vehicles.vehicles_overview(vehicles, registrationDetails))
+        }
       }
     }
   }

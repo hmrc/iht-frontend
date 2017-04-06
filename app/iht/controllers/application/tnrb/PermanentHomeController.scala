@@ -46,28 +46,28 @@ trait PermanentHomeController extends EstateController{
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
+      withExistingRegistrationDetails { registrationDetails =>
+        val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
+        for {
+          applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+            registrationDetails.acknowledgmentReference)
+        } yield {
+          applicationDetails match {
+            case Some(appDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
+              val filledForm = partnerLivingInUkForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-            val filledForm = partnerLivingInUkForm.fill(appDetails.increaseIhtThreshold.getOrElse(
-              TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
-
-            Ok(iht.views.html.application.tnrb.permanent_home(
-              filledForm,
-              appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-              appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpousePermanentHomeInUKID)))
-            )
+              Ok(iht.views.html.application.tnrb.permanent_home(
+                filledForm,
+                appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpousePermanentHomeInUKID)))
+              )
+            }
+            case _ => InternalServerError("Application details not found")
           }
-          case _ => InternalServerError("Application details not found")
         }
       }
     }

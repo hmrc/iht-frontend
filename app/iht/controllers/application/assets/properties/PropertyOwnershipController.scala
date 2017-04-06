@@ -57,66 +57,73 @@ trait PropertyOwnershipController extends EstateController {
   def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+        withExistingRegistrationDetails { regDetails =>
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-      Future.successful(Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm,
-        submitUrl,
-        cancelUrl,
-        deceasedName)))
-    }
+          Future.successful(Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm,
+            submitUrl,
+            cancelUrl,
+            deceasedName)))
+        }
+      }
   }
 
   def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+        withExistingRegistrationDetails { regDetails =>
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(applicationDetails) => {
-            applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
-              throw new RuntimeException("No Property found for the id")
-            } {
-              (matchedProperty) => Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm.fill(matchedProperty),
-                editSubmitUrl(id),
-                editCancelUrl(id),
-                deceasedName))
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+              regDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(applicationDetails) => {
+                applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
+                  throw new RuntimeException("No Property found for the id")
+                } {
+                  (matchedProperty) =>
+                    Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm.fill(matchedProperty),
+                      editSubmitUrl(id),
+                      editCancelUrl(id),
+                      deceasedName))
+                }
+              }
+              case _ => {
+                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+                InternalServerError("No Application Details found")
+              }
             }
-          }
-          case _ => {
-            Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-            InternalServerError("No Application Details found")
           }
         }
       }
-    }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      doSubmit(
-        redirectLocationIfErrors = routes.PropertyOwnershipController.onSubmit(),
-        submitUrl = submitUrl,
-        cancelUrl = cancelUrl)
-    }
+    implicit user =>
+      implicit request => {
+        doSubmit(
+          redirectLocationIfErrors = routes.PropertyOwnershipController.onSubmit(),
+          submitUrl = submitUrl,
+          cancelUrl = cancelUrl)
+      }
   }
 
   def onEditSubmit(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      doSubmit(
-        redirectLocationIfErrors = routes.PropertyOwnershipController.onEditSubmit(id),
-        submitUrl = editSubmitUrl(id),
-        cancelUrl = editCancelUrl(id),
-        Some(id))
-    }
+    implicit user =>
+      implicit request => {
+        doSubmit(
+          redirectLocationIfErrors = routes.PropertyOwnershipController.onEditSubmit(id),
+          submitUrl = editSubmitUrl(id),
+          cancelUrl = editCancelUrl(id),
+          Some(id))
+      }
   }
 
   private def doSubmit(redirectLocationIfErrors: Call,
@@ -124,22 +131,23 @@ trait PropertyOwnershipController extends EstateController {
                        cancelUrl: Call,
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
-    val regDetails = cachingConnector.getExistingRegistrationDetails
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+    withExistingRegistrationDetails { regDetails =>
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-    val boundForm = typeOfOwnershipForm.bindFromRequest
-    boundForm.fold(
-      formWithErrors => {
-        LogHelper.logFormError(formWithErrors)
-        Future.successful(BadRequest(iht.views.html.application.asset.properties.property_ownership(formWithErrors,
-          submitUrl,
-          cancelUrl,
-          deceasedName)))
-      },
-      property => {
-        processSubmit(CommonHelper.getNino(user), property, propertyId)
-      }
-    )
+      val boundForm = typeOfOwnershipForm.bindFromRequest
+      boundForm.fold(
+        formWithErrors => {
+          LogHelper.logFormError(formWithErrors)
+          Future.successful(BadRequest(iht.views.html.application.asset.properties.property_ownership(formWithErrors,
+            submitUrl,
+            cancelUrl,
+            deceasedName)))
+        },
+        property => {
+          processSubmit(CommonHelper.getNino(user), property, propertyId)
+        }
+      )
+    }
   }
 
   private def processSubmit(nino: String, property: Property,

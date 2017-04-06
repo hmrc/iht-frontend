@@ -27,48 +27,53 @@ import play.api.Play.current
 import scala.concurrent.Future
 
 /**
- * Created by jennygj on 15/08/16.
- */
+  * Created by jennygj on 15/08/16.
+  */
 
 object QualifyingBodyDetailsOverviewController extends QualifyingBodyDetailsOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait QualifyingBodyDetailsOverviewController extends EstateController {
-  def ihtConnector : IhtConnector
-  def cachingConnector : CachingConnector
+  def ihtConnector: IhtConnector
+
+  def cachingConnector: CachingConnector
 
   def onPageLoad() = authorisedForIht {
-    implicit user => implicit request => {
-      withApplicationDetails { rd => ad =>
-        Future.successful(Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview()))
+    implicit user =>
+      implicit request => {
+        withApplicationDetails { rd =>
+          ad =>
+            Future.successful(Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview()))
+        }
       }
-    }
   }
 
   def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(applicationDetails) =>
-            applicationDetails.qualifyingBodies.find(qualifyingBody => qualifyingBody.id.contains(id)).fold {
-              throw new RuntimeException("No qualifyingBody found for id " + id) } {
-              (matchedQualifyingBody) =>
-                Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview(Some(matchedQualifyingBody)
-                ))
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(applicationDetails) =>
+                applicationDetails.qualifyingBodies.find(qualifyingBody => qualifyingBody.id.contains(id)).fold {
+                  throw new RuntimeException("No qualifyingBody found for id " + id)
+                } {
+                  (matchedQualifyingBody) =>
+                    Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_body_details_overview(Some(matchedQualifyingBody)
+                    ))
+                }
+              case _ =>
+                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+                InternalServerError("No Application Details found")
             }
-          case _ =>
-            Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-            InternalServerError("No Application Details found")
+          }
         }
       }
-    }
   }
 }

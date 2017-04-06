@@ -25,31 +25,32 @@ import play.api.Play.current
 
 
 object TnrbSuccessController extends TnrbSuccessController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
-trait TnrbSuccessController extends EstateController{
+trait TnrbSuccessController extends EstateController {
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
-            Ok(iht.views.html.application.tnrb.tnrb_success(
-              CommonHelper.getOrException(registrationDetails.deceasedDetails).name,
-              CommonHelper.getOrException(appDetails.increaseIhtThreshold).Name.toString,
-              CommonHelper.getOrException(registrationDetails.ihtReference)
-              ))
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
+                Ok(iht.views.html.application.tnrb.tnrb_success(
+                  CommonHelper.getOrException(registrationDetails.deceasedDetails).name,
+                  CommonHelper.getOrException(appDetails.increaseIhtThreshold).Name.toString,
+                  CommonHelper.getOrException(registrationDetails.ihtReference)
+                ))
+              }
+              case _ => InternalServerError("Application details not found")
+            }
           }
-          case _ => InternalServerError("Application details not found")
         }
       }
-    }
   }
 }

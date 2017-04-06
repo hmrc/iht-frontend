@@ -27,31 +27,31 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 /**
- * Created by jennygj on 30/06/16.
- */
+  * Created by jennygj on 30/06/16.
+  */
 
 object TrustsOverviewController extends TrustsOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait TrustsOverviewController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust)
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-
-      for {
-
-        applicationDetails: Option[ApplicationDetails]<- ihtConnector.getApplication(
-          CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference
-        )
-        trusts:Option[HeldInTrust] = applicationDetails.flatMap(_.allAssets.flatMap(_.heldInTrust))
-      } yield {
-        Ok(iht.views.html.application.asset.trusts.trusts_overview(trusts, registrationDetails))
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+              CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference
+            )
+            trusts: Option[HeldInTrust] = applicationDetails.flatMap(_.allAssets.flatMap(_.heldInTrust))
+          } yield {
+            Ok(iht.views.html.application.asset.trusts.trusts_overview(trusts, registrationDetails))
+          }
+        }
       }
-    }
   }
 }

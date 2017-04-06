@@ -37,10 +37,10 @@ import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 object DateOfMarriageController extends DateOfMarriageController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
-trait DateOfMarriageController extends EstateController{
+trait DateOfMarriageController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -50,79 +50,82 @@ trait DateOfMarriageController extends EstateController{
         TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
       widowCheck = CommonHelper.getOrException(appDetails.widowCheck),
       prefixText = Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"),
-      wrapName=true)
+      wrapName = true)
   }
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { registrationDetails =>
+          val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) =>
-            val filledForm = dateOfMarriageForm.fill(appDetails.increaseIhtThreshold.getOrElse(
-              TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) =>
+                val filledForm = dateOfMarriageForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                  TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-            Ok(iht.views.html.application.tnrb.date_of_marriage(
-              filledForm,
-              appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              deceasedName,
-              predeceasedName(appDetails),
-              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseDateOfMarriageID))
-            )
-            )
-          case _ => InternalServerError("Application details not found")
+                Ok(iht.views.html.application.tnrb.date_of_marriage(
+                  filledForm,
+                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  deceasedName,
+                  predeceasedName(appDetails),
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseDateOfMarriageID))
+                )
+                )
+              case _ => InternalServerError("Application details not found")
+            }
+          }
         }
       }
-    }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
+    implicit user =>
+      implicit request => {
+        val regDetails = cachingConnector.getExistingRegistrationDetails
+        val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
+        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+          regDetails.acknowledgmentReference)
 
-      val boundForm = dateOfMarriageForm.bindFromRequest
+        val boundForm = dateOfMarriageForm.bindFromRequest
 
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) =>
-          val dateOfPreDeceased = CommonHelper.getOrException(CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased)
+        applicationDetailsFuture.flatMap {
+          case Some(appDetails) =>
+            val dateOfPreDeceased = CommonHelper.getOrException(CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased)
 
-          additionalErrorsForForm(boundForm, dateOfPreDeceased).fold(
-            formWithErrors=> {
-              Future.successful(BadRequest(iht.views.html.application.tnrb.date_of_marriage(formWithErrors,
-                appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                deceasedName,
-                predeceasedName(appDetails),
-                cancelUrl
-              )))
-            },
-            tnrbModel => {
-              saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
-            }
-          )
-        case _ => Future.successful(InternalServerError("Application details not found"))
+            additionalErrorsForForm(boundForm, dateOfPreDeceased).fold(
+              formWithErrors => {
+                Future.successful(BadRequest(iht.views.html.application.tnrb.date_of_marriage(formWithErrors,
+                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  deceasedName,
+                  predeceasedName(appDetails),
+                  cancelUrl
+                )))
+              },
+              tnrbModel => {
+                saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+              }
+            )
+          case _ => Future.successful(InternalServerError("Application details not found"))
+        }
       }
-    }
   }
 
   private def additionalErrorsForForm(boundForm: Form[TnrbEligibiltyModel],
                                       predeceasedDate: LocalDate): Form[TnrbEligibiltyModel] = {
 
-   val marriageDate: Option[LocalDate] = marriageDateFromForm(boundForm)
+    val marriageDate: Option[LocalDate] = marriageDateFromForm(boundForm)
 
-    if(!boundForm.hasErrors && CommonHelper.getOrException(marriageDate).compareTo(predeceasedDate) >= 0) {
+    if (!boundForm.hasErrors && CommonHelper.getOrException(marriageDate).compareTo(predeceasedDate) >= 0) {
       boundForm.withError("dateOfMarriage", "error.predeceasedDateOfMarriage.beforeDateOfDeath")
-    } else{
+    } else {
       boundForm
     }
   }
@@ -137,7 +140,7 @@ trait DateOfMarriageController extends EstateController{
       Some(dateOfMarriageDay))
   }
 
-  private def saveApplication(nino:String,
+  private def saveApplication(nino: String,
                               tnrbModel: TnrbEligibiltyModel,
                               appDetails: ApplicationDetails,
                               regDetails: RegistrationDetails)(implicit request: Request[_],
@@ -145,9 +148,9 @@ trait DateOfMarriageController extends EstateController{
 
     val updatedAppDetails = appDetails.copy(increaseIhtThreshold = Some(appDetails.increaseIhtThreshold.
       fold(new TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, dateOfMarriage =
-        tnrbModel.dateOfMarriage, None)) (_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
+        tnrbModel.dateOfMarriage, None))(_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
     ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
       TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseDateOfMarriageID)))
   }
- }
+}

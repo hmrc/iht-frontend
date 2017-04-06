@@ -81,18 +81,19 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
     implicit user => implicit request => {
 
       val nino = CommonHelper.getNino(user)
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      for {
-        appDetails <- getApplicationDetails(ihtReference, regDetails.acknowledgmentReference)
-        appDetailsWithKickOutUpdatedOpt <- ihtConnector.saveApplication(nino, ApplicationKickOutHelper.updateKickout(
-          checks = ApplicationKickOutHelper.checksBackend,
-          registrationDetails = regDetails,
-          applicationDetails = appDetails), regDetails.acknowledgmentReference)
+      withExistingRegistrationDetails { regDetails =>
+        for {
+          appDetails <- getApplicationDetails(ihtReference, regDetails.acknowledgmentReference)
+          appDetailsWithKickOutUpdatedOpt <- ihtConnector.saveApplication(nino, ApplicationKickOutHelper.updateKickout(
+            checks = ApplicationKickOutHelper.checksBackend,
+            registrationDetails = regDetails,
+            applicationDetails = appDetails), regDetails.acknowledgmentReference)
 
-        appDetailWithKickOutUpdated = getOrException(appDetailsWithKickOutUpdatedOpt)
+          appDetailWithKickOutUpdated = getOrException(appDetailsWithKickOutUpdatedOpt)
 
-      } yield {
-        getRedirect(regDetails, appDetailWithKickOutUpdated)
+        } yield {
+          getRedirect(regDetails, appDetailWithKickOutUpdated)
+        }
       }
     }
   }

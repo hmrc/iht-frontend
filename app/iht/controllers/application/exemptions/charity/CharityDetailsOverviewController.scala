@@ -27,50 +27,53 @@ import play.api.Play.current
 import scala.concurrent.Future
 
 /**
- * Created by jennygj on 15/08/16.
- */
+  * Created by jennygj on 15/08/16.
+  */
 
 object CharityDetailsOverviewController extends CharityDetailsOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait CharityDetailsOverviewController extends EstateController {
-  def ihtConnector : IhtConnector
-  def cachingConnector : CachingConnector
+  def ihtConnector: IhtConnector
+
+  def cachingConnector: CachingConnector
 
   def onPageLoad() = authorisedForIht {
-    implicit user => implicit request => {
-      withApplicationDetails { rd => ad =>
-        Future.successful(Ok(iht.views.html.application.exemption.charity.charity_details_overview()))
+    implicit user =>
+      implicit request => {
+        withApplicationDetails { rd =>
+          ad =>
+            Future.successful(Ok(iht.views.html.application.exemption.charity.charity_details_overview()))
+        }
       }
-    }
   }
 
   def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(applicationDetails) =>
-            applicationDetails.charities.find(charity => charity.id.contains(id)).fold
-            {
-              throw new RuntimeException("No charity found for the id")
-            } {
-              (matchedCharity) =>
-                Ok(iht.views.html.application.exemption.charity.charity_details_overview(Some(matchedCharity)
-                ))
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(applicationDetails) =>
+                applicationDetails.charities.find(charity => charity.id.contains(id)).fold {
+                  throw new RuntimeException("No charity found for the id")
+                } {
+                  (matchedCharity) =>
+                    Ok(iht.views.html.application.exemption.charity.charity_details_overview(Some(matchedCharity)
+                    ))
+                }
+              case _ =>
+                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+                InternalServerError("No Application Details found")
             }
-          case _ =>
-            Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-            InternalServerError("No Application Details found")
+          }
         }
       }
-    }
   }
 }

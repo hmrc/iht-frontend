@@ -41,50 +41,50 @@ trait InsurancePolicyOverviewController extends EstateController {
   private val q2: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.moreThanMaxValue)
   private val q3: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.isAnnuitiesBought)
 
-  private val displayQ1: ApplicationDetails => Boolean = ad=> q1(ad).fold(false)(_=>true)
-  private val displayQ2: ApplicationDetails => Boolean = ad=> q1(ad).fold(false)(identity)
-  private val displayQ3: ApplicationDetails => Boolean = ad=> q2(ad).fold(false)(_=>true)
-  private val displayQ4: ApplicationDetails => Boolean = ad=> q3(ad).fold(false)(_=>true)
+  private val displayQ1: ApplicationDetails => Boolean = ad => q1(ad).fold(false)(_ => true)
+  private val displayQ2: ApplicationDetails => Boolean = ad => q1(ad).fold(false)(identity)
+  private val displayQ3: ApplicationDetails => Boolean = ad => q2(ad).fold(false)(_ => true)
+  private val displayQ4: ApplicationDetails => Boolean = ad => q3(ad).fold(false)(_ => true)
 
-  private def section3YesNoItems(insurancePolicy: InsurancePolicy, rd:RegistrationDetails) = {
+  private def section3YesNoItems(insurancePolicy: InsurancePolicy, rd: RegistrationDetails) = {
     val maritalStatusKey = mapMaritalStatus(rd)
     Seq[QuestionAnswer](
       QuestionAnswer(insurancePolicy.isInsurancePremiumsPayedForSomeoneElse, routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
-        ad=>displayQ1(ad),
-        if(maritalStatusKey=="married"){
+        ad => displayQ1(ad),
+        if (maritalStatusKey == "married") {
           "page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married"
         } else {
           "page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried"
         },
-        if(maritalStatusKey=="married"){
+        if (maritalStatusKey == "married") {
           "page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married"
         } else {
           "page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried"
         },
-        if(maritalStatusKey=="married"){
+        if (maritalStatusKey == "married") {
           "page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married"
         } else {
           "page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.notMarried"
         }),
       QuestionAnswer(insurancePolicy.moreThanMaxValue, routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad(),
-        ad=>displayQ2(ad),
+        ad => displayQ2(ad),
         "page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value",
         "page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value",
         "page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value"),
       QuestionAnswer(insurancePolicy.isAnnuitiesBought, routes.InsurancePolicyDetailsAnnuityController.onPageLoad(),
-        ad=> displayQ3(ad) ,
+        ad => displayQ3(ad),
         "page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value",
         "page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value",
         "page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value"),
       QuestionAnswer(insurancePolicy.isInTrust, routes.InsurancePolicyDetailsInTrustController.onPageLoad(),
-        ad=>displayQ4(ad),
+        ad => displayQ4(ad),
         "page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value",
         "page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value",
         "page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value")
     )
   }
 
-  private def createSection1(regDetails:RegistrationDetails, insurancePolicy: InsurancePolicy): Section = {
+  private def createSection1(regDetails: RegistrationDetails, insurancePolicy: InsurancePolicy): Section = {
     createSectionFromYesNoValueQuestions(
       id = "deceased",
       title = Some(Messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
@@ -105,7 +105,7 @@ trait InsurancePolicyOverviewController extends EstateController {
     )
   }
 
-  private def createSection2(regDetails:RegistrationDetails, insurancePolicy: InsurancePolicy): Section = {
+  private def createSection2(regDetails: RegistrationDetails, insurancePolicy: InsurancePolicy): Section = {
     createSectionFromYesNoValueQuestions(
       id = "joint",
       title = Some(Messages("page.iht.application.assets.insurance.policies.overview.joint.title")),
@@ -125,7 +125,7 @@ trait InsurancePolicyOverviewController extends EstateController {
     )
   }
 
-  private def createSection3(regDetails:RegistrationDetails, ad: ApplicationDetails, insurancePolicy: InsurancePolicy): Section = {
+  private def createSection3(regDetails: RegistrationDetails, ad: ApplicationDetails, insurancePolicy: InsurancePolicy): Section = {
     createSectionFromYesNoQuestions(
       id = "other",
       title = Some(Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
@@ -156,27 +156,29 @@ trait InsurancePolicyOverviewController extends EstateController {
   }
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-        .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { regDetails =>
+          val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
+            .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
+              regDetails.acknowledgmentReference)
 
-      applicationDetailsFuture.map { optionApplicationDetails =>
-        val ad = getOrExceptionNoApplication(optionApplicationDetails)
-        val optionInsurancePolicy: Option[InsurancePolicy] = ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy)
-        val insurancePolicy: InsurancePolicy = optionInsurancePolicy
-          .fold[InsurancePolicy](new InsurancePolicy(None, None, None, None, None, None, None, None, None,None))(identity)
+          applicationDetailsFuture.map { optionApplicationDetails =>
+            val ad = getOrExceptionNoApplication(optionApplicationDetails)
+            val optionInsurancePolicy: Option[InsurancePolicy] = ad.allAssets.flatMap(allAssets => allAssets.insurancePolicy)
+            val insurancePolicy: InsurancePolicy = optionInsurancePolicy
+              .fold[InsurancePolicy](new InsurancePolicy(None, None, None, None, None, None, None, None, None, None))(identity)
 
-        val seqSection1 = createSection1(regDetails, insurancePolicy)
-        val seqSection2 = createSection2(regDetails, insurancePolicy)
-        val seqSection3 = createSection3(regDetails, ad, insurancePolicy)
+            val seqSection1 = createSection1(regDetails, insurancePolicy)
+            val seqSection2 = createSection2(regDetails, insurancePolicy)
+            val seqSection3 = createSection3(regDetails, ad, insurancePolicy)
 
-        Ok(iht.views.html.application.asset.insurancePolicy.insurance_policies_overview(regDetails,
-          Seq(seqSection1, seqSection2, seqSection3),
-          Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-          "page.iht.application.return.to.assetsOf"))
+            Ok(iht.views.html.application.asset.insurancePolicy.insurance_policies_overview(regDetails,
+              Seq(seqSection1, seqSection2, seqSection3),
+              Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
+              "page.iht.application.return.to.assetsOf"))
+          }
+        }
       }
-    }
   }
 }

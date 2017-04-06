@@ -42,65 +42,67 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
+                val filledForm = deceasedWidowCheckQuestionForm.fill(appDetails.widowCheck.getOrElse(
+                  WidowCheck(None, None)))
 
-            val filledForm = deceasedWidowCheckQuestionForm.fill(appDetails.widowCheck.getOrElse(
-              WidowCheck(None, None)))
-
-            Ok(iht.views.html.application.tnrb.deceased_widow_check_question(
-              filledForm,
-              appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              appDetails.increaseIhtThreshold.fold(
-                TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
-              registrationDetails,
-              cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
-              cancelLinkTextForWidowCheckPages(appDetails)))
+                Ok(iht.views.html.application.tnrb.deceased_widow_check_question(
+                  filledForm,
+                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  appDetails.increaseIhtThreshold.fold(
+                    TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                  registrationDetails,
+                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
+                  cancelLinkTextForWidowCheckPages(appDetails)))
+              }
+              case _ => InternalServerError("Application details not found")
+            }
           }
-          case _ => InternalServerError("Application details not found")
         }
       }
-    }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        val regDetails = cachingConnector.getExistingRegistrationDetails
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
+        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+          regDetails.acknowledgmentReference)
 
-      val boundForm = deceasedWidowCheckQuestionForm.bindFromRequest
+        val boundForm = deceasedWidowCheckQuestionForm.bindFromRequest
 
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
-          boundForm.fold(
-            formWithErrors => {
-              Future.successful(BadRequest(iht.views.html.application.tnrb.deceased_widow_check_question(formWithErrors,
-                appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                appDetails.increaseIhtThreshold.fold(
-                  TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
-                regDetails,
-                cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
-                cancelLinkTextForWidowCheckPages(appDetails))))
-            },
-            widowModel => {
-              saveApplication(CommonHelper.getNino(user), widowModel, appDetails, regDetails)
-            }
-          )
+        applicationDetailsFuture.flatMap {
+          case Some(appDetails) => {
+            boundForm.fold(
+              formWithErrors => {
+                Future.successful(BadRequest(iht.views.html.application.tnrb.deceased_widow_check_question(formWithErrors,
+                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  appDetails.increaseIhtThreshold.fold(
+                    TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                  regDetails,
+                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
+                  cancelLinkTextForWidowCheckPages(appDetails))))
+              },
+              widowModel => {
+                saveApplication(CommonHelper.getNino(user), widowModel, appDetails, regDetails)
+              }
+            )
+          }
+          case _ => Future.successful(InternalServerError("Application details not found"))
         }
-        case _ => Future.successful(InternalServerError("Application details not found"))
       }
-    }
   }
 
   private def saveApplication(nino: String,
@@ -158,7 +160,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
         (_.copy(widowed = widowModel.widowed))))
       }
 
-      case Some(false )=> {
+      case Some(false) => {
         appDetails.copy(widowCheck = Some(appDetails.widowCheck.fold(widowCheckWithNoPredeceasedDate)
         (_.copy(widowed = widowModel.widowed, dateOfPreDeceased = None))),
           increaseIhtThreshold = None)

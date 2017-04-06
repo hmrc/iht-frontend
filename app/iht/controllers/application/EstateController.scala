@@ -17,7 +17,6 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.exceptions.NoRegistrationDetailsException
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
@@ -30,8 +29,6 @@ import play.api.mvc.{Call, Request, Result}
 import play.twirl.api.HtmlFormat._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
@@ -105,22 +102,12 @@ trait EstateController extends ApplicationController {
     ))
   }
 
-  def withExistingRegistrationDetails(success: RegistrationDetails => Future[Result])(implicit request: Request[_], user: AuthContext):Future[Result] = {
-    Try(cachingConnector.getExistingRegistrationDetails) match {
-      case Success(regDetails) => success(regDetails)
-      case Failure(_:NoRegistrationDetailsException) =>
-        Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
-      case Failure(ex) => throw ex
-    }
-  }
+
 
   def estateElementOnPageLoad[A](form: Form[A],
                                  retrievePageToDisplay: (Form[A], RegistrationDetails) => Appendable,
                                  retrieveSectionDetails: ApplicationDetails => Option[A])
                                 (implicit request: Request[_], user: AuthContext) = {
-
-    //val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-
     withExistingRegistrationDetails { regDetails =>
       val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
@@ -135,19 +122,6 @@ trait EstateController extends ApplicationController {
         }
       }
     }
-
-//    val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-//      CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-//      regDetails.acknowledgmentReference)
-//
-//    applicationDetailsFuture.map {
-//      applicationDetails => applicationDetails.fold(InternalServerError("Application details not found")) {
-//        (appDetails: ApplicationDetails) => {
-//          val fm = retrieveSectionDetails(appDetails).fold(form)(form.fill)
-//          Ok(retrievePageToDisplay(fm, regDetails))
-//        }
-//      }
-//    }
   }
 
   /**
@@ -160,17 +134,19 @@ trait EstateController extends ApplicationController {
                                                    submit: Call,
                                                    cancel: Call)(implicit request: Request[_], user: AuthContext) = {
 
-    val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-    val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-      CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-      regDetails.acknowledgmentReference)
+    withExistingRegistrationDetails { regDetails =>
+      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+        regDetails.acknowledgmentReference)
 
-    applicationDetailsFuture.map {
-      applicationDetails => applicationDetails.fold(InternalServerError("Application details not found")) {
-        (appDetails: ApplicationDetails) => {
-          val fm = retrieveSectionDetails(appDetails).fold(form)(form.fill)
-          Ok(retrievePageToDisplay(fm, regDetails, submit, cancel))
-        }
+      applicationDetailsFuture.map {
+        applicationDetails =>
+          applicationDetails.fold(InternalServerError("Application details not found")) {
+            (appDetails: ApplicationDetails) => {
+              val fm = retrieveSectionDetails(appDetails).fold(form)(form.fill)
+              Ok(retrievePageToDisplay(fm, regDetails, submit, cancel))
+            }
+          }
       }
     }
   }

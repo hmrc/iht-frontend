@@ -53,33 +53,33 @@ trait MortgagesOverviewController extends ApplicationController {
   private def doPageLoad(onCancel: Call,
                          onCancelMessageKey: String,
                          isVisiblePropertyWarningAndLink: Boolean)(implicit user: AuthContext, request: Request[_]) = {
-    val regDetails:RegistrationDetails = cachingConnector.getExistingRegistrationDetails
+    withExistingRegistrationDetails { regDetails =>
+      ihtConnector.getApplication(CommonHelper.getNino(user),
+        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+        regDetails.acknowledgmentReference) flatMap {
+        case Some(applicationDetails) => {
+          val propertyList = applicationDetails.propertyList
+          val mortgageList = applicationDetails.allLiabilities.flatMap(_.mortgages.map(_.mortgageList)).
+            getOrElse(List.empty[Mortgage])
 
-    ihtConnector.getApplication(CommonHelper.getNino(user),
-      CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-      regDetails.acknowledgmentReference) flatMap {
-      case Some(applicationDetails) => {
-        val propertyList = applicationDetails.propertyList
-        val mortgageList = applicationDetails.allLiabilities.flatMap(_.mortgages.map(_.mortgageList)).
-          getOrElse(List.empty[Mortgage])
+          val updatedMortgageList = updateMortgageListFromPropertyList(propertyList, mortgageList)
 
-        val updatedMortgageList = updateMortgageListFromPropertyList(propertyList, mortgageList)
+          Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(propertyList,
+            updatedMortgageList,
+            FieldMappings.typesOfOwnership,
+            regDetails,
+            onCancel,
+            onCancelMessageKey)))
 
-        Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(propertyList,
-          updatedMortgageList,
-          FieldMappings.typesOfOwnership,
-          regDetails,
-          onCancel,
-          onCancelMessageKey)))
-
-      }
-      case _ => {
-        Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(Nil,
-          Nil,
-          FieldMappings.typesOfOwnership,
-          regDetails,
-          onCancel,
-          onCancelMessageKey)))
+        }
+        case _ => {
+          Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(Nil,
+            Nil,
+            FieldMappings.typesOfOwnership,
+            regDetails,
+            onCancel,
+            onCancelMessageKey)))
+        }
       }
     }
   }

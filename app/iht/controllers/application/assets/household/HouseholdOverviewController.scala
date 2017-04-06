@@ -28,7 +28,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 object HouseholdOverviewController extends HouseholdOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait HouseholdOverviewController extends ApplicationController {
@@ -38,20 +38,20 @@ trait HouseholdOverviewController extends ApplicationController {
   def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-
-      for {
-
-        applicationDetails: Option[ApplicationDetails]<- ihtConnector.getApplication(
-          CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference
-        )
-        household:Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.household))
-      } yield {
-        Ok(iht.views.html.application.asset.household.household_overview(household ,registrationDetails))
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+              CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference
+            )
+            household: Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.household))
+          } yield {
+            Ok(iht.views.html.application.asset.household.household_overview(household, registrationDetails))
+          }
+        }
       }
-    }
   }
 }

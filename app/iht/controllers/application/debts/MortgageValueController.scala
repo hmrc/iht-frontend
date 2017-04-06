@@ -45,47 +45,49 @@ trait MortgageValueController extends ApplicationController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
 
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+      withExistingRegistrationDetails { regDetails =>
+        for {
+          applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
+        } yield {
+          applicationDetails match {
+            case Some(applicationDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(applicationDetails) => {
+              val propertyList = applicationDetails.propertyList
+              val matchedProperty = applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
+                throw new RuntimeException("No Property found for the id")
+              }(identity)
 
-            val propertyList = applicationDetails.propertyList
-            val matchedProperty = applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
-              throw new RuntimeException("No Property found for the id")}(identity)
+              val allLiabilities = applicationDetails.allLiabilities.getOrElse(new AllLiabilities())
+              val mortgageList = allLiabilities.mortgages.map(x => x.mortgageList).getOrElse(List.empty[Mortgage])
 
-            val allLiabilities = applicationDetails.allLiabilities.getOrElse(new AllLiabilities())
-            val mortgageList= allLiabilities.mortgages.map(x => x.mortgageList).getOrElse(List.empty[Mortgage])
+              val updatedMortgageList = updateMortgageListFromPropertyList(propertyList, mortgageList)
 
-            val updatedMortgageList = updateMortgageListFromPropertyList(propertyList, mortgageList)
-
-            updatedMortgageList match {
-              case Some(mortList) => {
-                mortList.find(mortgage => mortgage.id equals id).fold {
-                  throw new RuntimeException("No Mortgage found for the id")
-                } {
-                  (matchedMortgage) => Ok(iht.views.html.application.debts.mortgage_value(
-                    mortgagesForm.fill(matchedMortgage),
-                    matchedProperty,
-                    onSubmitUrl(id),
-                    regDetails))
+              updatedMortgageList match {
+                case Some(mortList) => {
+                  mortList.find(mortgage => mortgage.id equals id).fold {
+                    throw new RuntimeException("No Mortgage found for the id")
+                  } {
+                    (matchedMortgage) =>
+                      Ok(iht.views.html.application.debts.mortgage_value(
+                        mortgagesForm.fill(matchedMortgage),
+                        matchedProperty,
+                        onSubmitUrl(id),
+                        regDetails))
+                  }
                 }
+                case _ => Ok(iht.views.html.application.debts.mortgage_value(
+                  mortgagesForm.fill(Mortgage(id, None, None)),
+                  matchedProperty,
+                  onSubmitUrl(id),
+                  regDetails))
               }
-              case _ => Ok(iht.views.html.application.debts.mortgage_value(
-                mortgagesForm.fill(Mortgage(id, None, None)),
-                matchedProperty,
-                onSubmitUrl(id),
-                regDetails))
             }
-          }
-          case _ => {
-            Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-            InternalServerError("No Application Details found")
+            case _ => {
+              Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+              InternalServerError("No Application Details found")
+            }
           }
         }
       }

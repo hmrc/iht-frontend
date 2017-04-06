@@ -38,71 +38,73 @@ import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 object DeceasedWidowCheckDateController extends DeceasedWidowCheckDateController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
-trait DeceasedWidowCheckDateController extends EstateController{
+trait DeceasedWidowCheckDateController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
+                val filledForm = deceasedWidowCheckDateForm.fill(appDetails.widowCheck.getOrElse(
+                  WidowCheck(None, None)))
 
-            val filledForm = deceasedWidowCheckDateForm.fill(appDetails.widowCheck.getOrElse(
-              WidowCheck(None, None)))
-
-            Ok(iht.views.html.application.tnrb.deceased_widow_check_date(
-              filledForm,
-              appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None,None,None,None,None,None,None,None,None,None))(identity),
-              registrationDetails,
-              cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
-              cancelLinkTextForWidowCheckPages(appDetails)))
+                Ok(iht.views.html.application.tnrb.deceased_widow_check_date(
+                  filledForm,
+                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                  registrationDetails,
+                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
+                  cancelLinkTextForWidowCheckPages(appDetails)))
+              }
+              case _ => InternalServerError("Application details not found")
+            }
           }
-          case _ => InternalServerError("Application details not found")
         }
       }
-    }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        val regDetails = cachingConnector.getExistingRegistrationDetails
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
+        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+          regDetails.acknowledgmentReference)
 
-      val boundForm = deceasedWidowCheckDateForm.bindFromRequest
+        val boundForm = deceasedWidowCheckDateForm.bindFromRequest
 
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
-          val dateOfMarriage = appDetails.increaseIhtThreshold.flatMap(tnrbModel => tnrbModel.dateOfMarriage)
-          additionalErrorsForForm(boundForm, dateOfMarriage).fold(
-            formWithErrors=> {
-              Future.successful(BadRequest(iht.views.html.application.tnrb.deceased_widow_check_date(formWithErrors,
-                appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None,None,None,None,None,None,None,None,None,None))(identity),
-                regDetails,
-                cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
-                cancelLinkTextForWidowCheckPages(appDetails))))
-            },
-            widowModel => {
-              saveApplication(CommonHelper.getNino(user),widowModel, appDetails, regDetails)
-            }
-          )
+        applicationDetailsFuture.flatMap {
+          case Some(appDetails) => {
+            val dateOfMarriage = appDetails.increaseIhtThreshold.flatMap(tnrbModel => tnrbModel.dateOfMarriage)
+            additionalErrorsForForm(boundForm, dateOfMarriage).fold(
+              formWithErrors => {
+                Future.successful(BadRequest(iht.views.html.application.tnrb.deceased_widow_check_date(formWithErrors,
+                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                  regDetails,
+                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
+                  cancelLinkTextForWidowCheckPages(appDetails))))
+              },
+              widowModel => {
+                saveApplication(CommonHelper.getNino(user), widowModel, appDetails, regDetails)
+              }
+            )
+          }
+          case _ => Future.successful(InternalServerError("Application details not found"))
         }
-        case _ => Future.successful(InternalServerError("Application details not found"))
       }
-    }
   }
 
   private def additionalErrorsForForm(boundForm: Form[WidowCheck],
@@ -110,10 +112,10 @@ trait DeceasedWidowCheckDateController extends EstateController{
 
     val predeceasedDateOfDeath: Option[LocalDate] = predeceasedDateFromForm(boundForm)
 
-    if(!boundForm.hasErrors && dateOfMarriage.isDefined &&
+    if (!boundForm.hasErrors && dateOfMarriage.isDefined &&
       CommonHelper.getOrException(dateOfMarriage).compareTo(CommonHelper.getOrException(predeceasedDateOfDeath)) >= 0) {
       boundForm.withError("dateOfPreDeceased", "error.predeceasedDateOfDeath.afterMarriage")
-    } else{
+    } else {
       boundForm
     }
   }
@@ -129,7 +131,7 @@ trait DeceasedWidowCheckDateController extends EstateController{
   }
 
 
-  private def saveApplication(nino:String,
+  private def saveApplication(nino: String,
                               widowModel: WidowCheck,
                               appDetails: ApplicationDetails,
                               regDetails: RegistrationDetails)(implicit request: Request[_],
@@ -139,9 +141,9 @@ trait DeceasedWidowCheckDateController extends EstateController{
       fold(new WidowCheck(widowed = Some(true), dateOfPreDeceased = widowModel.dateOfPreDeceased))
       (_.copy(widowed = Some(true), dateOfPreDeceased = widowModel.dateOfPreDeceased))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks=ApplicationKickOutHelper.checksWidowOpc,
-      registrationDetails=regDetails,
-      applicationDetails=updatedAppDetails)
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks = ApplicationKickOutHelper.checksWidowOpc,
+      registrationDetails = regDetails,
+      applicationDetails = updatedAppDetails)
 
     for {
       savedApplicationDetails <- ihtConnector.saveApplication(nino, updatedAppDetailsWithKickOutReason, regDetails.acknowledgmentReference)
@@ -149,10 +151,11 @@ trait DeceasedWidowCheckDateController extends EstateController{
       savedApplicationDetails.fold[Result] {
         Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
         InternalServerError
-      } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
-        case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseDateOfDeathID))
-      }
+      } { _ =>
+        updatedAppDetailsWithKickOutReason.kickoutReason match {
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
+          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseDateOfDeathID))
+        }
       }
     }
   }

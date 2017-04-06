@@ -49,28 +49,28 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
 
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
+      withExistingRegistrationDetails { registrationDetails =>
+        for {
+          applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+            registrationDetails.acknowledgmentReference)
+        } yield {
+          applicationDetails match {
+            case Some(appDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
+              val filledForm = appDetails.allExemptions.flatMap(_.partner)
+                .fold(partnerPermanentHomeQuestionForm)(partnerPermanentHomeQuestionForm.fill)
 
-            val filledForm = appDetails.allExemptions.flatMap(_.partner)
-              .fold(partnerPermanentHomeQuestionForm)(partnerPermanentHomeQuestionForm.fill)
-
-            Ok(partner_permanent_home_question(filledForm,
-              registrationDetails,
-              returnLabel(registrationDetails, appDetails),
-              returnUrl(registrationDetails, appDetails)
-            ))
-          }
-          case _ => {
-            Logger.warn("Application Details not found")
-            InternalServerError("Application details not found")
+              Ok(partner_permanent_home_question(filledForm,
+                registrationDetails,
+                returnLabel(registrationDetails, appDetails),
+                returnUrl(registrationDetails, appDetails)
+              ))
+            }
+            case _ => {
+              Logger.warn("Application Details not found")
+              InternalServerError("Application details not found")
+            }
           }
         }
       }

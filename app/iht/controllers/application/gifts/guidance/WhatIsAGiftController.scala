@@ -28,44 +28,47 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 /**
- * Created by james on 21/01/16.
- */
+  * Created by james on 21/01/16.
+  */
 object WhatIsAGiftController extends WhatIsAGiftController with IhtConnectors
 
 trait WhatIsAGiftController extends ApplicationController {
 
   def cachingConnector: CachingConnector
+
   def ihtConnector: IhtConnector
 
   def onPageLoad() = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-      val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { registrationDetails =>
+          val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-        registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
-            val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)
-            lazy val optionMessageKey = lastQuestionUrl.map(url=> ControllerHelper.messageKeyForLastQuestionURL(url))
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
+                val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)
+                lazy val optionMessageKey = lastQuestionUrl.map(url => ControllerHelper.messageKeyForLastQuestionURL(url))
 
-            cachingConnector.storeSingleValue(ControllerHelper.GiftsGuidanceSeen, true.toString)
+                cachingConnector.storeSingleValue(ControllerHelper.GiftsGuidanceSeen, true.toString)
 
-            Ok(iht.views.html.application.gift.guidance.what_is_a_gift(ihtReference,
-              lastQuestionUrl,
-              optionMessageKey,
-              optionMessageKey))
+                Ok(iht.views.html.application.gift.guidance.what_is_a_gift(ihtReference,
+                  lastQuestionUrl,
+                  optionMessageKey,
+                  optionMessageKey))
 
-          }
-          case _ => {
-            Logger.warn("No Application Details found. Redirecting to Internal Server Error")
-            InternalServerError("No Application Details Found")
+              }
+              case _ => {
+                Logger.warn("No Application Details found. Redirecting to Internal Server Error")
+                InternalServerError("No Application Details Found")
+              }
+            }
           }
         }
       }
-    }
   }
 }

@@ -27,25 +27,29 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 /**
- * Created by james on 21/01/16.
- */
+  * Created by james on 21/01/16.
+  */
 object ClaimingExemptionsController extends ClaimingExemptionsController with IhtConnectors
 
 trait ClaimingExemptionsController extends ApplicationController {
 
-  def cachingConnector : CachingConnector
-  def ihtConnector : IhtConnector
+  def cachingConnector: CachingConnector
+
+  def ihtConnector: IhtConnector
 
   def onPageLoad() = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
+        val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
 
-      Future.successful(Ok(iht.views.html.application.gift.guidance.claiming_exemptions(CommonHelper
-        .getOrExceptionNoIHTRef(cachingConnector.getExistingRegistrationDetails.ihtReference),
-        lastQuestionUrl,
-        Some("site.backToLastQuestion.values.link"),
-        Some("site.backToLastQuestion.values.link"))))
-    }
+        withExistingRegistrationDetails { rd =>
+          Future.successful(Ok(iht.views.html.application.gift.guidance.claiming_exemptions(CommonHelper
+            .getOrExceptionNoIHTRef(rd.ihtReference),
+            lastQuestionUrl,
+            Some("site.backToLastQuestion.values.link"),
+            Some("site.backToLastQuestion.values.link"))))
+        }
+      }
   }
 }
