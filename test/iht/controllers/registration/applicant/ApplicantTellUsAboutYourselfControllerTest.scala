@@ -292,7 +292,7 @@ class ApplicantTellUsAboutYourselfControllerTest
 
     "save valid data correctly including citizen details when returning to this screen" in {
       val existingApplicantDetails = CommonBuilder.buildApplicantDetails copy (phoneNo = Some("SomePhoneNumber"))
-      val newApplicantDetails = ApplicantDetails(None, None, None, None, None, None, None, Some("SomeOtherPhoneNumber"), None, None, Some(false))
+      val newApplicantDetails = ApplicantDetails(None, None, None, None, None, None, Some("SomeOtherPhoneNumber"), None, None, Some(false), None)
       val existingDeceasedDetails = CommonBuilder.buildDeceasedDetails
       val existingDod = DeceasedDateOfDeath(new LocalDate(1980, 1, 1))
       val registrationDetails = RegistrationDetails(Some(existingDod), Some(existingApplicantDetails), Some(existingDeceasedDetails))

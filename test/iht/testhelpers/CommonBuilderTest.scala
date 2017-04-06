@@ -42,7 +42,6 @@ class CommonBuilderTest extends UnitSpec {
         "Default name is " + CommonBuilder.DefaultLastName)
       assert(applicantDetails.nino.equals(Some(CommonBuilder.DefaultNino)),
         "Default nino is " + CommonBuilder.DefaultNino)
-      assert(applicantDetails.utr==None,"Default UTR is None")
       assert(applicantDetails.role.equals(Some(CommonBuilder.DefaultRole)),
         "Default role is " + CommonBuilder.DefaultRole)
       assert(applicantDetails.country.equals(Some(CommonBuilder.DefaultCountry)),
@@ -71,7 +70,6 @@ class CommonBuilderTest extends UnitSpec {
         "Default name is " + CommonBuilder.DefaultLastName)
       assert(deceasedDetails.nino.equals(Some(CommonBuilder.DefaultNino)),
         "Default nino is " + CommonBuilder.DefaultNino)
-      assert(deceasedDetails.utr==None,"Default UTR is None")
       assert(deceasedDetails.domicile.equals(Some(CommonBuilder.DefaultDomicile)),
         "Default Domicile is " + CommonBuilder.DefaultDomicile)
       assert(deceasedDetails.maritalStatus.equals(Some(CommonBuilder.DefaultMaritalStatus)),
