@@ -77,32 +77,32 @@ trait DeceasedWidowCheckDateController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        val regDetails = cachingConnector.getExistingRegistrationDetails
+        withExistingRegistrationDetails { regDetails =>
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+          val boundForm = deceasedWidowCheckDateForm.bindFromRequest
 
-        val boundForm = deceasedWidowCheckDateForm.bindFromRequest
-
-        applicationDetailsFuture.flatMap {
-          case Some(appDetails) => {
-            val dateOfMarriage = appDetails.increaseIhtThreshold.flatMap(tnrbModel => tnrbModel.dateOfMarriage)
-            additionalErrorsForForm(boundForm, dateOfMarriage).fold(
-              formWithErrors => {
-                Future.successful(BadRequest(iht.views.html.application.tnrb.deceased_widow_check_date(formWithErrors,
-                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                  appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
-                  regDetails,
-                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
-                  cancelLinkTextForWidowCheckPages(appDetails))))
-              },
-              widowModel => {
-                saveApplication(CommonHelper.getNino(user), widowModel, appDetails, regDetails)
-              }
-            )
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              val dateOfMarriage = appDetails.increaseIhtThreshold.flatMap(tnrbModel => tnrbModel.dateOfMarriage)
+              additionalErrorsForForm(boundForm, dateOfMarriage).fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.deceased_widow_check_date(formWithErrors,
+                    appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                    appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                    regDetails,
+                    cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
+                    cancelLinkTextForWidowCheckPages(appDetails))))
+                },
+                widowModel => {
+                  saveApplication(CommonHelper.getNino(user), widowModel, appDetails, regDetails)
+                }
+              )
+            }
+            case _ => Future.successful(InternalServerError("Application details not found"))
           }
-          case _ => Future.successful(InternalServerError("Application details not found"))
         }
       }
   }

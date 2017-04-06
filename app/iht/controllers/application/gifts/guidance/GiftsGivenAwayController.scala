@@ -47,34 +47,36 @@ trait GiftsGivenAwayController extends ApplicationController {
 
         lazy val optionMessageKey = lastQuestionUrl.map(url => ControllerHelper.messageKeyForLastQuestionURL(url))
 
-        withExistingRegistrationDetails{rd =>
+        withExistingRegistrationDetails { rd =>
           Future.successful(Ok(iht.views.html.application.gift.guidance.gifts_given_away(CommonHelper
             .getOrExceptionNoIHTRef(rd.ihtReference),
             lastQuestionUrl, optionMessageKey, optionMessageKey)
           ))
+        }
       }
   }
-}
 
-def onSubmit () = authorisedForIht {
-  implicit user => implicit request => {
-  val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
+  def onSubmit() = authorisedForIht {
+    implicit user =>
+      implicit request => {
+        withExistingRegistrationDetails { regDetails =>
 
-  val applicationDetailsFuture = ihtConnector.getApplication (CommonHelper.getNino (user),
-  CommonHelper.getOrExceptionNoIHTRef (regDetails.ihtReference),
-  regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-  val futureResult = applicationDetailsFuture.map {
-  oad => {
-  val ff = oad.map {
-  ad =>
-  Redirect (ad.allGifts.fold[Call] (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad () ) (_ =>
-  iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad () ) )
-}
-  CommonHelper.getOrException (ff)
-}
-}
-  futureResult
-}
-}
+          val futureResult = applicationDetailsFuture.map {
+            oad => {
+              val ff = oad.map {
+                ad =>
+                  Redirect(ad.allGifts.fold[Call](iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())(_ =>
+                    iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+              }
+              CommonHelper.getOrException(ff)
+            }
+          }
+          futureResult
+        }
+      }
+  }
 }

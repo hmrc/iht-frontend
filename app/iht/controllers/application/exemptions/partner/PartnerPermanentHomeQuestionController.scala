@@ -47,65 +47,68 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
   val submitUrl = iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
+    implicit user =>
+      implicit request =>
 
-      withExistingRegistrationDetails { registrationDetails =>
-        for {
-          applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-            CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-            registrationDetails.acknowledgmentReference)
-        } yield {
-          applicationDetails match {
-            case Some(appDetails) => {
+        withExistingRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
 
-              val filledForm = appDetails.allExemptions.flatMap(_.partner)
-                .fold(partnerPermanentHomeQuestionForm)(partnerPermanentHomeQuestionForm.fill)
+                val filledForm = appDetails.allExemptions.flatMap(_.partner)
+                  .fold(partnerPermanentHomeQuestionForm)(partnerPermanentHomeQuestionForm.fill)
 
-              Ok(partner_permanent_home_question(filledForm,
-                registrationDetails,
-                returnLabel(registrationDetails, appDetails),
-                returnUrl(registrationDetails, appDetails)
-              ))
+                Ok(partner_permanent_home_question(filledForm,
+                  registrationDetails,
+                  returnLabel(registrationDetails, appDetails),
+                  returnUrl(registrationDetails, appDetails)
+                ))
+              }
+              case _ => {
+                Logger.warn("Application Details not found")
+                InternalServerError("Application details not found")
+              }
             }
-            case _ => {
+          }
+        }
+  }
+
+  def onSubmit = authorisedForIht {
+    implicit user =>
+      implicit request => {
+
+        withExistingRegistrationDetails { regDetails =>
+          val boundForm = partnerPermanentHomeQuestionForm.bindFromRequest
+
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
+
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(partner_permanent_home_question(formWithErrors,
+                    regDetails,
+                    returnLabel(regDetails, appDetails),
+                    returnUrl(regDetails, appDetails))))
+                },
+                partnerExemption => {
+                  saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails, appDetails)
+                }
+              )
+            }
+            case None => {
               Logger.warn("Application Details not found")
-              InternalServerError("Application details not found")
+              Future.successful(InternalServerError("Application details not found"))
             }
           }
         }
       }
-  }
-
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      val boundForm = partnerPermanentHomeQuestionForm.bindFromRequest
-
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
-
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
-          boundForm.fold(
-            formWithErrors => {
-              Future.successful(BadRequest(partner_permanent_home_question(formWithErrors,
-                regDetails,
-                returnLabel(regDetails, appDetails),
-                returnUrl(regDetails, appDetails))))
-            },
-            partnerExemption => {
-              saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails, appDetails)
-            }
-          )
-        }
-        case None => {
-          Logger.warn("Application Details not found")
-          Future.successful(InternalServerError("Application details not found"))
-        }
-      }
-    }
   }
 
   def saveApplication(nino: String,
@@ -116,7 +119,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
                                                       authContext: AuthContext): Future[Result] = {
 
     val existingIsAssetForDeceasedPartner = appDetails.allExemptions.
-                                                flatMap(_.partner.flatMap(_.isAssetForDeceasedPartner))
+      flatMap(_.partner.flatMap(_.isAssetForDeceasedPartner))
     val existingFirstName = appDetails.allExemptions.flatMap(_.partner.flatMap(_.firstName))
     val existingLastName = appDetails.allExemptions.flatMap(_.partner.flatMap(_.lastName))
     val existingDateOfBirth = appDetails.allExemptions.flatMap(_.partner.flatMap(_.dateOfBirth))

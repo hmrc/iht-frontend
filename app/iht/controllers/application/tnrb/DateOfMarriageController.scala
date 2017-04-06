@@ -87,33 +87,34 @@ trait DateOfMarriageController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        val regDetails = cachingConnector.getExistingRegistrationDetails
-        val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
+        withExistingRegistrationDetails { regDetails =>
+          val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-        val boundForm = dateOfMarriageForm.bindFromRequest
+          val boundForm = dateOfMarriageForm.bindFromRequest
 
-        applicationDetailsFuture.flatMap {
-          case Some(appDetails) =>
-            val dateOfPreDeceased = CommonHelper.getOrException(CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased)
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) =>
+              val dateOfPreDeceased = CommonHelper.getOrException(CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased)
 
-            additionalErrorsForForm(boundForm, dateOfPreDeceased).fold(
-              formWithErrors => {
-                Future.successful(BadRequest(iht.views.html.application.tnrb.date_of_marriage(formWithErrors,
-                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                  deceasedName,
-                  predeceasedName(appDetails),
-                  cancelUrl
-                )))
-              },
-              tnrbModel => {
-                saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
-              }
-            )
-          case _ => Future.successful(InternalServerError("Application details not found"))
+              additionalErrorsForForm(boundForm, dateOfPreDeceased).fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.date_of_marriage(formWithErrors,
+                    appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                    deceasedName,
+                    predeceasedName(appDetails),
+                    cancelUrl
+                  )))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
+            case _ => Future.successful(InternalServerError("Application details not found"))
+          }
         }
       }
   }

@@ -72,26 +72,27 @@ trait EstateClaimController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        val regDetails = cachingConnector.getExistingRegistrationDetails
+        withExistingRegistrationDetails { regDetails =>
 
-        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-        val boundForm = estateClaimAnyBusinessForm.bindFromRequest
+          val boundForm = estateClaimAnyBusinessForm.bindFromRequest
 
-        applicationDetailsFuture.flatMap {
-          case Some(appDetails) => {
-            boundForm.fold(
-              formWithErrors => {
-                Future.successful(BadRequest(iht.views.html.application.tnrb.estate_claim(formWithErrors, cancelUrl)))
-              },
-              tnrbModel => {
-                saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
-              }
-            )
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.estate_claim(formWithErrors, cancelUrl)))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
+            }
+            case _ => Future.successful(InternalServerError("Application details not found"))
           }
-          case _ => Future.successful(InternalServerError("Application details not found"))
         }
       }
   }

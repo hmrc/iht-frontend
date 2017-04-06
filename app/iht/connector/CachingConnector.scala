@@ -51,11 +51,6 @@ trait CachingConnector {
   private val propertyListKey = "propertyList"
   private val probateDetailsKey = "probateDetails"
 
-  def getExistingRegistrationDetails(implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): RegistrationDetails = {
-    val optionRD: Option[RegistrationDetails] = Await.result(getRegistrationDetails, Duration.Inf)
-    optionRD.fold(throw new NoRegistrationDetailsException)(identity)
-  }
-
   def delete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
     SessionHttpCaching.fetch.map {
       case Some(x) => {

@@ -77,31 +77,32 @@ trait GiftsMadeBeforeDeathController extends EstateController {
     implicit user =>
       implicit request => {
 
-        val regDetails = cachingConnector.getExistingRegistrationDetails
+        withExistingRegistrationDetails { regDetails =>
 
-        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-        val boundForm = giftMadeBeforeDeathForm.bindFromRequest
+          val boundForm = giftMadeBeforeDeathForm.bindFromRequest
 
-        applicationDetailsFuture.flatMap {
-          case Some(appDetails) => {
-            boundForm.fold(
-              formWithErrors => {
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
 
-                Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_made_before_death(formWithErrors,
-                  appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
-                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                  cancelUrl
-                )))
-              },
-              tnrbModel => {
-                saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
-              }
-            )
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_made_before_death(formWithErrors,
+                    appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                    appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                    cancelUrl
+                  )))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
+            }
+            case _ => Future.successful(InternalServerError("Application details not found"))
           }
-          case _ => Future.successful(InternalServerError("Application details not found"))
         }
       }
   }

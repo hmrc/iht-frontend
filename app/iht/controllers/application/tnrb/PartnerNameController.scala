@@ -75,28 +75,27 @@ trait PartnerNameController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        val regDetails = cachingConnector.getExistingRegistrationDetails
+        withExistingRegistrationDetails { regDetails =>
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
+          val boundForm = partnerNameForm.bindFromRequest
 
-        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
-
-        val boundForm = partnerNameForm.bindFromRequest
-
-        applicationDetailsFuture.flatMap {
-          case Some(appDetails) => {
-            boundForm.fold(
-              formWithErrors => {
-                Future.successful(BadRequest(iht.views.html.application.tnrb.partner_name(formWithErrors,
-                  CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
-              },
-              tnrbModel => {
-                saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
-              }
-            )
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.partner_name(formWithErrors,
+                    CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
+            }
+            case _ => Future.successful(InternalServerError("Application details not found"))
           }
-          case _ => Future.successful(InternalServerError("Application details not found"))
         }
       }
   }

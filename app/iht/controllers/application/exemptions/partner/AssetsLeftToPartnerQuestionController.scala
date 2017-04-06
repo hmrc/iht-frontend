@@ -79,31 +79,31 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
+        withExistingRegistrationDetails { regDetails =>
+          val boundForm = assetsLeftToSpouseQuestionForm.bindFromRequest
 
-        val regDetails = cachingConnector.getExistingRegistrationDetails
-        val boundForm = assetsLeftToSpouseQuestionForm.bindFromRequest
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
-
-        applicationDetailsFuture.flatMap {
-          case Some(appDetails) => {
-            boundForm.fold(
-              formWithErrors => {
-                Future.successful(BadRequest(assets_left_to_partner_question(formWithErrors,
-                  regDetails,
-                  returnLabel(regDetails, appDetails),
-                  returnUrl(regDetails, appDetails))))
-              },
-              partnerExemption => {
-                saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails, appDetails)
-              }
-            )
-          }
-          case None => {
-            Logger.warn("Application Details not found")
-            Future.successful(InternalServerError("Application details not found"))
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(assets_left_to_partner_question(formWithErrors,
+                    regDetails,
+                    returnLabel(regDetails, appDetails),
+                    returnUrl(regDetails, appDetails))))
+                },
+                partnerExemption => {
+                  saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails, appDetails)
+                }
+              )
+            }
+            case None => {
+              Logger.warn("Application Details not found")
+              Future.successful(InternalServerError("Application details not found"))
+            }
           }
         }
       }

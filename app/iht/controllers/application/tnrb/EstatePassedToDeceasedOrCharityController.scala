@@ -76,27 +76,28 @@ trait EstatePassedToDeceasedOrCharityController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        val regDetails = cachingConnector.getExistingRegistrationDetails
-        val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
+        withExistingRegistrationDetails { regDetails =>
+          val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-        val boundForm = estatePassedToDeceasedOrCharityForm.bindFromRequest
+          val boundForm = estatePassedToDeceasedOrCharityForm.bindFromRequest
 
-        applicationDetailsFuture.flatMap {
-          case Some(appDetails) => {
-            boundForm.fold(
-              formWithErrors => {
-                Future.successful(BadRequest(iht.views.html.application.tnrb.estate_passed_to_deceased_or_charity(formWithErrors, deceasedName, cancelUrl)))
-              },
-              tnrbModel => {
-                saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
-              }
-            )
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.estate_passed_to_deceased_or_charity(formWithErrors, deceasedName, cancelUrl)))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
+            }
+            case _ => Future.successful(InternalServerError("Application details not found"))
           }
-          case _ => Future.successful(InternalServerError("Application details not found"))
         }
       }
   }

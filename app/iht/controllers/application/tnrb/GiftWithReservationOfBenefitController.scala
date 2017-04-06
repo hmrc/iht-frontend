@@ -79,32 +79,33 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        val regDetails = cachingConnector.getExistingRegistrationDetails
-        val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
+        withExistingRegistrationDetails { regDetails =>
+          val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-        val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-        val boundForm = partnerGiftWithResToOtherForm.bindFromRequest
+          val boundForm = partnerGiftWithResToOtherForm.bindFromRequest
 
-        applicationDetailsFuture.flatMap {
-          case Some(appDetails) => {
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
 
-            val tnrbModel = appDetails.increaseIhtThreshold.getOrElse(
-              TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))
+              val tnrbModel = appDetails.increaseIhtThreshold.getOrElse(
+                TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))
 
-            boundForm.fold(
-              formWithErrors => {
-                Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(formWithErrors,
-                  tnrbModel, deceasedName, cancelUrl)))
-              },
-              tnrbModel => {
-                saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
-              }
-            )
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_with_reservation_of_benefit(formWithErrors,
+                    tnrbModel, deceasedName, cancelUrl)))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
+            }
+            case _ => Future.successful(InternalServerError("Application details not found"))
           }
-          case _ => Future.successful(InternalServerError("Application details not found"))
         }
       }
   }

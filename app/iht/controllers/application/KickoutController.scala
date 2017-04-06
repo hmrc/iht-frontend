@@ -100,21 +100,23 @@ trait KickoutController extends ApplicationController {
             }
           } { _ =>
             emptyCache()
-            updateMetrics().map(isUpdated => {
-              cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
-              val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-              ihtConnector.deleteApplication(CommonHelper.getNino(user), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
-              if (!isUpdated) {
-                Logger.info("Application deleted after a kickout but unable to update metrics")
-              }
-              Redirect(IhtProperties.linkEstateReportKickOut)
-            })
+            withExistingRegistrationDetails { regDetails =>
+              updateMetrics(regDetails).flatMap(isUpdated => {
+                cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
+                withExistingRegistrationDetails { regDetails =>
+                  ihtConnector.deleteApplication(CommonHelper.getNino(user), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
+                  if (!isUpdated) {
+                    Logger.info("Application deleted after a kickout but unable to update metrics")
+                  }
+                  Future.successful(Redirect(IhtProperties.linkEstateReportKickOut))
+                }
+              })
+            }
           }
         }
   }
 
-  private def updateMetrics()(implicit user: AuthContext, request: Request[_]) = {
-    val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
+  private def updateMetrics(regDetails:RegistrationDetails)(implicit user: AuthContext, request: Request[_]): Future[Boolean] = {
     val futureOptionAD = ihtConnector.getApplication(CommonHelper.getNino(user),
       CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
       regDetails.acknowledgmentReference)

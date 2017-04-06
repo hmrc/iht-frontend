@@ -65,28 +65,28 @@ trait DeletePropertyController extends ApplicationController {
   def onSubmit(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        val registrationData = cachingConnector.getExistingRegistrationDetails
-
-        for {
-          applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
-            CommonHelper.getNino(user),
-            CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
-            registrationData.acknowledgmentReference)
-          propertyListNew = applicationDetails.map(_.propertyList.filterNot(p => p.id.getOrElse("") == id)).getOrElse(Nil)
-          mortgageEstateElement: Option[MortgageEstateElement] = applicationDetails.flatMap(_.allLiabilities.flatMap(_.mortgages))
-          mortgageEstateElementNew: Option[MortgageEstateElement] = updateMortgageEstateElementWithDeletedMortgage(mortgageEstateElement, id)
-          applicationDetailsNew: Option[ApplicationDetails] = applicationDetails.map(
-            x => x.copy(propertyList = propertyListNew, allLiabilities = x.allLiabilities.map(_.copy(mortgages = mortgageEstateElementNew))))
-          storedApplication <- ihtConnector.saveApplication(
-            CommonHelper.getNino(user),
-            CommonHelper.getOrExceptionNoApplication(applicationDetailsNew),
-            registrationData.acknowledgmentReference)
-        } yield {
-          storedApplication match {
-            case Some(_) => Redirect(routes.PropertiesOverviewController.onPageLoad())
-            case _ => {
-              Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
-              InternalServerError
+        withExistingRegistrationDetails { registrationData =>
+          for {
+            applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+              CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
+              registrationData.acknowledgmentReference)
+            propertyListNew = applicationDetails.map(_.propertyList.filterNot(p => p.id.getOrElse("") == id)).getOrElse(Nil)
+            mortgageEstateElement: Option[MortgageEstateElement] = applicationDetails.flatMap(_.allLiabilities.flatMap(_.mortgages))
+            mortgageEstateElementNew: Option[MortgageEstateElement] = updateMortgageEstateElementWithDeletedMortgage(mortgageEstateElement, id)
+            applicationDetailsNew: Option[ApplicationDetails] = applicationDetails.map(
+              x => x.copy(propertyList = propertyListNew, allLiabilities = x.allLiabilities.map(_.copy(mortgages = mortgageEstateElementNew))))
+            storedApplication <- ihtConnector.saveApplication(
+              CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoApplication(applicationDetailsNew),
+              registrationData.acknowledgmentReference)
+          } yield {
+            storedApplication match {
+              case Some(_) => Redirect(routes.PropertiesOverviewController.onPageLoad())
+              case _ => {
+                Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
+                InternalServerError
+              }
             }
           }
         }

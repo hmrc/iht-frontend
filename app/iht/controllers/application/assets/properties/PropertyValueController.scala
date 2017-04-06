@@ -128,60 +128,62 @@ trait PropertyValueController extends EstateController {
                        cancelUrl: Call,
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
-    val regDetails = cachingConnector.getExistingRegistrationDetails
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+    withExistingRegistrationDetails { regDetails =>
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-    val boundForm = propertyValueForm.bindFromRequest
-    boundForm.fold(
-      formWithErrors => {
-        LogHelper.logFormError(formWithErrors)
-        Future.successful(BadRequest(iht.views.html.application.asset.properties.property_value(formWithErrors,
-          submitUrl,
-          cancelUrl,
-          deceasedName)))
-      },
-      property => {
-        processSubmit(CommonHelper.getNino(user), property, propertyId)
-      }
-    )
+      val boundForm = propertyValueForm.bindFromRequest
+      boundForm.fold(
+        formWithErrors => {
+          LogHelper.logFormError(formWithErrors)
+          Future.successful(BadRequest(iht.views.html.application.asset.properties.property_value(formWithErrors,
+            submitUrl,
+            cancelUrl,
+            deceasedName)))
+        },
+        property => {
+          processSubmit(CommonHelper.getNino(user), property, propertyId)
+        }
+      )
+    }
   }
 
   private def processSubmit(nino: String,
                             property: Property,
                             propertyId: Option[String] = None)(
-                             implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
+                             implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
 
-    val registrationData = cachingConnector.getExistingRegistrationDetails
-    val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
-    val applicationDetailsFuture: Future[Option[ApplicationDetails]] =
-      ihtConnector.getApplication(nino, ihtReference, registrationData.acknowledgmentReference)
+    withExistingRegistrationDetails { registrationData =>
+      val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
+      val applicationDetailsFuture: Future[Option[ApplicationDetails]] =
+        ihtConnector.getApplication(nino, ihtReference, registrationData.acknowledgmentReference)
 
-    applicationDetailsFuture.flatMap { optionApplicationDetails =>
-      val tuplePropertiesAndID: (List[Property], String) = addPropertyToPropertyList(property.copy(id = propertyId),
-        optionApplicationDetails.fold[List[Property]](Nil)(ad => ad.propertyList))
+      applicationDetailsFuture.flatMap { optionApplicationDetails =>
+        val tuplePropertiesAndID: (List[Property], String) = addPropertyToPropertyList(property.copy(id = propertyId),
+          optionApplicationDetails.fold[List[Property]](Nil)(ad => ad.propertyList))
 
-      val updatedProperties: List[Property] = tuplePropertiesAndID._1
+        val updatedProperties: List[Property] = tuplePropertiesAndID._1
 
-      val propertyID: String = tuplePropertiesAndID._2
+        val propertyID: String = tuplePropertiesAndID._2
 
-      val ad = updateKickout(registrationDetails = registrationData,
-        applicationDetails = optionApplicationDetails.map(ad => ad.copy(propertyList = updatedProperties)).fold
-        (ApplicationDetails(propertyList = updatedProperties))(identity),
-        applicationID = Some(propertyID))
+        val ad = updateKickout(registrationDetails = registrationData,
+          applicationDetails = optionApplicationDetails.map(ad => ad.copy(propertyList = updatedProperties)).fold
+          (ApplicationDetails(propertyList = updatedProperties))(identity),
+          applicationID = Some(propertyID))
 
-      ihtConnector.saveApplication(nino, ad, registrationData.acknowledgmentReference) map {
-        case Some(_) => {
-          Redirect(ad.kickoutReason.fold(locationAfterSuccessfulSave(propertyID)) {
-            _ => {
-              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
-              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, propertyID)
-              kickoutRedirectLocation
-            }
-          })
-        }
-        case _ => {
-          Logger.warn("Problem saving Application details. Redirecting to InternalServerError")
-          InternalServerError
+        ihtConnector.saveApplication(nino, ad, registrationData.acknowledgmentReference) map {
+          case Some(_) => {
+            Redirect(ad.kickoutReason.fold(locationAfterSuccessfulSave(propertyID)) {
+              _ => {
+                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
+                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, propertyID)
+                kickoutRedirectLocation
+              }
+            })
+          }
+          case _ => {
+            Logger.warn("Problem saving Application details. Redirecting to InternalServerError")
+            InternalServerError
+          }
         }
       }
     }
