@@ -82,14 +82,8 @@ timeoutRoute: String = ""
 }
 
 @scriptElement = {
-<script src='/inheritance-tax/assets/javascripts/ie9-polyfill-input.js'> </script>
-<script src='/inheritance-tax/assets/javascripts/timeout-dialog.js'> </script>
-<script src='/inheritance-tax/assets/javascripts/autobox.js'> </script>
-<script src='/inheritance-tax/assets/javascripts/show-hide-content.js'> </script>
-<script src='/inheritance-tax/assets/javascripts/iht.js'> </script>
 
-
-<!--<script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>-->
+    <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
     @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
     @if(hasTimeOut && appConfig.enableRefresh) {
     <script>
