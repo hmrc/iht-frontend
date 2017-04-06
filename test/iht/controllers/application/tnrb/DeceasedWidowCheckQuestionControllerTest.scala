@@ -336,5 +336,8 @@ class DeceasedWidowCheckQuestionControllerTest extends ApplicationControllerTest
       link.text() shouldBe messagesApi("page.iht.application.tnrb.returnToIncreasingThreshold")
       link.attr("href") shouldBe expectedUrl
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      deceasedWidowCheckQuestionController.onPageLoad(createFakeRequest()))
   }
 }

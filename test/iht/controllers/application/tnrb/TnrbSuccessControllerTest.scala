@@ -84,5 +84,8 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
       val result = tnrbSuccessController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      tnrbSuccessController.onPageLoad(createFakeRequest()))
   }
 }

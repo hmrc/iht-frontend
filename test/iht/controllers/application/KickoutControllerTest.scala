@@ -202,5 +202,14 @@ class KickoutControllerTest extends ApplicationControllerTest {
         status(result) shouldBe INTERNAL_SERVER_ERROR
       }
     }
+
+    "respond with redirect to application overview when no registration details found in cache" in {
+      running(app) {
+        createMockToGetRegDetailsFromCache(mockCachingConnector, None)
+        val result = kickoutController.onPageLoad(createFakeRequest())
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
+      }
+    }
   }
 }
