@@ -8,8 +8,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
+  right: 0;
   background-color: #000;
   filter: alpha(opacity=40);
   -khtml-opacity: 0.4;
@@ -25,6 +25,7 @@ html.noScroll {
   position: fixed;
   top: 50%;
   left: 50%;
+  -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   padding: 40px 30px 40px 30px;
   border: 1px solid #0b0c0c;
@@ -52,4 +53,9 @@ html.noScroll {
     margin-bottom: 1em;
   }
 
+}
+
+.lte-ie8 .timeout-dialog {
+  left: 25%;
+  top: 25%;
 }

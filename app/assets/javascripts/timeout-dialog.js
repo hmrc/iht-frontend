@@ -97,7 +97,8 @@ String.prototype.format = function () {
         $('<div id="timeout-dialog" class="timeout-dialog" role="dialog" aria-labelledby="timeout-heading timeout-message" tabindex="-1" aria-live="polite">' + 
             '<h2 id="timeout-heading" class="heading-medium">' + settings.title + '</h2>' + 
             '<p id="timeout-message">' +
-                settings.message.format('<span id="timeout-countdown">' + time.m + ' ' + settings.time + '</span>') +
+                //settings.message.format('<span id="timeout-countdown">' + time.m + ' ' + settings.time + '</span>') +
+                settings.message + ' <br /><span class="countdown" id="timeout-countdown">' + time.m + ' ' + settings.time + '</span>' +
             '</p>' + 
             '<button id="timeout-keep-signin-btn" class="button">' + settings.keep_alive_button_text.format(settings.timeout / 60) + '</button>' + 
         '</div>' + 
@@ -112,13 +113,13 @@ String.prototype.format = function () {
         var modalFocus = document.getElementById("timeout-dialog")
         modalFocus.focus()
 
-        document.addEventListener("focus", function (event) {
+        $(document).on("focus", function (event) {
         var modalFocus = document.getElementById("timeout-dialog")
           if(dialogOpen && !modalFocus.contains(event.target)) {
             event.stopPropagation()
             modalFocus.focus()
           }
-        }, true)
+        })
 
         self.startCountdown()
 
@@ -146,13 +147,13 @@ String.prototype.format = function () {
             }
         }
         // AL: add touchmove handler
-        document.addEventListener('touchmove', self.handleTouch, true)
-        document.addEventListener('keydown', self.escPress, true)
-        document.getElementById('timeout-keep-signin-btn').addEventListener('click', self.closeDialog, true)
+        $(document).on('touchmove', self.handleTouch)
+        $(document).on('keydown', self.escPress)
+        $('#timeout-keep-signin-btn').on('click', self.closeDialog)
       },
 
       destroyDialog: function () {
-        document.removeEventListener('touchmove', self.handleTouch)
+        $(document).off('touchmove', self.handleTouch)
         if ($('#timeout-dialog').length) {
           dialogOpen = false
           $('.timeout-overlay').remove()
@@ -186,7 +187,7 @@ String.prototype.format = function () {
         var self = this
         this.destroyDialog()
         window.clearInterval(this.countdown)
-        document.removeEventListener('keydown', self.escPress)
+        $(document).off('keydown', self.escPress)
 
         $.get(settings.keep_alive_url, function (data) {
           if (data === 'OK') {

@@ -82,32 +82,28 @@ timeoutRoute: String = ""
 }
 
 @scriptElement = {
-
-    <!--<script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>-->
-
-    <script src="/inheritance-tax/assets/javascripts/ie9-polyfill-input.js"></script>
-    <script src="/inheritance-tax/assets/javascripts/timeout-dialog.js"></script>
-    <script src="/inheritance-tax/assets/javascripts/autobox.js"></script>
-    <script src="/inheritance-tax/assets/javascripts/show-hide-content.js"></script>
-    <script src="/inheritance-tax/assets/javascripts/iht.js"></script>
+<script src='/inheritance-tax/assets/javascripts/ie9-polyfill-input.js'> </script>
+<script src='/inheritance-tax/assets/javascripts/timeout-dialog.js'> </script>
+<script src='/inheritance-tax/assets/javascripts/autobox.js'> </script>
+<script src='/inheritance-tax/assets/javascripts/show-hide-content.js'> </script>
+<script src='/inheritance-tax/assets/javascripts/iht.js'> </script>
 
 
+<!--<script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>-->
     @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
     @if(hasTimeOut && appConfig.enableRefresh) {
     <script>
-        //@appConfig.timeOutSeconds
         $.timeoutDialog({
-            timeout: 900,
-            countdown: 880,
-            keep_alive_url: "/inheritance-tax/keep-alive",
+            timeout: @appConfig.timeOutSeconds,
+            countdown: @appConfig.timeOutCountdownSeconds,
+            keep_alive_url: "@iht.controllers.routes.IhtMainController.keepAlive.url",
             logout_url: "@timeoutRoute",
-            title: "You’re about to be signed out",
-            message: 'For your security, you’ll be signed out in <span class="countdown">{0}</span> if there’s no activity on your account.',
-            keep_alive_button_text: "Get another {0} minutes"
+            title: "@Messages("iht.timeoutDialog.title")",
+            message: "@Messages("iht.timeoutDialog.p1")",
+            keep_alive_button_text: "@Messages("iht.timeoutDialog.button")"
         });
         var dialogOpen;
     </script>
-
     }
 }
 
@@ -144,7 +140,6 @@ timeoutRoute: String = ""
             @title
         }
     </h1>
-
     @mainContent
 
     @backUrl.map{ url =>

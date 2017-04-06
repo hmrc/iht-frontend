@@ -151,6 +151,9 @@ iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
 iht.comma = ,
 iht.fullStop = .
+iht.timeoutDialog.title = You’re about to be signed out
+iht.timeoutDialog.p1 = If there’s no activity on your account, for your security, you’ll be signed out in
+iht.timeoutDialog.button = Get another {0} minutes
 
 #Private Beta landing page
 page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report
