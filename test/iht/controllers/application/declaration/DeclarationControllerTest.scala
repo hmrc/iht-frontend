@@ -28,6 +28,7 @@ import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.enums.StatsSource
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.ApplicationStatus
 import org.mockito.Matchers._
 import play.api.http.Status.OK
 import play.api.test.Helpers._
@@ -42,6 +43,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
+  val ihtReferenceNo = "XXX"
 
   def declarationController = new DeclarationController {
     override val cachingConnector = mockCachingConnector
@@ -59,6 +61,19 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override val isWhiteListEnabled = false
   }
 
+  def mockForApplicationStatus(requiredStatus: String) = {
+    val regDetails = CommonBuilder.buildRegistrationDetails copy(
+      ihtReference=Some(ihtReferenceNo),
+      status = requiredStatus
+    )
+
+    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, regDetails)
+    createMockToGetCaseDetails(mockIhtConnector, regDetails)
+    createMockToGetRegDetailsFromCache(mockCachingConnector, Some(regDetails))
+  }
+
+
+
   "declaration controller" must {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
@@ -68,7 +83,6 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     }
 
     "redirect to login page on Submit if the user is not logged in" in {
-
       val result = declarationControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
       status(result) should be(SEE_OTHER)
       redirectLocation(result).get should be(loginUrl)
@@ -119,6 +133,8 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       createMockToGetProbateDetails(mockIhtConnector)
       createMockToStoreProbateDetailsInCache(mockCachingConnector)
 
+      mockForApplicationStatus(ApplicationStatus.AwaitingReturn)
+
       val applicantDetailsForm1 = declarationForm.fill(true)
       implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*)
 
@@ -149,6 +165,8 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       createMockToSubmitApplication(mockIhtConnector)
       createMockToGetProbateDetails(mockIhtConnector)
 
+      mockForApplicationStatus(ApplicationStatus.AwaitingReturn)
+
       val result = declarationController.onSubmit()(createFakeRequest())
       status(result) shouldBe (SEE_OTHER)
 //      assert(Metrics.statsCounter(StatsSource.COMPLETED_APP).getCount>0 , "Completed application are greater than one")
@@ -162,6 +180,8 @@ class DeclarationControllerTest extends ApplicationControllerTest {
         coExecutors = Seq(CommonBuilder.buildCoExecutor,
         CommonBuilder.buildCoExecutor))
 
+      createMockToGetCaseDetails(mockIhtConnector, regDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(regDetails))
       createMockToGetExistingRegDetailsFromCache(mockCachingConnector, regDetails)
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("true"))
@@ -173,8 +193,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       implicit val request = createFakeRequest().withFormUrlEncodedBody(applicantDetailsForm1.data.toSeq: _*)
 
       val result = declarationController.onSubmit()(request)
-      status(result) shouldBe (SEE_OTHER)
-//      assert(Metrics.statsCounter(StatsSource.ADDITIONAL_EXECUTOR_APP).getCount==1 , "Completed application with additional executors is 1 ")
+      status(result) shouldBe SEE_OTHER
     }
 
     "statsSource should return Some assets only" in {
@@ -258,6 +277,22 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     "submissionException should return errorSystem also" in {
       val ex = new Throwable
       declarationController.submissionException(ex) should be(ControllerHelper.errorSystem)
+    }
+
+    "on submit redirect to estate overview if the application status is not AwaitingReturn" in {
+      createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
+      createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
+      createMockToGetApplicationDetails(mockIhtConnector)
+      createMockToSaveApplicationDetails(mockIhtConnector)
+      createMockToSubmitApplication(mockIhtConnector)
+      createMockToGetProbateDetails(mockIhtConnector)
+
+      mockForApplicationStatus(ApplicationStatus.InReview)
+
+      val result = declarationController.onSubmit()(createFakeRequest())
+
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) should be(Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReferenceNo).url))
     }
   }
 }

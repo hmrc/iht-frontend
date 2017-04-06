@@ -33,6 +33,7 @@ import play.api.mvc.Result
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
@@ -103,27 +104,30 @@ trait DeclarationController extends ApplicationController {
               }
             }, {
               case true =>
-                withApplicationDetails { _ =>
-                  ad =>
-                    val ihtReference = CommonHelper.getOrException(ad.ihtRef)
-                    ihtConnector.getCaseDetails(CommonHelper.getNino(user), ihtReference) flatMap { rd =>
-                      if (rd.status == ApplicationStatus.AwaitingReturn) {
-                        processApplication(CommonHelper.getNino(user))
-                      } else {
-                        Future.successful(Redirect(
-                          iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)))
-                      }
-                    }
-                }
+                processApplicationOrRedirect
               case _ =>
                 Logger.warn("isDeclared is false. Redirecting to InternalServerError")
                 Future.successful(InternalServerError)
             }
           )
         } else {
-          processApplication(CommonHelper.getNino(user))
+          processApplicationOrRedirect
         }
       }
+  }
+
+  private def processApplicationOrRedirect(implicit request: Request[_], hc: HeaderCarrier, user:AuthContext) = {
+    withRegistrationDetails { rd =>
+      val ihtReference = CommonHelper.getOrException(rd.ihtReference)
+      ihtConnector.getCaseDetails(CommonHelper.getNino(user), ihtReference) flatMap { rd =>
+        if (rd.status == ApplicationStatus.AwaitingReturn) {
+          processApplication(CommonHelper.getNino(user))
+        } else {
+          Future.successful(Redirect(
+            iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)))
+        }
+      }
+    }
   }
 
   private def processApplication(nino: String)(implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
