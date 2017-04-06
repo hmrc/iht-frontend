@@ -624,4 +624,17 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
       CommonHelper.formatCurrencyForInput(number) shouldBe "thisIsNotANumber"
     }
   }
+
+  "getNinoFromSession" must {
+    "return the nino when it is present in the session" in {
+      val nino = "CSXXXXX"
+      val request = FakeRequest().withSession(Constants.NINO -> nino)
+      CommonHelper.getNinoFromSession(request) shouldBe nino
+    }
+
+    "return the empty string when nino is not present in the session" in {
+      val request = FakeRequest().withSession()
+      CommonHelper.getNinoFromSession(request) shouldBe ""
+    }
+  }
 }

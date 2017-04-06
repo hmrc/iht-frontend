@@ -22,7 +22,7 @@ import iht.controllers.auth.IhtActions
 import iht.events.QuestionnaireEvent
 import iht.forms.QuestionnaireForms._
 import iht.models.QuestionnaireModel
-import iht.utils.LogHelper
+import iht.utils.{CommonHelper, LogHelper}
 import play.api.data.Form
 import play.api.mvc._
 import play.twirl.api.HtmlFormat.Appendable
@@ -36,19 +36,17 @@ trait QuestionnaireController extends FrontendController with IhtActions {
 
   def callPageLoad: Call
 
-  private def getNinoFromSession(request:Request[_]): String = request.session.get(Constants.NINO).fold("")(identity)
-
   val redirectLocationOnMissingNino: Call
 
   def signOutAndLoadPage = UnauthorisedAction {
     implicit request =>
       Redirect(callPageLoad).withNewSession
-        .withSession(Constants.NINO -> getNinoFromSession(request))
+        .withSession(Constants.NINO -> CommonHelper.getNinoFromSession(request))
   }
 
   def onPageLoad = UnauthorisedAction {
     implicit request =>{
-      val nino = getNinoFromSession(request)
+      val nino = CommonHelper.getNinoFromSession(request)
 
       nino match {
         case "" => Redirect(redirectLocationOnMissingNino)
@@ -75,7 +73,7 @@ trait QuestionnaireController extends FrontendController with IhtActions {
             },
             howCanYouImprove = value.howCanYouImprove.getOrElse(""),
             fullName = value.fullName.getOrElse(""),
-            nino = getNinoFromSession(request)
+            nino = CommonHelper.getNinoFromSession(request)
           )
           explicitAuditConnector.sendEvent(questionnaireEvent)
           Redirect(IhtProperties.linkGovUkIht)
