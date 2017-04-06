@@ -92,12 +92,10 @@ String.prototype.format = function () {
         }
         var time = secondsToTime(settings.countdown)
         var timeout = secondsToTime(settings.timeout)
-         // ignored seconds time.m used below
          // AL: Add live region and edit dialog structure
         $('<div id="timeout-dialog" class="timeout-dialog" role="dialog" aria-labelledby="timeout-heading timeout-message" tabindex="-1" aria-live="polite">' + 
             '<h2 id="timeout-heading" class="heading-medium">' + settings.title + '</h2>' + 
             '<p id="timeout-message">' +
-                //settings.message.format('<span id="timeout-countdown">' + time.m + ' ' + settings.time + '</span>') +
                 settings.message + ' <br /><span class="countdown" id="timeout-countdown">' + time.m + ' ' + settings.time + '</span>' +
             '</p>' + 
             '<button id="timeout-keep-signin-btn" class="button">' + settings.keep_alive_button_text.format(settings.timeout / 60) + '</button>' + 

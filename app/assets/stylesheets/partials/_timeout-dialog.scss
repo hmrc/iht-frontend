@@ -43,19 +43,14 @@ html.noScroll {
   }
 
   .countdown {
-  // AL: removed as interrupts VO reading
-//      display: inline-block;
-//      white-space: nowrap;
-      font-weight: 700;
+    // AL: removed as interrupts VO reading
+    //display: inline-block;
+    //white-space: nowrap;
+    font-weight: 700;
   }
 
   .button{
     margin-bottom: 1em;
   }
 
-}
-
-.lte-ie8 .timeout-dialog {
-  left: 25%;
-  top: 25%;
 }
