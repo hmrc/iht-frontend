@@ -128,7 +128,7 @@ class MoneyOwedControllerTest extends ApplicationControllerTest{
 
      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = moneyOwedController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)

@@ -171,7 +171,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
                                                     getAppDetails: Boolean = true) = {
 
     createMockToGetCaseList(ihtConnector, ihtAppList)
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
 
     if(getAppDetails) {
       createMockToGetApplicationDetails(ihtConnector, appDetails)

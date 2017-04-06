@@ -299,7 +299,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         referrerURL="http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
         host=host, data=addressForm.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -317,7 +317,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       referrerURL="http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1",
       host=host, data=addressForm.data.toSeq)
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -383,7 +383,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
       coExecutors = Seq(internationalCoExecutor copy (id = Some("1"))))
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -405,7 +405,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
       coExecutors = Seq(ukCoExecutor copy (id = Some("1"))))
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -426,7 +426,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
       coExecutors = Seq(ukCoExecutor copy (id = Some("1"))))
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -446,7 +446,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
       coExecutors = Seq(internationalCoExecutor copy (id = Some("1"))))
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -466,7 +466,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       referrerURL="http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
       host=host, data=addressForm.data.toSeq)
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 

@@ -78,7 +78,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck),
         increaseIhtThreshold = Some(buildTnrbModel))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
 
       val result = tnrbOverviewController.onPageLoad()(createFakeRequest())
@@ -89,7 +89,7 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
       val buildWidowCheck = CommonBuilder.buildWidowedCheck
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
 
       val result = tnrbOverviewController.onPageLoad()(createFakeRequest())

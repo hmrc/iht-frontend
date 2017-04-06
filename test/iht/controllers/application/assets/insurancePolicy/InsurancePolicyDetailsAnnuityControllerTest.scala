@@ -144,7 +144,7 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = insurancePolicyDetailsAnnuityController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)

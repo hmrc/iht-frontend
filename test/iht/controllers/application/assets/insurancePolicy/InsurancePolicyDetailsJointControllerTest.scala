@@ -151,7 +151,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = insurancePolicyDetailsJointController.onSubmit(fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)

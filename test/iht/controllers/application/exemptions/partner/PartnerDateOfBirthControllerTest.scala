@@ -137,14 +137,14 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
       val dateOfBirthForm = spouseDateOfBirthForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(dateOfBirthForm.data.toSeq: _*)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = partnerDateOfBirthController.onSubmit(request)
       status(result) should be(OK)
     }
 
     "on page load throws exception when no iht ref" in {
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetailsWithNoIhtRef)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetailsWithNoIhtRef)
 
       a [RuntimeException] shouldBe thrownBy {
         await(partnerDateOfBirthController.onPageLoad(createFakeRequest()))

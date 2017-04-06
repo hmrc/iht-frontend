@@ -71,8 +71,8 @@ object MockObjectBuilder {
   /**
     * Creates Mock To get Existing RegistrationDetails using CachingConnector
     */
-  def createMockToGetExistingRegDetailsFromCache(cachingConnector: CachingConnector,
-                                      regDetails: RegistrationDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails) = {
+  def createMockToGetRegDetailsFromCacheNoOption(cachingConnector: CachingConnector,
+                                                 regDetails: RegistrationDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails) = {
     when(cachingConnector.getRegistrationDetails(any(), any()))
       .thenReturn(Future.successful(Some(regDetails)))
   }
@@ -315,7 +315,7 @@ object MockObjectBuilder {
                    storeAppDetailsInCache: Boolean = false,
                    getSingleValueFromCache: Boolean = false) = {
 
-    createMockToGetExistingRegDetailsFromCache(cachingConnector, regDetails)
+    createMockToGetRegDetailsFromCacheNoOption(cachingConnector, regDetails)
 
     if (getAppDetails) {
 
@@ -362,7 +362,7 @@ object MockObjectBuilder {
     }
 
     if(getExistingRegDetailsFromCache){
-      createMockToGetExistingRegDetailsFromCache(cachingConnector, getUpdatedRegDetailsObject(regDetails,
+      createMockToGetRegDetailsFromCacheNoOption(cachingConnector, getUpdatedRegDetailsObject(regDetails,
                                                 Some(getExistingRegDetailsFromCacheObject)).get)
     }
 

@@ -129,7 +129,7 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         ihtReference = None
         )
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
 
       a[RuntimeException] shouldBe thrownBy {
         await(mortgagesOverviewController.onPageLoad()(createFakeRequest()))

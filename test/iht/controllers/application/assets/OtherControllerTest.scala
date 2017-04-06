@@ -128,7 +128,7 @@ class OtherControllerTest extends ApplicationControllerTest{
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = otherController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)

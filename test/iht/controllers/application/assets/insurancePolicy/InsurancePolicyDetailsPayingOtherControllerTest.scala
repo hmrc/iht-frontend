@@ -151,7 +151,7 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
