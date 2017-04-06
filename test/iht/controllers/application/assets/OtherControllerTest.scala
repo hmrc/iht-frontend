@@ -153,5 +153,8 @@ class OtherControllerTest extends ApplicationControllerTest{
       val result = otherController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      otherController.onPageLoad(createFakeRequest()))
   }
 }

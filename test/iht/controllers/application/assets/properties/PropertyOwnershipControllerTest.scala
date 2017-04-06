@@ -178,6 +178,9 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       val result = propertyOwnershipController.onEditSubmit(propertyId)(request)
       status(result) should be (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      propertyOwnershipController.onPageLoad(createFakeRequest()))
   }
 
 }

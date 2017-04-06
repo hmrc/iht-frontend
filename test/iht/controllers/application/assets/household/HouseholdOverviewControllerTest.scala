@@ -63,5 +63,8 @@ class HouseholdOverviewControllerTest extends ApplicationControllerTest{
       status(result) shouldBe (OK)
       contentAsString(result) should include(messagesApi("iht.estateReport.assets.householdAndPersonalItems.title"))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      householdOverviewController.onPageLoad(createFakeRequest()))
   }
 }

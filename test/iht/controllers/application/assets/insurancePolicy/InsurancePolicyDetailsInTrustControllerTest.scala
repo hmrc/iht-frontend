@@ -177,5 +177,9 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
       redirectLocation(result) should be (
         Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyDetailsInTrustController.onPageLoad(createFakeRequest()))
+
   }
 }

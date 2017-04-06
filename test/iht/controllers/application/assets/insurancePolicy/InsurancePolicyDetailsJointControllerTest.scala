@@ -178,5 +178,9 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       val result = insurancePolicyDetailsJointController.onSubmit(request)
       redirectLocation(result) should be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsuranceJointlyHeldYesNoID))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyDetailsJointController.onPageLoad(createFakeRequest()))
+
   }
 }

@@ -136,5 +136,8 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
       capturedValue shouldBe expectedAppDetails
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      debtsOwedFromTrustController.onPageLoad(createFakeRequest()))
   }
 }

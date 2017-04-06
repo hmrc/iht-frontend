@@ -94,5 +94,8 @@ class WithReservationOfBenefitControllerTest  extends ApplicationControllerTest{
       val result = withReservationOfBenefitController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      withReservationOfBenefitController.onPageLoad(createFakeRequest()))
   }
 }

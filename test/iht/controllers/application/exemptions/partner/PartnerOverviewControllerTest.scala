@@ -68,5 +68,8 @@ class PartnerOverviewControllerTest extends ApplicationControllerTest{
       status(result) shouldBe OK
       contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerOverviewController.onPageLoad(createFakeRequest()))
   }
 }

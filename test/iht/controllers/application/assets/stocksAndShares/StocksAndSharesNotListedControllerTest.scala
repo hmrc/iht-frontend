@@ -146,6 +146,9 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
       val result = stocksAndSharesNotListedController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      stocksAndSharesNotListedController.onPageLoad(createFakeRequest()))
   }
 
 }

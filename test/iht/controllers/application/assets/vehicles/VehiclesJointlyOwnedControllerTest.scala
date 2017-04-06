@@ -157,5 +157,8 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
       status(result) should be (OK)
       contentAsString(result) should include (messagesApi("page.iht.application.assets.vehicles.jointly.owned.title"))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      vehiclesJointlyOwnedController.onPageLoad(createFakeRequest()))
   }
 }

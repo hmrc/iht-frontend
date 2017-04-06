@@ -151,5 +151,8 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
       val result = sevenYearsGivenInLast7YearsController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      sevenYearsGivenInLast7YearsController.onPageLoad(createFakeRequest()))
   }
 }

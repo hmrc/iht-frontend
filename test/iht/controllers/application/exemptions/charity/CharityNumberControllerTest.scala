@@ -227,7 +227,9 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
       charityAfterSave shouldBe Some(charityChanged)
       //TODO: Replace with the Charity Details Overview page URL once that is done
       status(result) shouldBe SEE_OTHER
-
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      charityNumberController.onPageLoad(createFakeRequest()))
   }
 }

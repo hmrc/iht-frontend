@@ -153,6 +153,9 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
       val result = householdJointlyOwnedController.onSubmit (fakePostRequest)
       status(result) shouldBe BAD_REQUEST
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      householdJointlyOwnedController.onPageLoad(createFakeRequest()))
   }
   
 }

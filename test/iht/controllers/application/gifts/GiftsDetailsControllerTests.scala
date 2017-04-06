@@ -211,5 +211,8 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
       status(result) should be(BAD_REQUEST)
       contentAsString(result) should include(messagesApi("error.giftsDetails.noValue"))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      giftsDetailsController.onPageLoad(createFakeRequest()))
   }
 }

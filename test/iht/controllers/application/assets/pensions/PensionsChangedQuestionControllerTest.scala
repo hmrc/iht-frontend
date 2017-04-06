@@ -117,5 +117,8 @@ class PensionsChangedQuestionControllerTest extends ApplicationControllerTest{
       val result = pensionsChangedQuestionController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      pensionsChangedQuestionController.onPageLoad(createFakeRequest()))
   }
 }

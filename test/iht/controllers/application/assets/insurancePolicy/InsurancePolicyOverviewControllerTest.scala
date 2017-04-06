@@ -96,5 +96,9 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
       status(result) shouldBe OK
       ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyOverviewController.onPageLoad(createFakeRequest()))
+
   }
 }

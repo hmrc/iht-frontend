@@ -117,5 +117,8 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
       val result = trustsOwnedQuestionController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      trustsOwnedQuestionController.onPageLoad(createFakeRequest()))
   }
 }

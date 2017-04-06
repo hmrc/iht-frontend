@@ -32,10 +32,8 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 class MortgagesOverviewControllerTest extends ApplicationControllerTest {
-
-
   implicit val hc = new HeaderCarrier()
-  val mockCachingConnector = mock[CachingConnector]
+  var mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
   def mortgagesOverviewController = new MortgagesOverviewController {
@@ -43,6 +41,10 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
+  }
+
+  before {
+    mockCachingConnector = mock[CachingConnector]
   }
 
   "MortgagesOverviewController controller" must {
@@ -158,5 +160,8 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
         await(mortgagesOverviewController.updateMortgageListFromPropertyList(propertyList, mortgagesList))
       }
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      mortgagesOverviewController.onPageLoad(createFakeRequest()))
   }
 }

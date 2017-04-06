@@ -152,5 +152,8 @@ class OwedOutsideUKDebtsControllerTest extends ApplicationControllerTest{
       val result = debtsOutsideUkController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      debtsOutsideUkController.onPageLoad(createFakeRequest()))
   }
 }

@@ -171,5 +171,9 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
 
       result should be (Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyDetailsFinalGuidanceController.onPageLoad(createFakeRequest()))
+
   }
 }

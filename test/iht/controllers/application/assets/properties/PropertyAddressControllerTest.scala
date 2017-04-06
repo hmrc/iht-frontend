@@ -162,5 +162,4 @@ class PropertyAddressControllerTest extends ApplicationControllerTest {
       status(result) should be (BAD_REQUEST)
     }
   }
-
 }

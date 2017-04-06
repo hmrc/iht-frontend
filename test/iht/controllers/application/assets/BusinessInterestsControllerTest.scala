@@ -150,5 +150,8 @@ class BusinessInterestsControllerTest extends ApplicationControllerTest{
       val result = businessInterestsController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      businessInterestsController.onPageLoad(createFakeRequest()))
   }
 }

@@ -137,6 +137,9 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be(Some(routes.PartnerOverviewController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerValueController.onPageLoad(createFakeRequest()))
   }
 
 }

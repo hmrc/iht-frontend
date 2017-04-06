@@ -146,6 +146,9 @@ class NominatedControllerTest extends ApplicationControllerTest{
       val result = nominatedController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      nominatedController.onPageLoad(createFakeRequest()))
   }
 
 }

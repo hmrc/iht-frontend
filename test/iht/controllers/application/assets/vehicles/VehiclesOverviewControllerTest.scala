@@ -64,5 +64,8 @@ class VehiclesOverviewControllerTest extends ApplicationControllerTest{
       status(result) shouldBe (OK)
       contentAsString(result) should include(messagesApi("iht.estateReport.assets.vehicles"))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      vehiclesOverviewController.onPageLoad(createFakeRequest()))
   }
 }

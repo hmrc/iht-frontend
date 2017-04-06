@@ -169,5 +169,8 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
       status(result) should be(SEE_OTHER)
       redirectLocation(result).get should be(routes.PartnerOverviewController.onPageLoad().url)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerDateOfBirthController.onPageLoad(createFakeRequest()))
   }
 }

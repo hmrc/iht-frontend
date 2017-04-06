@@ -155,6 +155,5 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(
         iht.controllers.application.exemptions.charity.routes.CharityNameController.onPageLoad().url)
     }
-
   }
 }

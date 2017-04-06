@@ -332,5 +332,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       redirectLocation(result) should be(Some(
         iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onPageLoad(ref).url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      giftsOverviewController.onPageLoad(createFakeRequest()))
   }
 }

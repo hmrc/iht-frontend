@@ -82,5 +82,8 @@ class PropertiesOverviewControllerTest extends ApplicationControllerTest {
       status(result) should be (OK)
       contentAsString(result) should include (CommonHelper.numberWithCommas(120000))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      propertiesOverviewController.onPageLoad(createFakeRequest()))
   }
 }

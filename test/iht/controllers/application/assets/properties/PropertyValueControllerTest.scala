@@ -217,5 +217,8 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
       val result = propertyValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (INTERNAL_SERVER_ERROR)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      propertyValueController.onPageLoad(createFakeRequest()))
   }
 }

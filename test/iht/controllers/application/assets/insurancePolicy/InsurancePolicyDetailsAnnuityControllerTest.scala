@@ -185,5 +185,8 @@ class InsurancePolicyDetailsAnnuityControllerTest extends ApplicationControllerT
       val result = insurancePolicyDetailsAnnuityController.onSubmit (request)
       redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyDetailsAnnuityController.onPageLoad(createFakeRequest()))
   }
 }

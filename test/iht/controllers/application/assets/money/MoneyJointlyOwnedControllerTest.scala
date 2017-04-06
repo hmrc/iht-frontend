@@ -148,6 +148,9 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       val result = moneyJointlyOwnedController.onSubmit(fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      moneyJointlyOwnedController.onPageLoad(createFakeRequest()))
   }
 
 }

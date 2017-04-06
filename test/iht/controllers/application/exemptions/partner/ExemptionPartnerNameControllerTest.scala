@@ -125,6 +125,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
       status(result) should be(BAD_REQUEST)
     }
 
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerNameController.onPageLoad(createFakeRequest()))
   }
-
 }

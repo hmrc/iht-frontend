@@ -123,5 +123,8 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
       redirectLocation(result) should be (Some(iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onPageLoad(ref).url))
     }
 
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      assetsOverviewController.onPageLoad(createFakeRequest()))
+
   }
 }

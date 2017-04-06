@@ -152,5 +152,8 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       val result = givenAwayController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      givenAwayController.onPageLoad(createFakeRequest()))
   }
 }

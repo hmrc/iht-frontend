@@ -153,5 +153,8 @@ class MoneyOwedControllerTest extends ApplicationControllerTest{
       val result = moneyOwedController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      moneyOwedController.onPageLoad(createFakeRequest()))
   }
 }

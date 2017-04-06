@@ -155,5 +155,8 @@ class JointlyOwnedDebtsControllerTest extends ApplicationControllerTest{
       val result = jointlyOwnedDebtsController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      jointlyOwnedDebtsController.onPageLoad(createFakeRequest()))
   }
 }

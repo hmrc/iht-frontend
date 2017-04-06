@@ -178,5 +178,8 @@ class InsurancePolicyDetailsPayingOtherControllerTest extends ApplicationControl
       val result = insurancePolicyDetailsPayingOtherController.onSubmit (request)
       redirectLocation(result) should be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad.url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyDetailsPayingOtherController.onPageLoad(createFakeRequest()))
   }
 }

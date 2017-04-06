@@ -165,5 +165,8 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
       status(result) should be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.vehiclesOwned", deceasedName))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      vehiclesDeceasedOwnController.onPageLoad(createFakeRequest()))
   }
 }

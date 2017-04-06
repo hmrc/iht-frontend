@@ -156,5 +156,8 @@ class AnyOtherDebtsControllerTest extends ApplicationControllerTest{
       val result = anyOtherDebtsController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      anyOtherDebtsController.onPageLoad(createFakeRequest()))
   }
 }

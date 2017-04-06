@@ -148,5 +148,8 @@ class ForeignControllerTest extends ApplicationControllerTest{
       val result = foreignController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      foreignController.onPageLoad(createFakeRequest()))
   }
 }

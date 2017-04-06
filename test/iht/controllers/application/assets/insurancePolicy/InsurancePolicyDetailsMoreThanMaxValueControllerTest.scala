@@ -148,5 +148,9 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       status(result) shouldBe (SEE_OTHER)
       redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      controller.onPageLoad(createFakeRequest()))
+
   }
 }

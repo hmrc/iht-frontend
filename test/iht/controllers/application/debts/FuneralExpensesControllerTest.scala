@@ -152,5 +152,8 @@ class FuneralExpensesControllerTest extends ApplicationControllerTest{
       val result = funeralExpensesController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      funeralExpensesController.onPageLoad(createFakeRequest()))
   }
 }

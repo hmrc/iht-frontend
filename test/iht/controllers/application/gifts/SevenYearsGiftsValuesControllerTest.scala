@@ -100,6 +100,9 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
       val result = sevenYearsGiftsValuesController.onPageLoad()(createFakeRequest(isAuthorised = true))
       status(result) should be(OK)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      sevenYearsGiftsValuesController.onPageLoad(createFakeRequest()))
   }
 
   private def testGiftYearLinkData(doc: Document, yearId: String) = {

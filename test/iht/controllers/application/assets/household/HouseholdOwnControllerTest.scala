@@ -151,6 +151,9 @@ class HouseholdDeceasedOwnControllerTest extends ApplicationControllerTest {
       val result = householdDeceasedOwnController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      householdDeceasedOwnController.onPageLoad(createFakeRequest()))
   }
  
 }

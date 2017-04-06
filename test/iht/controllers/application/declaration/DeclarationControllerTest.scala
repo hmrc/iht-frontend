@@ -259,5 +259,8 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       val ex = new Throwable
       declarationController.submissionException(ex) should be(ControllerHelper.errorSystem)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      declarationController.onPageLoad(createFakeRequest()))
   }
 }
