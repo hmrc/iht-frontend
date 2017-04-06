@@ -81,6 +81,12 @@ trait CachingConnector {
     storeChangeData[RegistrationDetails] (registrationDetailsFormKey, data)
   }
 
+  //
+  //  def getExistingRegistrationDetails(implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): RegistrationDetails = {
+  //    val optionRD: Option[RegistrationDetails] = Await.result(getRegistrationDetails, Duration.Inf)
+  //    optionRD.fold(throw new NoRegistrationDetailsException)(identity)
+  //  }
+
   def getRegistrationDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[RegistrationDetails]] = {
     getChangeData[RegistrationDetails](registrationDetailsFormKey)
   }

@@ -75,14 +75,12 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
   val applicationDetails = CommonBuilder.buildApplicationDetails copy (allAssets = Some(allAssets))
 
   private def createMocks(applicationDetails: ApplicationDetails) = {
-    when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(registrationDetails)
+    when(mockCachingConnector.getRegistrationDetails(any(), any()))
+      .thenReturn(Future.successful(Some(registrationDetails)))
     when(mockIhtConnector.getApplication(any(), any(), any())(any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
     when(mockCachingConnector.storeApplicationDetails(any())(any(), any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
-    when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(registrationDetails)
     when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
   }

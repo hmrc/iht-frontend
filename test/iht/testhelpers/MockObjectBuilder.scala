@@ -73,8 +73,8 @@ object MockObjectBuilder {
     */
   def createMockToGetExistingRegDetailsFromCache(cachingConnector: CachingConnector,
                                       regDetails: RegistrationDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails) = {
-    when(cachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(regDetails)
+    when(cachingConnector.getRegistrationDetails(any(), any()))
+      .thenReturn(Future.successful(Some(regDetails)))
   }
 
   /**
@@ -136,7 +136,7 @@ object MockObjectBuilder {
     */
   def createMockToThrowExceptionWhileGettingExistingRegDetails(cachingConnector: CachingConnector,
                                                                exceptionMsg: String = "RunTime Exception Occured") = {
-    when(cachingConnector.getExistingRegistrationDetails(any(), any()))
+    when(cachingConnector.getRegistrationDetails(any(), any()))
       .thenThrow(new RuntimeException(exceptionMsg))
   }
 
