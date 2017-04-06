@@ -67,7 +67,7 @@ trait TrustsOwnedQuestionController extends EstateController {
         updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.heldInTrust).flatMap(_.isOwned) match {
           case Some(true) => submitUrl
-          case Some(false) => assetsRedirectLocation
+          case Some(false) => CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionHeldInTrustID))
           case _ => throw new RuntimeException("Held in trust value does not exist")
         }
       )
