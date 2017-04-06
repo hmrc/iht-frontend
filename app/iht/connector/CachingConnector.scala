@@ -17,11 +17,8 @@
 package iht.connector
 
 import iht.config.WSHttp
-import iht.exceptions.NoRegistrationDetailsException
 import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
-import iht.utils.CommonHelper
-import play.api.Logger
 import play.api.libs.json.{JsValue, Json, Reads, Writes}
 import uk.gov.hmrc.http.cache.client.SessionCache
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
@@ -30,7 +27,6 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
-
 
 object SessionHttpCaching extends SessionCache with AppName with ServicesConfig {
   override lazy val http = WSHttp
