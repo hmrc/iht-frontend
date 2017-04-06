@@ -22,15 +22,11 @@ import iht.controllers.auth.IhtActions
 import iht.events.QuestionnaireEvent
 import iht.forms.QuestionnaireForms._
 import iht.models.QuestionnaireModel
-import iht.utils.{CommonHelper, LogHelper}
+import iht.utils.LogHelper
 import play.api.data.Form
 import play.api.mvc._
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-
-import scala.concurrent.Future
 
 trait QuestionnaireController extends FrontendController with IhtActions {
 
@@ -40,19 +36,26 @@ trait QuestionnaireController extends FrontendController with IhtActions {
 
   def callPageLoad: Call
 
-  private def getNinoOrException(request:Request[_]) =
-    CommonHelper.getOrException(request.session.get(Constants.NINO))
+  private def getNinoFromSession(request:Request[_]): String = request.session.get(Constants.NINO).fold("")(identity)
+
+  val redirectLocationOnMissingNino: Call
 
   def signOutAndLoadPage = UnauthorisedAction {
     implicit request =>
       Redirect(callPageLoad).withNewSession
-        .withSession(Constants.NINO -> getNinoOrException(request))
+        .withSession(Constants.NINO -> getNinoFromSession(request))
   }
 
   def onPageLoad = UnauthorisedAction {
-    implicit request =>
-      Ok(questionnaireView(questionnaire_form, request))
-        .withSession(request.session + (Constants.NINO -> getNinoOrException(request)))
+    implicit request =>{
+      val nino = getNinoFromSession(request)
+
+      nino match {
+        case "" => Redirect(redirectLocationOnMissingNino)
+        case _ => Ok(questionnaireView(questionnaire_form, request))
+          .withSession(request.session + (Constants.NINO -> nino))
+      }
+    }
   }
 
   def onSubmit = UnauthorisedAction {
@@ -72,7 +75,7 @@ trait QuestionnaireController extends FrontendController with IhtActions {
             },
             howCanYouImprove = value.howCanYouImprove.getOrElse(""),
             fullName = value.fullName.getOrElse(""),
-            nino = getNinoOrException(request)
+            nino = getNinoFromSession(request)
           )
           explicitAuditConnector.sendEvent(questionnaireEvent)
           Redirect(IhtProperties.linkGovUkIht)
