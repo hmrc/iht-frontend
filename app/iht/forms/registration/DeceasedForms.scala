@@ -37,7 +37,7 @@ object DeceasedForms {
       "domicile" -> of(radioOptionString("error.deceasedPermanentHome.selectLocation", FieldMappings.domicileMap))
     )
     (
-      (domicile) => DeceasedDetails(None, None, None, None, None, None, None, domicile, None)
+      (domicile) => DeceasedDetails(None, None, None, None, None, None, domicile, None, None)
     )
     (
       (deceasedDetails: DeceasedDetails) => Some(deceasedDetails.domicile)
@@ -55,7 +55,7 @@ object DeceasedForms {
       "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap)))
     (
       (firstName, lastName, nino, dateOfBirth, maritalStatus) =>
-        DeceasedDetails(Some(firstName), None, Some(lastName), Some(nino), None, None, Some(dateOfBirth), None, maritalStatus)
+        DeceasedDetails(Some(firstName), None, Some(lastName), Some(nino), None, Some(dateOfBirth), None, maritalStatus, None)
     )(
       (deceasedDetails: DeceasedDetails) => {
         Some((deceasedDetails.firstName.getOrElse(""),
@@ -72,7 +72,7 @@ object DeceasedForms {
       "isAddressInUk" -> yesNoQuestion("error.address.wasInUK.give")
     )
     (
-      (isAddressInUk) => DeceasedDetails(None, None, None, None, None, None, None, None, None, isAddressInUk)
+      (isAddressInUk) => DeceasedDetails(None, None, None, None, None, None, None, None, isAddressInUk)
     )
     (
       (deceasedDetails: DeceasedDetails) => Some(deceasedDetails.isAddressInUK)

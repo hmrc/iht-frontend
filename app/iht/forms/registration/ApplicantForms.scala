@@ -56,8 +56,8 @@ object ApplicantForms {
       "doesLiveInUK" -> yesNoQuestion("error.address.isInUK.give")
     )
     (
-      (phoneNo, doesLiveInUK) => ApplicantDetails(None, None, None, None, None, None, None, phoneNo, None, None,
-        doesLiveInUK)
+      (phoneNo, doesLiveInUK) => ApplicantDetails(None, None, None, None, None, None, phoneNo, None, None,
+        doesLiveInUK, None)
     )
     (
       (applicantDetails: ApplicantDetails) => Some((applicantDetails.phoneNo, applicantDetails.doesLiveInUK))
@@ -70,7 +70,7 @@ object ApplicantForms {
         "error.phoneNumber.giveUsing27CharactersOrLess", "error.phoneNumber.giveUsingOnlyLettersAndNumbers")
     )
     (
-      (phoneNo) => ApplicantDetails(None, None, None, None, None, None, None, phoneNo, None, None, None)
+      (phoneNo) => ApplicantDetails(None, None, None, None, None, None, phoneNo, None, None, None, None)
     )
     (
       (applicantDetails: ApplicantDetails) => Some(applicantDetails.phoneNo)

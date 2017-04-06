@@ -22,7 +22,7 @@
                                 <xsl:call-template name="table-row-short-vpad-border-top-black">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
-                                    <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'pdf.postSubmission.trusts.assetDescription')"/>
+                                    <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.heldInATrust.title')"/>
                                 </xsl:call-template>
                                 <xsl:call-template name="table-row-money-tall">
                                     <xsl:with-param name="label"

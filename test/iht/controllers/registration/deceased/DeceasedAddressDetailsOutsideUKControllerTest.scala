@@ -151,7 +151,7 @@ class DeceasedAddressDetailsOutsideUKControllerTest
       val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
 
       val newDeceasedDetails = DeceasedDetails(None, None, None, None,
-        Some(UkAddress("New Line 1", "New Line 2", None, None, "", "US")), None, None, None, None, None)
+        Some(UkAddress("New Line 1", "New Line 2", None, None, "", "US")), None, None, None, None)
 
       val form = deceasedAddressDetailsOutsideUKForm.fill(newDeceasedDetails)
 
@@ -176,7 +176,7 @@ class DeceasedAddressDetailsOutsideUKControllerTest
         Some(existingApplicantDetails), Some(existingDeceasedDetails))
 
       val newDeceasedDetails = DeceasedDetails(None, None, None, None,
-        Some(UkAddress("New Line 1", "New Line 2", None, None, "", "US")), None, None, None, None, None)
+        Some(UkAddress("New Line 1", "New Line 2", None, None, "", "US")), None, None, None, None)
 
       val form = deceasedAddressDetailsOutsideUKForm.fill(newDeceasedDetails)
 
@@ -194,13 +194,13 @@ class DeceasedAddressDetailsOutsideUKControllerTest
 
     "return true if the guard condition is met" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (deceasedDetails =
-        Some(DeceasedDetails(None, None, None, None, None, None, None, None, None, Some(false))))
+        Some(DeceasedDetails(None, None, None, None, None, None, None, None, Some(false))))
       controller.checkGuardCondition(rd, "") shouldBe true
     }
 
     "return false if the guard condition is not met" in {
       val rd = CommonBuilder.buildRegistrationDetails copy (deceasedDetails =
-        Some(DeceasedDetails(None, None, None, None, None, None, None, None, None, None)))
+        Some(DeceasedDetails(None, None, None, None, None, None, None, None, None)))
       controller.checkGuardCondition(rd, "") shouldBe false
     }
 

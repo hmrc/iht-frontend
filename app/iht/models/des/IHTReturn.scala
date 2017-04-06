@@ -17,11 +17,13 @@
 package models.des.iht_return
 
 
+import iht.constants.IhtProperties
 import iht.models.Joda._
 import org.joda.time.LocalDate
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
 import play.api.libs.json.{JsPath, Json, Reads}
+import iht.constants.Constants
 
 // Can reuse the address object from Event Registration
 import models.des.Address
@@ -332,10 +334,26 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
     freeEstate.flatMap(_.estateAssets).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
       (a, b) => a + b.assetTotalValue.fold(BigDecimal(0))(identity)))
 
-  def totalDebtsValue =
-    freeEstate.flatMap(_.estateLiabilities).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
+  def totalDebtsValue = {
+    val debtsValueWithoutMortgage = freeEstate.flatMap(_.estateLiabilities).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
       (a, b) => a + b.liabilityAmount.fold(BigDecimal(0))(identity)))
 
+    val mortgageValue: BigDecimal = freeEstate.flatMap(_.estateAssets).fold(BigDecimal(0)) {
+      assets => {
+
+        val setOfMatchedAssets: Set[Asset] = assets.filter(Constants.PropertyAssetCodes contains _.assetCode.getOrElse(""))
+
+        val matchedLiabilities: Set[Liability] = setOfMatchedAssets.flatMap(_.liabilities).flatten
+
+        val liabilitiesWithMortgage: Set[Liability] = matchedLiabilities.filter(
+                                                        _.liabilityType.getOrElse("") == Constants.MortgageLiabilityType)
+        liabilitiesWithMortgage.map(_.liabilityAmount.getOrElse(BigDecimal(0))).sum
+
+      }
+    }
+
+    debtsValueWithoutMortgage + mortgageValue
+  }
 
   def totalExemptionsValue =
     freeEstate.flatMap(_.estateExemptions).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
@@ -369,6 +387,22 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
           BigDecimal(0)
         }
       }))
+  }
+
+  def totalNetValue:BigDecimal = {
+    if(totalExemptionsValue > 0) {
+      (totalAssetsValue + totalGiftsValue) - totalExemptionsValue - totalDebtsValue
+    } else {
+      (totalAssetsValue + totalGiftsValue)
+    }
+  }
+
+  def currentThreshold: BigDecimal = {
+    val isTnrbApplicable = deceased.fold(false) {
+      x => x.transferOfNilRateBand.fold(false)(_=> true)
+    }
+
+    if (isTnrbApplicable) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
   }
 }
 
