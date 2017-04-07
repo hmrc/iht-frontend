@@ -292,7 +292,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       val result = declarationController.onSubmit()(createFakeRequest())
 
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReferenceNo).url))
+      redirectLocation(result) should be(Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url))
     }
   }
 }

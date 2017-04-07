@@ -124,7 +124,7 @@ trait DeclarationController extends ApplicationController {
           processApplication(CommonHelper.getNino(user))
         } else {
           Future.successful(Redirect(
-            iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)))
+            iht.controllers.home.routes.IhtHomeController.onPageLoad()))
         }
       }
     }
