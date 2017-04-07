@@ -54,7 +54,7 @@ trait ExemptionPartnerNameController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val boundForm = partnerExemptionNameForm.bindFromRequest
 
           boundForm.fold(

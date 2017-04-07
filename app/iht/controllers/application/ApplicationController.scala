@@ -39,7 +39,7 @@ trait ApplicationController extends FrontendController with IhtActions {
 
   def withApplicationDetails(body: RegistrationDetails => ApplicationDetails => Future[Result])
                             (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
-    withExistingRegistrationDetails { registrationDetails =>
+    withRegistrationDetails { registrationDetails =>
       val optionApplicationDetailsFuture = ihtConnector.getApplication(
         CommonHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
@@ -64,18 +64,9 @@ trait ApplicationController extends FrontendController with IhtActions {
 
   def withRegistrationDetails(body: RegistrationDetails => Future[Result])
                              (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
-    val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
-    futureOptionRD.flatMap(optionRD => {
-      val registrationDetails = optionRD.fold(throw new RuntimeException("Registration details couldn't be found"))(identity)
-      body(registrationDetails)
-    })
-  }
-
-  def withExistingRegistrationDetails(success: RegistrationDetails => Future[Result])
-                                     (implicit request: Request[_], user: AuthContext): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
       case None => Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
-      case Some(rd) => success(rd)
+      case Some(rd) => body(rd)
     }
   }
 }

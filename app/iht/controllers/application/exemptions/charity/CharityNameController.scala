@@ -63,7 +63,7 @@ trait CharityNameController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      withExistingRegistrationDetails { regDetails =>
+      withRegistrationDetails { regDetails =>
         Future.successful(Ok(iht.views.html.application.exemption.charity.charity_name(charityNameForm,
           regDetails,
           submitUrl,

@@ -69,7 +69,7 @@ trait CharityValueController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           Future.successful(Ok(iht.views.html.application.exemption.charity.assets_left_to_charity_value(assetsLeftToCharityValueForm,
             regDetails,
             submitUrl,

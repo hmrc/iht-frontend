@@ -43,7 +43,7 @@ trait PropertyDetailsOverviewController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { registrationDetails =>
+        withRegistrationDetails { registrationDetails =>
           val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
           Future.successful(Ok(iht.views.html.application.asset.properties.property_details_overview(deceasedName)))
         }
@@ -54,7 +54,7 @@ trait PropertyDetailsOverviewController extends EstateController {
     implicit user =>
       implicit request => {
 
-        withExistingRegistrationDetails { registrationDetails =>
+        withRegistrationDetails { registrationDetails =>
           val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
 
           for {

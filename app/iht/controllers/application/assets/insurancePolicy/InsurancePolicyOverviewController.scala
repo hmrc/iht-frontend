@@ -158,7 +158,7 @@ trait InsurancePolicyOverviewController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
             .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)

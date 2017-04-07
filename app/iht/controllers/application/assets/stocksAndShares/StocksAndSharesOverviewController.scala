@@ -39,7 +39,7 @@ trait StocksAndSharesOverviewController extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      withExistingRegistrationDetails { registrationDetails =>
+      withRegistrationDetails { registrationDetails =>
 
         for {
 

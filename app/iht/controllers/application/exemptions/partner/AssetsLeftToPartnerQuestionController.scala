@@ -48,7 +48,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
     implicit user =>
       implicit request =>
 
-        withExistingRegistrationDetails { registrationDetails =>
+        withRegistrationDetails { registrationDetails =>
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
@@ -79,7 +79,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val boundForm = assetsLeftToSpouseQuestionForm.bindFromRequest
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),

@@ -35,7 +35,7 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { registrationDetails =>
+        withRegistrationDetails { registrationDetails =>
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
           val seenGiftGuidance = toBoolean(cachingConnector.getSingleValueSync(ControllerHelper.GiftsGuidanceSeen)).getOrElse(false)
 

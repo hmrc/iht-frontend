@@ -40,7 +40,7 @@ trait HouseholdOverviewController extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { registrationDetails =>
+        withRegistrationDetails { registrationDetails =>
           for {
             applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
               CommonHelper.getNino(user),

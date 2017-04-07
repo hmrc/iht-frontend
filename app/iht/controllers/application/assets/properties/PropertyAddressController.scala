@@ -73,7 +73,7 @@ trait PropertyAddressController extends EstateController {
     implicit user =>
       implicit request => {
 
-        withExistingRegistrationDetails { registrationData =>
+        withRegistrationDetails { registrationData =>
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
@@ -147,7 +147,7 @@ trait PropertyAddressController extends EstateController {
                     propertyId: Option[String] = None)(
                      implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
 
-    withExistingRegistrationDetails { registrationData =>
+    withRegistrationDetails { registrationData =>
       val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
       val applicationDetailsFuture: Future[Option[ApplicationDetails]] =
         ihtConnector.getApplication(nino, ihtReference, registrationData.acknowledgmentReference)

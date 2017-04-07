@@ -33,7 +33,7 @@ trait TnrbSuccessController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { registrationDetails =>
+        withRegistrationDetails { registrationDetails =>
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),

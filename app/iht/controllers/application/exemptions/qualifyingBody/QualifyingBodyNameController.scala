@@ -69,7 +69,7 @@ trait QualifyingBodyNameController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           Future.successful(Ok(
             iht.views.html.application.exemption.qualifyingBody.qualifying_body_name(qualifyingBodyNameForm,
               regDetails,

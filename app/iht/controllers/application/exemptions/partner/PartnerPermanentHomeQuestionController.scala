@@ -50,7 +50,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
     implicit user =>
       implicit request =>
 
-        withExistingRegistrationDetails { registrationDetails =>
+        withRegistrationDetails { registrationDetails =>
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
@@ -81,7 +81,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
     implicit user =>
       implicit request => {
 
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val boundForm = partnerPermanentHomeQuestionForm.bindFromRequest
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),

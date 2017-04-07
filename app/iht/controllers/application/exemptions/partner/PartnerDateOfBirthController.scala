@@ -52,7 +52,7 @@ trait PartnerDateOfBirthController extends EstateController {
     implicit user =>
       implicit request => {
 
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val boundForm = spouseDateOfBirthForm.bindFromRequest
 
           boundForm.fold(

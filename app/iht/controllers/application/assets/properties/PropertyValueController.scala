@@ -58,7 +58,7 @@ trait PropertyValueController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
           Future.successful(Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm,
@@ -72,7 +72,7 @@ trait PropertyValueController extends EstateController {
   def onEditPageLoad(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
@@ -128,7 +128,7 @@ trait PropertyValueController extends EstateController {
                        cancelUrl: Call,
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
       val boundForm = propertyValueForm.bindFromRequest
@@ -152,7 +152,7 @@ trait PropertyValueController extends EstateController {
                             propertyId: Option[String] = None)(
                              implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
 
-    withExistingRegistrationDetails { registrationData =>
+    withRegistrationDetails { registrationData =>
       val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
       val applicationDetailsFuture: Future[Option[ApplicationDetails]] =
         ihtConnector.getApplication(nino, ihtReference, registrationData.acknowledgmentReference)
@@ -197,7 +197,7 @@ trait PropertyValueController extends EstateController {
   }
 
   private def doEditPageLoad(id: String, cancelUrl: Option[Call])(implicit request: Request[_], user: AuthContext) = {
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
       for {
         applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),

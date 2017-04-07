@@ -47,7 +47,7 @@ trait GiftsGivenAwayController extends ApplicationController {
 
         lazy val optionMessageKey = lastQuestionUrl.map(url => ControllerHelper.messageKeyForLastQuestionURL(url))
 
-        withExistingRegistrationDetails { rd =>
+        withRegistrationDetails { rd =>
           Future.successful(Ok(iht.views.html.application.gift.guidance.gifts_given_away(CommonHelper
             .getOrExceptionNoIHTRef(rd.ihtReference),
             lastQuestionUrl, optionMessageKey, optionMessageKey)
@@ -59,7 +59,7 @@ trait GiftsGivenAwayController extends ApplicationController {
   def onSubmit() = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),

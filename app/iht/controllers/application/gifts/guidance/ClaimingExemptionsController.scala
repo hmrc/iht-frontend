@@ -43,7 +43,7 @@ trait ClaimingExemptionsController extends ApplicationController {
 
         val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
 
-        withExistingRegistrationDetails { rd =>
+        withRegistrationDetails { rd =>
           Future.successful(Ok(iht.views.html.application.gift.guidance.claiming_exemptions(CommonHelper
             .getOrExceptionNoIHTRef(rd.ihtReference),
             lastQuestionUrl,

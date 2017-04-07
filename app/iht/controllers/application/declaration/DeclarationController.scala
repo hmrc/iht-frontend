@@ -61,7 +61,7 @@ trait DeclarationController extends ApplicationController {
     implicit user =>
       implicit request => {
 
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           for {
             appDetails <- getApplicationDetails(
               getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference)
@@ -81,14 +81,14 @@ trait DeclarationController extends ApplicationController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { rd =>
+        withRegistrationDetails { rd =>
           if (rd.coExecutors.nonEmpty) {
             val boundForm = ApplicationForms.declarationForm.bindFromRequest
             boundForm.fold(
               formWithErrors => {
                 LogHelper.logFormError(formWithErrors)
 
-                withExistingRegistrationDetails { regDetails =>
+                withRegistrationDetails { regDetails =>
                   for {
                     appDetails <- getApplicationDetails(
                       getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference)
@@ -126,7 +126,7 @@ trait DeclarationController extends ApplicationController {
     val errorHandler: PartialFunction[Throwable, Result] = {
       case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages))
     }
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference
       val acknowledgement = regDetails.acknowledgmentReference
 

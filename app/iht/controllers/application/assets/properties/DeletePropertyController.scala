@@ -37,7 +37,7 @@ trait DeletePropertyController extends ApplicationController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { registrationData =>
+        withRegistrationDetails { registrationData =>
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
@@ -65,7 +65,7 @@ trait DeletePropertyController extends ApplicationController {
   def onSubmit(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { registrationData =>
+        withRegistrationDetails { registrationData =>
           for {
             applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
               CommonHelper.getNino(user),

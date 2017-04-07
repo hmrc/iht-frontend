@@ -47,7 +47,7 @@ trait MortgageValueController extends ApplicationController {
     implicit user =>
       implicit request => {
 
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
@@ -100,7 +100,7 @@ trait MortgageValueController extends ApplicationController {
   def onSubmit(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)

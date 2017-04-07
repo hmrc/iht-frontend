@@ -81,7 +81,7 @@ trait GiftsOverviewController extends EstateController {
         cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
           routes.GiftsOverviewController.onPageLoad().toString())
 
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
             .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)

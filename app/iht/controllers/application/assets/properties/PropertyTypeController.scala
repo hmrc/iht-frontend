@@ -56,7 +56,7 @@ trait PropertyTypeController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
           Future.successful(Ok(iht.views.html.application.asset.properties.property_type(
             propertyTypeForm,
@@ -71,7 +71,7 @@ trait PropertyTypeController extends EstateController {
   def onEditPageLoad(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { registrationData =>
+        withRegistrationDetails { registrationData =>
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationData)
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
@@ -107,7 +107,7 @@ trait PropertyTypeController extends EstateController {
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
 
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
       val boundForm = propertyTypeForm.bindFromRequest
@@ -131,7 +131,7 @@ trait PropertyTypeController extends EstateController {
                     propertyId: Option[String] = None)(
                      implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
 
-    withExistingRegistrationDetails { registrationData =>
+    withRegistrationDetails { registrationData =>
       val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
       val applicationDetailsFuture: Future[Option[ApplicationDetails]] =
         ihtConnector.getApplication(nino, ihtReference, registrationData.acknowledgmentReference)

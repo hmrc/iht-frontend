@@ -107,7 +107,7 @@ trait EstateController extends ApplicationController {
                                  retrievePageToDisplay: (Form[A], RegistrationDetails) => Appendable,
                                  retrieveSectionDetails: ApplicationDetails => Option[A])
                                 (implicit request: Request[_], user: AuthContext) = {
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
@@ -134,7 +134,7 @@ trait EstateController extends ApplicationController {
                                                    submit: Call,
                                                    cancel: Call)(implicit request: Request[_], user: AuthContext) = {
 
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
@@ -180,7 +180,7 @@ trait EstateController extends ApplicationController {
                                                   formValidation: Option[Form[A] => Option[FormError]] = None,
                                                   id: Option[String] = None)
                                                  (implicit request: Request[_], user: AuthContext): Future[Result] = {
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       val boundFormBeforeValidation = form.bindFromRequest
 
       val boundForm = formValidation.flatMap(_ (boundFormBeforeValidation)) match {
@@ -289,7 +289,7 @@ trait EstateController extends ApplicationController {
                                                    submit: Call,
                                                    cancel: Call)(implicit request: Request[_], user: AuthContext): Future[Result] = {
 
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       val boundFormBeforeValidation = form.bindFromRequest
       val boundForm = formValidation.flatMap(_ (boundFormBeforeValidation)) match {
         case None => boundFormBeforeValidation

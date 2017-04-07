@@ -45,7 +45,7 @@ trait KindsOfGiftsController extends ApplicationController {
 
         lazy val optionMessageKey = lastQuestionUrl.map(url => ControllerHelper.messageKeyForLastQuestionURL(url))
 
-        withExistingRegistrationDetails { rd =>
+        withRegistrationDetails { rd =>
           Future.successful(Ok(iht.views.html.application.gift.guidance.kinds_of_gifts(CommonHelper
             .getOrExceptionNoIHTRef(rd.ihtReference),
             lastQuestionUrl, optionMessageKey, optionMessageKey)))

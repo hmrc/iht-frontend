@@ -81,7 +81,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
     implicit user => implicit request => {
 
       val nino = CommonHelper.getNino(user)
-      withExistingRegistrationDetails { regDetails =>
+      withRegistrationDetails { regDetails =>
         for {
           appDetails <- getApplicationDetails(ihtReference, regDetails.acknowledgmentReference)
           appDetailsWithKickOutUpdatedOpt <- ihtConnector.saveApplication(nino, ApplicationKickOutHelper.updateKickout(

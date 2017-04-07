@@ -47,7 +47,7 @@ trait PermanentHomeController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { registrationDetails =>
+        withRegistrationDetails { registrationDetails =>
           val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
@@ -77,7 +77,7 @@ trait PermanentHomeController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),

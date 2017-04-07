@@ -49,7 +49,7 @@ trait PropertiesOwnedQuestionController extends EstateController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),

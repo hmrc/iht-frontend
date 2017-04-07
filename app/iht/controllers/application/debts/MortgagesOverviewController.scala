@@ -53,7 +53,7 @@ trait MortgagesOverviewController extends ApplicationController {
   private def doPageLoad(onCancel: Call,
                          onCancelMessageKey: String,
                          isVisiblePropertyWarningAndLink: Boolean)(implicit user: AuthContext, request: Request[_]) = {
-    withExistingRegistrationDetails { regDetails =>
+    withRegistrationDetails { regDetails =>
       ihtConnector.getApplication(CommonHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference) flatMap {

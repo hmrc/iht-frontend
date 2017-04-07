@@ -50,7 +50,7 @@ trait KickoutController extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        withExistingRegistrationDetails { regDetails =>
+        withRegistrationDetails { regDetails =>
           Logger.info("Retrieving kickout reason")
           for {
             applicationDetailsOpt: Option[ApplicationDetails] <- ihtConnector.getApplication(CommonHelper.getNino(user),
@@ -100,10 +100,10 @@ trait KickoutController extends ApplicationController {
             }
           } { _ =>
             emptyCache()
-            withExistingRegistrationDetails { regDetails =>
+            withRegistrationDetails { regDetails =>
               updateMetrics(regDetails).flatMap(isUpdated => {
                 cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
-                withExistingRegistrationDetails { regDetails =>
+                withRegistrationDetails { regDetails =>
                   ihtConnector.deleteApplication(CommonHelper.getNino(user), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
                   if (!isUpdated) {
                     Logger.info("Application deleted after a kickout but unable to update metrics")
