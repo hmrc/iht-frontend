@@ -20,6 +20,7 @@ import iht.models.application.ApplicationDetails
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 case class AssetsAndGiftsSectionViewModel(behaveAsIncreasingTheEstateSection: Boolean,
                                           assetRow: OverviewRow,
@@ -71,13 +72,13 @@ object AssetsAndGiftsSectionViewModel {
 
     AssetsAndGiftsSectionViewModel(
       behaveAsIncreasingTheEstateSection = behaveAsIncreasingTheEstateSection,
-      assetRow = OverviewRow("assets",
+      assetRow = OverviewRow(EstateAssetsID,
         Messages("iht.estateReport.assets.inEstate"),
         DisplayValue(getAssetsDisplayValue(applicationDetails)),
         RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
         iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
         assetsScreenreaderText),
-      giftRow = OverviewRow("gifts",
+      giftRow = OverviewRow(EstateGiftsID,
         Messages("iht.estateReport.gifts.givenAway.title"),
         DisplayValue(getGiftsDisplayValue(applicationDetails)),
         RowCompletionStatus(applicationDetails.areAllGiftSectionsCompleted),

@@ -222,7 +222,7 @@ isFullWidth=false) {
 
 
 <div id="action-button" class="form-field form-field--submit">
-    <a id="continue-to-estate-overview-button" class="button" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference))'>
+    <a id="continue-to-estate-overview-button" class="button" href='@CommonHelper.addFragmentIdentifier(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)), Some(EstateDebtsID))'>
         @Messages("iht.estateReport.returnToEstateOverview")
     </a>
 </div>

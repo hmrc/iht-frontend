@@ -26,6 +26,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper
 
 class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -50,7 +51,8 @@ class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property]
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty"),
+      TestHelper.AssetsPropertiesPropertyKindID
     )
   )
 
@@ -60,7 +62,7 @@ class PropertyTypeViewTest extends SubmittableApplicationPageBehaviour[Property]
 
   override def formToView: Form[Property] => Appendable =
     form =>
-      property_type(form, Some(CommonBuilder.DefaultCall2), CommonBuilder.DefaultCall1, deceasedName)
+      property_type(form, CommonBuilder.DefaultCall2, CommonBuilder.DefaultCall1, deceasedName)
 
   "Property Type View" must {
     behave like applicationPageWithErrorSummaryBox()

@@ -26,6 +26,8 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.testhelpers.TestHelper._
+import iht.utils.CommonHelper._
 
 /**
  * Created by Vineet Tyagi on 29/07/16.
@@ -98,7 +100,7 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
 
       val result = partnerPermanentHomeQuestionController.onSubmit(request)
       status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.PartnerOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerHomeID)))
     }
 
     "display validation message when incomplete form is submitted" in {

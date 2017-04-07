@@ -14,6 +14,9 @@
 * limitations under the License.
 *@
 
+@import iht.utils.CommonHelper._
+@import iht.constants.IhtProperties._
+
 @(ihtReference: String,
 backToLastQuestionUrl: Option[String] = None,
 backToLastQuestionMessageKey: Option[String] = None,
@@ -33,7 +36,7 @@ backToLastQuestionMessageKeyAccessibility: Option[String] = None
         </a>
     </p>
     <p>
-        <a id='go-to-estate-overview' href="@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)">
+        <a id='go-to-estate-overview' href="@addFragmentIdentifier(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), Some(EstateGiftsID))">
             @Messages("site.link.go.to.estateOverview")
         </a>
     </p>

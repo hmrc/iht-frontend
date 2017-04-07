@@ -21,6 +21,7 @@
 @import iht.models.application.assets.PrivatePension
 @import iht.utils.CommonHelper
 @import iht.constants.Constants
+@import iht.constants.IhtProperties._
 
 @(pensionsChangedQuestionForm: Form[PrivatePension],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -55,7 +56,11 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     }
 
 
-@ihtHelpers.custom.return_link(Messages("iht.estateReport.assets.pensions.returnToPrivatePensions"), Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()))
+@ihtHelpers.custom.return_link(
+    Messages("iht.estateReport.assets.pensions.returnToPrivatePensions"),
+    Some(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()),
+    AssetsPensionChangesID
+)
 
 
 }

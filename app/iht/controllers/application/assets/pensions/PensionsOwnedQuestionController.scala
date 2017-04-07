@@ -26,13 +26,15 @@ import iht.models.application.assets._
 import iht.views.html.application.asset.pensions.pensions_owned_question
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper
+import iht.constants.IhtProperties._
 
 object PensionsOwnedQuestionController extends PensionsOwnedQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
 }
 
 trait PensionsOwnedQuestionController extends EstateController {
-  val submitUrl = iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionsOwnedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

@@ -32,6 +32,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
@@ -48,7 +49,7 @@ trait PropertyAddressController extends EstateController {
   def cachingConnector : CachingConnector
   def editCancelUrl(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
   def editSubmitUrl(id: String) = routes.PropertyAddressController.onEditSubmit(id)
-  def locationAfterSuccessfulSave(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyAddressID))
   val cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
   val submitUrl = routes.PropertyAddressController.onSubmit()
   val cancelLabel = Messages("iht.estateReport.assets.properties.returnToAddAProperty")

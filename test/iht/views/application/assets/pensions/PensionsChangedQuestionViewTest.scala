@@ -29,6 +29,7 @@ import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.assets.pensions.routes
 import iht.views.application.CancelComponent
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper._
 
 class PensionsChangedQuestionViewTest extends YesNoQuestionViewBehaviour[PrivatePension] {
 
@@ -49,7 +50,9 @@ class PensionsChangedQuestionViewTest extends YesNoQuestionViewBehaviour[Private
     form => pensions_changed_question(form, regDetails)
 
   override def cancelComponent = Some(CancelComponent(routes.PensionsOverviewController.onPageLoad(),
-    messagesApi("iht.estateReport.assets.pensions.returnToPrivatePensions")))
+    messagesApi("iht.estateReport.assets.pensions.returnToPrivatePensions"),
+    AssetsPensionChangesID
+  ))
 
   "Pensions Changed Question View" must {
     behave like yesNoQuestion

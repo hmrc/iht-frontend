@@ -25,6 +25,7 @@ import org.joda.time.LocalDate
 import org.jsoup.nodes.Element
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Call
+import iht.testhelpers.TestHelper._
 
 class EstateOverviewViewTest extends ViewTestHelper{
 
@@ -195,9 +196,9 @@ class EstateOverviewViewTest extends ViewTestHelper{
       val view = estate_overview(estateOverviewViewModel)
       val doc = asDocument(view)
 
-      assertRenderedById(doc, "debts-row")
-      assertRenderedById(doc, "debts-value")
-      assertEqualsValue(doc, "div#debts-value", "£500.00")
+      assertRenderedById(doc, EstateDebtsID + "-row")
+      assertRenderedById(doc, EstateDebtsID + "-value")
+      assertEqualsValue(doc, "div#" + EstateDebtsID + "-value", "£500.00")
 
     }
 
@@ -216,9 +217,9 @@ class EstateOverviewViewTest extends ViewTestHelper{
       val view = estate_overview(estateOverviewViewModel)
       val doc = asDocument(view)
 
-      assertRenderedById(doc, "debts-row")
-      assertRenderedById(doc, "debts-value")
-      assertEqualsValue(doc, "div#debts-value", "-£500.00")
+      assertRenderedById(doc, EstateDebtsID + "-row")
+      assertRenderedById(doc, EstateDebtsID + "-value")
+      assertEqualsValue(doc, "div#" + EstateDebtsID + "-value", "-£500.00")
 
     }
 

@@ -24,6 +24,7 @@ import iht.views.html.application.asset.trusts.trusts_value
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper._
 
 class TrustsValueViewTest extends ValueViewBehaviour[HeldInTrust] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -41,7 +42,8 @@ class TrustsValueViewTest extends ValueViewBehaviour[HeldInTrust] {
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),
-      messagesApi("site.link.return.trusts", deceasedName)
+      messagesApi("site.link.return.trusts", deceasedName),
+      AssetsTrustsValueID
     )
   )
 

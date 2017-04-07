@@ -26,6 +26,8 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.testhelpers.TestHelper._
+import iht.utils.CommonHelper
 
 class TrustsValueControllerTest extends ApplicationControllerTest{
 
@@ -92,7 +94,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
 
       val result = trustsValueController.onSubmit(request)
       status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.TrustsOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.TrustsOverviewController.onPageLoad.url, AssetsTrustsValueID)))
     }
 
     "save the trusts value and go to held in trust overview page on submit where there is no other assets present" in {
@@ -110,7 +112,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
 
       val result = trustsValueController.onSubmit(request)
       status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.TrustsOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.TrustsOverviewController.onPageLoad.url, AssetsTrustsValueID)))
     }
 
     "save application and go to kick out page on submit  when user enters value more than £1 M" in {

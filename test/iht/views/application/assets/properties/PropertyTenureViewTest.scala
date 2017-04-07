@@ -26,6 +26,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper
 
 class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Property] {
   override def guidance = guidance(
@@ -45,7 +46,8 @@ class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Propert
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty"),
+      TestHelper.AssetsPropertiesTenureID
     )
   )
 

@@ -50,9 +50,9 @@ isFullWidth=false
 
         @{
             generic_overview_table_section(
-                    "vehicles-deceased-owned-section",
+                    "deceased-own-vehicles-section",
                     vehicles.flatMap(_.isOwned),
-                    generic_overview_table_heading_item("deceased-own-heading",
+                    generic_overview_table_heading_item(AssetsVehiclesOwnID,
                         Messages("iht.estateReport.assets.vehiclesOwned", deceasedName),
                         Messages("iht.estateReport.assets.vehiclesOwned", Messages("iht.the.deceased")),
                         Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
@@ -61,7 +61,7 @@ isFullWidth=false
                             Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue")),
                         vehicles.flatMap(_.isOwned).isEmpty
                         ),
-                        generic_overview_table_item(id = "deceased-own-question",
+                        generic_overview_table_item(id = AssetsVehiclesOwnID,
                             questionText = Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.ownName.question",
                                                                 Messages("iht.the.deceased")),
@@ -83,9 +83,9 @@ isFullWidth=false
         }
         @{
             generic_overview_table_section(
-                    "vehicles-joint-owned-section",
+                    "deceased-shared-vehicles-section",
                     vehicles.flatMap(_.isOwnedShare),
-                    generic_overview_table_heading_item("deceased-shared-heading",
+                    generic_overview_table_heading_item(AssetsVehiclesSharedID,
                         Messages("page.iht.application.assets.vehicles.overview.joint.title", deceasedName),
                         Messages("page.iht.application.assets.vehicles.overview.joint.title", Messages("iht.the.deceased")),
                         Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),
@@ -95,7 +95,7 @@ isFullWidth=false
                             Messages("page.iht.application.assets.vehicles.jointly.owned.screenreader.link.noValue")),
                         vehicles.flatMap(_.isOwnedShare).isEmpty
                         ),
-                        generic_overview_table_item(id = "deceased-shared-question",
+                        generic_overview_table_item(id = AssetsVehiclesSharedID,
                             questionText = Messages("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.jointly.owned.question",
                                                                 Messages("iht.the.deceased")),
@@ -104,7 +104,7 @@ isFullWidth=false
                             link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),
                             linkScreenReader = Messages("page.iht.application.assets.vehicles.jointly.owned.screenreader.link.change")
                         ),
-                        generic_overview_table_item(id = "deceased-share-value",
+                        generic_overview_table_item(id = "deceased-shared-value",
                             questionText = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned"),
                             questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned"),
                             questionCategory= "change",

@@ -27,7 +27,7 @@ import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+import iht.testhelpers.TestHelper._
 
 import iht.controllers.application.debts.routes
 /**
@@ -60,7 +60,8 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[Mortgage]{
   override def cancelComponent = Some(
     CancelComponent(
       routes.MortgagesOverviewController.onPageLoad,
-      messagesApi("site.link.return.mortgage.overview")
+      messagesApi("site.link.return.mortgage.overview"),
+      DebtsMortgagesPropertyID + "1"
     )
   )
 

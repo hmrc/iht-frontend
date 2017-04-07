@@ -30,6 +30,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 object QualifyingBodyNameController extends QualifyingBodyNameController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -37,11 +38,11 @@ object QualifyingBodyNameController extends QualifyingBodyNameController with Ih
 
 trait QualifyingBodyNameController extends EstateController {
 
-  val submitUrl = routes.QualifyingBodyNameController.onSubmit()
+  val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onSubmit(), Some(ExemptionsOtherNameID))
   val cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
-  private def editSubmitUrl(id: String) = routes.QualifyingBodyNameController.onEditSubmit(id)
+  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onEditSubmit(id), Some(ExemptionsOtherNameID))
 
   // TODO: Update the redirect location during integration
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(

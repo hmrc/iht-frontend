@@ -24,6 +24,7 @@ import iht.views.html.application.exemption.charity.assets_left_to_charity_value
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper._
 
 class CharityValueViewTest extends ValueViewBehaviour[Charity] {
 
@@ -43,7 +44,8 @@ class CharityValueViewTest extends ValueViewBehaviour[Charity] {
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.exemptions.charities.returnToAddACharity")
+      messagesApi("iht.estateReport.exemptions.charities.returnToAddACharity"),
+      ExemptionsCharitiesValueID
     )
   )
 
