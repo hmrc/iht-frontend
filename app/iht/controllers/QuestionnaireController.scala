@@ -41,7 +41,7 @@ trait QuestionnaireController extends FrontendController with IhtActions {
   def signOutAndLoadPage = UnauthorisedAction {
     implicit request =>
       Redirect(callPageLoad).withNewSession
-        .withSession(Constants.NINO -> CommonHelper.getNinoFromSession(request))
+        .withSession(Constants.NINO -> CommonHelper.getNinoFromSession(request).fold("")(identity))
   }
 
   def onPageLoad = UnauthorisedAction {
@@ -49,9 +49,9 @@ trait QuestionnaireController extends FrontendController with IhtActions {
       val nino = CommonHelper.getNinoFromSession(request)
 
       nino match {
-        case "" => Redirect(redirectLocationOnMissingNino)
+        case None => Redirect(redirectLocationOnMissingNino)
         case _ => Ok(questionnaireView(questionnaire_form, request))
-          .withSession(request.session + (Constants.NINO -> nino))
+          .withSession(request.session + (Constants.NINO -> nino.fold("")(identity)))
       }
     }
   }
@@ -73,7 +73,7 @@ trait QuestionnaireController extends FrontendController with IhtActions {
             },
             howCanYouImprove = value.howCanYouImprove.getOrElse(""),
             fullName = value.fullName.getOrElse(""),
-            nino = CommonHelper.getNinoFromSession(request)
+            nino = CommonHelper.getNinoFromSession(request).fold("")(identity)
           )
           explicitAuditConnector.sendEvent(questionnaireEvent)
           Redirect(IhtProperties.linkGovUkIht)

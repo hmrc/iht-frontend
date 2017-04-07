@@ -629,12 +629,12 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     "return the nino when it is present in the session" in {
       val nino = "CSXXXXX"
       val request = FakeRequest().withSession(Constants.NINO -> nino)
-      CommonHelper.getNinoFromSession(request) shouldBe nino
+      CommonHelper.getNinoFromSession(request) shouldBe Some(nino)
     }
 
     "return the empty string when nino is not present in the session" in {
       val request = FakeRequest().withSession()
-      CommonHelper.getNinoFromSession(request) shouldBe ""
+      CommonHelper.getNinoFromSession(request) shouldBe empty
     }
   }
 }

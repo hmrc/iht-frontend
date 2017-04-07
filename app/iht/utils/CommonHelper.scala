@@ -503,5 +503,5 @@ object CommonHelper {
     }
   }
 
-  def getNinoFromSession(request:Request[_]): String = request.session.get(Constants.NINO).fold("")(identity)
+  def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(Constants.NINO)
 }
