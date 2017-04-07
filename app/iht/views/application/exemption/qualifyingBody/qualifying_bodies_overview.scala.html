@@ -20,6 +20,7 @@
 @import ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
+@import iht.constants.IhtProperties._
 
 @(qualifyingBodies: Seq[QualifyingBody],
 registrationDetails: RegistrationDetails,
@@ -39,7 +40,7 @@ headingName = deceasedName
 
     <section id="qualifyingBody-table">
         <ul class="tabular-data tabular-data--list">
-        @generic_overview_table_item(id = "qualifying-bodies",
+        @generic_overview_table_item(id = ExemptionsOtherAssetsID,
             questionText = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
                                     CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             questionScreenReaderText= Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
@@ -68,7 +69,7 @@ headingName = deceasedName
                 <!--@* TODO Change link to correct edit link when implemented
                 <a href='@iht.controllers.application.exemptions.routes.AddQualifyingBodyController.onEditPageLoad(element.id.getOrElse("")).url' *@-->
                 <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDeleteConfirmController.onPageLoad(element.id.getOrElse("")).url"
-                id="delete-@element.id.getOrElse("")">
+                id="@ExemptionsOtherDeleteID@element.id.getOrElse("")">
                 <span aria-hidden="true">@Messages("iht.delete")</span>
                 <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.delete.screenReader", element.name match {
                         case Some(name) => {name}
@@ -78,7 +79,7 @@ headingName = deceasedName
             </div>
             <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
                <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(element.id.getOrElse("")).url"
-               id="edit-@element.id.getOrElse("")">
+               id="@ExemptionsOtherChangeID@element.id.getOrElse("")">
                 <span aria-hidden="true">@Messages("iht.change")</span>
                 <span class="visually-hidden">@Messages("page.iht.application.qualifyingbodies.edit.screenReader", element.name match {
                         case Some(name) => {name}
@@ -100,9 +101,9 @@ headingName = deceasedName
 </p>
 
 
-<p id="add-qualifyingBody-link">
+<p>
     <!-- TODO: Change route to add a qualifying body -->
-    <a id="add-qualifyingBody" href='@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url'>
+    <a id="@ExemptionsOtherAddID" href='@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url'>
         @{
             if(qualifyingBodies.isEmpty){
                 Messages("iht.estateReport.assets.qualifyingBodyAdd")
@@ -116,7 +117,9 @@ headingName = deceasedName
 <p>
     @registrationDetails.deceasedDetails.map{ dd=>
     @ihtHelpers.custom.return_link(Messages("site.link.return.exemptions"),
-    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()))
+    Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
+    ExemptionsOtherID
+    )
     }
 </p>
 }

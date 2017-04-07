@@ -27,6 +27,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper
+import iht.utils.CommonHelper
 
 class MoneyDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
@@ -43,7 +45,7 @@ class MoneyDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour[Share
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.money")
-  override def returnLinkUrl = MoneyOverviewController.onPageLoad().url
+  override def returnLinkUrl = CommonHelper.addFragmentIdentifierToUrl(MoneyOverviewController.onPageLoad().url, TestHelper.AssetsMoneyOwnID)
   override def formTarget =Some(routes.MoneyDeceasedOwnController.onSubmit)
 
   "Money Deceased Own view" must {

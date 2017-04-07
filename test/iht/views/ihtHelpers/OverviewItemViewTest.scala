@@ -20,12 +20,13 @@ import iht.viewmodels.application.overview._
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.overview_item
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper._
 
 class OverviewItemViewTest extends ViewTestHelper {
 
   "OverviewItem helper" must {
     "have no message keys in html" in {
-      val overviewRow = OverviewRow("assets",
+      val overviewRow = OverviewRow(EstateAssetsID,
         messagesApi("iht.estateReport.assets.inEstate"),
         "",
         NotStarted,
@@ -37,7 +38,7 @@ class OverviewItemViewTest extends ViewTestHelper {
     }
 
     "show the correct label and row id" in {
-      val overviewRow = OverviewRow("assets",
+      val overviewRow = OverviewRow(EstateAssetsID,
         messagesApi("iht.estateReport.assets.inEstate"),
         "",
         NotStarted,
@@ -46,12 +47,12 @@ class OverviewItemViewTest extends ViewTestHelper {
 
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
-      assertEqualsValue(doc, "div#assets-caption span", messagesApi("iht.estateReport.assets.inEstate"))
-      assertRenderedById(doc, "assets-row")
+      assertEqualsValue(doc, s"#" + EstateAssetsID + "-caption span", messagesApi("iht.estateReport.assets.inEstate"))
+      assertRenderedById(doc, EstateAssetsID + "-row")
     }
 
     "show the correct value" in {
-      val overviewRow = OverviewRow("assets",
+      val overviewRow = OverviewRow(EstateAssetsID,
         messagesApi("iht.estateReport.assets.inEstate"),
         "£2,000",
         NotStarted,
@@ -60,11 +61,11 @@ class OverviewItemViewTest extends ViewTestHelper {
 
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
-      assertEqualsValue(doc, "div#assets-value", "£2,000")
+      assertEqualsValue(doc, s"#" + EstateAssetsID + "-value", "£2,000")
     }
 
     "show the link with correct text and status label where Item has not been started" in {
-      val overviewRow = OverviewRow("assets",
+      val overviewRow = OverviewRow(EstateAssetsID,
         messagesApi("iht.estateReport.assets.inEstate"),
         "£2,000",
         NotStarted,
@@ -74,15 +75,15 @@ class OverviewItemViewTest extends ViewTestHelper {
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
 
-      val link = doc.getElementById("assets-link-text")
+      val link = doc.getElementById(EstateAssetsID)
       link.text shouldBe messagesApi("iht.start")
       link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
-      assertRenderedById(doc, "assets-status")
+      assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.notStarted"))
     }
 
     "show the link with correct text and status label where Item has been started but not completed" in {
-      val overviewRow = OverviewRow("assets",
+      val overviewRow = OverviewRow(EstateAssetsID,
         messagesApi("iht.estateReport.assets.inEstate"),
         "£2,000",
         PartiallyComplete,
@@ -92,15 +93,15 @@ class OverviewItemViewTest extends ViewTestHelper {
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
 
-      val link = doc.getElementById("assets-link-text")
+      val link = doc.getElementById(EstateAssetsID)
       link.text shouldBe messagesApi("iht.giveMoreDetails")
       link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
-      assertRenderedById(doc, "assets-status")
+      assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.inComplete"))
     }
 
     "show the link with correct text and status label where Item has been completed" in {
-      val overviewRow = OverviewRow("assets",
+      val overviewRow = OverviewRow(EstateAssetsID,
         messagesApi("iht.estateReport.assets.inEstate"),
         "£2,000",
         Complete,
@@ -110,10 +111,10 @@ class OverviewItemViewTest extends ViewTestHelper {
       val view = overview_item(overviewRow)
       val doc = asDocument(view)
 
-      val link = doc.getElementById("assets-link-text")
+      val link = doc.getElementById(EstateAssetsID)
       link.text shouldBe messagesApi("iht.viewOrChange")
       link.attr("href") shouldBe iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad().url
-      assertRenderedById(doc, "assets-status")
+      assertRenderedById(doc, EstateAssetsID + "-status")
       assertContainsText(doc, messagesApi("iht.complete"))
     }
   }

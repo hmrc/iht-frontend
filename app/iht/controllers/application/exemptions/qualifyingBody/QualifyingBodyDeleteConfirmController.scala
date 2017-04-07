@@ -25,6 +25,7 @@ import play.api.Logger
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 object QualifyingBodyDeleteConfirmController extends QualifyingBodyDeleteConfirmController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -39,7 +40,7 @@ trait QualifyingBodyDeleteConfirmController extends EstateController {
             Logger.warn("QualifyingBody with id = " + id + " not found during onLoad of delete confirmation")
             InternalServerError("QualifyingBody with id = " + id + " not found during onLoad of delete confirmation")
           } { c =>
-            Ok(qualifying_body_delete_confirm(c.name.getOrElse(""), routes.QualifyingBodyDeleteConfirmController.onSubmit(id)))
+            Ok(qualifying_body_delete_confirm(c, routes.QualifyingBodyDeleteConfirmController.onSubmit(id)))
           })
         }
       }
@@ -63,7 +64,7 @@ trait QualifyingBodyDeleteConfirmController extends EstateController {
 
             ihtConnector.saveApplication(nino, newAppDetails, rd.acknowledgmentReference).map {
               case Some(_) =>
-                Redirect(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad())
+                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAddID)))
               case _ => {
                 Logger.warn("Save of app details fails with id = " + id
                   + " during save of app details during onSubmit of delete confirmation")

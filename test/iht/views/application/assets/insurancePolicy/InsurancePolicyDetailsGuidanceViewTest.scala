@@ -22,6 +22,7 @@ import iht.views.application.{ApplicationPageBehaviour, CancelComponent, Guidanc
 import play.api.mvc.Call
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_final_guidance
 import play.api.i18n.Messages.Implicits.applicationMessages
+import iht.testhelpers.TestHelper._
 
 class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
 
@@ -40,8 +41,11 @@ class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
 
   override def formTarget: Option[Call] = None
 
-  override def cancelComponent: Option[CancelComponent] = Some(CancelComponent(routes.InsurancePolicyOverviewController.onPageLoad(),
-    messagesApi("site.link.return.insurance.policies")))
+  override def cancelComponent: Option[CancelComponent] = Some(CancelComponent(
+    routes.InsurancePolicyOverviewController.onPageLoad(),
+    messagesApi("site.link.return.insurance.policies"),
+    InsurancePlacedInTrustYesNoID
+  ))
 
   "InsurancePolicyDetailsGuidanceView" must {
 

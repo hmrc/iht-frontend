@@ -26,6 +26,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper
 
 class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Properties] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -47,7 +48,8 @@ class PropertiesOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[Propert
   override def cancelComponent = Some(
     CancelComponent(
       iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad(),
-      messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
+      messagesApi("page.iht.application.return.to.assetsOf", deceasedName),
+      TestHelper.AppSectionPropertiesID
     )
   )
 

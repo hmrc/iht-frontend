@@ -25,6 +25,8 @@ import iht.models.application.assets._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper._
+import iht.constants.IhtProperties._
 
 object InsurancePolicyDetailsPayingOtherController extends InsurancePolicyDetailsPayingOtherController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -64,14 +66,16 @@ trait InsurancePolicyDetailsPayingOtherController extends EstateController {
       }
 
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyPayingOtherForm,
-        insurance_policy_details_paying_other.apply, updateApplicationDetails,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](
+        insurancePolicyPayingOtherForm,
+        insurance_policy_details_paying_other.apply,
+        updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
           .fold(insurancePoliciesRedirectLocation)(isInsurancePremiumsPayedForSomeoneElse=>
             if(isInsurancePremiumsPayedForSomeoneElse) {
               iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad()
             } else {
-              insurancePoliciesRedirectLocation
+              addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePaidForSomeoneElseYesNoID))
             }
           )
       )

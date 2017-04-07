@@ -495,7 +495,7 @@ object CommonHelper {
     }
   }
 
-  def addFragmentIdentifierToUrl(url: String, identifier: String) = {
+  def addFragmentIdentifierToUrl(url: String, identifier: String): String = {
     if (identifier.nonEmpty) {
       url + "#" + identifier
     } else {

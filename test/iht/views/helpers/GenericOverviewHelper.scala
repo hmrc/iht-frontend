@@ -26,19 +26,19 @@ object GenericOverviewHelper extends ViewTestHelper {
 
 
   def headerQuestionShouldBeUnanswered(doc: Document, elementId: String, message: String, url: String) = {
-    val heading = doc.getElementById(elementId).getElementsByTag("h2").first
+    val heading = doc.getElementById(s"$elementId-section").getElementsByTag("h2").first
     heading.text shouldBe message
 
-    val link = doc.getElementById(s"$elementId-link")
+    val link = doc.getElementById(elementId)
     messagesShouldBePresent(link.text, messagesApi("site.link.giveAnswer"))
     link.attr("href") shouldBe url
   }
 
   def headerShouldBeAnswered(doc: Document, elementId: String, messageKey: String) = {
-    val heading = doc.getElementById(elementId).getElementsByTag("h2").first
+    val heading = doc.getElementById(s"$elementId-heading").getElementsByTag("h2").first
     heading.text shouldBe messagesApi(messageKey)
 
-    assertNotRenderedById(doc, s"$elementId-link")
+    assertNotRenderedByCssSelector(doc, s"#$elementId-heading #$elementId")
   }
 
   def rowShouldBeAnswered(doc: Document, elementId: String, message: String, value: String, linkMessageKey: String, url: String) = {
@@ -47,7 +47,7 @@ object GenericOverviewHelper extends ViewTestHelper {
     divs.get(0).text shouldBe message
     divs.get(1).text shouldBe value
 
-    val link = doc.getElementById(s"$elementId-link")
+    val link = li.getElementsByTag("a").get(0)
     messagesShouldBePresent(link.text, messagesApi(linkMessageKey))
     link.attr("href") shouldBe url
 
@@ -59,7 +59,7 @@ object GenericOverviewHelper extends ViewTestHelper {
     divs.get(0).text shouldBe messagesApi(messageKey)
     divs.get(1).text shouldBe ""
 
-    val link = doc.getElementById(s"$elementId-link")
+    val link = li.getElementsByTag("a").get(0)
     messagesShouldBePresent(link.text, messagesApi(linkMessageKey))
     link.attr("href") shouldBe url
 

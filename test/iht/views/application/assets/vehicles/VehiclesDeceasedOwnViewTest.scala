@@ -26,6 +26,7 @@ import iht.views.html.application.asset.vehicles.vehicles_deceased_own
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper._
 
 class VehiclesDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
@@ -43,6 +44,7 @@ class VehiclesDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour[Sh
   override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = messagesApi("site.link.return.vehicles")
   override def returnLinkUrl = VehiclesOverviewController.onPageLoad().url
+  override def linkHash = AssetsVehiclesOwnID
   override def formTarget =Some(routes.VehiclesDeceasedOwnController.onSubmit)
 
   "Vehicles Deceased Own view" must {

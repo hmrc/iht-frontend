@@ -307,6 +307,10 @@
 
 
 
-        @ihtHelpers.custom.return_link_button(Some(Messages("iht.estateReport.returnToEstateOverview")), Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)))
+        @ihtHelpers.custom.return_link_button(
+            Some(Messages("iht.estateReport.returnToEstateOverview")),
+            Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)),
+            EstateIncreasingID
+        )
 
     }

@@ -22,6 +22,7 @@
 @import iht.utils._
 @import iht.constants.Constants
 @import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @(vehicles: Form[ShareableBasicEstateElement],
 registrationDetails: RegistrationDetails
@@ -56,6 +57,10 @@ registrationDetails: RegistrationDetails
     <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
 </div>
 }
-    @ihtHelpers.custom.return_link(Messages("site.link.return.vehicles"), Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(
+        Messages("site.link.return.vehicles"),
+        Some(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad()),
+        AssetsVehiclesOwnID
+    )
 
 }

@@ -24,7 +24,17 @@
 @import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
+@import iht.constants.IhtProperties._
 @(charity:Option[Charity]=None)(implicit request:Request[_], messages: Messages)
+
+@returnId() = @{
+    defining(charity.flatMap(_.id))  { charityId =>
+        charityId match {
+            case Some(id) => ExemptionsCharitiesChangeID + id
+            case None => ExemptionsCharitiesAddID
+        }
+    }
+}
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.overview.charity.detailsOverview.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.overview.charity.detailsOverview.browserTitle")),
@@ -37,7 +47,7 @@ isFullWidth = false) {
                 @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.charityName.title"),
                     name = "charity.detailsOverview.name",
-                    id = "charity-name",
+                    id = ExemptionsCharitiesNameID,
                     value = ihtHelpers.custom.name(charityName).toString(),
                     valueScreenReader = "",
                     link = charityId match {
@@ -64,7 +74,7 @@ isFullWidth = false) {
                 @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.registeredCharityNo"),
                     name = "charity.detailsOverview.number",
-                    id = "charity-number",
+                    id = ExemptionsCharitiesNumberID,
                     value = charityNumber,
                     valueScreenReader = "",
                     link = charityId match {
@@ -90,7 +100,7 @@ isFullWidth = false) {
                 @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived"),
                     name = "charity.detailsOverview.value",
-                    id = "charity-value",
+                    id = ExemptionsCharitiesValueID,
                     value = charityValue match {
                             case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
                             case None => {""}
@@ -119,7 +129,10 @@ isFullWidth = false) {
 
 </section>
 <p>
-@ihtHelpers.custom.return_link(label = Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
-    link = Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(
+        Messages("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
+        Some(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad()),
+        returnId.toString
+    )
 </p>
 }

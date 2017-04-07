@@ -27,6 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper._
 
 class HouseholdJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
@@ -44,6 +45,7 @@ class HouseholdJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[S
   override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
+  override def linkHash = AssetsHouseholdSharedID
   override def formTarget =Some(routes.HouseholdJointlyOwnedController.onSubmit)
 
   "Household Jointly Owned view" must {

@@ -28,6 +28,8 @@ import iht.views.html.application.asset.money.money_jointly_owned
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Cookie
+import iht.utils.CommonHelper
+import iht.constants.IhtProperties._
 
 object MoneyJointlyOwnedController extends MoneyJointlyOwnedController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -35,7 +37,7 @@ object MoneyJointlyOwnedController extends MoneyJointlyOwnedController with IhtC
 
 trait MoneyJointlyOwnedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyJointlyOwned)
-  val submitUrl = iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneySharedID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>

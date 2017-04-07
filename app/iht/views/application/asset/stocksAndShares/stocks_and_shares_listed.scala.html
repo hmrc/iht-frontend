@@ -21,6 +21,7 @@
 
 @import iht.utils._
 @import iht.constants.Constants
+@import iht.constants.IhtProperties._
 
 @(stockAndSharesListed: Form[StockAndShare],
 registrationDetails: RegistrationDetails
@@ -62,6 +63,10 @@ registrationDetails: RegistrationDetails
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 }
-    @ihtHelpers.custom.return_link(Messages("site.link.return.stocksAndShares"), Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(
+        Messages("site.link.return.stocksAndShares"),
+        Some(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()),
+        AssetsStocksListedID
+    )
 
 }

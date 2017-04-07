@@ -47,9 +47,9 @@ isFullWidth=false
 
     @{
         generic_overview_table_section(
-        "money-deceased-owned-section",
+        "deceased-own-money-section",
          money.flatMap(_.isOwned),
-            generic_overview_table_heading_item(id = "deceased-own-heading",
+            generic_overview_table_heading_item(id = AssetsMoneyOwnID,
                 questionText = Messages("iht.estateReport.assets.moneyOwned",deceasedName),
                 questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned",
                                                     Messages("iht.the.deceased")),
@@ -57,7 +57,7 @@ isFullWidth=false
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue"),
                 isAnswerValue = money.flatMap(_.isOwned).isEmpty
             ),
-            generic_overview_table_item(id = "deceased-own-question",
+            generic_overview_table_item(id = AssetsMoneyOwnID,
                 questionText = Messages("iht.estateReport.assets.money.ownName.question",deceasedName),
                 questionScreenReaderText= Messages("iht.estateReport.assets.money.ownName.question",
                                                     Messages("iht.the.deceased")),
@@ -78,16 +78,16 @@ isFullWidth=false
 
     @{
         generic_overview_table_section(
-        "money-joint-owned-section",
+        "deceased-shared-money-section",
         money.flatMap(_.isOwnedShare),
-            generic_overview_table_heading_item(id = "deceased-shared-heading",
+            generic_overview_table_heading_item(id = AssetsMoneySharedID,
                 questionText = Messages("iht.estateReport.assets.money.jointlyOwned"),
                 questionScreenReaderText = Messages("iht.estateReport.assets.money.jointlyOwned"),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad),
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.joint.screenReader.link.noValue"),
                 isAnswerValue = money.flatMap(_.isOwnedShare).isEmpty
                 ),
-            generic_overview_table_item(id = "deceased-shared-question",
+            generic_overview_table_item(id = AssetsMoneySharedID,
                 questionText = Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
                 questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question", Messages("iht.the.deceased")),
                 questionCategory= "change",

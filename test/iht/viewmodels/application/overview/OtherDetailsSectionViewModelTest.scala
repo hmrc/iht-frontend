@@ -25,6 +25,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.testhelpers.TestHelper._
 
 class OtherDetailsSectionViewModelTest
   extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
@@ -42,7 +43,7 @@ class OtherDetailsSectionViewModelTest
 
     "have an id of 'debts' for the debts row" in {
       val viewModel = OtherDetailsSectionViewModel(applicationDetailsGuidanceNotSeen, ihtRef)
-      viewModel.debtRow.id shouldBe "debts"
+      viewModel.debtRow.id shouldBe EstateDebtsID
     }
 
     "have the correct caption for the debts row" in {

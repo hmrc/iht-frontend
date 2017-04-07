@@ -27,6 +27,8 @@ import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.money.money_deceased_own
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper
+import iht.constants.IhtProperties._
 
 object MoneyDeceasedOwnController extends MoneyDeceasedOwnController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -34,7 +36,7 @@ object MoneyDeceasedOwnController extends MoneyDeceasedOwnController with IhtCon
 
 trait MoneyDeceasedOwnController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned)
-  val submitUrl = iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad()
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneyOwnID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>

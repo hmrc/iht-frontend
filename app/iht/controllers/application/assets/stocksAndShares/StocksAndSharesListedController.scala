@@ -26,6 +26,8 @@ import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_listed
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper
+import iht.constants.IhtProperties._
 
 object StocksAndSharesListedController extends StocksAndSharesListedController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -33,7 +35,7 @@ object StocksAndSharesListedController extends StocksAndSharesListedController w
 
 trait StocksAndSharesListedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsStocksAndSharesListed)
-  val submitUrl = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad()
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(), Some(AssetsStocksListedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

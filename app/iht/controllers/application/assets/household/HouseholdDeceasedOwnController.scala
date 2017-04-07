@@ -27,6 +27,8 @@ import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.household.household_deceased_own
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper
+import iht.constants.IhtProperties._
 
 object HouseholdDeceasedOwnController extends HouseholdDeceasedOwnController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -34,7 +36,7 @@ object HouseholdDeceasedOwnController extends HouseholdDeceasedOwnController wit
 
 trait HouseholdDeceasedOwnController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdDeceasedOwned)
-  val submitUrl = iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(AssetsHouseholdOwnID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

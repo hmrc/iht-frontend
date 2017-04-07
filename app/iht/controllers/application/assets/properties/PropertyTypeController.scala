@@ -32,6 +32,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 object PropertyTypeController extends PropertyTypeController with IhtConnectors {
   def metrics : Metrics = Metrics
@@ -47,7 +48,7 @@ trait PropertyTypeController extends EstateController {
   def ihtConnector: IhtConnector
   def cachingConnector: CachingConnector
 
-  def locationAfterSuccessfulSave(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyKindID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -56,7 +57,7 @@ trait PropertyTypeController extends EstateController {
 
       Future.successful(Ok(iht.views.html.application.asset.properties.property_type(
         propertyTypeForm,
-        Some(cancelUrl),
+        cancelUrl,
         submitUrl,
         deceasedName))
         )
@@ -81,7 +82,7 @@ trait PropertyTypeController extends EstateController {
             } {
               (matchedProperty) => Ok(iht.views.html.application.asset.properties.property_type(
                 propertyTypeForm.fill(matchedProperty),
-                Some(editCancelUrl(id)),
+                editCancelUrl(id),
                 editSubmitUrl(id),
                 deceasedName))
             }
@@ -109,7 +110,7 @@ trait PropertyTypeController extends EstateController {
       formWithErrors => {
         LogHelper.logFormError(formWithErrors)
         Future.successful(BadRequest(iht.views.html.application.asset.properties.property_type(formWithErrors,
-          Some(cancelUrl),
+          cancelUrl,
           submitUrl,
           deceasedName)))
       },

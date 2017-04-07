@@ -24,6 +24,7 @@
 @import iht.utils.OverviewHelper._
 @import iht.views.html.application.gift._
 @import iht.views.html.application._
+@import iht.constants.IhtProperties._
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
@@ -33,7 +34,12 @@ returnToMessagesKey: String
 
 
 @deceasedName() = @{getOrException(registrationDetails.deceasedDetails.map(_.name))}
+@returnCall() = @{
+    returnToCall match {
+        case Some(call) => CommonHelper.addFragmentIdentifier(call, Some(EstateGiftsID))
+    }
 
+}
 
 @gifts_main_template(
     title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
@@ -50,7 +56,7 @@ returnToMessagesKey: String
                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true),
                 CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
    "iht.estateReport.completeEverySection",
-   returnToCall,
+    Some(returnCall),
    returnToMessagesKey,
    true,
 showStatus = false)
