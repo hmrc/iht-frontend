@@ -17,12 +17,16 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
-import iht.constants.IhtProperties
+import iht.constants.{Constants, IhtProperties}
 import iht.models.QuestionnaireModel
-import iht.utils.IhtSection
+import iht.utils.{CommonHelper, IhtSection}
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+
+import scala.concurrent.Future
 
 /**
  * Created by yasar on 6/18/15.
@@ -66,6 +70,17 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(messagesApi("site.application.title"))
     }
 
+    "redirect to questionnaire page when Nino is present in the session" in {
+      val result = questionnaireController.onPageLoad()(createFakeRequest().withSession(Constants.NINO -> "CSXXXXX"))
+      status(result) shouldBe OK
+    }
+
+    "redirect to Case List page when Nino is not present in the session" in {
+      val result = questionnaireController.onPageLoad()(createFakeRequest(false).withSession())
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
+    }
+
     "respond with redirect on page submit" in {
       val result = questionnaireController.onSubmit()(createFakeRequest())
       status(result) should be(SEE_OTHER)
@@ -94,4 +109,5 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
         iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
     }
   }
+
 }

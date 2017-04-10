@@ -502,4 +502,6 @@ object CommonHelper {
       url
     }
   }
+
+  def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(Constants.NINO)
 }
