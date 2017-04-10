@@ -15,6 +15,15 @@
 *@
 
 @(label: Option[String] = None,
-link: Option[Call] = None)
+link: Option[Call] = None,
+hash: String = "")
 
-<a id="return-button" class="button" role="button" href="@link">@label</a>
+@url = @{
+if(hash.length > 0){
+link.getOrElse("") + "#" + hash
+} else {
+link.getOrElse("")
+}
+}
+
+<a id="return-button" class="button" role="button" href="@url">@label</a>

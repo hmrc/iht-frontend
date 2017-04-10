@@ -24,6 +24,7 @@ import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import iht.testhelpers.TestHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -43,7 +44,8 @@ trait QualifyingBodyDetailsOverviewViewBehaviour extends GenericNonSubmittablePa
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(),
-      messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies")
+      messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
+      ExemptionsOtherChangeID + "1"
     )
   )
 

@@ -22,6 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.{CancelComponent, YesNoQuestionViewBehaviour}
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper._
 
 class AssetsLeftToPartnerQuestionViewTest extends YesNoQuestionViewBehaviour[PartnerExemption] {
   val regDetails = CommonBuilder.buildRegistrationDetails1
@@ -45,8 +46,9 @@ class AssetsLeftToPartnerQuestionViewTest extends YesNoQuestionViewBehaviour[Par
 
   override def cancelComponent = Some(
     CancelComponent(
-      CommonBuilder.DefaultCall1,
-      CommonBuilder.DefaultString
+      iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+      CommonBuilder.DefaultString,
+      ExemptionsPartnerAssetsID
     )
   )
 

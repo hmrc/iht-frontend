@@ -31,6 +31,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
@@ -49,7 +50,7 @@ trait PropertyValueController extends EstateController {
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyValueController.onEditSubmit(id)
 
-  def locationAfterSuccessfulSave(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyValueID))
 
   def ihtConnector: IhtConnector
 

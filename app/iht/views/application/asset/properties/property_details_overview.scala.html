@@ -22,6 +22,7 @@
 @import iht.controllers.application.assets.properties.routes._
 @import iht.constants.FieldMappings
 @import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @(deceasedName: String,
 property:Option[Property]=None)(implicit request:Request[_], messages: Messages)
@@ -46,7 +47,7 @@ isFullWidth = false) {
 <ul id="property-details-table" class="tabular-data tabular-data--list">
     @defining(property.flatMap(_.id))  { propertyId =>
         @defining(property.flatMap(_.address))  { propertyAddress =>
-            <li id="property-address" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+            <li id="property-address-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                 <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.property.whatIsAddress.question")</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @propertyAddress match{
@@ -57,7 +58,7 @@ isFullWidth = false) {
                     }
                 </div>
                 <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id="property-address-link" href='@{propertyId match{
+                    <a id="@AssetsPropertiesPropertyAddressID" href='@{propertyId match{
                                 case Some(id) => PropertyAddressController.onEditPageLoad(id)
                                 case None => PropertyAddressController.onPageLoad()
                             }
@@ -71,7 +72,7 @@ isFullWidth = false) {
             </li>
         }
         @defining(property.flatMap(_.propertyType))  { propertyType =>
-            <li id="kind-of-property" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+            <li id="kind-of-property-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                 <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.whatKind.question")</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{propertyType match {
@@ -80,7 +81,7 @@ isFullWidth = false) {
                     }}
                 </div>
                 <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id = "property-type-link" href='@{propertyId match{
+                    <a id = "@AssetsPropertiesPropertyKindID" href='@{propertyId match{
                                 case Some(id) => PropertyTypeController.onEditPageLoad(id)
                                 case None => PropertyTypeController.onPageLoad()
                             }
@@ -94,7 +95,7 @@ isFullWidth = false) {
             </li>
         }
         @defining(property.flatMap(_.typeOfOwnership))  { typeOfOwnership =>
-            <li id="type-of-ownership" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+            <li id="type-of-ownership-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                 <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName)))</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{typeOfOwnership match {
@@ -103,7 +104,7 @@ isFullWidth = false) {
                     }}
                 </div>
                 <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id = "property-ownership-link" href='@{propertyId match{
+                    <a id = "@AssetsPropertiesPropertyOwnershipID" href='@{propertyId match{
                                     case Some(id) => PropertyOwnershipController.onEditPageLoad(id)
                                     case None => PropertyOwnershipController.onPageLoad()
                                 }
@@ -117,7 +118,7 @@ isFullWidth = false) {
             </li>
         }
         @defining(property.flatMap(_.tenure)) { tenure =>
-            <li id="freehold-leasehold" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+            <li id="freehold-leasehold-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                 <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{tenure match {
@@ -126,7 +127,7 @@ isFullWidth = false) {
                     }}
                 </div>
                 <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id="property-tenure-link" href='@{propertyId match{
+                    <a id="@AssetsPropertiesTenureID" href='@{propertyId match{
                                     case Some(id) => PropertyTenureController.onEditPageLoad(id)
                                     case None => PropertyTenureController.onPageLoad()
                                 }
@@ -140,7 +141,7 @@ isFullWidth = false) {
             </li>
         }
         @defining(property.flatMap(_.value)) { value =>
-            <li id="property-value" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+            <li id="property-value-question" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
                 <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.value.question", deceasedName)</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{value match {
@@ -149,7 +150,7 @@ isFullWidth = false) {
                     }}
                 </div>
                 <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                    <a id="property-value-link" href='@{propertyId match{
+                    <a id="@AssetsPropertiesPropertyValueID" href='@{propertyId match{
                                     case Some(id) => PropertyValueController.onEditPageLoad(id)
                                     case None => PropertyValueController.onPageLoad()
                                 }
@@ -164,6 +165,14 @@ isFullWidth = false) {
     <p>@Messages("page.iht.application.assets.property.detailsOverview.mortgage.text")</p>
 </div>
 
-<a id="return-to-properties-link" href="@iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad()">@Messages("page.iht.application.assets.property.detailsOverview.returnLink")</a>
-
+@defining(property.flatMap(_.id))  { propertyId =>
+    @ihtHelpers.custom.return_link(
+        Messages("page.iht.application.assets.property.detailsOverview.returnLink"),
+        Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad()),
+        propertyId match{
+            case Some(id) => AssetsPropertiesChangeID + id
+            case None => AssetsPropertiesAddPropertyID
+        }
+    )
+}
 }

@@ -29,6 +29,7 @@ import play.api.Play.current
 import play.api.inject._
 import play.api.Play
 import play.api.i18n.MessagesApi
+import iht.constants.IhtProperties._
 
 case class ThresholdSectionViewModel(thresholdRow: OverviewRowWithoutLink,
                                      increasingThresholdRow: Option[OverviewRow],
@@ -73,7 +74,7 @@ object ThresholdSectionViewModel {
 
     ThresholdSectionViewModel(
       thresholdRow = OverviewRowWithoutLink(
-        id = "threshold",
+        id = EstateIncreasingID,
         label = Messages("iht.estateReport.ihtThreshold"),
         value = thresholdValueMessage,
         qualifyingText = "",
@@ -115,7 +116,7 @@ object ThresholdSectionViewModel {
     }
 
     OverviewRow(
-      id = "increasing-threshold",
+      id = EstateIncreasingID,
       label = Messages("iht.estateReport.tnrb.increasingThreshold"),
       value = thresholdRowValue,
       completionStatus = if (thresholdIncreased || thresholdIncreaseNotAvailable) Complete else PartiallyComplete,

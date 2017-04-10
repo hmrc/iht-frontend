@@ -39,15 +39,15 @@ class PensionsOverviewViewTest extends ViewTestHelper {
   lazy val changeMsgKey = "iht.change"
   lazy val giveAnAnswerMsgKey= "site.link.giveAnswer"
   lazy val giveAValueMsgKey = "site.link.giveAValue"
-  lazy val pensionOwnedByDeceasedQuestionId = "pensions-question"
+  lazy val pensionOwnedByDeceasedQuestionId = "pensions-owned-block"
   lazy val pensionOwnedByDeceasedQuestionMsg = messagesApi("page.iht.application.assets.pensions.question", deceasedName)
   lazy val pensionOwnedByDeceasedQuestionPageUrl = routes.PensionsOwnedQuestionController.onPageLoad.url
 
-  lazy val pensionMoreThanOneQuestionId = "pensions-more-than-one-question"
+  lazy val pensionMoreThanOneQuestionId = "private-pension-changes-block"
   lazy val pensionMoreThanOneQuestionMsg = messagesApi("page.iht.application.assets.pensions.changed.title", deceasedName)
   lazy val pensionMoreThanOneQuestionPageUrl = routes.PensionsChangedQuestionController.onPageLoad.url
 
-  lazy val pensionValueQuestionId = "pensions-value"
+  lazy val pensionValueQuestionId = "value-pension-payments-block"
   lazy val pensionValueQuestionMsg = messagesApi("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid")
   lazy val pensionValueQuestionPageUrl = routes.PensionsValueController.onPageLoad.url
 

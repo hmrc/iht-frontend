@@ -39,7 +39,7 @@ trait CharityDeleteConfirmController extends EstateController {
             Logger.warn("Charity with id = " + id + " not found during onLoad of delete confirmation")
             InternalServerError("Charity with id = " + id + " not found during onLoad of delete confirmation")
           } { c =>
-            Ok(charity_delete_confirm(c.name.getOrElse(""), routes.CharityDeleteConfirmController.onSubmit(id)))
+            Ok(charity_delete_confirm(c, routes.CharityDeleteConfirmController.onSubmit(id)))
           })
         }
       }

@@ -25,10 +25,12 @@ deceasedName: String
 @import iht.utils._
 @import iht.constants.FieldMappings
 @import iht.constants.IhtProperties
+@import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName),
 browserTitle = Some(Messages("page.iht.application.assets.property.ownership.browserTitle")),
-cancelUrl=Some(cancelUrl),
+cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(AssetsPropertiesPropertyOwnershipID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
 headingName = deceasedName,
 headingClass = "heading-large") {

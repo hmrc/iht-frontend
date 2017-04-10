@@ -24,6 +24,7 @@ import iht.views.html.application.exemption.qualifyingBody.qualifying_body_value
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper._
 
 class QualifyingBodyValueViewTest extends ValueViewBehaviour[QualifyingBody] {
 
@@ -43,7 +44,8 @@ class QualifyingBodyValueViewTest extends ValueViewBehaviour[QualifyingBody] {
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody")
+      messagesApi("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBody"),
+      ExemptionsOtherValueID
     )
   )
 

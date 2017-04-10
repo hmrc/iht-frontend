@@ -27,6 +27,8 @@ import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.testhelpers.TestHelper
+import iht.utils.CommonHelper
 
 /**
  * Created by yasar on 22/06/15.
@@ -114,7 +116,7 @@ class DeletePropertyControllerTest extends ApplicationControllerTest {
 
       val result = deletePropertyController.onSubmit(firstProperty.id.getOrElse("1"))(createFakeRequest())
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertiesOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertiesOverviewController.onPageLoad().url,TestHelper.AssetsPropertiesAddPropertyID)))
     }
 
     "respond with error if there is a problem performing the delete, cannot save deletion" in {

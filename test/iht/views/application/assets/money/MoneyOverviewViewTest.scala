@@ -27,7 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+import iht.testhelpers.TestHelper._
 
 class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverviewViewBehaviour {
 
@@ -39,19 +39,19 @@ class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverview
   override def guidanceParagraphs = Set(messagesApi("page.iht.application.assets.money.overview.description.p1", deceasedName),
                                         messagesApi("page.iht.application.assets.money.overview.description.p2", deceasedName),
                                         messagesApi("page.iht.application.assets.money.overview.description.p3", deceasedName))
-  override def ownHeadingElementId = "deceased-own-heading"
-  override def jointlyOwnedHeadingElementId = "deceased-shared-heading"
+  override def ownHeadingElementId = "deceased-own-money"
+  override def jointlyOwnedHeadingElementId = "deceased-shared-money"
   override def urlToOwnPage = MoneyDeceasedOwnController.onPageLoad().url
   override def urlToJointlyOwnedPage = MoneyJointlyOwnedController.onPageLoad().url
   override def ownHeaderText = messagesApi("iht.estateReport.assets.moneyOwned", deceasedName)
   override def jointlyOwnedHeaderText = messagesApi("iht.estateReport.assets.money.jointlyOwned")
-  override def ownQuestionRowId = "deceased-own-question"
+  override def ownQuestionRowId = "deceased-own-money-block"
   override def ownQuestionText = messagesApi("iht.estateReport.assets.money.ownName.question", deceasedName)
-  override def ownValueRowId = "deceased-own-value"
+  override def ownValueRowId = "deceased-own-value-block"
   override def ownValueText = messagesApi("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName")
-  override def jointlyOwnedQuestionRowId = "deceased-shared-question"
+  override def jointlyOwnedQuestionRowId = "deceased-shared-money-block"
   override def jointlyOwnedQuestionText = messagesApi("page.iht.application.assets.money.jointly.owned.question", deceasedName)
-  override def jointlyOwnedValueRowId = "deceased-shared-value"
+  override def jointlyOwnedValueRowId = "deceased-shared-value-block"
   override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.money.jointly.owned.input.value.label")
   override def linkHash = AppSectionMoneyID
 

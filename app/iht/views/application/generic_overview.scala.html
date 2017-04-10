@@ -100,7 +100,7 @@ returnHash: String = ""
     @if(returnAsButton){
       @ihtHelpers.custom.return_link_button(Some(Messages(returnToMessagesKey, dd.name)), returnToCall)
     } else {
-        @ihtHelpers.custom.return_link(Messages(returnToMessagesKey, ihtHelpers.custom.name(dd.name)), returnToCall)
+        @ihtHelpers.custom.return_link(Messages(returnToMessagesKey, ihtHelpers.custom.name(dd.name)), returnToCall, returnHash)
     }
   }
 </div>

@@ -19,11 +19,13 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
+@import iht.utils.CommonHelper._
+@import iht.constants.IhtProperties._
 
 @iht_main_template_application(title = Messages("page.iht.application.propertyDetails.deleteProperty.title"),
 browserTitle = Some(Messages("page.iht.application.propertyDetails.deleteProperty.title")),
 isFullWidth=true,
-cancelUrl=Some(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad),
+cancelUrl=Some(addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad, Some(AssetsPropertiesDeleteID + propertyModel.id.getOrElse("")))),
 cancelLabel = Some(Messages("site.link.cancel"))
 ) {
 

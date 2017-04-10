@@ -19,6 +19,7 @@
 @import iht.models.application.exemptions._
 @import iht.models._
 @import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @(assetsLeftToQualifyingBodyQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -28,7 +29,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle")),
 isFullWidth = false,
-cancelUrl = Some(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()),
+cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))),
 cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
                             ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))),
 headingName = deceasedName,

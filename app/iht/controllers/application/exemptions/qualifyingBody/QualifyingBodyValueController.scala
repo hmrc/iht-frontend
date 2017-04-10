@@ -30,6 +30,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 object QualifyingBodyValueController extends QualifyingBodyValueController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -37,11 +38,11 @@ object QualifyingBodyValueController extends QualifyingBodyValueController with 
 
 trait QualifyingBodyValueController extends EstateController {
 
-  val submitUrl = routes.QualifyingBodyValueController.onSubmit()
+  val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onSubmit(), Some(ExemptionsOtherValueID))
   val cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
-  private def editSubmitUrl(id: String) = routes.QualifyingBodyValueController.onEditSubmit(id)
+  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onEditSubmit(id), Some(ExemptionsOtherValueID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id=>routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)))

@@ -58,7 +58,7 @@ headingName = deceasedName) {
             @ihtHelpers.custom.generic_overview_item(
                 title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
                 name= "partner",
-                id = "assetsLeftToPartner",
+                id = ExemptionsPartnerID,
                 value = displayValue(appDetails, AppSectionExemptionsPartnerTotalAssets, isComplete, Some("site.noAssetsLeft")),
                 valueScreenReader = "",
                 link = if(exemptions.partner.fold(false){
@@ -94,7 +94,7 @@ headingName = deceasedName) {
         @ihtHelpers.custom.generic_overview_item(
             title = Messages("iht.estateReport.exemptions.charities.assetsLeftToCharities.title"),
             name = "charity",
-            id = "charities",
+            id = ExemptionsCharityID,
             value = displayValue(appDetails,
                         AppSectionExemptionsCharityValue,
                         isComplete,
@@ -128,7 +128,7 @@ headingName = deceasedName) {
         @ihtHelpers.custom.generic_overview_item(
             title = Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title"),
             name = "qualifyingBody",
-            id = "qualifyingBodies",
+            id = ExemptionsOtherID,
             value = displayValue(appDetails,
                         AppSectionExemptionsQualifyingBodyValue,
                         isComplete,
@@ -173,7 +173,7 @@ headingName = deceasedName) {
 </section>
 
 <div id="action-button" class="form-field form-field--submit">
-  <a id ="continue-to-estate-overview-button" class="button" href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference))'>
+  <a id ="continue-to-estate-overview-button" class="button" href='@CommonHelper.addFragmentIdentifier(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)), Some(EstateExemptionsID))'>
       @Messages("iht.estateReport.returnToEstateOverview")
   </a>
 </div>

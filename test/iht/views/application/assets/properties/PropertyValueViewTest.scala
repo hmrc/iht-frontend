@@ -25,6 +25,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper
 
 class PropertyValueViewTest extends ValueViewBehaviour[Property] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1
@@ -49,7 +50,8 @@ class PropertyValueViewTest extends ValueViewBehaviour[Property] {
   override def cancelComponent = Some(
     CancelComponent(
       CommonBuilder.DefaultCall2,
-      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty")
+      messagesApi("iht.estateReport.assets.properties.returnToAddAProperty"),
+      TestHelper.AssetsPropertiesPropertyValueID
     )
   )
 

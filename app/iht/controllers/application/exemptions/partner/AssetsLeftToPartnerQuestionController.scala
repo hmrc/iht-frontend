@@ -23,7 +23,8 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.ApplicationKickOutHelper
+import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.Logger
 import play.api.i18n.Messages
@@ -33,6 +34,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 object AssetsLeftToPartnerQuestionController extends AssetsLeftToPartnerQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -41,8 +43,8 @@ object AssetsLeftToPartnerQuestionController extends AssetsLeftToPartnerQuestion
 trait AssetsLeftToPartnerQuestionController extends EstateController {
 
   val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
-  val exemptionsOverviewPage = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-  val partnerOverviewPage = routes.PartnerOverviewController.onPageLoad()
+  val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerID))
+  val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerAssetsID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
@@ -50,8 +52,8 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
       val registrationDetails = cachingConnector.getExistingRegistrationDetails
 
       for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+        applicationDetails <- ihtConnector.getApplication(getNino(user),
+          getOrExceptionNoIHTRef(registrationDetails.ihtReference),
           registrationDetails.acknowledgmentReference)
       } yield {
         applicationDetails match {
@@ -81,8 +83,8 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
       val regDetails = cachingConnector.getExistingRegistrationDetails
       val boundForm = assetsLeftToSpouseQuestionForm.bindFromRequest
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+      val applicationDetailsFuture = ihtConnector.getApplication(getNino(user),
+        getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
 
       applicationDetailsFuture.flatMap {
@@ -95,7 +97,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
                 returnUrl(regDetails, appDetails))))
             },
             partnerExemption => {
-              saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails, appDetails)
+              saveApplication(getNino(user), partnerExemption, regDetails, appDetails)
             }
           )
         }
@@ -193,7 +195,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
     partner match {
       case Some(x) => {
         if (x.isAssetForDeceasedPartner.isDefined && x.isPartnerHomeInUK.isDefined) {
-          partnerOverviewPage
+          routes.PartnerOverviewController.onPageLoad()
         } else {
           exemptionsOverviewPage
         }

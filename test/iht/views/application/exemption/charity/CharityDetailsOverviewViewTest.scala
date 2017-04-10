@@ -24,6 +24,7 @@ import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import iht.testhelpers.TestHelper._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -41,7 +42,8 @@ trait CharityDetailsOverviewViewBehaviour extends GenericNonSubmittablePageBehav
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(),
-      messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities")
+      messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
+      ExemptionsCharitiesChangeID + "1"
     )
   )
 
@@ -71,7 +73,7 @@ class CharityDetailsOverviewViewTest extends CharityDetailsOverviewViewBehaviour
   override def view =
     charity_details_overview(Some(CommonBuilder.charity)).toString()
 
-  "Qualifying body details overview view" must {
+  "Charity details overview view" must {
     behave like nonSubmittablePage()
 
     behave like propertyAttributeWithValueAndChange(0,
@@ -105,7 +107,7 @@ class CharityDetailsOverviewViewWithNoValuesTest extends CharityDetailsOverviewV
     charity_details_overview(Some(charity2)).toString()
   }
 
-  "Qualifying body details overview view where no values entered" must {
+  "Charity details overview view where no values entered" must {
     behave like propertyAttributeWithValueAndChange(0,
       messagesApi("iht.estateReport.exemptions.charities.charityName.title"),
       CommonBuilder.emptyString,

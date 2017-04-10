@@ -25,6 +25,7 @@ import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.testhelpers.TestHelper._
 
 class EstateOverviewViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 

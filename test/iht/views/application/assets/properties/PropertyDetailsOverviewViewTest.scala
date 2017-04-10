@@ -23,6 +23,7 @@ import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper
 
 class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -39,12 +40,13 @@ class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour
 
   override def browserTitle = messagesApi("iht.estateReport.assets.propertyAdd")
 
-  override val exitId: String = "return-to-properties-link"
+  override val exitId: String = "return-button"
 
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
-      messagesApi("page.iht.application.assets.property.detailsOverview.returnLink")
+      messagesApi("page.iht.application.assets.property.detailsOverview.returnLink"),
+      TestHelper.AssetsPropertiesChangeID + "1"
     )
   )
 

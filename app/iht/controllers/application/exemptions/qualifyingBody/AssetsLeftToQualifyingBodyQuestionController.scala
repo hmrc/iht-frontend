@@ -27,6 +27,7 @@ import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualif
 import play.api.mvc.Call
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 /**
  * Created by james on 17/08/16.
@@ -36,9 +37,9 @@ object AssetsLeftToQualifyingBodyQuestionController extends AssetsLeftToQualifyi
 }
 
 trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
-  val exemptionsOverviewPage: Call = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
+  val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))
   val qualifyingBodyOverviewPage: Call =
-    iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()
+    CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAssetsID))
   val qualifyingBodyDetailsOverviewPage: Call =
     iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
