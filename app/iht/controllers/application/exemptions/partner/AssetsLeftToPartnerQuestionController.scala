@@ -24,6 +24,7 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.Logger
 import play.api.i18n.Messages
@@ -32,7 +33,9 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 object AssetsLeftToPartnerQuestionController extends AssetsLeftToPartnerQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -41,8 +44,8 @@ object AssetsLeftToPartnerQuestionController extends AssetsLeftToPartnerQuestion
 trait AssetsLeftToPartnerQuestionController extends EstateController {
 
   val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
-  val exemptionsOverviewPage = iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-  val partnerOverviewPage = routes.PartnerOverviewController.onPageLoad()
+  val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerID))
+  val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerAssetsID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>
@@ -195,7 +198,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
     partner match {
       case Some(x) => {
         if (x.isAssetForDeceasedPartner.isDefined && x.isPartnerHomeInUK.isDefined) {
-          partnerOverviewPage
+          routes.PartnerOverviewController.onPageLoad()
         } else {
           exemptionsOverviewPage
         }

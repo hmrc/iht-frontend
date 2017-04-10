@@ -25,6 +25,7 @@ import iht.utils.CommonHelper
 import play.api.Logger
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 object DeletePropertyController extends DeletePropertyController with IhtConnectors
 
@@ -82,7 +83,7 @@ trait DeletePropertyController extends ApplicationController {
               registrationData.acknowledgmentReference)
           } yield {
             storedApplication match {
-              case Some(_) => Redirect(routes.PropertiesOverviewController.onPageLoad())
+              case Some(_) => Redirect(CommonHelper.addFragmentIdentifier(routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesAddPropertyID)))
               case _ => {
                 Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
                 InternalServerError

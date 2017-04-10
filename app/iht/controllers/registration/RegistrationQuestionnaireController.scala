@@ -30,4 +30,5 @@ trait RegistrationQuestionnaireController extends RegistrationController with Qu
   override lazy val ihtSection = IhtSection.Registration
   def questionnaireView = (form, request) => registration_questionnaire(form)(request, applicationMessages)
   override def callPageLoad = iht.controllers.registration.routes.RegistrationQuestionnaireController.onPageLoad()
+  override val redirectLocationOnMissingNino = iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()
 }

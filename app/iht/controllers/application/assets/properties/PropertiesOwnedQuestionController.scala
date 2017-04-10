@@ -31,6 +31,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
@@ -104,18 +105,18 @@ trait PropertiesOwnedQuestionController extends EstateController {
           adAfterUpdatedForKickout.kickoutReason match {
             case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
             case _ =>
-              (properties.isOwned, previousIsOwnedValue, preexistingProperty) match {
-                case (Some(false), _, _) => Redirect(assetsRedirectLocation)
-                case (Some(true), Some(true), _) =>
-                  Redirect(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad())
-                case (Some(true), _, false) =>
-                  Redirect(iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
-                case (_, _, true) =>
-                  Redirect(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad())
-                case _ =>
-                  Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
-                  InternalServerError
-              }
+            (properties.isOwned, previousIsOwnedValue, preexistingProperty) match {
+              case (Some(false), _, _) => Redirect(CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionPropertiesID)))
+              case (Some(true), Some(true), _) =>
+                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesOwnedID)))
+              case (Some(true), _, false) =>
+                Redirect(iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
+              case (_, _, true) =>
+                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesOwnedID)))
+              case _ =>
+                Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
+                InternalServerError
+            }
           }
         }
       }

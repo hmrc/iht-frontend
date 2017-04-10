@@ -25,7 +25,7 @@ import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+import iht.testhelpers.TestHelper._
 
 class TrustsOwnedQuestionViewTest extends YesNoQuestionViewBehaviour[HeldInTrust] {
   def registrationDetails = CommonBuilder.buildRegistrationDetails1

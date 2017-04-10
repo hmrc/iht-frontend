@@ -23,6 +23,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import scala.concurrent.ExecutionContext.Implicits.global
+import iht.testhelpers.TestHelper._
 
 class CharityDeleteConfirmViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -33,18 +34,19 @@ class CharityDeleteConfirmViewTest extends GenericNonSubmittablePageBehaviour {
 
   override def browserTitle = messagesApi("page.iht.application.exemptions.charityDelete.browserTitle")
 
-  override val exitId: String = "return-link"
+  override val exitId: String = "return-button"
 
   def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(),
-      messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities")
+      messagesApi("iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities"),
+      ExemptionsCharitiesDeleteID + "1"
     )
   )
 
   val nameOfCharity = CommonBuilder.charity.map(_.name).fold("")(identity)
 
-  def view = charity_delete_confirm(nameOfCharity, CommonBuilder.DefaultCall1).toString
+  def view = charity_delete_confirm(CommonBuilder.charity, CommonBuilder.DefaultCall1).toString
 
   "Delete qualifying body confirmation page Question View" must {
     behave like nonSubmittablePage()

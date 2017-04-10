@@ -26,9 +26,10 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.testhelpers.TestHelper._
+import iht.utils.CommonHelper
 
 class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
-
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -92,7 +93,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
 
       val result = trustsMoreThanOneQuestionController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.TrustsOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.TrustsOverviewController.onPageLoad.url, AssetsTrustsMultipleID)))
     }
 
     "save application and go to held in trust overview page on submit when user selects No and " +

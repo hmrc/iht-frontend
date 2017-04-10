@@ -27,6 +27,7 @@ import org.joda.time.LocalDate
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
+import iht.testhelpers.TestHelper._
 
 trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
   val regDetails = CommonBuilder.buildRegistrationDetails1
@@ -52,7 +53,8 @@ trait PartnerOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour {
   override def exitComponent = Some(
     ExitComponent(
       iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
-      messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName)
+      messagesApi("page.iht.application.return.to.exemptionsOf", deceasedName),
+      ExemptionsPartnerID
     )
   )
 

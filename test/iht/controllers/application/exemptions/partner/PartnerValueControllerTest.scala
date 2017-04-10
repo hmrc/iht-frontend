@@ -27,6 +27,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import iht.models.application.ApplicationDetails
+import iht.testhelpers.TestHelper._
+import iht.utils.CommonHelper._
 
 /**
  * Created by jennygj on 03/08/16.
@@ -120,7 +122,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
       val result = partnerValueController.onSubmit(request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.PartnerOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
     }
 
     "redirect to overview page on submit when there is no exemptions present" in {
@@ -135,7 +137,7 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
 
       val result = partnerValueController.onSubmit(request)
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(routes.PartnerOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerValueID)))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

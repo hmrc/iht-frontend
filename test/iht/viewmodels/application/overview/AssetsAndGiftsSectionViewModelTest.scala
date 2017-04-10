@@ -26,6 +26,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.testhelpers.TestHelper._
 
 class AssetsAndGiftsSectionViewModelTest
   extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
@@ -41,7 +42,7 @@ class AssetsAndGiftsSectionViewModelTest
     "have an id of 'assets' for the assets row" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.assetRow.id shouldBe "assets"
+      viewModel.assetRow.id shouldBe EstateAssetsID
     }
 
     "have the correct caption for the assets row" in {
@@ -118,7 +119,7 @@ class AssetsAndGiftsSectionViewModelTest
     "have an id of 'gifts' for the gifts row" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.giftRow.id shouldBe "gifts"
+      viewModel.giftRow.id shouldBe EstateGiftsID
     }
 
     "have the correct caption for the gifts row" in {

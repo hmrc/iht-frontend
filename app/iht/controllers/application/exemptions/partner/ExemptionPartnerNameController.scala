@@ -23,13 +23,16 @@ import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_name
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 /**
   * Created by jennygj on 01/08/16.
@@ -92,7 +95,8 @@ trait ExemptionPartnerNameController extends EstateController {
 
           ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map { _ =>
             Redirect(applicationDetails.kickoutReason.fold(
-              routes.PartnerOverviewController.onPageLoad())(_ => kickoutRedirectLocation))
+              addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNameID))
+            )(_ => kickoutRedirectLocation))
           }
     }
   }

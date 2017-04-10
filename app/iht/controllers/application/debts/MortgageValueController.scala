@@ -30,6 +30,8 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 import scala.concurrent.Future
 
@@ -164,7 +166,7 @@ trait MortgageValueController extends ApplicationController {
         val updatedAppDetails = x.copy(status = ApplicationStatus.InProgress, allLiabilities = Some(updatedLiabilities))
 
         ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
-          Redirect(routes.MortgagesOverviewController.onPageLoad))
+          Redirect(CommonHelper.addFragmentIdentifier(routes.MortgagesOverviewController.onPageLoad, Some(DebtsMortgagesPropertyID + id))))
       }
       case _ => {
         Logger.warn("Application Details not found")

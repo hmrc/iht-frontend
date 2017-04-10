@@ -18,6 +18,9 @@
 @import iht.views.html._
 @import iht.models._
 @import iht.models.application.exemptions._
+@import iht.constants.IhtProperties._
+@import iht.utils.CommonHelper._
+
 @(spouseDateOfBirthForm: Form[PartnerExemption], registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
 browserTitle=Some(Messages("page.iht.application.exemptions.partner.dateOfBirth.browserTitle")),
@@ -42,7 +45,10 @@ headingClass = "heading-large") {
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
     </div>
 
-    @ihtHelpers.custom.return_link(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
-        Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(
+        Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse"),
+        Some(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()),
+        ExemptionsPartnerDobID
+    )
     }
 }

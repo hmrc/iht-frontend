@@ -29,6 +29,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import play.api.test.Helpers.{contentAsString, _}
+import iht.testhelpers.TestHelper._
 
 /**
  * Created by jennygj on 17/06/16.
@@ -37,6 +38,8 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
+
+  lazy val returnToOverviewUrl = CommonHelper.addFragmentIdentifierToUrl(routes.MoneyOverviewController.onPageLoad.url, AssetsMoneyOwnID)
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
@@ -99,7 +102,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.MoneyOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(returnToOverviewUrl))
     }
 
     "wipe out the money value if user selects No, save application and go to money overview page on submit" in {
@@ -116,7 +119,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.MoneyOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(returnToOverviewUrl))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -144,7 +147,7 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = moneyDeceasedOwnController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.MoneyOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(returnToOverviewUrl))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

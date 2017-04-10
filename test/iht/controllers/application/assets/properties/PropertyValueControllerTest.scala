@@ -147,7 +147,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url,TestHelper.AssetsPropertiesPropertyValueID)))
     }
 
     "redirect to PropertyDetails overview page on submit in edit mode" in {
@@ -165,7 +165,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onEditSubmit(propertyId)(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url,TestHelper.AssetsPropertiesPropertyValueID)))
     }
 
     "Go to kickout page if kickout reason found" in {

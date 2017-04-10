@@ -24,6 +24,7 @@ import play.api.i18n.Messages
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeRequest
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper
 
 class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
@@ -51,7 +52,7 @@ class DeletePropertyConfirmViewTest extends GenericNonSubmittablePageBehaviour {
 
     "show cancel link with correct target and text" in {
       val submitButton = doc.getElementById("cancel-button")
-      submitButton.attr("href") shouldBe iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad().url
+      submitButton.attr("href") shouldBe CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad().url, TestHelper.AssetsPropertiesDeleteID + "1")
       submitButton.text() shouldBe messagesApi("site.link.cancel")
     }
 

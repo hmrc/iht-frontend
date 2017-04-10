@@ -25,6 +25,8 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
 import iht.models.application.ApplicationDetails
+import iht.testhelpers.TestHelper
+import iht.utils.CommonHelper
 
 class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
@@ -86,7 +88,7 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = propertiesOwnedQuestionController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
-      redirectLocation(result) should be (Some(AssetsOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(AssetsOverviewController.onPageLoad().url,TestHelper.AppSectionPropertiesID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {

@@ -28,6 +28,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.utils.ApplicationKickOutHelper
 import iht.models.application.ApplicationDetails
+import iht.utils.CommonHelper
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -118,7 +119,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
 
       val result = propertyTypeController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesPropertyKindID)))
     }
 
     "add property to property list should add new property to list if property doesn't exist " in {
@@ -144,7 +145,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
 
       val result = propertyTypeController.onEditSubmit("1")(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesPropertyKindID)))
     }
 
     "respond with exception on edit page load where property id does not exist" in {
@@ -168,7 +169,7 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
 
       val result = propertyTypeController.onEditSubmit("2")(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("2").url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("2").url, TestHelper.AssetsPropertiesPropertyKindID)))
     }
 
     "respond with InternalServerError on edit page load where no application details" in {

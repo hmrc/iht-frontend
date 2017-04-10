@@ -18,8 +18,8 @@ package iht.controllers.application.declaration
 
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties
-import iht.controllers.application.ApplicationController
 import iht.controllers.ControllerHelper
+import iht.controllers.application.ApplicationController
 import iht.forms.ApplicationForms
 import iht.metrics.Metrics
 import iht.models._
@@ -29,11 +29,11 @@ import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger
-import play.api.mvc.Result
-import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.Result
 import uk.gov.hmrc.play.frontend.auth.AuthContext
+import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
@@ -60,7 +60,6 @@ trait DeclarationController extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-
         withRegistrationDetails { regDetails =>
           for {
             appDetails <- getApplicationDetails(
@@ -73,6 +72,7 @@ trait DeclarationController extends ApplicationController {
                 regDetails,
                 CommonHelper.getNino(user),
                 ihtConnector)))
+
           }
         }
       }
@@ -87,39 +87,45 @@ trait DeclarationController extends ApplicationController {
             boundForm.fold(
               formWithErrors => {
                 LogHelper.logFormError(formWithErrors)
-
-                withRegistrationDetails { regDetails =>
-                  for {
-                    appDetails <- getApplicationDetails(
-                      getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference)
-                  } yield {
-                    BadRequest(iht.views.html.application.declaration.declaration(
-                      DeclarationViewModel(ApplicationForms.declarationForm,
-                        appDetails,
-                        regDetails,
-                        CommonHelper.getNino(user),
-                        ihtConnector)
-                    ))
-                  }
+                for {
+                  appDetails <- getApplicationDetails(
+                    getOrException(rd.ihtReference), rd.acknowledgmentReference)
+                } yield {
+                  BadRequest(iht.views.html.application.declaration.declaration(
+                    DeclarationViewModel(ApplicationForms.declarationForm,
+                      appDetails,
+                      rd,
+                      CommonHelper.getNino(user),
+                      ihtConnector)
+                  ))
                 }
-              },
-              isDeclared => {
-                isDeclared match {
-                  case true => {
-                    processApplication(CommonHelper.getNino(user))
-                  }
-                  case _ => {
-                    Logger.warn("isDeclared is false. Redirecting to InternalServerError")
-                    Future.successful(InternalServerError)
-                  }
-                }
+              }, {
+                case true =>
+                  processApplicationOrRedirect
+                case _ =>
+                  Logger.warn("isDeclared is false. Redirecting to InternalServerError")
+                  Future.successful(InternalServerError)
               }
             )
           } else {
-            processApplication(CommonHelper.getNino(user))
+            processApplicationOrRedirect
           }
         }
       }
+  }
+
+  private def processApplicationOrRedirect(implicit request: Request[_], hc: HeaderCarrier, user: AuthContext) = {
+    withRegistrationDetails { rd =>
+      val ihtReference = CommonHelper.getOrException(rd.ihtReference)
+      ihtConnector.getCaseDetails(CommonHelper.getNino(user), ihtReference) flatMap { rd =>
+        if (rd.status == ApplicationStatus.AwaitingReturn) {
+          processApplication(CommonHelper.getNino(user))
+        } else {
+          Future.successful(Redirect(
+            iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+        }
+      }
+    }
   }
 
   private def processApplication(nino: String)(implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
@@ -141,7 +147,7 @@ trait DeclarationController extends ApplicationController {
 
       ihtConnector.saveApplication(nino, updatedAppDetails, acknowledgement)
         .flatMap(optionSavedApplication => {
-          if (!optionSavedApplication.isDefined) {
+          if (optionSavedApplication.isEmpty) {
             Logger.debug("Unable to save application details: reasonForBeingBelowLimit not saved")
           }
           Logger.debug("Processing submission of application with IHT reference " + ihtAppReference + ":-\n" + updatedAppDetails.toString)
@@ -170,13 +176,6 @@ trait DeclarationController extends ApplicationController {
     }
   }
 
-  /**
-    *
-    * @param nino
-    * @param ihtReference
-    * @param ihtReturnId
-    * @return
-    */
   private def getProbateDetails(nino: String, ihtReference: String, ihtReturnId: String)
                                (implicit hc: HeaderCarrier): Future[Option[ProbateDetails]] = {
 

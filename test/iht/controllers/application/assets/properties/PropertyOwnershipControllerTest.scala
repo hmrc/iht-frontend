@@ -28,7 +28,7 @@ import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.models.application.ApplicationDetails
-
+import iht.utils.CommonHelper
 /**
  * Created by Vineet on 22/06/16.
  */
@@ -141,7 +141,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       val result = propertyOwnershipController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesPropertyOwnershipID)))
     }
 
     "redirect to PropertyDetails overview page on submit in edit mode" in {
@@ -160,7 +160,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       val result = propertyOwnershipController.onEditSubmit(propertyId)(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url, TestHelper.AssetsPropertiesPropertyOwnershipID)))
     }
 
     "respond with BAD_REQUEST on submit when request is malformed" in {

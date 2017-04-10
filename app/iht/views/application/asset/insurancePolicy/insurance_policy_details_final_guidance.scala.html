@@ -16,7 +16,7 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
+@import iht.constants.IhtProperties._
 @import iht.models._
 
 @(giftsPageLocation:Option[Call],
@@ -31,5 +31,10 @@ headingName = deceasedName){
     <p id="insurance-policy-description">@Html(Messages("page.iht.application.insurance.policies.section7.guidance", ihtHelpers.custom.name(deceasedName)))</p>
     <p id="insurance-policy-description2">@Messages("page.iht.application.insurance.policies.section7.guidance2")</p>
     <p><a id="return-button-gifts" href="@giftsPageLocation">@Html(Messages("site.link.go.to.gifts"))</a></p>
-    <p>@ihtHelpers.custom.return_link(Messages("site.link.return.insurance.policies"), Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()))</p>
+
+    @ihtHelpers.custom.return_link(
+        Messages("site.link.return.insurance.policies"),
+        Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad()),
+        InsurancePlacedInTrustYesNoID
+    )
 }

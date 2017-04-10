@@ -24,7 +24,18 @@
 @import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
+@import iht.constants.IhtProperties._
 @(qualifyingBody:Option[QualifyingBody]=None)(implicit request:Request[_], messages: Messages)
+
+
+@returnId() = @{
+    defining(qualifyingBody.flatMap(_.id))  { qualifyingBodyID =>
+        qualifyingBodyID match {
+            case Some(id) => ExemptionsOtherChangeID + id
+            case None => ExemptionsOtherAddID
+        }
+    }
+}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.qualifyingBodyAdd"),
 browserTitle = Some(Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.browserTitle")),
@@ -41,7 +52,7 @@ isFullWidth = false) {
                 @ihtHelpers.custom.generic_overview_item(
                     title = Messages("iht.estateReport.qualifyingBodies.qualifyingBodyName"),
                     name = "qualifyingBody.detailsOverview.name",
-                    id = "qualifyingBody-name",
+                    id = ExemptionsOtherNameID,
                     value = ihtHelpers.custom.name(qualifyingBodyName).toString(),
                     valueScreenReader = "",
                     link = qualifyingBodyId match {
@@ -69,7 +80,7 @@ isFullWidth = false) {
                 @ihtHelpers.custom.generic_overview_item(
                     title = Messages("page.iht.application.exemptions.overview.qualifyingBody.detailsOverview.value.title"),
                     name = "qualifyingBody.detailsOverview.value",
-                    id = "qualifyingBody-value",
+                    id = ExemptionsOtherValueID,
                     value = qualifyingBodyValue match {
                             case Some(x) => {"£" + CommonHelper.numberWithCommas(x)}
                             case None => {""}
@@ -97,7 +108,10 @@ isFullWidth = false) {
     </ul>
 </section>
 <p>
-@ihtHelpers.custom.return_link(label = Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
-    link = Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()))
+@ihtHelpers.custom.return_link(
+    Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
+    Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()),
+    returnId.toString
+)
 </p>
 }

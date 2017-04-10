@@ -19,7 +19,7 @@
 @import iht.models.application.exemptions._
 @import iht.models._
 @import iht.utils.CommonHelper._
-@import iht.constants.IhtProperties
+@import iht.constants.IhtProperties._
 @import iht.constants._
 
 @(charityNameForm: Form[iht.models.application.exemptions.Charity],
@@ -29,7 +29,7 @@ cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.charityName.sectionTitle"),
 browserTitle = Some(Messages("iht.estateReport.exemptions.charities.charityName.title")),
-cancelUrl = Some(cancelUrl),
+cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsCharitiesNameID))),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
 isFullWidth=false,
 headingClass = "heading-large"){
@@ -37,7 +37,7 @@ headingClass = "heading-large"){
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
     @ihtHelpers.standard.input_with_help(charityNameForm("name"),
-    '_maxlength -> IhtProperties.validationMaxLengthCharityName,
+    '_maxlength -> validationMaxLengthCharityName,
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_label -> Html(Messages("page.iht.application.exemptions.charityName.sectionTitle")),

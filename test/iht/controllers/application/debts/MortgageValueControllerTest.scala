@@ -30,6 +30,7 @@ import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.testhelpers.TestHelper._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -204,7 +205,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
       val result = mortgageValueController.onSubmit("1")(request)
 
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.MortgagesOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.MortgagesOverviewController.onPageLoad().url, DebtsMortgagesPropertyID + "1")))
     }
   }
 }

@@ -26,6 +26,7 @@ import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
 import iht.controllers.application.assets.pensions.routes
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper._
 
 class PensionsValueViewTest extends ValueViewBehaviour[PrivatePension] {
 
@@ -41,7 +42,8 @@ class PensionsValueViewTest extends ValueViewBehaviour[PrivatePension] {
   override def formTarget = Some(routes.PensionsValueController.onSubmit)
 
   override def cancelComponent = Some(CancelComponent(routes.PensionsOverviewController.onPageLoad(),
-                                        messagesApi("iht.estateReport.assets.pensions.returnToPrivatePensions")
+                                        messagesApi("iht.estateReport.assets.pensions.returnToPrivatePensions"),
+                                        AssetsPensionsValueID
                                       )
   )
 

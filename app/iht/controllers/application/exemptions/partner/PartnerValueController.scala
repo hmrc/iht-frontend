@@ -25,6 +25,8 @@ import iht.models.application.exemptions._
 import iht.views.html.application.exemption.partner.partner_value
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper._
+import iht.constants.IhtProperties._
 
 /**
   * Created by jennygj on 03/08/16.
@@ -34,7 +36,7 @@ object PartnerValueController extends PartnerValueController with IhtConnectors 
 }
 
 trait PartnerValueController extends EstateController {
-  val submitUrl = iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad()
+  val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerValueID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

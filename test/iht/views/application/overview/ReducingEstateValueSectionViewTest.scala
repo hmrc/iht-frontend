@@ -21,6 +21,7 @@ import iht.viewmodels.application.overview.ReducingEstateValueSectionViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.overview.reducing_estate_value_section
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper._
 
 class ReducingEstateValueSectionViewTest extends ViewTestHelper {
 
@@ -50,7 +51,7 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
       implicit val request = createFakeRequest()
       val view = reducing_estate_value_section(viewModel)
       val doc = asDocument(view)
-      assertRenderedById(doc, "exemptions-row")
+      assertRenderedById(doc, EstateExemptionsID + "-row")
     }
 
     "contain the totals row" in {
@@ -64,7 +65,7 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
       implicit val request = createFakeRequest()
       val view = reducing_estate_value_section(viewModel)
       val doc = asDocument(view)
-      assertRenderedById(doc, "debts-row")
+      assertRenderedById(doc, EstateDebtsID + "-row")
     }
 
     "does not contain the Debts row if there are no values for exemptions" in {
@@ -74,7 +75,7 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
       val viewModel = ReducingEstateValueSectionViewModel(appDetails1, regDetails)
       val view = reducing_estate_value_section(viewModel)
       val doc = asDocument(view)
-      assertNotRenderedById(doc, "debts-row")
+      assertNotRenderedById(doc, EstateDebtsID + "-row")
     }
 
     "does not contain the Debts row if there are values equaling zero for exemptions" in {
@@ -84,7 +85,7 @@ class ReducingEstateValueSectionViewTest extends ViewTestHelper {
       val viewModel = ReducingEstateValueSectionViewModel(appDetails1, regDetails)
       val view = reducing_estate_value_section(viewModel)
       val doc = asDocument(view)
-      assertNotRenderedById(doc, "debts-row")
+      assertNotRenderedById(doc, EstateDebtsID + "-row")
     }
   }
 }

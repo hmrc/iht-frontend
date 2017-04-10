@@ -29,16 +29,17 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 object CharityNameController extends CharityNameController with IhtConnectors
 
 trait CharityNameController extends EstateController {
 
-  val submitUrl = routes.CharityNameController.onSubmit()
+  val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ExemptionsCharitiesNameID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
 
   def editCancelUrl(id: String) = routes.CharityDetailsOverviewController.onEditPageLoad(id)
-  def editSubmitUrl(id: String) = routes.CharityNameController.onEditSubmit(id)
+  def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(ExemptionsCharitiesNameID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))

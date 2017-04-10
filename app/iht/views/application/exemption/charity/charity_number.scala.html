@@ -19,7 +19,7 @@
 @import iht.models.application.exemptions._
 @import iht.models._
 @import iht.utils.CommonHelper._
-@import iht.constants.IhtProperties
+@import iht.constants.IhtProperties._
 @import iht.constants._
 
 @(charityNumberForm: Form[iht.models.application.exemptions.Charity],
@@ -29,18 +29,18 @@ cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.charities.charityNo.question"),
 browserTitle = Some(Messages("page.iht.application.exemptions.charityNumber.browserTitle")),
-cancelUrl = Some(cancelUrl),
+cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsCharitiesNumberID))),
 cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
 isFullWidth=false,
 headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary(charityNumberForm)
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
         <p class="lede">@Messages("page.iht.application.exemptions.charityNumber.p1")
-            <a rel="external" href='@IhtProperties.charityLink'>@Messages("page.iht.application.exemptions.charityNumber.linkText")</a>.
+            <a rel="external" href='@charityLink'>@Messages("page.iht.application.exemptions.charityNumber.linkText")</a>.
         </p>
 
             @ihtHelpers.standard.input_with_help(charityNumberForm("charityNumber"),
-                '_maxlength -> IhtProperties.validationMaxCharityNumberLength,
+                '_maxlength -> validationMaxCharityNumberLength,
                 '_divClass -> "form-group ",
                 '_inputClass -> "form-control",
                 '_label -> Html(Messages("iht.estateReport.exemptions.charities.charityNo.question")),

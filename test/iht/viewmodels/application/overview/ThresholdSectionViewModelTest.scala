@@ -26,6 +26,7 @@ import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.testhelpers.TestHelper._
 
 class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter with I18nSupport {
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
@@ -45,7 +46,7 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
    "have an id of 'threshold' for the increase threshold row" in {
       val viewModel = ThresholdSectionViewModel(regDetailsSingle, applicationDetails)
 
-      viewModel.thresholdRow.id shouldBe "threshold"
+      viewModel.thresholdRow.id shouldBe EstateIncreasingID
     }
 
     "have the correct caption for the threshold row" in {
@@ -135,7 +136,7 @@ class ThresholdSectionViewModelTest extends UnitSpec with FakeIhtApp with Mockit
 
     "have the id 'increasing-threshold' for the Increasing the Threshold row" in {
       val viewModel = ThresholdSectionViewModel(regDetailsMarried, appDetailsTnrbUnlocked)
-      viewModel.increasingThresholdRow.get.id shouldBe "increasing-threshold"
+      viewModel.increasingThresholdRow.get.id shouldBe EstateIncreasingID
     }
 
     "have the correct caption for the Increasing the Threshold row" in {

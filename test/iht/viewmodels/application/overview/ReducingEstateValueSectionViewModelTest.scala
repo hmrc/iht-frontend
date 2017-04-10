@@ -26,6 +26,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.UnitSpec
+import iht.testhelpers.TestHelper._
 
 class ReducingEstateValueSectionViewModelTest
   extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
@@ -41,7 +42,7 @@ class ReducingEstateValueSectionViewModelTest
     "have an id of 'exemptions' for the exemptions row" in {
       val viewModel = ReducingEstateValueSectionViewModel(applicationDetails, regDetailsMarriedPerson)
 
-      viewModel.exemptionRow.id shouldBe "exemptions"
+      viewModel.exemptionRow.id shouldBe EstateExemptionsID
     }
 
     "have the correct caption for the exemptions row" in {
@@ -156,7 +157,7 @@ class ReducingEstateValueSectionViewModelTest
       val appDetails = CommonBuilder.buildSomeExemptions(applicationDetails) copy (allLiabilities = Some(CommonBuilder.buildSomeLiabilities))
       val viewModel = ReducingEstateValueSectionViewModel(appDetails, regDetailsMarriedPerson)
 
-      viewModel.debtRow.get.id shouldBe "debts"
+      viewModel.debtRow.get.id shouldBe EstateDebtsID
     }
 
     "have the correct caption for the debts row" in {

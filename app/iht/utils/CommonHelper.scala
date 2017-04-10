@@ -495,11 +495,13 @@ object CommonHelper {
     }
   }
 
-  def addFragmentIdentifierToUrl(url: String, identifier: String) = {
+  def addFragmentIdentifierToUrl(url: String, identifier: String): String = {
     if (identifier.nonEmpty) {
       url + "#" + identifier
     } else {
       url
     }
   }
+
+  def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(Constants.NINO)
 }

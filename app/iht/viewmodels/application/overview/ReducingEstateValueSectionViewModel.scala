@@ -23,6 +23,7 @@ import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 case class ReducingEstateValueSectionViewModel(debtRow: Option[OverviewRow],
                                       exemptionRow: OverviewRow,
@@ -88,7 +89,7 @@ object ReducingEstateValueSectionViewModel {
       Messages("page.iht.application.overview.debts.screenReader.noValue.link")
     )
     val theDebtRow = if (areDebtsIncluded) {
-            Some(OverviewRow("debts", Messages("iht.estateReport.debts.owedFromEstate"),
+            Some(OverviewRow(EstateDebtsID, Messages("iht.estateReport.debts.owedFromEstate"),
               DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails)),
               RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
               iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(), debtsScreenreaderText))
@@ -100,7 +101,7 @@ object ReducingEstateValueSectionViewModel {
 
     ReducingEstateValueSectionViewModel(
       debtRow = theDebtRow,
-      exemptionRow = OverviewRow("exemptions", Messages("iht.estateReport.exemptions.title"),
+      exemptionRow = OverviewRow(EstateExemptionsID, Messages("iht.estateReport.exemptions.title"),
         displayValue, exemptionCompletionStatus,
         iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
         exemptionsScreenreaderText),

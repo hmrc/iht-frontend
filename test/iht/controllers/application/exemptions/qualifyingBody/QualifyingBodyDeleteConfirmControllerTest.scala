@@ -25,6 +25,8 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.utils.CommonHelper._
+import iht.testhelpers.TestHelper._
 
 class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
@@ -98,7 +100,7 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
     val result = qualifyingBodyDeleteConfirmController.onSubmit("1")(createFakeRequest())
 
     status(result) shouldBe(SEE_OTHER)
-    redirectLocation(result) should be(Some(routes.QualifyingBodiesOverviewController.onPageLoad().url))
+    redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.QualifyingBodiesOverviewController.onPageLoad().url, ExemptionsOtherAddID)))
   }
 
   "when given a valid qualifyingBody id the qualifyingBody should be deleted in load" in {

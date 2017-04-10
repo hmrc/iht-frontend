@@ -25,7 +25,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import play.api.i18n.Messages.Implicits._
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
+import iht.testhelpers.TestHelper._
 
 class TnrbOverviewViewTest extends ViewTestHelper {
 
@@ -192,7 +192,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
       button.text() shouldBe messagesApi("iht.estateReport.returnToEstateOverview")
       button.className() shouldBe "button"
       button.attr("href") shouldBe
-        iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference).url
+        CommonHelper.addFragmentIdentifierToUrl(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference).url, EstateIncreasingID)
    }
 
   }
