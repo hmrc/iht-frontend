@@ -21,6 +21,7 @@ import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.{CommonHelper, IhtSection}
+import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
@@ -65,7 +66,9 @@ trait ApplicationController extends FrontendController with IhtActions {
   def withRegistrationDetails(body: RegistrationDetails => Future[Result])
                              (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
-      case None => Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+      case None =>
+        Logger.info("Registration details not found so re-directing to application overview page")
+        Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
       case Some(rd) => body(rd)
     }
   }
