@@ -84,8 +84,10 @@ String.prototype.format = function () {
 
       setupDialog: function () {
         // check this
-        var dialogOpen = true
         var self = this
+        self.dialogOpen = true
+        self.startTime = Math.round(Date.now()/1000, 0);
+        self.currentMin = Math.ceil(settings.timeout / 60)
         self.destroyDialog()
         if (settings.background_no_scroll) {
           $('html').addClass('noScroll')
@@ -111,18 +113,12 @@ String.prototype.format = function () {
         var modalFocus = document.getElementById("timeout-dialog")
         modalFocus.focus()
 
-        $(document).on("focus", function (event) {
-        var modalFocus = document.getElementById("timeout-dialog")
-          if(dialogOpen && !modalFocus.contains(event.target)) {
-            event.stopPropagation()
-            modalFocus.focus()
-          }
-        })
+        self.addEvents();
 
-        self.startCountdown()
+        self.startCountdown(settings.countdown)
 
         self.escPress = function (event) {
-          if (dialogOpen && event.keyCode === 27) {
+          if (self.dialogOpen && event.keyCode === 27) {
             // close the dialog
             self.keepAlive()
             activeElement.focus()
@@ -130,7 +126,7 @@ String.prototype.format = function () {
         }
 
         self.closeDialog = function () {
-          if (dialogOpen) {
+          if (self.dialogOpen) {
             self.keepAlive()
             activeElement.focus()
           }
@@ -153,7 +149,7 @@ String.prototype.format = function () {
       destroyDialog: function () {
         $(document).off('touchmove', self.handleTouch)
         if ($('#timeout-dialog').length) {
-          dialogOpen = false
+          self.dialogOpen = false
           $('.timeout-overlay').remove()
           $('#timeout-dialog').remove()
           if (settings.background_no_scroll) {$('html').removeClass('noScroll')}
@@ -162,17 +158,51 @@ String.prototype.format = function () {
         $('#skiplink-container, body>header, #global-cookie-message, body>main, body>footer').removeAttr('aria-hidden')
       },
 
-      startCountdown: function () {
+      // AL: moved updater to own call to allow calling from other events
+      updateUI: function(counter){
         var self = this
-        var counter = settings.countdown
+        if (counter < 60) {
+            $('#timeout-countdown').html(counter + " seconds")
+          } else {
+            var newCounter = Math.ceil(counter / 60);
+            if(newCounter < self.currentMin){
+                self.currentMin = newCounter
+                $('#timeout-countdown').html(newCounter + " minutes")
+            }
+          }
+      },
 
+      addEvents: function(){
+        var self = this
+        $(document).on("focus", function(event){
+            var modalFocus = document.getElementById("timeout-dialog")
+          if(self.dialogOpen && !modalFocus.contains(event.target)) {
+            event.stopPropagation()
+            modalFocus.focus()
+          }
+        })
+
+        // AL: handle browsers pausing timeouts/intervals by recalculating the remaining time on window focus
+        $(window).on("focus", function (event) {
+            if(self.dialogOpen){
+                // clear the countdown
+                window.clearInterval(self.countdown)
+                // calculate remaining time
+                var expiredSeconds = (Math.round(Date.now()/1000, 0)) - self.startTime;
+                var currentCounter = settings.countdown - expiredSeconds;
+                self.updateUI(currentCounter);
+                self.startCountdown(currentCounter);
+            }
+
+        })
+      },
+
+      startCountdown: function (counter) {
+        var self = this
         this.countdown = window.setInterval(function () {
           counter -= 1
-          if (counter < 60) {
-            $('#timeout-countdown').html(counter + " seconds")
-          } else if (counter % 60 === 0) {
-            $('#timeout-countdown').html(counter / 60 + " minutes")
-          }
+
+          self.updateUI(counter);
 
           if (counter <= 0) {
             window.clearInterval(self.countdown)
