@@ -91,7 +91,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val existingCoExec0 = CommonBuilder.buildCoExecutor
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, CommonBuilder.DefaultCoExecutor1))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rdWithCoExecs)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rdWithCoExecs)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
@@ -107,7 +107,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
       val existingCoExec0 = CommonBuilder.buildCoExecutor
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, CommonBuilder.DefaultCoExecutor1, CommonBuilder.DefaultCoExecutor2))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rdWithCoExecs)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rdWithCoExecs)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
@@ -130,7 +130,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, CommonBuilder.DefaultCoExecutor1))
     val summaryForm = executorOverviewForm.fill(Some(true))
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rdWithCoExecs)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rdWithCoExecs)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
@@ -146,7 +146,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, CommonBuilder.DefaultCoExecutor1))
     val summaryForm = executorOverviewForm.fill(Some(false))
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rdWithCoExecs)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rdWithCoExecs)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
@@ -164,7 +164,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec0, CommonBuilder.DefaultCoExecutor1))
     val summaryForm = executorOverviewForm.fill(None)
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rdWithCoExecs)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rdWithCoExecs)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithCoExecs))
 
@@ -181,7 +181,7 @@ class ExecutorOverviewControllerTest extends RegistrationControllerTest with Bef
     val rdWithNoCoExecs = rd copy (coExecutors = Seq())
     val summaryForm = executorOverviewForm.fill(Some(false))
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rdWithNoCoExecs)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rdWithNoCoExecs)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithNoCoExecs))
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rdWithNoCoExecs))
 

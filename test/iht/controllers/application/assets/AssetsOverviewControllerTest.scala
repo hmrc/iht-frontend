@@ -48,7 +48,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {
     createMockToGetCaseDetails(mockIhtConnector, rd)
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rd)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
     createMockToGetApplicationDetails(mockIhtConnector, Some(ad))
     createMockToGetProbateDetails(mockIhtConnector)
@@ -122,6 +122,9 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be (Some(iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController.onPageLoad(ref).url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      assetsOverviewController.onPageLoad(createFakeRequest()))
 
   }
 }

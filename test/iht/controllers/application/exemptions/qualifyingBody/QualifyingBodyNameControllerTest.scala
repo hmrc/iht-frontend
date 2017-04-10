@@ -197,5 +197,8 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
        await(resultOnEditPageLoad("10"))
       }
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      qualifyingBodyNameController.onPageLoad(createFakeRequest()))
   }
 }

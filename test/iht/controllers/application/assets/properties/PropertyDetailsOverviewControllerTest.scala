@@ -115,6 +115,9 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
       status(result) should be(OK)
       contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      propertyDetailsOverviewController.onPageLoad(createFakeRequest()))
   }
 }
 

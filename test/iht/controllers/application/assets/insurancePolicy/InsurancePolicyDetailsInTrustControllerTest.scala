@@ -75,14 +75,12 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
   val applicationDetails = CommonBuilder.buildApplicationDetails copy (allAssets = Some(allAssets))
 
   private def createMocks(applicationDetails: ApplicationDetails) = {
-    when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(registrationDetails)
+    when(mockCachingConnector.getRegistrationDetails(any(), any()))
+      .thenReturn(Future.successful(Some(registrationDetails)))
     when(mockIhtConnector.getApplication(any(), any(), any())(any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
     when(mockCachingConnector.storeApplicationDetails(any())(any(), any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
-    when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(registrationDetails)
     when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
   }
@@ -151,7 +149,7 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = insurancePolicyDetailsInTrustController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -179,5 +177,9 @@ class InsurancePolicyDetailsInTrustControllerTest extends ApplicationControllerT
       redirectLocation(result) should be (
         Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsFinalGuidanceController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyDetailsInTrustController.onPageLoad(createFakeRequest()))
+
   }
 }

@@ -27,25 +27,29 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 /**
- * Created by james on 21/01/16.
- */
+  * Created by james on 21/01/16.
+  */
 object KindsOfGiftsController extends KindsOfGiftsController with IhtConnectors
 
 trait KindsOfGiftsController extends ApplicationController {
 
-  def cachingConnector : CachingConnector
-  def ihtConnector : IhtConnector
+  def cachingConnector: CachingConnector
+
+  def ihtConnector: IhtConnector
 
   def onPageLoad() = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
+        val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
 
-      lazy val optionMessageKey = lastQuestionUrl.map(url=> ControllerHelper.messageKeyForLastQuestionURL(url))
+        lazy val optionMessageKey = lastQuestionUrl.map(url => ControllerHelper.messageKeyForLastQuestionURL(url))
 
-      Future.successful(Ok(iht.views.html.application.gift.guidance.kinds_of_gifts(CommonHelper
-        .getOrExceptionNoIHTRef(cachingConnector.getExistingRegistrationDetails.ihtReference),
-        lastQuestionUrl,optionMessageKey, optionMessageKey)))
-    }
+        withRegistrationDetails { rd =>
+          Future.successful(Ok(iht.views.html.application.gift.guidance.kinds_of_gifts(CommonHelper
+            .getOrExceptionNoIHTRef(rd.ihtReference),
+            lastQuestionUrl, optionMessageKey, optionMessageKey)))
+        }
+      }
   }
 }

@@ -78,14 +78,12 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
   val applicationDetails = CommonBuilder.buildApplicationDetails copy (allAssets = Some(allAssets))
 
   private def createMocks(applicationDetails: ApplicationDetails) = {
-    when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(registrationDetails)
+    when(mockCachingConnector.getRegistrationDetails(any(), any()))
+      .thenReturn(Future.successful(Some(registrationDetails)))
     when(mockIhtConnector.getApplication(any(), any(), any())(any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
     when(mockCachingConnector.storeApplicationDetails(any())(any(), any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
-    when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(registrationDetails)
     when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
   }
@@ -152,7 +150,7 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -179,5 +177,8 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
       val result = insurancePolicyDetailsDeceasedOwnController.onSubmit (request)
       redirectLocation(result) should be (Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsurancePayingToDeceasedYesNoID))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyDetailsDeceasedOwnController.onPageLoad(createFakeRequest()))
   }
 }

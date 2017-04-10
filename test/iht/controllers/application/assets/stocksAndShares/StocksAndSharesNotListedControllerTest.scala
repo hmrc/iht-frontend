@@ -144,11 +144,14 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
     "respond with bad request when incorrect value are entered on the page" in {
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = stocksAndSharesNotListedController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      stocksAndSharesNotListedController.onPageLoad(createFakeRequest()))
   }
 
 }

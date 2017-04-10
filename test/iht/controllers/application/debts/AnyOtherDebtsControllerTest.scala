@@ -131,7 +131,7 @@ class AnyOtherDebtsControllerTest extends ApplicationControllerTest{
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = anyOtherDebtsController.onSubmit (fakePostRequest)
       status(result) shouldBe BAD_REQUEST
@@ -156,5 +156,8 @@ class AnyOtherDebtsControllerTest extends ApplicationControllerTest{
       val result = anyOtherDebtsController.onSubmit (request)
       status(result) shouldBe SEE_OTHER
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      anyOtherDebtsController.onPageLoad(createFakeRequest()))
   }
 }

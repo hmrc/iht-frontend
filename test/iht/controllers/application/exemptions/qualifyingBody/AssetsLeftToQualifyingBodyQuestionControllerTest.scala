@@ -151,6 +151,9 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
       result._1.qualifyingBodies should be (Seq(CommonBuilder.qualifyingBody))
       result._1.allExemptions.flatMap(_.qualifyingBody.flatMap(_.isSelected)) should be (Some(true))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      assetsLeftToQualifyingBodyQuestionController.onPageLoad(createFakeRequest()))
   }
 
 }

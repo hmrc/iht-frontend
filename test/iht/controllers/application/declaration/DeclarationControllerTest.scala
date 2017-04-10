@@ -67,7 +67,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       status = requiredStatus
     )
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, regDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
     createMockToGetCaseDetails(mockIhtConnector, regDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(regDetails))
   }
@@ -90,7 +90,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
     "respond with OK on page load for valueLessThanNilRateBand, single executor" in {
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
       createMockToGetSingleValueSyncFromCache(mockCachingConnector, same("shouldDisplayRealtimeRiskingMessage"), Some("false"))
@@ -108,7 +108,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
       val testRiskMessage = "Risk message is present"
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
       createMockToGetSingleValueSyncFromCache(mockCachingConnector, same("shouldDisplayRealtimeRiskingMessage"), Some(testRiskMessage))
@@ -124,7 +124,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
     "respond with NOT_IMPLEMENTED on page submit for valueLessThanNilRateBand, multiple executor, tick in box" in {
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("true"))
       createMockToGetApplicationDetails(mockIhtConnector)
@@ -144,7 +144,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
     "respond with redirect on page submit for valueLessThanNilRateBand, single executor" in {
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
       createMockToGetApplicationDetails(mockIhtConnector)
@@ -177,9 +177,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
         coExecutors = Seq(CommonBuilder.buildCoExecutor,
           CommonBuilder.buildCoExecutor))
 
-      createMockToGetCaseDetails(mockIhtConnector, regDetails)
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(regDetails))
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, regDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("true"))
       createMockToGetApplicationDetails(mockIhtConnector)
@@ -291,5 +289,8 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be(Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      declarationController.onPageLoad(createFakeRequest()))
   }
 }

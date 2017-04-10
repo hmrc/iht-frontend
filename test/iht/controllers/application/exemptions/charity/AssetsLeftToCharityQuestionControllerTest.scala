@@ -169,5 +169,8 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
       result._1.charities shouldBe Seq(CommonBuilder.charity)
       result._1.allExemptions.flatMap(_.charity.flatMap(_.isSelected)) shouldBe Some(true)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      assetsLeftToCharityQuestionController.onPageLoad(createFakeRequest()))
   }
 }

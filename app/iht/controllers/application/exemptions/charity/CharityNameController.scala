@@ -64,11 +64,12 @@ trait CharityNameController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      Future.successful(Ok(iht.views.html.application.exemption.charity.charity_name(charityNameForm,
-        regDetails,
-        submitUrl,
-        cancelUrl)))
+      withRegistrationDetails { regDetails =>
+        Future.successful(Ok(iht.views.html.application.exemption.charity.charity_name(charityNameForm,
+          regDetails,
+          submitUrl,
+          cancelUrl)))
+      }
     }
   }
 

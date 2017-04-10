@@ -124,5 +124,8 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
       status(result) should be (BAD_REQUEST)
       contentAsString(result) should include (messagesApi("error.problem"))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerPermanentHomeQuestionController.onPageLoad(createFakeRequest()))
   }
 }

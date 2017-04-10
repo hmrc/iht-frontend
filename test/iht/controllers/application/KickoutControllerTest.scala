@@ -61,7 +61,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
           .copy(kickoutReason = Some(KickOutReason.ForeignAssetsValueMoreThanMax),
             status = AppStatus.KickOut)
 
-        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector, singleValueReturn = None)
@@ -80,7 +80,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
           kickoutReason = Some(KickOutReason.ExemptionEstateValueIsMoreThanMaximum),
           status = AppStatus.KickOut)
 
-        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector, singleValueReturn = None)
@@ -116,7 +116,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
           kickoutReason = Some(TestHelper.KickOutAnnuitiesOnInsurance),
           status = AppStatus.KickOut)
 
-        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
         createMockToGetApplicationDetailsFromCache(mockCachingConnector, Some(applicationDetails))
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
@@ -129,7 +129,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "intercept RuntimeException on page load when there is no application details data in Keystore" in {
       running(app){
-        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector, singleValueReturn = None)
         createMockToGetApplicationDetails(mockIhtConnector, None)
@@ -144,7 +144,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "intercept RuntimeException on page load when there is NOT a valid kickoutReason data in Keystore" in {
       running(app){
-        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToGetApplicationDetails(mockIhtConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector, singleValueReturn = None)
@@ -160,7 +160,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "respond with redirect to deleting estate report page on page submission" in {
       running(app){
-        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector)
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
@@ -176,7 +176,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "respond with redirect to iht400 page on page submission when first page already seen" in {
       running(app){
-        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector)
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
@@ -191,7 +191,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
     "respond with INTERNAL_SERVER_ERROR on page submission when unable to store value in cache" in {
       running(app){
-        createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector)
         createMockToDoNothingWhenDeleteApplication(mockIhtConnector)
@@ -200,6 +200,15 @@ class KickoutControllerTest extends ApplicationControllerTest {
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
         status(result) shouldBe INTERNAL_SERVER_ERROR
+      }
+    }
+
+    "respond with redirect to application overview when no registration details found in cache" in {
+      running(app) {
+        createMockToGetRegDetailsFromCache(mockCachingConnector, None)
+        val result = kickoutController.onPageLoad(createFakeRequest())
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
       }
     }
   }

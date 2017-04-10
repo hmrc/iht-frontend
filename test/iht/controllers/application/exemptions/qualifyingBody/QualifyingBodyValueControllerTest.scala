@@ -183,6 +183,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
       }
     }
 
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      qualifyingBodyValueController.onPageLoad(createFakeRequest()))
   }
-
 }

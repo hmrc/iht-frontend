@@ -23,7 +23,7 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.Logger
@@ -33,6 +33,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.Future
 import iht.constants.IhtProperties._
 
@@ -47,66 +48,68 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
   val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerAssetsID))
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request =>
+    implicit user =>
+      implicit request =>
 
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
+        withRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(getNino(user),
-          getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
+                val filledForm = appDetails.allExemptions.flatMap(_.partner)
+                  .fold(assetsLeftToSpouseQuestionForm)(assetsLeftToSpouseQuestionForm.fill)
 
-            val filledForm = appDetails.allExemptions.flatMap(_.partner)
-              .fold(assetsLeftToSpouseQuestionForm)(assetsLeftToSpouseQuestionForm.fill)
-
-            Ok(assets_left_to_partner_question(filledForm,
-              registrationDetails,
-              returnLabel(registrationDetails, appDetails),
-              returnUrl(registrationDetails, appDetails)
-            ))
-          }
-          case _ => {
-            Logger.warn("Application Details not found")
-            InternalServerError("Application details not found")
+                Ok(assets_left_to_partner_question(filledForm,
+                  registrationDetails,
+                  returnLabel(registrationDetails, appDetails),
+                  returnUrl(registrationDetails, appDetails)
+                ))
+              }
+              case _ => {
+                Logger.warn("Application Details not found")
+                InternalServerError("Application details not found")
+              }
+            }
           }
         }
-      }
   }
 
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
+          val boundForm = assetsLeftToSpouseQuestionForm.bindFromRequest
 
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      val boundForm = assetsLeftToSpouseQuestionForm.bindFromRequest
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-      val applicationDetailsFuture = ihtConnector.getApplication(getNino(user),
-        getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
-
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
-          boundForm.fold(
-            formWithErrors => {
-              Future.successful(BadRequest(assets_left_to_partner_question(formWithErrors,
-                regDetails,
-                returnLabel(regDetails, appDetails),
-                returnUrl(regDetails, appDetails))))
-            },
-            partnerExemption => {
-              saveApplication(getNino(user), partnerExemption, regDetails, appDetails)
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(assets_left_to_partner_question(formWithErrors,
+                    regDetails,
+                    returnLabel(regDetails, appDetails),
+                    returnUrl(regDetails, appDetails))))
+                },
+                partnerExemption => {
+                  saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails, appDetails)
+                }
+              )
             }
-          )
-        }
-        case None => {
-          Logger.warn("Application Details not found")
-          Future.successful(InternalServerError("Application details not found"))
+            case None => {
+              Logger.warn("Application Details not found")
+              Future.successful(InternalServerError("Application details not found"))
+            }
+          }
         }
       }
-    }
   }
 
   def saveApplication(nino: String,
@@ -123,16 +126,16 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
       registrationDetails = regDetails,
       applicationDetails = appDetails.copy(allExemptions = Some(appDetails.allExemptions.fold(new
           AllExemptions(partner = Some(updatedPartnerExemption)))(_.copy(partner = Some(updatedPartnerExemption))))))
-    ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map( _=>
+    ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map(_ =>
       Redirect(applicationDetails.kickoutReason.fold(
-      updatedPartnerExemption.isAssetForDeceasedPartner match {
-        case Some(true) => {
-          if (updatedPartnerExemption.isPartnerHomeInUK.isEmpty) partnerPermanentHomePage else partnerOverviewPage
+        updatedPartnerExemption.isAssetForDeceasedPartner match {
+          case Some(true) => {
+            if (updatedPartnerExemption.isPartnerHomeInUK.isEmpty) partnerPermanentHomePage else partnerOverviewPage
+          }
+          case Some(false) => exemptionsOverviewPage
+          case _ => throw new RuntimeException("Partner Exemption does not exist")
         }
-        case Some(false) => exemptionsOverviewPage
-        case _ => throw new RuntimeException("Partner Exemption does not exist")
-      }
-    )(_ => kickoutRedirectLocation)))
+      )(_ => kickoutRedirectLocation)))
 
   }
 
@@ -144,7 +147,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
     * @return
     */
   private def getUpdatedPartnerExemption(appDetails: ApplicationDetails,
-                                     pe: PartnerExemption) = {
+                                         pe: PartnerExemption) = {
 
     val existingIsPartnerHomeInUK = appDetails.allExemptions.flatMap(_.partner.flatMap(_.isPartnerHomeInUK))
     val existingFirstName = appDetails.allExemptions.flatMap(_.partner.flatMap(_.firstName))
@@ -156,18 +159,18 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
 
     pe.isAssetForDeceasedPartner match {
       case Some(true) => pe.copy(isPartnerHomeInUK = existingIsPartnerHomeInUK,
-                                 firstName = existingFirstName,
-                                 lastName = existingLastName,
-                                 dateOfBirth = existingDateOfBirth,
-                                 nino = existingNino,
-                                 totalAssets = existingTotalAssets)
+        firstName = existingFirstName,
+        lastName = existingLastName,
+        dateOfBirth = existingDateOfBirth,
+        nino = existingNino,
+        totalAssets = existingTotalAssets)
 
-      case Some(false )=> pe.copy(isPartnerHomeInUK = None,
-                                  firstName = None,
-                                  lastName = None,
-                                  dateOfBirth = None,
-                                  nino = None,
-                                  totalAssets = None)
+      case Some(false) => pe.copy(isPartnerHomeInUK = None,
+        firstName = None,
+        lastName = None,
+        dateOfBirth = None,
+        nino = None,
+        totalAssets = None)
 
       case _ => throw new RuntimeException("AssetsLeft to partner question has not been answered")
     }

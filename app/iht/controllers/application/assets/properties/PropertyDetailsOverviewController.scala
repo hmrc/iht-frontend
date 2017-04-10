@@ -28,57 +28,60 @@ import play.api.Play.current
 import scala.concurrent.Future
 
 /**
- * Created by james on 16/06/16.
- */
+  * Created by james on 16/06/16.
+  */
 object PropertyDetailsOverviewController extends PropertyDetailsOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait PropertyDetailsOverviewController extends EstateController {
 
-  def ihtConnector : IhtConnector
-  def cachingConnector : CachingConnector
+  def ihtConnector: IhtConnector
+
+  def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
-
-      Future.successful(Ok(iht.views.html.application.asset.properties.property_details_overview(deceasedName)))
-    }
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { registrationDetails =>
+          val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
+          Future.successful(Ok(iht.views.html.application.asset.properties.property_details_overview(deceasedName)))
+        }
+      }
   }
 
   def onEditPageLoad(propertyId: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
+        withRegistrationDetails { registrationDetails =>
+          val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(applicationDetails) => {
-            applicationDetails.propertyList.find(property => property.id.getOrElse("") equals propertyId).fold {
-              throw new RuntimeException("No Property found for the id")
-            } {
-              (matchedProperty) =>
-                Ok(iht.views.html.application.asset.properties.property_details_overview(
-                deceasedName,
-                Some(matchedProperty)
-              ))
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(applicationDetails) => {
+                applicationDetails.propertyList.find(property => property.id.getOrElse("") equals propertyId).fold {
+                  throw new RuntimeException("No Property found for the id")
+                } {
+                  (matchedProperty) =>
+                    Ok(iht.views.html.application.asset.properties.property_details_overview(
+                      deceasedName,
+                      Some(matchedProperty)
+                    ))
+                }
+              }
+              case _ => {
+                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+                InternalServerError("No Application Details found")
+              }
             }
-          }
-          case _ => {
-            Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-            InternalServerError("No Application Details found")
           }
         }
       }
-    }
   }
 
 }

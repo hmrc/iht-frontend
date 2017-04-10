@@ -46,7 +46,7 @@ trait QualifyingBodyNameController extends EstateController {
 
   // TODO: Update the redirect location during integration
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
-    optionID.map(id=>routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)))
+    optionID.map(id => routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)))
 
   val updateApplicationDetails: (ApplicationDetails, Option[String], QualifyingBody) => (ApplicationDetails, Option[String]) =
     (appDetails, id, qualifyingBody) => {
@@ -58,7 +58,7 @@ trait QualifyingBodyNameController extends EstateController {
           id.fold {
             val nextID = nextId(qbList)
             (qbList :+ qualifyingBody.copy(id = Some(nextID)), nextID)
-          } {reqId => throw new RuntimeException("Id " + reqId + " can not be found")}
+          } { reqId => throw new RuntimeException("Id " + reqId + " can not be found") }
         case Some(matchedQualifyingBody) =>
           val updatedQualifyingBody: QualifyingBody = matchedQualifyingBody.copy(name = qualifyingBody.name)
           (qbList.updated(qbList.indexOf(matchedQualifyingBody), updatedQualifyingBody), seekID)
@@ -67,41 +67,46 @@ trait QualifyingBodyNameController extends EstateController {
     }
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      Future.successful(Ok(
-        iht.views.html.application.exemption.qualifyingBody.qualifying_body_name(qualifyingBodyNameForm,
-        regDetails,
-        submitUrl,
-        cancelUrl)))
-    }
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
+          Future.successful(Ok(
+            iht.views.html.application.exemption.qualifyingBody.qualifying_body_name(qualifyingBodyNameForm,
+              regDetails,
+              submitUrl,
+              cancelUrl)))
+        }
+      }
   }
 
   def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      estateElementOnEditPageLoadWithNavigation[QualifyingBody](qualifyingBodyNameForm,
-        qualifying_body_name.apply,
-        retrieveQualifyingBodyDetailsOrExceptionIfInvalidID(id),
-        editSubmitUrl(id),
-        editCancelUrl(id))
-    }
+    implicit user =>
+      implicit request => {
+        estateElementOnEditPageLoadWithNavigation[QualifyingBody](qualifyingBodyNameForm,
+          qualifying_body_name.apply,
+          retrieveQualifyingBodyDetailsOrExceptionIfInvalidID(id),
+          editSubmitUrl(id),
+          editCancelUrl(id))
+      }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      doSubmit(
-        submitUrl = submitUrl,
-        cancelUrl = cancelUrl)
-    }
+    implicit user =>
+      implicit request => {
+        doSubmit(
+          submitUrl = submitUrl,
+          cancelUrl = cancelUrl)
+      }
   }
 
   def onEditSubmit(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      doSubmit(
-        submitUrl=editSubmitUrl(id),
-        cancelUrl=editCancelUrl(id),
-        charityId=Some(id))
-    }
+    implicit user =>
+      implicit request => {
+        doSubmit(
+          submitUrl = editSubmitUrl(id),
+          cancelUrl = editCancelUrl(id),
+          charityId = Some(id))
+      }
   }
 
   private def doSubmit(submitUrl: Call,

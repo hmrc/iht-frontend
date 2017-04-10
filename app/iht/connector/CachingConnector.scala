@@ -19,8 +19,6 @@ package iht.connector
 import iht.config.WSHttp
 import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
-import iht.utils.CommonHelper
-import play.api.Logger
 import play.api.libs.json.{JsValue, Json, Reads, Writes}
 import uk.gov.hmrc.http.cache.client.SessionCache
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
@@ -29,7 +27,6 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
-
 
 object SessionHttpCaching extends SessionCache with AppName with ServicesConfig {
   override lazy val http = WSHttp
@@ -49,10 +46,6 @@ trait CachingConnector {
   private val allLiabilitiesKey = "allLiabilities"
   private val propertyListKey = "propertyList"
   private val probateDetailsKey = "probateDetails"
-
-  def getExistingRegistrationDetails(implicit ec: ExecutionContext, headerCarrier: HeaderCarrier): RegistrationDetails = {
-    CommonHelper.getOrExceptionNoRegistration(Await.result(getRegistrationDetails, Duration.Inf))
-  }
 
   def delete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
     SessionHttpCaching.fetch.map {

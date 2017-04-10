@@ -224,5 +224,8 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
       status(result) should be (BAD_REQUEST)
       contentAsString(result) should include (messagesApi("error.problem"))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      assetsLeftToPartnerQuestionController.onPageLoad(createFakeRequest()))
   }
 }

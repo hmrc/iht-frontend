@@ -67,5 +67,8 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
         await(DebtsOverviewController.onPageLoad()(createFakeRequest()))
       }
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      DebtsOverviewController.onPageLoad(createFakeRequest()))
   }
 }

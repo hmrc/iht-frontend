@@ -18,8 +18,8 @@ package iht.controllers.application.declaration
 
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties
-import iht.controllers.application.ApplicationController
 import iht.controllers.ControllerHelper
+import iht.controllers.application.ApplicationController
 import iht.forms.ApplicationForms
 import iht.metrics.Metrics
 import iht.models._
@@ -29,11 +29,11 @@ import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger
-import play.api.mvc.Result
-import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.Result
 import uk.gov.hmrc.play.frontend.auth.AuthContext
+import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
@@ -60,21 +60,20 @@ trait DeclarationController extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
+        withRegistrationDetails { regDetails =>
+          for {
+            appDetails <- getApplicationDetails(
+              getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference)
+          } yield {
 
-        val regDetails = cachingConnector.getExistingRegistrationDetails
+            Ok(iht.views.html.application.declaration.declaration(
+              DeclarationViewModel(ApplicationForms.declarationForm,
+                appDetails,
+                regDetails,
+                CommonHelper.getNino(user),
+                ihtConnector)))
 
-        for {
-          appDetails <- getApplicationDetails(
-            getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference)
-        } yield {
-
-          Ok(iht.views.html.application.declaration.declaration(
-            DeclarationViewModel(ApplicationForms.declarationForm,
-              appDetails,
-              regDetails,
-              CommonHelper.getNino(user),
-              ihtConnector)))
-
+          }
         }
       }
   }
@@ -82,41 +81,40 @@ trait DeclarationController extends ApplicationController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
-        if (checkMultipleExecutor) {
-          val boundForm = ApplicationForms.declarationForm.bindFromRequest
-          boundForm.fold(
-            formWithErrors => {
-              LogHelper.logFormError(formWithErrors)
-
-              val regDetails = cachingConnector.getExistingRegistrationDetails
-
-              for {
-                appDetails <- getApplicationDetails(
-                  getOrException(regDetails.ihtReference), regDetails.acknowledgmentReference)
-              } yield {
-                BadRequest(iht.views.html.application.declaration.declaration(
-                  DeclarationViewModel(ApplicationForms.declarationForm,
-                    appDetails,
-                    regDetails,
-                    CommonHelper.getNino(user),
-                    ihtConnector)
-                ))
+        withRegistrationDetails { rd =>
+          if (rd.coExecutors.nonEmpty) {
+            val boundForm = ApplicationForms.declarationForm.bindFromRequest
+            boundForm.fold(
+              formWithErrors => {
+                LogHelper.logFormError(formWithErrors)
+                for {
+                  appDetails <- getApplicationDetails(
+                    getOrException(rd.ihtReference), rd.acknowledgmentReference)
+                } yield {
+                  BadRequest(iht.views.html.application.declaration.declaration(
+                    DeclarationViewModel(ApplicationForms.declarationForm,
+                      appDetails,
+                      rd,
+                      CommonHelper.getNino(user),
+                      ihtConnector)
+                  ))
+                }
+              }, {
+                case true =>
+                  processApplicationOrRedirect
+                case _ =>
+                  Logger.warn("isDeclared is false. Redirecting to InternalServerError")
+                  Future.successful(InternalServerError)
               }
-            }, {
-              case true =>
-                processApplicationOrRedirect
-              case _ =>
-                Logger.warn("isDeclared is false. Redirecting to InternalServerError")
-                Future.successful(InternalServerError)
-            }
-          )
-        } else {
-          processApplicationOrRedirect
+            )
+          } else {
+            processApplicationOrRedirect
+          }
         }
       }
   }
 
-  private def processApplicationOrRedirect(implicit request: Request[_], hc: HeaderCarrier, user:AuthContext) = {
+  private def processApplicationOrRedirect(implicit request: Request[_], hc: HeaderCarrier, user: AuthContext) = {
     withRegistrationDetails { rd =>
       val ihtReference = CommonHelper.getOrException(rd.ihtReference)
       ihtConnector.getCaseDetails(CommonHelper.getNino(user), ihtReference) flatMap { rd =>
@@ -130,61 +128,54 @@ trait DeclarationController extends ApplicationController {
     }
   }
 
-  private def processApplication(nino: String)(implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
+  private def processApplication(nino: String)(implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
     val errorHandler: PartialFunction[Throwable, Result] = {
       case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages))
     }
-    val regDetails = cachingConnector.getExistingRegistrationDetails
-    val ihtAppReference = regDetails.ihtReference
-    val acknowledgement = regDetails.acknowledgmentReference
+    withRegistrationDetails { regDetails =>
+      val ihtAppReference = regDetails.ihtReference
+      val acknowledgement = regDetails.acknowledgmentReference
 
-    val applicationDetails = Await.result(ihtConnector.getApplication(nino, ihtAppReference, acknowledgement),
-      Duration.Inf)
+      val applicationDetails = Await.result(ihtConnector.getApplication(nino, ihtAppReference, acknowledgement),
+        Duration.Inf)
 
-    val ad1 = CommonHelper.getOrExceptionNoApplication(applicationDetails)
+      val ad1 = CommonHelper.getOrExceptionNoApplication(applicationDetails)
 
-    fillMetricsData(ad1, regDetails)
+      fillMetricsData(ad1, regDetails)
 
-    val updatedAppDetails: ApplicationDetails = ad1.copy(reasonForBeingBelowLimit = calculateReasonForBeingBelowLimit(ad1))
+      val updatedAppDetails: ApplicationDetails = ad1.copy(reasonForBeingBelowLimit = calculateReasonForBeingBelowLimit(ad1))
 
-    ihtConnector.saveApplication(nino, updatedAppDetails, acknowledgement)
-      .flatMap(optionSavedApplication => {
-        if (!optionSavedApplication.isDefined) {
-          Logger.debug("Unable to save application details: reasonForBeingBelowLimit not saved")
+      ihtConnector.saveApplication(nino, updatedAppDetails, acknowledgement)
+        .flatMap(optionSavedApplication => {
+          if (optionSavedApplication.isEmpty) {
+            Logger.debug("Unable to save application details: reasonForBeingBelowLimit not saved")
+          }
+          Logger.debug("Processing submission of application with IHT reference " + ihtAppReference + ":-\n" + updatedAppDetails.toString)
+          ihtConnector.submitApplication(ihtAppReference, nino, updatedAppDetails)
+        })
+        .flatMap(returnId => {
+          Logger.debug("Submission completed successfully with return id ::: " + returnId)
+          Future(metrics.generalStatsCounter(StatsSource.COMPLETED_APP)).onFailure {
+            case _ => Logger.info("Unable to write to StatsSource metrics repository")
+          }
+          Logger.info("Processing to get Probate details")
+          getProbateDetails(nino, ihtAppReference, returnId
+            .fold(throw new RuntimeException("Unable to submit application"))(identity).trim)
+        })
+        .flatMap {
+          case Some(probateObject) =>
+            Logger.info("Saving probate details in session")
+            cachingConnector.storeProbateDetails(probateObject)
+          case _ =>
+            Logger.warn("Probate details could not be retrieved")
+            Future.successful(None)
         }
-        Logger.debug("Processing submission of application with IHT reference " + ihtAppReference + ":-\n" + updatedAppDetails.toString)
-        ihtConnector.submitApplication(ihtAppReference, nino, updatedAppDetails)
-      })
-      .flatMap(returnId => {
-        Logger.debug("Submission completed successfully with return id ::: " + returnId)
-        Future(metrics.generalStatsCounter(StatsSource.COMPLETED_APP)).onFailure {
-          case _ => Logger.info("Unable to write to StatsSource metrics repository")
-        }
-        Logger.info("Processing to get Probate details")
-        getProbateDetails(nino, ihtAppReference, returnId
-          .fold(throw new RuntimeException("Unable to submit application"))(identity).trim)
-      })
-      .flatMap {
-        case Some(probateObject) =>
-          Logger.info("Saving probate details in session")
-          cachingConnector.storeProbateDetails(probateObject)
-        case _ =>
-          Logger.warn("Probate details could not be retrieved")
-          Future.successful(None)
-      }
-      .map { _ =>
-        Redirect(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad())
-      } recover errorHandler
-
+        .map { _ =>
+          Redirect(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad())
+        } recover errorHandler
+    }
   }
 
-  /**
-    *
-    * @param nino
-    * @param ihtReference
-    * @param ihtReturnId
-    * @return
-    */
   private def getProbateDetails(nino: String, ihtReference: String, ihtReturnId: String)
                                (implicit hc: HeaderCarrier): Future[Option[ProbateDetails]] = {
 
@@ -251,14 +242,6 @@ trait DeclarationController extends ApplicationController {
     } else {
       None
     }
-  }
-
-  /*
-   * Checks whether case contains multiple executors
-   */
-  private def checkMultipleExecutor()(implicit request: Request[_], hc: HeaderCarrier): Boolean = {
-    // Checks whether case contains multiple executors
-    cachingConnector.getExistingRegistrationDetails.coExecutors.nonEmpty
   }
 
   /**

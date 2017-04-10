@@ -82,7 +82,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val deceasedDetailsForm1 = deceasedAddressQuestionForm.fill(deceasedDetails)
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -100,7 +100,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=deceasedDetailsForm1.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -163,7 +163,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
     val deceasedDetailsForm1 = deceasedAddressQuestionForm.fill(deceasedDetails)
     val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=deceasedDetailsForm1.data.toSeq)
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 
@@ -178,7 +178,7 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
     val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
       data=deceasedDetailsForm1.data.toSeq)
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 

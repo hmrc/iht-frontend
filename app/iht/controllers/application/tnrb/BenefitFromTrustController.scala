@@ -39,83 +39,86 @@ import iht.utils.CommonHelper
 
 
 object BenefitFromTrustController extends BenefitFromTrustController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
-trait BenefitFromTrustController extends EstateController{
+trait BenefitFromTrustController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
+                val filledForm = benefitFromTrustForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                  TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-            val filledForm = benefitFromTrustForm.fill(appDetails.increaseIhtThreshold.getOrElse(
-              TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
-
-            Ok(iht.views.html.application.tnrb.benefit_from_trust(
-              filledForm,
-              appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-              appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseBenefitFromTrustID)))
-            )
+                Ok(iht.views.html.application.tnrb.benefit_from_trust(
+                  filledForm,
+                  appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseBenefitFromTrustID)))
+                )
+              }
+              case _ => InternalServerError("Application details not found")
+            }
           }
-          case _ => InternalServerError("Application details not found")
         }
       }
-    }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-      val boundForm = benefitFromTrustForm.bindFromRequest
+          val boundForm = benefitFromTrustForm.bindFromRequest
 
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
-          boundForm.fold(
-            formWithErrors=> {
-              Future.successful(BadRequest(iht.views.html.application.tnrb.benefit_from_trust(formWithErrors,
-                appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-                appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                cancelUrl)))
-            },
-            tnrbModel => {
-              saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.benefit_from_trust(formWithErrors,
+                    appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                    appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                    cancelUrl)))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
             }
-          )
+            case _ => Future.successful(InternalServerError("Application details not found"))
+          }
         }
-        case _ => Future.successful(InternalServerError("Application details not found"))
       }
-    }
   }
 
-  private def saveApplication(nino:String,
-                      tnrbModel: TnrbEligibiltyModel,
-                      appDetails: ApplicationDetails,
-                      regDetails: RegistrationDetails)(implicit request: Request[_],
-                                                       hc: HeaderCarrier): Future[Result] = {
+  private def saveApplication(nino: String,
+                              tnrbModel: TnrbEligibiltyModel,
+                              appDetails: ApplicationDetails,
+                              regDetails: RegistrationDetails)(implicit request: Request[_],
+                                                               hc: HeaderCarrier): Future[Result] = {
 
-        val updatedAppDetails = appDetails.copy(increaseIhtThreshold = Some(appDetails.increaseIhtThreshold.
-          fold(new TnrbEligibiltyModel(None, None, None, None,isPartnerBenFromTrust = tnrbModel.isPartnerBenFromTrust,
-            None, None, None, None, None, None)) (_.copy(isPartnerBenFromTrust = tnrbModel.isPartnerBenFromTrust))))
+    val updatedAppDetails = appDetails.copy(increaseIhtThreshold = Some(appDetails.increaseIhtThreshold.
+      fold(new TnrbEligibiltyModel(None, None, None, None, isPartnerBenFromTrust = tnrbModel.isPartnerBenFromTrust,
+        None, None, None, None, None, None))(_.copy(isPartnerBenFromTrust = tnrbModel.isPartnerBenFromTrust))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks=ApplicationKickOutHelper.checksTnrbEligibility,
-      registrationDetails=regDetails,
-      applicationDetails=updatedAppDetails)
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks = ApplicationKickOutHelper.checksTnrbEligibility,
+      registrationDetails = regDetails,
+      applicationDetails = updatedAppDetails)
 
     for {
       savedApplicationDetails <- ihtConnector.saveApplication(nino, updatedAppDetailsWithKickOutReason, regDetails.acknowledgmentReference)
@@ -123,11 +126,12 @@ trait BenefitFromTrustController extends EstateController{
       savedApplicationDetails.fold[Result] {
         Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
         InternalServerError
-      } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
-        case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseBenefitFromTrustID))
-      }
+      } { _ =>
+        updatedAppDetailsWithKickOutReason.kickoutReason match {
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
+          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseBenefitFromTrustID))
+        }
       }
     }
   }
- }
+}

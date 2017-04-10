@@ -69,7 +69,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {
     createMockToGetCaseDetails(mockIhtConnector, rd)
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, rd)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, rd)
     createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
     createMockToGetApplicationDetails(mockIhtConnector, Some(ad))
     createMockToGetProbateDetails(mockIhtConnector)

@@ -123,7 +123,7 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = controller.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -148,5 +148,9 @@ class InsurancePolicyDetailsMoreThanMaxValueControllerTest extends ApplicationCo
       status(result) shouldBe (SEE_OTHER)
       redirectLocation(result) should be (Some(iht.controllers.application.routes.KickoutController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      controller.onPageLoad(createFakeRequest()))
+
   }
 }

@@ -126,5 +126,8 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
       status(result) should be (BAD_REQUEST)
       contentAsString(result) should include("a problem")
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerNinoController.onPageLoad(createFakeRequest()))
   }
 }

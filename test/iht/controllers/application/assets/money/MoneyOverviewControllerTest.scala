@@ -75,6 +75,9 @@ class MoneyOverviewControllerTest extends ApplicationControllerTest {
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some(loginUrl))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      moneyOverviewController.onPageLoad(createFakeRequest()))
   }
   
 }

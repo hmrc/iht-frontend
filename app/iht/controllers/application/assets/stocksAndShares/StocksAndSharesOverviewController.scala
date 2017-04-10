@@ -39,18 +39,19 @@ trait StocksAndSharesOverviewController extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
+      withRegistrationDetails { registrationDetails =>
 
-      for {
+        for {
 
-        applicationDetails: Option[ApplicationDetails]<- ihtConnector.getApplication(
-          CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference
-        )
-        stocksAndShares:Option[StockAndShare] = applicationDetails.flatMap(_.allAssets.flatMap(_.stockAndShare))
-      } yield {
-        Ok(iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview(stocksAndShares ,registrationDetails))
+          applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+            CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+            registrationDetails.acknowledgmentReference
+          )
+          stocksAndShares: Option[StockAndShare] = applicationDetails.flatMap(_.allAssets.flatMap(_.stockAndShare))
+        } yield {
+          Ok(iht.views.html.application.asset.stocksAndShares.stocks_and_shares_overview(stocksAndShares, registrationDetails))
+        }
       }
     }
   }

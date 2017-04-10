@@ -29,14 +29,13 @@ import play.api.mvc.{Call, Request, Result}
 import play.twirl.api.HtmlFormat._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
 
 trait EstateController extends ApplicationController {
 
-  val applicationSection:Option[String] = None
+  val applicationSection: Option[String] = None
 
   def cachingConnector: CachingConnector
 
@@ -64,61 +63,63 @@ trait EstateController extends ApplicationController {
 
   val updateAllAssetsWithInsurancePolicy: (AllAssets,
     InsurancePolicy,
-    InsurancePolicy=>InsurancePolicy) => AllAssets =
-    (allAssets, insurancePolicy, filterFunction:InsurancePolicy => InsurancePolicy) => {
-    def booleanValue: (Option[Boolean], Option[BigDecimal], Option[BigDecimal]) => Option[BigDecimal] =
-      (optBoolean, optBigDecimal, defaultBigDecimal) => {
-      optBoolean match {
-        case None => defaultBigDecimal
-        case Some(false) => None
-        case Some(true) => optBigDecimal
+    InsurancePolicy => InsurancePolicy) => AllAssets =
+    (allAssets, insurancePolicy, filterFunction: InsurancePolicy => InsurancePolicy) => {
+      def booleanValue: (Option[Boolean], Option[BigDecimal], Option[BigDecimal]) => Option[BigDecimal] =
+        (optBoolean, optBigDecimal, defaultBigDecimal) => {
+          optBoolean match {
+            case None => defaultBigDecimal
+            case Some(false) => None
+            case Some(true) => optBigDecimal
+          }
+        }
+
+      def updateInsurancePolicy(insurancePolicy: InsurancePolicy, ip: InsurancePolicy,
+                                filterFunction: InsurancePolicy => InsurancePolicy) = {
+
+        val tempInsurancePolicy = insurancePolicy.copy(
+          isAnnuitiesBought = ip.isAnnuitiesBought.fold[Option[Boolean]](insurancePolicy.isAnnuitiesBought)(xx => Some(xx)),
+          isInsurancePremiumsPayedForSomeoneElse = ip.isInsurancePremiumsPayedForSomeoneElse.
+            fold[Option[Boolean]](insurancePolicy.isInsurancePremiumsPayedForSomeoneElse)(xx => Some(xx)),
+          value = booleanValue(ip.policyInDeceasedName, ip.value, insurancePolicy.value),
+          shareValue = booleanValue(ip.isJointlyOwned, ip.shareValue, insurancePolicy.shareValue),
+          policyInDeceasedName = ip.policyInDeceasedName.fold[Option[Boolean]](insurancePolicy.policyInDeceasedName)(xx => Some(xx)),
+          isJointlyOwned = ip.isJointlyOwned.fold[Option[Boolean]](insurancePolicy.isJointlyOwned)(xx => Some(xx)),
+          isInTrust = ip.isInTrust.fold[Option[Boolean]](insurancePolicy.isInTrust)(xx => Some(xx)),
+          coveredByExemption = ip.coveredByExemption.fold[Option[Boolean]](insurancePolicy.coveredByExemption)(xx => Some(xx)),
+          sevenYearsBefore = ip.sevenYearsBefore.fold[Option[Boolean]](insurancePolicy.sevenYearsBefore)(xx => Some(xx)),
+          moreThanMaxValue = ip.moreThanMaxValue.fold[Option[Boolean]](insurancePolicy.moreThanMaxValue)(xx => Some(xx))
+        )
+
+        filterFunction(tempInsurancePolicy)
       }
+
+      allAssets.copy(insurancePolicy = Some(
+        updateInsurancePolicy(allAssets.insurancePolicy
+          .fold(new InsurancePolicy(None, None, None, None, None, None, None, None, None, None))(identity),
+          insurancePolicy,
+          filterFunction)
+      ))
     }
 
-    def updateInsurancePolicy(insurancePolicy: InsurancePolicy, ip: InsurancePolicy,
-                              filterFunction: InsurancePolicy => InsurancePolicy ) = {
-
-      val tempInsurancePolicy = insurancePolicy.copy(
-        isAnnuitiesBought =  ip.isAnnuitiesBought.fold[Option[Boolean]](insurancePolicy.isAnnuitiesBought)(xx=>Some(xx)),
-        isInsurancePremiumsPayedForSomeoneElse = ip.isInsurancePremiumsPayedForSomeoneElse.
-            fold[Option[Boolean]](insurancePolicy.isInsurancePremiumsPayedForSomeoneElse)(xx=>Some(xx)),
-            value = booleanValue(ip.policyInDeceasedName, ip.value, insurancePolicy.value),
-        shareValue = booleanValue(ip.isJointlyOwned, ip.shareValue, insurancePolicy.shareValue),
-        policyInDeceasedName = ip.policyInDeceasedName.fold[Option[Boolean]](insurancePolicy.policyInDeceasedName)(xx=>Some(xx)),
-        isJointlyOwned = ip.isJointlyOwned.fold[Option[Boolean]](insurancePolicy.isJointlyOwned)(xx=>Some(xx)),
-        isInTrust =  ip.isInTrust.fold[Option[Boolean]](insurancePolicy.isInTrust)(xx=>Some(xx)),
-        coveredByExemption = ip.coveredByExemption.fold[Option[Boolean]](insurancePolicy.coveredByExemption)(xx=>Some(xx)),
-        sevenYearsBefore = ip.sevenYearsBefore.fold[Option[Boolean]](insurancePolicy.sevenYearsBefore)(xx=>Some(xx)),
-        moreThanMaxValue = ip.moreThanMaxValue.fold[Option[Boolean]](insurancePolicy.moreThanMaxValue)(xx=>Some(xx))
-      )
-
-      filterFunction(tempInsurancePolicy)
-    }
-
-    allAssets.copy(insurancePolicy = Some(
-      updateInsurancePolicy(allAssets.insurancePolicy
-        .fold(new InsurancePolicy(None,None,None,None,None,None, None, None, None,None))(identity),
-        insurancePolicy,
-        filterFunction)
-    ))
-  }
 
   def estateElementOnPageLoad[A](form: Form[A],
                                  retrievePageToDisplay: (Form[A], RegistrationDetails) => Appendable,
                                  retrieveSectionDetails: ApplicationDetails => Option[A])
                                 (implicit request: Request[_], user: AuthContext) = {
+    withRegistrationDetails { regDetails =>
+      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+        regDetails.acknowledgmentReference)
 
-    val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-    val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-      CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-      regDetails.acknowledgmentReference)
-
-    applicationDetailsFuture.map {
-      applicationDetails => applicationDetails.fold(InternalServerError("Application details not found")) {
-        (appDetails: ApplicationDetails) => {
-          val fm = retrieveSectionDetails(appDetails).fold(form)(form.fill)
-          Ok(retrievePageToDisplay(fm, regDetails))
-        }
+      applicationDetailsFuture.map {
+        applicationDetails =>
+          applicationDetails.fold(InternalServerError("Application details not found")) {
+            (appDetails: ApplicationDetails) => {
+              val fm = retrieveSectionDetails(appDetails).fold(form)(form.fill)
+              Ok(retrievePageToDisplay(fm, regDetails))
+            }
+          }
       }
     }
   }
@@ -128,22 +129,24 @@ trait EstateController extends ApplicationController {
     */
   def estateElementOnEditPageLoadWithNavigation[A](form: Form[A],
                                                    retrievePageToDisplay: (Form[A],
-                                                   RegistrationDetails, Call, Call) => Appendable,
+                                                     RegistrationDetails, Call, Call) => Appendable,
                                                    retrieveSectionDetails: ApplicationDetails => Option[A],
                                                    submit: Call,
                                                    cancel: Call)(implicit request: Request[_], user: AuthContext) = {
 
-    val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-    val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-      CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-      regDetails.acknowledgmentReference)
+    withRegistrationDetails { regDetails =>
+      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+        regDetails.acknowledgmentReference)
 
-    applicationDetailsFuture.map {
-      applicationDetails => applicationDetails.fold(InternalServerError("Application details not found")) {
-        (appDetails: ApplicationDetails) => {
-          val fm = retrieveSectionDetails(appDetails).fold(form)(form.fill)
-          Ok(retrievePageToDisplay(fm, regDetails, submit, cancel))
-        }
+      applicationDetailsFuture.map {
+        applicationDetails =>
+          applicationDetails.fold(InternalServerError("Application details not found")) {
+            (appDetails: ApplicationDetails) => {
+              val fm = retrieveSectionDetails(appDetails).fold(form)(form.fill)
+              Ok(retrievePageToDisplay(fm, regDetails, submit, cancel))
+            }
+          }
       }
     }
   }
@@ -155,11 +158,11 @@ trait EstateController extends ApplicationController {
                                retrievePageToDisplay: (Form[A], RegistrationDetails) => Appendable,
                                updateApplicationDetails: (ApplicationDetails, Option[String], A) => (ApplicationDetails, Option[String]),
                                redirectLocation: Call,
-                               formValidation: Option[Form[A]=>Option[FormError]] = None,
+                               formValidation: Option[Form[A] => Option[FormError]] = None,
                                id: Option[String] = None)
-                              (implicit request: Request[_], user: AuthContext): Future[Result]  = {
+                              (implicit request: Request[_], user: AuthContext): Future[Result] = {
 
-    val conditionalRedirect: (ApplicationDetails, Option[String])=>Call = (_,_)=>redirectLocation
+    val conditionalRedirect: (ApplicationDetails, Option[String]) => Call = (_, _) => redirectLocation
     estateElementOnSubmitConditionalRedirect[A](form, retrievePageToDisplay,
       updateApplicationDetails,
       conditionalRedirect,
@@ -172,37 +175,38 @@ trait EstateController extends ApplicationController {
   def estateElementOnSubmitConditionalRedirect[A](form: Form[A],
                                                   retrievePageToDisplay: (Form[A], RegistrationDetails) => Appendable,
                                                   updateApplicationDetails: (ApplicationDetails,
-                                                  Option[String], A ) => (ApplicationDetails, Option[String]),
-                                                  redirectLocation: (ApplicationDetails, Option[String])=>Call,
-                                                  formValidation: Option[Form[A]=>Option[FormError]] = None,
+                                                    Option[String], A) => (ApplicationDetails, Option[String]),
+                                                  redirectLocation: (ApplicationDetails, Option[String]) => Call,
+                                                  formValidation: Option[Form[A] => Option[FormError]] = None,
                                                   id: Option[String] = None)
                                                  (implicit request: Request[_], user: AuthContext): Future[Result] = {
-    val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-    val boundFormBeforeValidation = form.bindFromRequest
+    withRegistrationDetails { regDetails =>
+      val boundFormBeforeValidation = form.bindFromRequest
 
-    val boundForm = formValidation.flatMap( _(boundFormBeforeValidation) ) match {
-      case None => boundFormBeforeValidation
-      case Some(formError) => Form(
-        boundFormBeforeValidation.mapping,
-        boundFormBeforeValidation.data,
-        Seq(formError),
-        boundFormBeforeValidation.value)
-    }
-
-    boundForm.fold(
-      formWithErrors => {
-        Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
-      },
-      estateElementModel => {
-        estatesSaveApplication(CommonHelper.getNino(user),
-          estateElementModel,
-          regDetails,
-          updateApplicationDetails,
-          redirectLocation = redirectLocation,
-          id
-        )
+      val boundForm = formValidation.flatMap(_ (boundFormBeforeValidation)) match {
+        case None => boundFormBeforeValidation
+        case Some(formError) => Form(
+          boundFormBeforeValidation.mapping,
+          boundFormBeforeValidation.data,
+          Seq(formError),
+          boundFormBeforeValidation.value)
       }
-    )
+
+      boundForm.fold(
+        formWithErrors => {
+          Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
+        },
+        estateElementModel => {
+          estatesSaveApplication(CommonHelper.getNino(user),
+            estateElementModel,
+            regDetails,
+            updateApplicationDetails,
+            redirectLocation = redirectLocation,
+            id
+          )
+        }
+      )
+    }
   }
 
   /**
@@ -211,7 +215,7 @@ trait EstateController extends ApplicationController {
   private def estatesSaveApplication[A](nino: String,
                                         estateElementModel: A,
                                         regDetails: RegistrationDetails,
-                                        updateApplicationDetails:(ApplicationDetails, Option[String], A) => (ApplicationDetails, Option[String]),
+                                        updateApplicationDetails: (ApplicationDetails, Option[String], A) => (ApplicationDetails, Option[String]),
                                         redirectLocation: (ApplicationDetails, Option[String]) => Call,
                                         id: Option[String])
                                        (implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
@@ -265,50 +269,51 @@ trait EstateController extends ApplicationController {
                     applicationDetails: ApplicationDetails,
                     applicationID: Option[String] = None)
                    (implicit request: Request[_], hc: HeaderCarrier): ApplicationDetails =
-    ApplicationKickOutHelper.updateKickout(checks=checks,
-      prioritySection=applicationSection,
-      registrationDetails=registrationDetails,
-      applicationDetails=applicationDetails,
-      idForSectionTotal=applicationID)
+    ApplicationKickOutHelper.updateKickout(checks = checks,
+      prioritySection = applicationSection,
+      registrationDetails = registrationDetails,
+      applicationDetails = applicationDetails,
+      idForSectionTotal = applicationID)
 
   /**
     * Submits the page with Id and navigation urls.Can be used in properties, charities and qualifying bodies
     */
 
   def estateElementOnSubmitWithIdAndNavigation[A](
-                                form: Form[A],
-                                retrievePageToDisplay: (Form[A], RegistrationDetails, Call, Call) => Appendable,
-                                updateApplicationDetails: (ApplicationDetails, Option[String], A) => (ApplicationDetails, Option[String]),
-                                redirectLocation: (ApplicationDetails, Option[String])=>Call,
-                                formValidation: Option[Form[A]=>Option[FormError]] = None,
-                                id: Option[String] = None,
-                                submit: Call,
-                                cancel: Call)(implicit request: Request[_], user: AuthContext): Future[Result] = {
+                                                   form: Form[A],
+                                                   retrievePageToDisplay: (Form[A], RegistrationDetails, Call, Call) => Appendable,
+                                                   updateApplicationDetails: (ApplicationDetails, Option[String], A) => (ApplicationDetails, Option[String]),
+                                                   redirectLocation: (ApplicationDetails, Option[String]) => Call,
+                                                   formValidation: Option[Form[A] => Option[FormError]] = None,
+                                                   id: Option[String] = None,
+                                                   submit: Call,
+                                                   cancel: Call)(implicit request: Request[_], user: AuthContext): Future[Result] = {
 
-    val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-    val boundFormBeforeValidation = form.bindFromRequest
-    val boundForm = formValidation.flatMap( _(boundFormBeforeValidation) ) match {
-      case None => boundFormBeforeValidation
-      case Some(formError) => Form(
-        boundFormBeforeValidation.mapping,
-        boundFormBeforeValidation.data,
-        Seq(formError),
-        boundFormBeforeValidation.value)
-    }
-
-    boundForm.fold(
-      formWithErrors => {
-        Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails, submit, cancel)))
-      },
-      estateElementModel => {
-        estatesSaveApplication(CommonHelper.getNino(user),
-          estateElementModel,
-          regDetails,
-          updateApplicationDetails,
-          redirectLocation = redirectLocation,
-          id
-        )
+    withRegistrationDetails { regDetails =>
+      val boundFormBeforeValidation = form.bindFromRequest
+      val boundForm = formValidation.flatMap(_ (boundFormBeforeValidation)) match {
+        case None => boundFormBeforeValidation
+        case Some(formError) => Form(
+          boundFormBeforeValidation.mapping,
+          boundFormBeforeValidation.data,
+          Seq(formError),
+          boundFormBeforeValidation.value)
       }
-    )
+
+      boundForm.fold(
+        formWithErrors => {
+          Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails, submit, cancel)))
+        },
+        estateElementModel => {
+          estatesSaveApplication(CommonHelper.getNino(user),
+            estateElementModel,
+            regDetails,
+            updateApplicationDetails,
+            redirectLocation = redirectLocation,
+            id
+          )
+        }
+      )
+    }
   }
 }

@@ -27,30 +27,30 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 /**
- * Created by jennygj on 30/06/16.
- */
+  * Created by jennygj on 30/06/16.
+  */
 
 object MoneyOverviewController extends MoneyOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait MoneyOverviewController extends EstateController {
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-
-      for {
-
-        applicationDetails: Option[ApplicationDetails]<- ihtConnector.getApplication(
-          CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference
-        )
-        money:Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.money))
-      } yield {
-        Ok(iht.views.html.application.asset.money.money_overview(money, registrationDetails))
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+              CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference
+            )
+            money: Option[ShareableBasicEstateElement] = applicationDetails.flatMap(_.allAssets.flatMap(_.money))
+          } yield {
+            Ok(iht.views.html.application.asset.money.money_overview(money, registrationDetails))
+          }
+        }
       }
-    }
   }
 }

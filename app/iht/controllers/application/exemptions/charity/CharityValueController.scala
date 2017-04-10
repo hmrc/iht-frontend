@@ -43,10 +43,11 @@ trait CharityValueController extends EstateController {
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.CharityDetailsOverviewController.onEditPageLoad(id)
+
   private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onEditSubmit(id), Some(ExemptionsCharitiesValueID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
-    optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))
+    optionID.map(id => routes.CharityDetailsOverviewController.onEditPageLoad(id)))
 
   val updateApplicationDetails: (ApplicationDetails, Option[String], Charity) => (ApplicationDetails, Option[String]) =
     (appDetails, id, charity) => {
@@ -58,7 +59,7 @@ trait CharityValueController extends EstateController {
           id.fold {
             val nextID = nextId(charityList)
             (charityList :+ charity.copy(id = Some(nextID)), nextID)
-          } {reqId => throw new RuntimeException("Id " + reqId + " can not be found")}
+          } { reqId => throw new RuntimeException("Id " + reqId + " can not be found") }
         case Some(matchedCharity) =>
           val updatedCharity: Charity = matchedCharity.copy(totalValue = charity.totalValue)
           (charityList.updated(charityList.indexOf(matchedCharity), updatedCharity), seekID)
@@ -67,40 +68,45 @@ trait CharityValueController extends EstateController {
     }
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      Future.successful(Ok(iht.views.html.application.exemption.charity.assets_left_to_charity_value(assetsLeftToCharityValueForm,
-        regDetails,
-        submitUrl,
-        cancelUrl)))
-    }
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
+          Future.successful(Ok(iht.views.html.application.exemption.charity.assets_left_to_charity_value(assetsLeftToCharityValueForm,
+            regDetails,
+            submitUrl,
+            cancelUrl)))
+        }
+      }
   }
 
   def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      estateElementOnEditPageLoadWithNavigation[Charity](assetsLeftToCharityValueForm,
-        assets_left_to_charity_value.apply,
-        retrieveSectionDetailsOrExceptionIfInvalidID(id),
-        editSubmitUrl(id),
-        editCancelUrl(id))
-    }
+    implicit user =>
+      implicit request => {
+        estateElementOnEditPageLoadWithNavigation[Charity](assetsLeftToCharityValueForm,
+          assets_left_to_charity_value.apply,
+          retrieveSectionDetailsOrExceptionIfInvalidID(id),
+          editSubmitUrl(id),
+          editCancelUrl(id))
+      }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      doSubmit(
-        submitUrl = submitUrl,
-        cancelUrl = cancelUrl)
-    }
+    implicit user =>
+      implicit request => {
+        doSubmit(
+          submitUrl = submitUrl,
+          cancelUrl = cancelUrl)
+      }
   }
 
   def onEditSubmit(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      doSubmit(
-        submitUrl=editSubmitUrl(id),
-        cancelUrl= editCancelUrl(id),
-        Some(id))
-    }
+    implicit user =>
+      implicit request => {
+        doSubmit(
+          submitUrl = editSubmitUrl(id),
+          cancelUrl = editCancelUrl(id),
+          Some(id))
+      }
   }
 
   private def doSubmit(submitUrl: Call,

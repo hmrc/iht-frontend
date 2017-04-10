@@ -124,7 +124,7 @@ class ForeignControllerTest extends ApplicationControllerTest{
 
      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-     createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = foreignController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -148,5 +148,8 @@ class ForeignControllerTest extends ApplicationControllerTest{
       val result = foreignController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      foreignController.onPageLoad(createFakeRequest()))
   }
 }

@@ -70,6 +70,10 @@ class PensionsOverviewControllerTest extends ApplicationControllerTest {
       val result = pensionsOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe (OK)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      pensionsOverviewController.onPageLoad(createFakeRequest()))
+
   }
 
 }

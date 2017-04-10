@@ -137,5 +137,7 @@ class PensionsOwnedQuestionControllerTest extends ApplicationControllerTest{
       contentAsString(result) should include (messagesApi("error.problem"))
     }
 
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      pensionsOwnedQuestionController.onPageLoad(createFakeRequest()))
   }
 }

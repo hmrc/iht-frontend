@@ -121,12 +121,13 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
       val partnerForm = partnerExemptionNameForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(partnerForm.data.toSeq: _*)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = partnerNameController.onSubmit(request)
       status(result) should be(BAD_REQUEST)
     }
 
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerNameController.onPageLoad(createFakeRequest()))
   }
-
 }

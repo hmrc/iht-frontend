@@ -36,81 +36,82 @@ import scala.concurrent.Future
 
 
 object PartnerNameController extends PartnerNameController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
-trait PartnerNameController extends EstateController{
+trait PartnerNameController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
+                val filledForm = partnerNameForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                  TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-            val filledForm = partnerNameForm.fill(appDetails.increaseIhtThreshold.getOrElse(
-              TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
-
-            Ok(iht.views.html.application.tnrb.partner_name(
-              filledForm,
-              CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased,
-              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseNameID))
-            )
-            )
+                Ok(iht.views.html.application.tnrb.partner_name(
+                  filledForm,
+                  CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased,
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseNameID))
+                )
+                )
+              }
+              case _ => InternalServerError("Application details not found")
+            }
           }
-          case _ => InternalServerError("Application details not found")
         }
       }
-    }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
+          val boundForm = partnerNameForm.bindFromRequest
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
-
-      val boundForm = partnerNameForm.bindFromRequest
-
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
-          boundForm.fold(
-            formWithErrors=> {
-              Future.successful(BadRequest(iht.views.html.application.tnrb.partner_name(formWithErrors,
-                CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
-            },
-            tnrbModel => {
-              saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.partner_name(formWithErrors,
+                    CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
             }
-          )
+            case _ => Future.successful(InternalServerError("Application details not found"))
+          }
         }
-        case _ => Future.successful(InternalServerError("Application details not found"))
       }
-    }
   }
 
-  private def saveApplication(nino:String,
-                      tnrbModel: TnrbEligibiltyModel,
-                      appDetails: ApplicationDetails,
-                      regDetails: RegistrationDetails)(implicit request: Request[_],
-                                                       hc: HeaderCarrier): Future[Result] = {
+  private def saveApplication(nino: String,
+                              tnrbModel: TnrbEligibiltyModel,
+                              appDetails: ApplicationDetails,
+                              regDetails: RegistrationDetails)(implicit request: Request[_],
+                                                               hc: HeaderCarrier): Future[Result] = {
 
-        val updatedAppDetails = appDetails.copy(increaseIhtThreshold = Some(appDetails.increaseIhtThreshold.
-          fold(new TnrbEligibiltyModel(None, None, None, None,None, None, None,
-            firstName = tnrbModel.firstName, lastName = tnrbModel.lastName, None, None))
-          (_.copy(firstName = tnrbModel.firstName, lastName = tnrbModel.lastName))))
+    val updatedAppDetails = appDetails.copy(increaseIhtThreshold = Some(appDetails.increaseIhtThreshold.
+      fold(new TnrbEligibiltyModel(None, None, None, None, None, None, None,
+        firstName = tnrbModel.firstName, lastName = tnrbModel.lastName, None, None))
+      (_.copy(firstName = tnrbModel.firstName, lastName = tnrbModel.lastName))))
 
-        ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
-          TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseNameID)))
-    }
- }
+    ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
+      TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseNameID)))
+  }
+}
