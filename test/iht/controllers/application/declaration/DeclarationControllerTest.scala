@@ -169,9 +169,6 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
       val result = declarationController.onSubmit()(createFakeRequest())
       status(result) shouldBe (SEE_OTHER)
-      //      assert(Metrics.statsCounter(StatsSource.COMPLETED_APP).getCount>0 , "Completed application are greater than one")
-      //      assert(Metrics.statsCounter(StatsSource.NO_ASSETS_DEBTS_EXEMPTIONS_APP).getCount>0 ,
-      //                                                        "NO_ASSETS_DEBTS_EXEMPTIONS_APP counter must be greater than 0")
       redirectLocation(result) should be(Some(iht.controllers.application.declaration.routes.DeclarationReceivedController.onPageLoad().url))
     }
 
