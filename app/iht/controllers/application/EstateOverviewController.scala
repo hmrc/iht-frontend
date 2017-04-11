@@ -23,14 +23,15 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, ExemptionsGuidanceHelper, SubmissionDeadlineHelper}
+import iht.utils.{ApplicationKickOutHelper, ApplicationStatus, CommonHelper, ExemptionsGuidanceHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
 import org.joda.time.LocalDate
-import play.api.mvc.{Call, Result}
+import play.api.mvc.{Action, AnyContent, Call, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
@@ -49,26 +50,34 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
   def ihtConnector: IhtConnector
 
   def onPageLoadWithIhtRef(ihtReference: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
+        val nino = CommonHelper.getNino(user)
 
-      val nino = CommonHelper.getNino(user)
-      for {
-        caseDetails <- ihtConnector.getCaseDetails(nino, ihtReference)
-        Some(registrationDetails) <- cachingConnector.storeRegistrationDetails(caseDetails)
-        applicationDetails <- getApplicationDetails(ihtReference, registrationDetails.acknowledgmentReference)
-        deadlineDate <- getDeadline(applicationDetails, user)
-        redirectCall: Option[Call] <- ExemptionsGuidanceHelper.guidanceRedirect(
-          routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), applicationDetails, cachingConnector)
-      } yield {
-        redirectCall match {
-          case Some(call) => Redirect(call)
-          case None => {
-            val viewModel = EstateOverviewViewModel(registrationDetails, applicationDetails, deadlineDate)
-            Ok(iht.views.html.application.overview.estate_overview(viewModel))
-          }
+        ihtConnector.getCaseDetails(nino, ihtReference).flatMap {
+          caseDetails =>
+            caseDetails.status match {
+              case ApplicationStatus.AwaitingReturn => {
+                for {
+                  Some(registrationDetails) <- cachingConnector.storeRegistrationDetails(caseDetails)
+                  applicationDetails <- getApplicationDetails(ihtReference, registrationDetails.acknowledgmentReference)
+                  deadlineDate <- getDeadline(applicationDetails, user)
+                  redirectCall: Option[Call] <- ExemptionsGuidanceHelper.guidanceRedirect(
+                    routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference), applicationDetails, cachingConnector)
+                } yield {
+                  redirectCall match {
+                    case Some(call) => Redirect(call)
+                    case None => {
+                      val viewModel = EstateOverviewViewModel(registrationDetails, applicationDetails, deadlineDate)
+                      Ok(iht.views.html.application.overview.estate_overview(viewModel))
+                    }
+                  }
+                }
+              }
+              case _ => Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+            }
         }
       }
-    }
   }
 
   /**
