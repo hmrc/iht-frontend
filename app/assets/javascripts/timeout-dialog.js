@@ -191,23 +191,25 @@ String.prototype.format = function () {
         });
 
         // AL: handle browsers pausing timeouts/intervals by recalculating the remaining time on window focus
-        $(window).on("focus", function (event) {
-            if(self.dialogOpen){
-                // clear the countdown
-                window.clearInterval(self.countdown)
-                // calculate remaining time
-                var expiredSeconds = (Math.round(Date.now()/1000, 0)) - self.startTime;
-                var currentCounter = settings.countdown - expiredSeconds;
-                console.log(currentCounter, settings.countdown, expiredSeconds);
-                self.updateUI(currentCounter);
-                self.startCountdown(currentCounter);
-            }
+        // need to widen this to cover the setTimeout which triggers the dialog for browsers which pause timers on blur
+        // hiding this from IE8 and it breaks the reset - to investigate further
+        if (navigator.userAgent.match(/MSIE 8/) == null) {
+            $(window).on("focus", function (event) {
+                if(self.dialogOpen){
+                    // clear the countdown
+                    window.clearInterval(self.countdown)
+                    // calculate remaining time
+                    var expiredSeconds = (Math.round(Date.now()/1000, 0)) - self.startTime;
+                    var currentCounter = settings.countdown - expiredSeconds;
+                    self.updateUI(currentCounter);
+                    self.startCountdown(currentCounter);
+                }
 
-        })
+            })
+        }
       },
 
       startCountdown: function (counter) {
-        console.log(counter);
         var self = this
         self.countdown = window.setInterval(function () {
           counter -= 1
