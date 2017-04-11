@@ -173,14 +173,18 @@ String.prototype.format = function () {
       },
 
       addEvents: function(){
-        var self = this
-        $(document).on("focus", function(event){
+        var self = this;
+
+        // trap focus in modal (or browser chrome)
+        $('a, input, textarea, button, [tabindex]').not('[tabindex="-1"]').on("focus", function (event) {
             var modalFocus = document.getElementById("timeout-dialog")
-          if(self.dialogOpen && !modalFocus.contains(event.target)) {
-            event.stopPropagation()
-            modalFocus.focus()
-          }
-        })
+            if(modalFocus && self.dialogOpen){
+                if(!modalFocus.contains(event.target)) {
+                    event.stopPropagation()
+                    modalFocus.focus()
+                }
+            }
+        });
 
         // AL: handle browsers pausing timeouts/intervals by recalculating the remaining time on window focus
         $(window).on("focus", function (event) {
@@ -213,7 +217,7 @@ String.prototype.format = function () {
 
       keepAlive: function () {
         var self = this
-        this.destroyDialog()
+        self.destroyDialog()
         window.clearInterval(this.countdown)
         $(document).off('keydown', self.escPress)
 
