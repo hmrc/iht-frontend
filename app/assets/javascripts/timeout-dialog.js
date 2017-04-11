@@ -24,6 +24,9 @@
  * THE SOFTWARE.
  */
 
+ Date.now = Date.now || function() { return +new Date; };  
+ if (!window.console){ console = {log: function() {}} };
+
 function secondsToTime (secs) {
   var hours = Math.floor(secs / (60 * 60))
 
@@ -134,8 +137,9 @@ String.prototype.format = function () {
 
         // AL: prevent scrolling on touch, but allow pinch zoom
         self.handleTouch = function(e){
+            var touches = e.originalEvent.touches || e.originalEvent.changedTouches;
             if ($('#timeout-dialog').length) {
-                if(e.touches.length == 1){
+                if(touches.length == 1){
                     e.preventDefault();
                 }
             }
@@ -194,6 +198,7 @@ String.prototype.format = function () {
                 // calculate remaining time
                 var expiredSeconds = (Math.round(Date.now()/1000, 0)) - self.startTime;
                 var currentCounter = settings.countdown - expiredSeconds;
+                console.log(currentCounter, settings.countdown, expiredSeconds);
                 self.updateUI(currentCounter);
                 self.startCountdown(currentCounter);
             }
@@ -202,14 +207,14 @@ String.prototype.format = function () {
       },
 
       startCountdown: function (counter) {
+        console.log(counter);
         var self = this
-        this.countdown = window.setInterval(function () {
+        self.countdown = window.setInterval(function () {
           counter -= 1
 
           self.updateUI(counter);
 
           if (counter <= 0) {
-            window.clearInterval(self.countdown)
             self.signOut()
           }
         }, 1000)
@@ -235,8 +240,8 @@ String.prototype.format = function () {
 
       signOut: function () {
         var self = this
-        this.destroyDialog()
-
+        window.clearInterval(self.countdown)
+        self.destroyDialog()
         window.location = settings.logout_url
 
        }
