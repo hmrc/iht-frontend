@@ -36,4 +36,10 @@ trait IhtMainController extends FrontendController with CustomPasscodeAuthentica
       Future.successful(Ok(iht.views.html.sign_out()).withNewSession)
     }
   }
+
+  def keepAlive = customAuthenticatedActionAsync {
+      implicit request => {
+        Future.successful(Ok("OK"))
+      }
+  }
 }

@@ -30,13 +30,13 @@ trait SessionTimeoutController extends FrontendController{
 
   def onRegistrationPageLoad = UnauthorisedAction {
     implicit request => {
-      Ok(iht.views.html.registration.timeout_registration())
+      Ok(iht.views.html.registration.timeout_registration()).withNewSession
     }
   }
 
   def onApplicationPageLoad = UnauthorisedAction {
     implicit request => {
-      Ok(iht.views.html.application.timeout_application())
+      Ok(iht.views.html.application.timeout_application()).withNewSession
     }
   }
 }

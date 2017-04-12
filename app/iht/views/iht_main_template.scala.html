@@ -41,7 +41,8 @@ sidebarLinks: Html = HtmlFormat.empty,
 signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "",
-headingName: String = ""
+headingName: String = "",
+timeoutRoute: String = ""
 )(mainContent: Html)(implicit messages: Messages)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -73,10 +74,6 @@ headingName: String = ""
 }
 
 @linkElement = {
-    @if(hasTimeOut && appConfig.enableRefresh) {
-        <meta http-equiv="refresh" content="@appConfig.refreshInterval">
-    }
-
     @cssFile.map{css => <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/" + css)' /> }
     <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/iht-app.css")' />
     <!--[if lte IE 8 ]>
@@ -88,6 +85,20 @@ headingName: String = ""
 
     <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
     @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
+    @if(hasTimeOut && appConfig.enableRefresh) {
+    <script>
+        $.timeoutDialog({
+            timeout: @appConfig.timeOutSeconds,
+            countdown: @appConfig.timeOutCountdownSeconds,
+            keep_alive_url: "@iht.controllers.routes.IhtMainController.keepAlive.url",
+            logout_url: "@timeoutRoute",
+            title: "@Messages("iht.timeoutDialog.title")",
+            message: "@Messages("iht.timeoutDialog.p1")",
+            keep_alive_button_text: "@Messages("iht.timeoutDialog.button")"
+        });
+        var dialogOpen;
+    </script>
+    }
 }
 
 @commonContentHeader = {
@@ -123,7 +134,6 @@ headingName: String = ""
             @title
         }
     </h1>
-
     @mainContent
 
     @backUrl.map{ url =>

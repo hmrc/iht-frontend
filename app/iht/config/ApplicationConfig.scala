@@ -31,6 +31,7 @@ trait AppConfig {
   val betaFeedbackUnauthenticatedUrl: String
   val refreshInterval: Int
   val timeOutSeconds: Int
+  val timeOutCountdownSeconds: Int
   val enableRefresh : Boolean
   val postSignInRedirectUrlRegistration: String
   val notAuthorisedRedirectUrlRegistration:String
@@ -71,6 +72,7 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override val runningEnvironment: String =  configuration.getString("current-environment").getOrElse("local")
 
   override lazy val timeOutSeconds = configuration.getString("iv-uplift.time-out-seconds").getOrElse("900").toInt
+  override lazy val timeOutCountdownSeconds = configuration.getString("iv-uplift.time-out-countdown-seconds").getOrElse("300").toInt
   override lazy val refreshInterval = timeOutSeconds + 10
   override lazy val enableRefresh = configuration.getBoolean("enableRefresh").getOrElse(true)
 
