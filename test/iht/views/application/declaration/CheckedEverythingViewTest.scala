@@ -41,9 +41,8 @@ class CheckedEverythingViewTest extends ViewTestHelper {
       val rd = CommonBuilder.buildRegistrationDetails1
       val deceasedName = getOrException(rd.deceasedDetails.map(_.name))
       asDocument(page(rd)).title() should not include deceasedName
-      titleShouldBeCorrect(page(rd), messagesApi("iht.estateReport.declaration.checkedEverything.question"))
       browserTitleShouldBeCorrect(page(CommonBuilder.buildRegistrationDetails1),
-        messagesApi("iht.estateReport.declaration.checkedEverything.question"))
+        messagesApi("iht.estateReport.declaration.checkedEverything.browserTitle"))
     }
 
     "show correct paragraph 1" in {

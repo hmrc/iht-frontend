@@ -33,8 +33,9 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     ){ fullTitle =>
         @iht_main_template_application(
             title = fullTitle,
-            browserTitle = Some(fullTitle),
-            isFullWidth=false){
+            browserTitle = Some(Messages("iht.estateReport.declaration.checkedEverything.browserTitle")),
+            isFullWidth=false,
+            headingName = getOrException(registrationDetails.deceasedDetails.map(_.name))){
                 @ihtHelpers.custom.error_summary(checkedEverythingQuestionForm)
 
                 @helpers.form(action = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onSubmit,'autoComplete -> "off") {
