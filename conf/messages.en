@@ -156,7 +156,7 @@ iht.dropdown.of = ({0} of {1})
 iht.dropdown.closed = Suggestions list closed
 iht.dropdown.selected = {0} selected
 iht.timeoutDialog.title = You’re about to be signed out
-iht.timeoutDialog.p1 = If there’s no activity on your account, for your security, you’ll be signed out in
+iht.timeoutDialog.p1 = For your security you’ll be signed out in
 iht.timeoutDialog.button = Get another {0} minutes
 
 #Private Beta landing page
