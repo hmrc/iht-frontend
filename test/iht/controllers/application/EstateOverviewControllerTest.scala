@@ -129,6 +129,18 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
         messagesApi("page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2"))
     }
 
+    "redirect to List of Cases page if the case status is other than Awaiting Return" in {
+      createMocksForRegistrationAndApplication(
+        CommonBuilder.buildRegistrationDetails1.copy(status = "In Review"),
+        CommonBuilder.buildApplicationDetails copy (ihtRef = Some(ref)))
+      MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
+
+      val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) should be(
+        Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url))
+    }
+
 
     "respond with REDIRECT when the estate exceeds the TNRB threashold" in {
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)
