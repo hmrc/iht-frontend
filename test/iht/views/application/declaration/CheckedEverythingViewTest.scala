@@ -40,9 +40,9 @@ class CheckedEverythingViewTest extends ViewTestHelper {
     "show correct title and browserTitle" in {
       val rd = CommonBuilder.buildRegistrationDetails1
       val deceasedName = getOrException(rd.deceasedDetails.map(_.name))
-      titleShouldBeCorrect(page(rd), messagesApi("iht.estateReport.declaration.checkedEverything.question", deceasedName))
+      asDocument(page(rd)).title() should not include deceasedName
       browserTitleShouldBeCorrect(page(CommonBuilder.buildRegistrationDetails1),
-        messagesApi("iht.estateReport.declaration.checkedEverything.question", deceasedName))
+        messagesApi("iht.estateReport.declaration.checkedEverything.browserTitle"))
     }
 
     "show correct paragraph 1" in {
