@@ -1735,7 +1735,7 @@ iht.estateReport.declaration.withholdInformation = withhold or give false inform
 iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or have to pay a penalty if you:
 iht.estateReport.declaration.executors = Other executors
 
-iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in {0}’s estate?
+iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in the deceased’s estate?
 iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.
 iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration.
 iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this estate report, you’re declaring that you believe this is correct.
