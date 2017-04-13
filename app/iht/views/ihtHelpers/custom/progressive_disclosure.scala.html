@@ -16,9 +16,9 @@
 
 @(summary: String, content: Seq[String])
 
-<details class="u-mt--3">
+<details id ="progressive-disclosure-details" class="u-mt--3">
     <summary><span class="summary font-xsmall">@summary</span></summary>
-    <div class="panel-indent">
+    <div id ="progressive-disclosure-panel" class="panel-indent">
         @for(paragraph <- content){
         <p>@paragraph</p>
         }
