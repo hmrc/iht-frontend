@@ -158,6 +158,8 @@ iht.dropdown.selected = {0} selected
 iht.timeoutDialog.title = You’re about to be signed out
 iht.timeoutDialog.p1 = For your security you’ll be signed out in
 iht.timeoutDialog.button = Get another {0} minutes
+iht.needHelp = Need help?
+iht.needHelp.guidance = If you need help with completing this estate report, contact the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
 
 #Private Beta landing page
 page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report
