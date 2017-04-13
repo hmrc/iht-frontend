@@ -21,6 +21,7 @@ import uk.gov.hmrc.play.frontend.controller.FrontendController
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.passcode.authentication.{PasscodeAuthenticationProvider, PasscodeVerificationConfig}
+import iht.controllers.auth.IhtActions
 
 import scala.concurrent.Future
 
@@ -29,7 +30,7 @@ import scala.concurrent.Future
  */
 object IhtMainController extends IhtMainController
 
-trait IhtMainController extends FrontendController with CustomPasscodeAuthentication{
+trait IhtMainController extends FrontendController with CustomPasscodeAuthentication with IhtActions {
 
   def signOut = customAuthenticatedActionAsync {
     implicit request => {
@@ -37,9 +38,11 @@ trait IhtMainController extends FrontendController with CustomPasscodeAuthentica
     }
   }
 
-  def keepAlive = customAuthenticatedActionAsync {
+  def keepAlive = authorisedForIht {
+    implicit user =>
       implicit request => {
         Future.successful(Ok("OK"))
       }
+
   }
 }
