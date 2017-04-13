@@ -1,7 +1,12 @@
 var selenium = require('selenium-webdriver'),
     AxeBuilder = require('axe-webdriverjs');
+var By = selenium.By, until = selenium.until;
+var colors = require('colors');
 
-describe('Accessibility', function() {
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+
+describe('Registration accessibility', function() {
   var driver;
 
   beforeEach(function(done) {
@@ -9,7 +14,18 @@ describe('Accessibility', function() {
           .forBrowser('chrome')
           .build();
 
-      driver.get('http://localhost:9949/auth-login-stub/gg-sign-in')
+      driver.manage().timeouts().setScriptTimeout(60000);
+
+      driver.get('http://localhost:9949/auth-login-stub/gg-sign-in');
+      driver.findElement(By.name("authorityId")).sendKeys('1');
+      driver.findElement(By.name("redirectionUrl")).sendKeys('http://localhost:9070/inheritance-tax/registration/registration-checklist');
+      driver.findElement(By.name("credentialStrength")).sendKeys('strong');
+      driver.findElement(By.name("confidenceLevel")).sendKeys('200');
+      driver.findElement(By.name("nino")).sendKeys('CS700100A');
+      driver.findElement(By.css('[type="submit"]')).click();
+      driver.wait(until.titleContains('Before you start registration'), 1000);
+      driver.findElement(By.css('#start-registration')).click();
+      driver.wait(until.titleContains('Date of death'), 1000)
           .then(function () {
               done();
           });
@@ -21,6 +37,91 @@ describe('Accessibility', function() {
           done();
       });
   });
+
+  function checkAccessibility(done) {
+        AxeBuilder(driver)
+         .include('#content')
+         .analyze(function(results) {
+              console.log('Accessibility Violations: '.bold.bgYellow.black, results.violations.length);
+              if (results.violations.length > 0) {
+                  results.violations.forEach(function(violation){
+                      console.log(violation);
+                      console.log('============================================================'.yellow);
+                  });
+              }
+              expect(results.violations.length).toBe(0);
+              done();
+       })
+
+  }
+
+  function fillDateOfDeath(done){
+    driver.get('http://localhost:9070/inheritance-tax/registration/date-of-death')
+    driver.findElement(By.name("dateOfDeath.day")).sendKeys('1');
+    driver.findElement(By.name("dateOfDeath.month")).sendKeys('12');
+    driver.findElement(By.name("dateOfDeath.year")).sendKeys('2016');
+    driver.findElement(By.css('#continue-button')).click();
+  }
+
+  function fillPermanentHome(done){
+    driver.get('http://localhost:9070/inheritance-tax/registration/permanent-home-location')
+    driver.findElement(By.css("#domicile-england_or_wales")).click();
+    driver.findElement(By.css('#continue-button')).click();
+  }
+
+
+    it('registration checklist', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/registration/registration-checklist')
+        driver.wait(until.titleContains('Before you start registration'), 1000)
+        .then(function(){
+            checkAccessibility(done)
+        });
+    });
+
+    it('when did the deceased die', function (done) {
+        driver.wait(until.titleContains('Date of death'), 1000)
+        .then(function(){
+            checkAccessibility(done)
+        });
+    });
+
+    it('deceased permanent home', function (done) {
+        fillDateOfDeath();
+
+        driver.get('http://localhost:9070/inheritance-tax/registration/permanent-home-location')
+        driver.wait(until.titleContains('Permanent home'), 1000)
+        .then(function(){
+            checkAccessibility(done)
+        });
+    });
+
+    it('deceased details', function (done) {
+        fillDateOfDeath();
+        fillPermanentHome();
+
+        driver.get('http://localhost:9070/inheritance-tax/registration/deceaseds-details')
+        driver.wait(until.titleContains('About the deceased'), 1000)
+        .then(function(){
+            checkAccessibility(done)
+        });
+    });
+//
+//    it('deceased contact address', function (done) {
+//        driver.get('http://localhost:9070/inheritance-tax/registration/location-of-contact-address')
+//        driver.wait(until.titleContains('Contact address'), 1000)
+//        .then(function(){
+//            checkAccessibility(done)
+//        });
+//    });
+
+});
+
+
+
+
+
+
+
 
 //  it('should change state with the keyboard', function() {
 //    var selector = 'span[role="radio"][aria-labelledby="radiogroup-0-label-0"]';
@@ -37,71 +138,3 @@ describe('Accessibility', function() {
 //          expect(attr).toEqual('true');
 //      });
 //  });
-
-  it('should analyze the page with aXe', function (done) {
-     AxeBuilder(driver)
-       .analyze(function(results) {
-            console.log('Accessibility Violations: ', results.violations.length);
-            if (results.violations.length > 0) {
-                console.log(results.violations);
-            }
-            expect(results.violations.length).toBe(0);
-            done();
-        })
-  });
-});
-
-
-
-//var AxeBuilder = require('axe-webdriverjs');
-//var WebDriver = require('selenium-webdriver');
-//var jasmine = require('jasmine');
-//var By = WebDriver.By, until = WebDriver.until;
-//
-//var browser;
-//
-//jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-//
-//describe('Estate Report', function() {
-//    beforeEach(function() {
-//        browser = new WebDriver.Builder()
-//          .forBrowser('chrome')
-//          .build();
-//
-////        browser.manage().timeouts().setScriptTimeout(60000);
-////
-////        browser.get('http://localhost:9949/auth-login-stub/gg-sign-in');
-////        browser.findElement(By.name("authorityId")).sendKeys('1');
-////        browser.findElement(By.name("redirectionUrl")).sendKeys('http://localhost:9070/inheritance-tax/estate-report');
-////        browser.findElement(By.name("credentialStrength")).sendKeys('strong');
-////        browser.findElement(By.name("confidenceLevel")).sendKeys('200');
-////        browser.findElement(By.name("nino")).sendKeys('CS700100A');
-////        browser.findElement(By.css('[type="submit"]')).click();
-//    });
-//
-//    // Close the website after each test is run (so that it is opened fresh each time)
-////    afterEach(function() {
-////        browser.quit();
-////    });
-//
-//    it('estate report', function(){
-//        browser.get('http://localhost:9949/auth-login-stub/gg-sign-in');
-//        //browser.get('http://localhost:9070/inheritance-tax/estate-report');
-//        browser.wait(until.titleIs('Your estate reports - GOV.UK'), 1000);
-//        browser.then(function () {
-//            AxeBuilder(browser)
-//              .analyze(function (results) {
-//
-//                console.log('Accessibility Violations: ', results.violations.length);
-//                if (results.violations.length > 0) {
-//                    console.log(results.violations);
-//                }
-//                expect(results.violations.length).toBe(0);
-//                //done();
-//              });
-//        });
-//    });
-//
-//
-//
-//});
