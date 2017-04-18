@@ -69,50 +69,142 @@ describe('Registration accessibility', function() {
     driver.findElement(By.css('#continue-button')).click();
   }
 
+  function fillDeceasedDetails(done){
+    driver.get('http://localhost:9070/inheritance-tax/registration/deceaseds-details')
+    driver.findElement(By.name("firstName")).sendKeys('Harriet');
+    driver.findElement(By.name("lastName")).sendKeys('McDonald');
+    driver.findElement(By.name("dateOfBirth.day")).sendKeys('1');
+    driver.findElement(By.name("dateOfBirth.month")).sendKeys('12');
+    driver.findElement(By.name("dateOfBirth.year")).sendKeys('1980');
+    driver.findElement(By.name("nino")).sendKeys('QQ123456');
+    driver.findElement(By.css('#maritalStatus-married_or_in_civil_partnership-label')).click();
+    driver.findElement(By.css('#continue-button')).click();
+  }
 
-    it('registration checklist', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/registration/registration-checklist')
-        driver.wait(until.titleContains('Before you start registration'), 1000)
-        .then(function(){
-            checkAccessibility(done)
-        });
-    });
+  function fillDeceasedLastAddressUK(done){
+    driver.get('http://localhost:9070/inheritance-tax/registration/location-of-contact-address')
+    driver.findElement(By.css("#yes-label")).click();
+    driver.findElement(By.css('#continue-button')).click();
+  }
 
-    it('when did the deceased die', function (done) {
-        driver.wait(until.titleContains('Date of death'), 1000)
-        .then(function(){
-            checkAccessibility(done)
-        });
-    });
+  function fillDeceasedLastAddressOutsideUK(done){
+    driver.get('http://localhost:9070/inheritance-tax/registration/location-of-contact-address')
+    driver.findElement(By.css("#no-label")).click();
+    driver.findElement(By.css('#continue-button')).click();
+  }
 
-    it('deceased permanent home', function (done) {
-        fillDateOfDeath();
+  function fillLastContactUK(done){
+    driver.get('http://localhost:9070/inheritance-tax/registration/uk-contact-address');
+    driver.findElement(By.name("ukAddress.addressLine1")).sendKeys('10 Downing Street');
+    driver.findElement(By.name("ukAddress.addressLine2")).sendKeys('London');
+    driver.findElement(By.name("ukAddress.postCode")).sendKeys('NE12 3ER');
+    driver.findElement(By.css('#continue-button')).click();
+  }
 
-        driver.get('http://localhost:9070/inheritance-tax/registration/permanent-home-location')
-        driver.wait(until.titleContains('Permanent home'), 1000)
-        .then(function(){
-            checkAccessibility(done)
-        });
-    });
+  function fillLastContactOutsideUK(done){
+      driver.get('http://localhost:9070/inheritance-tax/registration/contact-address');
+      driver.findElement(By.name("ukAddress.addressLine1")).sendKeys('8 Rue de la Concorde');
+      driver.findElement(By.name("ukAddress.ukAddressLine2")).sendKeys('St Germain');
+      driver.findElement(By.name("ukAddress.addressLine3")).sendKeys('Paris');
+      driver.findElement(By.name("iht-auto-complete")).sendKeys('Fr');
 
-    it('deceased details', function (done) {
-        fillDateOfDeath();
-        fillPermanentHome();
+        driver.findElements(selenium.By.css(".suggestion"))
+          .then(function (elements) {
+              expect(elements.length).toEqual(4);
+          });
 
-        driver.get('http://localhost:9070/inheritance-tax/registration/deceaseds-details')
-        driver.wait(until.titleContains('About the deceased'), 1000)
-        .then(function(){
-            checkAccessibility(done)
-        });
-    });
-//
-//    it('deceased contact address', function (done) {
-//        driver.get('http://localhost:9070/inheritance-tax/registration/location-of-contact-address')
-//        driver.wait(until.titleContains('Contact address'), 1000)
+      driver.findElement(By.css('#iht-suggestions-list li:first-child')).click();
+      driver.findElement(By.css('#continue-button')).click();
+    }
+
+
+//    it('registration checklist', function (done) {
+//        driver.get('http://localhost:9070/inheritance-tax/registration/registration-checklist')
+//        driver.wait(until.titleContains('Before you start registration'), 2000)
 //        .then(function(){
 //            checkAccessibility(done)
 //        });
 //    });
+//
+//    it('when did the deceased die', function (done) {
+//        driver.wait(until.titleContains('Date of death'), 2000)
+//        .then(function(){
+//            checkAccessibility(done)
+//        });
+//    });
+//
+//    it('deceased permanent home', function (done) {
+//        fillDateOfDeath();
+//
+//        driver.get('http://localhost:9070/inheritance-tax/registration/permanent-home-location')
+//        driver.wait(until.titleContains('Permanent home'), 2000)
+//        .then(function(){
+//            checkAccessibility(done)
+//        });
+//    });
+//
+//    it('deceased details', function (done) {
+//        fillDateOfDeath();
+//        fillPermanentHome();
+//
+//        driver.get('http://localhost:9070/inheritance-tax/registration/deceaseds-details')
+//        driver.wait(until.titleContains('About the deceased'), 2000)
+//        .then(function(){
+//            checkAccessibility(done)
+//        });
+//    });
+//
+//    it('deceased contact address', function (done) {
+//        fillDateOfDeath();
+//        fillPermanentHome();
+//        fillDeceasedDetails();
+//
+//        driver.get('http://localhost:9070/inheritance-tax/registration/location-of-contact-address')
+//        driver.wait(until.titleContains('Contact address'), 2000)
+//        .then(function(){
+//            checkAccessibility(done)
+//        });
+//    });
+//
+//    it('deceased contact address UK', function (done) {
+//        fillDateOfDeath();
+//        fillPermanentHome();
+//        fillDeceasedDetails();
+//        fillDeceasedLastAddressUK();
+//
+//        driver.get('http://localhost:9070/inheritance-tax/registration/uk-contact-address')
+//        driver.wait(until.titleContains('Contact address'), 2000)
+//        .then(function(){
+//            checkAccessibility(done)
+//        });
+//    });
+
+//    it('deceased contact address outside UK', function (done) {
+//        fillDateOfDeath();
+//        fillPermanentHome();
+//        fillDeceasedDetails();
+//        fillDeceasedLastAddressOutsideUK();
+//
+//        driver.get('http://localhost:9070/inheritance-tax/registration/contact-address')
+//        driver.wait(until.titleContains('Contact address'), 2000)
+//        .then(function(){
+//            checkAccessibility(done)
+//        });
+//    });
+
+    it('applying for probate', function (done) {
+        fillDateOfDeath();
+        fillPermanentHome();
+        fillDeceasedDetails();
+        fillDeceasedLastAddressOutsideUK();
+        fillLastContactOutsideUK();
+
+        driver.get('http://localhost:9070/inheritance-tax/registration/applying-for-probate')
+        driver.wait(until.titleContains('Apply for probate'), 2000)
+        .then(function(){
+            checkAccessibility(done)
+        });
+    });
 
 });
 
