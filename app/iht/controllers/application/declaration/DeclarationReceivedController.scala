@@ -17,16 +17,14 @@
 package iht.controllers.application.declaration
 
 
-import iht.connector.CachingConnector
+import iht.connector.{CachingConnector, IhtConnectors}
 import iht.constants.Constants
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
-import iht.models.application.ProbateDetails
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.utils.CommonHelper
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+
+import scala.concurrent.Future
 
 /**
   * Created by vineet on 01/12/16.
@@ -40,8 +38,7 @@ trait DeclarationReceivedController extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        cachingConnector.getRegistrationDetails.flatMap { optionRD =>
-          val rd = CommonHelper.getOrExceptionNoRegistration(optionRD)
+        withRegistrationDetails { rd =>
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)
           cachingConnector.getProbateDetails.flatMap { optionProbateDetails =>
             cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap { _ =>
