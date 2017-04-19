@@ -72,5 +72,8 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
       val result = declarationReceivedController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      declarationReceivedController.onPageLoad(createFakeRequest()))
   }
 }
