@@ -87,7 +87,7 @@
             </fo:table-cell>
             <fo:table-cell text-align="right" padding-left="4pt">
                 <fo:block>
-                    &#xA3;<xsl:value-of select='format-number(number($value), "##,###0.00")'/>
+                    &#xA3;<xsl:value-of select='format-number(number($value), "##,###.00")'/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
