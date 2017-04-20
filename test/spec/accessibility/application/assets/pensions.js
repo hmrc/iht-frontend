@@ -30,7 +30,7 @@ var reporter = new SpecReporter({
 jasmine.getEnv().addReporter(reporter);
 
 
-describe('Property Assets accessibility : ', function() {
+fdescribe('Property Assets accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -94,56 +94,76 @@ describe('Property Assets accessibility : ', function() {
     }
 
 
-    function fillMoneyOwned(done){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
+    function fillPensionsFilter(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-private-pensions-owned')
         driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("value")).sendKeys('5000');
         submitPage();
     }
-    function fillMoneyJointlyOwned(done){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("shareValue")).sendKeys('8000');
+
+    function fillPensionChanges(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-pension-changes')
+        driver.findElement(By.css('#no-label')).click();
+        submitPage();
+    }
+
+    function fillPensionValue(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-pensions')
+        driver.findElement(By.css('#value')).sendKeys('15000')
         submitPage();
     }
 
 
-    it('money overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
-        driver.wait(until.titleContains('Money'), 2000)
+    it('pensions question', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-private-pensions-owned')
+        driver.wait(until.titleContains('Any private pensions'), 2000)
         .then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money overview, filled', function (done) {
-        fillMoneyOwned();
-        fillMoneyJointlyOwned();
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
-        driver.wait(until.titleContains('Money'), 2000)
+    it('pensions overview', function (done) {
+        fillPensionsFilter();
+
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/private-pensions')
+        driver.wait(until.titleContains('Private pensions'), 2000)
+
         .then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money owned by deceased', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
-        triggerErrorSummary(done, 'Own money owned')
-        driver.findElement(By.css('#yes-label')).click();
+    it('pensions overview, filled', function (done) {
+        fillPensionsFilter();
+        fillPensionChanges();
+        fillPensionValue();
+
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/private-pensions')
+        driver.wait(until.titleContains('Private pensions'), 2000)
+
+        .then(function(){
+            checkAccessibility(done)
+        });
+    });
+
+    it('changes to pension', function (done) {
+        fillPensionsFilter();
+
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-pension-changes')
+        triggerErrorSummary(done, 'Changes to pension')
         driver.then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money owned jointly', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
-        triggerErrorSummary(done, 'Joint money owned')
-        driver.findElement(By.css('#yes-label')).click();
+    it('pension value', function (done) {
+        fillPensionsFilter();
+
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-pensions')
+        driver.wait(until.titleContains('Pension value'), 2000)
         driver.then(function(){
             checkAccessibility(done)
         });
     });
-
 
 });
 

@@ -94,50 +94,50 @@ describe('Property Assets accessibility : ', function() {
     }
 
 
-    function fillMoneyOwned(done){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
+    function fillHouseholdOwned(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-household-items-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("value")).sendKeys('5000');
         submitPage();
     }
-    function fillMoneyJointlyOwned(done){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
+    function fillHouseholdJointlyOwned(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-jointly-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("shareValue")).sendKeys('8000');
         submitPage();
     }
 
 
-    it('money overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
-        driver.wait(until.titleContains('Money'), 2000)
+    it('household overview', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-owned')
+        driver.wait(until.titleContains('Household and personal items'), 2000)
         .then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money overview, filled', function (done) {
-        fillMoneyOwned();
-        fillMoneyJointlyOwned();
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
-        driver.wait(until.titleContains('Money'), 2000)
+    it('household overview, filled', function (done) {
+        fillHouseholdOwned();
+        fillHouseholdJointlyOwned();
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-owned')
+        driver.wait(until.titleContains('Household and personal items'), 2000)
         .then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money owned by deceased', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
-        triggerErrorSummary(done, 'Own money owned')
+    it('household owned by deceased', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-household-items-owned')
+        triggerErrorSummary(done, 'Own household items owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money owned jointly', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
-        triggerErrorSummary(done, 'Joint money owned')
+    it('household owned jointly', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-jointly-owned')
+        triggerErrorSummary(done, 'Joint household items owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             checkAccessibility(done)
