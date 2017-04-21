@@ -2,32 +2,12 @@ var selenium = require('selenium-webdriver'),
     AxeBuilder = require('axe-webdriverjs');
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
-var Report = require('jasmine-spec-reporter').DisplayProcessor;
+var TestReporter = require('../../../spec-helpers/reporter.js');
+var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 jasmine.getEnv().clearReporters();
-
-Report.prototype.displaySuite = function (suite, log) {
-  return log;
-};
-
-Report.prototype.displaySuccessfulSpec = function (spec, log) {
-  return log;
-};
-
-Report.prototype.displayFailedSpec = function (spec, log) {
-  return log;
-};
-
-Report.prototype.displayPendingSpec = function (spec, log) {
-  return log;
-};
-
-var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
-var reporter = new SpecReporter({
-    customProcessors: [Report]
-});
-jasmine.getEnv().addReporter(reporter);
+jasmine.getEnv().addReporter(Reporter.reporter);
 
 
 describe('Registration accessibility : ', function() {

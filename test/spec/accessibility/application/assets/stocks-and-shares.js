@@ -9,8 +9,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
-
-describe('Money (Assets) accessibility : ', function() {
+describe('Stocks and Shares (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -55,10 +54,10 @@ describe('Money (Assets) accessibility : ', function() {
         .include('#content')
         .analyze(function(results) {
             if (results.violations.length > 0) {
-                console.log('Accessibility Violations: '.bold.bgRed.white, results.violations.length);
+                console.log('      ','Accessibility Violations: '.bold.bgRed.white, results.violations.length);
                 results.violations.forEach(function(violation){
-                    console.log(violation);
-                    console.log('============================================================'.red);
+                    console.log('      ', violation);
+                    console.log('      ============================================================'.red);
                 });
             }
             expect(results.violations.length).toBe(0);
@@ -74,50 +73,52 @@ describe('Money (Assets) accessibility : ', function() {
     }
 
 
-    function fillMoneyOwned(done){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
+    function fillStocksOwned(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/listed-stocks-and-shares-owned')
         driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("value")).sendKeys('5000');
+        driver.findElement(By.name("valueListed")).sendKeys('5000');
         submitPage();
     }
-    function fillMoneyJointlyOwned(done){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
+    function fillStocksJointlyOwned(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/unlisted-stocks-and-shares-owned')
         driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("shareValue")).sendKeys('8000');
+        driver.findElement(By.name("valueNotListed")).sendKeys('8000');
         submitPage();
     }
 
 
-    it('money overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
-        driver.wait(until.titleContains('Money'), 2000)
+    it('stocks and shares overview', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned')
+        driver.wait(until.titleContains('Stocks and shares'), 2000)
         .then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money overview, filled', function (done) {
-        fillMoneyOwned();
-        fillMoneyJointlyOwned();
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
-        driver.wait(until.titleContains('Money'), 2000)
+    it('stocks and shares overview, filled', function (done) {
+        fillStocksOwned();
+        fillStocksJointlyOwned();
+        driver.sleep(2000)
+
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned')
+        driver.wait(until.titleContains('Stocks and shares'), 2000)
         .then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money owned by deceased', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
-        triggerErrorSummary(done, 'Own money owned')
+    it('stocks and shares listed on an exchange', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/listed-stocks-and-shares-owned')
+        triggerErrorSummary(done, 'Listed stocks and shares')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             checkAccessibility(done)
         });
     });
 
-    it('money owned jointly', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
-        triggerErrorSummary(done, 'Joint money owned')
+    it('stocks and shares not listed on an exchange', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/unlisted-stocks-and-shares-owned')
+        triggerErrorSummary(done, 'Unlisted stocks and shares')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             checkAccessibility(done)
