@@ -3,6 +3,8 @@ var selenium = require('selenium-webdriver'),
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
+var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
+var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -17,22 +19,7 @@ describe('Insurance (Assets) accessibility : ', function() {
       driver = new selenium.Builder()
           .forBrowser('chrome')
           .build();
-
-      driver.manage().timeouts().setScriptTimeout(60000);
-
-      driver.get('http://localhost:9949/auth-login-stub/gg-sign-in');
-      driver.findElement(By.name("authorityId")).sendKeys('1');
-      driver.findElement(By.name("redirectionUrl")).sendKeys('http://localhost:9070/inheritance-tax/estate-report');
-      driver.findElement(By.name("credentialStrength")).sendKeys('strong');
-      driver.findElement(By.name("confidenceLevel")).sendKeys('200');
-      driver.findElement(By.name("nino")).sendKeys('CS700100A');
-      driver.findElement(By.css('[type="submit"]')).click();
-      driver.findElement(By.css("table a:first-of-type")).click();
-      driver.wait(until.titleContains('Estate overview'), 2000)
-          .then(function () {
-            driver.get('http://localhost:9070/inheritance-tax/test-only/drop');
-            done();
-          });
+       loginhelper.authenticate(done, driver, 'report')
     });
 
     // Close website after each test is run (so it is opened fresh each time)
@@ -50,22 +37,6 @@ describe('Insurance (Assets) accessibility : ', function() {
         driver.findElement(By.css(buttonSelector)).click();
     }
 
-    function checkAccessibility(done) {
-        AxeBuilder(driver)
-        .include('#content')
-        .analyze(function(results) {
-            if (results.violations.length > 0) {
-                console.log('      ','Accessibility Violations: '.bold.bgRed.white, results.violations.length);
-                results.violations.forEach(function(violation){
-                    console.log('      ', violation);
-                    console.log('      ============================================================'.red);
-                });
-            }
-            expect(results.violations.length).toBe(0);
-            done();
-        })
-
-    }
 
     function triggerErrorSummary(done, title, button){
         driver.wait(until.titleContains(title), 2000)
@@ -115,7 +86,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-owned')
         driver.wait(until.titleContains('Insurance policies'), 2000)
         .then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -130,7 +101,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-owned')
         driver.wait(until.titleContains('Insurance policies'), 2000)
         .then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -139,7 +110,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         triggerErrorSummary(done, 'Own insurance policies')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -148,7 +119,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         triggerErrorSummary(done, 'Joint insurance policies')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -156,7 +127,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-insurance-policies-gifted')
         triggerErrorSummary(done, 'Premiums paid for someone else')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -166,7 +137,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-gifted-policies')
         triggerErrorSummary(done, 'Value of gifted policies')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -177,7 +148,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-annuities')
         triggerErrorSummary(done, 'Any annuities bought')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -189,7 +160,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-placed-in-trust')
         triggerErrorSummary(done, 'Policies placed in trust')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -203,7 +174,7 @@ describe('Insurance (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-are-gifts')
         driver.wait(until.titleContains('Insurance premiums'), 2000)
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 });

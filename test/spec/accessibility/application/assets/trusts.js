@@ -12,7 +12,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-describe('Vehicles (Assets) accessibility : ', function() {
+fdescribe('Trusts (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -44,59 +44,75 @@ describe('Vehicles (Assets) accessibility : ', function() {
         driver.wait(until.titleContains(title), 2000)
     }
 
-
-    function fillVehiclesOwned(done){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-vehicles-owned')
+    function fillTrustQuestion(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-assets-in-trust')
         driver.findElement(By.css('#yes-label')).click();
+        submitPage();
+    }
+
+    function fillHowManyTrusts(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/how-many-trusts')
+        driver.findElement(By.css('#no-label')).click();
+        submitPage();
+    }
+
+    function fillValueOfTrust(done){
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-trusts')
         driver.findElement(By.name("value")).sendKeys('5000');
         submitPage();
     }
-    function fillVehiclesJointlyOwned(done){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-jointly-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("shareValue")).sendKeys('8000');
-        submitPage();
-    }
 
 
-    it('vehicles overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned')
-        driver.wait(until.titleContains('Motor vehicles'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
-    });
-
-    it('vehicles overview, filled', function (done) {
-        fillVehiclesOwned();
-        fillVehiclesJointlyOwned();
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned')
-        driver.wait(until.titleContains('Motor vehicles'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
-    });
-
-    it('vehicles owned by deceased', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-vehicles-owned')
-        triggerErrorSummary(done, 'Motor vehicles owned');
-        driver.findElement(By.css('#yes-label')).click();
+    it('benefit from trusts yes/no', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-assets-in-trust')
+        triggerErrorSummary(done, 'Any assets in trust')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
-    it('vehicles owned jointly', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-jointly-owned')
-        triggerErrorSummary(done, 'Motor vehicles jointly owned')
-        driver.findElement(By.css('#yes-label')).click();
+    it('trust overview', function (done) {
+        fillTrustQuestion();
+
+        driver.wait(until.titleContains('Assets held in trust'), 2000)
+        .then(function(){
+            accessibilityhelper.checkAccessibility(done, driver)
+        });
+    });
+
+    it('trust overview, filled', function (done) {
+        fillTrustQuestion();
+        fillHowManyTrusts();
+        fillValueOfTrust();
+
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-in-trust');
+        driver.wait(until.titleContains('Assets held in trust'), 2000)
+        .then(function(){
+            accessibilityhelper.checkAccessibility(done, driver)
+        });
+    });
+
+    it('how many trusts', function (done){
+        fillTrustQuestion();
+
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/how-many-trusts')
+        triggerErrorSummary(done, 'How many trusts benefitted')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
+
+    it('value of trust', function (done){
+        fillTrustQuestion();
+
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-trusts')
+        driver.wait(until.titleContains('Trust value'), 2000)
+        .then(function(){
+            accessibilityhelper.checkAccessibility(done, driver)
+        });
+    });
+
+
 
 
 });
-
-
-

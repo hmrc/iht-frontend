@@ -3,6 +3,8 @@ var selenium = require('selenium-webdriver'),
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
+var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
+var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -18,21 +20,7 @@ describe('Pensions (Assets) accessibility : ', function() {
           .forBrowser('chrome')
           .build();
 
-      driver.manage().timeouts().setScriptTimeout(60000);
-
-      driver.get('http://localhost:9949/auth-login-stub/gg-sign-in');
-      driver.findElement(By.name("authorityId")).sendKeys('1');
-      driver.findElement(By.name("redirectionUrl")).sendKeys('http://localhost:9070/inheritance-tax/estate-report');
-      driver.findElement(By.name("credentialStrength")).sendKeys('strong');
-      driver.findElement(By.name("confidenceLevel")).sendKeys('200');
-      driver.findElement(By.name("nino")).sendKeys('CS700100A');
-      driver.findElement(By.css('[type="submit"]')).click();
-      driver.findElement(By.css("table a:first-of-type")).click();
-      driver.wait(until.titleContains('Estate overview'), 2000)
-          .then(function () {
-            driver.get('http://localhost:9070/inheritance-tax/test-only/drop');
-            done();
-          });
+      loginhelper.authenticate(done, driver, 'report')
     });
 
     // Close website after each test is run (so it is opened fresh each time)
@@ -50,22 +38,6 @@ describe('Pensions (Assets) accessibility : ', function() {
         driver.findElement(By.css(buttonSelector)).click();
     }
 
-    function checkAccessibility(done) {
-        AxeBuilder(driver)
-        .include('#content')
-        .analyze(function(results) {
-            if (results.violations.length > 0) {
-                console.log('Accessibility Violations: '.bold.bgRed.white, results.violations.length);
-                results.violations.forEach(function(violation){
-                    console.log(violation);
-                    console.log('============================================================'.red);
-                });
-            }
-            expect(results.violations.length).toBe(0);
-            done();
-        })
-
-    }
 
     function triggerErrorSummary(done, title, button){
         driver.wait(until.titleContains(title), 2000)
@@ -97,7 +69,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-private-pensions-owned')
         driver.wait(until.titleContains('Any private pensions'), 2000)
         .then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -108,7 +80,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         driver.wait(until.titleContains('Private pensions'), 2000)
 
         .then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -121,7 +93,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         driver.wait(until.titleContains('Private pensions'), 2000)
 
         .then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -131,7 +103,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-pension-changes')
         triggerErrorSummary(done, 'Changes to pension')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -141,7 +113,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-pensions')
         driver.wait(until.titleContains('Pension value'), 2000)
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 

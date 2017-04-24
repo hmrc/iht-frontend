@@ -3,6 +3,8 @@ var selenium = require('selenium-webdriver'),
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
+var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
+var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -17,21 +19,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
           .forBrowser('chrome')
           .build();
 
-      driver.manage().timeouts().setScriptTimeout(60000);
-
-      driver.get('http://localhost:9949/auth-login-stub/gg-sign-in');
-      driver.findElement(By.name("authorityId")).sendKeys('1');
-      driver.findElement(By.name("redirectionUrl")).sendKeys('http://localhost:9070/inheritance-tax/estate-report');
-      driver.findElement(By.name("credentialStrength")).sendKeys('strong');
-      driver.findElement(By.name("confidenceLevel")).sendKeys('200');
-      driver.findElement(By.name("nino")).sendKeys('CS700100A');
-      driver.findElement(By.css('[type="submit"]')).click();
-      driver.findElement(By.css("table a:first-of-type")).click();
-      driver.wait(until.titleContains('Estate overview'), 2000)
-          .then(function () {
-            driver.get('http://localhost:9070/inheritance-tax/test-only/drop');
-            done();
-          });
+      loginhelper.authenticate(done, driver, 'report')
     });
 
     // Close website after each test is run (so it is opened fresh each time)
@@ -91,19 +79,18 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned')
         driver.wait(until.titleContains('Stocks and shares'), 2000)
         .then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('stocks and shares overview, filled', function (done) {
         fillStocksOwned();
         fillStocksJointlyOwned();
-        driver.sleep(2000)
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned')
         driver.wait(until.titleContains('Stocks and shares'), 2000)
         .then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -112,7 +99,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
         triggerErrorSummary(done, 'Listed stocks and shares')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -121,7 +108,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
         triggerErrorSummary(done, 'Unlisted stocks and shares')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
-            checkAccessibility(done)
+           accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 

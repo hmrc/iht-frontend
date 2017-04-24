@@ -3,6 +3,8 @@ var selenium = require('selenium-webdriver'),
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../spec-helpers/reporter.js');
+var accessibilityhelper = require('../../../spec-helpers/check-accessibility-helper.js');
+var loginhelper = require('../../../spec-helpers/login-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -18,21 +20,7 @@ describe('Registration accessibility : ', function() {
           .forBrowser('chrome')
           .build();
 
-      driver.manage().timeouts().setScriptTimeout(60000);
-
-      driver.get('http://localhost:9949/auth-login-stub/gg-sign-in');
-      driver.findElement(By.name("authorityId")).sendKeys('1');
-      driver.findElement(By.name("redirectionUrl")).sendKeys('http://localhost:9070/inheritance-tax/registration/registration-checklist');
-      driver.findElement(By.name("credentialStrength")).sendKeys('strong');
-      driver.findElement(By.name("confidenceLevel")).sendKeys('200');
-      driver.findElement(By.name("nino")).sendKeys('CS700100A');
-      driver.findElement(By.css('[type="submit"]')).click();
-      driver.wait(until.titleContains('Before you start registration'), 1000);
-      driver.findElement(By.css('#start-registration')).click();
-      driver.wait(until.titleContains('Date of death'), 1000)
-          .then(function () {
-              done();
-          });
+        loginhelper.authenticate(done, driver, 'reg')
     });
 
     // Close website after each test is run (so it is opened fresh each time)
@@ -44,23 +32,6 @@ describe('Registration accessibility : ', function() {
     
     function submitPage(done){
         driver.findElement(By.css('#continue-button')).click();
-    }
-
-    function checkAccessibility(done) {
-        AxeBuilder(driver)
-        .include('#content')
-        .analyze(function(results) {
-            if (results.violations.length > 0) {
-                console.log('Accessibility Violations: '.bold.bgRed.white, results.violations.length);
-                results.violations.forEach(function(violation){
-                    console.log(violation);
-                    console.log('============================================================'.red);
-                });
-            }
-            expect(results.violations.length).toBe(0);
-            done();
-        })
-
     }
 
     function fillDateOfDeath(done){
@@ -259,14 +230,14 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/registration-checklist')
         driver.wait(until.titleContains('Before you start registration'), 2000)
         .then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('when did the deceased die', function (done) {
         triggerErrorSummary(done, 'Date of death')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -276,7 +247,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/permanent-home-location')
         triggerErrorSummary(done, 'Permanent home')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -287,7 +258,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/deceaseds-details')
         triggerErrorSummary(done, 'About the deceased')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -299,7 +270,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/location-of-contact-address')
         triggerErrorSummary(done, 'Contact address')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -312,7 +283,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/uk-contact-address')
         triggerErrorSummary(done, 'Contact address')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -325,7 +296,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/contact-address')
         triggerErrorSummary(done, 'Contact address')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -339,7 +310,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/applying-for-probate')
         triggerErrorSummary(done, 'Apply for probate')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -354,7 +325,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/probate-location')
         triggerErrorSummary(done, 'Probate location')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -370,7 +341,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/your-contact-details')
         triggerErrorSummary(done, 'Your contact details')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
@@ -387,7 +358,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/your-uk-address')
         triggerErrorSummary(done, 'Your address')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
 
     })
@@ -405,7 +376,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/your-address')
         triggerErrorSummary(done, 'Your address')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
 
     })
@@ -424,7 +395,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/any-other-applicants')
         triggerErrorSummary(done, 'Other probate applicants')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     })
 
@@ -443,7 +414,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/applicants-details')
         triggerErrorSummary(done, 'Other person’s details')
         driver.then(function(){
-          checkAccessibility(done)
+          accessibilityhelper.checkAccessibility(done, driver)
         });
     })
 
@@ -463,7 +434,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/applicants-uk-address/1')
         triggerErrorSummary(done, 'Other person’s address')
         driver.then(function(){
-          checkAccessibility(done)
+          accessibilityhelper.checkAccessibility(done, driver)
         });
     })
 
@@ -483,7 +454,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/applicants-uk-address/1')
         triggerErrorSummary(done, 'Other person’s address')
         driver.then(function(){
-          checkAccessibility(done)
+          accessibilityhelper.checkAccessibility(done, driver)
         });
     })
 
@@ -504,7 +475,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/other-probate-applicants')
         triggerErrorSummary(done, 'Other applicants')
         driver.then(function(){
-            checkAccessibility(done)
+            accessibilityhelper.checkAccessibility(done, driver)
         });
     })
 
@@ -526,7 +497,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/delete-applicant/1')
         driver.wait(until.titleContains("Delete applicant"), 2000)
         .then(function(){
-        checkAccessibility(done)
+        accessibilityhelper.checkAccessibility(done, driver)
         });
     })
 
@@ -549,7 +520,7 @@ describe('Registration accessibility : ', function() {
         driver.get('http://localhost:9070/inheritance-tax/registration/check-your-answers')
         driver.wait(until.titleContains("Check your answers"), 2000)
         .then(function(){
-        checkAccessibility(done)
+        accessibilityhelper.checkAccessibility(done, driver)
         });
     })
 
@@ -573,7 +544,7 @@ describe('Registration accessibility : ', function() {
 //      driver.get('http://localhost:9070/inheritance-tax/registration/complete')
 //        driver.wait(until.titleContains("Check your answers"), 2000)
 //        .then(function(){
-//            checkAccessibility(done)
+//            accessibilityhelper.checkAccessibility(done, driver)
 //        });
 //    })
 
