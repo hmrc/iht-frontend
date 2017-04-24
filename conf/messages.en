@@ -135,7 +135,7 @@ iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank 
 iht.saveAndContinue = Save and continue
 iht.shouldUseOnlineService = You must use the online service
 iht.signedOut = You have been signed out
-iht.signInAgain = Sign in again
+iht.signInAgain = Sign back in and return to your Inheritance Tax estate reports page
 iht.start = Start
 iht.startAgain = Start again
 iht.timeout.p1 = For your security, we signed you out because you didn’t continue the service for 30 minutes or more.
@@ -1903,7 +1903,7 @@ page.iht.application.kickout.final.guidance.onFinish = By selecting finish you w
 #Questionnaire Feedback
 page.iht.questionnaire.completeSurvey = Please complete this short survey to help us improve the service
 page.iht.registration.questionnaire.p1 = Any details you have entered have not been saved. You need to complete registration in one go.
-page.iht.registration.questionnaire.startAgain = Start registration again
+page.iht.registration.questionnaire.startAgain = Sign back in and start registration again
 
 page.iht.estateReport.allDetailsSaved = All of your details have been saved.
 
