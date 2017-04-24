@@ -80,6 +80,7 @@ String.prototype.format = function () {
 
       setupDialogTimer: function () {
         var self = this
+        self.dialogOpen = false
         window.setTimeout(function () {
           self.setupDialog()
         }, ((settings.timeout) - (settings.countdown)) * 1000)
@@ -166,14 +167,14 @@ String.prototype.format = function () {
       updateUI: function(counter){
         var self = this
         if (counter < 60) {
-            $('#timeout-countdown').html(counter + " seconds")
-          } else {
-            var newCounter = Math.ceil(counter / 60);
-            if(newCounter < self.currentMin){
-                self.currentMin = newCounter
-                $('#timeout-countdown').html(newCounter + " minutes")
-            }
+          $('#timeout-countdown').html(counter + " seconds")
+        } else {
+          var newCounter = Math.ceil(counter / 60);
+          if(newCounter < self.currentMin){
+              self.currentMin = newCounter
+              $('#timeout-countdown').html(newCounter + " minutes")
           }
+        }
       },
 
       addEvents: function(){
@@ -195,8 +196,11 @@ String.prototype.format = function () {
                 // clear the countdown
                 window.clearInterval(self.countdown)
                 // calculate remaining time
-                var expiredSeconds = (Math.round(Date.now()/1000, 0)) - self.startTime;
+                var now = Math.round(Date.now()/1000, 0)
+                var expiredSeconds = now - self.startTime;
                 var currentCounter = settings.countdown - expiredSeconds;
+                //console.log('Expired = ' + expiredSeconds + ' (' + now + ' - ' + self.startTime + ')');
+                //console.log('CurrentCounter = ' + currentCounter + '(' + settings.countdown + ' - ' + expiredSeconds + ')');
 
                 self.updateUI(currentCounter);
                 self.startCountdown(currentCounter);
