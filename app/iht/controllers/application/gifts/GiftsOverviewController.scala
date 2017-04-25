@@ -76,38 +76,39 @@ trait GiftsOverviewController extends EstateController {
   }
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
-        routes.GiftsOverviewController.onPageLoad().toString())
+    implicit user =>
+      implicit request => {
+        cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
+          routes.GiftsOverviewController.onPageLoad().toString())
 
-      val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
+        withRegistrationDetails { regDetails =>
+          val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
+            .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
+              regDetails.acknowledgmentReference)
 
-      val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-        .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+          applicationDetailsFuture.flatMap { optionApplicationDetails =>
+            val ad = getOrExceptionNoApplication(optionApplicationDetails)
 
-      applicationDetailsFuture.flatMap { optionApplicationDetails =>
-        val ad = getOrExceptionNoApplication(optionApplicationDetails)
+            ad.allGifts.flatMap(_.isGivenAway)
+              .fold(Future.successful(Redirect(routes.GivenAwayController.onPageLoad()))) { _ =>
+                guidanceRedirect(routes.GiftsOverviewController.onPageLoad(), ad, cachingConnector).map {
+                  case Some(call) => Redirect(call)
+                  case None =>
+                    val optionAllGifts: Option[AllGifts] = ad.allGifts
+                    val allGifts: AllGifts = optionAllGifts.fold[AllGifts](new AllGifts(None, None, None, None, None))(identity)
 
-        ad.allGifts.flatMap(_.isGivenAway)
-          .fold(Future.successful(Redirect(routes.GivenAwayController.onPageLoad()))) { _ =>
-            guidanceRedirect(routes.GiftsOverviewController.onPageLoad(), ad, cachingConnector).map {
-              case Some(call) => Redirect(call)
-              case None =>
-                val optionAllGifts: Option[AllGifts] = ad.allGifts
-                val allGifts: AllGifts = optionAllGifts.fold[AllGifts](new AllGifts(None, None, None, None, None))(identity)
+                    lazy val ihtRef = CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference)
+                    lazy val seqToDisplay = createSeqOfQuestions(regDetails, ad, allGifts)
 
-                lazy val ihtRef = CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference)
-                lazy val seqToDisplay = createSeqOfQuestions(regDetails, ad, allGifts)
-
-                Ok(iht.views.html.application.gift.gifts_overview(regDetails,
-                  seqToDisplay,
-                  Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)),
-                  "iht.estateReport.returnToEstateOverview"))
-            }
+                    Ok(iht.views.html.application.gift.gifts_overview(regDetails,
+                      seqToDisplay,
+                      Some(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)),
+                      "iht.estateReport.returnToEstateOverview"))
+                }
+              }
           }
+        }
       }
-    }
   }
 
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
@@ -146,7 +147,7 @@ trait GiftsOverviewController extends EstateController {
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
       questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName),
-                                            Messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)),
+        Messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)),
       ad,
       regDetails,
       sectionLinkId = GiftsSevenYearsSectionID,
@@ -160,8 +161,10 @@ trait GiftsOverviewController extends EstateController {
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.value.giveAnswer.screenReader.link.value",
       questionLevelLinkAccessibilityTextValue = "page.iht.application.gifts.overview.value.amount.screenReader.link.value",
       questionAnswerExprValue = if (ad.isValueEnteredForPastYearsGifts) {
-                                      ad.totalPastYearsGiftsOption
-                                    } else { None },
+        ad.totalPastYearsGiftsOption
+      } else {
+        None
+      },
       questionTitlesMessagesFilePrefix = "page.iht.application.gifts.overview.value",
       _.isValueEnteredForPastYearsGifts,
       ad,
@@ -169,7 +172,7 @@ trait GiftsOverviewController extends EstateController {
       questionLinkId = GiftsValueOfGiftsQuestionID
     )
 
-     allGifts.isGivenAway match {
+    allGifts.isGivenAway match {
       case Some(false) => Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears)
       case _ => Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears, sectionValueGivenAway)
     }

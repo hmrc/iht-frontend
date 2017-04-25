@@ -25,6 +25,8 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.testhelpers.TestHelper._
+import iht.utils.CommonHelper._
 
 /**
  * Created by jennygj on 01/08/16.
@@ -110,7 +112,7 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
 
       val result = partnerNameController.onSubmit(request)
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.PartnerOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerNameID)))
     }
 
     "show relevant error message when page fails in validation while submission" in {
@@ -119,12 +121,13 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
       val partnerForm = partnerExemptionNameForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(partnerForm.data.toSeq: _*)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = partnerNameController.onSubmit(request)
       status(result) should be(BAD_REQUEST)
     }
 
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerNameController.onPageLoad(createFakeRequest()))
   }
-
 }

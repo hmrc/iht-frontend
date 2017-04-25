@@ -117,7 +117,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "respond with bad request when incorrect value are entered on the page" in {
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = propertyValueController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -147,7 +147,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url,TestHelper.AssetsPropertiesPropertyValueID)))
     }
 
     "redirect to PropertyDetails overview page on submit in edit mode" in {
@@ -165,7 +165,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onEditSubmit(propertyId)(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url,TestHelper.AssetsPropertiesPropertyValueID)))
     }
 
     "Go to kickout page if kickout reason found" in {
@@ -217,5 +217,8 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
       val result = propertyValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (INTERNAL_SERVER_ERROR)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      propertyValueController.onPageLoad(createFakeRequest()))
   }
 }

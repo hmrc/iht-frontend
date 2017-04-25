@@ -71,10 +71,10 @@ object MockObjectBuilder {
   /**
     * Creates Mock To get Existing RegistrationDetails using CachingConnector
     */
-  def createMockToGetExistingRegDetailsFromCache(cachingConnector: CachingConnector,
-                                      regDetails: RegistrationDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails) = {
-    when(cachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(regDetails)
+  def createMockToGetRegDetailsFromCacheNoOption(cachingConnector: CachingConnector,
+                                                 regDetails: RegistrationDetails = buildRegistrationDetailsWithDeceasedAndIhtRefDetails) = {
+    when(cachingConnector.getRegistrationDetails(any(), any()))
+      .thenReturn(Future.successful(Some(regDetails)))
   }
 
   /**
@@ -136,7 +136,7 @@ object MockObjectBuilder {
     */
   def createMockToThrowExceptionWhileGettingExistingRegDetails(cachingConnector: CachingConnector,
                                                                exceptionMsg: String = "RunTime Exception Occured") = {
-    when(cachingConnector.getExistingRegistrationDetails(any(), any()))
+    when(cachingConnector.getRegistrationDetails(any(), any()))
       .thenThrow(new RuntimeException(exceptionMsg))
   }
 
@@ -315,7 +315,7 @@ object MockObjectBuilder {
                    storeAppDetailsInCache: Boolean = false,
                    getSingleValueFromCache: Boolean = false) = {
 
-    createMockToGetExistingRegDetailsFromCache(cachingConnector, regDetails)
+    createMockToGetRegDetailsFromCacheNoOption(cachingConnector, regDetails)
 
     if (getAppDetails) {
 
@@ -362,7 +362,7 @@ object MockObjectBuilder {
     }
 
     if(getExistingRegDetailsFromCache){
-      createMockToGetExistingRegDetailsFromCache(cachingConnector, getUpdatedRegDetailsObject(regDetails,
+      createMockToGetRegDetailsFromCacheNoOption(cachingConnector, getUpdatedRegDetailsObject(regDetails,
                                                 Some(getExistingRegDetailsFromCacheObject)).get)
     }
 

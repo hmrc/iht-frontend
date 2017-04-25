@@ -78,11 +78,14 @@ class TnrbSuccessControllerTest extends ApplicationControllerTest {
       val applicationDetails = CommonBuilder.buildApplicationDetails copy (widowCheck= Some(buildWidowCheck),
                                 increaseIhtThreshold = Some(buildTnrbModel))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
 
       val result = tnrbSuccessController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      tnrbSuccessController.onPageLoad(createFakeRequest()))
   }
 }

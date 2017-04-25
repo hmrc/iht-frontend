@@ -19,9 +19,9 @@
 @import iht.models.application.exemptions._
 @import iht.models._
 @import iht.utils.CommonHelper._
-@import iht.constants.IhtProperties
+@import iht.constants.IhtProperties._
 
-@(qualifyingBodyName: String, submitUrl:Call)(implicit request:Request[_], messages: Messages)
+@(qualifyingBody: iht.models.application.exemptions.QualifyingBody, submitUrl:Call)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.qualifyingBodies.confirmDeleteQualifyingBody"),
 browserTitle = Some(Messages("page.iht.application.exemptions.qualifyingBodyDelete.browserTitle")),
@@ -30,13 +30,20 @@ isFullWidth=false){
 <div>
     <p id="qualifying-body-name" class="panel-indent">
         <strong>
-            @if(qualifyingBodyName.isEmpty){
-                @Messages("iht.estateReport.exemptions.charities.noNameAdded")
-            } else { @ihtHelpers.custom.name(qualifyingBodyName) }
+            @defining(qualifyingBody.name)  { qualifyingBodyName =>
+                @qualifyingBodyName match{
+                    case Some(x) => {@ihtHelpers.custom.name(qualifyingBodyName.getOrElse(""))}
+                    case None => {@Messages("iht.estateReport.exemptions.charities.noNameAdded")}
+                }
+            }
         </strong>
     </p>
     <p id="action-button"><button class="button" id="confirm-delete" name="action" value="save">@Messages("site.button.confirmDelete")</button></p>
-    <p><a id="return-button" href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad">@Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies")</a></p>
+    @ihtHelpers.custom.return_link(
+        Messages("iht.estateReport.exemptions.qualifyingBodies.returnToAssetsLeftToQualifyingBodies"),
+        Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad()),
+        ExemptionsOtherDeleteID + qualifyingBody.id.getOrElse("")
+    )
 </div>
 }
 }

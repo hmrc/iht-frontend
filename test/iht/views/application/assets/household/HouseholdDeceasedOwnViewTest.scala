@@ -27,6 +27,7 @@ import iht.views.html.application.asset.household.household_deceased_own
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper._
 
 class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
@@ -45,6 +46,7 @@ class HouseholdDeceasedOwnViewTest extends ShareableElementInputViewBehaviour[Sh
   override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
+  override def linkHash = AssetsHouseholdOwnID
   override def formTarget =Some(routes.HouseholdDeceasedOwnController.onSubmit)
 
   "Household Deceased Own view" must {

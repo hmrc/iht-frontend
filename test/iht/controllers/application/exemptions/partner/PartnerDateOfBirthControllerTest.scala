@@ -26,6 +26,8 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.testhelpers.TestHelper._
+import iht.utils.CommonHelper._
 
 /**
  * Created by james on 01/08/16.
@@ -128,7 +130,7 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
       val result = partnerDateOfBirthController.onSubmit(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PartnerOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerDobID)))
     }
 
     "redirect to Partner Date of Birth Exemption page and show relevant error message when page fails in validation while submission" in {
@@ -137,14 +139,14 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
       val dateOfBirthForm = spouseDateOfBirthForm.fill(partnerExemptionValues)
       implicit val request = createFakeRequest(isAuthorised = true).withFormUrlEncodedBody(dateOfBirthForm.data.toSeq: _*)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = partnerDateOfBirthController.onSubmit(request)
       status(result) should be(OK)
     }
 
     "on page load throws exception when no iht ref" in {
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetailsWithNoIhtRef)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetailsWithNoIhtRef)
 
       a [RuntimeException] shouldBe thrownBy {
         await(partnerDateOfBirthController.onPageLoad(createFakeRequest()))
@@ -167,7 +169,10 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
 
       val result = partnerDateOfBirthController.onSubmit(request)
       status(result) should be(SEE_OTHER)
-      redirectLocation(result).get should be(routes.PartnerOverviewController.onPageLoad().url)
+      redirectLocation(result).get should be(addFragmentIdentifierToUrl(routes.PartnerOverviewController.onPageLoad().url, ExemptionsPartnerDobID))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      partnerDateOfBirthController.onPageLoad(createFakeRequest()))
   }
 }

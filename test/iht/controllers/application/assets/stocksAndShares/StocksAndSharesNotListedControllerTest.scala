@@ -30,8 +30,11 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import play.api.test.Helpers.{contentAsString, _}
+import iht.utils.CommonHelper
+import iht.testhelpers.TestHelper._
 
 class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
+  lazy val submitUrl = CommonHelper.addFragmentIdentifierToUrl(routes.StocksAndSharesOverviewController.onPageLoad().url, AssetsStocksNotListedID)
 
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
@@ -92,7 +95,7 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
 
       val result = stocksAndSharesNotListedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.StocksAndSharesOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(submitUrl))
     }
 
     "wipe out the sharesNotListed value if user selects No, save application and go to stocksAndShares overview page on submit" in {
@@ -107,7 +110,7 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
 
       val result = stocksAndSharesNotListedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.StocksAndSharesOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(submitUrl))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -135,17 +138,20 @@ class StocksAndSharesNotListedControllerTest extends ApplicationControllerTest {
 
       val result = stocksAndSharesNotListedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.StocksAndSharesOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(submitUrl))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = stocksAndSharesNotListedController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      stocksAndSharesNotListedController.onPageLoad(createFakeRequest()))
   }
 
 }

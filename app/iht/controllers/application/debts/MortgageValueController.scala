@@ -30,6 +30,8 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 
 import scala.concurrent.Future
 
@@ -38,115 +40,121 @@ object MortgageValueController extends MortgageValueController with IhtConnector
 trait MortgageValueController extends ApplicationController {
 
   def cachingConnector: CachingConnector
+
   def ihtConnector: IhtConnector
 
   def onSubmitUrl(id: String) = iht.controllers.application.debts.routes.MortgageValueController.onSubmit(id)
 
   def onPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+        withRegistrationDetails { regDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+              regDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(applicationDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(applicationDetails) => {
+                val propertyList = applicationDetails.propertyList
+                val matchedProperty = applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
+                  throw new RuntimeException("No Property found for the id")
+                }(identity)
 
-            val propertyList = applicationDetails.propertyList
-            val matchedProperty = applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
-              throw new RuntimeException("No Property found for the id")}(identity)
+                val allLiabilities = applicationDetails.allLiabilities.getOrElse(new AllLiabilities())
+                val mortgageList = allLiabilities.mortgages.map(x => x.mortgageList).getOrElse(List.empty[Mortgage])
 
-            val allLiabilities = applicationDetails.allLiabilities.getOrElse(new AllLiabilities())
-            val mortgageList= allLiabilities.mortgages.map(x => x.mortgageList).getOrElse(List.empty[Mortgage])
+                val updatedMortgageList = updateMortgageListFromPropertyList(propertyList, mortgageList)
 
-            val updatedMortgageList = updateMortgageListFromPropertyList(propertyList, mortgageList)
-
-            updatedMortgageList match {
-              case Some(mortList) => {
-                mortList.find(mortgage => mortgage.id equals id).fold {
-                  throw new RuntimeException("No Mortgage found for the id")
-                } {
-                  (matchedMortgage) => Ok(iht.views.html.application.debts.mortgage_value(
-                    mortgagesForm.fill(matchedMortgage),
+                updatedMortgageList match {
+                  case Some(mortList) => {
+                    mortList.find(mortgage => mortgage.id equals id).fold {
+                      throw new RuntimeException("No Mortgage found for the id")
+                    } {
+                      (matchedMortgage) =>
+                        Ok(iht.views.html.application.debts.mortgage_value(
+                          mortgagesForm.fill(matchedMortgage),
+                          matchedProperty,
+                          onSubmitUrl(id),
+                          regDetails))
+                    }
+                  }
+                  case _ => Ok(iht.views.html.application.debts.mortgage_value(
+                    mortgagesForm.fill(Mortgage(id, None, None)),
                     matchedProperty,
                     onSubmitUrl(id),
                     regDetails))
                 }
               }
-              case _ => Ok(iht.views.html.application.debts.mortgage_value(
-                mortgagesForm.fill(Mortgage(id, None, None)),
-                matchedProperty,
-                onSubmitUrl(id),
-                regDetails))
+              case _ => {
+                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+                InternalServerError("No Application Details found")
+              }
             }
-          }
-          case _ => {
-            Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-            InternalServerError("No Application Details found")
           }
         }
       }
-    }
   }
 
 
   def onSubmit(id: String) = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+          val boundForm = mortgagesForm.bindFromRequest
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
 
-      val boundForm = mortgagesForm.bindFromRequest
+              val matchedProperty = appDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
+                throw new RuntimeException("No Property found for the id")
+              }(identity)
 
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
-
-          val matchedProperty = appDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
-            throw new RuntimeException("No Property found for the id")}(identity)
-
-          boundForm.fold(
-            formWithErrors=> {
-              Future.successful(BadRequest(iht.views.html.application.debts.mortgage_value(formWithErrors,
-                matchedProperty,
-                onSubmitUrl(id),
-                regDetails)))
-            },
-            mortgage => {
-              val newMort = mortgage.copy(id=id)
-              saveApplication(CommonHelper.getNino(user), id, newMort, appDetails, regDetails)
+              boundForm.fold(
+                formWithErrors => {
+                  Future.successful(BadRequest(iht.views.html.application.debts.mortgage_value(formWithErrors,
+                    matchedProperty,
+                    onSubmitUrl(id),
+                    regDetails)))
+                },
+                mortgage => {
+                  val newMort = mortgage.copy(id = id)
+                  saveApplication(CommonHelper.getNino(user), id, newMort, appDetails, regDetails)
+                }
+              )
             }
-          )
+            case _ => Future.successful(InternalServerError("Application details not found"))
+          }
         }
-        case _ => Future.successful(InternalServerError("Application details not found"))
       }
-    }
   }
 
-  private def saveApplication(nino:String,
+  private def saveApplication(nino: String,
                               id: String,
                               mortgage: Mortgage,
                               appDetails: ApplicationDetails,
                               regDetails: RegistrationDetails)(implicit request: Request[_],
                                                                hc: HeaderCarrier): Future[Result] = {
 
-    val updatedLiabilities: AllLiabilities = appDetails.allLiabilities.fold(new AllLiabilities(mortgages = Some(MortgageEstateElement(None, List(mortgage)))))
-    {
-      x => x.copy(mortgages = Some(x.mortgages.fold(MortgageEstateElement(None, List(mortgage))){
-          mortgageEstateModel => mortgageEstateModel.mortgageList.size match {
-            case x if x>0 => {
-              val mortList = mortgageEstateModel.mortgageList
-              val updatedMortgageList  = updateMortgageList(mortgage, mortList)
-              mortgageEstateModel.copy(mortgageList = updatedMortgageList)
+    val updatedLiabilities: AllLiabilities = appDetails.allLiabilities.fold(new AllLiabilities(mortgages = Some(MortgageEstateElement(None, List(mortgage))))) {
+      x =>
+        x.copy(mortgages = Some(x.mortgages.fold(MortgageEstateElement(None, List(mortgage))) {
+          mortgageEstateModel =>
+            mortgageEstateModel.mortgageList.size match {
+              case x if x > 0 => {
+                val mortList = mortgageEstateModel.mortgageList
+                val updatedMortgageList = updateMortgageList(mortgage, mortList)
+                mortgageEstateModel.copy(mortgageList = updatedMortgageList)
+              }
+              case _ => mortgageEstateModel.copy(mortgageList = List(mortgage))
             }
-            case _ => mortgageEstateModel.copy(mortgageList = List(mortgage))
-          }
-      }))
+        }))
     }
 
     val applicationDetailsFuture = ihtConnector.getApplication(nino,
@@ -155,10 +163,10 @@ trait MortgageValueController extends ApplicationController {
 
     applicationDetailsFuture.flatMap {
       case Some(x) => {
-        val updatedAppDetails = x.copy(status=ApplicationStatus.InProgress, allLiabilities = Some(updatedLiabilities))
+        val updatedAppDetails = x.copy(status = ApplicationStatus.InProgress, allLiabilities = Some(updatedLiabilities))
 
         ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
-          Redirect(routes.MortgagesOverviewController.onPageLoad))
+          Redirect(CommonHelper.addFragmentIdentifier(routes.MortgagesOverviewController.onPageLoad, Some(DebtsMortgagesPropertyID + id))))
       }
       case _ => {
         Logger.warn("Application Details not found")
@@ -172,16 +180,16 @@ trait MortgageValueController extends ApplicationController {
   /**
     * Updates the Mortgage List
     */
-  private def updateMortgageList(mortgage:Mortgage, mortgageList: List[Mortgage]): List[Mortgage] = {
+  private def updateMortgageList(mortgage: Mortgage, mortgageList: List[Mortgage]): List[Mortgage] = {
 
     mortgageList.find(_.id equals mortgage.id) match {
       case Some(matchedMortgage) => {
         val updatedProperty = matchedMortgage.copy(id = mortgage.id, value = mortgage.value, isOwned = mortgage.isOwned)
-         mortgageList.updated(mortgageList.indexOf(matchedMortgage), updatedProperty)
+        mortgageList.updated(mortgageList.indexOf(matchedMortgage), updatedProperty)
       }
       case None => {
         Logger.error("No Mortgage exists for the property")
-        mortgageList:+ mortgage
+        mortgageList :+ mortgage
       }
     }
   }

@@ -34,22 +34,24 @@ object TnrbOverviewController extends TnrbOverviewController with IhtConnectors 
 trait TnrbOverviewController extends EstateController {
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-        .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
-          regDetails.acknowledgmentReference)
+        withRegistrationDetails { regDetails =>
+          val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
+            .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
+              regDetails.acknowledgmentReference)
 
-      applicationDetailsFuture.map { optionApplicationDetails =>
-        val ad = getOrExceptionNoApplication(optionApplicationDetails)
-        lazy val ihtRef = CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference)
+          applicationDetailsFuture.map { optionApplicationDetails =>
+            val ad = getOrExceptionNoApplication(optionApplicationDetails)
+            lazy val ihtRef = CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference)
 
-        Ok(iht.views.html.application.tnrb.tnrb_overview(regDetails,
-          ad.widowCheck.fold(WidowCheck(None, None))(identity),
-          ad.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None,None,None,None,None,None,None,None,None,None))(identity),
-          ihtRef))
+            Ok(iht.views.html.application.tnrb.tnrb_overview(regDetails,
+              ad.widowCheck.fold(WidowCheck(None, None))(identity),
+              ad.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+              ihtRef))
+          }
+        }
       }
-    }
   }
 }

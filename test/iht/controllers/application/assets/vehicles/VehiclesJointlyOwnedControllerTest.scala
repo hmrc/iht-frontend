@@ -22,10 +22,12 @@ import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.TestHelper._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers.{contentAsString, _}
+import iht.utils.CommonHelper
 
 /**
   * Created by vineet on 01/07/16.
@@ -93,7 +95,7 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesJointlyOwnedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.VehiclesOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.VehiclesOverviewController.onPageLoad.url, AssetsVehiclesSharedID)))
     }
 
     "wipe out the vehicles value if user selects No, save application and go to vehicles overview page on submit" in {
@@ -109,7 +111,7 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesJointlyOwnedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.VehiclesOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.VehiclesOverviewController.onPageLoad.url, AssetsVehiclesSharedID)))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -137,13 +139,13 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesJointlyOwnedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.VehiclesOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.VehiclesOverviewController.onPageLoad.url, AssetsVehiclesSharedID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("shareValue", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = vehiclesJointlyOwnedController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -157,5 +159,8 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
       status(result) should be (OK)
       contentAsString(result) should include (messagesApi("page.iht.application.assets.vehicles.jointly.owned.title"))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      vehiclesJointlyOwnedController.onPageLoad(createFakeRequest()))
   }
 }

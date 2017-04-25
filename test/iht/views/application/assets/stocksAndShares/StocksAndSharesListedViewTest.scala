@@ -26,6 +26,7 @@ import play.twirl.api.HtmlFormat.Appendable
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_listed
 import iht.forms.ApplicationForms._
 import play.api.i18n.Messages.Implicits._
+import iht.testhelpers.TestHelper._
 
 class StocksAndSharesListedViewTest extends ShareableElementInputViewBehaviour[StockAndShare] {
 
@@ -42,7 +43,7 @@ class StocksAndSharesListedViewTest extends ShareableElementInputViewBehaviour[S
   override def valueInputBoxId = "valueListed"
   override def returnLinkText = messagesApi("site.link.return.stocksAndShares")
   override def returnLinkUrl = routes.StocksAndSharesOverviewController.onPageLoad().url
-
+  override def linkHash = AssetsStocksListedID
   override def formTarget = Some(routes.StocksAndSharesListedController.onSubmit())
   override def form: Form[StockAndShare] = stockAndShareListedForm
   override def formToView: Form[StockAndShare] => Appendable =

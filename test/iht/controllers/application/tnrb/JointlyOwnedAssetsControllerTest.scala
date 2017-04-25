@@ -155,5 +155,8 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be(Some(routes.TnrbSuccessController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      jointlyOwnedAssetsController.onPageLoad(createFakeRequest()))
   }
 }

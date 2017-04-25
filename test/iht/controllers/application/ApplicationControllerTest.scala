@@ -16,9 +16,26 @@
 
 package iht.controllers.application
 
+import iht.connector.CachingConnector
+import iht.testhelpers.MockObjectBuilder.createMockToGetRegDetailsFromCache
 import iht.utils.IhtSection
 import iht.views.ViewTestHelper
+import play.api.mvc.{Request, Result}
+import play.api.test.Helpers.{SEE_OTHER, redirectLocation}
+import play.api.test.Helpers.{contentAsString, _}
+
+import scala.concurrent.Future
 
 trait ApplicationControllerTest extends ViewTestHelper {
   def loginUrl = buildLoginUrl(IhtSection.Application)
+
+  def controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector: => CachingConnector,
+                                                            func: => Future[Result]) = {
+    "respond with redirect to application overview when no registration details found in cache" in {
+      createMockToGetRegDetailsFromCache(mockCachingConnector, None)
+      val result = func
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
+    }
+  }
 }

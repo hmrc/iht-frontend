@@ -27,39 +27,45 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 object InsurancePolicyDetailsFinalGuidanceController extends InsurancePolicyDetailsFinalGuidanceController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
-      val seenGiftGuidance = toBoolean(cachingConnector.getSingleValueSync(ControllerHelper.GiftsGuidanceSeen)).getOrElse(false)
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { registrationDetails =>
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
+          val seenGiftGuidance = toBoolean(cachingConnector.getSingleValueSync(ControllerHelper.GiftsGuidanceSeen)).getOrElse(false)
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails.fold[Result](InternalServerError)(ad =>
-          Ok(insurance_policy_details_final_guidance(giftsPageRedirect(ad.allGifts.flatMap(_.isGivenAway), seenGiftGuidance),
-            deceasedName))
-        )
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails.fold[Result](InternalServerError)(ad =>
+              Ok(insurance_policy_details_final_guidance(giftsPageRedirect(ad.allGifts.flatMap(_.isGivenAway), seenGiftGuidance),
+                deceasedName))
+            )
+          }
+        }
       }
-    }
   }
 
   def giftsPageRedirect(initialGiftsQuestionAnswerOption: Option[Boolean],
                         seenGiftsGuidance: Boolean)(implicit request: Request[_]): Option[Call] = {
 
-    val answeredInitialGiftsQuestion = initialGiftsQuestionAnswerOption.fold(false)(x=> x || !x)
+    val answeredInitialGiftsQuestion = initialGiftsQuestionAnswerOption.fold(false)(x => x || !x)
     val notAnsweredInitialGIftsQuestion = !answeredInitialGiftsQuestion
-    val initialGiftsQuestionFalse = initialGiftsQuestionAnswerOption.fold(false)(x=>if(x) {false} else {true})
+    val initialGiftsQuestionFalse = initialGiftsQuestionAnswerOption.fold(false)(x => if (x) {
+      false
+    } else {
+      true
+    })
     val initialGiftsQuestionTrue = !initialGiftsQuestionFalse
 
-    if(seenGiftsGuidance && answeredInitialGiftsQuestion && initialGiftsQuestionTrue) {
+    if (seenGiftsGuidance && answeredInitialGiftsQuestion && initialGiftsQuestionTrue) {
       Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad())
     } else if ((seenGiftsGuidance && initialGiftsQuestionFalse) || (notAnsweredInitialGIftsQuestion && seenGiftsGuidance)) {
       Some(iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())

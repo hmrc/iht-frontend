@@ -27,6 +27,8 @@ import iht.utils.ApplicationKickOutHelper
 import iht.views.html.application.asset.pensions.pensions_value
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.utils.CommonHelper
+import iht.constants.IhtProperties._
 
 object PensionsValueController extends PensionsValueController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -34,7 +36,7 @@ object PensionsValueController extends PensionsValueController with IhtConnector
 
 trait PensionsValueController extends EstateController {
 
-  val submitUrl = iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad()
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionsValueID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensionsValue)
 
   def onPageLoad = authorisedForIht {

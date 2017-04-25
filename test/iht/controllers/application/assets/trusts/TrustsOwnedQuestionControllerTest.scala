@@ -24,6 +24,8 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.test.Helpers._
+import iht.testhelpers.TestHelper._
+import iht.utils.CommonHelper
 
 class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
@@ -87,7 +89,7 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = trustsOwnedQuestionController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
-      //redirectLocation(result) should be (Some(AssetsOverviewController.onPageLoad().url)) // TODO: change when held in trust overview page is completed
+      //redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.AssetsOverviewController.onPageLoad().url, AppSectionHeldInTrustID)))
     }
 
     "save application and go to held in trust next page page on submit when Yes chosen" in {
@@ -106,16 +108,19 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
       val result = trustsOwnedQuestionController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
-      //redirectLocation(result) should be (Some(AssetsOverviewController.onPageLoad().url)) // TODO: change when held in trust first question page is completed
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.TrustsOverviewController.onPageLoad.url, AssetsTrustsBenefitedID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-     createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = trustsOwnedQuestionController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      trustsOwnedQuestionController.onPageLoad(createFakeRequest()))
   }
 }

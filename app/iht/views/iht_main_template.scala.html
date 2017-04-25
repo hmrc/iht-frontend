@@ -23,6 +23,7 @@
 @import iht.config.ApplicationConfig
 @import play.api.Application
 @import play.api.Play.current
+@import ihtHelpers.custom._
 
 @(title: String,
 signOutText: String = "",
@@ -150,6 +151,7 @@ isRegistration: Boolean = false
         <a id="cancel-button" class="" href=@url>@Html(cancelLabel.getOrElse(""))</a>
     }
 
+   @progressive_disclosure(Messages("iht.needHelp"), Seq(Messages("iht.needHelp.guidance")))
 }
 
 @betaBanner = {

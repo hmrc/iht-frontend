@@ -27,6 +27,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import play.api.test.Helpers.{contentAsString, _}
+import iht.testhelpers.TestHelper
+import iht.utils.CommonHelper
 
 /**
   * Created by vineet on 01/07/16.
@@ -83,7 +85,7 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
       status(result) should be(OK)
     }
 
-    "save application and go to vehicles overview page on submit" in {
+    "save application and go to money overview page on submit" in {
       val applicationDetails = CommonBuilder.buildApplicationDetails
       val formFill = moneyJointlyOwnedForm.fill(CommonBuilder.buildShareableBasicElementExtended.copy(
         shareValue = Some(1000), isOwnedShare = Some(true)))
@@ -93,7 +95,7 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.MoneyOverviewController.onPageLoad.url))
+      redirectLocation(result) should be(Some(CommonHelper.addFragmentIdentifierToUrl(routes.MoneyOverviewController.onPageLoad.url, TestHelper.AssetsMoneySharedID)))
     }
 
     "wipe out the money value if user selects No, save application and go to vehicles overview page on submit" in {
@@ -109,7 +111,7 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.MoneyOverviewController.onPageLoad.url))
+      redirectLocation(result) should be(Some(CommonHelper.addFragmentIdentifierToUrl(routes.MoneyOverviewController.onPageLoad.url, TestHelper.AssetsMoneySharedID)))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -137,17 +139,20 @@ class MoneyJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = moneyJointlyOwnedController.onSubmit()(request)
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(routes.MoneyOverviewController.onPageLoad().url))
+      redirectLocation(result) should be(Some(CommonHelper.addFragmentIdentifierToUrl(routes.MoneyOverviewController.onPageLoad.url, TestHelper.AssetsMoneySharedID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("shareValue", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = moneyJointlyOwnedController.onSubmit(fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      moneyJointlyOwnedController.onPageLoad(createFakeRequest()))
   }
 
 }

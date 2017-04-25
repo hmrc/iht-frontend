@@ -288,7 +288,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
         Some(deceasedDetails),
         Seq(coExec1))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(newRegistrationDetails))
 
@@ -321,7 +321,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
         Some(deceasedDetails),
         Seq(coExec1))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(newRegistrationDetails))
 
@@ -349,7 +349,7 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
       val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=deceasedDateOfDeathForm1.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreSingleValueInCache(

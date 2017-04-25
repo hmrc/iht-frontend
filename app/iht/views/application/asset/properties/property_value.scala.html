@@ -18,7 +18,8 @@
 @import iht.views.html._
 
 @import iht.models._
-@import iht.utils.CommonHelper._
+@import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @(propertyValueForm: Form[iht.models.application.assets.Property],
 submitUrl:Call,
@@ -28,7 +29,7 @@ deceasedName: String)(implicit request:Request[_], messages: Messages)
 @iht_main_template_application(title = Messages("iht.estateReport.assets.properties.value.question", deceasedName),
 browserTitle = Some(Messages("page.iht.application.property.value.browserTitle")),
 isFullWidth=false,
-cancelUrl=Some(cancelUrl),
+cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(AssetsPropertiesPropertyValueID))),
 cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
 headingName = deceasedName,
 headingClass = "heading-large"

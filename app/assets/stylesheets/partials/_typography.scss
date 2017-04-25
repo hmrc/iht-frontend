@@ -82,3 +82,10 @@ This is as lower IE's need a display: block to generate breaks and the use case 
     word-break: break-all;
     display: block;
 }
+
+/*
+reduce top margin on Get Help With This Page to allow N
+*/
+#content > .report-error {
+    margin-top: 0;
+}

@@ -126,7 +126,7 @@ class BusinessInterestsControllerTest extends ApplicationControllerTest{
 
      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = businessInterestsController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -150,5 +150,8 @@ class BusinessInterestsControllerTest extends ApplicationControllerTest{
       val result = businessInterestsController.onSubmit (request)
       status(result) shouldBe (SEE_OTHER)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      businessInterestsController.onPageLoad(createFakeRequest()))
   }
 }

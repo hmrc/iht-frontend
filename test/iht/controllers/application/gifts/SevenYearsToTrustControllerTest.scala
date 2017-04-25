@@ -108,5 +108,8 @@ class SevenYearsToTrustControllerTest  extends ApplicationControllerTest{
       val result = sevenYearsToTrustController.onSubmit()(request)
       status(result) should be (BAD_REQUEST)
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      sevenYearsToTrustController.onPageLoad(createFakeRequest()))
   }
 }

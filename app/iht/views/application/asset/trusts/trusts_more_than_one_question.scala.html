@@ -19,6 +19,7 @@
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
 @import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @(trustsMoreThanOneQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -47,6 +48,10 @@ headingClass = "heading-large"){
     }
 
 
-@ihtHelpers.custom.return_link(Messages("site.link.return.trusts"), Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(
+        Messages("site.link.return.trusts"),
+        Some(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad()),
+        AssetsTrustsMultipleID
+    )
 
 }

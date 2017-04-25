@@ -135,7 +135,7 @@ iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank 
 iht.saveAndContinue = Save and continue
 iht.shouldUseOnlineService = You must use the online service
 iht.signedOut = You have been signed out
-iht.signInAgain = Sign in again
+iht.signInAgain = Sign back in and return to your Inheritance Tax estate reports page
 iht.start = Start
 iht.startAgain = Start again
 iht.timeout.p1 = For your security, we signed you out because you didn’t continue the service for {0} minutes or more.
@@ -160,6 +160,8 @@ iht.timeoutDialog.p1 = For your security, you will be signed out in:
 iht.timeoutDialog.registration.p1 = For your security, you will be signed out and have to start registration again in:
 iht.timeoutDialog.button = Continue with the estate report
 iht.timeoutDialog.registration.button = Continue with registration
+iht.needHelp = Need help?
+iht.needHelp.guidance = If you need help with completing this estate report, contact the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
 
 #Private Beta landing page
 page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report
@@ -1741,6 +1743,7 @@ iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or
 iht.estateReport.declaration.executors = Other executors
 
 iht.estateReport.declaration.checkedEverything.question = Have you finished finding out what was in {0}’s estate?
+iht.estateReport.declaration.checkedEverything.browserTitle = Have you finished finding out what was in the deceased’s estate?
 iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.
 iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration.
 iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this estate report, you’re declaring that you believe this is correct.
@@ -1902,7 +1905,7 @@ page.iht.application.kickout.final.guidance.onFinish = By selecting finish you w
 #Questionnaire Feedback
 page.iht.questionnaire.completeSurvey = Please complete this short survey to help us improve the service
 page.iht.registration.questionnaire.p1 = Any details you have entered have not been saved. You need to complete registration in one go.
-page.iht.registration.questionnaire.startAgain = Start registration again
+page.iht.registration.questionnaire.startAgain = Sign back in and start registration again
 
 page.iht.estateReport.allDetailsSaved = All of your details have been saved.
 

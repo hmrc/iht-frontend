@@ -196,5 +196,8 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
       //TODO: Replace with the Charity Details Overview page URL once that is done
       status(result) shouldBe SEE_OTHER
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      charityNameController.onPageLoad(createFakeRequest()))
   }
 }

@@ -17,7 +17,7 @@
 package iht.controllers.registration
 
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
-import iht.constants.IhtProperties
+import iht.constants.{Constants, IhtProperties}
 import iht.models.QuestionnaireModel
 import iht.utils.IhtSection
 import play.api.i18n.Messages
@@ -62,6 +62,18 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
       val result = questionnaireController.onPageLoad()(createFakeRequest())
       status(result) shouldBe OK
       contentAsString(result) should include(messagesApi("site.registration.title"))
+    }
+
+    "redirect to questionnaire page when Nino is present in the session" in {
+      val result = questionnaireController.onPageLoad()(createFakeRequest().withSession(Constants.NINO -> "CSXXXXX"))
+      status(result) shouldBe OK
+    }
+
+    "redirect to Registration Checklist page when Nino is not present in the session" in {
+      val result = questionnaireController.onPageLoad()(createFakeRequest(false).withSession())
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) shouldBe
+        Some(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad.url)
     }
 
     "respond with redirect on page submit" in {

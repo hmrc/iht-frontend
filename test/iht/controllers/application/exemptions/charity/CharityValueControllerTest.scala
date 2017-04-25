@@ -179,5 +179,8 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
       capturedValue.charities(0).name shouldBe defaultCharity.name
       capturedValue.charities(0).number shouldBe defaultCharity.number
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      assetsLeftToCharityValueController.onPageLoad(createFakeRequest()))
   }
 }

@@ -23,6 +23,7 @@
 @import iht.utils._
 @import iht.constants.Constants
 @import iht.utils.CommonHelper
+@import iht.constants.IhtProperties._
 
 @(household: Form[ShareableBasicEstateElement],
 registrationDetails: RegistrationDetails
@@ -58,6 +59,10 @@ registrationDetails: RegistrationDetails
   </div>
 }
 
-    @ihtHelpers.custom.return_link(Messages("site.link.return.household"), Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()))
+    @ihtHelpers.custom.return_link(
+        Messages("site.link.return.household"),
+        Some(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad()),
+        AssetsHouseholdOwnID
+    )
 
 }

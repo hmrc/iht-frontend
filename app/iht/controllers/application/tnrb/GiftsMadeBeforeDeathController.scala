@@ -36,75 +36,78 @@ import scala.concurrent.Future
 
 
 object GiftsMadeBeforeDeathController extends GiftsMadeBeforeDeathController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
-trait GiftsMadeBeforeDeathController extends EstateController{
+trait GiftsMadeBeforeDeathController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(appDetails) => {
 
-      for {
-        applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference)
-      } yield {
-        applicationDetails match {
-          case Some(appDetails) => {
+                val filledForm = giftMadeBeforeDeathForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                  TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
-            val filledForm = giftMadeBeforeDeathForm.fill(appDetails.increaseIhtThreshold.getOrElse(
-              TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
-
-            Ok(iht.views.html.application.tnrb.gifts_made_before_death(
-              filledForm,
-              appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-              appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-              CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbGiftsGivenAwayID))
-            )
-            )
+                Ok(iht.views.html.application.tnrb.gifts_made_before_death(
+                  filledForm,
+                  appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                  appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbGiftsGivenAwayID))
+                )
+                )
+              }
+              case _ => InternalServerError("Application details not found")
+            }
           }
-          case _ => InternalServerError("Application details not found")
         }
       }
-    }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+        withRegistrationDetails { regDetails =>
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-      val boundForm = giftMadeBeforeDeathForm.bindFromRequest
+          val boundForm = giftMadeBeforeDeathForm.bindFromRequest
 
-      applicationDetailsFuture.flatMap {
-        case Some(appDetails) => {
-          boundForm.fold(
-            formWithErrors=> {
+          applicationDetailsFuture.flatMap {
+            case Some(appDetails) => {
+              boundForm.fold(
+                formWithErrors => {
 
-              Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_made_before_death(formWithErrors,
-                appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None,None,None,None,None,None,None,None))(identity),
-                appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                cancelUrl
-              )))
-            },
-            tnrbModel => {
-              saveApplication(CommonHelper.getNino(user),tnrbModel, appDetails, regDetails)
+                  Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_made_before_death(formWithErrors,
+                    appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
+                    appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                    cancelUrl
+                  )))
+                },
+                tnrbModel => {
+                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                }
+              )
             }
-          )
+            case _ => Future.successful(InternalServerError("Application details not found"))
+          }
         }
-        case _ => Future.successful(InternalServerError("Application details not found"))
       }
-    }
   }
 
-  private def saveApplication(nino:String,
+  private def saveApplication(nino: String,
                               tnrbModel: TnrbEligibiltyModel,
                               appDetails: ApplicationDetails,
                               regDetails: RegistrationDetails)(implicit request: Request[_],
@@ -112,11 +115,11 @@ trait GiftsMadeBeforeDeathController extends EstateController{
 
     val updatedAppDetails = appDetails.copy(increaseIhtThreshold = Some(appDetails.increaseIhtThreshold.
       fold(new TnrbEligibiltyModel(None, isGiftMadeBeforeDeath = tnrbModel.isGiftMadeBeforeDeath, None, None, None, None, None, None,
-        None, None, None)) (_.copy(isGiftMadeBeforeDeath = tnrbModel.isGiftMadeBeforeDeath))))
+        None, None, None))(_.copy(isGiftMadeBeforeDeath = tnrbModel.isGiftMadeBeforeDeath))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks=ApplicationKickOutHelper.checksTnrbEligibility,
-      registrationDetails=regDetails,
-      applicationDetails=updatedAppDetails)
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks = ApplicationKickOutHelper.checksTnrbEligibility,
+      registrationDetails = regDetails,
+      applicationDetails = updatedAppDetails)
 
     for {
       savedApplicationDetails <- ihtConnector.saveApplication(nino, updatedAppDetailsWithKickOutReason, regDetails.acknowledgmentReference)
@@ -124,11 +127,12 @@ trait GiftsMadeBeforeDeathController extends EstateController{
       savedApplicationDetails.fold[Result] {
         Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
         InternalServerError
-      } { _ => updatedAppDetailsWithKickOutReason.kickoutReason match {
-        case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-        case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbGiftsGivenAwayID))
-      }
+      } { _ =>
+        updatedAppDetailsWithKickOutReason.kickoutReason match {
+          case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
+          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbGiftsGivenAwayID))
+        }
       }
     }
   }
- }
+}

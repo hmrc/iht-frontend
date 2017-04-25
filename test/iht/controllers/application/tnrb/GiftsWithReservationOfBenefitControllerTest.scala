@@ -155,5 +155,8 @@ class GiftsWithReservationOfBenefitControllerTest  extends ApplicationController
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be(Some(routes.TnrbSuccessController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      giftsWithReservationOfBenefitController.onPageLoad(createFakeRequest()))
   }
 }

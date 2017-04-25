@@ -29,46 +29,54 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 /**
- * Created by james on 22/01/16.
- */
+  * Created by james on 22/01/16.
+  */
 object GiftsGivenAwayController extends GiftsGivenAwayController with IhtConnectors
 
 trait GiftsGivenAwayController extends ApplicationController {
 
-  def cachingConnector : CachingConnector
-  def ihtConnector : IhtConnector
+  def cachingConnector: CachingConnector
+
+  def ihtConnector: IhtConnector
 
   def onPageLoad() = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
 
-      val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
+        val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
 
-      lazy val optionMessageKey = lastQuestionUrl.map(url=> ControllerHelper.messageKeyForLastQuestionURL(url))
+        lazy val optionMessageKey = lastQuestionUrl.map(url => ControllerHelper.messageKeyForLastQuestionURL(url))
 
-      Future.successful(Ok(iht.views.html.application.gift.guidance.gifts_given_away(CommonHelper
-        .getOrExceptionNoIHTRef(cachingConnector.getExistingRegistrationDetails.ihtReference),
-        lastQuestionUrl,optionMessageKey,optionMessageKey)
-        ))
-    }
+        withRegistrationDetails { rd =>
+          Future.successful(Ok(iht.views.html.application.gift.guidance.gifts_given_away(CommonHelper
+            .getOrExceptionNoIHTRef(rd.ihtReference),
+            lastQuestionUrl, optionMessageKey, optionMessageKey)
+          ))
+        }
+      }
   }
 
   def onSubmit() = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
 
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
-        CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-        regDetails.acknowledgmentReference)
+          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+            CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+            regDetails.acknowledgmentReference)
 
-      val futureResult = applicationDetailsFuture.map{ oad => {
-            val ff = oad.map{ ad =>
-              Redirect(ad.allGifts.fold[Call](iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())(_ =>
-                iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+          val futureResult = applicationDetailsFuture.map {
+            oad => {
+              val ff = oad.map {
+                ad =>
+                  Redirect(ad.allGifts.fold[Call](iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())(_ =>
+                    iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+              }
+              CommonHelper.getOrException(ff)
             }
-            CommonHelper.getOrException(ff)
           }
+          futureResult
         }
-      futureResult
-    }
+      }
   }
 }

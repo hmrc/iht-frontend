@@ -42,9 +42,11 @@ trait WithReservationController extends ApplicationController {
       val lastQuestionUrl: Option[String] = Await.result(cachingConnector.getSingleValue(ControllerHelper.lastQuestionUrl), Duration.Inf)
       lazy val optionMessageKey = lastQuestionUrl.map(url=> ControllerHelper.messageKeyForLastQuestionURL(url))
 
-      Future.successful(Ok(iht.views.html.application.gift.guidance.with_reservation(CommonHelper
-        .getOrExceptionNoIHTRef(cachingConnector.getExistingRegistrationDetails.ihtReference),
-        lastQuestionUrl,optionMessageKey,optionMessageKey)))
+      withRegistrationDetails { rd =>
+        Future.successful(Ok(iht.views.html.application.gift.guidance.with_reservation(CommonHelper
+          .getOrExceptionNoIHTRef(rd.ihtReference),
+          lastQuestionUrl, optionMessageKey, optionMessageKey)))
+      }
     }
   }
 }

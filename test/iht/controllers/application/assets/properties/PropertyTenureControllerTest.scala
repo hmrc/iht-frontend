@@ -28,6 +28,7 @@ import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.models.application.ApplicationDetails
+import iht.utils.CommonHelper
 /**
  * Created by Vineet on 22/06/16.
  */
@@ -141,7 +142,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       val result = propertyTenureController.onSubmit()(request)
 
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad("1").url, TestHelper.AssetsPropertiesTenureID)))
     }
 
     "redirect to PropertyDetails overview page on submit in edit mode" in {
@@ -161,7 +162,7 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
       val result = propertyTenureController.onEditSubmit(propertyId)(request)
 
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.PropertyDetailsOverviewController.onEditPageLoad(propertyId).url, TestHelper.AssetsPropertiesTenureID)))
     }
   }
 }

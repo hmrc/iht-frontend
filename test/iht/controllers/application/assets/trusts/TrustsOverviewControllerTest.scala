@@ -83,5 +83,7 @@ class TrustsOverviewControllerTest extends ApplicationControllerTest {
       contentAsString(result) should include(messagesApi("iht.estateReport.assets.heldInTrust.title"))
     }
 
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      trustsOverviewController.onPageLoad(createFakeRequest()))
   }
 }

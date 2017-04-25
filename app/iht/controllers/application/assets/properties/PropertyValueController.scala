@@ -31,6 +31,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
@@ -49,29 +50,156 @@ trait PropertyValueController extends EstateController {
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyValueController.onEditSubmit(id)
 
-  def locationAfterSuccessfulSave(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyValueID))
 
   def ihtConnector: IhtConnector
 
   def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
-      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-      Future.successful(Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm,
-        submitUrl,
-        cancelUrl,
-        deceasedName)))
-    }
+          Future.successful(Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm,
+            submitUrl,
+            cancelUrl,
+            deceasedName)))
+        }
+      }
   }
 
   def onEditPageLoad(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      val regDetails = cachingConnector.getExistingRegistrationDetails
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+          for {
+            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
+              regDetails.acknowledgmentReference)
+          } yield {
+            applicationDetails match {
+              case Some(applicationDetails) => {
+                applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
+                  throw new RuntimeException("No Property found for the id")
+                } {
+                  (matchedProperty) =>
+                    Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm.fill(matchedProperty),
+                      editSubmitUrl(id),
+                      editCancelUrl(id),
+                      deceasedName))
+                }
+              }
+              case _ => {
+                Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
+                InternalServerError("No Application Details found")
+              }
+            }
+          }
+        }
+      }
+  }
+
+
+  def onSubmit = authorisedForIht {
+    implicit user =>
+      implicit request => {
+        doSubmit(
+          redirectLocationIfErrors = routes.PropertyValueController.onSubmit(),
+          submitUrl = submitUrl,
+          cancelUrl = cancelUrl)
+      }
+  }
+
+  def onEditSubmit(id: String) = authorisedForIht {
+    implicit user =>
+      implicit request => {
+        doSubmit(
+          redirectLocationIfErrors = routes.PropertyValueController.onEditSubmit(id),
+          submitUrl = editSubmitUrl(id),
+          cancelUrl = editCancelUrl(id),
+          Some(id))
+      }
+  }
+
+  private def doSubmit(redirectLocationIfErrors: Call,
+                       submitUrl: Call,
+                       cancelUrl: Call,
+                       propertyId: Option[String] = None)(
+                        implicit user: AuthContext, request: Request[_]) = {
+    withRegistrationDetails { regDetails =>
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
+      val boundForm = propertyValueForm.bindFromRequest
+      boundForm.fold(
+        formWithErrors => {
+          LogHelper.logFormError(formWithErrors)
+          Future.successful(BadRequest(iht.views.html.application.asset.properties.property_value(formWithErrors,
+            submitUrl,
+            cancelUrl,
+            deceasedName)))
+        },
+        property => {
+          processSubmit(CommonHelper.getNino(user), property, propertyId)
+        }
+      )
+    }
+  }
+
+  private def processSubmit(nino: String,
+                            property: Property,
+                            propertyId: Option[String] = None)(
+                             implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
+
+    withRegistrationDetails { registrationData =>
+      val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
+      val applicationDetailsFuture: Future[Option[ApplicationDetails]] =
+        ihtConnector.getApplication(nino, ihtReference, registrationData.acknowledgmentReference)
+
+      applicationDetailsFuture.flatMap { optionApplicationDetails =>
+        val tuplePropertiesAndID: (List[Property], String) = addPropertyToPropertyList(property.copy(id = propertyId),
+          optionApplicationDetails.fold[List[Property]](Nil)(ad => ad.propertyList))
+
+        val updatedProperties: List[Property] = tuplePropertiesAndID._1
+
+        val propertyID: String = tuplePropertiesAndID._2
+
+        val ad = updateKickout(registrationDetails = registrationData,
+          applicationDetails = optionApplicationDetails.map(ad => ad.copy(propertyList = updatedProperties)).fold
+          (ApplicationDetails(propertyList = updatedProperties))(identity),
+          applicationID = Some(propertyID))
+
+        ihtConnector.saveApplication(nino, ad, registrationData.acknowledgmentReference) map {
+          case Some(_) => {
+            Redirect(ad.kickoutReason.fold(locationAfterSuccessfulSave(propertyID)) {
+              _ => {
+                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
+                cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, propertyID)
+                kickoutRedirectLocation
+              }
+            })
+          }
+          case _ => {
+            Logger.warn("Problem saving Application details. Redirecting to InternalServerError")
+            InternalServerError
+          }
+        }
+      }
+    }
+  }
+
+  def onEditPageLoadForKickout(id: String) = authorisedForIht {
+    implicit user =>
+      implicit request => {
+        doEditPageLoad(id, Some(kickoutRedirectLocation))
+      }
+  }
+
+  private def doEditPageLoad(id: String, cancelUrl: Option[Call])(implicit request: Request[_], user: AuthContext) = {
+    withRegistrationDetails { regDetails =>
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
       for {
         applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
           CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
@@ -80,12 +208,14 @@ trait PropertyValueController extends EstateController {
         applicationDetails match {
           case Some(applicationDetails) => {
             applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
-              throw new RuntimeException("No Property found for the id")
+              Redirect(routes.PropertyValueController.onEditPageLoad(id))
             } {
-              (matchedProperty) => Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm.fill(matchedProperty),
-                editSubmitUrl(id),
-                editCancelUrl(id),
-                deceasedName))
+              (matchedProperty) =>
+                Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm.fill(matchedProperty),
+                  routes.PropertyValueController.onEditSubmit(id),
+                  editCancelUrl(id),
+                  deceasedName
+                ))
             }
           }
           case _ => {
@@ -95,125 +225,6 @@ trait PropertyValueController extends EstateController {
         }
       }
     }
-  }
-
-
-  def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      doSubmit(
-        redirectLocationIfErrors = routes.PropertyValueController.onSubmit(),
-        submitUrl = submitUrl,
-        cancelUrl = cancelUrl)
-    }
-  }
-
-  def onEditSubmit(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      doSubmit(
-        redirectLocationIfErrors=routes.PropertyValueController.onEditSubmit(id),
-        submitUrl=editSubmitUrl(id),
-        cancelUrl= editCancelUrl(id),
-        Some(id))
-    }
-  }
-
-  private def doSubmit(redirectLocationIfErrors: Call,
-                       submitUrl: Call,
-                       cancelUrl: Call,
-                       propertyId: Option[String] = None)(
-                        implicit user: AuthContext, request: Request[_]) = {
-    val regDetails = cachingConnector.getExistingRegistrationDetails
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
-
-    val boundForm = propertyValueForm.bindFromRequest
-    boundForm.fold(
-      formWithErrors => {
-        LogHelper.logFormError(formWithErrors)
-        Future.successful(BadRequest(iht.views.html.application.asset.properties.property_value(formWithErrors,
-          submitUrl,
-          cancelUrl,
-          deceasedName)))
-      },
-      property => {
-        processSubmit(CommonHelper.getNino(user), property, propertyId)
-      }
-    )
-  }
-
-  private def processSubmit(nino: String,
-                    property: Property,
-                    propertyId: Option[String] = None)(
-                     implicit request: Request[_], hc: HeaderCarrier): Future[Result] = {
-
-    val registrationData = cachingConnector.getExistingRegistrationDetails
-    val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference)
-    val applicationDetailsFuture: Future[Option[ApplicationDetails]] =
-      ihtConnector.getApplication(nino, ihtReference, registrationData.acknowledgmentReference)
-
-    applicationDetailsFuture.flatMap { optionApplicationDetails =>
-      val tuplePropertiesAndID: (List[Property], String) = addPropertyToPropertyList(property.copy(id = propertyId),
-        optionApplicationDetails.fold[List[Property]](Nil)(ad=>ad.propertyList))
-
-      val updatedProperties: List[Property] = tuplePropertiesAndID._1
-
-      val propertyID: String = tuplePropertiesAndID._2
-
-      val ad = updateKickout(registrationDetails = registrationData,
-        applicationDetails = optionApplicationDetails.map(ad => ad.copy(propertyList = updatedProperties)).fold
-        (ApplicationDetails(propertyList = updatedProperties))(identity),
-        applicationID = Some(propertyID))
-
-      ihtConnector.saveApplication(nino, ad, registrationData.acknowledgmentReference) map {
-        case Some(_) => {
-          Redirect(ad.kickoutReason.fold(locationAfterSuccessfulSave(propertyID)) {
-            _ => {
-              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
-              cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, propertyID)
-              kickoutRedirectLocation
-            }
-          })
-        }
-        case _ => {
-          Logger.warn("Problem saving Application details. Redirecting to InternalServerError")
-          InternalServerError
-        }
-      }
-    }
-  }
-
-  def onEditPageLoadForKickout(id: String) = authorisedForIht {
-    implicit user => implicit request => {
-      doEditPageLoad(id, Some(kickoutRedirectLocation))
-    }
-  }
-
-  private def doEditPageLoad(id: String, cancelUrl: Option[Call])(implicit request: Request[_], user: AuthContext) = {
-     val regDetails = cachingConnector.getExistingRegistrationDetails
-     val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
-
-     for {
-       applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
-         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
-         regDetails.acknowledgmentReference)
-     } yield {
-       applicationDetails match {
-         case Some(applicationDetails) => {
-           applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
-             Redirect(routes.PropertyValueController.onEditPageLoad(id))
-           } {
-             (matchedProperty) => Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm.fill(matchedProperty),
-               routes.PropertyValueController.onEditSubmit(id),
-                 editCancelUrl(id),
-                 deceasedName
-               ))
-           }
-         }
-         case _ => {
-           Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
-           InternalServerError("No Application Details found")
-         }
-       }
-     }
   }
 
   def addPropertyToPropertyList(property: Property, propertyList: List[Property]): (List[Property], String) = {

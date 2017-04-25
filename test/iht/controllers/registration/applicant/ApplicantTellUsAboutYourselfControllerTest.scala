@@ -118,7 +118,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -135,7 +135,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -152,7 +152,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -170,7 +170,7 @@ class ApplicantTellUsAboutYourselfControllerTest
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
           data=applicantDetailsForm1.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -188,7 +188,7 @@ class ApplicantTellUsAboutYourselfControllerTest
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
           data=applicantDetailsForm1.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -205,7 +205,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -222,7 +222,7 @@ class ApplicantTellUsAboutYourselfControllerTest
 
       implicit val request = createFakeRequest().withFormUrlEncodedBody(("phoneNo", CommonBuilder.emptyString))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -255,7 +255,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
@@ -272,7 +272,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -300,7 +300,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       val request =
         createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
       createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)
@@ -335,7 +335,7 @@ class ApplicantTellUsAboutYourselfControllerTest
       createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
         data=applicantDetailsForm1.data.toSeq)
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, registrationDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
     createMockToGetCitizenDetails(mockCitizenDetailsConnector, userDetails)

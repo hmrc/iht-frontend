@@ -79,14 +79,12 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
   val applicationDetails = CommonBuilder.buildApplicationDetails copy (allAssets = Some(allAssets))
 
   private def createMocks(applicationDetails: ApplicationDetails) = {
-    when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(registrationDetails)
+    when(mockCachingConnector.getRegistrationDetails(any(), any()))
+      .thenReturn(Future.successful(Some(registrationDetails)))
     when(mockIhtConnector.getApplication(any(), any(), any())(any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
     when(mockCachingConnector.storeApplicationDetails(any())(any(), any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
-    when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-      .thenReturn(registrationDetails)
     when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
       .thenReturn(Future.successful(Some(applicationDetails)))
   }
@@ -153,7 +151,7 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
 
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = insurancePolicyDetailsJointController.onSubmit(fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -180,5 +178,9 @@ class InsurancePolicyDetailsJointControllerTest extends ApplicationControllerTes
       val result = insurancePolicyDetailsJointController.onSubmit(request)
       redirectLocation(result) should be(Some(iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyOverviewController.onPageLoad().url + "#" + InsuranceJointlyHeldYesNoID))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyDetailsJointController.onPageLoad(createFakeRequest()))
+
   }
 }

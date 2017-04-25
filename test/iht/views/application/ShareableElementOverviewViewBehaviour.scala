@@ -92,7 +92,6 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
     }
 
     "show the 'owned only by the deceased' question header as unanswered with a link to give details in " + sectionName in {
-
       headerQuestionShouldBeUnanswered(asDocument(viewWithQuestionsUnanswered), ownHeadingElementId, ownHeaderText, urlToOwnPage)
     }
 
@@ -102,7 +101,7 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
     }
 
     "not show the 'owned only by the deceased' question row in " + sectionName in {
-      assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), ownQuestionRowId)
+      assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), s"$ownQuestionRowId-block")
     }
 
     "not show the 'value owned only be the deceased' row in " + sectionName in {
@@ -110,7 +109,7 @@ trait ShareableElementOverviewViewBehaviour extends ViewTestHelper with Sharable
     }
 
     "not show the 'jointly owned' question row in " + sectionName in {
-      assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), jointlyOwnedQuestionRowId)
+      assertNotRenderedById(asDocument(viewWithQuestionsUnanswered), s"$jointlyOwnedQuestionRowId-block")
     }
 
     "not show the 'value jointly owned' row in " + sectionName in {

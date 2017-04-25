@@ -29,6 +29,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import play.api.test.Helpers.{contentAsString, _}
+import iht.testhelpers.TestHelper._
 
 /**
  * Created by jennygj on 17/06/16.
@@ -100,7 +101,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesDeceasedOwnController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.VehiclesOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.VehiclesOverviewController.onPageLoad.url, AssetsVehiclesOwnID)))
     }
 
     "wipe out the vehicles value if user selects No, save application and go to vehicles overview page on submit" in {
@@ -116,7 +117,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesDeceasedOwnController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.VehiclesOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.VehiclesOverviewController.onPageLoad.url, AssetsVehiclesOwnID)))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -145,13 +146,13 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
 
       val result = vehiclesDeceasedOwnController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.VehiclesOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.VehiclesOverviewController.onPageLoad.url, AssetsVehiclesOwnID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = vehiclesDeceasedOwnController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
@@ -165,5 +166,8 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
       status(result) should be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.vehiclesOwned", deceasedName))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      vehiclesDeceasedOwnController.onPageLoad(createFakeRequest()))
   }
 }

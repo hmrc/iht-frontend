@@ -68,8 +68,8 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
   "InsurancePolicyOverviewController" must {
  
     "respond with OK and all questions on page load" in {
-      when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-        .thenReturn(registrationDetails)
+      when(mockCachingConnector.getRegistrationDetails(any(), any()))
+        .thenReturn(Future.successful(Some(registrationDetails)))
       when(mockIhtConnector.getApplication(any(), any(), any())(any()))
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
@@ -88,13 +88,17 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
 
     "respond with OK and correct question1 text on page load if deceased not married" in {
       val deceasedDetailsTemp = CommonBuilder.buildDeceasedDetails copy (maritalStatus=Some(TestHelper.MaritalStatusSingle))
-      when(mockCachingConnector.getExistingRegistrationDetails(any(), any()))
-        .thenReturn(registrationDetails copy (deceasedDetails = Some(deceasedDetailsTemp)))
+      when(mockCachingConnector.getRegistrationDetails(any(), any()))
+        .thenReturn(Future.successful(Some(registrationDetails copy (deceasedDetails = Some(deceasedDetailsTemp)))))
       when(mockIhtConnector.getApplication(any(), any(), any())(any()))
         .thenReturn(Future.successful(Some(applicationDetails)))
       val result = insurancePolicyOverviewController.onPageLoad(createFakeRequest())
       status(result) shouldBe OK
       ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question", deceasedName))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      insurancePolicyOverviewController.onPageLoad(createFakeRequest()))
+
   }
 }

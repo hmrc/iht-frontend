@@ -28,6 +28,8 @@ import iht.views.html.application.asset.money.{money_deceased_own, money_jointly
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat.Appendable
+import iht.testhelpers.TestHelper
+import iht.utils.CommonHelper
 
 class MoneyJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[ShareableBasicEstateElement] {
 
@@ -44,7 +46,7 @@ class MoneyJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[Share
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.money")
-  override def returnLinkUrl = MoneyOverviewController.onPageLoad().url
+  override def returnLinkUrl = CommonHelper.addFragmentIdentifierToUrl(MoneyOverviewController.onPageLoad().url, TestHelper.AssetsMoneySharedID)
   override def formTarget =Some(routes.MoneyJointlyOwnedController.onSubmit)
 
   "Money Jointly Owned view" must {

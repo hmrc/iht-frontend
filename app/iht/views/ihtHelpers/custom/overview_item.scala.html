@@ -41,7 +41,7 @@
         }
     </div>
     <div class="tabular-data__data tabular-data__data--2-12">
-        <a id="@model.id-link-text" href="@model.linkUrl" @if(model.completionStatus == PartiallyComplete) {class="bold"}>
+        <a id="@model.id" href="@model.linkUrl" @if(model.completionStatus == PartiallyComplete) {class="bold"}>
             <span aria-hidden="true">@model.linkText</span>
             <span class="visually-hidden">@model.qualifyingText</span>
         </a>

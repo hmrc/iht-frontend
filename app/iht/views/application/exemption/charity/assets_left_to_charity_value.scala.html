@@ -19,6 +19,7 @@
 @import iht.models.application.exemptions._
 @import iht.models._
 @import iht.utils.CommonHelper._
+@import iht.constants.IhtProperties._
 
 @(assetsLeftToCharityValueForm: Form[Charity],
         rd: RegistrationDetails,
@@ -27,7 +28,7 @@
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.charityValue.sectionTitle"),
     browserTitle = Some(Messages("page.iht.application.exemptions.charityValue.browserTitle")),
-    cancelUrl = Some(cancelUrl),
+    cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsCharitiesValueID))),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
     isFullWidth = false,
     headingClass = "heading-large"

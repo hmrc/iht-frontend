@@ -29,7 +29,7 @@ import iht.models.application.assets.Properties
 import iht.utils.CommonHelper
 
 object PropertiesOverviewController extends PropertiesOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
 trait PropertiesOverviewController extends ApplicationController {
@@ -39,21 +39,21 @@ trait PropertiesOverviewController extends ApplicationController {
   def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      val registrationDetails: RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-
-      for {
-
-        applicationDetails: Option[ApplicationDetails]<- ihtConnector.getApplication(
-          CommonHelper.getNino(user),
-          CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
-          registrationDetails.acknowledgmentReference
-        )
-        propertyList: List[Property] = applicationDetails.map(_.propertyList).getOrElse(Nil)
-        properties:Option[Properties] = applicationDetails.flatMap(_.allAssets.flatMap(_.properties))
-      } yield {
-        Ok(iht.views.html.application.asset.properties.properties_overview(propertyList, properties ,registrationDetails))
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { registrationDetails =>
+          for {
+            applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
+              CommonHelper.getNino(user),
+              CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
+              registrationDetails.acknowledgmentReference
+            )
+            propertyList: List[Property] = applicationDetails.map(_.propertyList).getOrElse(Nil)
+            properties: Option[Properties] = applicationDetails.flatMap(_.allAssets.flatMap(_.properties))
+          } yield {
+            Ok(iht.views.html.application.asset.properties.properties_overview(propertyList, properties, registrationDetails))
+          }
+        }
       }
-    }
   }
 }

@@ -25,6 +25,7 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
+import iht.constants.IhtProperties._
 
 /**
   * Created by vineet on 01/07/16.
@@ -95,7 +96,7 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.HouseholdOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, AssetsHouseholdSharedID)))
     }
 
     "wipe out the household value if user selects No, save application and go to vehicles overview page on submit" in {
@@ -113,7 +114,7 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.HouseholdOverviewController.onPageLoad.url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad.url, AssetsHouseholdSharedID)))
 
       val capturedValue = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       val expectedAppDetails = applicationDetails.copy(allAssets = applicationDetails.allAssets.map(_.copy(
@@ -142,17 +143,20 @@ class HouseholdJointlyOwnedControllerTest extends ApplicationControllerTest {
 
       val result = householdJointlyOwnedController.onSubmit()(request)
       status(result) should be (SEE_OTHER)
-      redirectLocation(result) should be (Some(routes.HouseholdOverviewController.onPageLoad().url))
+      redirectLocation(result) should be (Some(CommonHelper.addFragmentIdentifierToUrl(routes.HouseholdOverviewController.onPageLoad().url, AssetsHouseholdSharedID)))
     }
 
     "respond with bad request when incorrect value are entered on the page" in {
       implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("shareValue", "utytyyterrrrrrrrrrrrrr"))
 
-      createMockToGetExistingRegDetailsFromCache(mockCachingConnector)
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = householdJointlyOwnedController.onSubmit (fakePostRequest)
       status(result) shouldBe BAD_REQUEST
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      householdJointlyOwnedController.onPageLoad(createFakeRequest()))
   }
   
 }

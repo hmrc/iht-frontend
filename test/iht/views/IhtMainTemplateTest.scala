@@ -17,14 +17,14 @@
 package iht.views
 
 import iht.views.html.iht_main_template
-import iht.{FakeIhtApp, TestUtils}
-import org.scalatest.mock.MockitoSugar
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.play.test.UnitSpec
 import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
 
-class IhtMainTemplateTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils {
+class IhtMainTemplateTest extends ViewTestHelper {
+
+  implicit  override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   "RegistrationMainTemplate" must {
 
@@ -32,6 +32,14 @@ class IhtMainTemplateTest extends UnitSpec with FakeIhtApp with MockitoSugar wit
       val signOutUrl = "localhost"
       iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
         .toString should include (signOutUrl)
+    }
+
+    "contain the correct text for need help accordion component" in {
+      val signOutUrl = "localhost"
+      val view = iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
+        .toString
+      view should include (messagesApi("iht.needHelp"))
+      view should include (messagesApi("iht.needHelp.guidance"))
     }
   }
 }

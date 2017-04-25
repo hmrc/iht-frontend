@@ -49,7 +49,7 @@ class PDFControllerTest extends ApplicationControllerTest {
       returns = Seq(CommonBuilder.buildReturnDetails))
 
 
-    createMockToGetExistingRegDetailsFromCache(mockCachingConnector, regDetails)
+    createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
     createMockToGetCaseDetails(mockIhtConnector, regDetails)
     createMockToGetSubmittedApplicationDetails(mockIhtConnector)
     createMockToGetApplicationDetails(mockIhtConnector)

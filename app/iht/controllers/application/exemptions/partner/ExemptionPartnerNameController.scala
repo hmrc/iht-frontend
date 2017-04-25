@@ -23,54 +23,62 @@ import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_name
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.Future
+import iht.constants.IhtProperties._
 
 /**
- * Created by jennygj on 01/08/16.
- */
+  * Created by jennygj on 01/08/16.
+  */
 object ExemptionPartnerNameController extends ExemptionPartnerNameController with IhtConnectors
 
 trait ExemptionPartnerNameController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionExemptionsSpouse)
+
   def cachingConnector: CachingConnector
+
   def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
-    implicit user => implicit request => {
-      estateElementOnPageLoad[PartnerExemption](
-      partnerExemptionNameForm, partner_name.apply, _.allExemptions.flatMap(_.partner))
-    }
+    implicit user =>
+      implicit request => {
+        estateElementOnPageLoad[PartnerExemption](
+          partnerExemptionNameForm, partner_name.apply, _.allExemptions.flatMap(_.partner))
+      }
   }
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { regDetails =>
+          val boundForm = partnerExemptionNameForm.bindFromRequest
 
-      val regDetails:RegistrationDetails = cachingConnector.getExistingRegistrationDetails
-      val boundForm = partnerExemptionNameForm.bindFromRequest
-
-      boundForm.fold(
-        formWithErrors=> {
-          Future.successful(BadRequest(iht.views.html.application.exemption.partner.partner_name(
-            formWithErrors, regDetails)))
-        },
-        partnerExemption => {
-          saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails)
+          boundForm.fold(
+            formWithErrors => {
+              Future.successful(BadRequest(iht.views.html.application.exemption.partner.partner_name(
+                formWithErrors, regDetails)))
+            },
+            partnerExemption => {
+              saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails)
+            }
+          )
         }
-      )
-    }
+      }
   }
 
-  def saveApplication(nino:String, pe: PartnerExemption, regDetails: RegistrationDetails)
+  def saveApplication(nino: String, pe: PartnerExemption, regDetails: RegistrationDetails)
                      (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
 
-    withApplicationDetails{
-      rd => appDetails =>
+    withApplicationDetails {
+      rd =>
+        appDetails =>
 
           val existingPartnerExemptions = appDetails.allExemptions.flatMap(_.partner).getOrElse(
             new PartnerExemption(None, None, None, None, None, None, None))
@@ -85,9 +93,10 @@ trait ExemptionPartnerNameController extends EstateController {
             registrationDetails = regDetails,
             applicationDetails = appDetails.copy(allExemptions = Some(appDetailsCopy)))
 
-          ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map{_ =>
+          ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map { _ =>
             Redirect(applicationDetails.kickoutReason.fold(
-              routes.PartnerOverviewController.onPageLoad())(_ => kickoutRedirectLocation))
+              addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNameID))
+            )(_ => kickoutRedirectLocation))
           }
     }
   }

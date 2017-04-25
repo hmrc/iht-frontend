@@ -377,6 +377,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       link.attr("href") shouldBe expectedUrl
     }
 
-
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      deceasedWidowCheckDateController.onPageLoad(createFakeRequest()))
   }
 }

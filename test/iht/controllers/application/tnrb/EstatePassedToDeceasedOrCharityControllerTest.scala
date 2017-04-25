@@ -155,5 +155,8 @@ class EstatePassedToDeceasedOrCharityControllerTest  extends ApplicationControll
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be(Some(routes.TnrbSuccessController.onPageLoad().url))
     }
+
+    behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
+      estatePassedToDeceasedOrCharityController.onPageLoad(createFakeRequest()))
   }
 }
