@@ -155,9 +155,11 @@ iht.dropdown.matches = {0} matches found. Use arrow keys or swipe to navigate th
 iht.dropdown.of = ({0} of {1})
 iht.dropdown.closed = Suggestions list closed
 iht.dropdown.selected = {0} selected
-iht.timeoutDialog.title = You’re about to be signed out
-iht.timeoutDialog.p1 = For your security you’ll be signed out in
-iht.timeoutDialog.button = Get another {0} minutes
+iht.timeoutDialog.title = You are about to be signed out
+iht.timeoutDialog.p1 = For your security, you will be signed out in:
+iht.timeoutDialog.registration.p1 = For your security, you will be signed out and have to start registration again in:
+iht.timeoutDialog.button = Continue with the estate report
+iht.timeoutDialog.registration.button = Continue with registration
 
 #Private Beta landing page
 page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report

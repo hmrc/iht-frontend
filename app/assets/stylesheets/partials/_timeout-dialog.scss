@@ -25,6 +25,7 @@ html.noScroll {
   position: fixed;
   top: 50%;
   left: 50%;
+  max-width: 30em;
   -webkit-transform: translate(-50%,-50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -45,9 +46,10 @@ html.noScroll {
 
   .countdown {
     // AL: removed as interrupts VO reading
-    //display: inline-block;
+    display: inline-block;
     //white-space: nowrap;
     font-weight: 700;
+    margin-top: 0.5em;
   }
 
   .button{

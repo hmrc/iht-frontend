@@ -42,7 +42,7 @@ signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = "",
-timeoutRoute: String = ""
+isRegistration: Boolean = false
 )(mainContent: Html)(implicit messages: Messages)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -86,18 +86,25 @@ timeoutRoute: String = ""
     <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
     @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
     @if(hasTimeOut && appConfig.enableRefresh) {
-    <script>
-        $.timeoutDialog({
-            timeout: @appConfig.timeOutSeconds,
-            countdown: @appConfig.timeOutCountdownSeconds,
-            keep_alive_url: "@iht.controllers.routes.IhtMainController.keepAlive.url",
-            logout_url: "@timeoutRoute",
-            title: "@Messages("iht.timeoutDialog.title")",
-            message: "@Messages("iht.timeoutDialog.p1")",
-            keep_alive_button_text: "@Messages("iht.timeoutDialog.button")"
-        });
-        var dialogOpen;
-    </script>
+            <script>
+                $.timeoutDialog({
+                    timeout: @appConfig.timeOutSeconds,
+                    countdown: @appConfig.timeOutCountdownSeconds,
+                    keep_alive_url: "@iht.controllers.routes.IhtMainController.keepAlive.url",
+                    title: "@Messages("iht.timeoutDialog.title")",
+
+        @if(isRegistration){
+                    logout_url: "@iht.controllers.routes.SessionTimeoutController.onRegistrationPageLoad().url",
+                    message: "@Messages("iht.timeoutDialog.registration.p1")",
+                    keep_alive_button_text: "@Messages("iht.timeoutDialog.registration.button")"
+        } else {
+                    logout_url: "@iht.controllers.routes.SessionTimeoutController.onApplicationPageLoad().url",
+                    message: "@Messages("iht.timeoutDialog.p1")",
+                    keep_alive_button_text: "@Messages("iht.timeoutDialog.button")"
+        }
+                });
+                var dialogOpen;
+            </script>
     }
 }
 
