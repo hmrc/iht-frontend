@@ -12,7 +12,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-fdescribe('Nominated assets (Assets) accessibility : ', function() {
+describe('Nominated assets (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
