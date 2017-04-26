@@ -34,20 +34,6 @@ describe('Application accessibility : ', function() {
 
 
 
-    function submitPage(done){
-        driver.findElement(By.css('#continue-button')).click();
-    }
-
-
-    function triggerErrorSummary(done, title){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage();
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
-
-
     it('estate report', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report')
         driver.wait(until.titleContains('Your estate reports'), 2000)

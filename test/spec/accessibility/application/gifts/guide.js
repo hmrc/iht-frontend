@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -29,20 +30,6 @@ describe('Gift guidance, accessibility : ', function() {
           done();
       });
     });
-
-//    function submitPage(button){
-//        var buttonSelector = '#save-continue'
-//        if(button){
-//            buttonSelector = button
-//        }
-//        driver.findElement(By.css(buttonSelector)).click();
-//    }
-//
-//    function triggerErrorSummary(done, title, button){
-//        driver.wait(until.titleContains(title), 2000)
-//        submitPage(button);
-//        driver.wait(until.titleContains(title), 2000)
-//    }
 
 
     it('guide page 1', function (done) {

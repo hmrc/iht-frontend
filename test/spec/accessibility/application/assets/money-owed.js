@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -30,24 +31,9 @@ describe('Money owed (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
     it('money owed yes/no', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owed-to-deceased')
-        triggerErrorSummary(done, 'Nominated assets owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Money owed to the deceased')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
@@ -55,7 +41,7 @@ describe('Money owed (Assets) accessibility : ', function() {
 
     it('money owed yes/no, with value', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owed-to-deceased')
-        driver.wait(until.titleContains('Nominated assets owned'), 2000)
+        driver.wait(until.titleContains('Money owed to the deceased'), 2000)
         driver.findElement(By.css('#yes-label')).click()
         .then(function(){
             accessibilityhelper.checkAccessibility(done, driver)

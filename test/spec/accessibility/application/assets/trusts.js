@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -30,42 +31,28 @@ describe('Trusts (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-    function fillTrustQuestion(done){
+    function fillTrustQuestion(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-assets-in-trust')
         driver.findElement(By.css('#yes-label')).click();
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
-    function fillHowManyTrusts(done){
+    function fillHowManyTrusts(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/how-many-trusts')
         driver.findElement(By.css('#no-label')).click();
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
-    function fillValueOfTrust(done){
+    function fillValueOfTrust(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-trusts')
         driver.findElement(By.name("value")).sendKeys('5000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
 
     it('benefit from trusts yes/no', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-assets-in-trust')
-        triggerErrorSummary(done, 'Any assets in trust')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Any assets in trust')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
@@ -81,9 +68,9 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('trust overview, filled', function (done) {
-        fillTrustQuestion();
-        fillHowManyTrusts();
-        fillValueOfTrust();
+        fillTrustQuestion(done, driver);
+        fillHowManyTrusts(done, driver);
+        fillValueOfTrust(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-in-trust');
         driver.wait(until.titleContains('Assets held in trust'), 2000)
@@ -93,17 +80,17 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('how many trusts', function (done){
-        fillTrustQuestion();
+        fillTrustQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/how-many-trusts')
-        triggerErrorSummary(done, 'How many trusts benefitted')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'How many trusts benefitted')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('value of trust', function (done){
-        fillTrustQuestion();
+        fillTrustQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-trusts')
         driver.wait(until.titleContains('Trust value'), 2000)

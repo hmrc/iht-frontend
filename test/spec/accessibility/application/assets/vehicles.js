@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -30,34 +31,18 @@ describe('Vehicles (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
-    function fillVehiclesOwned(done){
+    function fillVehiclesOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/own-vehicles-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("value")).sendKeys('5000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
-    function fillVehiclesJointlyOwned(done){
+    function fillVehiclesJointlyOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-jointly-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("shareValue")).sendKeys('8000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
-
 
     it('vehicles overview', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned')
@@ -68,8 +53,8 @@ describe('Vehicles (Assets) accessibility : ', function() {
     });
 
     it('vehicles overview, filled', function (done) {
-        fillVehiclesOwned();
-        fillVehiclesJointlyOwned();
+        fillVehiclesOwned(done, driver);
+        fillVehiclesJointlyOwned(done, driver);
         driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned')
         driver.wait(until.titleContains('Motor vehicles'), 2000)
         .then(function(){
@@ -79,7 +64,7 @@ describe('Vehicles (Assets) accessibility : ', function() {
 
     it('vehicles owned by deceased', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/own-vehicles-owned')
-        triggerErrorSummary(done, 'Motor vehicles owned');
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Motor vehicles owned');
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
@@ -88,7 +73,7 @@ describe('Vehicles (Assets) accessibility : ', function() {
 
     it('vehicles owned jointly', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-jointly-owned')
-        triggerErrorSummary(done, 'Motor vehicles jointly owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Motor vehicles jointly owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)

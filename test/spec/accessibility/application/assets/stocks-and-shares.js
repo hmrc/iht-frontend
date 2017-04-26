@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -29,49 +30,17 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
-
-    function checkAccessibility(done) {
-        AxeBuilder(driver)
-        .include('#content')
-        .analyze(function(results) {
-            if (results.violations.length > 0) {
-                console.log('      ','Accessibility Violations: '.bold.bgRed.white, results.violations.length);
-                results.violations.forEach(function(violation){
-                    console.log('      ', violation);
-                    console.log('      ============================================================'.red);
-                });
-            }
-            expect(results.violations.length).toBe(0);
-            done();
-        })
-
-    }
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
-    function fillStocksOwned(done){
+    function fillStocksOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/listed-stocks-and-shares-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("valueListed")).sendKeys('5000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
-    function fillStocksJointlyOwned(done){
+    function fillStocksJointlyOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/unlisted-stocks-and-shares-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("valueNotListed")).sendKeys('8000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
 
@@ -84,8 +53,8 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
     });
 
     it('stocks and shares overview, filled', function (done) {
-        fillStocksOwned();
-        fillStocksJointlyOwned();
+        fillStocksOwned(done, driver);
+        fillStocksJointlyOwned(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned')
         driver.wait(until.titleContains('Stocks and shares'), 2000)
@@ -96,7 +65,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
 
     it('stocks and shares listed on an exchange', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/listed-stocks-and-shares-owned')
-        triggerErrorSummary(done, 'Listed stocks and shares')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Listed stocks and shares')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
@@ -105,7 +74,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
 
     it('stocks and shares not listed on an exchange', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/unlisted-stocks-and-shares-owned')
-        triggerErrorSummary(done, 'Unlisted stocks and shares')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Unlisted stocks and shares')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
            accessibilityhelper.checkAccessibility(done, driver)

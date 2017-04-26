@@ -13,7 +13,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-fdescribe('Gifts, accessibility : ', function() {
+describe('Gifts, accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -30,23 +30,6 @@ fdescribe('Gifts, accessibility : ', function() {
           done();
       });
     });
-
-//    function submitPage(button){
-//        var buttonSelector = '#save-continue'
-//        if(button){
-//            buttonSelector = button
-//        }
-//        driver.findElement(By.css(buttonSelector)).click();
-//    }
-//
-//    function triggerErrorSummary(done, title, button){
-//        driver.wait(until.titleContains(title), 2000)
-//        submitPage(button);
-//        driver.wait(until.titleContains(title), 2000)
-//    }
-
-
-
 
 
     it('gifts given away', function (done) {

@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -30,24 +31,10 @@ describe('Business interests (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
 
     it('business yes/no', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/business-interests-owned')
-        triggerErrorSummary(done, 'Business interests owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Business interests owned')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });

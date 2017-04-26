@@ -8,7 +8,6 @@ var submitPageHelper = function(done, driver, button) {
             buttonSelector = button
         }
         driver.findElement(By.css(buttonSelector)).click();
-        done();
 
 }
 exports.submitPageHelper = submitPageHelper;
@@ -18,7 +17,6 @@ var triggerErrorSummaryHelper = function(done, driver, title, button) {
         driver.wait(until.titleContains(title), 2000)
         submitPageHelper(done, driver, button);
         driver.wait(until.titleContains(title), 2000)
-        done();
 
 }
 exports.triggerErrorSummaryHelper = triggerErrorSummaryHelper;

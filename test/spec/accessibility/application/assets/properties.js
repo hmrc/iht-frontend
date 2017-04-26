@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -30,31 +31,16 @@ describe('Property (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
-    function fillPropertyQuestion(done){
+    function fillPropertyQuestion(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-properties-buildings-land-owned')
         driver.findElement(By.css('#yes-label')).click();
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
-    function fillPropertyValue(done){
+    function fillPropertyValue(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-property')
         driver.findElement(By.name("value")).sendKeys('150000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
     it('assets overview', function (done) {
@@ -67,14 +53,14 @@ describe('Property (Assets) accessibility : ', function() {
 
     it('properties question', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-properties-buildings-land-owned')
-        triggerErrorSummary(done, 'Properties')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Properties')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('properties overview', function (done) {
-        fillPropertyQuestion();
+        fillPropertyQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/properties-buildings-land-owned')
         driver.then(function(){
@@ -83,7 +69,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('add property overview', function (done) {
-        fillPropertyQuestion();
+        fillPropertyQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/add-property')
         driver.then(function(){
@@ -92,58 +78,58 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('property address', function (done) {
-        fillPropertyQuestion();
+        fillPropertyQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/property-address')
-        triggerErrorSummary(done, 'Property address')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Property address')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('type of property', function (done) {
-        fillPropertyQuestion();
+        fillPropertyQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/type-of-property')
-        triggerErrorSummary(done, 'Type of property')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Type of property')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('how property was owned', function (done) {
-        fillPropertyQuestion();
+        fillPropertyQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/how-property-was-owned')
-        triggerErrorSummary(done, 'How property was owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'How property was owned')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('freehold or leasehold', function (done) {
-        fillPropertyQuestion();
+        fillPropertyQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/freehold-or-leasehold-property')
-        triggerErrorSummary(done, 'Freehold or leasehold')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Freehold or leasehold')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('value of property', function (done) {
-        fillPropertyQuestion();
+        fillPropertyQuestion(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-property')
-        triggerErrorSummary(done, 'Property value')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Property value')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('delete property', function(done){
-        fillPropertyQuestion();
-        fillPropertyValue();
+        fillPropertyQuestion(done, driver);
+        fillPropertyValue(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/delete-property/1')
         .then(function(){

@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -30,24 +31,9 @@ describe('Other (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
     it('other yes/no', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/other-assets-owned')
-        triggerErrorSummary(done, 'Business interests owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Other assets owned')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
@@ -55,7 +41,7 @@ describe('Other (Assets) accessibility : ', function() {
 
     it('other yes/no, with value', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/other-assets-owned')
-        driver.wait(until.titleContains('Business interests owned'), 2000)
+        driver.wait(until.titleContains('Other assets owned'), 2000)
         driver.findElement(By.css('#yes-label')).click()
         .then(function(){
             accessibilityhelper.checkAccessibility(done, driver)

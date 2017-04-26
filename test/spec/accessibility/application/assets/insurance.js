@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -29,56 +30,41 @@ describe('Insurance (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
 
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
-    function fillInsuranceOwned(done){
+    function fillInsuranceOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-paying-to-deceased')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("value")).sendKeys('5000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
-    function fillInsuranceJointlyOwned(done){
+    function fillInsuranceJointlyOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/jointly-owned-insurance-policies')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("shareValue")).sendKeys('8000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
-    function fillPolicyGifted(done){
+    function fillPolicyGifted(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-insurance-policies-gifted')
         driver.findElement(By.css('#yes-label')).click();
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
-    function fillPolicyGiftedValue(done){
+    function fillPolicyGiftedValue(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-gifted-policies')
         driver.findElement(By.css('#no-label')).click();
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
-    function fillPolicyAnnuity(done){
+    function fillPolicyAnnuity(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-annuities')
         driver.findElement(By.css('#no-label')).click();
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
-    function fillPolicyInTrust(done){
+    function fillPolicyInTrust(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-placed-in-trust')
         driver.findElement(By.css('#no-label')).click();
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
 
@@ -91,12 +77,12 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance overview, filled', function (done) {
-        fillInsuranceOwned();
-        fillInsuranceJointlyOwned();
-        fillPolicyGifted();
-        fillPolicyGiftedValue();
-        fillPolicyAnnuity();
-        fillPolicyInTrust();
+        fillInsuranceOwned(done, driver);
+        fillInsuranceJointlyOwned(done, driver);
+        fillPolicyGifted(done, driver);
+        fillPolicyGiftedValue(done, driver);
+        fillPolicyAnnuity(done, driver);
+        fillPolicyInTrust(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-owned')
         driver.wait(until.titleContains('Insurance policies'), 2000)
@@ -107,7 +93,7 @@ describe('Insurance (Assets) accessibility : ', function() {
 
     it('insurance policies paying to the deceased', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-paying-to-deceased')
-        triggerErrorSummary(done, 'Own insurance policies')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Own insurance policies')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
@@ -116,7 +102,7 @@ describe('Insurance (Assets) accessibility : ', function() {
 
     it('joint insurance policies', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/jointly-owned-insurance-policies')
-        triggerErrorSummary(done, 'Joint insurance policies')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Joint insurance policies')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
@@ -125,40 +111,40 @@ describe('Insurance (Assets) accessibility : ', function() {
 
     it('insurance policy gifted yes/no', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-insurance-policies-gifted')
-        triggerErrorSummary(done, 'Premiums paid for someone else')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Premiums paid for someone else')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('insurance policy gifted value', function (done) {
-        fillPolicyGifted();
+        fillPolicyGifted(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-gifted-policies')
-        triggerErrorSummary(done, 'Value of gifted policies')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Value of gifted policies')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('insurance policy annuity', function (done) {
-        fillPolicyGifted();
-        fillPolicyGiftedValue();
+        fillPolicyGifted(done, driver);
+        fillPolicyGiftedValue(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-annuities')
-        triggerErrorSummary(done, 'Any annuities bought')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Any annuities bought')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 
     it('insurance policy in trust', function (done) {
-        fillPolicyGifted();
-        fillPolicyGiftedValue();
-        fillPolicyAnnuity();
+        fillPolicyGifted(done, driver);
+        fillPolicyGiftedValue(done, driver);
+        fillPolicyAnnuity(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-placed-in-trust')
-        triggerErrorSummary(done, 'Policies placed in trust')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Policies placed in trust')
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
@@ -166,10 +152,10 @@ describe('Insurance (Assets) accessibility : ', function() {
 
 
     it('insurance policies are gifts', function (done) {
-        fillPolicyGifted();
-        fillPolicyGiftedValue();
-        fillPolicyAnnuity();
-        fillPolicyInTrust();
+        fillPolicyGifted(done, driver);
+        fillPolicyGiftedValue(done, driver);
+        fillPolicyAnnuity(done, driver);
+        fillPolicyInTrust(done, driver);
 
         driver.get('http://localhost:9070/inheritance-tax/estate-report/insurance-policies-are-gifts')
         driver.wait(until.titleContains('Insurance premiums'), 2000)

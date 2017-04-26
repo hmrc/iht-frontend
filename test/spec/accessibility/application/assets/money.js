@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -30,33 +31,18 @@ describe('Money (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
 
-
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
-    function fillMoneyOwned(done){
+    function fillMoneyOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("value")).sendKeys('5000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
-    function fillMoneyJointlyOwned(done){
+    function fillMoneyJointlyOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("shareValue")).sendKeys('8000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
 
@@ -69,8 +55,8 @@ describe('Money (Assets) accessibility : ', function() {
     });
 
     it('money overview, filled', function (done) {
-        fillMoneyOwned();
-        fillMoneyJointlyOwned();
+        fillMoneyOwned(done, driver);
+        fillMoneyJointlyOwned(done, driver);
         driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
         driver.wait(until.titleContains('Money'), 2000)
         .then(function(){
@@ -80,7 +66,7 @@ describe('Money (Assets) accessibility : ', function() {
 
     it('money owned by deceased', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
-        triggerErrorSummary(done, 'Own money owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Own money owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
            accessibilityhelper.checkAccessibility(done, driver)
@@ -89,7 +75,7 @@ describe('Money (Assets) accessibility : ', function() {
 
     it('money owned jointly', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
-        triggerErrorSummary(done, 'Joint money owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Joint money owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)

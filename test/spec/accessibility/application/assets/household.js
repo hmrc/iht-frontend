@@ -5,6 +5,7 @@ var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
+var actionHelper = require('../../../../spec-helpers/action-helper.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -28,33 +29,19 @@ describe('Household (Assets) accessibility : ', function() {
       });
     });
 
-    function submitPage(button){
-        var buttonSelector = '#save-continue'
-        if(button){
-            buttonSelector = button
-        }
-        driver.findElement(By.css(buttonSelector)).click();
-    }
 
 
-    function triggerErrorSummary(done, title, button){
-        driver.wait(until.titleContains(title), 2000)
-        submitPage(button);
-        driver.wait(until.titleContains(title), 2000)
-    }
-
-
-    function fillHouseholdOwned(done){
+    function fillHouseholdOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/own-household-items-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("value")).sendKeys('5000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
-    function fillHouseholdJointlyOwned(done){
+    function fillHouseholdJointlyOwned(done, driver){
         driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-jointly-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("shareValue")).sendKeys('8000');
-        submitPage();
+        actionHelper.submitPageHelper(done, driver);
     }
 
 
@@ -67,8 +54,8 @@ describe('Household (Assets) accessibility : ', function() {
     });
 
     it('household overview, filled', function (done) {
-        fillHouseholdOwned();
-        fillHouseholdJointlyOwned();
+        fillHouseholdOwned(done, driver);
+        fillHouseholdJointlyOwned(done, driver);
         driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-owned')
         driver.wait(until.titleContains('Household and personal items'), 2000)
         .then(function(){
@@ -78,7 +65,7 @@ describe('Household (Assets) accessibility : ', function() {
 
     it('household owned by deceased', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/own-household-items-owned')
-        triggerErrorSummary(done, 'Own household items owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Own household items owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
@@ -87,7 +74,7 @@ describe('Household (Assets) accessibility : ', function() {
 
     it('household owned jointly', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-jointly-owned')
-        triggerErrorSummary(done, 'Joint household items owned')
+        actionHelper.triggerErrorSummaryHelper(done, driver, 'Joint household items owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
