@@ -102,7 +102,7 @@ String.prototype.format = function () {
         $('<div id="timeout-dialog" class="timeout-dialog" role="dialog" aria-labelledby="timeout-heading timeout-message" tabindex="-1" aria-live="polite">' + 
             '<h2 id="timeout-heading" class="heading-medium">' + settings.title + '</h2>' + 
             '<p id="timeout-message">' +
-                settings.message + ' <br /><span class="countdown" id="timeout-countdown">' + time.m + ' ' + settings.time + '</span>' +
+                settings.message + ' <br /><span class="countdown" id="timeout-countdown" role="text">' + time.m + ' ' + settings.time + '</span>' +
             '</p>' + 
             '<button id="timeout-keep-signin-btn" class="button">' + settings.keep_alive_button_text.format(settings.timeout / 60) + '</button>' + 
         '</div>' + 
@@ -167,6 +167,9 @@ String.prototype.format = function () {
       updateUI: function(counter){
         var self = this
         if (counter < 60) {
+          if(counter < 0){
+            counter = 0;
+          }
           $('#timeout-countdown').html(counter + " seconds")
         } else {
           var newCounter = Math.ceil(counter / 60);
