@@ -19,6 +19,7 @@ package iht.views.registration
 import iht.views.ViewTestHelper
 import iht.views.html.registration.timeout_registration
 import play.api.i18n.Messages.Implicits._
+import iht.config.ApplicationConfig
 
 class TimeoutRegistrationViewTest extends ViewTestHelper {
   private lazy val viewAsDocument = {
@@ -37,7 +38,7 @@ class TimeoutRegistrationViewTest extends ViewTestHelper {
     }
 
     "have the correct first paragraph" in {
-      viewAsDocument.getElementById("paragraph1").text shouldBe messagesApi("iht.timeout.p1")
+      viewAsDocument.getElementById("paragraph1").text shouldBe messagesApi("iht.timeout.p1", (ApplicationConfig.timeOutSeconds/60))
     }
 
     "have the correct second paragraph" in {
