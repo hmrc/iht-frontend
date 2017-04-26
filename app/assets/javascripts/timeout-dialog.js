@@ -80,6 +80,7 @@ String.prototype.format = function () {
 
       setupDialogTimer: function () {
         var self = this
+        self.dialogOpen = false
         window.setTimeout(function () {
           self.setupDialog()
         }, ((settings.timeout) - (settings.countdown)) * 1000)
@@ -101,7 +102,7 @@ String.prototype.format = function () {
         $('<div id="timeout-dialog" class="timeout-dialog" role="dialog" aria-labelledby="timeout-heading timeout-message" tabindex="-1" aria-live="polite">' + 
             '<h2 id="timeout-heading" class="heading-medium">' + settings.title + '</h2>' + 
             '<p id="timeout-message">' +
-                settings.message + ' <br /><span class="countdown" id="timeout-countdown">' + time.m + ' ' + settings.time + '</span>' +
+                settings.message + ' <br /><span class="countdown" id="timeout-countdown" role="text">' + time.m + ' ' + settings.time + '</span>' +
             '</p>' + 
             '<button id="timeout-keep-signin-btn" class="button">' + settings.keep_alive_button_text.format(settings.timeout / 60) + '</button>' + 
         '</div>' + 
@@ -166,14 +167,17 @@ String.prototype.format = function () {
       updateUI: function(counter){
         var self = this
         if (counter < 60) {
-            $('#timeout-countdown').html(counter + " seconds")
-          } else {
-            var newCounter = Math.ceil(counter / 60);
-            if(newCounter < self.currentMin){
-                self.currentMin = newCounter
-                $('#timeout-countdown').html(newCounter + " minutes")
-            }
+          if(counter < 0){
+            counter = 0;
           }
+          $('#timeout-countdown').html(counter + " seconds")
+        } else {
+          var newCounter = Math.ceil(counter / 60);
+          if(newCounter < self.currentMin){
+              self.currentMin = newCounter
+              $('#timeout-countdown').html(newCounter + " minutes")
+          }
+        }
       },
 
       addEvents: function(){
@@ -190,22 +194,31 @@ String.prototype.format = function () {
             }
         });
 
+        function handleFocus(){
+            if(self.dialogOpen){
+                // clear the countdown
+                window.clearInterval(self.countdown)
+                // calculate remaining time
+                var now = Math.round(Date.now()/1000, 0)
+                var expiredSeconds = now - self.startTime;
+                var currentCounter = settings.countdown - expiredSeconds;
+                //console.log('Expired = ' + expiredSeconds + ' (' + now + ' - ' + self.startTime + ')');
+                //console.log('CurrentCounter = ' + currentCounter + '(' + settings.countdown + ' - ' + expiredSeconds + ')');
+
+                self.updateUI(currentCounter);
+                self.startCountdown(currentCounter);
+            }
+        }
+
         // AL: handle browsers pausing timeouts/intervals by recalculating the remaining time on window focus
         // need to widen this to cover the setTimeout which triggers the dialog for browsers which pause timers on blur
-        // hiding this from IE8 and it breaks the reset - to investigate further
+        // hiding this from IE8 as it breaks the reset - to investigate further
         if (navigator.userAgent.match(/MSIE 8/) == null) {
-            $(window).on("focus", function (event) {
-                if(self.dialogOpen){
-                    // clear the countdown
-                    window.clearInterval(self.countdown)
-                    // calculate remaining time
-                    var expiredSeconds = (Math.round(Date.now()/1000, 0)) - self.startTime;
-                    var currentCounter = settings.countdown - expiredSeconds;
-                    self.updateUI(currentCounter);
-                    self.startCountdown(currentCounter);
-                }
+            //$(window).on("blur", function(){
+                $(window).off("focus", handleFocus);
+                $(window).on("focus", handleFocus);
+            //});
 
-            })
         }
       },
 

@@ -18,12 +18,13 @@
 
 @import iht.constants.IhtProperties
 @import iht.views.html._
+@import iht.config.ApplicationConfig
 
 @iht_main_template_registration(title = Messages("iht.signedOut"),
 hasSignOut=false,
 hasTimeOut=false) {
 
-<p id="paragraph1">@Messages("iht.timeout.p1")</p>
+<p id="paragraph1">@Messages("iht.timeout.p1", (ApplicationConfig.timeOutSeconds/60))</p>
 <p id="paragraph2">@Messages("page.iht.registration.timeout.p2")</p>
 
 <div id="login-redirect-button">
