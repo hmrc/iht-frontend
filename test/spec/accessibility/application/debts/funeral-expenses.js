@@ -14,7 +14,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-describe('Nominated assets (Assets) accessibility : ', function() {
+describe('Funeral expenses (Debts), accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -32,17 +32,17 @@ describe('Nominated assets (Assets) accessibility : ', function() {
       });
     });
 
-    it('nominated assets yes/no', function (done) {
+    it('funeral expenses yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/nominated-assets-owned',
-            pageTitle: 'Nominated assets owned'
+            url: 'http://localhost:9070/inheritance-tax/estate-report/funeral-expenses',
+            pageTitle: 'Funeral expenses'
         })
     });
 
-    it('nominated assets yes/no, with value', function (done) {
+    it('funeral expenses yes/no, with value', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/nominated-assets-owned',
-            pageTitle: 'Nominated assets owned'
+            url: 'http://localhost:9070/inheritance-tax/estate-report/funeral-expenses',
+            pageTitle: 'Funeral expenses'
         })
     });
 

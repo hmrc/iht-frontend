@@ -6,6 +6,7 @@ var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -32,22 +33,18 @@ describe('Foreign assets (Assets) accessibility : ', function() {
     });
 
 
-
     it('foreign assets yes/no', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/foreign-assets-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Foreign assets')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNo(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/foreign-assets-owned',
+            pageTitle: 'Foreign assets'
+        })
     });
 
     it('foreign assets yes/no, with value', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/foreign-assets-owned')
-        driver.wait(until.titleContains('Foreign assets'), 2000)
-        driver.findElement(By.css('#yes-label')).click()
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNoWithValue(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/foreign-assets-owned',
+            pageTitle: 'Foreign assets'
+        })
     });
 
 });

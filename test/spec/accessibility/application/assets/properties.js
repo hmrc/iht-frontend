@@ -43,14 +43,6 @@ describe('Property (Assets) accessibility : ', function() {
         actionHelper.submitPageHelper(done, driver);
     }
 
-    it('assets overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-in-estate')
-        driver.wait(until.titleContains('Assets in the estate'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
-    });
-
     it('properties question', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/any-properties-buildings-land-owned')
         actionHelper.triggerErrorSummaryHelper(done, driver, 'Properties')

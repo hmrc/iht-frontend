@@ -6,7 +6,6 @@ var TestReporter = require('../../../../spec-helpers/reporter.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
-var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -14,7 +13,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-describe('Nominated assets (Assets) accessibility : ', function() {
+describe('Debts, accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -32,18 +31,13 @@ describe('Nominated assets (Assets) accessibility : ', function() {
       });
     });
 
-    it('nominated assets yes/no', function (done) {
-        behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/nominated-assets-owned',
-            pageTitle: 'Nominated assets owned'
-        })
-    });
 
-    it('nominated assets yes/no, with value', function (done) {
-        behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/nominated-assets-owned',
-            pageTitle: 'Nominated assets owned'
-        })
+    it('debts overview', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/debts-owed-from-estate')
+        driver.wait(until.titleContains('Debts owed from the estate'), 2000)
+        driver.then(function(){
+            accessibilityhelper.checkAccessibility(done, driver)
+        });
     });
 
 });

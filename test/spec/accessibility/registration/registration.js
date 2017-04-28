@@ -202,10 +202,6 @@ describe('Registration accessibility : ', function() { 
                 driver.sleep(200) 
                 driver.get('http://localhost:9070/inheritance-tax/registration/permanent-home-location') 
                 driver.sleep(200) 
-//                driver.findElement(selenium.By.css('h1')) 
-//                      .then(function (el) { 
-//                        expect(el).text.toEqual('Other person’s details'); 
-//                      }); 
                 actionHelper.triggerErrorSummaryHelper(done, driver, 'Permanent home', '#continue-button') 
                 driver.sleep(200) 
                 driver.then(function(){ 

@@ -142,7 +142,7 @@ describe('TNRB, accessibility : ', function() {
 
     it('guidance', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/estate-report/increase-the-threshold')
-        driver.wait(until.titleContains('Increasing the threshold'), 2000)
+        driver.wait(until.titleContains('Increasing the threshold'), 2000) 
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
         });
