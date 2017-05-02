@@ -23,3 +23,13 @@ exports.actsAsYesNo = actsAsYesNo;
         });
     }
  exports.actsAsYesNoWithValue = actsAsYesNoWithValue;
+
+
+ var actsAsStandardForm = function actsAsStandardForm(done, driver, options){
+         driver.get(options.url)
+         actionHelper.triggerErrorSummaryHelper(done, driver, options.pageTitle, options.button)
+         driver.then(function(){
+             accessibilityhelper.checkAccessibility(done, driver)
+         });
+     }
+  exports.actsAsStandardForm = actsAsStandardForm;

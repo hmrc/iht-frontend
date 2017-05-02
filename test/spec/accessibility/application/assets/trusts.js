@@ -3,6 +3,7 @@ var selenium = require('selenium-webdriver'),
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
+var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
@@ -17,9 +18,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
-      driver = new selenium.Builder()
-          .forBrowser('chrome')
-          .build();
+      driver = Browser.startBrowser();
 
       loginhelper.authenticate(done, driver, 'report')
     });

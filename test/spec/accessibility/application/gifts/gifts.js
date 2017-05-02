@@ -3,9 +3,11 @@ var selenium = require('selenium-webdriver'),
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
+var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 
 var Reporter = new TestReporter();
 
@@ -18,9 +20,7 @@ describe('Gifts, accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
-      driver = new selenium.Builder()
-          .forBrowser('phantomjs')
-          .build();
+      driver = Browser.startBrowser();
       loginhelper.authenticate(done, driver, 'report')
     });
 
@@ -65,11 +65,11 @@ describe('Gifts, accessibility : ', function() {
     }
 
     it('gifts given away', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-value-given-away')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Gifts given away')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-value-given-away',
+            pageTitle: "Gifts given away"
+
+        })
     });
 
     it('gifts overview', function (done) {
@@ -96,27 +96,27 @@ describe('Gifts, accessibility : ', function() {
     });
 
     it('gifts with reservation of benefit', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-with-reservation-of-benefit')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Gifts with reservation of benefit')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-with-reservation-of-benefit',
+            pageTitle: "Gifts with reservation of benefit"
+
+        })
     });
 
     it('gifts given away in 7 years before death', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/type-of-gifts-given-away')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Gifts given away')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/type-of-gifts-given-away',
+            pageTitle: "Gifts given away"
+
+        })
     });
 
     it('gifts given to a company, trust or charity', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-given-to-a-company')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Gifts given away')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-given-to-a-company',
+            pageTitle: "Gifts given away"
+
+        })
     });
 
     it('gifts given in year', function (done) {

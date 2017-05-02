@@ -3,6 +3,7 @@ var selenium = require('selenium-webdriver'),
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../spec-helpers/reporter.js');
+var Browser = require('../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../spec-helpers/login-helper.js');
 var Reporter = new TestReporter();
@@ -16,13 +17,8 @@ describe('Application accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
-
-
-      driver = new selenium.Builder()
-          .forBrowser('chrome')
-          .build();
-
-           loginhelper.authenticate(done, driver, 'app')
+      driver = Browser.startBrowser();
+      loginhelper.authenticate(done, driver, 'app')
     });
 
     // Close website after each test is run (so it is opened fresh each time)

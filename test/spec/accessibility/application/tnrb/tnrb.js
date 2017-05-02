@@ -3,9 +3,11 @@ var selenium = require('selenium-webdriver'),
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../../spec-helpers/reporter.js');
+var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -17,9 +19,7 @@ describe('TNRB, accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
-      driver = new selenium.Builder()
-          .forBrowser('chrome')
-          .build();
+      driver = Browser.startBrowser();
 
       loginhelper.authenticate(done, driver, 'report')
     });
@@ -149,111 +149,111 @@ describe('TNRB, accessibility : ', function() {
     });
 
     it('deceased ever widowed', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/deceased-ever-widowed')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Increasing the Inheritance Tax threshold')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/deceased-ever-widowed',
+            pageTitle: "Increasing the Inheritance Tax threshold"
+
+        })
     });
 
     it('date of death', function (done) {
         fillDeceasedEverWidowed(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/date-of-death')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Increasing the Inheritance Tax threshold')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/date-of-death',
+            pageTitle: "Increasing the Inheritance Tax threshold"
+
+        })
     });
 
     it('name of spouse', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/name-of-spouse-or-civil-partner')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Name of the spouse')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/name-of-spouse-or-civil-partner',
+            pageTitle: "Name of the spouse"
+
+        })
     });
 
     it('date of marriage', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/marriage-or-civil-partnership-date')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Date of marriage')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/marriage-or-civil-partnership-date',
+            pageTitle: "Date of marriage"
+
+        })
     });
 
     it('permanent home', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/permanent-home-location')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Location of permanent home')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/permanent-home-location',
+            pageTitle: "Location of permanent home"
+
+        })
     });
 
     it('fully exempt estate', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/fully-exempt-estate')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Fully exempt estate')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/fully-exempt-estate',
+            pageTitle: "Fully exempt estate"
+
+        })
     });
 
     it('joint assets in estate', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/joint-assets-in-estate')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Joint assets in estate')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/joint-assets-in-estate',
+            pageTitle: "Joint assets in estate"
+
+        })
     });
 
     it('any relief claimed', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-relief-claimed')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Any relief claimed')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/any-relief-claimed',
+            pageTitle: "Any relief claimed"
+
+        })
     });
 
     it('trust benefit', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-trusts-in-estate')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Any trust benefitted')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/any-trusts-in-estate',
+            pageTitle: "Any trust benefitted"
+
+        })
     });
 
     it('non-exempt gifts', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-non-exempt-gifts')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Any non-exempt gifts')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/any-non-exempt-gifts',
+            pageTitle: "Any non-exempt gifts"
+
+        })
     });
 
     it('gifts with reservation of benefit', function (done) {
         fillRequired(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gift-types-given-away')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Type of gifts')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/gift-types-given-away',
+            pageTitle: "Type of gifts"
+
+        })
     });
 
 

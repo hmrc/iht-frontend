@@ -7,8 +7,6 @@ var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
-var behaves = require('../../../../spec-helpers/behaviour.js');
-var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -16,7 +14,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-describe('Business interests (Assets) accessibility : ', function() {
+describe('Exemptions, accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -33,20 +31,20 @@ describe('Business interests (Assets) accessibility : ', function() {
     });
 
 
-    it('business yes/no', function (done) {
-        behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/business-interests-owned',
-            pageTitle: 'Business interests owned'
-        })
+    it('guidance', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/claiming-estate-exemptions/CS700100A000001')
+        driver.wait(until.titleContains('Claiming estate exemptions'), 2000)
+        driver.then(function(){
+            accessibilityhelper.checkAccessibility(done, driver)
+        });
     });
 
-    it('business yes/no, with value', function (done) {
-        behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/business-interests-owned',
-            pageTitle: 'Business interests owned'
-        })
+    it('exemptions overview', function (done) {
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/estate-exemptions')
+        driver.wait(until.titleContains('Estate exemptions'), 2000)
+        driver.then(function(){
+            accessibilityhelper.checkAccessibility(done, driver)
+        });
     });
-
-
 
 });
