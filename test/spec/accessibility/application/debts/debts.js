@@ -7,6 +7,7 @@ var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -19,7 +20,6 @@ describe('Debts, accessibility : ', function() {
 
     beforeEach(function(done) {
       driver = Browser.startBrowser();
-
       loginhelper.authenticate(done, driver, 'report')
     });
 
@@ -32,11 +32,11 @@ describe('Debts, accessibility : ', function() {
 
 
     it('debts overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/debts-owed-from-estate')
-        driver.wait(until.titleContains('Debts owed from the estate'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/debts-owed-from-estate',
+            pageTitle: "Debts owed from the estate"
+
+        })
     });
 
 });

@@ -7,6 +7,7 @@ var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -44,39 +45,38 @@ describe('Vehicles (Assets) accessibility : ', function() {
     }
 
     it('vehicles overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned')
-        driver.wait(until.titleContains('Motor vehicles'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned',
+            pageTitle: "Motor vehicles"
+
+        })
     });
 
     it('vehicles overview, filled', function (done) {
         fillVehiclesOwned(done, driver);
         fillVehiclesJointlyOwned(done, driver);
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned')
-        driver.wait(until.titleContains('Motor vehicles'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned',
+            pageTitle: "Motor vehicles"
+
+        })
     });
 
     it('vehicles owned by deceased', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-vehicles-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Motor vehicles owned');
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNo(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/own-vehicles-owned',
+            pageTitle: "Motor vehicles owned"
+
+        })
     });
 
     it('vehicles owned jointly', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-jointly-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Motor vehicles jointly owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNo(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-jointly-owned',
+            pageTitle: "Motor vehicles jointly owned"
+
+        })
     });
 
 

@@ -31,8 +31,6 @@ describe('Other debts (Debts), accessibility : ', function() {
       });
     });
 
-
-
     it('other debts', function (done) {
         behaves.actsAsYesNo(done, driver, {
             url: 'http://localhost:9070/inheritance-tax/estate-report/other-debts',

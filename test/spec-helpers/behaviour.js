@@ -17,6 +17,7 @@ exports.actsAsYesNo = actsAsYesNo;
  var actsAsYesNoWithValue = function actsAsYesNoWithValue(done, driver, options){
         driver.get(options.url)
         driver.wait(until.titleContains(options.pageTitle), 2000)
+        actionHelper.triggerErrorSummaryHelper(done, driver, options.pageTitle)
         driver.findElement(By.css('#yes-label')).click();
         driver.then(function(){
             accessibilityhelper.checkAccessibility(done, driver)
@@ -33,3 +34,12 @@ exports.actsAsYesNo = actsAsYesNo;
          });
      }
   exports.actsAsStandardForm = actsAsStandardForm;
+
+   var actsAsBasicPage = function actsAsBasicPage(done, driver, options){
+           driver.get(options.url)
+           driver.wait(until.titleContains(options.pageTitle), 2000)
+           driver.then(function(){
+               accessibilityhelper.checkAccessibility(done, driver)
+           });
+       }
+    exports.actsAsBasicPage = actsAsBasicPage;

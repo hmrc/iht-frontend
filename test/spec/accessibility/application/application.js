@@ -6,6 +6,7 @@ var TestReporter = require('../../../spec-helpers/reporter.js');
 var Browser = require('../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../spec-helpers/login-helper.js');
+var behaves = require('../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -31,11 +32,11 @@ describe('Application accessibility : ', function() {
 
 
     it('estate report', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report')
-        driver.wait(until.titleContains('Your estate reports'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report',
+            pageTitle: "Your estate reports"
+
+        })
     });
 
     it('estate report overview', function (done) {

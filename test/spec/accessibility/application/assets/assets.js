@@ -32,21 +32,21 @@ describe('Assets accessibility : ', function() {
     });
 
     it('assets overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-in-estate')
-        driver.wait(until.titleContains('Assets in the estate'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-in-estate',
+            pageTitle: "Assets in the estate"
+
+        })
     });
 
     it('assets overview, filled', function (done) {
         driver.get('http://localhost:9070/inheritance-tax/test-only/fill')
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-in-estate')
-        driver.wait(until.titleContains('Assets in the estate'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-in-estate',
+            pageTitle: "Assets in the estate"
+
+        })
     });
 
 });

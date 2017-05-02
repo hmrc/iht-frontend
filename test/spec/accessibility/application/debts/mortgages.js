@@ -55,22 +55,21 @@ describe('Mortgages (Debts), accessibility : ', function() {
     }
 
     it('mortgages overview, no properties', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/mortgages')
-        driver.wait(until.titleContains('Mortgages'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/mortgages',
+            pageTitle: "Mortgages"
+
+        })
     });
 
     it('mortgages overview, with properties', function (done) {
         addProperty(done, driver)
         fillAnyMortgage(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/mortgages')
-        driver.wait(until.titleContains('Mortgages'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/mortgages',
+            pageTitle: "Mortgages"
+        })
     });
 
     it('any mortgage on property', function (done) {
@@ -79,7 +78,6 @@ describe('Mortgages (Debts), accessibility : ', function() {
         behaves.actsAsStandardForm(done, driver, {
             url: 'http://localhost:9070/inheritance-tax/estate-report/any-mortgage-on-property/1',
             pageTitle: "Any mortgage on property"
-
         })
     });
 

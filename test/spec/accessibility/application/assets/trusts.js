@@ -7,6 +7,7 @@ var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -50,20 +51,21 @@ describe('Trusts (Assets) accessibility : ', function() {
 
 
     it('benefit from trusts yes/no', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-assets-in-trust')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Any assets in trust')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/any-assets-in-trust',
+            pageTitle: "Any assets in trust"
+
+        })
     });
 
     it('trust overview', function (done) {
-        fillTrustQuestion();
+        fillTrustQuestion(done, driver);
 
-        driver.wait(until.titleContains('Assets held in trust'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+         behaves.actsAsBasicPage(done, driver, {
+             url: 'http://localhost:9070/inheritance-tax/estate-report/assets-in-trust',
+             pageTitle: "Assets held in trust"
+
+         })
     });
 
     it('trust overview, filled', function (done) {
@@ -71,31 +73,31 @@ describe('Trusts (Assets) accessibility : ', function() {
         fillHowManyTrusts(done, driver);
         fillValueOfTrust(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-in-trust');
-        driver.wait(until.titleContains('Assets held in trust'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+         behaves.actsAsBasicPage(done, driver, {
+             url: 'http://localhost:9070/inheritance-tax/estate-report/assets-in-trust',
+             pageTitle: "Assets held in trust"
+
+         })
     });
 
     it('how many trusts', function (done){
         fillTrustQuestion(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/how-many-trusts')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'How many trusts benefitted')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/how-many-trusts',
+            pageTitle: "How many trusts benefitted"
+
+        })
     });
 
     it('value of trust', function (done){
         fillTrustQuestion(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-trusts')
-        driver.wait(until.titleContains('Trust value'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/value-of-trusts',
+            pageTitle: "Trust value"
+
+        })
     });
 
 

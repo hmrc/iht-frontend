@@ -124,28 +124,26 @@ describe('TNRB, accessibility : ', function() {
     it('tnrb overview, filled', function (done) {
         fillTnrb(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/increasing-the-threshold')
-        driver.wait(until.titleContains('Increasing the threshold'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/increasing-the-threshold',
+            pageTitle: "Increasing the threshold"
+        })
     });
 
     it('threshold increased', function (done) {
         fillTnrb(done, driver)
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/threshold-increased')
-        driver.wait(until.titleContains('Threshold increased'), 2000) .then(function() { 
-           accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/threshold-increased',
+            pageTitle: "Threshold increased"
+        })
     });
 
     it('guidance', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/increase-the-threshold')
-        driver.wait(until.titleContains('Increasing the threshold'), 2000) 
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/increase-the-threshold',
+            pageTitle: "Increasing the threshold"
+        })
     });
 
     it('deceased ever widowed', function (done) {

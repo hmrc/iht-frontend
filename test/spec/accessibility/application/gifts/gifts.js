@@ -74,11 +74,12 @@ describe('Gifts, accessibility : ', function() {
 
     it('gifts overview', function (done) {
         fillGiftsGivenAway(done, driver);
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-given-away')
-        driver.wait(until.titleContains('Gifts given away'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-given-away',
+            pageTitle: "Gifts given away"
+
+        })
     });
 
     it('gifts overview, filled', function (done) {
@@ -88,11 +89,11 @@ describe('Gifts, accessibility : ', function() {
         fillGiftsGivenToATrust(done, driver);
         fillGiftsGivenInYear(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-given-away')
-        driver.wait(until.titleContains('Gifts given away'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-given-away',
+            pageTitle: "Gifts given away"
+
+        })
     });
 
     it('gifts with reservation of benefit', function (done) {

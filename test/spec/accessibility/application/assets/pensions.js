@@ -7,6 +7,7 @@ var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -50,22 +51,19 @@ describe('Pensions (Assets) accessibility : ', function() {
 
 
     it('pensions filter question', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-private-pensions-owned')
-        driver.wait(until.titleContains('Any private pensions'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/any-private-pensions-owned',
+            pageTitle: "Any private pensions"
+        })
     });
 
     it('pensions overview', function (done) {
         fillPensionsFilter(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/private-pensions')
-        driver.wait(until.titleContains('Private pensions'), 2000)
-
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/private-pensions',
+            pageTitle: "Private pensions"
+        })
     });
 
     it('pensions overview, filled', function (done) {
@@ -73,32 +71,28 @@ describe('Pensions (Assets) accessibility : ', function() {
         fillPensionChanges(done, driver);
         fillPensionValue(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/private-pensions')
-        driver.wait(until.titleContains('Private pensions'), 2000)
-
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/private-pensions',
+            pageTitle: "Private pensions"
+        })
     });
 
     it('changes to pension', function (done) {
         fillPensionsFilter(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-pension-changes')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Changes to pension')
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/any-pension-changes',
+            pageTitle: "Changes to pension"
+        })
     });
 
     it('pension value', function (done) {
         fillPensionsFilter(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-pensions')
-        driver.wait(until.titleContains('Pension value'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/value-of-pensions',
+            pageTitle: "Pension value"
+        })
     });
 
 });

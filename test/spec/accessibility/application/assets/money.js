@@ -57,33 +57,26 @@ describe('Money (Assets) accessibility : ', function() {
     it('money overview, filled', function (done) {
         fillMoneyOwned(done, driver);
         fillMoneyJointlyOwned(done, driver);
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
-        driver.wait(until.titleContains('Money'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/money-owned',
+            pageTitle: "Money"
+        })
     });
 
     it('money owned by deceased', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Own money owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-           accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNoWithValue(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/own-money-owned',
+            pageTitle: "Own money owned"
+        })
     });
 
     it('money owned jointly', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Joint money owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNoWithValue(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned',
+            pageTitle: "Joint money owned"
+        })
     });
 
 
 });
-
-
-

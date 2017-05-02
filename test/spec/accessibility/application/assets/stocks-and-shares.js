@@ -7,6 +7,7 @@ var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -44,40 +45,38 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
 
 
     it('stocks and shares overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned')
-        driver.wait(until.titleContains('Stocks and shares'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned',
+            pageTitle: "Stocks and shares"
+
+        })
     });
 
     it('stocks and shares overview, filled', function (done) {
         fillStocksOwned(done, driver);
         fillStocksJointlyOwned(done, driver);
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned')
-        driver.wait(until.titleContains('Stocks and shares'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned',
+            pageTitle: "Stocks and shares"
+
+        })
     });
 
     it('stocks and shares listed on an exchange', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/listed-stocks-and-shares-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Listed stocks and shares')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNoWithValue(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/listed-stocks-and-shares-owned',
+            pageTitle: "Listed stocks and shares"
+
+        })
     });
 
     it('stocks and shares not listed on an exchange', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/unlisted-stocks-and-shares-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Unlisted stocks and shares')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-           accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNoWithValue(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/unlisted-stocks-and-shares-owned',
+            pageTitle: "Unlisted stocks and shares"
+
+        })
     });
 
 

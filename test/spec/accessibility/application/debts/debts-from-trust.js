@@ -31,8 +31,6 @@ describe('Debts from a trust (Debts), accessibility : ', function() {
       });
     });
 
-
-
     it('debts owed from a trust', function (done) {
         behaves.actsAsYesNo(done, driver, {
             url: 'http://localhost:9070/inheritance-tax/estate-report/debts-owed-from-trust',

@@ -31,8 +31,6 @@ describe('Joint debts (Debts), accessibility : ', function() {
       });
     });
 
-
-
     it('debts owed on jointly owned assets', function (done) {
         behaves.actsAsYesNo(done, driver, {
             url: 'http://localhost:9070/inheritance-tax/estate-report/joint-debts',

@@ -7,6 +7,7 @@ var Browser = require('../../../../spec-helpers/browser.js');
 var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
 var loginhelper = require('../../../../spec-helpers/login-helper.js');
 var actionHelper = require('../../../../spec-helpers/action-helper.js');
+var behaves = require('../../../../spec-helpers/behaviour.js');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -32,50 +33,50 @@ describe('Gift guidance, accessibility : ', function() {
 
 
     it('guide page 1', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/1')
-        driver.wait(until.titleContains('A guide to gifts'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/1',
+            pageTitle: "A guide to gifts"
+
+        })
     });
 
     it('guide page 2', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/2')
-        driver.wait(until.titleContains('A guide to gifts'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/2',
+            pageTitle: "A guide to gifts"
+
+        })
     });
 
     it('guide page 3', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/3')
-        driver.wait(until.titleContains('A guide to gifts'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/3',
+            pageTitle: "A guide to gifts"
+
+        })
     });
 
     it('guide page 4', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/4')
-        driver.wait(until.titleContains('A guide to gifts'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/4',
+            pageTitle: "A guide to gifts"
+
+        })
     });
 
     it('guide page 5', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/5')
-        driver.wait(until.titleContains('A guide to gifts'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/5',
+            pageTitle: "A guide to gifts"
+
+        })
     });
 
     it('guide page 6', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/6')
-        driver.wait(until.titleContains('A guide to gifts'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/6',
+            pageTitle: "A guide to gifts"
+
+        })
     });
 });

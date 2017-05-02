@@ -46,39 +46,34 @@ describe('Household (Assets) accessibility : ', function() {
 
 
     it('household overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-owned')
-        driver.wait(until.titleContains('Household and personal items'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/household-items-owned',
+            pageTitle: 'Household and personal items'
+        })
     });
 
     it('household overview, filled', function (done) {
         fillHouseholdOwned(done, driver);
         fillHouseholdJointlyOwned(done, driver);
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-owned')
-        driver.wait(until.titleContains('Household and personal items'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/household-items-owned',
+            pageTitle: 'Household and personal items'
+        })
     });
 
     it('household owned by deceased', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-household-items-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Own household items owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNoWithValue(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/own-household-items-owned',
+            pageTitle: 'Own household items owned'
+        })
     });
 
     it('household owned jointly', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/household-items-jointly-owned')
-        actionHelper.triggerErrorSummaryHelper(done, driver, 'Joint household items owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsYesNoWithValue(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/household-items-jointly-owned',
+            pageTitle: 'Joint household items owned'
+        })
     });
 
 
