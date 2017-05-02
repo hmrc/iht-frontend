@@ -174,4 +174,14 @@ class AllLiabilitiesTest extends UnitSpec with MockitoSugar {
       appDetails.allLiabilities.map(_.mortgageValue) shouldBe Some(BigDecimal(2765))
     }
   }
+
+  "isEmpty" must {
+    "return true if there is no values for all liabilities fields" in {
+
+    }
+
+    "return false if there is any value in any of liabilities field" in {
+
+    }
+  }
 }
