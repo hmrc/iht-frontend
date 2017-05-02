@@ -112,12 +112,7 @@ trait RegistrationController extends FrontendController with IhtActions {
                                        (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
-        val tryNino = Try { getNino(user) }
-        val nino = tryNino match {
-          case Failure(ex) => "unknown national insurance number"
-          case Success(ni) => ni
-        }
-        Logger.info(s"Registration details not found in cache for $nino when $url requested so re-directing to application overview page")
+        Logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")
         Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
       case Some(rd) => body(rd)
     }
