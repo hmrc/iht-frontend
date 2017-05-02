@@ -3,14 +3,16 @@ var checkAccessibility = function(done, driver) {
     AxeBuilder(driver)
     .include('#content')
     .analyze(function(results) {
+        var report = "";
         if (results.violations.length > 0) {
-            console.log('Accessibility Violations: '.bold.bgRed.white, results.violations.length);
             results.violations.forEach(function(violation){
-                console.log(violation);
-                console.log('============================================================'.red);
+                report = report + " " + violation.help
+                 violation.nodes.forEach(function(node){
+                    report = report + "\n    " + node.html;
+                 })
             });
         }
-        expect(results.violations.length).toBe(0);
+        expect(results.violations.length).toBe(0,report);
         done();
     })
 

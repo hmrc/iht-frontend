@@ -32,14 +32,14 @@ describe('Exemptions, accessibility : ', function() {
     });
 
     it('guidance', function (done) {
-        behaves.actsAsStandardForm(done, driver, {
+        behaves.actsAsBasicPage(done, driver, {
             url: 'http://localhost:9070/inheritance-tax/estate-report/claiming-estate-exemptions/CS700100A000001',
             pageTitle: "Claiming estate exemptions"
         })
     });
 
     it('exemptions overview', function (done) {
-        behaves.actsAsStandardForm(done, driver, {
+        behaves.actsAsBasicPage(done, driver, {
             url: 'http://localhost:9070/inheritance-tax/estate-report/estate-exemptions',
             pageTitle: "Estate exemptions"
         })

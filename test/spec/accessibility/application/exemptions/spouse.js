@@ -15,7 +15,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-describe('Assets left to spouse, accessibility : ', function() {
+describe('Assets left to spouse (Exemptions), accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -74,5 +74,30 @@ describe('Assets left to spouse, accessibility : ', function() {
         })
     });
 
+    it('spouse dob', function(done){
+        fillRequired(done, driver)
 
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/partners-date-of-birth',
+            pageTitle: "Partner’s date of birth"
+        })
+    });
+
+    it('spouse nino', function(done){
+        fillRequired(done, driver)
+
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/partners-national-insurance-number',
+            pageTitle: "Partner’s National Insurance number"
+        })
+    });
+
+    it('value of assets left to spouse', function(done){
+        fillRequired(done, driver)
+
+        behaves.actsAsStandardForm(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-value-left-to-partner',
+            pageTitle: "Value of assets left to partner"
+        })
+    });
 });
