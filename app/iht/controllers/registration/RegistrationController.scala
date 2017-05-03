@@ -30,6 +30,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 import scala.concurrent.Future
+import scala.util.{Failure, Success, Try}
 
 
 trait RegistrationController extends FrontendController with IhtActions {
@@ -105,6 +106,16 @@ trait RegistrationController extends FrontendController with IhtActions {
       val registrationDetails = optionRD.fold(new RegistrationDetails(None, None, None, Nil, None, "", ""))(identity)
       body(registrationDetails)
     })
+  }
+
+  def withRegistrationDetailsOrRedirect(url: String)(body: RegistrationDetails => Future[Result])
+                                       (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
+    cachingConnector.getRegistrationDetails flatMap {
+      case None =>
+        Logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")
+        Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+      case Some(rd) => body(rd)
+    }
   }
 
   def storeRegistrationDetails(rd: RegistrationDetails,
