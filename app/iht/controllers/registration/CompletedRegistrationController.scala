@@ -34,15 +34,8 @@ trait CompletedRegistrationController extends RegistrationController{
 
   def onPageLoad() = authorisedForIht {
     implicit user =>implicit request => {
-      for {
-        registrationDetailsResponse <- cachingConnector.getRegistrationDetails
-        ihtReference = CommonHelper.getOrExceptionNoRegistration(registrationDetailsResponse).ihtReference
-      } yield {
-        val ihtReferenceForPage = ihtReference.getOrElse(ControllerHelper.ihtReferenceErrorString)
-        if (ihtReferenceForPage.equals(ControllerHelper.ihtReferenceErrorString)) {
-          Logger.warn("Iht Reference not found")
-        }
-        Ok(iht.views.html.registration.completed_registration(ihtReferenceForPage))
+      withRegistrationDetailsOrRedirect(routes.CompletedRegistrationController.onPageLoad().url) { rd =>
+         Future.successful(Ok(iht.views.html.registration.completed_registration(rd.ihtReference.get)))
       }
     }
   }
