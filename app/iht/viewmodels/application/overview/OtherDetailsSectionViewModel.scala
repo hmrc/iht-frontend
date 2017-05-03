@@ -27,9 +27,9 @@ case class OtherDetailsSectionViewModel(debtRow: OverviewRow,
                                         ihtReference: String)
 
 object OtherDetailsSectionViewModel {
-  def getDebtsDisplayValue(applicationDetails: ApplicationDetails) = applicationDetails.allLiabilities match {
+  def getDebtsDisplayValue(applicationDetails: ApplicationDetails): EstateOverviewValue = applicationDetails.allLiabilities match {
     case None => NoValueEntered
-    case Some(allLiabilities) if allLiabilities.areAllDebtsSectionsAnsweredNo => AllAnsweredNo("site.noDebts")
+    case Some(allLiabilities) if allLiabilities.areAllDebtsSectionsAnsweredNo && allLiabilities.isEmpty => AllAnsweredNo("site.noDebts")
     case Some(allLiabilities) if !allLiabilities.doesAnyDebtSectionHaveAValue => NoValueEntered
     case _ => CurrentValue(applicationDetails.totalLiabilitiesValue)
   }

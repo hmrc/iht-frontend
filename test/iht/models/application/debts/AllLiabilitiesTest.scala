@@ -177,11 +177,35 @@ class AllLiabilitiesTest extends UnitSpec with MockitoSugar {
 
   "isEmpty" must {
     "return true if there is no values for all liabilities fields" in {
+      val appDetails = AssetsWithAllSectionsSetToNoBuilder.buildApplicationDetails copy (
+        allLiabilities = Some(AssetsWithAllSectionsSetToNoBuilder.buildAllLiabilities copy(
+          funeralExpenses = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          trust = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          debtsOutsideUk = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          jointlyOwned = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          other = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          mortgages  = None
+        )
+        ))
 
+      appDetails.allLiabilities.map(_.isEmpty) shouldBe Some(true)
     }
 
     "return false if there is any value in any of liabilities field" in {
+      val appDetails = AssetsWithAllSectionsSetToNoBuilder.buildApplicationDetails copy (
+        allLiabilities = Some(AssetsWithAllSectionsSetToNoBuilder.buildAllLiabilities copy(
+          funeralExpenses = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          trust = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          debtsOutsideUk = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          jointlyOwned = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          other = Some(BasicEstateElementLiabilities(isOwned = Some(false), value = None)),
+          mortgages  = Some(MortgageEstateElement(isOwned = Some(true),
+            mortgageList = List( Mortgage("", Some(434), Some(true)),
+              Mortgage("", Some(2331), Some(true)))))
+        )
+        ))
 
+      appDetails.allLiabilities.map(_.isEmpty) shouldBe Some(false)
     }
   }
 }

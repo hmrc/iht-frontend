@@ -48,10 +48,10 @@ object ReducingEstateValueSectionViewModel {
   }
 
   private def getDebtsDisplayValue(applicationDetails: ApplicationDetails) = applicationDetails.allLiabilities match {
-    case None => NoValueEntered
-    case Some(allLiabilities) if allLiabilities.areAllDebtsSectionsAnsweredNo => AllAnsweredNo("site.noDebts")
-    case Some(allLiabilities) if !allLiabilities.doesAnyDebtSectionHaveAValue => NoValueEntered
-    case _ => CurrentValue(applicationDetails.totalLiabilitiesValue)
+      case None => NoValueEntered
+      case Some(allLiabilities) if allLiabilities.areAllDebtsSectionsAnsweredNo  => AllAnsweredNo("site.noDebts")
+      case Some(allLiabilities) if !allLiabilities.doesAnyDebtSectionHaveAValue => NoValueEntered
+      case _ => CurrentValue(applicationDetails.totalLiabilitiesValue)
   }
 
   def getScreenReaderQualifyingText(isComplete: RowCompletionStatus, moreDetailText: String, valueText: String, noValueText: String) =
@@ -76,6 +76,7 @@ object ReducingEstateValueSectionViewModel {
         PartiallyComplete
       }
     val areDebtsIncluded: Boolean = exemptionCompletionStatus != NotStarted && (applicationDetails.totalExemptionsValue > BigDecimal(0))
+
     val exemptionsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
       Messages("page.iht.application.overview.exemptions.screenReader.moreDetails.link"),
