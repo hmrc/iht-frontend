@@ -22,7 +22,7 @@ val compile = Seq(
   "uk.gov.hmrc" %% "govuk-template" % "5.1.0",
   "uk.gov.hmrc" %% "url-builder" % "2.1.0",
   "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
-  "uk.gov.hmrc" %% "frontend-bootstrap" % "7.17.0",
+  "uk.gov.hmrc" %% "frontend-bootstrap" % "7.19.0",
   "uk.gov.hmrc" %% "play-partials" % "5.3.0",
   "uk.gov.hmrc" %% "play-config" % "4.3.0",
   "uk.gov.hmrc" %% "play-filters" % "5.10.0",
