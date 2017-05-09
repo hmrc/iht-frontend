@@ -85,6 +85,9 @@ iht.inComplete = Incomplete
 iht.inComplete.screenreader = {0} is incomplete
 iht.complete = Complete
 iht.complete.screenreader = {0} is complete
+iht.inProgress = In progress
+iht.inReview = In review
+iht.closed = Closed
 
 iht.address.line1 = Address line 1
 iht.address.line2 = Address line 2
@@ -1790,9 +1793,15 @@ pdf.liabilityType.text = Debt
 pdf.debts.summary.p1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate. You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
 pdf.gifts.summary.p1 = A gift is an asset given away by the deceased before they died. These are added to the value of the estate.
 pdf.exemption.table.text = Exemption
+pdf.exemption.spouse = Other qualifying bodies
+pdf.exemption.charity = Charity
 pdf.exemption.otherQualifyingBodies = Other qualifying bodies
 pdf.gifts.total.title = Total of all gifts given away
 pdf.tnrb.domicileUK.text = Domiciled in UK
+pdf.debts.other = Other
+
+pdf.assets.property.otherResidential = Other residential property
+pdf.assets.property.otherLandAndBuildings= Other land and buildings
 
 pdf.signature.date.text = Date:
 pdf.signature.signature.text = Signature:
@@ -1820,6 +1829,7 @@ pdf.postSubmission.trusts.assetDescription = Trusts
 pdf.registration.lastContactAddress = Last contact address
 pdf.meta.author = HM Revenue & Customs
 iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
+pdf.page.number = Page 
 
 #Kickouts - Estate report - common
 page.iht.application.liabilities.title = {0}’s debts

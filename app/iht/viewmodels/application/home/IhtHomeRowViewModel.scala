@@ -49,11 +49,23 @@ object IhtHomeRowViewModel {
     new IhtHomeRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
       ihtRefNo = ihtApp.ihtRefNo,
       dateOfDeath = ihtApp.dateOfDeath.toString(IhtProperties.dateFormatForDisplay),
-      currentStatus = CommonHelper.formatStatus(currentStatus),
+      currentStatus = getApplicationStatusMessage(currentStatus),
       linkLabel = getLinkLabel(currentStatus),
       link = getLink(currentStatus, ihtRef),
       linkScreenreader = getLinkScreenreader(currentStatus, s"${ihtApp.firstName} ${ihtApp.lastName}")
     )
+  }
+
+  private def getApplicationStatusMessage(currentStatus: String) = {
+    currentStatus match {
+      case AppStatus.NotStarted => Messages("iht.notStarted")
+      case AppStatus.InProgress => Messages("iht.inProgress")
+      case AppStatus.KickOut => Messages("iht.inProgress")
+      case AppStatus.InReview => Messages("iht.inReview")
+      case AppStatus.UnderEnquiry => Messages("iht.inReview")
+      case AppStatus.Closed => Messages("iht.closed")
+      case AppStatus.ClearanceGranted => Messages("iht.closed")
+    }
   }
 
   private def getLinkLabel(currentStatus: String) = {
