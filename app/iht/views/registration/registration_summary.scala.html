@@ -167,7 +167,7 @@
                 )
                 @ihtHelpers.custom.summary_item(
                     label = Messages("page.iht.registration.applicant.probateLocation.title"),
-                    data = CommonHelper.getOrException(applicantDetails.country),
+                    data = FieldMappings.domicileMap(CommonHelper.getOrException(applicantDetails.country)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.data.screenReader", CommonHelper.getOrException(applicantDetails.country)),
                     changeLink = applicantRoutes.ProbateLocationController.onEditPageLoad.url + "#country",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.link.screenReader"),
