@@ -125,6 +125,8 @@ object Constants {
   )
 
   lazy val ETMPExemptionTypesToIHTMessageKeys = ListMap(
+    ETMPExemptionTypeCharity -> "pdf.exemption.charity",
+    ETMPExemptionTypeSpouse -> "pdf.exemption.spouse",
     ETMPExemptionTypeGNCP -> "pdf.exemption.otherQualifyingBodies"
   )
 
