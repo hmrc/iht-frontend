@@ -32,116 +32,82 @@ object SessionHttpCaching extends SessionCache with AppName with ServicesConfig 
   override lazy val http = WSHttp
   override lazy val defaultSource = appName
   override lazy val baseUri = baseUrl("cachable.session-cache")
-  override lazy val domain = getConfString("cachable.session-cache.domain", throw new Exception(s"Could not find config 'cachable.session-cache.domain'"))
+  override lazy val domain = getConfString("cachable.session-cache.domain",
+    throw new Exception(s"Could not find config 'cachable.session-cache.domain'"))
 }
 
 object CachingConnector extends CachingConnector
 
 trait CachingConnector {
-
   private val registrationDetailsFormKey = "registrationDetails"
   private val applicationDetailsFormKey = "applicationDetails"
   private val kickoutDetailsKey = "kickoutDetails"
-  private val allAssetsKey = "allAssets"
-  private val allLiabilitiesKey = "allLiabilities"
-  private val propertyListKey = "propertyList"
   private val probateDetailsKey = "probateDetails"
 
+  private def getChangeData[A](formKey: String)(implicit hc: HeaderCarrier, reads: Reads[A], ec: ExecutionContext): Future[Option[A]] =
+    SessionHttpCaching.fetchAndGetEntry[A](formKey)
+
+  private def storeChangeData[A](formKey: String, data: A)(implicit hc: HeaderCarrier, writes: Writes[A], reads: Reads[A], ec: ExecutionContext) =
+    SessionHttpCaching.cache[A](formKey, data) flatMap { cachedData =>
+      Future.successful(cachedData.getEntry[A](formKey))
+    }
+
+  private def store[A](formKey: String, data: A)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Future[Option[A]] =
+    storeChangeData[A](formKey, data)
+
+  private def get[A](formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Future[Option[A]] =
+    getChangeData[A](formKey)
+
   def delete(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Any] = {
+    def storeKickoutDetails(data: KickoutDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[KickoutDetails]] =
+    storeChangeData[KickoutDetails](kickoutDetailsKey, data)
+
+    def storeData(key: String, data: JsValue)(implicit hc: HeaderCarrier, ec: ExecutionContext) =
+      key match {
+        case `registrationDetailsFormKey` =>
+          storeRegistrationDetails(Json.fromJson[RegistrationDetails](data).get)
+        case `kickoutDetailsKey` =>
+          storeKickoutDetails(Json.fromJson[KickoutDetails](data).get)
+        case _ =>
+          storeSingleValue(key, Json.fromJson[String](data).get)
+      }
+
     SessionHttpCaching.fetch.map {
-      case Some(x) => {
+      case Some(x) =>
         Await.ready(SessionHttpCaching.remove(), Duration.Inf)
         val changedCacheData = x.data - key
-        Await.ready(Future.sequence(changedCacheData.map(z => readdData(z._1, z._2))), Duration.Inf)
-      }
+        Await.ready(Future.sequence(changedCacheData.map(z => storeData(z._1, z._2))), Duration.Inf)
       case None => Future.successful(None)
     }
   }
 
-  private def readdData(key: String, data: JsValue)(implicit hc: HeaderCarrier, ec: ExecutionContext) = {
-    key match {
-      case `registrationDetailsFormKey` => {
-        storeRegistrationDetails(Json.fromJson[RegistrationDetails](data).get)
-      }
-      case `kickoutDetailsKey` => {
-        storeKickoutDetails(Json.fromJson[KickoutDetails](data).get)
-      }
-      case _ => {
-        storeSingleValue(key, Json.fromJson[String](data).get)
-      }
-    }
-  }
-
   def storeRegistrationDetails(data: RegistrationDetails)
-                              (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[RegistrationDetails]] = {
-    storeChangeData[RegistrationDetails] (registrationDetailsFormKey, data)
-  }
+                              (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[RegistrationDetails]] =
+    storeChangeData[RegistrationDetails](registrationDetailsFormKey, data)
 
-  def getRegistrationDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[RegistrationDetails]] = {
+  def getRegistrationDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[RegistrationDetails]] =
     getChangeData[RegistrationDetails](registrationDetailsFormKey)
-  }
 
-  def storeApplicationDetails(data: ApplicationDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] = {
+  def storeApplicationDetails(data: ApplicationDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] =
     storeChangeData[ApplicationDetails](applicationDetailsFormKey, data)
-  }
 
-  def getApplicationDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] = {
+  def getApplicationDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[ApplicationDetails]] =
     getChangeData[ApplicationDetails](applicationDetailsFormKey)
-  }
 
-  def storeSingleValue(formKey: String, data: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[String]] = {
+  def storeSingleValue(formKey: String, data: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[String]] =
     storeChangeData[String](formKey, data)
-  }
 
-  def getSingleValue(formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[String]] = {
+  def getSingleValue(formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[String]] =
     getChangeData[String](formKey)
-  }
-
-  def storeKickoutDetails(data: KickoutDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[KickoutDetails]] = {
-    storeChangeData[KickoutDetails](kickoutDetailsKey, data)
-  }
-
-  def getKickoutDetails(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[KickoutDetails]] = {
-    getChangeData[KickoutDetails](kickoutDetailsKey)
-  }
-
-  /*
-   * Store the Probate Details in Key store
-   */
 
   def storeProbateDetails(data: ProbateDetails)(implicit hc: HeaderCarrier, ec: ExecutionContext):
-  Future[Option[ProbateDetails]] = {
+  Future[Option[ProbateDetails]] =
     storeChangeData[ProbateDetails](probateDetailsKey, data)
-  }
-
-  /*
-   * fetch the Probate Details from Key store
-   */
 
   def getProbateDetails(implicit hc: HeaderCarrier, ec: ExecutionContext):
-  Future[Option[ProbateDetails]] = {
+  Future[Option[ProbateDetails]] =
     getChangeData[ProbateDetails](probateDetailsKey)
-  }
 
-
-  private def getChangeData[A](formKey: String)(implicit hc: HeaderCarrier, reads: Reads[A], ec: ExecutionContext): Future[Option[A]] = {
-    SessionHttpCaching.fetchAndGetEntry[A](formKey)
-  }
-
-  private def storeChangeData[A](formKey: String, data: A)(implicit hc: HeaderCarrier, writes: Writes[A], reads: Reads[A], ec: ExecutionContext) = {
-    SessionHttpCaching.cache[A](formKey, data) flatMap {
-      case data => Future.successful(data.getEntry[A](formKey))
-    }
-  }
-
-  private def clearChangeData[A](formKey: String, clearedData: A)
-                                (implicit hc: HeaderCarrier, writes: Writes[A], reads: Reads[A], ec: ExecutionContext) = {
-    SessionHttpCaching.cache[A](formKey, clearedData)
-  }
-
-  /**
-   * Store a string value in keystore an item using the specified key.
-   */
   def storeSingleValueSync(formKey: String, data: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Option[String] = {
     val futureOptionString: Future[Option[String]] = Await.ready(storeSingleValue(formKey, data),
       Duration.Inf)
@@ -153,9 +119,9 @@ trait CachingConnector {
   }
 
   /**
-   * Get from keystore the String value with the specified key. Returns None if the
-   * item does not exist in keystore.
-   */
+    * Get from keystore the String value with the specified key. Returns None if the
+    * item does not exist in keystore.
+    */
   def getSingleValueSync(formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Option[String] = {
     val futureOptionString: Future[Option[String]] = Await.ready(getSingleValue(formKey),
       Duration.Inf)
@@ -167,118 +133,16 @@ trait CachingConnector {
     }
   }
 
-  /**
-   * Delete from keystore a String item with the specified key.
-   * If the item does not exist then no exception should be thrown.
-   */
-  def deleteSingleValueSync(key:String)(implicit hc: HeaderCarrier, ec: ExecutionContext):Unit = {
+  def deleteSingleValueSync(key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Unit =
     getSingleValueSync(key) match {
-      case None => {}
-      case Some(_) => {
+      case None =>
+      case Some(_) =>
         val futureOptionString = Await.ready(delete(key), Duration.Inf)
         val optionTryOptionString = futureOptionString.value
-        optionTryOptionString.map(
-          _ match {
-            case Success(x) => x
-            case Failure(x) => {
-              throw new RuntimeException("Can't delete single value:" + x.getMessage)
-            }
-          }
-        )
-      }
+        optionTryOptionString.map {
+          case Success(x) => x
+          case Failure(x) =>
+            throw new RuntimeException("Can't delete single value:" + x.getMessage)
+        }
     }
-  }
-
-  //
-  // The following three methods store, get and delete values of any class
-  // to or from keystore.
-  //
-
-  /**
-   * Store an item of any class to keystore using the specified key.
-   */
-  def store[A](formKey: String, data: A)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Future[Option[A]] = {
-    storeChangeData[A](formKey, data)
-  }
-
-  /**
-   * Get an item of any class with the specified key from keystore.
-   */
-  def get[A](formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Future[Option[A]] = {
-    getChangeData[A](formKey)
-  }
-
-  /**
-   * Delete an item of any class with specified key from keystore.
-   * Couldn't call this 'delete' as there's already a method with this
-   * name in this file.
-   */
-  def deleteNonSync[A](key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext,
-                                    writes: Writes[A], reads: Reads[A]): Future[Any] = {
-    SessionHttpCaching.fetch.map {
-      case Some(x) => {
-        Await.ready(SessionHttpCaching.remove(), Duration.Inf)
-        val changedCacheData = x.data - key
-        Await.ready(Future.sequence(changedCacheData.map(z => store[A](z._1, Json.fromJson[A](z._2).get))), Duration.Inf)
-      }
-      case None => Future.successful(None)
-    }
-  }
-
-  //
-  // The following three methods are synchronous versions of the above three methods.
-  //
-
-  /**
-   * Synchronous store to keystore of an item using the specified key.
-   */
-  def storeSync[A](formKey: String, data: A)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Option[A] = {
-    val futureOptionString = Await.ready(store(formKey, data),
-      Duration.Inf)
-    val optionTryOptionString = futureOptionString.value
-    optionTryOptionString.flatMap(
-      _ match {
-        case Success(x) => x
-        case Failure(x) => throw new RuntimeException("Can't store value:" + x.getMessage)
-      }
-    )
-  }
-
-  /**
-   * Synchronous get from keystore for item with specified key.
-   */
-  def getSync[A](formKey: String)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]): Option[A] = {
-    val futureOptionString = Await.ready(get[A](formKey),
-      Duration.Inf)
-    val optionTryOptionString = futureOptionString.value
-
-    optionTryOptionString.flatMap(
-      _ match {
-        case Success(x) => x
-        case Failure(x) => throw new RuntimeException("Can't return value:" + x.getMessage)
-      }
-    )
-  }
-
-  /**
-   * Synchronous deletion of an item with specified key from keystore.
-   * If no item exists then it should not throw an exception.
-   */
-  def deleteSync[A](key: String)(implicit hc: HeaderCarrier, ec: ExecutionContext, writes: Writes[A], reads: Reads[A]) = {
-    getSync[A](key) match {
-      case None => {}
-      case Some(_) => {
-        val futureOptionString = Await.ready(deleteNonSync[A](key), Duration.Inf)
-        val optionTryOptionString = futureOptionString.value
-        optionTryOptionString.map(
-          _ match {
-            case Success(x) => x
-            case Failure(x) => {
-              throw new RuntimeException("Can't delete value:" + x.getMessage)
-            }
-          }
-        )
-      }
-    }
-  }
 }
