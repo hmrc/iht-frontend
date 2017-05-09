@@ -53,7 +53,7 @@
                                         <fo:block><xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell>
-                                        <fo:block space-before="0.5cm">
+                                        <fo:block>
                                             <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.page.number')" />
                                             <xsl:text>&#160;</xsl:text>
                                             <fo:page-number format="1" />
