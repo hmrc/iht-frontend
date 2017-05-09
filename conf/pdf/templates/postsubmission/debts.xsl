@@ -37,7 +37,7 @@
                                         <xsl:call-template name="table-row-tall">
                                             <xsl:with-param name="label"
                                                             select="i18n:getMessagesText($translator, 'pdf.liabilityType.text')"/>
-                                            <xsl:with-param name="value" select="./liabilities/liabilityType"/>
+                                            <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
                                         </xsl:call-template>
 
                                         <xsl:call-template name="table-row-money-tall">
@@ -73,7 +73,7 @@
                                     <xsl:call-template name="table-row-tall-border-top-black-thin">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'pdf.liabilityType.text')"/>
-                                        <xsl:with-param name="value" select="liabilityType"/>
+                                        <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
                                     </xsl:call-template>
 
                                     <xsl:call-template name="table-row-money-tall">
@@ -99,7 +99,7 @@
                                     <xsl:call-template name="table-row-tall-border-top-black-thin">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'pdf.liabilityType.text')"/>
-                                        <xsl:with-param name="value" select="liabilityType"/>
+                                        <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'pdf.debts.other')"/>
                                     </xsl:call-template>
 
                                     <xsl:call-template name="table-row-money-tall">
