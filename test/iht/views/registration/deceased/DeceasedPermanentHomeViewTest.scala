@@ -57,7 +57,7 @@ class DeceasedPermanentHomeViewTest extends RegistrationPageBehaviour[DeceasedDe
     }
 
     "include other" in {
-      radioButtonShouldBeCorrect(doc, "page.iht.registration.deceasedDetails.domicile.other.label", "domicile-other")
+      radioButtonShouldBeCorrect(doc, "iht.common.other", "domicile-other")
     }
   }
 }

@@ -280,7 +280,7 @@ page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint = For example, 21 3 2
 #Registration - Deceased’s permanent home
 page.iht.registration.deceasedPermanentHome.title = Where was the deceased’s permanent home?
 page.iht.registration.deceasedPermanentHome.browserTitle = Permanent home
-page.iht.registration.deceasedDetails.domicile.other.label = Other
+iht.common.other = Other
 
 #Registration - About the deceased
 page.iht.registration.deceasedDetails.title.label = Title (optional)
@@ -1798,7 +1798,6 @@ pdf.exemption.charity = Charity
 pdf.exemption.otherQualifyingBodies = Other qualifying bodies
 pdf.gifts.total.title = Total of all gifts given away
 pdf.tnrb.domicileUK.text = Domiciled in UK
-pdf.debts.other = Other
 
 pdf.assets.property.otherResidential = Other residential property
 pdf.assets.property.otherLandAndBuildings= Other land and buildings

@@ -99,7 +99,7 @@
                                     <xsl:call-template name="table-row-tall-border-top-black-thin">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'pdf.liabilityType.text')"/>
-                                        <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'pdf.debts.other')"/>
+                                        <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.common.other')"/>
                                     </xsl:call-template>
 
                                     <xsl:call-template name="table-row-money-tall">
