@@ -37,7 +37,7 @@ object FieldMappings {
     createMapEntry(domicileEnglandOrWales,"iht.countries.englandOrWales"),
     createMapEntry(domicileScotland,"iht.countries.scotland"),
     createMapEntry(domicileNorthernIreland,"iht.countries.northernIreland"),
-    createMapEntry(domicileOther,"page.iht.registration.deceasedDetails.domicile.other.label")
+    createMapEntry(domicileOther, "iht.common.other")
   )
 
   val maritalStatusMap = ListMap(

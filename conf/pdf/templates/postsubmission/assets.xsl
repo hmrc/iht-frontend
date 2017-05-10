@@ -55,7 +55,7 @@
                                     <xsl:call-template name="table-row-short-vpad-border-top-black">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
-                                        <xsl:with-param name="value" select="assetDescription"/>
+                                        <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'pdf.assets.property.otherResidential')"/>
                                     </xsl:call-template>
 
                                     <xsl:call-template name="table-row-money-tall">
@@ -81,7 +81,7 @@
                                     <xsl:call-template name="table-row-short-vpad-border-top-black">
                                         <xsl:with-param name="label"
                                                         select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
-                                        <xsl:with-param name="value" select="assetDescription"/>
+                                        <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'pdf.assets.property.otherLandAndBuildings')"/>
                                     </xsl:call-template>
 
                                     <xsl:call-template name="table-row-money-tall">

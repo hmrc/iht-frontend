@@ -123,6 +123,8 @@ object IhtProperties {
   lazy val ETMPAssetCodeDeceasedsHome:String = getProperty("etmpAssetCodeDeceasedsHome")
 
   lazy val ETMPExemptionTypeGNCP: String = getProperty("etmpExemptionTypeGNCP")
+  lazy val ETMPExemptionTypeSpouse: String = getProperty("etmpExemptionTypeSpouse")
+  lazy val ETMPExemptionTypeCharity: String = getProperty("etmpExemptionTypeCharity")
 
   lazy val DateRangeMonths: Integer = getPropertyAsInt("dateRangeMonths")
 

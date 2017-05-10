@@ -54,8 +54,14 @@ class IhtHomeRowViewModelTest extends ApplicationControllerTest {
       viewModel.dateOfDeath shouldBe new LocalDate(2014, 10, 5).toString(IhtProperties.dateFormatForDisplay)
     }
 
-    "should be created from IhtApplication with current status" in {
-      viewModel.currentStatus shouldBe CommonHelper.formatStatus(ApplicationStatus.NotStarted)
+    "should be created from IhtApplication with status of not started" in {
+      viewModel.currentStatus shouldBe messagesApi("iht.notStarted")
+    }
+
+    "should be created from IhtApplication with status of in progress" in {
+      val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.InProgress)
+      def viewModel = IhtHomeRowViewModel("", ihtApp, mockIhtConnector)
+      viewModel.currentStatus shouldBe messagesApi("iht.inProgress")
     }
 
     "should be created from IhtApplication with link label" in {

@@ -91,7 +91,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi(CommonHelper.formatStatus(TestHelper.AppStatusNotStarted)))
+      contentAsString(result) should include(messagesApi("iht.notStarted"))
     }
 
     "respond with OK on page load when des status Awaiting Return and something in secure storage" in {
@@ -103,7 +103,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi(CommonHelper.formatStatus(TestHelper.AppStatusInProgress)))
+      contentAsString(result) should include(messagesApi("iht.inProgress"))
     }
 
     "respond with OK on page load when des status Closed" in {
@@ -115,7 +115,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi(CommonHelper.formatStatus(TestHelper.AppStatusClosed)))
+      contentAsString(result) should include(messagesApi("iht.closed"))
     }
 
     "respond with OK on page load when des status In Review" in {
@@ -127,7 +127,7 @@ class IhtHomeControllerTest  extends ApplicationControllerTest{
 
       val result =ihtHomeController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include(messagesApi(CommonHelper.formatStatus(TestHelper.AppStatusInReview)))
+      contentAsString(result) should include(messagesApi("iht.inReview"))
     }
 
     "respond normally when 404 occurs" in {
