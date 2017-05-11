@@ -46,14 +46,15 @@ object ThresholdSectionViewModel {
     }
 
 
-  def apply(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails): ThresholdSectionViewModel = {
+  def apply(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails)
+           (implicit messages: Messages): ThresholdSectionViewModel = {
 
     val thresholdIncreased = applicationDetails.isSuccessfulTnrbCase
     val thresholdIncreaseSectionAccessed = applicationDetails.isWidowCheckQuestionAnswered
 
     val thresholdValueMessage = thresholdIncreased match {
-      case true => Messages("site.tnrb.value.display")
-      case _ => Messages("site.threshold.value.display")
+      case true => messages("site.tnrb.value.display")
+      case _ => messages("site.threshold.value.display")
     }
 
     val showIncreaseThresholdLink = {
@@ -75,7 +76,7 @@ object ThresholdSectionViewModel {
     ThresholdSectionViewModel(
       thresholdRow = OverviewRowWithoutLink(
         id = EstateIncreasingID,
-        label = Messages("iht.estateReport.ihtThreshold"),
+        label = messages("iht.estateReport.ihtThreshold"),
         value = thresholdValueMessage,
         qualifyingText = "",
         renderAsTotalRow = thresholdIncreased,

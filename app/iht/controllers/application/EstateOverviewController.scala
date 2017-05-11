@@ -26,11 +26,13 @@ import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, ApplicationStatus, CommonHelper, ExemptionsGuidanceHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
 import org.joda.time.LocalDate
-import play.api.mvc.{Action, AnyContent, Call, Result}
+import play.api.Application
+import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.{Lang, Messages}
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}

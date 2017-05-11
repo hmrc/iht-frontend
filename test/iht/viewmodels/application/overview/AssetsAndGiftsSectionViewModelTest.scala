@@ -24,12 +24,11 @@ import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Messages, MessagesApi}
 import uk.gov.hmrc.play.test.UnitSpec
 import iht.testhelpers.TestHelper._
 
-class AssetsAndGiftsSectionViewModelTest
-  extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+class AssetsAndGiftsSectionViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 

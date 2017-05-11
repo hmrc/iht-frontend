@@ -27,6 +27,28 @@ case class OtherDetailsSectionViewModel(debtRow: OverviewRow,
                                         ihtReference: String)
 
 object OtherDetailsSectionViewModel {
+
+  def apply(applicationDetails: ApplicationDetails, ihtReference: String)(implicit messages: Messages): OtherDetailsSectionViewModel = {
+
+    val debtsScreenreaderText = getScreenReaderQualifyingText(
+      RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
+      messages("page.iht.application.overview.debts.screenReader.moreDetails.link"),
+      messages("page.iht.application.overview.debts.screenReader.value.link"),
+      messages("page.iht.application.overview.debts.screenReader.noValue.link")
+    )
+
+    OtherDetailsSectionViewModel(
+      debtRow = OverviewRow(
+        id = EstateDebtsID,
+        label = messages("iht.estateReport.debts.owedFromEstate"),
+        value = DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails), areThereNoExemptions = true)(messages),
+        completionStatus = RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
+        linkUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(),
+        qualifyingText = debtsScreenreaderText)(messages),
+      showClaimExemptionLink = !applicationDetails.hasSeenExemptionGuidance.getOrElse(false),
+      ihtReference = ihtReference)
+  }
+
   def getDebtsDisplayValue(applicationDetails: ApplicationDetails) = applicationDetails.allLiabilities match {
     case None => NoValueEntered
     case Some(allLiabilities) if allLiabilities.areAllDebtsSectionsAnsweredNo && allLiabilities.isEmpty => AllAnsweredNo("site.noDebts")
@@ -41,24 +63,4 @@ object OtherDetailsSectionViewModel {
       case _ => valueText
     }
 
-  def apply(applicationDetails: ApplicationDetails, ihtReference: String): OtherDetailsSectionViewModel = {
-
-    val debtsScreenreaderText = getScreenReaderQualifyingText(
-      RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      Messages("page.iht.application.overview.debts.screenReader.moreDetails.link"),
-      Messages("page.iht.application.overview.debts.screenReader.value.link"),
-      Messages("page.iht.application.overview.debts.screenReader.noValue.link")
-    )
-
-    OtherDetailsSectionViewModel(
-      debtRow = OverviewRow(
-        id = EstateDebtsID,
-        label = Messages("iht.estateReport.debts.owedFromEstate"),
-        value = DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails), areThereNoExemptions = true),
-        completionStatus = RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
-        linkUrl = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(),
-        qualifyingText = debtsScreenreaderText),
-      showClaimExemptionLink = !applicationDetails.hasSeenExemptionGuidance.getOrElse(false),
-      ihtReference = ihtReference)
-  }
 }

@@ -28,6 +28,8 @@ import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants
+import play.api.i18n.Messages
+import play.i18n.MessagesApi
 
 /**
   *
@@ -62,6 +64,7 @@ trait IhtHomeController extends ApplicationController {
             }
 
             val viewModels = listOfCases.map {
+                  println("########### " + Messages("iht.notStarted"))
               ihtCase => IhtHomeRowViewModel(nino, ihtCase, ihtConnector)
             }
 

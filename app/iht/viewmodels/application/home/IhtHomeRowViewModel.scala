@@ -16,16 +16,19 @@
 
 package iht.viewmodels.application.home
 
+import javax.inject.Inject
+
 import iht.connector.IhtConnector
 import iht.constants.IhtProperties
 import iht.models.application.IhtApplication
-import iht.utils.{ApplicationStatus => AppStatus, CommonHelper}
-import play.api.Logger
-import play.api.i18n.Messages
+import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
+import play.api.{Application, Logger}
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -41,8 +44,10 @@ case class IhtHomeRowViewModel(deceasedName: String,
                                linkScreenreader: String)
 
 object IhtHomeRowViewModel {
-  def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier) = {
+  def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier,
+                                                    lang: Lang, application: Application) = {
 
+    implicit val messages: Messages = applicationMessages(lang, application)
     val currentStatus = getStatus(nino, ihtApp, ihtConnector)
     val ihtRef = ihtApp.ihtRefNo
 
@@ -56,34 +61,34 @@ object IhtHomeRowViewModel {
     )
   }
 
-  private def getApplicationStatusMessage(currentStatus: String) = {
+  private def getApplicationStatusMessage(currentStatus: String)(implicit messages: Messages) = {
     currentStatus match {
-      case AppStatus.NotStarted => Messages("iht.notStarted")
-      case AppStatus.InProgress => Messages("iht.inProgress")
-      case AppStatus.KickOut => Messages("iht.inProgress")
-      case AppStatus.InReview => Messages("iht.inReview")
-      case AppStatus.UnderEnquiry => Messages("iht.inReview")
-      case AppStatus.Closed => Messages("iht.closed")
-      case AppStatus.ClearanceGranted => Messages("iht.closed")
+      case AppStatus.NotStarted => messages("iht.notStarted")
+      case AppStatus.InProgress => messages("iht.inProgress")
+      case AppStatus.KickOut => messages("iht.inProgress")
+      case AppStatus.InReview => messages("iht.inReview")
+      case AppStatus.UnderEnquiry => messages("iht.inReview")
+      case AppStatus.Closed => messages("iht.closed")
+      case AppStatus.ClearanceGranted => messages("iht.closed")
     }
   }
 
-  private def getLinkLabel(currentStatus: String) = {
+  private def getLinkLabel(currentStatus: String)(implicit messages: Messages) = {
     currentStatus match {
-      case AppStatus.NotStarted => Messages("iht.start")
-      case AppStatus.InProgress => Messages("iht.continue")
-      case AppStatus.KickOut => Messages("iht.continue")
-      case _ => Messages("page.iht.home.button.viewApplication.label")
+      case AppStatus.NotStarted => messages("iht.start")
+      case AppStatus.InProgress => messages("iht.continue")
+      case AppStatus.KickOut => messages("iht.continue")
+      case _ => messages("page.iht.home.button.viewApplication.label")
 
     }
   }
 
-  private def getLinkScreenreader(currentStatus: String, deceasedName: String) = {
+  private def getLinkScreenreader(currentStatus: String, deceasedName: String)(implicit messages: Messages) = {
     currentStatus match {
-      case AppStatus.NotStarted => Messages("page.iht.home.button.startApplication.screenReader", deceasedName)
-      case AppStatus.InProgress => Messages("page.iht.home.button.continueApplication.screenReader", deceasedName)
-      case AppStatus.KickOut => Messages("page.iht.home.button.continueApplication.screenReader", deceasedName)
-      case _ => Messages("page.iht.home.button.viewApplication.screenReader", deceasedName)
+      case AppStatus.NotStarted => messages("page.iht.home.button.startApplication.screenReader", deceasedName)
+      case AppStatus.InProgress => messages("page.iht.home.button.continueApplication.screenReader", deceasedName)
+      case AppStatus.KickOut => messages("page.iht.home.button.continueApplication.screenReader", deceasedName)
+      case _ => messages("page.iht.home.button.viewApplication.screenReader", deceasedName)
 
     }
   }
