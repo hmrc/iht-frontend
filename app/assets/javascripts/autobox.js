@@ -2,10 +2,12 @@ var Autobox = function(selectInput, enhancedInput, suggestionList, statusContain
     this.select = selectInput;      //the (hidden) select input the autocomplete will be searching
     this.input = enhancedInput;     //the text field the user will be typing into
     this.list = suggestionList;     //the list to hold the suggestions
+    this.listID = suggestionList.attr('id');
     this.status = statusContainer;  //the container to populate with status updates for screenreaders
     this.cList;                     //the currently selected suggestion
     this.cListVal;                  //the related value
     this.listItems;                 //the list of suggestions
+    this.aria = this.input.parents("[role='combobox']").first(); //aria role parent
 
     this.messageMatches = this.input.attr("data-matches");
     this.messageOf = this.input.attr("data-options");
@@ -116,11 +118,14 @@ Autobox.prototype.updateCurrentSuggestion = function(currentSuggestion){
     var _autobox = this;
     if(_autobox.cList){
         _autobox.cList.removeClass('suggestion--active');
+        _autobox.cList.removeAttr('aria-selected');
     }
     if(currentSuggestion){
         _autobox.cList = currentSuggestion;
         _autobox.cListVal = currentSuggestion.text();
+        _autobox.input.attr('aria-activedescendant', currentSuggestion.attr('id'))
         currentSuggestion.addClass('suggestion--active');
+        currentSuggestion.attr('aria-selected', 'true');
     }
 }
 
@@ -129,6 +134,9 @@ Autobox.prototype.updateCurrentSuggestion = function(currentSuggestion){
 //=============================================
 Autobox.prototype.openSuggestionList = function(){
    this.list.addClass('suggestions--with-options');
+   this.aria.attr('aria-expanded','true');
+   this.aria.attr('aria-owns', this.listID);
+   this.input.attr('aria-controls', this.listID);
 }
 
 //=============================================
@@ -136,6 +144,9 @@ Autobox.prototype.openSuggestionList = function(){
 //=============================================
 Autobox.prototype.closeSuggestionList = function(){
    this.list.removeClass('suggestions--with-options');
+   this.aria.attr('aria-expanded','false');
+   this.aria.removeAttr('aria-owns');
+   this.input.removeAttr('aria-controls');
 }
 
 //=============================================
@@ -152,8 +163,11 @@ Autobox.prototype.selectOption = function(){
     _autobox.status.html(_autobox.messageSelected.replace("{0}", _autobox.cListVal));
     // update select
     _autobox.select.val("").change();
+    // remove aria value
+    _autobox.input.removeAttr('aria-activedescendant')
 
-    var selectedValue = _autobox.select.find('option[data-title="' + _autobox.cListVal.toLowerCase() + '"]').val();
+    var selectedOption = _autobox.select.find('option[data-title="' + _autobox.cListVal.toLowerCase() + '"]');
+    var selectedValue = selectedOption.val();
     _autobox.select.val(selectedValue).change();
     _autobox.input.focus();
 }
@@ -165,6 +179,7 @@ Autobox.prototype.update = function(){
     var _autobox = this;
     var inputEntered = _autobox.input.val().toLowerCase().trim();
     // clear suggestions and select
+     _autobox.input.removeAttr('aria-activedescendant')
     _autobox.list.html("");
     _autobox.select.val("").change();
 
@@ -178,7 +193,7 @@ Autobox.prototype.update = function(){
 
     foundMatches.each(function(){
         // add suggestion to the list
-        _autobox.list.append('<li role="option" tabindex="-1" class="suggestion">' + $(this).text() + '</li>');
+        _autobox.list.append('<li role="option" tabindex="-1" class="suggestion" id="option' + $(this).attr('value') + '">' + $(this).text() + '</li>');
         // update select if this value is an exact match, so the user does not have to select from the list if they choose
         if($(this).text().toLowerCase().trim() == inputEntered){
             _autobox.select.val($(this).val()).change();

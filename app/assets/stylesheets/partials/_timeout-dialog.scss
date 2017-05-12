@@ -15,6 +15,7 @@
   -khtml-opacity: 0.4;
   -moz-opacity: 0.4;
   opacity: 0.4;
+  z-index: 100;
 }
 
 html.noScroll {
@@ -37,7 +38,7 @@ html.noScroll {
   -moz-box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
 
-  z-index: 2;
+  z-index: 101;
 
   p {
     font-size: 19px;

@@ -21,6 +21,7 @@ Restricting the suggestions list to the input width
     width: 100%;
     margin-top: 0;
     display: none;
+    z-index: 50;
 }
 .suggestions--with-options {
     border: 1px solid #2e3133;

@@ -73,24 +73,33 @@
     </select>
 
     @if(isComboBox){
-    <div class="suggestions-input-container js-visible" hidden>
+    <div class="suggestions-input-container js-visible"
+         hidden
+         role="combobox"
+         aria-expanded="false">
         <input type="text"
                name="iht-auto-complete"
                id="iht-auto-complete"
                class="form-control form-control--block js-iht-auto-complete"
                autocomplete="off"
                spellcheck="false"
+               aria-autocomplete="list"
                data-rule-suggestion="true"
-               role="combobox"
-               aria-owns="iht-suggestions-list"
-               aria-expanded="false"
                data-matches="@Messages("iht.dropdown.matches")"
-               data-options="@Messages("iht.dropdown.of")"
-               data-close="@Messages("iht.dropdown.closed")"
-               data-selected="@Messages("iht.dropdown.selected")"
+        data-options="@Messages("iht.dropdown.of")"
+        data-close="@Messages("iht.dropdown.closed")"
+        data-selected="@Messages("iht.dropdown.selected")"
         />
-        <ul role="listbox" class="suggestions js-suggestions" id="iht-suggestions-list"></ul>
-        <span role="status" aria-live="assertive" aria-relevant="text" class="visually-hidden js-suggestions-status-message" id="iht-autoCompleteSuggestionStatus"></span>
+        <ul role="listbox"
+            class="suggestions js-suggestions"
+            id="iht-suggestions-list">
+        </ul>
+        <span role="status"
+              aria-live="assertive"
+              aria-relevant="text"
+              class="visually-hidden js-suggestions-status-message"
+              id="iht-autoCompleteSuggestionStatus">
+        </span>
     </div>
 
     }
