@@ -28,8 +28,6 @@ import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants
-import play.api.i18n.Messages
-import play.i18n.MessagesApi
 
 /**
   *

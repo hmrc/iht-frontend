@@ -76,7 +76,7 @@ isFullWidth = false) {
                 <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.whatKind.question")</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{propertyType match {
-                    case Some(x) => {FieldMappings.propertyType(x)}
+                    case Some(x) => {FieldMappings.propertyType(messages)(x)}
                     case None => {}
                     }}
                 </div>
@@ -99,7 +99,7 @@ isFullWidth = false) {
                 <div class="tabular-data__data tabular-data__data--6-12">@Html(Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName)))</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{typeOfOwnership match {
-                    case Some(x) => {FieldMappings.typesOfOwnership(x)._1}
+                    case Some(x) => {FieldMappings.typesOfOwnership(messages)(x)._1}
                     case None => {}
                     }}
                 </div>
