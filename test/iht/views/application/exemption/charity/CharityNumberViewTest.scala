@@ -59,14 +59,9 @@ class CharityNumberViewTest extends ValueViewBehaviour[Charity] {
   "Charity Number View" must {
     behave like valueView()
 
-    "show the correct link copy for the charity register" in {
-      val linkText = doc.getElementById("charity-register");
-      linkText.text shouldBe messagesApi("page.iht.application.exemptions.charityNumber.linkText")
-    }
-
-    "show the correct link href for the charity register" in {
-      val linkText = doc.getElementById("charity-register");
-      linkText.attr("href") shouldBe charityLink
-    }
+    behave like link("charity-register",
+      charityLink,
+      messagesApi("page.iht.application.exemptions.charityNumber.linkText"))
+    
   }
 }
