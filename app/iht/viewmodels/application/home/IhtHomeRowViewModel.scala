@@ -70,6 +70,7 @@ object IhtHomeRowViewModel {
       case AppStatus.UnderEnquiry => messages("iht.inReview")
       case AppStatus.Closed => messages("iht.closed")
       case AppStatus.ClearanceGranted => messages("iht.closed")
+      case AppStatus.IneligibleApplication => messages("iht.ineligibleApplication")
     }
   }
 

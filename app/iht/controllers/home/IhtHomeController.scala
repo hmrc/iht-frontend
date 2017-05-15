@@ -64,7 +64,6 @@ trait IhtHomeController extends ApplicationController {
             }
 
             val viewModels = listOfCases.map {
-                  println("########### " + Messages("iht.notStarted"))
               ihtCase => IhtHomeRowViewModel(nino, ihtCase, ihtConnector)
             }
 

@@ -23,5 +23,8 @@ import play.api.mvc.Request
 
 object ApplicationClosedAndClearedController extends ApplicationStatusController with IhtConnectors {
   def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
-    iht.views.html.application.status.closed_cleared_application(ihtReference, deceasedName, probateDetails)(request, applicationMessages)
+    {
+      implicit val req = request
+      iht.views.html.application.status.closed_cleared_application(ihtReference, deceasedName, probateDetails)
+    }
 }

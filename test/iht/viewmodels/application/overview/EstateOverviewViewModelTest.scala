@@ -16,26 +16,22 @@
 
 package iht.viewmodels.application.overview
 
+
 import iht.testhelpers.CommonBuilder
-import iht.{FakeIhtApp, TestUtils}
+import iht.views.ViewTestHelper
 import org.joda.time.LocalDate
-import org.scalatest.BeforeAndAfter
-import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.play.test.UnitSpec
-import iht.testhelpers.TestHelper._
+import play.api.test.FakeRequest
 
-class EstateOverviewViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
+class EstateOverviewViewModelTest extends ViewTestHelper {
 
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   val ihtReference = Some("ABC")
   val registrationDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = ihtReference)
   val applicationDetailsGuidanceSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(true))
   val applicationDetailsGuidanceNotSeen = CommonBuilder.buildApplicationDetails copy (hasSeenExemptionGuidance=Some(false))
 
   val fakeDeadline = new LocalDate()
+  implicit val request = FakeRequest()
+  implicit val messages = messagesApi.preferred(request)
 
   "EstateOverviewViewModel" must {
 

@@ -88,6 +88,7 @@ iht.complete.screenreader = {0} is complete
 iht.inProgress = In progress
 iht.inReview = In review
 iht.closed = Closed
+iht.ineligibleApplication = Ineligible application
 
 iht.address.line1 = Address line 1
 iht.address.line2 = Address line 2
