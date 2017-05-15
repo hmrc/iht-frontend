@@ -114,8 +114,8 @@ String.prototype.format = function () {
 
         var activeElement = document.activeElement
 
-        var modalFocus = document.getElementById("timeout-dialog")
-        modalFocus.focus()
+        self.modalFocus = $("#timeout-dialog")
+        self.modalFocus.focus()
 
         self.addEvents();
 
@@ -170,6 +170,8 @@ String.prototype.format = function () {
           if(counter < 0){
             counter = 0;
           }
+
+          self.modalFocus.removeAttr("aria-live");
           $('#timeout-countdown').html(counter + " seconds")
         } else {
           var newCounter = Math.ceil(counter / 60);
