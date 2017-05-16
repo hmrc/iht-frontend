@@ -36,7 +36,7 @@ headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary(charityNumberForm)
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
         <p class="lede">@Messages("page.iht.application.exemptions.charityNumber.p1")
-            <a rel="external" href='@charityLink'>@Messages("page.iht.application.exemptions.charityNumber.linkText")</a>.
+            <a rel="external" href='@charityLink' id="charity-register">@Messages("page.iht.application.exemptions.charityNumber.linkText")</a> @Messages("page.iht.application.exemptions.charityNumber.p2").
         </p>
 
             @ihtHelpers.standard.input_with_help(charityNumberForm("charityNumber"),
