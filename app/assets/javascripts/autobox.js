@@ -58,6 +58,7 @@ Autobox.prototype.addEvents = function(){
         case 32: //space
             _autobox.update();
             break;
+        case 9: //tab
         case 27: //escape, removes suggestion list
             if(_autobox.list.hasClass('suggestions--with-options')){
                 _autobox.list.html("");
