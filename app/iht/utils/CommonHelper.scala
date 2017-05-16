@@ -408,7 +408,7 @@ object CommonHelper {
     * In some areas, wording on summary messages is slightly inconsistent. This allows us to overide
     * the standard behavior of message+.summary, with alternative text.
     */
-  def overrideSummaryMessages(optionalErrorMap: Option[Map[String, String]], error: FormError): String = {
+  def overrideSummaryMessages(optionalErrorMap: Option[Map[String, String]], error: FormError)(implicit messages: Messages): String = {
     val defaultMap: Map[String, String] = optionalErrorMap.fold[Map[String, String]](Map.empty)(identity)
     val messageKey = s"${error.message}"
     val messageKeySummary = s"$messageKey.summary"
@@ -416,9 +416,9 @@ object CommonHelper {
       case None => defaultMap + (error.message -> messageKeySummary)
       case Some(msg) => defaultMap
     }
-    val messageKeyValue = Messages(overriddenMap(error.message), error.args: _*)
+    val messageKeyValue = messages(overriddenMap(error.message), error.args: _*)
     if (messageKeyValue == messageKeySummary) {
-      Messages(messageKey, error.args: _*)
+      messages(messageKey, error.args: _*)
     } else {
       messageKeyValue
     }

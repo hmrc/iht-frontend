@@ -22,6 +22,7 @@ import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
+import play.api.i18n.Messages
 
 object ApplicantForms {
 
@@ -37,7 +38,7 @@ object ApplicantForms {
     )
   )
 
-  val probateLocationForm = Form(
+  def probateLocationForm(implicit messages: Messages) = Form(
     mapping(
       "country" -> of(radioOptionString("error.applicantProbateLocation.select", FieldMappings.applicantCountryMap))
     )

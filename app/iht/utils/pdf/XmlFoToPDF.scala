@@ -33,6 +33,7 @@ import org.apache.fop.apps._
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
 import play.api.Play.current
+import play.api.i18n.Messages
 import play.api.{Logger, Play}
 import org.apache.fop.events.Event
 import org.apache.fop.events.EventFormatter
@@ -53,7 +54,7 @@ trait XmlFoToPDF {
   private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
 
   def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
-                             declarationType: String): Array[Byte] = {
+                             declarationType: String)(implicit messages: Messages): Array[Byte] = {
     val rd = PdfFormatter.transform(registrationDetails)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
@@ -68,7 +69,7 @@ trait XmlFoToPDF {
     pdfoutStream.toByteArray
   }
 
-  def createPostSubmissionPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
+  def createPostSubmissionPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn)(implicit messages: Messages): Array[Byte] = {
     val rd = PdfFormatter.transform(registrationDetails)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
       getPostSubmissionDetailsXMLSource(rd, ihtReturn)))

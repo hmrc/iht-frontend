@@ -25,15 +25,20 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+import play.api.data.Form
+import play.api.i18n.{MessagesApi, Messages}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 class DeceasedPermanentHomeControllerTest
   extends RegistrationDeceasedControllerWithEditModeBehaviour[DeceasedPermanentHomeController]{
 
   val defaultDod = Some(DeceasedDateOfDeath(new LocalDate(2014, 1, 1)))
+
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+
 
  //Create controller object and pass in mock.
  def controller = new DeceasedPermanentHomeController {
@@ -57,14 +62,15 @@ class DeceasedPermanentHomeControllerTest
 
     behave like securedRegistrationDeceasedController()
 
-    "areate the new form when there is no deceased details present" in {
+    "create the new form when there is no deceased details present" in {
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
+     // val messages = messagesApi.preferred(request)
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      val result = controller.fillForm(registrationDetails)
-      result shouldBe deceasedPermanentHomeForm
+      val result: Form[DeceasedDetails] = controller.fillForm(registrationDetails)
+      result shouldBe a[Form[_]]
     }
 
     "contain Continue button when Page is loaded in normal mode" in {

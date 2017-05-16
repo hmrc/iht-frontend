@@ -97,6 +97,10 @@ iht.address.line4 = Address line 4 (optional)
 iht.address.lowerCaseInitial = address
 iht.address.upperCaseInitial = Address
 
+iht.date.day = Day
+iht.date.month = Month
+iht.date.year = Year
+
 iht.back = Back
 iht.change = Change
 iht.continue = Continue

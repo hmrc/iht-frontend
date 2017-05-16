@@ -122,7 +122,7 @@ isFullWidth = false) {
                 <div class="tabular-data__data tabular-data__data--6-12">@Messages("iht.estateReport.assets.properties.freeholdOrLeasehold")</div>
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @{tenure match {
-                    case Some(x) => {FieldMappings.tenures(x)._1}
+                    case Some(x) => {FieldMappings.tenures(messages)(x)._1}
                     case None => {}
                     }}
                 </div>

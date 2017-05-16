@@ -180,27 +180,27 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
 
     "not give an error for a valid answer" in {
       val data = permanentHome(domicileEnglandOrWales)
-      deceasedPermanentHomeForm.bind(data).get shouldBe DeceasedDetails(domicile = Some(domicileEnglandOrWales))
+      deceasedPermanentHomeForm(messages).bind(data).get shouldBe DeceasedDetails(domicile = Some(domicileEnglandOrWales))
     }
 
     "give an error when a blank value is supplied" in {
       val data = permanentHome("")
       val expectedErrors = error("domicile", "error.invalid")
 
-      checkForError(deceasedPermanentHomeForm, data, expectedErrors)
+      checkForError(deceasedPermanentHomeForm(messages), data, expectedErrors)
     }
 
     "give an error when invalid data is supplied" in {
       val data = permanentHome("INVALID")
       val expectedErrors = error("domicile", "error.invalid")
 
-      checkForError(deceasedPermanentHomeForm, data, expectedErrors)
+      checkForError(deceasedPermanentHomeForm(messages), data, expectedErrors)
     }
 
     "give an error when no data is supplied" in {
       val expectedErrors = error("domicile", "error.deceasedPermanentHome.selectLocation")
 
-      checkForError(deceasedPermanentHomeForm, emptyForm, expectedErrors)
+      checkForError(deceasedPermanentHomeForm(messages), emptyForm, expectedErrors)
     }
   }
 
@@ -211,7 +211,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   "About Deceased form" must {
 
     "not give an error for valid data" in {
-      aboutDeceasedForm().bind(completeAboutDeceased).get shouldBe
+      aboutDeceasedForm()(messages).bind(completeAboutDeceased).get shouldBe
         DeceasedDetails(firstName = Some(firstName),
           lastName = Some(surname),
           nino = Some(CommonBuilder.DefaultNino),
@@ -223,63 +223,63 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completeAboutDeceased + ("firstName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give an error when the first name is not supplied" in {
       val data = completeAboutDeceased - "firstName"
       val expectedErrors = error("firstName", "error.required")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give an error when the first name is too long" in {
       val data = completeAboutDeceased + ("firstName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("firstName", "error.firstName.giveUsingXCharsOrLess")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give an error when the last name is blank" in {
       val data = completeAboutDeceased + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give an error when the last name is not supplied" in {
       val data = completeAboutDeceased - "lastName"
       val expectedErrors = error("lastName", "error.required")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give an error when the last name is too long" in {
       val data = completeAboutDeceased + ("lastName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give an error when a blank marital status is supplied" in {
       val data = completeAboutDeceased + ("maritalStatus" -> "")
       val expectedErrors = error("maritalStatus", "error.invalid")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give an error when an invalid marital status is supplied" in {
       val data = completeAboutDeceased + ("maritalStatus" -> "INVALID")
       val expectedErrors = error("maritalStatus", "error.invalid")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give an error when no marital status is supplied" in {
       val data = completeAboutDeceased - "maritalStatus"
       val expectedErrors = error("maritalStatus", "error.deceasedMaritalStatus.select")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give multiple errors when several fields are invalid" in {
@@ -287,14 +287,14 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val expectedErrors = error("firstName", "error.firstName.give") ++
         error("nino", "error.nino.giveUsing8Or9Characters")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
 
     "give one date error when several date fields are invalid" in {
       val data = completeAboutDeceased + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13", "dateOfBirth.year" -> "12", "dateOfBirth.day" -> "99")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(aboutDeceasedForm(), data, expectedErrors)
+      checkForError(aboutDeceasedForm()(messages), data, expectedErrors)
     }
   }
 
@@ -541,11 +541,11 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   }
 
   "dateOfBirth" must {
-    behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, aboutDeceasedForm())
+    behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, aboutDeceasedForm()(messages))
   }
 
   "nino" must {
-    behave like nino[DeceasedDetails](completeAboutDeceased, aboutDeceasedForm())
+    behave like nino[DeceasedDetails](completeAboutDeceased, aboutDeceasedForm()(messages))
   }
 
 

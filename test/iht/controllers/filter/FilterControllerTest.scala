@@ -23,6 +23,7 @@ import iht.views.HtmlSpec
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
@@ -33,6 +34,9 @@ import iht.constants.IhtProperties._
 class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val request = FakeRequest()
+  val messages = messagesApi.preferred(request)
+
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
@@ -52,7 +56,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "show an error if no radio  button is selected" in {
-      val request = createFakeRequestWithBody(isAuthorised = false, data = filterForm.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = filterForm(messages).data.toSeq)
       val result = controller.onSubmit()(request)
 
       status(result) should be(BAD_REQUEST)
@@ -62,7 +66,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "redirect to sign in with Estate reports as the ultimate destination when the page is submitted with the continue choice selected" in {
-      val form = filterForm.fill(Some(continueEstateReport))
+      val form = filterForm(messages).fill(Some(continueEstateReport))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
@@ -71,7 +75,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "redirect to the already started page as the ultimate destination when the page is submitted with the already started choice selected" in {
-      val form = filterForm.fill(Some(alreadyStarted))
+      val form = filterForm(messages).fill(Some(alreadyStarted))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
@@ -80,7 +84,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "redirect to the agent page when the page is submitted with agent choice selected" in {
-      val form = filterForm.fill(Some(agent))
+      val form = filterForm(messages).fill(Some(agent))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
@@ -89,7 +93,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "redirect to the domicile page when the page is submitted with register choice selected" in {
-      val form = filterForm.fill(Some(register))
+      val form = filterForm(messages).fill(Some(register))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 

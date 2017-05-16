@@ -17,12 +17,14 @@
 package iht.utils.pdf
 
 import iht.FakeIhtApp
+import iht.forms.FormTestHelper
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
 import models.des.iht_return.Asset
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
+import play.api.test.FakeRequest
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.collection.immutable.ListMap
@@ -30,9 +32,8 @@ import scala.collection.immutable.ListMap
 /**
   * Created by david-beer on 21/11/16.
   */
-class PdfFormatterTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+class PdfFormatterTest extends FormTestHelper {
 
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   "disply value" must {
 
     "must return date in format of d MMMM yyyy" in {
@@ -92,7 +93,7 @@ class PdfFormatterTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
   "transform" must {
     "transform the marital status" in {
-      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4 )
+      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4 )(messages)
       val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
       result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
     }

@@ -51,7 +51,7 @@
     @dayElem = @{fieldName + "." + day}
     @date_input(
     formItem(childFormField+dayElem),
-    '_label -> Messages("date.fields.day"),
+    '_label -> Messages("iht.date.day"),
     '_labelClass -> "label--inlineTextinput",
     '_inputClass -> ("form-control " + (if(elements.errors.size>0) "error-field" else "" )),
     '_autoComplete -> "off",
@@ -65,7 +65,7 @@
     @monthElem = @{fieldName + "." + month}
     @date_input(
     formItem(childFormField+monthElem),
-    '_label -> Messages("date.fields.month"),
+    '_label -> Messages("iht.date.month"),
     '_labelClass -> "label--inlineTextinput ",
     '_inputClass -> ("form-control " + (if(elements.errors.size>0) "error-field" else "" )),
     '_autoComplete -> "off",
@@ -80,7 +80,7 @@
     @yearElem = @{fieldName + "." + year}
     @date_input(
     formItem(childFormField+yearElem),
-    '_label -> Messages("date.fields.year"),
+    '_label -> Messages("iht.date.year"),
     '_labelClass -> "label--inlineTextinput ",
     '_inputClass -> ("form-control " + (if(elements.errors.size>0) "error-field" else "" )),
     '_autoComplete -> "off",

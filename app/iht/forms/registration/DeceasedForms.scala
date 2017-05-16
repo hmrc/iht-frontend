@@ -16,6 +16,8 @@
 
 package iht.forms.registration
 
+import javax.inject.{Singleton, Inject}
+
 import iht.constants.{FieldMappings, IhtProperties}
 import iht.forms.mappings.DateMapping
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, UkAddress}
@@ -24,15 +26,17 @@ import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._
+import play.api.i18n.{Messages, MessagesApi}
 
 object DeceasedForms {
+
   val deceasedDateOfDeathForm = Form(
     mapping(
       "dateOfDeath" -> DateMapping.dateOfDeath
     )(DeceasedDateOfDeath.apply)(DeceasedDateOfDeath.unapply)
   )
 
-  val deceasedPermanentHomeForm = Form(
+  def deceasedPermanentHomeForm(implicit messages: Messages): Form[DeceasedDetails] = Form(
     mapping(
       "domicile" -> of(radioOptionString("error.deceasedPermanentHome.selectLocation", FieldMappings.domicileMap))
     )
@@ -44,7 +48,7 @@ object DeceasedForms {
     )
   )
 
-  def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now()) = Form(
+  def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now())(implicit messages: Messages) = Form(
     mapping(
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthFirstName),
@@ -52,7 +56,7 @@ object DeceasedForms {
         .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthLastName),
       "nino" -> nino,
       "dateOfBirth" -> DateMapping.dateOfBirth.verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => isDobBeforeDod(dateOfDeath, x)),
-      "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap)))
+      "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages))))
     (
       (firstName, lastName, nino, dateOfBirth, maritalStatus) =>
         DeceasedDetails(Some(firstName), None, Some(lastName), Some(nino), None, Some(dateOfBirth), None, maritalStatus, None)

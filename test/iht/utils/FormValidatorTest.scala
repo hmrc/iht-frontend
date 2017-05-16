@@ -18,6 +18,7 @@ package iht.utils
 
 import iht.FakeIhtApp
 import iht.constants.FieldMappings
+import iht.forms.FormTestHelper
 import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
 import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
@@ -31,7 +32,7 @@ import scala.collection.immutable.ListMap
 /**
  * Created by xavierzanatta on 3/20/15.
  */
-class FormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
+class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
 
   val nino = CommonBuilder.DefaultNino
 
@@ -66,12 +67,12 @@ class FormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
   "existsInKeys" must {
     "return true if valid list map key" in {
-      val result = IhtFormValidator.existsInKeys(TestHelper.MaritalStatusSingle, FieldMappings.maritalStatusMap)
+      val result = IhtFormValidator.existsInKeys(TestHelper.MaritalStatusSingle, FieldMappings.maritalStatusMap(messages))
       result should be(true)
     }
 
     "return false if invalid list map key" in {
-      val result = IhtFormValidator.existsInKeys("7", FieldMappings.maritalStatusMap)
+      val result = IhtFormValidator.existsInKeys("7", FieldMappings.maritalStatusMap(messages))
       result should be(false)
     }
   }

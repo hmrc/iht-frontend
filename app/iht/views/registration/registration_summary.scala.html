@@ -95,7 +95,7 @@
 
                 @ihtHelpers.custom.summary_item(
                     label = Messages("iht.registration.deceased.locationOfPermanentHome"),
-                    data = FieldMappings.domicileMap(CommonHelper.getOrException(deceasedDetails.domicile)).toString,
+                    data = FieldMappings.domicileMap(messages)(CommonHelper.getOrException(deceasedDetails.domicile)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.DeceasedPermanentHomeController.onEditPageLoad.url + "#country",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader"),
@@ -104,7 +104,7 @@
 
                 @ihtHelpers.custom.summary_item(
                     label = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label"),
-                    data = FieldMappings.maritalStatusMap(CommonHelper.getOrException(deceasedDetails.maritalStatus)).toString,
+                    data = FieldMappings.maritalStatusMap(messages)(CommonHelper.getOrException(deceasedDetails.maritalStatus)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#relationship-status",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader"),
@@ -167,7 +167,7 @@
                 )
                 @ihtHelpers.custom.summary_item(
                     label = Messages("page.iht.registration.applicant.probateLocation.title"),
-                    data = FieldMappings.domicileMap(CommonHelper.getOrException(applicantDetails.country)).toString,
+                    data = FieldMappings.domicileMap(messages)(CommonHelper.getOrException(applicantDetails.country)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.data.screenReader", CommonHelper.getOrException(applicantDetails.country)),
                     changeLink = applicantRoutes.ProbateLocationController.onEditPageLoad.url + "#country",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.link.screenReader"),
