@@ -35,8 +35,6 @@ trait QualifyingBodiesOverviewController extends ApplicationController {
 
           val isAssetLeftToQualifyingBody = ad.allExemptions.flatMap(_.qualifyingBody).flatMap(_.isSelected)
 
-          // TODO: Move error message to common place
-          // TODO: Check that an exception is appropriate here.  Should it be refactored as a guard condition?
           Future.successful(Ok(iht.views.html.application.exemption.qualifyingBody.qualifying_bodies_overview(ad.qualifyingBodies,
             rd,
             CommonHelper.getOrException(isAssetLeftToQualifyingBody, "Illegal page navigation"))))

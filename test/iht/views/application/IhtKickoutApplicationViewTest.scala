@@ -27,7 +27,6 @@ import play.api.i18n.Messages.Implicits._
   * Created by vineet on 15/11/16.
   */
 
-//TODO  - Rest of the various Kickout reason tests will be written as part of New Acceptance Test Framework
 class IhtKickoutApplicationViewTest extends ViewTestHelper{
 
   lazy val appDetails = CommonBuilder.buildApplicationDetails

@@ -48,7 +48,6 @@ trait EstateController extends ApplicationController {
   val debtsRedirectLocation = iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad()
   val giftsRedirectLocation = iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
   val kickoutRedirectLocation = iht.controllers.application.routes.KickoutController.onPageLoad()
-  val tnrbRedirectLocation = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad() //TODO change
 
   val retrieveSectionDetailsOrExceptionIfInvalidID: String => ApplicationDetails => Option[Charity] = id => ad => {
     val foundCharity = ad.charities.find(_.id.contains(id))
