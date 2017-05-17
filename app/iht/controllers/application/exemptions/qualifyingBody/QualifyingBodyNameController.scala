@@ -44,7 +44,6 @@ trait QualifyingBodyNameController extends EstateController {
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
   private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onEditSubmit(id), Some(ExemptionsOtherNameID))
 
-  // TODO: Update the redirect location during integration
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id => routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)))
 

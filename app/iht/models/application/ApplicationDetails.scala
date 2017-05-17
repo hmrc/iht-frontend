@@ -347,7 +347,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   def totalValue:BigDecimal = totalAssetsValue + totalGiftsValue
 
-  //TODO - Implementation to be checked
   def totalNetValue:BigDecimal = (totalAssetsValue + totalGiftsValue) - totalExemptionsValue - totalLiabilitiesValue
 
   def calculationUsed:Calculation.Value = {

@@ -125,7 +125,6 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
       implicit val request = createFakeRequest().withFormUrlEncodedBody(filledForm.data.toSeq: _*)
 
       val result = charityNameController.onSubmit(request)
-      //TODO: Replace with the Charity Details Overview page URL once that is done
       status(result) shouldBe SEE_OTHER
     }
 
@@ -193,7 +192,6 @@ class CharityNameControllerTest extends ApplicationControllerTest with BeforeAnd
       val appDetailsBeforeSave: ApplicationDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnectorTemp)
       val charityAfterSave: Option[Charity] = appDetailsBeforeSave.charities.find(_.id == Some("2"))
       charityAfterSave shouldBe Some(charityChanged)
-      //TODO: Replace with the Charity Details Overview page URL once that is done
       status(result) shouldBe SEE_OTHER
     }
 

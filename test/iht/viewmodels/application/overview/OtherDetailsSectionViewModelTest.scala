@@ -115,7 +115,6 @@ class OtherDetailsSectionViewModelTest
       viewModel.showClaimExemptionLink shouldBe true
     }
 
-    // TODO: Move these elsewhere if and when common builder is refactored
     lazy val buildEveryLiability = AllLiabilities(
       funeralExpenses=Some(CommonBuilder.buildBasicEstateElementLiabilityWithValue),
       trust = Some(CommonBuilder.buildBasicEstateElementLiabilityWithValue),
