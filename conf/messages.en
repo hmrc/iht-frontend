@@ -1833,7 +1833,7 @@ pdf.postSubmission.trusts.assetDescription = Trusts
 pdf.registration.lastContactAddress = Last contact address
 pdf.meta.author = HM Revenue & Customs
 iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
-pdf.page.number = Page 
+pdf.page.number = Page
 
 #Kickouts - Estate report - common
 page.iht.application.liabilities.title = {0}’s debts
