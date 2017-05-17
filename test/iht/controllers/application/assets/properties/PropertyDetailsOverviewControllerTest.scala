@@ -116,6 +116,22 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
       contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
+    "redirect to estate overview when onEditPageLoad is called with a property ID that does not exist" in {
+      val appDetails = CommonBuilder.buildApplicationDetails
+
+      createMocksForApplication(mockCachingConnector,
+        mockIhtConnector,
+        regDetails = regDetails,
+        appDetails = Some(appDetails),
+        getAppDetails = true,
+        saveAppDetails = true,
+        storeAppDetailsInCache = true)
+
+      val result = propertyDetailsOverviewController.onEditPageLoad("1")(createFakeRequest())
+      status(result) should be(SEE_OTHER)
+      contentAsString(result) should include(messagesApi("page.iht.application.overview.title2", deceasedName))
+    }
+
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
       propertyDetailsOverviewController.onPageLoad(createFakeRequest()))
   }
