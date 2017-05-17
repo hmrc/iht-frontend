@@ -154,7 +154,11 @@ isFullWidth = false) {
                                     case Some(id) => PropertyValueController.onEditPageLoad(id)
                                     case None => PropertyValueController.onPageLoad()
                                 }
-                            }'>@if(value.isDefined){@Messages("iht.change")} else {@Messages("site.link.giveValue")}
+                            }'>
+                        @getUpdateElements(
+                        value,
+                            Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.change"),
+                            Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue"))
                     </a>
                 </div>
             </li>
