@@ -145,18 +145,6 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
       capturedValue.deceasedDetails shouldBe Some(expectedDeceasedDetails)
     }
 
-// TODO:
-//    "return true if the guard conditions are true" in {
-//      val rd = CommonBuilder.buildRegistrationDetails copy (deceasedDateOfDeath = Some(DeceasedDateOfDeath(LocalDate.now)))
-//      deceasedAddressQuestionController.checkGuardCondition(rd) shouldBe true
-//    }
-//
-//    "return false if the guard conditions are false" in {
-//      val rd = CommonBuilder.buildRegistrationDetails copy (deceasedDateOfDeath = None)
-//      deceasedAddressQuestionController.checkGuardCondition(rd) shouldBe false
-//    }
-  }
-
   "return a server error to UK address page when question is answered yes but the storage fails" in  {
     val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (isAddressInUK = Some(true))
     val registrationDetails = RegistrationDetails(None, None, Some(deceasedDetails))
