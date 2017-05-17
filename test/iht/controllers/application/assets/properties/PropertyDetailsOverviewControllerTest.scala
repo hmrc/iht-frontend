@@ -129,7 +129,6 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
 
       val result = propertyDetailsOverviewController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be(SEE_OTHER)
-      contentAsString(result) should include(messagesApi("page.iht.application.overview.title2", deceasedName))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
