@@ -31,6 +31,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Result
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.http.HeaderCarrier
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
 
@@ -51,6 +53,12 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
+  }
+
+  def fillForm(coExecutor: CoExecutor) = {
+    implicit val request = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+    implicit val hc = new HeaderCarrier()
+    coExecutorPersonalDetailsForm.fill(coExecutor)
   }
 
   "CoExecutorPersonalDetailsController" must {
@@ -211,6 +219,8 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       }
     }
 
+
+
     "save a valid new co-executor located in the uk" in {
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -218,7 +228,8 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         Some(deceasedDetails), areOthersApplyingForProbate = Some(true))
 
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails(None)
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq)
@@ -247,7 +258,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         areOthersApplyingForProbate = Some(true))
 
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails() copy (isAddressInUk = Some(false))
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq)
@@ -270,7 +281,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails(None)
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
@@ -303,7 +314,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorWithId(Some("1")) copy (firstName = firstName,
         lastName = surname)
 
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
@@ -335,7 +346,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorWithId(Some("1")) copy (firstName = firstName,
         lastName = surname, isAddressInUk = Some(false))
 
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
@@ -359,7 +370,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val coExecutor = CommonBuilder.buildCoExecutor
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq)
@@ -379,7 +390,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val coExecutor = CommonBuilder.buildCoExecutor
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
@@ -398,7 +409,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val coExecutor = CommonBuilder.buildCoExecutor
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq)
@@ -417,7 +428,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
       val coExecutor = CommonBuilder.buildCoExecutor
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq)
@@ -442,7 +453,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         Some(deceasedDetails), areOthersApplyingForProbate = Some(true))
 
       val coExecutor = CommonBuilder.buildCoExecutorPersonalDetails(None)
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq)
@@ -465,7 +476,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       val coExecutor = CommonBuilder.buildCoExecutorWithId(Some("1")) copy (firstName = CommonBuilder.firstNameGenerator,
         lastName = CommonBuilder.surnameGenerator)
 
-      val form = coExecutorPersonalDetailsForm.fill(coExecutor)
+      val form = fillForm(coExecutor)
 
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
@@ -492,7 +503,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
     }
 
     def prepareForm(coExecutor: CoExecutor): Form[CoExecutor] = {
-      coExecutorPersonalDetailsForm.fill(coExecutor)
+      fillForm(coExecutor)
     }
 
     def submitCoExecutorPersonalDetailsModel(rd: RegistrationDetails, detailsToSubmit: CoExecutor,

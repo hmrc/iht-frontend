@@ -16,14 +16,18 @@
 
 package iht.utils
 
+import iht.connector.CachingConnector
 import iht.constants.IhtProperties
-import iht.models.UkAddress
-import play.api.data.{FieldMapping, FormError, Forms}
+import iht.models.{RegistrationDetails, UkAddress}
 import play.api.data.format.Formatter
+import play.api.data.{FieldMapping, FormError, Forms}
+import play.api.mvc.Request
+import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.collection.immutable.ListMap
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
-import iht.utils.CommonHelper._
 
 object IhtFormValidator extends FormValidator {
   def validateGiftsDetails(valueKey: String, exemptionsValueKey: String) = new Formatter[Option[String]] {
@@ -442,6 +446,17 @@ object IhtFormValidator extends FormValidator {
     override def unbind(key: String, value: Option[Boolean]): Map[String, String] = {
       Map(key -> value.map(_.toString).getOrElse(""))
     }
+  }
+
+  def ninoDifferentFromMainExecutor(nino:String)(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): Boolean = {
+    def cachingConnector: CachingConnector = CachingConnector
+    val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
+
+    val isDifferentFuture = futureOptionRD.map {
+      case None => true
+      case Some(rd) => rd.applicantDetails.flatMap(_.nino).fold(true)( _ != nino)
+    }
+    Await.result(isDifferentFuture, Duration.Inf)
   }
 
   def yesNoQuestion(blankMessageKey:String) = Forms.of(optionalYesNoQuestionFormatter(blankMessageKey))
