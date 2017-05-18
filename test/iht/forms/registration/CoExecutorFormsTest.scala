@@ -218,29 +218,29 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     "give an error when the NINO is the same as main executor's NINO" in {
       val mockCachingConnector = mock[CachingConnector]
 
-      val yy: IhtFormValidator = new IhtFormValidator {
+      val ihtFormValidatorWithMockedCachingConnector: IhtFormValidator = new IhtFormValidator {
         override def cachingConnector = mockCachingConnector
       }
 
-      val xx: CoExecutorForms = new CoExecutorForms{
+      val coExecutorForms: CoExecutorForms = new CoExecutorForms{
         override def cachingConnector: CachingConnector = mockCachingConnector
 
-        override def ihtFormValidator = yy
+        override def ihtFormValidator = ihtFormValidatorWithMockedCachingConnector
       }
 
       val rd = CommonBuilder.buildRegistrationDetails1
       when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
 
-      def checkForError2(data:Map[String,String], expectedErrors:Seq[FormError]): Unit = {
+      def checkForError(data:Map[String,String], expectedErrors:Seq[FormError]): Unit = {
         implicit val request = createFakeRequest()
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-        checkForError(xx.coExecutorPersonalDetailsForm, data, expectedErrors)
+        super.checkForError(coExecutorForms.coExecutorPersonalDetailsForm, data, expectedErrors)
       }
 
       val data = completePersonalDetails + ("nino" -> CommonBuilder.DefaultNino)
       val expectedErrors = error("nino", "error.nino.alreadyGiven")
 
-      checkForError2( data, expectedErrors)
+      checkForError( data, expectedErrors)
     }
 
     "give an error when the day is blank" in {
