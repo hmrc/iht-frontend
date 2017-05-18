@@ -219,7 +219,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       }
 
       val data = completePersonalDetails + ("nino" -> "INVALIDD")
-      val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
+      val expectedErrors = error("nino", "error.nino.alreadyGiven")
 
       checkForError2( data, expectedErrors)
     }
