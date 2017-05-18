@@ -78,9 +78,7 @@ trait CoExecutorForms {
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveNoneFuture"
       ),
-      "nino" -> nino("error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers")
-        .verifying("error.nino.alreadyGiven", f => ihtFormValidator.ninoIsUnique(f))
-      ,
+      "nino" -> ihtFormValidator.ninoIsUnique("id"),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",
@@ -118,8 +116,7 @@ trait CoExecutorForms {
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveNoneFuture"
       ),
-      "nino" -> nino("error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers")
-        .verifying("error.nino.alreadyGiven", f => ihtFormValidator.ninoIsUnique(f)),
+      "nino" -> ihtFormValidator.ninoIsUnique("id"),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",
