@@ -21,7 +21,7 @@ import iht.connector.CachingConnector
 import iht.forms.FormTestHelper
 import iht.forms.registration.CoExecutorForms._
 import iht.models._
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
 import org.mockito.Matchers._
@@ -229,6 +229,38 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       }
 
       val rd = CommonBuilder.buildRegistrationDetails1
+      when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
+
+      def checkForError(data:Map[String,String], expectedErrors:Seq[FormError]): Unit = {
+        implicit val request = createFakeRequest()
+        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+        super.checkForError(coExecutorForms.coExecutorPersonalDetailsForm, data, expectedErrors)
+      }
+
+      val data = completePersonalDetails + ("nino" -> CommonBuilder.DefaultNino)
+      val expectedErrors = error("nino", "error.nino.alreadyGiven")
+
+      checkForError( data, expectedErrors)
+    }
+
+    "give an error when the NINO is the same as another executor's NINO" in {
+      val mockCachingConnector = mock[CachingConnector]
+
+      val ihtFormValidatorWithMockedCachingConnector: IhtFormValidator = new IhtFormValidator {
+        override def cachingConnector = mockCachingConnector
+      }
+
+      val coExecutorForms: CoExecutorForms = new CoExecutorForms{
+        override def cachingConnector: CachingConnector = mockCachingConnector
+
+        override def ihtFormValidator = ihtFormValidatorWithMockedCachingConnector
+      }
+
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
+
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+        applicantDetails = Some(ad)
+      )
       when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
 
       def checkForError(data:Map[String,String], expectedErrors:Seq[FormError]): Unit = {

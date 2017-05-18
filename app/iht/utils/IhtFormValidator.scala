@@ -451,12 +451,14 @@ trait IhtFormValidator extends FormValidator {
     }
   }
 
-  def ninoDifferentFromMainExecutor(nino:String)(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): Boolean = {
+  def ninoIsUnique(nino:String)(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): Boolean = {
     val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
 
     val isDifferentFuture = futureOptionRD.map {
       case None => true
-      case Some(rd) => rd.applicantDetails.flatMap(_.nino).fold(true)( _ != nino)
+      case Some(rd) =>
+        rd.applicantDetails.flatMap(_.nino).fold(true)( _ != nino) &&
+        !rd.coExecutors.exists(_.nino == nino)
     }
     Await.result(isDifferentFuture, Duration.Inf)
   }
