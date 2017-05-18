@@ -210,6 +210,20 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError( data, expectedErrors)
     }
 
+    "give an error when the NINO is the same as main executor's NINO" in {
+
+      def checkForError2(data:Map[String,String], expectedErrors:Seq[FormError]): Unit = {
+        implicit val request = createFakeRequest()
+        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+        checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      }
+
+      val data = completePersonalDetails + ("nino" -> "INVALIDD")
+      val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
+
+      checkForError2( data, expectedErrors)
+    }
+
     "give an error when the day is blank" in {
       val data = completePersonalDetails + ("dateOfBirth.day" -> "")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
