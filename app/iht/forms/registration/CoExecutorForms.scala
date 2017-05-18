@@ -16,7 +16,6 @@
 
 package iht.forms.registration
 
-import iht.connector.CachingConnector
 import iht.constants._
 import iht.forms.mappings.DateMapping
 import iht.models._
@@ -32,7 +31,6 @@ import scala.concurrent.ExecutionContext
 object CoExecutorForms extends CoExecutorForms
 
 trait CoExecutorForms {
-  def cachingConnector: CachingConnector = CachingConnector
   def ihtFormValidator: IhtFormValidator = IhtFormValidator
   val addressMappingCoexecInternational: Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",

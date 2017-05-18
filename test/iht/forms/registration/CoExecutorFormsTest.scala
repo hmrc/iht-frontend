@@ -217,18 +217,13 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
     "give an error when the NINO is the same as main executor's NINO" in {
       val mockCachingConnector = mock[CachingConnector]
-
-      val ihtFormValidatorWithMockedCachingConnector: IhtFormValidator = new IhtFormValidator {
-        override def cachingConnector = mockCachingConnector
-      }
-
       val coExecutorForms: CoExecutorForms = new CoExecutorForms{
-        override def cachingConnector: CachingConnector = mockCachingConnector
-
-        override def ihtFormValidator = ihtFormValidatorWithMockedCachingConnector
+        override def ihtFormValidator = new IhtFormValidator {
+          override def cachingConnector = mockCachingConnector
+        }
       }
-
       val rd = CommonBuilder.buildRegistrationDetails1
+
       when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
 
       def checkForError(data:Map[String,String], expectedErrors:Seq[FormError]): Unit = {
@@ -245,22 +240,17 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
     "give an error when the NINO is the same as another executor's NINO" in {
       val mockCachingConnector = mock[CachingConnector]
-
-      val ihtFormValidatorWithMockedCachingConnector: IhtFormValidator = new IhtFormValidator {
-        override def cachingConnector = mockCachingConnector
-      }
-
       val coExecutorForms: CoExecutorForms = new CoExecutorForms{
-        override def cachingConnector: CachingConnector = mockCachingConnector
-
-        override def ihtFormValidator = ihtFormValidatorWithMockedCachingConnector
+        override def ihtFormValidator = new IhtFormValidator {
+          override def cachingConnector = mockCachingConnector
+        }
       }
-
-      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
-
       val rd = CommonBuilder.buildRegistrationDetails1 copy (
-        applicantDetails = Some(ad)
+        applicantDetails = Some(CommonBuilder.buildApplicantDetails copy (
+          nino = Some(NinoBuilder.randomNino.toString()))
+        )
       )
+
       when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
 
       def checkForError(data:Map[String,String], expectedErrors:Seq[FormError]): Unit = {
