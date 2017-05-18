@@ -29,7 +29,10 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
-object IhtFormValidator extends FormValidator {
+object IhtFormValidator extends IhtFormValidator
+
+trait IhtFormValidator extends FormValidator {
+  def cachingConnector: CachingConnector = CachingConnector
   def validateGiftsDetails(valueKey: String, exemptionsValueKey: String) = new Formatter[Option[String]] {
     override def bind(key: String, data: Map[String, String]) = {
       import scala.util.Try
@@ -449,7 +452,6 @@ object IhtFormValidator extends FormValidator {
   }
 
   def ninoDifferentFromMainExecutor(nino:String)(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): Boolean = {
-    def cachingConnector: CachingConnector = CachingConnector
     val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
 
     val isDifferentFuture = futureOptionRD.map {
