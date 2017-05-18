@@ -28,6 +28,7 @@ import play.api.mvc.Call
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -53,7 +54,7 @@ object IhtHomeRowViewModel {
 
     new IhtHomeRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
       ihtRefNo = ihtApp.ihtRefNo,
-      dateOfDeath = ihtApp.dateOfDeath.toString(IhtProperties.dateFormatForDisplay),
+      dateOfDeath = Dates.formatDate(ihtApp.dateOfDeath).toString,
       currentStatus = getApplicationStatusMessage(currentStatus),
       linkLabel = getLinkLabel(currentStatus),
       link = getLink(currentStatus, ihtRef),
