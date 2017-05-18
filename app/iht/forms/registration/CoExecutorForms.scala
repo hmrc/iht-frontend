@@ -119,7 +119,7 @@ trait CoExecutorForms {
         "error.dateOfBirth.giveNoneFuture"
       ),
       "nino" -> nino("error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers")
-        .verifying("error.nino.alreadyGiven", f => ninoIsUnique(f)),
+        .verifying("error.nino.alreadyGiven", f => ihtFormValidator.ninoIsUnique(f)),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",

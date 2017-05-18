@@ -42,7 +42,6 @@ case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails, decease
             <id>${coExecutors(0).id.getOrElse("")}</id>
             <contactDetails>
                 <phoneNo>${coExecutors(0).contactDetails.phoneNo}</phoneNo>
-                <email>${coExecutors(0).contactDetails.email.get}</email>
             </contactDetails>
             <nino>${coExecutors(0).nino}</nino>
         </coExecutors>
@@ -63,7 +62,6 @@ case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails, decease
             <id>${coExecutors(1).id.getOrElse("")}</id>
             <contactDetails>
                 <phoneNo>${coExecutors(1).contactDetails.phoneNo}</phoneNo>
-                <email>${coExecutors(1).contactDetails.email.get}</email>
             </contactDetails>
             <nino>${coExecutors(1).nino}</nino>
         </coExecutors>
@@ -84,7 +82,6 @@ case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails, decease
             <id>${coExecutors(2).id.getOrElse("")}</id>
             <contactDetails>
                 <phoneNo>${coExecutors(2).contactDetails.phoneNo}</phoneNo>
-                <email>${coExecutors(2).contactDetails.email.get}</email>
             </contactDetails>
             <nino>${coExecutors(2).nino}</nino>
         </coExecutors>
