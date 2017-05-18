@@ -16,9 +16,11 @@
 
 package iht.forms.registration
 
+import iht.connector.CachingConnector
 import iht.constants._
 import iht.forms.mappings.DateMapping
 import iht.models._
+import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 import play.api.data.Forms._
 import play.api.data.{Form, Mapping}
@@ -27,7 +29,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
 
-object CoExecutorForms {
+object CoExecutorForms extends CoExecutorForms
+
+trait CoExecutorForms {
+  def cachingConnector: CachingConnector = CachingConnector
+  def ihtFormValidator: IhtFormValidator = IhtFormValidator
   val addressMappingCoexecInternational: Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
@@ -75,7 +81,7 @@ object CoExecutorForms {
         "error.dateOfBirth.giveNoneFuture"
       ),
       "nino" -> nino("error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers")
-        .verifying("error.nino.alreadyGiven", f => ninoDifferentFromMainExecutor(f))
+        .verifying("error.nino.alreadyGiven", f => ihtFormValidator.ninoDifferentFromMainExecutor(f))
       ,
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",

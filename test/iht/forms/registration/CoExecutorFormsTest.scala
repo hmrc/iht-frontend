@@ -17,16 +17,21 @@
 package iht.forms.registration
 
 import iht.FakeIhtApp
+import iht.connector.CachingConnector
 import iht.forms.FormTestHelper
 import iht.forms.registration.CoExecutorForms._
 import iht.models._
 import iht.testhelpers.CommonBuilder
+import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
+import org.mockito.Matchers._
+import org.mockito.Mockito._
 import play.api.data.FormError
-
-import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.SessionId
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
@@ -211,14 +216,28 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give an error when the NINO is the same as main executor's NINO" in {
+      val mockCachingConnector = mock[CachingConnector]
+
+      val yy: IhtFormValidator = new IhtFormValidator {
+        override def cachingConnector = mockCachingConnector
+      }
+
+      val xx: CoExecutorForms = new CoExecutorForms{
+        override def cachingConnector: CachingConnector = mockCachingConnector
+
+        override def ihtFormValidator = yy
+      }
+
+      val rd = CommonBuilder.buildRegistrationDetails1
+      when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
 
       def checkForError2(data:Map[String,String], expectedErrors:Seq[FormError]): Unit = {
         implicit val request = createFakeRequest()
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-        checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+        checkForError(xx.coExecutorPersonalDetailsForm, data, expectedErrors)
       }
 
-      val data = completePersonalDetails + ("nino" -> "INVALIDD")
+      val data = completePersonalDetails + ("nino" -> CommonBuilder.DefaultNino)
       val expectedErrors = error("nino", "error.nino.alreadyGiven")
 
       checkForError2( data, expectedErrors)
