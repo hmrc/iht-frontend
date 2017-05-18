@@ -17,11 +17,17 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.connector.CachingConnector
 import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator._
 import org.scalatest.mock.MockitoSugar
 import play.api.data.FormError
-import play.api.i18n.MessagesApi
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import org.mockito.Matchers._
+import org.mockito.Mockito._
+import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.test.UnitSpec
 
 class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
@@ -116,6 +122,51 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     "reject nino containing spaces but too many characters" in {
       val ninoWithSpacesAndInvalidLength = NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino).concat("XXXX")
       ninoMapping.bind(Map("" -> ninoWithSpacesAndInvalidLength)) shouldBe Left(List(FormError("", "length")))
+    }
+  }
+
+  "ninoIsUnique" should {
+    "respond with true when nino not same as main executor nino or another executor nino" in {
+      val mockCachingConnector = mock[CachingConnector]
+      val ihtFormValidator = new IhtFormValidator {
+        override def cachingConnector = mockCachingConnector
+      }
+      val rd = CommonBuilder.buildRegistrationDetails1
+      when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
+
+      implicit val request = createFakeRequest()
+      implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+      ihtFormValidator.ninoIsUnique(NinoBuilder.randomNino.toString()) shouldBe true
+    }
+
+    "respond with false when nino same as main executor nino" in {
+      val mockCachingConnector = mock[CachingConnector]
+      val ihtFormValidator = new IhtFormValidator {
+        override def cachingConnector = mockCachingConnector
+      }
+      val rd = CommonBuilder.buildRegistrationDetails1
+      when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
+
+      implicit val request = createFakeRequest()
+      implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+      ihtFormValidator.ninoIsUnique(CommonBuilder.DefaultNino) shouldBe false
+    }
+
+    "respond with false when nino same as other executor nino" in {
+      val mockCachingConnector = mock[CachingConnector]
+      val ihtFormValidator = new IhtFormValidator {
+        override def cachingConnector = mockCachingConnector
+      }
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
+
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+        applicantDetails = Some(ad)
+        )
+      when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
+
+      implicit val request = createFakeRequest()
+      implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+      ihtFormValidator.ninoIsUnique(CommonBuilder.DefaultNino) shouldBe false
     }
   }
 }
