@@ -20,6 +20,8 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
 import org.joda.time.LocalDate
+
+import scala.util.{Failure, Try}
 //import play.api.Application
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
@@ -70,7 +72,7 @@ case class OverviewRow(id: String,
                        linkUrl: Call,
                        qualifyingText: String)(implicit messages: Messages) {
 
-  def linkText = this.completionStatus match {
+  def linkText(implicit messages: Messages) = this.completionStatus match {
     case NotStarted => messages("iht.start")
     case PartiallyComplete => messages("iht.giveMoreDetails")
     case _ => messages("iht.viewOrChange")

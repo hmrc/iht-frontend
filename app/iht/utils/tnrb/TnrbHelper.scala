@@ -132,10 +132,10 @@ object TnrbHelper {
     iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrException(appDetails.ihtRef))
   }
 
-  def cancelLinkTextForWidowCheckPages(appDetails: ApplicationDetails) = if(appDetails.isWidowCheckSectionCompleted) {
-    Messages("page.iht.application.tnrb.returnToIncreasingThreshold")
+  def cancelLinkTextForWidowCheckPages(appDetails: ApplicationDetails)(implicit messages:Messages) = if(appDetails.isWidowCheckSectionCompleted) {
+    messages("page.iht.application.tnrb.returnToIncreasingThreshold")
   }else {
-    Messages("iht.estateReport.returnToEstateOverview")
+    messages("iht.estateReport.returnToEstateOverview")
   }
 
   private def spouseOrCivilPartnerMessageText(messagesKeySpouse:String,
