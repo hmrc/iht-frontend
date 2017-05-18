@@ -401,31 +401,6 @@ trait IhtFormValidator extends FormValidator {
     }
   }
 
-  private def ninoFormatter(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String) =
-    new Formatter[String] {
-      override def bind(key: String, data: Map[String, String]) = {
-        val value = data.get(key).fold("")(identity)
-        lazy val valueMinusSpaces = value.replaceAll("\\s", "")
-        value match {
-          case n if n.isEmpty => Left(Seq(FormError(key, blankMessageKey)))
-          case n if valueMinusSpaces.length < IhtProperties.validationMinLengthNINO ||
-            valueMinusSpaces.length > IhtProperties.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
-          case n if !valueMinusSpaces.matches(ninoRegex) => Left(Seq(FormError(key, formatMessageKey)))
-          case n => Right(n)
-        }
-      }
-
-      override def unbind(key: String, value: String): Map[String, String] = {
-        Map(key -> value.toString)
-      }
-    }
-
-  def nino(blankMessageKey: String,
-           lengthMessageKey: String,
-           formatMessageKey: String) = Forms.of(ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey))
-
-  val nino: FieldMapping[String] = nino("error.nino.give", "error.nino.giveUsing8Or9Characters", "error.nino.giveUsingOnlyLettersAndNumbers")
-
   private def optionalYesNoQuestionFormatter(blankMessageKey: String) = new Formatter[Option[Boolean]] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
@@ -452,34 +427,63 @@ trait IhtFormValidator extends FormValidator {
     }
   }
 
-  private def ninoIsUniqueFormatter(coExecutorIDKey:String)(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
+  def yesNoQuestion(blankMessageKey: String) = Forms.of(optionalYesNoQuestionFormatter(blankMessageKey))
+
+  private def ninoFormatter(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String) =
+    new Formatter[String] {
+      override def bind(key: String, data: Map[String, String]) = {
+        val value = data.get(key).fold("")(identity)
+        lazy val valueMinusSpaces = value.replaceAll("\\s", "")
+        value match {
+          case n if n.isEmpty => Left(Seq(FormError(key, blankMessageKey)))
+          case n if valueMinusSpaces.length < IhtProperties.validationMinLengthNINO ||
+            valueMinusSpaces.length > IhtProperties.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
+          case n if !valueMinusSpaces.matches(ninoRegex) => Left(Seq(FormError(key, formatMessageKey)))
+          case n => Right(n)
+        }
+      }
+
+      override def unbind(key: String, value: String): Map[String, String] = {
+        Map(key -> value.toString)
+      }
+    }
+
+  def nino(blankMessageKey: String,
+           lengthMessageKey: String,
+           formatMessageKey: String) = Forms.of(ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey))
+
+  val nino: FieldMapping[String] = nino("error.nino.give", "error.nino.giveUsing8Or9Characters", "error.nino.giveUsingOnlyLettersAndNumbers")
+
+  private def ninoForCoExecutorFormatter(blankMessageKey: String, lengthMessageKey: String,
+                                         formatMessageKey: String, coExecutorIDKey:String)(
+    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
+
+    def stripSpaces(s:String) = s.replaceAll("\\s", "")
 
     def ninoIsUnique(nino: String, excludingCoExecutorID:Option[String]): Boolean = {
+      val ninoMinusSpaces = stripSpaces(nino)
       val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
-
-      //
-      //  nino("error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers")
-      //    .verifying("error.nino.alreadyGiven", f => ihtFormValidator.ninoIsUnique(f, )),
-
       val isDifferentFuture = futureOptionRD.map {
         case None => true
         case Some(rd) =>
-          rd.applicantDetails.flatMap(_.nino).fold(true)(_ != nino) &&
-            !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists(_.nino == nino)
+          rd.applicantDetails.flatMap(_.nino).fold(true)(stripSpaces(_) != ninoMinusSpaces) &&
+            !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists( x => stripSpaces(x.nino) == ninoMinusSpaces)
       }
       Await.result(isDifferentFuture, Duration.Inf)
     }
 
     override def bind(key: String, data: Map[String, String]) = {
       val value = data.get(key).fold("")(identity)
-      lazy val valueMinusSpaces = value.replaceAll("\\s", "")
 
-      val coExecutorID: Option[String] = data.get(coExecutorIDKey)
-
-      if (ninoIsUnique(valueMinusSpaces, coExecutorID)) {
-        Right(value)
-      } else {
-        Left(Seq(FormError(key, "error.nino.alreadyGiven")))
+      ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey).bind(key, data) match {
+        case Right(_) =>
+          val coExecutorID: Option[String] = data.get(coExecutorIDKey)
+          if (ninoIsUnique(value, coExecutorID)) {
+            Right(value)
+          } else {
+            Left(Seq(FormError(key, "error.nino.alreadyGiven")))
+          }
+        case Left(errors) => Left(errors)
       }
     }
 
@@ -488,7 +492,7 @@ trait IhtFormValidator extends FormValidator {
     }
   }
 
-  def ninoIsUnique(coExecutorIDKey:String)(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Forms.of(ninoIsUniqueFormatter(coExecutorIDKey))
-
-  def yesNoQuestion(blankMessageKey: String) = Forms.of(optionalYesNoQuestionFormatter(blankMessageKey))
+  def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey:String)(
+    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) =
+    Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey))
 }

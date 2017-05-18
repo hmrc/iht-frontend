@@ -34,7 +34,7 @@ import scala.concurrent.Future
 
 class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
   val coExecutorIDKey = "id"
-  def ninoIsUniqueMapping(rd:RegistrationDetails): FieldMapping[String] = {
+  def ninoForCoExecutorMapping(rd:RegistrationDetails): FieldMapping[String] = {
     val mockCachingConnector = mock[CachingConnector]
     val ihtFormValidator = new IhtFormValidator {
       override def cachingConnector = mockCachingConnector
@@ -44,7 +44,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    ihtFormValidator.ninoIsUnique(coExecutorIDKey)
+    ihtFormValidator.ninoForCoExecutor("", "", "", coExecutorIDKey)
   }
 
   "validateBasicEstateElementLiabilities" must {
@@ -141,24 +141,64 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     }
   }
 
-  "ninoIsUnique mapping" should {
+  "nino for coexecutor mapping" should {
     "respond with no error when nino not same as main executor nino or another executor nino" in {
       val nino = NinoBuilder.randomNino.toString()
-      ninoIsUniqueMapping(CommonBuilder.buildRegistrationDetails1).bind(Map("" -> nino)) shouldBe Right(nino)
+      ninoForCoExecutorMapping(CommonBuilder.buildRegistrationDetails1).bind(Map("" -> nino)) shouldBe Right(nino)
+    }
+
+    "respond with no error when nino same as another executor nino but coexecutor ids are the same" in {
+      val nino1 = NinoBuilder.randomNino.toString()
+      val nino2 = NinoBuilder.randomNino.toString()
+      val nino3 = NinoBuilder.randomNino.toString()
+
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+        applicantDetails = Some(ad),
+        coExecutors = Seq(coExec1, coExec2, coExec3)
+      )
+
+      ninoForCoExecutorMapping(rd).bind(Map("" -> nino2, "id" -> "2")) shouldBe Right(nino2)
     }
 
     "respond with error when nino same as main executor nino" in {
-      ninoIsUniqueMapping(CommonBuilder.buildRegistrationDetails1)
+      ninoForCoExecutorMapping(CommonBuilder.buildRegistrationDetails1)
         .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
-    "respond with error when nino same as other executor nino" in {
+    "respond with error when nino same as other executor nino but with extra space" in {
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
       val rd = CommonBuilder.buildRegistrationDetails1 copy (
         applicantDetails = Some(ad)
         )
-      ninoIsUniqueMapping(rd)
-        .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+
+      ninoForCoExecutorMapping(rd)
+        .bind(Map("" -> NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino))) shouldBe
+          Left(Seq(FormError("", "error.nino.alreadyGiven")))
+    }
+
+    "respond with error when nino same as another executor nino but other one has an extra space" in {
+      val nino1 = NinoBuilder.randomNino.toString()
+      val nino2 = NinoBuilder.randomNino.toString()
+      val nino3 = NinoBuilder.randomNino.toString()
+
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+        applicantDetails = Some(ad),
+        coExecutors = Seq(coExec1, coExec2, coExec3)
+        )
+
+      ninoForCoExecutorMapping(rd)
+        .bind(Map("" -> nino2)) shouldBe
+        Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
   }
 }
