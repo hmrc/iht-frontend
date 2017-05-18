@@ -27,14 +27,18 @@
 @(deceasedName: String,
 property:Option[Property]=None)(implicit request:Request[_], messages: Messages)
 
-@getUpdateElements(data: Option[_], changeText: String, noValueText: String) = {
-    @data match {
-        case Some(_) => {
+@getUpdateElements(data: Option[_], changeText: String, noValueText: String, currencyValue: Boolean = false) = {
+    @(data, currencyValue) match {
+        case (Some(_), _) => {
                 <span aria-hidden="true">@Messages("iht.change")</span>
                 <span class="visually-hidden">@changeText</span>
         }
-        case None => {
+        case (None, false) => {
                 <span aria-hidden="true">@Messages("site.link.giveDetails")</span>
+                <span class="visually-hidden">@noValueText</span>
+        }
+        case (None, true) => {
+                <span aria-hidden="true">@Messages("site.link.giveValue")</span>
                 <span class="visually-hidden">@noValueText</span>
         }
     }
@@ -158,7 +162,8 @@ isFullWidth = false) {
                         @getUpdateElements(
                         value,
                             Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.change"),
-                            Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue"))
+                            Messages("page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue"),
+                            currencyValue = true)
                     </a>
                 </div>
             </li>
