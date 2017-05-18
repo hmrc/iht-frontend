@@ -88,6 +88,7 @@ iht.complete.screenreader = {0} is complete
 iht.inProgress = In progress
 iht.inReview = In review
 iht.closed = Closed
+iht.ineligibleApplication = Ineligible application
 
 iht.address.line1 = Address line 1
 iht.address.line2 = Address line 2
@@ -95,6 +96,10 @@ iht.address.line3 = Address line 3 (optional)
 iht.address.line4 = Address line 4 (optional)
 iht.address.lowerCaseInitial = address
 iht.address.upperCaseInitial = Address
+
+iht.date.day = Day
+iht.date.month = Month
+iht.date.year = Year
 
 iht.back = Back
 iht.change = Change
@@ -1829,7 +1834,7 @@ pdf.postSubmission.trusts.assetDescription = Trusts
 pdf.registration.lastContactAddress = Last contact address
 pdf.meta.author = HM Revenue & Customs
 iht.estateReport.pdf.declaration.declaringThat = You’re declaring that:
-pdf.page.number = Page 
+pdf.page.number = Page
 
 #Kickouts - Estate report - common
 page.iht.application.liabilities.title = {0}’s debts

@@ -113,7 +113,7 @@ trait GiftsOverviewController extends EstateController {
 
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
-                                   allGifts: AllGifts) = {
+                                   allGifts: AllGifts)(implicit messages:Messages) = {
     val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
@@ -121,7 +121,7 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.GivenAwayController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.givenAway.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)),
+      questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)),
       ad,
       regDetails,
       questionLinkIds = Seq(GiftsGivenAwayQuestionID)
@@ -133,7 +133,7 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.WithReservationOfBenefitController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq(Messages("iht.estateReport.gifts.reservation.question", deceasedName)),
+      questionTitlesMessagesFileItems = Seq(messages("iht.estateReport.gifts.reservation.question", deceasedName)),
       ad,
       regDetails,
       sectionLinkId = GiftsReservationBenefitSectionID,
@@ -146,8 +146,8 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq(Messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName),
-        Messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)),
+      questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName),
+        messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)),
       ad,
       regDetails,
       sectionLinkId = GiftsSevenYearsSectionID,

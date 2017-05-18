@@ -24,7 +24,8 @@ import play.api.i18n.Messages
 
 
 object ApplicationInReviewController extends ApplicationStatusController with IhtConnectors {
-  def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
-      iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)(request, applicationMessages)
-
+  def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) => {
+        implicit val req = request
+        iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)
+      }
 }

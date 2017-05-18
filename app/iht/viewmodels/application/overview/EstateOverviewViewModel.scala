@@ -20,7 +20,10 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+
+import scala.util.{Failure, Try}
+//import play.api.Application
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -44,21 +47,21 @@ case class CurrentValue(value: BigDecimal) extends EstateOverviewValue
 case class AllAnsweredNo(messageKey: String) extends EstateOverviewValue
 
 object DisplayValue {
-  def apply(value: EstateOverviewValue) = value match {
+  def apply(value: EstateOverviewValue)(implicit messages: Messages) = value match {
     case NoValueEntered => ""
     case CurrentValue(amount) => "£" + CommonHelper.numberWithCommas(amount)
-    case AllAnsweredNo(key) => Messages(key)
+    case AllAnsweredNo(key) => messages(key)
   }
 }
 
 object DisplayValueAsNegative {
-  def apply(value: EstateOverviewValue, areThereNoExemptions: Boolean = false) =
+  def apply(value: EstateOverviewValue, areThereNoExemptions: Boolean = false)(implicit messages: Messages) =
     (value, areThereNoExemptions) match {
       case (NoValueEntered, _) => ""
       case (CurrentValue(amount), _) if amount <= BigDecimal(0) => "£" + CommonHelper.numberWithCommas(amount)
       case (CurrentValue(amount), true) => "£" + CommonHelper.numberWithCommas(amount)
       case (CurrentValue(amount), _) => "-£" + CommonHelper.numberWithCommas(amount)
-      case (AllAnsweredNo(key), _) => Messages(key)
+      case (AllAnsweredNo(key), _) => messages(key)
     }
 }
 
@@ -67,11 +70,12 @@ case class OverviewRow(id: String,
                        value: String,
                        completionStatus: RowCompletionStatus,
                        linkUrl: Call,
-                       qualifyingText: String) {
-  def linkText = this.completionStatus match {
-    case NotStarted => Messages("iht.start")
-    case PartiallyComplete => Messages("iht.giveMoreDetails")
-    case _ => Messages("iht.viewOrChange")
+                       qualifyingText: String)(implicit messages: Messages) {
+
+  def linkText(implicit messages: Messages) = this.completionStatus match {
+    case NotStarted => messages("iht.start")
+    case PartiallyComplete => messages("iht.giveMoreDetails")
+    case _ => messages("iht.viewOrChange")
   }
 }
 
@@ -98,20 +102,20 @@ object EstateOverviewViewModel {
 
   def apply(registrationDetails: RegistrationDetails,
             applicationDetails: ApplicationDetails,
-            deadlineDate: LocalDate): EstateOverviewViewModel = {
+            deadlineDate: LocalDate)(implicit messages: Messages): EstateOverviewViewModel = {
 
     val isExemptionsGreaterThanZero = applicationDetails.totalExemptionsValue > BigDecimal(0)
 
     val otherDetailsSection = if(isExemptionsGreaterThanZero) {
         None
       } else {
-        Some(OtherDetailsSectionViewModel(applicationDetails, registrationDetails.ihtReference.getOrElse("")))
+        Some(OtherDetailsSectionViewModel(applicationDetails, registrationDetails.ihtReference.getOrElse(""))(messages))
       }
 
     val reducingEstateValueSection =
       (applicationDetails.hasSeenExemptionGuidance, isExemptionsGreaterThanZero) match {
         case (Some(hasSeen), aboveZero) if hasSeen || aboveZero =>
-          Some(ReducingEstateValueSectionViewModel(applicationDetails, registrationDetails))
+          Some(ReducingEstateValueSectionViewModel(applicationDetails, registrationDetails)(messages))
         case _ => None
       }
 
@@ -120,13 +124,13 @@ object EstateOverviewViewModel {
       deceasedName = registrationDetails.deceasedDetails.fold("")(_.name),
       submissionDeadline = deadlineDate.toString("d MMMM YYYY"),
       assetsAndGiftsSection = AssetsAndGiftsSectionViewModel(applicationDetails,
-        behaveAsIncreasingTheEstateSection = applicationDetails.hasSeenExemptionGuidance.getOrElse(false)),
+        behaveAsIncreasingTheEstateSection = applicationDetails.hasSeenExemptionGuidance.getOrElse(false))(messages),
       reducingEstateValueSection = reducingEstateValueSection,
       otherDetailsSection = otherDetailsSection,
-      thresholdSection = ThresholdSectionViewModel(registrationDetails, applicationDetails),
+      thresholdSection = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages),
       grandTotalRow = buildTotalRow(applicationDetails),
       declarationSection = DeclarationSectionViewModel(registrationDetails, applicationDetails),
-      increasingThresholdRow = ThresholdSectionViewModel(registrationDetails, applicationDetails).increasingThresholdRow
+      increasingThresholdRow = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages).increasingThresholdRow
       )
   }
 

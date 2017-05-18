@@ -36,7 +36,7 @@ hasTimeOut=true) {
 
     @ihtHelpers.standard.input_radio_group(
         probateLocationForm("country"),
-        applicantCountryMap.toSeq,
+        applicantCountryMap(messages).toSeq,
         '_fieldsetId -> "country",
         '_groupClass -> "form-group",
         '_labelClass -> "form-label block-label",

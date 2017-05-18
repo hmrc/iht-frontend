@@ -28,7 +28,10 @@ object ApplicationQuestionnaireController extends ApplicationQuestionnaireContro
 
 trait ApplicationQuestionnaireController extends ApplicationController with QuestionnaireController {
   override lazy val ihtSection = IhtSection.Application
-  override def questionnaireView = (form, request) => application_questionnaire(form)(request, applicationMessages)
+  override def questionnaireView = (form, request) => {
+    implicit val req = request
+    application_questionnaire(form)
+  }
   override def callPageLoad = iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
   override val redirectLocationOnMissingNino = iht.controllers.home.routes.IhtHomeController.onPageLoad()
 }

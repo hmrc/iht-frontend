@@ -36,7 +36,7 @@ class PropertyFormsTest extends FormTestHelper {
                                             propertyTenureForm,
                                             _.tenure,
                                            "error.assets.property.tenure.select",
-                                            FieldMappings.tenures)
+                                            FieldMappings.tenures(messages))
   }
 
   "PropertyTypeForm" must {
@@ -44,7 +44,7 @@ class PropertyFormsTest extends FormTestHelper {
                                             propertyTypeForm,
                                             _.propertyType,
                                             "error.assets.property.type.select",
-                                            FieldMappings.propertyType)
+                                            FieldMappings.propertyType(messages))
   }
 
   "TypeOfOwnershipForm" must {
@@ -52,7 +52,7 @@ class PropertyFormsTest extends FormTestHelper {
                                           typeOfOwnershipForm,
                                         _.typeOfOwnership,
                                         "error.assets.property.ownership.select",
-                                        FieldMappings.typesOfOwnership)
+                                        FieldMappings.typesOfOwnership(messages))
    }
 
   "PropertyValueForm" must {

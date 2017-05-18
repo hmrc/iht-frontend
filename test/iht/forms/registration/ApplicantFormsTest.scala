@@ -82,27 +82,27 @@ class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
 
     "not give an error for a valid answer" in {
       val data = probateLocation(applicantCountryEnglandOrWales)
-      probateLocationForm.bind(data).get shouldBe ApplicantDetails(country = Some(applicantCountryEnglandOrWales))
+      probateLocationForm(messages).bind(data).get shouldBe ApplicantDetails(country = Some(applicantCountryEnglandOrWales))
     }
 
     "give an error when a blank value is supplied" in {
       val data = probateLocation("")
       val expectedErrors = error("country", "error.invalid")
 
-      checkForError(probateLocationForm, data, expectedErrors)
+      checkForError(probateLocationForm(messages), data, expectedErrors)
     }
 
     "give an error when invalid data is supplied" in {
       val data = probateLocation("INVALID")
       val expectedErrors = error("country", "error.invalid")
 
-      checkForError(probateLocationForm, data, expectedErrors)
+      checkForError(probateLocationForm(messages), data, expectedErrors)
     }
 
     "give an error when no data is supplied" in {
       val expectedErrors = error("country", "error.applicantProbateLocation.select")
 
-      checkForError(probateLocationForm, emptyForm, expectedErrors)
+      checkForError(probateLocationForm(messages), emptyForm, expectedErrors)
     }
   }
 

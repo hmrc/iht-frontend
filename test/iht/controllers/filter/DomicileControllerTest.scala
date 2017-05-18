@@ -21,6 +21,7 @@ import iht.views.HtmlSpec
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import iht.forms.FilterForms._
 import iht.constants.Constants._
@@ -29,6 +30,9 @@ import iht.constants.IhtProperties._
 class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val request = FakeRequest()
+  val messages = messagesApi.preferred(request)
+
   def controller = new DomicileController {}
 
   "Domicile Controller" must {
@@ -43,7 +47,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "show an error if no radio button is selected" in {
-      val request = createFakeRequestWithBody(isAuthorised = false, data = domicileForm.data.toSeq)
+      val request = createFakeRequestWithBody(isAuthorised = false, data = domicileForm(messages).data.toSeq)
       val result = controller.onSubmit()(request)
 
       status(result) should be(BAD_REQUEST)
@@ -53,7 +57,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "redirect to the Estimate page if 'England or Wales' is selected" in {
-      val form = domicileForm.fill(Some(englandOrWales))
+      val form = domicileForm(messages).fill(Some(englandOrWales))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
@@ -62,7 +66,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "redirect to the 'Scotland transition' page if 'Scotland' is selected" in {
-      val form = domicileForm.fill(Some(scotland))
+      val form = domicileForm(messages).fill(Some(scotland))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
@@ -71,7 +75,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "redirect to the 'Northern Ireland transition' page if 'Northern Ireland' is selected" in {
-      val form = domicileForm.fill(Some(northernIreland))
+      val form = domicileForm((messages)).fill(Some(northernIreland))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
@@ -80,7 +84,7 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
     }
 
     "redirect to the 'Other country transition' page if 'Other country' is selected" in {
-      val form = domicileForm.fill(Some(otherCountry))
+      val form = domicileForm(messages).fill(Some(otherCountry))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 

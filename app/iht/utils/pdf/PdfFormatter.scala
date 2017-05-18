@@ -16,6 +16,8 @@
 
 package iht.utils.pdf
 
+import javax.inject.{Singleton, Inject}
+
 import iht.constants.FieldMappings.maritalStatusMap
 import iht.constants.{Constants, IhtProperties}
 import iht.models.RegistrationDetails
@@ -86,9 +88,9 @@ object PdfFormatter {
   }
 
 
-  def transform(rd: RegistrationDetails): RegistrationDetails = {
+  def transform(rd: RegistrationDetails)(implicit messages: Messages): RegistrationDetails = {
     val optionDeceasedDetails = rd.deceasedDetails.map { dd =>
-      dd copy (maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(ms)))
+      dd copy (maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(messages)(ms)))
     }
     rd copy (deceasedDetails = optionDeceasedDetails)
   }

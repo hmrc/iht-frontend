@@ -62,11 +62,11 @@ object ReducingEstateValueSectionViewModel {
     }
 
   def apply(applicationDetails: ApplicationDetails,
-            registrationDetails: RegistrationDetails): ReducingEstateValueSectionViewModel = {
+            registrationDetails: RegistrationDetails)(implicit messages: Messages): ReducingEstateValueSectionViewModel = {
     val displayValue = if (isExemptionsCompletedWithNoValueDependentOnMaritalStatus(applicationDetails, registrationDetails)) {
-        Messages("page.iht.application.estateOverview.exemptions.noExemptionsValue")
+      messages("page.iht.application.estateOverview.exemptions.noExemptionsValue")
       } else {
-        DisplayValueAsNegative(getExemptionsDisplayValue(applicationDetails))
+        DisplayValueAsNegative(getExemptionsDisplayValue(applicationDetails))(messages)
       }
     val exemptionCompletionStatus = if (CommonHelper.isExemptionsCompleted(registrationDetails, applicationDetails)) {
         Complete
@@ -79,21 +79,21 @@ object ReducingEstateValueSectionViewModel {
 
     val exemptionsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      Messages("page.iht.application.overview.exemptions.screenReader.moreDetails.link"),
-      Messages("page.iht.application.overview.exemptions.screenReader.value.link"),
-      Messages("page.iht.application.overview.exemptions.screenReader.noValue.link")
+      messages("page.iht.application.overview.exemptions.screenReader.moreDetails.link"),
+      messages("page.iht.application.overview.exemptions.screenReader.value.link"),
+      messages("page.iht.application.overview.exemptions.screenReader.noValue.link")
     )
     val debtsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
-      Messages("page.iht.application.overview.debts.screenReader.moreDetails.link"),
-      Messages("page.iht.application.overview.debts.screenReader.value.link"),
-      Messages("page.iht.application.overview.debts.screenReader.noValue.link")
+      messages("page.iht.application.overview.debts.screenReader.moreDetails.link"),
+      messages("page.iht.application.overview.debts.screenReader.value.link"),
+      messages("page.iht.application.overview.debts.screenReader.noValue.link")
     )
     val theDebtRow = if (areDebtsIncluded) {
-            Some(OverviewRow(EstateDebtsID, Messages("iht.estateReport.debts.owedFromEstate"),
-              DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails)),
+            Some(OverviewRow(EstateDebtsID, messages("iht.estateReport.debts.owedFromEstate"),
+              DisplayValueAsNegative(getDebtsDisplayValue(applicationDetails))(messages),
               RowCompletionStatus(applicationDetails.areAllDebtsCompleted),
-              iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(), debtsScreenreaderText))
+              iht.controllers.application.debts.routes.DebtsOverviewController.onPageLoad(), debtsScreenreaderText)(messages))
     } else {
       None
     }
@@ -102,12 +102,13 @@ object ReducingEstateValueSectionViewModel {
 
     ReducingEstateValueSectionViewModel(
       debtRow = theDebtRow,
-      exemptionRow = OverviewRow(EstateExemptionsID, Messages("iht.estateReport.exemptions.title"),
+      exemptionRow = OverviewRow(EstateExemptionsID, messages("iht.estateReport.exemptions.title"),
         displayValue, exemptionCompletionStatus,
         iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
-        exemptionsScreenreaderText),
-      totalRow = OverviewRowWithoutLink("reducing-estate-totals", Messages("page.iht.application.exemptions.total"),
-         DisplayValueAsNegative(CurrentValue(totalValue)), qualifyingText = "", headingLevel = "h3", headingClass = "visually-hidden")
+        exemptionsScreenreaderText)(messages),
+      totalRow = OverviewRowWithoutLink("reducing-estate-totals", messages("page.iht.application.exemptions.total"),
+         DisplayValueAsNegative(CurrentValue(totalValue))(messages), qualifyingText = "", headingLevel = "h3",
+        headingClass = "visually-hidden")
     )
   }
 }

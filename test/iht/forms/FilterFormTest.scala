@@ -25,19 +25,20 @@ import iht.constants.Constants._
   * Created by adwelly on 21/10/2016.
   */
 class FilterFormTest extends FormTestHelper with FakeIhtApp {
+
   "FilterForm" must {
     "give an error when no value is provided" in {
       val data = Map[String, String]()
       val expectedErrors = Seq(FormError(filterChoices, "error.selectAnswer"))
 
-      checkForError(filterForm, data, expectedErrors)
+      checkForError(filterForm(messages), data, expectedErrors)
     }
 
     "give an error when blank value is provided" in {
       val data = Map[String, String](filterChoices -> "")
       val expectedErrors = Seq(FormError(filterChoices, "error.invalid"))
 
-      checkForError(filterForm, data, expectedErrors)
+      checkForError(filterForm(messages), data, expectedErrors)
     }
   }
 
@@ -46,14 +47,14 @@ class FilterFormTest extends FormTestHelper with FakeIhtApp {
       val data = Map[String, String]()
       val expectedErrors = Seq(FormError(domicile, "error.selectAnswer"))
 
-      checkForError(domicileForm, data, expectedErrors)
+      checkForError(domicileForm(messages), data, expectedErrors)
     }
 
     "give an error when blank value is provided" in {
       val data = Map[String, String](domicile -> "")
       val expectedErrors = Seq(FormError(domicile, "error.invalid"))
 
-      checkForError(domicileForm, data, expectedErrors)
+      checkForError(domicileForm(messages), data, expectedErrors)
     }
   }
 }

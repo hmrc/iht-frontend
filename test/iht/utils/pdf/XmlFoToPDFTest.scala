@@ -17,6 +17,7 @@
 package iht.utils.pdf
 
 import iht.FakeIhtApp
+import iht.forms.FormTestHelper
 import iht.testhelpers.CommonBuilder
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
@@ -26,8 +27,7 @@ import play.api.i18n.MessagesApi
 /**
   * Created by david-beer on 21/11/16.
   */
-class XmlFoToPDFTest extends UnitSpec with FakeIhtApp with MockitoSugar {
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+class XmlFoToPDFTest extends FormTestHelper {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val appDetails = CommonBuilder.buildApplicationDetails
@@ -41,14 +41,14 @@ class XmlFoToPDFTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     }
 
     "have correct contents for the Pre Submission PDF" in {
-      val result: Array[Byte] = XmlFoToPDF.createPreSubmissionPDF(regDetails, appDetails, "declaration_type")
+      val result: Array[Byte] = XmlFoToPDF.createPreSubmissionPDF(regDetails, appDetails, "declaration_type")(messages)
       result.length should be >0
     }
 
     "have correct contents for the Post Submission PDF" in {
       lazy val ihtReturn = CommonBuilder.buildIHTReturn
 
-      val result: Array[Byte] = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)
+      val result: Array[Byte] = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)(messages)
       result.length should be >0
     }
   }

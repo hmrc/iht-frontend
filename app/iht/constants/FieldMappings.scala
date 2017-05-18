@@ -27,88 +27,89 @@ object FieldMappings {
   val Yes="1"
   val No="0"
 
-  val applicantCountryMap = ListMap(
-    createMapEntry(applicantCountryEnglandOrWales, "iht.countries.englandOrWales"),
-    createMapEntry(applicantCountryScotland , "iht.countries.scotland"),
-    createMapEntry(applicantCountryNorthernIreland , "iht.countries.northernIreland")
+  def applicantCountryMap(implicit messages: Messages) = ListMap(
+    createMapEntry(applicantCountryEnglandOrWales, "iht.countries.englandOrWales")(messages),
+    createMapEntry(applicantCountryScotland, "iht.countries.scotland")(messages),
+    createMapEntry(applicantCountryNorthernIreland, "iht.countries.northernIreland")(messages)
   )
 
-  val domicileMap = ListMap(
-    createMapEntry(domicileEnglandOrWales,"iht.countries.englandOrWales"),
-    createMapEntry(domicileScotland,"iht.countries.scotland"),
-    createMapEntry(domicileNorthernIreland,"iht.countries.northernIreland"),
-    createMapEntry(domicileOther, "iht.common.other")
+  def domicileMap(implicit messages: Messages) = ListMap(
+    createMapEntry(domicileEnglandOrWales, "iht.countries.englandOrWales")(messages),
+    createMapEntry(domicileScotland, "iht.countries.scotland")(messages),
+    createMapEntry(domicileNorthernIreland, "iht.countries.northernIreland")(messages),
+    createMapEntry(domicileOther, "iht.common.other")(messages)
   )
 
-  val maritalStatusMap = ListMap(
-    createMapEntry(statusMarried,"page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label"),
-    createMapEntry(statusDivorced,"page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label"),
-    createMapEntry(statusWidowed,"page.iht.registration.deceasedDetails.maritalStatus.widowed.label"),
-    createMapEntry(statusSingle,"page.iht.registration.deceasedDetails.maritalStatus.single.label")
+  def maritalStatusMap (implicit messages: Messages) = ListMap(
+    createMapEntry(statusMarried,"page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")(messages),
+    createMapEntry(statusDivorced,"page.iht.registration.deceasedDetails.maritalStatus.civilPartner.label")(messages),
+    createMapEntry(statusWidowed,"page.iht.registration.deceasedDetails.maritalStatus.widowed.label")(messages),
+    createMapEntry(statusSingle,"page.iht.registration.deceasedDetails.maritalStatus.single.label")(messages)
   )
 
-  val propertyType = ListMap(
-    createMapEntry(propertyTypeDeceasedHome , "page.iht.application.assets.propertyType.deceasedHome.label"),
-    createMapEntry(propertyTypeOtherResidentialBuilding , "page.iht.application.assets.propertyType.otherResidential.label"),
-    createMapEntry(propertyTypeNonResidential , "page.iht.application.assets.propertyType.nonResidential.label")
+  def propertyType(implicit messages: Messages) = ListMap(
+    createMapEntry(propertyTypeDeceasedHome , "page.iht.application.assets.propertyType.deceasedHome.label")(messages),
+    createMapEntry(propertyTypeOtherResidentialBuilding , "page.iht.application.assets.propertyType.otherResidential.label")(messages),
+    createMapEntry(propertyTypeNonResidential , "page.iht.application.assets.propertyType.nonResidential.label")(messages)
   )
 
-  val typesOfOwnership = ListMap(
-    ownershipDeceasedOnly -> ((Messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"),
-      Some(Messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint")), Some(false))),
-    ownershipJoint -> ((Messages("page.iht.application.assets.typeOfOwnership.joint.label"),
-      Some(Messages("page.iht.application.assets.typeOfOwnership.joint.hint")), Some(true))),
-    ownershipInCommon -> ((Messages("page.iht.application.assets.typeOfOwnership.inCommon.label"),
-      Some(Messages("page.iht.application.assets.typeOfOwnership.inCommon.hint")), Some(true)))
+  def typesOfOwnership(implicit messages: Messages) = ListMap(
+    ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"),
+      Some(messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint")), Some(false))),
+    ownershipJoint -> ((messages("page.iht.application.assets.typeOfOwnership.joint.label"),
+      Some(messages("page.iht.application.assets.typeOfOwnership.joint.hint")), Some(true))),
+    ownershipInCommon -> ((messages("page.iht.application.assets.typeOfOwnership.inCommon.label"),
+      Some(messages("page.iht.application.assets.typeOfOwnership.inCommon.hint")), Some(true)))
   )
 
-  val tenures = ListMap(
-    tenureFreehold -> ((Messages("page.iht.application.assets.tenure.freehold.label"),
-      Some(Messages("page.iht.application.assets.tenure.freehold.hint")), Some(false))),
-    tenureLeasehold -> ((Messages("page.iht.application.assets.tenure.leasehold.label"),
-      Some(Messages("page.iht.application.assets.tenure.leasehold.hint")), Some(false)))
+  def tenures(implicit messages: Messages) = ListMap(
+    tenureFreehold -> ((messages("page.iht.application.assets.tenure.freehold.label"),
+      Some(messages("page.iht.application.assets.tenure.freehold.hint")), Some(false))),
+    tenureLeasehold -> ((messages("page.iht.application.assets.tenure.leasehold.label"),
+      Some(messages("page.iht.application.assets.tenure.leasehold.hint")), Some(false)))
   )
 
-  val questionnaireEasyToUse = ListMap(
-    createMapEntry(questionnaireEasyToUseVeryEasy,"page.iht.questionnaire.easy-to-use.very-easy"),
-    createMapEntry(questionnaireEasyToUseEasy,"page.iht.questionnaire.easy-to-use.easy"),
-    createMapEntry(questionnaireEasyToUseNeither,"page.iht.questionnaire.easy-to-use.neither"),
-    createMapEntry(questionnaireEasyToUseDifficult,"page.iht.questionnaire.easy-to-use.difficult"),
-    createMapEntry(questionnaireEasyToUseVeryDifficult,"page.iht.questionnaire.easy-to-use.very-difficult")
+  def questionnaireEasyToUse (implicit messages: Messages) = ListMap(
+    createMapEntry(questionnaireEasyToUseVeryEasy,"page.iht.questionnaire.easy-to-use.very-easy")(messages),
+    createMapEntry(questionnaireEasyToUseEasy,"page.iht.questionnaire.easy-to-use.easy")(messages),
+    createMapEntry(questionnaireEasyToUseNeither,"page.iht.questionnaire.easy-to-use.neither")(messages),
+    createMapEntry(questionnaireEasyToUseDifficult,"page.iht.questionnaire.easy-to-use.difficult")(messages),
+    createMapEntry(questionnaireEasyToUseVeryDifficult,"page.iht.questionnaire.easy-to-use.very-difficult")(messages)
   )
 
-  val questionnaireFeelingAboutExperience = ListMap(
-    createMapEntry(questionnaireFeelingAboutExperienceVerySatisfied,"page.iht.questionnaire.feelingAboutExperience.verySatisfied"),
-    createMapEntry(questionnaireFeelingAboutExperienceSatisfied,"page.iht.questionnaire.feelingAboutExperience.satisfied"),
-    createMapEntry(questionnaireFeelingAboutExperienceNeither,"page.iht.questionnaire.feelingAboutExperience.neither"),
-    createMapEntry(questionnaireFeelingAboutExperienceDissatisfied,"page.iht.questionnaire.feelingAboutExperience.dissatisfied"),
-    createMapEntry(questionnaireFeelingAboutExperienceVeryDissatisfied,"page.iht.questionnaire.feelingAboutExperience.veryDissatisfied")
+  def questionnaireFeelingAboutExperience(implicit messages: Messages) = ListMap(
+    createMapEntry(questionnaireFeelingAboutExperienceVerySatisfied,"page.iht.questionnaire.feelingAboutExperience.verySatisfied")(messages),
+    createMapEntry(questionnaireFeelingAboutExperienceSatisfied,"page.iht.questionnaire.feelingAboutExperience.satisfied")(messages),
+    createMapEntry(questionnaireFeelingAboutExperienceNeither,"page.iht.questionnaire.feelingAboutExperience.neither")(messages),
+    createMapEntry(questionnaireFeelingAboutExperienceDissatisfied,"page.iht.questionnaire.feelingAboutExperience.dissatisfied")(messages),
+    createMapEntry(questionnaireFeelingAboutExperienceVeryDissatisfied,"page.iht.questionnaire.feelingAboutExperience.veryDissatisfied")(messages)
   )
 
-  val filterChoices = ListMap(
-    continueEstateReport -> Tuple3(Messages("page.iht.filter.filter.choice.main.continue"), None, None),
-    register -> Tuple3(Messages("page.iht.filter.filter.choice.main.register"), Some(Messages("page.iht.filter.filter.choice.main.register.hint")), None),
-    alreadyStarted -> Tuple3(Messages("page.iht.filter.filter.choice.main.alreadyStarted"), None, None),
-    agent -> Tuple3(Messages("page.iht.filter.filter.choice.main.agent"), None, None))
+  def filterChoices(implicit messages: Messages) = ListMap(
+    continueEstateReport -> Tuple3(messages("page.iht.filter.filter.choice.main.continue"), None, None),
+    register -> Tuple3(messages("page.iht.filter.filter.choice.main.register"), Some(messages("page.iht.filter.filter.choice.main.register.hint")), None),
+    alreadyStarted -> Tuple3(messages("page.iht.filter.filter.choice.main.alreadyStarted"), None, None),
+    agent -> Tuple3(messages("page.iht.filter.filter.choice.main.agent"), None, None))
 
-  val domicileChoices = ListMap(
-    createMapEntry(englandOrWales, "iht.countries.englandOrWales"),
-    createMapEntry(scotland, "iht.countries.scotland"),
-    createMapEntry(northernIreland, "iht.countries.northernIreland"),
-    createMapEntry(otherCountry, "page.iht.filter.domicile.choice.other")
+  def domicileChoices(implicit messages: Messages) =
+    ListMap(
+      createMapEntry(englandOrWales, "iht.countries.englandOrWales")(messages),
+      createMapEntry(scotland, "iht.countries.scotland")(messages),
+      createMapEntry(northernIreland,  "iht.countries.northernIreland")(messages),
+      createMapEntry(otherCountry, "page.iht.filter.domicile.choice.other")(messages)
+    )
+
+  def estimateChoices(implicit messages: Messages) = ListMap(
+    createMapEntry(under325000, "page.iht.filter.estimate.choice.under")(messages),
+    createMapEntry(between325000and1million, "page.iht.filter.estimate.choice.between")(messages),
+    createMapEntry(moreThan1million, "page.iht.filter.estimate.choice.over")(messages)
   )
 
-  val estimateChoices = ListMap(
-    createMapEntry(under325000, "page.iht.filter.estimate.choice.under"),
-    createMapEntry(between325000and1million, "page.iht.filter.estimate.choice.between"),
-    createMapEntry(moreThan1million, "page.iht.filter.estimate.choice.over")
-  )
-
-  val filterChoicesWithoutHints = ListMap(
-    continueEstateReport -> Messages("page.iht.filter.filter.choice.main.continue"),
-    register -> Messages("page.iht.filter.filter.choice.main.register"),
-    alreadyStarted -> Messages("page.iht.filter.filter.choice.main.alreadyStarted"),
-    agent -> Messages("page.iht.filter.filter.choice.main.agent"))
+  def filterChoicesWithoutHints(implicit messages: Messages) = ListMap(
+    createMapEntry(continueEstateReport, "page.iht.filter.filter.choice.main.continue")(messages),
+    createMapEntry(register, "page.iht.filter.filter.choice.main.register")(messages),
+    createMapEntry(alreadyStarted, "page.iht.filter.filter.choice.main.alreadyStarted")(messages),
+    createMapEntry(agent, "page.iht.filter.filter.choice.main.agent")(messages))
 
   /**
    * Read the key from application.conf file and return the key value pair
@@ -117,6 +118,6 @@ object FieldMappings {
    * @param y
    * @return String
    */
-  private def createMapEntry(x : String, y : String) =
-    x -> Messages(y)
+  private def createMapEntry(x : String, y : String)(messages: Messages) =
+    x -> messages(y)
 }

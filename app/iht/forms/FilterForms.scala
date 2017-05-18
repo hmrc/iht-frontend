@@ -21,9 +21,10 @@ import play.api.data.Forms._
 import iht.constants.Constants._
 import iht.constants.FieldMappings
 import iht.utils.IhtFormValidator._
+import play.api.i18n.Messages
 
 object FilterForms {
-  val filterForm = Form(
+  def filterForm (implicit messages: Messages) = Form(
     mapping(
       filterChoices -> of(radioOptionString("error.selectAnswer", FieldMappings.filterChoicesWithoutHints))
     )
@@ -35,7 +36,7 @@ object FilterForms {
     )
   )
 
-  val domicileForm = Form(
+  def domicileForm (implicit messages: Messages) = Form(
     mapping(
       domicile -> of(radioOptionString("error.selectAnswer", FieldMappings.domicileChoices))
     )
@@ -47,7 +48,7 @@ object FilterForms {
     )
   )
 
-  val estimateForm = Form(
+  def estimateForm (implicit messages: Messages) = Form(
     mapping(
       estimate -> of(radioOptionString("error.selectAnswer", FieldMappings.estimateChoices))
     )

@@ -39,23 +39,27 @@ trait ExecutorOverviewController extends RegistrationController {
 
   private def badRequest(rd: RegistrationDetails, submitRoute: Call, showCancelRoute: Boolean,
                          formWithErrors: Form[Option[Boolean]], request: Request[AnyContent]) =
-    Future.successful(
-      BadRequest(iht.views.html.registration.executor.executor_overview(
-        formWithErrors,
-        rd.areOthersApplyingForProbate.get,
-        rd.coExecutors,
-        submitRoute,
-        if (showCancelRoute) cancelToRegSummary else None)
-      (request, applicationMessages)))
+    {
+      implicit val req = request
+      Future.successful(
+        BadRequest(iht.views.html.registration.executor.executor_overview(
+          formWithErrors,
+          rd.areOthersApplyingForProbate.get,
+          rd.coExecutors,
+          submitRoute,
+          if (showCancelRoute) cancelToRegSummary else None)))
+    }
 
   private def goodRequest(rd: RegistrationDetails, submitRoute: Call, showCancelRoute: Boolean, request: Request[AnyContent]) =
-    Future.successful(
-      Ok(iht.views.html.registration.executor.executor_overview(executorOverviewForm,
-        rd.areOthersApplyingForProbate.getOrElse(false),
-        rd.coExecutors,
-        submitRoute,
-        if (showCancelRoute) cancelToRegSummary else None)
-      (request, applicationMessages)))
+    {
+      implicit val req = request
+      Future.successful(
+        Ok(iht.views.html.registration.executor.executor_overview(executorOverviewForm,
+          rd.areOthersApplyingForProbate.getOrElse(false),
+          rd.coExecutors,
+          submitRoute,
+          if (showCancelRoute) cancelToRegSummary else None)))
+    }
 
   def onPageLoad = pageLoad(showCancelRoute = false, submitRoute)
 
