@@ -26,7 +26,8 @@ import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import play.api.data.FormError
+import play.api.data.format.Formatter
+import play.api.data.{FieldMapping, Form, FormError, Forms}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.SessionId
 
@@ -215,91 +216,43 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(data, expectedErrors)
     }
 
-    "give an error when the NINO is the same as main executor's NINO" in {
-      val mockCachingConnector = mock[CachingConnector]
-      val coExecutorForms: CoExecutorForms = new CoExecutorForms {
-        override def ihtFormValidator = new IhtFormValidator {
-          override def cachingConnector = mockCachingConnector
-        }
+    "indicate validation error when nino for coexecutor validation fails" in {
+      val formatter = mock[Formatter[String]]
+      when(formatter.bind(any(), any())).thenReturn(Left(Seq(FormError("nino", "error.nino.alreadyGiven"))))
+      val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+      val mockIhtFormValidator = mock[IhtFormValidator]
+      when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any())(any(), any(), any()))
+          .thenReturn(fieldMapping)
+      val coExecutorForms = new CoExecutorForms {
+        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
       }
-      val rd = CommonBuilder.buildRegistrationDetails1
-
-      when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
 
       def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
         implicit val request = createFakeRequest()
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
         super.checkForError(coExecutorForms.coExecutorPersonalDetailsForm, data, expectedErrors)
       }
-
-      val data = completePersonalDetails + ("nino" -> CommonBuilder.DefaultNino)
+      val data = completePersonalDetails
       val expectedErrors = error("nino", "error.nino.alreadyGiven")
 
       checkForError(data, expectedErrors)
     }
 
-    "give an error when the NINO is the same as another executor's NINO but not this one" in {
-      val mockCachingConnector = mock[CachingConnector]
-      val coExecutorForms: CoExecutorForms = new CoExecutorForms {
-        override def ihtFormValidator = new IhtFormValidator {
-          override def cachingConnector = mockCachingConnector
-        }
-      }
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (
-        applicantDetails = Some(CommonBuilder.buildApplicantDetails copy (
-          nino = Some(NinoBuilder.randomNino.toString()))
-        )
-        )
-
-      when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
-
-      def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
-        implicit val request = createFakeRequest()
-        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-        super.checkForError(coExecutorForms.coExecutorPersonalDetailsForm, data, expectedErrors)
+    "indicate no validation errors when nino for coexecutor validation succeeds" in {
+      val formatter = mock[Formatter[String]]
+      when(formatter.bind(any(), any())).thenReturn(Right(""))
+      val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+      val mockIhtFormValidator = mock[IhtFormValidator]
+      when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any())(any(), any(), any()))
+        .thenReturn(fieldMapping)
+      val coExecutorForms = new CoExecutorForms {
+        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
       }
 
-      val data = completePersonalDetails + ("nino" -> CommonBuilder.DefaultNino)
-      val expectedErrors = error("nino", "error.nino.alreadyGiven")
-
-      checkForError(data, expectedErrors)
-    }
-
-    "give no error when the NINO is the same as an executor's NINO but it is this one" in {
-      val mockCachingConnector = mock[CachingConnector]
-      val coExecutorForms: CoExecutorForms = new CoExecutorForms {
-        override def ihtFormValidator = new IhtFormValidator {
-          override def cachingConnector = mockCachingConnector
-        }
-      }
-
-      val nino1 = NinoBuilder.randomNino.toString()
-      val nino2 = NinoBuilder.randomNino.toString()
-      val nino3 = NinoBuilder.randomNino.toString()
-
-      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
-      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = nino2, ukAddress = None, role = None, isAddressInUk = None)
-      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
-
-      val rd = CommonBuilder.buildRegistrationDetails1 copy (
-          coExecutors = Seq(coExec1, coExec2, coExec3)
-        )
-
-      when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
-
-      def completePersonalDetails =
-        personalDetails("2", CommonBuilder.DefaultCoExecutor2.firstName, CommonBuilder.DefaultCoExecutor2.lastName, nino2,
-          "12", "12", "1998", CommonBuilder.DefaultPhoneNo, "true")
-
-      def bindFormEdit(map: Map[String, String]) = {
-        implicit val request = createFakeRequest()
-        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-        coExecutorForms.coExecutorPersonalDetailsEditForm.bind(map)
-      }
-
-      val result: CoExecutor = bindFormEdit(completePersonalDetails).get
-
-      result shouldBe coExec2
+      implicit val request = createFakeRequest()
+      implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+      val result: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm.bind(completePersonalDetails)
+      result.hasErrors shouldBe false
     }
 
     "give an error when the day is blank" in {

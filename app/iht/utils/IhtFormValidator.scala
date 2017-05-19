@@ -493,6 +493,6 @@ trait IhtFormValidator extends FormValidator {
   }
 
   def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey:String)(
-    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) =
+    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
     Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey))
 }
