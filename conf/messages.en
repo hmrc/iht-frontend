@@ -771,8 +771,8 @@ page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noV
 page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change = Change the details of how this property was owned by the deceased
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.noValue = Give details about whether this property was owned freehold or leasehold
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.change = Change whether this property was owned freehold or leasehold
-page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue = Give details about the value of this property
-page.iht.application.assets.property.detailsOverview.value.screenReader.link.change = Change the value of the property
+page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue = Give a value for the property, building or land
+page.iht.application.assets.property.detailsOverview.value.screenReader.link.change = Change the value of the share owned in this property, building or land
 page.iht.application.assets.property.detailsOverview.returnLink = Return to properties, buildings and land
 page.iht.application.assets.property.detailsOverview.mortgage.text = If you want to add a mortgage for this property, building or land you can do this in debts owed from the estate.
 
