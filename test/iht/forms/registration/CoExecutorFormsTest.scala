@@ -21,18 +21,19 @@ import iht.connector.CachingConnector
 import iht.forms.FormTestHelper
 import iht.forms.registration.CoExecutorForms._
 import iht.models._
-import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
+import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
+import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.SessionId
 
+import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
@@ -73,6 +74,27 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
   lazy val completeAddressAbroad = address("Line 1", "Line 2", "Line 3", "Line 4", "AA111AA", "AU") - "postCode"
 
+  def coExecutorForms = {
+    val mockIhtFormValidator = new IhtFormValidator {
+      override def cachingConnector = mock[CachingConnector]
+      override def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey:String)(
+        implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] = {
+        val formatter = new Formatter[String] {
+          override val format: Option[(String, Seq[Any])] = None
+
+          override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = Right("")
+
+          override def unbind(key: String, value: String): Map[String, String] = Map.empty
+        }
+        val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+        fieldMapping
+      }
+    }
+    new CoExecutorForms {
+      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+    }
+  }
+
   //region Others Applying for Probate tests
 
   "Others Applying for Probate form" must {
@@ -110,35 +132,69 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   def bindForm(map: Map[String, String]) = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    coExecutorPersonalDetailsForm.bind(map)
+    coExecutorForms.coExecutorPersonalDetailsForm.bind(map)
   }
 
   def bindFormEdit(map: Map[String, String]) = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    coExecutorPersonalDetailsEditForm.bind(map)
+    coExecutorForms.coExecutorPersonalDetailsEditForm.bind(map)
   }
 
   def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+    checkForError(coExecutorForms.coExecutorPersonalDetailsForm, data, expectedErrors)
   }
 
   def checkForErrorEdit(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
     implicit val request = createFakeRequest()
     implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-    checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+    checkForError(coExecutorForms.coExecutorPersonalDetailsEditForm, data, expectedErrors)
+  }
+
+  def coExecutorFormsWithIhtFormValidatorMockedToFail = {
+    val formatter = mock[Formatter[String]]
+    when(formatter.bind(any(), any())).thenReturn(Left(Seq(FormError("nino", "error.nino.alreadyGiven"))))
+    val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+    val mockIhtFormValidator = mock[IhtFormValidator]
+    when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any())(any(), any(), any()))
+      .thenReturn(fieldMapping)
+    val coExecutorForms = new CoExecutorForms {
+      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+    }
+    coExecutorForms
+  }
+
+  def coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino:String): CoExecutorForms = {
+    val formatter = mock[Formatter[String]]
+    when(formatter.bind(any(), any())).thenReturn(Right(nino))
+    val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+    val mockIhtFormValidator = mock[IhtFormValidator]
+    when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any())(any(), any(), any()))
+      .thenReturn(fieldMapping)
+    val coExecutorForms = new CoExecutorForms {
+      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+    }
+    coExecutorForms
   }
 
   "CoExecutor Personal Details form" must {
 
     "not give an error for valid data" in {
+
+      val nino = NinoBuilder.randomNino.toString
+      def bindForm(map: Map[String, String]) = {
+        implicit val request = createFakeRequest()
+        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+        coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsForm.bind(map)
+      }
+
       bindForm(completePersonalDetails).get shouldBe
         CoExecutor(id = Some("1"),
           firstName = CommonBuilder.DefaultFirstName,
           lastName = CommonBuilder.DefaultLastName,
-          nino = CommonBuilder.DefaultNino,
+          nino = nino,
           dateOfBirth = new LocalDate(1980, 1, 1),
           contactDetails = ContactDetails(phoneNo = "0123456789"),
           isAddressInUk = Some(true),
@@ -187,50 +243,12 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(data, expectedErrors)
     }
 
-    "give an error when the NINO is blank" in {
-      val data = completePersonalDetails + ("nino" -> "")
-      val expectedErrors = error("nino", "error.nino.give")
-
-      checkForError(data, expectedErrors)
-    }
-
-    "give an error when the NINO is not supplied" in {
-      val data = completePersonalDetails - "nino"
-      val expectedErrors = error("nino", "error.nino.give")
-
-      checkForError(data, expectedErrors)
-    }
-
-    "give an error when the NINO is too long" in {
-      val nino = CommonBuilder.DefaultNino
-      val data = completePersonalDetails + ("nino" -> (nino.substring(0, nino.length() - 1) + "AA"))
-      val expectedErrors = error("nino", "error.nino.giveUsing8Or9Characters")
-
-      checkForError(data, expectedErrors)
-    }
-
-    "give an error when the NINO is invalid" in {
-      val data = completePersonalDetails + ("nino" -> "INVALIDD")
-      val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
-
-      checkForError(data, expectedErrors)
-    }
-
     "indicate validation error when nino for coexecutor validation fails" in {
-      val formatter = mock[Formatter[String]]
-      when(formatter.bind(any(), any())).thenReturn(Left(Seq(FormError("nino", "error.nino.alreadyGiven"))))
-      val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-      val mockIhtFormValidator = mock[IhtFormValidator]
-      when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any())(any(), any(), any()))
-          .thenReturn(fieldMapping)
-      val coExecutorForms = new CoExecutorForms {
-        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
-      }
-
       def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
         implicit val request = createFakeRequest()
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-        super.checkForError(coExecutorForms.coExecutorPersonalDetailsForm, data, expectedErrors)
+        super.checkForError(coExecutorFormsWithIhtFormValidatorMockedToFail
+          .coExecutorPersonalDetailsForm, data, expectedErrors)
       }
       val data = completePersonalDetails
       val expectedErrors = error("nino", "error.nino.alreadyGiven")
@@ -238,20 +256,15 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(data, expectedErrors)
     }
 
+
+
     "indicate no validation errors when nino for coexecutor validation succeeds" in {
-      val formatter = mock[Formatter[String]]
-      when(formatter.bind(any(), any())).thenReturn(Right(""))
-      val fieldMapping: FieldMapping[String] = Forms.of(formatter)
-      val mockIhtFormValidator = mock[IhtFormValidator]
-      when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any())(any(), any(), any()))
-        .thenReturn(fieldMapping)
-      val coExecutorForms = new CoExecutorForms {
-        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
-      }
+
 
       implicit val request = createFakeRequest()
       implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-      val result: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm.bind(completePersonalDetails)
+      val result: Form[CoExecutor] = coExecutorFormsWithIhtFormValidatorMockedToSucceed("")
+        .coExecutorPersonalDetailsForm.bind(completePersonalDetails)
       result.hasErrors shouldBe false
     }
 
@@ -389,9 +402,9 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give multiple errors when several fields are invalid" in {
-      val data = completePersonalDetails + ("firstName" -> "", "nino" -> "INVALIDD")
+      val data = completePersonalDetails + ("firstName" -> "", "lastName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give") ++
-        error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
+        error("lastName", "error.lastName.give")
 
       checkForError(data, expectedErrors)
     }
@@ -407,11 +420,19 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   "CoExecutor Personal Details form (in Edit mode)" must {
 
     "not give an error for valid data" in {
+      val nino = NinoBuilder.randomNino.toString
+
+      def bindFormEdit(map: Map[String, String]) = {
+        implicit val request = createFakeRequest()
+        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+        coExecutorFormsWithIhtFormValidatorMockedToSucceed(nino).coExecutorPersonalDetailsEditForm.bind(map)
+      }
+
       bindFormEdit(completePersonalDetailsEditMode).get shouldBe
         CoExecutor(id = Some("1"),
           firstName = CommonBuilder.DefaultFirstName,
           lastName = CommonBuilder.DefaultLastName,
-          nino = CommonBuilder.DefaultNino,
+          nino = nino,
           dateOfBirth = new LocalDate(1980, 1, 1),
           contactDetails = ContactDetails(phoneNo = "0123456789"),
           role = None)
@@ -458,36 +479,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
 
       checkForError(data, expectedErrors)
-    }
-
-
-    "give an error when the NINO is blank" in {
-      val data = completePersonalDetailsEditMode + ("nino" -> "")
-      val expectedErrors = error("nino", "error.nino.give")
-
-      checkForErrorEdit(data, expectedErrors)
-    }
-
-    "give an error when the NINO is not supplied" in {
-      val data = completePersonalDetailsEditMode - "nino"
-      val expectedErrors = error("nino", "error.nino.give")
-
-      checkForErrorEdit(data, expectedErrors)
-    }
-
-    "give an error when the NINO is too long" in {
-      val nino = CommonBuilder.DefaultNino
-      val data = completePersonalDetailsEditMode + ("nino" -> (nino.substring(0, nino.length() - 1) + "AA"))
-      val expectedErrors = error("nino", "error.nino.giveUsing8Or9Characters")
-
-      checkForErrorEdit(data, expectedErrors)
-    }
-
-    "give an error when the NINO is invalid" in {
-      val data = completePersonalDetailsEditMode + ("nino" -> "INVALIDD")
-      val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
-
-      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the day is blank" in {
@@ -603,9 +594,9 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give multiple errors when several fields are invalid" in {
-      val data = completePersonalDetails + ("firstName" -> "", "nino" -> "INVALIDD")
+      val data = completePersonalDetails + ("firstName" -> "", "lastName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give") ++
-        error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
+        error("lastName", "error.lastName.give")
 
       checkForErrorEdit(data, expectedErrors)
     }
@@ -620,15 +611,8 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
     "ignore the 'Is Address in UK' field if supplied" in {
       // This is a test that over-posting does not occur.  The data we supply contains the isAddressInUk field,
       // and we test that the outcome has that field set to None - i.e. the supplied value isn't used.
-      bindFormEdit(completePersonalDetails).get shouldBe
-        CoExecutor(id = Some("1"),
-          firstName = CommonBuilder.DefaultFirstName,
-          lastName = CommonBuilder.DefaultLastName,
-          nino = CommonBuilder.DefaultNino,
-          dateOfBirth = new LocalDate(1980, 1, 1),
-          contactDetails = ContactDetails(phoneNo = "0123456789"),
-          isAddressInUk = None,
-          role = None)
+      bindFormEdit(completePersonalDetails).get.isAddressInUk shouldBe None
+
     }
   }
 
@@ -858,7 +842,6 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   //region Executor Overview tests
 
   "CoExecutor Overview form" must {
-
     "not give an error when given valid data" in {
       val data = coExecutorSummary("true")
       executorOverviewForm.bind(data).get shouldBe Some(true)
