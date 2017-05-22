@@ -147,7 +147,7 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       ninoForCoExecutorMapping(CommonBuilder.buildRegistrationDetails1).bind(Map("" -> nino)) shouldBe Right(nino)
     }
 
-    "respond with no error when nino same as another executor nino but coexecutor ids are the same" in {
+    "respond with no error when nino same as THIS executor nino but coexecutor ids are the same" in {
       val nino1 = NinoBuilder.randomNino.toString()
       val nino2 = NinoBuilder.randomNino.toString()
       val nino3 = NinoBuilder.randomNino.toString()
@@ -163,6 +163,25 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
       )
 
       ninoForCoExecutorMapping(rd).bind(Map("" -> nino2, "id" -> "2")) shouldBe Right(nino2)
+    }
+
+    "respond with error when nino same as OTHER executor nino but coexecutor ids are the same" in {
+      val nino1 = NinoBuilder.randomNino.toString()
+      val nino2 = NinoBuilder.randomNino.toString()
+      val nino3 = NinoBuilder.randomNino.toString()
+
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = NinoBuilder.addSpacesToNino(nino2), ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+        applicantDetails = Some(ad),
+        coExecutors = Seq(coExec1, coExec2, coExec3)
+      )
+
+      ninoForCoExecutorMapping(rd)
+        .bind(Map("" -> nino1, "id" -> "2")) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
     "respond with error when nino same as another executor nino but coexecutor ids are different" in {
