@@ -22,10 +22,11 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
-import play.api.i18n.Messages
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 import scala.collection.immutable.ListMap
 
@@ -55,7 +56,7 @@ object OverviewHelper {
 
   case class Question(id: String, title: String, link: Link, value: String, status: String = "", linkId: String = "")
 
-  private val overviewDisplayValues: ListMap[String, ApplicationDetails => String] = ListMap(
+  private def overviewDisplayValues(implicit lang: Lang): ListMap[String, ApplicationDetails => String] = ListMap(
     AppSectionProperties -> { (ad) =>
       if (ad.propertyList.filter(_.value.isDefined).isEmpty) {
         ""
@@ -146,7 +147,7 @@ object OverviewHelper {
   def displayValue(appDetails: ApplicationDetails,
                    section: String,
                    isComplete: Option[Boolean],
-                   noneMessage: Option[String] = Some("site.noneInEstate")) = {
+                   noneMessage: Option[String] = Some("site.noneInEstate"))(implicit lang: Lang) = {
 
     overviewDisplayValues.find(_._1 == section).map(_._2).map(expr => expr(appDetails))
       .fold(throw new RuntimeException("Attempt to display value for unknown section:" + section)) { displayValueFound =>
@@ -182,8 +183,8 @@ object OverviewHelper {
   def getDisplayValueForBoolean(inputValue: Boolean): String =
     if (inputValue) messagesFileYesValue else messagesFileNoValue
 
-  def getDateDisplayValue(optDate: Option[LocalDate]): String =
-    optDate.fold("")(_.toString(IhtProperties.dateFormatForDisplay))
+  def getDateDisplayValue(optDate: Option[LocalDate])(implicit lang: Lang): String =
+    optDate.fold("")(Dates.formatDate(_))
 
   def getBigDecimalDisplayValue(optBigDecimal: Option[BigDecimal]) =
     optBigDecimal.fold("")("£" + CommonHelper.numberWithCommas(_))

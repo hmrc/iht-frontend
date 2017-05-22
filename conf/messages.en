@@ -101,6 +101,7 @@ iht.date.day = Day
 iht.date.month = Month
 iht.date.year = Year
 
+iht.to = to
 iht.back = Back
 iht.change = Change
 iht.continue = Continue

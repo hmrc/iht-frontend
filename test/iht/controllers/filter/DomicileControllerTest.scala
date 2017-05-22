@@ -38,13 +38,6 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
   "Domicile Controller" must {
 
     "show the Domicile page when access by an unauthorised person" in {
-
-      import org.joda.time.LocalDate
-      val a  = "12/5"
-      val c = "/"
-      val b = s"$a${"/"+12}"
-      println("******************* ::: Value of b is "+b)
-
       val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
       status(result) should be(OK)
 
