@@ -79,7 +79,7 @@ object CommonBuilder {
   val DefaultUkAddress = new UkAddress("addr1", "addr2", Some("addr3"), Some("addr4"), DefaultPostCode)
   val DefaultUkAddress2 = new UkAddress("addr21", "addr22", Some("addr23"), Some("addr24"), "BB1 1BB")
   val DefaultPhoneNo = "02079460093"
-  val DefaultContactDetails = new iht.models.ContactDetails(DefaultPhoneNo, Some("a@example.com"))
+  val DefaultContactDetails = new iht.models.ContactDetails(DefaultPhoneNo)
 
   val DefaultCountry = TestHelper.ApplicantCountryEnglandOrWales
   val DefaultRole = TestHelper.RoleLeadExecutor

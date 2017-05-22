@@ -2248,6 +2248,7 @@ error.nino.giveUsing8Or9Characters = Give a valid National Insurance number usin
 error.nino.giveUsingOnlyLettersAndNumbers = Give a National Insurance number only using letters and numbers
 error.nino.incorrect = Enter a valid National Insurance number
 error.nino.incorrect.summary = enter a valid National Insurance number
+error.nino.alreadyGiven = Enter a National Insurance number that you have not already given in this service
 error.partner.blank.summary = enter a value for total assets
 error.phoneNumber.give = Give a phone number
 error.phoneNumber.giveUsing27CharactersOrLess = Give a phone number using 27 characters or less

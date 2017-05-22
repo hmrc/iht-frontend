@@ -23,8 +23,15 @@ import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 import play.api.data.Forms._
 import play.api.data.{Form, Mapping}
+import play.api.mvc.Request
+import uk.gov.hmrc.play.http.HeaderCarrier
 
-object CoExecutorForms {
+import scala.concurrent.ExecutionContext
+
+object CoExecutorForms extends CoExecutorForms
+
+trait CoExecutorForms {
+  def ihtFormValidator: IhtFormValidator = IhtFormValidator
   val addressMappingCoexecInternational: Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
@@ -52,7 +59,7 @@ object CoExecutorForms {
   val coExecutorAddressUkForm = Form(addressMappingCoexecUk)
   val coExecutorAddressAbroadForm = Form(addressMappingCoexecInternational)
 
-  val coExecutorPersonalDetailsForm = Form(
+  def coExecutorPersonalDetailsForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")
@@ -71,7 +78,9 @@ object CoExecutorForms {
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveNoneFuture"
       ),
-      "nino" -> nino("error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers"),
+      "nino" -> ihtFormValidator.ninoForCoExecutor(
+        "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
+        "id"),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",
@@ -90,7 +99,7 @@ object CoExecutorForms {
     )
   )
 
-  val coExecutorPersonalDetailsEditForm = Form(
+  def coExecutorPersonalDetailsEditForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")
@@ -109,7 +118,9 @@ object CoExecutorForms {
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveNoneFuture"
       ),
-      "nino" -> nino("error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers"),
+      "nino" -> ihtFormValidator.ninoForCoExecutor(
+        "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
+        "id"),
       "phoneNo" -> mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",

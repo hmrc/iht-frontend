@@ -44,7 +44,7 @@ trait FormTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
 
   lazy val fullUkAddress = addressMap("Line 1", "Line 2", "Line 3", "Line 4", "AA111AA", "GB") - "countryCode"
 
-  def checkForError(form: Form[_], data: Map[String, String], expectedErrors: Seq[FormError]) = {
+  def checkForError(form: Form[_], data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
     form.bind(data).fold(
       formWithErrors => {
         formWithErrors.errors shouldBe expectedErrors

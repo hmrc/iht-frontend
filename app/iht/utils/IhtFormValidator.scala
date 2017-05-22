@@ -16,16 +16,24 @@
 
 package iht.utils
 
+import iht.connector.CachingConnector
 import iht.constants.IhtProperties
-import iht.models.UkAddress
-import play.api.data.{FieldMapping, FormError, Forms}
+import iht.models.{RegistrationDetails, UkAddress}
 import play.api.data.format.Formatter
+import play.api.data.{FieldMapping, FormError, Forms}
+import play.api.mvc.Request
+import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.collection.immutable.ListMap
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
-import iht.utils.CommonHelper._
 
-object IhtFormValidator extends FormValidator {
+object IhtFormValidator extends IhtFormValidator
+
+trait IhtFormValidator extends FormValidator {
+  def cachingConnector: CachingConnector = CachingConnector
+
   def validateGiftsDetails(valueKey: String, exemptionsValueKey: String) = new Formatter[Option[String]] {
     override def bind(key: String, data: Map[String, String]) = {
       import scala.util.Try
@@ -138,11 +146,11 @@ object IhtFormValidator extends FormValidator {
   }
 
   private def getIntlAddrDetails(data: Map[String, String],
-                             addr1Key: String,
-                             addr2Key: String,
-                             addr3Key: String,
-                             addr4Key: String,
-                             countryCodeKey: String) = {
+                                 addr1Key: String,
+                                 addr2Key: String,
+                                 addr3Key: String,
+                                 addr4Key: String,
+                                 countryCodeKey: String) = {
     (data.getOrElse(addr1Key, ""),
       data.getOrElse(addr2Key, ""),
       data.getOrElse(addr3Key, ""),
@@ -263,10 +271,10 @@ object IhtFormValidator extends FormValidator {
 
 
   def ihtInternationalAddress(addr2Key: String, addr3Key: String, addr4Key: String,
-                 countryCodeKey: String, allLinesBlankMessageKey: String,
-                 blankFirstTwoAddrLinesMessageKey: String, invalidAddressLineMessageKey: String,
-                 blankCountryCode: String,
-                 blankBothFirstTwoAddrLinesMessageKey: Option[String] = None) = new Formatter[String] {
+                              countryCodeKey: String, allLinesBlankMessageKey: String,
+                              blankFirstTwoAddrLinesMessageKey: String, invalidAddressLineMessageKey: String,
+                              blankCountryCode: String,
+                              blankBothFirstTwoAddrLinesMessageKey: Option[String] = None) = new Formatter[String] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
       val addr = getIntlAddrDetails(data, key, addr2Key, addr3Key, addr4Key, countryCodeKey)
@@ -393,31 +401,6 @@ object IhtFormValidator extends FormValidator {
     }
   }
 
-  private def ninoFormatter( blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String) =
-    new Formatter[String] {
-      override def bind(key: String, data: Map[String, String]) = {
-        val value = data.get(key).fold("")(identity)
-        lazy val valueMinusSpaces = value.replaceAll("\\s", "")
-        value match {
-          case n if n.isEmpty => Left(Seq(FormError(key, blankMessageKey)))
-          case n if valueMinusSpaces.length < IhtProperties.validationMinLengthNINO ||
-            valueMinusSpaces.length > IhtProperties.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
-          case n if !valueMinusSpaces.matches(ninoRegex) => Left(Seq(FormError(key, formatMessageKey)))
-          case n => Right(n)
-        }
-      }
-
-      override def unbind(key: String, value: String): Map[String, String] = {
-        Map(key -> value.toString)
-      }
-    }
-
-  def nino(blankMessageKey: String,
-           lengthMessageKey: String,
-           formatMessageKey: String) = Forms.of(ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey))
-
-  val nino: FieldMapping[String] = nino("error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers")
-
   private def optionalYesNoQuestionFormatter(blankMessageKey: String) = new Formatter[Option[Boolean]] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
@@ -444,5 +427,73 @@ object IhtFormValidator extends FormValidator {
     }
   }
 
-  def yesNoQuestion(blankMessageKey:String) = Forms.of(optionalYesNoQuestionFormatter(blankMessageKey))
+  def yesNoQuestion(blankMessageKey: String) = Forms.of(optionalYesNoQuestionFormatter(blankMessageKey))
+
+  private def ninoFormatter(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String) =
+    new Formatter[String] {
+      override def bind(key: String, data: Map[String, String]) = {
+        val value = data.get(key).fold("")(identity)
+        lazy val valueMinusSpaces = value.replaceAll("\\s", "")
+        value match {
+          case n if n.isEmpty => Left(Seq(FormError(key, blankMessageKey)))
+          case n if valueMinusSpaces.length < IhtProperties.validationMinLengthNINO ||
+            valueMinusSpaces.length > IhtProperties.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
+          case n if !valueMinusSpaces.matches(ninoRegex) => Left(Seq(FormError(key, formatMessageKey)))
+          case n => Right(n)
+        }
+      }
+
+      override def unbind(key: String, value: String): Map[String, String] = {
+        Map(key -> value.toString)
+      }
+    }
+
+  def nino(blankMessageKey: String,
+           lengthMessageKey: String,
+           formatMessageKey: String) = Forms.of(ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey))
+
+  val nino: FieldMapping[String] = nino("error.nino.give", "error.nino.giveUsing8Or9Characters", "error.nino.giveUsingOnlyLettersAndNumbers")
+
+  private def ninoForCoExecutorFormatter(blankMessageKey: String, lengthMessageKey: String,
+                                         formatMessageKey: String, coExecutorIDKey:String)(
+    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
+
+    def normalize(s:String) = s.replaceAll("\\s", "").toUpperCase
+
+    def ninoIsUnique(nino: String, excludingCoExecutorID:Option[String]): Boolean = {
+      val normalizedNino = normalize(nino)
+      val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
+      val isDifferentFuture = futureOptionRD.map {
+        case None => true
+        case Some(rd) =>
+          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
+            rd.deceasedDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
+            !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists( x => normalize(x.nino) == normalizedNino)
+      }
+      Await.result(isDifferentFuture, Duration.Inf)
+    }
+
+    override def bind(key: String, data: Map[String, String]) = {
+      val value = data.get(key).fold("")(identity)
+
+      ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey).bind(key, data) match {
+        case Right(_) =>
+          val coExecutorID: Option[String] = data.get(coExecutorIDKey)
+          if (ninoIsUnique(value, coExecutorID)) {
+            Right(value)
+          } else {
+            Left(Seq(FormError(key, "error.nino.alreadyGiven")))
+          }
+        case Left(errors) => Left(errors)
+      }
+    }
+
+    override def unbind(key: String, value: String): Map[String, String] = {
+      Map(key -> value.toString)
+    }
+  }
+
+  def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey:String)(
+    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
+    Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey))
 }

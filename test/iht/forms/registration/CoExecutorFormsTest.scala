@@ -17,11 +17,22 @@
 package iht.forms.registration
 
 import iht.FakeIhtApp
+import iht.connector.CachingConnector
 import iht.forms.FormTestHelper
 import iht.forms.registration.CoExecutorForms._
 import iht.models._
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
+import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
+import org.mockito.Matchers._
+import org.mockito.Mockito._
+import play.api.data.format.Formatter
+import play.api.data.{FieldMapping, Form, FormError, Forms}
+import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.http.logging.SessionId
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
@@ -30,7 +41,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   def coExecutorSummary(value: String) = Map("addMoreCoExecutors" -> value)
 
   def personalDetailsEditMode(id: String, firstName: String, lastName: String, nino: String, day: String,
-                    month: String, year: String, phoneNo: String) =
+                              month: String, year: String, phoneNo: String) =
     Map("id" -> id,
       "firstName" -> firstName,
       "lastName" -> lastName,
@@ -41,7 +52,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       "phoneNo" -> phoneNo)
 
   def personalDetails(id: String, firstName: String, lastName: String, nino: String, day: String,
-                              month: String, year: String, phoneNo: String, isAddressInUk: String) =
+                      month: String, year: String, phoneNo: String, isAddressInUk: String) =
     personalDetailsEditMode(id, firstName, lastName, nino, day, month, year, phoneNo) + ("isAddressInUk" -> isAddressInUk)
 
   lazy val completePersonalDetails =
@@ -96,10 +107,34 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
 
   //region Co Executor Details tests
 
+  def bindForm(map: Map[String, String]) = {
+    implicit val request = createFakeRequest()
+    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+    coExecutorPersonalDetailsForm.bind(map)
+  }
+
+  def bindFormEdit(map: Map[String, String]) = {
+    implicit val request = createFakeRequest()
+    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+    coExecutorPersonalDetailsEditForm.bind(map)
+  }
+
+  def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
+    implicit val request = createFakeRequest()
+    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+    checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+  }
+
+  def checkForErrorEdit(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
+    implicit val request = createFakeRequest()
+    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+    checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+  }
+
   "CoExecutor Personal Details form" must {
 
     "not give an error for valid data" in {
-      coExecutorPersonalDetailsForm.bind(completePersonalDetails).get shouldBe
+      bindForm(completePersonalDetails).get shouldBe
         CoExecutor(id = Some("1"),
           firstName = CommonBuilder.DefaultFirstName,
           lastName = CommonBuilder.DefaultLastName,
@@ -114,204 +149,243 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completePersonalDetails + ("firstName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the first name is not supplied" in {
       val data = completePersonalDetails - "firstName"
       val expectedErrors = error("firstName", "error.required")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the first name is too long" in {
       val data = completePersonalDetails + ("firstName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("firstName", "error.firstName.giveUsingXCharsOrLess")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the last name is blank" in {
       val data = completePersonalDetails + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the last name is not supplied" in {
       val data = completePersonalDetails - "lastName"
       val expectedErrors = error("lastName", "error.required")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the last name is too long" in {
       val data = completePersonalDetails + ("lastName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the NINO is blank" in {
       val data = completePersonalDetails + ("nino" -> "")
       val expectedErrors = error("nino", "error.nino.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the NINO is not supplied" in {
       val data = completePersonalDetails - "nino"
       val expectedErrors = error("nino", "error.nino.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the NINO is too long" in {
       val nino = CommonBuilder.DefaultNino
-      val data = completePersonalDetails + ("nino" -> (nino.substring(0, nino.length()-1) + "AA"))
+      val data = completePersonalDetails + ("nino" -> (nino.substring(0, nino.length() - 1) + "AA"))
       val expectedErrors = error("nino", "error.nino.giveUsing8Or9Characters")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the NINO is invalid" in {
       val data = completePersonalDetails + ("nino" -> "INVALIDD")
       val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
+    }
+
+    "indicate validation error when nino for coexecutor validation fails" in {
+      val formatter = mock[Formatter[String]]
+      when(formatter.bind(any(), any())).thenReturn(Left(Seq(FormError("nino", "error.nino.alreadyGiven"))))
+      val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+      val mockIhtFormValidator = mock[IhtFormValidator]
+      when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any())(any(), any(), any()))
+          .thenReturn(fieldMapping)
+      val coExecutorForms = new CoExecutorForms {
+        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+      }
+
+      def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
+        implicit val request = createFakeRequest()
+        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+        super.checkForError(coExecutorForms.coExecutorPersonalDetailsForm, data, expectedErrors)
+      }
+      val data = completePersonalDetails
+      val expectedErrors = error("nino", "error.nino.alreadyGiven")
+
+      checkForError(data, expectedErrors)
+    }
+
+    "indicate no validation errors when nino for coexecutor validation succeeds" in {
+      val formatter = mock[Formatter[String]]
+      when(formatter.bind(any(), any())).thenReturn(Right(""))
+      val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+      val mockIhtFormValidator = mock[IhtFormValidator]
+      when(mockIhtFormValidator.ninoForCoExecutor(any(), any(), any(), any())(any(), any(), any()))
+        .thenReturn(fieldMapping)
+      val coExecutorForms = new CoExecutorForms {
+        override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+      }
+
+      implicit val request = createFakeRequest()
+      implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+      val result: Form[CoExecutor] = coExecutorForms.coExecutorPersonalDetailsForm.bind(completePersonalDetails)
+      result.hasErrors shouldBe false
     }
 
     "give an error when the day is blank" in {
       val data = completePersonalDetails + ("dateOfBirth.day" -> "")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the day is not supplied" in {
       val data = completePersonalDetails - "dateOfBirth.day"
       val expectedErrors = error("dateOfBirth.day", "error.required")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the day is invalid" in {
       val data = completePersonalDetails + ("dateOfBirth.day" -> "INVALID")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the day is too high" in {
       val data = completePersonalDetails + ("dateOfBirth.day" -> "32")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectDay")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the month is blank" in {
       val data = completePersonalDetails + ("dateOfBirth.month" -> "")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the month is not supplied" in {
       val data = completePersonalDetails - "dateOfBirth.month"
       val expectedErrors = error("dateOfBirth.month", "error.required")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the month is invalid" in {
       val data = completePersonalDetails + ("dateOfBirth.month" -> "INVALID")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the month is too high" in {
       val data = completePersonalDetails + ("dateOfBirth.month" -> "13")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectMonth")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the year is blank" in {
       val data = completePersonalDetails + ("dateOfBirth.year" -> "")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the year is not supplied" in {
       val data = completePersonalDetails - "dateOfBirth.year"
       val expectedErrors = error("dateOfBirth.year", "error.required")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the year is invalid" in {
       val data = completePersonalDetails + ("dateOfBirth.year" -> "INVALID")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the year is supplied as a two-digit number" in {
       val data = completePersonalDetails + ("dateOfBirth.year" -> "14")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectYear")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when a blank phone number is supplied" in {
       val data = completePersonalDetails + ("phoneNo" -> "")
       val expectedErrors = error("phoneNo", "error.phoneNumber.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when an invalid phone number is supplied" in {
       val data = completePersonalDetails + ("phoneNo" -> "Invalid value!")
       val expectedErrors = error("phoneNo", "error.phoneNumber.giveUsingOnlyLettersAndNumbers")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the phone number is too long" in {
       val data = completePersonalDetails + ("phoneNo" -> "A string longer than 27 chrs")
       val expectedErrors = error("phoneNo", "error.phoneNumber.giveUsing27CharactersOrLess")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when no phone number is supplied" in {
       val data = completePersonalDetails - "phoneNo"
       val expectedErrors = error("phoneNo", "error.phoneNumber.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when 'Is Address in UK' is blank" in {
       val data = completePersonalDetails + ("isAddressInUk" -> "")
       val expectedErrors = error("isAddressInUk", "error.invalid")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when 'Is Address in UK' is not supplied" in {
       val data = completePersonalDetails - "isAddressInUk"
       val expectedErrors = error("isAddressInUk", "error.address.isInUK.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when an invalid answer for 'Is Address in UK' is supplied" in {
       val data = completePersonalDetails + ("isAddressInUk" -> "INVALID")
       val expectedErrors = error("isAddressInUk", "error.invalid")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give multiple errors when several fields are invalid" in {
@@ -319,21 +393,21 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       val expectedErrors = error("firstName", "error.firstName.give") ++
         error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give one date error when several date fields are invalid" in {
-      val data = completePersonalDetails + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13",  "dateOfBirth.year" -> "88")
+      val data = completePersonalDetails + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13", "dateOfBirth.year" -> "88")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
   }
 
   "CoExecutor Personal Details form (in Edit mode)" must {
 
     "not give an error for valid data" in {
-      coExecutorPersonalDetailsEditForm.bind(completePersonalDetailsEditMode).get shouldBe
+      bindFormEdit(completePersonalDetailsEditMode).get shouldBe
         CoExecutor(id = Some("1"),
           firstName = CommonBuilder.DefaultFirstName,
           lastName = CommonBuilder.DefaultLastName,
@@ -348,186 +422,184 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       val data = completePersonalDetails + ("firstName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the first name is not supplied" in {
       val data = completePersonalDetails - "firstName"
       val expectedErrors = error("firstName", "error.required")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the first name is too long" in {
       val data = completePersonalDetails + ("firstName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("firstName", "error.firstName.giveUsingXCharsOrLess")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the last name is blank" in {
       val data = completePersonalDetails + ("lastName" -> "")
       val expectedErrors = error("lastName", "error.lastName.give")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the last name is not supplied" in {
       val data = completePersonalDetails - "lastName"
       val expectedErrors = error("lastName", "error.required")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
 
     "give an error when the last name is too long" in {
       val data = completePersonalDetails + ("lastName" -> "A value that's longer than the 40 characters allowed in this field")
       val expectedErrors = error("lastName", "error.lastName.giveUsingXCharsOrLess")
 
-      checkForError(coExecutorPersonalDetailsForm, data, expectedErrors)
+      checkForError(data, expectedErrors)
     }
-
-
 
 
     "give an error when the NINO is blank" in {
       val data = completePersonalDetailsEditMode + ("nino" -> "")
       val expectedErrors = error("nino", "error.nino.give")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the NINO is not supplied" in {
       val data = completePersonalDetailsEditMode - "nino"
       val expectedErrors = error("nino", "error.nino.give")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the NINO is too long" in {
       val nino = CommonBuilder.DefaultNino
-      val data = completePersonalDetailsEditMode + ("nino" -> (nino.substring(0, nino.length()-1) + "AA"))
+      val data = completePersonalDetailsEditMode + ("nino" -> (nino.substring(0, nino.length() - 1) + "AA"))
       val expectedErrors = error("nino", "error.nino.giveUsing8Or9Characters")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the NINO is invalid" in {
       val data = completePersonalDetailsEditMode + ("nino" -> "INVALIDD")
       val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the day is blank" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.day" -> "")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the day is not supplied" in {
       val data = completePersonalDetailsEditMode - "dateOfBirth.day"
       val expectedErrors = error("dateOfBirth.day", "error.required")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the day is invalid" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.day" -> "INVALID")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the day is too high" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.day" -> "32")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectDay")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the month is blank" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.month" -> "")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the month is not supplied" in {
       val data = completePersonalDetailsEditMode - "dateOfBirth.month"
       val expectedErrors = error("dateOfBirth.month", "error.required")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the month is invalid" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.month" -> "INVALID")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the month is too high" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.month" -> "13")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectMonth")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the year is blank" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.year" -> "")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the year is not supplied" in {
       val data = completePersonalDetailsEditMode - "dateOfBirth.year"
       val expectedErrors = error("dateOfBirth.year", "error.required")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the year is invalid" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.year" -> "INVALID")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the year is supplied as a two-digit number" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.year" -> "14")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveCorrectYear")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when a blank phone number is supplied" in {
       val data = completePersonalDetailsEditMode + ("phoneNo" -> "")
       val expectedErrors = error("phoneNo", "error.phoneNumber.give")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when an invalid phone number is supplied" in {
       val data = completePersonalDetailsEditMode + ("phoneNo" -> "Invalid value!")
       val expectedErrors = error("phoneNo", "error.phoneNumber.giveUsingOnlyLettersAndNumbers")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when the phone number is too long" in {
       val data = completePersonalDetailsEditMode + ("phoneNo" -> "A string longer than 27 chrs")
       val expectedErrors = error("phoneNo", "error.phoneNumber.giveUsing27CharactersOrLess")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give an error when no phone number is supplied" in {
       val data = completePersonalDetailsEditMode - "phoneNo"
       val expectedErrors = error("phoneNo", "error.phoneNumber.give")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give multiple errors when several fields are invalid" in {
@@ -535,20 +607,20 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
       val expectedErrors = error("firstName", "error.firstName.give") ++
         error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "give one date error when several date fields are invalid" in {
       val data = completePersonalDetailsEditMode + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13", "dateOfBirth.year" -> "88")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
 
-      checkForError(coExecutorPersonalDetailsEditForm, data, expectedErrors)
+      checkForErrorEdit(data, expectedErrors)
     }
 
     "ignore the 'Is Address in UK' field if supplied" in {
       // This is a test that over-posting does not occur.  The data we supply contains the isAddressInUk field,
       // and we test that the outcome has that field set to None - i.e. the supplied value isn't used.
-      coExecutorPersonalDetailsEditForm.bind(completePersonalDetails).get shouldBe
+      bindFormEdit(completePersonalDetails).get shouldBe
         CoExecutor(id = Some("1"),
           firstName = CommonBuilder.DefaultFirstName,
           lastName = CommonBuilder.DefaultLastName,
@@ -676,7 +748,7 @@ class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
   }
 
   //endregion
-  
+
   //region CoExecutor Address Details (abroad) tests
 
   "Deceased Address Details (abroad) form" must {
