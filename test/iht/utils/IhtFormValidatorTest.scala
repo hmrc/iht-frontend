@@ -209,6 +209,15 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
+    "respond with error when nino same as deceased nino" in {
+      val deceasedNino = NinoBuilder.randomNino.toString()
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+        deceasedDetails = Some(CommonBuilder.buildDeceasedDetails copy (nino = Some(deceasedNino)))
+        )
+      ninoForCoExecutorMapping(rd)
+        .bind(Map("" -> deceasedNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+    }
+
     "respond with error when nino same as other executor nino but with extra space" in {
       val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
       val rd = CommonBuilder.buildRegistrationDetails1 copy (
@@ -234,6 +243,26 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         applicantDetails = Some(ad),
         coExecutors = Seq(coExec1, coExec2, coExec3)
         )
+
+      ninoForCoExecutorMapping(rd)
+        .bind(Map("" -> nino2)) shouldBe
+        Left(Seq(FormError("", "error.nino.alreadyGiven")))
+    }
+
+    "respond with error when nino same as another executor nino but other one is in upper case" in {
+      val nino1 = NinoBuilder.randomNino.toString()
+      val nino2 = NinoBuilder.randomNino.toString().toLowerCase
+      val nino3 = NinoBuilder.randomNino.toString()
+
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = nino1, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor2 copy (nino = nino2.toUpperCase, ukAddress = None, role = None, isAddressInUk = None)
+      val coExec3 = CommonBuilder.DefaultCoExecutor3 copy (nino = nino3, ukAddress = None, role = None, isAddressInUk = None)
+
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (
+        applicantDetails = Some(ad),
+        coExecutors = Seq(coExec1, coExec2, coExec3)
+      )
 
       ninoForCoExecutorMapping(rd)
         .bind(Map("" -> nino2)) shouldBe

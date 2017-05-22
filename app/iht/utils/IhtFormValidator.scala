@@ -458,16 +458,17 @@ trait IhtFormValidator extends FormValidator {
                                          formatMessageKey: String, coExecutorIDKey:String)(
     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
 
-    def stripSpaces(s:String) = s.replaceAll("\\s", "")
+    def normalize(s:String) = s.replaceAll("\\s", "").toUpperCase
 
     def ninoIsUnique(nino: String, excludingCoExecutorID:Option[String]): Boolean = {
-      val ninoMinusSpaces = stripSpaces(nino)
+      val normalizedNino = normalize(nino)
       val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
       val isDifferentFuture = futureOptionRD.map {
         case None => true
         case Some(rd) =>
-          rd.applicantDetails.flatMap(_.nino).fold(true)(stripSpaces(_) != ninoMinusSpaces) &&
-            !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists( x => stripSpaces(x.nino) == ninoMinusSpaces)
+          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
+            rd.deceasedDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) &&
+            !rd.coExecutors.filter(_.id != excludingCoExecutorID).exists( x => normalize(x.nino) == normalizedNino)
       }
       Await.result(isDifferentFuture, Duration.Inf)
     }
