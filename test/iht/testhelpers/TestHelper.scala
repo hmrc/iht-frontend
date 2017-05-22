@@ -84,6 +84,7 @@ object TestHelper {
    // Exemptions
   val ExemptionsGuidanceSeen = "ExemptionGuidanceSeen"
   val lastQuestionUrl = "lastQuestionUrl"
+  val charityLink = "https://www.gov.uk/government/organisations/charity-commission"
 
   //Gifts
   val GiftsGuidanceSeen = "GiftsGuidanceSeen"

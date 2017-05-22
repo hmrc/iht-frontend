@@ -274,7 +274,6 @@ class ReducingEstateValueSectionViewModelTest
 
     //endregion
 
-    // TODO: Move these elsewhere if and when common builder is refactored
     lazy val buildAllExemptionsWithAssets = AllExemptions(
       partner = Some(PartnerExemption(None, None, None, None, None, None, Some(BigDecimal(defaultAssetValue)))),
       charity = Some(BasicExemptionElement(isSelected = None)),

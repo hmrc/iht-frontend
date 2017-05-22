@@ -85,17 +85,6 @@ import play.api.Play.current
       contentAsString(result) should include(formattedIhtRef)
     }
 
-    "respond with a appropriate message when iht reference is not found" in {
-      pending
-      // TODO: Check whether this test is still relevant - message key does not exist
-      val registrationDetails=CommonBuilder.buildRegistrationDetails copy(ihtReference = None)
-
-      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
-
-      val result = completedRegistrationController.onPageLoad()(createFakeRequest())
-      contentAsString(result) should include(messagesApi("page.iht.registration.completedRegistration.ref.error.title"))
-    }
-
     "respond with not implemented" in {
       val result = completedRegistrationController.onSubmit(createFakeRequest())
       status(result) shouldBe(SEE_OTHER)

@@ -772,8 +772,8 @@ page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noV
 page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change = Change the details of how this property was owned by the deceased
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.noValue = Give details about whether this property was owned freehold or leasehold
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.change = Change whether this property was owned freehold or leasehold
-page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue = Give details about the value of this property
-page.iht.application.assets.property.detailsOverview.value.screenReader.link.change = Change the value of the property
+page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue = Give a value for the property, building or land
+page.iht.application.assets.property.detailsOverview.value.screenReader.link.change = Change the value of the share owned in this property, building or land
 page.iht.application.assets.property.detailsOverview.returnLink = Return to properties, buildings and land
 page.iht.application.assets.property.detailsOverview.mortgage.text = If you want to add a mortgage for this property, building or land you can do this in debts owed from the estate.
 
@@ -1464,8 +1464,9 @@ page.iht.application.exemptions.assetLeftToCharity.p2 = You should add each indi
 page.iht.application.exemptions.assetLeftToCharity.screenreader.ident = Charity {0}.
 
 page.iht.application.exemptions.charityNumber.browserTitle = Charity number
-page.iht.application.exemptions.charityNumber.p1 = You can find the registered charity number by searching the
-page.iht.application.exemptions.charityNumber.linkText = charity register
+page.iht.application.exemptions.charityNumber.p1 = You can find the registered charity number by
+page.iht.application.exemptions.charityNumber.linkText = searching the charity register
+page.iht.application.exemptions.charityNumber.p2 = on the Charity Commission website
 
 page.iht.application.exemptions.charityDelete.sectionTitle = Confirm that you want to delete this charity
 page.iht.application.exemptions.charityDelete.browserTitle = Delete charity

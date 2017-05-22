@@ -66,8 +66,6 @@ headingName = deceasedName
                 <span id="qualifying-body-total">&pound;@CommonHelper.numberWithCommas(element.totalValue.getOrElse(BigDecimal(0)))</span>
             </div>
             <div class="tabular-data__data tabular-data__data--2-12 u-align--tablet-right">
-                <!--@* TODO Change link to correct edit link when implemented
-                <a href='@iht.controllers.application.exemptions.routes.AddQualifyingBodyController.onEditPageLoad(element.id.getOrElse("")).url' *@-->
                 <a href="@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDeleteConfirmController.onPageLoad(element.id.getOrElse("")).url"
                 id="@ExemptionsOtherDeleteID@element.id.getOrElse("")">
                 <span aria-hidden="true">@Messages("iht.delete")</span>
@@ -102,7 +100,6 @@ headingName = deceasedName
 
 
 <p>
-    <!-- TODO: Change route to add a qualifying body -->
     <a id="@ExemptionsOtherAddID" href='@iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad().url'>
         @{
             if(qualifyingBodies.isEmpty){

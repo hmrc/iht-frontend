@@ -40,7 +40,6 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 )
 
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
-    <div id="firstName-container" class="form-group">
       @ihtHelpers.standard.input_with_help(coExecutorDetails("firstName"),
           '_maxlength -> IhtProperties.validationMaxLengthFirstName,
           '_divClass -> "form-group",
@@ -49,14 +48,12 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_label -> Html(Messages("iht.firstName")),
           '_help -> Html(Messages("iht.firstName.hint")))
 
-    <div id="lastName-container" class="form-group">
       @ihtHelpers.standard.input_with_help(coExecutorDetails("lastName"),
           '_maxlength -> IhtProperties.validationMaxLengthLastName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.lastName")))
-
 
       @ihtHelpers.standard.date_fields(
           coExecutorDetails,

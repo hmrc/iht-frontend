@@ -141,7 +141,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
       val result = resultOnSubmit(fakePostRequest)
 
       status(result) shouldBe SEE_OTHER
-      // TODO: redirectLocation(result) shouldBe
+      redirectLocation(result) shouldBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("2").url)
       val appDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       appDetails.qualifyingBodies.size shouldBe 2
       appDetails.qualifyingBodies.tail.head shouldBe QualifyingBody(Some("2"), None, Some(100))
@@ -158,7 +158,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
       val result = resultOnEditSubmit("1")(fakePostRequest)
 
       status(result) shouldBe SEE_OTHER
-      // TODO: redirectLocation(result) shouldBe
+      redirectLocation(result) shouldBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("1").url)
       val appDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       appDetails.qualifyingBodies.size shouldBe 2
       appDetails.qualifyingBodies.head shouldBe QualifyingBody(Some("1"), Some("Qualifying Body 1"), Some(777))
@@ -170,7 +170,7 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
       val result = resultOnEditSubmit("2")(fakePostRequest)
 
       status(result) shouldBe SEE_OTHER
-      // TODO: redirectLocation(result) shouldBe
+      redirectLocation(result) shouldBe Some(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onEditPageLoad("2").url)
       val appDetails = verifyAndReturnSavedApplicationDetails(mockIhtConnector)
       appDetails.qualifyingBodies.size shouldBe 2
       appDetails.qualifyingBodies.tail.head shouldBe QualifyingBody(Some("2"), Some("Qualifying Body 2"), Some(888))

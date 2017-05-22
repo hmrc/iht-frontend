@@ -65,7 +65,8 @@ trait PropertyDetailsOverviewController extends EstateController {
             applicationDetails match {
               case Some(applicationDetails) => {
                 applicationDetails.propertyList.find(property => property.id.getOrElse("") equals propertyId).fold {
-                  throw new RuntimeException("No Property found for the id")
+                  Logger.info(s"User attempted to navigate to property details of non-existent property (id $propertyId)")
+                  Redirect(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad())
                 } {
                   (matchedProperty) =>
                     Ok(iht.views.html.application.asset.properties.property_details_overview(
