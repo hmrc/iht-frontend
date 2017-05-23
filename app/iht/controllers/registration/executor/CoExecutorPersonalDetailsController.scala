@@ -21,6 +21,7 @@ import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper.Mode
 import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationController
+import iht.forms.registration.CoExecutorForms
 import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics
 import iht.models.{CoExecutor, RegistrationDetails}
@@ -30,14 +31,17 @@ import play.api.mvc.Call
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+
 import scala.concurrent.Future
 
 object CoExecutorPersonalDetailsController extends CoExecutorPersonalDetailsController with IhtConnectors {
   def metrics: Metrics = Metrics
+  override def coExecutorForms = CoExecutorForms
 }
 
 trait CoExecutorPersonalDetailsController extends RegistrationController {
   def cachingConnector: CachingConnector
+  def coExecutorForms: CoExecutorForms
 
   override def guardConditions = guardConditionsCoExecutorPersonalDetails
 
@@ -56,13 +60,13 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
               throw new Exception("Attempting to add too many co-executors")
             }
             else {
-              coExecutorPersonalDetailsForm
+              coExecutorForms.coExecutorPersonalDetailsForm
             }
           case Some(identifier) =>
             val coExecutor = rd.coExecutors.find(_.id == id)
             coExecutor match {
               case None => throw new Exception(s"Could not find co-executor with id: $identifier")
-              case Some(coExec) => coExecutorPersonalDetailsForm.fill(coExec)
+              case Some(coExec) => coExecutorForms.coExecutorPersonalDetailsForm.fill(coExec)
             }
         }
 
@@ -108,9 +112,9 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
 
         val formType =
           if (mode == Mode.Standard) {
-            coExecutorPersonalDetailsForm
+            coExecutorForms.coExecutorPersonalDetailsForm
           } else {
-            coExecutorPersonalDetailsEditForm
+            coExecutorForms.coExecutorPersonalDetailsEditForm
           }
 
         val boundForm = formType.bindFromRequest()
