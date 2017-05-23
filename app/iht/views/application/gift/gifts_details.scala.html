@@ -29,9 +29,12 @@ cancelUrl: Option[Call],
 cancelLabel: => Option[String]
 )(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
+@startDate = @{previousYearGiftsForm("startDate").value.getOrElse("")}
+@endDate = @{previousYearGiftsForm("endDate").value.getOrElse("")}
+
 @iht_main_template_application(title = Messages("page.iht.application.giftsDetails.subtitle",
-                                        Dates.formatDate(LocalDate.parse(previousYearGiftsForm("startDate").value.getOrElse(""))),
-                                        Dates.formatDate(LocalDate.parse(previousYearGiftsForm("endDate").value.getOrElse("")))),
+                                        if(!startDate.isEmpty) Dates.formatDate(LocalDate.parse(startDate)) else "",
+                                        if(!endDate.isEmpty) Dates.formatDate(LocalDate.parse(endDate)) else ""),
 browserTitle = Some(Messages("page.iht.application.giftsDetails.browserTitle")),
 cancelUrl=cancelUrl,
 cancelLabel = cancelLabel) {
