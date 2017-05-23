@@ -20,14 +20,21 @@
 @import iht.models._
 @import iht.models.application.gifts._
 @import iht.utils.CommonHelper
+@import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import org.joda.time.LocalDate
 
 @(previousYearGiftsForm:Form[PreviousYearsGifts],
 registrationDetails:RegistrationDetails,
 cancelUrl: Option[Call],
 cancelLabel: => Option[String]
-)(implicit request:Request[_], messages: Messages)
+)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
-@iht_main_template_application(title = Messages("page.iht.application.giftsDetails.subtitle", previousYearGiftsForm("startDate").value.getOrElse(""), previousYearGiftsForm("endDate").value.getOrElse("")),
+@startDate = @{previousYearGiftsForm("startDate").value.getOrElse("")}
+@endDate = @{previousYearGiftsForm("endDate").value.getOrElse("")}
+
+@iht_main_template_application(title = Messages("page.iht.application.giftsDetails.subtitle",
+                                        if(!startDate.isEmpty) Dates.formatDate(LocalDate.parse(startDate)) else "",
+                                        if(!endDate.isEmpty) Dates.formatDate(LocalDate.parse(endDate)) else ""),
 browserTitle = Some(Messages("page.iht.application.giftsDetails.browserTitle")),
 cancelUrl=cancelUrl,
 cancelLabel = cancelLabel) {

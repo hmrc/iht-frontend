@@ -54,7 +54,7 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
   override def form: Form[PreviousYearsGifts] = {
     val previousYearsGifts = CommonBuilder.buildPreviousYearsGifts.copy(yearId = Some("1"),
       value = Some(giftsValue), exemptions = Some(exemptionsValue),
-      startDate = Some("13 March 2007"), endDate = Some("5 April 2007"))
+      startDate = Some("2007-3-13"), endDate = Some("2007-4-5"))
 
     previousYearsGiftsForm.fill(previousYearsGifts)
   }

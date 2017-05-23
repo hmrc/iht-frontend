@@ -27,6 +27,7 @@ import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 sealed abstract class RowCompletionStatus
 case object NotStarted extends RowCompletionStatus
@@ -102,7 +103,7 @@ object EstateOverviewViewModel {
 
   def apply(registrationDetails: RegistrationDetails,
             applicationDetails: ApplicationDetails,
-            deadlineDate: LocalDate)(implicit messages: Messages): EstateOverviewViewModel = {
+            deadlineDate: LocalDate)(implicit messages: Messages, lang : play.api.i18n.Lang): EstateOverviewViewModel = {
 
     val isExemptionsGreaterThanZero = applicationDetails.totalExemptionsValue > BigDecimal(0)
 
@@ -122,7 +123,7 @@ object EstateOverviewViewModel {
     EstateOverviewViewModel(
       ihtReference = CommonHelper.getOrException(registrationDetails.ihtReference),
       deceasedName = registrationDetails.deceasedDetails.fold("")(_.name),
-      submissionDeadline = deadlineDate.toString("d MMMM YYYY"),
+      submissionDeadline = Dates.formatDate(deadlineDate).toString,
       assetsAndGiftsSection = AssetsAndGiftsSectionViewModel(applicationDetails,
         behaveAsIncreasingTheEstateSection = applicationDetails.hasSeenExemptionGuidance.getOrElse(false))(messages),
       reducingEstateValueSection = reducingEstateValueSection,

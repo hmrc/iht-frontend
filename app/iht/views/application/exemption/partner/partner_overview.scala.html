@@ -26,7 +26,7 @@
 @import iht.utils._
 
 @(appDetails:ApplicationDetails,
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.overview.browserTitle")),
@@ -110,7 +110,7 @@ isFullWidth=false) {
                     title = Messages("page.iht.application.exemptions.overview.partner.dob.title"),
                     name="partner.dob",
                     id = ExemptionsPartnerDobID,
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerDateOfBirth, isComplete),
+                    value=displayValue(appDetails, AppSectionExemptionsPartnerDateOfBirth, isComplete)(lang),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(

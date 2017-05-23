@@ -22,6 +22,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_summary_coexecutor_panel
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
+import play.api.i18n.Lang
 
 class RegistrationSummaryCoExecutorPanelTest extends ViewTestHelper with TestUtils {
 
@@ -30,14 +31,20 @@ class RegistrationSummaryCoExecutorPanelTest extends ViewTestHelper with TestUti
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
       implicit val messages: MessagesApi = app.injector.instanceOf[MessagesApi]
-      val view = registration_summary_coexecutor_panel(Seq())(request, applicationMessages).toString
+      implicit val lang = Lang.defaultLang
+
+
+      val view = registration_summary_coexecutor_panel(Seq())(request, applicationMessages, lang).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "link to the others applying for probate change" in {
       implicit val request = createFakeRequest()
       implicit val messages: MessagesApi = app.injector.instanceOf[MessagesApi]
-      registration_summary_coexecutor_panel(Seq())(request, applicationMessages).toString should include (OthersApplyingForProbateController.onPageLoadFromOverview().url)
+      implicit val lang = Lang.defaultLang
+
+      registration_summary_coexecutor_panel(Seq())(request, applicationMessages, lang).toString should include
+      (OthersApplyingForProbateController.onPageLoadFromOverview().url)
     }
   }
 }

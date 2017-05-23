@@ -26,8 +26,9 @@
 @import iht.utils.CommonHelper._
 @import iht.controllers.registration.applicant.{routes => applicantRoutes}
 @import iht.controllers.registration.deceased.{routes => deceasedRoutes}
+@import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
-@(registrationDetails: RegistrationDetails, role:String)(implicit request : Request[_], messages: Messages)
+@(registrationDetails: RegistrationDetails, role:String)(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 @deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
@@ -54,7 +55,7 @@
 
                 @ihtHelpers.custom.summary_item(
                     label = Messages("iht.dateofbirth"),
-                    data = CommonHelper.getOrException(deceasedDetails.dateOfBirth).toString(IhtProperties.dateFormatForDisplay),
+                    data = Dates.formatDate(CommonHelper.getOrException(deceasedDetails.dateOfBirth)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.toString + "#date-of-birth",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader"),
@@ -63,8 +64,8 @@
 
                 @ihtHelpers.custom.summary_item(
                     label = Messages("iht.dateOfDeath"),
-                    data = registrationDetails.deceasedDateOfDeath.getOrElse(throw new RuntimeException("Deceased Date of death could not be found"))
-                    .dateOfDeath.toString(IhtProperties.dateFormatForDisplay),
+                    data = Dates.formatDate(registrationDetails.deceasedDateOfDeath.getOrElse(throw new RuntimeException("Deceased Date of death could not be found"))
+                    .dateOfDeath).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad.url + "#date-of-death",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader"),
@@ -128,7 +129,7 @@
                 )
                     @ihtHelpers.custom.summary_item(
                     label = Messages("iht.dateofbirth"),
-                    data = CommonHelper.getOrException(applicantDetails.dateOfBirth).toString(IhtProperties.dateFormatForDisplay),
+                    data = Dates.formatDate(CommonHelper.getOrException(applicantDetails.dateOfBirth)).toString,
                     dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.dateOfBirth.data.screenReader", CommonHelper.getOrException(applicantDetails.dateOfBirth).toString),
                     hasChangeLink = false
                 )

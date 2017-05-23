@@ -39,8 +39,8 @@ object GiftsHelper {
       }
 
       val endDate: LocalDate = periodDate.minusDays(1)
-      val startDateString: String = periodDate.getDayOfMonth() + " " + periodDate.monthOfYear().getAsText()
-      val endDateString: String = endDate.getDayOfMonth + " " + endDate.monthOfYear().getAsText()
+      val startDateString: String = periodDate.monthOfYear().get() + "-" + periodDate.getDayOfMonth()
+      val endDateString: String = endDate.monthOfYear().get() + "-" + endDate.getDayOfMonth
 
       {
         1 to noOfYearsToCalculate
@@ -76,8 +76,8 @@ object GiftsHelper {
 
     noOfIteration match {
       case `MaxIterationValueForGiftYears` =>
-        sevenYearsPriorDate.getDayOfMonth + " " + sevenYearsPriorDate.monthOfYear.getAsText +" " + sevenYearsPriorDate.getYear
-      case _ => s"$startDateString ${periodDate.getYear - (noOfIteration - 1)}"
+        sevenYearsPriorDate.getYear + "-" + sevenYearsPriorDate.monthOfYear().get()+ "-" + sevenYearsPriorDate.getDayOfMonth
+      case _ => s"${(periodDate.getYear - (noOfIteration - 1))}${"-" + startDateString}"
     }
   }
 
@@ -89,8 +89,8 @@ object GiftsHelper {
                                periodDate: LocalDate,
                                endDateString: String): String = {
     noOfIteration match {
-      case 1 => s"${dateOfDeath.getDayOfMonth} ${dateOfDeath.monthOfYear.getAsText} ${dateOfDeath.getYear}"
-      case _ => s"$endDateString ${periodDate.getYear - (noOfIteration - 2)}"
+      case 1 => s"${dateOfDeath.getYear}${"-" + dateOfDeath.monthOfYear.get()}${"-" + dateOfDeath.getDayOfMonth}"
+      case _ => s"${periodDate.getYear - (noOfIteration - 2)}${"-" + endDateString}"
     }
   }
 }

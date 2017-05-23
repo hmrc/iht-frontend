@@ -53,9 +53,9 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
 
   override def view = {
     val giftsList = Seq(
-      PreviousYearsGifts(Some("1"), Some(1000.00), Some(33), Some("6 April 2014"), Some("12 December 2014")),
-      PreviousYearsGifts(Some("2"), Some(1001.00), Some(44), Some("6 April 2013"), Some("5 April 2013")),
-      PreviousYearsGifts(Some("3"), Some(1002.00), Some(55), Some("6 April 2012"), Some("5 April 2012"))
+      PreviousYearsGifts(Some("1"), Some(1000.00), Some(33), Some("2014-4-6"), Some("2014-12-12")),
+      PreviousYearsGifts(Some("2"), Some(1001.00), Some(44), Some("2013-4-6"), Some("2013-4-5")),
+      PreviousYearsGifts(Some("3"), Some(1002.00), Some(55), Some("2012-4-6"), Some("2012-4-5"))
     )
     seven_years_gift_values(
       giftsList = giftsList,

@@ -20,8 +20,9 @@
 @import iht.utils.CommonHelper
 @import iht.utils.CommonHelper
 @import iht.constants.IhtProperties
+@import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
-@(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages)
+@(coExecutors: Seq[CoExecutor])(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang)
 <section class="section tabular-data">
   <h2 class="heading-medium additionalExecutorHeader">
       @Messages("iht.registration.othersApplyingForProbate")
@@ -69,7 +70,7 @@
 
         @ihtHelpers.custom.summary_item(
             label = Messages("iht.dateofbirth"),
-            data = coExecutor.dateOfBirth.toString(IhtProperties.dateFormatForDisplay),
+            data = Dates.formatDate(coExecutor.dateOfBirth).toString,
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#date-of-birth",
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.dateOfBirth.link.screenReader", coExecutor.name),

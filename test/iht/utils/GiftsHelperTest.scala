@@ -31,14 +31,14 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val dateForGifts = new LocalDate(2015, 12, 30)
       val giftsForYears = GiftsHelper.createPreviousYearsGiftsLists(dateForGifts)
       val previousYears = List(
-        PreviousYearsGifts(Some("1"), None, None, Some("31 December 2008"), Some("5 April 2009")),
-        PreviousYearsGifts(Some("2"), None, None, Some("6 April 2009"), Some("5 April 2010")),
-        PreviousYearsGifts(Some("3"), None, None, Some("6 April 2010"), Some("5 April 2011")),
-        PreviousYearsGifts(Some("4"), None, None, Some("6 April 2011"), Some("5 April 2012")),
-        PreviousYearsGifts(Some("5"), None, None, Some("6 April 2012"), Some("5 April 2013")),
-        PreviousYearsGifts(Some("6"), None, None, Some("6 April 2013"), Some("5 April 2014")),
-        PreviousYearsGifts(Some("7"), None, None, Some("6 April 2014"), Some("5 April 2015")),
-        PreviousYearsGifts(Some("8"), None, None, Some("6 April 2015"), Some("30 December 2015")))
+        PreviousYearsGifts(Some("1"), None, None, Some("2008-12-31"), Some("2009-4-5")),
+        PreviousYearsGifts(Some("2"), None, None, Some("2009-4-6"), Some("2010-4-5")),
+        PreviousYearsGifts(Some("3"), None, None, Some("2010-4-6"), Some("2011-4-5")),
+        PreviousYearsGifts(Some("4"), None, None, Some("2011-4-6"), Some("2012-4-5")),
+        PreviousYearsGifts(Some("5"), None, None, Some("2012-4-6"), Some("2013-4-5")),
+        PreviousYearsGifts(Some("6"), None, None, Some("2013-4-6"), Some("2014-4-5")),
+        PreviousYearsGifts(Some("7"), None, None, Some("2014-4-6"), Some("2015-4-5")),
+        PreviousYearsGifts(Some("8"), None, None, Some("2015-4-6"), Some("2015-12-30")))
 
       giftsForYears should be(previousYears)
     }
@@ -48,14 +48,14 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val dateForGifts = new LocalDate(2014, 3, 12)
       val giftsForYears = GiftsHelper.createPreviousYearsGiftsLists(dateForGifts)
       val previousYears = List(
-        PreviousYearsGifts(Some("1"), None, None, Some("13 March 2007"), Some("5 April 2007")),
-        PreviousYearsGifts(Some("2"), None, None, Some("6 April 2007"), Some("5 April 2008")),
-        PreviousYearsGifts(Some("3"), None, None, Some("6 April 2008"), Some("5 April 2009")),
-        PreviousYearsGifts(Some("4"), None, None, Some("6 April 2009"), Some("5 April 2010")),
-        PreviousYearsGifts(Some("5"), None, None, Some("6 April 2010"), Some("5 April 2011")),
-        PreviousYearsGifts(Some("6"), None, None, Some("6 April 2011"), Some("5 April 2012")),
-        PreviousYearsGifts(Some("7"), None, None, Some("6 April 2012"), Some("5 April 2013")),
-        PreviousYearsGifts(Some("8"), None, None, Some("6 April 2013"), Some("12 March 2014")))
+        PreviousYearsGifts(Some("1"), None, None, Some("2007-3-13"), Some("2007-4-5")),
+        PreviousYearsGifts(Some("2"), None, None, Some("2007-4-6"), Some("2008-4-5")),
+        PreviousYearsGifts(Some("3"), None, None, Some("2008-4-6"), Some("2009-4-5")),
+        PreviousYearsGifts(Some("4"), None, None, Some("2009-4-6"), Some("2010-4-5")),
+        PreviousYearsGifts(Some("5"), None, None, Some("2010-4-6"), Some("2011-4-5")),
+        PreviousYearsGifts(Some("6"), None, None, Some("2011-4-6"), Some("2012-4-5")),
+        PreviousYearsGifts(Some("7"), None, None, Some("2012-4-6"), Some("2013-4-5")),
+        PreviousYearsGifts(Some("8"), None, None, Some("2013-4-6"), Some("2014-3-12")))
 
       giftsForYears should be(previousYears)
 
@@ -66,13 +66,13 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val dateForGifts = new LocalDate(2015, 4, 5)
       val giftsForYears = GiftsHelper.createPreviousYearsGiftsLists(dateForGifts)
       val previousYears = List(
-        PreviousYearsGifts(Some("1"), None, None, Some("6 April 2008"), Some("5 April 2009")),
-        PreviousYearsGifts(Some("2"), None, None, Some("6 April 2009"), Some("5 April 2010")),
-        PreviousYearsGifts(Some("3"), None, None, Some("6 April 2010"), Some("5 April 2011")),
-        PreviousYearsGifts(Some("4"), None, None, Some("6 April 2011"), Some("5 April 2012")),
-        PreviousYearsGifts(Some("5"), None, None, Some("6 April 2012"), Some("5 April 2013")),
-        PreviousYearsGifts(Some("6"), None, None, Some("6 April 2013"), Some("5 April 2014")),
-        PreviousYearsGifts(Some("7"), None, None, Some("6 April 2014"), Some("5 April 2015")))
+        PreviousYearsGifts(Some("1"), None, None, Some("2008-4-6"), Some("2009-4-5")),
+        PreviousYearsGifts(Some("2"), None, None, Some("2009-4-6"), Some("2010-4-5")),
+        PreviousYearsGifts(Some("3"), None, None, Some("2010-4-6"), Some("2011-4-5")),
+        PreviousYearsGifts(Some("4"), None, None, Some("2011-4-6"), Some("2012-4-5")),
+        PreviousYearsGifts(Some("5"), None, None, Some("2012-4-6"), Some("2013-4-5")),
+        PreviousYearsGifts(Some("6"), None, None, Some("2013-4-6"), Some("2014-4-5")),
+        PreviousYearsGifts(Some("7"), None, None, Some("2014-4-6"), Some("2015-4-5")))
 
       giftsForYears should be(previousYears)
     }

@@ -103,7 +103,7 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
     "On PageLoad if no Gift found then displays no gift details" in {
 
       val applicationModel = new ApplicationDetails(giftsList = Some(Seq(PreviousYearsGifts(Some("1"),
-        Some(BigDecimal(1000000000)), Some(BigDecimal(1000)), Some("23"), Some("232")))))
+        Some(BigDecimal(1000000000)), Some(BigDecimal(1000)), Some("2008-4-4"), Some("2009-3-4")))))
 
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

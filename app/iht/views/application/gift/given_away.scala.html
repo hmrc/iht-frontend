@@ -22,10 +22,11 @@
 @import iht.utils.CommonHelper
 @import iht.constants.IhtProperties._
 @import iht.constants.Constants._
+@import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 @(giftsGivenAwayForm:Form[AllGifts],
 regDetails:RegistrationDetails
-)(implicit request:Request[_], messages: Messages)
+)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
@@ -44,8 +45,8 @@ headingName = deceasedName
 
     <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1",
         deceasedNameWrapped,
-             CommonHelper.getDateBeforeSevenYears(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString(dateFormatForDisplay),
-             CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath.toString(dateFormatForDisplay)))</p>
+             Dates.formatDate(CommonHelper.getDateBeforeSevenYears(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath)).toString,
+        Dates.formatDate(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString))</p>
     <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedNameWrapped))</p>
 
     @ihtHelpers.standard.input_yes_no_radio_group(

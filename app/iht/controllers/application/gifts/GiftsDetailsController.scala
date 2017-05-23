@@ -80,7 +80,9 @@ trait GiftsDetailsController extends EstateController {
           val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
 
           prevYearsGifts.find(_.yearId.contains(id))
-            .fold(previousYearsGiftsForm)(matchedGift => previousYearsGiftsForm.fill(matchedGift))
+            .fold(previousYearsGiftsForm)(matchedGift => {
+              previousYearsGiftsForm.fill(matchedGift)
+            })
         }(form =>
           Ok(
             iht.views.html.application.gift.gifts_details(
