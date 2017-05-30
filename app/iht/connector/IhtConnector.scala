@@ -19,8 +19,9 @@ package iht.connector
 import iht.config.WSHttp
 import iht.controllers.ControllerHelper
 import iht.models._
-import iht.models.application.{IhtApplication, ApplicationDetails, ProbateDetails}
-import iht.utils.CommonHelper
+import iht.models.application.gifts.PreviousYearsGifts
+import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.utils.{CommonHelper, StringHelper}
 import models.des.EventRegistration
 import models.des.iht_return.IHTReturn
 import play.api.Logger
@@ -142,7 +143,22 @@ object IhtConnector extends IhtConnector with ServicesConfig {
       response.status match {
         case OK => {
           Logger.info("Successfully received data from SecStore")
-          Some(Json.fromJson[ApplicationDetails](Json.parse(response.body)).get)
+          Some(Json.fromJson[ApplicationDetails](Json.parse(response.body)).get).map{ad=>
+            val optionSeqPreviousYearsGifts: Option[Seq[PreviousYearsGifts]] = ad.giftsList.map{ (seqPreviousYearsGifts: Seq[PreviousYearsGifts]) =>
+              seqPreviousYearsGifts.map{ (previousYearsGifts: PreviousYearsGifts) =>
+                val optionStartDate: Option[String] = previousYearsGifts.startDate.map{ (startDate: String) =>
+                 StringHelper.parseOldAndNewDatesFormats(startDate)
+                }
+                val optionEndDate: Option[String] = previousYearsGifts.endDate.map{ (endDate: String) =>
+                  StringHelper.parseOldAndNewDatesFormats(endDate)
+                }
+                previousYearsGifts copy (
+                  startDate = optionStartDate , endDate = optionEndDate
+                )
+              }
+            }
+            ad copy ( giftsList = optionSeqPreviousYearsGifts)
+          }
         }
         case NO_CONTENT => {
           Logger.info("Empty return from Secure Storage")
