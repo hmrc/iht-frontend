@@ -18,6 +18,7 @@ package iht.utils
 
 import iht.FakeIhtApp
 import iht.models.application.gifts.PreviousYearsGifts
+import iht.testhelpers.CommonBuilder
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
@@ -75,6 +76,28 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("7"), None, None, Some("2014-4-6"), Some("2015-4-5")))
 
       giftsForYears should be(previousYears)
+    }
+
+    "generate correct old date formats and leave new formats alone" in {
+      val gifts = Seq(
+        PreviousYearsGifts(Some("1"), Some(1000.00), Some(0), Some("6 April 2014"), Some("12 December 2014")),
+        PreviousYearsGifts(Some("2"), Some(1001.00), Some(0), Some("2013-04-01"), Some("5 April 2013")),
+        PreviousYearsGifts(Some("3"), Some(1002.00), Some(0), Some("6 April 2012"), Some("2012-04-05"))
+      )
+      val ad = CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts.copy(
+        giftsList = Some(gifts)
+      )
+
+      val expectedGifts = Seq(
+        PreviousYearsGifts(Some("1"), Some(1000.00), Some(0), Some("2014-04-06"), Some("2014-12-12")),
+        PreviousYearsGifts(Some("2"), Some(1001.00), Some(0), Some("2013-04-01"), Some("2013-04-05")),
+        PreviousYearsGifts(Some("3"), Some(1002.00), Some(0), Some("2012-04-06"), Some("2012-04-05"))
+      )
+      val expectedAD = CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts.copy(
+        giftsList = Some(expectedGifts)
+      )
+
+      GiftsHelper.correctGiftDateFormats(ad) shouldBe expectedAD
     }
   }
 }
