@@ -18,6 +18,7 @@ package iht.utils
 
 import iht.constants.Constants.MaxIterationValueForGiftYears
 import iht.constants.IhtProperties
+import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
 import org.joda.time.LocalDate
 
@@ -92,5 +93,22 @@ object GiftsHelper {
       case 1 => s"${dateOfDeath.getYear}${"-" + dateOfDeath.monthOfYear.get()}${"-" + dateOfDeath.getDayOfMonth}"
       case _ => s"${periodDate.getYear - (noOfIteration - 2)}${"-" + endDateString}"
     }
+  }
+
+  def correctGiftDateFormats(ad:ApplicationDetails): ApplicationDetails = {
+    val optionSeqPreviousYearsGifts: Option[Seq[PreviousYearsGifts]] = ad.giftsList.map{ (seqPreviousYearsGifts: Seq[PreviousYearsGifts]) =>
+      seqPreviousYearsGifts.map{ (previousYearsGifts: PreviousYearsGifts) =>
+        val optionStartDate: Option[String] = previousYearsGifts.startDate.map{ (startDate: String) =>
+          StringHelper.parseOldAndNewDatesFormats(startDate)
+        }
+        val optionEndDate: Option[String] = previousYearsGifts.endDate.map{ (endDate: String) =>
+          StringHelper.parseOldAndNewDatesFormats(endDate)
+        }
+        previousYearsGifts copy (
+          startDate = optionStartDate , endDate = optionEndDate
+        )
+      }
+    }
+    ad copy ( giftsList = optionSeqPreviousYearsGifts)
   }
 }

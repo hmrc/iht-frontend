@@ -16,10 +16,15 @@
 
 package iht.utils
 
+import java.util.Locale
+
 import iht.utils.CommonHelper.withValue
-import play.api.i18n.Messages
 import play.api.Play.current
+import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
+import org.joda.time.format.DateTimeFormat
+
+import scala.util.{Failure, Success, Try}
 
 object StringHelper {
   private val StartOfPrefix = 0
@@ -69,6 +74,19 @@ object StringHelper {
           }
         }
       }
+    }
+  }
+
+  def parseOldAndNewDatesFormats(date:String): String ={
+    val newFormat = DateTimeFormat.forPattern("yyyy-MM-dd").withLocale(Locale.ENGLISH)
+    Try(newFormat.parseDateTime(date)) match {
+      case Success(s) => date
+      case Failure(_) =>
+        val oldFormat = DateTimeFormat.forPattern("d MMM yyyy").withLocale(Locale.ENGLISH)
+        Try(oldFormat.parseDateTime(date)) match {
+          case Success(s) => s.toString(newFormat)
+          case Failure(ex) => throw ex
+        }
     }
   }
 }

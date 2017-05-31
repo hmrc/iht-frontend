@@ -19,8 +19,9 @@ package iht.connector
 import iht.config.WSHttp
 import iht.controllers.ControllerHelper
 import iht.models._
-import iht.models.application.{IhtApplication, ApplicationDetails, ProbateDetails}
-import iht.utils.CommonHelper
+import iht.models.application.gifts.PreviousYearsGifts
+import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.utils.{CommonHelper, GiftsHelper, StringHelper}
 import models.des.EventRegistration
 import models.des.iht_return.IHTReturn
 import play.api.Logger
@@ -143,6 +144,7 @@ object IhtConnector extends IhtConnector with ServicesConfig {
         case OK => {
           Logger.info("Successfully received data from SecStore")
           Some(Json.fromJson[ApplicationDetails](Json.parse(response.body)).get)
+            .map(ad=> GiftsHelper.correctGiftDateFormats(ad))
         }
         case NO_CONTENT => {
           Logger.info("Empty return from Secure Storage")
