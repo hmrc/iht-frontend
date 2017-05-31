@@ -78,14 +78,15 @@ object StringHelper {
   }
 
   def parseOldAndNewDatesFormats(date:String): String ={
-    val invalidPattern = "d MMM yyyy"
-    val invalidFormat = DateTimeFormat.forPattern(invalidPattern).withLocale(Locale.ENGLISH)
-    Try(invalidFormat.parseDateTime(date)) match {
-      case Success(s) =>
-        val reqPattern = "yyyy-MM-dd"
-        val reqFormat = DateTimeFormat.forPattern(reqPattern).withLocale(Locale.ENGLISH)
-        s.toString(reqFormat)
-      case Failure(f) => date
+    val newFormat = DateTimeFormat.forPattern("yyyy-MM-dd").withLocale(Locale.ENGLISH)
+    Try(newFormat.parseDateTime(date)) match {
+      case Success(s) => date
+      case Failure(_) =>
+        val oldFormat = DateTimeFormat.forPattern("d MMM yyyy").withLocale(Locale.ENGLISH)
+        Try(oldFormat.parseDateTime(date)) match {
+          case Success(s) => s.toString(newFormat)
+          case Failure(ex) => throw ex
+        }
     }
   }
 }

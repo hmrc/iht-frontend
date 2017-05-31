@@ -61,15 +61,17 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     }
   }
 
-  "parseDualDatesFormats" must{
+  "parseOldAndNewDatesFormats" must{
     "return the string passed in if in YYYY-MM-DD format" in {
       StringHelper.parseOldAndNewDatesFormats("2000-11-13") shouldBe "2000-11-13"
     }
     "return the string passed in if in YYYY-M-DD format" in {
       StringHelper.parseOldAndNewDatesFormats("2000-1-13") shouldBe "2000-1-13"
     }
-    "return the string passed in if in YYYY- -DD format" in {
-      StringHelper.parseOldAndNewDatesFormats("2000- -13") shouldBe "2000- -13"
+    "give exception in if in YYYY- -DD format" in {
+      a [RuntimeException] shouldBe thrownBy {
+        StringHelper.parseOldAndNewDatesFormats("2000- -13")
+      }
     }
     "return the string converted to new format if date is in old format DD Month YYYY" in {
         StringHelper.parseOldAndNewDatesFormats("5 April 2008") shouldBe "2008-04-05"
