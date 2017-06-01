@@ -197,7 +197,7 @@ class AssetsAndGiftsSectionViewModelTest extends UnitSpec with FakeIhtApp with M
     "have the correct URL for the gifts link when the user has not answered any gifts questions" in {
       val viewModel = AssetsAndGiftsSectionViewModel(applicationDetails, false)
 
-      viewModel.giftRow.linkUrl shouldBe iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()
+      viewModel.giftRow.linkUrl shouldBe iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
     }
 
     "have the correct URL for the gifts link when the user has answered some gifts questions" in {

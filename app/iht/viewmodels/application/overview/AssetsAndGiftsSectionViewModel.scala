@@ -34,11 +34,6 @@ object AssetsAndGiftsSectionViewModel {
   def apply(applicationDetails: ApplicationDetails, behaveAsIncreasingTheEstateSection: Boolean)
            (implicit messages: Messages): AssetsAndGiftsSectionViewModel = {
 
-    val giftsRoute = applicationDetails.allGifts.isDefined match {
-      case true => iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()
-      case _ => iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()
-    }
-
     val assetsScreenreaderText = getScreenReaderQualifyingText(
       RowCompletionStatus(applicationDetails.areAllAssetsCompleted),
       messages("page.iht.application.overview.assets.screenReader.moreDetails.link"),
@@ -65,12 +60,11 @@ object AssetsAndGiftsSectionViewModel {
         messages("iht.estateReport.gifts.givenAway.title"),
         DisplayValue(getGiftsDisplayValue(applicationDetails))(messages),
         RowCompletionStatus(applicationDetails.areAllGiftSectionsCompleted),
-        giftsRoute,
+        iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
         giftsScreenreaderText)(messages),
       totalRow = OverviewRowWithoutLink(
         id = "assetsGiftsTotal",
         label = messages("page.iht.application.estateOverview.valueOfAssetsAndGifts"),
-        // label = if (behaveAsIncreasingTheEstateSection) "" else Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts"),
         value = DisplayValue(CurrentValue(applicationDetails.totalValue))(messages),
         qualifyingText = "",
         headingLevel = "h3",
