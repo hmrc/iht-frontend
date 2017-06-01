@@ -1,5 +1,5 @@
 
-# Inheritance Tax Frontend Service
+## Inheritance Tax Frontend Service
 
 [![Build Status](https://travis-ci.org/hmrc/iht-frontend.svg?branch=master)](https://travis-ci.org/hmrc/iht-frontend) [ ![Download](https://api.bintray.com/packages/hmrc/releases/iht-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/iht-frontend/_latestVersion)
 
