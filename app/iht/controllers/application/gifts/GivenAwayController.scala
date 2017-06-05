@@ -47,27 +47,19 @@ object GivenAwayController extends GivenAwayController with IhtConnectors {
 
 trait GivenAwayController extends EstateController{
 
-  def estateElementOnPageLoad1[A](form: Form[A],
-                                 retrievePageToDisplay: (Form[A], RegistrationDetails, Seq[PreviousYearsGifts]) => Appendable,
-                                 retrieveSectionDetails: ApplicationDetails => Option[A])
-                                (implicit request: Request[_], user: AuthContext) = {
-    withApplicationDetails { regDetails => appDetails =>
-        val fm = retrieveSectionDetails(appDetails).fold(form)(form.fill)
-
-        CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
-          val ff = appDetails.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-          Future.successful(Ok(retrievePageToDisplay(fm, regDetails, ff)))
-        })
-      }
-  }
-
   def onPageLoad = authorisedForIht {
-
    implicit user => implicit request =>
      cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
        iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad().toString)
 
-       estateElementOnPageLoad1[AllGifts](giftsGivenAwayForm, given_away.apply, _.allGifts)
+     withApplicationDetails { regDetails => appDetails =>
+       val fm = appDetails.allGifts.fold(giftsGivenAwayForm)(giftsGivenAwayForm.fill)
+
+       CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
+         val giftsList: Seq[PreviousYearsGifts] = appDetails.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+         Future.successful(Ok(given_away(fm, regDetails, giftsList)))
+       })
+     }
   }
 
   private def estateElementOnSubmitConditionalRedirect1[A](form: Form[A],
