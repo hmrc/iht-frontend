@@ -31,7 +31,6 @@ regDetails:RegistrationDetails,
 giftsList: Seq[PreviousYearsGifts]
 )(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
-
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 @deceasedNameWrapped() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)}
 
@@ -50,16 +49,16 @@ headingName = deceasedName
     <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2"))</p>
 
     <ul>
-    @for(element <- giftsList.reverse){
-        <li class="list list-bullet">
-            @element.startDate.map{ startDate =>
-                <span class="no-wrap">@Dates.formatDate(LocalDate.parse(startDate))</span>
-                    @Messages("iht.to")
+    @giftsList.indices.map{index =>
+        @giftsList(index).startDate.map{ startDate =>
+            <li id="tax-year-@{index+1}" class="list list-bullet">
+            <span class="no-wrap">@Dates.formatDate(LocalDate.parse(startDate))</span>
+            @Messages("iht.to")
+            @giftsList(index).endDate.map{ endDate =>
+                <span class="no-wrap">@Dates.formatDate(LocalDate.parse(endDate))</span>
             }
-            @element.endDate.map{ endDate =>
-                    <span class="no-wrap">@Dates.formatDate(LocalDate.parse(endDate))</span>
-            }
-        </li>
+            </li>
+        }
     }
     </ul>
 

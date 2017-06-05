@@ -27,6 +27,7 @@ import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
 import iht.utils.GiftsHelper.createPreviousYearsGiftsLists
 import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
+import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 
@@ -54,7 +55,10 @@ trait GivenAwayController extends EstateController {
             val fm = appDetails.allGifts.fold(giftsGivenAwayForm)(giftsGivenAwayForm.fill)
 
             CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
-              val giftsList: Seq[PreviousYearsGifts] = appDetails.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+              val giftsList = appDetails.giftsList
+                .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+                .reverse
+
               Future.successful(Ok(given_away(fm, regDetails, giftsList)))
             })
         }
@@ -78,8 +82,10 @@ trait GivenAwayController extends EstateController {
             boundForm.fold(
               formWithErrors => {
                 CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
-                  val ff = appDetails.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-                  Future.successful(BadRequest(given_away(formWithErrors, regDetails, ff)))
+                  val giftsList = appDetails.giftsList
+                    .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+                    .reverse
+                  Future.successful(BadRequest(given_away(formWithErrors, regDetails, giftsList)))
                 })
               },
               estateElementModel => {
