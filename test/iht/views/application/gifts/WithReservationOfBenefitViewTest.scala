@@ -40,9 +40,11 @@ class WithReservationOfBenefitViewTest extends SubmittableApplicationPageBehavio
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
     deceasedDateOfDeath = Some(CommonBuilder.buildDeceasedDateOfDeath))
 
-  override def pageTitle = messagesApi("iht.estateReport.gifts.withReservation.title")
+  def deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
-  override def browserTitle = messagesApi("iht.estateReport.gifts.withReservation.title")
+  override def pageTitle = messagesApi("iht.estateReport.gifts.withReservation.title", deceasedName)
+
+  override def browserTitle = messagesApi("iht.estateReport.gifts.withReservation.browserTitle")
 
   override def guidance = guidance(
     Set(

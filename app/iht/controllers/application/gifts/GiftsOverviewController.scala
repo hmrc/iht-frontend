@@ -121,7 +121,7 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.GivenAwayController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.givenAway.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.overview.givenAway.question1", deceasedName)),
+      questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedName)),
       ad,
       regDetails,
       questionLinkIds = Seq(GiftsGivenAwayQuestionID)

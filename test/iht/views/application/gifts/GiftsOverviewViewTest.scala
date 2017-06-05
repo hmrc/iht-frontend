@@ -113,7 +113,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
 
       assertRenderedById(doc, "givenAway")
       messagesShouldBePresent(doc.toString,
-        messagesApi("page.iht.application.gifts.overview.givenAway.question1", deceasedName))
+        messagesApi("page.iht.application.gifts.lastYears.givenAway.question", deceasedName))
       val givenAwayLink = doc.getElementById(GiftsGivenAwayQuestionID)
       givenAwayLink.text shouldBe messagesApi("iht.change")
       givenAwayLink.attr("href") shouldBe giftGivenAwayPageUrl.url
@@ -149,7 +149,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       linkUrl = giftGivenAwayPageUrl,
       sectionLevelLinkAccessibilityText = "",
       questionAnswersPlusChangeLinks = givenAwayYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq(messagesApi("page.iht.application.gifts.overview.givenAway.question1",
+      questionTitlesMessagesFileItems = Seq(messagesApi("page.iht.application.gifts.lastYears.givenAway.question",
                                                       deceasedName)),ad, regDetails, questionLinkIds = Seq(GiftsGivenAwayQuestionID))
 
     lazy val sectionReservation = createSectionFromYesNoQuestions(

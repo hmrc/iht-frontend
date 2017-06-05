@@ -1195,7 +1195,10 @@ page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.est
 
 page.iht.application.gifts.overview.guidance1 = A gift is something given away in the 7 years before death. The value of gifts might be added to the value of the estate.
 page.iht.application.gifts.overview.givenAway.title = If the value of gifts given away is less than £3,000 in every year, you don’t need to give any gift details
-page.iht.application.gifts.overview.givenAway.question1 = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
+
+page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
+page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
+
 page.iht.application.gifts.overview.givenAway.question1.yes.screenReader.link.value = Yes, the deceased gave away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 page.iht.application.gifts.overview.givenAway.question1.no.screenReader.link.value = No, the deceased didn’t give away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 
@@ -1255,10 +1258,8 @@ page.iht.application.gifts.lastYears.description.e5 = motor vehicles, including 
 page.iht.application.gifts.lastYears.question = Did {0} give anything else away before they died that was not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land?
 
 page.iht.application.gifts.lastYears.tableTitle1 = Gifts value
-page.iht.application.gifts.lastYears.tableTitle2 = Exemptions
 page.iht.application.gifts.lastYears.tableTitle3 = Amount added
 
-page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
 page.iht.application.gifts.lastYears.givenAway.p1 = You need to find out what gifts {0} gave away in each of the 7 tax years before they died.
 page.iht.application.gifts.lastYears.givenAway.p2 = The tax years for this estate are:
 

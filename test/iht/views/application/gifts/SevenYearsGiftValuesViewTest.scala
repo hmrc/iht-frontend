@@ -122,7 +122,7 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
     }
 
     "contain exemptions value heading" in {
-      tableHeading(doc, 1) shouldBe messagesApi("page.iht.application.gifts.lastYears.tableTitle2")
+      tableHeading(doc, 1) shouldBe messagesApi("page.iht.exemptions.title")
     }
 
     "contain amount added to estate heading" in {

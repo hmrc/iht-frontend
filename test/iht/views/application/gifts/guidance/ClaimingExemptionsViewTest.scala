@@ -153,7 +153,7 @@ class ClaimingExemptionsViewTest extends ViewTestHelper {
       previousLinkText.text shouldBe messagesApi("site.previous")
 
       val previousLinkTitle = previousLinkLabel.getElementsByTag("span").get(1)
-      previousLinkTitle.text shouldBe messagesApi("iht.estateReport.gifts.withReservation.title")
+      previousLinkTitle.text shouldBe messagesApi("iht.estateReport.gifts.withReservation.browserTitle")
 
       val nextLink = view.getElementById("continue-to-next")
       nextLink.attr("href") shouldBe routes.IncreasingAnnualLimitController.onPageLoad().url
