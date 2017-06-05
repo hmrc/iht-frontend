@@ -22,114 +22,84 @@ import iht.controllers.ControllerHelper
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
-import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
 import iht.utils.GiftsHelper.createPreviousYearsGiftsLists
 import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
 import play.api.Play.current
-import play.api.data.{Form, FormError}
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Result}
-import play.twirl.api.HtmlFormat.Appendable
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
+
 /**
- *
- * Created by Vineet Tyagi on 14/01/16.
- *
- */
+  *
+  * Created by Vineet Tyagi on 14/01/16.
+  *
+  */
 object GivenAwayController extends GivenAwayController with IhtConnectors {
-  def metrics : Metrics = Metrics
+  def metrics: Metrics = Metrics
 }
 
-trait GivenAwayController extends EstateController{
+trait GivenAwayController extends EstateController {
 
   def onPageLoad = authorisedForIht {
-   implicit user => implicit request =>
-     cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
-       iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad().toString)
+    implicit user =>
+      implicit request =>
+        cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
+          iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad().toString)
 
-     withApplicationDetails { regDetails => appDetails =>
-       val fm = appDetails.allGifts.fold(giftsGivenAwayForm)(giftsGivenAwayForm.fill)
+        withApplicationDetails { regDetails =>
+          appDetails =>
+            val fm = appDetails.allGifts.fold(giftsGivenAwayForm)(giftsGivenAwayForm.fill)
 
-       CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
-         val giftsList: Seq[PreviousYearsGifts] = appDetails.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-         Future.successful(Ok(given_away(fm, regDetails, giftsList)))
-       })
-     }
-  }
-
-  private def estateElementOnSubmitConditionalRedirect1[A](form: Form[A],
-                                                  retrievePageToDisplay: (Form[A], RegistrationDetails,
-                                                    Seq[PreviousYearsGifts]) => Appendable,
-                                                  updateApplicationDetails: (ApplicationDetails,
-                                                    Option[String], A) => (ApplicationDetails, Option[String]),
-                                                  redirectLocation: (ApplicationDetails, Option[String]) => Call,
-                                                  formValidation: Option[Form[A] => Option[FormError]] = None,
-                                                  id: Option[String] = None)
-                                                 (implicit request: Request[_], user: AuthContext): Future[Result] = {
-    withApplicationDetails { regDetails => appDetails =>
-      val boundFormBeforeValidation = form.bindFromRequest
-
-      val boundForm = formValidation.flatMap(_ (boundFormBeforeValidation)) match {
-        case None => boundFormBeforeValidation
-        case Some(formError) => Form(
-          boundFormBeforeValidation.mapping,
-          boundFormBeforeValidation.data,
-          Seq(formError),
-          boundFormBeforeValidation.value)
-      }
-
-      boundForm.fold(
-        formWithErrors => {
-          CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
-            val ff = appDetails.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-            Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails, ff)))
-          })
-        },
-        estateElementModel => {
-          estatesSaveApplication(CommonHelper.getNino(user),
-            estateElementModel,
-            regDetails,
-            updateApplicationDetails,
-            redirectLocation = redirectLocation,
-            id
-          )
+            CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
+              val giftsList: Seq[PreviousYearsGifts] = appDetails.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+              Future.successful(Ok(given_away(fm, regDetails, giftsList)))
+            })
         }
-      )
-    }
   }
+
 
   def onSubmit = authorisedForIht {
-    implicit user => implicit request => {
-      val updateApplicationDetails: (ApplicationDetails, Option[String], AllGifts) =>
-        (ApplicationDetails, Option[String]) =
-        (appDetails, _, gifts) => {
-          val updatedAllDetails = appDetails.copy(status=AppStatus.InProgress, allGifts = Some(appDetails.allGifts.fold
-            (new AllGifts(isGivenAway = gifts.isGivenAway, None, None, None, None))
-            (_.copy(isGivenAway = gifts.isGivenAway))))
-          (updateApplicationDetailsWithUpdatedAllGifts(updatedAllDetails), None)
+    implicit user =>
+      implicit request => {
+        withApplicationDetails { regDetails =>
+          appDetails =>
+            val updateApplicationDetails: (ApplicationDetails, Option[String], AllGifts) =>
+              (ApplicationDetails, Option[String]) =
+              (appDetails, _, gifts) => {
+                val updatedAllDetails = appDetails.copy(status = AppStatus.InProgress, allGifts = Some(appDetails.allGifts.fold
+                (new AllGifts(isGivenAway = gifts.isGivenAway, None, None, None, None))
+                (_.copy(isGivenAway = gifts.isGivenAway))))
+                (updateApplicationDetailsWithUpdatedAllGifts(updatedAllDetails), None)
+              }
+            val boundForm = giftsGivenAwayForm.bindFromRequest
+            boundForm.fold(
+              formWithErrors => {
+                CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
+                  val ff = appDetails.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
+                  Future.successful(BadRequest(given_away(formWithErrors, regDetails, ff)))
+                })
+              },
+              estateElementModel => {
+                estatesSaveApplication(CommonHelper.getNino(user),
+                  estateElementModel,
+                  regDetails,
+                  updateApplicationDetails,
+                  redirectLocation = (_, _) => CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsGivenAwayQuestionID)),
+                  None
+                )
+              }
+            )
         }
-
-      val conditionalRedirect: (ApplicationDetails, Option[String]) =>
-        Call = (_, _) => CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsGivenAwayQuestionID))
-
-      estateElementOnSubmitConditionalRedirect1[AllGifts](giftsGivenAwayForm,
-        given_away.apply,
-        updateApplicationDetails,
-        conditionalRedirect
-
-      )
-    }
+      }
   }
 
   /**
     * Resets all the AllGifts values to None when GivenAway question's answer is no
     */
-  private def updateApplicationDetailsWithUpdatedAllGifts(appDetails: ApplicationDetails) ={
+  private def updateApplicationDetailsWithUpdatedAllGifts(appDetails: ApplicationDetails) = {
     val isGivenAway = appDetails.allGifts.flatMap(_.isGivenAway)
     val isReservation = appDetails.allGifts.flatMap(_.isReservation)
     val isToTrust = appDetails.allGifts.flatMap(_.isToTrust)
@@ -137,14 +107,15 @@ trait GivenAwayController extends EstateController{
     val action = appDetails.allGifts.flatMap(_.action)
 
     isGivenAway.fold(appDetails) {
-      givenAwayValue => if (!givenAwayValue) {
-        appDetails copy(
-          allGifts = Some(AllGifts(isGivenAway = Some(false),isReservation = isReservation, isToTrust = isToTrust,
-            isGivenInLast7Years = isGivenInLast7Years, action = action)),
-          giftsList = None)
-      } else {
-        appDetails
-      }
+      givenAwayValue =>
+        if (!givenAwayValue) {
+          appDetails copy(
+            allGifts = Some(AllGifts(isGivenAway = Some(false), isReservation = isReservation, isToTrust = isToTrust,
+              isGivenInLast7Years = isGivenInLast7Years, action = action)),
+            giftsList = None)
+        } else {
+          appDetails
+        }
     }
   }
 }
