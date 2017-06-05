@@ -848,7 +848,7 @@ page.iht.application.assets.household.description.p1 = These are items, such as 
 page.iht.application.assets.household.inputLabel1 = Value of what the deceased owned on their own
 
 iht.estateReport.assets.money.jointlyOwned = Money jointly owned with other people
-iht.estateReport.assets.money.lowerCaseInitial = money
+iht.estateReport.assets.money.lowerCaseInitial = money, including any cash, cheques, bank transfers and items that the person who died spent money on
 iht.estateReport.assets.money.ownName.question = Did {0} own any money in their own name?
 iht.estateReport.assets.money.upperCaseInitial = Money
 iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money owned by the deceased only in their name
@@ -1238,15 +1238,18 @@ page.iht.application.gifts.reservation.description.p3 = If the deceased gave awa
 page.iht.application.gifts.trust.sectionTitle = Gifts given away to a trust or organisation
 page.iht.application.gifts.trust.description.p1 = This is where the deceased gave gifts to anything that isn’t a person in the 7 tax years before they died. This could be a gift to a company or to a trust.
 page.iht.application.gifts.trust.description.p2 = If any gifts of a house, land or buildings were given to a trust, you’ll need to complete an IHT-400 paper form to give more details to HMRC.
-page.iht.application.gifts.trust.question = Did {0} gift any property, land or buildings to anything that isn’t a person, like a trust, a company or a charity?
+page.iht.application.gifts.trust.question = Did {0} give any property, land or buildings to anything that is not a person?
 page.iht.application.gifts.trust.inputLabel1 = Total value of gifts given away to trusts
 
+page.iht.application.gifts.trust.question.hint = This could be giving a house, building or land to a trust, a company or a charity before they died.
+
 page.iht.application.gifts.lastYears.sectionName = lastYears
-page.iht.application.gifts.lastYears.description.p1 = The gifts that can be included on this estate report are:
-page.iht.application.gifts.lastYears.description.p3 = If {0} gave anything else away that isn’t on this list, you’ll need to give us more details about those gifts on a paper form.
-page.iht.application.gifts.lastYears.description.e3 = household and personal goods
+page.iht.application.gifts.lastYears.description.p1 = Gifts that can be included on this estate report are:
+page.iht.application.gifts.lastYears.description.p3 = If {0} gave anything else away that is not listed above, you will need to give more details about those gifts on a paper form.
+page.iht.application.gifts.lastYears.description.e3 = household and personal items, including jewellery, pictures and paintings
 page.iht.application.gifts.lastYears.description.e4 = houses, land and buildings
-page.iht.application.gifts.lastYears.question = Did {0} give anything else away that isn’t listed above in the 7 years before they died?
+page.iht.application.gifts.lastYears.description.e5 = motor vehicles, including boats and caravans
+page.iht.application.gifts.lastYears.question = Did {0} give anything else away before they died that was not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land?
 
 page.iht.application.gifts.lastYears.tableTitle1 = Gifts value
 page.iht.application.gifts.lastYears.tableTitle2 = Exemptions value
@@ -1264,7 +1267,7 @@ page.iht.application.giftsDetails.amountAdded = Amount added to the estate value
 
 iht.estateReport.gifts.givenAway.title = Gifts given away
 iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
-iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Gifts given away in the 7 years before death
+iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Types of gifts given away in the 7 years before death
 iht.estateReport.gifts.reservation.question = Did {0} give any gifts away that they still benefitted from?
 iht.estateReport.gifts.returnToGiftsGivenAway = Return to gifts given away in the 7 years before death
 iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to value of gifts given away in the 7 years before death
