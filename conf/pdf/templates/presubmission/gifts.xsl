@@ -14,7 +14,7 @@
         </fo:block>
 
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
-            <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'page.iht.application.gifts.overview.guidance1', $deceasedName, $deceasedName)"/>
+            <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'pdf.gifts.summary.p1', $deceasedName, $deceasedName)"/>
         </fo:block>
 
         <xsl:comment>Gifts Given Away section starts</xsl:comment>

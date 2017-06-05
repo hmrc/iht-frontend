@@ -26,14 +26,18 @@
 @(giftWithReservationFromBenefitForm:Form[AllGifts],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@gifts_main_template(title = Messages("iht.estateReport.gifts.withReservation.title"),
-browserTitle = Some(Messages("iht.estateReport.gifts.withReservation.title")),
+@gifts_main_template(title = Messages("iht.estateReport.gifts.withReservation.title", getDeceasedNameOrDefaultString(registrationDetails, true)),
+browserTitle = Some(Messages("iht.estateReport.gifts.withReservation.browserTitle")),
 relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad(),
-messageKeyUrl = "iht.estateReport.gifts.withReservation.title",
-messageKeyAccessibility = "iht.estateReport.gifts.withReservation.title"){
+messageKeyUrl = "iht.estateReport.gifts.withReservation.browserTitle",
+messageKeyAccessibility = "iht.estateReport.gifts.withReservation.browserTitle"){
     @ihtHelpers.custom.error_summary(giftWithReservationFromBenefitForm)
 
     @helpers.form(action = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
+
+        <p>@messages("iht.estateReport.gifts.withReservation.p1")</p>
+        <p>@messages("iht.estateReport.gifts.withReservation.p2")</p>
+        <p>@messages("iht.estateReport.gifts.withReservation.p3")</p>
 
         @ihtHelpers.standard.input_yes_no_radio_group(
         giftWithReservationFromBenefitForm("reservation.isReservation"),

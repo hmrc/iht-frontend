@@ -53,9 +53,9 @@ backToLastQuestionMessageKeyAccessibility: Option[String] = None)(mainContent: H
                 </li>
                 <li class="font-xsmall">
                   @if(request.path.trim == iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad().toString().trim){
-                    <span id="guidance3-span" aria-describedby="current">@Messages("iht.estateReport.gifts.withReservation.title")</span>
+                    <span id="guidance3-span" aria-describedby="current">@Messages("iht.estateReport.gifts.withReservation.browserTitle")</span>
                   } else {
-                    <a id="guidance3" href="@iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()">@Messages("iht.estateReport.gifts.withReservation.title")</a>
+                    <a id="guidance3" href="@iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad()">@Messages("iht.estateReport.gifts.withReservation.browserTitle")</a>
                   }
                 </li>
             </ol>

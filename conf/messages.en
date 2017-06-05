@@ -1190,9 +1190,9 @@ page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.gif
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.exemptions.screenReader = The total value of gift exemptions between {0} and {1} is £{2}.
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.estate.screenReader = The amount added to the estate value is £{2}.
 
-page.iht.application.gifts.overview.guidance1 = A gift is an asset given away by {0} before they died. These might be added to the estate value. You only need to give details of any gifts given away in the 7 years before {1} died.
+page.iht.application.gifts.overview.guidance1 = A gift is something given away in the 7 years before death. The value of gifts might be added to the value of the estate.
 page.iht.application.gifts.overview.givenAway.title = If the value of gifts given away is less than £3,000 in every year, you don’t need to give any gift details
-page.iht.application.gifts.overview.givenAway.question1 = Did {0} give away more than £3,000 of gifts in any of the 7 years before they died?
+page.iht.application.gifts.overview.givenAway.question1 = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
 page.iht.application.gifts.overview.givenAway.question1.yes.screenReader.link.value = Yes, the deceased gave away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 page.iht.application.gifts.overview.givenAway.question1.no.screenReader.link.value = No, the deceased didn’t give away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 
@@ -1265,12 +1265,19 @@ page.iht.application.giftsDetails.amountAdded = Amount added to the estate value
 iht.estateReport.gifts.givenAway.title = Gifts given away
 iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
 iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Gifts given away in the 7 years before death
-iht.estateReport.gifts.reservation.question = Did {0} give any gifts away with reservation of benefit?
+iht.estateReport.gifts.reservation.question = Did {0} give any gifts away that they still benefitted from?
 iht.estateReport.gifts.returnToGiftsGivenAway = Return to gifts given away in the 7 years before death
 iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to value of gifts given away in the 7 years before death
 iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the London Stock Exchange
 iht.estateReport.gifts.valueOfGiftsGivenAway = Value of gifts given away in the 7 years before death
-iht.estateReport.gifts.withReservation.title = Gifts with reservation of benefit
+iht.estateReport.gifts.withReservation.title = Gifts given away that {0} still benefitted from
+
+iht.estateReport.gifts.withReservation.browserTitle = Gifts with reservation of benefit
+
+iht.estateReport.gifts.withReservation.p1 = These are called gifts with reservation of benefit.
+iht.estateReport.gifts.withReservation.p2 = These are gifts that have been given away by someone where they still had some benefit afterwards. This is for any gift given away after 18 March 1986.
+iht.estateReport.gifts.withReservation.p3 = This could be where someone gives away their home to a family member but still lives there. Other kinds of gifts where a person still benefits from them afterwards include a caravan given away but the person still has holidays in it or a painting still being displayed in the home of the person who gave it away.
+
 iht.estateReport.gifts.totalOverSevenYears = Total over 7 years
 
 #Estate report - Debts
@@ -1798,11 +1805,11 @@ pdf.total.text = Total
 pdf.assetDescription.text = Asset
 pdf.liabilityType.text = Debt
 pdf.debts.summary.p1 = A debt is anything that {0} was responsible for paying. Only include debts that are being paid out of {1}’s estate. You need a grant of representation from the Probate Service to pay some debts off from the estate and sometimes the value of debts owed can be taken off the total estate value.
-pdf.gifts.summary.p1 = A gift is an asset given away by the deceased before they died. These are added to the value of the estate.
 pdf.exemption.table.text = Exemption
 pdf.exemption.spouse = Spouse or civil partner
 pdf.exemption.charity = Charity
 pdf.exemption.otherQualifyingBodies = Other qualifying bodies
+pdf.gifts.summary.p1 = A gift is an asset given away by {0} before they died. These might be added to the estate value. You only need to give details of any gifts given away in the 7 years before {1} died.
 pdf.gifts.total.title = Total of all gifts given away
 pdf.tnrb.domicileUK.text = Domiciled in UK
 
