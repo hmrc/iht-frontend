@@ -1253,8 +1253,8 @@ page.iht.application.gifts.lastYears.tableTitle2 = Exemptions value
 page.iht.application.gifts.lastYears.tableTitle3 = Amount added to estate value
 
 page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
-page.iht.application.gifts.lastYears.givenAway.p1 = You need to work out what gifts {0} gave away in each of the 7 years before they died. This will be between {1} and {2}.
-page.iht.application.gifts.lastYears.givenAway.p2 = If {0} gave away gifts of less than £3,000 in each of the 7 years before they died, you’ll not need to give these values or any details of gift exemptions.
+page.iht.application.gifts.lastYears.givenAway.p1 = You need to find out what gifts {0} gave away in each of the 7 tax years before they died.
+page.iht.application.gifts.lastYears.givenAway.p2 = The tax years for this estate are:
 
 page.iht.application.giftsDetails.browserTitle = Value of gifts for year
 page.iht.application.giftsDetails.subtitle = {0} to {1}

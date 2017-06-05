@@ -211,7 +211,7 @@ trait EstateController extends ApplicationController {
   /**
     * id: Is being used in case of properties, charities and qualifying bodies.
     */
-  private def estatesSaveApplication[A](nino: String,
+  def estatesSaveApplication[A](nino: String,
                                         estateElementModel: A,
                                         regDetails: RegistrationDetails,
                                         updateApplicationDetails: (ApplicationDetails, Option[String], A) => (ApplicationDetails, Option[String]),

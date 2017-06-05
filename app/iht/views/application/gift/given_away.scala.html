@@ -16,16 +16,19 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
+@import iht.models.application.gifts.PreviousYearsGifts
 @import iht.models._
 @import iht.models.application.gifts.AllGifts
 @import iht.utils.CommonHelper
 @import iht.constants.IhtProperties._
 @import iht.constants.Constants._
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import org.joda.time.LocalDate
+@import org.joda.time.format._
 
 @(giftsGivenAwayForm:Form[AllGifts],
-regDetails:RegistrationDetails
+regDetails:RegistrationDetails,
+giftsList: Seq[PreviousYearsGifts]
 )(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 
@@ -43,11 +46,18 @@ headingName = deceasedName
 
     @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
-    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-        deceasedNameWrapped,
-             Dates.formatDate(CommonHelper.getDateBeforeSevenYears(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath)).toString,
-        Dates.formatDate(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString))</p>
-    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedNameWrapped))</p>
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1", deceasedNameWrapped))</p>
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2"))</p>
+
+    <ul>
+    @for(element <- giftsList.reverse){
+        <li class="list list-bullet">
+            <span class="no-wrap">@Dates.formatDate(LocalDate.parse(element.startDate.get))</span>
+                @Messages("iht.to")
+            <span class="no-wrap">@Dates.formatDate(LocalDate.parse(element.endDate.get))</span>
+        </li>
+    }
+    </ul>
 
     @ihtHelpers.standard.input_yes_no_radio_group(
     giftsGivenAwayForm("isGivenAway"),    
