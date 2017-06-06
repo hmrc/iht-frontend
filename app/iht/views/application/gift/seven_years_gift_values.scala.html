@@ -18,7 +18,7 @@
 @import iht.models.application.gifts.PreviousYearsGifts
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
+@import iht.constants.IhtProperties
 @import iht.utils._
 @import iht.forms.ApplicationForms._
 @import iht.utils.CommonHelper
@@ -46,7 +46,7 @@ browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.brows
 
             <div id='gifts-description'>
                 <p class="lede" id="seven-years-guidance">@Messages("page.iht.application.gifts.sevenYears.values.guidance1")</p>
-                <p>@Messages("page.iht.application.gifts.sevenYears.values.guidance2") @Messages("page.iht.application.gifts.sevenYears.values.guidance3")</p>
+                <p><a id="gov-uk-gifts" href="@IhtProperties.linkIHTGifts">@Messages("page.iht.application.gifts.sevenYears.values.guidance2")</a> @Messages("page.iht.application.gifts.sevenYears.values.guidance3")</p>
             </div>
 
             <table id="gifts-list-table">
