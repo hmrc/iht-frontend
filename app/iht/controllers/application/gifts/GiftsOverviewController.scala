@@ -78,9 +78,6 @@ trait GiftsOverviewController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
-          routes.GiftsOverviewController.onPageLoad().toString())
-
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
             .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),

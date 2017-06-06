@@ -19,7 +19,7 @@
 @import iht.constants.IhtProperties._
 @import iht.models._
 
-@(giftsPageLocation:Option[Call],
+@(giftsPageLocation:Call,
 deceasedName: String)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",

@@ -77,7 +77,6 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
     }
 
     "respond with OK and all content on page load" in {
-
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         regDetails = registrationDetails,
@@ -99,8 +98,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
   }
 
   "InsurancePolicyDetailsFinalGuidanceController: giftsPageRedirect" must {
-
-    "return first gifts guidance page given gifts guidance not seen" in {
+    "return initial gifts question page given initial gifts question not answered" in {
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         regDetails = registrationDetails,
@@ -111,32 +109,13 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         storeAppDetailsInCache = true)
 
       val initialGiftsQuestionAnswerOption = None
-      val seenGiftsGuidance = false
 
-      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption, seenGiftsGuidance)(createFakeRequest())
+      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
 
-      result should be (Some(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()))
+      result should be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
     }
 
-    "return initial gifts question page given gifts guidance seen but initial gifts question not answered" in {
-      createMocksForApplication(mockCachingConnector,
-        mockIhtConnector,
-        regDetails = registrationDetails,
-        appDetails = Some(applicationDetails),
-        getAppDetails = true,
-        getAppDetailsFromCache = true,
-        saveAppDetails = true,
-        storeAppDetailsInCache = true)
-
-      val initialGiftsQuestionAnswerOption = None
-      val seenGiftsGuidance = true
-
-      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption, seenGiftsGuidance)(createFakeRequest())
-
-      result should be (Some(iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad()))
-    }
-
-    "return initial gifts question page given gifts guidance seen and initial gifts question answered no" in {
+    "return initial gifts question page given initial gifts question answered no" in {
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         regDetails = registrationDetails,
@@ -147,14 +126,13 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         storeAppDetailsInCache = true)
 
       val initialGiftsQuestionAnswerOption = Some(false)
-      val seenGiftsGuidance = true
 
-      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption, seenGiftsGuidance)(createFakeRequest())
+      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
 
-      result should be (Some(iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad()))
+      result should be (iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
     }
 
-    "return gifts overview page when gifts guidance seen and initial question answered yes" in {
+    "return gifts overview page when initial question answered yes" in {
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,
         regDetails = registrationDetails,
@@ -165,11 +143,10 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
         storeAppDetailsInCache = true)
 
       val initialGiftsQuestionAnswerOption = Some(true)
-      val seenGiftsGuidance = true
 
-      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption, seenGiftsGuidance)(createFakeRequest())
+      val result = insurancePolicyDetailsFinalGuidanceController.giftsPageRedirect(initialGiftsQuestionAnswerOption)(createFakeRequest())
 
-      result should be (Some(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad()))
+      result should be (iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad())
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

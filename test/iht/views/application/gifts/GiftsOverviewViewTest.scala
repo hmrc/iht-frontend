@@ -32,7 +32,6 @@ class GiftsOverviewViewTest extends ViewTestHelper {
 
   lazy val ihtRef = "ABC123"
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef))
-  lazy val whatAGiftPageUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad()
   lazy val estateOverviewPageUrl = iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef)
   lazy val giftGivenAwayPageUrl = iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad()
   lazy val giftWithReservationUrl = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onPageLoad()
@@ -72,14 +71,6 @@ class GiftsOverviewViewTest extends ViewTestHelper {
                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       assertNotContainsText(view, messagesApi("iht.estateReport.saved.estate"))
       assertContainsText(view, messagesApi("iht.estateReport.completeEverySection"))
-    }
-
-    "have the 'What a gift' link with correct text" in {
-      val view = giftsOverviewView()
-
-      val returnLink = view.getElementById("whatIsAGift")
-      returnLink.attr("href") shouldBe whatAGiftPageUrl.url
-      returnLink.text() shouldBe messagesApi("page.iht.application.gifts.guidance.whatsAGift.title")
     }
 
     "have the return link with correct text" in {

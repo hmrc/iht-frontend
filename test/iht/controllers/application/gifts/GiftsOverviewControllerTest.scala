@@ -108,8 +108,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         appDetails = None,
         getAppDetails = true)
 
-      createMockToStoreSingleValueInCache(mockCachingConnector, same(TestHelper.lastQuestionUrl), Some("true"))
-      val result = giftsOverviewController.onPageLoad(createFakeRequest())
+      giftsOverviewController.onPageLoad(createFakeRequest())
     }
 
     "redirect when first question, is given away, is not answered" in {

@@ -47,9 +47,6 @@ trait GivenAwayController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request =>
-        cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
-          iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad().toString)
-
         withApplicationDetails { regDetails =>
           appDetails =>
             val fm = appDetails.allGifts.fold(giftsGivenAwayForm)(giftsGivenAwayForm.fill)
