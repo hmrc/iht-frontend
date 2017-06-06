@@ -2,6 +2,7 @@ var checkAccessibility = function(done, driver) {
     var AxeBuilder = require('axe-webdriverjs');
     AxeBuilder(driver)
     .include('#content')
+    .exclude('[data-exclude="true"]')
     .analyze(function(results) {
         var report = "";
         if (results.violations.length > 0) {

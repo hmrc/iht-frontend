@@ -27,7 +27,7 @@ sharableElementForm:Form[_],
 questionHint:Option[Html] = None,
 clearTargetInput: Option[String] = None
 )(implicit messages: Messages)
-
+<div data-exclude="true">
     @defining(if(assetType==Constants.AssetTypeSingle) "isOwned" else "isOwnedShare") { assetOwnedType =>
 
             @{
@@ -76,3 +76,4 @@ clearTargetInput: Option[String] = None
                 </div>
 
             }
+</div>

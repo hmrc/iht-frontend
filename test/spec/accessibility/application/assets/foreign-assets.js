@@ -16,7 +16,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-describe('Foreign assets (Assets) accessibility : ', function() {
+fdescribe('Foreign assets (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {

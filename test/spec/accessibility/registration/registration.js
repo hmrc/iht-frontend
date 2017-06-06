@@ -136,7 +136,7 @@ describe('Registration accessibility : ', function() { 
                 driver.findElement(By.name("dateOfBirth.day")).sendKeys('28'); 
                 driver.findElement(By.name("dateOfBirth.month")).sendKeys('12'); 
                 driver.findElement(By.name("dateOfBirth.year")).sendKeys('1980'); 
-                driver.findElement(By.name("nino")).sendKeys('QQ123456'); 
+                driver.findElement(By.name("nino")).sendKeys('QQ123456A'); 
                 driver.findElement(By.name("phoneNo")).sendKeys('0181 152 456'); 
             }  
             function fillOtherPersonApplyingForProbateUK(done, driver) { 
