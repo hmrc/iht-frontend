@@ -44,7 +44,7 @@ class WithReservationOfBenefitViewTest extends SubmittableApplicationPageBehavio
 
   override def pageTitle = messagesApi("iht.estateReport.gifts.withReservation.title", deceasedName)
 
-  override def browserTitle = messagesApi("iht.estateReport.gifts.withReservation.browserTitle")
+  override def browserTitle = messagesApi("iht.estateReport.gifts.withReservation.titleWithoutName")
 
   override def guidance = guidance(
     Set(

@@ -35,8 +35,9 @@ class SevenYearsGiftValuesViewTest extends GenericNonSubmittablePageBehaviour {
   def deceasedName = registrationDetails.deceasedDetails.map(_.name).fold("")(identity)
 
   override def guidanceParagraphs = Set(
-    messagesApi("page.iht.application.gifts.sevenYears.values.guidance"),
-    messagesApi("page.iht.application.gifts.sevenYears.values.guidance2")
+    messagesApi("page.iht.application.gifts.sevenYears.values.guidance1"),
+    messagesApi("page.iht.application.gifts.sevenYears.values.guidance2"),
+    messagesApi("page.iht.application.gifts.sevenYears.values.guidance3")
   )
 
   override def pageTitle = messagesApi("iht.estateReport.gifts.valueOfGiftsGivenAway")

@@ -1179,11 +1179,11 @@ page.iht.application.gifts.guidance.giftsGivenAway.description3 = There’ll als
 page.iht.application.gifts.guidance.giftsGivenAway.description4 = Take your time to understand what gifts are. You’ll be able to read this guide again whenever you want.
 
 page.iht.application.gifts.sevenYears.values.browserTitle = Value of gifts given away
-page.iht.application.gifts.sevenYears.values.guidance = Enter the total value of gifts given away in each tax year and the amount of exemptions being claimed.
+page.iht.application.gifts.sevenYears.values.guidance1 = Enter the total value of gifts given away in each tax year and the amount of exemptions being claimed.
 
-page.iht.application.gifts.sevenYears.values.guidance1 = You can claim exemptions in each tax year
+page.iht.application.gifts.sevenYears.values.guidance2 = You can claim exemptions in each tax year
 
-page.iht.application.gifts.sevenYears.values.guidance2 = to reduce the amount of gifts added to the value of the estate. The difference between the total value of gifts and the amount of exemptions will be added to the value of the estate.
+page.iht.application.gifts.sevenYears.values.guidance3 = to reduce the amount of gifts added to the value of the estate. The difference between the total value of gifts and the amount of exemptions will be added to the value of the estate.
 page.iht.application.gifts.return.to.givenAwayBy = Return to gifts given away by {0}
 
 page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader.give = Give values for between the dates {0} and {1}.
@@ -1279,7 +1279,7 @@ iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the L
 iht.estateReport.gifts.valueOfGiftsGivenAway = Value of gifts given away in the 7 years before death
 iht.estateReport.gifts.withReservation.title = Gifts given away that {0} still benefitted from
 
-iht.estateReport.gifts.withReservation.browserTitle = Gifts with reservation of benefit
+iht.estateReport.gifts.withReservation.titleWithoutName = Gifts with reservation of benefit
 
 iht.estateReport.gifts.withReservation.p1 = These are called gifts with reservation of benefit.
 iht.estateReport.gifts.withReservation.p2 = These are gifts that have been given away by someone where they still had some benefit afterwards. This is for any gift given away after 18 March 1986.

@@ -45,7 +45,7 @@ trait GiftsGuidancePageBehaviour extends ApplicationPageBehaviour {
 
     link("guidance3",
       iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad().url,
-      messagesApi("iht.estateReport.gifts.withReservation.browserTitle"))
+      messagesApi("iht.estateReport.gifts.withReservation.titleWithoutName"))
 
     link("guidance4",
       iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad().url,

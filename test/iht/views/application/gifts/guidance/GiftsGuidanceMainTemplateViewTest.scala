@@ -90,7 +90,7 @@ class GiftsGuidanceMainTemplateViewTest extends GenericNonSubmittablePageBehavio
 
     behave like currentLinkRenderedAsSpan("3",
       iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad(),
-      messagesApi("iht.estateReport.gifts.withReservation.browserTitle"))
+      messagesApi("iht.estateReport.gifts.withReservation.titleWithoutName"))
 
     behave like currentLinkRenderedAsSpan("4",
       iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad(),

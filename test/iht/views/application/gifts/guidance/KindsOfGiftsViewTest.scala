@@ -58,6 +58,6 @@ class KindsOfGiftsViewTest extends GiftsGuidancePageBehaviour {
 
     behave like link("continue-to-next",
       iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad().url,
-      messagesApi("iht.next") + " " + messagesApi("iht.estateReport.gifts.withReservation.browserTitle"))
+      messagesApi("iht.next") + " " + messagesApi("iht.estateReport.gifts.withReservation.titleWithoutName"))
   }
 }
