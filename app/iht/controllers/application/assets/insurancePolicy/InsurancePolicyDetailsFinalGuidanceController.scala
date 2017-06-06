@@ -70,7 +70,8 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
     } else if ((seenGiftsGuidance && initialGiftsQuestionFalse) || (notAnsweredInitialGIftsQuestion && seenGiftsGuidance)) {
       Some(iht.controllers.application.gifts.routes.GivenAwayController.onPageLoad())
     } else {
-      Some(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad())
+      throw new RuntimeException
+      //Some(iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad())
     }
   }
 

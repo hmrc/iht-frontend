@@ -39,11 +39,9 @@ previousYearsGiftsValueIsDefined: Boolean
 )(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 
-@gifts_main_template(title = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"),
-browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.browserTitle")),
-relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.ClaimingExemptionsController.onPageLoad(),
-messageKeyUrl = "page.iht.application.gifts.guidance.claimingExemptions.title",
-messageKeyAccessibility = "page.iht.application.gifts.guidance.claimingExemptions.title"){
+@iht_main_template_application(title = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"),
+browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.browserTitle"))
+){
 
 
             <div id='gifts-description'>

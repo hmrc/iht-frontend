@@ -34,11 +34,8 @@ giftsList: Seq[PreviousYearsGifts]
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 @deceasedNameWrapped() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)}
 
-@gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
+@iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
-relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
-messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
-messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title",
 headingName = deceasedName
 ){
     @ihtHelpers.custom.error_summary(giftsGivenAwayForm)

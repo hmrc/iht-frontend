@@ -41,13 +41,10 @@ returnToMessagesKey: String
 
 }
 
-@gifts_main_template(
+@iht_main_template_application(
     title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
     browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
     isFullWidth=false,
-    relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
-    messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
-    messageKeyAccessibility = "page.iht.application.gifts.guidance.whatsAGift.title",
     headingName = deceasedName
 )(generic_overview(
     registrationDetails,
@@ -57,5 +54,5 @@ returnToMessagesKey: String
     Some(returnCall),
    returnToMessagesKey,
    true,
-showStatus = false)
+   showStatus = false)
 )

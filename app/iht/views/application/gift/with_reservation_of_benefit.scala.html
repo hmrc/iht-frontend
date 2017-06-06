@@ -26,11 +26,9 @@
 @(giftWithReservationFromBenefitForm:Form[AllGifts],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@gifts_main_template(title = Messages("iht.estateReport.gifts.withReservation.title", getDeceasedNameOrDefaultString(registrationDetails, true)),
-browserTitle = Some(Messages("iht.estateReport.gifts.withReservation.titleWithoutName")),
-relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WithReservationController.onPageLoad(),
-messageKeyUrl = "iht.estateReport.gifts.withReservation.titleWithoutName",
-messageKeyAccessibility = "iht.estateReport.gifts.withReservation.titleWithoutName"){
+@iht_main_template_application(title = Messages("iht.estateReport.gifts.withReservation.title", getDeceasedNameOrDefaultString(registrationDetails, true)),
+browserTitle = Some(Messages("iht.estateReport.gifts.withReservation.titleWithoutName"))
+){
     @ihtHelpers.custom.error_summary(giftWithReservationFromBenefitForm)
 
     @helpers.form(action = iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
