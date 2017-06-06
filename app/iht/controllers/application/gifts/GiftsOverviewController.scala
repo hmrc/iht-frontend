@@ -50,28 +50,30 @@ trait GiftsOverviewController extends EstateController {
     )
   }
 
-  private def withReservationYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
+  private def withReservationYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) =  {
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd, true)
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isReservation, routes.WithReservationOfBenefitController.onPageLoad(),
         _.allGifts.flatMap(_.isReservation).fold(false)(_ => true),
-        "page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value",
-        "page.iht.application.gifts.overview.reservation.question1.no.screenReader.link.value",
+        messages("page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value", deceasedName),
+        messages("page.iht.application.gifts.overview.reservation.question1.no.screenReader.link.value", deceasedName),
         "page.iht.application.gifts.overview.reservation.question1.none.screenReader.link.value")
     )
   }
 
-  private def sevenYearsYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
+  private def sevenYearsYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) = {
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd, true)
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isGivenInLast7Years, routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
         _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => true),
-        "page.iht.application.gifts.overview.sevenYears.question1.yes.screenReader.link.value",
-        "page.iht.application.gifts.overview.sevenYears.question1.no.screenReader.link.value",
+        messages("page.iht.application.gifts.overview.sevenYears.question1.yes.screenReader.link.value", deceasedName),
+        messages("page.iht.application.gifts.overview.sevenYears.question1.no.screenReader.link.value", deceasedName),
         "page.iht.application.gifts.overview.sevenYears.question1.none.screenReader.link.value"),
       QuestionAnswer(allGifts.isToTrust, iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad(),
         _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => !allGifts.isGivenInLast7Years.get),
-        "page.iht.application.gifts.overview.sevenYears.question2.yes.screenReader.link.value",
-        "page.iht.application.gifts.overview.sevenYears.question2.no.screenReader.link.value",
-        "page.iht.application.gifts.overview.sevenYears.question2.none.screenReader.link.value")
+        messages("page.iht.application.gifts.overview.sevenYears.question2.yes.screenReader.link.value", deceasedName),
+        messages("page.iht.application.gifts.overview.sevenYears.question2.no.screenReader.link.value", deceasedName),
+        messages("page.iht.application.gifts.overview.sevenYears.question2.none.screenReader.link.value", deceasedName))
     )
   }
 
@@ -128,8 +130,8 @@ trait GiftsOverviewController extends EstateController {
       id = "reservation",
       title = Some(messages("iht.estateReport.gifts.withReservation.title", deceasedName)),
       linkUrl = routes.WithReservationOfBenefitController.onPageLoad(),
-      sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value",
-      questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails),
+      sectionLevelLinkAccessibilityText = messages("page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value", deceasedName),
+      questionAnswersPlusChangeLinks = withReservationYesNoItems(allGifts, regDetails)(messages),
       questionTitlesMessagesFileItems = Seq(messages("iht.estateReport.gifts.reservation.question", deceasedName)),
       ad,
       regDetails,
@@ -142,7 +144,7 @@ trait GiftsOverviewController extends EstateController {
       title = Some("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
       linkUrl = routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value",
-      questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
+      questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails)(messages),
       questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName),
         messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)),
       ad,

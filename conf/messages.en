@@ -1202,18 +1202,19 @@ page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts awa
 page.iht.application.gifts.overview.givenAway.question1.yes.screenReader.link.value = Yes, the deceased gave away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 page.iht.application.gifts.overview.givenAway.question1.no.screenReader.link.value = No, the deceased didn’t give away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 
-page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value = Give an answer for if any gifts with reservation of benefit were given away.
-page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value = Yes, the deceased gave away gifts with reservation of benefit. Change this answer.
-page.iht.application.gifts.overview.reservation.question1.no.screenReader.link.value = No, the deceased didn’t give away gifts with reservation of benefit. Change this answer.
+page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value = Give an answer for if {0} still benefitted from any gifts given away.
+page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value = Yes, {0} still benefitted from gifts given away. Change this answer.
+page.iht.application.gifts.overview.reservation.question1.no.screenReader.link.value = No, {0} did not benefit from any gifts given away. Change this answer.
 
-page.iht.application.gifts.overview.sevenYears.question1 = Did {0} give anything else away that isn’t listed in the 7 years before they died?
-page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value = Give an answer for what kind of gifts were given away in the 7 years before death.
-page.iht.application.gifts.overview.sevenYears.question1.yes.screenReader.link.value = Yes, the deceased gave away gifts that aren’t listed. Change this answer.
-page.iht.application.gifts.overview.sevenYears.question1.no.screenReader.link.value = No, the deceased didn’t give away gifts that aren’t listed. Change this answer.
+page.iht.application.gifts.overview.sevenYears.question1 = Did {0} give anything else away before they died that was not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land?
+page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value = Give an answer for what types of gifts were given away in the 7 years before death.
+page.iht.application.gifts.overview.sevenYears.question1.yes.screenReader.link.value = Yes, {0} gave away gifts before they died that were not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land. Change this answer.
+page.iht.application.gifts.overview.sevenYears.question1.no.screenReader.link.value = No, {0} did not give away gifts before they died that were not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land. Change this answer.
 
-page.iht.application.gifts.overview.sevenYears.question2 = Did {0} give any property, land or buildings to anything that isn’t a person, like a trust, a company or a charity?
-page.iht.application.gifts.overview.sevenYears.question2.yes.screenReader.link.value = Yes, the deceased gifted property, land or buildings to anything that isn’t a person. Change this answer.
-page.iht.application.gifts.overview.sevenYears.question2.no.screenReader.link.value = No, the deceased didn’t gift property, land or buildings to anything that isn’t a person. Change this answer.
+page.iht.application.gifts.overview.sevenYears.question2 = Did {0} give any property, land or buildings to anything that is not a person?
+page.iht.application.gifts.overview.sevenYears.question2.none.screenReader.link.value = Give an answer for if {0} gave any property, land or buildings to anything that is not a person.
+page.iht.application.gifts.overview.sevenYears.question2.yes.screenReader.link.value = Yes, {0} gave property, land or buildings to anything that is not a person. Change this answer.
+page.iht.application.gifts.overview.sevenYears.question2.no.screenReader.link.value = No, {0} did not give any property, land or buildings to anything that is not a person. Change this answer.
 
 page.iht.application.gifts.overview.lastYears.screenReader.value = The total value of gifts added to the estate is £{0}
 page.iht.application.gifts.overview.lastYears.screenReader.noValue = You haven’t added any values for gifts given away in the seven years before death
@@ -1233,7 +1234,7 @@ page.iht.application.gifts.overview.insurancePaid.question1.yes.screenReader.lin
 page.iht.application.gifts.overview.insurancePaid.question1.no.screenReader.link.value = No, the total value of insurance premiums paid by the deceased for someone else wasn’t completely exempt as a gift. Change this answer.
 
 page.iht.application.gifts.overview.value.question1 = Amount added to the estate value
-page.iht.application.gifts.overview.value.giveAnswer.screenReader.link.value = Give the values of the gifts and exemptions given away in the 7 years before death.
+page.iht.application.gifts.overview.value.giveAnswer.screenReader.link.value = Give the values of the gifts given away in the 7 years before death.
 page.iht.application.gifts.overview.value.amount.screenReader.link.value = The amount added to the estate value is {0}. Change gift values.
 
 page.iht.application.gifts.reservation.sectionName = reservation
