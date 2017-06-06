@@ -41,7 +41,7 @@
                                     <fo:table-cell text-align="right" padding-left="4pt">
                                         <fo:block>
                                             <xsl:value-of
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle2')"/>
+                                                    select="i18n:getMessagesText($translator, 'page.iht.exemptions.title')"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell text-align="right" padding-left="4pt">

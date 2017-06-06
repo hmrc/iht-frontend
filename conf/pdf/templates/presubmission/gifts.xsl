@@ -39,7 +39,7 @@
                     </fo:block>
                     <xsl:comment>Gifts With Reservation section starts</xsl:comment>
                     <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.withReservation.title')"/>
+                        <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.withReservation.title', $deceasedName)"/>
                         <fo:table space-before="0.5cm">
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
@@ -104,7 +104,7 @@
                                             <fo:table-cell text-align="right" padding-left="4pt">
                                                 <fo:block>
                                                     <xsl:value-of
-                                                            select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle2')"/>
+                                                            select="i18n:getMessagesText($translator, 'page.iht.exemptions.title')"/>
                                                 </fo:block>
                                             </fo:table-cell>
                                             <fo:table-cell text-align="right" padding-left="4pt">
