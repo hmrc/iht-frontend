@@ -1,3 +1,6 @@
+var selenium = require('selenium-webdriver')
+var By = selenium.By, until = selenium.until;
+
 var checkAccessibility = function(done, driver) {
     var AxeBuilder = require('axe-webdriverjs');
     AxeBuilder(driver)
@@ -13,7 +16,13 @@ var checkAccessibility = function(done, driver) {
                  })
             });
         }
-        expect(results.violations.length).toBe(0,report);
+        var addendum = "";
+              driver.findElements(selenium.By.css("[data-exclude]")) .then(function(elements) { 
+                  if(elements.length > 0){
+                      addendum = "This page contains a skipped component";
+                  } 
+              })
+        expect(results.violations.length).toBe(0,report, "extra info");
         done();
     })
 

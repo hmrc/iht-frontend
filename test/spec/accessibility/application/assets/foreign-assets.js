@@ -27,9 +27,9 @@ fdescribe('Foreign assets (Assets) accessibility : ', function() {
 
     // Close website after each test is run (so it is opened fresh each time)
     afterEach(function(done) {
-      driver.quit().then(function () {
-          done();
-      });
+        driver.quit().then(function () {
+              done();
+        });
     });
 
 
