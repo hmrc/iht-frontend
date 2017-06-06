@@ -26,7 +26,7 @@
 @(giftWithReservationFromBenefitForm:Form[AllGifts],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.gifts.withReservation.title", getDeceasedNameOrDefaultString(registrationDetails, true)),
+@iht_main_template_application(title = Messages("iht.estateReport.gifts.withReservation.title", getDeceasedNameOrDefaultString(registrationDetails, false)),
 browserTitle = Some(Messages("iht.estateReport.gifts.withReservation.titleWithoutName"))
 ){
     @ihtHelpers.custom.error_summary(giftWithReservationFromBenefitForm)
