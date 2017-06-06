@@ -32,7 +32,7 @@ site.link.return.gifts = Return to gifts given away
 site.link.return.mortgage = Add a mortgage value for a property, building or land
 site.link.return.mortgage.overview = Return to mortgages
 site.link.return.debts = Return to debts owed from the estate
-site.link.go.to.gifts = Go to the gifts given away by the deceased section
+site.link.go.to.gifts = Go to gifts given away by {0}
 site.link.go.to.estateOverview = Go to estate overview
 site.link.go.to.giftsGivenAwaySection = Go to the gifts given away section
 site.link.return.insurance.policies = Return to insurance policies
@@ -1014,8 +1014,8 @@ page.iht.application.insurance.policies.section5.title = Was a policy placed in 
 page.iht.application.insurance.policies.section5.question = Was an insurance policy placed in the trust more than 7 years before the deceased died?
 page.iht.application.insurance.policies.section6.browserTitle = Any annuities bought
 page.iht.application.insurance.policies.section6.guidance = An annuity pays out through a number of regular payments. Sometimes this could be from an insurance company where someone receives a regular payment instead of one single payment. You should take your time to check with different financial providers to check if an annuity was bought.
-page.iht.application.insurance.policies.section7.guidance = The insurance premiums paid by {0} on a policy that pays out to someone else is considered to be a gift. You should include the values of the premiums paid in that section.
-page.iht.application.insurance.policies.section7.guidance2 = You should take your time to understand what gifts are and how to work out the total values for that section. You can do that in the gifts given away section.
+page.iht.application.insurance.policies.section7.guidance = The insurance premiums paid by {0} on a policy that pays out to someone else was a gift to that person.
+page.iht.application.insurance.policies.section7.guidance2 = Include these values in the gifts section.
 page.iht.application.insurance.policies.section8.browserTitle = Value of gifted policies
 page.iht.application.insurance.policies.validation.summary.endLine = If you don't want to answer at this time, you can choose to return to insurance policies.
 
@@ -1876,9 +1876,10 @@ page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is becau
 #Kickouts - Estate report -Gifts
 page.iht.application.gifts.kickout.withReservationOfBenefit.summary = This is because the deceased gave away gifts with the reservation of benefit.
 
-page.iht.application.gifts.kickout.givenInPast.summary = This is because the deceased gave away a gift that wasn’t:
-page.iht.application.gifts.kickout.givenInPast.summary.bullet3 = a household or personal item
+page.iht.application.gifts.kickout.givenInPast.summary = This is because the deceased gave away a gift that was not:
+page.iht.application.gifts.kickout.givenInPast.summary.bullet3 = a household or personal item, including jewellery, pictures and paintings
 page.iht.application.gifts.kickout.givenInPast.summary.bullet4 = a house, land or a building
+page.iht.application.gifts.kickout.givenInPast.summary.bullet5 = a motor vehicle, including a boat or a caravan
 
 page.iht.application.gifts.kickout.toTrust.summary = This is because the deceased gave away a house, building or land to anything that isn’t a person.
 
