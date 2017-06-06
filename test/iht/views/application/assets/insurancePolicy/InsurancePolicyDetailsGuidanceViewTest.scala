@@ -54,7 +54,7 @@ class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
     "show the return link with to the gifts" in {
       val giftsButton = doc.getElementById("return-button-gifts")
       giftsButton.attr("href") shouldBe giftsLocation.url
-      giftsButton.text() shouldBe messagesApi("site.link.go.to.gifts")
+      giftsButton.text() shouldBe messagesApi("site.link.go.to.gifts", deceasedName)
     }
   }
 }
