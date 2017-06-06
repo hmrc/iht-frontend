@@ -1206,15 +1206,14 @@ page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.val
 page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value = Yes, {0} still benefitted from gifts given away. Change this answer.
 page.iht.application.gifts.overview.reservation.question1.no.screenReader.link.value = No, {0} did not benefit from any gifts given away. Change this answer.
 
-page.iht.application.gifts.overview.sevenYears.question1 = Did {0} give anything else away before they died that was not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land?
 page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value = Give an answer for what types of gifts were given away in the 7 years before death.
-page.iht.application.gifts.overview.sevenYears.question1.yes.screenReader.link.value = Yes, {0} gave away gifts before they died that were not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land. Change this answer.
-page.iht.application.gifts.overview.sevenYears.question1.no.screenReader.link.value = No, {0} did not give away gifts before they died that were not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land. Change this answer.
+page.iht.application.gifts.lastYears.question.yes.screenReader.link.value = Yes, {0} gave away gifts before they died that were not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land. Change this answer.
+page.iht.application.gifts.lastYears.question.no.screenReader.link.value = No, {0} did not give away gifts before they died that were not money, household and personal items, motor vehicles, stocks and shares, or a house, building or land. Change this answer.
 
-page.iht.application.gifts.overview.sevenYears.question2 = Did {0} give any property, land or buildings to anything that is not a person?
-page.iht.application.gifts.overview.sevenYears.question2.none.screenReader.link.value = Give an answer for if {0} gave any property, land or buildings to anything that is not a person.
-page.iht.application.gifts.overview.sevenYears.question2.yes.screenReader.link.value = Yes, {0} gave property, land or buildings to anything that is not a person. Change this answer.
-page.iht.application.gifts.overview.sevenYears.question2.no.screenReader.link.value = No, {0} did not give any property, land or buildings to anything that is not a person. Change this answer.
+page.iht.application.gifts.trust.question = Did {0} give any property, land or buildings to anything that is not a person?
+page.iht.application.gifts.trust.question.none.screenReader.link.value = Give an answer for if {0} gave any property, land or buildings to anything that is not a person.
+page.iht.application.gifts.trust.question.yes.screenReader.link.value = Yes, {0} gave property, land or buildings to anything that is not a person. Change this answer.
+page.iht.application.gifts.trust.question.no.screenReader.link.value = No, {0} did not give any property, land or buildings to anything that is not a person. Change this answer.
 
 page.iht.application.gifts.overview.lastYears.screenReader.value = The total value of gifts added to the estate is £{0}
 page.iht.application.gifts.overview.lastYears.screenReader.noValue = You haven’t added any values for gifts given away in the seven years before death
@@ -1245,7 +1244,6 @@ page.iht.application.gifts.reservation.description.p3 = If the deceased gave awa
 page.iht.application.gifts.trust.sectionTitle = Gifts given away to a trust or organisation
 page.iht.application.gifts.trust.description.p1 = This is where the deceased gave gifts to anything that isn’t a person in the 7 tax years before they died. This could be a gift to a company or to a trust.
 page.iht.application.gifts.trust.description.p2 = If any gifts of a house, land or buildings were given to a trust, you’ll need to complete an IHT-400 paper form to give more details to HMRC.
-page.iht.application.gifts.trust.question = Did {0} give any property, land or buildings to anything that is not a person?
 page.iht.application.gifts.trust.inputLabel1 = Total value of gifts given away to trusts
 
 page.iht.application.gifts.trust.question.hint = This could be giving a house, building or land to a trust, a company or a charity before they died.

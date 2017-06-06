@@ -116,7 +116,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       reservationLink.attr("href") shouldBe giftWithReservationUrl.url
 
       assertRenderedById(doc, "sevenYear")
-      messagesShouldBePresent(doc.toString, messagesApi("page.iht.application.gifts.overview.sevenYears.question1", deceasedName))
+      messagesShouldBePresent(doc.toString, messagesApi("page.iht.application.gifts.lastYears.question", deceasedName))
       val sevenYearsLink = doc.getElementById(GiftsSevenYearsQuestionID)
       sevenYearsLink.text shouldBe messagesApi("iht.change")
       sevenYearsLink.attr("href") shouldBe giftGivenInLastSevenYearsPageUrl.url
@@ -159,9 +159,9 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       linkUrl = giftGivenInLastSevenYearsPageUrl,
       sectionLevelLinkAccessibilityText = "",
       questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails),
-      questionTitlesMessagesFileItems = Seq(messagesApi("page.iht.application.gifts.overview.sevenYears.question1",
+      questionTitlesMessagesFileItems = Seq(messagesApi("page.iht.application.gifts.lastYears.question",
                                                     deceasedName),
-        messagesApi("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)), ad, regDetails,
+        messagesApi("page.iht.application.gifts.trust.question", deceasedName)), ad, regDetails,
       sectionLinkId = GiftsSevenYearsSectionID,
       questionLinkIds = Seq(GiftsSevenYearsQuestionID, GiftsSevenYearsQuestionID2))
 

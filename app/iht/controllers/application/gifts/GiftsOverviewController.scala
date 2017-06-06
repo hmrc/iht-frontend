@@ -66,14 +66,14 @@ trait GiftsOverviewController extends EstateController {
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isGivenInLast7Years, routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
         _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => true),
-        messages("page.iht.application.gifts.overview.sevenYears.question1.yes.screenReader.link.value", deceasedName),
-        messages("page.iht.application.gifts.overview.sevenYears.question1.no.screenReader.link.value", deceasedName),
-        "page.iht.application.gifts.overview.sevenYears.question1.none.screenReader.link.value"),
+        messages("page.iht.application.gifts.lastYears.question.yes.screenReader.link.value", deceasedName),
+        messages("page.iht.application.gifts.lastYears.question.no.screenReader.link.value", deceasedName),
+        "page.iht.application.gifts.lastYears.question.none.screenReader.link.value"),
       QuestionAnswer(allGifts.isToTrust, iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad(),
         _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => !allGifts.isGivenInLast7Years.get),
-        messages("page.iht.application.gifts.overview.sevenYears.question2.yes.screenReader.link.value", deceasedName),
-        messages("page.iht.application.gifts.overview.sevenYears.question2.no.screenReader.link.value", deceasedName),
-        messages("page.iht.application.gifts.overview.sevenYears.question2.none.screenReader.link.value", deceasedName))
+        messages("page.iht.application.gifts.trust.question.yes.screenReader.link.value", deceasedName),
+        messages("page.iht.application.gifts.trust.question.no.screenReader.link.value", deceasedName),
+        messages("page.iht.application.gifts.trust.question.none.screenReader.link.value", deceasedName))
     )
   }
 
@@ -145,8 +145,8 @@ trait GiftsOverviewController extends EstateController {
       linkUrl = routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value",
       questionAnswersPlusChangeLinks = sevenYearsYesNoItems(allGifts, regDetails)(messages),
-      questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.overview.sevenYears.question1", deceasedName),
-        messages("page.iht.application.gifts.overview.sevenYears.question2", deceasedName)),
+      questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.lastYears.question", deceasedName),
+        messages("page.iht.application.gifts.trust.question", deceasedName)),
       ad,
       regDetails,
       sectionLinkId = GiftsSevenYearsSectionID,
