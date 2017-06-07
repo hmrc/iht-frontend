@@ -1815,7 +1815,6 @@ pdf.exemption.table.text = Exemption
 pdf.exemption.spouse = Spouse or civil partner
 pdf.exemption.charity = Charity
 pdf.exemption.otherQualifyingBodies = Other qualifying bodies
-pdf.gifts.summary.p1 = A gift is an asset given away by {0} before they died. These might be added to the estate value. You only need to give details of any gifts given away in the 7 years before {1} died.
 pdf.gifts.total.title = Total of all gifts given away
 
 pdf.tnrb.domicileUK.text = Domiciled in UK
