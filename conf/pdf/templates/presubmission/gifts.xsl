@@ -10,7 +10,7 @@
 
     <xsl:template name="pre-gifts">
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.givenAway.title')"/>
+            <xsl:value-of select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.givenAwayBy', $deceasedName)"/>
         </fo:block>
 
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
