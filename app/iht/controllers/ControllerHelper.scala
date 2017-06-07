@@ -47,10 +47,6 @@ object ControllerHelper {
   // Exemptions
   val ExemptionsGuidanceSeen = "ExemptionGuidanceSeen"
 
-  // Gifts
-  val GiftsGuidanceSeen = "GiftsGuidanceSeen"
-  val lastQuestionUrl = "lastQuestionUrl"
-
   //Constants for Single Values
   val SingleValueProbateRef = "probateReference"
 
@@ -81,13 +77,6 @@ object ControllerHelper {
   val notFoundExceptionCode = 404
 
   val ihtReferenceErrorString = "error_in_reference"
-
-  def messageKeyForLastQuestionURL(lastQuestionUrl: String) =
-    if (lastQuestionUrl == iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad().url) {
-      "site.backToLastQuestion.values.link"
-    } else {
-      "iht.returnToLastQuestion"
-    }
 
   object Mode extends Enumeration {
     val Edit, Standard = Value

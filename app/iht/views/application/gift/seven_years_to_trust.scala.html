@@ -28,11 +28,8 @@
 @(GiftSevenYearsToTrustForm: Form[AllGifts],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
-browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath")),
-relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.KindsOfGiftsController.onPageLoad(),
-messageKeyUrl = "page.iht.application.gifts.guidance.kindOfGifts.title",
-messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title"
+@iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
+browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))
 ){
 
 @ihtHelpers.custom.error_summary(GiftSevenYearsToTrustForm)
@@ -42,7 +39,8 @@ messageKeyAccessibility = "page.iht.application.gifts.guidance.kindOfGifts.title
 <div id="seven-years-to-trust-question">
         @ihtHelpers.standard.input_yes_no_radio_group(
         GiftSevenYearsToTrustForm("trust.isToTrust"),
-        '_legend -> Html(Messages("page.iht.application.gifts.trust.question", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true))),        
+        '_legend -> Html(Messages("page.iht.application.gifts.trust.question", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true))),
+        '_hintText -> Messages("page.iht.application.gifts.trust.question.hint"),
         '_divClass -> Some("form-group"))
 </div>
 <div id="action-button" class="form-field form-field--submit">

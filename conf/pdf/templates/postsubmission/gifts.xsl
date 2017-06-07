@@ -20,7 +20,7 @@
             <xsl:when test="gifts/array != ''">
                 <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.0cm">
                     <xsl:value-of
-                            select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath')"/>
+                            select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.valueOfGiftsGivenAway')"/>
                 </fo:block>
 
                 <!-- Gifts table  -->
@@ -41,7 +41,7 @@
                                     <fo:table-cell text-align="right" padding-left="4pt">
                                         <fo:block>
                                             <xsl:value-of
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle2')"/>
+                                                    select="i18n:getMessagesText($translator, 'page.iht.exemptions.title')"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell text-align="right" padding-left="4pt">

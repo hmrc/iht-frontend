@@ -108,8 +108,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
         appDetails = None,
         getAppDetails = true)
 
-      createMockToStoreSingleValueInCache(mockCachingConnector, same(TestHelper.lastQuestionUrl), Some("true"))
-      val result = giftsOverviewController.onPageLoad(createFakeRequest())
+      giftsOverviewController.onPageLoad(createFakeRequest())
     }
 
     "redirect when first question, is given away, is not answered" in {
@@ -295,7 +294,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.overview.sevenYears.question2",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("page.iht.application.gifts.trust.question",
         deceasedName))
     }
 
@@ -313,7 +312,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
 
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) shouldNot include (messagesApi("page.iht.application.gifts.overview.sevenYears.question2"))
+      contentAsString(result) shouldNot include (messagesApi("page.iht.application.gifts.trust.question"))
     }
 
 

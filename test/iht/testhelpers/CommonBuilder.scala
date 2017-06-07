@@ -443,9 +443,9 @@ object CommonBuilder {
                                 isToTrust = Some(false), isGivenInLast7Years = Some(true))
 
   val buildGiftsList = Seq(
-    PreviousYearsGifts(Some("1"), Some(1000.00), Some(0), Some("6 April 2014"), Some("12 December 2014")),
-    PreviousYearsGifts(Some("2"), Some(1001.00), Some(0), Some("6 April 2013"), Some("5 April 2013")),
-    PreviousYearsGifts(Some("3"), Some(1002.00), Some(0), Some("6 April 2012"), Some("5 April 2012"))
+    PreviousYearsGifts(Some("1"), Some(1000.00), Some(0), Some("2014-04-06"), Some("2014-12-12")),
+    PreviousYearsGifts(Some("2"), Some(1001.00), Some(0), Some("2013-04-06"), Some("2013-04-05")),
+    PreviousYearsGifts(Some("3"), Some(1002.00), Some(0), Some("2012-04-06"), Some("2012-04-05"))
   )
 
   //Creates the ApplicationDetails with default values

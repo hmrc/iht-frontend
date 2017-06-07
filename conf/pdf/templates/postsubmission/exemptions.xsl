@@ -18,7 +18,7 @@
             <xsl:when test="freeEstate/estateExemptions != ''">
 
                 <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.5cm">
-                    <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.exemptions.title')"/>
+                    <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
                 </fo:block>
 
                 <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="0.5cm">

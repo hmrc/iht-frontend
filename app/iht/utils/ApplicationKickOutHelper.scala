@@ -289,10 +289,13 @@ object ApplicationKickOutHelper {
   def summaryBullets(kickoutReason: String)(implicit messages:Messages) =
     kickoutReason match {
       case KickOut.GiftsGivenInPast =>
-        Seq(messages("iht.estateReport.assets.money.lowerCaseInitial"),
-          messages("iht.estateReport.gifts.stocksAndSharesListed"),
+        Seq(
+          messages("iht.estateReport.assets.money.lowerCaseInitial"),
           messages("page.iht.application.gifts.kickout.givenInPast.summary.bullet3"),
-          messages("page.iht.application.gifts.kickout.givenInPast.summary.bullet4"))
+          messages("page.iht.application.gifts.kickout.givenInPast.summary.bullet5"),
+          messages("iht.estateReport.gifts.stocksAndSharesListed"),
+            messages("page.iht.application.gifts.kickout.givenInPast.summary.bullet4")
+        )
       case _ => Nil
     }
 

@@ -46,8 +46,6 @@ trait SevenYearsGiftsValuesController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request =>
-        cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
-          routes.SevenYearsGiftsValuesController.onPageLoad().toString())
         withApplicationDetails { rd =>
           ad =>
             CommonHelper.getOrException(rd.deceasedDateOfDeath.map(ddod =>
