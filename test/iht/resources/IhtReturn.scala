@@ -284,6 +284,10 @@ case class IhtReturn(survivingSpouseFirstName: String, survivingSpouseSurname: S
            <exemptionType>Spouse</exemptionType>
            <overrideValue>25</overrideValue>
          </estateExemptions>
+         <estateExemptions>
+           <exemptionType>Charity</exemptionType>
+           <overrideValue>28</overrideValue>
+         </estateExemptions>
        </freeEstate>
        <declaration>
          <coExecutorsAccepted>true</coExecutorsAccepted>
