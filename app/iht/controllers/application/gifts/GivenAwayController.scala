@@ -54,7 +54,6 @@ trait GivenAwayController extends EstateController {
             CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
               val giftsList = appDetails.giftsList
                 .fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
-                .reverse
 
               Future.successful(Ok(given_away(fm, regDetails, giftsList)))
             })
