@@ -23,12 +23,10 @@ import play.api.i18n.Messages
   */
 
 object MessagesTranslator {
-  def apply(messages: Messages):MessagesTranslator = {
-    new MessagesTranslator(messages)
-  }
+  def apply(messages: Messages):MessagesTranslator = new MessagesTranslator(messages)
 }
 
-class MessagesTranslator(messages: Messages) {
+class MessagesTranslator private (messages: Messages) {
   def getMessagesText(key: String): String = messages(key)
 
   def getMessagesTextWithParameter(key: String, parameter:String ): String = messages(key, parameter)
