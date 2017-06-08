@@ -94,8 +94,8 @@ trait RegistrationController extends FrontendController with IhtActions {
       if (checkGuardCondition(rd, id)) {
         body(rd)
       } else {
-        throw new RuntimeException("Illegal page navigation")
-      }
+        Logger.info(s"Registration details not found in cache when $uri requested so re-directing to application overview page")
+        Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))      }
     }
   }
 
@@ -116,7 +116,7 @@ trait RegistrationController extends FrontendController with IhtActions {
         Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
       case Some(rd) => body(rd)
     }
-  }
+    }
 
   def storeRegistrationDetails(rd: RegistrationDetails,
                                successRoute: Call,
