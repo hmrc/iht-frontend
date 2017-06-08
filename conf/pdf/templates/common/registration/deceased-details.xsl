@@ -39,13 +39,13 @@
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.dateofbirth')"/>
                             <xsl:with-param name="value"
-                                            select="formatter:getDateForDisplay($pdfFormatter,deceasedDetails/dateOfBirth)"/>
+                                            select="i18n:getDateForDisplay($translator,deceasedDetails/dateOfBirth)"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
                                             select="i18n:getMessagesText($translator, 'iht.dateOfDeath')"/>
                             <xsl:with-param name="value"
-                                            select="formatter:getDateForDisplay($pdfFormatter,deceasedDateOfDeath/dateOfDeath)"/>
+                                            select="i18n:getDateForDisplay($translator,deceasedDateOfDeath/dateOfDeath)"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"

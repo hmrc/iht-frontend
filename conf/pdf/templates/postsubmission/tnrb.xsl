@@ -48,14 +48,14 @@
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'iht.estateReport.tnrb.dateOfMarriage', $marriageLabel)"/>
                                     <xsl:with-param name="value"
-                                                    select="formatter:getDateForDisplay($pdfFormatter,deceased/transferOfNilRateBand/deceasedSpouses/spouse/dateOfMarriage)"/>
+                                                    select="i18n:getDateForDisplay($translator,deceased/transferOfNilRateBand/deceasedSpouses/spouse/dateOfMarriage)"/>
                                 </xsl:call-template>
 
                                 <xsl:call-template name="table-row-tall-lpad-border-top-grey-thin">
                                     <xsl:with-param name="label"
                                                     select="i18n:getMessagesTextWithParameter($translator, 'page.iht.application.tnrbEligibilty.overview.partner.dod.question', $preDeceasedName)"/>
                                     <xsl:with-param name="value"
-                                                    select="formatter:getDateForDisplay($pdfFormatter,deceased/transferOfNilRateBand/deceasedSpouses/spouse/dateOfDeath)"/>
+                                                    select="i18n:getDateForDisplay($translator,deceased/transferOfNilRateBand/deceasedSpouses/spouse/dateOfDeath)"/>
                                 </xsl:call-template>
 
                                 <xsl:call-template name="table-row-yes-no-short-lpad-border-top-grey-thin">

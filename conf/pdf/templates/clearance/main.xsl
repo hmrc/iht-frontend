@@ -75,7 +75,7 @@
                                         </fo:table-cell>
                                         <fo:table-cell text-align="left" border-top ="solid 0.0mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
                                             <fo:block>
-                                                <xsl:value-of select="formatter:getDateForDisplay($pdfFormatter,./deceasedDateOfDeath/dateOfDeath)" />
+                                                <xsl:value-of select="i18n:getDateForDisplay($translator,./deceasedDateOfDeath/dateOfDeath)" />
                                             </fo:block>
                                         </fo:table-cell>
                                     </fo:table-row>

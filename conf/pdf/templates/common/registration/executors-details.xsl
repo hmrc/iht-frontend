@@ -38,7 +38,7 @@
                                 <xsl:with-param name="label"
                                                 select="i18n:getMessagesText($translator, 'iht.dateofbirth')"/>
                                 <xsl:with-param name="value"
-                                                select="formatter:getDateForDisplay($pdfFormatter,dateOfBirth)"/>
+                                                select="i18n:getDateForDisplay($translator,dateOfBirth)"/>
                             </xsl:call-template>
                             <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"

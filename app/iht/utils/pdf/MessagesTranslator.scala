@@ -16,7 +16,9 @@
 
 package iht.utils.pdf
 
+import org.joda.time.LocalDate
 import play.api.i18n.Messages
+import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 /**
   * Created by grant on 02/12/16.
@@ -36,4 +38,9 @@ class MessagesTranslator private (messages: Messages) {
 
   def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String , parameter3: String): String =
     messages(key, parameter1, parameter2, parameter3)
+
+  def getDateForDisplay(inputDate: String): String = {
+    val jodaDate = LocalDate.parse(inputDate)
+    Dates.formatDate(jodaDate)(messages.lang)
+  }
 }

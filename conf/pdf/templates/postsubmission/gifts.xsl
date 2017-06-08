@@ -58,7 +58,7 @@
                                         <fo:table-cell text-align="left" padding-left="4pt">
                                             <fo:block>
                                                 <xsl:value-of
-                                                        select="formatter:getDateForDisplay($pdfFormatter,dateOfGift)"/>
+                                                        select="i18n:getDateForDisplay($translator,dateOfGift)"/>
                                             </fo:block>
                                         </fo:table-cell>
 

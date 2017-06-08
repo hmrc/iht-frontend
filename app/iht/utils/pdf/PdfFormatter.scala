@@ -31,18 +31,6 @@ import scala.collection.immutable.ListMap
   * Created by vineet on 13/06/16.
   */
 object PdfFormatter {
-
-  def getDateForDisplay(inputDate: String): String = {
-
-    val jodaDate = LocalDate.parse(inputDate)
-    jodaDate.toString(IhtProperties.dateFormatForDisplay)
-  }
-
-  def getYearFromDate(inputDate: String): Int = {
-    val jodadate = LocalDate.parse(inputDate)
-    jodadate.getYear
-  }
-
   /*
    * Get country name from country code
    */

@@ -35,24 +35,6 @@ import scala.collection.immutable.ListMap
 class PdfFormatterTest extends FormTestHelper {
 
   "disply value" must {
-
-    "must return date in format of d MMMM yyyy" in {
-      val result = PdfFormatter.getDateForDisplay("1975-10-24")
-
-      result shouldBe "24 October 1975"
-    }
-
-    "must throw exception on invalid date" in {
-      a[IllegalArgumentException] shouldBe thrownBy {
-        PdfFormatter.getDateForDisplay("20 1019")
-      }
-    }
-
-    "must return the year from specified date" in {
-      val result = PdfFormatter.getYearFromDate("1990-06-05")
-      result shouldBe 1990
-    }
-
     "must return Australia fo AU" in {
       val result = PdfFormatter.countryName("AU")
       result shouldBe "Australia"
