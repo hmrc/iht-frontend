@@ -23,7 +23,7 @@ import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicat
 import models.des.iht_return.Asset
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -93,7 +93,7 @@ class PdfFormatterTest extends FormTestHelper {
 
   "transform" must {
     "transform the marital status" in {
-      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4 )(messages)
+      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
       val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
       result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
     }

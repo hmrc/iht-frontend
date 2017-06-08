@@ -37,8 +37,8 @@ class PDFControllerTest extends ApplicationControllerTest {
 
   val ihtRef = "1A1A1A"
 
-  def pdfController = new PDFController {
-    val authConnector = createFakeAuthConnector()
+  def pdfController = new PDFController(messagesApi) {
+    override val authConnector = createFakeAuthConnector()
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     lazy val xmlFoToPDF = XmlFoToPDF

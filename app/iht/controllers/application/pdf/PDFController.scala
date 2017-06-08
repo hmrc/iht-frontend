@@ -41,9 +41,9 @@ import scala.concurrent.Future
 @Singleton
 class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationController with IhtActions with I18nSupport {
 
-  lazy val cachingConnector = CachingConnector
-  lazy val authConnector: AuthConnector = FrontendAuthConnector
-  lazy val ihtConnector = IhtConnector
+  val cachingConnector: CachingConnector = CachingConnector
+  val authConnector: AuthConnector = FrontendAuthConnector
+  val ihtConnector: IhtConnector = IhtConnector
 
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
     IhtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
@@ -59,8 +59,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
             val pdfByteArray = XmlFoToPDF.createPreSubmissionPDF(
               regDetails,
               applicationDetails,
-              DeclarationHelper.getDeclarationType(applicationDetails)
-            , messages)
+              DeclarationHelper.getDeclarationType(applicationDetails), messages)
             Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*))
         }
       }

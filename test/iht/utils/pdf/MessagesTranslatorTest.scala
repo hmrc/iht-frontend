@@ -18,7 +18,8 @@ package iht.utils.pdf
 
 import iht.FakeIhtApp
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.test.FakeRequest
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
@@ -27,11 +28,13 @@ import uk.gov.hmrc.play.test.UnitSpec
 class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val request = FakeRequest()
+  val messages: Messages = messagesApi.preferred(request)
 
   "getMessagesText" must {
     "return the correct string" in {
 
-      val result = MessagesTranslator.getMessagesText("iht.the.deceased")
+      val result = MessagesTranslator(messages).getMessagesText("iht.the.deceased")
 
       result shouldBe  messagesApi("iht.the.deceased")
     }
@@ -42,7 +45,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
       val name = "John"
 
-      val result = MessagesTranslator.getMessagesTextWithParameter("iht.estateReport.assets.moneyOwned", name)
+      val result = MessagesTranslator(messages).getMessagesTextWithParameter("iht.estateReport.assets.moneyOwned", name)
 
       result shouldBe  messagesApi("iht.estateReport.assets.moneyOwned", name)
     }
@@ -53,7 +56,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val name1 = "John"
       val name2 = "Smith"
 
-      val result = MessagesTranslator.getMessagesTextWithParameters("pdf.inheritance.tax.application.summary.p1",
+      val result = MessagesTranslator(messages).getMessagesTextWithParameters("pdf.inheritance.tax.application.summary.p1",
         name1, name2)
 
       result shouldBe  messagesApi("pdf.inheritance.tax.application.summary.p1", name1, name2)
@@ -64,7 +67,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val parameter2 = "Smith"
       val parameter3 = "Sam"
 
-      val result = MessagesTranslator.getMessagesTextWithParameters("iht.estateReport.tnrb.partner.married",
+      val result = MessagesTranslator(messages).getMessagesTextWithParameters("iht.estateReport.tnrb.partner.married",
         parameter1, parameter2, parameter3)
 
       result shouldBe  messagesApi("iht.estateReport.tnrb.partner.married", parameter1, parameter2, parameter3)
