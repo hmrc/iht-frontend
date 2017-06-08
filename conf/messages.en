@@ -279,12 +279,12 @@ iht.registration.checklist.phoneNo.upperCaseInitial = Phone number
 iht.registration.deceasedDetails.title = About the deceased
 
 #Registration - Deceased Date Of Death
-page.iht.registration.deceasedDateOfDeath.title = When did the deceased die?
+page.iht.registration.deceasedDateOfDeath.title = What was the date of death?
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.label = Enter the deceased’s date of death
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint = For example, 21 3 2010
 
 #Registration - Deceased’s permanent home
-page.iht.registration.deceasedPermanentHome.title = Where was the deceased’s permanent home?
+page.iht.registration.deceasedPermanentHome.title = Where was the person who has died’s permanent home?
 page.iht.registration.deceasedPermanentHome.browserTitle = Permanent home
 iht.common.other = Other
 
@@ -522,7 +522,7 @@ page.iht.registration.executor-overview.executor.change.screenReader = Change {0
 #Registration - KickOuts
 page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary = This is because the deceased died before 18 March 1986. Capital Transfer Tax or Estate Duty were used for deaths before this date.
 page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary = This is because the deceased died between 18 March 1986 and 5 April 2011.
-page.iht.registration.deceasedDetails.kickout.location.summary = This is because the deceased’s permanent home wasn’t in England or Wales.
+page.iht.registration.deceasedDetails.kickout.location.summary = This is because the person who has died’s permanent home wasn’t in England or Wales.
 page.iht.registration.applicantDetails.kickout.probate.summary = This is because you aren’t intending to apply for probate in England or Wales.
 page.iht.registration.applicantDetails.kickout.role.summary = This is because you aren’t an executor or an administrator for the deceased’s estate.
 page.iht.registration.applicantDetails.kickout.role.p2 = If you want to change your role, you can return to the last page you visited.
@@ -531,8 +531,8 @@ page.iht.registration.applicantDetails.kickout.probateRole.summary = This is bec
 page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for the deceased’s estate.
 page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for the deceased’s estate should complete an Inheritance Tax estate report.
 page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer, you can return to the last page you visited.
-iht.registration.kickout.content = You should complete the Inheritance Tax estate report by completing either an IHT-205 or an IHT-400 paper form.
-iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
+iht.registration.kickout.content = You should complete the Inheritance Tax estate report using either an IHT-205 or IHT-400 paper form.
+iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the person who has died’s permanent home
 iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
 iht.registration.kickout.returnToTheLastPageVisited =return to the last page you visited
 iht.registration.kickout.returnToTheDateOfDeath =  return to the date of death
@@ -540,7 +540,7 @@ iht.registration.kickout.message.form2 = If you want to change this date
 iht.registration.kickout.message.phone = Call the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
 iht.registration.kickout.message.phone2 = You’ll be sent the correct form to use to complete the estate report.
 iht.registration.kickout.message.returnToLast = Return to the last page you visited
-iht.registration.kickout.probateLocation.scotland = You should complete the Inheritance Tax estate report by completing either a C1 or a C5 paper form.
+iht.registration.kickout.probateLocation.scotland = You should complete the Inheritance Tax estate report using either a C1 or a C5 paper form.
 iht.registration.kickout.message.changeTheDate = If you want to change the date
 
 #Estate report - Common
