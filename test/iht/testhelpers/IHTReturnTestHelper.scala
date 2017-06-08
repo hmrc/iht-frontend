@@ -252,7 +252,12 @@ object IHTReturnTestHelper {
       percentageAmount=None,
       overrideValue=Some(BigDecimal(25))
     )
-    Set(exemption1, exemption2, exemption3, exemption4, exemption5)
+    val exemption6 = Exemption(
+      exemptionType=Some("Charity"),
+      percentageAmount=None,
+      overrideValue=Some(BigDecimal(28))
+    )
+    Seq(exemption1, exemption2, exemption3, exemption4, exemption5, exemption6)
   }
 
   private def buildAssets = {
