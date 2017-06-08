@@ -197,7 +197,6 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = await(controller.onPageLoad(createFakeRequest()))
       status(result) shouldBe SEE_OTHER
-
     }
 
     "raise an error when accessing the screen without first entering the deceased's name" in {
@@ -207,7 +206,6 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = await(controller.onPageLoad(createFakeRequest()))
       status(result) shouldBe SEE_OTHER
-
     }
 
     "raise an error when accessing the screen without first entering the deceased's address location" in {
@@ -217,7 +215,6 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = await(controller.onPageLoad(createFakeRequest()))
       status(result) shouldBe SEE_OTHER
-
     }
 
     "raise an error when accessing the screen without first entering the deceased's address" in {
@@ -263,7 +260,6 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = await(controller.onPageLoad(createFakeRequest()))
       status(result) shouldBe SEE_OTHER
-
     }
 
     "raise an error when accessing the screen without first answering the 'are others applying for probate' question" in {

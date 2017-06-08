@@ -276,7 +276,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
         val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
-        status(result)
+        status(result) shouldBe SEE_OTHER
     }
 
 
