@@ -75,10 +75,8 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      intercept[Exception] {
-        val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequest())
-        status(result)
-      }
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequest())
+      status(result) shouldBe SEE_OTHER
     }
 
     "if the registration details does not have more than one coExecutor set then respond with an error" in {
@@ -88,10 +86,8 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(rd))
 
-      intercept[Exception] {
-        val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequest())
-        status(result)
-      }
+      val result = deleteCoExecutorController.onPageLoad("1")(createFakeRequest())
+      status(result) shouldBe SEE_OTHER
     }
 
     "if the coexecutor with given id does not exist - respond with a server error" in {

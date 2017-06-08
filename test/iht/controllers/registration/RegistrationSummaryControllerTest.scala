@@ -97,7 +97,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
       val registrationDetails = RegistrationDetails(Some(deceasedDateOfDeath), Some(applicantDetails),
-                                                  Some(deceasedDetails), areOthersApplyingForProbate = Some(false))
+        Some(deceasedDetails), areOthersApplyingForProbate = Some(false))
 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
@@ -108,7 +108,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       content should include(messagesApi("iht.registration.checkYourAnswers"))
     }
 
-     "onSubmit for valid input should redirect to completed registration" in {
+    "onSubmit for valid input should redirect to completed registration" in {
       val deceasedDateOfDeath = new DeceasedDateOfDeath(new LocalDate(2001,11, 11))
       val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails
@@ -181,9 +181,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
         .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
-        override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
-          Future.failed(new GatewayTimeoutException("test"))
-        }})
+          override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
+            Future.failed(new GatewayTimeoutException("test"))
+          }})
 
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)
@@ -195,9 +195,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = fullyCompletedRegistrationDetails copy (deceasedDateOfDeath = None)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
+
     }
 
     "raise an error when accessing the screen without first entering the deceased's name" in {
@@ -205,9 +205,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(testAd), Some(dd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
+
     }
 
     "raise an error when accessing the screen without first entering the deceased's address location" in {
@@ -215,9 +215,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(testAd), Some(dd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
+
     }
 
     "raise an error when accessing the screen without first entering the deceased's address" in {
@@ -225,9 +225,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(testAd), Some(dd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when accessing the screen without first answering the 'applying for probate' question" in {
@@ -235,9 +234,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(ad), Some(testDd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when accessing the screen without first entering the probate location" in {
@@ -245,9 +243,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(ad), Some(testDd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when accessing the screen without first entering a contact number" in {
@@ -255,9 +252,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(ad), Some(testDd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when accessing the screen without first entering an address" in {
@@ -265,18 +261,18 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
       val rd = RegistrationDetails(Some(testDod), Some(ad), Some(testDd), areOthersApplyingForProbate = Some(false))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
+
     }
 
     "raise an error when accessing the screen without first answering the 'are others applying for probate' question" in {
       val rd = RegistrationDetails(Some(testDod), Some(testAd), Some(testDd), areOthersApplyingForProbate = None)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
 
-      intercept[java.lang.RuntimeException] {
-        val result = await(controller.onPageLoad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
+
     }
 
     "onSubmit RuntimeException" in {
@@ -296,9 +292,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
         .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
-        override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
-          Future.failed(new RuntimeException("Request timed out"))
-        }})
+          override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
+            Future.failed(new RuntimeException("Request timed out"))
+          }})
 
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)
@@ -323,9 +319,9 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       when(mockIhtConnector.saveApplication(any(), any(), any())(any()))
         .thenAnswer(new Answer[Future[Option[ApplicationDetails]]] {
-        override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
-          Future.failed(new RuntimeException("testing"))
-        }})
+          override def answer(invocation: InvocationOnMock): Future[Option[ApplicationDetails]] = {
+            Future.failed(new RuntimeException("testing"))
+          }})
 
       val result = controller.onSubmit(createFakeRequest())
       status(result) should be(OK)

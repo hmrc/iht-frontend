@@ -332,17 +332,15 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
     "raise an error when accessing the screen for a UK address without first entering applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      intercept[Exception] {
-        await(controller.onPageLoadUk(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoadUk(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when accessing the screen for an address abroad without first entering applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      intercept[Exception] {
-        await(controller.onPageLoadAbroad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoadAbroad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when submitting the screen for a UK address without first entering applicant details" in {
@@ -353,9 +351,8 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
 
-      intercept[Exception] {
-        await(controller.onSubmitUk(request))
-      }
+      val result = await(controller.onSubmitUk(request))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when submitting the screen for an address abroad without first entering applicant details" in {
@@ -366,9 +363,8 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
 
-      intercept[Exception] {
-        await(controller.onSubmitAbroad(createFakeRequest()))
-      }
+      val result = await(controller.onSubmitAbroad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
     "show an error when submitting a UK address when address line 1 is blank" in {

@@ -104,10 +104,8 @@ class ApplyingForProbateControllerTest
     "raise an error when accessing the screen without first entering deceased details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      intercept[java.lang.RuntimeException] {
-        val result = controller.onPageLoad(createFakeRequest())
-        status(result)
-      }
+      val result = controller.onPageLoad(createFakeRequest())
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when submitting the screen without first entering deceased details" in {
@@ -118,10 +116,8 @@ class ApplyingForProbateControllerTest
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL,
         host = host, data = form.data.toSeq)
 
-      intercept[java.lang.RuntimeException] {
-        val result = controller.onSubmit(request)
-        status(result)
-      }
+      val result = controller.onSubmit(request)
+      status(result) shouldBe SEE_OTHER
     }
 
     "show an error message on submit when the question is not answered" in {
