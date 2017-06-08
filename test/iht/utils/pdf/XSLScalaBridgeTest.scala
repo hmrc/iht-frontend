@@ -17,6 +17,7 @@
 package iht.utils.pdf
 
 import iht.FakeIhtApp
+import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.test.FakeRequest
@@ -71,6 +72,13 @@ class XSLScalaBridgeTest extends UnitSpec with FakeIhtApp with MockitoSugar with
         parameter1, parameter2, parameter3)
 
       result shouldBe  messagesApi("iht.estateReport.tnrb.partner.married", parameter1, parameter2, parameter3)
+    }
+  }
+
+  "getDateForDisplay" must {
+    "return correctly formatted date" in {
+      val result = XSLScalaBridge(messages).getDateForDisplay("2000-12-12")
+      result shouldBe "12 December 2000"
     }
   }
 }
