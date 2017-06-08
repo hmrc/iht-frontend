@@ -16,24 +16,26 @@
 
 package iht.utils.pdf
 
-import javax.inject.Singleton
-
-import play.api.i18n.Messages
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.{Lang, MessagesApi}
 
 /**
   * Created by grant on 02/12/16.
   */
-@Singleton
-class MessagesTranslator {
-  def getMessagesText(key: String): String = Messages(key)
 
-  def getMessagesTextWithParameter(key: String, parameter:String ): String = Messages(key, parameter)
+object MessagesTranslator {
+  def apply(messagesApi: MessagesApi, lang: Lang):MessagesTranslator = {
+    new MessagesTranslator(messagesApi, lang)
+  }
+}
+
+class MessagesTranslator(messagesApi: MessagesApi, lang: Lang) {
+  def getMessagesText(key: String): String = messagesApi(key)(lang)
+
+  def getMessagesTextWithParameter(key: String, parameter:String ): String = messagesApi(key, parameter)(lang)
 
   def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String): String =
-      Messages(key, parameter1, parameter2)
+    messagesApi(key, parameter1, parameter2)(lang)
 
   def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String , parameter3: String): String =
-      Messages(key, parameter1, parameter2, parameter3)
+    messagesApi(key, parameter1, parameter2, parameter3)(lang)
 }

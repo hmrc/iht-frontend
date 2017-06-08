@@ -94,5 +94,4 @@ object PdfFormatter {
     }
     rd copy (deceasedDetails = optionDeceasedDetails)
   }
-
 }

@@ -28,9 +28,7 @@ import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper}
 import models.des.iht_return.IHTReturn
 import play.api.Logger
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -41,7 +39,7 @@ import scala.concurrent.Future
   */
 
 @Singleton
-class PDFController @Inject()(xmlFoToPDF: XmlFoToPDF) extends ApplicationController with IhtActions {
+class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationController with IhtActions with I18nSupport {
 
   lazy val cachingConnector = CachingConnector
   lazy val authConnector: AuthConnector = FrontendAuthConnector
@@ -54,14 +52,16 @@ class PDFController @Inject()(xmlFoToPDF: XmlFoToPDF) extends ApplicationControl
     implicit user =>
       implicit request => {
         Logger.info("Generating Summary PDF")
-        val fileName = s"${Messages("iht.inheritanceTaxEstateReport")}.pdf"
+        val lang = messagesApi.preferred(request).lang
+        val fileName = s"${messagesApi("iht.inheritanceTaxEstateReport")}.pdf"
         withApplicationDetails { regDetails =>
           applicationDetails =>
-            val pdfByteArray = xmlFoToPDF.createPreSubmissionPDF(
+            implicit val mmm = messagesApi
+            val pdfByteArray = XmlFoToPDF.createPreSubmissionPDF(
               regDetails,
               applicationDetails,
               DeclarationHelper.getDeclarationType(applicationDetails)
-            )
+            )(mmm, lang, request)
             Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*))
         }
       }
@@ -71,18 +71,18 @@ class PDFController @Inject()(xmlFoToPDF: XmlFoToPDF) extends ApplicationControl
     implicit user =>
       implicit request => {
         Logger.info("Generating Clearance PDF")
-
+        val lang = messagesApi.preferred(request).lang
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
           val ihtReference = CommonHelper.getOrException(optionIHTReference)
-          val fileName = s"${Messages("pdf.clearanceCertificate.title")}.pdf"
+          val fileName = s"${messagesApi("pdf.clearanceCertificate.title")}.pdf"
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
             getSubmittedApplicationDetails(nino,
               registrationDetails) map {
               case Some(ihtReturn) =>
-                val pdfByteArray = xmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
+                val pdfByteArray = XmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
                   ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
-                  throw new RuntimeException("Declaration Date not available")))
+                  throw new RuntimeException("Declaration Date not available")))(messagesApi, lang, request)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
@@ -96,14 +96,19 @@ class PDFController @Inject()(xmlFoToPDF: XmlFoToPDF) extends ApplicationControl
     implicit user =>
       implicit request => {
         Logger.info("Generating Application PDF")
+
+        val lang = messagesApi.preferred(request).lang
+
+        println( "\n****IN CONTROLLLER:" + messagesApi("iht.estateReport.gifts.givenAway.title"))
+
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
           val ihtReference = CommonHelper.getOrException(optionIHTReference)
-          val fileName = s"${Messages("iht.inheritanceTaxEstateReport")}.pdf"
+          val fileName = s"${messagesApi("iht.inheritanceTaxEstateReport")}.pdf"
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
             getSubmittedApplicationDetails(nino, regDetails) map {
               case Some(ihtReturn) =>
-                val pdfByteArray = xmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)
+                val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)(messagesApi, lang, request)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
