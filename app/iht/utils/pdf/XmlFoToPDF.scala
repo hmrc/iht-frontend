@@ -24,18 +24,17 @@ import javax.xml.transform.{ErrorListener, Transformer, TransformerException, Tr
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.{CommonHelper, _}
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
+import iht.utils.{CommonHelper, _}
 import models.des.iht_return.IHTReturn
 import org.apache.fop.apps._
-import org.apache.fop.events.{Event, EventFormatter, EventListener}
 import org.apache.fop.events.model.EventSeverity
+import org.apache.fop.events.{Event, EventFormatter, EventListener}
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
 import play.api.Play.current
-import play.api.i18n.{Lang, Messages, MessagesApi}
-import play.api.mvc.Request
+import play.api.i18n.Messages
 import play.api.{Logger, Play}
 
 /**
@@ -51,8 +50,8 @@ trait XmlFoToPDF {
   private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
 
   def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
-                             declarationType: String)(implicit messages: Messages): Array[Byte] = {
-    val rd = PdfFormatter.transform(registrationDetails)(messages)
+                             declarationType: String, messages: Messages): Array[Byte] = {
+    val rd = PdfFormatter.transform(registrationDetails, messages)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
@@ -67,9 +66,9 @@ trait XmlFoToPDF {
   }
 
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails,
-                              ihtReturn: IHTReturn)(implicit messages: Messages): Array[Byte] = {
+                              ihtReturn: IHTReturn, messages: Messages): Array[Byte] = {
 
-    val rd = PdfFormatter.transform(registrationDetails)(messages)
+    val rd = PdfFormatter.transform(registrationDetails, messages)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
       getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
 
@@ -82,7 +81,7 @@ trait XmlFoToPDF {
   }
 
   def createClearancePDF(registrationDetails: RegistrationDetails,
-                         declarationDate: LocalDate)(implicit messages: Messages): Array[Byte] = {
+                         declarationDate: LocalDate, messages: Messages): Array[Byte] = {
     val modelAsXMLStream: StreamSource = new StreamSource(
       new ByteArrayInputStream(ModelToXMLSource.getClearanceCertificateXMLSource(registrationDetails)))
 

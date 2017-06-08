@@ -28,7 +28,7 @@ import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper}
 import models.des.iht_return.IHTReturn
 import play.api.Logger
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
+import play.api.i18n.{I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -60,7 +60,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
               regDetails,
               applicationDetails,
               DeclarationHelper.getDeclarationType(applicationDetails)
-            )(messages)
+            , messages)
             Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*))
         }
       }
@@ -81,7 +81,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
               case Some(ihtReturn) =>
                 val pdfByteArray = XmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
                   ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
-                  throw new RuntimeException("Declaration Date not available")))(messages)
+                  throw new RuntimeException("Declaration Date not available")), messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
@@ -103,7 +103,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
             getSubmittedApplicationDetails(nino, regDetails) map {
               case Some(ihtReturn) =>
-                val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)(messages)
+                val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
