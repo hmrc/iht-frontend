@@ -34,7 +34,7 @@ import org.apache.fop.events.model.EventSeverity
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
 import play.api.Play.current
-import play.api.i18n.{Lang, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.mvc.Request
 import play.api.{Logger, Play}
 
@@ -51,8 +51,8 @@ trait XmlFoToPDF {
   private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
 
   def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
-                             declarationType: String)(implicit messagesApi: MessagesApi, lang: Lang, request:Request[_]): Array[Byte] = {
-    val rd = PdfFormatter.transform(registrationDetails)(messagesApi.preferred(request))
+                             declarationType: String)(implicit msg: Messages): Array[Byte] = {
+    val rd = PdfFormatter.transform(registrationDetails)(msg)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
@@ -61,34 +61,34 @@ trait XmlFoToPDF {
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPreSubmissionTransformer(rd, applicationDetails, messagesApi, lang)
+    createPreSubmissionTransformer(rd, applicationDetails, msg)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
     pdfoutStream.toByteArray
   }
 
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails,
-                              ihtReturn: IHTReturn)(implicit messagesApi: MessagesApi, lang: Lang, request:Request[_]): Array[Byte] = {
+                              ihtReturn: IHTReturn)(implicit msg: Messages): Array[Byte] = {
 
-    val rd = PdfFormatter.transform(registrationDetails)(messagesApi.preferred(request))
+    val rd = PdfFormatter.transform(registrationDetails)(msg)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
       getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPostSubmissionTransformer(rd, ihtReturn, messagesApi, lang)
+    createPostSubmissionTransformer(rd, ihtReturn, msg)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.toByteArray
   }
 
   def createClearancePDF(registrationDetails: RegistrationDetails,
-                         declarationDate: LocalDate)(implicit messagesApi: MessagesApi, lang: Lang, request: Request[_]): Array[Byte] = {
+                         declarationDate: LocalDate)(implicit msg: Messages): Array[Byte] = {
     val modelAsXMLStream: StreamSource = new StreamSource(
       new ByteArrayInputStream(ModelToXMLSource.getClearanceCertificateXMLSource(registrationDetails)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createClearanceTransformer(registrationDetails, declarationDate, messagesApi, lang)
+    createClearanceTransformer(registrationDetails, declarationDate, msg)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.write(pdfoutStream.toByteArray)
@@ -97,8 +97,7 @@ trait XmlFoToPDF {
 
   private def createClearanceTransformer(registrationDetails: RegistrationDetails,
                                          declarationDate: LocalDate,
-                                         messagesApi: MessagesApi,
-                                         lang: Lang): Transformer = {
+                                         msg: Messages): Transformer = {
     val template: StreamSource = new StreamSource(
       Play.classloader.getResourceAsStream(filePathForClearanceXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
@@ -106,15 +105,14 @@ trait XmlFoToPDF {
     val transformer: Transformer = transformerFactory.newTransformer(template)
     setupTransformerEventHandling(transformer)
 
-    setupCommonTransformerParameters(transformer, messagesApi, lang)
+    setupCommonTransformerParameters(transformer, msg)
     transformer.setParameter("declaration-date", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer
   }
 
   private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
                                              applicationDetails: ApplicationDetails,
-                                             messagesApi: MessagesApi,
-                                             lang: Lang): Transformer = {
+                                             msg: Messages): Transformer = {
     val template: StreamSource = new StreamSource(Play.classloader
       .getResourceAsStream(filePathForPreSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
@@ -129,7 +127,7 @@ trait XmlFoToPDF {
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
       applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalExemptionsValue,
-      applicationDetails.totalGiftsValue, messagesApi: MessagesApi, lang: Lang)
+      applicationDetails.totalGiftsValue, msg)
 
     transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
     transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
@@ -144,8 +142,7 @@ trait XmlFoToPDF {
 
   private def createPostSubmissionTransformer(registrationDetails: RegistrationDetails,
                                               ihtReturn: IHTReturn,
-                                              messagesApi: MessagesApi,
-                                              lang: Lang): Transformer = {
+                                              msg: Messages): Transformer = {
     val templateSource: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(filePathForPostSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
@@ -160,7 +157,7 @@ trait XmlFoToPDF {
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, Option(dateOfMarriage),
       ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
-      ihtReturn.totalGiftsValue, messagesApi, lang)
+      ihtReturn.totalGiftsValue, msg)
 
     transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
@@ -172,10 +169,10 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def setupCommonTransformerParameters(transformer: Transformer, messagesApi: MessagesApi, lang: Lang): Unit = {
+  private def setupCommonTransformerParameters(transformer: Transformer, msg: Messages): Unit = {
 
     transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator(messagesApi, lang))
+    transformer.setParameter("translator", MessagesTranslator(msg))
     transformer.setParameter("pdfFormatter", PdfFormatter)
   }
 
@@ -187,9 +184,8 @@ trait XmlFoToPDF {
                                                          totalLiabilitiesValue: BigDecimal,
                                                          totalExemptionsValue: BigDecimal,
                                                          totalPastYearsGiftsValue: BigDecimal,
-                                                         messagesApi: MessagesApi,
-                                                         lang: Lang) = {
-    setupCommonTransformerParameters(transformer, messagesApi, lang)
+                                                         msg: Messages) = {
+    setupCommonTransformerParameters(transformer, msg)
     transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("assetsTotal", totalAssetsValue)
     transformer.setParameter("debtsTotal", totalLiabilitiesValue)

@@ -16,26 +16,26 @@
 
 package iht.utils.pdf
 
-import play.api.i18n.{Lang, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 
 /**
   * Created by grant on 02/12/16.
   */
 
 object MessagesTranslator {
-  def apply(messagesApi: MessagesApi, lang: Lang):MessagesTranslator = {
-    new MessagesTranslator(messagesApi, lang)
+  def apply(msg: Messages):MessagesTranslator = {
+    new MessagesTranslator(msg)
   }
 }
 
-class MessagesTranslator(messagesApi: MessagesApi, lang: Lang) {
-  def getMessagesText(key: String): String = messagesApi(key)(lang)
+class MessagesTranslator(msg: Messages) {
+  def getMessagesText(key: String): String = msg(key)
 
-  def getMessagesTextWithParameter(key: String, parameter:String ): String = messagesApi(key, parameter)(lang)
+  def getMessagesTextWithParameter(key: String, parameter:String ): String = msg(key, parameter)
 
   def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String): String =
-    messagesApi(key, parameter1, parameter2)(lang)
+    msg(key, parameter1, parameter2)
 
   def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String , parameter3: String): String =
-    messagesApi(key, parameter1, parameter2, parameter3)(lang)
+    msg(key, parameter1, parameter2, parameter3)
 }
