@@ -3,7 +3,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan"
-                xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
+                xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
                 xmlns:formatter="java:iht.utils.pdf.PdfFormatter">
 
     <xsl:param name="translator"/>
@@ -20,7 +20,7 @@
             <xsl:when test="gifts/array != ''">
                 <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.0cm">
                     <xsl:value-of
-                            select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.valueOfGiftsGivenAway')"/>
+                            select="scala:getMessagesText($translator, 'iht.estateReport.gifts.valueOfGiftsGivenAway')"/>
                 </fo:block>
 
                 <!-- Gifts table  -->
@@ -35,19 +35,19 @@
                                     <fo:table-cell text-align="right" padding-left="4pt">
                                         <fo:block>
                                             <xsl:value-of
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle1')"/>
+                                                    select="scala:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle1')"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell text-align="right" padding-left="4pt">
                                         <fo:block>
                                             <xsl:value-of
-                                                    select="i18n:getMessagesText($translator, 'page.iht.exemptions.title')"/>
+                                                    select="scala:getMessagesText($translator, 'page.iht.exemptions.title')"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell text-align="right" padding-left="4pt">
                                         <fo:block>
                                             <xsl:value-of
-                                                    select="i18n:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle3')"/>
+                                                    select="scala:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle3')"/>
                                         </fo:block>
                                     </fo:table-cell>
                                 </fo:table-row>
@@ -58,7 +58,7 @@
                                         <fo:table-cell text-align="left" padding-left="4pt">
                                             <fo:block>
                                                 <xsl:value-of
-                                                        select="i18n:getDateForDisplay($translator,dateOfGift)"/>
+                                                        select="scala:getDateForDisplay($translator,dateOfGift)"/>
                                             </fo:block>
                                         </fo:table-cell>
 
@@ -130,7 +130,7 @@
                         <fo:table-body font-size="12pt">
                             <xsl:call-template name="table-row-money-3-values-border-top-black">
                                 <xsl:with-param name="label"
-                                                select="i18n:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
+                                                select="scala:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
                                 <xsl:with-param name="value1">
                                     <xsl:value-of select='format-number($giftsTotalExclExemptions, "##,##0.00")'/>
                                 </xsl:with-param>
@@ -148,7 +148,7 @@
                 </fo:block>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="i18n:getMessagesText($translator, 'site.noneInEstate')"/>
+                <xsl:value-of select="scala:getMessagesText($translator, 'site.noneInEstate')"/>
             </xsl:otherwise>
         </xsl:choose>
 

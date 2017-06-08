@@ -3,7 +3,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan"
-                xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
+                xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
 >
 
     <xsl:param name="translator"/>
@@ -18,7 +18,7 @@
             <xsl:when test="freeEstate/estateAssets != '' or freeEstate/estateLiabilities != ''">
                 <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.5cm" space-after="0.5cm">
                     <xsl:value-of
-                            select="i18n:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
+                            select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
                 </fo:block>
             </xsl:when>
         </xsl:choose>
@@ -36,13 +36,13 @@
                                     <xsl:when test="./liabilities != ''">
                                         <xsl:call-template name="table-row-tall">
                                             <xsl:with-param name="label"
-                                                            select="i18n:getMessagesText($translator, 'pdf.liabilityType.text')"/>
-                                            <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
+                                                            select="scala:getMessagesText($translator, 'pdf.liabilityType.text')"/>
+                                            <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
                                         </xsl:call-template>
 
                                         <xsl:call-template name="table-row-money-tall">
                                             <xsl:with-param name="label"
-                                                            select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                                            select="scala:getMessagesText($translator, 'iht.value')"/>
                                             <xsl:with-param name="value" select='format-number(number(./liabilities/liabilityAmount), "##,###.00")'/>
                                         </xsl:call-template>
                                     </xsl:when>
@@ -72,13 +72,13 @@
 
                                     <xsl:call-template name="table-row-tall-border-top-black-thin">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'pdf.liabilityType.text')"/>
-                                        <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
+                                                        select="scala:getMessagesText($translator, 'pdf.liabilityType.text')"/>
+                                        <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
                                     </xsl:call-template>
 
                                     <xsl:call-template name="table-row-money-tall">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                                        select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value" select='format-number(number(liabilityAmount), "##,###.00")'/>
                                     </xsl:call-template>
 
@@ -98,13 +98,13 @@
 
                                     <xsl:call-template name="table-row-tall-border-top-black-thin">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'pdf.liabilityType.text')"/>
-                                        <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.common.other')"/>
+                                                        select="scala:getMessagesText($translator, 'pdf.liabilityType.text')"/>
+                                        <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.common.other')"/>
                                     </xsl:call-template>
 
                                     <xsl:call-template name="table-row-money-tall">
                                         <xsl:with-param name="label"
-                                                        select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                                        select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value" select='format-number(number(liabilityAmount), "##,###.00")'/>
                                     </xsl:call-template>
 
@@ -122,7 +122,7 @@
 
                                 <xsl:call-template name="table-row-money-short-vpad-no-border">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.valueOfDebts')"/>
+                                                    select="scala:getMessagesText($translator, 'iht.valueOfDebts')"/>
                                     <xsl:with-param name="value" select='format-number(number($debtsTotal), "##,###.00")'/>
                                 </xsl:call-template>
 

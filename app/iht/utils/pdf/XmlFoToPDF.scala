@@ -173,7 +173,7 @@ trait XmlFoToPDF {
   private def setupCommonTransformerParameters(transformer: Transformer, messages: Messages): Unit = {
 
     transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator(messages))
+    transformer.setParameter("translator", XSLScalaBridge(messages))
     transformer.setParameter("pdfFormatter", PdfFormatter)
   }
 

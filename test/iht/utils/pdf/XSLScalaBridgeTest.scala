@@ -25,7 +25,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 /**
   * Created by vineet on 21/11/16.
   */
-class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
+class XSLScalaBridgeTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   implicit val request = FakeRequest()
@@ -34,7 +34,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
   "getMessagesText" must {
     "return the correct string" in {
 
-      val result = MessagesTranslator(messages).getMessagesText("iht.the.deceased")
+      val result = XSLScalaBridge(messages).getMessagesText("iht.the.deceased")
 
       result shouldBe  messagesApi("iht.the.deceased")
     }
@@ -45,7 +45,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
       val name = "John"
 
-      val result = MessagesTranslator(messages).getMessagesTextWithParameter("iht.estateReport.assets.moneyOwned", name)
+      val result = XSLScalaBridge(messages).getMessagesTextWithParameter("iht.estateReport.assets.moneyOwned", name)
 
       result shouldBe  messagesApi("iht.estateReport.assets.moneyOwned", name)
     }
@@ -56,7 +56,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val name1 = "John"
       val name2 = "Smith"
 
-      val result = MessagesTranslator(messages).getMessagesTextWithParameters("pdf.inheritance.tax.application.summary.p1",
+      val result = XSLScalaBridge(messages).getMessagesTextWithParameters("pdf.inheritance.tax.application.summary.p1",
         name1, name2)
 
       result shouldBe  messagesApi("pdf.inheritance.tax.application.summary.p1", name1, name2)
@@ -67,7 +67,7 @@ class MessagesTranslatorTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val parameter2 = "Smith"
       val parameter3 = "Sam"
 
-      val result = MessagesTranslator(messages).getMessagesTextWithParameters("iht.estateReport.tnrb.partner.married",
+      val result = XSLScalaBridge(messages).getMessagesTextWithParameters("iht.estateReport.tnrb.partner.married",
         parameter1, parameter2, parameter3)
 
       result shouldBe  messagesApi("iht.estateReport.tnrb.partner.married", parameter1, parameter2, parameter3)

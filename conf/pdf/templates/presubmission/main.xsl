@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:common="http://exslt.org/common"
-                xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
+                xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan">
 
     <xsl:param name="translator"/>
@@ -31,9 +31,9 @@
                 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
                     <rdf:Description rdf:about=""
                                      xmlns:dc="http://purl.org/dc/elements/1.1/">
-                        <dc:title><xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></dc:title>
-                        <dc:creator><xsl:value-of select="i18n:getMessagesText($translator, 'pdf.meta.author')"/></dc:creator>
-                        <dc:description><xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></dc:description>
+                        <dc:title><xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></dc:title>
+                        <dc:creator><xsl:value-of select="scala:getMessagesText($translator, 'pdf.meta.author')"/></dc:creator>
+                        <dc:description><xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></dc:description>
                     </rdf:Description>
                 </rdf:RDF>
             </x:xmpmeta>
@@ -51,11 +51,11 @@
                             <fo:table-body font-size="8pt">
                                 <fo:table-row>
                                     <fo:table-cell text-align= "left">
-                                        <fo:block><xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></fo:block>
+                                        <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell>
                                         <fo:block>
-                                                <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.page.number')" />
+                                                <xsl:value-of select="scala:getMessagesText($translator, 'pdf.page.number')" />
                                                 <xsl:text>&#160;</xsl:text>
                                                 <fo:page-number format="1" />
                                         </fo:block>
@@ -68,19 +68,19 @@
 
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block font-family="OpenSans-Bold" font-size="24" font-weight="bold">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
+                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
                     </fo:block>
                     <fo:block font-family="OpenSans" font-size="12" font-weight="normal" space-before="0.5cm">
                         <xsl:value-of
-                                select="concat(i18n:getMessagesText($translator, 'pdf.inheritance.tax.reference'), ' ', $ihtReference)"/>
+                                select="concat(scala:getMessagesText($translator, 'pdf.inheritance.tax.reference'), ' ', $ihtReference)"/>
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesTextWithParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
+                        <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.p2')"/>
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.p2')"/>
                     </fo:block>
                     <xsl:apply-templates/>
                 </fo:flow>

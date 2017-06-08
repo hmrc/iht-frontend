@@ -24,11 +24,11 @@ import uk.gov.hmrc.play.language.LanguageUtils.Dates
   * Created by grant on 02/12/16.
   */
 
-object MessagesTranslator {
-  def apply(messages: Messages):MessagesTranslator = new MessagesTranslator(messages)
+object XSLScalaBridge {
+  def apply(messages: Messages):XSLScalaBridge = new XSLScalaBridge(messages)
 }
 
-class MessagesTranslator private (messages: Messages) {
+class XSLScalaBridge private(messages: Messages) {
   def getMessagesText(key: String): String = messages(key)
 
   def getMessagesTextWithParameter(key: String, parameter:String ): String = messages(key, parameter)

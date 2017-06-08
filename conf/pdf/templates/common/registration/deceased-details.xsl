@@ -3,7 +3,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan"
-                xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
+                xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
                 xmlns:formatter="java:iht.utils.pdf.PdfFormatter">
 
     <xsl:param name="translator"/>
@@ -15,7 +15,7 @@
 
         <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm">
             <xsl:value-of
-                    select="i18n:getMessagesText($translator, 'page.iht.registration.registrationSummary.deceasedTable.title')"/>
+                    select="scala:getMessagesText($translator, 'page.iht.registration.registrationSummary.deceasedTable.title')"/>
         </fo:block>
 
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="0.5cm">
@@ -27,44 +27,44 @@
 
                         <xsl:call-template name="table-row-short-vpad-border-top-black">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.firstName')"/>
+                                            select="scala:getMessagesText($translator, 'iht.firstName')"/>
                             <xsl:with-param name="value" select="deceasedDetails/firstName"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.lastName')"/>
+                                            select="scala:getMessagesText($translator, 'iht.lastName')"/>
                             <xsl:with-param name="value" select="deceasedDetails/lastName"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.dateofbirth')"/>
+                                            select="scala:getMessagesText($translator, 'iht.dateofbirth')"/>
                             <xsl:with-param name="value"
-                                            select="i18n:getDateForDisplay($translator,deceasedDetails/dateOfBirth)"/>
+                                            select="scala:getDateForDisplay($translator,deceasedDetails/dateOfBirth)"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.dateOfDeath')"/>
+                                            select="scala:getMessagesText($translator, 'iht.dateOfDeath')"/>
                             <xsl:with-param name="value"
-                                            select="i18n:getDateForDisplay($translator,deceasedDateOfDeath/dateOfDeath)"/>
+                                            select="scala:getDateForDisplay($translator,deceasedDateOfDeath/dateOfDeath)"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
+                                            select="scala:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
                             <xsl:with-param name="value" select="deceasedDetails/nino"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-uk-address">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'pdf.registration.lastContactAddress')"/>
+                                            select="scala:getMessagesText($translator, 'pdf.registration.lastContactAddress')"/>
                             <xsl:with-param name="value" select="deceasedDetails/ukAddress"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'iht.registration.deceased.locationOfPermanentHome')"/>
+                                            select="scala:getMessagesText($translator, 'iht.registration.deceased.locationOfPermanentHome')"/>
                             <xsl:with-param name="value" select="deceasedDetails/domicile"/>
                         </xsl:call-template>
                         <xsl:call-template name="table-row-short-vpad">
                             <xsl:with-param name="label"
-                                            select="i18n:getMessagesText($translator, 'page.iht.registration.deceasedDetails.maritalStatus.label')"/>
+                                            select="scala:getMessagesText($translator, 'page.iht.registration.deceasedDetails.maritalStatus.label')"/>
                             <xsl:with-param name="value" select="deceasedDetails/maritalStatus"/>
                         </xsl:call-template>
                         <xsl:comment>Blank row to display line at end of section</xsl:comment>
