@@ -52,15 +52,15 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
     implicit user =>
       implicit request => {
         Logger.info("Generating Summary PDF")
-        val msg = messagesApi.preferred(request)
-        val fileName = s"${messagesApi("iht.inheritanceTaxEstateReport")}.pdf"
+        val messages = messagesApi.preferred(request)
+        val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
         withApplicationDetails { regDetails =>
           applicationDetails =>
             val pdfByteArray = XmlFoToPDF.createPreSubmissionPDF(
               regDetails,
               applicationDetails,
               DeclarationHelper.getDeclarationType(applicationDetails)
-            )(msg)
+            )(messages)
             Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*))
         }
       }
@@ -70,10 +70,10 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
     implicit user =>
       implicit request => {
         Logger.info("Generating Clearance PDF")
-        val msg = messagesApi.preferred(request)
+        val messages = messagesApi.preferred(request)
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
           val ihtReference = CommonHelper.getOrException(optionIHTReference)
-          val fileName = s"${messagesApi("pdf.clearanceCertificate.title")}.pdf"
+          val fileName = s"${messages("pdf.clearanceCertificate.title")}.pdf"
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
             getSubmittedApplicationDetails(nino,
@@ -81,7 +81,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
               case Some(ihtReturn) =>
                 val pdfByteArray = XmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
                   ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
-                  throw new RuntimeException("Declaration Date not available")))(msg)
+                  throw new RuntimeException("Declaration Date not available")))(messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
@@ -95,15 +95,15 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
     implicit user =>
       implicit request => {
         Logger.info("Generating Application PDF")
-        val msg = messagesApi.preferred(request)
+        val messages = messagesApi.preferred(request)
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
           val ihtReference = CommonHelper.getOrException(optionIHTReference)
-          val fileName = s"${messagesApi("iht.inheritanceTaxEstateReport")}.pdf"
+          val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
             getSubmittedApplicationDetails(nino, regDetails) map {
               case Some(ihtReturn) =>
-                val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)(msg)
+                val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)(messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
