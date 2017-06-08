@@ -16,6 +16,8 @@
 
 package iht.utils.pdf
 
+import javax.inject.Singleton
+
 import play.api.i18n.Messages
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -23,7 +25,8 @@ import play.api.i18n.Messages.Implicits._
 /**
   * Created by grant on 02/12/16.
   */
-object MessagesTranslator {
+@Singleton
+class MessagesTranslator {
   def getMessagesText(key: String): String = Messages(key)
 
   def getMessagesTextWithParameter(key: String, parameter:String ): String = Messages(key, parameter)

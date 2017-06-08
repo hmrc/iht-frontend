@@ -16,6 +16,8 @@
 
 package iht.controllers.application.pdf
 
+import javax.inject.{Inject, Singleton}
+
 import iht.config.FrontendAuthConnector
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
@@ -37,20 +39,13 @@ import scala.concurrent.Future
 /**
   * Created by dbeer on 14/08/15.
   */
-object PDFController extends PDFController {
+
+@Singleton
+class PDFController @Inject()(xmlFoToPDF: XmlFoToPDF) extends ApplicationController with IhtActions {
+
   lazy val cachingConnector = CachingConnector
   lazy val authConnector: AuthConnector = FrontendAuthConnector
   lazy val ihtConnector = IhtConnector
-  lazy val xmlFoToPDF = XmlFoToPDF
-}
-
-trait PDFController extends ApplicationController with IhtActions {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
-
-  def xmlFoToPDF: XmlFoToPDF
 
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
     IhtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")

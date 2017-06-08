@@ -17,6 +17,7 @@
 package iht.utils.pdf
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
+import javax.inject.{Inject, Singleton}
 import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
@@ -44,9 +45,9 @@ import FieldMappings._
 /**
   * Created by david-beer on 07/06/16.
   */
-object XmlFoToPDF extends XmlFoToPDF
 
-trait XmlFoToPDF {
+@Singleton
+class XmlFoToPDF @Inject()(messagesTranslator:MessagesTranslator){
   private val filePathForFOPConfig = "pdf/fop.xconf"
   private val folderForPDFTemplates = "pdf/templates"
   private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance/main.xsl"
@@ -168,7 +169,7 @@ trait XmlFoToPDF {
 
   private def setupCommonTransformerParameters(transformer: Transformer): Unit = {
     transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator)
+    transformer.setParameter("translator", messagesTranslator)
     transformer.setParameter("pdfFormatter", PdfFormatter)
   }
 
