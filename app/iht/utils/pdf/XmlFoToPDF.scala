@@ -36,6 +36,8 @@ import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.{Logger, Play}
+import play.i18n.Lang
+import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 /**
   * Created by david-beer on 07/06/16.
@@ -105,7 +107,7 @@ trait XmlFoToPDF {
     setupTransformerEventHandling(transformer)
 
     setupCommonTransformerParameters(transformer, messages)
-    transformer.setParameter("declaration-date", declarationDate.toString(IhtProperties.dateFormatForDisplay))
+    transformer.setParameter("declaration-date", Dates.formatDate(declarationDate)(messages.lang))
     transformer
   }
 
@@ -158,7 +160,7 @@ trait XmlFoToPDF {
       ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
       ihtReturn.totalGiftsValue, messages)
 
-    transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
+    transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
     transformer.setParameter("estateValue", ihtReturn.totalNetValue)
