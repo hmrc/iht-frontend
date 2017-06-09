@@ -33,9 +33,9 @@ import scala.concurrent.Future
 
 trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseController[T] {
 
-  def okForEditPageLoad(form: Form[T])(implicit request: Request[AnyContent]): Result
+  def okForEditPageLoad(form: Form[T], name: Option[String] = None)(implicit request: Request[AnyContent]): Result
 
-  def badRequestForEditSubmit(form: Form[T])(implicit request: Request[AnyContent]): Result
+  def badRequestForEditSubmit(form: Form[T], name: Option[String] = None)(implicit request: Request[AnyContent]): Result
 
   def onEditPageLoad = pageLoad(Mode.Edit)
 
@@ -49,7 +49,7 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
         val okResult: Result = if (mode == Mode.Standard) {
           okForPageLoad(f, Some(deceasedName))
         } else {
-          okForEditPageLoad(f)
+          okForEditPageLoad(f, Some(deceasedName))
         }
         val result = okResult.withSession(CommonHelper.ensureSessionHasNino(request.session, user))
         Future.successful(result)

@@ -27,7 +27,7 @@ import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[DeceasedDetails] {
 
-  val name = CommonBuilder.firstNameGenerator
+  lazy val name = CommonBuilder.firstNameGenerator
 
   override def guidanceParagraphs = Set(messagesApi("page.iht.registration.deceasedAddressQuestion.p1", name))
 

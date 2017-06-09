@@ -48,15 +48,15 @@ trait ApplyingForProbateController extends RegistrationApplicantControllerWithEd
     Ok(views.applying_for_probate(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def okForEditPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applying_for_probate(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applying_for_probate(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForEditSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applying_for_probate(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 

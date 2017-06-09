@@ -43,8 +43,8 @@ trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
     Ok(views.deceased_address_question(form, name.get, routes.DeceasedAddressQuestionController.onSubmit())
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_question(form, "", routes.DeceasedAddressQuestionController.onSubmit())
+  def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+    BadRequest(views.deceased_address_question(form, name.get, routes.DeceasedAddressQuestionController.onSubmit())
     (request, request.acceptLanguages.head, applicationMessages))
 
   def onwardRoute(rd: RegistrationDetails) = {

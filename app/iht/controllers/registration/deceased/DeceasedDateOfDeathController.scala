@@ -53,13 +53,13 @@ trait DeceasedDateOfDeathController extends RegistrationBaseControllerWithEditMo
   def okForPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages))
 
-  def okForEditPageLoad(form: Form[DeceasedDateOfDeath])(implicit request: Request[AnyContent]) =
+  def okForEditPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
 
-  def badRequestForSubmit(form: Form[DeceasedDateOfDeath])(implicit request: Request[AnyContent]) =
+  def badRequestForSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages))
 
-  def badRequestForEditSubmit(form: Form[DeceasedDateOfDeath])(implicit request: Request[AnyContent]) =
+  def badRequestForEditSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
 
   def onwardRoute(rd: RegistrationDetails) = routes.DeceasedPermanentHomeController.onPageLoad

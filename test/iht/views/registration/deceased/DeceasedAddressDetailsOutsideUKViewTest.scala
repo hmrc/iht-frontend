@@ -32,18 +32,19 @@ class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour[
   lazy val regSummaryPage = routes.RegistrationSummaryController.onPageLoad
   lazy val editSubmitLocation = CommonBuilder.DefaultCall1
   lazy val addressInTheUK= CommonBuilder.DefaultCall2
+  lazy val name = CommonBuilder.firstNameGenerator
 
-  override def pageTitle = messagesApi("iht.registration.deceased.lastContactAddress", "name")
+  override def pageTitle = messagesApi("iht.registration.deceased.lastContactAddress", name)
   override def browserTitle = messagesApi("iht.registration.contactAddress")
 
   override def form:Form[DeceasedDetails] = deceasedAddressDetailsOutsideUKForm
-  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_outside_uk(form, "name",
+  override def formToView:Form[DeceasedDetails] => Appendable = form => deceased_address_details_outside_uk(form, name,
                                                                   CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   def editModeView = {
     implicit val request = createFakeRequest()
     val view = deceased_address_details_outside_uk(
-      deceasedAddressDetailsOutsideUKForm, "name", editSubmitLocation, addressInTheUK, Some(regSummaryPage)).toString
+      deceasedAddressDetailsOutsideUKForm, name, editSubmitLocation, addressInTheUK, Some(regSummaryPage)).toString
     asDocument(view)
   }
 

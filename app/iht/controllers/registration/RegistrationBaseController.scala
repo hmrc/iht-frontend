@@ -38,7 +38,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
 
   def okForPageLoad(form: Form[T], name: Option[String] = None)(implicit request: Request[AnyContent]): Result
 
-  def badRequestForSubmit(form: Form[T])(implicit request: Request[AnyContent]): Result
+  def badRequestForSubmit(form: Form[T], name: Option[String] = None)(implicit request: Request[AnyContent]): Result
 
   def applyChangesToRegistrationDetails(original: RegistrationDetails, details: T, mode: Mode.Value): RegistrationDetails
 
@@ -73,9 +73,9 @@ trait RegistrationBaseController[T] extends RegistrationController {
       implicit user => implicit request => {
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
           val boundForm = performAdditionalValidation(form.bindFromRequest, rd, mode)
-
+          val deceasedName = CommonHelper.getOrException(rd.deceasedDetails).name
           boundForm.fold(
-            formWithErrors => Future.successful(badRequestForSubmit(formWithErrors))
+            formWithErrors => Future.successful(badRequestForSubmit(formWithErrors, Some(deceasedName)))
             ,
             details => {
               val copyOfRd = applyChangesToRegistrationDetails(rd, details, mode)

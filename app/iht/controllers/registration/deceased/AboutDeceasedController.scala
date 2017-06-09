@@ -45,16 +45,16 @@ trait AboutDeceasedController extends RegistrationDeceasedControllerWithEditMode
   lazy val submitRoute = routes.AboutDeceasedController.onSubmit
   lazy val editSubmitRoute = routes.AboutDeceasedController.onEditSubmit
 
-  def okForPageLoad(form: Form[DeceasedDetails],  name: Option[String])(implicit request: Request[AnyContent]) =
+  def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.about_deceased(form, submitRoute)(request, applicationMessages))
 
-  def okForEditPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
+  def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
 
-  def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
+  def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.about_deceased(form, submitRoute)(request, applicationMessages))
 
-  def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
+  def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
 
   def onwardRoute(rd: RegistrationDetails) = routes.DeceasedAddressQuestionController.onPageLoad
