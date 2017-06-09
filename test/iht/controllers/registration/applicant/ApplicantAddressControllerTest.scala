@@ -329,23 +329,22 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       applicant.doesLiveInUK shouldBe Some(false)
     }
 
-    "raise an error when accessing the screen for a UK address without first entering applicant details" in {
+    "redirect UK address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      intercept[Exception] {
-        await(controller.onPageLoadUk(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoadUk(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
+      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
     }
 
-    "raise an error when accessing the screen for an address abroad without first entering applicant details" in {
+    "redirect address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      intercept[Exception] {
-        await(controller.onPageLoadAbroad(createFakeRequest()))
-      }
+      val result = await(controller.onPageLoadAbroad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
-    "raise an error when submitting the screen for a UK address without first entering applicant details" in {
+    "redirect onSubmit UK address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
@@ -353,12 +352,11 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
 
-      intercept[Exception] {
-        await(controller.onSubmitUk(request))
-      }
+      val result = await(controller.onSubmitUk(request))
+      status(result) shouldBe SEE_OTHER
     }
 
-    "raise an error when submitting the screen for an address abroad without first entering applicant details" in {
+    "redirect onSubmit address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
@@ -366,9 +364,8 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       implicit val request = createFakeRequestWithReferrerWithBody(referrerURL = referrerURL, host = host,
         data = form.data.toSeq)
 
-      intercept[Exception] {
-        await(controller.onSubmitAbroad(createFakeRequest()))
-      }
+      val result = await(controller.onSubmitAbroad(createFakeRequest()))
+      status(result) shouldBe SEE_OTHER
     }
 
     "show an error when submitting a UK address when address line 1 is blank" in {
