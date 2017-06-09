@@ -17,8 +17,9 @@
 package iht.utils.pdf
 
 import iht.constants.FieldMappings.maritalStatusMap
-import iht.constants.{Constants, IhtProperties}
+import iht.constants.{Constants, FieldMappings, IhtProperties}
 import iht.models.RegistrationDetails
+import iht.models.application.ApplicationDetails
 import models.des.iht_return.{Asset, Exemption, IHTReturn}
 import org.joda.time.LocalDate
 import play.api.Play.current
@@ -73,11 +74,18 @@ object PdfFormatter {
     ihtReturn copy (freeEstate = optionFreeEstate)
   }
 
-
   def transform(rd: RegistrationDetails, messages: Messages): RegistrationDetails = {
     val optionDeceasedDetails = rd.deceasedDetails.map { dd =>
       dd copy (maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(messages)(ms)))
     }
     rd copy (deceasedDetails = optionDeceasedDetails)
+  }
+
+  def transform(ad: ApplicationDetails, messages: Messages): ApplicationDetails = {
+    val transformedSeqProperties = ad.propertyList.map { p =>
+      val optionTransformedTenure: Option[String] = p.tenure.map(t => FieldMappings.tenures(messages)(t)._1)
+      p copy (tenure = optionTransformedTenure)
+    }
+    ad copy (propertyList = transformedSeqProperties)
   }
 }
