@@ -93,9 +93,13 @@ trait RegistrationController extends FrontendController with IhtActions {
       val id = if (uri.isEmpty) "" else uri.last
       if (checkGuardCondition(rd, id)) {
         body(rd)
+      } else if(!checkGuardCondition(rd, id) && rd.deceasedDateOfDeath.isDefined) {
+        Logger.info(s"Registration guard condition not met when ${request.uri} requested so re-directing to application overview page")
+        Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
       } else {
         Logger.info(s"Registration details not found in cache when $uri requested so re-directing to application overview page")
-        Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))      }
+        Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+      }
     }
   }
 
@@ -116,7 +120,7 @@ trait RegistrationController extends FrontendController with IhtActions {
         Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
       case Some(rd) => body(rd)
     }
-    }
+  }
 
   def storeRegistrationDetails(rd: RegistrationDetails,
                                successRoute: Call,
