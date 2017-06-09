@@ -56,13 +56,6 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
-//
-//  override def pageLoad(mode: Mode.Value) = authorisedForIht {
-//    implicit user => implicit request =>
-//      withRegistrationDetailsRedirectOnGuardCondition { rd =>
-//        Future.successful(okForPageLoad(fillForm(rd)))
-//      }
-//  }
 
   override def pageLoad(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request =>
