@@ -94,10 +94,10 @@ trait RegistrationController extends FrontendController with IhtActions {
       if (checkGuardCondition(rd, id)) {
         body(rd)
       } else if(!checkGuardCondition(rd, id) && rd.deceasedDateOfDeath.isDefined) {
-        Logger.info(s"Registration guard condition not met when ${request.uri} requested so re-directing to application overview page")
+        Logger.info(s"Registration guard condition not met when ${request.uri} requested so re-directing to estate reports page")
         Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
       } else {
-        Logger.info(s"Registration details not found in cache when $uri requested so re-directing to application overview page")
+        Logger.info(s"Registration details not found in cache when $uri requested so re-directing to estate reports page")
         Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
       }
     }
