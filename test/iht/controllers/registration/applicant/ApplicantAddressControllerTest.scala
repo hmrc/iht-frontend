@@ -329,21 +329,22 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       applicant.doesLiveInUK shouldBe Some(false)
     }
 
-    "raise an error when accessing the screen for a UK address without first entering applicant details" in {
+    "redirect UK address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
       val result = await(controller.onPageLoadUk(createFakeRequest()))
       status(result) shouldBe SEE_OTHER
+      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
     }
 
-    "raise an error when accessing the screen for an address abroad without first entering applicant details" in {
+    "redirect address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
       val result = await(controller.onPageLoadAbroad(createFakeRequest()))
       status(result) shouldBe SEE_OTHER
     }
 
-    "raise an error when submitting the screen for a UK address without first entering applicant details" in {
+    "redirect onSubmit UK address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
@@ -355,7 +356,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
       status(result) shouldBe SEE_OTHER
     }
 
-    "raise an error when submitting the screen for an address abroad without first entering applicant details" in {
+    "redirect onSubmit address to estate report if RegistrationDetails object does not contain applicant details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 

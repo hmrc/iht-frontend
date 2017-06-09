@@ -260,7 +260,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       }
     }
 
-    "raise an error when trying to add a co-executor but others applying for probate is unanswered" in {
+    "redirect estate report if trying to add a co-executor but others applying for probate is unanswered" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
@@ -269,7 +269,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         status(result) shouldBe SEE_OTHER
     }
 
-    "raise an error when trying to add a co-executor but others are not applying for probate" in {
+    "redirect estate report if trying to add a co-executor but others applying for probate is answered false" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails
         copy (areOthersApplyingForProbate = Some(false))))
 

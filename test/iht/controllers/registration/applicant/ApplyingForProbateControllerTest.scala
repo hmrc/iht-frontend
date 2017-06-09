@@ -101,14 +101,14 @@ class ApplyingForProbateControllerTest
       contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
 
-    "raise an error when accessing the screen without first entering deceased details" in {
+    "redirect on load to the estate report page if the RegistrationDetails does not contain deceased details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
       val result = controller.onPageLoad(createFakeRequest())
       status(result) shouldBe SEE_OTHER
     }
 
-    "raise an error when submitting the screen without first entering deceased details" in {
+    "redirect on submit to the estate report page if the RegistrationDetails does not contain deceased details" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
