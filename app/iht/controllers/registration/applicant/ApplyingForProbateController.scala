@@ -44,7 +44,7 @@ trait ApplyingForProbateController extends RegistrationApplicantControllerWithEd
   lazy val submitRoute = routes.ApplyingForProbateController.onSubmit
   lazy val editSubmitRoute = routes.ApplyingForProbateController.onEditSubmit
 
-  def okForPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applying_for_probate(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 

@@ -21,12 +21,12 @@
 @import iht.utils._
 @import iht.constants._
 
-@(deceasedAddressDetailsOutsideUKForm:Form[iht.models.DeceasedDetails],
+@(deceasedAddressDetailsOutsideUKForm:Form[iht.models.DeceasedDetails], deceasedName: String,
     actionLocation: Call,
     changeNationalityLocation: Call,
     cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
 
-@iht_main_template_registration(title = Messages("iht.registration.deceased.lastContactAddress"),
+@iht_main_template_registration(title = Messages("iht.registration.deceased.lastContactAddress", deceasedName),
     browserTitle = Some(Messages("iht.registration.contactAddress")),
     isFullWidth=false,
     cancelUrl=cancelLocation,
@@ -35,7 +35,7 @@
 
     @ihtHelpers.custom.error_summary(deceasedAddressDetailsOutsideUKForm)
 
-    <p class="lede">@Messages("page.iht.registration.deceasedDetails.addressheader.abroad.hint")</p>
+    <p class="lede">@Messages("page.iht.registration.deceasedDetails.addressheader.abroad.hint", deceasedName)</p>
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 

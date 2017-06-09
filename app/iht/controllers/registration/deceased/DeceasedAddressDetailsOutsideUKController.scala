@@ -45,20 +45,20 @@ trait DeceasedAddressDetailsOutsideUKController extends RegistrationDeceasedCont
   lazy val switchToUkRoute = routes.DeceasedAddressDetailsUKController.onPageLoad
   lazy val switchToUkEditRoute = routes.DeceasedAddressDetailsUKController.onEditPageLoad
 
-  def okForPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form, submitRoute, switchToUkRoute)
+  def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+    Ok(views.deceased_address_details_outside_uk(form, name.get, submitRoute, switchToUkRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form, editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
+    Ok(views.deceased_address_details_outside_uk(form, "", editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form, submitRoute, switchToUkRoute)
+    BadRequest(views.deceased_address_details_outside_uk(form, "", submitRoute, switchToUkRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form, editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
+    BadRequest(views.deceased_address_details_outside_uk(form, "",editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   override def fillForm(rd: RegistrationDetails) = {

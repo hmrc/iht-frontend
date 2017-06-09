@@ -48,7 +48,7 @@ trait ProbateLocationController extends RegistrationApplicantControllerWithEditM
   lazy val submitRoute = routes.ProbateLocationController.onSubmit
   lazy val editSubmitRoute = routes.ProbateLocationController.onEditSubmit
 
-  def okForPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.probate_location(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 

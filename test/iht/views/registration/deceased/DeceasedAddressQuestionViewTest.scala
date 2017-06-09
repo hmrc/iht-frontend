@@ -27,16 +27,16 @@ import play.twirl.api.HtmlFormat.Appendable
 
 class DeceasedAddressQuestionViewTest extends YesNoQuestionViewBehaviour[DeceasedDetails] {
 
-  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.deceasedAddressQuestion.p1"))
+  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.deceasedAddressQuestion.p1", "name"))
 
-  override def pageTitle = messagesApi("page.iht.registration.deceasedAddressQuestion.title")
+  override def pageTitle = messagesApi("page.iht.registration.deceasedAddressQuestion.title", "name")
 
   override def browserTitle = messagesApi("iht.registration.contactAddress")
 
   override def form: Form[DeceasedDetails] = deceasedAddressQuestionForm
 
   override def formToView: Form[DeceasedDetails] => Appendable =
-    form => deceased_address_question(form, CommonBuilder.DefaultCall1)
+    form => deceased_address_question(form, "name", CommonBuilder.DefaultCall1)
 
   "Deceased Address Question View" must {
     behave like yesNoQuestion
