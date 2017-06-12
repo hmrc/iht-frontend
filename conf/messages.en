@@ -556,10 +556,10 @@ iht.inheritanceTaxEstateReport = Inheritance Tax estate report
 #Estate report - IhtHome
 page.iht.home.title = Your Inheritance Tax estate reports
 page.iht.home.browserTitle = Your estate reports
-page.iht.home.applicationList.table.guidance.label = These are all the Inheritance Tax estate reports you have created.
+page.iht.home.applicationList.table.guidance.label = These are all the Inheritance Tax estate reports you have registered.
 page.iht.home.applicationList.table.guidance.label.empty = You haven’t registered to complete an Inheritance Tax estate report.
 page.iht.home.applicationList.table.guidance.p2.empty = If you’ve already completed a registration and the details aren’t listed above, call the Inheritance Tax helpline on 0300 123 1072 for help. Call +44 300 123 1072 if you’re outside of the UK.
-page.iht.home.deceasedName.label = Deceased’s name
+page.iht.home.deceasedName.label = Person who has died
 page.iht.home.ihtReference.label = Reference
 page.iht.home.currentStatus = Status
 page.iht.home.button.viewApplication.label = View
@@ -606,9 +606,9 @@ page.iht.application.estateOverview.increaseThreshold.notAvailable = Not availab
 page.iht.application.estateOverview.increaseThreshold.increased = Increased
 page.iht.application.estateOverview.otherDetailsNeeded = Other details needed
 page.iht.application.estateOverview.claimExemptions.link = I want to claim exemptions
-page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text = You can continue once you’re sure you’ve given all of the details that you need to for this estate report. You should check each section before continuing.
+page.iht.application.estateOverview.declaration.allSectionsComplete.guidance.text = You can continue once you’re sure you have given all of the details that you need to for this estate report. You should check each section before continuing.
 page.iht.application.estateOverview.declaration.continue.guidance.text = The estate value is over the threshold. Continue when you’ve given all of the estate details that you know about.
-page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1 = You haven’t given enough details to finish this estate report
+page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text1 = You have not given enough details to finish this estate report
 page.iht.application.estateOverview.declaration.allSectionsNotComplete.guidance.text2 = You must give an answer for every part of the estate report.
 
 page.iht.application.overview.title = Application progress for {0} is now {1}
