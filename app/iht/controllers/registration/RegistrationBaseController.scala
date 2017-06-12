@@ -63,7 +63,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
   def pageLoad(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
-        val deceasedName = CommonHelper.getOrException(rd.deceasedDetails).name
+        val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd)
         Future.successful(okForPageLoad(fillForm(rd), Some(deceasedName)))
       }
   }
@@ -73,7 +73,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
       implicit user => implicit request => {
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
           val boundForm = performAdditionalValidation(form.bindFromRequest, rd, mode)
-          val deceasedName = CommonHelper.getOrException(rd.deceasedDetails).name
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd)
           boundForm.fold(
             formWithErrors => Future.successful(badRequestForSubmit(formWithErrors, Some(deceasedName)))
             ,

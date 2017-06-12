@@ -46,19 +46,19 @@ trait DeceasedAddressDetailsOutsideUKController extends RegistrationDeceasedCont
   lazy val switchToUkEditRoute = routes.DeceasedAddressDetailsUKController.onEditPageLoad
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form, name.get, submitRoute, switchToUkRoute)
+    Ok(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form, name.fold(""){x => x}, editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
+    Ok(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form, name.fold(""){x => x}, submitRoute, switchToUkRoute)
+    BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form, name.fold(""){x => x},editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
+    BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name),editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   override def fillForm(rd: RegistrationDetails) = {

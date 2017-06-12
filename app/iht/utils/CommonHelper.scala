@@ -453,6 +453,9 @@ object CommonHelper {
       regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
     }
 
+  def getDeceasedNameOrDefaultString(deceasedName: Option[String]): String = {
+    deceasedName.fold(Messages("iht.the.deceased")) { name => name }
+  }
   /**
     * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
     * String is split on spaces and hyphens to exclude strings which would split to new lines anyway

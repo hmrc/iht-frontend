@@ -44,7 +44,7 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
   override def pageLoad(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
-        val deceasedName = CommonHelper.getOrException(rd.deceasedDetails).name
+        val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd)
         val f = fillForm(rd)
         val okResult: Result = if (mode == Mode.Standard) {
           okForPageLoad(f, Some(deceasedName))
