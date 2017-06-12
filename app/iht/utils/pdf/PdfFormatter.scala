@@ -84,7 +84,10 @@ object PdfFormatter {
   def transform(ad: ApplicationDetails, messages: Messages): ApplicationDetails = {
     val transformedSeqProperties = ad.propertyList.map { p =>
       val optionTransformedTenure: Option[String] = p.tenure.map(t => FieldMappings.tenures(messages)(t)._1)
-      p copy (tenure = optionTransformedTenure)
+      val optionTransformedHowheld = p.typeOfOwnership.map(hh => FieldMappings.typesOfOwnership(messages)(hh)._1)
+      val optionTransformedPropertytype = p.propertyType.map(pt => FieldMappings.propertyType(messages)(pt))
+
+      p copy (tenure = optionTransformedTenure, typeOfOwnership = optionTransformedHowheld, propertyType = optionTransformedPropertytype)
     }
     ad copy (propertyList = transformedSeqProperties)
   }

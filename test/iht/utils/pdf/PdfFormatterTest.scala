@@ -79,6 +79,12 @@ class PdfFormatterTest extends FormTestHelper {
       val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
       result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
     }
+
+    "transform the marital status" in {
+      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
+      val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
+      result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
+    }
   }
 
 }
