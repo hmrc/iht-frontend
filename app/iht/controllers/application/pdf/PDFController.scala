@@ -28,7 +28,7 @@ import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper}
 import models.des.iht_return.IHTReturn
 import play.api.Logger
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.{Messages, I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -76,7 +76,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
             getSubmittedApplicationDetails(nino,
-              registrationDetails) map {
+              registrationDetails, messages) map {
               case Some(ihtReturn) =>
                 val pdfByteArray = XmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
                   ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
@@ -100,7 +100,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
           val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
-            getSubmittedApplicationDetails(nino, regDetails) map {
+            getSubmittedApplicationDetails(nino, regDetails, messages) map {
               case Some(ihtReturn) =>
                 val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
@@ -121,7 +121,9 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
   /**
     * Retrieves IHTReturn for given ihtRef and returnId
     */
-  private def getSubmittedApplicationDetails(nino: String, registrationDetails:RegistrationDetails)
+  private def getSubmittedApplicationDetails(nino: String,
+                                             registrationDetails:RegistrationDetails,
+                                             messages: Messages)
                                             (implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]] = {
     val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)
     val returnId = registrationDetails.updatedReturnId
@@ -131,7 +133,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
         None
       case Some(ihtReturn) =>
         Logger.info("IhtReturn details have been successfully retrieved ")
-        Some(PdfFormatter.transform(ihtReturn, registrationDetails.deceasedDetails.fold("")(_.name)))
+        Some(PdfFormatter.transform(ihtReturn, registrationDetails.deceasedDetails.fold("")(_.name), messages))
     }
   }
 }

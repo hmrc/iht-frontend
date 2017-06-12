@@ -80,5 +80,10 @@ class XSLScalaBridgeTest extends UnitSpec with FakeIhtApp with MockitoSugar with
       val result = XSLScalaBridge(messages).getDateForDisplay("2000-12-12")
       result shouldBe "12 December 2000"
     }
+
+    "return empty string when there is no date passed to be formatted" in {
+      val result = XSLScalaBridge(messages).getDateForDisplay("")
+      result shouldBe ""
+    }
   }
 }

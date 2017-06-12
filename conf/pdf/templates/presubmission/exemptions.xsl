@@ -58,7 +58,7 @@
                                 <xsl:with-param name="label"
                                                 select="scala:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.dob.title')"/>
                                 <xsl:with-param name="value"
-                                                select="formatter:getDateForDisplay($pdfFormatter, allExemptions/partner/dateOfBirth)"/>
+                                                select="scala:getDateForDisplay($translator, allExemptions/partner/dateOfBirth)"/>
                             </xsl:call-template>
                             <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"

@@ -144,7 +144,7 @@
                     </xsl:call-template>
                     <xsl:call-template name="table-row-short-vpad">
                         <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.tnrbEligibilty.overview.partner.dod.question', $preDeceasedName)"/>
-                        <xsl:with-param name="value" select="formatter:getDateForDisplay($pdfFormatter, widowCheck/dateOfPreDeceased)"/>
+                        <xsl:with-param name="value" select="scala:getDateForDisplay($translator, widowCheck/dateOfPreDeceased)"/>
                     </xsl:call-template>
                     <xsl:call-template name="table-row-short-vpad">
                         <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.name.upperCaseInitial')"/>
@@ -152,7 +152,7 @@
                     </xsl:call-template>
                     <xsl:call-template name="table-row-short-vpad">
                         <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.tnrb.dateOfMarriage', $marriageLabel)"/>
-                        <xsl:with-param name="value" select="formatter:getDateForDisplay($pdfFormatter, increaseIhtThreshold/dateOfMarriage)"/>
+                        <xsl:with-param name="value" select="scala:getDateForDisplay($translator, increaseIhtThreshold/dateOfMarriage)"/>
                     </xsl:call-template>
                 </fo:table-body>
             </fo:table>

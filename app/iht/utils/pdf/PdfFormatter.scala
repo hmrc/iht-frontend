@@ -32,6 +32,12 @@ import scala.collection.immutable.ListMap
   * Created by vineet on 13/06/16.
   */
 object PdfFormatter {
+
+  def getYearFromDate(inputDate: String): Int = {
+    val jodadate = LocalDate.parse(inputDate)
+    jodadate.getYear
+  }
+
   /*
    * Get country name from country code
    */
@@ -52,17 +58,17 @@ object PdfFormatter {
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
         lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
-  def transform(ihtReturn:IHTReturn, deceasedName: String): IHTReturn = {
+  def transform(ihtReturn:IHTReturn, deceasedName: String, messages: Messages): IHTReturn = {
     val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
       _.assetCode,
       Constants.ETMPAssetCodesToIHTMessageKeys,
-      (asset, newDescription) => asset.copy(assetDescription = Option(Messages(newDescription, deceasedName)))
+      (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
     )
 
     val optionSetExemption = updateETMPOptionSet[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
       _.exemptionType,
       Constants.ETMPExemptionTypesToIHTMessageKeys,
-      (exemption, newDescription) => exemption.copy(exemptionType = Option(Messages(newDescription, deceasedName)))
+      (exemption, newDescription) => exemption.copy(exemptionType = Option(messages(newDescription, deceasedName)))
     )
 
     val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (
@@ -84,10 +90,10 @@ object PdfFormatter {
   def transform(ad: ApplicationDetails, messages: Messages): ApplicationDetails = {
     val transformedSeqProperties = ad.propertyList.map { p =>
       val optionTransformedTenure: Option[String] = p.tenure.map(t => FieldMappings.tenures(messages)(t)._1)
-      val optionTransformedHowheld = p.typeOfOwnership.map(hh => FieldMappings.typesOfOwnership(messages)(hh)._1)
-      val optionTransformedPropertytype = p.propertyType.map(pt => FieldMappings.propertyType(messages)(pt))
+      val optionTransformedHowheld: Option[String] = p.typeOfOwnership.map(hh => FieldMappings.typesOfOwnership(messages)(hh)._1)
+      val optionTransformedPropertyType: Option[String] = p.propertyType.map(pt => FieldMappings.propertyType(messages)(pt))
 
-      p copy (tenure = optionTransformedTenure, typeOfOwnership = optionTransformedHowheld, propertyType = optionTransformedPropertytype)
+      p copy (tenure = optionTransformedTenure, typeOfOwnership = optionTransformedHowheld, propertyType = optionTransformedPropertyType)
     }
     ad copy (propertyList = transformedSeqProperties)
   }
