@@ -45,19 +45,19 @@ trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWith
   lazy val submitRoute = routes.DeceasedPermanentHomeController.onSubmit
   lazy val editSubmitRoute = routes.DeceasedPermanentHomeController.onEditSubmit
 
-  def okForPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
+  def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def okForEditPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
+  def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
+  def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
+  def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
