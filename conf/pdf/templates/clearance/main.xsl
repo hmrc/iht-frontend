@@ -3,7 +3,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan"
-                xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
+                xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
                 xmlns:formatter="java:iht.utils.pdf.PdfFormatter">
 
     <xsl:param name="translator" />
@@ -28,9 +28,9 @@
                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
                         <rdf:Description rdf:about=""
                                          xmlns:dc="http://purl.org/dc/elements/1.1/">
-                            <dc:title><xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.title')"/></dc:title>
-                            <dc:creator><xsl:value-of select="i18n:getMessagesText($translator, 'pdf.meta.author')"/></dc:creator>
-                            <dc:description><xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.title')"/></dc:description>
+                            <dc:title><xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.title')"/></dc:title>
+                            <dc:creator><xsl:value-of select="scala:getMessagesText($translator, 'pdf.meta.author')"/></dc:creator>
+                            <dc:description><xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.title')"/></dc:description>
                         </rdf:Description>
                     </rdf:RDF>
                 </x:xmpmeta>
@@ -44,15 +44,15 @@
 
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block font-family="OpenSans-Bold" font-size="24pt" font-weight="bold">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.title')"/>
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.title')"/>
                         <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                            <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.summary')"/>
+                            <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.summary')"/>
                         </fo:block>
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
                         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold">
-                            <xsl:value-of select="i18n:getMessagesText($translator, 'page.iht.registration.registrationSummary.deceasedTable.title')" />
+                            <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.registration.registrationSummary.deceasedTable.title')" />
                         </fo:block>
                         <fo:block>
                             <fo:table space-before="0.5cm">
@@ -61,7 +61,7 @@
                                 <fo:table-body font-size="12pt" >
                                     <fo:table-row line-height="30pt">
                                         <fo:table-cell text-align="left" border-top ="solid 0.3mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
-                                            <fo:block><xsl:value-of select="i18n:getMessagesText($translator, 'iht.name.upperCaseInitial')" /></fo:block>
+                                            <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'iht.name.upperCaseInitial')" /></fo:block>
                                         </fo:table-cell>
                                         <fo:table-cell text-align="left" border-top ="solid 0.3mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
                                             <fo:block>
@@ -71,17 +71,17 @@
                                     </fo:table-row>
                                     <fo:table-row line-height="30pt">
                                         <fo:table-cell text-align="left" border-top ="solid 0.0mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
-                                            <fo:block><xsl:value-of select="i18n:getMessagesText($translator, 'iht.dateOfDeath')" /></fo:block>
+                                            <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'iht.dateOfDeath')" /></fo:block>
                                         </fo:table-cell>
                                         <fo:table-cell text-align="left" border-top ="solid 0.0mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
                                             <fo:block>
-                                                <xsl:value-of select="formatter:getDateForDisplay($pdfFormatter,./deceasedDateOfDeath/dateOfDeath)" />
+                                                <xsl:value-of select="scala:getDateForDisplay($translator,./deceasedDateOfDeath/dateOfDeath)" />
                                             </fo:block>
                                         </fo:table-cell>
                                     </fo:table-row>
                                     <fo:table-row line-height="30pt">
                                         <fo:table-cell text-align="left" border-top ="solid 0.1mm gray" border-bottom ="solid 0.3mm gray" padding-left="4pt">
-                                            <fo:block><xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.estateReport.date.label')" /></fo:block>
+                                            <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.estateReport.date.label')" /></fo:block>
                                         </fo:table-cell>
                                         <fo:table-cell text-align="left" border-top ="solid 0.1mm gray" border-bottom ="solid 0.3mm gray" padding-left="4pt">
                                             <fo:block>
@@ -95,11 +95,11 @@
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph')" />
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.coExecutor.paragraph1')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.coExecutor.paragraph1')" />
                         <fo:list-block space-before="0.25em" space-after="0.25em">
                             <fo:list-item space-after="0.5em">
                                 <fo:list-item-label start-indent="1em">
@@ -128,13 +128,13 @@
                                 </fo:list-item>
                             </xsl:for-each>
                         </fo:list-block>
-                        <xsl:value-of select="i18n:getMessagesText($translator,'pdf.clearanceCertificate.coExecutor.paragraph2')"/>
+                        <xsl:value-of select="scala:getMessagesText($translator,'pdf.clearanceCertificate.coExecutor.paragraph2')"/>
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line1')"/>
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line2')"/>
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line3')"/>
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line1')"/>
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line2')"/>
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line3')"/>
                     </fo:block>
 
                 </fo:flow>
