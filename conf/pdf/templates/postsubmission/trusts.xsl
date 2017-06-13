@@ -3,7 +3,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan"
-                xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
+                xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
 >
     <xsl:param name="translator"/>
     <xsl:param name="pdfFormatter"/>
@@ -21,12 +21,12 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:call-template name="table-row-short-vpad-border-top-black">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'pdf.assetDescription.text')"/>
-                                    <xsl:with-param name="value" select="i18n:getMessagesText($translator, 'iht.estateReport.assets.heldInATrust.title')"/>
+                                                    select="scala:getMessagesText($translator, 'pdf.assetDescription.text')"/>
+                                    <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.estateReport.assets.heldInATrust.title')"/>
                                 </xsl:call-template>
                                 <xsl:call-template name="table-row-money-tall">
                                     <xsl:with-param name="label"
-                                                    select="i18n:getMessagesText($translator, 'iht.value')"/>
+                                                    select="scala:getMessagesText($translator, 'iht.value')"/>
                                     <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
                                 </xsl:call-template>
                                 <xsl:comment>Blank row to display line at end of section</xsl:comment>

@@ -36,19 +36,19 @@ class XmlFoToPDFTest extends FormTestHelper {
     "have correct contents for the certificate" in {
       val declarationDate = new LocalDate(2015, 10, 10)
 
-      val result: Array[Byte] = XmlFoToPDF.createClearancePDF(regDetails, declarationDate)
+      val result: Array[Byte] = XmlFoToPDF.createClearancePDF(regDetails, declarationDate, messages)
       result.length should be >0
     }
 
     "have correct contents for the Pre Submission PDF" in {
-      val result: Array[Byte] = XmlFoToPDF.createPreSubmissionPDF(regDetails, appDetails, "declaration_type")(messages)
+      val result: Array[Byte] = XmlFoToPDF.createPreSubmissionPDF(regDetails, appDetails, "declaration_type", messages)
       result.length should be >0
     }
 
     "have correct contents for the Post Submission PDF" in {
       lazy val ihtReturn = CommonBuilder.buildIHTReturn
 
-      val result: Array[Byte] = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)(messages)
+      val result: Array[Byte] = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
       result.length should be >0
     }
   }

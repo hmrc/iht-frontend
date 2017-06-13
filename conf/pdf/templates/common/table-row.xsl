@@ -3,7 +3,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:common="http://exslt.org/common"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan"
-                xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
+                xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
                 xmlns:formatter="java:iht.utils.pdf.PdfFormatter">
     <xsl:param name="pdfFormatter"/>
 
@@ -382,11 +382,11 @@
                         <xsl:when
                                 test="$value = 'true'">
                             <xsl:value-of
-                                    select="i18n:getMessagesText($translator, 'iht.yes')"/>
+                                    select="scala:getMessagesText($translator, 'iht.yes')"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:value-of
-                                    select="i18n:getMessagesText($translator, 'iht.no')"/>
+                                    select="scala:getMessagesText($translator, 'iht.no')"/>
                         </xsl:otherwise>
                     </xsl:choose>
 
