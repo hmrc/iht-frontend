@@ -46,8 +46,9 @@ cancelUrl = Some(cancelUrl)){
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",
-        '_label -> Html(Messages("iht.firstName"))
-         )
+        '_label -> Html(Messages("iht.firstName")),
+        '_help -> Messages("iht.firstName.hint")
+    )
 
     @ihtHelpers.standard.input_with_help(partnerNameForm("lastName"),
         '_maxlength -> IhtProperties.validationMaxLengthLastName,

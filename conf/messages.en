@@ -120,7 +120,7 @@ iht.ifYouWantToChangeYourAnswer = If you want to change your answer
 iht.ifYouWantToChangeValue =  If you want to change the value
 iht.exitToGovUK = Exit to GOV.UK
 iht.firstName = First name
-iht.firstName.hint = You do not need to give any middle names
+iht.firstName.hint = You do not have to give any middle names
 iht.giveMoreDetails = Give more details
 iht.gov.url = https://www.gov.uk/inheritance-tax
 iht.iv.contactHMRC = contact HMRC to get help
@@ -1391,7 +1391,7 @@ page.iht.application.exemptions.overview.screenReader.total = The total value of
 iht.estateReport.exemptions.title = Estate exemptions
 
 #Estate report - Exemptions Guidance
-page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you don’t know the estate value, it’s recommended to only complete the assets, gifts and debts sections first before you claim any exemptions.
+page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you don’t know the estate value, it’s recommended to only complete the assets, gifts and debts sections before you claim any exemptions.
 page.iht.application.exemptions.guidance.content2 = If you don’t want to claim any estate exemptions,
 page.iht.application.exemptions.guidance.content2.linkText = you can return to the estate overview page
 page.iht.application.exemptions.guidance.content3 = Some assets might be exempt from Inheritance Tax if they are being passed to a spouse or civil partner, a charity or to another qualifying body.
@@ -1628,8 +1628,8 @@ page.iht.application.tnrb.deceasedWidowCheck.question = Was the deceased married
 
 page.iht.application.tnrb.returnToIncreasingThreshold = Return to increasing the threshold
 
-page.iht.application.tnrb.guidance.p1 = It might be possible to increase the Inheritance Tax threshold if the deceased had a spouse or civil partner who died before them. This is done by transferring any unused allowance from the estate of that spouse or civil partner.
-page.iht.application.tnrb.guidance.p2 = If you don’t know if the estate value is over the Inheritance Tax threshold, it isn’t recommended for you to increase the threshold at the moment. You’ll be able to do this once the assets, gifts, debts and estate exemptions sections have been completed.
+page.iht.application.tnrb.guidance.p1 = It might be possible to increase the Inheritance Tax threshold if {0} had a spouse or civil partner who died before them. This is done by transferring any unused allowance from the estate of that spouse or civil partner.
+page.iht.application.tnrb.guidance.p2 = If you do not know if the estate value is over the Inheritance Tax threshold, it is not recommended for you to increase the threshold at the moment. You will be able to do this once the assets, gifts, debts and estate exemptions sections have been completed.
 page.iht.application.tnrb.guidance.p3 = If you already know that you need to transfer any unused allowance from another person’s estate, you can increase the threshold.
 page.iht.application.tnrb.guidance.panelIndent.text = This is only needed if the estate value is over the Inheritance Tax threshold.
 
@@ -1643,7 +1643,7 @@ page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title = The threshold
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.browserTitle = Threshold increased
 page.iht.application.tnrbEligibilty.returnToTnrbEligibilty = Return to increasing the Inheritance Tax threshold page
 
-page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you’ve provided, it might be possible to increase {0}’s threshold.
+page.iht.application.tnrbEligibilty.overview.guidance1 = Based upon the details you have provided, it might be possible to increase the threshold.
 page.iht.application.tnrbEligibilty.overview.guidance2=All of the details you give on this page should be about {0} who died in {1}
 
 page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading = Questions about the estate of {0} who died in {1}
@@ -1680,7 +1680,7 @@ page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.
 page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.text.yes = Yes, all of the jointly owned assets in the estate passed to {1}. Change this answer.
 page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.text.no = No, all of the jointly owned assets in the estate didn’t pass to {1}. Change this answer.
 
-page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes = Yes, the deceased had been married or in a civil partnership at a point in their life and their spouse or civil partner died. Change this answer.
+page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes = Yes, {0} had been married or in a civil partnership at a point in their life and their spouse or civil partner died. Change this answer.
 
 page.iht.application.tnrbEligibilty.overview.partner.dod.question = Date when {0} died
 page.iht.application.tnrbEligibilty.overview.partner.dod.question.screenReader.text = The date when the deceased’s spouse or civil partner died was {2}. Change this date.
@@ -1740,7 +1740,7 @@ iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts wi
 iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
 iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 form. You’ll also need to complete an IHT-402 form to increase the threshold. When you finish this service, you will be given a copy of the form.
-iht.estateReport.tnrb.partner.married = Was the deceased {0} at any point in their life and their {1} died?
+iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and their {2} died?
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
 

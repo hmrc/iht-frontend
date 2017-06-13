@@ -38,7 +38,7 @@
         isFullWidth = false,
         hasTimeOut = true) {
 
-        <p class="lede" id="tnrb-guidance1">@Html(Messages("page.iht.application.tnrbEligibilty.overview.guidance1", getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+        <p class="lede" id="tnrb-guidance1">@Html(Messages("page.iht.application.tnrbEligibilty.overview.guidance1", true))</p>
 
         <p id="tnrb-guidance2">
         @{
@@ -70,6 +70,7 @@
                         @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(statusWidowed)) {
                             @tnrb_overview_table_row(id = "partner-marital-status",
                                 questionText = Html(Messages("iht.estateReport.tnrb.partner.married",
+                                    deceasedName,
                                     TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
                                     TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)
                                 )
@@ -80,10 +81,9 @@
                                 link = Some(iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad),
                                 linkScreenReader = mapYesNoNoneDisplayValue(
                                     Messages(getBooleanDisplayValue(widowCheckModel.widowed)),
-                                    Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes", predeceasedName, ihtHelpers.custom.name(deceasedName)),
-                                    Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.no", predeceasedName, ihtHelpers.custom.name(deceasedName)),
-                                    Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.none", predeceasedName, ihtHelpers.custom.name(deceasedName))
-                                ),
+                                    Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes", ihtHelpers.custom.name(deceasedName)),
+                                    "","")
+                                ,
                                 linkID = TnrbSpouseMartialStatusID)
                         }
                         @defining(widowCheckModel.dateOfPreDeceased.map(x => Dates.formatDate(x).toString).fold("")(identity)) { answerValue =>

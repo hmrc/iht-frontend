@@ -66,11 +66,12 @@ class PartnerNameViewTest extends SubmittableApplicationPageBehaviour[TnrbEligib
     )
   )
 
-  "Gifts With Reservation Of Benefit page Question View" must {
+  "Partner Name View" must {
     behave like applicationPageWithErrorSummaryBox()
 
-    "have a first name label" in {
-      elementShouldHaveText(doc, "firstName-container", messagesApi("iht.firstName"))
+    "have a first name label with hint text" in {
+      labelShouldBe(doc, "firstName-container", messagesApi("iht.firstName"))
+      labelHelpTextShouldBe(doc, "firstName-container", "iht.firstName.hint")
     }
 
     "have a first name field" in {

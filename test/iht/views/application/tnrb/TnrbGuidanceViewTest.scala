@@ -27,13 +27,13 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
   "tnrb guidance page" must {
     "have no message keys in html" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_guidance("ihtReference", "url").toString
+      val view = tnrb_guidance("ihtReference", "url", "deceased name").toString
       noMessageKeysShouldBePresent(view)
     }
 
     "show the correct title" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_guidance("ihtReference", "url").toString
+      val view = tnrb_guidance("ihtReference", "url", "deceased name").toString
       val doc = asDocument(view)
       val headers: Elements = doc.getElementsByTag("h1")
       headers.size() shouldBe 1
@@ -42,7 +42,7 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
 
     "show the correct browser title" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_guidance("ihtReference", "url").toString
+      val view = tnrb_guidance("ihtReference", "url", "deceased name").toString
       val doc = asDocument(view)
       assertEqualsValue(doc, "title",
         messagesApi("iht.estateReport.tnrb.increasingThreshold") + " " + messagesApi("site.title.govuk"))
@@ -50,22 +50,22 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
 
     "show the correct paragraphs" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_guidance("ihtReference", "url").toString
-      view should include(messagesApi("page.iht.application.tnrb.guidance.p1"))
+      val view = tnrb_guidance("ihtReference", "url", "deceased name").toString
+      view should include(messagesApi("page.iht.application.tnrb.guidance.p1", "deceased name"))
       view should include(messagesApi("page.iht.application.tnrb.guidance.p2"))
       view should include(messagesApi("page.iht.application.tnrb.guidance.p3"))
     }
 
     "show the correct indent paragraph" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_guidance("ihtReference", "url").toString
+      val view = tnrb_guidance("ihtReference", "url", "deceased name").toString
       val doc = asDocument(view)
       assertContainsMessage(doc, ".panel-indent p", "page.iht.application.tnrb.guidance.panelIndent.text")
     }
 
     "show a return to estate overview button which has specified iht reference" in {
       implicit val request = createFakeRequest()
-      val view = tnrb_guidance("ihtReference", "url").toString
+      val view = tnrb_guidance("ihtReference", "url", "deceased name").toString
       val doc = asDocument(view)
       assertRenderedById(doc, "continue-to-estate-overview-button")
       val button: Element = doc.getElementById("continue-to-estate-overview-button")
@@ -77,7 +77,7 @@ class TnrbGuidanceViewTest extends ViewTestHelper {
     "show the correct continue to increasing threshold link" in {
       implicit val request = createFakeRequest()
       val expectedUrl = "url"
-      val view = tnrb_guidance("ihtReference", expectedUrl).toString
+      val view = tnrb_guidance("ihtReference", expectedUrl, "deceased name").toString
       val doc = asDocument(view)
       assertRenderedById(doc, "continue-to-increasing-threshold-link")
       val link: Element = doc.getElementById("continue-to-increasing-threshold-link")

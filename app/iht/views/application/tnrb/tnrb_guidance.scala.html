@@ -18,13 +18,13 @@
 @import iht.views.html._
 
 
-@(ihtReference:String, url: String)(implicit request:Request[_], messages: Messages)
+@(ihtReference:String, url: String, deceasedName: String)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.increasingIHTThreshold"),
     browserTitle = Some(Messages("iht.estateReport.tnrb.increasingThreshold"))){
 
     <div class="form-group">
-        <p>@Messages("page.iht.application.tnrb.guidance.p1")</p>
+        <p>@Messages("page.iht.application.tnrb.guidance.p1", deceasedName)</p>
         <div class="panel-indent">
             <p>@Messages("page.iht.application.tnrb.guidance.panelIndent.text")</p>
         </div>
