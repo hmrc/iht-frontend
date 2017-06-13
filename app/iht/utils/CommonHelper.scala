@@ -454,7 +454,7 @@ object CommonHelper {
     }
 
   def getDeceasedNameOrDefaultString(deceasedName: Option[String]): String = {
-    deceasedName.fold(Messages("iht.the.deceased")) { name => name }
+    deceasedName.fold(Messages("iht.the.deceased")) { identity }
   }
   /**
     * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
