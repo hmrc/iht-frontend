@@ -144,8 +144,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       status(result) should be(OK)
       contentAsString(result) should include(messagesApi("page.iht.registration.co-executor-personal-details.title"))
     }
-//
-//
+
     "contain Continue button when Page is loaded in normal mode" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector,
         Some(CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate))
@@ -158,7 +157,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       contentAsString(result) should include(messagesApi("iht.continue"))
       contentAsString(result) should not include messagesApi("site.link.cancel")
     }
-//
+
     "contain Continue and Cancel buttons when Page is loaded in edit mode" in {
       val coExec1 = CommonBuilder.buildCoExecutor copy (id = Some("1"), firstName=CommonBuilder.firstNameGenerator,
         lastName=CommonBuilder.surnameGenerator)
@@ -174,7 +173,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       contentAsString(result) should include(messagesApi("iht.continue"))
       contentAsString(result) should include(messagesApi("site.link.cancel"))
     }
-//
+
     "not contain the 'Do you live in the UK' question when loaded in edit mode" in {
       val coExec1 = CommonBuilder.buildCoExecutor copy (id = Some("1"), firstName=CommonBuilder.firstNameGenerator,
         lastName=CommonBuilder.surnameGenerator)
@@ -208,7 +207,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       contentAsString(result) should include(firstName)
       contentAsString(result) should include(surname)
     }
-//
+
     "load when creating a new co-executor and another already exists" in {
       val firstName = CommonBuilder.firstNameGenerator
       val surname = CommonBuilder.surnameGenerator
@@ -225,7 +224,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       contentAsString(result) should not include firstName
       contentAsString(result) should not include surname
     }
-//
+
     "raise an error when accessed for a non-existant co-executor" in {
       val coExec1 = CommonBuilder.buildCoExecutor copy (id = Some("1"), firstName=CommonBuilder.firstNameGenerator,
         lastName=CommonBuilder.surnameGenerator)
@@ -233,9 +232,9 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         coExecutors = Seq(coExec1))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
 
-      intercept[java.lang.Exception] {
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
+      intercept[Exception] {
         val result = controller(coExecutorForms).onPageLoad(Some("2"))(createFakeRequest())
         status(result)
       }
@@ -261,27 +260,23 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       }
     }
 
-    "raise an error when trying to add a co-executor but others applying for probate is unanswered" in {
+    "redirect estate report if trying to add a co-executor but others applying for probate is unanswered" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails))
 
-      intercept[java.lang.RuntimeException] {
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
         val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
-        status(result)
-      }
+        status(result) shouldBe SEE_OTHER
     }
 
-    "raise an error when trying to add a co-executor but others are not applying for probate" in {
+    "redirect estate report if trying to add a co-executor but others applying for probate is answered false" in {
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(CommonBuilder.buildRegistrationDetails
         copy (areOthersApplyingForProbate = Some(false))))
 
-      intercept[java.lang.RuntimeException] {
         val coExecutorForms: CoExecutorForms = formWithMockedNinoValidationNoCoExecutor(mockCachingConnector)
 
         val result = controller(coExecutorForms).onPageLoad(None)(createFakeRequest())
-        status(result)
-      }
+        status(result) shouldBe SEE_OTHER
     }
 
 
@@ -346,7 +341,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       redirectLocation(result) should be(
         Some(iht.controllers.registration.executor.routes.OtherPersonsAddressController.onPageLoadAbroad("1").url))
     }
-//
+
     "save a valid co-executor when another already exists" in {
       val coExec1 = CommonBuilder.buildCoExecutorPersonalDetails(Some("1")) copy (firstName=CommonBuilder.firstNameGenerator,
         lastName=CommonBuilder.surnameGenerator)
@@ -379,7 +374,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       capturedValue.coExecutors.head shouldBe coExec1
       capturedValue.coExecutors(1) shouldBe expectedCoExecutor
     }
-//
+
     "update an existing co-executor with valid data" in {
       val coExec1 = CommonBuilder.buildCoExecutor copy (id = Some("1"), firstName=CommonBuilder.firstNameGenerator,
         lastName=CommonBuilder.surnameGenerator)
@@ -414,7 +409,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       capturedValue.coExecutors.length shouldBe 1
       capturedValue.coExecutors.head shouldBe expectedCoExecutor
     }
-//
+
     "update an existing co-executor in edit mode with valid data" in {
       val coExec1 = CommonBuilder.buildCoExecutor copy (id = Some("1"), firstName=CommonBuilder.firstNameGenerator,
         lastName=CommonBuilder.surnameGenerator
@@ -450,7 +445,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
       capturedValue.coExecutors.length shouldBe 1
       capturedValue.coExecutors.head shouldBe expectedCoExecutor
     }
-//
+
     "raise an error when trying to save for a non-existant co-executor" in {
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -472,7 +467,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
         status(result)
       }
     }
-//
+
     "raise an error when trying to save a new co-executor and the maximum number already exist" in {
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithOthersApplyingForProbate copy(
         coExecutors = Seq(CommonBuilder.DefaultCoExecutor1, CommonBuilder.DefaultCoExecutor2, CommonBuilder.DefaultCoExecutor3))
@@ -515,12 +510,10 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
-      intercept[Exception] {
         val result = controller(coExecutorForms).onSubmit(None)(request)
-        status(result)
-      }
+      status(result) shouldBe SEE_OTHER
     }
-//
+
     "raise an error when trying to submit a co-executor but others are not applying for probate" in {
       val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
         areOthersApplyingForProbate = Some(false))
@@ -538,10 +531,8 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
-      intercept[Exception] {
         val result = controller(coExecutorForms).onSubmit(None)(request)
-        status(result)
-      }
+      status(result) shouldBe SEE_OTHER
     }
 
     "show an error when some data is invalid" in {

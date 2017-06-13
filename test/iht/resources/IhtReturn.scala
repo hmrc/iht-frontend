@@ -265,10 +265,6 @@ case class IhtReturn(survivingSpouseFirstName: String, survivingSpouseSurname: S
            <liabilityType>Other</liabilityType>
          </estateLiabilities>
          <estateExemptions>
-           <exemptionType>GNCP</exemptionType>
-           <overrideValue>30</overrideValue>
-         </estateExemptions>
-         <estateExemptions>
            <exemptionType>Charity</exemptionType>
            <overrideValue>27</overrideValue>
          </estateExemptions>
@@ -277,12 +273,20 @@ case class IhtReturn(survivingSpouseFirstName: String, survivingSpouseSurname: S
            <overrideValue>28</overrideValue>
          </estateExemptions>
          <estateExemptions>
-           <exemptionType>Spouse</exemptionType>
-           <overrideValue>25</overrideValue>
+           <exemptionType>GNCP</exemptionType>
+           <overrideValue>30</overrideValue>
          </estateExemptions>
          <estateExemptions>
            <exemptionType>GNCP</exemptionType>
            <overrideValue>31</overrideValue>
+         </estateExemptions>
+         <estateExemptions>
+           <exemptionType>Spouse</exemptionType>
+           <overrideValue>25</overrideValue>
+         </estateExemptions>
+         <estateExemptions>
+           <exemptionType>Charity</exemptionType>
+           <overrideValue>28</overrideValue>
          </estateExemptions>
        </freeEstate>
        <declaration>

@@ -16,8 +16,9 @@
 
 package iht.utils.pdf
 
+import javax.inject.{Singleton, Inject}
 import iht.constants.FieldMappings.maritalStatusMap
-import iht.constants.{Constants, FieldMappings, IhtProperties}
+import iht.constants.{Constants, FieldMappings}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import models.des.iht_return.{Asset, Exemption, IHTReturn}
@@ -58,6 +59,13 @@ object PdfFormatter {
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
         lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
+  def updateETMPOptionSeq[B](optionSetOfB:Option[Seq[B]],
+                             getExprToLookupAsOption:B=>Option[String],
+                             lookupItems:ListMap[String,String],
+                             applyLookedUpItemToB:(B,String)=>B):Option[Seq[B]] =
+    optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
+      lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
+
   def transform(ihtReturn:IHTReturn, deceasedName: String, messages: Messages): IHTReturn = {
     val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
       _.assetCode,
@@ -65,7 +73,7 @@ object PdfFormatter {
       (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
     )
 
-    val optionSetExemption = updateETMPOptionSet[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
+    val optionSeqExemption = updateETMPOptionSeq[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
       _.exemptionType,
       Constants.ETMPExemptionTypesToIHTMessageKeys,
       (exemption, newDescription) => exemption.copy(exemptionType = Option(messages(newDescription, deceasedName)))
@@ -73,7 +81,7 @@ object PdfFormatter {
 
     val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (
       estateAssets = optionSetAsset,
-      estateExemptions = optionSetExemption
+      estateExemptions = optionSeqExemption
       )
     )
 

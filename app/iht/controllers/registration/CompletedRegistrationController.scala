@@ -34,7 +34,7 @@ trait CompletedRegistrationController extends RegistrationController{
 
   def onPageLoad() = authorisedForIht {
     implicit user =>implicit request => {
-      withRegistrationDetailsOrRedirect(routes.CompletedRegistrationController.onPageLoad().url) { rd =>
+      withRegistrationDetailsOrRedirect(request.uri) { rd =>
          Future.successful(Ok(iht.views.html.registration.completed_registration(rd.ihtReference.get)))
       }
     }
