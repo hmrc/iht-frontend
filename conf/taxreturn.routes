@@ -373,9 +373,9 @@ GET         /not-possible-to-use-this-service                                   
 POST        /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onSubmit
 GET         /delete-estate-report                                                               iht.controllers.application.KickoutController.onPageLoadDeleting
 
-GET         /inheritance-tax-estate-report                                                      iht.controllers.application.pdf.PDFController.onPreSubmissionPDF
-GET         /clearance-certificate                                                              iht.controllers.application.pdf.PDFController.onClearancePDF
-GET         /completed-estate-report                                                            iht.controllers.application.pdf.PDFController.onPostSubmissionPDF
+GET         /inheritance-tax-estate-report                                                      @iht.controllers.application.pdf.PDFController.onPreSubmissionPDF
+GET         /clearance-certificate                                                              @iht.controllers.application.pdf.PDFController.onClearancePDF
+GET         /completed-estate-report                                                            @iht.controllers.application.pdf.PDFController.onPostSubmissionPDF
 
 GET         /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onPageLoad
 POST        /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onSubmit

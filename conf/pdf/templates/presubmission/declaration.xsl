@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:common="http://exslt.org/common"
-                xmlns:i18n="java:iht.utils.pdf.MessagesTranslator"
+                xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
                 xmlns:xalan="http://xml.apache.org" exclude-result-prefixes="common xalan">
 
     <xsl:param name="translator"/>
@@ -10,11 +10,11 @@
 
     <xsl:template name="declaration">
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.title')"/>
+            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.declaration.title')"/>
         </fo:block>
         <xsl:comment>First bullet block starts</xsl:comment>
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before=".5cm">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.youMayFaceProsecution')" />
+            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.declaration.youMayFaceProsecution')" />
         </fo:block>
 
         <fo:list-block space-before="0.25em" space-after="0.25em">
@@ -26,7 +26,7 @@
                 </fo:list-item-label>
                 <fo:list-item-body start-indent="2em">
                     <fo:block>
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.withholdInformation')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.declaration.withholdInformation')" />
                     </fo:block>
                 </fo:list-item-body>
             </fo:list-item>
@@ -38,7 +38,7 @@
                 </fo:list-item-label>
                 <fo:list-item-body start-indent="2em">
                     <fo:block>
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.dontTellHMRC')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.declaration.dontTellHMRC')" />
                     </fo:block>
                 </fo:list-item-body>
             </fo:list-item>
@@ -47,7 +47,7 @@
 
         <xsl:comment>Second bullet block starts</xsl:comment>
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before=".5cm">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.pdf.declaration.declaringThat')" />
+            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.pdf.declaration.declaringThat')" />
         </fo:block>
 
         <fo:list-block space-before="0.25em" space-after="0.25em">
@@ -59,7 +59,7 @@
                 </fo:list-item-label>
                 <fo:list-item-body start-indent="2em">
                     <fo:block>
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.completedAllReasonableEnquiries')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.declaration.completedAllReasonableEnquiries')" />
                     </fo:block>
                 </fo:list-item-body>
             </fo:list-item>
@@ -71,7 +71,7 @@
                 </fo:list-item-label>
                 <fo:list-item-body start-indent="2em">
                     <fo:block>
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.declaration.correctAndComplete')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.declaration.correctAndComplete')" />
                     </fo:block>
                 </fo:list-item-body>
             </fo:list-item>
@@ -83,7 +83,7 @@
                 </fo:list-item-label>
                 <fo:list-item-body start-indent="2em">
                     <fo:block>
-                        <xsl:value-of select="i18n:getMessagesText($translator, 'iht.estateReport.noInheritanceTaxPayable')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.noInheritanceTaxPayable')" />
                     </fo:block>
                 </fo:list-item-body>
             </fo:list-item>
@@ -91,7 +91,7 @@
         <xsl:comment>Second bullet block ends</xsl:comment>
 
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-            <xsl:value-of select="i18n:getMessagesText($translator, 'iht.iht.estateReport.declaration.acceptanceOfDeclaration')" />
+            <xsl:value-of select="scala:getMessagesText($translator, 'iht.iht.estateReport.declaration.acceptanceOfDeclaration')" />
         </fo:block>
 
         <xsl:comment>Co executors Signatures</xsl:comment>
@@ -104,7 +104,7 @@
                         <fo:table-row line-height="30pt">
                             <fo:table-cell>
                                 <fo:block>
-                                    <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.name.text')"/>
+                                    <xsl:value-of select="scala:getMessagesText($translator, 'pdf.name.text')"/>
                                 </fo:block>
                             </fo:table-cell>
                             <fo:table-cell>
@@ -116,7 +116,7 @@
                         <fo:table-row line-height="30pt">
                             <fo:table-cell>
                                 <fo:block>
-                                    <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.signature.date.text')"/>
+                                    <xsl:value-of select="scala:getMessagesText($translator, 'pdf.signature.date.text')"/>
                                 </fo:block>
                             </fo:table-cell>
                             <fo:table-cell>
@@ -128,7 +128,7 @@
                         <fo:table-row line-height="30pt">
                             <fo:table-cell>
                                 <fo:block>
-                                    <xsl:value-of select="i18n:getMessagesText($translator, 'pdf.signature.signature.text')"/>
+                                    <xsl:value-of select="scala:getMessagesText($translator, 'pdf.signature.signature.text')"/>
                                 </fo:block>
                             </fo:table-cell>
                             <fo:table-cell>

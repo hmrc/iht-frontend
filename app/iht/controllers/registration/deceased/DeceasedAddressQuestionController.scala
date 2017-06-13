@@ -21,6 +21,7 @@ import iht.connector.IhtConnectors
 import iht.forms.registration.DeceasedForms._
 import iht.metrics.Metrics
 import iht.models.{DeceasedDetails, RegistrationDetails}
+import iht.utils.CommonHelper
 import iht.views.html.registration.{deceased => views}
 import play.api.Logger
 import play.api.data.Form
@@ -39,12 +40,12 @@ trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
 
   override val storageFailureMessage = "Storage of registration details fails during deceased address question"
 
-  def okForPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_question(form, routes.DeceasedAddressQuestionController.onSubmit())
+  def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+    Ok(views.deceased_address_question(form, CommonHelper.getDeceasedNameOrDefaultString(name), routes.DeceasedAddressQuestionController.onSubmit())
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_question(form, routes.DeceasedAddressQuestionController.onSubmit())
+  def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+    BadRequest(views.deceased_address_question(form, CommonHelper.getDeceasedNameOrDefaultString(name), routes.DeceasedAddressQuestionController.onSubmit())
     (request, request.acceptLanguages.head, applicationMessages))
 
   def onwardRoute(rd: RegistrationDetails) = {

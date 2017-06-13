@@ -16,16 +16,12 @@
 
 package iht.utils.pdf
 
-import iht.FakeIhtApp
 import iht.forms.FormTestHelper
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
 import models.des.iht_return.Asset
 import org.joda.time.LocalDate
-import org.scalatest.mock.MockitoSugar
-import play.api.i18n.MessagesApi
-import play.api.test.FakeRequest
-import uk.gov.hmrc.play.test.UnitSpec
+import play.api.i18n.{Messages, MessagesApi}
 
 import scala.collection.immutable.ListMap
 
@@ -34,20 +30,7 @@ import scala.collection.immutable.ListMap
   */
 class PdfFormatterTest extends FormTestHelper {
 
-  "disply value" must {
-
-    "must return date in format of d MMMM yyyy" in {
-      val result = PdfFormatter.getDateForDisplay("1975-10-24")
-
-      result shouldBe "24 October 1975"
-    }
-
-    "must throw exception on invalid date" in {
-      a[IllegalArgumentException] shouldBe thrownBy {
-        PdfFormatter.getDateForDisplay("20 1019")
-      }
-    }
-
+  "display value" must {
     "must return the year from specified date" in {
       val result = PdfFormatter.getYearFromDate("1990-06-05")
       result shouldBe 1990
@@ -86,17 +69,40 @@ class PdfFormatterTest extends FormTestHelper {
       )
       asset copy(assetDescription = newAssetDescription)
     }
-    val result = PdfFormatter.transform(ihtReturn, CommonBuilder.DefaultString)
+    val result = PdfFormatter.transform(ihtReturn, CommonBuilder.DefaultString, messages)
     val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
     setOfAssets shouldBe expectedSetOfAssets
   }
 
   "transform" must {
     "transform the marital status" in {
-      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4 )(messages)
+      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
       val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
       result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
     }
-  }
 
+    "map the tenure value from messages file" in {
+      val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
+      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, messages)
+
+      val result = appDetailsAfterFormatting.propertyList.head.tenure
+      result shouldBe Some(messagesApi("page.iht.application.assets.tenure.freehold.label"))
+    }
+
+    "map the property type value from messages file" in {
+      val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
+      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, messages)
+
+      val result = appDetailsAfterFormatting.propertyList.head.propertyType
+      result shouldBe Some(messagesApi("page.iht.application.assets.propertyType.deceasedHome.label"))
+    }
+
+    "map the property ownership value from messages file" in {
+      val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
+      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, messages)
+
+      val result = appDetailsAfterFormatting.propertyList.head.typeOfOwnership
+      result shouldBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"))
+    }
+  }
 }

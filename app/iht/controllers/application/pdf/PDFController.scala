@@ -16,6 +16,8 @@
 
 package iht.controllers.application.pdf
 
+import javax.inject.{Inject, Singleton}
+
 import iht.config.FrontendAuthConnector
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
@@ -26,9 +28,7 @@ import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper}
 import models.des.iht_return.IHTReturn
 import play.api.Logger
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.{Messages, I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -37,20 +37,13 @@ import scala.concurrent.Future
 /**
   * Created by dbeer on 14/08/15.
   */
-object PDFController extends PDFController {
-  lazy val cachingConnector = CachingConnector
-  lazy val authConnector: AuthConnector = FrontendAuthConnector
-  lazy val ihtConnector = IhtConnector
-  lazy val xmlFoToPDF = XmlFoToPDF
-}
 
-trait PDFController extends ApplicationController with IhtActions {
+@Singleton
+class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationController with IhtActions with I18nSupport {
 
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
-
-  def xmlFoToPDF: XmlFoToPDF
+  val cachingConnector: CachingConnector = CachingConnector
+  val authConnector: AuthConnector = FrontendAuthConnector
+  val ihtConnector: IhtConnector = IhtConnector
 
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
     IhtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
@@ -59,14 +52,14 @@ trait PDFController extends ApplicationController with IhtActions {
     implicit user =>
       implicit request => {
         Logger.info("Generating Summary PDF")
-        val fileName = s"${Messages("iht.inheritanceTaxEstateReport")}.pdf"
+        val messages = messagesApi.preferred(request)
+        val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
         withApplicationDetails { regDetails =>
           applicationDetails =>
-            val pdfByteArray = xmlFoToPDF.createPreSubmissionPDF(
+            val pdfByteArray = XmlFoToPDF.createPreSubmissionPDF(
               regDetails,
               applicationDetails,
-              DeclarationHelper.getDeclarationType(applicationDetails)
-            )
+              DeclarationHelper.getDeclarationType(applicationDetails), messages)
             Future.successful(Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*))
         }
       }
@@ -76,18 +69,18 @@ trait PDFController extends ApplicationController with IhtActions {
     implicit user =>
       implicit request => {
         Logger.info("Generating Clearance PDF")
-
+        val messages = messagesApi.preferred(request)
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
           val ihtReference = CommonHelper.getOrException(optionIHTReference)
-          val fileName = s"${Messages("pdf.clearanceCertificate.title")}.pdf"
+          val fileName = s"${messages("pdf.clearanceCertificate.title")}.pdf"
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
             getSubmittedApplicationDetails(nino,
-              registrationDetails) map {
+              registrationDetails, messages) map {
               case Some(ihtReturn) =>
-                val pdfByteArray = xmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
+                val pdfByteArray = XmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
                   ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
-                  throw new RuntimeException("Declaration Date not available")))
+                  throw new RuntimeException("Declaration Date not available")), messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
@@ -101,14 +94,15 @@ trait PDFController extends ApplicationController with IhtActions {
     implicit user =>
       implicit request => {
         Logger.info("Generating Application PDF")
+        val messages = messagesApi.preferred(request)
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
           val ihtReference = CommonHelper.getOrException(optionIHTReference)
-          val fileName = s"${Messages("iht.inheritanceTaxEstateReport")}.pdf"
+          val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
           val nino = CommonHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
-            getSubmittedApplicationDetails(nino, regDetails) map {
+            getSubmittedApplicationDetails(nino, regDetails, messages) map {
               case Some(ihtReturn) =>
-                val pdfByteArray = xmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn)
+                val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
               case _ =>
                 internalServerError
@@ -127,7 +121,9 @@ trait PDFController extends ApplicationController with IhtActions {
   /**
     * Retrieves IHTReturn for given ihtRef and returnId
     */
-  private def getSubmittedApplicationDetails(nino: String, registrationDetails:RegistrationDetails)
+  private def getSubmittedApplicationDetails(nino: String,
+                                             registrationDetails:RegistrationDetails,
+                                             messages: Messages)
                                             (implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]] = {
     val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)
     val returnId = registrationDetails.updatedReturnId
@@ -137,7 +133,7 @@ trait PDFController extends ApplicationController with IhtActions {
         None
       case Some(ihtReturn) =>
         Logger.info("IhtReturn details have been successfully retrieved ")
-        Some(PdfFormatter.transform(ihtReturn, registrationDetails.deceasedDetails.fold("")(_.name)))
+        Some(PdfFormatter.transform(ihtReturn, registrationDetails.deceasedDetails.fold("")(_.name), messages))
     }
   }
 }
