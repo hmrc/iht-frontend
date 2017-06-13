@@ -35,7 +35,10 @@ class DeceasedWidowCheckQuestionViewTest extends YesNoQuestionViewBehaviour[Wido
 
   def widowCheck = CommonBuilder.buildWidowedCheck
 
-  override def pageTitle = messagesApi("iht.estateReport.tnrb.partner.married",
+  override def pageTitle = messagesApi(
+    "iht.estateReport.tnrb.partner.married",
+    CommonBuilder.buildDeceasedDetails.firstName.get + " "
+      + CommonBuilder.buildDeceasedDetails.lastName.get,
     TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased),
     TnrbHelper.spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased))
 

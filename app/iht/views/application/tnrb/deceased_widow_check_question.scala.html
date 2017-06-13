@@ -34,6 +34,7 @@ cancelLinkText:String
 @maritalStatus() = @{TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased)}
 @spouseCivilPartner() = @{TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)}
 @question() = @{Messages("iht.estateReport.tnrb.partner.married",
+    deceasedName,
     maritalStatus,
     spouseCivilPartner
     )}

@@ -1739,7 +1739,7 @@ iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts wi
 iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
 iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 form. You’ll also need to complete an IHT-402 form to increase the threshold. When you finish this service, you will be given a copy of the form.
-iht.estateReport.tnrb.partner.married = Was the deceased {0} at any point in their life and their {1} died?
+iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and their {2} died?
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
 
