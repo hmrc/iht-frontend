@@ -56,8 +56,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
     "show the correct guidance paragraphs" in {
       implicit val request = createFakeRequest()
       val view = ContentChecker.stripLineBreaks(tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString)
-      view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance1",
-                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+      view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance1"))
       view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance2",
                             TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                              messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
