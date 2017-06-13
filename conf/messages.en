@@ -1627,8 +1627,8 @@ page.iht.application.tnrb.deceasedWidowCheck.question = Was the deceased married
 
 page.iht.application.tnrb.returnToIncreasingThreshold = Return to increasing the threshold
 
-page.iht.application.tnrb.guidance.p1 = It might be possible to increase the Inheritance Tax threshold if the deceased had a spouse or civil partner who died before them. This is done by transferring any unused allowance from the estate of that spouse or civil partner.
-page.iht.application.tnrb.guidance.p2 = If you don’t know if the estate value is over the Inheritance Tax threshold, it isn’t recommended for you to increase the threshold at the moment. You’ll be able to do this once the assets, gifts, debts and estate exemptions sections have been completed.
+page.iht.application.tnrb.guidance.p1 = It might be possible to increase the Inheritance Tax threshold if {0} had a spouse or civil partner who died before them. This is done by transferring any unused allowance from the estate of that spouse or civil partner.
+page.iht.application.tnrb.guidance.p2 = If you do not know if the estate value is over the Inheritance Tax threshold, it is not recommended for you to increase the threshold at the moment. You will be able to do this once the assets, gifts, debts and estate exemptions sections have been completed.
 page.iht.application.tnrb.guidance.p3 = If you already know that you need to transfer any unused allowance from another person’s estate, you can increase the threshold.
 page.iht.application.tnrb.guidance.panelIndent.text = This is only needed if the estate value is over the Inheritance Tax threshold.
 

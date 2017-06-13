@@ -36,8 +36,10 @@ trait TnrbGuidanceController extends EstateController{
     implicit user => implicit request => {
       withRegistrationDetails { rd =>
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd)
           Future.successful(Ok(tnrb_guidance(ihtReference,
-            TnrbHelper.urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url))
+            TnrbHelper.urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
+            deceasedName))
           )
       }
     }
