@@ -40,11 +40,12 @@ class XSLScalaBridge private(messages: Messages) {
     messages(key, parameter1, parameter2, parameter3)
 
   def getDateForDisplay(inputDate: String): String = {
-    if(inputDate.isEmpty){
-      ""
-    }else {
-      val jodaDate = LocalDate.parse(inputDate)
-      Dates.formatDate(jodaDate)(messages.lang)
+    inputDate match {
+      case "" => inputDate
+      case _ => {
+        val jodaDate = LocalDate.parse(inputDate)
+        Dates.formatDate(jodaDate)(messages.lang)
+      }
     }
   }
 }

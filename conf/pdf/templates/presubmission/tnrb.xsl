@@ -150,10 +150,14 @@
                         <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.name.upperCaseInitial')"/>
                         <xsl:with-param name="value" select="$preDeceasedName"/>
                     </xsl:call-template>
-                    <xsl:call-template name="table-row-short-vpad">
-                        <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.tnrb.dateOfMarriage', $marriageLabel)"/>
-                        <xsl:with-param name="value" select="scala:getDateForDisplay($translator, increaseIhtThreshold/dateOfMarriage)"/>
-                    </xsl:call-template>
+                    <xsl:choose>
+                        <xsl:when test="increaseIhtThreshold/dateOfMarriage != ''">
+                            <xsl:call-template name="table-row-short-vpad">
+                                <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.tnrb.dateOfMarriage', $marriageLabel)"/>
+                                <xsl:with-param name="value" select="scala:getDateForDisplay($translator, increaseIhtThreshold/dateOfMarriage)"/>
+                            </xsl:call-template>
+                        </xsl:when>
+                    </xsl:choose>
                 </fo:table-body>
             </fo:table>
         </fo:block>
