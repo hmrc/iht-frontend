@@ -1390,7 +1390,7 @@ page.iht.application.exemptions.overview.screenReader.total = The total value of
 iht.estateReport.exemptions.title = Estate exemptions
 
 #Estate report - Exemptions Guidance
-page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you don’t know the estate value, it’s recommended to only complete the assets, gifts and debts sections first before you claim any exemptions.
+page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you don’t know the estate value, it’s recommended to only complete the assets, gifts and debts sections before you claim any exemptions.
 page.iht.application.exemptions.guidance.content2 = If you don’t want to claim any estate exemptions,
 page.iht.application.exemptions.guidance.content2.linkText = you can return to the estate overview page
 page.iht.application.exemptions.guidance.content3 = Some assets might be exempt from Inheritance Tax if they are being passed to a spouse or civil partner, a charity or to another qualifying body.
