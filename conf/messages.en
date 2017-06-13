@@ -140,9 +140,9 @@ iht.noChangeToHowReportToHMRC = There’s no change to how you report to HMRC
 iht.notPossibleToUseService = It’s not possible for you to use this service
 iht.postcode = Postcode
 iht.returnToLastQuestion = Return to last question
-iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank accounts that the the person who has died might have owned, how much do you think the the person who has died’s estate is worth?
+iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank accounts that the deceased might’ve owned, how much do you think the deceased’s estate is worth?
 iht.saveAndContinue = Save and continue
-iht.shouldUseOnlineService = You can use the online service
+iht.shouldUseOnlineService = You must use the online service
 iht.signedOut = You have been signed out
 iht.signInAgain = Sign back in and return to your Inheritance Tax estate reports page
 iht.start = Start
@@ -226,10 +226,10 @@ page.iht.filter.paperform.million.exit = Exit to the IHT-400 form
 
 page.iht.filter.paperform.iht400.link.text = IHT-400 form
 
-page.iht.filter.useService.under325000.paragraph0 = Because you think the estate might be worth less than £325,000, you can use the online service to report the estate value to HMRC.
+page.iht.filter.useService.under325000.paragraph0 = Because you think the deceased’s estate might be worth under £325,000, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
 page.iht.filter.useService.paragraphFinal = You’ll need to register to use the service first, but before that, you’ll need to confirm who you are with HMRC.
-page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the estate might be worth between £325,000 and £1 million, you can use the online service to report the estate value to HMRC.
-page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you’ll be able to claim any estate exemptions or transfer the unused threshold from a spouse or civil partner who died before the person who has died.
+page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the deceased’s estate might be worth between £325,000 and £1 million, it’s more than likely that you’ll need to report their estate value to HMRC by using the online service.
+page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you’ll be able to claim any estate exemptions or transfer the unused threshold from a spouse or civil partner who died before the deceased.
 
 #Registration
 iht.registration.changeAddressToAbroad = Change the address to one that’s abroad
@@ -279,12 +279,12 @@ iht.registration.checklist.phoneNo.upperCaseInitial = Phone number
 iht.registration.deceasedDetails.title = About the person who has died
 
 #Registration - Deceased Date Of Death
-page.iht.registration.deceasedDateOfDeath.title = What was the date of death?
+page.iht.registration.deceasedDateOfDeath.title = When did the deceased die?
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.label = Enter the deceased’s date of death
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint = For example, 21 3 2010
 
 #Registration - Deceased’s permanent home
-page.iht.registration.deceasedPermanentHome.title = Where was the person who has died’s permanent home?
+page.iht.registration.deceasedPermanentHome.title = Where was the deceased’s permanent home?
 page.iht.registration.deceasedPermanentHome.browserTitle = Permanent home
 iht.common.other = Other
 
@@ -354,7 +354,8 @@ page.iht.registration.applicant.probateLocation.browserTitle = Probate location
 
 page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
 page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 - Probate application form.
-page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if the deceased left a will. If there wasn’t a will, you would’ve been named as the administrator of the estate by a court.
+page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if {0} left a will. If there wasn’t a will, you would have been named as the administrator of the estate by a court.
+page.iht.registration.applicant.applyingForProbate = Are you applying for probate for {0}’s estate?
 iht.registration.applicant.applyingForProbate = Are you applying for probate for the deceased’s estate?
 
 #Registration - Applicant tell us about yourself
@@ -507,7 +508,7 @@ page.iht.registration.duplicateRegistration.ref.title = You can start this estat
 page.iht.registration.duplicateRegistration.ref.text = If any details have changed, phone the Inheritance Tax helpline on 0300 123 1072 to make any changes. Call +44 300 123 1072 if you’re outside of the UK.
 
 page.iht.registration.others-applying-for-probate.sectionName = others-applying-for-probate
-page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other people applying for probate for this estate?
+page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other executors applying for probate for this estate?
 page.iht.registration.others-applying-for-probate.browserTitle = Other probate applicants
 page.iht.registration.others-applying-for-probate.description = If you’re filling in a PA1 – Probate application form, you can add up to 3 other people on the form. These people will also apply for a grant of representation.
 
@@ -523,17 +524,17 @@ page.iht.registration.executor-overview.executor.change.screenReader = Change {0
 #Registration - KickOuts
 page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary = This is because the deceased died before 18 March 1986. Capital Transfer Tax or Estate Duty were used for deaths before this date.
 page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary = This is because the deceased died between 18 March 1986 and 5 April 2011.
-page.iht.registration.deceasedDetails.kickout.location.summary = This is because the person who has died’s permanent home wasn’t in England or Wales.
-page.iht.registration.applicantDetails.kickout.probate.summary = This is because you aren’t intending to apply for probate in England or Wales.
+page.iht.registration.deceasedDetails.kickout.location.summary = This is because the deceased’s permanent home wasn’t in England or Wales.
+page.iht.registration.applicantDetails.kickout.probate.summary = This is because you are not applying for probate in England or Wales.
 page.iht.registration.applicantDetails.kickout.role.summary = This is because you aren’t an executor or an administrator for the deceased’s estate.
 page.iht.registration.applicantDetails.kickout.role.p2 = If you want to change your role, you can return to the last page you visited.
 page.iht.registration.applicantDetails.kickout.probateRole.summary = This is because you aren’t intending to apply for probate in England or Wales and you aren’t an executor or an administrator for the deceased’s estate.
 
-page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for the deceased’s estate.
-page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for the deceased’s estate should complete an Inheritance Tax estate report.
+page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for {0}’s estate.
+page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for {0}’s estate should complete an Inheritance Tax estate report.
 page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer, you can return to the last page you visited.
 iht.registration.kickout.content = You should complete the Inheritance Tax estate report using either an IHT-205 or IHT-400 paper form.
-iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the person who has died’s permanent home
+iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the deceased’s permanent home
 iht.registration.kickout.ifWantChangeProbateLocation = If you want to change the location of where you intend to apply for probate
 iht.registration.kickout.returnToTheLastPageVisited =return to the last page you visited
 iht.registration.kickout.returnToTheDateOfDeath =  return to the date of death
