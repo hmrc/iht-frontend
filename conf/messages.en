@@ -531,7 +531,7 @@ page.iht.registration.applicantDetails.kickout.role.p2 = If you want to change y
 page.iht.registration.applicantDetails.kickout.probateRole.summary = This is because you aren’t intending to apply for probate in England or Wales and you aren’t an executor or an administrator for the deceased’s estate.
 
 page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for {0}’s estate.
-page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for the deceased’s estate should complete an Inheritance Tax estate report.
+page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for {0}’s estate should complete an Inheritance Tax estate report.
 page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer, you can return to the last page you visited.
 iht.registration.kickout.content = You should complete the Inheritance Tax estate report using either an IHT-205 or IHT-400 paper form.
 iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the person who has died’s permanent home
