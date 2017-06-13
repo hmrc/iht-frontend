@@ -755,9 +755,9 @@ page.iht.application.assets.typeOfOwnership.deceasedOnly.label = Only by the dec
 page.iht.application.assets.typeOfOwnership.joint.label = Joint tenants
 page.iht.application.assets.typeOfOwnership.inCommon.label = Tenants in common
 
-page.iht.application.assets.typeOfOwnership.deceasedOnly.hint = The property was owned in full by the deceased.
-page.iht.application.assets.typeOfOwnership.joint.hint = The deceased owned some of this property and their share automatically transfers to another joint owner. This property can not be left to anyone else in a will.
-page.iht.application.assets.typeOfOwnership.inCommon.hint = The deceased owned some of this property but their share does not automatically transfer to another joint owner. This property can be left to someone else in a will.
+page.iht.application.assets.typeOfOwnership.deceasedOnly.hint = The property was owned in full by {0}.
+page.iht.application.assets.typeOfOwnership.joint.hint = {0} owned some of this property and their share automatically transfers to another joint owner. This property can not be left to anyone else in a will.
+page.iht.application.assets.typeOfOwnership.inCommon.hint = {0} owned some of this property but their share does not automatically transfer to another joint owner. This property can be left to someone else in a will.
 
 page.iht.application.assets.tenure.freehold.label = Freehold
 page.iht.application.assets.tenure.leasehold.label = Leasehold

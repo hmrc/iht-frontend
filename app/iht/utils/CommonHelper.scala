@@ -18,6 +18,7 @@ package iht.utils
 
 import java.util.UUID._
 
+import iht.connector.CachingConnector
 import iht.constants.{Constants, IhtProperties}
 import iht.constants.IhtProperties.statusMarried
 import iht.models._
@@ -36,7 +37,10 @@ import play.twirl.api.Html
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.collection.immutable.ListMap
+import scala.concurrent.duration.Duration
+import scala.concurrent.{ExecutionContext, Await, Future}
 import scala.util.{Try,Success,Failure}
+import scala.concurrent.ExecutionContext.Implicits.global._
 
 /**
   *
@@ -46,6 +50,7 @@ import scala.util.{Try,Success,Failure}
   */
 object CommonHelper {
   private val DateRangeMonths = 24
+  def cachingConnector: CachingConnector = CachingConnector
 
   import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -507,4 +512,13 @@ object CommonHelper {
   }
 
   def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(Constants.NINO)
+
+  def deceasedName(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = {
+    val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
+    val deceasedNameFuture = futureOptionRD.map {
+      case None => ""
+      case Some(rd) => rd.deceasedDetails.fold("")(_.name)
+    }
+    Await.result(deceasedNameFuture, Duration.Inf)
+  }
 }

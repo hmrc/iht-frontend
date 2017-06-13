@@ -17,11 +17,16 @@
 package iht.constants
 
 import iht.constants.IhtProperties._
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import iht.constants.Constants._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.Request
+import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.collection.immutable.ListMap
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object FieldMappings {
 
   val Yes="1"
@@ -53,13 +58,13 @@ object FieldMappings {
     createMapEntry(propertyTypeNonResidential , "page.iht.application.assets.propertyType.nonResidential.label")(messages)
   )
 
-  def typesOfOwnership(implicit messages: Messages): ListMap[String, (String, Some[String], Some[Boolean])] = ListMap(
+  def typesOfOwnership(deceasedName: String)(implicit messages: Messages): ListMap[String, (String, Some[String], Some[Boolean])] = ListMap(
     ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"),
-      Some(messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint")), Some(false))),
+      Some(messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint", deceasedName)), Some(false))),
     ownershipJoint -> ((messages("page.iht.application.assets.typeOfOwnership.joint.label"),
-      Some(messages("page.iht.application.assets.typeOfOwnership.joint.hint")), Some(true))),
+      Some(messages("page.iht.application.assets.typeOfOwnership.joint.hint", deceasedName)), Some(true))),
     ownershipInCommon -> ((messages("page.iht.application.assets.typeOfOwnership.inCommon.label"),
-      Some(messages("page.iht.application.assets.typeOfOwnership.inCommon.hint")), Some(true)))
+      Some(messages("page.iht.application.assets.typeOfOwnership.inCommon.hint", deceasedName)), Some(true)))
   )
 
   def tenures(implicit messages: Messages) = ListMap(
