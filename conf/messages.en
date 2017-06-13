@@ -1680,7 +1680,7 @@ page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.
 page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.text.yes = Yes, all of the jointly owned assets in the estate passed to {1}. Change this answer.
 page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.text.no = No, all of the jointly owned assets in the estate didn’t pass to {1}. Change this answer.
 
-page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes = Yes, the deceased had been married or in a civil partnership at a point in their life and their spouse or civil partner died. Change this answer.
+page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes = Yes, {0} had been married or in a civil partnership at a point in their life and their spouse or civil partner died. Change this answer.
 
 page.iht.application.tnrbEligibilty.overview.partner.dod.question = Date when {0} died
 page.iht.application.tnrbEligibilty.overview.partner.dod.question.screenReader.text = The date when the deceased’s spouse or civil partner died was {2}. Change this date.

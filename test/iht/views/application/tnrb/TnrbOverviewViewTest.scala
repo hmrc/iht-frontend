@@ -109,6 +109,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
 
      assertEqualsValue(doc, "li#partner-marital-status span",
         messagesApi("iht.estateReport.tnrb.partner.married",
+          deceasedName,
           TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
           TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)))
 

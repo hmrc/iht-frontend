@@ -81,10 +81,9 @@
                                 link = Some(iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad),
                                 linkScreenReader = mapYesNoNoneDisplayValue(
                                     Messages(getBooleanDisplayValue(widowCheckModel.widowed)),
-                                    Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes", predeceasedName, ihtHelpers.custom.name(deceasedName)),
-                                    Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.no", predeceasedName, ihtHelpers.custom.name(deceasedName)),
-                                    Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.none", predeceasedName, ihtHelpers.custom.name(deceasedName))
-                                ),
+                                    Messages("page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes", ihtHelpers.custom.name(deceasedName)),
+                                    "","")
+                                ,
                                 linkID = TnrbSpouseMartialStatusID)
                         }
                         @defining(widowCheckModel.dateOfPreDeceased.map(x => Dates.formatDate(x).toString).fold("")(identity)) { answerValue =>
