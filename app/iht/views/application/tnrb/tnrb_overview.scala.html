@@ -69,6 +69,7 @@
                         @if(!CommonHelper.getOrException(CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus).equals(statusWidowed)) {
                             @tnrb_overview_table_row(id = "partner-marital-status",
                                 questionText = Html(Messages("iht.estateReport.tnrb.partner.married",
+                                    deceasedName,
                                     TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased),
                                     TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)
                                 )
