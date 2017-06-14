@@ -1028,10 +1028,10 @@ iht.estateReport.assets.insurancePolicies.premiumsPaidByOther = Insurance premiu
 iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare = Total value of {0}’s share of all jointly held policies
 iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut = Total value of all policies owned by {0} and any policies paying out to their estate
 iht.estateReport.insurancePolicies.jointlyHeld.question = Did {0} have any insurance policies that were jointly held with someone else?
-iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate?
+iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that was not paying out to their estate?
 iht.estateReport.insurancePolicies.ownName.question = Did {0} have any policies in their own name that were to pay out to them or are there any policies that were paying out to their estate?
 iht.estateReport.insurancePolicies.premiumsNotPayingOut.question = Did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate?
-iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1 = This could have been at any point in their life and the insurance policy shouldn’t have been due to pay out to {0} or to their estate.
+iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1 = This could have been at any point in their life and the insurance policy would not have been due to pay out to {0} or to their estate.
 iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2 = You can answer no if the policy was due to pay out to {0}’s spouse or civil partner.
 
 #Estate report - Assets - Business interests
