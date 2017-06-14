@@ -118,7 +118,7 @@ trait InsurancePolicyOverviewController extends EstateController {
       questionAnswerExprValue = insurancePolicy.shareValue,
       questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
-      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"),
+      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
       sectionLinkId = InsuranceJointlyHeldSectionID,
       questionLinkID = InsuranceJointlyHeldYesNoID,
       answerLinkID = InsuranceJointlyHeldValueID
