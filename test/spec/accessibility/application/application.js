@@ -40,27 +40,23 @@ describe('Application accessibility : ', function() {
     });
 
     it('estate report overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report')
-        driver.findElement(By.css("table a:first-of-type")).click();
-        driver.wait(until.titleContains('Estate overview'), 2000)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/estate-overview/CS700100A000001',
+            pageTitle: "Estate overview"
+
         });
     });
 
     it('estate report overview, filled', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report')
-        driver.findElement(By.css("table a:first-of-type")).click();
+        driver.get('http://localhost:9070/inheritance-tax/estate-report/estate-overview/CS700100A000001')
         driver.wait(until.titleContains('Estate overview'), 2000)
 
         driver.get('http://localhost:9070/inheritance-tax/test-only/fill');
 
-        driver.get('http://localhost:9070/inheritance-tax/estate-report')
-        driver.findElement(By.css("table a:first-of-type")).click();
-        driver.wait(until.titleContains('Estate overview'), 2000)
+        behaves.actsAsBasicPage(done, driver, {
+            url: 'http://localhost:9070/inheritance-tax/estate-report/estate-overview/CS700100A000001',
+            pageTitle: "Estate overview"
 
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
         });
     });
 

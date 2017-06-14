@@ -129,9 +129,7 @@ describe('Gifts, accessibility : ', function() {
 
         driver.sleep(1000);
 
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsAccessiblePage(done, driver);
     });
 
 });

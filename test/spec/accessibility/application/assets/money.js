@@ -47,11 +47,10 @@ describe('Money (Assets) accessibility : ', function() {
 
 
     it('money overview', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-owned')
-        driver.wait(until.titleContains('Money'), 2000)
-        .then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+         behaves.actsAsBasicPage(done, driver, {
+             url: 'http://localhost:9070/inheritance-tax/estate-report/money-owned',
+             pageTitle: "Money"
+         })
     });
 
     it('money overview, filled', function (done) {

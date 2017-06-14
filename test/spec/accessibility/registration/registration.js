@@ -187,10 +187,10 @@ describe('Registration accessibility : ', function() { 
 
 
             it('registration checklist', function(done) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/registration-checklist') 
-                driver.wait(until.titleContains('Before you start registration'), 2000) .then(function() { 
-                    accessibilityhelper.checkAccessibility(done, driver) 
-                }); 
+                 behaves.actsAsBasicPage(done, driver, {
+                     url: 'http://localhost:9070/inheritance-tax/registration/registration-checklist',
+                     pageTitle: "Before you start registration"
+                 })
             });  
 
             it('when did the deceased die', function(done) { 
@@ -198,7 +198,6 @@ describe('Registration accessibility : ', function() { 
                       url: 'http://localhost:9070/inheritance-tax/registration/date-of-death',
                       pageTitle: "Date of death",
                       button: '#continue-button'
-
                   })
             });  
 
@@ -465,10 +464,12 @@ describe('Registration accessibility : ', function() { 
                   fillOtherPersonApplyingForProbateOutsideUK(done, driver); 
                   fillApplicantAddressOutsideUK(done, driver); 
                   gotoDeleteOtherApplicant(done, driver);  
-                  driver.get('http://localhost:9070/inheritance-tax/registration/delete-applicant/1') 
-                  driver.wait(until.titleContains("Delete applicant"), 2000) .then(function() { 
-                      accessibilityhelper.checkAccessibility(done, driver) 
-                  }); 
+
+                   behaves.actsAsBasicPage(done, driver, {
+                       url: 'http://localhost:9070/inheritance-tax/registration/delete-applicant/1',
+                       pageTitle: "Delete applicant"
+                   });
+
               })  
 
               it('check your answers', function(done) { 
@@ -486,9 +487,11 @@ describe('Registration accessibility : ', function() { 
                   fillApplicantAddressOutsideUK(done, driver); 
                   fillOtherPeopleApplyingForProbate(done, driver); 
                   gotoCheckYourAnswers(done, driver);  
-                  driver.get('http://localhost:9070/inheritance-tax/registration/check-your-answers') 
-                  driver.wait(until.titleContains("Check your answers"), 2000) .then(function() { 
-                      accessibilityhelper.checkAccessibility(done, driver) 
-                  }); 
+
+                   behaves.actsAsBasicPage(done, driver, {
+                       url: 'http://localhost:9070/inheritance-tax/registration/check-your-answers',
+                       pageTitle: "Check your answers"
+                   });
+
               })   
           });         
