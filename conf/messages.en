@@ -865,21 +865,21 @@ page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to the d
 
 #Estate report - Assets - Household and personal items
 page.iht.application.assets.household.deceased.browserTitle = Own household items owned
-page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue = Give an answer for household and personal items held in the deceased’s name
-page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change = Change the answer for household and personal items held in the deceased’s name
-page.iht.application.assets.household.overview.deceased.value.screenreader.link.change = Change the answer for value of household and personal items held in the deceased’s name
+page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue = Give an answer for household and personal items held in {0}’s name
+page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change = Change the answer for household and personal items held in {0}’s name
+page.iht.application.assets.household.overview.deceased.value.screenreader.link.change = Change the answer for value of household and personal items held in {0}’s name
 
 page.iht.application.assets.household.joint.browserTitle = Joint household items owned
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.noValue = Give an answer for jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change = Change the answer for jointly owned household and personal items
-page.iht.application.assets.household.overview.joint.value = Value of the deceased’s share of any jointly owned household and personal items
+page.iht.application.assets.household.overview.joint.value = Value of {0}’s share of any jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.value.screenreader.link.change = Change the answer for value of jointly owned household and personal items
-page.iht.application.assets.household.overview.guidance = These are items such as electrical goods and furniture, along with personal items such as jewellery.
+page.iht.application.assets.household.overview.guidance = These are items such as electrical goods and furniture, along with personal items like jewellery.
 
-iht.estateReport.assets.household.deceasedOwnedValue = Value of what the deceased owned in their own name
+iht.estateReport.assets.household.deceasedOwnedValue = Value of what {0} owned in their own name
 iht.estateReport.assets.household.joint.question = Did {0} jointly own any household and personal items with any other people?
 iht.estateReport.assets.household.ownName.question = Did {0} own any household and personal items in their own name?
-iht.estateReport.assets.household.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned items
+iht.estateReport.assets.household.valueOfJointlyOwned = Value of {0}’s share of any jointly owned items
 iht.estateReport.assets.householdAndPersonalItems.title = Household and personal items
 iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title = Household and personal items {0} owned jointly with other people
 iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title = Household and personal items owned only by {0}
