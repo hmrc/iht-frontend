@@ -1603,7 +1603,6 @@ iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
 page.iht.application.transferOfNilRateBand.widowedCheck.title = Widowed Check
 page.iht.application.transferOfNilRateBand.widowedCheck.marriedOrDivorced.guidance.label = It might be possible to increase the Inheritance Tax threshold up to £650,000 if the deceased was married or in a civil partnership at any time and their spouse or civil partner died.
 
-page.iht.application.tnrb.permanentHome.browerTitle = Location of permanent home
 page.iht.application.tnrb.permanentHome.question.hint = This might also be called their country of domicile.
 
 page.iht.application.tnrb.jointlyOwnedAssets.browserTitle = Joint assets in estate

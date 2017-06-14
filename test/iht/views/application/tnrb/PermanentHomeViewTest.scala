@@ -38,7 +38,7 @@ class PermanentHomeViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyMod
     TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
       messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
-  override def browserTitle = messagesApi("page.iht.application.tnrb.permanentHome.browerTitle")
+  override def browserTitle = messagesApi("iht.registration.deceased.locationOfPermanentHome")
 
   override def formTarget = Some(iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit())
 
