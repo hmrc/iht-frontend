@@ -74,8 +74,8 @@ isFullWidth=false
                         ),
 
                         generic_overview_table_item(id = "deceased-own-value",
-                            questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
-                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
+                            questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
                             questionCategory= "change",
                             answerValue= household.flatMap(_.value).fold("")(x=>"£" + CommonHelper.numberWithCommas(x).toString()),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),

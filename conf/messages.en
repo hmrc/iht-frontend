@@ -876,7 +876,7 @@ page.iht.application.assets.household.overview.joint.value = Value of the deceas
 page.iht.application.assets.household.overview.joint.value.screenreader.link.change = Change the answer for value of jointly owned household and personal items
 page.iht.application.assets.household.overview.guidance = These are items such as electrical goods and furniture, along with personal items such as jewellery.
 
-iht.estateReport.assets.household.deceasedOwnedValue = Value of what the deceased owned in their own name
+iht.estateReport.assets.household.deceasedOwnedValue = Value of what {0} owned in their own name
 iht.estateReport.assets.household.joint.question = Did {0} jointly own any household and personal items with any other people?
 iht.estateReport.assets.household.ownName.question = Did {0} own any household and personal items in their own name?
 iht.estateReport.assets.household.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned items
@@ -892,7 +892,7 @@ page.iht.application.assets.vehicles.overview.guidance = These are all cars and 
 page.iht.application.assets.vehicles.deceased.browserTitle = Motor vehicles owned
 page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue = Give an answer for motor vehicles owned by the deceased
 page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change = Change the answer for motor vehicles owned by the deceased
-page.iht.application.assets.vehicles.deceased.value = Value of any motor vehicles the deceased owned in their own name
+page.iht.application.assets.vehicles.deceased.value = Value of any motor vehicles {0} owned in their own name
 page.iht.application.assets.vehicles.deceased.value.screenreader.link.change = Change the value of motor vehicles owned by the deceased
 
 page.iht.application.assets.vehicles.jointly.owned.title = Motor vehicles jointly owned with other people

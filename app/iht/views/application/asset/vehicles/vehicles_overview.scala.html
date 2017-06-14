@@ -71,8 +71,8 @@ isFullWidth=false
                             linkScreenReader = Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change")
                         ),
                         generic_overview_table_item(id = "deceased-own-value",
-                            questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
-                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
+                            questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
                             questionCategory= "change",
                             answerValue= vehicles.flatMap(_.value).fold("")(x=>{"£" + CommonHelper.numberWithCommas(x).toString()}),
                             link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
