@@ -172,6 +172,8 @@ iht.timeoutDialog.registration.button = Continue with registration
 iht.needHelp = Need help?
 iht.needHelp.guidance = If you need help with completing this estate report, contact the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
 
+iht.theDeceased = The deceased
+
 #Private Beta landing page
 page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report
 page.iht.private.beta.landing.page.intro.p1 = Use this service to:
@@ -751,7 +753,7 @@ page.iht.application.assets.propertyType.deceasedHome.label = Home
 page.iht.application.assets.propertyType.otherResidential.label = Other residential building
 page.iht.application.assets.propertyType.nonResidential.label = Land, non-residential or business building
 
-page.iht.application.assets.typeOfOwnership.deceasedOnly.label = Only by the deceased
+page.iht.application.assets.typeOfOwnership.deceasedOnly.label = Only by {0}
 page.iht.application.assets.typeOfOwnership.joint.label = Joint tenants
 page.iht.application.assets.typeOfOwnership.inCommon.label = Tenants in common
 
@@ -762,15 +764,15 @@ page.iht.application.assets.typeOfOwnership.inCommon.hint = {0} owned some of th
 page.iht.application.assets.tenure.freehold.label = Freehold
 page.iht.application.assets.tenure.leasehold.label = Leasehold
 
-page.iht.application.assets.tenure.freehold.hint = The deceased owned the property and the land it stands on.
-page.iht.application.assets.tenure.leasehold.hint = The deceased owned the property but not the land it stands on. Leaseholders have a contract with the landowner. This could be a flat in a bigger building.
+page.iht.application.assets.tenure.freehold.hint = {0} owned the property and the land it stands on.
+page.iht.application.assets.tenure.leasehold.hint = {0} owned the property but not the land it stands on. Leaseholders have a contract with the landowner. This could be a flat in a bigger building.
 
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue = Give details for the address
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.change = Change address details
 page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.noValue = Give details of the property type
 page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.change = Change the property type
 page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noValue = Give details of how this property was owned by the deceased
-page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change = Change the details of how this property was owned by the deceased
+page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change = Change the details of how this property was owned by {0}
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.noValue = Give details about whether this property was owned freehold or leasehold
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.change = Change whether this property was owned freehold or leasehold
 page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue = Give a value for the property, building or land

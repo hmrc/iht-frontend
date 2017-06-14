@@ -78,6 +78,11 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
     }
 
     "respond ok on page load" in {
+      val applicationDetails = iht.testhelpers.CommonBuilder.buildApplicationDetails.
+        copy(propertyList = List(CommonBuilder.property))
+
+      setUpTests(Some(applicationDetails))
+      
       val result = propertyTenureController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
     }

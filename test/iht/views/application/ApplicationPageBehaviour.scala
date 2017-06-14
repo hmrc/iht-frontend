@@ -103,13 +103,24 @@ trait ApplicationPageBehaviour extends ViewTestHelper {
   }
 
   def radioButton(testTitle:String,
-                  titleId: String, titleExpectedValue: String, hintId: String = "", hintExpectedValue: String = "") = {
+                  titleId: String,
+                  titleExpectedValue: String,
+                  hintId: String = "",
+                  hintExpectedValue: String = "",
+                  hintExpectedValueParam: Option[String] = None,
+                  titleExpectedValueParam: Option[String] = None) = {
     s"contain $testTitle radio button with correct title" in {
-      doc.getElementById(titleId).text shouldBe messagesApi(titleExpectedValue)
+      titleExpectedValueParam match {
+        case Some(x) => doc.getElementById(titleId).text shouldBe messagesApi(titleExpectedValue, x)
+        case _ => doc.getElementById(titleId).text shouldBe messagesApi(titleExpectedValue)
+      }
     }
     if (hintId.nonEmpty) {
       s"contain $testTitle radio buton with correct hint text" in {
-        doc.getElementById(hintId).text shouldBe messagesApi(hintExpectedValue)
+        hintExpectedValueParam match {
+          case Some(x) => doc.getElementById(hintId).text shouldBe messagesApi(hintExpectedValue, x)
+          case _ => doc.getElementById(hintId).text shouldBe messagesApi(hintExpectedValue)
+        }
       }
     }
   }

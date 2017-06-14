@@ -66,7 +66,7 @@ class MortgagesOverviewViewTest extends ApplicationPageBehaviour {
 
   override def view = mortgages_overview(List(CommonBuilder.property, CommonBuilder.property2),
     Nil,
-    FieldMappings.typesOfOwnership,
+    FieldMappings.typesOfOwnership(deceasedName),
     regDetails, debtsOverviewPageUrl, returnLinkText)(fakeRequest, applicationMessages).toString
 
   val addressTableId = "properties"

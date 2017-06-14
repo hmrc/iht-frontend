@@ -23,6 +23,8 @@ import iht.models.application.assets.{Properties, Property}
 
 class PropertyFormsTest extends FormTestHelper {
 
+  val desceasedName = "John"
+
  "PropertiesForm" must {
    behave like yesNoQuestion[Properties]("isOwned",
      propertiesForm,
@@ -36,7 +38,7 @@ class PropertyFormsTest extends FormTestHelper {
                                             propertyTenureForm,
                                             _.tenure,
                                            "error.assets.property.tenure.select",
-                                            FieldMappings.tenures(messages))
+                                            FieldMappings.tenures(desceasedName)(messages))
   }
 
   "PropertyTypeForm" must {
@@ -52,7 +54,7 @@ class PropertyFormsTest extends FormTestHelper {
                                           typeOfOwnershipForm,
                                         _.typeOfOwnership,
                                         "error.assets.property.ownership.select",
-                                        FieldMappings.typesOfOwnership(messages))
+                                        FieldMappings.typesOfOwnership(desceasedName)(messages))
    }
 
   "PropertyValueForm" must {

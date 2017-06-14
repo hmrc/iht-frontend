@@ -451,7 +451,8 @@ object CommonHelper {
     }
   }
 
-  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails, wrapName: Boolean = false): String =
+  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails,
+                                     wrapName: Boolean = false): String =
     if (wrapName) {
       ihtHelpers.custom.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
     } else {

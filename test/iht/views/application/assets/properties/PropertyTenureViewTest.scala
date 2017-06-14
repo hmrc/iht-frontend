@@ -55,9 +55,11 @@ class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Propert
 
   override def form: Form[Property] = propertyTenureForm
 
+  val deceasedName = "John"
+
   override def formToView: Form[Property] => Appendable =
     form =>
-      property_tenure(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2)
+      property_tenure(form, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall2, deceasedName)
 
   "Property Tenure View" must {
     behave like applicationPageWithErrorSummaryBox()
@@ -68,7 +70,8 @@ class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Propert
     titleId = "tenure-freehold-main",
     titleExpectedValue = "page.iht.application.assets.tenure.freehold.label",
     hintId = "tenure-freehold-hint",
-    hintExpectedValue = "page.iht.application.assets.tenure.freehold.hint"
+    hintExpectedValue = "page.iht.application.assets.tenure.freehold.hint",
+    hintExpectedValueParam = Some(deceasedName)
   )
 
   behave like radioButton(
@@ -76,7 +79,8 @@ class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Propert
     titleId = "tenure-leasehold-main",
     titleExpectedValue = "page.iht.application.assets.tenure.leasehold.label",
     hintId = "tenure-leasehold-hint",
-    hintExpectedValue = "page.iht.application.assets.tenure.leasehold.hint"
+    hintExpectedValue = "page.iht.application.assets.tenure.leasehold.hint",
+    hintExpectedValueParam = Some(deceasedName)
   )
 
   behave like link("land-registry-link", IhtProperties.linkLandRegistry,

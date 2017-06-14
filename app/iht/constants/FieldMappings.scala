@@ -17,15 +17,12 @@
 package iht.constants
 
 import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import iht.constants.Constants._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Request
-import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.collection.immutable.ListMap
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object FieldMappings {
 
@@ -59,7 +56,7 @@ object FieldMappings {
   )
 
   def typesOfOwnership(deceasedName: String)(implicit messages: Messages): ListMap[String, (String, Some[String], Some[Boolean])] = ListMap(
-    ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"),
+    ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label", deceasedName),
       Some(messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint", deceasedName)), Some(false))),
     ownershipJoint -> ((messages("page.iht.application.assets.typeOfOwnership.joint.label"),
       Some(messages("page.iht.application.assets.typeOfOwnership.joint.hint", deceasedName)), Some(true))),
@@ -67,11 +64,11 @@ object FieldMappings {
       Some(messages("page.iht.application.assets.typeOfOwnership.inCommon.hint", deceasedName)), Some(true)))
   )
 
-  def tenures(implicit messages: Messages) = ListMap(
+  def tenures(deceasedName: String)(implicit messages: Messages) = ListMap(
     tenureFreehold -> ((messages("page.iht.application.assets.tenure.freehold.label"),
-      Some(messages("page.iht.application.assets.tenure.freehold.hint")), Some(false))),
+      Some(messages("page.iht.application.assets.tenure.freehold.hint", deceasedName)), Some(false))),
     tenureLeasehold -> ((messages("page.iht.application.assets.tenure.leasehold.label"),
-      Some(messages("page.iht.application.assets.tenure.leasehold.hint")), Some(false)))
+      Some(messages("page.iht.application.assets.tenure.leasehold.hint", deceasedName)), Some(false)))
   )
 
   def questionnaireEasyToUse (implicit messages: Messages) = ListMap(

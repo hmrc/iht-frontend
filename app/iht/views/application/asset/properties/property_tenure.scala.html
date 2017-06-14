@@ -16,7 +16,8 @@
 
 @(propertyTenure:Form[iht.models.application.assets.Property],
 submitUrl:Call,
-cancelUrl:Call
+cancelUrl:Call,
+deceasedName: String
 )(implicit request:Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
@@ -44,7 +45,7 @@ headingClass = "heading-large") {
 
 @ihtHelpers.standard.input_radio_group_with_hints(
 propertyTenure("tenure"),
-FieldMappings.tenures.toSeq,
+FieldMappings.tenures(deceasedName).toSeq,
 '_fieldsetId -> "role2",
 '_groupClass -> "form-group",
 '_labelClass -> "block-label",
