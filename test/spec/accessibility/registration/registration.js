@@ -219,7 +219,7 @@ describe('Registration accessibility : ', function() { 
 
                   behaves.actsAsStandardForm(done, driver, {
                       url: Browser.baseUrl + '/registration/deceaseds-details',
-                      pageTitle: "About the deceased",
+                      pageTitle: "About the person who has died",
                       button: '#continue-button'
 
                   })

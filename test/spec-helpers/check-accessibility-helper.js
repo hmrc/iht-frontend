@@ -35,7 +35,7 @@ var checkAccessibility = function(done, driver) {
             }
 
             expect(results.violations.length).toBe(0, report);
-            console.log(colors.yellow("     " + tags))
+            //console.log(colors.yellow("     " + tags))
         })
         done();
     })

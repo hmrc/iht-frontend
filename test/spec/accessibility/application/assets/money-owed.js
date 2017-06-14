@@ -34,14 +34,14 @@ describe('Money owed (Assets) accessibility : ', function() {
     it('money owed yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
             url: Browser.baseUrl + '/estate-report/money-owed-to-deceased',
-            pageTitle: 'Money owed to the deceased'
+            pageTitle: 'Money owed to the person who has died'
         })
     });
 
     it('money owed yes/no, with value', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
             url: Browser.baseUrl + '/estate-report/money-owed-to-deceased',
-            pageTitle: 'Money owed to the deceased'
+            pageTitle: 'Money owed to the person who has died'
         })
     });
 
