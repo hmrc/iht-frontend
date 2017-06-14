@@ -30,7 +30,7 @@ cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.permanentHome.question",partnerName),
-browserTitle = Some(Messages("page.iht.application.tnrb.permanentHome.browerTitle")),
+browserTitle = Some(Messages("iht.registration.deceased.locationOfPermanentHome")),
 cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
 cancelUrl = Some(cancelUrl),
 headingName = partnerName,

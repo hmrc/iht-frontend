@@ -239,7 +239,7 @@ iht.registration.coExecutors.changeIfOthers = Change if other people are applyin
 iht.registration.complete = Registration complete
 iht.registration.contactAddress = Contact address
 iht.registration.ninoNotOnPayslip = Their National Insurance number can be found on a payslip, a P45 or a P60 form.
-iht.registration.othersApplyingForProbate = Other people applying for probate
+iht.registration.othersApplyingForProbate = Other executors applying for probate
 page.iht.registration.title = Registration
 
 #Registration - Checklist
@@ -315,7 +315,7 @@ page.iht.registration.deceasedDetails.addressheader.uk.hint = This is the last a
 page.iht.registration.deceasedDetails.addressheader.abroad.hint = This is the last address where {0} could have been contacted before they died. This address was abroad.
 page.iht.registration.deceasedDetails.country.help = If the deceased’s contact address isn’t in the UK
 page.iht.registration.deceasedDetails.postcode.help = If the deceased’s contact address is in the UK
-iht.registration.deceased.locationOfPermanentHome = Location of deceased’s permanent home
+iht.registration.deceased.locationOfPermanentHome = Location of permanent home
 
 #Registration - Applicant
 page.iht.registration.applicantDetails.title = Tell us about yourself
@@ -378,7 +378,7 @@ page.iht.registration.coexecutor.add.title = Add {0}
 page.iht.registration.deleteExecutor.title = Confirm that you want to delete this person
 page.iht.registration.deleteExecutor.browserTitle = Delete applicant
 
-page.iht.registration.co-executor-personal-details.title = Personal details for other person applying for probate
+page.iht.registration.co-executor-personal-details.title = Personal details for the other executor
 page.iht.registration.co-executor-personal-details.browserTitle = Other person’s details
 page.iht.registration.co-executor-personal-details.isAddressInUk = Is their address in the UK?
 
@@ -390,7 +390,7 @@ page.iht.registration.others-applying-for-probate-address.address.guidance = Thi
 
 #Registration Summary - Deceased info
 page.iht.registration.registrationSummary.deceasedTable.title = Deceased’s details
-page.iht.registration.registrationSummary.subTitle = You’ll not be able to change these details online after you’ve confirmed them.
+page.iht.registration.registrationSummary.subTitle = You will not be able to change these details online after you have confirmed them.
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title
 page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = Deceased’s name is {0}
@@ -510,7 +510,7 @@ page.iht.registration.duplicateRegistration.ref.text = If any details have chang
 page.iht.registration.others-applying-for-probate.sectionName = others-applying-for-probate
 page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other executors applying for probate for this estate?
 page.iht.registration.others-applying-for-probate.browserTitle = Other probate applicants
-page.iht.registration.others-applying-for-probate.description = If you’re filling in a PA1 – Probate application form, you can add up to 3 other people on the form. These people will also apply for a grant of representation.
+page.iht.registration.others-applying-for-probate.description = If you’re filling in a PA1 – Probate application form, you can add up to 3 other people on the form.
 
 page.iht.registration.executor-overview.sectionName = executor-overview
 page.iht.registration.executor-overview.browserTitle = Other applicants
@@ -1604,7 +1604,6 @@ iht.estateReport.qualifyingBodies.qualifyingBodyName = Name of qualifying body
 page.iht.application.transferOfNilRateBand.widowedCheck.title = Widowed Check
 page.iht.application.transferOfNilRateBand.widowedCheck.marriedOrDivorced.guidance.label = It might be possible to increase the Inheritance Tax threshold up to £650,000 if the deceased was married or in a civil partnership at any time and their spouse or civil partner died.
 
-page.iht.application.tnrb.permanentHome.browerTitle = Location of permanent home
 page.iht.application.tnrb.permanentHome.question.hint = This might also be called their country of domicile.
 
 page.iht.application.tnrb.jointlyOwnedAssets.browserTitle = Joint assets in estate
