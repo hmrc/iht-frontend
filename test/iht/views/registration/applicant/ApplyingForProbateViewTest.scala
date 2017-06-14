@@ -27,17 +27,19 @@ import play.twirl.api.HtmlFormat.Appendable
 
 class ApplyingForProbateViewTest extends YesNoQuestionViewBehaviour[ApplicantDetails] {
 
-  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"),
-    messagesApi("page.iht.registration.applicant.applyingForProbate.p2"))
+  lazy val name = CommonBuilder.firstNameGenerator
 
-  override def pageTitle = messagesApi("iht.registration.applicant.applyingForProbate")
+  override def guidanceParagraphs = Set(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"),
+    messagesApi("page.iht.registration.applicant.applyingForProbate.p2", name))
+
+  override def pageTitle = messagesApi("page.iht.registration.applicant.applyingForProbate", name)
 
   override def browserTitle = messagesApi("page.iht.registration.applicant.applyingForProbate.browserTitle")
 
   override def form: Form[ApplicantDetails] = applyingForProbateForm
 
   override def formToView: Form[ApplicantDetails] => Appendable =
-    form => applying_for_probate(form, CommonBuilder.DefaultCall1)
+    form => applying_for_probate(form, name, CommonBuilder.DefaultCall1)
 
   "Applying For Probate View" must {
     behave like yesNoQuestion

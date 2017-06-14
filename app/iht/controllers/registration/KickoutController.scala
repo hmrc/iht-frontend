@@ -60,11 +60,11 @@ trait KickoutController extends RegistrationController {
     kickout_template(messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"),
     iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request, applicationMessages)
 
-  def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
-    kickout_template(messages("page.iht.registration.notApplyingForProbate.kickout.summary"),
+  def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages, deceasedName: String) =
+    kickout_template(messages("page.iht.registration.notApplyingForProbate.kickout.summary", deceasedName),
     iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad())(contentLines)(request, applicationMessages)
 
-  def content(implicit messages:Messages): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
+  def content(implicit messages:Messages, deceasedName: String): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->
       (request => probateKickoutView(
         Seq(
@@ -103,16 +103,19 @@ trait KickoutController extends RegistrationController {
       ))(request, messages)),
     KickoutNotApplyingForProbate ->
       (request => notApplyingForProbateKickoutView(Seq(
-        messages("page.iht.registration.notApplyingForProbate.kickout.p1"),
+        messages("page.iht.registration.notApplyingForProbate.kickout.p1", deceasedName),
         messages("iht.ifYouWantToChangeYourAnswer")
-      ))(request, messages)))
+      ))(request, messages, deceasedName)))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      cachingConnector.getSingleValue(RegistrationKickoutReasonCachingKey) map { reason => {
-        val messages = Messages.Implicits.applicationMessages
-        Ok(content(messages)(CommonHelper.getOrException(reason))(request))
-      }
+      withRegistrationDetails { regDetails =>
+        cachingConnector.getSingleValue(RegistrationKickoutReasonCachingKey) map { reason => {
+          val messages = Messages.Implicits.applicationMessages
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+          Ok(content(messages, deceasedName)(CommonHelper.getOrException(reason))(request))
+        }
+        }
       }
     }
   }

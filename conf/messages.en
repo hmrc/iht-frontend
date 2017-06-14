@@ -354,8 +354,9 @@ page.iht.registration.applicant.probateLocation.browserTitle = Probate location
 
 page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for probate
 page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 - Probate application form.
-page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if the deceased left a will. If there wasn’t a will, you would’ve been named as the administrator of the estate by a court.
-iht.registration.applicant.applyingForProbate = Are you applying for probate for the deceased’s estate?
+page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if {0} left a will. If there wasn’t a will, you would have been named as the administrator of the estate by a court.
+page.iht.registration.applicant.applyingForProbate = Are you applying for probate for {0}’s estate?
+iht.registration.applicant.applyingForProbate = Are you applying for probate for the person who is died’s estate?
 
 #Registration - Applicant tell us about yourself
 page.iht.registration.applicantTellUsAboutYourself.question.label = Do you live in the UK?
@@ -507,7 +508,7 @@ page.iht.registration.duplicateRegistration.ref.title = You can start this estat
 page.iht.registration.duplicateRegistration.ref.text = If any details have changed, phone the Inheritance Tax helpline on 0300 123 1072 to make any changes. Call +44 300 123 1072 if you’re outside of the UK.
 
 page.iht.registration.others-applying-for-probate.sectionName = others-applying-for-probate
-page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other people applying for probate for this estate?
+page.iht.registration.others-applying-for-probate.sectionTitle = Are there any other executors applying for probate for this estate?
 page.iht.registration.others-applying-for-probate.browserTitle = Other probate applicants
 page.iht.registration.others-applying-for-probate.description = If you’re filling in a PA1 – Probate application form, you can add up to 3 other people on the form. These people will also apply for a grant of representation.
 
@@ -524,13 +525,13 @@ page.iht.registration.executor-overview.executor.change.screenReader = Change {0
 page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary = This is because the deceased died before 18 March 1986. Capital Transfer Tax or Estate Duty were used for deaths before this date.
 page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary = This is because the deceased died between 18 March 1986 and 5 April 2011.
 page.iht.registration.deceasedDetails.kickout.location.summary = This is because the person who has died’s permanent home wasn’t in England or Wales.
-page.iht.registration.applicantDetails.kickout.probate.summary = This is because you aren’t intending to apply for probate in England or Wales.
+page.iht.registration.applicantDetails.kickout.probate.summary = This is because you are not applying for probate in England or Wales.
 page.iht.registration.applicantDetails.kickout.role.summary = This is because you aren’t an executor or an administrator for the deceased’s estate.
 page.iht.registration.applicantDetails.kickout.role.p2 = If you want to change your role, you can return to the last page you visited.
 page.iht.registration.applicantDetails.kickout.probateRole.summary = This is because you aren’t intending to apply for probate in England or Wales and you aren’t an executor or an administrator for the deceased’s estate.
 
-page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for the deceased’s estate.
-page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for the deceased’s estate should complete an Inheritance Tax estate report.
+page.iht.registration.notApplyingForProbate.kickout.summary = This is because you aren’t applying for probate for {0}’s estate.
+page.iht.registration.notApplyingForProbate.kickout.p1 = The executor or administrator for {0}’s estate should complete an Inheritance Tax estate report.
 page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer, you can return to the last page you visited.
 iht.registration.kickout.content = You should complete the Inheritance Tax estate report using either an IHT-205 or IHT-400 paper form.
 iht.registration.kickout.ifWantChangeDeceasedLocation = If you want to change the location of the person who has died’s permanent home

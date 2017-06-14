@@ -21,7 +21,7 @@ import iht.forms.registration.ApplicantForms._
 import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.RegistrationKickOutHelper
+import iht.utils.{CommonHelper, RegistrationKickOutHelper}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -55,15 +55,16 @@ class ApplyingForProbateControllerTest
     behave like securedRegistrationApplicantController()
 
     "load when visited for the first time and show a Continue link" in {
+      val regdDetailsWithDeceasedDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
       createMockToGetRegDetailsFromCache(mockCachingConnector,
-        Some(CommonBuilder.buildRegistrationDetailsWithDeceasedDetails))
+        Some(regdDetailsWithDeceasedDetails))
 
       val result = controller.onPageLoad(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.registration.applicant.applyingForProbate"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate", CommonHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
       contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"))
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p2"))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p2", CommonHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
       contentAsString(result) should include(messagesApi("iht.continue"))
       contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }

@@ -18,6 +18,7 @@ package iht.controllers.registration
 
 import iht.connector.CachingConnector
 import iht.metrics.Metrics
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.RegistrationKickOutHelper
 import org.mockito.Matchers._
@@ -42,7 +43,8 @@ class KickoutControllerTest extends RegistrationControllerTest {
         override lazy val metrics:Metrics = mock[Metrics]
         override val cachingConnector = mockCachingConnector
       }
-
+      val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       Seq(
         (RegistrationKickOutHelper.KickoutDeceasedDateOfDeathDateCapitalTax,
           "page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
