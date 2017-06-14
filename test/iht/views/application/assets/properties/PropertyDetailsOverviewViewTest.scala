@@ -84,7 +84,7 @@ class PropertyDetailsOverviewViewTest extends GenericNonSubmittablePageBehaviour
 
     behave like propertyAttributeWithValueAndChange(2,
       messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName),
-      messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"))
+      messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label", deceasedName))
 
     behave like propertyAttributeWithValueAndChange(3,
       messagesApi("iht.estateReport.assets.properties.freeholdOrLeasehold"),

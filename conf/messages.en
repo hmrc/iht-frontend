@@ -172,6 +172,8 @@ iht.timeoutDialog.registration.button = Continue with registration
 iht.needHelp = Need help?
 iht.needHelp.guidance = If you need help with completing this estate report, contact the Inheritance Tax helpline on 0300 123 1072. If you’re outside of the UK, call +44 300 123 1072.
 
+iht.theDeceased = The deceased
+
 #Private Beta landing page
 page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report
 page.iht.private.beta.landing.page.intro.p1 = Use this service to:
@@ -748,30 +750,30 @@ page.iht.application.assets.overview.total = Total value of assets added to the 
 page.iht.application.assets.overview.screenReader.total = The total value of assets added to the estate value is £{0}
 
 #Estate report - Assets - Properties, buildings and lands
-page.iht.application.assets.propertyType.deceasedHome.label = Deceased’s home
+page.iht.application.assets.propertyType.deceasedHome.label = Home
 page.iht.application.assets.propertyType.otherResidential.label = Other residential building
 page.iht.application.assets.propertyType.nonResidential.label = Land, non-residential or business building
 
-page.iht.application.assets.typeOfOwnership.deceasedOnly.label = Only by the deceased
+page.iht.application.assets.typeOfOwnership.deceasedOnly.label = Only by {0}
 page.iht.application.assets.typeOfOwnership.joint.label = Joint tenants
 page.iht.application.assets.typeOfOwnership.inCommon.label = Tenants in common
 
-page.iht.application.assets.typeOfOwnership.deceasedOnly.hint = The property was owned in full by the deceased.
-page.iht.application.assets.typeOfOwnership.joint.hint = The deceased owned some of this property and their share automatically transfers to another joint owner. This property can’t be left to anyone else in a will.
-page.iht.application.assets.typeOfOwnership.inCommon.hint = The deceased owned some of this property but their share doesn’t automatically transfer to another joint owner. This property can be left to someone else in a will.
+page.iht.application.assets.typeOfOwnership.deceasedOnly.hint = The property was owned in full by {0}.
+page.iht.application.assets.typeOfOwnership.joint.hint = {0} owned some of this property and their share automatically transfers to another joint owner. This property can not be left to anyone else in a will.
+page.iht.application.assets.typeOfOwnership.inCommon.hint = {0} owned some of this property but their share does not automatically transfer to another joint owner. This property can be left to someone else in a will.
 
 page.iht.application.assets.tenure.freehold.label = Freehold
 page.iht.application.assets.tenure.leasehold.label = Leasehold
 
-page.iht.application.assets.tenure.freehold.hint = The deceased owned the property and the land it stands on.
-page.iht.application.assets.tenure.leasehold.hint = The deceased owned the property but not the land it stands on. Leaseholders have a contract with the landowner. This could be a flat in a bigger building.
+page.iht.application.assets.tenure.freehold.hint = {0} owned the property and the land it stands on.
+page.iht.application.assets.tenure.leasehold.hint = {0} owned the property but not the land it stands on. Leaseholders have a contract with the landowner. This could be a flat in a bigger building.
 
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue = Give details for the address
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.change = Change address details
 page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.noValue = Give details of the property type
 page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.change = Change the property type
 page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noValue = Give details of how this property was owned by the deceased
-page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change = Change the details of how this property was owned by the deceased
+page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change = Change the details of how this property was owned by {0}
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.noValue = Give details about whether this property was owned freehold or leasehold
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.change = Change whether this property was owned freehold or leasehold
 page.iht.application.assets.property.detailsOverview.value.screenReader.link.noValue = Give a value for the property, building or land
@@ -789,8 +791,8 @@ page.iht.application.assets.property.tenure.browserTitle = Freehold or leasehold
 page.iht.application.assets.property.tenure.guidance1b = if a property was freehold or leasehold.
 
 page.iht.application.assets.property.type.browserTitle = Type of property
-page.iht.application.assets.property.type.label1 = If {0} lived in a property that they didn’t own, you should choose deceased’s home if this property was both the last one they lived in and owned.
-page.iht.application.assets.property.type.label2 = This could be if {0} moved to an assisted living property owned by someone else but they still owned their old home. You would choose that old home as the deceased’s home.
+page.iht.application.assets.property.type.label1 = If {0} lived in a property that they didn’t own, you should choose home if this property was both the last one they lived in and owned.
+page.iht.application.assets.property.type.label2 = This could be if {0} moved to an assisted living property owned by someone else but they still owned their old home. You would choose that old home as their home.
 
 page.iht.application.assets.property.ownership.browserTitle = How property was owned
 page.iht.application.assets.property.ownership.guidance1b = how a property, building or land was owned.
@@ -1101,7 +1103,7 @@ page.iht.application.assets.deceased-permanent-home.question3.hint = You can fin
 page.iht.application.assets.deceased-permanent-home.question4 = What was this property?
 page.iht.application.assets.deceased-permanent-home.question4.hint = If the deceased didn’t live at a property that they owned, you should choose deceased’s home if this was the last property that they owned and also lived at.
 page.iht.application.assets.deceased-permanent-home.table.header = Properties
-page.iht.application.assets.deceased-permanent-home.table.emptyRow.text = You haven’t added any properties added to this estate.
+page.iht.application.assets.deceased-permanent-home.table.emptyRow.text = You have not added any properties to this estate.
 page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text = No address added
 page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by the deceased then there’ll be no mortgages owed as a debt from the estate.
 
@@ -1392,8 +1394,8 @@ page.iht.application.exemptions.overview.screenReader.total = The total value of
 iht.estateReport.exemptions.title = Estate exemptions
 
 #Estate report - Exemptions Guidance
-page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you don’t know the estate value, it’s recommended to only complete the assets, gifts and debts sections before you claim any exemptions.
-page.iht.application.exemptions.guidance.content2 = If you don’t want to claim any estate exemptions,
+page.iht.application.exemptions.guidance.content1 = You only need to claim estate exemptions if the estate value is over the Inheritance Tax threshold. If you do not know the estate value, it is recommended to only complete the assets, gifts and debts sections before you claim any exemptions.
+page.iht.application.exemptions.guidance.content2 = If you do not want to claim any estate exemptions,
 page.iht.application.exemptions.guidance.content2.linkText = you can return to the estate overview page
 page.iht.application.exemptions.guidance.content3 = Some assets might be exempt from Inheritance Tax if they are being passed to a spouse or civil partner, a charity or to another qualifying body.
 page.iht.application.exemptions.guidance.content4 = The estate value could become less than the Inheritance Tax threshold by claiming these exemptions.
@@ -1406,7 +1408,7 @@ page.iht.application.exemptions.guidance.increasing.threshold.link.text = Go to 
 
 iht.estateReport.exemptions.guidance.claimingEstateExemptions = Claiming estate exemptions
 iht.estateReport.exemptions.guidance.debtsSubtracted = If you claim any exemptions, any debts that are owed from the estate will also be taken off the estate value.
-iht.estateReport.exemptions.guidance.provideAssetsDetails = You’ll need to provide details of these assets in the estate exemptions section. You can save your progress and return to it at any time through the estate overview page.
+iht.estateReport.exemptions.guidance.provideAssetsDetails = You will need to provide details of these assets in the estate exemptions section. You can save your progress and return to it at any time through the estate overview page.
 
 #Estate report - Exemptions - Partner
 page.iht.application.exemptions.partner.overview.browserTitle = Assets left to partner

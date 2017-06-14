@@ -54,7 +54,7 @@ trait XmlFoToPDF {
   def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String, messages: Messages): Array[Byte] = {
     val rd = PdfFormatter.transform(registrationDetails, messages)
-    val ad = PdfFormatter.transform(applicationDetails, messages)
+    val ad = PdfFormatter.transform(applicationDetails, registrationDetails, messages)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 

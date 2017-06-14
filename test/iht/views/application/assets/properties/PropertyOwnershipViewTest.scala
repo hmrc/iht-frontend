@@ -70,7 +70,9 @@ class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Prop
     titleId = "typeOfOwnership-deceased_only-main",
     titleExpectedValue = "page.iht.application.assets.typeOfOwnership.deceasedOnly.label",
     hintId = "typeOfOwnership-deceased_only-hint",
-    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.deceasedOnly.hint"
+    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.deceasedOnly.hint",
+    hintExpectedValueParam = Some(deceasedName),
+    titleExpectedValueParam = Some(deceasedName)
   )
 
   behave like radioButton(
@@ -78,7 +80,8 @@ class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Prop
     titleId = "typeOfOwnership-joint-main",
     titleExpectedValue = "page.iht.application.assets.typeOfOwnership.joint.label",
     hintId = "typeOfOwnership-joint-hint",
-    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.joint.hint"
+    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.joint.hint",
+    hintExpectedValueParam = Some(deceasedName)
   )
 
   behave like radioButton(
@@ -86,7 +89,8 @@ class PropertyOwnershipViewTest extends SubmittableApplicationPageBehaviour[Prop
     titleId = "typeOfOwnership-in_common-main",
     titleExpectedValue = "page.iht.application.assets.typeOfOwnership.inCommon.label",
     hintId = "typeOfOwnership-in_common-hint",
-    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.inCommon.hint"
+    hintExpectedValue = "page.iht.application.assets.typeOfOwnership.inCommon.hint",
+    hintExpectedValueParam = Some(deceasedName)
   )
 
 
