@@ -30,8 +30,10 @@ import play.twirl.api.HtmlFormat.Appendable
 import play.api.test.Helpers._
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import play.api.i18n.Lang
 
 class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
+
   def registrationDetails = CommonBuilder.buildRegistrationDetails.copy(ihtReference = Some("ABC1234567890"),
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails.copy(
       maritalStatus = Some(TestHelper.MaritalStatusMarried))),
@@ -68,7 +70,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
 
   override def formToView: Form[AllGifts] => Appendable =
     form =>
-      given_away(form, registrationDetails)
+      given_away(form, registrationDetails, CommonBuilder.buildGiftsList)
 
 
   "GivenAway View" must {
@@ -80,7 +82,7 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
       val fakeRequest = createFakeRequest(isAuthorised = false)
       val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
       val filledForm = giftsGivenAwayForm.fill(allGifts)
-      val view = given_away(filledForm, registrationDetails)
+      val view = given_away(filledForm, registrationDetails, CommonBuilder.buildGiftsList)
       val doc = asDocument(view)
 
       val link = doc.getElementById("return-button")
@@ -88,7 +90,20 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
         getOrException(registrationDetails.deceasedDetails).name)
       link.attr("href") shouldBe
         iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad().url + "#" + GiftsGivenAwayQuestionID
+    }
 
+    "show all previous years as bullet points in the correct order" in {
+      implicit val request = createFakeRequest()
+      implicit val lang = Lang("en")
+
+      val allGifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
+      val filledForm = giftsGivenAwayForm.fill(allGifts)
+      val view = given_away(filledForm, registrationDetails, CommonBuilder.buildGiftsList)
+      val doc = asDocument(view)
+
+      doc.getElementById("tax-year-1").text shouldBe "6 April 2014 to 12 December 2014"
+      doc.getElementById("tax-year-2").text shouldBe "6 April 2013 to 5 April 2013"
+      doc.getElementById("tax-year-3").text shouldBe "6 April 2012 to 5 April 2012"
     }
   }
 }

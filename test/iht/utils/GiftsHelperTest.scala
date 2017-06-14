@@ -39,7 +39,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("5"), None, None, Some("2012-4-6"), Some("2013-4-5")),
         PreviousYearsGifts(Some("6"), None, None, Some("2013-4-6"), Some("2014-4-5")),
         PreviousYearsGifts(Some("7"), None, None, Some("2014-4-6"), Some("2015-4-5")),
-        PreviousYearsGifts(Some("8"), None, None, Some("2015-4-6"), Some("2015-12-30")))
+        PreviousYearsGifts(Some("8"), None, None, Some("2015-4-6"), Some("2015-12-30"))).reverse
 
       giftsForYears should be(previousYears)
     }
@@ -56,7 +56,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("5"), None, None, Some("2010-4-6"), Some("2011-4-5")),
         PreviousYearsGifts(Some("6"), None, None, Some("2011-4-6"), Some("2012-4-5")),
         PreviousYearsGifts(Some("7"), None, None, Some("2012-4-6"), Some("2013-4-5")),
-        PreviousYearsGifts(Some("8"), None, None, Some("2013-4-6"), Some("2014-3-12")))
+        PreviousYearsGifts(Some("8"), None, None, Some("2013-4-6"), Some("2014-3-12"))).reverse
 
       giftsForYears should be(previousYears)
 
@@ -73,7 +73,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("4"), None, None, Some("2011-4-6"), Some("2012-4-5")),
         PreviousYearsGifts(Some("5"), None, None, Some("2012-4-6"), Some("2013-4-5")),
         PreviousYearsGifts(Some("6"), None, None, Some("2013-4-6"), Some("2014-4-5")),
-        PreviousYearsGifts(Some("7"), None, None, Some("2014-4-6"), Some("2015-4-5")))
+        PreviousYearsGifts(Some("7"), None, None, Some("2014-4-6"), Some("2015-4-5"))).reverse
 
       giftsForYears should be(previousYears)
     }
@@ -83,7 +83,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("1"), Some(1000.00), Some(0), Some("6 April 2014"), Some("12 December 2014")),
         PreviousYearsGifts(Some("2"), Some(1001.00), Some(0), Some("2013-04-01"), Some("5 April 2013")),
         PreviousYearsGifts(Some("3"), Some(1002.00), Some(0), Some("6 April 2012"), Some("2012-04-05"))
-      )
+      ).reverse
       val ad = CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts.copy(
         giftsList = Some(gifts)
       )
@@ -92,7 +92,7 @@ class GiftsHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
         PreviousYearsGifts(Some("1"), Some(1000.00), Some(0), Some("2014-04-06"), Some("2014-12-12")),
         PreviousYearsGifts(Some("2"), Some(1001.00), Some(0), Some("2013-04-01"), Some("2013-04-05")),
         PreviousYearsGifts(Some("3"), Some(1002.00), Some(0), Some("2012-04-06"), Some("2012-04-05"))
-      )
+      ).reverse
       val expectedAD = CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts.copy(
         giftsList = Some(expectedGifts)
       )

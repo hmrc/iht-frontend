@@ -60,7 +60,7 @@ object GiftsHelper {
           endDate = Some(endDateStringForPage))
       }
     }
-    previousYearsGifts(dateOfDeath).reverse
+    previousYearsGifts(dateOfDeath)
   }
 
   /**

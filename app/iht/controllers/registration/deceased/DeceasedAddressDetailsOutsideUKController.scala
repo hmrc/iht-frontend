@@ -45,20 +45,20 @@ trait DeceasedAddressDetailsOutsideUKController extends RegistrationDeceasedCont
   lazy val switchToUkRoute = routes.DeceasedAddressDetailsUKController.onPageLoad
   lazy val switchToUkEditRoute = routes.DeceasedAddressDetailsUKController.onEditPageLoad
 
-  def okForPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form, submitRoute, switchToUkRoute)
+  def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+    Ok(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def okForEditPageLoad(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form, editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
+  def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+    Ok(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form, submitRoute, switchToUkRoute)
+  def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+    BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form, editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
+  def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
+    BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name),editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   override def fillForm(rd: RegistrationDetails) = {

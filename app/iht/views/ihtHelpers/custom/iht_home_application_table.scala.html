@@ -28,8 +28,8 @@
   <table>
     <tr class="table__row--desktop-headings">
       <th id="deceased-name-header">@Messages("page.iht.home.deceasedName.label")</th>
-      <th id="iht-reference-header">@Messages("page.iht.home.ihtReference.label")</th>
       <th id="date-of-death-header">@Messages("iht.dateOfDeath")</th>
+      <th id="iht-reference-header">@Messages("page.iht.home.ihtReference.label")</th>
       <th id="status-header">@Messages("page.iht.home.currentStatus")</th>
       <td></td>
     </tr>
@@ -39,11 +39,11 @@
         <td class="table__detail--responsive" data-heading="@Messages("page.iht.home.deceasedName.label")">
           @ihtHelpers.custom.name(application.deceasedName)
         </td>
+        <td class="table__detail--responsive" data-heading="@Messages("iht.dateOfDeath")">
+        @application.dateOfDeath
+        </td>
         <td class="table__detail--responsive" data-heading="@Messages("page.iht.home.ihtReference.label")">
           @formattedIHTReference(application.ihtRefNo)
-        </td>
-        <td class="table__detail--responsive" data-heading="@Messages("iht.dateOfDeath")">
-          @application.dateOfDeath
         </td>
         <td class="table__detail--responsive" data-heading="@Messages("page.iht.home.currentStatus")">
           @application.currentStatus

@@ -47,13 +47,13 @@ object FieldMappings {
     createMapEntry(statusSingle,"page.iht.registration.deceasedDetails.maritalStatus.single.label")(messages)
   )
 
-  def propertyType(implicit messages: Messages) = ListMap(
+  def propertyType(implicit messages: Messages): ListMap[String, String] = ListMap(
     createMapEntry(propertyTypeDeceasedHome , "page.iht.application.assets.propertyType.deceasedHome.label")(messages),
     createMapEntry(propertyTypeOtherResidentialBuilding , "page.iht.application.assets.propertyType.otherResidential.label")(messages),
     createMapEntry(propertyTypeNonResidential , "page.iht.application.assets.propertyType.nonResidential.label")(messages)
   )
 
-  def typesOfOwnership(implicit messages: Messages) = ListMap(
+  def typesOfOwnership(implicit messages: Messages): ListMap[String, (String, Some[String], Some[Boolean])] = ListMap(
     ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"),
       Some(messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint")), Some(false))),
     ownershipJoint -> ((messages("page.iht.application.assets.typeOfOwnership.joint.label"),

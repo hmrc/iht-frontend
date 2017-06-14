@@ -16,38 +16,48 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
-
+@import iht.models.application.gifts.PreviousYearsGifts
 @import iht.models._
 @import iht.models.application.gifts.AllGifts
 @import iht.utils.CommonHelper
 @import iht.constants.IhtProperties._
 @import iht.constants.Constants._
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import org.joda.time.LocalDate
+@import org.joda.time.format._
 
 @(giftsGivenAwayForm:Form[AllGifts],
-regDetails:RegistrationDetails
+regDetails:RegistrationDetails,
+giftsList: Seq[PreviousYearsGifts]
 )(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
-
 
 @deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 @deceasedNameWrapped() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)}
 
-@gifts_main_template(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
+@iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),
-relevantSectionGuidanceUrl = iht.controllers.application.gifts.guidance.routes.WhatIsAGiftController.onPageLoad(),
-messageKeyUrl = "page.iht.application.gifts.guidance.whatsAGift.title",
-messageKeyAccessibility ="page.iht.application.gifts.guidance.whatsAGift.title",
 headingName = deceasedName
 ){
     @ihtHelpers.custom.error_summary(giftsGivenAwayForm)
 
     @helpers.form(action = iht.controllers.application.gifts.routes.GivenAwayController.onSubmit,'autoComplete -> "off") {
 
-    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1",
-        deceasedNameWrapped,
-             Dates.formatDate(CommonHelper.getDateBeforeSevenYears(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath)).toString,
-        Dates.formatDate(CommonHelper.getOrException(regDetails.deceasedDateOfDeath).dateOfDeath).toString))</p>
-    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2", deceasedNameWrapped))</p>
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p1", deceasedNameWrapped))</p>
+    <p>@Html(Messages("page.iht.application.gifts.lastYears.givenAway.p2"))</p>
+
+    <ul>
+    @giftsList.indices.map{index =>
+        @giftsList(index).startDate.map{ startDate =>
+            <li id="tax-year-@{index+1}" class="list list-bullet">
+            <span class="no-wrap">@Dates.formatDate(LocalDate.parse(startDate))</span>
+            @Messages("iht.to")
+            @giftsList(index).endDate.map{ endDate =>
+                <span class="no-wrap">@Dates.formatDate(LocalDate.parse(endDate))</span>
+            }
+            </li>
+        }
+    }
+    </ul>
 
     @ihtHelpers.standard.input_yes_no_radio_group(
     giftsGivenAwayForm("isGivenAway"),    

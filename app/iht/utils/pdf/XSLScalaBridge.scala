@@ -16,21 +16,36 @@
 
 package iht.utils.pdf
 
+import org.joda.time.LocalDate
 import play.api.i18n.Messages
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 /**
   * Created by grant on 02/12/16.
   */
-object MessagesTranslator {
-  def getMessagesText(key: String): String = Messages(key)
 
-  def getMessagesTextWithParameter(key: String, parameter:String ): String = Messages(key, parameter)
+object XSLScalaBridge {
+  def apply(messages: Messages):XSLScalaBridge = new XSLScalaBridge(messages)
+}
+
+class XSLScalaBridge private(messages: Messages) {
+  def getMessagesText(key: String): String = messages(key)
+
+  def getMessagesTextWithParameter(key: String, parameter:String ): String = messages(key, parameter)
 
   def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String): String =
-      Messages(key, parameter1, parameter2)
+    messages(key, parameter1, parameter2)
 
   def getMessagesTextWithParameters(key: String, parameter1: String, parameter2:String , parameter3: String): String =
-      Messages(key, parameter1, parameter2, parameter3)
+    messages(key, parameter1, parameter2, parameter3)
+
+  def getDateForDisplay(inputDate: String): String = {
+    inputDate match {
+      case "" => inputDate
+      case _ => {
+        val jodaDate = LocalDate.parse(inputDate)
+        Dates.formatDate(jodaDate)(messages.lang)
+      }
+    }
+  }
 }

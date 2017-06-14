@@ -263,7 +263,7 @@ object Deceased {
 case class FreeEstate(estateAssets: Option[Set[Asset]] = None,
                       interestInOtherEstate: Option[InterestInOtherEstate] = None,
                       estateLiabilities: Option[Set[Liability]] = None,
-                      estateExemptions: Option[Set[Exemption]] = None)
+                      estateExemptions: Option[Seq[Exemption]] = None)
 
 object FreeEstate {
   implicit val formats = Json.format[FreeEstate]

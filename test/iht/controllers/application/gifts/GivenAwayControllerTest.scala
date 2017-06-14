@@ -144,6 +144,14 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
 
     "display error if user submit the page without selecting the answer " in {
 
+      val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
+        allGifts= Some(CommonBuilder.buildAllGifts.copy(isGivenAway = Some(false),
+          isReservation = Some(false), isToTrust = Some(false),
+          isGivenInLast7Years = Some(false))),
+        giftsList = Some(CommonBuilder.buildGiftsList))
+
+      setUpMocks(applicationDetails)
+
       val withGivenAwayValue = CommonBuilder.buildAllGifts.copy(isGivenAway = None)
 
       val filledGivenAwayForm = giftsGivenAwayForm.fill(withGivenAwayValue)

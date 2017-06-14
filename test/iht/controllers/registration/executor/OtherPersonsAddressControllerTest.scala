@@ -111,12 +111,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithOthersApplyingForProbateAndOneOther = rd copy(areOthersApplyingForProbate = Some(true),
         coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithOthersApplyingForProbateAndOneOther))
-
-      intercept[Exception] {
         val result = controller.onPageLoadUK("1")(
-          createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2"))
-        status(result)
-      }
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2"))
+        status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when trying to load the international  view when trying to add a co-executor but" +
@@ -125,12 +122,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithOthersApplyingForProbateAndOneOther = rd copy(areOthersApplyingForProbate = Some(true),
         coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithOthersApplyingForProbateAndOneOther))
-
-      intercept[Exception] {
         val result = controller.onPageLoadAbroad("1")(
-          createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
-        status(result)
-      }
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
+        status(result) shouldBe SEE_OTHER
     }
 
     "load the UK display when the coExecutors address has been entered" in {
@@ -246,11 +240,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
-      intercept[Exception] {
         val result = controller.onPageLoadUK("2")(
           createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2"))
-        status(result)
-      }
+        status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when international view accessed for a non-existent co-executor" in {
@@ -259,11 +251,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
-      intercept[Exception] {
         val result = controller.onPageLoadAbroad("2")(
           createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
-        status(result)
-      }
+        status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when trying to add a co-executor but no first name or last name," +
@@ -272,10 +262,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithNoAnswer = rd copy (coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithNoAnswer))
 
-      intercept[Exception] {
         val result = controller.onPageLoadAbroad("1")(createFakeRequest())
-        status(result)
-      }
+        status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when first name has not been entered from the previous page is not present" in {
@@ -284,11 +272,10 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithPartialCoExec = rd copy (coExecutors = invalidCoExcutor +: rd.coExecutors)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithPartialCoExec))
 
-      intercept[Exception] {
+
         val result = controller.onPageLoadUK("2")(
           createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2"))
-        status(result)
-      }
+      status(result) shouldBe SEE_OTHER
     }
 
     "respond appropriately to a submit in the UK with a plausible address" in {

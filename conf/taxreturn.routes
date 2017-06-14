@@ -173,23 +173,22 @@ POST        /other-assets-owned                                                 
 
 ### GIFTS ###
 
-GET         /guide-to-gifts/1                                                                   iht.controllers.application.gifts.guidance.WhatIsAGiftController.onPageLoad
-
-GET         /guide-to-gifts/2                                                                   iht.controllers.application.gifts.guidance.KindsOfGiftsController.onPageLoad
-
-GET         /guide-to-gifts/3                                                                   iht.controllers.application.gifts.guidance.WithReservationController.onPageLoad
-
-GET         /guide-to-gifts/4                                                                   iht.controllers.application.gifts.guidance.ClaimingExemptionsController.onPageLoad
-
-GET         /guide-to-gifts/5                                                                   iht.controllers.application.gifts.guidance.IncreasingAnnualLimitController.onPageLoad
-
-GET         /guide-to-gifts/6                                                                   iht.controllers.application.gifts.guidance.GiftsGivenAwayController.onPageLoad
-POST        /guide-to-gifts/6                                                                   iht.controllers.application.gifts.guidance.GiftsGivenAwayController.onSubmit
-
 GET         /gifts-value-given-away                                                             iht.controllers.application.gifts.GivenAwayController.onPageLoad
 POST        /gifts-value-given-away                                                             iht.controllers.application.gifts.GivenAwayController.onSubmit
 
 GET         /gifts-given-away                                                                   iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+
+GET         /guide-to-gifts/1                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+
+GET         /guide-to-gifts/2                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+
+GET         /guide-to-gifts/3                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+
+GET         /guide-to-gifts/4                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+
+GET         /guide-to-gifts/5                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+
+GET         /guide-to-gifts/6                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
 
 GET         /gifts-with-reservation-of-benefit                                                  iht.controllers.application.gifts.WithReservationOfBenefitController.onPageLoad
 POST        /gifts-with-reservation-of-benefit                                                  iht.controllers.application.gifts.WithReservationOfBenefitController.onSubmit
@@ -374,9 +373,9 @@ GET         /not-possible-to-use-this-service                                   
 POST        /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onSubmit
 GET         /delete-estate-report                                                               iht.controllers.application.KickoutController.onPageLoadDeleting
 
-GET         /inheritance-tax-estate-report                                                      iht.controllers.application.pdf.PDFController.onPreSubmissionPDF
-GET         /clearance-certificate                                                              iht.controllers.application.pdf.PDFController.onClearancePDF
-GET         /completed-estate-report                                                            iht.controllers.application.pdf.PDFController.onPostSubmissionPDF
+GET         /inheritance-tax-estate-report                                                      @iht.controllers.application.pdf.PDFController.onPreSubmissionPDF
+GET         /clearance-certificate                                                              @iht.controllers.application.pdf.PDFController.onClearancePDF
+GET         /completed-estate-report                                                            @iht.controllers.application.pdf.PDFController.onPostSubmissionPDF
 
 GET         /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onPageLoad
 POST        /questionnaire-application                                                          iht.controllers.application.ApplicationQuestionnaireController.onSubmit

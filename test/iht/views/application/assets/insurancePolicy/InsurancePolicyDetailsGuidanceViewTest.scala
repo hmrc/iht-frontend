@@ -33,7 +33,7 @@ class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
 
   override def browserTitle = messagesApi("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther", messagesApi("iht.the.deceased"))
 
-  override def view:String = insurance_policy_details_final_guidance(Some(giftsLocation), deceasedName)(
+  override def view:String = insurance_policy_details_final_guidance(giftsLocation, deceasedName)(
     createFakeRequest(isAuthorised = false), applicationMessages).toString()
 
   override def guidance: Guidance = guidance(Set(messagesApi("page.iht.application.insurance.policies.section7.guidance", deceasedName),
@@ -54,7 +54,7 @@ class InsurancePolicyDetailsGuidanceViewTest extends ApplicationPageBehaviour {
     "show the return link with to the gifts" in {
       val giftsButton = doc.getElementById("return-button-gifts")
       giftsButton.attr("href") shouldBe giftsLocation.url
-      giftsButton.text() shouldBe messagesApi("site.link.go.to.gifts")
+      giftsButton.text() shouldBe messagesApi("site.link.go.to.gifts", deceasedName)
     }
   }
 }

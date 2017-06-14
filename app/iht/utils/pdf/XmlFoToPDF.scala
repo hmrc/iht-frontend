@@ -21,25 +21,23 @@ import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
-import iht.utils._
-import iht.constants.{FieldMappings, IhtProperties}
+import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
+import iht.utils.{CommonHelper, _}
 import models.des.iht_return.IHTReturn
 import org.apache.fop.apps._
+import org.apache.fop.events.model.EventSeverity
+import org.apache.fop.events.{Event, EventFormatter, EventListener}
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.{Logger, Play}
-import org.apache.fop.events.Event
-import org.apache.fop.events.EventFormatter
-import org.apache.fop.events.EventListener
-import org.apache.fop.events.model.EventSeverity
-import FieldMappings._
+import play.i18n.Lang
+import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 /**
   * Created by david-beer on 07/06/16.
@@ -54,41 +52,45 @@ trait XmlFoToPDF {
   private val filePathForPostSubmissionXSL = s"$folderForPDFTemplates/postsubmission/main.xsl"
 
   def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
-                             declarationType: String)(implicit messages: Messages): Array[Byte] = {
-    val rd = PdfFormatter.transform(registrationDetails)
+                             declarationType: String, messages: Messages): Array[Byte] = {
+    val rd = PdfFormatter.transform(registrationDetails, messages)
+    val ad = PdfFormatter.transform(applicationDetails, messages)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(
-      ModelToXMLSource.getPreSubmissionXMLSource(rd, applicationDetails)))
+      ModelToXMLSource.getPreSubmissionXMLSource(rd, ad)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPreSubmissionTransformer(rd, applicationDetails)
+    createPreSubmissionTransformer(rd, ad, messages)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
     pdfoutStream.toByteArray
   }
 
-  def createPostSubmissionPDF(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn)(implicit messages: Messages): Array[Byte] = {
-    val rd = PdfFormatter.transform(registrationDetails)
+  def createPostSubmissionPDF(registrationDetails: RegistrationDetails,
+                              ihtReturn: IHTReturn, messages: Messages): Array[Byte] = {
+
+    val rd = PdfFormatter.transform(registrationDetails, messages)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
       getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createPostSubmissionTransformer(rd, ihtReturn)
+    createPostSubmissionTransformer(rd, ihtReturn, messages)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.toByteArray
   }
 
-  def createClearancePDF(registrationDetails: RegistrationDetails, declarationDate: LocalDate): Array[Byte] = {
+  def createClearancePDF(registrationDetails: RegistrationDetails,
+                         declarationDate: LocalDate, messages: Messages): Array[Byte] = {
     val modelAsXMLStream: StreamSource = new StreamSource(
       new ByteArrayInputStream(ModelToXMLSource.getClearanceCertificateXMLSource(registrationDetails)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 
-    createClearanceTransformer(registrationDetails, declarationDate)
+    createClearanceTransformer(registrationDetails, declarationDate, messages)
       .transform(modelAsXMLStream, new SAXResult(fop(pdfoutStream).getDefaultHandler))
 
     pdfoutStream.write(pdfoutStream.toByteArray)
@@ -96,7 +98,8 @@ trait XmlFoToPDF {
   }
 
   private def createClearanceTransformer(registrationDetails: RegistrationDetails,
-                                         declarationDate: LocalDate): Transformer = {
+                                         declarationDate: LocalDate,
+                                         messages: Messages): Transformer = {
     val template: StreamSource = new StreamSource(
       Play.classloader.getResourceAsStream(filePathForClearanceXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
@@ -104,13 +107,14 @@ trait XmlFoToPDF {
     val transformer: Transformer = transformerFactory.newTransformer(template)
     setupTransformerEventHandling(transformer)
 
-    setupCommonTransformerParameters(transformer)
-    transformer.setParameter("declaration-date", declarationDate.toString(IhtProperties.dateFormatForDisplay))
+    setupCommonTransformerParameters(transformer, messages)
+    transformer.setParameter("declaration-date", Dates.formatDate(declarationDate)(messages.lang))
     transformer
   }
 
   private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
-                                             applicationDetails: ApplicationDetails): Transformer = {
+                                             applicationDetails: ApplicationDetails,
+                                             messages: Messages): Transformer = {
     val template: StreamSource = new StreamSource(Play.classloader
       .getResourceAsStream(filePathForPreSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
@@ -125,7 +129,7 @@ trait XmlFoToPDF {
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
       applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalExemptionsValue,
-      applicationDetails.totalGiftsValue)
+      applicationDetails.totalGiftsValue, messages)
 
     transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
     transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
@@ -139,7 +143,8 @@ trait XmlFoToPDF {
   }
 
   private def createPostSubmissionTransformer(registrationDetails: RegistrationDetails,
-                                              ihtReturn: IHTReturn): Transformer = {
+                                              ihtReturn: IHTReturn,
+                                              messages: Messages): Transformer = {
     val templateSource: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(filePathForPostSubmissionXSL))
     val transformerFactory: TransformerFactory = TransformerFactory.newInstance
     transformerFactory.setURIResolver(new StylesheetResolver)
@@ -154,9 +159,9 @@ trait XmlFoToPDF {
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, Option(dateOfMarriage),
       ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
-      ihtReturn.totalGiftsValue)
+      ihtReturn.totalGiftsValue, messages)
 
-    transformer.setParameter("declarationDate", declarationDate.toString(IhtProperties.dateFormatForDisplay))
+    transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
     transformer.setParameter("estateValue", ihtReturn.totalNetValue)
@@ -166,9 +171,10 @@ trait XmlFoToPDF {
     transformer
   }
 
-  private def setupCommonTransformerParameters(transformer: Transformer): Unit = {
+  private def setupCommonTransformerParameters(transformer: Transformer, messages: Messages): Unit = {
+
     transformer.setParameter("versionParam", "2.0")
-    transformer.setParameter("translator", MessagesTranslator)
+    transformer.setParameter("translator", XSLScalaBridge(messages))
     transformer.setParameter("pdfFormatter", PdfFormatter)
   }
 
@@ -179,8 +185,9 @@ trait XmlFoToPDF {
                                                          totalAssetsValue: BigDecimal,
                                                          totalLiabilitiesValue: BigDecimal,
                                                          totalExemptionsValue: BigDecimal,
-                                                         totalPastYearsGiftsValue: BigDecimal) = {
-    setupCommonTransformerParameters(transformer)
+                                                         totalPastYearsGiftsValue: BigDecimal,
+                                                         messages: Messages) = {
+    setupCommonTransformerParameters(transformer, messages)
     transformer.setParameter("ihtReference", formattedIHTReference(registrationDetails.ihtReference.fold("")(identity)))
     transformer.setParameter("assetsTotal", totalAssetsValue)
     transformer.setParameter("debtsTotal", totalLiabilitiesValue)
@@ -225,21 +232,21 @@ trait XmlFoToPDF {
   private def setupFOPEventHandling(foUserAgent: FOUserAgent) = {
     val eventListener = new EventListener {
       override def processEvent(event: Event): Unit = {
-        val msg = EventFormatter.format(event)
+        val messages = EventFormatter.format(event)
 
         val optionErrorMsg = event.getSeverity match {
           case EventSeverity.INFO =>
-            Logger.info(msg)
+            Logger.info(messages)
             None
           case EventSeverity.WARN =>
-            Logger.debug(msg)
+            Logger.debug(messages)
             None
           case EventSeverity.ERROR =>
-            Logger.error(msg)
-            Some(msg)
+            Logger.error(messages)
+            Some(messages)
           case EventSeverity.FATAL =>
-            Logger.error(msg)
-            Some(msg)
+            Logger.error(messages)
+            Some(messages)
           case _ => None
         }
         optionErrorMsg.foreach(errorMsg => throw new RuntimeException(errorMsg))

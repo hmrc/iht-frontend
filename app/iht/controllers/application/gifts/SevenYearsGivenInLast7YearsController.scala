@@ -38,10 +38,6 @@ trait SevenYearsGivenInLast7YearsController extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-
-      cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
-        iht.controllers.application.gifts.routes.SevenYearsGivenInLast7YearsController.onPageLoad().toString())
-
       estateElementOnPageLoad[AllGifts](giftSevenYearsGivenInLast7YearsForm, seven_years_given_in_last_7_years.apply, _.allGifts)
   }
 

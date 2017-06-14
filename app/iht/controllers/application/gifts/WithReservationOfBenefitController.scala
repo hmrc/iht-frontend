@@ -44,10 +44,6 @@ trait WithReservationOfBenefitController extends EstateController{
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-
-      cachingConnector.storeSingleValue(ControllerHelper.lastQuestionUrl,
-        iht.controllers.application.gifts.routes.WithReservationOfBenefitController.onPageLoad().toString())
-
       estateElementOnPageLoad[AllGifts](giftWithReservationFromBenefitForm, with_reservation_of_benefit.apply, _.allGifts)
   }
 

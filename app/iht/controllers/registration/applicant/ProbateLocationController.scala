@@ -48,19 +48,19 @@ trait ProbateLocationController extends RegistrationApplicantControllerWithEditM
   lazy val submitRoute = routes.ProbateLocationController.onSubmit
   lazy val editSubmitRoute = routes.ProbateLocationController.onEditSubmit
 
-  def okForPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.probate_location(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def okForEditPageLoad(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.probate_location(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.probate_location(form, submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
-  def badRequestForEditSubmit(form: Form[ApplicantDetails])(implicit request: Request[AnyContent]) =
+  def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.probate_location(form, editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
