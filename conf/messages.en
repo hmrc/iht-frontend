@@ -904,7 +904,7 @@ page.iht.application.assets.vehicles.jointly.owned.value.screenreader.link.chang
 iht.estateReport.assets.vehicles = Motor vehicles
 iht.estateReport.assets.vehicles.jointly.owned.question = Did {0} jointly own any motor vehicles with any other people?
 iht.estateReport.assets.vehicles.ownName.question = Did {0} own any motor vehicles in their own name?
-iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned motor vehicles
+iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of {0}’s share of any jointly owned motor vehicles
 iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by {0}
 
 #Estate report - Assets - Private pensions
