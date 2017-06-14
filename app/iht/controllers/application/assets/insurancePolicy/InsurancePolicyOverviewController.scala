@@ -98,7 +98,7 @@ trait InsurancePolicyOverviewController extends EstateController {
       questionAnswerExprValue = insurancePolicy.value,
       questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.ownName.question",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
-      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"),
+      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
       sectionLinkId = InsurancePayingToDeceasedSectionID,
       questionLinkID = InsurancePayingToDeceasedYesNoID,
       answerLinkID = InsurancePayingToDeceasedValueID
