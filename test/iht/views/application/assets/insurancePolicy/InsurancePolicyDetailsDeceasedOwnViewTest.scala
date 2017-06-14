@@ -41,7 +41,7 @@ class InsurancePolicyDetailsDeceasedOwnViewTest extends ShareableElementInputVie
     override def pageTitle = messagesApi("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", deceasedName)
     override def browserTitle = messagesApi("page.iht.application.insurance.policies.section1.browserTitle")
     override def questionTitle = messagesApi("iht.estateReport.insurancePolicies.ownName.question", deceasedName)
-    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut")
+    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", deceasedName)
     override def hasValueQuestionHelp = false
     override def valueQuestionHelp = ""
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")

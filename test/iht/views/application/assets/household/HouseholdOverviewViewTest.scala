@@ -46,7 +46,7 @@ class HouseholdOverviewViewTest extends ViewTestHelper with ShareableElementOver
   override def ownQuestionRowId = "deceased-own-household-block"
   override def ownQuestionText = messagesApi("iht.estateReport.assets.household.ownName.question", deceasedName)
   override def ownValueRowId = "deceased-own-value-block"
-  override def ownValueText = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue")
+  override def ownValueText = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName)
   override def jointlyOwnedQuestionRowId = "deceased-shared-household-block"
   override def jointlyOwnedQuestionText = messagesApi("iht.estateReport.assets.household.joint.question", deceasedName)
   override def jointlyOwnedValueRowId = "deceased-shared-value-block"
