@@ -60,7 +60,7 @@ isFullWidth=false
                         linkScreenReader = getLinkScreenReader(
                             household.flatMap(_.isOwned.map(identity)),
                             Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName),
-                            Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue")),
+                            Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue", deceasedName)),
                         isAnswerValue = household.flatMap(_.isOwned).isEmpty
                         ),
                         generic_overview_table_item(id = AssetsHouseholdOwnID,
