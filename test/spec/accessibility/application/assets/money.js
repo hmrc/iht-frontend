@@ -33,13 +33,13 @@ describe('Money (Assets) accessibility : ', function() {
 
 
     function fillMoneyOwned(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-money-owned')
+        driver.get(Browser.baseUrl + '/estate-report/own-money-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("value")).sendKeys('5000');
         actionHelper.submitPageHelper(done, driver);
     }
     function fillMoneyJointlyOwned(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned')
+        driver.get(Browser.baseUrl + '/estate-report/money-jointly-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("shareValue")).sendKeys('8000');
         actionHelper.submitPageHelper(done, driver);
@@ -48,7 +48,7 @@ describe('Money (Assets) accessibility : ', function() {
 
     it('money overview', function (done) {
          behaves.actsAsBasicPage(done, driver, {
-             url: 'http://localhost:9070/inheritance-tax/estate-report/money-owned',
+             url: Browser.baseUrl + '/estate-report/money-owned',
              pageTitle: "Money"
          })
     });
@@ -58,21 +58,21 @@ describe('Money (Assets) accessibility : ', function() {
         fillMoneyJointlyOwned(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/money-owned',
+            url: Browser.baseUrl + '/estate-report/money-owned',
             pageTitle: "Money"
         })
     });
 
     it('money owned by deceased', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/own-money-owned',
+            url: Browser.baseUrl + '/estate-report/own-money-owned',
             pageTitle: "Own money owned"
         })
     });
 
     it('money owned jointly', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/money-jointly-owned',
+            url: Browser.baseUrl + '/estate-report/money-jointly-owned',
             pageTitle: "Joint money owned"
         })
     });

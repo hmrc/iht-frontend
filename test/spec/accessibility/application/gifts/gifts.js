@@ -98,7 +98,7 @@ describe('Gifts, accessibility : ', function() {
 
     it('gifts with reservation of benefit', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-with-reservation-of-benefit',
+            url: Browser.baseUrl + '/estate-report/gifts-with-reservation-of-benefit',
             pageTitle: "Gifts with reservation of benefit"
 
         })
@@ -106,7 +106,7 @@ describe('Gifts, accessibility : ', function() {
 
     it('gifts given away in 7 years before death', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/type-of-gifts-given-away',
+            url: Browser.baseUrl + '/estate-report/type-of-gifts-given-away',
             pageTitle: "Gifts given away"
 
         })
@@ -114,14 +114,14 @@ describe('Gifts, accessibility : ', function() {
 
     it('gifts given to a company, trust or charity', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-given-to-a-company',
+            url: Browser.baseUrl + '/estate-report/gifts-given-to-a-company',
             pageTitle: "Gifts given away"
 
         })
     });
 
     it('gifts given in year', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-value-for-year-1')
+        driver.get(Browser.baseUrl + '/estate-report/gifts-value-for-year-1')
         driver.wait(until.titleContains('Value of gifts for year'), 2000)
 
         driver.findElement(By.name("value")).sendKeys('5000');  

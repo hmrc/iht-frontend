@@ -33,7 +33,7 @@ describe('Application accessibility : ', function() {
 
     it('estate report', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report',
+            url: Browser.baseUrl + '/estate-report',
             pageTitle: "Your estate reports"
 
         })
@@ -41,20 +41,20 @@ describe('Application accessibility : ', function() {
 
     it('estate report overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/estate-overview/CS700100A000001',
+            url: Browser.baseUrl + '/estate-report/estate-overview/CS700100A000001',
             pageTitle: "Estate overview"
 
         });
     });
 
     it('estate report overview, filled', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/estate-overview/CS700100A000001')
+        driver.get(Browser.baseUrl + '/estate-report/estate-overview/CS700100A000001')
         driver.wait(until.titleContains('Estate overview'), 2000)
 
-        driver.get('http://localhost:9070/inheritance-tax/test-only/fill');
+        driver.get(Browser.baseUrl + '/test-only/fill');
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/estate-overview/CS700100A000001',
+            url: Browser.baseUrl + '/estate-report/estate-overview/CS700100A000001',
             pageTitle: "Estate overview"
 
         });

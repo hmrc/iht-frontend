@@ -34,7 +34,7 @@ describe('Gift guidance, accessibility : ', function() {
 
     it('guide page 1', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/1',
+            url: Browser.baseUrl + '/estate-report/guide-to-gifts/1',
             pageTitle: "A guide to gifts"
 
         })
@@ -42,7 +42,7 @@ describe('Gift guidance, accessibility : ', function() {
 
     it('guide page 2', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/2',
+            url: Browser.baseUrl + '/estate-report/guide-to-gifts/2',
             pageTitle: "A guide to gifts"
 
         })
@@ -50,7 +50,7 @@ describe('Gift guidance, accessibility : ', function() {
 
     it('guide page 3', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/3',
+            url: Browser.baseUrl + '/estate-report/guide-to-gifts/3',
             pageTitle: "A guide to gifts"
 
         })
@@ -58,7 +58,7 @@ describe('Gift guidance, accessibility : ', function() {
 
     it('guide page 4', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/4',
+            url: Browser.baseUrl + '/estate-report/guide-to-gifts/4',
             pageTitle: "A guide to gifts"
 
         })
@@ -66,7 +66,7 @@ describe('Gift guidance, accessibility : ', function() {
 
     it('guide page 5', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/5',
+            url: Browser.baseUrl + '/estate-report/guide-to-gifts/5',
             pageTitle: "A guide to gifts"
 
         })
@@ -74,7 +74,7 @@ describe('Gift guidance, accessibility : ', function() {
 
     it('guide page 6', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/guide-to-gifts/6',
+            url: Browser.baseUrl + '/estate-report/guide-to-gifts/6',
             pageTitle: "A guide to gifts"
 
         })

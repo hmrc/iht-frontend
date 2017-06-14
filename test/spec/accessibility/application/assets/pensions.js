@@ -32,19 +32,19 @@ describe('Pensions (Assets) accessibility : ', function() {
     });
 
     function fillPensionsFilter(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-private-pensions-owned')
+        driver.get(Browser.baseUrl + '/estate-report/any-private-pensions-owned')
         driver.findElement(By.css('#yes-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillPensionChanges(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-pension-changes')
+        driver.get(Browser.baseUrl + '/estate-report/any-pension-changes')
         driver.findElement(By.css('#no-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillPensionValue(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-pensions')
+        driver.get(Browser.baseUrl + '/estate-report/value-of-pensions')
         driver.findElement(By.css('#value')).sendKeys('15000')
         actionHelper.submitPageHelper(done, driver);
     }
@@ -52,7 +52,7 @@ describe('Pensions (Assets) accessibility : ', function() {
 
     it('pensions filter question', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/any-private-pensions-owned',
+            url: Browser.baseUrl + '/estate-report/any-private-pensions-owned',
             pageTitle: "Any private pensions"
         })
     });
@@ -61,7 +61,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         fillPensionsFilter(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/private-pensions',
+            url: Browser.baseUrl + '/estate-report/private-pensions',
             pageTitle: "Private pensions"
         })
     });
@@ -72,7 +72,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         fillPensionValue(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/private-pensions',
+            url: Browser.baseUrl + '/estate-report/private-pensions',
             pageTitle: "Private pensions"
         })
     });
@@ -81,7 +81,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         fillPensionsFilter(done, driver);
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/any-pension-changes',
+            url: Browser.baseUrl + '/estate-report/any-pension-changes',
             pageTitle: "Changes to pension"
         })
     });
@@ -90,7 +90,7 @@ describe('Pensions (Assets) accessibility : ', function() {
         fillPensionsFilter(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/value-of-pensions',
+            url: Browser.baseUrl + '/estate-report/value-of-pensions',
             pageTitle: "Pension value"
         })
     });
