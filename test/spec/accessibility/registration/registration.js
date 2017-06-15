@@ -32,19 +32,19 @@ describe('Registration accessibility : ', function() { 
             });   
 
             function fillDateOfDeath(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/date-of-death') 
+                driver.get(Browser.baseUrl + '/registration/date-of-death') 
                 driver.findElement(By.name("dateOfDeath.day")).sendKeys('1'); 
                 driver.findElement(By.name("dateOfDeath.month")).sendKeys('12'); 
                 driver.findElement(By.name("dateOfDeath.year")).sendKeys('2016'); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillPermanentHome(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/permanent-home-location') 
+                driver.get(Browser.baseUrl + '/registration/permanent-home-location') 
                 driver.findElement(By.css("#domicile-england_or_wales")).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillDeceasedDetails(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/deceaseds-details') 
+                driver.get(Browser.baseUrl + '/registration/deceaseds-details') 
                 driver.findElement(By.name("firstName")).sendKeys('Harriet'); 
                 driver.findElement(By.name("lastName")).sendKeys('McDonald'); 
                 driver.findElement(By.name("dateOfBirth.day")).sendKeys('1'); 
@@ -55,24 +55,24 @@ describe('Registration accessibility : ', function() { 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillDeceasedLastAddressUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/location-of-contact-address') 
+                driver.get(Browser.baseUrl + '/registration/location-of-contact-address') 
                 driver.findElement(By.css("#yes-label")).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillDeceasedLastAddressOutsideUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/location-of-contact-address') 
+                driver.get(Browser.baseUrl + '/registration/location-of-contact-address') 
                 driver.findElement(By.css("#no-label")).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillLastContactUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/uk-contact-address'); 
+                driver.get(Browser.baseUrl + '/registration/uk-contact-address'); 
                 driver.findElement(By.name("ukAddress.addressLine1")).sendKeys('10 Downing Street'); 
                 driver.findElement(By.name("ukAddress.addressLine2")).sendKeys('London'); 
                 driver.findElement(By.name("ukAddress.postCode")).sendKeys('NE12 3ER'); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillLastContactOutsideUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/contact-address'); 
+                driver.get(Browser.baseUrl + '/registration/contact-address'); 
                 driver.findElement(By.name("ukAddress.addressLine1")).sendKeys('8 Rue de la Concorde'); 
                 driver.findElement(By.name("ukAddress.ukAddressLine2")).sendKeys('St Germain'); 
                 driver.findElement(By.name("ukAddress.addressLine3")).sendKeys('Paris'); 
@@ -84,36 +84,36 @@ describe('Registration accessibility : ', function() { 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillApplyingForProbate(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/applying-for-probate'); 
+                driver.get(Browser.baseUrl + '/registration/applying-for-probate'); 
                 driver.findElement(By.css('#yes-label')).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillApplyingForProbateLocation(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/probate-location'); 
+                driver.get(Browser.baseUrl + '/registration/probate-location'); 
                 driver.findElement(By.css('#country-england_or_wales-label')).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillYourContactDetailsUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/your-contact-details'); 
+                driver.get(Browser.baseUrl + '/registration/your-contact-details'); 
                 driver.findElement(By.name("phoneNo")).sendKeys('01234 567 789'); 
                 driver.findElement(By.css('#yes-label')).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillYourAddressUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/your-uk-address'); 
+                driver.get(Browser.baseUrl + '/registration/your-uk-address'); 
                 driver.findElement(By.name("ukAddressLine1")).sendKeys('10 Downing Street'); 
                 driver.findElement(By.name("ukAddressLine2")).sendKeys('London'); 
                 driver.findElement(By.name("postCode")).sendKeys('NE12 3ER'); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillYourContactDetailsOutsideUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/your-contact-details'); 
+                driver.get(Browser.baseUrl + '/registration/your-contact-details'); 
                 driver.findElement(By.name("phoneNo")).sendKeys('01234 567 789'); 
                 driver.findElement(By.css('#no-label')).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillYourAddressOutsideUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/your-address'); 
+                driver.get(Browser.baseUrl + '/registration/your-address'); 
                 driver.findElement(By.name("ukAddressLine1")).sendKeys('8 Rue de la Concorde'); 
                 driver.findElement(By.name("ukAddressLine2")).sendKeys('St Germain'); 
                 driver.findElement(By.name("ukAddressLine3")).sendKeys('Paris'); 
@@ -125,18 +125,18 @@ describe('Registration accessibility : ', function() { 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillAnyOtherApplicants(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/any-other-applicants'); 
+                driver.get(Browser.baseUrl + '/registration/any-other-applicants'); 
                 driver.findElement(By.css('#yes-label')).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillOtherPersonApplyingForProbate(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/applicants-details'); 
+                driver.get(Browser.baseUrl + '/registration/applicants-details'); 
                 driver.findElement(By.name("firstName")).sendKeys('Peter'); 
                 driver.findElement(By.name("lastName")).sendKeys('Kingsman'); 
                 driver.findElement(By.name("dateOfBirth.day")).sendKeys('28'); 
                 driver.findElement(By.name("dateOfBirth.month")).sendKeys('12'); 
                 driver.findElement(By.name("dateOfBirth.year")).sendKeys('1980'); 
-                driver.findElement(By.name("nino")).sendKeys('QQ123456'); 
+                driver.findElement(By.name("nino")).sendKeys('QQ123456A'); 
                 driver.findElement(By.name("phoneNo")).sendKeys('0181 152 456'); 
             }  
             function fillOtherPersonApplyingForProbateUK(done, driver) { 
@@ -150,14 +150,14 @@ describe('Registration accessibility : ', function() { 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillApplicantAddressUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/applicants-uk-address/1'); 
+                driver.get(Browser.baseUrl + '/registration/applicants-uk-address/1'); 
                 driver.findElement(By.name("ukAddressLine1")).sendKeys('10 Downing Street'); 
                 driver.findElement(By.name("ukAddressLine2")).sendKeys('London'); 
                 driver.findElement(By.name("postCode")).sendKeys('NE12 3ER'); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillApplicantAddressOutsideUK(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/applicants-address/1'); 
+                driver.get(Browser.baseUrl + '/registration/applicants-address/1'); 
                 driver.findElement(By.name("ukAddressLine1")).sendKeys('8 Rue de la Concorde'); 
                 driver.findElement(By.name("ukAddressLine2")).sendKeys('St Germain'); 
                 driver.findElement(By.name("ukAddressLine3")).sendKeys('Paris'); 
@@ -169,36 +169,35 @@ describe('Registration accessibility : ', function() { 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function fillOtherPeopleApplyingForProbate(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/other-probate-applicants'); 
+                driver.get(Browser.baseUrl + '/registration/other-probate-applicants'); 
                 driver.findElement(By.css('#no-label')).click(); 
                 actionHelper.submitPageHelper(done, driver, '#continue-button'); 
             }  
             function gotoDeleteOtherApplicant(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/other-probate-applicants'); 
+                driver.get(Browser.baseUrl + '/registration/other-probate-applicants'); 
                 driver.findElement(By.css('#delete-executor-1')).click(); 
             }  
             function gotoCheckYourAnswers(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/check-your-answers'); 
+                driver.get(Browser.baseUrl + '/registration/check-your-answers'); 
             }  
             function gotoConfirmDetails(done, driver) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/check-your-answers'); 
+                driver.get(Browser.baseUrl + '/registration/check-your-answers'); 
                 driver.findElement(By.css('[type="submit"]')).click(); 
             }   
 
 
             it('registration checklist', function(done) { 
-                driver.get('http://localhost:9070/inheritance-tax/registration/registration-checklist') 
-                driver.wait(until.titleContains('Before you start registration'), 2000) .then(function() { 
-                    accessibilityhelper.checkAccessibility(done, driver) 
-                }); 
+                 behaves.actsAsBasicPage(done, driver, {
+                     url: Browser.baseUrl + '/registration/registration-checklist',
+                     pageTitle: "Before you start registration"
+                 })
             });  
 
             it('when did the deceased die', function(done) { 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/date-of-death',
+                      url: Browser.baseUrl + '/registration/date-of-death',
                       pageTitle: "Date of death",
                       button: '#continue-button'
-
                   })
             });  
 
@@ -206,7 +205,7 @@ describe('Registration accessibility : ', function() { 
                 fillDateOfDeath(done, driver); 
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/permanent-home-location',
+                      url: Browser.baseUrl + '/registration/permanent-home-location',
                       pageTitle: "Permanent home",
                       button: '#continue-button'
 
@@ -219,8 +218,8 @@ describe('Registration accessibility : ', function() { 
                   fillPermanentHome(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/deceaseds-details',
-                      pageTitle: "About the deceased",
+                      url: Browser.baseUrl + '/registration/deceaseds-details',
+                      pageTitle: "About the person who has died",
                       button: '#continue-button'
 
                   })
@@ -232,7 +231,7 @@ describe('Registration accessibility : ', function() { 
                   fillDeceasedDetails(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/location-of-contact-address',
+                      url: Browser.baseUrl + '/registration/location-of-contact-address',
                       pageTitle: "Contact address",
                       button: '#continue-button'
 
@@ -246,7 +245,7 @@ describe('Registration accessibility : ', function() { 
                   fillDeceasedLastAddressUK(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/uk-contact-address',
+                      url: Browser.baseUrl + '/registration/uk-contact-address',
                       pageTitle: "Contact address",
                       button: '#continue-button'
 
@@ -259,7 +258,7 @@ describe('Registration accessibility : ', function() { 
                   fillDeceasedLastAddressOutsideUK(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/contact-address',
+                      url: Browser.baseUrl + '/registration/contact-address',
                       pageTitle: "Contact address",
                       button: '#continue-button'
 
@@ -273,7 +272,7 @@ describe('Registration accessibility : ', function() { 
                   fillLastContactOutsideUK(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/applying-for-probate',
+                      url: Browser.baseUrl + '/registration/applying-for-probate',
                       pageTitle: "Apply for probate",
                       button: '#continue-button'
 
@@ -288,7 +287,7 @@ describe('Registration accessibility : ', function() { 
                   fillApplyingForProbate(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/probate-location',
+                      url: Browser.baseUrl + '/registration/probate-location',
                       pageTitle: "Probate location",
                       button: '#continue-button'
 
@@ -304,7 +303,7 @@ describe('Registration accessibility : ', function() { 
                   fillApplyingForProbateLocation(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/your-contact-details',
+                      url: Browser.baseUrl + '/registration/your-contact-details',
                       pageTitle: "Your contact details",
                       button: '#continue-button'
 
@@ -322,7 +321,7 @@ describe('Registration accessibility : ', function() { 
                   fillYourContactDetailsUK(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/your-uk-address',
+                      url: Browser.baseUrl + '/registration/your-uk-address',
                       pageTitle: "Your address",
                       button: '#continue-button'
 
@@ -340,7 +339,7 @@ describe('Registration accessibility : ', function() { 
                   fillYourContactDetailsOutsideUK(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/your-address',
+                      url: Browser.baseUrl + '/registration/your-address',
                       pageTitle: "Your address",
                       button: '#continue-button'
 
@@ -359,7 +358,7 @@ describe('Registration accessibility : ', function() { 
                   fillYourAddressOutsideUK(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/any-other-applicants',
+                      url: Browser.baseUrl + '/registration/any-other-applicants',
                       pageTitle: "Other probate applicants",
                       button: '#continue-button'
 
@@ -379,7 +378,7 @@ describe('Registration accessibility : ', function() { 
                   fillAnyOtherApplicants(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/applicants-details',
+                      url: Browser.baseUrl + '/registration/applicants-details',
                       pageTitle: "Other person’s details",
                       button: '#continue-button'
 
@@ -400,7 +399,7 @@ describe('Registration accessibility : ', function() { 
                   fillOtherPersonApplyingForProbateUK(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/applicants-uk-address/1',
+                      url: Browser.baseUrl + '/registration/applicants-uk-address/1',
                       pageTitle: "Other person’s address",
                       button: '#continue-button'
 
@@ -422,7 +421,7 @@ describe('Registration accessibility : ', function() { 
 
 
                     behaves.actsAsStandardForm(done, driver, {
-                        url: 'http://localhost:9070/inheritance-tax/registration/applicants-uk-address/1',
+                        url: Browser.baseUrl + '/registration/applicants-uk-address/1',
                         pageTitle: "Other person’s address",
                         button: '#continue-button'
 
@@ -444,7 +443,7 @@ describe('Registration accessibility : ', function() { 
                   fillApplicantAddressOutsideUK(done, driver);  
 
                   behaves.actsAsStandardForm(done, driver, {
-                      url: 'http://localhost:9070/inheritance-tax/registration/other-probate-applicants',
+                      url: Browser.baseUrl + '/registration/other-probate-applicants',
                       pageTitle: "Other applicants",
                       button: '#continue-button'
 
@@ -465,10 +464,12 @@ describe('Registration accessibility : ', function() { 
                   fillOtherPersonApplyingForProbateOutsideUK(done, driver); 
                   fillApplicantAddressOutsideUK(done, driver); 
                   gotoDeleteOtherApplicant(done, driver);  
-                  driver.get('http://localhost:9070/inheritance-tax/registration/delete-applicant/1') 
-                  driver.wait(until.titleContains("Delete applicant"), 2000) .then(function() { 
-                      accessibilityhelper.checkAccessibility(done, driver) 
-                  }); 
+
+                   behaves.actsAsBasicPage(done, driver, {
+                       url: Browser.baseUrl + '/registration/delete-applicant/1',
+                       pageTitle: "Delete applicant"
+                   });
+
               })  
 
               it('check your answers', function(done) { 
@@ -486,9 +487,11 @@ describe('Registration accessibility : ', function() { 
                   fillApplicantAddressOutsideUK(done, driver); 
                   fillOtherPeopleApplyingForProbate(done, driver); 
                   gotoCheckYourAnswers(done, driver);  
-                  driver.get('http://localhost:9070/inheritance-tax/registration/check-your-answers') 
-                  driver.wait(until.titleContains("Check your answers"), 2000) .then(function() { 
-                      accessibilityhelper.checkAccessibility(done, driver) 
-                  }); 
+
+                   behaves.actsAsBasicPage(done, driver, {
+                       url: Browser.baseUrl + '/registration/check-your-answers',
+                       pageTitle: "Check your answers"
+                   });
+
               })   
           });         

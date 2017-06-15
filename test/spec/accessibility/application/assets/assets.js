@@ -33,17 +33,17 @@ describe('Assets accessibility : ', function() {
 
     it('assets overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-in-estate',
+            url: Browser.baseUrl + '/estate-report/assets-in-estate',
             pageTitle: "Assets in the estate"
 
         })
     });
 
     it('assets overview, filled', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/test-only/fill')
+        driver.get(Browser.baseUrl + '/test-only/fill')
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-in-estate',
+            url: Browser.baseUrl + '/estate-report/assets-in-estate',
             pageTitle: "Assets in the estate"
 
         })

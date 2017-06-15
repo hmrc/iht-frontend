@@ -53,29 +53,29 @@ registrationDetails: RegistrationDetails
 
 
          @defining( Messages("page.iht.application.assets.insurances.sectionName")) { sectionName =>
+            <div data-exclude="true">
+                @ihtHelpers.standard.input_yes_no_radio_group(
+                    insurancePolicyForm("policyInDeceasedName"),
+                    '_legend -> Html(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedNameWrap)),
+                    '_shownElementNo -> None,
+                    '_shownElementYes -> Some("deceaseds-policy"),
+                    '_hiddenElementYes -> None,
+                    '_hiddenElementNo -> Some("deceaseds-policy"),
+                    '_divClass -> Some(sectionName+"4-change form-group indeceasedsname"),
+                    '_clearTargetNo -> Some("value"),
+                    '_mainQuestion -> true)
 
-            @ihtHelpers.standard.input_yes_no_radio_group(
-                insurancePolicyForm("policyInDeceasedName"),
-                '_legend -> Html(Messages("iht.estateReport.insurancePolicies.ownName.question", deceasedNameWrap)),
-                '_shownElementNo -> None,
-                '_shownElementYes -> Some("deceaseds-policy"),
-                '_hiddenElementYes -> None,
-                '_hiddenElementNo -> Some("deceaseds-policy"),
-                '_divClass -> Some(sectionName+"4-change form-group indeceasedsname"),
-                '_clearTargetNo -> Some("value"),
-                '_mainQuestion -> true)
-
-            <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
-                @ihtHelpers.custom.input_estate_value(insurancePolicyForm("value"),
-                '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", deceasedNameWrap),
-                '_sectionName -> (sectionName + "1"),
-                '_currency -> "GBP",
-                '_divClass -> "form-group",
-                '_labelTextClass -> "form-label bold",
-                '_inputClass -> "form-control js-valInput")
+                <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
+                    @ihtHelpers.custom.input_estate_value(insurancePolicyForm("value"),
+                    '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", deceasedNameWrap),
+                    '_sectionName -> (sectionName + "1"),
+                    '_currency -> "GBP",
+                    '_divClass -> "form-group",
+                    '_labelTextClass -> "form-label bold",
+                    '_inputClass -> "form-control js-valInput")
+                </div>
             </div>
-
-    }
+            }
 
     <div id="action-button" class="form-field form-field--submit">
       <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

@@ -33,7 +33,7 @@ describe('Debts, accessibility : ', function() {
 
     it('debts overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/debts-owed-from-estate',
+            url: Browser.baseUrl + '/estate-report/debts-owed-from-estate',
             pageTitle: "Debts owed from the estate"
 
         })

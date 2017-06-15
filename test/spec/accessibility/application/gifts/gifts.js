@@ -32,31 +32,31 @@ describe('Gifts, accessibility : ', function() {
     });
 
     function fillGiftsGivenAway(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-value-given-away')
+        driver.get(Browser.baseUrl + '/estate-report/gifts-value-given-away')
         driver.findElement(By.css('#yes-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillGiftsWithReservationOfBenefit(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-with-reservation-of-benefit')
+        driver.get(Browser.baseUrl + '/estate-report/gifts-with-reservation-of-benefit')
         driver.findElement(By.css('#no-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillGiftsGivenAwayInSevenYears(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/type-of-gifts-given-away')
+        driver.get(Browser.baseUrl + '/estate-report/type-of-gifts-given-away')
         driver.findElement(By.css('#no-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillGiftsGivenToATrust(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-given-to-a-company')
+        driver.get(Browser.baseUrl + '/estate-report/gifts-given-to-a-company')
         driver.findElement(By.css('#no-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillGiftsGivenInYear(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-value-for-year-1')
+        driver.get(Browser.baseUrl + '/estate-report/gifts-value-for-year-1')
         driver.wait(until.titleContains('Value of gifts for year'), 2000)
 
         driver.findElement(By.name("value")).sendKeys('5000');  
@@ -65,8 +65,8 @@ describe('Gifts, accessibility : ', function() {
     }
 
     it('gifts given away', function (done) {
-        behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-value-given-away',
+        behaves.actsAsYesNo(done, driver, {
+            url: Browser.baseUrl + '/estate-report/gifts-value-given-away',
             pageTitle: "Gifts given away"
 
         })
@@ -76,7 +76,7 @@ describe('Gifts, accessibility : ', function() {
         fillGiftsGivenAway(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-given-away',
+            url: Browser.baseUrl + '/estate-report/gifts-given-away',
             pageTitle: "Gifts given away"
 
         })
@@ -90,7 +90,7 @@ describe('Gifts, accessibility : ', function() {
         fillGiftsGivenInYear(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-given-away',
+            url: Browser.baseUrl + '/estate-report/gifts-given-away',
             pageTitle: "Gifts given away"
 
         })
@@ -98,7 +98,7 @@ describe('Gifts, accessibility : ', function() {
 
     it('gifts with reservation of benefit', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-with-reservation-of-benefit',
+            url: Browser.baseUrl + '/estate-report/gifts-with-reservation-of-benefit',
             pageTitle: "Gifts with reservation of benefit"
 
         })
@@ -106,22 +106,32 @@ describe('Gifts, accessibility : ', function() {
 
     it('gifts given away in 7 years before death', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/type-of-gifts-given-away',
-            pageTitle: "Gifts given away"
+            url: Browser.baseUrl + '/estate-report/type-of-gifts-given-away',
+            pageTitle: "Types of gifts given away in the 7 years before death"
 
         })
     });
 
     it('gifts given to a company, trust or charity', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/gifts-given-to-a-company',
-            pageTitle: "Gifts given away"
+            url: Browser.baseUrl + '/estate-report/gifts-given-to-a-company',
+            pageTitle: "Types of gifts given away in the 7 years before death"
+
+        })
+    });
+
+    it('gifts value overview', function (done) {
+        fillGiftsGivenAway(done, driver);
+
+        behaves.actsAsBasicPage(done, driver, {
+            url: Browser.baseUrl + '/estate-report/value-of-gifts-given-away',
+            pageTitle: "Value of gifts given away"
 
         })
     });
 
     it('gifts given in year', function (done) {
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/gifts-value-for-year-1')
+        driver.get(Browser.baseUrl + '/estate-report/gifts-value-for-year-1')
         driver.wait(until.titleContains('Value of gifts for year'), 2000)
 
         driver.findElement(By.name("value")).sendKeys('5000');  
@@ -129,9 +139,7 @@ describe('Gifts, accessibility : ', function() {
 
         driver.sleep(1000);
 
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
+        behaves.actsAsAccessiblePage(done, driver);
     });
 
 });

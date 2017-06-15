@@ -37,27 +37,28 @@ registrationDetails: RegistrationDetails
 
     @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onSubmit(),'autoComplete -> "off") {
 
-        @ihtHelpers.standard.input_yes_no_radio_group(stockAndSharesNotListed("isNotListed"),
-            '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName)),
-            '_shownElementNo -> None,
-            '_shownElementYes -> Some("stocks-and-shares-value"),
-            '_hiddenElementYes -> None,
-            '_hiddenElementNo -> Some("stocks-and-shares-value"),
-            '_divClass -> Some("form-group"),
-            '_clearTargetNo -> Some("indeceasednamevalue"),
-            '_mainQuestion -> true)
+        <div data-exclude="true">
+            @ihtHelpers.standard.input_yes_no_radio_group(stockAndSharesNotListed("isNotListed"),
+                '_legend -> Html(Messages("iht.estateReport.assets.stocksAndShares.notListed.question", deceasedName)),
+                '_shownElementNo -> None,
+                '_shownElementYes -> Some("stocks-and-shares-value"),
+                '_hiddenElementYes -> None,
+                '_hiddenElementNo -> Some("stocks-and-shares-value"),
+                '_divClass -> Some("form-group"),
+                '_clearTargetNo -> Some("indeceasednamevalue"),
+                '_mainQuestion -> true)
 
-        <div class="js-hidden panel-indent panel-indent--gutter" id="stocks-and-shares-value">
-            @ihtHelpers.custom.input_estate_value(stockAndSharesNotListed("valueNotListed"),
-            '_label -> Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed"),
-            '_help -> "",
-            '_sectionName -> ("1"),
-            '_currency -> "GBP",
-            '_divClass -> "form-group",
-            '_labelTextClass -> "bold",
-            '_inputClass -> "form-control js-valInput")
+            <div class="js-hidden panel-indent panel-indent--gutter" id="stocks-and-shares-value">
+                @ihtHelpers.custom.input_estate_value(stockAndSharesNotListed("valueNotListed"),
+                '_label -> Messages("iht.estateReport.assets.stocksAndShares.valueOfNotListed"),
+                '_help -> "",
+                '_sectionName -> ("1"),
+                '_currency -> "GBP",
+                '_divClass -> "form-group",
+                '_labelTextClass -> "bold",
+                '_inputClass -> "form-control js-valInput")
+            </div>
         </div>
-
 
 
     <div id="action-button" class="form-field form-field--submit">

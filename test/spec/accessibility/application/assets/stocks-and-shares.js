@@ -31,13 +31,13 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
     });
 
     function fillStocksOwned(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/listed-stocks-and-shares-owned')
+        driver.get(Browser.baseUrl + '/estate-report/listed-stocks-and-shares-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("valueListed")).sendKeys('5000');
         actionHelper.submitPageHelper(done, driver);
     }
     function fillStocksJointlyOwned(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/unlisted-stocks-and-shares-owned')
+        driver.get(Browser.baseUrl + '/estate-report/unlisted-stocks-and-shares-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("valueNotListed")).sendKeys('8000');
         actionHelper.submitPageHelper(done, driver);
@@ -46,7 +46,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
 
     it('stocks and shares overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned',
+            url: Browser.baseUrl + '/estate-report/stocks-and-shares-owned',
             pageTitle: "Stocks and shares"
 
         })
@@ -57,7 +57,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
         fillStocksJointlyOwned(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/stocks-and-shares-owned',
+            url: Browser.baseUrl + '/estate-report/stocks-and-shares-owned',
             pageTitle: "Stocks and shares"
 
         })
@@ -65,7 +65,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
 
     it('stocks and shares listed on an exchange', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/listed-stocks-and-shares-owned',
+            url: Browser.baseUrl + '/estate-report/listed-stocks-and-shares-owned',
             pageTitle: "Listed stocks and shares"
 
         })
@@ -73,7 +73,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
 
     it('stocks and shares not listed on an exchange', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/unlisted-stocks-and-shares-owned',
+            url: Browser.baseUrl + '/estate-report/unlisted-stocks-and-shares-owned',
             pageTitle: "Unlisted stocks and shares"
 
         })

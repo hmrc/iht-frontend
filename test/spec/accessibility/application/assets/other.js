@@ -33,14 +33,14 @@ describe('Other (Assets) accessibility : ', function() {
 
     it('other yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/other-assets-owned',
+            url: Browser.baseUrl + '/estate-report/other-assets-owned',
             pageTitle: 'Other assets owned'
         })
     });
 
     it('other yes/no, with value', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/other-assets-owned',
+            url: Browser.baseUrl + '/estate-report/other-assets-owned',
             pageTitle: 'Other assets owned'
         })
     });
