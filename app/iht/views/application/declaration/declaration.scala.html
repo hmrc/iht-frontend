@@ -32,9 +32,11 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
 
         @model.riskMessageFromEdh.map{ riskMessage =>
                 <div class="alert">
-                    @riskMessage
+                    @if(riskMessage.trim == Messages("iht.application.declaration.risking.money.message")) {
+                        @Messages("iht.application.declaration.risking.money.message.amended", deceasedName)
+                    } else { @riskMessage }
                 </div>
-            }
+        }
 
         @if(model.isMultipleExecutor){
             <p id="prologue1">@Messages("iht.estateReport.declaration.coExecutors.prologue1")</p>
