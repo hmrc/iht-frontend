@@ -1803,7 +1803,7 @@ page.iht.application.probateDetails.guidance.bullet1 = the IHT identifier is a r
 page.iht.application.probateDetails.guidance.bullet2 = the gross estate figure is the total of assets and gifts in the estate
 page.iht.application.probateDetails.guidance.bullet3 = the net estate figure is the value of assets and gifts in the estate after any debts and estate exemptions have been taken off
 page.iht.application.probateDetails.yourProbateText = For your PA1 - Probate application form:
-page.iht.application.probateDetails.probateDetailsNotAvailableText = You’ll need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
+page.iht.application.probateDetails.probateDetailsNotAvailableText = You will need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
 
 #Estate report - Pdf
 pdf.totalassets.text = Total Assets
