@@ -35,14 +35,14 @@ describe('Business interests (Assets) accessibility : ', function() {
 
     it('business yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/business-interests-owned',
+            url: Browser.baseUrl + '/estate-report/business-interests-owned',
             pageTitle: 'Business interests owned'
         })
     });
 
     it('business yes/no, with value', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/business-interests-owned',
+            url: Browser.baseUrl + '/estate-report/business-interests-owned',
             pageTitle: 'Business interests owned'
         })
     });

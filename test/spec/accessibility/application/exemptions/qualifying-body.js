@@ -32,26 +32,26 @@ describe('Assets left to qualifying body (Exemptions), accessibility : ', functi
     });
 
     function fillAssetsLeftToBody(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-left-to-other-body')
+        driver.get(Browser.baseUrl + '/estate-report/assets-left-to-other-body')
         driver.findElement(By.css('#yes-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillBodyName(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/body-name')
+        driver.get(Browser.baseUrl + '/estate-report/body-name')
         driver.findElement(By.name("name")).sendKeys('Benton cat home');
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillBodyValue(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-value-left-to-body/1')
+        driver.get(Browser.baseUrl + '/estate-report/assets-value-left-to-body/1')
         driver.findElement(By.name("totalValue")).sendKeys('5000');
         actionHelper.submitPageHelper(done, driver);
     }
 
     it('assets left to body yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-left-to-other-body',
+            url: Browser.baseUrl + '/estate-report/assets-left-to-other-body',
             pageTitle: 'Any assets left to other body'
         })
     });
@@ -60,7 +60,7 @@ describe('Assets left to qualifying body (Exemptions), accessibility : ', functi
         fillAssetsLeftToBody(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/add-another-body',
+            url: Browser.baseUrl + '/estate-report/add-another-body',
             pageTitle: "Add another body"
         })
     });
@@ -71,7 +71,7 @@ describe('Assets left to qualifying body (Exemptions), accessibility : ', functi
         fillBodyValue(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/add-another-body/1',
+            url: Browser.baseUrl + '/estate-report/add-another-body/1',
             pageTitle: "Add another body"
         })
     });
@@ -82,7 +82,7 @@ describe('Assets left to qualifying body (Exemptions), accessibility : ', functi
         fillBodyValue(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-left-to-other-bodies',
+            url: Browser.baseUrl + '/estate-report/assets-left-to-other-bodies',
             pageTitle: "Assets left to other bodies"
         })
     });
@@ -92,7 +92,7 @@ describe('Assets left to qualifying body (Exemptions), accessibility : ', functi
         fillBodyName(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/delete-qualifying-body/1',
+            url: Browser.baseUrl + '/estate-report/delete-qualifying-body/1',
             pageTitle: "Delete qualifying body"
         })
     });
@@ -101,7 +101,7 @@ describe('Assets left to qualifying body (Exemptions), accessibility : ', functi
         fillAssetsLeftToBody(done, driver)
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/body-name',
+            url: Browser.baseUrl + '/estate-report/body-name',
             pageTitle: "Body name"
         })
     });
@@ -110,7 +110,7 @@ describe('Assets left to qualifying body (Exemptions), accessibility : ', functi
         fillAssetsLeftToBody(done, driver)
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-value-left-to-body',
+            url: Browser.baseUrl + '/estate-report/assets-value-left-to-body',
             pageTitle: "Value of assets left to body"
         })
     });

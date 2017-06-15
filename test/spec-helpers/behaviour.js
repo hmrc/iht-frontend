@@ -4,42 +4,49 @@
  var accessibilityhelper = require('./check-accessibility-helper.js');
 
 
- var actsAsYesNo = function actsAsYesNo(done, driver, options){
-        driver.get(options.url)
-        actionHelper.triggerErrorSummaryHelper(done, driver, options.pageTitle)
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
-
-    }
+var actsAsYesNo = function actsAsYesNo(done, driver, options){
+    driver.get(options.url)
+    actionHelper.triggerErrorSummaryHelper(done, driver, options.pageTitle)
+    driver.then(function(){
+        accessibilityhelper.checkAccessibility(done, driver)
+    });
+}
 exports.actsAsYesNo = actsAsYesNo;
 
- var actsAsYesNoWithValue = function actsAsYesNoWithValue(done, driver, options){
-        driver.get(options.url)
-        driver.wait(until.titleContains(options.pageTitle), 2000)
-        actionHelper.triggerErrorSummaryHelper(done, driver, options.pageTitle)
-        driver.findElement(By.css('#yes-label')).click();
-        driver.then(function(){
-            accessibilityhelper.checkAccessibility(done, driver)
-        });
-    }
- exports.actsAsYesNoWithValue = actsAsYesNoWithValue;
+
+var actsAsYesNoWithValue = function actsAsYesNoWithValue(done, driver, options){
+    driver.get(options.url)
+    driver.wait(until.titleContains(options.pageTitle), 2000)
+    actionHelper.triggerErrorSummaryHelper(done, driver, options.pageTitle)
+    driver.findElement(By.css('#yes-label')).click();
+    driver.then(function(){
+        accessibilityhelper.checkAccessibility(done, driver)
+    });
+}
+exports.actsAsYesNoWithValue = actsAsYesNoWithValue;
 
 
- var actsAsStandardForm = function actsAsStandardForm(done, driver, options){
-         driver.get(options.url)
-         actionHelper.triggerErrorSummaryHelper(done, driver, options.pageTitle, options.button)
-         driver.then(function(){
-             accessibilityhelper.checkAccessibility(done, driver)
-         });
-     }
-  exports.actsAsStandardForm = actsAsStandardForm;
+var actsAsStandardForm = function actsAsStandardForm(done, driver, options){
+    driver.get(options.url)
+    actionHelper.triggerErrorSummaryHelper(done, driver, options.pageTitle, options.button)
+    driver.then(function(){
+        accessibilityhelper.checkAccessibility(done, driver)
+    });
+}
+exports.actsAsStandardForm = actsAsStandardForm;
 
-   var actsAsBasicPage = function actsAsBasicPage(done, driver, options){
-           driver.get(options.url)
-           driver.wait(until.titleContains(options.pageTitle), 2000)
-           driver.then(function(){
-               accessibilityhelper.checkAccessibility(done, driver)
-           });
-       }
-    exports.actsAsBasicPage = actsAsBasicPage;
+
+var actsAsBasicPage = function actsAsBasicPage(done, driver, options){
+   driver.get(options.url)
+   driver.wait(until.titleContains(options.pageTitle), 2000)
+   driver.then(function(){
+       accessibilityhelper.checkAccessibility(done, driver)
+   });
+}
+exports.actsAsBasicPage = actsAsBasicPage;
+
+
+var actsAsAccessiblePage = function actsAsAccessiblePage(done, driver, options){
+    accessibilityhelper.checkAccessibility(done, driver)
+}
+exports.actsAsAccessiblePage = actsAsAccessiblePage;

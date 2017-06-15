@@ -32,20 +32,20 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     function fillPropertyQuestion(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-properties-buildings-land-owned')
+        driver.get(Browser.baseUrl + '/estate-report/any-properties-buildings-land-owned')
         driver.findElement(By.css('#yes-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillPropertyValue(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-property')
+        driver.get(Browser.baseUrl + '/estate-report/value-of-property')
         driver.findElement(By.name("value")).sendKeys('150000');
         actionHelper.submitPageHelper(done, driver);
     }
 
     it('properties question', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/any-properties-buildings-land-owned',
+            url: Browser.baseUrl + '/estate-report/any-properties-buildings-land-owned',
             pageTitle: "Properties"
         })
     });
@@ -54,7 +54,7 @@ describe('Property (Assets) accessibility : ', function() {
         fillPropertyQuestion(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/properties-buildings-land-owned',
+            url: Browser.baseUrl + '/estate-report/properties-buildings-land-owned',
             pageTitle: "Properties, buildings and land"
         })
     });
@@ -63,7 +63,7 @@ describe('Property (Assets) accessibility : ', function() {
         fillPropertyQuestion(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/add-property',
+            url: Browser.baseUrl + '/estate-report/add-property',
             pageTitle: "Add a property"
         })
     });
@@ -72,7 +72,7 @@ describe('Property (Assets) accessibility : ', function() {
         fillPropertyQuestion(done, driver);
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/property-address',
+            url: Browser.baseUrl + '/estate-report/property-address',
             pageTitle: "Property address"
 
         })
@@ -82,7 +82,7 @@ describe('Property (Assets) accessibility : ', function() {
         fillPropertyQuestion(done, driver);
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/type-of-property',
+            url: Browser.baseUrl + '/estate-report/type-of-property',
             pageTitle: "Type of property"
 
         })
@@ -92,7 +92,7 @@ describe('Property (Assets) accessibility : ', function() {
         fillPropertyQuestion(done, driver);
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/how-property-was-owned',
+            url: Browser.baseUrl + '/estate-report/how-property-was-owned',
             pageTitle: "How property was owned"
 
         })
@@ -102,7 +102,7 @@ describe('Property (Assets) accessibility : ', function() {
         fillPropertyQuestion(done, driver);
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/freehold-or-leasehold-property',
+            url: Browser.baseUrl + '/estate-report/freehold-or-leasehold-property',
             pageTitle: "Freehold or leasehold"
 
         })
@@ -112,7 +112,7 @@ describe('Property (Assets) accessibility : ', function() {
         fillPropertyQuestion(done, driver);
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/value-of-property',
+            url: Browser.baseUrl + '/estate-report/value-of-property',
             pageTitle: "Property value"
 
         })
@@ -123,7 +123,7 @@ describe('Property (Assets) accessibility : ', function() {
         fillPropertyValue(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/delete-property/1',
+            url: Browser.baseUrl + '/estate-report/delete-property/1',
             pageTitle: "Confirm that you want to delete"
 
         })

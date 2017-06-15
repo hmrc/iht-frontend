@@ -33,14 +33,14 @@ describe('Funeral expenses (Debts), accessibility : ', function() {
 
     it('funeral expenses yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/funeral-expenses',
+            url: Browser.baseUrl + '/estate-report/funeral-expenses',
             pageTitle: 'Funeral expenses'
         })
     });
 
     it('funeral expenses yes/no, with value', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/funeral-expenses',
+            url: Browser.baseUrl + '/estate-report/funeral-expenses',
             pageTitle: 'Funeral expenses'
         })
     });
