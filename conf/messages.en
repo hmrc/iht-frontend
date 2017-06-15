@@ -1873,7 +1873,7 @@ page.iht.application.assets.kickout.pensionDisposedLastTwoYears.summary = This i
 page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2 = If you want to change this value
 
 page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1 = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. This is because you need to provide more details about the estate.
-page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is because the value of the insurance premiums paid by {0} for a policy that wasn’t paying to their estate was more than £3,000 in any year.
+page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is because the value of the insurance premiums paid by {0} for a policy that was not paying to their estate was more than £3,000 in any year.
 
 #Kickouts - Estate report -Gifts
 page.iht.application.gifts.kickout.withReservationOfBenefit.summary = This is because {0} gave away gifts with the reservation of benefit.
