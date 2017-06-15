@@ -1460,7 +1460,7 @@ page.iht.application.exemptions.partner.dateOfBirth.question.title = What is the
 page.iht.application.exemptions.partner.dateOfBirth.browserTitle = Partner’s date of birth
 page.iht.application.exemptions.partnerPermanentHome.browserTitle = Partner’s residence
 
-page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because the deceased’s spouse or civil partner didn’t have their permanent home in the UK.
+page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because {0}’s spouse or civil partner didn’t have their permanent home in the UK.
 iht.estateReport.exemptions.partner.assetsLeftToSpouse.title = Assets left to a spouse or civil partner
 iht.estateReport.exemptions.partner.homeInUK.question = Is the spouse’s or civil partner’s permanent home in the UK?
 iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse = Return to assets left to a spouse or civil partner
@@ -1860,30 +1860,30 @@ iht.estateReport.kickout.returnToEstateOverview = If you want to change any valu
 
 #Kickouts - Estate report -Assets
 iht.estateReport.assets.kickout.MoreThan1Million = This is because the estate value is more than £1 million.
-page.iht.application.assets.kickout.trustlessthansevenyears.summary = This is because the deceased was paying insurance premiums on a policy that pays out to someone else and was placed in a trust in the 7 years before they died.
-page.iht.application.assets.kickout.trustsMoreThanOne.summary = This is because the deceased was able to benefit from more than 1 trust.
-page.iht.application.assets.kickout.trustValueMoreThanMax.summary = This is because the value of the trust that the deceased was able to benefit from was worth more than £150,000.
-page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary = This is because the value of the deceased’s foreign assets was more than £100,000.
-page.iht.application.assets.kickout.annuitiesOnInsurance.summary = This is because the deceased bought an annuity during their lifetime.
-page.iht.application.assets.kickout.premiumsPaidForOtherPersonsPolicy.summary = It’s not possible to use Inheritance Tax Online because the deceased’s insurance policy paid out to someone else
+page.iht.application.assets.kickout.trustlessthansevenyears.summary = This is because {0} was paying insurance premiums on a policy that pays out to someone else and was placed in a trust in the 7 years before they died.
+page.iht.application.assets.kickout.trustsMoreThanOne.summary = This is because {0} was able to benefit from more than 1 trust.
+page.iht.application.assets.kickout.trustValueMoreThanMax.summary = This is because the value of the trust that {0} was able to benefit from was worth more than £150,000.
+page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary = This is because the value of {0}’s foreign assets was more than £100,000.
+page.iht.application.assets.kickout.annuitiesOnInsurance.summary = This is because {0} bought an annuity during their lifetime.
+page.iht.application.assets.kickout.premiumsPaidForOtherPersonsPolicy.summary = It’s not possible to use Inheritance Tax Online because {0}’s insurance policy paid out to someone else
 page.iht.application.assets.kickout.premiumsPaidForOtherPersonsPolicy.nextSteps1 = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. This is because you need to provide more details about the insurance policy and who it paid out to.
-page.iht.application.assets.kickout.pensionDisposedLastTwoYears.summary = This is because the deceased’s private pension was changed or disposed of in the 2 years before they died.
+page.iht.application.assets.kickout.pensionDisposedLastTwoYears.summary = This is because {0}’s private pension was changed or disposed of in the 2 years before they died.
 page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2 = If you want to change this value
 
 page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1 = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. This is because you need to provide more details about the estate.
-page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is because the value of the insurance premiums paid by the deceased for a policy that wasn’t paying to their estate was more than £3,000 in any year.
+page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is because the value of the insurance premiums paid by {0} for a policy that wasn’t paying to their estate was more than £3,000 in any year.
 
 #Kickouts - Estate report -Gifts
-page.iht.application.gifts.kickout.withReservationOfBenefit.summary = This is because the deceased gave away gifts with the reservation of benefit.
+page.iht.application.gifts.kickout.withReservationOfBenefit.summary = This is because {0} gave away gifts with the reservation of benefit.
 
-page.iht.application.gifts.kickout.givenInPast.summary = This is because the deceased gave away a gift that was not:
+page.iht.application.gifts.kickout.givenInPast.summary = This is because {0} gave away a gift that was not:
 page.iht.application.gifts.kickout.givenInPast.summary.bullet3 = a household or personal item, including jewellery, pictures and paintings
 page.iht.application.gifts.kickout.givenInPast.summary.bullet4 = a house, land or a building
 page.iht.application.gifts.kickout.givenInPast.summary.bullet5 = a motor vehicle, including a boat or a caravan
 
-page.iht.application.gifts.kickout.toTrust.summary = This is because the deceased gave away a house, building or land to anything that isn’t a person.
+page.iht.application.gifts.kickout.toTrust.summary = This is because {0} gave away a house, building or land to anything that isn’t a person.
 
-page.iht.application.gifts.kickout.maxValue.summary = This is because the deceased gave gifts away worth more than £150,000 in the 7 years before they died.
+page.iht.application.gifts.kickout.maxValue.summary = This is because {0} gave gifts away worth more than £150,000 in the 7 years before they died.
 page.iht.application.gifts.kickout.maxValue.nextSteps2 = If you want to change the value of gifts
 
 #Kickouts - Estate report -Exemptions
@@ -1904,9 +1904,9 @@ page.iht.application.tnrb.kickout.giftMadeBeforeDeath.summary = This is because 
 page.iht.application.tnrb.kickout.stateClaimAnyBusiness.summary = This is because {0} had claimed relief against their estate.
 page.iht.application.tnrb.kickout.partnerGiftWithResToOther.summary = This is because {0} gave a gift with the reservation of benefit.
 page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = This is because {0} had benefitted from a trust during their lifetime.
-page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because the deceased’s previous spouse’s or civil partner’s estate didn’t all pass to the deceased, a charity or another qualifying body.
-page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because the deceased’s previous spouse’s or civil partner’s jointly owned assets didn’t all pass to the deceased.
-page.iht.application.tnrb.kickout.kickOutNonJavaScript.summary = It’s not possible to use the Inheritance Tax Online Service because HMRC need more details about the deceased’s previous spouse’s or civil partner’s estate.
+page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because {0}’s previous spouse’s or civil partner’s estate didn’t all pass to the deceased, a charity or another qualifying body.
+page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because {0}’s previous spouse’s or civil partner’s jointly owned assets didn’t all pass to the deceased.
+page.iht.application.tnrb.kickout.kickOutNonJavaScript.summary = It’s not possible to use the Inheritance Tax Online Service because HMRC need more details about {0}’s previous spouse’s or civil partner’s estate.
 iht.application.TnrbEligibilty.kickout.message = Not eligible for TNRB.
 
 # Kickout  - Estate report - return link text

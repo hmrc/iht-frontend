@@ -72,7 +72,8 @@ trait KickoutController extends ApplicationController {
                     applicationDetails.increaseIhtThreshold,
                     applicationDetails.widowCheck,
                     Some(Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous")))
-                )
+                ).fold(CommonHelper.getDeceasedNameOrDefaultString(regDetails))(identity)
+
                 Ok(iht.views.html.application.iht_kickout_application(kickoutReason, applicationDetails,
                   applicationLastSection, applicationLastID, summaryParameter1))
               case _ =>
