@@ -825,9 +825,9 @@ iht.estateReport.assets.propertyAdd = Add a property, building or land
 page.iht.application.assets.money.overview.description.p1 = This is the value of any money that {0} had.
 page.iht.application.assets.money.overview.description.p2 = This includes any money in banks, building societies, National Savings investments, ISAs and safety deposit boxes. You should also include any cash {0} had in notes and coins.
 page.iht.application.assets.money.overview.description.p3 = If {0} had any foreign cash in the UK, you should change the value to British pounds using the exchange rate on the date of death and include that amount here.
-page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue = Give an answer for money owned only by the deceased
-page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.change = Change the answer for money owned only by the deceased
-page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.value = Change the value of money owned only by the deceased
+page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue = Give an answer for money owned only by {0}
+page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.change = Change the answer for money owned only by {0}
+page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.value = Change the value of money owned only by {0}
 
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.noValue = Give an answer for money jointly owned with other people
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.change = Change the answer for money jointly owned with other people
@@ -843,9 +843,9 @@ page.iht.application.assets.money.inputLabel1 = Value of money owned by the dece
 page.iht.application.assets.money.jointly.owned.browserTitle = Joint money owned
 page.iht.application.assets.money.jointly.owned.guidance.p1 = This is the value of any money that {0} had which was jointly owned with any other people.
 page.iht.application.assets.money.jointly.owned.guidance.p2 = This includes any of {0}’s money provided into a joint account, either by them or by someone else like their employer.
-page.iht.application.assets.money.jointly.owned.guidance.p3 = Only include {0}’s share of the money. If they provided all of the money into a joint account, include the full amount. If {1} was only named on a joint account but provided no money, you shouldn’t include that account as part of their estate.
+page.iht.application.assets.money.jointly.owned.guidance.p3 = Only include {0}’s share of the money. If they provided all of the money into a joint account, include the full amount. If {1} was only named on a joint account but provided no money, do not include that account as part of their estate.
 page.iht.application.assets.money.jointly.owned.question = Did {0} jointly own any money with any other people?
-page.iht.application.assets.money.jointly.owned.input.value.label = Value of the deceased’s share of any jointly owned money
+page.iht.application.assets.money.jointly.owned.input.value.label = Value of {0}’s share of any jointly owned money
 
 page.iht.application.assets.household.sectionName = household
 page.iht.application.assets.household.description.p1 = These are items, such as electrical goods and furniture, along with personal items such as jewellery.
@@ -855,7 +855,7 @@ iht.estateReport.assets.money.jointlyOwned = Money jointly owned with other peop
 iht.estateReport.assets.money.lowerCaseInitial = money, including any cash, cheques, bank transfers and items that the person who died spent money on
 iht.estateReport.assets.money.ownName.question = Did {0} own any money in their own name?
 iht.estateReport.assets.money.upperCaseInitial = Money
-iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money owned by the deceased only in their name
+iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money owned by {0} only in their name
 iht.estateReport.assets.moneyOwed = Money owed to {0}
 iht.estateReport.assets.moneyOwned = Money owned only by {0}
 
@@ -867,21 +867,21 @@ page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to {0} w
 
 #Estate report - Assets - Household and personal items
 page.iht.application.assets.household.deceased.browserTitle = Own household items owned
-page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue = Give an answer for household and personal items held in the deceased’s name
-page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change = Change the answer for household and personal items held in the deceased’s name
-page.iht.application.assets.household.overview.deceased.value.screenreader.link.change = Change the answer for value of household and personal items held in the deceased’s name
+page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue = Give an answer for household and personal items held in {0}’s name
+page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change = Change the answer for household and personal items held in {0}’s name
+page.iht.application.assets.household.overview.deceased.value.screenreader.link.change = Change the answer for value of household and personal items held in {0}’s name
 
 page.iht.application.assets.household.joint.browserTitle = Joint household items owned
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.noValue = Give an answer for jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change = Change the answer for jointly owned household and personal items
-page.iht.application.assets.household.overview.joint.value = Value of the deceased’s share of any jointly owned household and personal items
+page.iht.application.assets.household.overview.joint.value = Value of {0}’s share of any jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.value.screenreader.link.change = Change the answer for value of jointly owned household and personal items
-page.iht.application.assets.household.overview.guidance = These are items such as electrical goods and furniture, along with personal items such as jewellery.
+page.iht.application.assets.household.overview.guidance = These are items like electrical goods and furniture, along with personal items like jewellery.
 
-iht.estateReport.assets.household.deceasedOwnedValue = Value of what the deceased owned in their own name
+iht.estateReport.assets.household.deceasedOwnedValue = Value of what {0} owned in their own name
 iht.estateReport.assets.household.joint.question = Did {0} jointly own any household and personal items with any other people?
 iht.estateReport.assets.household.ownName.question = Did {0} own any household and personal items in their own name?
-iht.estateReport.assets.household.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned items
+iht.estateReport.assets.household.valueOfJointlyOwned = Value of {0}’s share of any jointly owned items
 iht.estateReport.assets.householdAndPersonalItems.title = Household and personal items
 iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title = Household and personal items {0} owned jointly with other people
 iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title = Household and personal items owned only by {0}
@@ -906,7 +906,7 @@ page.iht.application.assets.vehicles.jointly.owned.value.screenreader.link.chang
 iht.estateReport.assets.vehicles = Motor vehicles
 iht.estateReport.assets.vehicles.jointly.owned.question = Did {0} jointly own any motor vehicles with any other people?
 iht.estateReport.assets.vehicles.ownName.question = Did {0} own any motor vehicles in their own name?
-iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned motor vehicles
+iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of {0}’s share of any jointly owned motor vehicles
 iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by {0}
 
 #Estate report - Assets - Private pensions
