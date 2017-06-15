@@ -1349,12 +1349,12 @@ page.iht.application.debts.mortgages.table.owned.screenReader = {0} {1} is owned
 page.iht.application.debts.mortgages.table.value.screenReader = The value of {0} {1} is £{2}
 page.iht.application.debts.mortgages.table.mortgageValue.screenReader = Enter the value of the deceased’s share of mortgage for {0} {1}
 
-page.iht.application.debts.funeralExpenses.description.p1 = You can deduct some funeral expenses. Things that could be claimed as an expense are flowers, refreshments for mourners and any necessary expenses to cover the funeral arrangements and the cost of a headstone or plaque to mark the deceased’s grave. This will come out of the estate as a debt.
-page.iht.application.debts.funeralExpenses.description.p2 = If {0} paid for a funeral plan before they died, this wouldn’t be a funeral expense. Any travelling or accommodation costs for mourners, or any flowers or refreshments that they gave, can’t be claimed as a funeral expense.
+page.iht.application.debts.funeralExpenses.description.p1 = You can deduct some funeral expenses. Things that could be claimed as an expense are flowers, refreshments for mourners and any necessary expenses to cover the funeral arrangements and the cost of a headstone or plaque to mark the grave. This will come out of the estate as a debt.
+page.iht.application.debts.funeralExpenses.description.p2 = If {0} paid for a funeral plan before they died, this would not be a funeral expense. Any travelling or accommodation costs for mourners, or any flowers or refreshments that they gave, cannot be claimed as a funeral expense.
 page.iht.application.debts.funeralExpenses.isOwned = Are there any funeral expenses being paid out of the estate?
 
 page.iht.application.debts.debtsTrust.browserTitle = Debts owed from trust
-page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that {0} was benefitting from. If the trustees only gave you the value of a trust after deducting any debts then you shouldn’t include a value here.
+page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that {0} was benefitting from. If the trustees only gave you the value of a trust after deducting any debts then do not include a value here.
 page.iht.application.debts.debtsTrust.isOwned = Are there any debts being paid out of the estate that are owed from a trust that {0} benefitted from?
 
 page.iht.application.debts.debtsOutsideUk.browserTitle = Foreign debts
@@ -1364,7 +1364,7 @@ page.iht.application.debts.debtsOutsideUk.isOwned = Are there any debts being pa
 
 page.iht.application.debts.jointlyOwned.browserTitle = Joint debts
 page.iht.application.debts.jointlyOwned.description.p1 = This is if {0} jointly owned any assets and there are debts owed on them. This does not include the mortgage on any jointly owned properties.
-page.iht.application.debts.jointlyOwned.description.p2 = You should only include the deceased’s share of any debts owed on jointly owned assets.
+page.iht.application.debts.jointlyOwned.description.p2 = You should only include {0}’s share of any debts owed on jointly owned assets.
 page.iht.application.debts.jointlyOwned.isOwned = Are there any debts being paid out of the estate that are owed on any jointly owned assets?
 
 page.iht.application.debts.other.browserTitle = Other debts
@@ -1488,7 +1488,7 @@ page.iht.application.exemptions.charityNumber.p2 = on the Charity Commission web
 page.iht.application.exemptions.charityDelete.sectionTitle = Confirm that you want to delete this charity
 page.iht.application.exemptions.charityDelete.browserTitle = Delete charity
 
-page.iht.application.exemptions.charityValue.sectionTitle = Total value of assets left to the charity
+page.iht.application.exemptions.charityValue.sectionTitle = Total value of all assets left to the charity
 page.iht.application.exemptions.charityValue.browserTitle = Value of assets left to charity
 
 page.iht.application.exemptions.charityName.sectionTitle = What is the charity’s name?
@@ -1538,7 +1538,7 @@ iht.estateReport.exemptions.charities.totalValueOfAssetsCharityReceived = Total 
 iht.estateReport.assets.qualifyingBodyAddAnother = Add another qualifying body
 iht.estateReport.assets.qualifyingBodyAdd = Add a qualifying body
 
-page.iht.application.exemptions.qualifyingBody.value.sectionTitle = Total value of assets left to the qualifying body
+page.iht.application.exemptions.qualifyingBody.value.sectionTitle = Total value of all assets left to the qualifying body
 page.iht.application.exemptions.qualifyingBody.value.browserTitle = Value of assets left to body
 
 page.iht.application.exemptions.qualifyingBody.name.sectionTitle = What is the qualifying body’s name?
