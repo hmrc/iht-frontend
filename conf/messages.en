@@ -3,8 +3,8 @@ site.pdf.document.link.text = PDF document
 iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off. (PDF, <500KB)
 site.copyApplication.link = copy of the application
 site.title.govuk = - GOV.UK
-site.application.title = Complete an estate report
-site.registration.title = Register to complete an estate report
+site.application.title = Complete an Inheritance Tax estate report
+site.registration.title = Register to complete an Inheritance Tax estate report
 site.date-hint-text = For example, 31 12 2014
 site.nino.hint = For example, VO 12 34 56 D
 site.phoneNo.hint = This can be a mobile or a landline. HMRC might need to contact them about any of the details you provide.
@@ -175,7 +175,6 @@ iht.needHelp.guidance = If you need help with completing this estate report, con
 iht.theDeceased = The deceased
 
 #Private Beta landing page
-page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report
 page.iht.private.beta.landing.page.intro.p1 = Use this service to:
 page.iht.private.beta.landing.page.intro.bullet1 = start the process in applying to the Probate Service for a
 page.iht.private.beta.landing.page.intro.bullet1.link = grant of representation
