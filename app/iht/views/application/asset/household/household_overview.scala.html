@@ -70,7 +70,7 @@ isFullWidth=false
                             questionCategory= "change",
                             answerValue=Messages(getBooleanDisplayValue(household.flatMap(_.isOwned.map(x=>x)))),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change")
+                            linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName)
                         ),
 
                         generic_overview_table_item(id = "deceased-own-value",

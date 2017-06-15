@@ -841,7 +841,7 @@ page.iht.application.assets.money.inputLabel1 = Value of money owned by the dece
 page.iht.application.assets.money.jointly.owned.browserTitle = Joint money owned
 page.iht.application.assets.money.jointly.owned.guidance.p1 = This is the value of any money that {0} had which was jointly owned with any other people.
 page.iht.application.assets.money.jointly.owned.guidance.p2 = This includes any of {0}’s money provided into a joint account, either by them or by someone else like their employer.
-page.iht.application.assets.money.jointly.owned.guidance.p3 = Only include {0}’s share of the money. If they provided all of the money into a joint account, include the full amount. If {1} was only named on a joint account but provided no money, you shouldn’t include that account as part of their estate.
+page.iht.application.assets.money.jointly.owned.guidance.p3 = Only include {0}’s share of the money. If they provided all of the money into a joint account, include the full amount. If {1} was only named on a joint account but provided no money, do not include that account as part of their estate.
 page.iht.application.assets.money.jointly.owned.question = Did {0} jointly own any money with any other people?
 page.iht.application.assets.money.jointly.owned.input.value.label = Value of {0}’s share of any jointly owned money
 
@@ -874,7 +874,7 @@ page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.n
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change = Change the answer for jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.value = Value of {0}’s share of any jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.value.screenreader.link.change = Change the answer for value of jointly owned household and personal items
-page.iht.application.assets.household.overview.guidance = These are items such as electrical goods and furniture, along with personal items like jewellery.
+page.iht.application.assets.household.overview.guidance = These are items like electrical goods and furniture, along with personal items like jewellery.
 
 iht.estateReport.assets.household.deceasedOwnedValue = Value of what {0} owned in their own name
 iht.estateReport.assets.household.joint.question = Did {0} jointly own any household and personal items with any other people?
