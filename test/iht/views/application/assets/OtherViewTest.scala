@@ -40,7 +40,7 @@ class OtherViewTest extends ShareableElementInputViewBehaviour[BasicEstateElemen
   override def pageTitle = messagesApi("iht.estateReport.assets.other.title")
   override def browserTitle = messagesApi("page.iht.application.assets.other.browserTitle")
   override def questionTitle = messagesApi("page.iht.application.assets.other.isOwned", deceasedName)
-  override def valueQuestion = messagesApi("page.iht.application.assets.other.inputLabel1")
+  override def valueQuestion = messagesApi("page.iht.application.assets.other.inputLabel1", deceasedName)
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)

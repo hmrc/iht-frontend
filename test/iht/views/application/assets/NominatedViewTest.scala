@@ -40,7 +40,7 @@ class NominatedViewTest extends ShareableElementInputViewBehaviour[BasicEstateEl
   override def pageTitle = messagesApi("iht.estateReport.assets.nominated")
   override def browserTitle = messagesApi("page.iht.application.assets.nominated.browserTitle")
   override def questionTitle = messagesApi("page.iht.application.assets.nominated.question", deceasedName)
-  override def valueQuestion = messagesApi("page.iht.application.assets.nominated.inputLabel1")
+  override def valueQuestion = messagesApi("page.iht.application.assets.nominated.inputLabel1", deceasedName)
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)
