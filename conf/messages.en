@@ -860,10 +860,10 @@ iht.estateReport.assets.moneyOwed = Money owed to {0}
 iht.estateReport.assets.moneyOwned = Money owned only by {0}
 
 page.iht.application.assets.moneyOwed.description.p1 = This is any money owed to {0} when they died.
-page.iht.application.assets.moneyOwed.description.p2 = This could be a loan {0} made to someone or to a business and wasn’t paid back before they died.
+page.iht.application.assets.moneyOwed.description.p2 = This could be a loan {0} made to someone or to a business that was not paid back before they died.
 page.iht.application.assets.moneyOwed.description.p3 = You should include the total value that was still owed to {0} and include any unpaid interest.
 page.iht.application.assets.moneyOwed.isOwned = Was any money owed to {0}?
-page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to the deceased when they died
+page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to {0} when they died
 
 #Estate report - Assets - Household and personal items
 page.iht.application.assets.household.deceased.browserTitle = Own household items owned
@@ -1042,18 +1042,18 @@ page.iht.application.assets.businessInterest.browserTitle = Business interests o
 page.iht.application.assets.businessInterest.description.p1 = This should include the value of {0}’s business interests.
 page.iht.application.assets.businessInterest.description.p2 = If {0} owned any business properties, buildings or land, you should give these details in the properties, buildings and land section.
 page.iht.application.assets.businessInterest.isOwned = Did {0} own any businesses or have any other business interests when they died?
-page.iht.application.assets.businessInterest.inputLabel1 = Value of the deceased’s business interests when they died
-page.iht.application.assets.businessInterest.hint = Don’t include any business properties, buildings or land that were owned.
+page.iht.application.assets.businessInterest.inputLabel1 = Value of {0}’s business interests when they died
+page.iht.application.assets.businessInterest.hint = Do not include any business properties, buildings or land that were owned.
 
 #Estate report - Assets - Nominated
 iht.estateReport.assets.nominated = Nominated assets
 page.iht.application.assets.nominated.sectionName = nominated
 page.iht.application.assets.nominated.browserTitle = Nominated assets owned
-page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These should not be confused with an asset being left to someone in a will. If something is left to someone in a will, this isn’t a nominated asset.
+page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These should not be confused with an asset being left to someone in a will. If something is left to someone in a will, this is not a nominated asset.
 page.iht.application.assets.nominated.description.p2 = Nominated assets could have been set up when an account was opened with friendly societies, or industrial and provident societies. Before 1 March 1981, National Savings certificates and accounts could also be nominated to pass to someone.
 page.iht.application.assets.nominated.description.p3 = The provider will be able to tell you if the asset was nominated to pass to someone.
-page.iht.application.assets.nominated.description.p4 = Don’t include pension benefits that were nominated to pass to someone. You should include that value with private pensions.
-page.iht.application.assets.nominated.inputLabel1 = Value of the nominated assets when the deceased died
+page.iht.application.assets.nominated.description.p4 = Do not include pension benefits that were nominated to pass to someone. You should include that value with private pensions.
+page.iht.application.assets.nominated.inputLabel1 = Value of the nominated assets when {0} died
 page.iht.application.assets.nominated.question = Did {0} have any nominated assets?
 
 #Estate report - Assets - Assets held in a trust
@@ -1086,7 +1086,7 @@ iht.estateReport.assets.trusts.question = Did {0} benefit from, or have the righ
 iht.estateReport.assets.foreign.title = Foreign assets
 page.iht.application.assets.foreign.sectionName = foreign
 page.iht.application.assets.foreign.description.p1 = If {0} owned any assets outside of the UK, you should change the value into British pounds. The Isle of Man and the Channel Islands are not part of the UK.
-page.iht.application.assets.foreign.inputLabel1 = Value in British pounds of the deceased’s foreign assets when they died
+page.iht.application.assets.foreign.inputLabel1 = Value in British pounds of {0}’s foreign assets when they died
 page.iht.application.assets.foreign.deceasedOwned.question = Did {0} own any foreign assets?
 
 #Estate report - Assets - Money owed to deceased
@@ -1113,7 +1113,7 @@ page.iht.application.assets.other.browserTitle = Other assets owned
 page.iht.application.assets.other.description.p1 = This is the total value of any other assets that are not included in any other section.
 page.iht.application.assets.other.description.p2 = This could be any money owed in salary or wages, pension arrears, rents owed to {0}, or refunds from utility bills.
 page.iht.application.assets.other.isOwned = Did {0} own any other assets?
-page.iht.application.assets.other.inputLabel1 = Value of any other assets when the deceased died
+page.iht.application.assets.other.inputLabel1 = Value of any other assets owned by {0} when they died
 
 #Estate report - Gifts
 page.iht.application.gifts.guidance.button.continueToGifts = Continue to gifts given away
