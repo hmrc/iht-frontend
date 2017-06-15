@@ -1906,8 +1906,8 @@ page.iht.application.tnrb.kickout.giftMadeBeforeDeath.summary = This is because 
 page.iht.application.tnrb.kickout.stateClaimAnyBusiness.summary = This is because {0} had claimed relief against their estate.
 page.iht.application.tnrb.kickout.partnerGiftWithResToOther.summary = This is because {0} gave a gift with the reservation of benefit.
 page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = This is because {0} had benefitted from a trust during their lifetime.
-page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because {0}’s previous spouse’s or civil partner’s estate didn’t all pass to the deceased, a charity or another qualifying body.
-page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because {0}’s previous spouse’s or civil partner’s jointly owned assets didn’t all pass to the deceased.
+page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because {0}’s or civil partner’s estate didn’t all pass to {1}, a charity or another qualifying body.
+page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because {0}’s or civil partner’s jointly owned assets didn’t all pass to {1}.
 page.iht.application.tnrb.kickout.kickOutNonJavaScript.summary = It’s not possible to use the Inheritance Tax Online Service because HMRC need more details about {0}’s previous spouse’s or civil partner’s estate.
 iht.application.TnrbEligibilty.kickout.message = Not eligible for TNRB.
 

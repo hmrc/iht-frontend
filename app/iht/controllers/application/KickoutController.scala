@@ -65,17 +65,17 @@ trait KickoutController extends ApplicationController {
                 val applicationLastID = cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey)
 
                 cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
-
+                val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
                 lazy val summaryParameter1 = ApplicationKickOutHelper.sources
                   .find(source => source._1 == kickoutReason && source._2 == KickOutSource.TNRB).map(_ =>
                   TnrbHelper.spouseOrCivilPartnerLabelWithOptions(
                     applicationDetails.increaseIhtThreshold,
                     applicationDetails.widowCheck,
-                    Some(Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous", CommonHelper.getDeceasedNameOrDefaultString(regDetails))))
-                ).fold(CommonHelper.getDeceasedNameOrDefaultString(regDetails))(identity)
+                    Some(Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous", deceasedName)))
+                ).fold(deceasedName)(identity)
 
                 Ok(iht.views.html.application.iht_kickout_application(kickoutReason, applicationDetails,
-                  applicationLastSection, applicationLastID, summaryParameter1))
+                  applicationLastSection, applicationLastID, summaryParameter1, deceasedName))
               case _ =>
                 val ihtRef = CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference)
                 Redirect(iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtRef))
