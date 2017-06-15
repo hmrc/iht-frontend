@@ -1701,7 +1701,7 @@ page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label = ma
 
 page.iht.application.tnrbEligibilty.partner.additional.label.the = the
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased = {0}’s
-page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = the deceased’s previous
+page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = {0}’s previous
 page.iht.application.tnrbEligibilty.partner.additional.label.name.of.the = Name of the
 page.iht.application.tnrbEligibilty.partner.additional.label.their = their
 
