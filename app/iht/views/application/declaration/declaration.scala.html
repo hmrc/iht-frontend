@@ -28,6 +28,8 @@
 browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
     @helpers.form(action = iht.controllers.application.declaration.routes.DeclarationController.onSubmit) {
 
+        @defining(CommonHelper.getDeceasedNameOrDefaultString(model.registrationDetails)) { deceasedName =>
+
         @model.riskMessageFromEdh.map{ riskMessage =>
                 <div class="alert">
                     @riskMessage
@@ -72,7 +74,7 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                 <ul class="list-bullet">
                     <li id="summary-bullet1-text">@Messages("iht.estateReport.declaration.withholdInformation")</li>
                     <li id="summary-bullet2-text">@Messages("iht.estateReport.declaration.dontTellHMRC")</li>
-                    @DeclarationViewHelper.summaryBullet3Text(model.declarationType, model.isMultipleExecutor).map{text=>
+                    @DeclarationViewHelper.summaryBullet3Text(model.declarationType, model.isMultipleExecutor, deceasedName).map{text=>
                         <li id="summary-bullet3-text">@text</li>
                     }
                 </ul>
@@ -85,13 +87,13 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                 <h2  id="main-text" class="heading-medium">@Messages("iht.estateReport.declaration.declaringThat")</h2>
                 <ul class="list-bullet">
                     <li id="main-bullet1-text" class="bold">
-                        @DeclarationViewHelper.mainBullet1Text(model.declarationType, model.isMultipleExecutor)
+                        @DeclarationViewHelper.mainBullet1Text(model.declarationType, model.isMultipleExecutor, deceasedName)
                     </li>
                     <li id="main-bullet2-text" class="bold">
                         @DeclarationViewHelper.mainBullet2Text(model.declarationType, model.isMultipleExecutor)
                     </li>
                     <li id="main-bullet3-text" class="bold">
-                        @DeclarationViewHelper.mainBullet3Text(model.declarationType, model.isMultipleExecutor)
+                        @DeclarationViewHelper.mainBullet3Text(model.declarationType, model.isMultipleExecutor, deceasedName)
                     </li>
                     @DeclarationViewHelper.mainBullet4Text(model.declarationType, model.isMultipleExecutor).map{text=>
                         <li id="main-bullet4-text" class="bold">@text</li>
@@ -113,4 +115,5 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
                 CommonHelper.getOrExceptionNoIHTRef(model.registrationDetails.ihtReference))'>
             @Messages("iht.estateReport.returnToEstateOverview")</a>
     }
+}
 }
