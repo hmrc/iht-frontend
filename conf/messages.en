@@ -575,10 +575,10 @@ page.iht.home.button.continueApplication.screenReader = Continue {0}’s estate 
 page.iht.home.button.viewApplication.screenReader = View {0}’s estate report
 
 #Estate report - Application Status - Closed
-page.iht.application.overview.closed.helptext = When you’ve completed everything to do with this estate, including receiving your grant of representation from the Probate Service, you can complete clearance of this estate report.
+page.iht.application.overview.closed.helptext = When you have completed everything to do with this estate, including receiving your grant of representation from the Probate Service, you can complete clearance of this estate report.
 page.iht.application.overview.closed.warning = By completing clearance you are confirming that you have nothing left to do with this estate. HMRC will give you a certificate that you can download or print and which confirms that this estate report has been cleared.
 page.iht.application.overview.closed.clearance = Complete clearance of this estate report
-page.iht.application.overview.closed.sidebartitle = This estate report hasn’t been cleared.
+page.iht.application.overview.closed.sidebartitle = This estate report has not been cleared.
 
 #Estate report - Application Status - In Review
 page.iht.application.overview.inreview.title = This estate report is being reviewed by HMRC
@@ -593,7 +593,7 @@ page.iht.application.overview.cleared.sidebartitle = You have completed clearanc
 #Estate report - Application Status - Review/Closed/Clearance/Certificate
 page.iht.application.overview.common.title = This estate report has been closed
 page.iht.application.overview.common.estatevalue = Based on the details you have provided, {0}’s estate is below the threshold and there is no Inheritance Tax to pay.
-page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by the deceased that weren’t included in this estate report, let HMRC know by using a
+page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by {0} that were not included in this estate report, let HMRC know by using a
 page.iht.application.overview.common.helptext.part2 = Only do this if these assets increase the value of the estate over the Inheritance Tax threshold.
 page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
 page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, <500KB)
@@ -1802,7 +1802,7 @@ page.iht.application.probateDetails.guidance = What do these figures mean?
 page.iht.application.probateDetails.guidance.bullet1 = the IHT identifier is a reference that can be used by probate to link this estate report
 page.iht.application.probateDetails.guidance.bullet2 = the gross estate figure is the total of assets and gifts in the estate
 page.iht.application.probateDetails.guidance.bullet3 = the net estate figure is the value of assets and gifts in the estate after any debts and estate exemptions have been taken off
-page.iht.application.probateDetails.yourProbateText = For your Probate Application Form:
+page.iht.application.probateDetails.yourProbateText = For your PA1 - Probate application form:
 page.iht.application.probateDetails.probateDetailsNotAvailableText = You’ll need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
 
 #Estate report - Pdf

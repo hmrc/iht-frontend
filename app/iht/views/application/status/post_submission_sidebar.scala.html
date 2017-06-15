@@ -26,7 +26,9 @@
         </a>
     </p>
     <p id="probate-details-your-probate-text">@Messages("page.iht.application.probateDetails.yourProbateText")</p>
-    <p id="probate-details-iht-identifier">@Messages("page.iht.application.probateDetails.content2.bullet1") <br/> @formattedProbateReference(probateDetails.probateReference)</p>
-    <p id="probate-details-gross-estate-figure">@Messages("page.iht.application.probateDetails.content2.bullet2",probateDetails.grossEstateforProbatePurposes)</p>
-    <p id="probate-details-net-estate-figure">@Messages("page.iht.application.probateDetails.content2.bullet3",probateDetails.netEstateForProbatePurposes)</p>
+    <ul class="bullets">
+        <li id="probate-details-iht-identifier">@Messages("page.iht.application.probateDetails.content2.bullet1") <br/> @formattedProbateReference(probateDetails.probateReference)</li>
+        <li id="probate-details-gross-estate-figure">@Messages("page.iht.application.probateDetails.content2.bullet2",probateDetails.grossEstateforProbatePurposes)</li>
+        <li id="probate-details-net-estate-figure">@Messages("page.iht.application.probateDetails.content2.bullet3",probateDetails.netEstateForProbatePurposes)</li>
+    </ul>
 </div>
