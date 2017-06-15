@@ -42,7 +42,7 @@ class BusinessInterestsViewTest  extends ShareableElementInputViewBehaviour[Basi
   override def pageTitle = messagesApi("iht.estateReport.assets.businessInterests.title")
   override def browserTitle = messagesApi("page.iht.application.assets.businessInterest.browserTitle")
   override def questionTitle = messagesApi("page.iht.application.assets.businessInterest.isOwned", deceasedName)
-  override def valueQuestion = messagesApi("page.iht.application.assets.businessInterest.inputLabel1")
+  override def valueQuestion = messagesApi("page.iht.application.assets.businessInterest.inputLabel1", deceasedName)
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = messagesApi("page.iht.application.assets.businessInterest.hint")
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)

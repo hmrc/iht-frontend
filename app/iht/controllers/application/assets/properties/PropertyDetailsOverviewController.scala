@@ -44,7 +44,7 @@ trait PropertyDetailsOverviewController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { registrationDetails =>
-          val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
           Future.successful(Ok(iht.views.html.application.asset.properties.property_details_overview(deceasedName)))
         }
       }
@@ -55,7 +55,7 @@ trait PropertyDetailsOverviewController extends EstateController {
       implicit request => {
 
         withRegistrationDetails { registrationDetails =>
-          val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),

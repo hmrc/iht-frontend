@@ -30,6 +30,8 @@ import scala.collection.immutable.ListMap
   */
 class PdfFormatterTest extends FormTestHelper {
 
+  val regDetails = CommonBuilder.buildRegistrationDetails1
+
   "display value" must {
     "must return the year from specified date" in {
       val result = PdfFormatter.getYearFromDate("1990-06-05")
@@ -83,7 +85,7 @@ class PdfFormatterTest extends FormTestHelper {
 
     "map the tenure value from messages file" in {
       val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
-      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, messages)
+      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.tenure
       result shouldBe Some(messagesApi("page.iht.application.assets.tenure.freehold.label"))
@@ -91,7 +93,7 @@ class PdfFormatterTest extends FormTestHelper {
 
     "map the property type value from messages file" in {
       val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
-      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, messages)
+      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.propertyType
       result shouldBe Some(messagesApi("page.iht.application.assets.propertyType.deceasedHome.label"))
@@ -99,10 +101,12 @@ class PdfFormatterTest extends FormTestHelper {
 
     "map the property ownership value from messages file" in {
       val appDetails = CommonBuilder.buildApplicationDetails.copy(propertyList = CommonBuilder.buildPropertyList)
-      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, messages)
+      val regDetails = CommonBuilder.buildRegistrationDetails1
+      val appDetailsAfterFormatting = PdfFormatter.transform(appDetails, regDetails, messages)
 
       val result = appDetailsAfterFormatting.propertyList.head.typeOfOwnership
-      result shouldBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"))
+      result shouldBe Some(messagesApi("page.iht.application.assets.typeOfOwnership.deceasedOnly.label",
+        regDetails.deceasedDetails.fold("")(_.name)))
     }
   }
 }

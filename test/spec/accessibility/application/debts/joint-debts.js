@@ -33,14 +33,14 @@ describe('Joint debts (Debts), accessibility : ', function() {
 
     it('debts owed on jointly owned assets', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/joint-debts',
+            url: Browser.baseUrl + '/estate-report/joint-debts',
             pageTitle: 'Joint debts'
         })
     });
 
     it('debts owed on jointly owned assets, showing value', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/joint-debts',
+            url: Browser.baseUrl + '/estate-report/joint-debts',
             pageTitle: 'Joint debts'
         })
     });

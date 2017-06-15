@@ -32,12 +32,12 @@ describe('Mortgages (Debts), accessibility : ', function() {
     });
 
     function fillPropertyQuestion(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-properties-buildings-land-owned')
+        driver.get(Browser.baseUrl + '/estate-report/any-properties-buildings-land-owned')
         driver.findElement(By.css('#yes-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
     function fillPropertyValue(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-property')
+        driver.get(Browser.baseUrl + '/estate-report/value-of-property')
         driver.findElement(By.name("value")).sendKeys('150000');
         actionHelper.submitPageHelper(done, driver);
     }
@@ -48,7 +48,7 @@ describe('Mortgages (Debts), accessibility : ', function() {
     }
 
     function fillAnyMortgage(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-mortgage-on-property/1')
+        driver.get(Browser.baseUrl + '/estate-report/any-mortgage-on-property/1')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("value")).sendKeys('150000');
         actionHelper.submitPageHelper(done, driver);
@@ -56,7 +56,7 @@ describe('Mortgages (Debts), accessibility : ', function() {
 
     it('mortgages overview, no properties', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/mortgages',
+            url: Browser.baseUrl + '/estate-report/mortgages',
             pageTitle: "Mortgages"
 
         })
@@ -67,7 +67,7 @@ describe('Mortgages (Debts), accessibility : ', function() {
         fillAnyMortgage(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/mortgages',
+            url: Browser.baseUrl + '/estate-report/mortgages',
             pageTitle: "Mortgages"
         })
     });
@@ -76,7 +76,7 @@ describe('Mortgages (Debts), accessibility : ', function() {
         addProperty(done, driver)
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/any-mortgage-on-property/1',
+            url: Browser.baseUrl + '/estate-report/any-mortgage-on-property/1',
             pageTitle: "Any mortgage on property"
         })
     });

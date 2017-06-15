@@ -24,7 +24,7 @@
 @fieldsetClass = {@if(elements.hasErrors){ form-field--error}}
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 
-<div id="@{elements.field.name}-container" class="@elements.args.get('_divClass) @fieldsetClass" data-main-question="@elements.args.get('_mainQuestion).getOrElse(true)">
+<div @if(elements.args.get('_shownElementYes).isDefined ||elements.args.get('_clearTargetYes).isDefined || elements.args.get('_hiddenElementYes).isDefined){data-exclude="true"} id="@{elements.field.name}-container" class="@elements.args.get('_divClass) @fieldsetClass" data-main-question="@elements.args.get('_mainQuestion).getOrElse(true)">
 
 
 @if(elements.args.get('_legend).isDefined) {

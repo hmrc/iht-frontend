@@ -40,7 +40,7 @@ class MoneyOwedViewTest extends ShareableElementInputViewBehaviour[BasicEstateEl
   override def pageTitle = messagesApi("iht.estateReport.assets.moneyOwed", deceasedName)
   override def browserTitle = messagesApi("iht.estateReport.assets.moneyOwed", messagesApi("iht.the.deceased"))
   override def questionTitle = messagesApi("page.iht.application.assets.moneyOwed.isOwned", deceasedName)
-  override def valueQuestion = messagesApi("page.iht.application.assets.moneyOwed.inputLabel1")
+  override def valueQuestion = messagesApi("page.iht.application.assets.moneyOwed.inputLabel1", deceasedName)
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)

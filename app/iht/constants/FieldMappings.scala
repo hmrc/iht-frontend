@@ -21,7 +21,9 @@ import play.api.i18n.Messages
 import iht.constants.Constants._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.Request
 import scala.collection.immutable.ListMap
+
 object FieldMappings {
 
   val Yes="1"
@@ -53,20 +55,20 @@ object FieldMappings {
     createMapEntry(propertyTypeNonResidential , "page.iht.application.assets.propertyType.nonResidential.label")(messages)
   )
 
-  def typesOfOwnership(implicit messages: Messages): ListMap[String, (String, Some[String], Some[Boolean])] = ListMap(
-    ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label"),
-      Some(messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint")), Some(false))),
+  def typesOfOwnership(deceasedName: String)(implicit messages: Messages): ListMap[String, (String, Some[String], Some[Boolean])] = ListMap(
+    ownershipDeceasedOnly -> ((messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.label", deceasedName),
+      Some(messages("page.iht.application.assets.typeOfOwnership.deceasedOnly.hint", deceasedName)), Some(false))),
     ownershipJoint -> ((messages("page.iht.application.assets.typeOfOwnership.joint.label"),
-      Some(messages("page.iht.application.assets.typeOfOwnership.joint.hint")), Some(true))),
+      Some(messages("page.iht.application.assets.typeOfOwnership.joint.hint", deceasedName)), Some(true))),
     ownershipInCommon -> ((messages("page.iht.application.assets.typeOfOwnership.inCommon.label"),
-      Some(messages("page.iht.application.assets.typeOfOwnership.inCommon.hint")), Some(true)))
+      Some(messages("page.iht.application.assets.typeOfOwnership.inCommon.hint", deceasedName)), Some(true)))
   )
 
-  def tenures(implicit messages: Messages) = ListMap(
+  def tenures(deceasedName: String)(implicit messages: Messages) = ListMap(
     tenureFreehold -> ((messages("page.iht.application.assets.tenure.freehold.label"),
-      Some(messages("page.iht.application.assets.tenure.freehold.hint")), Some(false))),
+      Some(messages("page.iht.application.assets.tenure.freehold.hint", deceasedName)), Some(false))),
     tenureLeasehold -> ((messages("page.iht.application.assets.tenure.leasehold.label"),
-      Some(messages("page.iht.application.assets.tenure.leasehold.hint")), Some(false)))
+      Some(messages("page.iht.application.assets.tenure.leasehold.hint", deceasedName)), Some(false)))
   )
 
   def questionnaireEasyToUse (implicit messages: Messages) = ListMap(

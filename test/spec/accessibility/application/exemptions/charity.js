@@ -32,32 +32,32 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
     });
 
     function fillAssetsLeftToCharity(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-left-to-charity')
+        driver.get(Browser.baseUrl + '/estate-report/assets-left-to-charity')
         driver.findElement(By.css('#yes-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillCharityName(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/charity-name')
+        driver.get(Browser.baseUrl + '/estate-report/charity-name')
         driver.findElement(By.name("name")).sendKeys('Dogs Trust');
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillCharityNumber(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/charity-number/1')
+        driver.get(Browser.baseUrl + '/estate-report/charity-number/1')
         driver.findElement(By.name("charityNumber")).sendKeys('123456');
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillCharityValue(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/assets-value-left-to-charity/1')
+        driver.get(Browser.baseUrl + '/estate-report/assets-value-left-to-charity/1')
         driver.findElement(By.name("totalValue")).sendKeys('5000');
         actionHelper.submitPageHelper(done, driver);
     }
 
     it('assets left to charity yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-left-to-charity',
+            url: Browser.baseUrl + '/estate-report/assets-left-to-charity',
             pageTitle: 'Any assets left to a charity'
         })
     });
@@ -66,7 +66,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
         fillAssetsLeftToCharity(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/add-charity',
+            url: Browser.baseUrl + '/estate-report/add-charity',
             pageTitle: "Add charity"
         })
     });
@@ -78,7 +78,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
         fillCharityValue(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/add-charity/1',
+            url: Browser.baseUrl + '/estate-report/add-charity/1',
             pageTitle: "Add charity"
         })
     });
@@ -90,7 +90,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
         fillCharityValue(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-left-to-charities',
+            url: Browser.baseUrl + '/estate-report/assets-left-to-charities',
             pageTitle: "Assets left to charities"
         })
     });
@@ -100,7 +100,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
         fillCharityName(done, driver)
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/delete-charity/1',
+            url: Browser.baseUrl + '/estate-report/delete-charity/1',
             pageTitle: "Delete charity"
         })
     });
@@ -109,7 +109,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
         fillAssetsLeftToCharity(done, driver)
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/charity-name',
+            url: Browser.baseUrl + '/estate-report/charity-name',
             pageTitle: "Charity name"
         })
     });
@@ -118,7 +118,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
         fillAssetsLeftToCharity(done, driver)
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/charity-number',
+            url: Browser.baseUrl + '/estate-report/charity-number',
             pageTitle: "Charity number"
         })
     });
@@ -127,7 +127,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
         fillAssetsLeftToCharity(done, driver)
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/assets-value-left-to-charity',
+            url: Browser.baseUrl + '/estate-report/assets-value-left-to-charity',
             pageTitle: "Value of assets left to charity"
         })
     });

@@ -66,7 +66,7 @@ trait MortgagesOverviewController extends ApplicationController {
 
           Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(propertyList,
             updatedMortgageList,
-            FieldMappings.typesOfOwnership,
+            FieldMappings.typesOfOwnership(regDetails.deceasedDetails.fold("")(_.name)),
             regDetails,
             onCancel,
             onCancelMessageKey)))
@@ -75,7 +75,7 @@ trait MortgagesOverviewController extends ApplicationController {
         case _ => {
           Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(Nil,
             Nil,
-            FieldMappings.typesOfOwnership,
+            FieldMappings.typesOfOwnership(regDetails.deceasedDetails.fold("")(_.name)),
             regDetails,
             onCancel,
             onCancelMessageKey)))

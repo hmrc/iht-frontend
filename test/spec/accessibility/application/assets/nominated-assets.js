@@ -33,14 +33,14 @@ describe('Nominated assets (Assets) accessibility : ', function() {
 
     it('nominated assets yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/nominated-assets-owned',
+            url: Browser.baseUrl + '/estate-report/nominated-assets-owned',
             pageTitle: 'Nominated assets owned'
         })
     });
 
     it('nominated assets yes/no, with value', function (done) {
         behaves.actsAsYesNoWithValue(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/nominated-assets-owned',
+            url: Browser.baseUrl + '/estate-report/nominated-assets-owned',
             pageTitle: 'Nominated assets owned'
         })
     });

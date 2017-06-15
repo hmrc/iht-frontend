@@ -32,19 +32,19 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     function fillTrustQuestion(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/any-assets-in-trust')
+        driver.get(Browser.baseUrl + '/estate-report/any-assets-in-trust')
         driver.findElement(By.css('#yes-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillHowManyTrusts(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/how-many-trusts')
+        driver.get(Browser.baseUrl + '/estate-report/how-many-trusts')
         driver.findElement(By.css('#no-label')).click();
         actionHelper.submitPageHelper(done, driver);
     }
 
     function fillValueOfTrust(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/value-of-trusts')
+        driver.get(Browser.baseUrl + '/estate-report/value-of-trusts')
         driver.findElement(By.name("value")).sendKeys('5000');
         actionHelper.submitPageHelper(done, driver);
     }
@@ -52,7 +52,7 @@ describe('Trusts (Assets) accessibility : ', function() {
 
     it('benefit from trusts yes/no', function (done) {
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/any-assets-in-trust',
+            url: Browser.baseUrl + '/estate-report/any-assets-in-trust',
             pageTitle: "Any assets in trust"
 
         })
@@ -62,7 +62,7 @@ describe('Trusts (Assets) accessibility : ', function() {
         fillTrustQuestion(done, driver);
 
          behaves.actsAsBasicPage(done, driver, {
-             url: 'http://localhost:9070/inheritance-tax/estate-report/assets-in-trust',
+             url: Browser.baseUrl + '/estate-report/assets-in-trust',
              pageTitle: "Assets held in trust"
 
          })
@@ -74,7 +74,7 @@ describe('Trusts (Assets) accessibility : ', function() {
         fillValueOfTrust(done, driver);
 
          behaves.actsAsBasicPage(done, driver, {
-             url: 'http://localhost:9070/inheritance-tax/estate-report/assets-in-trust',
+             url: Browser.baseUrl + '/estate-report/assets-in-trust',
              pageTitle: "Assets held in trust"
 
          })
@@ -84,7 +84,7 @@ describe('Trusts (Assets) accessibility : ', function() {
         fillTrustQuestion(done, driver);
 
         behaves.actsAsStandardForm(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/how-many-trusts',
+            url: Browser.baseUrl + '/estate-report/how-many-trusts',
             pageTitle: "How many trusts benefitted"
 
         })
@@ -94,7 +94,7 @@ describe('Trusts (Assets) accessibility : ', function() {
         fillTrustQuestion(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/value-of-trusts',
+            url: Browser.baseUrl + '/estate-report/value-of-trusts',
             pageTitle: "Trust value"
 
         })

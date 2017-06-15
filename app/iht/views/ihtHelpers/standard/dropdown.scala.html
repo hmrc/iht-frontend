@@ -28,7 +28,7 @@
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 @labelHighlight = @{ elements.args.get('_labelHighlight).getOrElse(false).asInstanceOf[Boolean] }
 
-<div class="form-group @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}">
+<div data-exclude="true" class="form-group @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}">
 
     @if(isComboBox){
         <label for="iht-auto-complete" hidden class="js-visible @elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)-js} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">

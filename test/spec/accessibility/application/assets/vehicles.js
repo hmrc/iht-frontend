@@ -32,13 +32,13 @@ describe('Vehicles (Assets) accessibility : ', function() {
     });
 
     function fillVehiclesOwned(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/own-vehicles-owned')
+        driver.get(Browser.baseUrl + '/estate-report/own-vehicles-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("value")).sendKeys('5000');
         actionHelper.submitPageHelper(done, driver);
     }
     function fillVehiclesJointlyOwned(done, driver){
-        driver.get('http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-jointly-owned')
+        driver.get(Browser.baseUrl + '/estate-report/motor-vehicles-jointly-owned')
         driver.findElement(By.css('#yes-label')).click();
         driver.findElement(By.name("shareValue")).sendKeys('8000');
         actionHelper.submitPageHelper(done, driver);
@@ -46,7 +46,7 @@ describe('Vehicles (Assets) accessibility : ', function() {
 
     it('vehicles overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned',
+            url: Browser.baseUrl + '/estate-report/motor-vehicles-owned',
             pageTitle: "Motor vehicles"
 
         })
@@ -57,7 +57,7 @@ describe('Vehicles (Assets) accessibility : ', function() {
         fillVehiclesJointlyOwned(done, driver);
 
         behaves.actsAsBasicPage(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-owned',
+            url: Browser.baseUrl + '/estate-report/motor-vehicles-owned',
             pageTitle: "Motor vehicles"
 
         })
@@ -65,7 +65,7 @@ describe('Vehicles (Assets) accessibility : ', function() {
 
     it('vehicles owned by deceased', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/own-vehicles-owned',
+            url: Browser.baseUrl + '/estate-report/own-vehicles-owned',
             pageTitle: "Motor vehicles owned"
 
         })
@@ -73,7 +73,7 @@ describe('Vehicles (Assets) accessibility : ', function() {
 
     it('vehicles owned jointly', function (done) {
         behaves.actsAsYesNo(done, driver, {
-            url: 'http://localhost:9070/inheritance-tax/estate-report/motor-vehicles-jointly-owned',
+            url: Browser.baseUrl + '/estate-report/motor-vehicles-jointly-owned',
             pageTitle: "Motor vehicles jointly owned"
 
         })

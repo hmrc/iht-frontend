@@ -58,9 +58,13 @@ trait PropertyTenureController extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        Future.successful(Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm,
-          submitUrl,
-          cancelUrl)))
+        withRegistrationDetails { regDetails =>
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+          Future.successful(Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm,
+            submitUrl,
+            cancelUrl,
+            deceasedName)))
+        }
       }
   }
 
@@ -68,6 +72,7 @@ trait PropertyTenureController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { registrationData =>
+          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationData)
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
@@ -81,7 +86,8 @@ trait PropertyTenureController extends EstateController {
                   (matchedProperty) =>
                     Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm.fill(matchedProperty),
                       editSubmitUrl(id),
-                      editCancelUrl(id)))
+                      editCancelUrl(id),
+                      deceasedName))
                 }
               }
               case _ => {
@@ -121,18 +127,22 @@ trait PropertyTenureController extends EstateController {
                        cancelUrl: Call,
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
-    val boundForm = propertyTenureForm.bindFromRequest
-    boundForm.fold(
-      formWithErrors => {
-        LogHelper.logFormError(formWithErrors)
-        Future.successful(BadRequest(iht.views.html.application.asset.properties.property_tenure(formWithErrors,
-          submitUrl,
-          cancelUrl)))
-      },
-      property => {
-        processSubmit(CommonHelper.getNino(user), property, propertyId)
-      }
-    )
+    withRegistrationDetails { regDetails =>
+      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+      val boundForm = propertyTenureForm.bindFromRequest
+      boundForm.fold(
+        formWithErrors => {
+          LogHelper.logFormError(formWithErrors)
+          Future.successful(BadRequest(iht.views.html.application.asset.properties.property_tenure(formWithErrors,
+            submitUrl,
+            cancelUrl,
+            deceasedName)))
+        },
+        property => {
+          processSubmit(CommonHelper.getNino(user), property, propertyId)
+        }
+      )
+    }
   }
 
   def processSubmit(nino: String,
