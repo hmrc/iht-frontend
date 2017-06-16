@@ -1,0 +1,12 @@
+{
+  "deceasedDateOfDeath" : {
+    "dateOfDeath" : "2015-01-01"
+  },
+  "deceasedDetails" : {
+    "domicile" : "England or Wales"
+  },
+  "status" : "Not Started",
+  "coExecutors" : [],
+  "acknowledgmentReference" : "",
+  "returns" : []
+}

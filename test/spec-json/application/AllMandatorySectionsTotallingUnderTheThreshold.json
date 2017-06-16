@@ -1,0 +1,164 @@
+{
+  "status" : "In Progress",
+  "propertyList" : [
+    {
+      "id" : "1",
+      "address" : {
+        "ukAddressLine1" : "1 The Street",
+        "ukAddressLine2" : "Some Town",
+        "postCode" : "AA11 1AA",
+        "countryCode" : "GB"
+      },
+      "propertyType" : "Deceased's home",
+      "typeOfOwnership" : "Deceased only",
+      "tenure" : "Freehold",
+      "value" : "150000.0"
+    }
+  ],
+  "qualifyingBodies" : [],
+  "charities" : [],
+  "allAssets" : {
+    "money" : {
+      "isOwned" : true,
+      "value" : "1000.0",
+      "isOwnedShare" : false
+    },
+    "household" : {
+      "isOwned" : true,
+      "value" : "1500.0",
+      "isOwnedShare" : false
+    },
+    "vehicles" : {
+      "isOwned" : false,
+      "isOwnedShare" : true,
+      "shareValue" : "6000.0"
+    },
+    "privatePension" : {
+      "isOwned" : false
+    },
+    "stockAndShare" : {
+      "isListed": false,
+      "isNotListed": false
+    },
+    "insurancePolicy" : {
+      "isInsurancePremiumsPayedForSomeoneElse" : false,
+      "policyInDeceasedName" : false,
+      "isJointlyOwned" : false
+    },
+    "businessInterest" : {
+      "isOwned" : false
+    },
+    "nominated" : {
+      "isOwned" : false
+    },
+    "heldInTrust" : {
+      "isOwned" : false
+    },
+    "foreign" : {
+      "isOwned" : false
+    },
+    "moneyOwed" : {
+      "isOwned" : true,
+      "value" : "1000.0"
+    },
+    "other" : {
+      "isOwned" : false
+    },
+    "properties" : {
+      "isOwned" : true
+    }
+  },
+  "allLiabilities" : {
+    "funeralExpenses" : {
+      "isOwned" : true,
+      "value" : "1000.0"
+    },
+    "trust" : {
+      "isOwned" : false
+    },
+    "debtsOutsideUk" : {
+      "isOwned" : false
+    },
+    "jointlyOwned" : {
+      "isOwned" : false
+    },
+    "other" : {
+      "isOwned" : true,
+      "value" : "500.0"
+    },
+    "mortgages" : {
+      "isOwned" : true,
+      "mortgageList" : [
+        {
+          "id" : "1",
+          "value" : "50000.0",
+          "isOwned" : true
+        }
+      ]
+    }
+  },
+  "allGifts" : {
+    "isGivenAway" : true,
+    "isReservation" : false,
+    "isToTrust" : false,
+    "isGivenInLast7Years" : false
+  },
+  "giftsList" : [
+    {
+      "yearId" : "1",
+      "value" : "100.0",
+      "exemptions" : "100.0",
+      "startDate" : "2 January 2008",
+      "endDate" : "5 April 2008"
+    },
+    {
+      "yearId" : "2",
+      "value" : "100.0",
+      "exemptions" : "100.0",
+      "startDate" : "2008-04-06",
+      "endDate" : "5 April 2009"
+    },
+    {
+      "yearId" : "3",
+      "value" : "100.0",
+      "exemptions" : "100.0",
+      "startDate" : "6 April 2009",
+      "endDate" : "5 April 2010"
+    },
+    {
+      "yearId" : "4",
+      "value" : "100.0",
+      "exemptions" : "100.0",
+      "startDate" : "6 April 2010",
+      "endDate" : "5 April 2011"
+    },
+    {
+      "yearId" : "5",
+      "value" : "100.0",
+      "exemptions" : "100.0",
+      "startDate" : "2011-04-06",
+      "endDate" : "5 April 2012"
+    },
+    {
+      "yearId" : "6",
+      "value" : "100.0",
+      "exemptions" : "100.0",
+      "startDate" : "6 April 2012",
+      "endDate" : "5 April 2013"
+    },
+    {
+      "yearId" : "7",
+      "value" : "100.0",
+      "exemptions" : "100.0",
+      "startDate" : "6 April 2013",
+      "endDate" : "5 April 2014"
+    },
+    {
+      "yearId" : "8",
+      "value" : "100.0",
+      "exemptions" : "100.0",
+      "startDate" : "6 April 2014",
+      "endDate" : "2015-1-1"
+    }
+  ]
+}

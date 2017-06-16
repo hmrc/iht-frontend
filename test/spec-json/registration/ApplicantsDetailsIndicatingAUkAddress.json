@@ -1,0 +1,57 @@
+{
+  "deceasedDateOfDeath" : {
+    "dateOfDeath" : "2015-01-01"
+  },
+  "deceasedDetails" : {
+    "firstName" : "John",
+    "lastName" : "Smith",
+    "nino"  : "QQ123456C",
+    "dateOfBirth" : "1980-01-01",
+    "domicile" : "England or Wales",
+    "maritalStatus" : "Single",
+    "isAddressInUK" : true,
+    "ukAddress" : {
+      "ukAddressLine1" : "1 The Street",
+      "ukAddressLine2" : "Some Town",
+      "ukAddressLine3" : "",
+      "ukAddressLine4" : "",
+      "postCode" : "AA11 1AA",
+      "countryCode" : "GB"
+    }
+  },
+  "applicantDetails" : {
+    "isApplyingForProbate" : true,
+    "country" : "England or Wales",
+    "firstName" : "Michael",
+    "lastName" : "Myers",
+    "nino" : "CS700100C",
+    "dateOfBirth" : "1957-10-19",
+    "phoneNo" : "0123 456789",
+    "doesLiveInUK" : true,
+    "ukAddress" : {
+      "ukAddressLine1" : "2 The Street",
+      "ukAddressLine2" : "Some Other Town",
+      "ukAddressLine3" : "",
+      "ukAddressLine4" : "",
+      "postCode" : "BB11 1BB",
+      "countryCode" : "GB"
+    }
+  },
+  "areOthersApplyingForProbate" : true,
+  "status" : "Not Started",
+  "coExecutors" : [
+    {
+      "id" : "1",
+      "firstName" : "Barry",
+      "lastName" : "White",
+      "dateOfBirth" : "1944-09-12",
+      "nino" : "DD123456D",
+      "contactDetails" : {
+        "phoneNo" : "0123456789"
+      },
+      "isAddressInUk" : true
+    }
+  ],
+  "acknowledgmentReference" : "",
+  "returns" : []
+}
