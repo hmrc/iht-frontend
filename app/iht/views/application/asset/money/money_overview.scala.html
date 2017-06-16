@@ -52,9 +52,9 @@ isFullWidth=false
             generic_overview_table_heading_item(id = AssetsMoneyOwnID,
                 questionText = Messages("iht.estateReport.assets.moneyOwned",deceasedName),
                 questionScreenReaderText = Messages("iht.estateReport.assets.moneyOwned",
-                                                    Messages("iht.the.deceased")),
+                                                    deceasedName),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
-                linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue"),
+                linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue", deceasedName),
                 isAnswerValue = money.flatMap(_.isOwned).isEmpty
             ),
             generic_overview_table_item(id = AssetsMoneyOwnID,
@@ -64,15 +64,15 @@ isFullWidth=false
                 questionCategory= "change",
                 answerValue=Messages(getBooleanDisplayValue(money.flatMap(_.isOwned.map(x=>x)))),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
-                linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.change")),
+                linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.change", deceasedName)),
 
             generic_overview_table_item(id = "deceased-own-value",
-                questionText = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName"),
-                questionScreenReaderText= Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName"),
+                questionText = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", deceasedName),
+                questionScreenReaderText= Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", deceasedName),
                 questionCategory= "change",
                 answerValue= money.flatMap(_.value).fold("")(x=>{"£" + CommonHelper.numberWithCommas(x).toString()}),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onPageLoad),
-                linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.value"))
+                linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.value", deceasedName))
         )
     }
 
@@ -89,18 +89,18 @@ isFullWidth=false
                 ),
             generic_overview_table_item(id = AssetsMoneySharedID,
                 questionText = Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
-                questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question", Messages("iht.the.deceased")),
+                questionScreenReaderText= Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
                 questionCategory= "change",
                 answerValue=Messages(getBooleanDisplayValue(money.flatMap(_.isOwnedShare.map(x=>x)))),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad),
                 linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.joint.screenReader.link.change")),
             generic_overview_table_item(id = "deceased-shared-value",
-                questionText = Messages("page.iht.application.assets.money.jointly.owned.input.value.label"),
+                questionText = Messages("page.iht.application.assets.money.jointly.owned.input.value.label",deceasedName),
                 questionScreenReaderText= Messages("page.iht.application.assets.money.overview.deceased.shareValue"),
                 questionCategory= "change",
                 answerValue= money.flatMap(_.shareValue).fold("")(x=>{"£" + CommonHelper.numberWithCommas(x).toString()}),
                 link = Some(iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onPageLoad),
-                linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.joint.screenReader.link.value"))
+                linkScreenReader = Messages("page.iht.application.assets.money.overview.deceased.joint.screenReader.link.value", deceasedName))
         )
     }
 

@@ -41,7 +41,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
         @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,
             questionLabel= Messages("page.iht.application.assets.businessInterest.isOwned",deceasedName),
-            inputTextLabel = Messages("page.iht.application.assets.businessInterest.inputLabel1"),
+            inputTextLabel = Messages("page.iht.application.assets.businessInterest.inputLabel1",deceasedName),
             sharableElementForm = businessInterestForm,
             inputTextHelp = Messages("page.iht.application.assets.businessInterest.hint"),
             clearTargetInput = Some("value")
