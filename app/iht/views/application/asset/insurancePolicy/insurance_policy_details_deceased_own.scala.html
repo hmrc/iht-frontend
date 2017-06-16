@@ -67,7 +67,7 @@ registrationDetails: RegistrationDetails
 
                 <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
                     @ihtHelpers.custom.input_estate_value(insurancePolicyForm("value"),
-                    '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"),
+                    '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", deceasedNameWrap),
                     '_sectionName -> (sectionName + "1"),
                     '_currency -> "GBP",
                     '_divClass -> "form-group",

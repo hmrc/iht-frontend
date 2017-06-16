@@ -893,7 +893,7 @@ page.iht.application.assets.vehicles.overview.guidance = These are all cars and 
 page.iht.application.assets.vehicles.deceased.browserTitle = Motor vehicles owned
 page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue = Give an answer for motor vehicles owned by the deceased
 page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change = Change the answer for motor vehicles owned by the deceased
-page.iht.application.assets.vehicles.deceased.value = Value of any motor vehicles the deceased owned in their own name
+page.iht.application.assets.vehicles.deceased.value = Value of any motor vehicles {0} owned in their own name
 page.iht.application.assets.vehicles.deceased.value.screenreader.link.change = Change the value of motor vehicles owned by the deceased
 
 page.iht.application.assets.vehicles.jointly.owned.title = Motor vehicles jointly owned with other people
@@ -972,44 +972,44 @@ page.iht.application.assets.property.value.screenReader = The value of {0}{1} is
 
 page.iht.application.return.to.assetsOf = Return to {0}’s assets
 
-page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did the deceased have any policies in their own name that were to pay out to them? Give an answer.
-page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, the deceased had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
-page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value = No, the deceased didn’t have insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
-page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by the deceased and any policies being paid to their estate is {0}. Change this value.
+page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did {0} have any policies in their own name that were to pay out to them? Give an answer.
+page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, {0} had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value = No, {0} didn’t have insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by {0} and any policies being paid to their estate is {1}. Change this value.
 
 page.iht.application.assets.insurance.policies.overview.joint.title = Policies that were jointly held with someone else
-page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Did the deceased have any insurance policies that were jointly held with someone else? Give an answer.
-page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value = Yes, the deceased jointly owned insurance policies with someone else. Change this answer.
-page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value = No, the deceased didn’t jointly own any insurance policies with someone else. Change this answer.
-page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value = The value of the deceased’s share of the jointly owned insurance policies is {0}. Change this value.
+page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Did {0} have any insurance policies that were jointly held with someone else? Give an answer.
+page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value = Yes, {0} jointly owned insurance policies with someone else. Change this answer.
+page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value = No, {0} didn’t jointly own any insurance policies with someone else. Change this answer.
+page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value = The value of {0}’s share of the jointly owned insurance policies is {0}. Change this value.
 
 page.iht.application.assets.insurance.policies.overview.other.question4 = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died?
-page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Insurance premiums paid by the deceased for someone else. Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried = No, the deceased wasn’t paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married = No, the deceased wasn’t paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value = No, the deceased didn’t spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value = No, there wasn’t an annuity on a policy being paid for by the deceased. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value = No, there weren’t any policies paid by the deceased for someone else that were held in a trust. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried = Yes, the deceased was paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married = Yes, the deceased was paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value = Yes, the deceased spent over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value = Yes, there were policies paid by the deceased for someone else that were held in a trust. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value = Yes, the policies were placed in a trust more than 7 years before the deceased died. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question5.yes.screenReader.link.value = Yes, the deceased bought an annuity on a policy that they were paying for. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Insurance premiums paid by {0} for someone else. Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried = No, {0} wasn’t paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married = No, {0} wasn’t paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value = No, {0} didn’t spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value = No, there wasn’t an annuity on a policy being paid for by {0}. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value = No, there weren’t any policies paid by {0} for someone else that were held in a trust. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried = Yes, {0} was paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married = Yes, {0} was paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value = Yes, {0} spent over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value = Yes, there were policies paid by {0} for someone else that were held in a trust. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value = Yes, the policies were placed in a trust more than 7 years before {0} died. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question5.yes.screenReader.link.value = Yes, {0} bought an annuity on a policy that they were paying for. Change this answer.
 
-page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married = Did the deceased ever pay insurance premiums for a policy that wasn’t due to pay out to their estate? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married = Did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate? Give an answer.
 
-page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value = Did the deceased spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value = Was any insurance policy that the deceased paid for placed in trust in the 7 years before they died? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value = Was a policy placed in a trust more than 7 years before the deceased died? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question5.none.screenReader.link.value = Did the deceased buy an annuity at any time in their life? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value = Was a policy placed in a trust more than 7 years before {0} died? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question5.none.screenReader.link.value = Did {0} buy an annuity at any time in their life? Give an answer.
 
 page.iht.application.insurance.policies.section1.browserTitle = Own insurance policies
 page.iht.application.insurance.policies.section1.guidance = These are all of the insurance policies that were owned in {0}’s own name and were paying out to them. You should also include any policies that anyone else had and were paying out only to {1}.
 page.iht.application.insurance.policies.section2.title = Policies that were jointly held with other people
 page.iht.application.insurance.policies.section2.browserTitle = Joint insurance policies
 page.iht.application.insurance.policies.section2.guidance = These are all of the policies that were jointly in the names of {0} and any other person. This could be a life assurance policy or a mortgage protection policy on a house that {1} jointly owned.
-page.iht.application.insurance.policies.section2.guidance2 = Only include the deceased’s share of the policy value. You’ll need to take the total value of the insurance policy and work out how much of that the deceased owned.
+page.iht.application.insurance.policies.section2.guidance2 = Only include {0}’s share of the policy value. You’ll need to take the total value of the insurance policy and work out how much of that the deceased owned.
 page.iht.application.insurance.policies.section3.browserTitle = Premiums paid for someone else
 page.iht.application.insurance.policies.section4.title = Was an insurance policy that {0} was paying for placed in trust in the 7 years before they died?
 page.iht.application.insurance.policies.section4.browserTitle = Policies placed in trust
@@ -1026,13 +1026,13 @@ iht.estateReport.assets.insurancePolicies = Insurance policies
 iht.estateReport.assets.insurancePolicies.buyAnnuity.question = Did {0} buy an annuity at any time in their life?
 iht.estateReport.assets.insurancePolicies.payingOutToDeceased = Policies that are paying out to {0}
 iht.estateReport.assets.insurancePolicies.premiumsPaidByOther = Insurance premiums paid by {0} for someone else
-iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare = Total value of the deceased’s share of all jointly held policies
-iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut = Total value of all policies owned by the deceased and any policies paying out to their estate
+iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare = Total value of {0}’s share of all jointly held policies
+iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut = Total value of all policies owned by {0} and any policies paying out to their estate
 iht.estateReport.insurancePolicies.jointlyHeld.question = Did {0} have any insurance policies that were jointly held with someone else?
-iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate?
+iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that was not paying out to their estate?
 iht.estateReport.insurancePolicies.ownName.question = Did {0} have any policies in their own name that were to pay out to them or are there any policies that were paying out to their estate?
-iht.estateReport.insurancePolicies.premiumsNotPayingOut.question = Did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate?
-iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1 = This could have been at any point in their life and the insurance policy shouldn’t have been due to pay out to {0} or to their estate.
+iht.estateReport.insurancePolicies.premiumsNotPayingOut.question = Did {0} ever pay insurance premiums for a policy that was not due to pay out to their estate?
+iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1 = This could have been at any point in their life and the insurance policy would not have been due to pay out to {0} or to their estate.
 iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2 = You can answer no if the policy was due to pay out to {0}’s spouse or civil partner.
 
 #Estate report - Assets - Business interests
@@ -1461,7 +1461,7 @@ page.iht.application.exemptions.partner.dateOfBirth.question.title = What is the
 page.iht.application.exemptions.partner.dateOfBirth.browserTitle = Partner’s date of birth
 page.iht.application.exemptions.partnerPermanentHome.browserTitle = Partner’s residence
 
-page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because the deceased’s spouse or civil partner didn’t have their permanent home in the UK.
+page.iht.application.exemptions.kickout.homeNotInUK.summary = This is because {0}’s spouse or civil partner didn’t have their permanent home in the UK.
 iht.estateReport.exemptions.partner.assetsLeftToSpouse.title = Assets left to a spouse or civil partner
 iht.estateReport.exemptions.partner.homeInUK.question = Is the spouse’s or civil partner’s permanent home in the UK?
 iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse = Return to assets left to a spouse or civil partner
@@ -1700,7 +1700,7 @@ page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label = ma
 
 page.iht.application.tnrbEligibilty.partner.additional.label.the = the
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased = {0}’s
-page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = the deceased’s previous
+page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = {0}’s previous
 page.iht.application.tnrbEligibilty.partner.additional.label.name.of.the = Name of the
 page.iht.application.tnrbEligibilty.partner.additional.label.their = their
 
@@ -1861,30 +1861,30 @@ iht.estateReport.kickout.returnToEstateOverview = If you want to change any valu
 
 #Kickouts - Estate report -Assets
 iht.estateReport.assets.kickout.MoreThan1Million = This is because the estate value is more than £1 million.
-page.iht.application.assets.kickout.trustlessthansevenyears.summary = This is because the deceased was paying insurance premiums on a policy that pays out to someone else and was placed in a trust in the 7 years before they died.
-page.iht.application.assets.kickout.trustsMoreThanOne.summary = This is because the deceased was able to benefit from more than 1 trust.
-page.iht.application.assets.kickout.trustValueMoreThanMax.summary = This is because the value of the trust that the deceased was able to benefit from was worth more than £150,000.
-page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary = This is because the value of the deceased’s foreign assets was more than £100,000.
-page.iht.application.assets.kickout.annuitiesOnInsurance.summary = This is because the deceased bought an annuity during their lifetime.
-page.iht.application.assets.kickout.premiumsPaidForOtherPersonsPolicy.summary = It’s not possible to use Inheritance Tax Online because the deceased’s insurance policy paid out to someone else
+page.iht.application.assets.kickout.trustlessthansevenyears.summary = This is because {0} was paying insurance premiums on a policy that pays out to someone else and was placed in a trust in the 7 years before they died.
+page.iht.application.assets.kickout.trustsMoreThanOne.summary = This is because {0} was able to benefit from more than 1 trust.
+page.iht.application.assets.kickout.trustValueMoreThanMax.summary = This is because the value of the trust that {0} was able to benefit from was worth more than £150,000.
+page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary = This is because the value of {0}’s foreign assets was more than £100,000.
+page.iht.application.assets.kickout.annuitiesOnInsurance.summary = This is because {0} bought an annuity during their lifetime.
+page.iht.application.assets.kickout.premiumsPaidForOtherPersonsPolicy.summary = It’s not possible to use Inheritance Tax Online because {0}’s insurance policy paid out to someone else
 page.iht.application.assets.kickout.premiumsPaidForOtherPersonsPolicy.nextSteps1 = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. This is because you need to provide more details about the insurance policy and who it paid out to.
-page.iht.application.assets.kickout.pensionDisposedLastTwoYears.summary = This is because the deceased’s private pension was changed or disposed of in the 2 years before they died.
+page.iht.application.assets.kickout.pensionDisposedLastTwoYears.summary = This is because {0}’s private pension was changed or disposed of in the 2 years before they died.
 page.iht.application.assets.kickout.assetsSingleSectionMoreThanMax.nextSteps2 = If you want to change this value
 
 page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1 = You should complete the Inheritance Tax estate report by completing an IHT-400 paper form. This is because you need to provide more details about the estate.
-page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is because the value of the insurance premiums paid by the deceased for a policy that wasn’t paying to their estate was more than £3,000 in any year.
+page.iht.application.assets.kickout.insuranceMoreThanMax.summary = This is because the value of the insurance premiums paid by {0} for a policy that was not paying to their estate was more than £3,000 in any year.
 
 #Kickouts - Estate report -Gifts
-page.iht.application.gifts.kickout.withReservationOfBenefit.summary = This is because the deceased gave away gifts with the reservation of benefit.
+page.iht.application.gifts.kickout.withReservationOfBenefit.summary = This is because {0} gave away gifts with the reservation of benefit.
 
-page.iht.application.gifts.kickout.givenInPast.summary = This is because the deceased gave away a gift that was not:
+page.iht.application.gifts.kickout.givenInPast.summary = This is because {0} gave away a gift that was not:
 page.iht.application.gifts.kickout.givenInPast.summary.bullet3 = a household or personal item, including jewellery, pictures and paintings
 page.iht.application.gifts.kickout.givenInPast.summary.bullet4 = a house, land or a building
 page.iht.application.gifts.kickout.givenInPast.summary.bullet5 = a motor vehicle, including a boat or a caravan
 
-page.iht.application.gifts.kickout.toTrust.summary = This is because the deceased gave away a house, building or land to anything that isn’t a person.
+page.iht.application.gifts.kickout.toTrust.summary = This is because {0} gave away a house, building or land to anything that isn’t a person.
 
-page.iht.application.gifts.kickout.maxValue.summary = This is because the deceased gave gifts away worth more than £150,000 in the 7 years before they died.
+page.iht.application.gifts.kickout.maxValue.summary = This is because {0} gave gifts away worth more than £150,000 in the 7 years before they died.
 page.iht.application.gifts.kickout.maxValue.nextSteps2 = If you want to change the value of gifts
 
 #Kickouts - Estate report -Exemptions
@@ -1905,9 +1905,9 @@ page.iht.application.tnrb.kickout.giftMadeBeforeDeath.summary = This is because 
 page.iht.application.tnrb.kickout.stateClaimAnyBusiness.summary = This is because {0} had claimed relief against their estate.
 page.iht.application.tnrb.kickout.partnerGiftWithResToOther.summary = This is because {0} gave a gift with the reservation of benefit.
 page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = This is because {0} had benefitted from a trust during their lifetime.
-page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because the deceased’s previous spouse’s or civil partner’s estate didn’t all pass to the deceased, a charity or another qualifying body.
-page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because the deceased’s previous spouse’s or civil partner’s jointly owned assets didn’t all pass to the deceased.
-page.iht.application.tnrb.kickout.kickOutNonJavaScript.summary = It’s not possible to use the Inheritance Tax Online Service because HMRC need more details about the deceased’s previous spouse’s or civil partner’s estate.
+page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because {0}’s or civil partner’s estate didn’t all pass to {1}, a charity or another qualifying body.
+page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because {0}’s or civil partner’s jointly owned assets didn’t all pass to {1}.
+page.iht.application.tnrb.kickout.kickOutNonJavaScript.summary = It’s not possible to use the Inheritance Tax Online Service because HMRC need more details about {0}’s or civil partner’s estate.
 iht.application.TnrbEligibilty.kickout.message = Not eligible for TNRB.
 
 # Kickout  - Estate report - return link text
