@@ -48,11 +48,11 @@ class MoneyOverviewViewTest extends ViewTestHelper with ShareableElementOverview
   override def ownQuestionRowId = "deceased-own-money-block"
   override def ownQuestionText = messagesApi("iht.estateReport.assets.money.ownName.question", deceasedName)
   override def ownValueRowId = "deceased-own-value-block"
-  override def ownValueText = messagesApi("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName")
+  override def ownValueText = messagesApi("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", deceasedName)
   override def jointlyOwnedQuestionRowId = "deceased-shared-money-block"
   override def jointlyOwnedQuestionText = messagesApi("page.iht.application.assets.money.jointly.owned.question", deceasedName)
   override def jointlyOwnedValueRowId = "deceased-shared-value-block"
-  override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.money.jointly.owned.input.value.label")
+  override def jointlyOwnedValueText = messagesApi("page.iht.application.assets.money.jointly.owned.input.value.label", deceasedName)
   override def linkHash = AppSectionMoneyID
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()

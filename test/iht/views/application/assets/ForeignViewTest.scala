@@ -42,7 +42,7 @@ class ForeignViewTest  extends ShareableElementInputViewBehaviour[BasicEstateEle
   override def pageTitle = messagesApi("iht.estateReport.assets.foreign.title")
   override def browserTitle = messagesApi("iht.estateReport.assets.foreign.title")
   override def questionTitle = messagesApi("page.iht.application.assets.foreign.deceasedOwned.question", deceasedName)
-  override def valueQuestion = messagesApi("page.iht.application.assets.foreign.inputLabel1")
+  override def valueQuestion = messagesApi("page.iht.application.assets.foreign.inputLabel1", deceasedName)
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("page.iht.application.return.to.assetsOf", deceasedName)

@@ -3,8 +3,8 @@ site.pdf.document.link.text = PDF document
 iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off. (PDF, <500KB)
 site.copyApplication.link = copy of the application
 site.title.govuk = - GOV.UK
-site.application.title = Complete an estate report
-site.registration.title = Register to complete an estate report
+site.application.title = Complete an Inheritance Tax estate report
+site.registration.title = Register to complete an Inheritance Tax estate report
 site.date-hint-text = For example, 31 12 2014
 site.nino.hint = For example, VO 12 34 56 D
 site.phoneNo.hint = This can be a mobile or a landline. HMRC might need to contact them about any of the details you provide.
@@ -175,7 +175,6 @@ iht.needHelp.guidance = If you need help with completing this estate report, con
 iht.theDeceased = The deceased
 
 #Private Beta landing page
-page.iht.private.beta.landing.page.intro.title = Complete an Inheritance Tax estate report
 page.iht.private.beta.landing.page.intro.p1 = Use this service to:
 page.iht.private.beta.landing.page.intro.bullet1 = start the process in applying to the Probate Service for a
 page.iht.private.beta.landing.page.intro.bullet1.link = grant of representation
@@ -825,9 +824,9 @@ iht.estateReport.assets.propertyAdd = Add a property, building or land
 page.iht.application.assets.money.overview.description.p1 = This is the value of any money that {0} had.
 page.iht.application.assets.money.overview.description.p2 = This includes any money in banks, building societies, National Savings investments, ISAs and safety deposit boxes. You should also include any cash {0} had in notes and coins.
 page.iht.application.assets.money.overview.description.p3 = If {0} had any foreign cash in the UK, you should change the value to British pounds using the exchange rate on the date of death and include that amount here.
-page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue = Give an answer for money owned only by the deceased
-page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.change = Change the answer for money owned only by the deceased
-page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.value = Change the value of money owned only by the deceased
+page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.noValue = Give an answer for money owned only by {0}
+page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.change = Change the answer for money owned only by {0}
+page.iht.application.assets.money.overview.deceased.isOwned.screenReader.link.value = Change the value of money owned only by {0}
 
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.noValue = Give an answer for money jointly owned with other people
 page.iht.application.assets.money.overview.deceased.joint.screenReader.link.change = Change the answer for money jointly owned with other people
@@ -843,9 +842,9 @@ page.iht.application.assets.money.inputLabel1 = Value of money owned by the dece
 page.iht.application.assets.money.jointly.owned.browserTitle = Joint money owned
 page.iht.application.assets.money.jointly.owned.guidance.p1 = This is the value of any money that {0} had which was jointly owned with any other people.
 page.iht.application.assets.money.jointly.owned.guidance.p2 = This includes any of {0}’s money provided into a joint account, either by them or by someone else like their employer.
-page.iht.application.assets.money.jointly.owned.guidance.p3 = Only include {0}’s share of the money. If they provided all of the money into a joint account, include the full amount. If {1} was only named on a joint account but provided no money, you shouldn’t include that account as part of their estate.
+page.iht.application.assets.money.jointly.owned.guidance.p3 = Only include {0}’s share of the money. If they provided all of the money into a joint account, include the full amount. If {1} was only named on a joint account but provided no money, do not include that account as part of their estate.
 page.iht.application.assets.money.jointly.owned.question = Did {0} jointly own any money with any other people?
-page.iht.application.assets.money.jointly.owned.input.value.label = Value of the deceased’s share of any jointly owned money
+page.iht.application.assets.money.jointly.owned.input.value.label = Value of {0}’s share of any jointly owned money
 
 page.iht.application.assets.household.sectionName = household
 page.iht.application.assets.household.description.p1 = These are items, such as electrical goods and furniture, along with personal items such as jewellery.
@@ -855,33 +854,33 @@ iht.estateReport.assets.money.jointlyOwned = Money jointly owned with other peop
 iht.estateReport.assets.money.lowerCaseInitial = money, including any cash, cheques, bank transfers and items that the person who died spent money on
 iht.estateReport.assets.money.ownName.question = Did {0} own any money in their own name?
 iht.estateReport.assets.money.upperCaseInitial = Money
-iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money owned by the deceased only in their name
+iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName = Value of money owned by {0} only in their name
 iht.estateReport.assets.moneyOwed = Money owed to {0}
 iht.estateReport.assets.moneyOwned = Money owned only by {0}
 
 page.iht.application.assets.moneyOwed.description.p1 = This is any money owed to {0} when they died.
-page.iht.application.assets.moneyOwed.description.p2 = This could be a loan {0} made to someone or to a business and wasn’t paid back before they died.
+page.iht.application.assets.moneyOwed.description.p2 = This could be a loan {0} made to someone or to a business that was not paid back before they died.
 page.iht.application.assets.moneyOwed.description.p3 = You should include the total value that was still owed to {0} and include any unpaid interest.
 page.iht.application.assets.moneyOwed.isOwned = Was any money owed to {0}?
-page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to the deceased when they died
+page.iht.application.assets.moneyOwed.inputLabel1 = Value of money owed to {0} when they died
 
 #Estate report - Assets - Household and personal items
 page.iht.application.assets.household.deceased.browserTitle = Own household items owned
-page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue = Give an answer for household and personal items held in the deceased’s name
-page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change = Change the answer for household and personal items held in the deceased’s name
-page.iht.application.assets.household.overview.deceased.value.screenreader.link.change = Change the answer for value of household and personal items held in the deceased’s name
+page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue = Give an answer for household and personal items held in {0}’s name
+page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change = Change the answer for household and personal items held in {0}’s name
+page.iht.application.assets.household.overview.deceased.value.screenreader.link.change = Change the answer for value of household and personal items held in {0}’s name
 
 page.iht.application.assets.household.joint.browserTitle = Joint household items owned
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.noValue = Give an answer for jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change = Change the answer for jointly owned household and personal items
-page.iht.application.assets.household.overview.joint.value = Value of the deceased’s share of any jointly owned household and personal items
+page.iht.application.assets.household.overview.joint.value = Value of {0}’s share of any jointly owned household and personal items
 page.iht.application.assets.household.overview.joint.value.screenreader.link.change = Change the answer for value of jointly owned household and personal items
-page.iht.application.assets.household.overview.guidance = These are items such as electrical goods and furniture, along with personal items such as jewellery.
+page.iht.application.assets.household.overview.guidance = These are items like electrical goods and furniture, along with personal items like jewellery.
 
-iht.estateReport.assets.household.deceasedOwnedValue = Value of what the deceased owned in their own name
+iht.estateReport.assets.household.deceasedOwnedValue = Value of what {0} owned in their own name
 iht.estateReport.assets.household.joint.question = Did {0} jointly own any household and personal items with any other people?
 iht.estateReport.assets.household.ownName.question = Did {0} own any household and personal items in their own name?
-iht.estateReport.assets.household.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned items
+iht.estateReport.assets.household.valueOfJointlyOwned = Value of {0}’s share of any jointly owned items
 iht.estateReport.assets.householdAndPersonalItems.title = Household and personal items
 iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title = Household and personal items {0} owned jointly with other people
 iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title = Household and personal items owned only by {0}
@@ -906,7 +905,7 @@ page.iht.application.assets.vehicles.jointly.owned.value.screenreader.link.chang
 iht.estateReport.assets.vehicles = Motor vehicles
 iht.estateReport.assets.vehicles.jointly.owned.question = Did {0} jointly own any motor vehicles with any other people?
 iht.estateReport.assets.vehicles.ownName.question = Did {0} own any motor vehicles in their own name?
-iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of the deceased’s share of any jointly owned motor vehicles
+iht.estateReport.assets.vehicles.valueOfJointlyOwned = Value of {0}’s share of any jointly owned motor vehicles
 iht.estateReport.assets.vehiclesOwned = Motor vehicles owned only by {0}
 
 #Estate report - Assets - Private pensions
@@ -1042,18 +1041,18 @@ page.iht.application.assets.businessInterest.browserTitle = Business interests o
 page.iht.application.assets.businessInterest.description.p1 = This should include the value of {0}’s business interests.
 page.iht.application.assets.businessInterest.description.p2 = If {0} owned any business properties, buildings or land, you should give these details in the properties, buildings and land section.
 page.iht.application.assets.businessInterest.isOwned = Did {0} own any businesses or have any other business interests when they died?
-page.iht.application.assets.businessInterest.inputLabel1 = Value of the deceased’s business interests when they died
-page.iht.application.assets.businessInterest.hint = Don’t include any business properties, buildings or land that were owned.
+page.iht.application.assets.businessInterest.inputLabel1 = Value of {0}’s business interests when they died
+page.iht.application.assets.businessInterest.hint = Do not include any business properties, buildings or land that were owned.
 
 #Estate report - Assets - Nominated
 iht.estateReport.assets.nominated = Nominated assets
 page.iht.application.assets.nominated.sectionName = nominated
 page.iht.application.assets.nominated.browserTitle = Nominated assets owned
-page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These should not be confused with an asset being left to someone in a will. If something is left to someone in a will, this isn’t a nominated asset.
+page.iht.application.assets.nominated.description.p1 = These are assets that {0} had nominated to pass to someone when they died. These should not be confused with an asset being left to someone in a will. If something is left to someone in a will, this is not a nominated asset.
 page.iht.application.assets.nominated.description.p2 = Nominated assets could have been set up when an account was opened with friendly societies, or industrial and provident societies. Before 1 March 1981, National Savings certificates and accounts could also be nominated to pass to someone.
 page.iht.application.assets.nominated.description.p3 = The provider will be able to tell you if the asset was nominated to pass to someone.
-page.iht.application.assets.nominated.description.p4 = Don’t include pension benefits that were nominated to pass to someone. You should include that value with private pensions.
-page.iht.application.assets.nominated.inputLabel1 = Value of the nominated assets when the deceased died
+page.iht.application.assets.nominated.description.p4 = Do not include pension benefits that were nominated to pass to someone. You should include that value with private pensions.
+page.iht.application.assets.nominated.inputLabel1 = Value of the nominated assets when {0} died
 page.iht.application.assets.nominated.question = Did {0} have any nominated assets?
 
 #Estate report - Assets - Assets held in a trust
@@ -1086,7 +1085,7 @@ iht.estateReport.assets.trusts.question = Did {0} benefit from, or have the righ
 iht.estateReport.assets.foreign.title = Foreign assets
 page.iht.application.assets.foreign.sectionName = foreign
 page.iht.application.assets.foreign.description.p1 = If {0} owned any assets outside of the UK, you should change the value into British pounds. The Isle of Man and the Channel Islands are not part of the UK.
-page.iht.application.assets.foreign.inputLabel1 = Value in British pounds of the deceased’s foreign assets when they died
+page.iht.application.assets.foreign.inputLabel1 = Value in British pounds of {0}’s foreign assets when they died
 page.iht.application.assets.foreign.deceasedOwned.question = Did {0} own any foreign assets?
 
 #Estate report - Assets - Money owed to deceased
@@ -1113,7 +1112,7 @@ page.iht.application.assets.other.browserTitle = Other assets owned
 page.iht.application.assets.other.description.p1 = This is the total value of any other assets that are not included in any other section.
 page.iht.application.assets.other.description.p2 = This could be any money owed in salary or wages, pension arrears, rents owed to {0}, or refunds from utility bills.
 page.iht.application.assets.other.isOwned = Did {0} own any other assets?
-page.iht.application.assets.other.inputLabel1 = Value of any other assets when the deceased died
+page.iht.application.assets.other.inputLabel1 = Value of any other assets owned by {0} when they died
 
 #Estate report - Gifts
 page.iht.application.gifts.guidance.button.continueToGifts = Continue to gifts given away
