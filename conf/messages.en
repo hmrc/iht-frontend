@@ -974,24 +974,24 @@ page.iht.application.assets.property.value.screenReader = The value of {0}{1} is
 page.iht.application.return.to.assetsOf = Return to {0}’s assets
 
 page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did the deceased have any policies in their own name that were to pay out to them? Give an answer.
-page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, the deceased had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, {0} had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value = No, the deceased didn’t have insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
-page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by the deceased and any policies being paid to their estate is {0}. Change this value.
+page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by {0} and any policies being paid to their estate is {1}. Change this value.
 
 page.iht.application.assets.insurance.policies.overview.joint.title = Policies that were jointly held with someone else
-page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Did the deceased have any insurance policies that were jointly held with someone else? Give an answer.
+page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Did {0} have any insurance policies that were jointly held with someone else? Give an answer.
 page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value = Yes, the deceased jointly owned insurance policies with someone else. Change this answer.
 page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value = No, the deceased didn’t jointly own any insurance policies with someone else. Change this answer.
 page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value = The value of the deceased’s share of the jointly owned insurance policies is {0}. Change this value.
 
 page.iht.application.assets.insurance.policies.overview.other.question4 = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died?
-page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Insurance premiums paid by the deceased for someone else. Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Insurance premiums paid by {0} for someone else. Give an answer.
 page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried = No, the deceased wasn’t paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married = No, the deceased wasn’t paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value = No, the deceased didn’t spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value = No, there wasn’t an annuity on a policy being paid for by the deceased. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value = No, there weren’t any policies paid by the deceased for someone else that were held in a trust. Change this answer.
-page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried = Yes, the deceased was paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value = No, {0} didn’t spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value = No, there wasn’t an annuity on a policy being paid for by {0}. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value = No, there weren’t any policies paid by {0} for someone else that were held in a trust. Change this answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried = Yes, {0} was paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married = Yes, the deceased was paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value = Yes, the deceased spent over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value = Yes, there were policies paid by the deceased for someone else that were held in a trust. Change this answer.

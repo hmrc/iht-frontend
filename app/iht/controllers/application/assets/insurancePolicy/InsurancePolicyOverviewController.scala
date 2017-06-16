@@ -30,6 +30,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 object InsurancePolicyOverviewController extends InsurancePolicyOverviewController with IhtConnectors {
@@ -54,7 +55,7 @@ trait InsurancePolicyOverviewController extends EstateController {
         if (maritalStatusKey == "married") {
           "page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married"
         } else {
-          "page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried"
+         Messages("page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried", CommonHelper.getDeceasedNameOrDefaultString(rd))
         },
         if (maritalStatusKey == "married") {
           "page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married"
@@ -69,17 +70,20 @@ trait InsurancePolicyOverviewController extends EstateController {
       QuestionAnswer(insurancePolicy.moreThanMaxValue, routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad(),
         ad => displayQ2(ad),
         "page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value",
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
         "page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value"),
       QuestionAnswer(insurancePolicy.isAnnuitiesBought, routes.InsurancePolicyDetailsAnnuityController.onPageLoad(),
         ad => displayQ3(ad),
         "page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value",
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
         "page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value"),
       QuestionAnswer(insurancePolicy.isInTrust, routes.InsurancePolicyDetailsInTrustController.onPageLoad(),
         ad => displayQ4(ad),
         "page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value",
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
         "page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value")
     )
   }
@@ -91,7 +95,7 @@ trait InsurancePolicyOverviewController extends EstateController {
         CommonHelper.getDeceasedNameOrDefaultString(regDetails, true))),
       linkUrl = routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad(),
       sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value",
-      questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value",
+      questionLevelLinkAccessibilityTextYes = messages("page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
       questionLevelLinkAccessibilityTextNo = "page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value",
       questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value",
       questionAnswerExprYesNo = insurancePolicy.policyInDeceasedName,
@@ -110,7 +114,7 @@ trait InsurancePolicyOverviewController extends EstateController {
       id = "joint",
       title = Some(messages("page.iht.application.assets.insurance.policies.overview.joint.title")),
       linkUrl = routes.InsurancePolicyDetailsJointController.onPageLoad(),
-      sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value",
+      sectionLevelLinkAccessibilityText = messages("page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value",CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
       questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value",
       questionLevelLinkAccessibilityTextNo = "page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value",
       questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value",
@@ -131,7 +135,8 @@ trait InsurancePolicyOverviewController extends EstateController {
       title = Some(messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails, true))),
       linkUrl = routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
-      sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
+      sectionLevelLinkAccessibilityText = messages("page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
       questionAnswersPlusChangeLinks = section3YesNoItems(insurancePolicy, regDetails),
       questionTitlesMessagesFileItems = Seq(
         messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",
