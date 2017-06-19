@@ -476,14 +476,11 @@ page.iht.registration.registrationSummary.coExecutorTable.name.id.container = na
 page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader = Change {0}’s Name
 page.iht.registration.registrationSummary.coExecutorTable.name.data.screenReader = An additional{0}’s name is {1}
 
-page.iht.registration.registrationSummary.coExecutorTable.dateOfBirth.link.screenReader = Change {0}’s date of birth
 page.iht.registration.registrationSummary.coExecutorTable.dateOfBirth.data.screenReader = {0}’s date of birth is {1}
 
-page.iht.registration.registrationSummary.coExecutorTable.nino.link.screenReader = Change {0}’s national insurance number
 page.iht.registration.registrationSummary.coExecutorTable.nino.data.screenReader = {0}’s national insurance number is {1}
 
 page.iht.registration.registrationSummary.coExecutorTable.address.id.container = ukAddress.ukAddressLine1-container
-page.iht.registration.registrationSummary.coExecutorTable.address.link.screenReader = Change {0}’s address
 page.iht.registration.registrationSummary.coExecutorTable.address.data.screenReader = {0}’s address is {1}
 
 page.iht.registration.registrationSummary.coExecutorTable.phoneNumber.id = phoneNo

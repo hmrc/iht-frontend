@@ -73,7 +73,7 @@
             data = Dates.formatDate(coExecutor.dateOfBirth).toString,
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#date-of-birth",
-            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.dateOfBirth.link.screenReader", coExecutor.name),
+            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader", coExecutor.name),
             linkId = "change-coexecutor-" + i + "-date-of-birth"
         )
 
@@ -82,7 +82,7 @@
             data = coExecutor.nino,
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#nino",
-            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.nino.link.screenReader", coExecutor.name),
+            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader", coExecutor.name),
             linkId = "change-coexecutor-" + i + "-nino"
         )
 
@@ -94,7 +94,7 @@
                 executorRoutes.OtherPersonsAddressController.onEditPageLoadUK(id).url + "#details" } else {
                 executorRoutes.OtherPersonsAddressController.onEditPageLoadAbroad(id).url + "#details"
             },
-            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.address.link.screenReader", coExecutor.name),
+            changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader", coExecutor.name),
             linkId = "change-coexecutor-" + i + "-address"
         )
 
