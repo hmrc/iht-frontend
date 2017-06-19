@@ -574,10 +574,10 @@ page.iht.home.button.continueApplication.screenReader = Continue {0}’s estate 
 page.iht.home.button.viewApplication.screenReader = View {0}’s estate report
 
 #Estate report - Application Status - Closed
-page.iht.application.overview.closed.helptext = When you’ve completed everything to do with this estate, including receiving your grant of representation from the Probate Service, you can complete clearance of this estate report.
+page.iht.application.overview.closed.helptext = When you have completed everything to do with this estate, including receiving your grant of representation from the Probate Service, you can complete clearance of this estate report.
 page.iht.application.overview.closed.warning = By completing clearance you are confirming that you have nothing left to do with this estate. HMRC will give you a certificate that you can download or print and which confirms that this estate report has been cleared.
 page.iht.application.overview.closed.clearance = Complete clearance of this estate report
-page.iht.application.overview.closed.sidebartitle = This estate report hasn’t been cleared.
+page.iht.application.overview.closed.sidebartitle = This estate report has not been cleared.
 
 #Estate report - Application Status - In Review
 page.iht.application.overview.inreview.title = This estate report is being reviewed by HMRC
@@ -592,7 +592,7 @@ page.iht.application.overview.cleared.sidebartitle = You have completed clearanc
 #Estate report - Application Status - Review/Closed/Clearance/Certificate
 page.iht.application.overview.common.title = This estate report has been closed
 page.iht.application.overview.common.estatevalue = Based on the details you have provided, {0}’s estate is below the threshold and there is no Inheritance Tax to pay.
-page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by the deceased that weren’t included in this estate report, let HMRC know by using a
+page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by {0} that were not included in this estate report, let HMRC know by using a
 page.iht.application.overview.common.helptext.part2 = Only do this if these assets increase the value of the estate over the Inheritance Tax threshold.
 page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
 page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, <500KB)
@@ -1754,14 +1754,14 @@ iht.estateReport.declaration.coExecutors.prologue1 = Before you complete your de
 iht.estateReport.declaration.coExecutors.prologue2 = They must confirm that they agree with the valuation and sign the declaration page.
 iht.estateReport.declaration.coExecutors.prologue3 = You must keep a copy of the signed declaration page because HMRC might ask to see it. Do not send this to HMRC unless you are asked to do so.
 iht.estateReport.declaration.coExecutors.prologue4 = These people must agree to the declaration on the estate report and sign the page.
-iht.estateReport.declaration.completedAllReasonableEnquiries = you have completed all reasonable enquiries into the deceased’s estate
+iht.estateReport.declaration.completedAllReasonableEnquiries = you have completed all reasonable enquiries into {0}’s estate
 iht.estateReport.declaration.correctAndComplete = the information you have supplied, including all valuations, is correct and complete to the best of your knowledge and belief
-iht.estateReport.declaration.deceasedMarriedWhenPartnerDied = the deceased was married or in a civil partnership at the date when their previous spouse or civil partner died
+iht.estateReport.declaration.deceasedMarriedWhenPartnerDied = {0} was married or in a civil partnership at the date when their previous spouse or civil partner died
 iht.estateReport.declaration.declaringThat = By sending this estate report you’re declaring that:
-iht.estateReport.declaration.didntUseAnyOfThreshold = the previous spouse or civil partner didn’t use any of their Inheritance Tax threshold
-iht.estateReport.declaration.dontTellHMRC = don’t tell HMRC within 6 months of any changes to the estate that increase the value over the Inheritance Tax threshold
+iht.estateReport.declaration.didntUseAnyOfThreshold = the previous spouse or civil partner did not use any of their Inheritance Tax threshold
+iht.estateReport.declaration.dontTellHMRC = do not tell HMRC within 6 months of any changes to the estate that increase the value over the Inheritance Tax threshold
 iht.estateReport.declaration.estateValueBeforeExemptionsLessThan1Million = the estate’s value before any exemptions are applied is less than or equal to £1,000,000
-iht.estateReport.declaration.haveProvidedNonMatchingDetails = have provided any details that do not match the will and any Deed of Variation for the deceased’s previous spouse or civil partner
+iht.estateReport.declaration.haveProvidedNonMatchingDetails = have provided any details that do not match the will and any Deed of Variation for {0}’s previous spouse or civil partner
 iht.estateReport.declaration.title = Declaration
 iht.estateReport.declaration.withholdInformation = withhold or give false information
 iht.estateReport.declaration.youMayFaceProsecution = You may face prosecution or have to pay a penalty if you:
@@ -1771,38 +1771,39 @@ iht.estateReport.declaration.checkedEverything.question = Have you finished find
 iht.estateReport.declaration.checkedEverything.browserTitle = Have you finished finding out what was in the deceased’s estate?
 iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.
 iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration.
-iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this estate report, you’re declaring that you believe this is correct.
+iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this application, you''re declaring that you believe this is correct.
+iht.application.declaration.risking.money.message.amended = You have said that {0} had no money in any bank accounts. By sending this application, you are declaring that you believe this is correct.
 
 #Estate report - Declaration Received
 page.iht.application.declaration_received.title = Your estate report has been sent to HMRC
 page.iht.application.declaration_received.subtitle = What happens next
 page.iht.application.declaration_received.probate.paragraph1 = HMRC will review your Inheritance Tax estate report – this might take up to 2 months. HMRC might be in touch with you during this time if they have any queries. Once the review has been completed, the estate report status will be changed to closed.
-page.iht.application.declaration_received.paragraph2 = HMRC might also check the valuation of any properties that you’ve entered – if they do this, the Valuation Office might call you.
-page.iht.application.declaration_received.paragraph3 = When you’ve sent off your Probate Application form (PA1), you’ll be told by the Probate Service what to do next to receive your grant of representation.
-page.iht.application.declaration_received.paragraph4 = Once you’ve received this and completed everything you need to do with the deceased’s estate, you can get a statutory certificate of discharge from HMRC by clearing this estate report. To do this, view this estate report from your Inheritance Tax estate reports page.
+page.iht.application.declaration_received.paragraph2 = HMRC might also check the valuation of any properties that you have entered – if they do this, the Valuation Office might call you.
+page.iht.application.declaration_received.paragraph3 = When you have sent off your Probate Application form (PA1), you will be told by the Probate Service what to do next to receive your grant of representation.
+page.iht.application.declaration_received.paragraph4 = Once you have received this and completed everything you need to do with {0}’s estate, you can get a statutory certificate of discharge from HMRC by clearing this estate report. To do this, view this estate report from your Inheritance Tax estate reports page.
 page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it (PDF,<500KB)
-page.iht.application.declaration_received.paragraph5.part2 = HMRC recommend that you keep a copy for your own use along with anything you’ve used to give any details about what the deceased owned or owed. You should keep these for 5 years in case anyone asks to see these details.
-page.iht.application.declaration_received.hint = What happens if you find assets that you haven’t included in this estate report
+page.iht.application.declaration_received.paragraph5.part2 = HMRC recommend that you keep a copy for your own use along with anything you have used to give any details about what {0} owned or owed. You should keep these for 5 years in case anyone asks to see these details.
+page.iht.application.declaration_received.hint = What happens if you find assets that you have not included in this estate report
 page.iht.application.declaration_received.continuelink = Continue to your Inheritance Tax estate reports
 page.iht.application.declaration_received.subheading1 = HMRC will review this estate report
 page.iht.application.declaration_received.subheading2 = Getting your statutory certificate of discharge
 page.iht.application.declaration_received.subheading3 = Keeping records for the future
-iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you’re accepting this.
+iht.iht.estateReport.declaration.acceptanceOfDeclaration = Anyone who is applying to the Probate Service should accept this declaration. By signing this form, you are accepting this.
 
 #Estate report - Probate Details
-page.iht.application.probateDetails.content2 = You’ll need the following details to write on your PA1 – Probate application form:
+page.iht.application.probateDetails.content2 = You will need the following details to write on your PA1 – Probate application form:
 page.iht.application.probateDetails.content2.bullet1 = your IHT Identifier is
 page.iht.application.probateDetails.content2.bullet2 = the gross estate figure is £{0}
 page.iht.application.probateDetails.content2.bullet3 = the net estate figure is £{0}
 page.iht.application.probateDetails.content4 = If you have not got your PA1 – Probate application form handy, you can
 page.iht.application.probateDetails.content4.print = download or print this page
-page.iht.application.probateDetails.content5 = or write these details down to fill in on your probate form at another time. You’ll still be able to see these details by choosing this estate report from your Inheritance Tax estate reports page.
+page.iht.application.probateDetails.content5 = or write these details down to fill in on your probate form at another time. You will still be able to see these details by choosing this estate report from your Inheritance Tax estate reports page.
 page.iht.application.probateDetails.guidance = What do these figures mean?
 page.iht.application.probateDetails.guidance.bullet1 = the IHT identifier is a reference that can be used by probate to link this estate report
 page.iht.application.probateDetails.guidance.bullet2 = the gross estate figure is the total of assets and gifts in the estate
 page.iht.application.probateDetails.guidance.bullet3 = the net estate figure is the value of assets and gifts in the estate after any debts and estate exemptions have been taken off
-page.iht.application.probateDetails.yourProbateText = For your Probate Application Form:
-page.iht.application.probateDetails.probateDetailsNotAvailableText = You’ll need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
+page.iht.application.probateDetails.yourProbateText = For your PA1 - Probate application form:
+page.iht.application.probateDetails.probateDetailsNotAvailableText = You will need to complete your Probate Application form (PA1) with some details from the estate report before you post it off. You can find these details by viewing this estate report on your Inheritance Tax estate reports page.
 
 #Estate report - Pdf
 pdf.totalassets.text = Total Assets
