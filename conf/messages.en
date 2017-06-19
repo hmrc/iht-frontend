@@ -357,7 +357,7 @@ page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for prob
 page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 - Probate application form.
 page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if {0} left a will. If there wasn’t a will, you would have been named as the administrator of the estate by a court.
 page.iht.registration.applicant.applyingForProbate = Are you applying for probate for {0}’s estate?
-iht.registration.applicant.applyingForProbate = Are you applying for probate for the person who is died’s estate?
+iht.registration.applicant.applyingForProbate = Are you applying for probate for the estate?
 
 #Registration - Applicant tell us about yourself
 page.iht.registration.applicantTellUsAboutYourself.question.label = Do you live in the UK?
@@ -395,33 +395,33 @@ page.iht.registration.registrationSummary.subTitle = You will not be able to cha
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title
 page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = Deceased’s name is {0}
-page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader = Change the deceased’s name
+page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader = Change {0}’s name
 page.iht.registration.registrationSummary.deceasedInfo.lastName.id = lastName
 
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.id = dateOfDeath
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.id.container = dateOfDeath-container
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.data.screenReader = Deceased’s date of death is {0}
-page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader = Change the deceased’s date of death
+page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader = Change {0}’s date of death
 
 page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader = Deceased’s date of birth is {0}
-page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader = Change the deceased’s date of birth
+page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader = Change {0}’s date of birth
 
 page.iht.registration.registrationSummary.deceasedInfo.nino.data.screenReader = Deceased’s national insurance number is {0}
-page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader = Change the deceased’s national insurance number
+page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader = Change {0}’s national insurance number
 
 page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader = Deceased’s address is {0}
-page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader = Change the deceased’s address
+page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader = Change {0}’s address
 
 page.iht.registration.registrationSummary.deceasedInfo.location.id = domicile
 page.iht.registration.registrationSummary.deceasedInfo.location.id.container = domicile-container
 page.iht.registration.registrationSummary.deceasedInfo.location.data.screenReader = The location of the deceased’s permanent home is {0}
-page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader = Change the location of the deceased’s permanent home
+page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader = Change the location of {0}’s permanent home
 
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label = Relationship status
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.id = maritalStatus
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.id.container = maritalStatus-container
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.data.screenReader = Deceased’s relationship status is {0}
-page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader = Change the deceased’s relationship status
+page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader = Change {0}’s relationship status
 
 page.iht.registration.registrationSummary.deceasedInfo.countryCode.id = ukAddress.countryCode
 page.iht.registration.registrationSummary.deceasedInfo.countryCode.id.container = ukAddress_countryCode-container
@@ -455,7 +455,7 @@ page.iht.registration.registrationSummary.applicantInfo.role.link.screenReader =
 page.iht.registration.registrationSummary.applicantInfo.role.data.screenReader = Your role is an {0}
 
 page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.id.container = applyingForProbate-container
-page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader = Change whether you’re applying for probate for the deceased’s estate
+page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader = Change whether you’re applying for probate for the estate
 page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.data.screenReader = Your answer is {0}
 
 page.iht.registration.registrationSummary.applicantInfo.country.id = country
