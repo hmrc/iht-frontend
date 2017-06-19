@@ -769,9 +769,9 @@ page.iht.application.assets.tenure.leasehold.hint = {0} owned the property but n
 
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue = Give details for the address
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.change = Change address details
-page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.noValue = Give details of the property type
-page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.change = Change the property type
-page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noValue = Give details of how this property was owned by the deceased
+page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.noValue = Give details of the kind of property
+page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.change = Change the kind of property
+page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noValue = Give details of how this property was owned by {0}
 page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change = Change the details of how this property was owned by {0}
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.noValue = Give details about whether this property was owned freehold or leasehold
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.change = Change whether this property was owned freehold or leasehold
@@ -1090,7 +1090,7 @@ page.iht.application.assets.foreign.deceasedOwned.question = Did {0} own any for
 
 #Estate report - Assets - Money owed to deceased
 page.iht.application.assets.deceased-permanent-home.editOrDelete.screenReader = the address for {0} {1}
-page.iht.application.assets.deceased-permanent-home.value.input-footer-label = If the other joint owner wasn’t the deceased’s spouse or civil partner, you should reduce the value of their share by 10%.
+page.iht.application.assets.deceased-permanent-home.value.input-footer-label = If the other joint owner was not {0}’s spouse or civil partner, you should reduce the value of their share by 10%.
 page.iht.application.assets.deceased-permanent-home.sectionName = property
 page.iht.application.assets.deceased-permanent-home.sectionTitle = Properties, buildings and land owned
 page.iht.application.assets.deceased-permanent-home.description.p1 = This includes {0}’s main address before they died if they owned that property and any other properties that they owned.
