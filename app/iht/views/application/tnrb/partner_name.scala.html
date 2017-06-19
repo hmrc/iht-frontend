@@ -38,7 +38,7 @@ cancelUrl = Some(cancelUrl)){
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.PartnerNameController.onSubmit,'autoComplete -> "off") {
 
-    <p class="form-hint">@Messages("page.iht.application.TnrbEligibilty.partnerName.hint",
+    <p>@Messages("page.iht.application.TnrbEligibilty.partnerName.hint",
     CommonHelper.getOrException(predeceasedDate).getYear.toString)</p>
 
     @ihtHelpers.standard.input_with_help(partnerNameForm("firstName"),
