@@ -891,10 +891,10 @@ page.iht.application.assets.vehicles.overview.joint.title = Motor vehicles {0} o
 page.iht.application.assets.vehicles.overview.guidance = These are all cars and motorbikes that {0} owned. You must also include any caravans or boats that {1} had.
 
 page.iht.application.assets.vehicles.deceased.browserTitle = Motor vehicles owned
-page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue = Give an answer for motor vehicles owned by the deceased
-page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change = Change the answer for motor vehicles owned by the deceased
+page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue = Give an answer for motor vehicles owned by {0}
+page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change = Change the answer for motor vehicles owned by {0}
 page.iht.application.assets.vehicles.deceased.value = Value of any motor vehicles {0} owned in their own name
-page.iht.application.assets.vehicles.deceased.value.screenreader.link.change = Change the value of motor vehicles owned by the deceased
+page.iht.application.assets.vehicles.deceased.value.screenreader.link.change = Change the value of motor vehicles owned by {0}
 
 page.iht.application.assets.vehicles.jointly.owned.title = Motor vehicles jointly owned with other people
 page.iht.application.assets.vehicles.jointly.owned.browserTitle = Motor vehicles jointly owned
@@ -976,12 +976,14 @@ page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.scre
 page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, {0} had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value = No, {0} didn’t have insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by {0} and any policies being paid to their estate is {1}. Change this value.
+page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.novalue = Give a value for all policies owned by {0} and any policies being paid to their estate.
 
 page.iht.application.assets.insurance.policies.overview.joint.title = Policies that were jointly held with someone else
 page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Did {0} have any insurance policies that were jointly held with someone else? Give an answer.
 page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value = Yes, {0} jointly owned insurance policies with someone else. Change this answer.
 page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value = No, {0} didn’t jointly own any insurance policies with someone else. Change this answer.
-page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value = The value of {0}’s share of the jointly owned insurance policies is {0}. Change this value.
+page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value = The value of {0}’s share of the jointly owned insurance policies is {1}. Change this value.
+page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.novalue = Give a value for {0}’s share of the jointly owned insurance policies.
 
 page.iht.application.assets.insurance.policies.overview.other.question4 = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died?
 page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Insurance premiums paid by {0} for someone else. Give an answer.
