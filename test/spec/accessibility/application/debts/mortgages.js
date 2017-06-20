@@ -14,7 +14,6 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
-
 describe('Mortgages (Debts), accessibility : ', function() {
     var driver;
 
@@ -29,29 +28,6 @@ describe('Mortgages (Debts), accessibility : ', function() {
       });
     });
 
-    function fillPropertyQuestion(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-properties-buildings-land-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillPropertyValue(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/value-of-property')
-        driver.findElement(By.name("value")).sendKeys('150000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function addProperty(done, driver){
-        fillPropertyQuestion(done, driver);
-        fillPropertyValue(done, driver);
-    }
-
-    function fillAnyMortgage(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-mortgage-on-property/1')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("value")).sendKeys('150000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
     it('mortgages overview, no properties', function (done) {
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/mortgages',
@@ -61,8 +37,7 @@ describe('Mortgages (Debts), accessibility : ', function() {
     });
 
     it('mortgages overview, with properties', function (done) {
-        addProperty(done, driver)
-        fillAnyMortgage(done, driver)
+        actionHelper.populateApplicationData(driver, 'PropertiesOnePropertyAndMortgageValueFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/mortgages',
@@ -71,13 +46,11 @@ describe('Mortgages (Debts), accessibility : ', function() {
     });
 
     it('any mortgage on property', function (done) {
-        addProperty(done, driver)
+        actionHelper.populateApplicationData(driver, 'PropertiesOnePropertyAndNoMortgageValueFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/any-mortgage-on-property/1',
             pageTitle: "Any mortgage on property"
         })
     });
-
-
 });
