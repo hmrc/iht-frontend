@@ -969,7 +969,7 @@ page.iht.application.assets.property.value.screenReader = The value of {0}{1} is
 
 page.iht.application.return.to.assetsOf = Return to {0}’s assets
 
-page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did {0} have any policies in their own name that were to pay out to them? Give an answer.
+page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Give an answer for did {0} have any policies in their own name that were to pay out to them.
 page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, {0} had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value = No, {0} didn’t have insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by {0} and any policies being paid to their estate is {1}. Change this value.
