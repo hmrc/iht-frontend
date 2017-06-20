@@ -29,19 +29,6 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
       });
     });
 
-    function fillStocksOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/listed-stocks-and-shares-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("valueListed")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillStocksJointlyOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/unlisted-stocks-and-shares-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("valueNotListed")).sendKeys('8000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
 
     it('stocks and shares overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
@@ -52,8 +39,7 @@ describe('Stocks and Shares (Assets) accessibility : ', function() {
     });
 
     it('stocks and shares overview, filled', function (done) {
-        fillStocksOwned(done, driver);
-        fillStocksJointlyOwned(done, driver);
+        actionHelper.populateApplicationData(driver, 'StocksAndSharesFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/stocks-and-shares-owned',
