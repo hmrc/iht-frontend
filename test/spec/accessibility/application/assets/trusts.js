@@ -58,7 +58,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('trust overview', function (done) {
-        fillTrustQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'TrustsFilter');
 
          behaves.actsAsBasicPage(done, driver, {
              url: Browser.baseUrl + '/estate-report/assets-in-trust',
@@ -68,9 +68,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('trust overview, filled', function (done) {
-        fillTrustQuestion(done, driver);
-        fillHowManyTrusts(done, driver);
-        fillValueOfTrust(done, driver);
+        actionHelper.populateApplicationData(driver, 'TrustsFilled');
 
          behaves.actsAsBasicPage(done, driver, {
              url: Browser.baseUrl + '/estate-report/assets-in-trust',
@@ -80,7 +78,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('how many trusts', function (done){
-        fillTrustQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'TrustsFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/how-many-trusts',
@@ -90,7 +88,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('value of trust', function (done){
-        fillTrustQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'TrustsFilter');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/value-of-trusts',

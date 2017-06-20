@@ -43,5 +43,7 @@ var populateApplicationData = function(driver, dataFile) {
         document.querySelector('#applicationDetails').innerText = args;
     }, json);
     driver.findElement(By.css('[type="submit"]')).click();
+    var jsonStoredSuccess = driver.findElement(By.css('h1 + p'));
+    driver.wait(until.elementTextContains(jsonStoredSuccess, 'Application details stored.'), 2000)
 }
 exports.populateApplicationData = populateApplicationData;
