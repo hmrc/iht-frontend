@@ -46,7 +46,7 @@ registrationDetails: RegistrationDetails
 @ihtHelpers.custom.generic_estate_element_assets(
                                     assetType = Constants.AssetTypeSingle,
                                     questionLabel= Messages("iht.estateReport.assets.household.ownName.question",deceasedNameWrap),
-                                    inputTextLabel = Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
+                                    inputTextLabel = Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedNameWrap),
                                     inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
                                     sharableElementForm = household,
                                     clearTargetInput = Some("value")

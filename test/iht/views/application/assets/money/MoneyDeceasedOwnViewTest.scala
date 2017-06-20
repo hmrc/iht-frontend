@@ -41,7 +41,7 @@ class MoneyDeceasedOwnViewTest  extends ShareableElementInputViewBehaviour[Share
   override def pageTitle = messagesApi("iht.estateReport.assets.moneyOwned", deceasedName)
   override def browserTitle = messagesApi("page.iht.application.assets.money.deceased.browserTitle")
   override def questionTitle = messagesApi("iht.estateReport.assets.money.ownName.question", deceasedName)
-  override def valueQuestion = messagesApi("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName")
+  override def valueQuestion = messagesApi("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", deceasedName)
   override def hasValueQuestionHelp = true
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.money")

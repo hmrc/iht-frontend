@@ -38,8 +38,8 @@ isFullWidth=false) {
     @helpers.form(action = iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
         @ihtHelpers.custom.generic_estate_element_assets(
                                                     assetType = Constants.AssetTypeJoint,
-                                                    questionLabel= Messages("iht.estateReport.assets.vehicles.jointly.owned.question",deceasedName),
-                                                    inputTextLabel = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned"),
+                                                    questionLabel= Messages("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName),
+                                                    inputTextLabel = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned", deceasedName),
                                                     inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
                                                     sharableElementForm = vehiclesJointlyOwned,
                                                     clearTargetInput = Some("shareValue")

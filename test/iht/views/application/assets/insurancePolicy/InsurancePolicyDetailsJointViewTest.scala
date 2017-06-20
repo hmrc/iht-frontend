@@ -38,9 +38,9 @@ class InsurancePolicyDetailsJointViewTest extends ShareableElementInputViewBehav
     override def pageTitle = messagesApi("page.iht.application.insurance.policies.section2.title", deceasedName)
     override def browserTitle = messagesApi("page.iht.application.insurance.policies.section2.browserTitle")
     override def questionTitle = messagesApi("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName)
-    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare")
+    override def valueQuestion = messagesApi("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", deceasedName)
     override def hasValueQuestionHelp = true
-    override def valueQuestionHelp = messagesApi("page.iht.application.insurance.policies.section2.guidance2")
+    override def valueQuestionHelp = messagesApi("page.iht.application.insurance.policies.section2.guidance2", deceasedName)
     override def returnLinkText = messagesApi("site.link.return.insurance.policies")
     override def returnLinkUrl = routes.InsurancePolicyOverviewController.onPageLoad().url
     override def formTarget =Some(routes.InsurancePolicyDetailsJointController.onSubmit)

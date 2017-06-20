@@ -21,7 +21,7 @@
 
 @Html(Messages("page.iht.application.overview.common.estatevalue", ihtHelpers.custom.name(deceasedName)))
 @if(inReview) { <p>@Messages("page.iht.application.overview.inreview.helptext")</p> }
-<div class="panel-indent">@Messages("page.iht.application.overview.common.helptext.part1")
+<div class="panel-indent">@Messages("page.iht.application.overview.common.helptext.part1", deceasedName)
     <a id="corrective-account-form" href="@IhtProperties.correctiveAccountsLink">@Messages("iht.estateReport.correctiveAccountForm")</a>.
     <p>@Messages("page.iht.application.overview.common.helptext.part2")</p>
 </div>

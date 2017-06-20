@@ -55,31 +55,31 @@ isFullWidth=false
                     generic_overview_table_heading_item(id = AssetsHouseholdOwnID,
                         questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",deceasedName),
                         questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
-                                                            Messages("iht.the.deceased")),
+                            deceasedName),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(
                             household.flatMap(_.isOwned.map(identity)),
-                            Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change"),
-                            Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue")),
+                            Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName),
+                            Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue", deceasedName)),
                         isAnswerValue = household.flatMap(_.isOwned).isEmpty
                         ),
                         generic_overview_table_item(id = AssetsHouseholdOwnID,
                             questionText = Messages("iht.estateReport.assets.household.ownName.question",deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.household.ownName.question",
-                                                                Messages("iht.the.deceased")),
+                                                                deceasedName),
                             questionCategory= "change",
                             answerValue=Messages(getBooleanDisplayValue(household.flatMap(_.isOwned.map(x=>x)))),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change")
+                            linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName)
                         ),
 
                         generic_overview_table_item(id = "deceased-own-value",
-                            questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
-                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
+                            questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
                             questionCategory= "change",
                             answerValue= household.flatMap(_.value).fold("")(x=>"£" + CommonHelper.numberWithCommas(x).toString()),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.value.screenreader.link.change")
+                            linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.value.screenreader.link.change", deceasedName)
                         )
 
             )
@@ -91,7 +91,7 @@ isFullWidth=false
                     generic_overview_table_heading_item(id = AssetsHouseholdSharedID,
                         questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",deceasedName),
                         questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
-                                                    Messages("iht.the.deceased")),
+                            deceasedName),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(
                             household.flatMap(_.isOwnedShare.map(identity)),
@@ -102,15 +102,15 @@ isFullWidth=false
                         generic_overview_table_item(id = AssetsHouseholdSharedID,
                             questionText = Messages("iht.estateReport.assets.household.joint.question",deceasedName),
                             questionScreenReaderText= Messages("iht.estateReport.assets.household.joint.question",
-                                                                Messages("iht.the.deceased")),
+                                deceasedName),
                             questionCategory= "change",
                             answerValue=Messages(getBooleanDisplayValue(household.flatMap(_.isOwnedShare.map(x=>x)))),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
                             linkScreenReader = Messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change")
                             ),
                         generic_overview_table_item(id = "deceased-shared-value",
-                            questionText = Messages("page.iht.application.assets.household.overview.joint.value"),
-                            questionScreenReaderText= Messages("page.iht.application.assets.household.overview.joint.value"),
+                            questionText = Messages("page.iht.application.assets.household.overview.joint.value", deceasedName),
+                            questionScreenReaderText= Messages("page.iht.application.assets.household.overview.joint.value", deceasedName),
                             questionCategory= "change",
                             answerValue= household.flatMap(_.shareValue).fold("")(x=>"£" + CommonHelper.numberWithCommas(x).toString()),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),

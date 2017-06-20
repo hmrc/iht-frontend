@@ -45,7 +45,7 @@
     @ihtHelpers.custom.generic_estate_element_assets(
                                                 assetType = Constants.AssetTypeJoint,
                                                 questionLabel= Messages("iht.estateReport.assets.household.joint.question",deceasedNameWrap),
-                                                inputTextLabel = Messages("iht.estateReport.assets.household.valueOfJointlyOwned"),
+                                                inputTextLabel = Messages("iht.estateReport.assets.household.valueOfJointlyOwned", deceasedNameWrap),
                                                 inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),
                                                 sharableElementForm = householdJointlyOwned,
                                                 clearTargetInput = Some("shareValue")

@@ -24,6 +24,8 @@
 
 @(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(title = Messages("iht.estateReport.debts.owedOnJointAssets"),
     browserTitle = Some(Messages("page.iht.application.debts.jointlyOwned.browserTitle")),
     isFullWidth = false
@@ -40,7 +42,7 @@
             questionLabel= Messages("page.iht.application.debts.jointlyOwned.isOwned"),
             inputTextLabel = Messages("iht.estateReport.debts.owedOnJointAssets.value"),
             sharableElementForm = jointlyOwnedDebtsForm,
-            inputTextHelp = Messages("page.iht.application.debts.jointlyOwned.description.p2"),
+            inputTextHelp = Messages("page.iht.application.debts.jointlyOwned.description.p2", deceasedName),
             clearTargetInput = Some("value")
         )
 

@@ -42,7 +42,7 @@ class MoneyJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[Share
   override def pageTitle = messagesApi("iht.estateReport.assets.money.jointlyOwned")
   override def browserTitle = messagesApi("page.iht.application.assets.money.jointly.owned.browserTitle")
   override def questionTitle = messagesApi("page.iht.application.assets.money.jointly.owned.question", deceasedName)
-  override def valueQuestion = messagesApi("page.iht.application.assets.money.jointly.owned.input.value.label")
+  override def valueQuestion = messagesApi("page.iht.application.assets.money.jointly.owned.input.value.label", deceasedName)
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.money")

@@ -46,12 +46,12 @@ class VehiclesOverviewViewTest extends ShareableElementOverviewViewBehaviour {
   override def ownQuestionRowId = "deceased-own-vehicles-block"
   override def ownQuestionText = messagesApi("iht.estateReport.assets.vehicles.ownName.question", deceasedName)
   override def ownValueRowId = "deceased-own-value-block"
-  override def ownValueText = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue")
+  override def ownValueText = messagesApi("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName)
   override def jointlyOwnedQuestionRowId = "deceased-shared-vehicles-block"
   override def jointlyOwnedQuestionText = messagesApi("iht.estateReport.assets.vehicles.jointly.owned.question",
                                                     deceasedName)
   override def jointlyOwnedValueRowId = "deceased-shared-value-block"
-  override def jointlyOwnedValueText = messagesApi("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
+  override def jointlyOwnedValueText = messagesApi("iht.estateReport.assets.vehicles.valueOfJointlyOwned", deceasedName)
 
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
   override def viewWithQuestionsAnsweredNo: String = vehicles_overview(dataWithQuestionsAnsweredNo, regDetails).toString

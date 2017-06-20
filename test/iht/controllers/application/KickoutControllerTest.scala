@@ -21,8 +21,8 @@ import java.util.UUID
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.metrics.Metrics
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.{KickOutReason, ApplicationStatus => AppStatus}
+import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.utils.{CommonHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.Matchers._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -60,15 +60,15 @@ class KickoutControllerTest extends ApplicationControllerTest {
         val applicationDetails = CommonBuilder.buildApplicationDetails
           .copy(kickoutReason = Some(KickOutReason.ForeignAssetsValueMoreThanMax),
             status = AppStatus.KickOut)
-
-        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
+        val regDetails = MockObjectBuilder.buildRegistrationDetailsWithDeceasedAndIhtRefDetails
+        createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
         createMockToGetApplicationDetails(mockIhtConnector, Some(applicationDetails))
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector, singleValueReturn = None)
 
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
         status(result) should be(OK)
-        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary"))
+        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary", CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
       }
     }
 
