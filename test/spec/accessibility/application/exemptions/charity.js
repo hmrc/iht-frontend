@@ -30,30 +30,6 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
       });
     });
 
-    function fillAssetsLeftToCharity(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/assets-left-to-charity')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillCharityName(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/charity-name')
-        driver.findElement(By.name("name")).sendKeys('Dogs Trust');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillCharityNumber(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/charity-number/1')
-        driver.findElement(By.name("charityNumber")).sendKeys('123456');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillCharityValue(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/assets-value-left-to-charity/1')
-        driver.findElement(By.name("totalValue")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
     it('assets left to charity yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
             url: Browser.baseUrl + '/estate-report/assets-left-to-charity',
