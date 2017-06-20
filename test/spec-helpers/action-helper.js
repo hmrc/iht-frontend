@@ -1,5 +1,6 @@
 var selenium = require('selenium-webdriver')
 var By = selenium.By, until = selenium.until;
+var Browser = require('./browser.js');
 
 var submitPageHelper = function(done, driver, button) {
 
@@ -20,3 +21,14 @@ var triggerErrorSummaryHelper = function(done, driver, title, button) {
 
 }
 exports.triggerErrorSummaryHelper = triggerErrorSummaryHelper;
+
+var populateRegistrationData = function(driver, dataFile) {
+    driver.get(Browser.baseUrl + '/test-only/store-registration-details')
+    var data = require('../spec-json/registration/' + dataFile);
+    var json = JSON.stringify(data)
+    driver.executeScript(function(args) {
+        document.querySelector('#registrationDetails').innerText = args;
+    }, json);
+    driver.findElement(By.css('[type="submit"]')).click();
+}
+exports.populateRegistrationData = populateRegistrationData;
