@@ -15,7 +15,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-describe('Pensions (Assets) accessibility : ', function() {
+fdescribe('Pensions (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -30,24 +30,6 @@ describe('Pensions (Assets) accessibility : ', function() {
       });
     });
 
-    function fillPensionsFilter(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-private-pensions-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPensionChanges(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-pension-changes')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPensionValue(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/value-of-pensions')
-        driver.findElement(By.css('#value')).sendKeys('15000')
-        actionHelper.submitPageHelper(done, driver);
-    }
-
 
     it('pensions filter question', function (done) {
         behaves.actsAsStandardForm(done, driver, {
@@ -57,7 +39,7 @@ describe('Pensions (Assets) accessibility : ', function() {
     });
 
     it('pensions overview', function (done) {
-        fillPensionsFilter(done, driver);
+        actionHelper.populateApplicationData(driver, 'PensionsFilterFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/private-pensions',
@@ -66,9 +48,7 @@ describe('Pensions (Assets) accessibility : ', function() {
     });
 
     it('pensions overview, filled', function (done) {
-        fillPensionsFilter(done, driver);
-        fillPensionChanges(done, driver);
-        fillPensionValue(done, driver);
+        actionHelper.populateApplicationData(driver, 'PensionsFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/private-pensions',
@@ -77,7 +57,7 @@ describe('Pensions (Assets) accessibility : ', function() {
     });
 
     it('changes to pension', function (done) {
-        fillPensionsFilter(done, driver);
+        actionHelper.populateApplicationData(driver, 'PensionsFilterFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/any-pension-changes',
@@ -86,7 +66,7 @@ describe('Pensions (Assets) accessibility : ', function() {
     });
 
     it('pension value', function (done) {
-        fillPensionsFilter(done, driver);
+        actionHelper.populateApplicationData(driver, 'PensionsFilterFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/value-of-pensions',
