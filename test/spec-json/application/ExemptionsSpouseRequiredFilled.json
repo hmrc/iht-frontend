@@ -1,0 +1,13 @@
+{
+  "status" : "In Progress",
+  "propertyList" : [],
+  "charities" : [],
+  "qualifyingBodies" : [],
+  "giftsList" : [],
+  "allExemptions" : {
+    "partner" : {
+      "isAssetForDeceasedPartner" : true,
+      "isPartnerHomeInUK" : true
+    }
+  }
+}

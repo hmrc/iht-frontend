@@ -30,24 +30,6 @@ describe('Assets left to spouse (Exemptions), accessibility : ', function() {
       });
     });
 
-    function fillAssetsLeftToSpouse(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-assets-left-to-partner')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPermenentHome(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/partner-residence')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillRequired(done, driver){
-        fillAssetsLeftToSpouse(done, driver)
-        fillPermenentHome(done, driver)
-    }
-
-
     it('assets left to spouse yes/no', function (done) {
         behaves.actsAsYesNo(done, driver, {
             url: Browser.baseUrl + '/estate-report/any-assets-left-to-partner',
@@ -56,7 +38,7 @@ describe('Assets left to spouse (Exemptions), accessibility : ', function() {
     });
 
     it('spouse permanent home yes/no', function (done) {
-        fillAssetsLeftToSpouse(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsSpouseYesFilled');
 
         behaves.actsAsYesNo(done, driver, {
             url: Browser.baseUrl + '/estate-report/partner-residence',
@@ -65,7 +47,7 @@ describe('Assets left to spouse (Exemptions), accessibility : ', function() {
     });
 
     it('name of spouse', function(done){
-        fillRequired(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsSpouseRequiredFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/partners-name',
@@ -74,7 +56,7 @@ describe('Assets left to spouse (Exemptions), accessibility : ', function() {
     });
 
     it('spouse dob', function(done){
-        fillRequired(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsSpouseRequiredFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/partners-date-of-birth',
@@ -83,7 +65,7 @@ describe('Assets left to spouse (Exemptions), accessibility : ', function() {
     });
 
     it('spouse nino', function(done){
-        fillRequired(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsSpouseRequiredFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/partners-national-insurance-number',
@@ -92,7 +74,7 @@ describe('Assets left to spouse (Exemptions), accessibility : ', function() {
     });
 
     it('value of assets left to spouse', function(done){
-        fillRequired(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsSpouseRequiredFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/assets-value-left-to-partner',
