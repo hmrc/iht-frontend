@@ -26,6 +26,7 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val probateDetails = CommonBuilder.buildProbateDetails
+  val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def declarationReceivedView() = {
     implicit val request = createFakeRequest()
@@ -74,7 +75,7 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
       val view = declarationReceivedView().toString
       messagesShouldBePresent(view, messagesApi("page.iht.application.declaration_received.subheading1"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.declaration_received.probate.paragraph1"))
-      messagesShouldBePresent(view, messagesApi("page.iht.application.declaration_received.paragraph2"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.declaration_received.paragraph2", deceasedName))
     }
 
     "show correct link and texts in 'Keeping records for the future' section" in {
@@ -86,14 +87,14 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
       pdfLink.attr("href") shouldBe iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF().url
       pdfLink.text() shouldBe messagesApi("page.iht.application.declaration_received.paragraph5.link")
 
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.declaration_received.paragraph5.part2"))
+      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.declaration_received.paragraph5.part2", deceasedName))
     }
 
     "show correct text in 'Getting your statutory certificate of discharge' section" in {
       val view = declarationReceivedView().toString
       messagesShouldBePresent(view, messagesApi("page.iht.application.declaration_received.subheading2"))
       messagesShouldBePresent(view, messagesApi("page.iht.application.declaration_received.paragraph3"))
-      messagesShouldBePresent(view, messagesApi("page.iht.application.declaration_received.paragraph4"))
+      messagesShouldBePresent(view, messagesApi("page.iht.application.declaration_received.paragraph4", deceasedName))
     }
 
     "show the continue to Inheritance Tax estate reports link" in {

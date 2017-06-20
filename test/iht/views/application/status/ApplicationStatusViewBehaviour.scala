@@ -25,7 +25,7 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
   def sidebarTitle: String
 
   def commonGuidanceParagraphs = Set(
-    messagesApi("page.iht.application.overview.common.helptext.part1"),
+    messagesApi("page.iht.application.overview.common.helptext.part1", deceasedName),
     messagesApi("page.iht.application.overview.common.helptext.part2"),
     messagesApi("page.iht.application.probateDetails.yourProbateText")
   )
