@@ -18,14 +18,10 @@
   "qualifyingBodies": [],
   "charities": [],
   "allAssets": {
-    "insurancePolicy" : {
-      "policyInDeceasedName" : true,
-      "value": "5000.0",
-      "isJointlyOwned" : true,
-      "shareValue": "6000.0",
-      "isInsurancePremiumsPayedForSomeoneElse" : true
-      "isAnnuitiesBought": false,
-      "isInTrust": false
+    "privatePension" : {
+      "isOwned" : true,
+      "isChanged": false,
+      "value": "6000.0"
     }
   }
 }
