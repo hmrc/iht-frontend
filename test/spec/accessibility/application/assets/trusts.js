@@ -30,24 +30,6 @@ describe('Trusts (Assets) accessibility : ', function() {
       });
     });
 
-    function fillTrustQuestion(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-assets-in-trust')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillHowManyTrusts(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/how-many-trusts')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillValueOfTrust(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/value-of-trusts')
-        driver.findElement(By.name("value")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
 
     it('benefit from trusts yes/no', function (done) {
         behaves.actsAsStandardForm(done, driver, {

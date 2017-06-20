@@ -15,7 +15,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-describe('Pensions (Assets) accessibility : ', function() {
+fdescribe('Pensions (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
