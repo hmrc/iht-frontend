@@ -14,7 +14,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
-fdescribe('Household (Assets) accessibility : ', function() {
+describe('Household (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
@@ -36,7 +36,7 @@ fdescribe('Household (Assets) accessibility : ', function() {
         })
     });
 
-    fit('household overview, filled', function (done) {
+    it('household overview, filled', function (done) {
         actionHelper.populateApplicationData(driver, 'HouseholdFilled');
 
         behaves.actsAsBasicPage(done, driver, {

@@ -15,7 +15,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-fdescribe('Money (Assets) accessibility : ', function() {
+describe('Money (Assets) accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {
