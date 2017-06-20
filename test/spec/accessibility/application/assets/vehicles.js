@@ -30,18 +30,6 @@ describe('Vehicles (Assets) accessibility : ', function() {
       });
     });
 
-    function fillVehiclesOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/own-vehicles-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("value")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillVehiclesJointlyOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/motor-vehicles-jointly-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("shareValue")).sendKeys('8000');
-        actionHelper.submitPageHelper(done, driver);
-    }
 
     it('vehicles overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
@@ -52,8 +40,7 @@ describe('Vehicles (Assets) accessibility : ', function() {
     });
 
     it('vehicles overview, filled', function (done) {
-        fillVehiclesOwned(done, driver);
-        fillVehiclesJointlyOwned(done, driver);
+        actionHelper.populateApplicationData(driver, 'VehiclesFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/motor-vehicles-owned',
