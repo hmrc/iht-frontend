@@ -284,7 +284,7 @@ object OverviewHelper {
             Seq(Question(
               id = id + "-value",
               title = questionTitleValueMessage,
-              link = Link(messagesFileChange, questionLevelLinkAccessibilityTextValue, linkUrl),
+              link = if(questionAnswerExprValue.isDefined) Link(messagesFileChange, questionLevelLinkAccessibilityTextValue, linkUrl) else Link(messagesFileGiveAnswer, questionLevelLinkAccessibilityTextValue, linkUrl),
               value = getBigDecimalDisplayValue(questionAnswerExprValue),
               linkId = answerLinkID
             ))

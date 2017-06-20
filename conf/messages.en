@@ -357,7 +357,7 @@ page.iht.registration.applicant.applyingForProbate.browserTitle = Apply for prob
 page.iht.registration.applicant.applyingForProbate.p1 = If you’re applying for probate, you’ll also be filling in a PA1 - Probate application form.
 page.iht.registration.applicant.applyingForProbate.p2 = You’ll be named as an executor of the estate if {0} left a will. If there wasn’t a will, you would have been named as the administrator of the estate by a court.
 page.iht.registration.applicant.applyingForProbate = Are you applying for probate for {0}’s estate?
-iht.registration.applicant.applyingForProbate = Are you applying for probate for the person who is died’s estate?
+iht.registration.applicant.applyingForProbate = Are you applying for probate for the estate?
 
 #Registration - Applicant tell us about yourself
 page.iht.registration.applicantTellUsAboutYourself.question.label = Do you live in the UK?
@@ -395,33 +395,33 @@ page.iht.registration.registrationSummary.subTitle = You will not be able to cha
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title
 page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = Deceased’s name is {0}
-page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader = Change the deceased’s name
+page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader = Change {0}’s name
 page.iht.registration.registrationSummary.deceasedInfo.lastName.id = lastName
 
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.id = dateOfDeath
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.id.container = dateOfDeath-container
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.data.screenReader = Deceased’s date of death is {0}
-page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader = Change the deceased’s date of death
+page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader = Change {0}’s date of death
 
 page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader = Deceased’s date of birth is {0}
-page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader = Change the deceased’s date of birth
+page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader = Change {0}’s date of birth
 
 page.iht.registration.registrationSummary.deceasedInfo.nino.data.screenReader = Deceased’s national insurance number is {0}
-page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader = Change the deceased’s national insurance number
+page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader = Change {0}’s national insurance number
 
 page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader = Deceased’s address is {0}
-page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader = Change the deceased’s address
+page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader = Change {0}’s address
 
 page.iht.registration.registrationSummary.deceasedInfo.location.id = domicile
 page.iht.registration.registrationSummary.deceasedInfo.location.id.container = domicile-container
 page.iht.registration.registrationSummary.deceasedInfo.location.data.screenReader = The location of the deceased’s permanent home is {0}
-page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader = Change the location of the deceased’s permanent home
+page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader = Change the location of {0}’s permanent home
 
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label = Relationship status
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.id = maritalStatus
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.id.container = maritalStatus-container
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.data.screenReader = Deceased’s relationship status is {0}
-page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader = Change the deceased’s relationship status
+page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader = Change {0}’s relationship status
 
 page.iht.registration.registrationSummary.deceasedInfo.countryCode.id = ukAddress.countryCode
 page.iht.registration.registrationSummary.deceasedInfo.countryCode.id.container = ukAddress_countryCode-container
@@ -455,7 +455,7 @@ page.iht.registration.registrationSummary.applicantInfo.role.link.screenReader =
 page.iht.registration.registrationSummary.applicantInfo.role.data.screenReader = Your role is an {0}
 
 page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.id.container = applyingForProbate-container
-page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader = Change whether you’re applying for probate for the deceased’s estate
+page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader = Change whether you’re applying for probate for the estate
 page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.data.screenReader = Your answer is {0}
 
 page.iht.registration.registrationSummary.applicantInfo.country.id = country
@@ -476,14 +476,11 @@ page.iht.registration.registrationSummary.coExecutorTable.name.id.container = na
 page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader = Change {0}’s Name
 page.iht.registration.registrationSummary.coExecutorTable.name.data.screenReader = An additional{0}’s name is {1}
 
-page.iht.registration.registrationSummary.coExecutorTable.dateOfBirth.link.screenReader = Change {0}’s date of birth
 page.iht.registration.registrationSummary.coExecutorTable.dateOfBirth.data.screenReader = {0}’s date of birth is {1}
 
-page.iht.registration.registrationSummary.coExecutorTable.nino.link.screenReader = Change {0}’s national insurance number
 page.iht.registration.registrationSummary.coExecutorTable.nino.data.screenReader = {0}’s national insurance number is {1}
 
 page.iht.registration.registrationSummary.coExecutorTable.address.id.container = ukAddress.ukAddressLine1-container
-page.iht.registration.registrationSummary.coExecutorTable.address.link.screenReader = Change {0}’s address
 page.iht.registration.registrationSummary.coExecutorTable.address.data.screenReader = {0}’s address is {1}
 
 page.iht.registration.registrationSummary.coExecutorTable.phoneNumber.id = phoneNo
@@ -769,9 +766,9 @@ page.iht.application.assets.tenure.leasehold.hint = {0} owned the property but n
 
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.noValue = Give details for the address
 page.iht.application.assets.property.detailsOverview.address.screenReader.link.change = Change address details
-page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.noValue = Give details of the property type
-page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.change = Change the property type
-page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noValue = Give details of how this property was owned by the deceased
+page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.noValue = Give details of the kind of property
+page.iht.application.assets.property.detailsOverview.kindOfProperty.screenReader.link.change = Change the kind of property
+page.iht.application.assets.property.detailsOverview.owned.screenReader.link.noValue = Give details of how this property was owned by {0}
 page.iht.application.assets.property.detailsOverview.owned.screenReader.link.change = Change the details of how this property was owned by {0}
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.noValue = Give details about whether this property was owned freehold or leasehold
 page.iht.application.assets.property.detailsOverview.freeholdLeasehold.screenReader.link.change = Change whether this property was owned freehold or leasehold
@@ -891,10 +888,10 @@ page.iht.application.assets.vehicles.overview.joint.title = Motor vehicles {0} o
 page.iht.application.assets.vehicles.overview.guidance = These are all cars and motorbikes that {0} owned. You must also include any caravans or boats that {1} had.
 
 page.iht.application.assets.vehicles.deceased.browserTitle = Motor vehicles owned
-page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue = Give an answer for motor vehicles owned by the deceased
-page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change = Change the answer for motor vehicles owned by the deceased
+page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue = Give an answer for motor vehicles owned by {0}
+page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change = Change the answer for motor vehicles owned by {0}
 page.iht.application.assets.vehicles.deceased.value = Value of any motor vehicles {0} owned in their own name
-page.iht.application.assets.vehicles.deceased.value.screenreader.link.change = Change the value of motor vehicles owned by the deceased
+page.iht.application.assets.vehicles.deceased.value.screenreader.link.change = Change the value of motor vehicles owned by {0}
 
 page.iht.application.assets.vehicles.jointly.owned.title = Motor vehicles jointly owned with other people
 page.iht.application.assets.vehicles.jointly.owned.browserTitle = Motor vehicles jointly owned
@@ -972,19 +969,21 @@ page.iht.application.assets.property.value.screenReader = The value of {0}{1} is
 
 page.iht.application.return.to.assetsOf = Return to {0}’s assets
 
-page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Did {0} have any policies in their own name that were to pay out to them? Give an answer.
+page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value = Give an answer for did {0} have any policies in their own name that were to pay out to them.
 page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value = Yes, {0} had insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value = No, {0} didn’t have insurance policies in their own name that were to pay out to them or there were policies paying out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value = The value of all policies owned by {0} and any policies being paid to their estate is {1}. Change this value.
+page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.novalue = Give a value for all policies owned by {0} and any policies being paid to their estate.
 
 page.iht.application.assets.insurance.policies.overview.joint.title = Policies that were jointly held with someone else
-page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Did {0} have any insurance policies that were jointly held with someone else? Give an answer.
+page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Give an answer for did {0} have any insurance policies that were jointly held with someone else?
 page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value = Yes, {0} jointly owned insurance policies with someone else. Change this answer.
 page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value = No, {0} didn’t jointly own any insurance policies with someone else. Change this answer.
-page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value = The value of {0}’s share of the jointly owned insurance policies is {0}. Change this value.
+page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value = The value of {0}’s share of the jointly owned insurance policies is {1}. Change this value.
+page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.novalue = Give a value for {0}’s share of the jointly owned insurance policies.
 
 page.iht.application.assets.insurance.policies.overview.other.question4 = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died?
-page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Insurance premiums paid by {0} for someone else. Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Give an answer for insurance premiums paid by {0} for someone else.
 page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried = No, {0} wasn’t paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married = No, {0} wasn’t paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value = No, {0} didn’t spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
@@ -997,12 +996,12 @@ page.iht.application.assets.insurance.policies.overview.other.question3.yes.scre
 page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value = Yes, the policies were placed in a trust more than 7 years before {0} died. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question5.yes.screenReader.link.value = Yes, {0} bought an annuity on a policy that they were paying for. Change this answer.
 
-page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married = Did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married = Give an answer for did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate?
 
-page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value = Was a policy placed in a trust more than 7 years before {0} died? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question5.none.screenReader.link.value = Did {0} buy an annuity at any time in their life? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value = Give an answer for did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate?
+page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value = Give an answer for was any insurance policy that {0} paid for placed in trust in the 7 years before they died?
+page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value = Give an answer for was a policy placed in a trust more than 7 years before {0} died?
+page.iht.application.assets.insurance.policies.overview.other.question5.none.screenReader.link.value = Give an answer for did {0} buy an annuity at any time in their life?
 
 page.iht.application.insurance.policies.section1.browserTitle = Own insurance policies
 page.iht.application.insurance.policies.section1.guidance = These are all of the insurance policies that were owned in {0}’s own name and were paying out to them. You should also include any policies that anyone else had and were paying out only to {1}.
@@ -1090,7 +1089,7 @@ page.iht.application.assets.foreign.deceasedOwned.question = Did {0} own any for
 
 #Estate report - Assets - Money owed to deceased
 page.iht.application.assets.deceased-permanent-home.editOrDelete.screenReader = the address for {0} {1}
-page.iht.application.assets.deceased-permanent-home.value.input-footer-label = If the other joint owner wasn’t the deceased’s spouse or civil partner, you should reduce the value of their share by 10%.
+page.iht.application.assets.deceased-permanent-home.value.input-footer-label = If the other joint owner was not {0}’s spouse or civil partner, you should reduce the value of their share by 10%.
 page.iht.application.assets.deceased-permanent-home.sectionName = property
 page.iht.application.assets.deceased-permanent-home.sectionTitle = Properties, buildings and land owned
 page.iht.application.assets.deceased-permanent-home.description.p1 = This includes {0}’s main address before they died if they owned that property and any other properties that they owned.

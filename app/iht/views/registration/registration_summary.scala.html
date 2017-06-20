@@ -49,7 +49,7 @@
                     data = ihtHelpers.custom.name(CommonHelper.getOrException(deceasedDetails.firstName) + " \n" + CommonHelper.getOrException(deceasedDetails.lastName)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#firstName",
-                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader"),
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader", deceasedName),
                     linkId="change-deceased-name"
                 )
 
@@ -58,7 +58,7 @@
                     data = Dates.formatDate(CommonHelper.getOrException(deceasedDetails.dateOfBirth)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.toString + "#date-of-birth",
-                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader"),
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader", deceasedName),
                     linkId="change-deceased-date-of-birth"
                 )
 
@@ -68,7 +68,7 @@
                     .dateOfDeath).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.DeceasedDateOfDeathController.onEditPageLoad.url + "#date-of-death",
-                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader"),
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader", deceasedName),
                     linkId="change-date-of-death"
                 )
 
@@ -77,7 +77,7 @@
                     data = deceasedDetails.nino.getOrElse(""),
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#nino",
-                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader"),
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader", deceasedName),
                     linkId="change-deceased-nino"
                 )
 
@@ -89,7 +89,7 @@
                         deceasedRoutes.DeceasedAddressDetailsUKController.onEditPageLoad.url + "#details" } else {
                         deceasedRoutes.DeceasedAddressDetailsOutsideUKController.onEditPageLoad.url + "#details"
                     },
-                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader"),
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader", deceasedName),
                     linkId="change-contact-address"
                 )
 
@@ -99,7 +99,7 @@
                     data = FieldMappings.domicileMap(messages)(CommonHelper.getOrException(deceasedDetails.domicile)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.DeceasedPermanentHomeController.onEditPageLoad.url + "#country",
-                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader"),
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader", deceasedName),
                     linkId="change-location-of-deceaseds-permanent-home"
                 )
 
@@ -108,7 +108,7 @@
                     data = FieldMappings.maritalStatusMap(messages)(CommonHelper.getOrException(deceasedDetails.maritalStatus)).toString,
                     dataScreenReaderText = "",
                     changeLink = deceasedRoutes.AboutDeceasedController.onEditPageLoad.url + "#relationship-status",
-                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader"),
+                    changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader", deceasedName),
                     linkId="change-relationship-status"
                 )
             }
