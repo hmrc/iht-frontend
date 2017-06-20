@@ -50,8 +50,7 @@ describe('Household (Assets) accessibility : ', function() {
     });
 
     it('household overview, filled', function (done) {
-        fillHouseholdOwned(done, driver);
-        fillHouseholdJointlyOwned(done, driver);
+        actionHelper.populateApplicationData(driver, 'HouseholdFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/household-items-owned',

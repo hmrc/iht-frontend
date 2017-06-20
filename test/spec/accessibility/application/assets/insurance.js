@@ -30,42 +30,6 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
 
-    function fillInsuranceOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/insurance-policies-paying-to-deceased')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("value")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillInsuranceJointlyOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/jointly-owned-insurance-policies')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("shareValue")).sendKeys('8000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillPolicyGifted(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-insurance-policies-gifted')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPolicyGiftedValue(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/value-of-gifted-policies')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPolicyAnnuity(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-annuities')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPolicyInTrust(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/insurance-policies-placed-in-trust')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
 
     it('insurance overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
@@ -75,12 +39,7 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance overview, filled', function (done) {
-        fillInsuranceOwned(done, driver);
-        fillInsuranceJointlyOwned(done, driver);
-        fillPolicyGifted(done, driver);
-        fillPolicyGiftedValue(done, driver);
-        fillPolicyAnnuity(done, driver);
-        fillPolicyInTrust(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/insurance-policies-owned',
@@ -110,7 +69,7 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance policy gifted value', function (done) {
-        fillPolicyGifted(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceNoOverMax');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/value-of-gifted-policies',
@@ -119,8 +78,7 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance policy annuity', function (done) {
-        fillPolicyGifted(done, driver);
-        fillPolicyGiftedValue(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceNoAnnuity');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/any-annuities',
@@ -129,9 +87,7 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance policy in trust', function (done) {
-        fillPolicyGifted(done, driver);
-        fillPolicyGiftedValue(done, driver);
-        fillPolicyAnnuity(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceNoInTrust');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/insurance-policies-placed-in-trust',
@@ -141,10 +97,7 @@ describe('Insurance (Assets) accessibility : ', function() {
 
 
     it('insurance policies are gifts', function (done) {
-        fillPolicyGifted(done, driver);
-        fillPolicyGiftedValue(done, driver);
-        fillPolicyAnnuity(done, driver);
-        fillPolicyInTrust(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/insurance-policies-are-gifts',

@@ -1,0 +1,33 @@
+{
+  "status": "In Progress",
+  "propertyList": [
+    {
+      "id": "1",
+      "address": {
+        "ukAddressLine1": "1 The Street",
+        "ukAddressLine2": "Some Town",
+        "postCode": "AA11 1AA",
+        "countryCode": "GB"
+      },
+      "propertyType": "Deceased's home",
+      "typeOfOwnership": "Deceased only",
+      "tenure": "Freehold",
+      "value": "150000.0"
+    }
+  ],
+  "qualifyingBodies": [],
+  "charities": [],
+  "allAssets": {
+    "money": {
+      "isOwned": true,
+      "value": "7500.0",
+      "isOwnedShare": false
+    },
+    "household": {
+      "isOwned": true,
+      "value": "1500.0",
+      "isOwnedShare": true,
+      "shareValue" : "6000.0"
+    }
+  }
+}
