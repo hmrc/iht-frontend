@@ -30,21 +30,6 @@ describe('Money (Assets) accessibility : ', function() {
       });
     });
 
-
-    function fillMoneyOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/own-money-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("value")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillMoneyJointlyOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/money-jointly-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("shareValue")).sendKeys('8000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-
     it('money overview', function (done) {
          behaves.actsAsBasicPage(done, driver, {
              url: Browser.baseUrl + '/estate-report/money-owned',
@@ -53,8 +38,7 @@ describe('Money (Assets) accessibility : ', function() {
     });
 
     it('money overview, filled', function (done) {
-        fillMoneyOwned(done, driver);
-        fillMoneyJointlyOwned(done, driver);
+        actionHelper.populateApplicationData(driver, 'MoneyFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/money-owned',
