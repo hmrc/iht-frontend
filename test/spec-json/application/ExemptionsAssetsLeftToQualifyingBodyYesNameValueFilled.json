@@ -1,0 +1,18 @@
+{
+  "status" : "In Progress",
+  "propertyList" : [],
+  "charities" : [],
+  "qualifyingBodies" : [
+    {
+      "id" : "1",
+      "name" : "Dogs Body",
+      "totalValue" : "5000"
+    }
+  ],
+  "giftsList" : [],
+  "allExemptions" : {
+     "qualifyingBody" : {
+       "isSelected" : true
+     }
+  }
+}
