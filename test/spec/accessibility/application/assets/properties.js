@@ -30,17 +30,6 @@ describe('Property (Assets) accessibility : ', function() {
       });
     });
 
-    function fillPropertyQuestion(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-properties-buildings-land-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPropertyValue(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/value-of-property')
-        driver.findElement(By.name("value")).sendKeys('150000');
-        actionHelper.submitPageHelper(done, driver);
-    }
 
     it('properties question', function (done) {
         behaves.actsAsStandardForm(done, driver, {

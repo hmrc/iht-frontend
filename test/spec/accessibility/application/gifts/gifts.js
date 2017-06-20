@@ -29,38 +29,6 @@ describe('Gifts, accessibility : ', function() {
       });
     });
 
-    function fillGiftsGivenAway(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/gifts-value-given-away')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillGiftsWithReservationOfBenefit(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/gifts-with-reservation-of-benefit')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillGiftsGivenAwayInSevenYears(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/type-of-gifts-given-away')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillGiftsGivenToATrust(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/gifts-given-to-a-company')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillGiftsGivenInYear(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/gifts-value-for-year-1')
-        driver.wait(until.titleContains('Value of gifts for year'), 2000)
-
-        driver.findElement(By.name("value")).sendKeys('5000');  
-        driver.findElement(By.name("exemptions")).sendKeys('3000');  
-        actionHelper.submitPageHelper(done, driver);
-    }
 
     it('gifts given away', function (done) {
         behaves.actsAsYesNo(done, driver, {
@@ -71,7 +39,7 @@ describe('Gifts, accessibility : ', function() {
     });
 
     it('gifts overview', function (done) {
-        fillGiftsGivenAway(done, driver);
+        actionHelper.populateApplicationData(driver, 'GiftsFilter');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/gifts-given-away',
@@ -81,11 +49,7 @@ describe('Gifts, accessibility : ', function() {
     });
 
     it('gifts overview, filled', function (done) {
-        fillGiftsGivenAway(done, driver);
-        fillGiftsWithReservationOfBenefit(done, driver);
-        fillGiftsGivenAwayInSevenYears(done, driver);
-        fillGiftsGivenToATrust(done, driver);
-        fillGiftsGivenInYear(done, driver);
+        actionHelper.populateApplicationData(driver, 'GiftsOverviewFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/gifts-given-away',
@@ -119,7 +83,7 @@ describe('Gifts, accessibility : ', function() {
     });
 
     it('gifts value overview', function (done) {
-        fillGiftsGivenAway(done, driver);
+        actionHelper.populateApplicationData(driver, 'GiftsOverviewFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/value-of-gifts-given-away',

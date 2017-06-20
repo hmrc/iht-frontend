@@ -3,9 +3,8 @@
   "propertyList": [],
   "qualifyingBodies": [],
   "charities": [],
-  "allAssets": {
-    "privatePension" : {
-      "isOwned" : true
-    }
+  "allGifts" : {
+    "isGivenAway" : true
   }
 }
+

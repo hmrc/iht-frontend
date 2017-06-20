@@ -1,0 +1,13 @@
+{
+  "status" : "In Progress",
+  "propertyList" : [],
+  "qualifyingBodies" : [],
+  "charities" : [],
+  "allAssets" : {
+    "heldInTrust" : {
+      "isOwned" : true,
+      "isMoreThanOne" : false,
+      "value" : "1000.0"
+    }
+  }
+}

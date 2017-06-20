@@ -18,7 +18,6 @@ var checkAccessibility = function(done, driver) {
 
     var AxeBuilder = require('axe-webdriverjs');
     driver.then(function(){
-//        driver.sleep(5000)
         AxeBuilder(driver)
         .withTags(tags)
         .include('#content')

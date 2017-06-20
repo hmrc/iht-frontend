@@ -4,10 +4,11 @@
   "qualifyingBodies": [],
   "charities": [],
   "allAssets": {
-    "privatePension" : {
-      "isOwned" : true,
-      "isChanged": false,
-      "value": "6000.0"
+    "vehicles": {
+      "isOwned": true,
+      "value": "7500.0",
+      "isOwnedShare": true,
+      "shareValue": "6000.0"
     }
   }
 }

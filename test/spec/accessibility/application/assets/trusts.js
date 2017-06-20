@@ -30,24 +30,6 @@ describe('Trusts (Assets) accessibility : ', function() {
       });
     });
 
-    function fillTrustQuestion(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-assets-in-trust')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillHowManyTrusts(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/how-many-trusts')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillValueOfTrust(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/value-of-trusts')
-        driver.findElement(By.name("value")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
 
     it('benefit from trusts yes/no', function (done) {
         behaves.actsAsStandardForm(done, driver, {
@@ -58,7 +40,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('trust overview', function (done) {
-        fillTrustQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'TrustsFilter');
 
          behaves.actsAsBasicPage(done, driver, {
              url: Browser.baseUrl + '/estate-report/assets-in-trust',
@@ -68,9 +50,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('trust overview, filled', function (done) {
-        fillTrustQuestion(done, driver);
-        fillHowManyTrusts(done, driver);
-        fillValueOfTrust(done, driver);
+        actionHelper.populateApplicationData(driver, 'TrustsFilled');
 
          behaves.actsAsBasicPage(done, driver, {
              url: Browser.baseUrl + '/estate-report/assets-in-trust',
@@ -80,7 +60,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('how many trusts', function (done){
-        fillTrustQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'TrustsFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/how-many-trusts',
@@ -90,7 +70,7 @@ describe('Trusts (Assets) accessibility : ', function() {
     });
 
     it('value of trust', function (done){
-        fillTrustQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'TrustsFilter');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/value-of-trusts',

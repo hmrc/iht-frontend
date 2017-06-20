@@ -28,19 +28,6 @@ describe('Household (Assets) accessibility : ', function() {
       });
     });
 
-    function fillHouseholdOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/own-household-items-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("value")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillHouseholdJointlyOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/household-items-jointly-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("shareValue")).sendKeys('8000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-
 
     it('household overview', function (done) {
         behaves.actsAsBasicPage(done, driver, {
