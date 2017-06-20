@@ -976,14 +976,14 @@ page.iht.application.assets.insurance.policies.overview.deceased.amount.screenRe
 page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.novalue = Give a value for all policies owned by {0} and any policies being paid to their estate.
 
 page.iht.application.assets.insurance.policies.overview.joint.title = Policies that were jointly held with someone else
-page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Did {0} have any insurance policies that were jointly held with someone else? Give an answer.
+page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value = Give an answer for did {0} have any insurance policies that were jointly held with someone else?
 page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value = Yes, {0} jointly owned insurance policies with someone else. Change this answer.
 page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value = No, {0} didn’t jointly own any insurance policies with someone else. Change this answer.
 page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value = The value of {0}’s share of the jointly owned insurance policies is {1}. Change this value.
 page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.novalue = Give a value for {0}’s share of the jointly owned insurance policies.
 
 page.iht.application.assets.insurance.policies.overview.other.question4 = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died?
-page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Insurance premiums paid by {0} for someone else. Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value = Give an answer for insurance premiums paid by {0} for someone else.
 page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried = No, {0} wasn’t paying insurance premiums for a policy that wasn’t due to pay out to their estate. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married = No, {0} wasn’t paying insurance premiums on a policy that pays out to someone who isn’t their spouse or civil partner. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value = No, {0} didn’t spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate. Change this answer.
@@ -996,12 +996,12 @@ page.iht.application.assets.insurance.policies.overview.other.question3.yes.scre
 page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value = Yes, the policies were placed in a trust more than 7 years before {0} died. Change this answer.
 page.iht.application.assets.insurance.policies.overview.other.question5.yes.screenReader.link.value = Yes, {0} bought an annuity on a policy that they were paying for. Change this answer.
 
-page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married = Did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married = Give an answer for did {0} ever pay insurance premiums for a policy that wasn’t due to pay out to their estate?
 
-page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value = Did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value = Was any insurance policy that {0} paid for placed in trust in the 7 years before they died? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value = Was a policy placed in a trust more than 7 years before {0} died? Give an answer.
-page.iht.application.assets.insurance.policies.overview.other.question5.none.screenReader.link.value = Did {0} buy an annuity at any time in their life? Give an answer.
+page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value = Give an answer for did {0} spend over £3,000 in any year on the insurance premiums that were for a policy that wasn’t paying out to their estate?
+page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value = Give an answer for was any insurance policy that {0} paid for placed in trust in the 7 years before they died?
+page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value = Give an answer for was a policy placed in a trust more than 7 years before {0} died?
+page.iht.application.assets.insurance.policies.overview.other.question5.none.screenReader.link.value = Give an answer for did {0} buy an annuity at any time in their life?
 
 page.iht.application.insurance.policies.section1.browserTitle = Own insurance policies
 page.iht.application.insurance.policies.section1.guidance = These are all of the insurance policies that were owned in {0}’s own name and were paying out to them. You should also include any policies that anyone else had and were paying out only to {1}.
