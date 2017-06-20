@@ -17,7 +17,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000; 
 jasmine.getEnv().clearReporters(); 
 jasmine.getEnv().addReporter(Reporter.reporter);   
 
-fdescribe('Registration accessibility : ', function() { 
+describe('Registration accessibility : ', function() { 
     var driver;  
     beforeEach(function(done) { 
         driver = Browser.startBrowser();

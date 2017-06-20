@@ -1,13 +1,13 @@
-var selenium = require('selenium-webdriver'),
-    AxeBuilder = require('axe-webdriverjs');
+var selenium = require('selenium-webdriver');
+var AxeBuilder = require('axe-webdriverjs');
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
-var TestReporter = require('../../../../spec-helpers/reporter.js');
-var Browser = require('../../../../spec-helpers/browser.js');
-var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
-var loginhelper = require('../../../../spec-helpers/login-helper.js');
-var actionHelper = require('../../../../spec-helpers/action-helper.js');
-var behaves = require('../../../../spec-helpers/behaviour.js');
+var TestReporter = require('../../../../spec-helpers/reporter');
+var Browser = require('../../../../spec-helpers/browser');
+var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper');
+var loginhelper = require('../../../../spec-helpers/login-helper');
+var actionHelper = require('../../../../spec-helpers/action-helper');
+var behaves = require('../../../../spec-helpers/behaviour');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -24,7 +24,6 @@ describe('Property (Assets) accessibility : ', function() {
       loginhelper.authenticate(done, driver, 'report')
     });
 
-    // Close website after each test is run (so it is opened fresh each time)
     afterEach(function(done) {
       driver.quit().then(function () {
           done();
