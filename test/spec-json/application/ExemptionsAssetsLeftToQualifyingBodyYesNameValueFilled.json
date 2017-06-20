@@ -11,7 +11,7 @@
   ],
   "giftsList" : [],
   "allExemptions" : {
-     "charity" : {
+     "qualifyingBody" : {
        "isSelected" : true
      }
   }
