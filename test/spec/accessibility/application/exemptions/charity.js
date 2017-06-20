@@ -62,7 +62,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
     });
 
     it('add a charity', function (done) {
-        fillAssetsLeftToCharity(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsAssetsLeftToCharityYesFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/add-charity',
@@ -71,10 +71,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
     });
 
     it('add a charity, filled', function (done) {
-        fillAssetsLeftToCharity(done, driver)
-        fillCharityName(done, driver)
-        fillCharityNumber(done, driver)
-        fillCharityValue(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsAssetsLeftToCharityYesNameNumberValueFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/add-charity/1',
@@ -83,10 +80,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
     });
 
     it('charity overview', function (done) {
-        fillAssetsLeftToCharity(done, driver)
-        fillCharityName(done, driver)
-        fillCharityNumber(done, driver)
-        fillCharityValue(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsAssetsLeftToCharityYesNameNumberValueFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/assets-left-to-charities',
@@ -95,8 +89,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
     });
 
     it('delete a charity', function (done) {
-        fillAssetsLeftToCharity(done, driver)
-        fillCharityName(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsAssetsLeftToCharityYesNameNumberValueFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/delete-charity/1',
@@ -105,7 +98,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
     });
 
     it('charity name', function (done) {
-        fillAssetsLeftToCharity(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsAssetsLeftToCharityYesFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/charity-name',
@@ -114,7 +107,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
     });
 
     it('charity number', function (done) {
-        fillAssetsLeftToCharity(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsAssetsLeftToCharityYesFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/charity-number',
@@ -123,7 +116,7 @@ describe('Assets left to charity (Exemptions), accessibility : ', function() {
     });
 
     it('charity value', function (done) {
-        fillAssetsLeftToCharity(done, driver)
+        actionHelper.populateApplicationData(driver, 'ExemptionsAssetsLeftToCharityYesFilled');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/assets-value-left-to-charity',
