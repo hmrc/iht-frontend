@@ -50,7 +50,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('properties overview', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/properties-buildings-land-owned',
@@ -59,7 +59,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('add property overview', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/add-property',
@@ -68,7 +68,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('property address', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/property-address',
@@ -78,7 +78,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('type of property', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/type-of-property',
@@ -88,7 +88,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('how property was owned', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/how-property-was-owned',
@@ -98,7 +98,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('freehold or leasehold', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/freehold-or-leasehold-property',
@@ -108,7 +108,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('value of property', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/value-of-property',
@@ -118,8 +118,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('delete property', function(done){
-        fillPropertyQuestion(done, driver);
-        fillPropertyValue(done, driver);
+        actionHelper.populateApplicationData(driver, 'OneProperty');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/delete-property/1',
