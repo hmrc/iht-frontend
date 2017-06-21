@@ -31,10 +31,12 @@ cancelLabel: => Option[String]
 
 @startDate = @{previousYearGiftsForm("startDate").value.getOrElse("")}
 @endDate = @{previousYearGiftsForm("endDate").value.getOrElse("")}
+@startDateFormatted = @{if(!startDate.isEmpty)Dates.formatDate(LocalDate.parse(startDate))else""}
+@endDateFormatted = @{if(!endDate.isEmpty)Dates.formatDate(LocalDate.parse(endDate))else""}
 
 @iht_main_template_application(title = Messages("page.iht.application.giftsDetails.subtitle",
-                                        if(!startDate.isEmpty) Dates.formatDate(LocalDate.parse(startDate)) else "",
-                                        if(!endDate.isEmpty) Dates.formatDate(LocalDate.parse(endDate)) else ""),
+                                        startDateFormatted,
+                                        endDateFormatted),
 browserTitle = Some(Messages("page.iht.application.giftsDetails.browserTitle")),
 cancelUrl=cancelUrl,
 cancelLabel = cancelLabel) {
@@ -43,9 +45,8 @@ cancelLabel = cancelLabel) {
 
 @ihtHelpers.standard.form(id="giftsDetails-form", action = iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit,'autoComplete -> "off") {
 
-
     @ihtHelpers.custom.input_estate_value(previousYearGiftsForm("value"),
-    '_label -> Messages("page.iht.application.giftsDetails.value.label"),
+    '_label -> Messages("page.iht.application.giftsDetails.value.label", startDateFormatted, endDateFormatted),
     '_sectionName -> "gifts-value",
     '_divJsHide -> false,
     '_currency -> "GBP",
@@ -55,7 +56,7 @@ cancelLabel = cancelLabel) {
     '_inputClass -> "form-control")
 
     @ihtHelpers.custom.input_estate_value(previousYearGiftsForm("exemptions"),
-    '_label -> Messages("page.iht.application.giftsDetails.exemptions.label"),
+    '_label -> Messages("page.iht.application.giftsDetails.exemptions.label", startDateFormatted, endDateFormatted),
     '_sectionName -> "gifts-exemption",
     '_divJsHide -> false,
     '_currency -> "GBP",
