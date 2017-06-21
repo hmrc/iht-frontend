@@ -192,7 +192,7 @@ page.iht.filter.filter.choice.main.continue = I want to continue an estate repor
 page.iht.filter.filter.choice.main.register = I want to register so I can tell HMRC about a person’s estate
 page.iht.filter.filter.choice.main.register.hint = You will be asked a couple of questions first to make sure you are using the right service.
 page.iht.filter.filter.choice.main.alreadyStarted = I have already started registration and want to continue
-page.iht.filter.filter.choice.main.agent = I’m an agent and reporting on behalf of a client
+page.iht.filter.filter.choice.main.agent = I am an agent and reporting on behalf of a client
 
 page.iht.filter.domicile.choice.other = Other country
 page.iht.filter.domicile.return.link = Return to what do you want to do
@@ -813,7 +813,7 @@ iht.estateReport.assets.properties.value.question = What was {0}’s share of th
 iht.estateReport.assets.properties.whatKind.question = What kind of property, building or land was this?
 iht.estateReport.assets.propertiesBuildingsAndLand = Properties, buildings and land
 iht.estateReport.assets.property.findOutFromLandRegistry = find out from the Land Registry
-iht.estateReport.assets.property.whatIsAddress.question = What’s the address?
+iht.estateReport.assets.property.whatIsAddress.question = What is the address?
 iht.estateReport.assets.property.youCan = You can
 iht.estateReport.assets.propertyAdd = Add a property, building or land
 
@@ -833,7 +833,7 @@ page.iht.application.assets.money.deceased.browserTitle = Own money owned
 page.iht.application.assets.money.deceased.guidance = This is the value of any money that {0} had, including any in an account in the UK. This includes banks, building societies, National Savings investments, ISAs and safety deposit boxes.
 
 page.iht.application.assets.money.description.joint.p1 = This includes any of the deceased’s money provided into a joint account, either by them or by someone else like their employer. Only include the deceased’s share. If the deceased provided all of the money into a joint account, include the full amount.
-page.iht.application.assets.money.description.joint.p2 = If the deceased was only named on a joint account but provided no money in, you shouldn’t include that account as part of their estate.
+page.iht.application.assets.money.description.joint.p2 = If the deceased was only named on a joint account but provided no money in, you should not include that account as part of their estate.
 page.iht.application.assets.money.inputLabel1 = Value of money owned by the deceased in their name only
 
 page.iht.application.assets.money.jointly.owned.browserTitle = Joint money owned
@@ -1103,7 +1103,7 @@ page.iht.application.assets.deceased-permanent-home.question4.hint = If the dece
 page.iht.application.assets.deceased-permanent-home.table.header = Properties
 page.iht.application.assets.deceased-permanent-home.table.emptyRow.text = You have not added any properties to this estate.
 page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text = No address added
-page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by the deceased then there’ll be no mortgages owed as a debt from the estate.
+page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by the deceased then there will be no mortgages owed as a debt from the estate.
 
 #Estate report - Assets - Any other assets not listed
 iht.estateReport.assets.other.title = Any other assets not listed
@@ -1116,7 +1116,7 @@ page.iht.application.assets.other.inputLabel1 = Value of any other assets owned 
 #Estate report - Gifts
 page.iht.application.gifts.guidance.button.continueToGifts = Continue to gifts given away
 page.iht.application.gifts.guidance.title = A guide to gifts
-page.iht.application.gifts.guidance.whatsAGift.title = What’s a gift?
+page.iht.application.gifts.guidance.whatsAGift.title = What is a gift?
 page.iht.application.gifts.guidance.whatsAGift.description1 = A gift is anything the deceased gave away before they died.  Something that was given away in the 7 years before death might be added to the estate value.
 page.iht.application.gifts.guidance.whatsAGift.description2 = Something being left to someone in a will is not a gift.
 page.iht.application.gifts.guidance.whatsAGift.description3 = Before you give details about the value of gifts that were given away, you can read this guide that explains a little more about what gifts are and what you need to look out for.
@@ -1131,7 +1131,7 @@ page.iht.application.gifts.guidance.kindOfGifts.description5 = If a gift of a ho
 page.iht.application.gifts.guidance.withReservation.description1 = People sometimes give something away but still benefit from it. An example of this is where someone gives away their home to a family member but still lives there.
 page.iht.application.gifts.guidance.withReservation.description2 = Other examples are where someone has owned a caravan and given it away but still enjoyed holidays in it afterwards, or a picture that was given away but still displayed in the deceased’s house.
 page.iht.application.gifts.guidance.withReservation.description3 = Take your time to work out what might have been given away in the 7 years before the deceased died and work out if the deceased benefitted from what they gave away.
-page.iht.application.gifts.guidance.withReservation.description4 = You won’t need to give a value for these, but you will need to say if the deceased gave a gift like this. If they did, you will not be able to use this service and you will need to complete the estate report using an IHT-400 paper form.
+page.iht.application.gifts.guidance.withReservation.description4 = You will not need to give a value for these, but you will need to say if the deceased gave a gift like this. If they did, you will not be able to use this service and you will need to complete the estate report using an IHT-400 paper form.
 
 page.iht.application.gifts.guidance.claimingExemptions.title = Claiming exemptions on what was given away
 page.iht.application.gifts.guidance.claimingExemptions.description1 = If the deceased gave things away in the 7 years before they died, you need to work out the value of these.
@@ -1150,7 +1150,7 @@ page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPar
 page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part1 = their child £5,000 when they married or had their civil partnership ceremony
 page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part2 = any other family member £2,500 when they married or had their civil partnership ceremony
 page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description3.part3 = any other person £1,000 when they married or had their civil partnership ceremony
-page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4 = Marriage or civil partnership gifts should’ve been made:
+page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4 = Marriage or civil partnership gifts should have been made:
 page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part1 = on, or shortly before, the date of the marriage or civil partnership ceremony
 page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description4.part2 = to one or to both people in the marriage or civil partnership
 page.iht.application.gifts.guidance.claimingExemptions.reveal.marriageOrCivilPartner.description5 = If the deceased gave their son £7,000 as a marriage gift, you can use the first £5,000 against the marriage exemption and then allocate the remaining £2,000 against the annual exemption rules.
@@ -1177,7 +1177,7 @@ page.iht.application.gifts.guidance.increasingAnnualLimit.description5 = If ther
 page.iht.application.gifts.guidance.giftsGivenAway.title = Work out what gifts were given away
 page.iht.application.gifts.guidance.giftsGivenAway.description1 = It might take some time to work out what was given away so it is best to collect as much detail as possible, talk to as many people as you can who might have been given something by the deceased and check bank statements for sums of money that cannot be accounted for. These gaps might be where a gift has been given to someone else.
 page.iht.application.gifts.guidance.giftsGivenAway.description2 = If the deceased gave away more than £3,000 in any of the 7 years before they died, you will need to enter the yearly totals of all gifts in the gifts section. You will also need to give details of the exemptions being claimed. The dates that you need to provide the total value of gifts given away and how much is exempt are shown in the gifts section.
-page.iht.application.gifts.guidance.giftsGivenAway.description3 = There’ll also be some questions for you to answer.
+page.iht.application.gifts.guidance.giftsGivenAway.description3 = There will also be some questions for you to answer.
 page.iht.application.gifts.guidance.giftsGivenAway.description4 = Take your time to understand what gifts are. You will be able to read this guide again whenever you want.
 
 page.iht.application.gifts.sevenYears.values.browserTitle = Value of gifts given away
@@ -1198,7 +1198,6 @@ page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total.est
 page.iht.application.gifts.overview.guidance1 = A gift is something given away in the 7 years before death. The value of gifts might be added to the value of the estate.
 page.iht.application.gifts.overview.givenAway.title = If the value of gifts given away is less than £3,000 in every year, you do not need to give any gift details
 
-page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
 page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts away of more than £3,000 in total in any of the 7 years before they died?
 
 page.iht.application.gifts.overview.givenAway.question1.yes.screenReader.link.value = Yes, the deceased gave away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
@@ -1770,7 +1769,7 @@ iht.estateReport.declaration.checkedEverything.question = Have you finished find
 iht.estateReport.declaration.checkedEverything.browserTitle = Have you finished finding out what was in the deceased’s estate?
 iht.estateReport.declaration.checkedEverything.p1 = If you are still waiting to hear back from anyone, like a bank or a family member, select no to go to estate overview.
 iht.estateReport.declaration.checkedEverything.p2 = If you have made all of the checks that you can and are happy that you have given everything in the estate report, select yes to go to the declaration.
-iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this application, you''re declaring that you believe this is correct.
+iht.application.declaration.risking.money.message = You have said that the deceased had no money in any bank accounts. By sending this application, you are declaring that you believe this is correct.
 iht.application.declaration.risking.money.message.amended = You have said that {0} had no money in any bank accounts. By sending this application, you are declaring that you believe this is correct.
 
 #Estate report - Declaration Received
@@ -1959,7 +1958,7 @@ page.iht.questionnaire.improve.question = How could we improve this service?
 page.iht.questionnaire.improve.p1 = (Limit is 1200 characters)
 page.iht.questionnaire.improve.p2 = Please do not include any personal or financial details, like your National Insurance or credit card numbers.
 
-page.iht.questionnaire.fullName.p1 = We’re looking for people to help us with user research.
+page.iht.questionnaire.fullName.p1 = We are looking for people to help us with user research.
 page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
 page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 
@@ -2284,11 +2283,11 @@ error.selectAnswer.summary = select an answer
 error.signOutLater = Sign out and complete this service at another time.
 error.value.blank = A value should be entered
 
-global.error.InternalServerError500.heading = Sorry, we’re experiencing technical difficulties
+global.error.InternalServerError500.heading = Sorry, we are experiencing technical difficulties
 global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Inheritance Tax overview
 global.error.InternalServerError500.link.gov-uk.text = Explore GOV.UK.
 global.error.InternalServerError500.message = Please try again in a few moments.
-global.error.InternalServerError500.title = We’re experiencing technical difficulties
+global.error.InternalServerError500.title = We are experiencing technical difficulties
 global.error.badRequest400.heading = Bad request
 global.error.badRequest400.title = Bad request - 400
 global.error.pageNotFound404.heading = This page cannot be found
