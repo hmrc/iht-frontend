@@ -99,7 +99,7 @@ describe('Registration accessibility : ', function() { 
       });  
 
       it('applying for probate', function(done) { 
-        actionHelper.populateRegistrationData(driver, 'UKContactAddress');
+        actionHelper.populateRegistrationData(driver, 'UkContactAddress');
 
         behaves.actsAsStandardForm(done, driver, {
           url: Browser.baseUrl + '/registration/applying-for-probate',
@@ -128,7 +128,7 @@ describe('Registration accessibility : ', function() { 
         })
       });  
 
-      it('your address in the UK', function(done) { 
+      it('your address in the Uk', function(done) { 
         actionHelper.populateRegistrationData(driver, 'ApplicantsContact');
 
         behaves.actsAsStandardForm(done, driver, {
@@ -138,8 +138,8 @@ describe('Registration accessibility : ', function() { 
         })
       })  
 
-      it('your address outside the UK', function(done) { 
-        actionHelper.populateRegistrationData(driver, 'YourOutsideUKAddress');
+      it('your address outside the Uk', function(done) { 
+        actionHelper.populateRegistrationData(driver, 'YourOutsideUkAddress');
 
         behaves.actsAsStandardForm(done, driver, {
           url: Browser.baseUrl + '/registration/your-address',
@@ -149,7 +149,7 @@ describe('Registration accessibility : ', function() { 
       })  
 
       it('any other applicants', function(done) { 
-        actionHelper.populateRegistrationData(driver, 'YourUKAddress');
+        actionHelper.populateRegistrationData(driver, 'YourUkAddress');
 
         behaves.actsAsStandardForm(done, driver, {
           url: Browser.baseUrl + '/registration/any-other-applicants',
@@ -168,8 +168,8 @@ describe('Registration accessibility : ', function() { 
         })
       })  
 
-      it('other applicant address UK', function(done) { 
-        actionHelper.populateRegistrationData(driver, 'ApplicantsDetailsIndicatingAUKAddress');
+      it('other applicant address Uk', function(done) { 
+        actionHelper.populateRegistrationData(driver, 'ApplicantsDetailsIndicatingAUkAddress');
 
         behaves.actsAsStandardForm(done, driver, {
           url: Browser.baseUrl + '/registration/applicants-uk-address/1',
