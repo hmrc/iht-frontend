@@ -1,13 +1,13 @@
-var selenium = require('selenium-webdriver'),
-    AxeBuilder = require('axe-webdriverjs');
+var selenium = require('selenium-webdriver');
+var AxeBuilder = require('axe-webdriverjs');
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
-var TestReporter = require('../../../../spec-helpers/reporter.js');
-var Browser = require('../../../../spec-helpers/browser.js');
-var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
-var loginhelper = require('../../../../spec-helpers/login-helper.js');
-var actionHelper = require('../../../../spec-helpers/action-helper.js');
-var behaves = require('../../../../spec-helpers/behaviour.js');
+var TestReporter = require('../../../../spec-helpers/reporter');
+var Browser = require('../../../../spec-helpers/browser');
+var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper');
+var loginhelper = require('../../../../spec-helpers/login-helper');
+var actionHelper = require('../../../../spec-helpers/action-helper');
+var behaves = require('../../../../spec-helpers/behaviour');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -23,49 +23,12 @@ describe('Insurance (Assets) accessibility : ', function() {
        loginhelper.authenticate(done, driver, 'report')
     });
 
-    // Close website after each test is run (so it is opened fresh each time)
     afterEach(function(done) {
       driver.quit().then(function () {
           done();
       });
     });
 
-
-    function fillInsuranceOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/insurance-policies-paying-to-deceased')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("value")).sendKeys('5000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillInsuranceJointlyOwned(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/jointly-owned-insurance-policies')
-        driver.findElement(By.css('#yes-label')).click();
-        driver.findElement(By.name("shareValue")).sendKeys('8000');
-        actionHelper.submitPageHelper(done, driver);
-    }
-    function fillPolicyGifted(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-insurance-policies-gifted')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPolicyGiftedValue(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/value-of-gifted-policies')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPolicyAnnuity(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-annuities')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPolicyInTrust(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/insurance-policies-placed-in-trust')
-        driver.findElement(By.css('#no-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
 
 
     it('insurance overview', function (done) {
@@ -76,12 +39,7 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance overview, filled', function (done) {
-        fillInsuranceOwned(done, driver);
-        fillInsuranceJointlyOwned(done, driver);
-        fillPolicyGifted(done, driver);
-        fillPolicyGiftedValue(done, driver);
-        fillPolicyAnnuity(done, driver);
-        fillPolicyInTrust(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/insurance-policies-owned',
@@ -111,7 +69,7 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance policy gifted value', function (done) {
-        fillPolicyGifted(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceNoOverMax');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/value-of-gifted-policies',
@@ -120,8 +78,7 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance policy annuity', function (done) {
-        fillPolicyGifted(done, driver);
-        fillPolicyGiftedValue(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceNoAnnuity');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/any-annuities',
@@ -130,9 +87,7 @@ describe('Insurance (Assets) accessibility : ', function() {
     });
 
     it('insurance policy in trust', function (done) {
-        fillPolicyGifted(done, driver);
-        fillPolicyGiftedValue(done, driver);
-        fillPolicyAnnuity(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceNoInTrust');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/insurance-policies-placed-in-trust',
@@ -142,10 +97,7 @@ describe('Insurance (Assets) accessibility : ', function() {
 
 
     it('insurance policies are gifts', function (done) {
-        fillPolicyGifted(done, driver);
-        fillPolicyGiftedValue(done, driver);
-        fillPolicyAnnuity(done, driver);
-        fillPolicyInTrust(done, driver);
+        actionHelper.populateApplicationData(driver, 'InsuranceFilled');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/insurance-policies-are-gifts',

@@ -1,5 +1,5 @@
-var selenium = require('selenium-webdriver'),
-    AxeBuilder = require('axe-webdriverjs');
+var selenium = require('selenium-webdriver');
+var AxeBuilder = require('axe-webdriverjs');
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
 var TestReporter = require('../../../spec-helpers/reporter.js');
@@ -22,7 +22,6 @@ describe('Application accessibility : ', function() {
       loginhelper.authenticate(done, driver, 'app')
     });
 
-    // Close website after each test is run (so it is opened fresh each time)
     afterEach(function(done) {
       driver.quit().then(function () {
           done();

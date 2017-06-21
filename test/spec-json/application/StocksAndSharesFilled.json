@@ -1,0 +1,14 @@
+{
+  "status": "In Progress",
+  "propertyList": [],
+  "qualifyingBodies": [],
+  "charities": [],
+  "allAssets": {
+    "stockAndShare": {
+      "isListed": true,
+      "valueListed": "7500.0",
+      "isNotListed": true,
+      "valueNotListed": "6000.0"
+    }
+  }
+}

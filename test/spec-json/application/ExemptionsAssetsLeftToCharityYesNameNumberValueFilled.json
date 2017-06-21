@@ -1,0 +1,19 @@
+{
+  "status" : "In Progress",
+  "propertyList" : [],
+  "qualifyingBodies" : [],
+  "charities" : [
+    {
+      "id" : "1",
+      "name" : "Dogs Trust",
+      "number" : "123456",
+      "totalValue" : "5000"
+    }
+  ],
+  "giftsList" : [],
+  "allExemptions" : {
+     "charity" : {
+       "isSelected" : true
+     }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "status" : "In Progress",
+  "hasSeenExemptionGuidance" : true,
+  "propertyList" : [],
+  "qualifyingBodies" : [],
+  "charities" : [],
+  "widowCheck" : {
+    "widowed" : true,
+    "dateOfPreDeceased" : "2000-01-01"
+  }
+}

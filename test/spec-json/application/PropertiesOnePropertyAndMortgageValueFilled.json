@@ -1,0 +1,28 @@
+{
+  "status" : "In Progress",
+  "propertyList" : [
+    {
+      "id" : "1",
+      "value" : "150000.0"
+    }
+  ],
+  "qualifyingBodies" : [],
+  "charities" : [],
+  "allAssets" : {
+    "properties" : {
+      "isOwned" : true
+    }
+  },
+  "allLiabilities" : {
+    "mortgages" : {
+      "isOwned" : true,
+      "mortgageList" : [
+        {
+          "id" : "1",
+          "value" : "50000.0",
+          "isOwned" : true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "status": "In Progress",
+  "propertyList": [],
+  "qualifyingBodies": [],
+  "charities": [],
+  "allAssets": {
+    "privatePension" : {
+      "isOwned" : true,
+      "isChanged": false,
+      "value": "6000.0"
+    }
+  }
+}

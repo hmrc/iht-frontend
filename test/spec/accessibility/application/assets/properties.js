@@ -1,13 +1,13 @@
-var selenium = require('selenium-webdriver'),
-    AxeBuilder = require('axe-webdriverjs');
+var selenium = require('selenium-webdriver');
+var AxeBuilder = require('axe-webdriverjs');
 var By = selenium.By, until = selenium.until;
 var colors = require('colors');
-var TestReporter = require('../../../../spec-helpers/reporter.js');
-var Browser = require('../../../../spec-helpers/browser.js');
-var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper.js');
-var loginhelper = require('../../../../spec-helpers/login-helper.js');
-var actionHelper = require('../../../../spec-helpers/action-helper.js');
-var behaves = require('../../../../spec-helpers/behaviour.js');
+var TestReporter = require('../../../../spec-helpers/reporter');
+var Browser = require('../../../../spec-helpers/browser');
+var accessibilityhelper = require('../../../../spec-helpers/check-accessibility-helper');
+var loginhelper = require('../../../../spec-helpers/login-helper');
+var actionHelper = require('../../../../spec-helpers/action-helper');
+var behaves = require('../../../../spec-helpers/behaviour');
 var Reporter = new TestReporter();
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
@@ -24,24 +24,12 @@ describe('Property (Assets) accessibility : ', function() {
       loginhelper.authenticate(done, driver, 'report')
     });
 
-    // Close website after each test is run (so it is opened fresh each time)
     afterEach(function(done) {
       driver.quit().then(function () {
           done();
       });
     });
 
-    function fillPropertyQuestion(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/any-properties-buildings-land-owned')
-        driver.findElement(By.css('#yes-label')).click();
-        actionHelper.submitPageHelper(done, driver);
-    }
-
-    function fillPropertyValue(done, driver){
-        driver.get(Browser.baseUrl + '/estate-report/value-of-property')
-        driver.findElement(By.name("value")).sendKeys('150000');
-        actionHelper.submitPageHelper(done, driver);
-    }
 
     it('properties question', function (done) {
         behaves.actsAsStandardForm(done, driver, {
@@ -51,7 +39,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('properties overview', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/properties-buildings-land-owned',
@@ -60,7 +48,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('add property overview', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/add-property',
@@ -69,7 +57,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('property address', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/property-address',
@@ -79,7 +67,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('type of property', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/type-of-property',
@@ -89,7 +77,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('how property was owned', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/how-property-was-owned',
@@ -99,7 +87,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('freehold or leasehold', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/freehold-or-leasehold-property',
@@ -109,7 +97,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('value of property', function (done) {
-        fillPropertyQuestion(done, driver);
+        actionHelper.populateApplicationData(driver, 'PropertyFilter');
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/value-of-property',
@@ -119,8 +107,7 @@ describe('Property (Assets) accessibility : ', function() {
     });
 
     it('delete property', function(done){
-        fillPropertyQuestion(done, driver);
-        fillPropertyValue(done, driver);
+        actionHelper.populateApplicationData(driver, 'OneProperty');
 
         behaves.actsAsBasicPage(done, driver, {
             url: Browser.baseUrl + '/estate-report/delete-property/1',
