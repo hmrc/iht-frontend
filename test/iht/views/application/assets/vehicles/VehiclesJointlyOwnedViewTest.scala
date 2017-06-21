@@ -40,7 +40,7 @@ class VehiclesJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[Sh
   override def pageTitle = messagesApi("page.iht.application.assets.vehicles.jointly.owned.title")
   override def browserTitle = messagesApi("page.iht.application.assets.vehicles.jointly.owned.browserTitle")
   override def questionTitle = messagesApi("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName)
-  override def valueQuestion = messagesApi("iht.estateReport.assets.vehicles.valueOfJointlyOwned")
+  override def valueQuestion = messagesApi("iht.estateReport.assets.vehicles.valueOfJointlyOwned", deceasedName)
   override def hasValueQuestionHelp = false
   override def valueQuestionHelp = ""
   override def returnLinkText = messagesApi("site.link.return.vehicles")

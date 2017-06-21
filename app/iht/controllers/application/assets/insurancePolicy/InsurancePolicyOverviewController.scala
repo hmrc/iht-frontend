@@ -30,6 +30,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 object InsurancePolicyOverviewController extends InsurancePolicyOverviewController with IhtConnectors {
@@ -52,53 +53,66 @@ trait InsurancePolicyOverviewController extends EstateController {
       QuestionAnswer(insurancePolicy.isInsurancePremiumsPayedForSomeoneElse, routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
         ad => displayQ1(ad),
         if (maritalStatusKey == "married") {
-          "page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married"
+          Messages("page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.married",
+            CommonHelper.getDeceasedNameOrDefaultString(rd))
         } else {
-          "page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried"
+         Messages("page.iht.application.assets.insurance.policies.overview.other.question1.yes.screenReader.link.value.notMarried",
+           CommonHelper.getDeceasedNameOrDefaultString(rd))
         },
         if (maritalStatusKey == "married") {
-          "page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married"
+          Messages("page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.married",
+            CommonHelper.getDeceasedNameOrDefaultString(rd))
         } else {
-          "page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried"
+          Messages("page.iht.application.assets.insurance.policies.overview.other.question1.no.screenReader.link.value.notMarried",
+            CommonHelper.getDeceasedNameOrDefaultString(rd))
         },
         if (maritalStatusKey == "married") {
-          "page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married"
+          Messages("page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.married",
+            CommonHelper.getDeceasedNameOrDefaultString(rd))
         } else {
           "page.iht.application.assets.insurance.policies.overview.other.question1.none.screenReader.link.value.notMarried"
         }),
       QuestionAnswer(insurancePolicy.moreThanMaxValue, routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad(),
         ad => displayQ2(ad),
-        "page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value"),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question2.yes.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question2.no.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question2.none.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd))),
       QuestionAnswer(insurancePolicy.isAnnuitiesBought, routes.InsurancePolicyDetailsAnnuityController.onPageLoad(),
         ad => displayQ3(ad),
-        "page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value"),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question3.yes.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question3.no.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question3.none.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd))),
       QuestionAnswer(insurancePolicy.isInTrust, routes.InsurancePolicyDetailsInTrustController.onPageLoad(),
         ad => displayQ4(ad),
-        "page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value",
-        "page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value")
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question4.yes.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question4.no.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)),
+        Messages("page.iht.application.assets.insurance.policies.overview.other.question4.none.screenReader.link.value",
+          CommonHelper.getDeceasedNameOrDefaultString(rd)))
     )
   }
 
   private def createSection1(regDetails: RegistrationDetails, insurancePolicy: InsurancePolicy)(implicit messages:Messages): Section = {
     createSectionFromYesNoValueQuestions(
       id = "deceased",
-      title = Some(messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails, true))),
+      title = Some(messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true))),
       linkUrl = routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad(),
-      sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value",
-      questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value",
-      questionLevelLinkAccessibilityTextNo = "page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value",
-      questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value",
+      sectionLevelLinkAccessibilityText = messages("page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextYes = messages("page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextNo = messages("page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextValue =
+        if(insurancePolicy.value.isDefined) "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value" else "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.novalue",
       questionAnswerExprYesNo = insurancePolicy.policyInDeceasedName,
       questionAnswerExprValue = insurancePolicy.value,
-      questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.ownName.question",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
-      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut"),
+      questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.ownName.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
+      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
       sectionLinkId = InsurancePayingToDeceasedSectionID,
       questionLinkID = InsurancePayingToDeceasedYesNoID,
       answerLinkID = InsurancePayingToDeceasedValueID
@@ -110,15 +124,16 @@ trait InsurancePolicyOverviewController extends EstateController {
       id = "joint",
       title = Some(messages("page.iht.application.assets.insurance.policies.overview.joint.title")),
       linkUrl = routes.InsurancePolicyDetailsJointController.onPageLoad(),
-      sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value",
-      questionLevelLinkAccessibilityTextYes = "page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value",
-      questionLevelLinkAccessibilityTextNo = "page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value",
-      questionLevelLinkAccessibilityTextValue = "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value",
+
+      sectionLevelLinkAccessibilityText = messages("page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextYes = messages("page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextNo = messages("page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextValue =
+        if(insurancePolicy.shareValue.isDefined) "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value" else "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.novalue",
       questionAnswerExprYesNo = insurancePolicy.isJointlyOwned,
       questionAnswerExprValue = insurancePolicy.shareValue,
-      questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
-      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare"),
+      questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.jointlyHeld.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
+      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
       sectionLinkId = InsuranceJointlyHeldSectionID,
       questionLinkID = InsuranceJointlyHeldYesNoID,
       answerLinkID = InsuranceJointlyHeldValueID
@@ -131,7 +146,8 @@ trait InsurancePolicyOverviewController extends EstateController {
       title = Some(messages("iht.estateReport.assets.insurancePolicies.premiumsPaidByOther",
         CommonHelper.getDeceasedNameOrDefaultString(regDetails, true))),
       linkUrl = routes.InsurancePolicyDetailsPayingOtherController.onPageLoad(),
-      sectionLevelLinkAccessibilityText = "page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
+      sectionLevelLinkAccessibilityText = messages("page.iht.application.assets.insurance.policies.overview.other.giveAnswer.screenReader.link.value",
+        CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
       questionAnswersPlusChangeLinks = section3YesNoItems(insurancePolicy, regDetails),
       questionTitlesMessagesFileItems = Seq(
         messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question",

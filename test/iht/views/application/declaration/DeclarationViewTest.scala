@@ -19,11 +19,12 @@ package iht.views.application.declaration
 import iht.forms.ApplicationForms
 import iht.testhelpers.CommonBuilder
 import iht.utils.CommonHelper._
-import iht.utils.DeclarationReason
+import iht.utils.{CommonHelper, DeclarationReason}
 import iht.viewmodels.application.DeclarationViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration
 import org.jsoup.nodes.Document
+import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 
 class DeclarationViewTest extends ViewTestHelper {
@@ -69,6 +70,7 @@ class DeclarationViewTest extends ViewTestHelper {
   lazy val coExecutorsConfirmationTextMsgKey= "iht.estateReport.declaration.coExecutors.confirmationText"
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
+  val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def declarationView(isMultipleExecutor: Boolean, declarationType: String) = {
     implicit val request = createFakeRequest()
@@ -139,7 +141,7 @@ class DeclarationViewTest extends ViewTestHelper {
       assertNotRenderedById(doc, summaryBullet3TextId)
 
       assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
@@ -165,7 +167,7 @@ class DeclarationViewTest extends ViewTestHelper {
       assertNotRenderedById(doc, summaryBullet3TextId)
 
       assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(noInheritanceTaxPayableMsgKey))
@@ -187,12 +189,12 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$summaryTextId", messagesApi(youMayFaceProsecutionMsgKey))
       assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
       assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails))
+      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails, deceasedName))
 
       assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(didntUseAnyOfThreshold))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
@@ -212,12 +214,12 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$summaryTextId", messagesApi(youMayFaceProsecutionMsgKey))
       assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
       assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails))
+      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails, deceasedName))
 
       assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(didntUseAnyOfThreshold))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet6TextId", messagesApi(noInheritanceTaxPayableMsgKey))
@@ -243,7 +245,7 @@ class DeclarationViewTest extends ViewTestHelper {
       assertNotRenderedById(doc, summaryBullet3TextId)
 
       assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
@@ -270,7 +272,7 @@ class DeclarationViewTest extends ViewTestHelper {
       assertNotRenderedById(doc, summaryBullet3TextId)
 
       assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(completedAllReasonableEnquiriesMsgKey, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(noInheritanceTaxPayableMsgKey))
@@ -292,12 +294,12 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$summaryTextId", messagesApi(executorsMayFaceProsecution))
       assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
       assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails))
+      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails, deceasedName))
 
       assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(didntUseAnyOfThreshold))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(noInheritanceTaxPayableMsgKey))
 
@@ -317,12 +319,12 @@ class DeclarationViewTest extends ViewTestHelper {
       assertEqualsValue(doc, s"#$summaryTextId", messagesApi(executorsMayFaceProsecution))
       assertEqualsValue(doc, s"#$summaryBullet1TextId", messagesApi(withholdInformationMsgKey))
       assertEqualsValue(doc, s"#$summaryBullet2TextId", messagesApi(dontTellHMRCMsgKey))
-      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails))
+      assertEqualsValue(doc, s"#$summaryBullet3TextId", messagesApi(haveProvidedNonMatchingDetails, deceasedName))
 
       assertEqualsValue(doc, s"#$mainTextId", messagesApi(declaringThatMsgKey))
-      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied))
+      assertEqualsValue(doc, s"#$mainBullet1TextId", messagesApi(deceasedMarriedWhenPartnerDied, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet2TextId", messagesApi(didntUseAnyOfThreshold))
-      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey))
+      assertEqualsValue(doc, s"#$mainBullet3TextId", messagesApi(completedAllReasonableEnquiriesMsgKey, deceasedName))
       assertEqualsValue(doc, s"#$mainBullet4TextId", messagesApi(correctAndCompleteMsgKey))
       assertEqualsValue(doc, s"#$mainBullet5TextId", messagesApi(estateValueBeforeExemptionsLessThan1MillionMsgKey))
       assertEqualsValue(doc, s"#$mainBullet6TextId", messagesApi(noInheritanceTaxPayableMsgKey))

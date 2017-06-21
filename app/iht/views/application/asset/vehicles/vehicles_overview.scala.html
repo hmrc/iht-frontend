@@ -57,8 +57,8 @@ isFullWidth=false
                         Messages("iht.estateReport.assets.vehiclesOwned", Messages("iht.the.deceased")),
                         Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(vehicles.flatMap(_.isOwned.map(identity)),
-                            Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change"),
-                            Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue")),
+                            Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change", deceasedName),
+                            Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.noValue", deceasedName)),
                         vehicles.flatMap(_.isOwned).isEmpty
                         ),
                         generic_overview_table_item(id = AssetsVehiclesOwnID,
@@ -68,15 +68,15 @@ isFullWidth=false
                             questionCategory= "change",
                             answerValue=Messages(getBooleanDisplayValue(vehicles.flatMap(_.isOwned.map(x=>x)))),
                             link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change")
+                            linkScreenReader = Messages("page.iht.application.assets.vehicles.deceased.isOwned.screenreader.link.change", deceasedName)
                         ),
                         generic_overview_table_item(id = "deceased-own-value",
                             questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
-                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue"),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
                             questionCategory= "change",
                             answerValue= vehicles.flatMap(_.value).fold("")(x=>{"£" + CommonHelper.numberWithCommas(x).toString()}),
                             link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.vehicles.deceased.value.screenreader.link.change")
+                            linkScreenReader = Messages("page.iht.application.assets.vehicles.deceased.value.screenreader.link.change", deceasedName)
                         )
 
             )
@@ -106,7 +106,7 @@ isFullWidth=false
                         ),
                         generic_overview_table_item(id = "deceased-shared-value",
                             questionText = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned", deceasedName),
-                            questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned"),
+                            questionScreenReaderText= Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned", deceasedName),
                             questionCategory= "change",
                             answerValue= vehicles.flatMap(_.shareValue).fold("")(x=>{"£" + CommonHelper.numberWithCommas(x).toString()}),
                             link = Some(iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onPageLoad),

@@ -28,9 +28,9 @@ import play.api.i18n.Messages.Implicits._
   */
 object DeclarationViewHelper {
 
-  def haveProvidedNonMatchingDetailsMsg(messages: Messages) = messages("iht.estateReport.declaration.haveProvidedNonMatchingDetails")
-  def completedAllReasonableEnquiriesMsg(messages: Messages) = messages("iht.estateReport.declaration.completedAllReasonableEnquiries")
-  def deceasedMarriedWhenPartnerDied(messages: Messages) = messages("iht.estateReport.declaration.deceasedMarriedWhenPartnerDied")
+  def haveProvidedNonMatchingDetailsMsg(messages: Messages, deceasedName:String) = messages("iht.estateReport.declaration.haveProvidedNonMatchingDetails", deceasedName)
+  def completedAllReasonableEnquiriesMsg(messages: Messages, deceasedName:String) = messages("iht.estateReport.declaration.completedAllReasonableEnquiries", deceasedName)
+  def deceasedMarriedWhenPartnerDied(messages: Messages, deceasedName: String) = messages("iht.estateReport.declaration.deceasedMarriedWhenPartnerDied", deceasedName)
   def correctAndCompleteMsg(messages: Messages) = messages("iht.estateReport.declaration.correctAndComplete")
   def didNotUseAnyOfThresholdMsg(messages: Messages) = messages("iht.estateReport.declaration.didntUseAnyOfThreshold")
   def noInheritanceTaxPayableMsg(messages: Messages)= messages("iht.estateReport.noInheritanceTaxPayable")
@@ -46,25 +46,25 @@ object DeclarationViewHelper {
     )
   }
 
-  def summaryBullet3Text(declarationType: String, isMultipleExecutor: Boolean)(implicit messages: Messages) =
+  def summaryBullet3Text(declarationType: String, isMultipleExecutor: Boolean, deceasedName:String)(implicit messages: Messages) =
     (isMultipleExecutor, declarationType) match {
-      case (false, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(haveProvidedNonMatchingDetailsMsg(messages))
-      case (false, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(haveProvidedNonMatchingDetailsMsg(messages))
-      case (true, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(haveProvidedNonMatchingDetailsMsg(messages))
-      case (true, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(haveProvidedNonMatchingDetailsMsg(messages))
+      case (false, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(haveProvidedNonMatchingDetailsMsg(messages, deceasedName))
+      case (false, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(haveProvidedNonMatchingDetailsMsg(messages, deceasedName))
+      case (true, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(haveProvidedNonMatchingDetailsMsg(messages, deceasedName))
+      case (true, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(haveProvidedNonMatchingDetailsMsg(messages, deceasedName))
       case _ => None
     }
 
- def mainBullet1Text(declarationType: String, isMultipleExecutor: Boolean) (implicit messages: Messages) =
+ def mainBullet1Text(declarationType: String, isMultipleExecutor: Boolean, deceasedName: String) (implicit messages: Messages) =
    (isMultipleExecutor, declarationType) match {
-        case (false, DeclarationReason.ValueLessThanNilRateBand) => Some(completedAllReasonableEnquiriesMsg(messages))
-        case (false, DeclarationReason.ValueLessThanNilRateBandAfterExemption) => Some(completedAllReasonableEnquiriesMsg(messages))
-        case (false, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(deceasedMarriedWhenPartnerDied(messages))
-        case (false, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(deceasedMarriedWhenPartnerDied(messages))
-        case (true, DeclarationReason.ValueLessThanNilRateBand) => Some(completedAllReasonableEnquiriesMsg(messages))
-        case (true, DeclarationReason.ValueLessThanNilRateBandAfterExemption) => Some(completedAllReasonableEnquiriesMsg(messages))
-        case (true, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(deceasedMarriedWhenPartnerDied(messages))
-        case (true, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(deceasedMarriedWhenPartnerDied(messages))
+        case (false, DeclarationReason.ValueLessThanNilRateBand) => Some(completedAllReasonableEnquiriesMsg(messages, deceasedName))
+        case (false, DeclarationReason.ValueLessThanNilRateBandAfterExemption) => Some(completedAllReasonableEnquiriesMsg(messages, deceasedName))
+        case (false, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(deceasedMarriedWhenPartnerDied(messages, deceasedName))
+        case (false, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(deceasedMarriedWhenPartnerDied(messages, deceasedName))
+        case (true, DeclarationReason.ValueLessThanNilRateBand) => Some(completedAllReasonableEnquiriesMsg(messages, deceasedName))
+        case (true, DeclarationReason.ValueLessThanNilRateBandAfterExemption) => Some(completedAllReasonableEnquiriesMsg(messages, deceasedName))
+        case (true, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(deceasedMarriedWhenPartnerDied(messages, deceasedName))
+        case (true, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(deceasedMarriedWhenPartnerDied(messages, deceasedName))
         case _ => None
   }
 
@@ -82,16 +82,16 @@ object DeclarationViewHelper {
       }
 
 
-  def mainBullet3Text(declarationType: String, isMultipleExecutor: Boolean) (implicit messages: Messages)=
+  def mainBullet3Text(declarationType: String, isMultipleExecutor: Boolean, deceasedName: String) (implicit messages: Messages)=
    (isMultipleExecutor, declarationType) match {
         case (false, DeclarationReason.ValueLessThanNilRateBand) => Some(noInheritanceTaxPayableMsg(messages))
         case (false, DeclarationReason.ValueLessThanNilRateBandAfterExemption) => Some(estateValueBeforeExemptionsLessThan1MillionMsg(messages))
-        case (false, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(completedAllReasonableEnquiriesMsg(messages))
-        case (false, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(completedAllReasonableEnquiriesMsg(messages))
+        case (false, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(completedAllReasonableEnquiriesMsg(messages, deceasedName))
+        case (false, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(completedAllReasonableEnquiriesMsg(messages, deceasedName))
         case (true, DeclarationReason.ValueLessThanNilRateBand) => Some(noInheritanceTaxPayableMsg(messages))
         case (true, DeclarationReason.ValueLessThanNilRateBandAfterExemption) => Some(estateValueBeforeExemptionsLessThan1MillionMsg(messages))
-        case (true, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(completedAllReasonableEnquiriesMsg(messages))
-        case (true, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(completedAllReasonableEnquiriesMsg(messages))
+        case (true, DeclarationReason.ValueLessThanTransferredNilRateBand) => Some(completedAllReasonableEnquiriesMsg(messages, deceasedName))
+        case (true, DeclarationReason.ValueLessThanTransferredNilRateBandAfterExemption) => Some(completedAllReasonableEnquiriesMsg(messages, deceasedName))
         case _ => None
   }
 

@@ -22,7 +22,8 @@
 applicationDetails: ApplicationDetails,
 applicationLastSection: Option[String],
 applicationLastID: Option[String],
-summaryParameter1:Option[String]=None)(implicit request:Request[_], messages: Messages)
+summaryParameter1:String,
+deceasedName: String)(implicit request:Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
@@ -34,7 +35,7 @@ summaryParameter1:Option[String]=None)(implicit request:Request[_], messages: Me
     browserTitle = Some(Messages("iht.notPossibleToUseService"))) {
     <div class="panel-indent">
         @ApplicationKickOutHelper.summary.find( _._1 == kickoutReason).map{summary =>
-            <p id="kickout-message">@Messages(summary._2, summaryParameter1.fold("")(identity))</p>}
+            <p id="kickout-message">@Messages(summary._2, summaryParameter1, deceasedName)</p>}
         @if(!ApplicationKickOutHelper.summaryBullets(kickoutReason).isEmpty) {
         <ul class="bullets" id="summary-bullets">
             @ApplicationKickOutHelper.summaryBullets(kickoutReason).map{txt=>
