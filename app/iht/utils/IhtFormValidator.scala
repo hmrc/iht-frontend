@@ -20,7 +20,7 @@ import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.models.{RegistrationDetails, UkAddress}
 import play.api.data.format.Formatter
-import play.api.data.{FieldMapping, FormError, Forms}
+import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -496,4 +496,15 @@ trait IhtFormValidator extends FormValidator {
   def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey:String)(
     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
     Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey))
+
+  def addDeceasedNameToAllFormErrors[T](form: Form[T], deceasedName: String) = {
+    val errors = form.errors.map { error =>
+      new FormError(error.key, error.messages, Seq(deceasedName))
+    }
+    Form(
+      form.mapping,
+      form.data,
+      errors,
+      form.value)
+  }
 }

@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.exemptions._
 import iht.utils.ApplicationKickOutHelper.FunctionListMap
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}
@@ -170,17 +170,6 @@ trait EstateController extends ApplicationController {
       formValidation, id)
   }
 
-  def addDeceasedNameToAllFormErrors[T](form: Form[T], deceasedName: String) = {
-    val errors = form.errors.map { error =>
-      new FormError(error.key, error.messages, Seq(deceasedName))
-    }
-    Form(
-      form.mapping,
-      form.data,
-      errors,
-      form.value)
-  }
-
   /**
     * id: Is being used in case of properties, charities and qualifying bodies. Can be kept as _ where you don't need it.
     */
@@ -204,7 +193,7 @@ trait EstateController extends ApplicationController {
           boundFormBeforeValidation.value)
       }
 
-      addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
+      IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
         .fold(
           formWithErrors => {
             Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
