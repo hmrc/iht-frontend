@@ -256,7 +256,7 @@ page.iht.registration.checklist.deceased.label3 = date of death
 page.iht.registration.checklist.deceased.label5 = last known contact address
 page.iht.registration.checklist.deceased.label6 = country where they had their permanent home – you can only use this service if the person who has died lived in England or Wales
 page.iht.registration.checklist.deceased.label7 = relationship status
-page.iht.registration.checklist.deceased.reveal.label1 = The person who has died’s first and last name will be on the death certificate. If you didn’t know the person who has died, ask their family or friends for some details if you don’t have them.
+page.iht.registration.checklist.deceased.reveal.label1 = The person who has died’s first and last name will be on the death certificate. If you did not know the person who has died, ask their family or friends for some details if you do not have them.
 page.iht.registration.checklist.deceased.reveal.label2 = The last known contact address is where they had their post sent before they died. This could be to a home that they owned or where they last lived.
 page.iht.registration.checklist.deceased.reveal.label4 = The person who has died’s relationship status is their actual situation when they died, not what they, or someone else, might have thought it to be. If the person who has died said they were single but they had been married at some time in their life and then divorced, you should select divorced.
 
