@@ -20,7 +20,7 @@ import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.models.{RegistrationDetails, UkAddress}
 import play.api.data.format.Formatter
-import play.api.data.{FieldMapping, Form, FormError, Forms}
+import play.api.data.{FieldMapping, FormError, Forms}
 import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
 
