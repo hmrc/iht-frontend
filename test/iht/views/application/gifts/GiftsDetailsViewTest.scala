@@ -77,7 +77,7 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
       val giftsGivenAwaySectionText = giftsGivenAwaySection.getElementsByTag("span").get(0)
       val giftsGivenAwaySectionValue = giftsGivenAwaySection.getElementsByTag("span").get(1)
 
-      giftsGivenAwaySectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.value.label")
+      giftsGivenAwaySectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.value.label", "13 March 2007", "5 April 2007")
       giftsGivenAwaySectionValue.text shouldBe "£"
     }
 
@@ -87,7 +87,7 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
       val exemptionsClaimedSectionText = exemptionsClaimedSection.getElementsByTag("span").get(0)
       val exemptionsClaimedSectionValue = exemptionsClaimedSection.getElementsByTag("span").get(1)
 
-      exemptionsClaimedSectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.exemptions.label")
+      exemptionsClaimedSectionText.text shouldBe messagesApi("page.iht.application.giftsDetails.exemptions.label", "13 March 2007", "5 April 2007")
       exemptionsClaimedSectionValue.text shouldBe "£"
     }
 
