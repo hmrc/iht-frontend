@@ -1266,7 +1266,7 @@ page.iht.application.gifts.lastYears.givenAway.p2 = The tax years for this estat
 
 page.iht.application.giftsDetails.browserTitle = Value of gifts for year
 page.iht.application.giftsDetails.subtitle = {0} to
-page.iht.application.giftsDetails.value.label = Total value of gifts given for {0} to {1}
+page.iht.application.giftsDetails.value.label = Total value of gifts for {0} to {1}
 page.iht.application.giftsDetails.exemptions.label = Total value of exemptions for {0} to {1}
 page.iht.application.giftsDetails.amountAdded = Amount added to the estate value is £
 
