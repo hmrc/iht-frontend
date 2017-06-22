@@ -36,7 +36,7 @@ class GiftsDetailsViewTest extends SubmittableApplicationPageBehaviour[PreviousY
   lazy val giftsValue = BigDecimal(200)
   lazy val exemptionsValue = BigDecimal(100)
 
-  def pageTitle: String = messagesApi("page.iht.application.giftsDetails.subtitle", "13 March 2007", "5 April 2007")
+  def pageTitle: String = messagesApi("page.iht.application.giftsDetails.subtitle", "13 March 2007") + " 5 April 2007"
 
   def browserTitle: String = messagesApi("page.iht.application.giftsDetails.browserTitle")
 
