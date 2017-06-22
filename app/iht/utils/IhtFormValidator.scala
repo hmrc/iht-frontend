@@ -496,15 +496,4 @@ trait IhtFormValidator extends FormValidator {
   def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey:String)(
     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
     Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey))
-
-  def addDeceasedNameToAllFormErrors[T](form: Form[T], deceasedName: String) = {
-    val errors = form.errors.map { error =>
-      new FormError(error.key, error.messages, Seq(deceasedName))
-    }
-    Form(
-      form.mapping,
-      form.data,
-      errors,
-      form.value)
-  }
 }

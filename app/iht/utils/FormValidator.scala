@@ -21,7 +21,7 @@ import org.joda.time.LocalDate
 import play.api.data.Forms._
 import play.api.data.format.Formatter
 import play.api.data.validation._
-import play.api.data.{FieldMapping, FormError, Forms, Mapping}
+import play.api.data._
 import uk.gov.hmrc.play.validators.Validators._
 
 import scala.collection.immutable.ListMap
@@ -174,5 +174,17 @@ trait FormValidator {
 
   def ihtIsPostcodeLengthValid(value: String) = {
     value.length <= IhtProperties.validationMaxLengthPostcode && isPostcodeLengthValid(value)
+  }
+
+
+  def addDeceasedNameToAllFormErrors[T](form: Form[T], deceasedName: String) = {
+    val errors = form.errors.map { error =>
+      new FormError(error.key, error.messages, Seq(deceasedName))
+    }
+    Form(
+      form.mapping,
+      form.data,
+      errors,
+      form.value)
   }
 }

@@ -269,17 +269,4 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
   }
-
-  "addDeceasedNameToAllFormErrors" must {
-    "add the deceased name as the first argument to all form error objects against a form" in {
-      val deceasedName = CommonBuilder.DefaultFirstName
-      val errors = Seq(FormError("one", "message 1"), FormError("two", "message 2"))
-      val f = Form(ninoForCoExecutorMapping(CommonBuilder.buildRegistrationDetails1), Map("" -> ""), errors, None)
-      val result: Form[String] = IhtFormValidator.addDeceasedNameToAllFormErrors(f, deceasedName)
-      val actualOptionArgs1 = result.error("one").map(_.args)
-      actualOptionArgs1 shouldBe Some(Seq(deceasedName))
-      val actualOptionArgs2 = result.error("two").map(_.args)
-      actualOptionArgs2 shouldBe Some(Seq(deceasedName))
-    }
-  }
 }
