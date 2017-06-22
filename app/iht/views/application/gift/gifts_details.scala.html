@@ -34,12 +34,12 @@ cancelLabel: => Option[String]
 @startDateFormatted = @{if(!startDate.isEmpty)Dates.formatDate(LocalDate.parse(startDate))else""}
 @endDateFormatted = @{if(!endDate.isEmpty)Dates.formatDate(LocalDate.parse(endDate))else""}
 
-@iht_main_template_application(title = Messages("page.iht.application.giftsDetails.subtitle",
-                                        startDateFormatted,
-                                        endDateFormatted),
-browserTitle = Some(Messages("page.iht.application.giftsDetails.browserTitle")),
-cancelUrl=cancelUrl,
-cancelLabel = cancelLabel) {
+@iht_main_template_application(
+title = (Messages("page.iht.application.giftsDetails.subtitle",startDateFormatted) + " <span class=\"u--block\">" + endDateFormatted + "</span>"),
+    browserTitle = Some(Messages("page.iht.application.giftsDetails.browserTitle")),
+    cancelUrl=cancelUrl,
+    cancelLabel = cancelLabel
+) {
 
 @ihtHelpers.custom.error_summary_override_keys(previousYearGiftsForm, Constants.AppSectionEstateGifts)
 

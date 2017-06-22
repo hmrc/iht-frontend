@@ -139,7 +139,7 @@ isRegistration: Boolean = false
         @if(headingName > ""){
             @parseForName(title, headingName)
         } else {
-            @title
+            @Html(title)
         }
     </h1>
     @mainContent
