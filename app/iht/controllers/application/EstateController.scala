@@ -17,6 +17,7 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.Constants
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
@@ -30,7 +31,8 @@ import play.twirl.api.HtmlFormat._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-import scala.concurrent.Future
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
 trait EstateController extends ApplicationController {
@@ -168,6 +170,17 @@ trait EstateController extends ApplicationController {
       formValidation, id)
   }
 
+  def addDeceasedNameToAllFormErrors[T](form: Form[T], deceasedName: String) = {
+    val errors = form.errors.map { error =>
+      new FormError(error.key, error.messages, Seq(deceasedName))
+    }
+    Form(
+      form.mapping,
+      form.data,
+      errors,
+      form.value)
+  }
+
   /**
     * id: Is being used in case of properties, charities and qualifying bodies. Can be kept as _ where you don't need it.
     */
@@ -191,20 +204,22 @@ trait EstateController extends ApplicationController {
           boundFormBeforeValidation.value)
       }
 
-      boundForm.fold(
-        formWithErrors => {
-          Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
-        },
-        estateElementModel => {
-          estatesSaveApplication(CommonHelper.getNino(user),
-            estateElementModel,
-            regDetails,
-            updateApplicationDetails,
-            redirectLocation = redirectLocation,
-            id
-          )
-        }
-      )
+      addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
+        .fold(
+          formWithErrors => {
+            Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
+          },
+          estateElementModel => {
+            estatesSaveApplication(CommonHelper.getNino(user),
+              estateElementModel,
+              regDetails,
+              updateApplicationDetails,
+              redirectLocation = redirectLocation,
+              id
+            )
+          }
+        )
+
     }
   }
 
