@@ -24,7 +24,7 @@ import iht.utils.IhtFormValidator._
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
-import play.api.data.{FieldMapping, FormError}
+import play.api.data.{FieldMapping, Form, FormError}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.test.UnitSpec
