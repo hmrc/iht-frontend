@@ -24,7 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, ApplicationStatus => AppStatus}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, ApplicationStatus => AppStatus}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -32,6 +32,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 
@@ -83,7 +84,8 @@ trait EstatePassedToDeceasedOrCharityController extends EstateController {
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = estatePassedToDeceasedOrCharityForm.bindFromRequest
+          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(estatePassedToDeceasedOrCharityForm
+            .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {
