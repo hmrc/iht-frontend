@@ -17,12 +17,13 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.constants.Constants
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.exemptions._
 import iht.utils.ApplicationKickOutHelper.FunctionListMap
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}
@@ -30,7 +31,8 @@ import play.twirl.api.HtmlFormat._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-import scala.concurrent.Future
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
 trait EstateController extends ApplicationController {
@@ -191,20 +193,22 @@ trait EstateController extends ApplicationController {
           boundFormBeforeValidation.value)
       }
 
-      boundForm.fold(
-        formWithErrors => {
-          Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
-        },
-        estateElementModel => {
-          estatesSaveApplication(CommonHelper.getNino(user),
-            estateElementModel,
-            regDetails,
-            updateApplicationDetails,
-            redirectLocation = redirectLocation,
-            id
-          )
-        }
-      )
+      IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
+        .fold(
+          formWithErrors => {
+            Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
+          },
+          estateElementModel => {
+            estatesSaveApplication(CommonHelper.getNino(user),
+              estateElementModel,
+              regDetails,
+              updateApplicationDetails,
+              redirectLocation = redirectLocation,
+              id
+            )
+          }
+        )
+
     }
   }
 

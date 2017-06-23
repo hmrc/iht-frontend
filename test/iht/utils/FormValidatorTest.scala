@@ -23,7 +23,7 @@ import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
 import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.data.{FieldMapping, FormError}
+import play.api.data.{FieldMapping, Form, FormError}
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -215,6 +215,20 @@ class FormValidatorTest extends  FormTestHelper with FakeIhtApp {
     "Return a formatter which responds suitably to no item being selected" in {
       formatter.bind("radiokey", Map( "option1"->"option1" ))
         .left.get.contains(FormError("radiokey", "no-selection")) shouldBe true
+    }
+  }
+
+  "addDeceasedNameToAllFormErrors" must {
+    "add the deceased name as the first argument to all form error objects against a form" in {
+      val mapping: FieldMapping[Option[String]] = phoneNumberOptionString("blank message", "invalid length", "invalid value")
+      val deceasedName = CommonBuilder.DefaultFirstName
+      val errors = Seq(FormError("one", "message 1"), FormError("two", "message 2"))
+      val f = Form(mapping, Map("" -> ""), errors, None)
+      val result: Form[Option[String]] = addDeceasedNameToAllFormErrors(f, deceasedName)
+      val actualOptionArgs1 = result.error("one").map(_.args)
+      actualOptionArgs1 shouldBe Some(Seq(deceasedName))
+      val actualOptionArgs2 = result.error("two").map(_.args)
+      actualOptionArgs2 shouldBe Some(Seq(deceasedName))
     }
   }
 }

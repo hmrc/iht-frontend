@@ -1264,9 +1264,9 @@ page.iht.application.gifts.lastYears.givenAway.p1 = You need to find out what gi
 page.iht.application.gifts.lastYears.givenAway.p2 = The tax years for this estate are:
 
 page.iht.application.giftsDetails.browserTitle = Value of gifts for year
-page.iht.application.giftsDetails.subtitle = Gifts and exemptions for tax year {0} to {1}
-page.iht.application.giftsDetails.value.label = Total value of gifts
-page.iht.application.giftsDetails.exemptions.label = Total value of exemptions
+page.iht.application.giftsDetails.subtitle = {0} to
+page.iht.application.giftsDetails.value.label = Total value of gifts for {0} to {1}
+page.iht.application.giftsDetails.exemptions.label = Total value of exemptions for {0} to {1}
 page.iht.application.giftsDetails.amountAdded = Amount added to the estate value is £
 
 iht.estateReport.gifts.givenAway.title = Gifts given away
@@ -2454,8 +2454,8 @@ error.otherAsset.currencyValue.summary = enter a value for other assets owned us
 #Errors - Estate report - Gifts
 error.giftsGivenAway.select = Select an answer for if more than £3,000 was gifted away in any of the 7 years before death
 error.giftWithReservationFromBenefit.select = Select an answer for if there were any gifts with the reservation of benefit given away
-error.giftSevenYearsGivenInLast7Years.select = Select an answer for if the deceased gave away any of the type of gifts listed in the 7 years before death
-error.giftSevenYearsToTrust.select = Select an answer for if the deceased gifted a property, building or land to a non-person
+error.giftSevenYearsGivenInLast7Years.select = Select an answer for if {0} gave away any of the type of gifts listed in the 7 years before death
+error.giftSevenYearsToTrust.select = Select an answer for if {0} gifted a property, building or land to a non-person
 
 error.giftsDetails.exceedsGivenAway = The total value of exemptions being claimed on a year cannot be more than the total value of gifts given away
 error.giftsDetails.exceedsLimit = Give an exemption value of £14,000 or less
