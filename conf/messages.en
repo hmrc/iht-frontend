@@ -221,7 +221,7 @@ page.iht.filter.paperform.other.country.p1.sentence2.start = You must also fill 
 page.iht.filter.paperform.other.country.p2 = Only assets that are in the UK should be included. This includes any UK property or bank accounts.
 page.iht.filter.paperform.other.country.iht401.link.text = IHT-401 paper form
 
-page.iht.filter.paperform.million.p1 = Because you think the deceased’s estate might be worth more than £1 million, you will need to report their estate value by filling in an
+page.iht.filter.paperform.million.p1 = Because you think the person who has died’s estate might be worth more than £1 million, you will need to report their estate value by filling in an
 page.iht.filter.paperform.million.p2 = This form is used when the estate value is more than £1 million. The form will guide you through what details you need to give and will tell you if there is any Inheritance Tax to pay.
 page.iht.filter.paperform.million.exit = Exit to the IHT-400 form
 
