@@ -41,7 +41,8 @@ isFullWidth=false
         questionCategory= "change",
         answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToCharity)),
         link = Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad),
-        linkScreenReader = Messages("page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.value"))
+        linkScreenReader = Messages("page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.value",
+            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))
         </ul>
 
         <div class="subsection">
