@@ -2415,12 +2415,12 @@ error.assets.stocksAndShares.notListed.select = Select an answer for whether the
 error.stockAndShare.currencyValue.length.summary = enter a value for stocks and shares using less than 11 numbers
 error.stockAndShare.currencyValue.summary = enter a value for stocks and shares using only numbers
 
-error.assets.insurancePolicy.deceasedOwned.select = Select an answer for whether there are any insurance policies owned by the deceased in the estate
+error.assets.insurancePolicy.deceasedOwned.select = Select an answer for whether there are any insurance policies owned by {0} in the estate
 error.assets.insurancePolicy.jointlyOwned.select = Select an answer for whether there are any jointly held insurance policies in the estate
-error.assets.insurancePolicy.payedToSomeoneElse.select = Select an answer for whether the deceased ever paid for any insurance policies that were not due to pay out to their estate
-error.assets.insurancePolicy.isInTrust.select = Select an answer for whether the deceased ever paid for an insurance policies that was placed in trust in the 7 years before they died
-error.assets.insurancePolicy.moreThanMaxValue.select = Select an answer for whether the deceased ever paid more than £3,000 in any year for any insurance policies that were not due to pay out to their estate
-error.assets.insurancePolicy.isAnnuitiesBought.select = Select an answer for whether the deceased ever bought an annuity at any time in their life
+error.assets.insurancePolicy.payedToSomeoneElse.select = Select an answer for whether {0}  ever paid for any insurance policies that were not due to pay out to their estate
+error.assets.insurancePolicy.isInTrust.select = Select an answer for whether {0} ever paid for an insurance policies that was placed in trust in the 7 years before they died
+error.assets.insurancePolicy.moreThanMaxValue.select = Select an answer for whether {0} ever paid more than £3,000 in any year for any insurance policies that were not due to pay out to their estate
+error.assets.insurancePolicy.isAnnuitiesBought.select = Select an answer for whether {0} ever bought an annuity at any time in their life
 error.length.assets.policies = Enter a value using less than 11 numbers
 error.length.assets.policies.summary = enter a value for insurance policies using less than 11 numbers
 error.currency.assets.policies = Enter a value using only numbers
