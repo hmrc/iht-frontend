@@ -159,14 +159,19 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       status(result) shouldBe (BAD_REQUEST)   
     }
 
+    "respond with bad request and correct error message when no answer is selected" in {
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
+
+      val result = moneyDeceasedOwnController.onSubmit (fakePostRequest)
+      status(result) shouldBe (BAD_REQUEST)
+      result should include
+    }
+
+
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
       moneyDeceasedOwnController.onPageLoad(createFakeRequest()))
 
-//    "respond with redirect to application overview when no registration details found in cache" in {
-//      createMockToGetRegDetailsFromCache(mockCachingConnector, None)
-//      val result = moneyDeceasedOwnController.onPageLoad(createFakeRequest())
-//      status(result) should be(SEE_OTHER)
-//      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
-//    }
   }
 }
