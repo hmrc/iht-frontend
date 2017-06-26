@@ -2388,7 +2388,7 @@ error.assets.property.tenure.select = Select if this property, building or land 
 error.assets.property.type.select = Select what kind of property, building or land this is
 error.assets.property.ownership.select = Select how this property, building or land was owned
 
-error.assets.money.deceasedOwned.select = Select an answer for whether there is any money owned only be the deceased
+error.assets.money.deceasedOwned.select = Select an answer for whether there is any money owned only by {0}
 error.assets.money.jointlyOwned.select = Select an answer for whether there is any jointly owned money in the estate
 error.money.currencyValue.length.summary = enter a value for money owned using less than 11 numbers
 error.money.currencyValue.summary = enter a value for money owned using only numbers
@@ -2439,10 +2439,10 @@ error.nominated.currencyValue.length.summary = enter a value for nominated asset
 error.nominated.currencyValue.summary = enter a value for nominated assets using only numbers
 
 error.assets.heldInTrust.deceasedOwned.select = Select an answer for whether there are any assets held in a trust in the estate
-error.assets.heldInTrust.moreThanOne.select  = Select an answer for whether the deceased benefitted from, had the right to benefit from, a trust during their lifetime
+error.assets.heldInTrust.moreThanOne.select  = Select an answer for whether {0} benefitted from, had the right to benefit from, a trust during their lifetime
 
 error.assets.foreign.select = Select an answer for whether there are any foreign assets in the estate
-error.assets.moneyOwedToDeceased.select = Select an answer for if there was any money owed to the deceased
+error.assets.moneyOwedToDeceased.select = Select an answer for if there was any money owed to {0}
 error.foreign.currencyValue.length.summary = enter a value for foreign assets using less than 11 numbers
 error.foreign.currencyValue.summary = enter a value for foreign assets using only numbers
 
