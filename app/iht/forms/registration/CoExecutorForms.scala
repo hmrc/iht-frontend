@@ -76,7 +76,10 @@ trait CoExecutorForms {
         "error.dateOfBirth.giveCorrectMonth",
         "error.dateOfBirth.giveCorrectYear",
         "error.dateOfBirth.giveFull",
-        "error.dateOfBirth.giveNoneFuture"
+        "error.dateOfBirth.giveNoneFuture",
+        "error.dateOfBirth.giveCorrectDayMonth",
+        "error.dateOfBirth.giveCorrectDayYear",
+        "error.dateOfBirth.giveCorrectMonthYear"
       ),
       "nino" -> ihtFormValidator.ninoForCoExecutor(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
@@ -116,7 +119,10 @@ trait CoExecutorForms {
         "error.dateOfBirth.giveCorrectMonth",
         "error.dateOfBirth.giveCorrectYear",
         "error.dateOfBirth.giveFull",
-        "error.dateOfBirth.giveNoneFuture"
+        "error.dateOfBirth.giveNoneFuture",
+        "error.dateOfBirth.giveCorrectDayMonth",
+        "error.dateOfBirth.giveCorrectDayYear",
+        "error.dateOfBirth.giveCorrectMonthYear"
       ),
       "nino" -> ihtFormValidator.ninoForCoExecutor(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
