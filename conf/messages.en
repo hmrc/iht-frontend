@@ -2474,11 +2474,11 @@ error.debts.funeralExpenses.select  = Select an answer for if there are any fune
 error.funeralExpenses.currencyValue.length.summary = enter a value for funeral costs using less than 11 numbers
 error.funeralExpenses.currencyValue.summary = enter a value for funeral costs using only numbers
 
-error.debts.trusts.select = Select an answer for if there are any debts from a trust that the deceased benefitted from
+error.debts.trusts.select = Select an answer for if there are any debts from a trust that {0} benefitted from
 error.debtsFromTrust.currencyValue.length.summary = enter a value for debts owed from a trust using less than 11 numbers
 error.debtsFromTrust.currencyValue.summary = enter a value for debts owed from a trust using only numbers
 
-error.debts.debtsOutsideUk.select = Select an answer for if the deceased owed any debts to anyone outside of the UK
+error.debts.debtsOutsideUk.select = Select an answer for if {0} owed any debts to anyone outside of the UK
 error.debtsOutsideUk.currencyValue.length.summary = enter a value for debts owed outside of the UK using less than 11 numbers
 error.debtsOutsideUk.currencyValue.summary = enter a value for debts owed outside of the UK using only numbers
 
