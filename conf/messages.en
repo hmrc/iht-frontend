@@ -1409,8 +1409,8 @@ iht.estateReport.exemptions.guidance.provideAssetsDetails = You will need to pro
 
 #Estate report - Exemptions - Partner
 page.iht.application.exemptions.partner.overview.browserTitle = Assets left to partner
-page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.noValue = Give answer for did the deceased leave anything to their spouse or civil partner
-page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value = Change the answer for did the deceased leave anything to their spouse or civil partner
+page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.noValue = Give answer for did {0} leave anything to their spouse or civil partner
+page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value = Change the answer for did {0} leave anything to their spouse or civil partner
 page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.noValue = Give answer for is the spouse’s or civil partner’s permanent home in the UK
 page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.value = Change the answer for is the spouse’s or civil partner’s permanent home in the UK
 page.iht.application.exemptions.overview.partner.name.title = Name of the spouse or civil partner
@@ -1494,8 +1494,7 @@ page.iht.application.exemptions.assetLeftToCharity.sectionName = asset-left-to-c
 page.iht.application.exemptions.assetLeftToCharity.question1 = Were any assets left to a charity?
 page.iht.application.exemptions.assetLeftToCharity.question1.hint = You should add each individual charity that received assets and tell us the total value of what they received.
 page.iht.application.exemptions.assetLeftToCharity.addCharity = Add a charity
-page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.value = Change the answer for did the deceased leave any assets to a charity
-page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.noValue = Give an answer for did the deceased leave any assets to a charity
+page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.value = Change the answer for did {0} leave any assets to a charity
 page.iht.application.exemptions.charityOverview.noCharities.text = You have not added any charities to this estate.
 page.iht.application.exemptions.charityOverviewTable.header = Charities
 
@@ -1546,7 +1545,7 @@ page.iht.application.exemptions.qualifyingBodyOverview.browserTitle = Assets lef
 page.iht.application.exemptions.qualifyingBodyOverview.lede = These are all of the assets being left to a qualifying body. These will not be charities that have a registered qualifying body number.
 
 page.iht.application.exemptions.qualifyingBodyOverview.question = Did {0} leave anything to a qualifying body?
-page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link = Change the answer to did the deceased leave anything to a qualifying body
+page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link = Change the answer to did {0} leave anything to a qualifying body
 
 page.iht.application.exemptions.qualifyingBodyOverviewTable.header = Qualifying bodies
 page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text = You have not added any qualifying bodies to this estate.
@@ -2491,7 +2490,7 @@ error.otherDebt.currencyValue.length.summary = enter a value for other debts usi
 error.otherDebt.currencyValue.summary = enter a value for other debts using only numbers
 
 #Errors - Estate report - Exemptions
-error.isAssetForDeceasedPartner.select = Select an answer for if any assets have been left to the deceased's spouse or civil partner
+error.isAssetForDeceasedPartner.select = Select an answer for if any assets have been left to {0}’s spouse or civil partner
 error.isPartnerHomeInUK.select = Select an answer for if {0}’s spouse or civil partner has their permanent home in the UK
 
 error.isAssetForCharity.select = Select an answer for if any assets have been left to a charity

@@ -92,7 +92,8 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {
-              boundForm.fold(
+              IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
+                .fold(
                 formWithErrors => {
                   Future.successful(BadRequest(partner_permanent_home_question(formWithErrors,
                     regDetails,

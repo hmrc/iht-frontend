@@ -48,7 +48,7 @@ headingName = deceasedName
             questionCategory= "change",
             answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToQualifyingBody)),
             link = Some(iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onPageLoad),
-            linkScreenReader = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link"))
+            linkScreenReader = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link", deceasedName))
         </ul>
         <div class="subsection">
         <h2>@Messages("page.iht.application.exemptions.qualifyingBodyOverviewTable.header")</h2>
