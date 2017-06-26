@@ -2492,7 +2492,7 @@ error.otherDebt.currencyValue.summary = enter a value for other debts using only
 
 #Errors - Estate report - Exemptions
 error.isAssetForDeceasedPartner.select = Select an answer for if any assets have been left to the deceased's spouse or civil partner
-error.isPartnerHomeInUK.select = Select an answer for if the deceased's spouse or civil partner has their permanent home in the UK
+error.isPartnerHomeInUK.select = Select an answer for if {0}’s spouse or civil partner has their permanent home in the UK
 
 error.isAssetForCharity.select = Select an answer for if any assets have been left to a charity
 error.charityName.giveUsing35CharactersOrLess = Give a charity name using 35 characters or less

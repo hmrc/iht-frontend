@@ -23,7 +23,7 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import play.api.Logger
@@ -83,7 +83,8 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
       implicit request => {
 
         withRegistrationDetails { regDetails =>
-          val boundForm = partnerPermanentHomeQuestionForm.bindFromRequest
+          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(partnerPermanentHomeQuestionForm
+            .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
