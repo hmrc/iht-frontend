@@ -21,10 +21,10 @@ import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -32,6 +32,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 object DeceasedWidowCheckQuestionController extends DeceasedWidowCheckQuestionController with IhtConnectors {
@@ -81,7 +82,8 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = deceasedWidowCheckQuestionForm.bindFromRequest
+          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(deceasedWidowCheckQuestionForm
+            .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {

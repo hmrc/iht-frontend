@@ -144,6 +144,17 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
       status(result) shouldBe (BAD_REQUEST)
     }
 
+    "respond with bad request and correct error message when no answer is selected" in {
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("", ""))
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
+
+      val result = trustsMoreThanOneQuestionController.onSubmit (fakePostRequest)
+      status(result) shouldBe (BAD_REQUEST)
+      contentAsString(result) should include(messagesApi("error.assets.heldInTrust.moreThanOne.select",
+        CommonBuilder.buildDeceasedDetails.name))
+    }
+
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
       trustsMoreThanOneQuestionController.onPageLoad(createFakeRequest()))
 

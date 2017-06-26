@@ -1409,8 +1409,8 @@ iht.estateReport.exemptions.guidance.provideAssetsDetails = You will need to pro
 
 #Estate report - Exemptions - Partner
 page.iht.application.exemptions.partner.overview.browserTitle = Assets left to partner
-page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.noValue = Give answer for did the deceased leave anything to their spouse or civil partner
-page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value = Change the answer for did the deceased leave anything to their spouse or civil partner
+page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.noValue = Give answer for did {0} leave anything to their spouse or civil partner
+page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value = Change the answer for did {0} leave anything to their spouse or civil partner
 page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.noValue = Give answer for is the spouse’s or civil partner’s permanent home in the UK
 page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.value = Change the answer for is the spouse’s or civil partner’s permanent home in the UK
 page.iht.application.exemptions.overview.partner.name.title = Name of the spouse or civil partner
@@ -1494,8 +1494,7 @@ page.iht.application.exemptions.assetLeftToCharity.sectionName = asset-left-to-c
 page.iht.application.exemptions.assetLeftToCharity.question1 = Were any assets left to a charity?
 page.iht.application.exemptions.assetLeftToCharity.question1.hint = You should add each individual charity that received assets and tell us the total value of what they received.
 page.iht.application.exemptions.assetLeftToCharity.addCharity = Add a charity
-page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.value = Change the answer for did the deceased leave any assets to a charity
-page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.noValue = Give an answer for did the deceased leave any assets to a charity
+page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.value = Change the answer for did {0} leave any assets to a charity
 page.iht.application.exemptions.charityOverview.noCharities.text = You have not added any charities to this estate.
 page.iht.application.exemptions.charityOverviewTable.header = Charities
 
@@ -1546,7 +1545,7 @@ page.iht.application.exemptions.qualifyingBodyOverview.browserTitle = Assets lef
 page.iht.application.exemptions.qualifyingBodyOverview.lede = These are all of the assets being left to a qualifying body. These will not be charities that have a registered qualifying body number.
 
 page.iht.application.exemptions.qualifyingBodyOverview.question = Did {0} leave anything to a qualifying body?
-page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link = Change the answer to did the deceased leave anything to a qualifying body
+page.iht.application.exemptions.qualifyingBodyOverview.question.screenreader.link = Change the answer to did {0} leave anything to a qualifying body
 
 page.iht.application.exemptions.qualifyingBodyOverviewTable.header = Qualifying bodies
 page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text = You have not added any qualifying bodies to this estate.
@@ -1615,7 +1614,7 @@ page.iht.application.tnrb.benefitFromTrust.browserTitle = Any trust benefitted f
 
 page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle = Any non-exempt gifts given away
 page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1 = On {0}’s estate report, IHT-205 or 400, you need to check the value of gifts given away in each year and the amount of exemptions claimed against those gifts.
-page.iht.application.tnrb.spouseOrCivilPartner.hint = the deceased’s spouse’s or civil partner
+page.iht.application.tnrb.spouseOrCivilPartner.hint = {0}’s spouse’s or civil partner
 page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2 = Answer yes if the value of gifts is more than the amount of exemptions that were claimed.
 
 page.iht.application.tnrb.stateClaim.browserTitle = Any relief claimed in estate
@@ -1682,14 +1681,14 @@ page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.
 page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes = Yes, {0} had been married or in a civil partnership at a point in their life and their spouse or civil partner died. Change this answer.
 
 page.iht.application.tnrbEligibilty.overview.partner.dod.question = Date when {0} died
-page.iht.application.tnrbEligibilty.overview.partner.dod.question.screenReader.text = The date when the deceased’s spouse or civil partner died was {2}. Change this date.
+page.iht.application.tnrbEligibilty.overview.partner.dod.question.screenReader.text = The date when {1}’s spouse or civil partner died was {2}. Change this date.
 
 page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
-page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.none = Give the name of the deceased’s spouse or civil partner.
-page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.some = The name of the deceased’s spouse or civil partner was {2}. Change this name.
+page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.none = Give the name of {1}’s spouse or civil partner.
+page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.some = The name of {1}’s spouse or civil partner was {2}. Change this name.
 
-page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.none = Give the date of marriage between the deceased and their spouse or civil partner.
-page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.some = The date of marriage or civil partnership between the deceased and their spouse or civil partner was {2}. Change this date.
+page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.none = Give the date of marriage between {1} and their spouse or civil partner.
+page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.some = The date of marriage or civil partnership between {1} and their spouse or civil partner was {2}. Change this date.
 
 page.iht.application.tnrbEligibilty.partner.marriage.label = marriage
 page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label = marriage or civil partnership
@@ -2398,7 +2397,7 @@ error.assets.property.tenure.select = Select if this property, building or land 
 error.assets.property.type.select = Select what kind of property, building or land this is
 error.assets.property.ownership.select = Select how this property, building or land was owned
 
-error.assets.money.deceasedOwned.select = Select an answer for whether there is any money owned only be the deceased
+error.assets.money.deceasedOwned.select = Select an answer for whether there is any money owned only by {0}
 error.assets.money.jointlyOwned.select = Select an answer for whether there is any jointly owned money in the estate
 error.money.currencyValue.length.summary = enter a value for money owned using less than 11 numbers
 error.money.currencyValue.summary = enter a value for money owned using only numbers
@@ -2425,12 +2424,12 @@ error.assets.stocksAndShares.notListed.select = Select an answer for whether the
 error.stockAndShare.currencyValue.length.summary = enter a value for stocks and shares using less than 11 numbers
 error.stockAndShare.currencyValue.summary = enter a value for stocks and shares using only numbers
 
-error.assets.insurancePolicy.deceasedOwned.select = Select an answer for whether there are any insurance policies owned by the deceased in the estate
+error.assets.insurancePolicy.deceasedOwned.select = Select an answer for whether there are any insurance policies owned by {0} in the estate
 error.assets.insurancePolicy.jointlyOwned.select = Select an answer for whether there are any jointly held insurance policies in the estate
-error.assets.insurancePolicy.payedToSomeoneElse.select = Select an answer for whether the deceased ever paid for any insurance policies that were not due to pay out to their estate
-error.assets.insurancePolicy.isInTrust.select = Select an answer for whether the deceased ever paid for an insurance policies that was placed in trust in the 7 years before they died
-error.assets.insurancePolicy.moreThanMaxValue.select = Select an answer for whether the deceased ever paid more than £3,000 in any year for any insurance policies that were not due to pay out to their estate
-error.assets.insurancePolicy.isAnnuitiesBought.select = Select an answer for whether the deceased ever bought an annuity at any time in their life
+error.assets.insurancePolicy.payedToSomeoneElse.select = Select an answer for whether {0}  ever paid for any insurance policies that were not due to pay out to their estate
+error.assets.insurancePolicy.isInTrust.select = Select an answer for whether {0} ever paid for an insurance policies that was placed in trust in the 7 years before they died
+error.assets.insurancePolicy.moreThanMaxValue.select = Select an answer for whether {0} ever paid more than £3,000 in any year for any insurance policies that were not due to pay out to their estate
+error.assets.insurancePolicy.isAnnuitiesBought.select = Select an answer for whether {0} ever bought an annuity at any time in their life
 error.length.assets.policies = Enter a value using less than 11 numbers
 error.length.assets.policies.summary = enter a value for insurance policies using less than 11 numbers
 error.currency.assets.policies = Enter a value using only numbers
@@ -2449,10 +2448,10 @@ error.nominated.currencyValue.length.summary = enter a value for nominated asset
 error.nominated.currencyValue.summary = enter a value for nominated assets using only numbers
 
 error.assets.heldInTrust.deceasedOwned.select = Select an answer for whether there are any assets held in a trust in the estate
-error.assets.heldInTrust.moreThanOne.select  = Select an answer for whether the deceased benefitted from, had the right to benefit from, a trust during their lifetime
+error.assets.heldInTrust.moreThanOne.select  = Select an answer for whether {0} benefitted from, had the right to benefit from, a trust during their lifetime
 
 error.assets.foreign.select = Select an answer for whether there are any foreign assets in the estate
-error.assets.moneyOwedToDeceased.select = Select an answer for if there was any money owed to the deceased
+error.assets.moneyOwedToDeceased.select = Select an answer for if there was any money owed to {0}
 error.foreign.currencyValue.length.summary = enter a value for foreign assets using less than 11 numbers
 error.foreign.currencyValue.summary = enter a value for foreign assets using only numbers
 
@@ -2500,8 +2499,8 @@ error.otherDebt.currencyValue.length.summary = enter a value for other debts usi
 error.otherDebt.currencyValue.summary = enter a value for other debts using only numbers
 
 #Errors - Estate report - Exemptions
-error.isAssetForDeceasedPartner.select = Select an answer for if any assets have been left to the deceased's spouse or civil partner
-error.isPartnerHomeInUK.select = Select an answer for if the deceased's spouse or civil partner has their permanent home in the UK
+error.isAssetForDeceasedPartner.select = Select an answer for if any assets have been left to {0}’s spouse or civil partner
+error.isPartnerHomeInUK.select = Select an answer for if {0}’s spouse or civil partner has their permanent home in the UK
 
 error.isAssetForCharity.select = Select an answer for if any assets have been left to a charity
 error.charityName.giveUsing35CharactersOrLess = Give a charity name using 35 characters or less
@@ -2517,13 +2516,13 @@ error.blank.qualifyingBody.name = Enter the name of who received assets
 error.blank.qualifyingBody.name.summary = enter the name of who received assets
 
 #Errors - Estate report - Tnrb
-error.widowed.select = Select an answer for if the deceased was married at any point in their life and their spouse of civil partner died
-error.isPartnerLivingInUk.select = Select an answer for if the spouse or civil partner had their permanent home in the UK
-error.isGiftMadeBeforeDeath.select = Select an answer for if the deceased's spouse or civil partner gave any gifts away that were not exempt in the 7 years before they died
-error.isPartnerGiftWithResToOther.select = Select an answer for if any gifts with the reservation of benefit were given to anyone apart from the deceased
+error.widowed.select = Select an answer for if {0} was married at any point in their life and their spouse of civil partner died
+error.isPartnerLivingInUk.select = Select an answer for if {0}’s spouse or civil partner had their permanent home in the UK
+error.isGiftMadeBeforeDeath.select = Select an answer for if {0}’s spouse or civil partner gave any gifts away that were not exempt in the 7 years before they died
+error.isPartnerGiftWithResToOther.select = Select an answer for if any gifts with the reservation of benefit were given to anyone apart from {0}
 error.isStateClaimAnyBusiness.select = Select an answer for if the estate claimed any business or agricultural relief
 error.isPartnerBenFromTrust.select = Select an answer for if the spouse or civil partner had the right to benefit from a trust in their lifetime
-error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of the estate passed to the deceased. a charity or another qualifying body
-error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from, the estate to the deceased
+error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of the estate passed to {0}, a charity or another qualifying body
+error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from the estate to {0}
 error.predeceasedDateOfDeath.afterMarriage = Enter a date of death which is after the date of marriage or civil partnership
 error.predeceasedDateOfMarriage.beforeDateOfDeath = Enter a date of marriage or civil partnership which is before the date of death

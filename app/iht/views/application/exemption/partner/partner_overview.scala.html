@@ -46,9 +46,11 @@ isFullWidth=false) {
                     linkText=ihtHelpers.custom.generic_overview_status_link(
                       isComplete = isComplete,
                       screenreaderQualifyingText = if(isComplete){
-                          Messages("page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value")
+                          Messages("page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value",
+                              getDeceasedNameOrDefaultString(registrationDetails, true))
                       } else {
-                          Messages("page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.noValue")
+                          Messages("page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.noValue",
+                              getDeceasedNameOrDefaultString(registrationDetails, true))
                       }
                     ),
                     classValueCell="",
