@@ -83,7 +83,8 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
       implicit request => {
 
         withRegistrationDetails { regDetails =>
-          val boundForm = partnerPermanentHomeQuestionForm.bindFromRequest
+          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(partnerPermanentHomeQuestionForm
+            .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),

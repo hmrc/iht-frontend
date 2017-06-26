@@ -1614,7 +1614,7 @@ page.iht.application.tnrb.benefitFromTrust.browserTitle = Any trust benefitted f
 
 page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle = Any non-exempt gifts given away
 page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1 = On {0}’s estate report, IHT-205 or 400, you need to check the value of gifts given away in each year and the amount of exemptions claimed against those gifts.
-page.iht.application.tnrb.spouseOrCivilPartner.hint = the deceased’s spouse’s or civil partner
+page.iht.application.tnrb.spouseOrCivilPartner.hint = {0}’s spouse’s or civil partner
 page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2 = Answer yes if the value of gifts is more than the amount of exemptions that were claimed.
 
 page.iht.application.tnrb.stateClaim.browserTitle = Any relief claimed in estate
@@ -1681,14 +1681,14 @@ page.iht.application.tnrbEligibilty.overview.jointlyOwned.question.screenReader.
 page.iht.application.tnrbEligibilty.overview.partner.maritalStatus.question.screenReader.text.yes = Yes, {0} had been married or in a civil partnership at a point in their life and their spouse or civil partner died. Change this answer.
 
 page.iht.application.tnrbEligibilty.overview.partner.dod.question = Date when {0} died
-page.iht.application.tnrbEligibilty.overview.partner.dod.question.screenReader.text = The date when the deceased’s spouse or civil partner died was {2}. Change this date.
+page.iht.application.tnrbEligibilty.overview.partner.dod.question.screenReader.text = The date when {1}’s spouse or civil partner died was {2}. Change this date.
 
 page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
-page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.none = Give the name of the deceased’s spouse or civil partner.
-page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.some = The name of the deceased’s spouse or civil partner was {2}. Change this name.
+page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.none = Give the name of {1}’s spouse or civil partner.
+page.iht.application.tnrbEligibilty.overview.partner.name.question.screenReader.text.some = The name of {1}’s spouse or civil partner was {2}. Change this name.
 
-page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.none = Give the date of marriage between the deceased and their spouse or civil partner.
-page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.some = The date of marriage or civil partnership between the deceased and their spouse or civil partner was {2}. Change this date.
+page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.none = Give the date of marriage between {1} and their spouse or civil partner.
+page.iht.application.tnrbEligibilty.overview.partner.marriageDate.question.screenReader.text.some = The date of marriage or civil partnership between {1} and their spouse or civil partner was {2}. Change this date.
 
 page.iht.application.tnrbEligibilty.partner.marriage.label = marriage
 page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label = marriage or civil partnership
@@ -2507,13 +2507,13 @@ error.blank.qualifyingBody.name = Enter the name of who received assets
 error.blank.qualifyingBody.name.summary = enter the name of who received assets
 
 #Errors - Estate report - Tnrb
-error.widowed.select = Select an answer for if the deceased was married at any point in their life and their spouse of civil partner died
-error.isPartnerLivingInUk.select = Select an answer for if the spouse or civil partner had their permanent home in the UK
-error.isGiftMadeBeforeDeath.select = Select an answer for if the deceased's spouse or civil partner gave any gifts away that were not exempt in the 7 years before they died
-error.isPartnerGiftWithResToOther.select = Select an answer for if any gifts with the reservation of benefit were given to anyone apart from the deceased
+error.widowed.select = Select an answer for if {0} was married at any point in their life and their spouse of civil partner died
+error.isPartnerLivingInUk.select = Select an answer for if {0}’s spouse or civil partner had their permanent home in the UK
+error.isGiftMadeBeforeDeath.select = Select an answer for if {0}’s spouse or civil partner gave any gifts away that were not exempt in the 7 years before they died
+error.isPartnerGiftWithResToOther.select = Select an answer for if any gifts with the reservation of benefit were given to anyone apart from {0}
 error.isStateClaimAnyBusiness.select = Select an answer for if the estate claimed any business or agricultural relief
 error.isPartnerBenFromTrust.select = Select an answer for if the spouse or civil partner had the right to benefit from a trust in their lifetime
-error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of the estate passed to {0}. a charity or another qualifying body
-error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from, the estate to the deceased
+error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of the estate passed to {0}, a charity or another qualifying body
+error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from the estate to {0}
 error.predeceasedDateOfDeath.afterMarriage = Enter a date of death which is after the date of marriage or civil partnership
 error.predeceasedDateOfMarriage.beforeDateOfDeath = Enter a date of marriage or civil partnership which is before the date of death

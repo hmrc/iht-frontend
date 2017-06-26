@@ -25,9 +25,11 @@
 @(giftMadeBeforeDeathForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages)
+cancelUrl:Call,
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
+@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", partnerName),
 browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
@@ -43,7 +45,7 @@ headingClass = "heading-large"
         @ihtHelpers.standard.input_yes_no_radio_group(
         giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),
         '_hintText -> Html("<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
-    TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint")))
+    TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint", deceasedName)))
                                  + "</p><p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"),
         '_divClass -> Some("form-group"),
         '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)),
