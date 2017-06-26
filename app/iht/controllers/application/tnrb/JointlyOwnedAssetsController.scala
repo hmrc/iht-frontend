@@ -24,7 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -84,7 +84,8 @@ trait JointlyOwnedAssetsController extends EstateController {
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = jointAssetPassedForm.bindFromRequest
+          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(jointAssetPassedForm
+            .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {

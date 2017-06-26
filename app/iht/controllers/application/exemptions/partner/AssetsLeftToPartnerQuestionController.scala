@@ -23,7 +23,7 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import iht.utils.CommonHelper._
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.Logger
@@ -91,7 +91,8 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {
-              boundForm.fold(
+              IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
+                .fold(
                 formWithErrors => {
                   Future.successful(BadRequest(assets_left_to_partner_question(formWithErrors,
                     regDetails,

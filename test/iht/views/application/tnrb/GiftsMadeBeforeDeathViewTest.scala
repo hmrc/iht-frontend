@@ -55,7 +55,7 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
     form =>
-      gifts_made_before_death(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2)
+      gifts_made_before_death(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2, CommonBuilder.buildRegistrationDetails)
 
   override def cancelComponent = None
 
