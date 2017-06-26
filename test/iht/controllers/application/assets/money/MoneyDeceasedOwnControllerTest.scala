@@ -156,17 +156,18 @@ class MoneyDeceasedOwnControllerTest extends ApplicationControllerTest {
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = moneyDeceasedOwnController.onSubmit (fakePostRequest)
-      status(result) shouldBe (BAD_REQUEST)   
+      status(result) shouldBe (BAD_REQUEST)
     }
 
     "respond with bad request and correct error message when no answer is selected" in {
-      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("value", "utytyyterrrrrrrrrrrrrr"))
+      implicit val fakePostRequest = createFakeRequest().withFormUrlEncodedBody(("", ""))
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
 
       val result = moneyDeceasedOwnController.onSubmit (fakePostRequest)
       status(result) shouldBe (BAD_REQUEST)
-      result should include
+      contentAsString(result) should include(messagesApi("error.assets.money.deceasedOwned.select",
+                                              CommonBuilder.buildDeceasedDetails.name))
     }
 
 
