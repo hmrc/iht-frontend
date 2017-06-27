@@ -17,21 +17,19 @@
 package iht.controllers.application.debts
 
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.Messages
+
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.utils.CommonHelper
 import iht.views.html.application.debts.any_other_debts
+import play.api.i18n.MessagesApi
 
 @Singleton
-class AnyOtherDebtsController @Inject()(
-                                         implicit val messages: Messages
-                                       ) extends EstateController with IhtConnectors {
+class AnyOtherDebtsController @Inject()(implicit val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](anyOtherDebtsForm,

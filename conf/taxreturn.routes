@@ -301,22 +301,22 @@ GET         /debts-owed-from-estate                                             
 GET         /other-debts                                                                        @iht.controllers.application.debts.AnyOtherDebtsController.onPageLoad
 POST        /other-debts                                                                        @iht.controllers.application.debts.AnyOtherDebtsController.onSubmit
 
-GET         /joint-debts                                                                        iht.controllers.application.debts.JointlyOwnedDebtsController.onPageLoad
-POST        /joint-debts                                                                        iht.controllers.application.debts.JointlyOwnedDebtsController.onSubmit
+GET         /joint-debts                                                                        @iht.controllers.application.debts.JointlyOwnedDebtsController.onPageLoad
+POST        /joint-debts                                                                        @iht.controllers.application.debts.JointlyOwnedDebtsController.onSubmit
 
-GET         /foreign-debts                                                                      iht.controllers.application.debts.OwedOutsideUKDebtsController.onPageLoad
-POST        /foreign-debts                                                                      iht.controllers.application.debts.OwedOutsideUKDebtsController.onSubmit
+GET         /foreign-debts                                                                      @iht.controllers.application.debts.OwedOutsideUKDebtsController.onPageLoad
+POST        /foreign-debts                                                                      @iht.controllers.application.debts.OwedOutsideUKDebtsController.onSubmit
 
-GET         /debts-owed-from-trust                                                              iht.controllers.application.debts.DebtsOwedFromATrustController.onPageLoad
-POST        /debts-owed-from-trust                                                              iht.controllers.application.debts.DebtsOwedFromATrustController.onSubmit
+GET         /debts-owed-from-trust                                                              @iht.controllers.application.debts.DebtsOwedFromATrustController.onPageLoad
+POST        /debts-owed-from-trust                                                              @iht.controllers.application.debts.DebtsOwedFromATrustController.onSubmit
 
-GET         /funeral-expenses                                                                   iht.controllers.application.debts.FuneralExpensesController.onPageLoad
-POST        /funeral-expenses                                                                   iht.controllers.application.debts.FuneralExpensesController.onSubmit
+GET         /funeral-expenses                                                                   @iht.controllers.application.debts.FuneralExpensesController.onPageLoad
+POST        /funeral-expenses                                                                   @iht.controllers.application.debts.FuneralExpensesController.onSubmit
 
-GET         /mortgages                                                                          iht.controllers.application.debts.MortgagesOverviewController.onPageLoad
+GET         /mortgages                                                                          @iht.controllers.application.debts.MortgagesOverviewController.onPageLoad
 
-GET         /any-mortgage-on-property/:id                                                       iht.controllers.application.debts.MortgageValueController.onPageLoad(id: String)
-POST        /any-mortgage-on-property/:id                                                       iht.controllers.application.debts.MortgageValueController.onSubmit(id: String)
+GET         /any-mortgage-on-property/:id                                                       @iht.controllers.application.debts.MortgageValueController.onPageLoad(id: String)
+POST        /any-mortgage-on-property/:id                                                       @iht.controllers.application.debts.MortgageValueController.onSubmit(id: String)
 
 ### TNRB ###
 

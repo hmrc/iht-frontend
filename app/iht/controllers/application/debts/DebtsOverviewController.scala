@@ -28,7 +28,7 @@ import scala.concurrent.Future
 @Singleton
 class DebtsOverviewController @Inject()(
     val messagesApi: MessagesApi
-) extends ApplicationController with IhtConnectors {
+) extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails { rd => ad =>

@@ -16,7 +16,7 @@
 
 package iht.controllers.application
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -32,7 +32,7 @@ import play.api.i18n.I18nSupport
 
 import scala.concurrent.Future
 
-trait ApplicationController extends FrontendController with IhtActions with I18nSupport  {
+trait ApplicationController extends FrontendController with IhtActions with I18nSupport with IhtConnectors  {
   override lazy val ihtSection = IhtSection.Application
 
   def cachingConnector: CachingConnector
