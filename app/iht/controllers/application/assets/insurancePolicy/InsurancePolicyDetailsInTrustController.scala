@@ -16,21 +16,17 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_in_trust
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 
-object InsurancePolicyDetailsInTrustController extends InsurancePolicyDetailsInTrustController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait InsurancePolicyDetailsInTrustController extends EstateController {
+@Singleton
+class InsurancePolicyDetailsInTrustController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

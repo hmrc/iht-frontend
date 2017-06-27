@@ -38,13 +38,13 @@ class CheckedEverythingQuestionControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  lazy val checkedEverythingQuestionController = new CheckedEverythingQuestionController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+  lazy val checkedEverythingQuestionController = new CheckedEverythingQuestionController(messagesApi) {
+    override val authConnector = createFakeAuthConnector()
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  lazy val checkedEverythingQuestionNotAuthorised = new CheckedEverythingQuestionController {
+  lazy val checkedEverythingQuestionNotAuthorised = new CheckedEverythingQuestionController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

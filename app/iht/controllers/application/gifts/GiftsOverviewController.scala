@@ -16,10 +16,10 @@
 
 package iht.controllers.application.gifts
 
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.controllers.ControllerHelper
-import iht.connector.IhtConnectors
-import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
@@ -27,19 +27,12 @@ import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.utils.ExemptionsGuidanceHelper._
 import iht.utils.OverviewHelper._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.views.html._
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
+import play.api.i18n.{Messages, MessagesApi}
+
 import scala.concurrent.Future
 
-object GiftsOverviewController extends GiftsOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait GiftsOverviewController extends EstateController {
+@Singleton
+class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   private def givenAwayYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isGivenAway, routes.GivenAwayController.onPageLoad(),

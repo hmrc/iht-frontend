@@ -16,25 +16,20 @@
 
 package iht.controllers.application.assets.money
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.ShareableBasicEstateElement
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.money.money_deceased_own
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.utils.CommonHelper
-import iht.constants.IhtProperties._
+import play.api.i18n.MessagesApi
 
-object MoneyDeceasedOwnController extends MoneyDeceasedOwnController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait MoneyDeceasedOwnController extends EstateController {
+@Singleton
+class MoneyDeceasedOwnController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned)
   val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneyOwnID))
 

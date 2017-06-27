@@ -30,13 +30,13 @@ class AnyOtherDebtsControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
-  def anyOtherDebtsController = new AnyOtherDebtsController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+  def anyOtherDebtsController = new AnyOtherDebtsController(messagesApi) {
+    override val authConnector = createFakeAuthConnector()
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def anyOtherDebtsControllerNotAuthorised = new AnyOtherDebtsController {
+  def anyOtherDebtsControllerNotAuthorised = new AnyOtherDebtsController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

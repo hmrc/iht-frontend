@@ -34,6 +34,9 @@ import play.api.http.Status.OK
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
+import org.mockito.Matchers._
+import org.mockito.Mockito._
+
 class DeclarationControllerTest extends ApplicationControllerTest {
 
   // Implicit objects required by play framework.
@@ -45,15 +48,21 @@ class DeclarationControllerTest extends ApplicationControllerTest {
   val mockIhtConnector = mock[IhtConnector]
   val ihtReferenceNo = "XXX"
 
-  def declarationController = new DeclarationController {
+  def metrics = {
+    val mockedMetrics = mock[Metrics]
+    doNothing().when(mockedMetrics.generalStatsCounter(any()))
+    mockedMetrics
+  }
+
+  def declarationController = new DeclarationController(metrics, messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = createFakeAuthConnector()
     override lazy val metrics:Metrics = mock[Metrics]
     override val isWhiteListEnabled = false
   }
 
-  def declarationControllerNotAuthorised = new DeclarationController {
+  def declarationControllerNotAuthorised = new DeclarationController(metrics, messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)

@@ -16,32 +16,21 @@
 
 package iht.controllers.application.gifts
 
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.EstateController
-import iht.controllers.ControllerHelper
-import iht.metrics.Metrics
-import iht.models.application.ApplicationDetails
-import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
 import iht.utils.CommonHelper
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.utils.GiftsHelper._
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
-
 
 /**
   * Created by vineet on 11/04/16.
   */
-object SevenYearsGiftsValuesController extends SevenYearsGiftsValuesController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
 
-trait SevenYearsGiftsValuesController extends EstateController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
+@Singleton
+class SevenYearsGiftsValuesController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>

@@ -7,204 +7,204 @@ GET         /estate-report-overview/in-review/:ihtAppReference                  
 GET         /estate-report-overview/closed/:ihtAppReference                                     iht.controllers.application.status.ApplicationClosedController.onPageLoad(ihtAppReference:String)
 GET         /estate-report-overview/closed-and-cleared/:ihtAppReference                         iht.controllers.application.status.ApplicationClosedAndClearedController.onPageLoad(ihtAppReference:String)
 
-GET         /assets-in-estate                                                                   iht.controllers.application.assets.AssetsOverviewController.onPageLoad
+GET         /assets-in-estate                                                                   @iht.controllers.application.assets.AssetsOverviewController.onPageLoad
 
 ### ASSETS ###
 
 ## Property section ##
 
-GET         /add-property                                                                       iht.controllers.application.assets.properties.PropertyDetailsOverviewController.onPageLoad
-GET         /add-property/:id                                                                   iht.controllers.application.assets.properties.PropertyDetailsOverviewController.onEditPageLoad(id:String)
+GET         /add-property                                                                       @iht.controllers.application.assets.properties.PropertyDetailsOverviewController.onPageLoad
+GET         /add-property/:id                                                                   @iht.controllers.application.assets.properties.PropertyDetailsOverviewController.onEditPageLoad(id:String)
 
-GET         /property-address                                                                   iht.controllers.application.assets.properties.PropertyAddressController.onPageLoad
-POST        /property-address                                                                   iht.controllers.application.assets.properties.PropertyAddressController.onSubmit
+GET         /property-address                                                                   @iht.controllers.application.assets.properties.PropertyAddressController.onPageLoad
+POST        /property-address                                                                   @iht.controllers.application.assets.properties.PropertyAddressController.onSubmit
 
-GET         /property-address/:id                                                               iht.controllers.application.assets.properties.PropertyAddressController.onEditPageLoad(id: String)
-POST        /property-address/:id                                                               iht.controllers.application.assets.properties.PropertyAddressController.onEditSubmit(id: String)
+GET         /property-address/:id                                                               @iht.controllers.application.assets.properties.PropertyAddressController.onEditPageLoad(id: String)
+POST        /property-address/:id                                                               @iht.controllers.application.assets.properties.PropertyAddressController.onEditSubmit(id: String)
 
-GET         /type-of-property                                                                   iht.controllers.application.assets.properties.PropertyTypeController.onPageLoad
-POST        /type-of-property                                                                   iht.controllers.application.assets.properties.PropertyTypeController.onSubmit
+GET         /type-of-property                                                                   @iht.controllers.application.assets.properties.PropertyTypeController.onPageLoad
+POST        /type-of-property                                                                   @iht.controllers.application.assets.properties.PropertyTypeController.onSubmit
 
-GET         /type-of-property/:id                                                               iht.controllers.application.assets.properties.PropertyTypeController.onEditPageLoad(id:String)
-POST        /type-of-property/:id                                                               iht.controllers.application.assets.properties.PropertyTypeController.onEditSubmit(id:String)
+GET         /type-of-property/:id                                                               @iht.controllers.application.assets.properties.PropertyTypeController.onEditPageLoad(id:String)
+POST        /type-of-property/:id                                                               @iht.controllers.application.assets.properties.PropertyTypeController.onEditSubmit(id:String)
 
-GET         /properties-buildings-land-owned                                                    iht.controllers.application.assets.properties.PropertiesOverviewController.onPageLoad
+GET         /properties-buildings-land-owned                                                    @iht.controllers.application.assets.properties.PropertiesOverviewController.onPageLoad
 
-GET         /change-property-value-kickout/:id                                                  iht.controllers.application.assets.properties.PropertyValueController.onEditPageLoadForKickout(id:String)
+GET         /change-property-value-kickout/:id                                                  @iht.controllers.application.assets.properties.PropertyValueController.onEditPageLoadForKickout(id:String)
 
-GET         /delete-property/:id                                                                iht.controllers.application.assets.properties.DeletePropertyController.onPageLoad(id:String)
-POST        /delete-property/:id                                                                iht.controllers.application.assets.properties.DeletePropertyController.onSubmit(id:String)
+GET         /delete-property/:id                                                                @iht.controllers.application.assets.properties.DeletePropertyController.onPageLoad(id:String)
+POST        /delete-property/:id                                                                @iht.controllers.application.assets.properties.DeletePropertyController.onSubmit(id:String)
 
-GET         /any-properties-buildings-land-owned                                                iht.controllers.application.assets.properties.PropertiesOwnedQuestionController.onPageLoad
-POST        /any-properties-buildings-land-owned                                                iht.controllers.application.assets.properties.PropertiesOwnedQuestionController.onSubmit
+GET         /any-properties-buildings-land-owned                                                @iht.controllers.application.assets.properties.PropertiesOwnedQuestionController.onPageLoad
+POST        /any-properties-buildings-land-owned                                                @iht.controllers.application.assets.properties.PropertiesOwnedQuestionController.onSubmit
 
-GET         /how-property-was-owned                                                             iht.controllers.application.assets.properties.PropertyOwnershipController.onPageLoad
-POST        /how-property-was-owned                                                             iht.controllers.application.assets.properties.PropertyOwnershipController.onSubmit
+GET         /how-property-was-owned                                                             @iht.controllers.application.assets.properties.PropertyOwnershipController.onPageLoad
+POST        /how-property-was-owned                                                             @iht.controllers.application.assets.properties.PropertyOwnershipController.onSubmit
 
-GET         /how-property-was-owned/:id                                                         iht.controllers.application.assets.properties.PropertyOwnershipController.onEditPageLoad(id:String)
-POST        /how-property-was-owned/:id                                                         iht.controllers.application.assets.properties.PropertyOwnershipController.onEditSubmit(id:String)
+GET         /how-property-was-owned/:id                                                         @iht.controllers.application.assets.properties.PropertyOwnershipController.onEditPageLoad(id:String)
+POST        /how-property-was-owned/:id                                                         @iht.controllers.application.assets.properties.PropertyOwnershipController.onEditSubmit(id:String)
 
-GET         /freehold-or-leasehold-property                                                     iht.controllers.application.assets.properties.PropertyTenureController.onPageLoad
-POST        /freehold-or-leasehold-property                                                     iht.controllers.application.assets.properties.PropertyTenureController.onSubmit
+GET         /freehold-or-leasehold-property                                                     @iht.controllers.application.assets.properties.PropertyTenureController.onPageLoad
+POST        /freehold-or-leasehold-property                                                     @iht.controllers.application.assets.properties.PropertyTenureController.onSubmit
 
-GET         /freehold-or-leasehold-property/:id                                                 iht.controllers.application.assets.properties.PropertyTenureController.onEditPageLoad(id:String)
-POST        /freehold-or-leasehold-property/:id                                                 iht.controllers.application.assets.properties.PropertyTenureController.onEditSubmit(id:String)
+GET         /freehold-or-leasehold-property/:id                                                 @iht.controllers.application.assets.properties.PropertyTenureController.onEditPageLoad(id:String)
+POST        /freehold-or-leasehold-property/:id                                                 @iht.controllers.application.assets.properties.PropertyTenureController.onEditSubmit(id:String)
 
-GET         /value-of-property                                                                  iht.controllers.application.assets.properties.PropertyValueController.onPageLoad
-POST        /value-of-property                                                                  iht.controllers.application.assets.properties.PropertyValueController.onSubmit
+GET         /value-of-property                                                                  @iht.controllers.application.assets.properties.PropertyValueController.onPageLoad
+POST        /value-of-property                                                                  @iht.controllers.application.assets.properties.PropertyValueController.onSubmit
 
-GET         /value-of-property/:id                                                              iht.controllers.application.assets.properties.PropertyValueController.onEditPageLoad(id:String)
-POST        /value-of-property/:id                                                              iht.controllers.application.assets.properties.PropertyValueController.onEditSubmit(id:String)
+GET         /value-of-property/:id                                                              @iht.controllers.application.assets.properties.PropertyValueController.onEditPageLoad(id:String)
+POST        /value-of-property/:id                                                              @iht.controllers.application.assets.properties.PropertyValueController.onEditSubmit(id:String)
 
 ## Money section ##
 
-GET         /money-owned                                                                        iht.controllers.application.assets.money.MoneyOverviewController.onPageLoad
+GET         /money-owned                                                                        @iht.controllers.application.assets.money.MoneyOverviewController.onPageLoad
 
-GET         /own-money-owned                                                                    iht.controllers.application.assets.money.MoneyDeceasedOwnController.onPageLoad
-POST        /own-money-owned                                                                    iht.controllers.application.assets.money.MoneyDeceasedOwnController.onSubmit
+GET         /own-money-owned                                                                    @iht.controllers.application.assets.money.MoneyDeceasedOwnController.onPageLoad
+POST        /own-money-owned                                                                    @iht.controllers.application.assets.money.MoneyDeceasedOwnController.onSubmit
 
-GET         /money-jointly-owned                                                                iht.controllers.application.assets.money.MoneyJointlyOwnedController.onPageLoad
-POST        /money-jointly-owned                                                                iht.controllers.application.assets.money.MoneyJointlyOwnedController.onSubmit
+GET         /money-jointly-owned                                                                @iht.controllers.application.assets.money.MoneyJointlyOwnedController.onPageLoad
+POST        /money-jointly-owned                                                                @iht.controllers.application.assets.money.MoneyJointlyOwnedController.onSubmit
 
 ## Household and personal items section ##
 
-GET         /household-items-owned                                                              iht.controllers.application.assets.household.HouseholdOverviewController.onPageLoad
+GET         /household-items-owned                                                              @iht.controllers.application.assets.household.HouseholdOverviewController.onPageLoad
 
-GET         /own-household-items-owned                                                          iht.controllers.application.assets.household.HouseholdDeceasedOwnController.onPageLoad
-POST        /own-household-items-owned                                                          iht.controllers.application.assets.household.HouseholdDeceasedOwnController.onSubmit
+GET         /own-household-items-owned                                                          @iht.controllers.application.assets.household.HouseholdDeceasedOwnController.onPageLoad
+POST        /own-household-items-owned                                                          @iht.controllers.application.assets.household.HouseholdDeceasedOwnController.onSubmit
 
-GET         /household-items-jointly-owned                                                      iht.controllers.application.assets.household.HouseholdJointlyOwnedController.onPageLoad
-POST        /household-items-jointly-owned                                                      iht.controllers.application.assets.household.HouseholdJointlyOwnedController.onSubmit
+GET         /household-items-jointly-owned                                                      @iht.controllers.application.assets.household.HouseholdJointlyOwnedController.onPageLoad
+POST        /household-items-jointly-owned                                                      @iht.controllers.application.assets.household.HouseholdJointlyOwnedController.onSubmit
 
 ## Motor vehicles section ##
 
-GET         /motor-vehicles-owned                                                               iht.controllers.application.assets.vehicles.VehiclesOverviewController.onPageLoad
+GET         /motor-vehicles-owned                                                               @iht.controllers.application.assets.vehicles.VehiclesOverviewController.onPageLoad
 
-GET         /own-vehicles-owned                                                                 iht.controllers.application.assets.vehicles.VehiclesDeceasedOwnController.onPageLoad
-POST        /own-vehicles-owned                                                                 iht.controllers.application.assets.vehicles.VehiclesDeceasedOwnController.onSubmit
+GET         /own-vehicles-owned                                                                 @iht.controllers.application.assets.vehicles.VehiclesDeceasedOwnController.onPageLoad
+POST        /own-vehicles-owned                                                                 @iht.controllers.application.assets.vehicles.VehiclesDeceasedOwnController.onSubmit
 
-GET         /motor-vehicles-jointly-owned                                                       iht.controllers.application.assets.vehicles.VehiclesJointlyOwnedController.onPageLoad
-POST        /motor-vehicles-jointly-owned                                                       iht.controllers.application.assets.vehicles.VehiclesJointlyOwnedController.onSubmit
+GET         /motor-vehicles-jointly-owned                                                       @iht.controllers.application.assets.vehicles.VehiclesJointlyOwnedController.onPageLoad
+POST        /motor-vehicles-jointly-owned                                                       @iht.controllers.application.assets.vehicles.VehiclesJointlyOwnedController.onSubmit
 
 ## Private pensions section ##
 
-GET         /private-pensions                                                                   iht.controllers.application.assets.pensions.PensionsOverviewController.onPageLoad
+GET         /private-pensions                                                                   @iht.controllers.application.assets.pensions.PensionsOverviewController.onPageLoad
 
-GET         /any-private-pensions-owned                                                         iht.controllers.application.assets.pensions.PensionsOwnedQuestionController.onPageLoad
-POST        /any-private-pensions-owned                                                         iht.controllers.application.assets.pensions.PensionsOwnedQuestionController.onSubmit
+GET         /any-private-pensions-owned                                                         @iht.controllers.application.assets.pensions.PensionsOwnedQuestionController.onPageLoad
+POST        /any-private-pensions-owned                                                         @iht.controllers.application.assets.pensions.PensionsOwnedQuestionController.onSubmit
 
-GET         /any-pension-changes                                                                iht.controllers.application.assets.pensions.PensionsChangedQuestionController.onPageLoad
-POST        /any-pension-changes                                                                iht.controllers.application.assets.pensions.PensionsChangedQuestionController.onSubmit
+GET         /any-pension-changes                                                                @iht.controllers.application.assets.pensions.PensionsChangedQuestionController.onPageLoad
+POST        /any-pension-changes                                                                @iht.controllers.application.assets.pensions.PensionsChangedQuestionController.onSubmit
 
-GET         /value-of-pensions                                                                  iht.controllers.application.assets.pensions.PensionsValueController.onPageLoad
-POST        /value-of-pensions                                                                  iht.controllers.application.assets.pensions.PensionsValueController.onSubmit
+GET         /value-of-pensions                                                                  @iht.controllers.application.assets.pensions.PensionsValueController.onPageLoad
+POST        /value-of-pensions                                                                  @iht.controllers.application.assets.pensions.PensionsValueController.onSubmit
 
 ## Stocks and shares section ##
 
-GET         /stocks-and-shares-owned                                                            iht.controllers.application.assets.stocksAndShares.StocksAndSharesOverviewController.onPageLoad
+GET         /stocks-and-shares-owned                                                            @iht.controllers.application.assets.stocksAndShares.StocksAndSharesOverviewController.onPageLoad
 
-GET         /listed-stocks-and-shares-owned                                                     iht.controllers.application.assets.stocksAndShares.StocksAndSharesListedController.onPageLoad
-POST        /listed-stocks-and-shares-owned                                                     iht.controllers.application.assets.stocksAndShares.StocksAndSharesListedController.onSubmit
+GET         /listed-stocks-and-shares-owned                                                     @iht.controllers.application.assets.stocksAndShares.StocksAndSharesListedController.onPageLoad
+POST        /listed-stocks-and-shares-owned                                                     @iht.controllers.application.assets.stocksAndShares.StocksAndSharesListedController.onSubmit
 
-GET         /unlisted-stocks-and-shares-owned                                                   iht.controllers.application.assets.stocksAndShares.StocksAndSharesNotListedController.onPageLoad
-POST        /unlisted-stocks-and-shares-owned                                                   iht.controllers.application.assets.stocksAndShares.StocksAndSharesNotListedController.onSubmit
+GET         /unlisted-stocks-and-shares-owned                                                   @iht.controllers.application.assets.stocksAndShares.StocksAndSharesNotListedController.onPageLoad
+POST        /unlisted-stocks-and-shares-owned                                                   @iht.controllers.application.assets.stocksAndShares.StocksAndSharesNotListedController.onSubmit
 
 ## Insurances policies section ##
 
-GET         /insurance-policies-owned                                                           iht.controllers.application.assets.insurancePolicy.InsurancePolicyOverviewController.onPageLoad
+GET         /insurance-policies-owned                                                           @iht.controllers.application.assets.insurancePolicy.InsurancePolicyOverviewController.onPageLoad
 
-GET         /insurance-policies-paying-to-deceased                                              iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsDeceasedOwnController.onPageLoad
-POST        /insurance-policies-paying-to-deceased                                              iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsDeceasedOwnController.onSubmit
+GET         /insurance-policies-paying-to-deceased                                              @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsDeceasedOwnController.onPageLoad
+POST        /insurance-policies-paying-to-deceased                                              @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsDeceasedOwnController.onSubmit
 
-GET         /jointly-owned-insurance-policies                                                   iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsJointController.onPageLoad
-POST        /jointly-owned-insurance-policies                                                   iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsJointController.onSubmit
+GET         /jointly-owned-insurance-policies                                                   @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsJointController.onPageLoad
+POST        /jointly-owned-insurance-policies                                                   @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsJointController.onSubmit
 
-GET         /any-insurance-policies-gifted                                                      iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsPayingOtherController.onPageLoad
-POST        /any-insurance-policies-gifted                                                      iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsPayingOtherController.onSubmit
+GET         /any-insurance-policies-gifted                                                      @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsPayingOtherController.onPageLoad
+POST        /any-insurance-policies-gifted                                                      @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsPayingOtherController.onSubmit
 
-GET         /insurance-policies-placed-in-trust                                                 iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsInTrustController.onPageLoad
-POST        /insurance-policies-placed-in-trust                                                 iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsInTrustController.onSubmit
+GET         /insurance-policies-placed-in-trust                                                 @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsInTrustController.onPageLoad
+POST        /insurance-policies-placed-in-trust                                                 @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsInTrustController.onSubmit
 
-GET         /any-annuities                                                                      iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsAnnuityController.onPageLoad
-POST        /any-annuities                                                                      iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsAnnuityController.onSubmit
+GET         /any-annuities                                                                      @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsAnnuityController.onPageLoad
+POST        /any-annuities                                                                      @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsAnnuityController.onSubmit
 
-GET         /insurance-policies-are-gifts                                                       iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsFinalGuidanceController.onPageLoad
+GET         /insurance-policies-are-gifts                                                       @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsFinalGuidanceController.onPageLoad
 
-GET         /value-of-gifted-policies                                                           iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad
-POST        /value-of-gifted-policies                                                           iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsMoreThanMaxValueController.onSubmit
+GET         /value-of-gifted-policies                                                           @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad
+POST        /value-of-gifted-policies                                                           @iht.controllers.application.assets.insurancePolicy.InsurancePolicyDetailsMoreThanMaxValueController.onSubmit
 
 ## Business interests section ##
 
-GET         /business-interests-owned                                                           iht.controllers.application.assets.BusinessInterestsController.onPageLoad
-POST        /business-interests-owned                                                           iht.controllers.application.assets.BusinessInterestsController.onSubmit
+GET         /business-interests-owned                                                           @iht.controllers.application.assets.BusinessInterestsController.onPageLoad
+POST        /business-interests-owned                                                           @iht.controllers.application.assets.BusinessInterestsController.onSubmit
 
 ## Nominated assets section ##
 
-GET         /nominated-assets-owned                                                             iht.controllers.application.assets.NominatedController.onPageLoad
-POST        /nominated-assets-owned                                                             iht.controllers.application.assets.NominatedController.onSubmit
+GET         /nominated-assets-owned                                                             @iht.controllers.application.assets.NominatedController.onPageLoad
+POST        /nominated-assets-owned                                                             @iht.controllers.application.assets.NominatedController.onSubmit
 
 ## Assets in trust section ##
 
-GET         /any-assets-in-trust                                                                iht.controllers.application.assets.trusts.TrustsOwnedQuestionController.onPageLoad
-POST        /any-assets-in-trust                                                                iht.controllers.application.assets.trusts.TrustsOwnedQuestionController.onSubmit
+GET         /any-assets-in-trust                                                                @iht.controllers.application.assets.trusts.TrustsOwnedQuestionController.onPageLoad
+POST        /any-assets-in-trust                                                                @iht.controllers.application.assets.trusts.TrustsOwnedQuestionController.onSubmit
 
-GET         /how-many-trusts                                                                    iht.controllers.application.assets.trusts.TrustsMoreThanOneQuestionController.onPageLoad
-POST        /how-many-trusts                                                                    iht.controllers.application.assets.trusts.TrustsMoreThanOneQuestionController.onSubmit
+GET         /how-many-trusts                                                                    @iht.controllers.application.assets.trusts.TrustsMoreThanOneQuestionController.onPageLoad
+POST        /how-many-trusts                                                                    @iht.controllers.application.assets.trusts.TrustsMoreThanOneQuestionController.onSubmit
 
-GET         /value-of-trusts                                                                    iht.controllers.application.assets.trusts.TrustsValueController.onPageLoad
-POST        /value-of-trusts                                                                    iht.controllers.application.assets.trusts.TrustsValueController.onSubmit
+GET         /value-of-trusts                                                                    @iht.controllers.application.assets.trusts.TrustsValueController.onPageLoad
+POST        /value-of-trusts                                                                    @iht.controllers.application.assets.trusts.TrustsValueController.onSubmit
 
-GET         /assets-in-trust                                                                    iht.controllers.application.assets.trusts.TrustsOverviewController.onPageLoad
+GET         /assets-in-trust                                                                    @iht.controllers.application.assets.trusts.TrustsOverviewController.onPageLoad
 
 ## Foreign assets section ##
 
-GET         /foreign-assets-owned                                                               iht.controllers.application.assets.ForeignController.onPageLoad
-POST        /foreign-assets-owned                                                               iht.controllers.application.assets.ForeignController.onSubmit
+GET         /foreign-assets-owned                                                               @iht.controllers.application.assets.ForeignController.onPageLoad
+POST        /foreign-assets-owned                                                               @iht.controllers.application.assets.ForeignController.onSubmit
 
 ## Money owed to the deceased section ##
 
-GET         /money-owed-to-deceased                                                             iht.controllers.application.assets.MoneyOwedController.onPageLoad
-POST        /money-owed-to-deceased                                                             iht.controllers.application.assets.MoneyOwedController.onSubmit
+GET         /money-owed-to-deceased                                                             @iht.controllers.application.assets.MoneyOwedController.onPageLoad
+POST        /money-owed-to-deceased                                                             @iht.controllers.application.assets.MoneyOwedController.onSubmit
 
 ## Any other assets section ##
 
-GET         /other-assets-owned                                                                 iht.controllers.application.assets.OtherController.onPageLoad
-POST        /other-assets-owned                                                                 iht.controllers.application.assets.OtherController.onSubmit
+GET         /other-assets-owned                                                                 @iht.controllers.application.assets.OtherController.onPageLoad
+POST        /other-assets-owned                                                                 @iht.controllers.application.assets.OtherController.onSubmit
 
 ### GIFTS ###
 
-GET         /gifts-value-given-away                                                             iht.controllers.application.gifts.GivenAwayController.onPageLoad
-POST        /gifts-value-given-away                                                             iht.controllers.application.gifts.GivenAwayController.onSubmit
+GET         /gifts-value-given-away                                                             @iht.controllers.application.gifts.GivenAwayController.onPageLoad
+POST        /gifts-value-given-away                                                             @iht.controllers.application.gifts.GivenAwayController.onSubmit
 
-GET         /gifts-given-away                                                                   iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+GET         /gifts-given-away                                                                   @iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
 
-GET         /guide-to-gifts/1                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+GET         /guide-to-gifts/1                                                                   @iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
 
-GET         /guide-to-gifts/2                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+GET         /guide-to-gifts/2                                                                   @iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
 
-GET         /guide-to-gifts/3                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+GET         /guide-to-gifts/3                                                                   @iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
 
-GET         /guide-to-gifts/4                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+GET         /guide-to-gifts/4                                                                   @iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
 
-GET         /guide-to-gifts/5                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+GET         /guide-to-gifts/5                                                                   @iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
 
-GET         /guide-to-gifts/6                                                                 iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
+GET         /guide-to-gifts/6                                                                   @iht.controllers.application.gifts.GiftsOverviewController.onPageLoad
 
-GET         /gifts-with-reservation-of-benefit                                                  iht.controllers.application.gifts.WithReservationOfBenefitController.onPageLoad
-POST        /gifts-with-reservation-of-benefit                                                  iht.controllers.application.gifts.WithReservationOfBenefitController.onSubmit
+GET         /gifts-with-reservation-of-benefit                                                  @iht.controllers.application.gifts.WithReservationOfBenefitController.onPageLoad
+POST        /gifts-with-reservation-of-benefit                                                  @iht.controllers.application.gifts.WithReservationOfBenefitController.onSubmit
 
-GET         /type-of-gifts-given-away                                                           iht.controllers.application.gifts.SevenYearsGivenInLast7YearsController.onPageLoad
-POST        /type-of-gifts-given-away                                                           iht.controllers.application.gifts.SevenYearsGivenInLast7YearsController.onSubmit
+GET         /type-of-gifts-given-away                                                           @iht.controllers.application.gifts.SevenYearsGivenInLast7YearsController.onPageLoad
+POST        /type-of-gifts-given-away                                                           @iht.controllers.application.gifts.SevenYearsGivenInLast7YearsController.onSubmit
 
-GET         /gifts-given-to-a-company                                                           iht.controllers.application.gifts.SevenYearsToTrustController.onPageLoad
-POST        /gifts-given-to-a-company                                                           iht.controllers.application.gifts.SevenYearsToTrustController.onSubmit
+GET         /gifts-given-to-a-company                                                           @iht.controllers.application.gifts.SevenYearsToTrustController.onPageLoad
+POST        /gifts-given-to-a-company                                                           @iht.controllers.application.gifts.SevenYearsToTrustController.onSubmit
 
-GET         /value-of-gifts-given-away                                                          iht.controllers.application.gifts.SevenYearsGiftsValuesController.onPageLoad
+GET         /value-of-gifts-given-away                                                          @iht.controllers.application.gifts.SevenYearsGiftsValuesController.onPageLoad
 
-GET         /gifts-value-for-year-:id                                                           iht.controllers.application.gifts.GiftsDetailsController.onPageLoad(id:String)
-GET         /add-gifts-details-kickout                                                          iht.controllers.application.gifts.GiftsDetailsController.onPageLoadForKickout(id:String)
+GET         /gifts-value-for-year-:id                                                           @iht.controllers.application.gifts.GiftsDetailsController.onPageLoad(id:String)
+GET         /add-gifts-details-kickout                                                          @iht.controllers.application.gifts.GiftsDetailsController.onPageLoadForKickout(id:String)
 
-POST        /gifts-value-for-year                                                               iht.controllers.application.gifts.GiftsDetailsController.onSubmit
+POST        /gifts-value-for-year                                                               @iht.controllers.application.gifts.GiftsDetailsController.onSubmit
 
 ### EXEMPTIONS ###
 
@@ -361,13 +361,13 @@ GET         /threshold-increased                                                
 
 ### DECLARATION ###l
 
-GET         /declaration                                                                        iht.controllers.application.declaration.DeclarationController.onPageLoad
-POST        /declaration                                                                        iht.controllers.application.declaration.DeclarationController.onSubmit
+GET         /declaration                                                                        @iht.controllers.application.declaration.DeclarationController.onPageLoad
+POST        /declaration                                                                        @iht.controllers.application.declaration.DeclarationController.onSubmit
 
-GET         /continue-to-declaration                                                            iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
-POST        /continue-to-declaration                                                            iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
+GET         /continue-to-declaration                                                            @iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
+POST        /continue-to-declaration                                                            @iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
 
-GET         /sent-to-hmrc                                                                       iht.controllers.application.declaration.DeclarationReceivedController.onPageLoad
+GET         /sent-to-hmrc                                                                       @iht.controllers.application.declaration.DeclarationReceivedController.onPageLoad
 
 GET         /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onPageLoad
 POST        /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onSubmit

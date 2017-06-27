@@ -16,26 +16,15 @@
 
 package iht.controllers.application.assets.stocksAndShares
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
-import iht.controllers.application.ApplicationController
-import iht.metrics.Metrics
-import iht.models._
+import javax.inject.{Inject, Singleton}
+import iht.controllers.application.EstateController
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.StockAndShare
 import iht.utils.CommonHelper
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 
-object StocksAndSharesOverviewController extends StocksAndSharesOverviewController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait StocksAndSharesOverviewController extends ApplicationController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
+@Singleton
+class StocksAndSharesOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

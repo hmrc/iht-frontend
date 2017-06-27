@@ -39,13 +39,13 @@
     }
 }
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.householdAndPersonalItems.title"),
-browserTitle = Some(Messages("iht.estateReport.assets.householdAndPersonalItems.title")),
+@iht_main_template_application(title = messages("iht.estateReport.assets.householdAndPersonalItems.title"),
+browserTitle = Some(messages("iht.estateReport.assets.householdAndPersonalItems.title")),
 isFullWidth=false
 ) {
 
 <div id="property-description">
-    <p class="lede">@Messages("page.iht.application.assets.household.overview.guidance")</p>
+    <p class="lede">@messages("page.iht.application.assets.household.overview.guidance")</p>
 </div>
 
         @{
@@ -53,33 +53,33 @@ isFullWidth=false
                     "deceased-own-household-section",
                     household.flatMap(_.isOwned),
                     generic_overview_table_heading_item(id = AssetsHouseholdOwnID,
-                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",deceasedName),
-                        questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
+                        questionText = messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",deceasedName),
+                        questionScreenReaderText = messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title",
                             deceasedName),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(
                             household.flatMap(_.isOwned.map(identity)),
-                            Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName),
-                            Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue", deceasedName)),
+                            messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName),
+                            messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.noValue", deceasedName)),
                         isAnswerValue = household.flatMap(_.isOwned).isEmpty
                         ),
                         generic_overview_table_item(id = AssetsHouseholdOwnID,
-                            questionText = Messages("iht.estateReport.assets.household.ownName.question",deceasedName),
-                            questionScreenReaderText= Messages("iht.estateReport.assets.household.ownName.question",
+                            questionText = messages("iht.estateReport.assets.household.ownName.question",deceasedName),
+                            questionScreenReaderText= messages("iht.estateReport.assets.household.ownName.question",
                                                                 deceasedName),
                             questionCategory= "change",
-                            answerValue=Messages(getBooleanDisplayValue(household.flatMap(_.isOwned.map(x=>x)))),
+                            answerValue=messages(getBooleanDisplayValue(household.flatMap(_.isOwned.map(x=>x)))),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName)
+                            linkScreenReader = messages("page.iht.application.assets.household.overview.deceased.isOwned.screenreader.link.change", deceasedName)
                         ),
 
                         generic_overview_table_item(id = "deceased-own-value",
-                            questionText = Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
-                            questionScreenReaderText= Messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
+                            questionText = messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
+                            questionScreenReaderText= messages("iht.estateReport.assets.household.deceasedOwnedValue", deceasedName),
                             questionCategory= "change",
                             answerValue= household.flatMap(_.value).fold("")(x=>"£" + CommonHelper.numberWithCommas(x).toString()),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdDeceasedOwnController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.household.overview.deceased.value.screenreader.link.change", deceasedName)
+                            linkScreenReader = messages("page.iht.application.assets.household.overview.deceased.value.screenreader.link.change", deceasedName)
                         )
 
             )
@@ -89,32 +89,32 @@ isFullWidth=false
                     "deceased-shared-household-section",
                     household.flatMap(_.isOwnedShare),
                     generic_overview_table_heading_item(id = AssetsHouseholdSharedID,
-                        questionText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",deceasedName),
-                        questionScreenReaderText = Messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
+                        questionText = messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",deceasedName),
+                        questionScreenReaderText = messages("iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title",
                             deceasedName),
                         link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
                         linkScreenReader = getLinkScreenReader(
                             household.flatMap(_.isOwnedShare.map(identity)),
-                            Messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change"),
-                            Messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.noValue")),
+                            messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change"),
+                            messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.noValue")),
                         isAnswerValue = household.flatMap(_.isOwnedShare).isEmpty
                         ),
                         generic_overview_table_item(id = AssetsHouseholdSharedID,
-                            questionText = Messages("iht.estateReport.assets.household.joint.question",deceasedName),
-                            questionScreenReaderText= Messages("iht.estateReport.assets.household.joint.question",
+                            questionText = messages("iht.estateReport.assets.household.joint.question",deceasedName),
+                            questionScreenReaderText= messages("iht.estateReport.assets.household.joint.question",
                                 deceasedName),
                             questionCategory= "change",
-                            answerValue=Messages(getBooleanDisplayValue(household.flatMap(_.isOwnedShare.map(x=>x)))),
+                            answerValue=messages(getBooleanDisplayValue(household.flatMap(_.isOwnedShare.map(x=>x)))),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change")
+                            linkScreenReader = messages("page.iht.application.assets.household.overview.joint.isOwned.screenreader.link.change")
                             ),
                         generic_overview_table_item(id = "deceased-shared-value",
-                            questionText = Messages("page.iht.application.assets.household.overview.joint.value", deceasedName),
-                            questionScreenReaderText= Messages("page.iht.application.assets.household.overview.joint.value", deceasedName),
+                            questionText = messages("page.iht.application.assets.household.overview.joint.value", deceasedName),
+                            questionScreenReaderText= messages("page.iht.application.assets.household.overview.joint.value", deceasedName),
                             questionCategory= "change",
                             answerValue= household.flatMap(_.shareValue).fold("")(x=>"£" + CommonHelper.numberWithCommas(x).toString()),
                             link = Some(iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onPageLoad),
-                            linkScreenReader = Messages("page.iht.application.assets.household.overview.joint.value.screenreader.link.change")
+                            linkScreenReader = messages("page.iht.application.assets.household.overview.joint.value.screenreader.link.change")
                             )
                     )
         }
@@ -122,7 +122,7 @@ isFullWidth=false
     <div class="form-field form-field--submit">
         @registrationDetails.deceasedDetails.map{ dd=>
              @ihtHelpers.custom.return_link(
-                Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
+                messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
                 AppSectionHouseholdID
             )

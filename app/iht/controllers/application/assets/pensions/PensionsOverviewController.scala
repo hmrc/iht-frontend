@@ -16,25 +16,20 @@
 
 package iht.controllers.application.assets.pensions
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.PrivatePension
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 
 /**
   * Created by jennygj on 30/06/16.
   */
 
-object PensionsOverviewController extends PensionsOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait PensionsOverviewController extends EstateController {
+@Singleton
+class PensionsOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions)
 
   def onPageLoad = authorisedForIht {

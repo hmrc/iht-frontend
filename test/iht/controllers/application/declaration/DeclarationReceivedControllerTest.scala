@@ -33,14 +33,14 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def declarationReceivedController = new DeclarationReceivedController{
+  def declarationReceivedController = new DeclarationReceivedController(messagesApi) {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+    override val authConnector = createFakeAuthConnector()
     override val isWhiteListEnabled = false
     def ihtConnector = mockIhtConnector
   }
 
-  def declarationReceivedControllerNotAuthorised = new DeclarationReceivedController{
+  def declarationReceivedControllerNotAuthorised = new DeclarationReceivedController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val isWhiteListEnabled = false

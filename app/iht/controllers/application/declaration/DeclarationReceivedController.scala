@@ -17,24 +17,16 @@
 package iht.controllers.application.declaration
 
 
-import iht.connector.{CachingConnector, IhtConnectors}
+import javax.inject.Inject
+
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.utils.CommonHelper
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
-/**
-  * Created by vineet on 01/12/16.
-  */
-
-object DeclarationReceivedController extends DeclarationReceivedController with IhtConnectors
-
-trait DeclarationReceivedController extends ApplicationController {
-  def cachingConnector: CachingConnector
-
+class DeclarationReceivedController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {

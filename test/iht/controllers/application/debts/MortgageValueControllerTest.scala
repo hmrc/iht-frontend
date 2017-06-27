@@ -43,9 +43,9 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def mortgageValueController = new MortgageValueController {
+  def mortgageValueController = new MortgageValueController(messagesApi) {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = createFakeAuthConnector()
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }

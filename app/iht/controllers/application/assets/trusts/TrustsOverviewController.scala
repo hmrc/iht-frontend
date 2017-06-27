@@ -16,25 +16,20 @@
 
 package iht.controllers.application.assets.trusts
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.HeldInTrust
-import iht.models.RegistrationDetails
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 
 /**
   * Created by jennygj on 30/06/16.
   */
 
-object TrustsOverviewController extends TrustsOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait TrustsOverviewController extends EstateController {
+@Singleton
+class TrustsOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust)
 
   def onPageLoad = authorisedForIht {

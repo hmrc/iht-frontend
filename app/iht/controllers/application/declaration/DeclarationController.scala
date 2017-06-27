@@ -16,7 +16,8 @@
 
 package iht.controllers.application.declaration
 
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import javax.inject.Inject
+
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper
 import iht.controllers.application.ApplicationController
@@ -31,7 +32,8 @@ import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Result
+import play.api.i18n.MessagesApi
+import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 
@@ -39,23 +41,7 @@ import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-/**
-  * Created by vineet on 01/12/16.
-  */
-
-object DeclarationController extends DeclarationController with IhtConnectors {
-  lazy val metrics: Metrics = Metrics
-}
-
-trait DeclarationController extends ApplicationController {
-
-  import play.api.mvc.Request
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
-
-  val metrics: Metrics
+class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>

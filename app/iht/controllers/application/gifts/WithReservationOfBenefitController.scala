@@ -16,30 +16,25 @@
 
 package iht.controllers.application.gifts
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.controllers.ControllerHelper
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
-import iht.utils.{ApplicationKickOutHelper, ApplicationStatus => AppStatus}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.with_reservation_of_benefit
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
+import play.api.i18n.MessagesApi
+
 /**
  *
  * Created by Vineet Tyagi on 14/01/16.
  *
  */
-object WithReservationOfBenefitController extends WithReservationOfBenefitController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
 
-trait WithReservationOfBenefitController extends EstateController{
+@Singleton
+class WithReservationOfBenefitController @Inject()(val messagesApi: MessagesApi) extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
