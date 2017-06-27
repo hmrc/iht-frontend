@@ -361,13 +361,13 @@ GET         /threshold-increased                                                
 
 ### DECLARATION ###l
 
-GET         /declaration                                                                        iht.controllers.application.declaration.DeclarationController.onPageLoad
-POST        /declaration                                                                        iht.controllers.application.declaration.DeclarationController.onSubmit
+GET         /declaration                                                                        @iht.controllers.application.declaration.DeclarationController.onPageLoad
+POST        /declaration                                                                        @iht.controllers.application.declaration.DeclarationController.onSubmit
 
-GET         /continue-to-declaration                                                            iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
-POST        /continue-to-declaration                                                            iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
+GET         /continue-to-declaration                                                            @iht.controllers.application.declaration.CheckedEverythingQuestionController.onPageLoad
+POST        /continue-to-declaration                                                            @iht.controllers.application.declaration.CheckedEverythingQuestionController.onSubmit
 
-GET         /sent-to-hmrc                                                                       iht.controllers.application.declaration.DeclarationReceivedController.onPageLoad
+GET         /sent-to-hmrc                                                                       @iht.controllers.application.declaration.DeclarationReceivedController.onPageLoad
 
 GET         /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onPageLoad
 POST        /not-possible-to-use-this-service                                                   iht.controllers.application.KickoutController.onSubmit
