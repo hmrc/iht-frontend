@@ -33,7 +33,7 @@ import org.apache.fop.events.model.EventSeverity
 import org.apache.fop.events.{Event, EventFormatter, EventListener}
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
-import play.api.Play.current
+
 import play.api.i18n.Messages
 import play.api.{Logger, Play}
 import play.i18n.Lang

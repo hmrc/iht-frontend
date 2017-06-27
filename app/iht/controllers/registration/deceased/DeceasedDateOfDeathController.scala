@@ -25,7 +25,7 @@ import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
-import play.api.Play.current
+
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi

@@ -18,7 +18,7 @@ package iht.controllers
 
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 
 /**
  * Created by yasar on 2/19/15.

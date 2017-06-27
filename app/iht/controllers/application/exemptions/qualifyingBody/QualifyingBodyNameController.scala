@@ -30,7 +30,7 @@ import iht.views.html.application.exemption.qualifyingBody.qualifying_body_name
 import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 
 import scala.concurrent.Future
 import iht.constants.IhtProperties._

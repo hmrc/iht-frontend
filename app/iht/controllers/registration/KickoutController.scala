@@ -24,7 +24,7 @@ import iht.models.enums.KickOutSource
 import iht.utils.CommonHelper
 import iht.utils.RegistrationKickOutHelper._
 import iht.views.html.registration.kickout._
-import play.api.Play.current
+
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.Request

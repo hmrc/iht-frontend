@@ -19,7 +19,7 @@ package iht.controllers
 import iht.connector.IhtConnectors
 import iht.controllers.auth.{CustomPasscodeAuthentication, IhtActions}
 import iht.utils.IhtSection
-import play.api.Play.current
+
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 

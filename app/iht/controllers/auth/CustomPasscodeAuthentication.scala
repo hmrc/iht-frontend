@@ -17,7 +17,7 @@
 package iht.controllers.auth
 
 import play.api.Play
-import play.api.Play.current
+
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.passcode.authentication.{PasscodeAuthentication, PasscodeAuthenticationProvider, PasscodeVerificationConfig}
 import uk.gov.hmrc.passcode.authentication.PlayRequestTypes._

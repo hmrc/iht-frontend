@@ -19,7 +19,7 @@ package iht.utils.pdf
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{Source, URIResolver}
 
-import play.api.Play.current
+
 import play.api.{Logger, Play}
 
 /**

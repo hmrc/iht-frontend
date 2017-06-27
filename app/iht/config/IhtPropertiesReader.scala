@@ -21,7 +21,7 @@ import java.util.PropertyResourceBundle
 import iht.utils.{CommonHelper, StringHelper}
 import org.joda.time.LocalDate
 import play.api.Play
-import play.api.Play.current
+
 import iht.utils.CommonHelper._
 
 /**

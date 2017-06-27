@@ -23,7 +23,7 @@ import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, RegistrationDetails}
 import iht.utils.{CommonHelper, RegistrationKickOutHelper}
 import iht.views.html.registration.{applicant => views}
-import play.api.Play.current
+
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi

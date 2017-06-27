@@ -23,7 +23,7 @@ import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils._
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import play.api.i18n.MessagesApi
 
 @Singleton
