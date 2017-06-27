@@ -16,21 +16,19 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
-import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import play.api.data.Form
+import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Call, Request}
+
 import scala.concurrent.Future
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-trait ExecutorOverviewController extends RegistrationController {
-
-  def cachingConnector: CachingConnector
+@Singleton
+class ExecutorOverviewController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set((rd, _) => rd.areOthersApplyingForProbate.getOrElse(false))
   def metrics: Metrics
 
@@ -91,8 +89,4 @@ trait ExecutorOverviewController extends RegistrationController {
         })
       }
   }
-}
-
-object ExecutorOverviewController extends ExecutorOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
 }

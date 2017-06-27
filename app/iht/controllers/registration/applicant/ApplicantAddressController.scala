@@ -16,26 +16,20 @@
 
 package iht.controllers.registration.applicant
 
-import iht.connector.CachingConnector
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.registration.RegistrationController
 import iht.controllers.registration.executor.{routes => executorRoutes}
 import iht.forms.registration.ApplicantForms._
-import iht.metrics.Metrics
 import iht.utils.CommonHelper
 import iht.views.html.registration.{applicant => views}
+import play.api.i18n.MessagesApi
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import scala.concurrent.Future
 
-object ApplicantAddressController extends ApplicantAddressController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait ApplicantAddressController extends RegistrationController {
-  def cachingConnector: CachingConnector
-
+@Singleton
+class ApplicantAddressController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions: Set[Predicate] = guardConditionsApplicantAddress
 
   lazy val loadRouteUk = routes.ApplicantAddressController.onPageLoadUk

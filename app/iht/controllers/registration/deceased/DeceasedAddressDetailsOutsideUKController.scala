@@ -16,24 +16,22 @@
 
 package iht.controllers.registration.deceased
 
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
-import iht.forms.registration.DeceasedForms._
 import iht.controllers.registration.applicant.{routes => applicantRoutes}
-import iht.metrics.Metrics
+import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.CommonHelper
 import iht.views.html.registration.{deceased => views}
-import play.api.data.Form
-import play.api.mvc.{AnyContent, Request}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
+import play.api.mvc.{AnyContent, Request}
 
-object DeceasedAddressDetailsOutsideUKController extends DeceasedAddressDetailsOutsideUKController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait DeceasedAddressDetailsOutsideUKController extends RegistrationDeceasedControllerWithEditMode {
+@Singleton
+class DeceasedAddressDetailsOutsideUKController @Inject()(val messagesApi: MessagesApi) extends RegistrationDeceasedControllerWithEditMode {
   def form = deceasedAddressDetailsOutsideUKForm
 
   override def guardConditions: Set[Predicate] = guardConditionsDeceasedLastContactAddress

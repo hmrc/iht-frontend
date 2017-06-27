@@ -16,23 +16,21 @@
 
 package iht.controllers.registration.applicant
 
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
 import iht.forms.registration.ApplicantForms._
-import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, RegistrationDetails}
 import iht.utils.{CommonHelper, RegistrationKickOutHelper}
 import iht.views.html.registration.{applicant => views}
-import play.api.data.Form
-import play.api.mvc.{AnyContent, Request}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
+import play.api.mvc.{AnyContent, Request}
 
-object ApplyingForProbateController extends ApplyingForProbateController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait ApplyingForProbateController extends RegistrationApplicantControllerWithEditMode {
+@Singleton
+class ApplyingForProbateController @Inject()(val messagesApi: MessagesApi) extends RegistrationApplicantControllerWithEditMode {
   def form = applyingForProbateForm
 
   override def guardConditions: Set[Predicate] = guardConditionsApplicantApplyingForProbateQuestion

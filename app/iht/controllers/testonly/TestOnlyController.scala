@@ -18,7 +18,6 @@ package iht.controllers.testonly
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationController
 import iht.forms.testonly.TestOnlyForms.{storeRegistrationDetailsForm, _}
 import iht.models.RegistrationDetails

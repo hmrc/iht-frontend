@@ -16,28 +16,20 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
-import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.utils.CommonHelper._
+import play.api.i18n.MessagesApi
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import scala.concurrent.Future
 
-object OthersApplyingForProbateController extends OthersApplyingForProbateController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait OthersApplyingForProbateController extends RegistrationController {
-  def cachingConnector: CachingConnector
-
+@Singleton
+class OthersApplyingForProbateController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set(isThereAnApplicantAddress)
-
-  def metrics: Metrics
 
   private def submitRoute(arrivedFromOverview: Boolean) =
     if (arrivedFromOverview) {

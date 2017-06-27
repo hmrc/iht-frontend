@@ -16,33 +16,23 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationController
 import iht.forms.registration.CoExecutorForms
-import iht.forms.registration.CoExecutorForms._
-import iht.metrics.Metrics
 import iht.models.{CoExecutor, RegistrationDetails}
 import iht.views.html.registration.{executor => views}
 import play.api.data.Form
+import play.api.i18n.MessagesApi
 import play.api.mvc.Call
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
-object CoExecutorPersonalDetailsController extends CoExecutorPersonalDetailsController with IhtConnectors {
-  def metrics: Metrics = Metrics
-  override def coExecutorForms = CoExecutorForms
-}
-
-trait CoExecutorPersonalDetailsController extends RegistrationController {
-  def cachingConnector: CachingConnector
-  def coExecutorForms: CoExecutorForms
-
+@Singleton
+class CoExecutorPersonalDetailsController @Inject()(val coExecutorForms: CoExecutorForms, val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions = guardConditionsCoExecutorPersonalDetails
 
   def onPageLoad(id: Option[String]) = pageLoad(id, routes.CoExecutorPersonalDetailsController.onSubmit(id))
