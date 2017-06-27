@@ -28,7 +28,7 @@ import iht.views.html.application.debts.any_other_debts
 import play.api.i18n.MessagesApi
 
 @Singleton
-class AnyOtherDebtsController @Inject()(implicit val messagesApi: MessagesApi) extends EstateController {
+class AnyOtherDebtsController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](anyOtherDebtsForm,

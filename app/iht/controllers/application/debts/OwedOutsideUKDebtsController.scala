@@ -27,7 +27,7 @@ import iht.utils.CommonHelper
 import iht.views.html.application.debts.owed_outside_uk
 import play.api.i18n.MessagesApi
 
-class OwedOutsideUKDebtsController @Inject()(implicit val messagesApi: MessagesApi) extends EstateController {
+class OwedOutsideUKDebtsController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](debtsOutsideUkForm,

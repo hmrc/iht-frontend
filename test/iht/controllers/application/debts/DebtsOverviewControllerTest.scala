@@ -29,7 +29,7 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def DebtsOverviewController = new DebtsOverviewController {
+  def DebtsOverviewController = new DebtsOverviewController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector

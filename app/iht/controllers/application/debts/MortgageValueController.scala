@@ -34,7 +34,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
 
-class MortgageValueController @Inject()(implicit val messagesApi: MessagesApi) extends ApplicationController {
+class MortgageValueController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
 
   def onSubmitUrl(id: String) = iht.controllers.application.debts.routes.MortgageValueController.onSubmit(id)
 

@@ -27,7 +27,7 @@ import iht.utils.CommonHelper
 import iht.views.html.application.debts.funeral_expenses
 import play.api.i18n.MessagesApi
 
-class FuneralExpensesController @Inject()(implicit val messagesApi: MessagesApi) extends EstateController {
+class FuneralExpensesController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](funeralExpensesForm,

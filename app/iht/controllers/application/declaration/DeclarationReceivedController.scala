@@ -26,7 +26,7 @@ import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
-class DeclarationReceivedController @Inject()(implicit val messagesApi: MessagesApi) extends ApplicationController {
+class DeclarationReceivedController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {

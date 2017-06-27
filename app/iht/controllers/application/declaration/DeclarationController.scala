@@ -41,7 +41,7 @@ import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-class DeclarationController @Inject()(val metrics: Metrics, implicit val messagesApi: MessagesApi) extends ApplicationController {
+class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>

@@ -27,7 +27,7 @@ import iht.utils.CommonHelper
 import iht.views.html.application.debts.jointly_owned
 import play.api.i18n.MessagesApi
 
-class JointlyOwnedDebtsController @Inject()(implicit val messagesApi: MessagesApi) extends EstateController {
+class JointlyOwnedDebtsController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](jointlyOwnedDebts,

@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
 
-class MortgagesOverviewController @Inject()(implicit val messagesApi: MessagesApi) extends ApplicationController {
+class MortgagesOverviewController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
 
   private val MessageKeyReturnToDebts = "site.link.return.debts"
 

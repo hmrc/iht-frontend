@@ -28,7 +28,7 @@ import iht.views.html.application.debts._
 import play.api.i18n.MessagesApi
 import javax.inject.{Inject, Singleton}
 
-class DebtsOwedFromATrustController @Inject()(implicit val messagesApi: MessagesApi) extends EstateController {
+class DebtsOwedFromATrustController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

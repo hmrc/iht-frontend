@@ -26,7 +26,7 @@ import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
-class CheckedEverythingQuestionController @Inject()(implicit val messagesApi: MessagesApi) extends EstateController {
+class CheckedEverythingQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
