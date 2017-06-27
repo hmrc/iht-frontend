@@ -26,8 +26,6 @@ import play.api.{Application, Logger}
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 import scala.concurrent.Await
@@ -46,9 +44,8 @@ case class IhtHomeRowViewModel(deceasedName: String,
 
 object IhtHomeRowViewModel {
   def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier,
-                                                    lang: Lang, application: Application) = {
+                                                    lang: Lang, messages: Messages) = {
 
-    implicit val messages: Messages = applicationMessages(lang, application)
     val currentStatus = getStatus(nino, ihtApp, ihtConnector)
     val ihtRef = ihtApp.ihtRefNo
 
