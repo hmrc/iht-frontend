@@ -17,13 +17,13 @@
 package iht.controllers.home
 
 import java.util.UUID
+import javax.inject.{Inject, Singleton}
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import play.api.Logger
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -34,13 +34,9 @@ import iht.constants.Constants
   * Created by Vineet Tyagi on 18/06/15.
   *
   */
-object IhtHomeController extends IhtHomeController with IhtConnectors
 
-trait IhtHomeController extends ApplicationController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
+@Singleton
+class IhtHomeController @Inject()(implicit val messagesApi: MessagesApi) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>

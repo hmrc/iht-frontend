@@ -1,4 +1,4 @@
-import play.routes.compiler.StaticRoutesGenerator
+import play.routes.compiler.{InjectedRoutesGenerator, StaticRoutesGenerator}
 import sbt.Keys._
 import sbt._
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
@@ -49,7 +49,7 @@ trait MicroService {
       fork in Test := false,
       retrieveManaged := true,
       evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
-      routesGenerator := StaticRoutesGenerator
+      routesGenerator := InjectedRoutesGenerator
   )
     .settings(
       // concatenate js

@@ -16,7 +16,6 @@
 
 package iht.controllers.application.status
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.EstateController
 import iht.models.application.{ApplicationDetails, ProbateDetails}
@@ -33,10 +32,6 @@ import scala.concurrent.Future
 
 
 trait ApplicationStatusController extends EstateController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
 
   def getView: (String, String, ProbateDetails) => Request[_] => Appendable
 

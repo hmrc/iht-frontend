@@ -16,16 +16,19 @@
 
 package iht.controllers.application
 
-import iht.connector.{CachingConnector, IhtConnector}
+import javax.inject.{Inject, Singleton}
+
+import iht.connector.CachingConnector
 import iht.constants.IhtProperties._
-import iht.connector.IhtConnectors
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.CommonHelper._
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, ApplicationStatus, CommonHelper, ExemptionsGuidanceHelper, SubmissionDeadlineHelper}
+import iht.utils._
 import iht.viewmodels.application.overview.EstateOverviewViewModel
+import iht.utils._
+import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
+import play.api.i18n.MessagesApi
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -35,19 +38,14 @@ import play.api.Play.current
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
-object EstateOverviewController extends EstateOverviewController with IhtConnectors
-
-trait EstateOverviewController extends ApplicationController {
+@Singleton
+class EstateOverviewController @Inject() (implicit val messagesApi: MessagesApi)extends ApplicationController {
 
 val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
 
   val kickOutPage = iht.controllers.application.routes.KickoutController.onPageLoad()
   val exemptionsOverviewPage= iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
   val tnrbGuidancePage = iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad()
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
 
   def onPageLoadWithIhtRef(ihtReference: String) = authorisedForIht {
     implicit user =>

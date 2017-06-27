@@ -16,14 +16,15 @@
 
 package iht.controllers.application.status
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import play.api.mvc.Request
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import play.api.i18n.Messages
+import play.api.i18n.MessagesApi
 
-
-object ApplicationInReviewController extends ApplicationStatusController with IhtConnectors {
+@Singleton
+class ApplicationInReviewController  @Inject() (implicit val messagesApi: MessagesApi) extends ApplicationStatusController {
   def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) => {
         implicit val req = request
         iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)
