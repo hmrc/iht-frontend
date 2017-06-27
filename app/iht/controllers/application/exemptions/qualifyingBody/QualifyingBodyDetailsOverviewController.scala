@@ -16,7 +16,7 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import javax.inject.Inject
+import javax.inject.{Singleton, Inject}
 
 import iht.controllers.application.EstateController
 import iht.utils.CommonHelper

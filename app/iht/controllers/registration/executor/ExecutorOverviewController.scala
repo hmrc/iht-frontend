@@ -19,7 +19,6 @@ package iht.controllers.registration.executor
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
-import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import play.api.data.Form
 import play.api.i18n.MessagesApi
@@ -31,7 +30,6 @@ import scala.concurrent.Future
 @Singleton
 class ExecutorOverviewController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set((rd, _) => rd.areOthersApplyingForProbate.getOrElse(false))
-  def metrics: Metrics
 
   def submitRoute = routes.ExecutorOverviewController.onSubmit()
   def editSubmitRoute = routes.ExecutorOverviewController.onEditSubmit()

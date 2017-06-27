@@ -22,7 +22,6 @@ package iht.controllers.application.gifts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -46,10 +45,6 @@ class GiftsDetailsController @Inject()(val messagesApi: MessagesApi) extends Est
   private lazy val sevenYearsGiftsRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
   private lazy val cancelLabelKeyValueCancel = "iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath"
   private lazy val cancelLabelKeyValueReturnToGifts = "iht.estateReport.gifts.returnToGiftsGivenAway"
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
 
   def onPageLoad(id: String) = authorisedForIht {
     implicit user =>

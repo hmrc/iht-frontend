@@ -16,8 +16,9 @@
 
 package iht.controllers.application.tnrb
 
-import javax.inject.Inject
+import javax.inject.{Singleton, Inject}
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Single
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
@@ -31,8 +32,7 @@ import play.api.Logger
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import scala.concurrent.Future

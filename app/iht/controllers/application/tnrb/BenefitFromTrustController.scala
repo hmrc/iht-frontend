@@ -16,7 +16,7 @@
 
 package iht.controllers.application.tnrb
 
-import javax.inject.Inject
+import javax.inject.{Singleton, Inject}
 
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
@@ -32,11 +32,8 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import scala.concurrent.Future
 import iht.utils.CommonHelper
-
 
 @Singleton
 class BenefitFromTrustController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
