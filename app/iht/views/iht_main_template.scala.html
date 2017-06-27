@@ -44,9 +44,9 @@ headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = "",
 isRegistration: Boolean = false
-)(mainContent: Html)(implicit messages: Messages)
+)(mainContent: Html)(implicit messages: Messages, application:Application)
 
-@lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
+@lc = @{application.instanceCache[CustomLanguageController].apply(application) }
 
 @headingClassName() = @{
     if(headingClass != ""){
