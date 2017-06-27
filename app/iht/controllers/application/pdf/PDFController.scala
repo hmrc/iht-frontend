@@ -18,8 +18,6 @@ package iht.controllers.application.pdf
 
 import javax.inject.{Inject, Singleton}
 
-import iht.config.FrontendAuthConnector
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
 import iht.controllers.application.ApplicationController
 import iht.controllers.auth.IhtActions
@@ -28,23 +26,13 @@ import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper}
 import models.des.iht_return.IHTReturn
 import play.api.Logger
-import play.api.i18n.{Messages, I18nSupport, MessagesApi}
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
 
-/**
-  * Created by dbeer on 14/08/15.
-  */
-
 @Singleton
 class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationController with IhtActions with I18nSupport {
-
-  val cachingConnector: CachingConnector = CachingConnector
-  val authConnector: AuthConnector = FrontendAuthConnector
-  val ihtConnector: IhtConnector = IhtConnector
-
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
     IhtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
 
@@ -96,22 +84,19 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
         Logger.info("Generating Application PDF")
         val messages = messagesApi.preferred(request)
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap {
-          optionIHTReference => optionIHTReference match {
-            case Some(ihtReference) => {
-              val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
-              val nino = CommonHelper.getNino(user)
-              ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
-                getSubmittedApplicationDetails(nino, regDetails, messages) map {
-                  case Some(ihtReturn) =>
-                    val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
-                    Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
-                  case _ =>
-                    internalServerError
-                }
-              )
-            }
-            case _ => Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
-          }
+          case Some(ihtReference) =>
+            val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
+            val nino = CommonHelper.getNino(user)
+            ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
+              getSubmittedApplicationDetails(nino, regDetails, messages) map {
+                case Some(ihtReturn) =>
+                  val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
+                  Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
+                case _ =>
+                  internalServerError
+              }
+            )
+          case _ => Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
         }
       }
   }
@@ -126,7 +111,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
     * Retrieves IHTReturn for given ihtRef and returnId
     */
   private def getSubmittedApplicationDetails(nino: String,
-                                             registrationDetails:RegistrationDetails,
+                                             registrationDetails: RegistrationDetails,
                                              messages: Messages)
                                             (implicit headerCarrier: HeaderCarrier): Future[Option[IHTReturn]] = {
     val ihtReference = CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference)

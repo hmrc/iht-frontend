@@ -29,8 +29,8 @@ class JointlyOwnedDebtsControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
-  def jointlyOwnedDebtsController = new JointlyOwnedDebtsController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+  def jointlyOwnedDebtsController = new JointlyOwnedDebtsController(messagesApi) {
+    override val authConnector = createFakeAuthConnector()
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }

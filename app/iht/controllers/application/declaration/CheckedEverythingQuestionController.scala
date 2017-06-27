@@ -16,21 +16,17 @@
 
 package iht.controllers.application.declaration
 
-import iht.connector.IhtConnectors
+import javax.inject.Inject
+
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.utils.{CommonHelper, LogHelper}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
-object CheckedEverythingQuestionController extends CheckedEverythingQuestionController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait CheckedEverythingQuestionController extends EstateController {
+class CheckedEverythingQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

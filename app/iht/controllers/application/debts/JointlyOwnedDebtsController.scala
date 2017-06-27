@@ -16,25 +16,18 @@
 
 package iht.controllers.application.debts
 
-import iht.connector.IhtConnectors
+import javax.inject.Inject
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{AllLiabilities, BasicEstateElementLiabilities}
-import iht.utils.{ApplicationStatus => AppStatus}
-import iht.views.html.application.debts.jointly_owned
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import iht.utils.CommonHelper
+import iht.views.html.application.debts.jointly_owned
+import play.api.i18n.MessagesApi
 
-object JointlyOwnedDebtsController extends JointlyOwnedDebtsController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait JointlyOwnedDebtsController extends EstateController {
+class JointlyOwnedDebtsController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](jointlyOwnedDebts,
