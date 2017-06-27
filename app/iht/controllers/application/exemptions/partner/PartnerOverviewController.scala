@@ -16,21 +16,15 @@
 
 package iht.controllers.application.exemptions.partner
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.ApplicationController
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
-object PartnerOverviewController extends PartnerOverviewController with IhtConnectors
-
-trait PartnerOverviewController extends ApplicationController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
-
+@Singleton
+class PartnerOverviewController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails { rd => ad =>

@@ -16,7 +16,7 @@
 
 package iht.controllers.application.declaration
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper
@@ -41,6 +41,7 @@ import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
+@Singleton
 class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {

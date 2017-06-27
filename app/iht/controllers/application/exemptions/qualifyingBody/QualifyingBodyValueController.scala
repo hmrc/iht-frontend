@@ -16,27 +16,24 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms.qualifyingBodyValueForm
-import iht.metrics.Metrics
+import iht.models._
 import iht.models.application.ApplicationDetails
-import iht.models.{_}
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_value
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
 
-object QualifyingBodyValueController extends QualifyingBodyValueController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait QualifyingBodyValueController extends EstateController {
+@Singleton
+class QualifyingBodyValueController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onSubmit(), Some(ExemptionsOtherValueID))
   val cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()

@@ -16,24 +16,23 @@
 
 package iht.controllers.application.exemptions.charity
 
-import iht.connector.IhtConnectors
+import javax.inject.Inject
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
+import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.models.{_}
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.charity_name
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
 
-object CharityNameController extends CharityNameController with IhtConnectors
-
-trait CharityNameController extends EstateController {
+class CharityNameController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ExemptionsCharitiesNameID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()

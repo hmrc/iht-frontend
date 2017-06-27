@@ -16,33 +16,28 @@
 
 package iht.controllers.application.exemptions.partner
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import iht.utils.CommonHelper._
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
+import iht.views.html._
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import play.api.Logger
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.views.html._
 
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
 
-object PartnerPermanentHomeQuestionController extends PartnerPermanentHomeQuestionController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait PartnerPermanentHomeQuestionController extends EstateController {
+@Singleton
+class PartnerPermanentHomeQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
   val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerHomeID))
   val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerHomeID))

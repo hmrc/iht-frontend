@@ -16,27 +16,20 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.qualifyingBody.assets_left_to_qualifying_body_question
+import play.api.i18n.MessagesApi
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 
-/**
- * Created by james on 17/08/16.
- */
-object AssetsLeftToQualifyingBodyQuestionController extends AssetsLeftToQualifyingBodyQuestionController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
+@Singleton
+class AssetsLeftToQualifyingBodyQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))
   val qualifyingBodyOverviewPage: Call =
     CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAssetsID))

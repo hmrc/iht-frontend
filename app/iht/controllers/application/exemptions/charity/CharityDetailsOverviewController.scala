@@ -16,29 +16,17 @@
 
 package iht.controllers.application.exemptions.charity
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import javax.inject.Inject
+
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.utils.CommonHelper
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
-/**
-  * Created by jennygj on 15/08/16.
-  */
 
-object CharityDetailsOverviewController extends CharityDetailsOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait CharityDetailsOverviewController extends EstateController {
-  def ihtConnector: IhtConnector
-
-  def cachingConnector: CachingConnector
-
+class CharityDetailsOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad() = authorisedForIht {
     implicit user =>
       implicit request => {
