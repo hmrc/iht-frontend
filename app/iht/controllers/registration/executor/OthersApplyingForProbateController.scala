@@ -19,7 +19,7 @@ package iht.controllers.registration.executor
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
-import iht.forms.registration.CoExecutorForms._
+import iht.forms.registration.CoExecutorForms
 import iht.models.RegistrationDetails
 import iht.utils.CommonHelper._
 import play.api.i18n.MessagesApi
@@ -28,7 +28,7 @@ import play.api.mvc.Call
 import scala.concurrent.Future
 
 @Singleton
-class OthersApplyingForProbateController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
+class OthersApplyingForProbateController @Inject()(val messagesApi: MessagesApi, val coExecutorForms: CoExecutorForms) extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set(isThereAnApplicantAddress)
 
   private def submitRoute(arrivedFromOverview: Boolean) =
@@ -48,7 +48,7 @@ class OthersApplyingForProbateController @Inject()(val messagesApi: MessagesApi)
     implicit user => implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         Future.successful(Ok(iht.views.html.registration.executor.others_applying_for_probate(
-          othersApplyingForProbateForm.fill(rd.areOthersApplyingForProbate),
+          coExecutorForms.othersApplyingForProbateForm.fill(rd.areOthersApplyingForProbate),
           submitRoute(arrivedFromOverview), cancelCall)))
       }
   }
@@ -62,7 +62,7 @@ class OthersApplyingForProbateController @Inject()(val messagesApi: MessagesApi)
   def submit(arrivedFromOverview: Boolean, cancelCall: Option[Call] = None) = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetails { (rd: RegistrationDetails) =>
-        val boundForm = othersApplyingForProbateForm.bindFromRequest
+        val boundForm = coExecutorForms.othersApplyingForProbateForm.bindFromRequest
         boundForm.fold(
           formWithErrors => {
             Future.successful(BadRequest(iht.views.html.registration.executor.others_applying_for_probate(formWithErrors,

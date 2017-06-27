@@ -16,13 +16,12 @@
 
 package iht.controllers.filter
 
+import javax.inject.{Inject, Singleton}
+
 import iht.config.FrontendAuthConnector
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.CustomPasscodeAuthentication
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -30,19 +29,12 @@ import scala.concurrent.Future
  * Created by adwelly on 21/10/2016.
  */
 
-object UseIHT400Controller extends UseIHT400Controller {
-  val cachingConnector = CachingConnector
-  val ihtConnector = IhtConnector
-  val authConnector: AuthConnector = FrontendAuthConnector
-}
-
-trait UseIHT400Controller extends FrontendController with CustomPasscodeAuthentication {
-  def cachingConnector: CachingConnector
-  def ihtConnector: IhtConnector
+@Singleton
+class UseIHT400Controller @Inject()(implicit val messagesApi: MessagesApi) extends FrontendController with CustomPasscodeAuthentication {
 
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.use_iht400()))
+      Future.successful(Ok(iht.views.html.filter.use_iht400()(request, messagesApi.preferred(request))))
     }
   }
 }

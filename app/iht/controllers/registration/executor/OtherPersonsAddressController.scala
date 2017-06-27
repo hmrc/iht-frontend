@@ -20,17 +20,17 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationController
+import iht.forms.registration.CoExecutorForms
 import iht.models.UkAddress
 import iht.utils.CommonHelper._
 import iht.views.html.registration.{executor => views}
 import play.api.i18n.MessagesApi
 import play.api.mvc.Call
-import iht.forms.registration.CoExecutorForms._
 
 import scala.concurrent.Future
 
 @Singleton
-class OtherPersonsAddressController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
+class OtherPersonsAddressController @Inject()(val messagesApi: MessagesApi, val coExecutorForms: CoExecutorForms) extends RegistrationController {
   override def guardConditions: Set[Predicate] = guardConditionsCoExecutorAddress
 
   def loadRouteUk(id: String) = routes.OtherPersonsAddressController.onPageLoadUK(id)
@@ -68,7 +68,7 @@ class OtherPersonsAddressController @Inject()(val messagesApi: MessagesApi) exte
                  cancelCall: Option[Call] = None) = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
-        val formType = if (isInternational) coExecutorAddressAbroadForm else coExecutorAddressUkForm
+        val formType = if (isInternational) coExecutorForms.coExecutorAddressAbroadForm else coExecutorForms.coExecutorAddressUkForm
         findExecutor(id, rd.coExecutors) match {
           case Some(coExecutor) => {
             val form = if (coExecutor.isAddressInUk.get == isInternational) {
@@ -103,7 +103,7 @@ class OtherPersonsAddressController @Inject()(val messagesApi: MessagesApi) exte
       implicit user => implicit request => {
         withRegistrationDetails {
           rd => {
-            val formType = if (isInternational) coExecutorAddressAbroadForm else coExecutorAddressUkForm
+            val formType = if (isInternational) coExecutorForms.coExecutorAddressAbroadForm else coExecutorForms.coExecutorAddressUkForm
             val coExecutor = findExecutor(coExecutorId, rd.coExecutors).get
             val boundForm = formType.bindFromRequest()
             boundForm.fold(

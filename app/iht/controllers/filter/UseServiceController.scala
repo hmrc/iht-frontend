@@ -16,32 +16,24 @@
 
 package iht.controllers.filter
 
+import javax.inject.{Inject, Singleton}
+
 import iht.config.FrontendAuthConnector
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import iht.controllers.auth.CustomPasscodeAuthentication
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
-object UseServiceController extends UseServiceController {
-  val cachingConnector = CachingConnector
-  val ihtConnector = IhtConnector
-  val authConnector: AuthConnector = FrontendAuthConnector
-
-}
-
-trait UseServiceController extends FrontendController with CustomPasscodeAuthentication {
-  def cachingConnector: CachingConnector
-  def ihtConnector: IhtConnector
+@Singleton
+class UseServiceController @Inject() (implicit val messagesApi: MessagesApi) extends FrontendController with CustomPasscodeAuthentication {
 
   private def onPageLoad(estimatedValue: String) = customAuthenticatedActionAsync {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.use_service(estimatedValue)))
+      Future.successful(Ok(iht.views.html.filter.use_service(estimatedValue)(request, messagesApi.preferred(request))))
     }
   }
 

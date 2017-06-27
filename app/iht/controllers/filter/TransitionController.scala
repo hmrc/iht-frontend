@@ -16,6 +16,8 @@
 
 package iht.controllers.filter
 
+import javax.inject.Singleton
+
 import iht.controllers.auth.CustomPasscodeAuthentication
 import play.api.i18n.Messages
 import uk.gov.hmrc.play.frontend.controller.FrontendController
@@ -24,9 +26,8 @@ import play.api.Play.current
 
 import scala.concurrent.Future
 
-object TransitionController extends TransitionController
-
-trait TransitionController extends FrontendController with CustomPasscodeAuthentication {
+@Singleton
+class TransitionController extends FrontendController with CustomPasscodeAuthentication {
 
 
   def onPageLoadScotland = doPageLoad(Messages("iht.countries.scotland"))

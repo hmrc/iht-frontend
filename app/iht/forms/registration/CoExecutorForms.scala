@@ -16,6 +16,8 @@
 
 package iht.forms.registration
 
+import javax.inject.Singleton
+
 import iht.constants._
 import iht.forms.mappings.DateMapping
 import iht.models._
@@ -28,9 +30,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
 
-object CoExecutorForms extends CoExecutorForms
+//object CoExecutorForms extends CoExecutorForms
 
-trait CoExecutorForms {
+@Singleton
+class CoExecutorForms {
   def ihtFormValidator: IhtFormValidator = IhtFormValidator
   val addressMappingCoexecInternational: Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",

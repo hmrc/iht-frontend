@@ -5,7 +5,7 @@ GET         /assets/resources/151001%20Notes%20to%20help%20you%20fill%20in%20IHT
 
 GET         /keep-alive                                              iht.controllers.IhtMainController.keepAlive
 
-GET         /assets/*file                                             controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                                            controllers.Assets.versioned(path="/public", file: Asset)
 ->          /template                                                template.Routes
 ->          /estate-report                                           taxreturn.Routes
 ->          /registration                                            registration.Routes
@@ -43,7 +43,7 @@ GET         /agent-no-change                                         iht.control
 
 GET         /use-iht400                                              iht.controllers.filter.UseIHT400Controller.onPageLoad
 
-GET         /language/:lang                                          @iht.controllers.CustomLanguageController.switchToLanguage(lang: String)
+GET         /language/:lang                                          iht.controllers.CustomLanguageController.switchToLanguage(lang: String)
 
 GET         /transition-scotland                                     iht.controllers.filter.TransitionController.onPageLoadScotland
 GET         /transition-northern-ireland                             iht.controllers.filter.TransitionController.onPageLoadNorthernIreland

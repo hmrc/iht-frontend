@@ -16,6 +16,8 @@
 
 package iht.controllers
 
+import javax.inject.Singleton
+
 import iht.connector.IhtConnectors
 import iht.controllers.auth.{CustomPasscodeAuthentication, IhtActions}
 import iht.utils.IhtSection
@@ -28,9 +30,8 @@ import scala.concurrent.Future
 /**
  * Created by yasar on 7/6/15.
  */
-object IhtMainController extends IhtMainController
-
-trait IhtMainController extends FrontendController with CustomPasscodeAuthentication with IhtActions with IhtConnectors {
+@Singleton
+class IhtMainController extends FrontendController with CustomPasscodeAuthentication with IhtActions with IhtConnectors {
   override lazy val ihtSection = IhtSection.Application
 
   def signOut = customAuthenticatedActionAsync {

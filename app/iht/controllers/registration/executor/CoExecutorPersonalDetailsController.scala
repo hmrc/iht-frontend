@@ -32,7 +32,8 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class CoExecutorPersonalDetailsController @Inject()(val coExecutorForms: CoExecutorForms, val messagesApi: MessagesApi) extends RegistrationController {
+class CoExecutorPersonalDetailsController @Inject()(val coExecutorForms: CoExecutorForms,
+                                                    val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions = guardConditionsCoExecutorPersonalDetails
 
   def onPageLoad(id: Option[String]) = pageLoad(id, routes.CoExecutorPersonalDetailsController.onSubmit(id))

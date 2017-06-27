@@ -31,8 +31,6 @@ import iht.views.html.registration.{applicant => views}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request, Result}
 import uk.gov.hmrc.domain.Nino
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
@@ -40,8 +38,8 @@ import scala.concurrent.Future
 @Singleton
 class ApplicantTellUsAboutYourselfController @Inject()(
                   val citizenDetailsConnector: CitizenDetailsConnector,
-                  val messagesApi: MessagesApi
-                                                      ) extends RegistrationApplicantControllerWithEditMode {
+                  val messagesApi: MessagesApi) extends RegistrationApplicantControllerWithEditMode {
+
   def form = applicantTellUsAboutYourselfForm
 
   override def guardConditions: Set[Predicate] = guardConditionsApplicantContactDetails
@@ -51,7 +49,7 @@ class ApplicantTellUsAboutYourselfController @Inject()(
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   override def pageLoad(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request =>
@@ -69,15 +67,15 @@ class ApplicantTellUsAboutYourselfController @Inject()(
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary)
-  (request, request.acceptLanguages.head, applicationMessages))
+  (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   // Implementation not required as we are overriding the submit method
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value = Mode.Standard) = ???

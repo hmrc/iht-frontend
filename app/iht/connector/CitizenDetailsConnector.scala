@@ -16,6 +16,8 @@
 
 package iht.connector
 
+import javax.inject.Singleton
+
 import iht.config.WSHttp
 import iht.models.CidPerson
 import play.api.Logger
@@ -26,16 +28,18 @@ import uk.gov.hmrc.play.http.{HeaderCarrier, _}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait CitizenDetailsConnector {
+/*trait CitizenDetailsConnector {
   def http: HttpGet with HttpPost with HttpPut with HttpDelete
 
   def serviceUrl: String
 
   def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier): Future[CidPerson]
-}
+}*/
 
-object CitizenDetailsConnector extends CitizenDetailsConnector with ServicesConfig {
-  override def http = WSHttp
+@Singleton
+class CitizenDetailsConnector extends ServicesConfig {
+ // def http: HttpGet with HttpPost with HttpPut with HttpDelete = WSHttp
+  def http = WSHttp
 
   lazy val serviceUrl = baseUrl("citizen-details")
 

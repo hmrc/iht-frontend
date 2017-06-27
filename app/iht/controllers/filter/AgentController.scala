@@ -16,6 +16,8 @@
 
 package iht.controllers.filter
 
+import javax.inject.Singleton
+
 import iht.config.FrontendAuthConnector
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.CustomPasscodeAuthentication
@@ -29,15 +31,8 @@ import scala.concurrent.Future
   * Created by adwelly on 21/10/2016.
   */
 
-object AgentController extends AgentController {
-  val cachingConnector = CachingConnector
-  val ihtConnector = IhtConnector
-  val authConnector: AuthConnector = FrontendAuthConnector
-}
-
-trait AgentController extends FrontendController with CustomPasscodeAuthentication {
-  def cachingConnector: CachingConnector
-  def ihtConnector: IhtConnector
+@Singleton
+class AgentController extends FrontendController with CustomPasscodeAuthentication {
 
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {

@@ -16,14 +16,15 @@
 
 package iht.controllers
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.IdentityVerificationConnector
 import iht.models.enums.IdentityVerificationResult
 import iht.views.html.iv.failurepages._
 import play.api.Logger
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 
 import scala.concurrent.Future
@@ -31,10 +32,9 @@ import scala.concurrent.Future
 /**
   * Created by yasar on 2/19/15.
   */
-object IVUpliftFailureController extends IVUpliftFailureController{
-}
 
-trait IVUpliftFailureController extends FrontendController{
+@Singleton
+class IVUpliftFailureController @Inject() (implicit val messagesApi: MessagesApi) extends FrontendController{
 
   val identityVerificationConnector: IdentityVerificationConnector = IdentityVerificationConnector
 
@@ -43,9 +43,13 @@ trait IVUpliftFailureController extends FrontendController{
 
   def showNotAuthorisedApplication(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>
     Logger.debug(message = "Entered showNotAuthorisedApplication with journeyId " + journeyId)
+
+    implicit val messages = messagesApi.preferred(request)
+
     val result = journeyId map { id =>
       val identityVerificationResult = identityVerificationConnector.identityVerificationResponse(id)
       Logger.debug(message = "Obtained identityVerificationResult is " + identityVerificationResult)
+
       identityVerificationResult map {
         case IdentityVerificationResult.FailedMatching => failed_matching()
         case IdentityVerificationResult.InsufficientEvidence => insufficient_evidence(ivUrlApplication)
@@ -70,6 +74,9 @@ trait IVUpliftFailureController extends FrontendController{
 
   def showNotAuthorisedRegistration(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>
     Logger.debug(message = "Entered showNotAuthorisedApplication with journeyId " + journeyId)
+
+    implicit val messages = messagesApi.preferred(request)
+
     val result = journeyId map { id =>
       val identityVerificationResult = identityVerificationConnector.identityVerificationResponse(id)
       Logger.debug(message = "Obtained identityVerificationResult is " + identityVerificationResult)

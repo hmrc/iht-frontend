@@ -16,27 +16,27 @@
 
 package iht.controllers
 
+import javax.inject.{Inject, Singleton}
+
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 /**
  * Created by yasar on 2/19/15.
  */
-object SessionTimeoutController extends SessionTimeoutController{
-}
 
-trait SessionTimeoutController extends FrontendController{
+@Singleton
+class SessionTimeoutController @Inject() (implicit val messagesApi: MessagesApi) extends FrontendController{
 
   def onRegistrationPageLoad = UnauthorisedAction {
     implicit request => {
-      Ok(iht.views.html.registration.timeout_registration())
+      Ok(iht.views.html.registration.timeout_registration()(request, messagesApi.preferred(request)))
     }
   }
 
   def onApplicationPageLoad = UnauthorisedAction {
     implicit request => {
-      Ok(iht.views.html.application.timeout_application())
+      Ok(iht.views.html.application.timeout_application()(request, messagesApi.preferred(request)))
     }
   }
 }

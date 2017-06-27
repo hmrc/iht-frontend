@@ -17,6 +17,7 @@
 package iht.controllers.pdf
 
 import java.io.{ByteArrayInputStream, File, FileInputStream, FileNotFoundException}
+import javax.inject.Singleton
 
 import akka.stream.scaladsl.{FileIO, Source}
 import akka.util.ByteString
@@ -29,22 +30,8 @@ import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAct
 
 import scala.util.{Failure, Success, Try}
 
-object GuidancePDFController extends GuidancePDFController
-
-trait GuidancePDFController extends FrontendController with CustomPasscodeAuthentication {
-//  def loadPDF = UnauthorisedAction {
-//    implicit request => {
-//     Try(Constants.PDFHMRCGuidance.openStream) match {
-//        case Success(fileInputStream) =>
-//          val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(fileInputStream)
-//          Result(
-//            header = ResponseHeader(OK),
-//            body = fileContent
-//          ).as("application/pdf")
-//        case Failure(e) => throw new FileNotFoundException("Unable to retrieve guidance PDF:" + e.getMessage)
-//      }
-//    }
-//  }
+@Singleton
+class GuidancePDFController extends FrontendController with CustomPasscodeAuthentication {
 
   def loadPDF = UnauthorisedAction {
    implicit request => {

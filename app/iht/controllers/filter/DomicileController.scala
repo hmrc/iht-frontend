@@ -16,6 +16,8 @@
 
 package iht.controllers.filter
 
+import javax.inject.Singleton
+
 import iht.constants.Constants
 import iht.controllers.auth.CustomPasscodeAuthentication
 import iht.forms.FilterForms._
@@ -25,11 +27,8 @@ import play.api.Play.current
 
 import scala.concurrent.Future
 
-object DomicileController extends DomicileController {
-
-}
-
-trait DomicileController extends FrontendController with CustomPasscodeAuthentication {
+@Singleton
+class DomicileController extends FrontendController with CustomPasscodeAuthentication {
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.domicile(domicileForm)))

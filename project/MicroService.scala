@@ -49,7 +49,7 @@ trait MicroService {
       fork in Test := false,
       retrieveManaged := true,
       evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
-      routesGenerator := InjectedRoutesGenerator
+      routesGenerator := StaticRoutesGenerator
   )
     .settings(
       // concatenate js

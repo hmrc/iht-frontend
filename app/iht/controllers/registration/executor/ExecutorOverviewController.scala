@@ -19,16 +19,16 @@ package iht.controllers.registration.executor
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
+import iht.forms.registration.CoExecutorForms
 import iht.models.RegistrationDetails
 import play.api.data.Form
 import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Call, Request}
-import iht.forms.registration.CoExecutorForms._
 
 import scala.concurrent.Future
 
 @Singleton
-class ExecutorOverviewController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
+class ExecutorOverviewController @Inject()(val messagesApi: MessagesApi, val coExecutorForms: CoExecutorForms) extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set((rd, _) => rd.areOthersApplyingForProbate.getOrElse(false))
 
   def submitRoute = routes.ExecutorOverviewController.onSubmit()
@@ -51,7 +51,7 @@ class ExecutorOverviewController @Inject()(val messagesApi: MessagesApi) extends
     {
       implicit val req = request
       Future.successful(
-        Ok(iht.views.html.registration.executor.executor_overview(executorOverviewForm,
+        Ok(iht.views.html.registration.executor.executor_overview(coExecutorForms.executorOverviewForm,
           rd.areOthersApplyingForProbate.getOrElse(false),
           rd.coExecutors,
           submitRoute,
@@ -74,7 +74,7 @@ class ExecutorOverviewController @Inject()(val messagesApi: MessagesApi) extends
   private def submit(showCancelRoute: Boolean, route: Call) = authorisedForIht {
     implicit user => implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
-        val boundForm = executorOverviewForm.bindFromRequest
+        val boundForm = coExecutorForms.executorOverviewForm.bindFromRequest
         boundForm.fold(formWithErrors => badRequest(rd, route, showCancelRoute, formWithErrors, request), {addMore =>
           (addMore, rd.areOthersApplyingForProbate, rd.coExecutors.isEmpty) match {
             case (Some(true), Some(true), _) =>

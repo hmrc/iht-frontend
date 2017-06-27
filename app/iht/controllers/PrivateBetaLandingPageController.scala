@@ -16,8 +16,9 @@
 
 package iht.controllers
 
+import javax.inject.Singleton
+
 import iht.config.FrontendAuthConnector
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.CustomPasscodeAuthentication
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
@@ -27,22 +28,15 @@ import uk.gov.hmrc.passcode.authentication.{PasscodeAuthenticationProvider, Pass
 
 import scala.concurrent.Future
 
-object PrivateBetaLandingPageController extends PrivateBetaLandingPageController {
-  lazy val cachingConnector = CachingConnector
-  lazy val ihtConnector = IhtConnector
-  lazy val authConnector: AuthConnector = FrontendAuthConnector
-}
-
-trait PrivateBetaLandingPageController extends FrontendController  with CustomPasscodeAuthentication {
-
-  def cachingConnector: CachingConnector
-  def ihtConnector: IhtConnector
+@Singleton
+class PrivateBetaLandingPageController extends FrontendController  with CustomPasscodeAuthentication {
 
   /**
    * Redirection from an unauthorised action is necessary because otherwise *something* in the tax
    * platform clears the token (p) from the request object, for some unknown reason. So we create a
    * copy of the token and pass it into the authenticated action twice, since the first one will be
    * cleared.
+ *
    * @param p Whitelisting token
    */
   def passcode(p: Option[String]) = UnauthorisedAction {
