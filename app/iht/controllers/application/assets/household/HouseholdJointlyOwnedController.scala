@@ -16,25 +16,21 @@
 
 package iht.controllers.application.assets.household
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.AllAssets
 import iht.models.application.basicElements.ShareableBasicEstateElement
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.household.household_jointly_owned
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.utils.CommonHelper
-import iht.constants.IhtProperties._
+import play.api.i18n.MessagesApi
 
-object HouseholdJointlyOwnedController extends HouseholdJointlyOwnedController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
+@Singleton
+class HouseholdJointlyOwnedController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
-trait HouseholdJointlyOwnedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdJointlyOwned)
   val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(AssetsHouseholdSharedID))
 

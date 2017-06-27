@@ -16,28 +16,22 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.models.RegistrationDetails
 import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import iht.utils.OverviewHelper._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
+import play.api.i18n.{Messages, MessagesApi}
 
 import scala.concurrent.Future
 
-object InsurancePolicyOverviewController extends InsurancePolicyOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait InsurancePolicyOverviewController extends EstateController {
+@Singleton
+class InsurancePolicyOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   private val q1: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
   private val q2: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.moreThanMaxValue)
   private val q3: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.isAnnuitiesBought)

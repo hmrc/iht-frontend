@@ -16,38 +16,29 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms.propertyAddressForm
-import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
 import play.api.Logger
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
 /**
   * Created by james on 17/06/16.
   */
-object PropertyAddressController extends PropertyAddressController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
 
-trait PropertyAddressController extends EstateController {
-
-  def ihtConnector: IhtConnector
-
-  def cachingConnector: CachingConnector
+@Singleton
+class PropertyAddressController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def editCancelUrl(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 

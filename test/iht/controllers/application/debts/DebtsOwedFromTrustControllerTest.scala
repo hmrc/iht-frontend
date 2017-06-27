@@ -33,9 +33,9 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
-  def debtsOwedFromTrustController = new DebtsOwedFromATrustController {
+  def debtsOwedFromTrustController = new DebtsOwedFromATrustController(messagesApi) {
     override val cachingConnector = mockCachingConnector
-    override val authConnector = createFakeAuthConnector(isAuthorised = true)
+    override val authConnector = createFakeAuthConnector()
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }

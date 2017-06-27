@@ -16,24 +16,19 @@
 
 package iht.controllers.application.assets.stocksAndShares
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_not_listed
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.utils.CommonHelper
-import iht.constants.IhtProperties._
+import play.api.i18n.MessagesApi
 
-object StocksAndSharesNotListedController extends StocksAndSharesNotListedController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait StocksAndSharesNotListedController extends EstateController {
+@Singleton
+class StocksAndSharesNotListedController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsStocksAndSharesNotListed)
   val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(), Some(AssetsStocksNotListedID))
 

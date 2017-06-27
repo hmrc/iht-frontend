@@ -16,23 +16,19 @@
 
 package iht.controllers.application.assets.insurancePolicy
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.utils.CommonHelper._
-import iht.constants.IhtProperties._
+import iht.views.html.application.asset.insurancePolicy.insurance_policy_details_paying_other
+import play.api.i18n.MessagesApi
 
-object InsurancePolicyDetailsPayingOtherController extends InsurancePolicyDetailsPayingOtherController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait InsurancePolicyDetailsPayingOtherController extends EstateController {
+@Singleton
+class InsurancePolicyDetailsPayingOtherController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[InsurancePolicy](insurancePolicyPayingOtherForm, insurance_policy_details_paying_other.apply,

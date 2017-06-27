@@ -22,13 +22,11 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.{CommonHelper, IhtSection}
 import play.api.Logger
+import play.api.i18n.I18nSupport
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import play.api.i18n.I18nSupport
 
 import scala.concurrent.Future
 

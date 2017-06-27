@@ -16,27 +16,19 @@
 
 package iht.controllers.application.gifts
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.controllers.ControllerHelper
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
-import iht.utils.{ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.seven_years_to_trust
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
+import play.api.i18n.MessagesApi
 
-object SevenYearsToTrustController extends SevenYearsToTrustController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait SevenYearsToTrustController extends EstateController {
+@Singleton
+class SevenYearsToTrustController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

@@ -16,24 +16,18 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
 import iht.utils.CommonHelper
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
+import play.api.i18n.MessagesApi
 
-object DeletePropertyController extends DeletePropertyController with IhtConnectors
-
-trait DeletePropertyController extends ApplicationController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
+@Singleton
+class DeletePropertyController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
 
   def onPageLoad(id: String) = authorisedForIht {
     implicit user =>

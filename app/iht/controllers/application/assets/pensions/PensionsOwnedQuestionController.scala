@@ -16,24 +16,19 @@
 
 package iht.controllers.application.assets.pensions
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.views.html.application.asset.pensions.pensions_owned_question
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.utils.CommonHelper
-import iht.constants.IhtProperties._
+import iht.views.html.application.asset.pensions.pensions_owned_question
+import play.api.i18n.MessagesApi
 
-object PensionsOwnedQuestionController extends PensionsOwnedQuestionController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait PensionsOwnedQuestionController extends EstateController {
+@Singleton
+class PensionsOwnedQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionsOwnedID))
 
   def onPageLoad = authorisedForIht {

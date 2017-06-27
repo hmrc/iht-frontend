@@ -29,8 +29,8 @@ class FuneralExpensesControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
-  def funeralExpensesController = new FuneralExpensesController {
-    override val authConnector = createFakeAuthConnector(isAuthorised=true)
+  def funeralExpensesController = new FuneralExpensesController(messagesApi) {
+    override val authConnector = createFakeAuthConnector()
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }

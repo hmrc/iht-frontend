@@ -16,30 +16,26 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.CommonHelper
 import iht.views.html.application.asset.properties.properties_owned_question
 import play.api.Logger
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
-object PropertiesOwnedQuestionController extends PropertiesOwnedQuestionController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait PropertiesOwnedQuestionController extends EstateController {
+@Singleton
+class PropertiesOwnedQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
