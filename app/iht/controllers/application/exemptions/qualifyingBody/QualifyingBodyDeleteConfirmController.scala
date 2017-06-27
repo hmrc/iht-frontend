@@ -16,22 +16,19 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_delete_confirm
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
 
-object QualifyingBodyDeleteConfirmController extends QualifyingBodyDeleteConfirmController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait QualifyingBodyDeleteConfirmController extends EstateController {
+@Singleton
+class QualifyingBodyDeleteConfirmController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails {

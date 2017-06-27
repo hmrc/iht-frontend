@@ -16,31 +16,28 @@
 
 package iht.controllers.registration.deceased
 
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.DeceasedForms.aboutDeceasedForm
 import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
 import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
-import play.api.data.Form
-import play.api.mvc.{AnyContent, Request}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
+import play.api.mvc.{AnyContent, Request}
 
 import scala.concurrent.Future
 
-object AboutDeceasedController extends AboutDeceasedController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait AboutDeceasedController extends RegistrationDeceasedControllerWithEditMode {
+@Singleton
+class AboutDeceasedController @Inject()(val messagesApi: MessagesApi) extends RegistrationDeceasedControllerWithEditMode {
   def form = aboutDeceasedForm()
 
   override def guardConditions = guardConditionsAboutDeceased
-
-  def metrics: Metrics
 
   lazy val submitRoute = routes.AboutDeceasedController.onSubmit
   lazy val editSubmitRoute = routes.AboutDeceasedController.onEditSubmit

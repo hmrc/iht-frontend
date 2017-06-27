@@ -16,24 +16,21 @@
 
 package iht.controllers.registration.deceased
 
-import iht.constants.FieldMappings._
+import javax.inject.Inject
+
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
 import iht.forms.registration.DeceasedForms._
-import iht.metrics.Metrics
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
-import play.api.data.Form
-import play.api.mvc._
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
+import play.api.mvc._
 
-object DeceasedPermanentHomeController extends DeceasedPermanentHomeController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWithEditMode {
+@Singleton
+class DeceasedPermanentHomeController @Inject()(val messagesApi: MessagesApi) extends RegistrationDeceasedControllerWithEditMode {
   def form = deceasedPermanentHomeForm
 
   override def guardConditions: Set[Predicate] = guardConditionsDeceasedPermanentHome

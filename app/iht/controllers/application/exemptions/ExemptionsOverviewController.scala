@@ -16,34 +16,19 @@
 
 package iht.controllers.application.exemptions
 
-import iht.connector.{CachingConnector, IhtConnector}
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
-import iht.models.application.ApplicationDetails
-import iht.models.application.exemptions._
 import iht.models.RegistrationDetails
+import iht.models.application.exemptions._
 import iht.utils.CommonHelper
-import play.api.Logger
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
-/**
- *
- * Created by Vineet Tyagi on 07/12/15.
- *
- */
-
-object ExemptionsOverviewController extends ExemptionsOverviewController with IhtConnectors
-
-trait ExemptionsOverviewController extends ApplicationController{
-
-  def cachingConnector: CachingConnector
-  def ihtConnector: IhtConnector
-
-
+@Singleton
+class ExemptionsOverviewController @Inject()(val messagesApi: MessagesApi) extends ApplicationController{
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails { rd => ad =>

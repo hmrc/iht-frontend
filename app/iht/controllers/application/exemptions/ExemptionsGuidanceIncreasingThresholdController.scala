@@ -16,25 +16,16 @@
 
 package iht.controllers.application.exemptions
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.ApplicationController
 import iht.utils.ExemptionsGuidanceHelper
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
-/**
- * Created by jon on 21/07/15.
- */
-object ExemptionsGuidanceIncreasingThresholdController extends ExemptionsGuidanceIncreasingThresholdController with IhtConnectors
-
-trait ExemptionsGuidanceIncreasingThresholdController extends ApplicationController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
-
+@Singleton
+class ExemptionsGuidanceIncreasingThresholdController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
   def onPageLoad(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
       Future.successful(Ok(iht.views.html.application.exemption.exemptions_guidance_increasing_threshold(ihtReference)))

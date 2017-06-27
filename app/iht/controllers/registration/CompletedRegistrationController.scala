@@ -16,20 +16,14 @@
 
 package iht.controllers.registration
 
-import iht.connector.{CachingConnector, IhtConnectors}
-import iht.controllers.ControllerHelper
-import iht.utils.CommonHelper
-import play.api.Logger
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import javax.inject.{Inject, Singleton}
+
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
-
-object CompletedRegistrationController extends CompletedRegistrationController with IhtConnectors
-
-trait CompletedRegistrationController extends RegistrationController{
-  def cachingConnector: CachingConnector
+@Singleton
+class CompletedRegistrationController @Inject()(val messagesApi: MessagesApi) extends RegistrationController{
   override def guardConditions: Set[Predicate] = Set.empty
 
   def onPageLoad() = authorisedForIht {

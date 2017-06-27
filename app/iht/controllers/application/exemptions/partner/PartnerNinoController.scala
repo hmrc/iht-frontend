@@ -16,24 +16,19 @@
 
 package iht.controllers.application.exemptions.partner
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.views.html.application.exemption.partner.partner_nino
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.utils.CommonHelper._
-import iht.constants.IhtProperties._
+import iht.views.html.application.exemption.partner.partner_nino
+import play.api.i18n.MessagesApi
 
-object PartnerNinoController extends PartnerNinoController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait PartnerNinoController extends EstateController {
+@Singleton
+class PartnerNinoController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNinoID))
 
   def onPageLoad = authorisedForIht {

@@ -16,6 +16,8 @@
 
 package iht.controllers.registration.applicant
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.CitizenDetailsConnector
 import iht.controllers.ControllerHelper.Mode
 import iht.connector.IhtConnectors
@@ -31,24 +33,18 @@ import play.api.mvc.{AnyContent, Request, Result}
 import uk.gov.hmrc.domain.Nino
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
-
-object ApplicantTellUsAboutYourselfController extends ApplicantTellUsAboutYourselfController with IhtConnectors {
-  def metrics: Metrics = Metrics
-
-  override lazy val citizenDetailsConnector = CitizenDetailsConnector
-}
-
-trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantControllerWithEditMode {
+@Singleton
+class ApplicantTellUsAboutYourselfController @Inject()(
+                  val citizenDetailsConnector: CitizenDetailsConnector,
+                  val messagesApi: MessagesApi
+                                                      ) extends RegistrationApplicantControllerWithEditMode {
   def form = applicantTellUsAboutYourselfForm
 
   override def guardConditions: Set[Predicate] = guardConditionsApplicantContactDetails
-
-  def metrics: Metrics
-
-  def citizenDetailsConnector: CitizenDetailsConnector
 
   lazy val submitRoute = routes.ApplicantTellUsAboutYourselfController.onSubmit
   lazy val editSubmitRoute = routes.ApplicantTellUsAboutYourselfController.onEditSubmit

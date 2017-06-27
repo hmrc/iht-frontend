@@ -16,21 +16,18 @@
 
 package iht.controllers.application.exemptions.charity
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.charity.charity_delete_confirm
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
-object CharityDeleteConfirmController extends CharityDeleteConfirmController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait CharityDeleteConfirmController extends EstateController {
+@Singleton
+class CharityDeleteConfirmController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails {

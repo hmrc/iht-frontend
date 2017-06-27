@@ -16,27 +16,25 @@
 
 package iht.controllers.registration.deceased
 
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
 import iht.forms.registration.DeceasedForms._
-import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
-import play.api.data.{Form, FormError}
-import play.api.mvc._
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.data.{Form, FormError}
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
+import play.api.mvc._
 
 import scala.util.{Failure, Success, Try}
 
-object DeceasedDateOfDeathController extends DeceasedDateOfDeathController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait DeceasedDateOfDeathController extends RegistrationBaseControllerWithEditMode[DeceasedDateOfDeath] {
+@Singleton
+class DeceasedDateOfDeathController @Inject()(val messagesApi: MessagesApi) extends RegistrationBaseControllerWithEditMode[DeceasedDateOfDeath] {
   def fillForm(rd: RegistrationDetails) = rd.deceasedDateOfDeath.fold(form)(dd => form.fill(dd))
 
   def form = deceasedDateOfDeathForm

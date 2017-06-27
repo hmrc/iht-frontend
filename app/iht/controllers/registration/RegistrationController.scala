@@ -16,24 +16,22 @@
 
 package iht.controllers.registration
 
-import iht.connector.CachingConnector
+import iht.connector.{CachingConnector, IhtConnectors}
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
 import iht.utils.CommonHelper._
 import iht.utils.{IhtSection, RegistrationKickOutHelper}
 import play.api.Logger
+import play.api.i18n.I18nSupport
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
-import scala.util.{Failure, Success, Try}
 
 
-trait RegistrationController extends FrontendController with IhtActions {
+trait RegistrationController extends FrontendController with IhtActions with I18nSupport with IhtConnectors {
   type Predicate = (RegistrationDetails, String) => Boolean
   override lazy val ihtSection = IhtSection.Registration
 

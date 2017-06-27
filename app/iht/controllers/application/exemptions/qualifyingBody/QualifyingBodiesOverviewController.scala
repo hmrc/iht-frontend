@@ -16,16 +16,16 @@
 
 package iht.controllers.application.exemptions.qualifyingBody
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.ApplicationController
 import iht.utils.CommonHelper
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
-object QualifyingBodiesOverviewController extends QualifyingBodiesOverviewController with IhtConnectors
-
-trait QualifyingBodiesOverviewController extends ApplicationController {
+@Singleton
+class QualifyingBodiesOverviewController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
 
   def onPageLoad() = authorisedForIht {
     implicit user => implicit request => {

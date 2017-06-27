@@ -16,35 +16,27 @@
 
 package iht.controllers.application.exemptions.partner
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.utils.CommonHelper._
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.exemption.partner.partner_name
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
 
-/**
-  * Created by jennygj on 01/08/16.
-  */
-object ExemptionPartnerNameController extends ExemptionPartnerNameController with IhtConnectors
-
-trait ExemptionPartnerNameController extends EstateController {
+@Singleton
+class ExemptionPartnerNameController @Inject()(val messagesApi: MessagesApi) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionExemptionsSpouse)
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
     implicit user =>

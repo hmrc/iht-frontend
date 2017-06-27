@@ -16,24 +16,22 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationController
-import iht.metrics.Metrics
 import play.Logger
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
-trait DeleteCoExecutorController extends RegistrationController {
+@Singleton
+class DeleteCoExecutorController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
   def areThereOthersApplying: Predicate = (rd, _) => rd.areOthersApplyingForProbate.getOrElse(false)
 
   def isThereMoreThanOneCoExecutor: Predicate = (rd, _) => rd.coExecutors.nonEmpty
 
   override def guardConditions: Set[Predicate] = Set(areThereOthersApplying, isThereMoreThanOneCoExecutor)
-
-  def cachingConnector: CachingConnector
 
   def onPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request =>
@@ -74,8 +72,4 @@ trait DeleteCoExecutorController extends RegistrationController {
       }
     }
   }
-}
-
-object DeleteCoExecutorController extends DeleteCoExecutorController with IhtConnectors {
-  def metrics: Metrics = Metrics
 }

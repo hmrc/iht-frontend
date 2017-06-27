@@ -16,28 +16,20 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.controllers.registration.RegistrationController
-import iht.forms.registration.CoExecutorForms._
-import iht.metrics.Metrics
 import iht.models.UkAddress
 import iht.utils.CommonHelper._
 import iht.views.html.registration.{executor => views}
+import play.api.i18n.MessagesApi
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import scala.concurrent.Future
 
-
-object OtherPersonsAddressController extends OtherPersonsAddressController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait OtherPersonsAddressController extends RegistrationController {
-  def cachingConnector: CachingConnector
-
+@Singleton
+class OtherPersonsAddressController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions: Set[Predicate] = guardConditionsCoExecutorAddress
 
   def loadRouteUk(id: String) = routes.OtherPersonsAddressController.onPageLoadUK(id)

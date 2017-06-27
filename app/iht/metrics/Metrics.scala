@@ -16,6 +16,8 @@
 
 package iht.metrics
 
+import javax.inject.Singleton
+
 import com.codahale.metrics.MetricRegistry
 import iht.models.enums.KickOutSource._
 import iht.models.enums.StatsSource.StatsSource
