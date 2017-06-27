@@ -85,6 +85,24 @@ class PDFControllerTest extends ApplicationControllerTest {
       val result = pdfController.onPostSubmissionPDF(createFakeRequest())
       contentAsBytes(result).length should be > 0
     }
+
+    "return to Application overview page if there is no iht reference in cache" in {
+      val regDetails: RegistrationDetails = CommonBuilder.buildRegistrationDetails1.copy(ihtReference = Some(ihtRef),
+        returns = Seq(CommonBuilder.buildReturnDetails))
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, regDetails)
+      createMockToGetCaseDetails(mockIhtConnector, regDetails)
+      createMockToGetSubmittedApplicationDetails(mockIhtConnector)
+      createMockToGetApplicationDetails(mockIhtConnector)
+      createMockToGetSingleValueFromCache(
+        cachingConnector = mockCachingConnector,
+        singleValueFormKey = same(Constants.PDFIHTReference),
+        singleValueReturn = None)
+
+      val result = pdfController.onPostSubmissionPDF(createFakeRequest())
+
+      redirectLocation(result) should be (Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().toString))
+    }
   }
 
 }
