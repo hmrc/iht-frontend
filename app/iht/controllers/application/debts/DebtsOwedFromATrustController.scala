@@ -26,6 +26,7 @@ import iht.models.application.debts._
 import iht.utils.CommonHelper
 import iht.views.html.application.debts._
 import play.api.i18n.MessagesApi
+import javax.inject.{Inject, Singleton}
 
 class DebtsOwedFromATrustController @Inject()(implicit val messagesApi: MessagesApi) extends EstateController {
 

@@ -16,8 +16,10 @@
 
 package iht.controllers.application.debts
 
+import javax.inject.Inject
+
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -26,22 +28,13 @@ import iht.models.application.assets.Property
 import iht.models.application.debts._
 import iht.utils.{ApplicationStatus, CommonHelper}
 import play.api.Logger
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
 
 import scala.concurrent.Future
 
-object MortgageValueController extends MortgageValueController with IhtConnectors
-
-trait MortgageValueController extends ApplicationController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
+class MortgageValueController @Inject()(implicit val messagesApi: MessagesApi) extends ApplicationController {
 
   def onSubmitUrl(id: String) = iht.controllers.application.debts.routes.MortgageValueController.onSubmit(id)
 

@@ -16,30 +16,22 @@
 
 package iht.controllers.application.debts
 
-import iht.connector.{CachingConnector, IhtConnector}
+import javax.inject.Inject
+
 import iht.constants.FieldMappings
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
-import iht.models.RegistrationDetails
 import iht.models.application.assets.Property
 import iht.models.application.debts.Mortgage
 import iht.utils.CommonHelper
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
-object MortgagesOverviewController extends MortgagesOverviewController with IhtConnectors
-
-trait MortgagesOverviewController extends ApplicationController {
+class MortgagesOverviewController @Inject()(implicit val messagesApi: MessagesApi) extends ApplicationController {
 
   private val MessageKeyReturnToDebts = "site.link.return.debts"
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

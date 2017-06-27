@@ -18,7 +18,6 @@ package iht.controllers.application.debts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._

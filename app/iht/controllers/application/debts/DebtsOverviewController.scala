@@ -18,7 +18,6 @@ package iht.controllers.application.debts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.models.application.debts.AllLiabilities
 import play.api.i18n.MessagesApi
