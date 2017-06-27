@@ -16,27 +16,23 @@
 
 package iht.controllers.testonly
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
 import iht.forms.testonly.TestOnlyForms.{storeRegistrationDetailsForm, _}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
 import play.api.Logger
+import play.api.i18n.MessagesApi
 import play.api.libs.json.Json
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
-object TestOnlyController extends TestOnlyController with IhtConnectors
-
-trait TestOnlyController extends ApplicationController {
-  def ihtConnector: IhtConnector
-  def cachingConnector: CachingConnector
-
-  def deleteFirstCase = authorisedForIht {
+@Singleton
+class TestOnlyController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
+  def deleteFirstCase() = authorisedForIht {
     implicit user => implicit request => {
       val nino = CommonHelper.getNino(user)
       ihtConnector.getCaseList(nino).map {
