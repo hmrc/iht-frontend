@@ -27,7 +27,7 @@ import scala.util.Try
 
 object DateMapping {
 
-  private val isYearValidPredicate: Int => Boolean = _ > 999
+  private val isYearValidPredicate: Int => Boolean = year => year > 999 && year <= 9999
   private val isMonthValidPredicate: Int => Boolean = month => month > 0 && month < 13
   private val isDayValidPredicate: Int => Boolean = day => day > 0 && day < 32
 
@@ -72,7 +72,10 @@ object DateMapping {
                              errorInvalidMonthKey: String,
                              errorInvalidYearKey: String,
                              errorInvalidAllKey: String,
-                             errorDateInFutureKey: String
+                             errorDateInFutureKey: String,
+                             errorInvalidDayMonthKey: String,
+                             errorInvalidDayYearKey: String,
+                             errorInvalidMonthYearKey: String
                             ): Constraint[(String, String, String)] =
     Constraint[(String, String, String)](
       (dateAsTuple: (String, String, String)) => {
@@ -89,6 +92,12 @@ object DateMapping {
 
             if (!isYearValidPredicate(year) && !isMonthValidPredicate(month) && !isDayValidPredicate(day)) {
               Invalid(errorInvalidAllKey)
+            } else if (!isDayValidPredicate(day) && !isMonthValidPredicate(month)) {
+              Invalid(errorInvalidDayMonthKey)
+            } else if (!isDayValidPredicate(day) && !isYearValidPredicate(year)) {
+              Invalid(errorInvalidDayYearKey)
+            } else if (!isMonthValidPredicate(month) && !isYearValidPredicate(year)) {
+              Invalid(errorInvalidMonthYearKey)
             } else if (!isYearValidPredicate(year)) {
               Invalid(errorInvalidYearKey)
             } else if (!isMonthValidPredicate(month)) {
@@ -141,7 +150,10 @@ object DateMapping {
             errorInvalidMonthKey: String,
             errorInvalidYearKey: String,
             errorInvalidAllKey: String,
-            errorDateInFutureKey: String) =
+            errorDateInFutureKey: String,
+            errorInvalidDayMonthKey: String,
+            errorInvalidDayYearKey: String,
+            errorInvalidMonthYearKey: String) =
   dateMapping(
     dateConstraint(
       errorBlankFieldKey,
@@ -151,7 +163,10 @@ object DateMapping {
       errorInvalidMonthKey,
       errorInvalidYearKey,
       errorInvalidAllKey,
-      errorDateInFutureKey
+      errorDateInFutureKey,
+      errorInvalidDayMonthKey,
+      errorInvalidDayYearKey,
+      errorInvalidMonthYearKey
     )
   )
 
@@ -163,7 +178,10 @@ object DateMapping {
     "error.dateOfBirth.giveCorrectMonth",
     "error.dateOfBirth.giveCorrectYear",
     "error.dateOfBirth.giveFull",
-    "error.dateOfBirth.giveNoneFuture"
+    "error.dateOfBirth.giveNoneFuture",
+    "error.dateOfBirth.giveCorrectDayMonth",
+    "error.dateOfBirth.giveCorrectDayYear",
+    "error.dateOfBirth.giveCorrectMonthYear"
   )
 
   val dateOfDeath: Mapping[LocalDate] = DateMapping(
@@ -174,7 +192,10 @@ object DateMapping {
     "error.dateOfDeath.giveCorrectMonth",
     "error.dateOfDeath.giveCorrectYear",
     "error.dateOfDeath.giveFull",
-    "error.dateOfDeath.giveNoneFuture"
+    "error.dateOfDeath.giveNoneFuture",
+    "error.dateOfDeath.giveCorrectDayMonth",
+    "error.dateOfDeath.giveCorrectDayYear",
+    "error.dateOfDeath.giveCorrectMonthYear"
   )
 
   val dateOfMarriage: Mapping[LocalDate] = DateMapping(
@@ -185,7 +206,10 @@ object DateMapping {
     "error.dateOfMarriage.giveCorrectMonth",
     "error.dateOfMarriage.giveCorrectYear",
     "error.dateOfMarriage.giveFull",
-    "error.dateOfMarriage.giveNoneFuture"
+    "error.dateOfMarriage.giveNoneFuture",
+    "error.dateOfMarriage.giveCorrectDayMonth",
+    "error.dateOfMarriage.giveCorrectDayYear",
+    "error.dateOfMarriage.giveCorrectMonthYear"
   )
 
   /**

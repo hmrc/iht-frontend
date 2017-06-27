@@ -2322,6 +2322,9 @@ error.dateOfBirth.giveNoneFuture = Give a date of birth that is not in the futur
 error.dateOfBirth.incorrect = Enter a valid date of birth
 error.dateOfBirth.incorrect.summary = enter a valid date of birth
 error.dateOfBirth.numeric = Enter a valid date of birth using only numbers
+error.dateOfBirth.giveCorrectDayMonth = Give a correct day and month for date of birth
+error.dateOfBirth.giveCorrectDayYear = Give a correct day and year for date of birth
+error.dateOfBirth.giveCorrectMonthYear = Give a correct month and year for date of birth
 
 error.dateOfDeath.incorrect = Enter a valid date of death
 error.dateOfDeath.incorrect.summary = enter a valid date of death
@@ -2333,6 +2336,9 @@ error.dateOfDeath.giveCorrectMonth = Give a correct month of death using numbers
 error.dateOfDeath.giveCorrectYear = Give a correct year of death
 error.dateOfDeath.giveFull = Give a full date of death
 error.dateOfDeath.giveNoneFuture = Give a date of death that is not in the future
+error.dateOfDeath.giveCorrectDayMonth = Give a correct day and month for date of death
+error.dateOfDeath.giveCorrectDayYear = Give a correct day and year for date of death
+error.dateOfDeath.giveCorrectMonthYear = Give a correct month and year for date of death
 
 error.dateOfMarriage.blank.summary = enter a date of marriage or civil partnership
 error.dateOfMarriage.incorrect.summary = enter a valid date of marriage or civil partnership
@@ -2343,6 +2349,9 @@ error.dateOfMarriage.giveCorrectMonth = Give a correct month of marriage using n
 error.dateOfMarriage.giveCorrectYear = Give a correct year of marriage
 error.dateOfMarriage.giveFull = Give a full date of marriage
 error.dateOfMarriage.giveNoneFuture = Give a date of marriage that is not in the future
+error.dateOfMarriage.giveCorrectDayMonth = Give a correct day and month for date of marriage or civil partnership
+error.dateOfMarriage.giveCorrectDayYear = Give a correct day and year for date of marriage or civil partnership
+error.dateOfMarriage.giveCorrectMonthYear = Give a correct month and year for date of marriage or civil partnership
 
 error.email = Enter a valid email address.
 
