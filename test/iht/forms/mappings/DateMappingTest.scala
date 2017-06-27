@@ -33,7 +33,10 @@ class DateMappingTest extends UnitSpec with FakeIhtApp {
                         errorInvalidMonthKey: String = "",
                         errorInvalidYearKey: String = "",
                         errorInvalidAllKey: String = "",
-                        errorDateInFutureKey: String = "") = {
+                        errorDateInFutureKey: String = "",
+                        errorInvalidDayMonthKey: String = "",
+                        errorInvalidDayYearKey: String = "",
+                        errorInvalidMonthYearKey: String = "") = {
     DateMapping.apply(
       errorBlankFieldKey = errorBlankFieldKey,
       errorInvalidCharsKey = errorInvalidCharsKey,
@@ -42,7 +45,10 @@ class DateMappingTest extends UnitSpec with FakeIhtApp {
       errorInvalidMonthKey = errorInvalidMonthKey,
       errorInvalidYearKey = errorInvalidYearKey,
       errorInvalidAllKey = errorInvalidAllKey,
-      errorDateInFutureKey = errorDateInFutureKey
+      errorDateInFutureKey = errorDateInFutureKey,
+      errorInvalidDayMonthKey = errorInvalidDayMonthKey,
+      errorInvalidDayYearKey = errorInvalidDayYearKey,
+      errorInvalidMonthYearKey = errorInvalidMonthYearKey
     )
   }
 
@@ -150,6 +156,28 @@ class DateMappingTest extends UnitSpec with FakeIhtApp {
       assertError(createDateMapping(errorInvalidYearKey = invalidYearErrorMessage),
         Map("day" -> "1", "month" -> "3", "year" -> "14"),
         invalidYearErrorMessage)
+    }
+
+    "return an invalid date error when date tuple contains an invalid day and month number" in {
+      val invalidDayMonthErrorMessage = "Invalid day and month error message"
+      assertError(createDateMapping(errorInvalidDayMonthKey = invalidDayMonthErrorMessage),
+        Map("day" -> "32", "month" -> "15", "year" -> "2016"),
+        invalidDayMonthErrorMessage)
+    }
+
+
+    "return an invalid date error when date tuple contains an invalid day and year number" in {
+      val invalidDayYearErrorMessage = "Invalid day and year error message"
+      assertError(createDateMapping(errorInvalidDayYearKey = invalidDayYearErrorMessage),
+        Map("day" -> "32", "month" -> "12", "year" -> "10000"),
+        invalidDayYearErrorMessage)
+    }
+
+    "return an invalid date error when date tuple contains an invalid month and year number" in {
+      val invalidMonthYearErrorMessage = "Invalid month and year error message"
+      assertError(createDateMapping(errorInvalidMonthYearKey = invalidMonthYearErrorMessage),
+        Map("day" -> "15", "month" -> "15", "year" -> "10000"),
+        invalidMonthYearErrorMessage)
     }
 
     "return an invalid date error when date tuple contains all numeric but all invalid components" in {
