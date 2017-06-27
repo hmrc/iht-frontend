@@ -16,15 +16,13 @@
 
 package iht.controllers.application.assets
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
-import iht.controllers.application.ApplicationController
+import javax.inject.{Inject, Singleton}
+
+import iht.controllers.application.EstateController
 import iht.models.application.assets.AllAssets
 import iht.utils.CommonHelper
 import iht.utils.ExemptionsGuidanceHelper._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import scala.concurrent.Future
+import play.api.i18n.MessagesApi
 
 /**
   *
@@ -32,13 +30,9 @@ import scala.concurrent.Future
   *
   */
 
-object AssetsOverviewController extends AssetsOverviewController with IhtConnectors
 
-trait AssetsOverviewController extends ApplicationController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
+@Singleton
+class AssetsOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

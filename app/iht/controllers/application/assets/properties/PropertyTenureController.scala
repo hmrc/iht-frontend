@@ -16,29 +16,25 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
 import play.api.Logger
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
 
-object PropertyTenureController extends PropertyTenureController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait PropertyTenureController extends EstateController {
+@Singleton
+class PropertyTenureController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
   val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
@@ -50,10 +46,6 @@ trait PropertyTenureController extends EstateController {
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyTenureController.onEditSubmit(id)
   def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesTenureID))
-
-  def ihtConnector: IhtConnector
-
-  def cachingConnector: CachingConnector
 
   def onPageLoad = authorisedForIht {
     implicit user =>

@@ -16,20 +16,17 @@
 
 package iht.controllers.application.gifts
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties._
-import iht.controllers.ControllerHelper
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
-import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
+import iht.models.application.gifts.AllGifts
 import iht.utils.GiftsHelper.createPreviousYearsGiftsLists
 import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
-import org.joda.time.LocalDate
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
@@ -38,11 +35,9 @@ import scala.concurrent.Future
   * Created by Vineet Tyagi on 14/01/16.
   *
   */
-object GivenAwayController extends GivenAwayController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
 
-trait GivenAwayController extends EstateController {
+@Singleton
+class GivenAwayController @Inject()(val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>

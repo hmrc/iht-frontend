@@ -19,7 +19,6 @@ package iht.controllers.application.assets.household
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.application.ApplicationController
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.utils.CommonHelper

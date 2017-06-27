@@ -16,27 +16,16 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.ApplicationController
-import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
-import iht.models.application.assets.Property
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.models.application.assets.Properties
+import iht.models.application.assets.{Properties, Property}
 import iht.utils.CommonHelper
+import play.api.i18n.MessagesApi
 
-object PropertiesOverviewController extends PropertiesOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait PropertiesOverviewController extends ApplicationController {
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
+@Singleton
+class PropertiesOverviewController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
