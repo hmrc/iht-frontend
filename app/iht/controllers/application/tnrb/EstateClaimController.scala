@@ -16,6 +16,8 @@
 
 package iht.controllers.application.tnrb
 
+import javax.inject.Inject
+
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
@@ -26,6 +28,7 @@ import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import play.api.Logger
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
@@ -34,11 +37,8 @@ import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
-object EstateClaimController extends EstateClaimController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait EstateClaimController extends EstateController {
+@Singleton
+class EstateClaimController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 

@@ -16,6 +16,8 @@
 
 package iht.controllers.application.tnrb
 
+import javax.inject.Inject
+
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
@@ -35,12 +37,10 @@ import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import scala.concurrent.Future
+import play.api.i18n.MessagesApi
 
-object DateOfMarriageController extends DateOfMarriageController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait DateOfMarriageController extends EstateController {
+@Singleton
+class DateOfMarriageController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 

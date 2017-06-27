@@ -16,19 +16,18 @@
 
 package iht.controllers.application.tnrb
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.MessagesApi
 
-
-object TnrbSuccessController extends TnrbSuccessController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait TnrbSuccessController extends EstateController {
+@Singleton
+class TnrbSuccessController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>

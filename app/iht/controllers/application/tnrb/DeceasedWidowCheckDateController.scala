@@ -16,10 +16,11 @@
 
 package iht.controllers.application.tnrb
 
+import javax.inject.Inject
+
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
 import iht.models.RegistrationDetails
@@ -29,6 +30,7 @@ import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.data.Form
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
@@ -37,11 +39,8 @@ import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
-object DeceasedWidowCheckDateController extends DeceasedWidowCheckDateController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait DeceasedWidowCheckDateController extends EstateController {
+@Singleton
+class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
