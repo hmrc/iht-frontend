@@ -23,17 +23,13 @@ import iht.models.enums.{KickOutSource, _}
 import uk.gov.hmrc.play.graphite.MicroserviceMetrics
 
 /**
- *
- * Created by Vineet Tyagi on 29/09/15.
- *
- */
-trait Metrics {
+  *
+  * Created by Vineet Tyagi on 29/09/15.
+  *
+  */
 
-  def kickOutCounter (source: KickOutSource):Unit
-  def generalStatsCounter (source: StatsSource):Unit
-}
-
-object Metrics extends Metrics with MicroserviceMetrics {
+@Singleton
+class Metrics extends MicroserviceMetrics {
 
   val registry: MetricRegistry = metrics.defaultRegistry
 
@@ -46,18 +42,18 @@ object Metrics extends Metrics with MicroserviceMetrics {
     KickOutSource.HOME-> registry.counter("home-kickout-counter")
   )
 
- val statsCounter = Map(
-   StatsSource.COMPLETED_REG-> registry.counter("completedReg-counter"),
-   StatsSource.COMPLETED_REG_ADDITIONAL_EXECUTORS-> registry.counter("completedReg-with-additional-executors-counter"),
-   StatsSource.COMPLETED_APP-> registry.counter("completedApp-counter"),
-   StatsSource.ADDITIONAL_EXECUTOR_APP-> registry.counter("with-additional-executor-counter"),
-   StatsSource.NO_ASSETS_DEBTS_EXEMPTIONS_APP-> registry.counter("no-assets-debts-exemptions-app-counter"),
-   StatsSource.ASSETS_ONLY_APP-> registry.counter("assets-anly-app-counter"),
-   StatsSource.ASSETS_AND_DEBTS_ONLY_APP-> registry.counter("assets-and-debts-only-app-counter"),
-   StatsSource.ASSET_DEBTS_EXEMPTIONS_TNRB_APP-> registry.counter("asset-debt-exemption-tnrb-app-counter")
+  val statsCounter = Map(
+    StatsSource.COMPLETED_REG-> registry.counter("completedReg-counter"),
+    StatsSource.COMPLETED_REG_ADDITIONAL_EXECUTORS-> registry.counter("completedReg-with-additional-executors-counter"),
+    StatsSource.COMPLETED_APP-> registry.counter("completedApp-counter"),
+    StatsSource.ADDITIONAL_EXECUTOR_APP-> registry.counter("with-additional-executor-counter"),
+    StatsSource.NO_ASSETS_DEBTS_EXEMPTIONS_APP-> registry.counter("no-assets-debts-exemptions-app-counter"),
+    StatsSource.ASSETS_ONLY_APP-> registry.counter("assets-anly-app-counter"),
+    StatsSource.ASSETS_AND_DEBTS_ONLY_APP-> registry.counter("assets-and-debts-only-app-counter"),
+    StatsSource.ASSET_DEBTS_EXEMPTIONS_TNRB_APP-> registry.counter("asset-debt-exemption-tnrb-app-counter")
 
- )
+  )
 
-  override def kickOutCounter(source: KickOutSource): Unit = kickOutCounters(source).inc()
-  override  def generalStatsCounter (source: StatsSource):Unit = statsCounter(source).inc()
+  def kickOutCounter(source: KickOutSource): Unit = kickOutCounters(source).inc()
+  def generalStatsCounter (source: StatsSource):Unit = statsCounter(source).inc()
 }
