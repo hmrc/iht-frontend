@@ -16,7 +16,7 @@
 
 package iht.controllers.registration
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
 import iht.controllers.ControllerHelper
 import iht.metrics.Metrics

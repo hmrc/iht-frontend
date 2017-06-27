@@ -21,13 +21,10 @@ import javax.inject.{Inject, Singleton}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.DeceasedForms.aboutDeceasedForm
-import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
 import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Request}
 
@@ -43,16 +40,16 @@ class AboutDeceasedController @Inject()(val messagesApi: MessagesApi) extends Re
   lazy val editSubmitRoute = routes.AboutDeceasedController.onEditSubmit
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.about_deceased(form, submitRoute)(request, applicationMessages))
+    Ok(views.about_deceased(form, submitRoute)(request, request2Messages))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
+    Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, request2Messages))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.about_deceased(form, submitRoute)(request, applicationMessages))
+    BadRequest(views.about_deceased(form, submitRoute)(request, request2Messages))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
+    BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, request2Messages))
 
   def onwardRoute(rd: RegistrationDetails) = routes.DeceasedAddressQuestionController.onPageLoad
 

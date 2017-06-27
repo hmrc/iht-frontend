@@ -24,6 +24,7 @@ import iht.models.RegistrationDetails
 import play.api.data.Form
 import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Call, Request}
+import iht.forms.registration.CoExecutorForms._
 
 import scala.concurrent.Future
 
