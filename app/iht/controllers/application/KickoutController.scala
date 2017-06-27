@@ -25,17 +25,16 @@ import iht.models.enums.KickOutSource
 import iht.models.RegistrationDetails
 import iht.utils.tnrb._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, ApplicationStatus => AppStatus}
-import play.api.Logger
-import play.api.i18n.{MessagesApi, Messages}
+import play.api.{Application, Logger}
+import play.api.i18n.MessagesApi
 import play.api.mvc.Request
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
 @Singleton
-class KickoutController @Inject() (val messagesApi: MessagesApi, val metrics: Metrics) extends ApplicationController {
+class KickoutController @Inject() (val messagesApi: MessagesApi, val metrics: Metrics, app: Application) extends ApplicationController {
   val storageFailureMessage = "Failed to successfully store kickout flag"
 
   def onPageLoad = authorisedForIht {
@@ -62,7 +61,7 @@ class KickoutController @Inject() (val messagesApi: MessagesApi, val metrics: Me
                   TnrbHelper.spouseOrCivilPartnerLabelWithOptions(
                     applicationDetails.increaseIhtThreshold,
                     applicationDetails.widowCheck,
-                    Some(Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous", deceasedName)))
+                    Some(messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous", deceasedName)))
                 ).fold(deceasedName)(identity)
 
                 Ok(iht.views.html.application.iht_kickout_application(kickoutReason, applicationDetails,

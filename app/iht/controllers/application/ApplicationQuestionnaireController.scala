@@ -16,22 +16,27 @@
 
 package iht.controllers.application
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.IhtConnectors
 import iht.controllers.QuestionnaireController
 import iht.utils.IhtSection
 import iht.views.html.application.application_questionnaire
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.Application
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.passcode.authentication.{PasscodeAuthenticationProvider, PasscodeVerificationConfig}
 
-object ApplicationQuestionnaireController extends ApplicationQuestionnaireController  with IhtConnectors {}
-
-trait ApplicationQuestionnaireController extends ApplicationController with QuestionnaireController {
+@Singleton
+class ApplicationQuestionnaireController @Inject()(val messagesApi: MessagesApi, app: Application) extends
+                                                                   ApplicationController with QuestionnaireController {
   override lazy val ihtSection = IhtSection.Application
+
   override def questionnaireView = (form, request) => {
     implicit val req = request
     application_questionnaire(form)
   }
+
   override def callPageLoad = iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
+
   override val redirectLocationOnMissingNino = iht.controllers.home.routes.IhtHomeController.onPageLoad()
 }

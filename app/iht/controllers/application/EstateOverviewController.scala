@@ -28,6 +28,7 @@ import iht.viewmodels.application.overview.EstateOverviewViewModel
 import iht.utils._
 import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
+import play.api.Application
 import play.api.i18n.MessagesApi
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
@@ -39,7 +40,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 @Singleton
-class EstateOverviewController @Inject() (implicit val messagesApi: MessagesApi) extends ApplicationController {
+class EstateOverviewController @Inject() (implicit val messagesApi: MessagesApi, app: Application) extends ApplicationController {
 
 val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
 

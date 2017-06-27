@@ -29,8 +29,7 @@ import iht.models.enums.StatsSource
 import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
-import play.api.Logger
-import play.api.Play.current
+import play.api.{Application, Logger}
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
@@ -42,7 +41,7 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
 @Singleton
-class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi) extends ApplicationController {
+class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi, val app: Application) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
@@ -115,9 +114,12 @@ class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: Mes
     }
   }
 
-  private def processApplication(nino: String)(implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
+  private def processApplication(nino: String)(implicit request: Request[_],
+                                                hc: HeaderCarrier,
+                                                user: AuthContext): Future[Result] = {
     val errorHandler: PartialFunction[Throwable, Result] = {
-      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages))
+      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request,
+                                                                                        messagesApi.preferred(request)))
     }
     withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference
