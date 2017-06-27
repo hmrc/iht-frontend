@@ -16,27 +16,21 @@
 
 package iht.controllers.application.assets
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
-import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.basicElements.BasicEstateElement
-import iht.utils.ApplicationKickOutHelper
+import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import iht.views.html.application.asset._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
+import play.api.i18n.MessagesApi
 
-object BusinessInterestsController extends BusinessInterestsController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait BusinessInterestsController extends EstateController {
+@Singleton
+class BusinessInterestsController @Inject() (val messagesApi: MessagesApi) extends EstateController  with IhtConnectors {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsBusinessInterests)
 
   def onPageLoad = authorisedForIht {

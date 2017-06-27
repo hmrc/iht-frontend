@@ -296,10 +296,10 @@ POST        /delete-qualifying-body/:id                                         
 
 ### DEBTS ###
 
-GET         /debts-owed-from-estate                                                             iht.controllers.application.debts.DebtsOverviewController.onPageLoad
+GET         /debts-owed-from-estate                                                             @iht.controllers.application.debts.DebtsOverviewController.onPageLoad
 
-GET         /other-debts                                                                        iht.controllers.application.debts.AnyOtherDebtsController.onPageLoad
-POST        /other-debts                                                                        iht.controllers.application.debts.AnyOtherDebtsController.onSubmit
+GET         /other-debts                                                                        @iht.controllers.application.debts.AnyOtherDebtsController.onPageLoad
+POST        /other-debts                                                                        @iht.controllers.application.debts.AnyOtherDebtsController.onSubmit
 
 GET         /joint-debts                                                                        iht.controllers.application.debts.JointlyOwnedDebtsController.onPageLoad
 POST        /joint-debts                                                                        iht.controllers.application.debts.JointlyOwnedDebtsController.onSubmit

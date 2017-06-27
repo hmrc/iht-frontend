@@ -16,26 +16,22 @@
 
 package iht.controllers.application.debts
 
+import javax.inject.{Inject, Singleton}
+import play.api.i18n.Messages
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
-import iht.utils.{ApplicationStatus => AppStatus}
-import iht.views.html.application.debts.any_other_debts
-import iht.constants.Constants._
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 import iht.utils.CommonHelper
+import iht.views.html.application.debts.any_other_debts
 
-object AnyOtherDebtsController extends AnyOtherDebtsController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait AnyOtherDebtsController extends EstateController {
+@Singleton
+class AnyOtherDebtsController @Inject()(
+                                         implicit val messages: Messages
+                                       ) extends EstateController with IhtConnectors {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](anyOtherDebtsForm,
