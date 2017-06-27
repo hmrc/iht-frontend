@@ -16,9 +16,9 @@
 
 package iht.controllers.application
 
-import iht.connector.{CachingConnector, IhtConnector}
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.enums.KickOutSource
@@ -26,7 +26,7 @@ import iht.models.RegistrationDetails
 import iht.utils.tnrb._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, ApplicationStatus => AppStatus}
 import play.api.Logger
-import play.api.i18n.Messages
+import play.api.i18n.{MessagesApi, Messages}
 import play.api.mvc.Request
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import play.api.i18n.Messages.Implicits._
@@ -34,18 +34,9 @@ import play.api.Play.current
 
 import scala.concurrent.Future
 
-object KickoutController extends KickoutController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait KickoutController extends ApplicationController {
+@Singleton
+class KickoutController @Inject() (val messagesApi: MessagesApi, val metrics: Metrics) extends ApplicationController {
   val storageFailureMessage = "Failed to successfully store kickout flag"
-
-  def cachingConnector: CachingConnector
-
-  def ihtConnector: IhtConnector
-
-  def metrics: Metrics
 
   def onPageLoad = authorisedForIht {
     implicit user =>

@@ -22,7 +22,6 @@ import iht.utils.CommonHelper
 import org.joda.time.LocalDate
 
 import scala.util.{Failure, Try}
-//import play.api.Application
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
 import play.api.i18n.Messages.Implicits._

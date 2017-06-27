@@ -16,22 +16,21 @@
 
 package iht.controllers.application.tnrb
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.html.application.tnrb.tnrb_guidance
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import scala.concurrent.Future
 
-object TnrbGuidanceController extends TnrbGuidanceController with IhtConnectors {
-  def metrics : Metrics = Metrics
-}
-
-trait TnrbGuidanceController extends EstateController{
+@Singleton
+class TnrbGuidanceController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController{
   def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetails { rd =>

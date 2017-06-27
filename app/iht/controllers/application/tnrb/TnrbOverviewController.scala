@@ -16,6 +16,8 @@
 
 package iht.controllers.application.tnrb
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
@@ -25,13 +27,11 @@ import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.MessagesApi
 import scala.concurrent.Future
 
-object TnrbOverviewController extends TnrbOverviewController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait TnrbOverviewController extends EstateController {
+@Singleton
+class TnrbOverviewController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>

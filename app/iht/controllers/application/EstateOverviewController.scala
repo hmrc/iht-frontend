@@ -39,7 +39,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 @Singleton
-class EstateOverviewController @Inject() (implicit val messagesApi: MessagesApi)extends ApplicationController {
+class EstateOverviewController @Inject() (implicit val messagesApi: MessagesApi) extends ApplicationController {
 
 val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
 
