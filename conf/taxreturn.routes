@@ -68,7 +68,7 @@ POST        /money-jointly-owned                                                
 
 ## Household and personal items section ##
 
-GET         /household-items-owned                                                              iht.controllers.application.assets.household.HouseholdOverviewController.onPageLoad
+GET         /household-items-owned                                                              @iht.controllers.application.assets.household.HouseholdOverviewController.onPageLoad
 
 GET         /own-household-items-owned                                                          iht.controllers.application.assets.household.HouseholdDeceasedOwnController.onPageLoad
 POST        /own-household-items-owned                                                          iht.controllers.application.assets.household.HouseholdDeceasedOwnController.onSubmit
@@ -135,8 +135,8 @@ POST        /value-of-gifted-policies                                           
 
 ## Business interests section ##
 
-GET         /business-interests-owned                                                           iht.controllers.application.assets.BusinessInterestsController.onPageLoad
-POST        /business-interests-owned                                                           iht.controllers.application.assets.BusinessInterestsController.onSubmit
+GET         /business-interests-owned                                                           @iht.controllers.application.assets.BusinessInterestsController.onPageLoad
+POST        /business-interests-owned                                                           @iht.controllers.application.assets.BusinessInterestsController.onSubmit
 
 ## Nominated assets section ##
 
