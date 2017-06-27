@@ -16,30 +16,18 @@
 
 package iht.controllers.registration
 
-import iht.config.FrontendAuthConnector
-import iht.connector.{CachingConnector, IhtConnector}
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.auth.CustomPasscodeAuthentication
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.MessagesApi
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
-/**
- * Created by james on 05/02/16.
- */
-object RegistrationChecklistController extends RegistrationChecklistController {
-  lazy val cachingConnector = CachingConnector
-  lazy val ihtConnector = IhtConnector
-  lazy val authConnector: AuthConnector = FrontendAuthConnector
-}
-
-trait RegistrationChecklistController extends FrontendController with CustomPasscodeAuthentication {
-
-  def cachingConnector : CachingConnector
-  def ihtConnector : IhtConnector
-
+@Singleton
+class RegistrationChecklistController @Inject()(val messagesApi: MessagesApi) extends FrontendController with CustomPasscodeAuthentication {
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {
       Future.successful(Ok(iht.views.html.registration.registration_checklist()))

@@ -16,32 +16,25 @@
 
 package iht.controllers.registration
 
-import iht.connector.CachingConnector
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.metrics.Metrics
 import iht.models.enums.KickOutSource
 import iht.utils.CommonHelper
 import iht.utils.RegistrationKickOutHelper._
 import iht.views.html.registration.kickout._
-import play.api.i18n.Messages
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
-object KickoutController extends KickoutController with IhtConnectors {
-  lazy val metrics: Metrics = Metrics
-}
-
-trait KickoutController extends RegistrationController {
-  def cachingConnector: CachingConnector
-
+@Singleton
+class KickoutController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set.empty
-
-  val metrics: Metrics
 
   def probateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.applicantDetails.kickout.probate.summary"),

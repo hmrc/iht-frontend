@@ -16,15 +16,14 @@
 
 package iht.controllers.registration
 
-import iht.connector.IhtConnectors
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import javax.inject.{Inject, Singleton}
+
+import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
-
-object DuplicateRegistrationController extends DuplicateRegistrationController with IhtConnectors
-
-trait DuplicateRegistrationController extends RegistrationController {
+@Singleton
+class DuplicateRegistrationController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set.empty
 
   def onPageLoad(ihtReference: String) = authorisedForIht {
