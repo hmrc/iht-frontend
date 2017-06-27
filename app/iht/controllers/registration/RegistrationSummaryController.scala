@@ -16,7 +16,8 @@
 
 package iht.controllers.registration
 
-import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.ControllerHelper
 import iht.metrics.Metrics
 import iht.models._
@@ -24,26 +25,16 @@ import iht.models.application.ApplicationDetails
 import iht.models.enums.StatsSource
 import iht.utils._
 import play.api.Logger
+import play.api.i18n.MessagesApi
 import play.api.mvc.Result
 import uk.gov.hmrc.play.http.{ConflictException, GatewayTimeoutException, HeaderCarrier}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object RegistrationSummaryController extends RegistrationSummaryController with IhtConnectors {
-  def metrics: Metrics = Metrics
-}
-
-trait RegistrationSummaryController extends RegistrationController {
+@Singleton
+class RegistrationSummaryController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions: Set[Predicate] = guardConditionsRegistrationSummary
-
-  def cachingConnector: CachingConnector
-
-  def metrics: Metrics
-
-  def ihtConnector: IhtConnector
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

@@ -16,16 +16,15 @@
 
 package iht.controllers.registration
 
-import iht.connector.IhtConnectors
+import javax.inject.{Inject, Singleton}
+
 import iht.controllers.QuestionnaireController
 import iht.utils.IhtSection
 import iht.views.html.registration.registration_questionnaire
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
 
-object RegistrationQuestionnaireController extends RegistrationQuestionnaireController with IhtConnectors {}
-
-trait RegistrationQuestionnaireController extends RegistrationController with QuestionnaireController {
+@Singleton
+class RegistrationQuestionnaireController @Inject()(val messagesApi: MessagesApi) extends RegistrationController with QuestionnaireController {
   override def guardConditions: Set[Predicate] = Set.empty
   override lazy val ihtSection = IhtSection.Registration
   def questionnaireView = (form, request) => {

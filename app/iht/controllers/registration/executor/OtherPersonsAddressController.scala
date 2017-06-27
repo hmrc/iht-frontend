@@ -25,6 +25,7 @@ import iht.utils.CommonHelper._
 import iht.views.html.registration.{executor => views}
 import play.api.i18n.MessagesApi
 import play.api.mvc.Call
+import iht.forms.registration.CoExecutorForms._
 
 import scala.concurrent.Future
 
