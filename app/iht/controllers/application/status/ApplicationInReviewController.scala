@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import play.api.mvc.Request
 import play.api.i18n.Messages.Implicits._
-
+import play.api.Play.current
 import play.api.i18n.MessagesApi
 
 @Singleton

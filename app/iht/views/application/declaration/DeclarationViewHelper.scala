@@ -18,7 +18,7 @@ package iht.views.application.declaration
 
 import iht.utils.DeclarationReason
 import play.api.i18n.Messages
-
+import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 
 /**

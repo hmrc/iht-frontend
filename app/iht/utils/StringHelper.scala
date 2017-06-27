@@ -19,7 +19,7 @@ package iht.utils
 import java.util.Locale
 
 import iht.utils.CommonHelper.withValue
-
+import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import org.joda.time.format.DateTimeFormat

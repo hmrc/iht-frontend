@@ -19,7 +19,7 @@ package iht.controllers.registration
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.auth.CustomPasscodeAuthentication
-
+import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.frontend.controller.FrontendController

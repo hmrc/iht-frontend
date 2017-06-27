@@ -32,7 +32,7 @@ import play.api.data.Form
 import play.api.mvc.{AnyContent, Request, Result}
 import uk.gov.hmrc.domain.Nino
 import play.api.i18n.Messages.Implicits._
-
+import play.api.Play.current
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future

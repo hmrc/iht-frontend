@@ -30,7 +30,7 @@ import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger
-
+import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}

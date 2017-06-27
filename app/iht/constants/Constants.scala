@@ -20,7 +20,7 @@ import java.net.URL
 import java.nio.file.{Path, Paths}
 
 import play.api.Play
-
+import play.api.Play.current
 
 import scala.collection.immutable.ListMap
 import iht.constants.IhtProperties._

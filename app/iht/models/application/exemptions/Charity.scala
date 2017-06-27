@@ -17,7 +17,7 @@
 package iht.models.application.exemptions
 
 import iht.utils.CommonHelper
-
+import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.libs.json.Json

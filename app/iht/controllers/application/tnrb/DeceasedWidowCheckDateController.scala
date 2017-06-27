@@ -34,7 +34,7 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
-
+import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import scala.concurrent.Future

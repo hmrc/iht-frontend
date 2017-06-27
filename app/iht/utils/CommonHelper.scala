@@ -28,7 +28,7 @@ import iht.models.application.gifts.PreviousYearsGifts
 import iht.views.html._
 import org.joda.time.{DateTime, LocalDate}
 import play.api.Logger
-
+import play.api.Play.current
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._

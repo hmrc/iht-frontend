@@ -21,7 +21,7 @@ import java.net.URI
 
 import org.apache.xmlgraphics.io.{Resource, ResourceResolver}
 import play.api.{Logger, Play}
-
+import play.api.Play.current
 
 /**
   * Created by david-beer on 25/10/16.

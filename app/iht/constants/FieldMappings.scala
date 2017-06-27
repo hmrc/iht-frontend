@@ -20,7 +20,7 @@ import iht.constants.IhtProperties._
 import play.api.i18n.Messages
 import iht.constants.Constants._
 import play.api.i18n.Messages.Implicits._
-
+import play.api.Play.current
 import play.api.mvc.Request
 import scala.collection.immutable.ListMap
 
