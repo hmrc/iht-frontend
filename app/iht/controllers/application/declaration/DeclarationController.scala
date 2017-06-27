@@ -18,7 +18,6 @@ package iht.controllers.application.declaration
 
 import javax.inject.Inject
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties
 import iht.controllers.ControllerHelper
 import iht.controllers.application.ApplicationController
@@ -34,18 +33,15 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
-import play.api.mvc.Result
+import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
-import play.api.mvc.Request
 
-class DeclarationController @Inject()(implicit val messagesApi: MessagesApi) extends ApplicationController {
-
-  val metrics: Metrics
+class DeclarationController @Inject()(val metrics: Metrics, implicit val messagesApi: MessagesApi) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>

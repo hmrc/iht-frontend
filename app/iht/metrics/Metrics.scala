@@ -27,13 +27,9 @@ import uk.gov.hmrc.play.graphite.MicroserviceMetrics
  * Created by Vineet Tyagi on 29/09/15.
  *
  */
-trait Metrics {
 
-  def kickOutCounter (source: KickOutSource):Unit
-  def generalStatsCounter (source: StatsSource):Unit
-}
-
-object Metrics extends Metrics with MicroserviceMetrics {
+@Singleton
+class Metrics extends MicroserviceMetrics {
 
   val registry: MetricRegistry = metrics.defaultRegistry
 
@@ -58,6 +54,6 @@ object Metrics extends Metrics with MicroserviceMetrics {
 
  )
 
-  override def kickOutCounter(source: KickOutSource): Unit = kickOutCounters(source).inc()
-  override  def generalStatsCounter (source: StatsSource):Unit = statsCounter(source).inc()
+  def kickOutCounter(source: KickOutSource): Unit = kickOutCounters(source).inc()
+  def generalStatsCounter (source: StatsSource):Unit = statsCounter(source).inc()
 }
