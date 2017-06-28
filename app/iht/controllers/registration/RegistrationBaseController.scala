@@ -24,8 +24,6 @@ import iht.utils.CommonHelper
 import iht.utils.RegistrationKickOutHelper._
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Call, Request, Result}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 

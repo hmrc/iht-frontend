@@ -24,9 +24,7 @@ import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.CommonHelper
 import iht.views.html.registration.{deceased => views}
 import play.api.Logger
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Request}
 
@@ -40,11 +38,11 @@ class DeceasedAddressQuestionController @Inject()(val messagesApi: MessagesApi) 
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_address_question(form, CommonHelper.getDeceasedNameOrDefaultString(name), routes.DeceasedAddressQuestionController.onSubmit())
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_address_question(form, CommonHelper.getDeceasedNameOrDefaultString(name), routes.DeceasedAddressQuestionController.onSubmit())
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def onwardRoute(rd: RegistrationDetails) = {
     val addressInUk = rd.deceasedDetails.flatMap(_.isAddressInUK)

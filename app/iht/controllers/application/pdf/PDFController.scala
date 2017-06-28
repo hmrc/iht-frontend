@@ -32,7 +32,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PDFController @Inject()(val xmlFoToPDF: XmlFoToPDF, val messagesApi: MessagesApi) extends ApplicationController with IhtActions with I18nSupport {
+class PDFController @Inject()(val xmlFoToPDF: XmlFoToPDF, val messagesApi: MessagesApi, val pdfFormatter: PdfFormatter) extends ApplicationController with IhtActions with I18nSupport {
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
     IhtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
 
@@ -122,7 +122,7 @@ class PDFController @Inject()(val xmlFoToPDF: XmlFoToPDF, val messagesApi: Messa
         None
       case Some(ihtReturn) =>
         Logger.info("IhtReturn details have been successfully retrieved ")
-        Some(PdfFormatter.transform(ihtReturn, registrationDetails.deceasedDetails.fold("")(_.name), messages))
+        Some(pdfFormatter.transform(ihtReturn, registrationDetails.deceasedDetails.fold("")(_.name), messages))
     }
   }
 }

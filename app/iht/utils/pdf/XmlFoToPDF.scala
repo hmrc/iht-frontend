@@ -38,7 +38,11 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 @Singleton
-class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResolver) {
+class XmlFoToPDF @Inject() (
+                             val env:Environment,
+                             val fopURIResolver: FopURIResolver,
+                             val pdfFormatter: PdfFormatter,
+                             val stylesheetResolver: StylesheetResolver) {
   private val filePathForFOPConfig = "pdf/fop.xconf"
   private val folderForPDFTemplates = "pdf/templates"
   private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance/main.xsl"
@@ -47,8 +51,8 @@ class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResol
 
   def createPreSubmissionPDF(registrationDetails: RegistrationDetails, applicationDetails: ApplicationDetails,
                              declarationType: String, messages: Messages): Array[Byte] = {
-    val rd = PdfFormatter.transform(registrationDetails, messages)
-    val ad = PdfFormatter.transform(applicationDetails, registrationDetails, messages)
+    val rd = pdfFormatter.transform(registrationDetails, messages)
+    val ad = pdfFormatter.transform(applicationDetails, registrationDetails, messages)
     val declaration = if (declarationType.isEmpty) false else true
     Logger.debug(s"Declaration value = $declaration and declaration type = $declarationType")
 
@@ -65,7 +69,7 @@ class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResol
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails,
                               ihtReturn: IHTReturn, messages: Messages): Array[Byte] = {
 
-    val rd = PdfFormatter.transform(registrationDetails, messages)
+    val rd = pdfFormatter.transform(registrationDetails, messages)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
       getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
 
@@ -97,7 +101,7 @@ class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResol
     CommonHelper.getOrException(env.resourceAsStream(filePathForClearanceXSL).map { is =>
       val template: StreamSource = new StreamSource(is)
       val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-      transformerFactory.setURIResolver(new StylesheetResolver)
+      transformerFactory.setURIResolver(stylesheetResolver)
       val transformer: Transformer = transformerFactory.newTransformer(template)
       setupTransformerEventHandling(transformer)
 
@@ -113,7 +117,7 @@ class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResol
     CommonHelper.getOrException(env.resourceAsStream(filePathForPreSubmissionXSL).map { is =>
       val template: StreamSource = new StreamSource(is)
       val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-      transformerFactory.setURIResolver(new StylesheetResolver)
+      transformerFactory.setURIResolver(stylesheetResolver)
       val transformer: Transformer = transformerFactory.newTransformer(template)
       setupTransformerEventHandling(transformer)
       val preDeceasedName = applicationDetails.increaseIhtThreshold.map(
@@ -144,7 +148,7 @@ class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResol
     CommonHelper.getOrException(env.resourceAsStream(filePathForPostSubmissionXSL).map { is =>
       val templateSource: StreamSource = new StreamSource(is)
       val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-      transformerFactory.setURIResolver(new StylesheetResolver)
+      transformerFactory.setURIResolver(stylesheetResolver)
       val transformer: Transformer = transformerFactory.newTransformer(templateSource)
       setupTransformerEventHandling(transformer)
       val preDeceasedName = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head
@@ -173,7 +177,7 @@ class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResol
 
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", XSLScalaBridge(messages))
-    transformer.setParameter("pdfFormatter", PdfFormatter)
+    transformer.setParameter("pdfFormatter", pdfFormatter)
   }
 
   private def setupCommonTransformerParametersPreAndPost(transformer: Transformer,

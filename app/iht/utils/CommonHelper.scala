@@ -452,15 +452,15 @@ object CommonHelper {
   }
 
   def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails,
-                                     wrapName: Boolean = false): String =
+                                     wrapName: Boolean = false)(implicit messages: Messages): String =
     if (wrapName) {
-      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
+      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)).toString
     } else {
-      regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
+      regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)
     }
 
-  def getDeceasedNameOrDefaultString(deceasedName: Option[String]): String = {
-    deceasedName.fold(Messages("iht.the.deceased")) { identity }
+  def getDeceasedNameOrDefaultString(deceasedName: Option[String])(implicit messages: Messages): String = {
+    deceasedName.fold(messages("iht.the.deceased")) { identity }
   }
   /**
     * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)

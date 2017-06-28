@@ -24,9 +24,7 @@ import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.CommonHelper
 import iht.views.html.registration.{deceased => views}
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Request}
 
@@ -45,19 +43,19 @@ class DeceasedAddressDetailsOutsideUKController @Inject()(val messagesApi: Messa
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name),editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   override def fillForm(rd: RegistrationDetails) = {
     val dd = CommonHelper.getOrException(rd.deceasedDetails)

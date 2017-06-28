@@ -19,8 +19,6 @@ package iht.controllers.registration.deceased
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 trait RegistrationDeceasedControllerWithEditMode extends RegistrationBaseControllerWithEditMode[DeceasedDetails] {
   def fillForm(rd: RegistrationDetails): Form[DeceasedDetails] =

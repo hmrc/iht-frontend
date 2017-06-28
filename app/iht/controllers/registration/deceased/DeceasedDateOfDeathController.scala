@@ -25,9 +25,7 @@ import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.data.{Form, FormError}
-import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.mvc._
 
@@ -49,16 +47,16 @@ class DeceasedDateOfDeathController @Inject()(val messagesApi: MessagesApi) exte
   lazy val editSubmitRoute = routes.DeceasedDateOfDeathController.onEditSubmit
 
   def okForPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages))
+    Ok(views.deceased_date_of_death(form, submitRoute)(request, messagesApi.preferred(request)))
 
   def okForEditPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
+    Ok(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, messagesApi.preferred(request)))
 
   def badRequestForSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages))
+    BadRequest(views.deceased_date_of_death(form, submitRoute)(request, messagesApi.preferred(request)))
 
   def badRequestForEditSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
+    BadRequest(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, messagesApi.preferred(request)))
 
   def onwardRoute(rd: RegistrationDetails) = routes.DeceasedPermanentHomeController.onPageLoad
 
