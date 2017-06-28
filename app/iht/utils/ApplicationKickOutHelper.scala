@@ -16,6 +16,8 @@
 
 package iht.utils
 
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
 import iht.models._
 import iht.models.application.ApplicationDetails
@@ -29,12 +31,13 @@ import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.i18n.Messages
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.collection.immutable.ListMap
 
-object ApplicationKickOutHelper {
+@Singleton
+class ApplicationKickOutHelper @Inject() (
+                                           ihtProperties: IhtProperties
+                                         ) {
   private lazy val estateOverviewControllerURL =
     iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef("").url
   lazy val SeenFirstKickoutPageCacheKey = "seenFirstKickoutPage"
@@ -833,16 +836,16 @@ object ApplicationKickOutHelper {
     * ID for section total is relevant only for kickouts which are to be applied to a specific section for a specific
     * ID, currently only for the kickout logic stored in checksActiveSectionOnlyMaxValue, above.
     */
-  def updateKickout(checks: FunctionListMap = ApplicationKickOutHelper.checksEstate,
+  def updateKickout(checks: FunctionListMap = checksEstate,
                     prioritySection: Option[String] = None,
                     registrationDetails: RegistrationDetails,
                     applicationDetails: ApplicationDetails,
                     idForSectionTotal: Option[String] = None): ApplicationDetails = {
-    val kickoutReason = ApplicationKickOutHelper.check(checks = checks,
+    val kickoutReason = check(checks = checks,
       prioritySection = prioritySection,
       registrationDetails = registrationDetails,
       applicationDetails = applicationDetails,
-      sectionTotal = ApplicationKickOutHelper.getSectionTotal(prioritySection, idForSectionTotal, applicationDetails))
+      sectionTotal = getSectionTotal(prioritySection, idForSectionTotal, applicationDetails))
 
     val status = kickoutReason.fold(AppStatus.InProgress)(_ => AppStatus.KickOut)
     applicationDetails copy(status = status, kickoutReason = kickoutReason)

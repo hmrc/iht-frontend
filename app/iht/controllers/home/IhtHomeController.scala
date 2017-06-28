@@ -19,13 +19,13 @@ package iht.controllers.home
 import java.util.UUID
 import javax.inject.{Inject, Singleton}
 
+import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import play.api.Logger
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
-import iht.constants.Constants
 
 /**
   *
@@ -34,7 +34,10 @@ import iht.constants.Constants
   */
 
 @Singleton
-class IhtHomeController @Inject()(implicit val messagesApi: MessagesApi) extends ApplicationController {
+class IhtHomeController @Inject()(
+                                   implicit val messagesApi: MessagesApi,
+                                   constants:Constants
+                                 ) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
@@ -60,7 +63,7 @@ class IhtHomeController @Inject()(implicit val messagesApi: MessagesApi) extends
             }
 
             Ok(iht.views.html.home.iht_home(viewModels))
-              .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino))
+              .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (constants.NINO -> nino))
           }
         } recover {
           case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>

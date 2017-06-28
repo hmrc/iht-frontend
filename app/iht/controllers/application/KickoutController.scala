@@ -37,7 +37,9 @@ class KickoutController @Inject() (
                                     val messagesApi: MessagesApi,
                                     val metrics: Metrics,
                                     val ihtProperties: IhtProperties,
-                                    val app: Application) extends ApplicationController {
+                                    val app: Application,
+                                    val applicationKickOutHelper: ApplicationKickOutHelper
+                                  ) extends ApplicationController {
   val storageFailureMessage = "Failed to successfully store kickout flag"
 
   def onPageLoad = authorisedForIht {
@@ -54,12 +56,12 @@ class KickoutController @Inject() (
             (applicationDetails.status, applicationDetails.kickoutReason) match {
               case (AppStatus.KickOut, Some(kickoutReason)) =>
                 Logger.info(s"Kickout reason: $kickoutReason")
-                val applicationLastSection = cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey)
-                val applicationLastID = cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey)
+                val applicationLastSection = cachingConnector.getSingleValueSync(applicationKickOutHelper.applicationLastSectionKey)
+                val applicationLastID = cachingConnector.getSingleValueSync(applicationKickOutHelper.applicationLastIDKey)
 
-                cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
+                cachingConnector.deleteSingleValueSync(applicationKickOutHelper.SeenFirstKickoutPageCacheKey)
                 val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
-                lazy val summaryParameter1 = ApplicationKickOutHelper.sources
+                lazy val summaryParameter1 = applicationKickOutHelper.sources
                   .find(source => source._1 == kickoutReason && source._2 == KickOutSource.TNRB).map(_ =>
                   TnrbHelper.spouseOrCivilPartnerLabelWithOptions(
                     applicationDetails.increaseIhtThreshold,
@@ -81,10 +83,10 @@ class KickoutController @Inject() (
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request =>
-        val futureOptionSeen = cachingConnector.getSingleValue(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
+        val futureOptionSeen = cachingConnector.getSingleValue(applicationKickOutHelper.SeenFirstKickoutPageCacheKey)
         futureOptionSeen.flatMap { optionSeen =>
           optionSeen.fold {
-            val storedOptionSeen = cachingConnector.storeSingleValue(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey, "true")
+            val storedOptionSeen = cachingConnector.storeSingleValue(applicationKickOutHelper.SeenFirstKickoutPageCacheKey, "true")
             storedOptionSeen.map {
               case Some(_) =>
                 Redirect(iht.controllers.application.routes.KickoutController.onPageLoadDeleting())
@@ -96,7 +98,7 @@ class KickoutController @Inject() (
             emptyCache()
             withRegistrationDetails { regDetails =>
               updateMetrics(regDetails).flatMap(isUpdated => {
-                cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
+                cachingConnector.deleteSingleValueSync(applicationKickOutHelper.SeenFirstKickoutPageCacheKey)
                 withRegistrationDetails { regDetails =>
                   ihtConnector.deleteApplication(CommonHelper.getNino(user), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
                   if (!isUpdated) {
@@ -117,7 +119,7 @@ class KickoutController @Inject() (
     futureOptionAD map { optionAD =>
       val optionIsUpdated = optionAD flatMap { ad =>
         ad.kickoutReason flatMap { kickoutReason =>
-          ApplicationKickOutHelper.sources.find(sourceMapping => sourceMapping._1 == kickoutReason) map { sourceMapping =>
+          applicationKickOutHelper.sources.find(sourceMapping => sourceMapping._1 == kickoutReason) map { sourceMapping =>
             metrics.kickOutCounter(sourceMapping._2)
             true
           }
@@ -128,10 +130,10 @@ class KickoutController @Inject() (
   }
 
   private def emptyCache()(implicit user: AuthContext, request: Request[_]) = {
-    cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey)
-      .foreach(_ => cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey))
-    cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey)
-      .foreach(_ => cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey))
+    cachingConnector.getSingleValueSync(applicationKickOutHelper.applicationLastSectionKey)
+      .foreach(_ => cachingConnector.deleteSingleValueSync(applicationKickOutHelper.applicationLastSectionKey))
+    cachingConnector.getSingleValueSync(applicationKickOutHelper.applicationLastIDKey)
+      .foreach(_ => cachingConnector.deleteSingleValueSync(applicationKickOutHelper.applicationLastIDKey))
   }
 
   def onPageLoadDeleting = authorisedForIht {

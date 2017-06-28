@@ -16,7 +16,7 @@
 
 package iht.controllers.pdf
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import akka.stream.scaladsl.{FileIO, Source}
 import akka.util.ByteString
@@ -27,11 +27,11 @@ import play.api.mvc.{ResponseHeader, Result}
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 
 @Singleton
-class GuidancePDFController extends FrontendController with CustomPasscodeAuthentication {
+class GuidancePDFController @Inject() (constants:Constants) extends FrontendController with CustomPasscodeAuthentication {
 
   def loadPDF = UnauthorisedAction {
    implicit request => {
-     val source: Source[ByteString, _] = FileIO.fromPath(Constants.pDFHMRCGuidance)
+     val source: Source[ByteString, _] = FileIO.fromPath(constants.pDFHMRCGuidance)
      Result(
        header = ResponseHeader(200, Map.empty),
        body = HttpEntity.Streamed(source, None, Some("application/pdf"))
