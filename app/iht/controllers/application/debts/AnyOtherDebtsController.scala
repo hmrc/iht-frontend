@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.utils.CommonHelper
@@ -28,7 +28,7 @@ import iht.views.html.application.debts.any_other_debts
 import play.api.i18n.MessagesApi
 
 @Singleton
-class AnyOtherDebtsController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class AnyOtherDebtsController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](anyOtherDebtsForm,

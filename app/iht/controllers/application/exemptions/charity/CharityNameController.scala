@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
@@ -32,7 +32,7 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
 
-class CharityNameController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class CharityNameController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ihtProperties.ExemptionsCharitiesNameID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()

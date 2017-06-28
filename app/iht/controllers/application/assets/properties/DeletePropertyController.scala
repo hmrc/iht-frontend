@@ -27,7 +27,7 @@ import play.api.Logger
 import play.api.i18n.MessagesApi
 
 @Singleton
-class DeletePropertyController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends ApplicationController {
+class DeletePropertyController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends ApplicationController {
 
   def onPageLoad(id: String) = authorisedForIht {
     implicit user =>

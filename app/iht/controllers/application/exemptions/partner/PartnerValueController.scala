@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
@@ -28,7 +28,7 @@ import iht.views.html.application.exemption.partner.partner_value
 import play.api.i18n.MessagesApi
 
 @Singleton
-class PartnerValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class PartnerValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
   val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
     Some(ihtProperties.ExemptionsPartnerValueID))
 

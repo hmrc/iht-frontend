@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
@@ -28,7 +28,7 @@ import iht.views.html.application.asset.pensions.pensions_changed_question
 import play.api.i18n.MessagesApi
 
 @Singleton
-class PensionsChangedQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class PensionsChangedQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(),

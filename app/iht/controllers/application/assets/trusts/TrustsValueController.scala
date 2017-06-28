@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
@@ -28,7 +28,7 @@ import iht.views.html.application.asset.trusts.trusts_value
 import play.api.i18n.MessagesApi
 
 @Singleton
-class TrustsValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class TrustsValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),

@@ -21,7 +21,7 @@ import javax.inject.{Inject, Singleton}
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.basicElements.BasicEstateElement
@@ -30,7 +30,7 @@ import iht.views.html.application.asset._
 import play.api.i18n.MessagesApi
 
 @Singleton
-class BusinessInterestsController @Inject() (val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController  with IhtConnectors {
+class BusinessInterestsController @Inject() (val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController  with IhtConnectors {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsBusinessInterests)
 
   def onPageLoad = authorisedForIht {

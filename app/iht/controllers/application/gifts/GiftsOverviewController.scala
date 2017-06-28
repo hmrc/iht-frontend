@@ -32,7 +32,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import scala.concurrent.Future
 
 @Singleton
-class GiftsOverviewController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class GiftsOverviewController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
   private def givenAwayYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isGivenAway, routes.GivenAwayController.onPageLoad(),

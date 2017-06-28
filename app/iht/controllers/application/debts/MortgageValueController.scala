@@ -21,7 +21,7 @@ import javax.inject.Inject
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property

@@ -19,7 +19,7 @@ package iht.controllers.application.gifts
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.application.EstateController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.utils.{ApplicationStatus => AppStatus}

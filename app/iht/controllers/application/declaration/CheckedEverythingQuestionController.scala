@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.utils.{CommonHelper, LogHelper}
 import play.api.i18n.MessagesApi
 

@@ -20,14 +20,14 @@ import javax.inject.Inject
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.ApplicationForms._
+import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
 import iht.utils.CommonHelper
 import iht.views.html.application.debts._
 import play.api.i18n.MessagesApi
 
-class DebtsOwedFromATrustController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class DebtsOwedFromATrustController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

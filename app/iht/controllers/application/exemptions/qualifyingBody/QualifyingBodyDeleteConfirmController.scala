@@ -28,7 +28,7 @@ import play.api.i18n.MessagesApi
 import scala.concurrent.Future
 
 @Singleton
-class QualifyingBodyDeleteConfirmController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class QualifyingBodyDeleteConfirmController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails {
