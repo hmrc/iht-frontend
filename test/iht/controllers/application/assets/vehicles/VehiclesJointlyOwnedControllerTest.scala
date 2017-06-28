@@ -47,13 +47,13 @@ class VehiclesJointlyOwnedControllerTest extends ApplicationControllerTest {
       storeAppDetailsInCache = true)
   }
 
-  def vehiclesJointlyOwnedController = new VehiclesJointlyOwnedController {
+  def vehiclesJointlyOwnedController = new VehiclesJointlyOwnedController(messagesApi) {
     val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def vehiclesJointlyOwnedControllerNotAuthorised = new VehiclesJointlyOwnedController {
+  def vehiclesJointlyOwnedControllerNotAuthorised = new VehiclesJointlyOwnedController(messagesApi) {
     val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
