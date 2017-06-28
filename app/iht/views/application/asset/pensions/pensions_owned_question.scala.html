@@ -35,7 +35,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
     headingName = deceasedName,
     headingClass = "heading-large"
 ){
-    @ihtHelpers.custom.error_summary_override_keys(pensionsOwnedQuestionForm, Constants.AppSectionPrivatePension)
+    @ihtHelpers.custom.error_summary_override_keys(pensionsOwnedQuestionForm, constants.AppSectionPrivatePension)
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 

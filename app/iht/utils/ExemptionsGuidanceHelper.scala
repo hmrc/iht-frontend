@@ -47,16 +47,16 @@ object ExemptionsGuidanceHelper {
     */
   def guidanceRedirect(finalDestination: Call, applicationDetails: ApplicationDetails, connector: CachingConnector)(
     implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Call]] = {
-    connector.getSingleValue(Constants.ExemptionsGuidanceContinueUrlKey).flatMap{ (continueUrl: Option[String]) =>
+    connector.getSingleValue(constants.ExemptionsGuidanceContinueUrlKey).flatMap{ (continueUrl: Option[String]) =>
       val shouldShowGuidance = applicationDetails.isEstateOverThreshold && !applicationDetails.hasSeenExemptionGuidance.getOrElse(false) &&
         continueUrl.isEmpty
       if(shouldShowGuidance) {
-        connector.storeSingleValue(Constants.ExemptionsGuidanceContinueUrlKey, finalDestination.url).map{ _=>
+        connector.storeSingleValue(constants.ExemptionsGuidanceContinueUrlKey, finalDestination.url).map{ _=>
           Some(iht.controllers.application.exemptions.routes.ExemptionsGuidanceIncreasingThresholdController
             .onPageLoad(applicationDetails.ihtRef.getOrElse("")))
         }
       } else {
-        connector.delete(Constants.ExemptionsGuidanceContinueUrlKey).map {_ => None}
+        connector.delete(constants.ExemptionsGuidanceContinueUrlKey).map {_ => None}
       }
     }
   }
@@ -67,11 +67,11 @@ object ExemptionsGuidanceHelper {
     */
   def finalDestination(ihtReference: String, connector: CachingConnector)
             (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Call] = {
-    connector.getSingleValue(Constants.ExemptionsGuidanceContinueUrlKey).flatMap {
+    connector.getSingleValue(constants.ExemptionsGuidanceContinueUrlKey).flatMap {
       case None =>
         val newCall = iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)
-        connector.storeSingleValue(Constants.ExemptionsGuidanceContinueUrlKey, newCall.url).map(_=>newCall)
-      case Some(urlString) => Future.successful(Call(Constants.GET, urlString))
+        connector.storeSingleValue(constants.ExemptionsGuidanceContinueUrlKey, newCall.url).map(_=>newCall)
+      case Some(urlString) => Future.successful(Call(constants.GET, urlString))
     }
   }
 }

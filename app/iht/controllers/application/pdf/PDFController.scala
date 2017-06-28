@@ -62,7 +62,7 @@ class PDFController @Inject()(
       implicit request => {
         Logger.info("Generating Clearance PDF")
         val messages = messagesApi.preferred(request)
-        cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
+        cachingConnector.getSingleValue(constants.PDFIHTReference).flatMap { optionIHTReference =>
           val ihtReference = CommonHelper.getOrException(optionIHTReference)
           val fileName = s"${messages("pdf.clearanceCertificate.title")}.pdf"
           val nino = CommonHelper.getNino(user)
@@ -87,7 +87,7 @@ class PDFController @Inject()(
       implicit request => {
         Logger.info("Generating Application PDF")
         val messages = messagesApi.preferred(request)
-        cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap {
+        cachingConnector.getSingleValue(constants.PDFIHTReference).flatMap {
           case Some(ihtReference) =>
             val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
             val nino = CommonHelper.getNino(user)

@@ -16,11 +16,13 @@
 
 package iht.controllers
 
+import javax.inject.{Inject, Singleton}
+
 import iht.connector.ExplicitAuditConnector
 import iht.constants.{Constants, IhtProperties}
 import iht.controllers.auth.IhtActions
 import iht.events.QuestionnaireEvent
-import iht.forms.QuestionnaireForms._
+import iht.forms.QuestionnaireForms
 import iht.models.QuestionnaireModel
 import iht.utils.{CommonHelper, LogHelper}
 import play.api.data.Form
@@ -28,7 +30,12 @@ import play.api.mvc._
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 
-trait QuestionnaireController extends FrontendController with IhtActions {
+@Singleton
+abstract class QuestionnaireController @Inject() (
+                                        val questionnaireForms:QuestionnaireForms,
+                                        val constants:Constants,
+                                        val ihtProperties:IhtProperties
+                                        ) extends FrontendController with IhtActions {
 
   def explicitAuditConnector: ExplicitAuditConnector = ExplicitAuditConnector
 
@@ -41,7 +48,7 @@ trait QuestionnaireController extends FrontendController with IhtActions {
   def signOutAndLoadPage = UnauthorisedAction {
     implicit request =>
       Redirect(callPageLoad).withNewSession
-        .withSession(Constants.NINO -> CommonHelper.getNinoFromSession(request).fold("")(identity))
+        .withSession(constants.NINO -> CommonHelper.getNinoFromSession(request).fold("")(identity))
   }
 
   def onPageLoad = UnauthorisedAction {
@@ -50,15 +57,15 @@ trait QuestionnaireController extends FrontendController with IhtActions {
 
       nino match {
         case None => Redirect(redirectLocationOnMissingNino)
-        case _ => Ok(questionnaireView(questionnaire_form, request))
-          .withSession(request.session + (Constants.NINO -> nino.fold("")(identity)))
+        case _ => Ok(questionnaireView(questionnaireForms.questionnaire_form, request))
+          .withSession(request.session + (constants.NINO -> nino.fold("")(identity)))
       }
     }
   }
 
   def onSubmit = UnauthorisedAction {
     implicit request =>
-      questionnaire_form.bindFromRequest().fold(
+      questionnaireForms.questionnaire_form.bindFromRequest().fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
           BadRequest(questionnaireView(formWithErrors, request))

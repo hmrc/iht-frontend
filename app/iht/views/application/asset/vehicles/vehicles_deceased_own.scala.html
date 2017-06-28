@@ -38,12 +38,12 @@ registrationDetails: RegistrationDetails
     headingName = deceasedName
 ) {
 
-@ihtHelpers.custom.error_summary_override_keys(vehicles, Constants.AppSectionVehicles)
+@ihtHelpers.custom.error_summary_override_keys(vehicles, constants.AppSectionVehicles)
 
 @helpers.form(action = iht.controllers.application.assets.vehicles.routes.VehiclesDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
 @ihtHelpers.custom.generic_estate_element_assets(
-                                    assetType = Constants.AssetTypeSingle,
+                                    assetType = constants.AssetTypeSingle,
                                     questionLabel= Messages("iht.estateReport.assets.vehicles.ownName.question", deceasedNameWrap),
                                     inputTextLabel = Messages("page.iht.application.assets.vehicles.deceased.value", deceasedNameWrap),
                                     inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),

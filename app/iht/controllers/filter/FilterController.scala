@@ -49,13 +49,13 @@ class FilterController @Inject() (val filterForms: FilterForms)extends FrontendC
         }, {
           choice => {
             choice.getOrElse("") match {
-              case Constants.continueEstateReport =>
+              case constants.continueEstateReport =>
                 Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
-              case Constants.alreadyStarted =>
+              case constants.alreadyStarted =>
                 Future.successful(Redirect(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()))
-              case Constants.agent =>
+              case constants.agent =>
                 Future.successful(Redirect(iht.controllers.filter.routes.AgentController.onPageLoad()))
-              case Constants.register =>
+              case constants.register =>
                 Future.successful(Redirect(iht.controllers.filter.routes.DomicileController.onPageLoad()))
             }
           }

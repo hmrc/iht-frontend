@@ -29,7 +29,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid"),
 browserTitle = Some(Messages("page.iht.application.assets.pensions.value.browserTitle")),
 isFullWidth=false){
-    @ihtHelpers.custom.error_summary_override_keys(pensionsValueForm, Constants.AppSectionPrivatePension)
+    @ihtHelpers.custom.error_summary_override_keys(pensionsValueForm, constants.AppSectionPrivatePension)
 
     <p class="lede">@Messages("page.iht.application.assets.pensions.hint")</p>
 

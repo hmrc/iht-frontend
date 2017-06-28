@@ -41,13 +41,13 @@ class DomicileController @Inject() (filterForms:FilterForms) extends FrontendCon
       boundForm.fold(
         formWithErrors => Future.successful(BadRequest(iht.views.html.filter.domicile(formWithErrors))),
         choice => choice.getOrElse("") match {
-          case Constants.englandOrWales =>
+          case constants.englandOrWales =>
             Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoad()))
-          case Constants.scotland =>
+          case constants.scotland =>
             Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadScotland()))
-          case Constants.northernIreland =>
+          case constants.northernIreland =>
             Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadNorthernIreland()))
-          case Constants.otherCountry =>
+          case constants.otherCountry =>
             Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadOtherCountry()))
         }
       )

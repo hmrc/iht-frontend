@@ -38,7 +38,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
     <p class="lede">@Messages("page.iht.application.assets.pensions.changed.question")</p>
 
-    @ihtHelpers.custom.error_summary_override_keys(pensionsChangedQuestionForm, Constants.AppSectionPrivatePension)
+    @ihtHelpers.custom.error_summary_override_keys(pensionsChangedQuestionForm, constants.AppSectionPrivatePension)
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsChangedQuestionController.onSubmit,'autoComplete -> "off") {
 

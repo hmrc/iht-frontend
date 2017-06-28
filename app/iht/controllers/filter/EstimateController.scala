@@ -42,11 +42,11 @@ class EstimateController extends FrontendController with CustomPasscodeAuthentic
       boundForm.fold(
         formWithErrors => Future.successful(BadRequest(iht.views.html.filter.estimate(formWithErrors))), {
           choice => choice.getOrElse("") match {
-            case Constants.under325000 =>
+            case constants.under325000 =>
               Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder()))
-            case Constants.between325000and1million =>
+            case constants.between325000and1million =>
               Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadOver()))
-            case Constants.moreThan1million =>
+            case constants.moreThan1million =>
               Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoad()))
           }
         }

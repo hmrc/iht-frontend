@@ -18,7 +18,7 @@ package iht.controllers.filter
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.Constants._
+import iht.constants.Constants
 import iht.controllers.auth.CustomPasscodeAuthentication
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.frontend.controller.FrontendController
@@ -27,7 +27,9 @@ import scala.concurrent.Future
 
 @Singleton
 class UseServiceController @Inject() (
-                                       implicit val messagesApi: MessagesApi) extends FrontendController with CustomPasscodeAuthentication {
+                                       implicit val messagesApi: MessagesApi,
+                                       val constants:Constants
+                                     ) extends FrontendController with CustomPasscodeAuthentication {
 
   private def onPageLoad(estimatedValue: String) = customAuthenticatedActionAsync {
     implicit request => {
@@ -35,7 +37,7 @@ class UseServiceController @Inject() (
     }
   }
 
-  def onPageLoadUnder = onPageLoad(under325000)
+  def onPageLoadUnder = onPageLoad(constants.under325000)
 
-  def onPageLoadOver = onPageLoad(between325000and1million)
+  def onPageLoadOver = onPageLoad(constants.between325000and1million)
 }

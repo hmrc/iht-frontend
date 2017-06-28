@@ -38,12 +38,12 @@
 ) {
 
 
-    @ihtHelpers.custom.error_summary_override_keys(householdJointlyOwned, Constants.AppSectionHousehold)
+    @ihtHelpers.custom.error_summary_override_keys(householdJointlyOwned, constants.AppSectionHousehold)
 
     @helpers.form(action = iht.controllers.application.assets.household.routes.HouseholdJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
 
     @ihtHelpers.custom.generic_estate_element_assets(
-                                                assetType = Constants.AssetTypeJoint,
+                                                assetType = constants.AssetTypeJoint,
                                                 questionLabel= messages("iht.estateReport.assets.household.joint.question",deceasedNameWrap),
                                                 inputTextLabel = messages("iht.estateReport.assets.household.valueOfJointlyOwned", deceasedNameWrap),
                                                 inputTextHelp =  messages("iht.estateReport.assets.getProfessionalValuation"),

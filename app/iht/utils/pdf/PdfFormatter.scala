@@ -66,13 +66,13 @@ class PdfFormatter {
   def transform(ihtReturn:IHTReturn, deceasedName: String, messages: Messages): IHTReturn = {
     val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
       _.assetCode,
-      Constants.ETMPAssetCodesToIHTMessageKeys,
+      constants.ETMPAssetCodesToIHTMessageKeys,
       (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
     )
 
     val optionSeqExemption = updateETMPOptionSeq[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
       _.exemptionType,
-      Constants.ETMPExemptionTypesToIHTMessageKeys,
+      constants.ETMPExemptionTypesToIHTMessageKeys,
       (exemption, newDescription) => exemption.copy(exemptionType = Option(messages(newDescription, deceasedName)))
     )
 

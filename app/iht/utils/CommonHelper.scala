@@ -401,7 +401,7 @@ object CommonHelper {
     getOrException(getOrException(regDetails.deceasedDetails).maritalStatus)
 
   def insurancePoliciesEndLineMessageKey(form: Form[InsurancePolicy]): Option[String] = {
-    if (form.errors.exists(error => Constants.insurancePolicyFormFieldsWithExtraContentLineInErrorSummary
+    if (form.errors.exists(error => constants.insurancePolicyFormFieldsWithExtraContentLineInErrorSummary
       .contains(error.key))) {
       Some("page.iht.application.insurance.policies.validation.summary.endLine")
     } else {
@@ -484,7 +484,7 @@ object CommonHelper {
 
   def ensureSessionHasNino(session: Session, user: AuthContext): Session =
     withValue(getNino(user)) { currentNino =>
-      val optionSession = session.get(Constants.NINO).fold[Option[Session]](
+      val optionSession = session.get(constants.NINO).fold[Option[Session]](
         None
       ) { foundNino =>
         if (foundNino == currentNino) {
@@ -493,7 +493,7 @@ object CommonHelper {
           None
         }
       }
-      optionSession.fold(session + (Constants.NINO -> currentNino))(identity)
+      optionSession.fold(session + (constants.NINO -> currentNino))(identity)
     }
 
 
@@ -512,7 +512,7 @@ object CommonHelper {
     }
   }
 
-  def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(Constants.NINO)
+  def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(constants.NINO)
 
   def deceasedName(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = {
     val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails

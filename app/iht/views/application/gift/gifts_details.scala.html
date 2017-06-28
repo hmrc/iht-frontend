@@ -41,7 +41,7 @@ title = (Messages("page.iht.application.giftsDetails.subtitle",startDateFormatte
     cancelLabel = cancelLabel
 ) {
 
-@ihtHelpers.custom.error_summary_override_keys(previousYearGiftsForm, Constants.AppSectionEstateGifts)
+@ihtHelpers.custom.error_summary_override_keys(previousYearGiftsForm, constants.AppSectionEstateGifts)
 
 @ihtHelpers.standard.form(id="giftsDetails-form", action = iht.controllers.application.gifts.routes.GiftsDetailsController.onSubmit,'autoComplete -> "off") {
 

@@ -33,7 +33,7 @@ browserTitle = Some(Messages("page.iht.application.assets.trusts.value.browserTi
 isFullWidth=false,
 headingName = deceasedName,
 headingClass = "heading-large"){
-    @ihtHelpers.custom.error_summary_override_keys(trustsValueForm, Constants.AppSectionHeldInTrust)
+    @ihtHelpers.custom.error_summary_override_keys(trustsValueForm, constants.AppSectionHeldInTrust)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit,'autoComplete -> "off") {
 
 

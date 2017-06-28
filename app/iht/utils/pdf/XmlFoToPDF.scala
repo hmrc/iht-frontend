@@ -210,7 +210,7 @@ class XmlFoToPDF @Inject() (
 
       setupFOPEventHandling(foUserAgent)
 
-      fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, pdfoutStream)
+      fopFactory.newFop(Mimeconstants.MIME_PDF, foUserAgent, pdfoutStream)
     })
   }
 

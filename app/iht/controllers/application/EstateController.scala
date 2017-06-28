@@ -16,13 +16,13 @@
 
 package iht.controllers.application
 
+import javax.inject.Inject
+
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.Constants
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.exemptions._
-import iht.utils.ApplicationKickOutHelper.FunctionListMap
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import play.api.Logger
 import play.api.data.{Form, FormError}
@@ -31,11 +31,13 @@ import play.twirl.api.HtmlFormat._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
 
-trait EstateController extends ApplicationController {
+abstract class EstateController @Inject() (
+                                            val ihtFormValidator:IhtFormValidator,
+                                            val applicationKickOutHelper: ApplicationKickOutHelper
+                                          ) extends ApplicationController {
 
   val applicationSection: Option[String] = None
 
@@ -193,7 +195,7 @@ trait EstateController extends ApplicationController {
           boundFormBeforeValidation.value)
       }
 
-      IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
+      ihtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
         .fold(
           formWithErrors => {
             Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
@@ -244,7 +246,7 @@ trait EstateController extends ApplicationController {
                   Logger.warn("Application Details not found")
                   InternalServerError("Application Details not found")
                 }(_ => {
-                  cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey,
+                  cachingConnector.storeSingleValueSync(applicationKickOutHelper.applicationLastSectionKey,
                     applicationSection.fold("")(identity))
                   Redirect(applicationDetails.kickoutReason.fold(redirectLocation(applicationDetails, updatedID))(_ =>
                     kickoutRedirectLocation))
@@ -267,12 +269,12 @@ trait EstateController extends ApplicationController {
   /**
     * Updates the Kick out if applicable
     */
-  def updateKickout(checks: FunctionListMap = ApplicationKickOutHelper.checksEstate,
+  def updateKickout(checks: applicationKickOutHelper.FunctionListMap = applicationKickOutHelper.checksEstate,
                     registrationDetails: RegistrationDetails,
                     applicationDetails: ApplicationDetails,
                     applicationID: Option[String] = None)
                    (implicit request: Request[_], hc: HeaderCarrier): ApplicationDetails =
-    ApplicationKickOutHelper.updateKickout(checks = checks,
+    applicationKickOutHelper.updateKickout(checks = checks,
       prioritySection = applicationSection,
       registrationDetails = registrationDetails,
       applicationDetails = applicationDetails,

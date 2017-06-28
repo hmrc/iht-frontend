@@ -16,7 +16,7 @@
 
 package iht.utils
 
-import iht.constants.Constants._
+import iht.constants.Constants
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails

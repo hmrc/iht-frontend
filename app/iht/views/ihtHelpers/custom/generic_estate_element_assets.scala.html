@@ -28,7 +28,7 @@ questionHint:Option[Html] = None,
 clearTargetInput: Option[String] = None
 )(implicit messages: Messages)
 <div data-exclude="true">
-    @defining(if(assetType==Constants.AssetTypeSingle) "isOwned" else "isOwnedShare") { assetOwnedType =>
+    @defining(if(assetType==constants.AssetTypeSingle) "isOwned" else "isOwnedShare") { assetOwnedType =>
 
             @{
 
@@ -61,7 +61,7 @@ clearTargetInput: Option[String] = None
 
       }
 
-    @defining( if(assetType==Constants.AssetTypeSingle) "value" else "shareValue") { assetValueType =>
+    @defining( if(assetType==constants.AssetTypeSingle) "value" else "shareValue") { assetValueType =>
 
                 <div class="js-hidden panel-indent panel-indent--gutter" id="asset-value-type">
                     @ihtHelpers.custom.input_estate_value(sharableElementForm(assetValueType),

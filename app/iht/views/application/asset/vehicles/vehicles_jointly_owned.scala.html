@@ -33,11 +33,11 @@
 browserTitle = Some(Messages("page.iht.application.assets.vehicles.jointly.owned.browserTitle")),
 isFullWidth=false) {
 
-    @ihtHelpers.custom.error_summary_override_keys(vehiclesJointlyOwned, Constants.AppSectionVehicles)
+    @ihtHelpers.custom.error_summary_override_keys(vehiclesJointlyOwned, constants.AppSectionVehicles)
 
     @helpers.form(action = iht.controllers.application.assets.vehicles.routes.VehiclesJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
         @ihtHelpers.custom.generic_estate_element_assets(
-                                                    assetType = Constants.AssetTypeJoint,
+                                                    assetType = constants.AssetTypeJoint,
                                                     questionLabel= Messages("iht.estateReport.assets.vehicles.jointly.owned.question", deceasedName),
                                                     inputTextLabel = Messages("iht.estateReport.assets.vehicles.valueOfJointlyOwned", deceasedName),
                                                     inputTextHelp =  Messages("iht.estateReport.assets.getProfessionalValuation"),

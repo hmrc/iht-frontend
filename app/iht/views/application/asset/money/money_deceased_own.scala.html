@@ -33,14 +33,14 @@
     headingName = deceasedName
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(money, Constants.AppSectionMoney)
+    @ihtHelpers.custom.error_summary_override_keys(money, constants.AppSectionMoney)
 
     @helpers.form(action = iht.controllers.application.assets.money.routes.MoneyDeceasedOwnController.onSubmit(),'autoComplete -> "off") {
 
     <p>@Html(Messages("page.iht.application.assets.money.deceased.guidance", ihtHelpers.custom.name(deceasedName)))</p>
 
     @ihtHelpers.custom.generic_estate_element_assets(
-      assetType = Constants.AssetTypeSingle,
+      assetType = constants.AssetTypeSingle,
       questionLabel= Messages("iht.estateReport.assets.money.ownName.question", ihtHelpers.custom.name(deceasedName)),
       inputTextLabel = Messages("iht.estateReport.assets.money.valueOfMoneyOwnedInOwnName", ihtHelpers.custom.name(deceasedName)),
       sharableElementForm = money,

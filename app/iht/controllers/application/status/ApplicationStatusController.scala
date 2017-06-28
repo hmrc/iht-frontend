@@ -37,7 +37,7 @@ trait ApplicationStatusController extends EstateController {
     implicit user =>
       implicit request => {
         val nino = CommonHelper.getNino(user)
-        cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap{ _ =>
+        cachingConnector.storeSingleValue(constants.PDFIHTReference, ihtReference).flatMap{ _ =>
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap { caseDetails =>
             val futureAD = getApplicationDetails(ihtReference, caseDetails.acknowledgmentReference)
             val futureProbateDetails = futureAD.flatMap(ad =>

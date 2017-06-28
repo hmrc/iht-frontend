@@ -16,6 +16,8 @@
 
 package iht.controllers
 
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
 
 
@@ -24,7 +26,8 @@ import iht.constants.IhtProperties
  * Created by Vineet Tyagi on 18/09/15.
  *
  */
-object ControllerHelper {
+@Singleton
+class ControllerHelper @Inject() (ihtProperties:IhtProperties) {
 
   val CacheKeyShouldDisplayRealtimeRiskingMessage = "shouldDisplayRealtimeRiskingMessage"
 

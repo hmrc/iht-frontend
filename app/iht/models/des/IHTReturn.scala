@@ -341,12 +341,12 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
     val mortgageValue: BigDecimal = freeEstate.flatMap(_.estateAssets).fold(BigDecimal(0)) {
       assets => {
 
-        val setOfMatchedAssets: Set[Asset] = assets.filter(Constants.PropertyAssetCodes contains _.assetCode.getOrElse(""))
+        val setOfMatchedAssets: Set[Asset] = assets.filter(constants.PropertyAssetCodes contains _.assetCode.getOrElse(""))
 
         val matchedLiabilities: Set[Liability] = setOfMatchedAssets.flatMap(_.liabilities).flatten
 
         val liabilitiesWithMortgage: Set[Liability] = matchedLiabilities.filter(
-                                                        _.liabilityType.getOrElse("") == Constants.MortgageLiabilityType)
+                                                        _.liabilityType.getOrElse("") == constants.MortgageLiabilityType)
         liabilitiesWithMortgage.map(_.liabilityAmount.getOrElse(BigDecimal(0))).sum
 
       }

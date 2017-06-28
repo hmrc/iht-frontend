@@ -34,14 +34,14 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(foreignForm, Constants.AppSectionForeign)
+    @ihtHelpers.custom.error_summary_override_keys(foreignForm, constants.AppSectionForeign)
 
     @helpers.form(action = iht.controllers.application.assets.routes.ForeignController.onSubmit, 'autoComplete -> "off") {
 
         <p class="lede">@Html(Messages("page.iht.application.assets.foreign.description.p1",deceasedName))</p>
 
         @ihtHelpers.custom.generic_estate_element_assets(
-                                assetType = Constants.AssetTypeSingle,
+                                assetType = constants.AssetTypeSingle,
                                 questionLabel= Messages("page.iht.application.assets.foreign.deceasedOwned.question",deceasedName),
                                 inputTextLabel = Messages("page.iht.application.assets.foreign.inputLabel1",deceasedName),
                                 sharableElementForm = foreignForm,

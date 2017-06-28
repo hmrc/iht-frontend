@@ -43,12 +43,12 @@
         <p>@Html(Messages("page.iht.application.assets.money.jointly.owned.guidance.p3", deceasedName, deceasedName))</p>
     </div>
 
-    @ihtHelpers.custom.error_summary_override_keys(moneyJointlyOwned, Constants.AppSectionMoney)
+    @ihtHelpers.custom.error_summary_override_keys(moneyJointlyOwned, constants.AppSectionMoney)
 
     @helpers.form(action = iht.controllers.application.assets.money.routes.MoneyJointlyOwnedController.onSubmit(),'autoComplete -> "off") {
 
     @ihtHelpers.custom.generic_estate_element_assets(
-      assetType = Constants.AssetTypeJoint,
+      assetType = constants.AssetTypeJoint,
       questionLabel= Messages("page.iht.application.assets.money.jointly.owned.question", deceasedName),
       inputTextLabel = Messages("page.iht.application.assets.money.jointly.owned.input.value.label", deceasedName),
       sharableElementForm = moneyJointlyOwned,

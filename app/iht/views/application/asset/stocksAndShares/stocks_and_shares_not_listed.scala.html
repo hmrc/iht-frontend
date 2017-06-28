@@ -33,7 +33,7 @@ registrationDetails: RegistrationDetails
     browserTitle = Some(Messages("page.iht.application.assets.stocksAndSharesNotListed.browserTitle")),
     isFullWidth=false) {
 
-    @ihtHelpers.custom.error_summary_override_keys(stockAndSharesNotListed, Constants.AppSectionStockAndShare)
+    @ihtHelpers.custom.error_summary_override_keys(stockAndSharesNotListed, constants.AppSectionStockAndShare)
 
     @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesNotListedController.onSubmit(),'autoComplete -> "off") {
 

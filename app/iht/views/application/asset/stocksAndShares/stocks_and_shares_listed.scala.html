@@ -33,7 +33,7 @@ registrationDetails: RegistrationDetails
     browserTitle = Some(Messages("page.iht.application.assets.stocksAndShares.listed.browserTitle")),
     isFullWidth=false) {
 
-    @ihtHelpers.custom.error_summary_override_keys(stockAndSharesListed, Constants.AppSectionStockAndShare)
+    @ihtHelpers.custom.error_summary_override_keys(stockAndSharesListed, constants.AppSectionStockAndShare)
 
     @helpers.form(action = iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesListedController.onSubmit(),'autoComplete -> "off") {
 
