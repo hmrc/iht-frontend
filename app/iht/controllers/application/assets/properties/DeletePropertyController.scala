@@ -18,7 +18,7 @@ package iht.controllers.application.assets.properties
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationController
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
@@ -27,7 +27,7 @@ import play.api.Logger
 import play.api.i18n.MessagesApi
 
 @Singleton
-class DeletePropertyController @Inject()(val messagesApi: MessagesApi) extends ApplicationController {
+class DeletePropertyController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends ApplicationController {
 
   def onPageLoad(id: String) = authorisedForIht {
     implicit user =>
@@ -77,7 +77,9 @@ class DeletePropertyController @Inject()(val messagesApi: MessagesApi) extends A
               registrationData.acknowledgmentReference)
           } yield {
             storedApplication match {
-              case Some(_) => Redirect(CommonHelper.addFragmentIdentifier(routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesAddPropertyID)))
+              case Some(_) => Redirect(CommonHelper
+                .addFragmentIdentifier(routes.PropertiesOverviewController.onPageLoad(),
+                  Some(ihtProperties.AssetsPropertiesAddPropertyID)))
               case _ => {
                 Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
                 InternalServerError

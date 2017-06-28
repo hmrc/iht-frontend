@@ -18,7 +18,7 @@ package iht.controllers.application.assets.money
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -29,9 +29,9 @@ import iht.views.html.application.asset.money.money_jointly_owned
 import play.api.i18n.MessagesApi
 
 @Singleton
-class MoneyJointlyOwnedController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class MoneyJointlyOwnedController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyJointlyOwned)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneySharedID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(ihtProperties.AssetsMoneySharedID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>

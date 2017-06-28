@@ -18,6 +18,7 @@ package iht.controllers.application.assets.insurancePolicy
 
 import javax.inject.{Inject, Singleton}
 
+import iht.constants.IhtProperties
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
@@ -28,7 +29,7 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.MessagesApi
 
 @Singleton
-class InsurancePolicyDetailsPayingOtherController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class InsurancePolicyDetailsPayingOtherController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[InsurancePolicy](insurancePolicyPayingOtherForm, insurance_policy_details_paying_other.apply,
@@ -71,7 +72,7 @@ class InsurancePolicyDetailsPayingOtherController @Inject()(val messagesApi: Mes
             if(isInsurancePremiumsPayedForSomeoneElse) {
               iht.controllers.application.assets.insurancePolicy.routes.InsurancePolicyDetailsMoreThanMaxValueController.onPageLoad()
             } else {
-              addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePaidForSomeoneElseYesNoID))
+              addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(ihtProperties.InsurancePaidForSomeoneElseYesNoID))
             }
           )
       )

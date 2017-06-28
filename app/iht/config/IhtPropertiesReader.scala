@@ -17,19 +17,20 @@
 package iht.config
 
 import java.util.PropertyResourceBundle
+import javax.inject.{Inject, Singleton}
 
-import iht.utils.{CommonHelper, StringHelper}
-import org.joda.time.LocalDate
-import play.api.Play
-import play.api.Play.current
 import iht.utils.CommonHelper._
+import iht.utils.StringHelper
+import org.joda.time.LocalDate
+import play.api.Environment
 
 /**
  * Created by Vineet Tyagi on 28/09/15.
  */
-object IhtPropertiesReader {
+@Singleton
+class IhtPropertiesReader @Inject() (env:Environment){
 
-  val value  = Play.application.resourceAsStream("iht.properties").getOrElse(throw new RuntimeException("iht.properties file couldn't be retrieved."))
+  val value  = env.resourceAsStream("iht.properties").getOrElse(throw new RuntimeException("iht.properties file couldn't be retrieved."))
   val propertyResource = {
     try {
       new PropertyResourceBundle(value)

@@ -18,7 +18,7 @@ package iht.controllers.application.assets.pensions
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -28,9 +28,11 @@ import iht.views.html.application.asset.pensions.pensions_changed_question
 import play.api.i18n.MessagesApi
 
 @Singleton
-class PensionsChangedQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class PensionsChangedQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionChangesID))
+  val submitUrl = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(),
+    Some(ihtProperties.AssetsPensionChangesID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions)
 
   def onPageLoad = authorisedForIht {

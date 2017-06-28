@@ -18,7 +18,7 @@ package iht.controllers.application.assets.insurancePolicy
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -31,7 +31,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import scala.concurrent.Future
 
 @Singleton
-class InsurancePolicyOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class InsurancePolicyOverviewController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   private val q1: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)
   private val q2: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.moreThanMaxValue)
   private val q3: ApplicationDetails => Option[Boolean] = ad => ad.allAssets.flatMap(_.insurancePolicy).flatMap(_.isAnnuitiesBought)
@@ -107,9 +107,9 @@ class InsurancePolicyOverviewController @Inject()(val messagesApi: MessagesApi) 
       questionAnswerExprValue = insurancePolicy.value,
       questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.ownName.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)(messages)),
       questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", CommonHelper.getDeceasedNameOrDefaultString(regDetails)(messages)),
-      sectionLinkId = InsurancePayingToDeceasedSectionID,
-      questionLinkID = InsurancePayingToDeceasedYesNoID,
-      answerLinkID = InsurancePayingToDeceasedValueID
+      sectionLinkId = ihtProperties.InsurancePayingToDeceasedSectionID,
+      questionLinkID = ihtProperties.InsurancePayingToDeceasedYesNoID,
+      answerLinkID = ihtProperties.InsurancePayingToDeceasedValueID
     )
   }
 
@@ -128,9 +128,9 @@ class InsurancePolicyOverviewController @Inject()(val messagesApi: MessagesApi) 
       questionAnswerExprValue = insurancePolicy.shareValue,
       questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.jointlyHeld.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)(messages)),
       questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", CommonHelper.getDeceasedNameOrDefaultString(regDetails)(messages)),
-      sectionLinkId = InsuranceJointlyHeldSectionID,
-      questionLinkID = InsuranceJointlyHeldYesNoID,
-      answerLinkID = InsuranceJointlyHeldValueID
+      sectionLinkId = ihtProperties.InsuranceJointlyHeldSectionID,
+      questionLinkID = ihtProperties.InsuranceJointlyHeldYesNoID,
+      answerLinkID = ihtProperties.InsuranceJointlyHeldValueID
     )
   }
 
@@ -155,12 +155,12 @@ class InsurancePolicyOverviewController @Inject()(val messagesApi: MessagesApi) 
       ),
       ad,
       regDetails,
-      sectionLinkId = InsurancePaidForSomeoneElseSectionID,
+      sectionLinkId = ihtProperties.InsurancePaidForSomeoneElseSectionID,
       questionLinkIds = Seq(
-        InsurancePaidForSomeoneElseYesNoID,
-        InsurancePremiumnsYesNoID,
-        InsuranceAnnuityYesNoID,
-        InsurancePlacedInTrustYesNoID
+        ihtProperties.InsurancePaidForSomeoneElseYesNoID,
+        ihtProperties.InsurancePremiumnsYesNoID,
+        ihtProperties.InsuranceAnnuityYesNoID,
+        ihtProperties.InsurancePlacedInTrustYesNoID
       )
     )
   }

@@ -18,7 +18,7 @@ package iht.controllers.application.assets.properties
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms.propertyAddressForm
 import iht.models._
@@ -38,13 +38,15 @@ import scala.concurrent.Future
   */
 
 @Singleton
-class PropertyAddressController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class PropertyAddressController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
   def editCancelUrl(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 
   def editSubmitUrl(id: String) = routes.PropertyAddressController.onEditSubmit(id)
 
-  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyAddressID))
+  def locationAfterSuccessfulSave(id: String) = CommonHelper
+    .addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id),
+      Some(ihtProperties.AssetsPropertiesPropertyAddressID))
 
   val cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
   val submitUrl = routes.PropertyAddressController.onSubmit()

@@ -18,7 +18,7 @@ package iht.controllers.application.assets.properties
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -34,7 +34,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PropertyOwnershipController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class PropertyOwnershipController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
 
@@ -46,7 +46,9 @@ class PropertyOwnershipController @Inject()(val messagesApi: MessagesApi) extend
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyOwnershipController.onEditSubmit(id)
 
-  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyOwnershipID))
+  def locationAfterSuccessfulSave(id: String) = CommonHelper
+    .addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id),
+      Some(ihtProperties.AssetsPropertiesPropertyOwnershipID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>

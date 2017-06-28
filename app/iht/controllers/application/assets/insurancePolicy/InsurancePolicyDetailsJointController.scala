@@ -18,7 +18,7 @@ package iht.controllers.application.assets.insurancePolicy
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -28,7 +28,7 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.MessagesApi
 
 @Singleton
-class InsurancePolicyDetailsJointController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class InsurancePolicyDetailsJointController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesJointlyOwned)
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
@@ -53,7 +53,7 @@ class InsurancePolicyDetailsJointController @Inject()(val messagesApi: MessagesA
         insurancePolicyJointQuestionForm,
         insurance_policy_details_joint.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsuranceJointlyHeldYesNoID))
+        CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(ihtProperties.InsuranceJointlyHeldYesNoID))
       )
     }
   }

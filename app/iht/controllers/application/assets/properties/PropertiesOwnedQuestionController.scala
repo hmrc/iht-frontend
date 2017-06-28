@@ -18,7 +18,7 @@ package iht.controllers.application.assets.properties
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -35,7 +35,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PropertiesOwnedQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class PropertiesOwnedQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
@@ -102,13 +102,17 @@ class PropertiesOwnedQuestionController @Inject()(val messagesApi: MessagesApi) 
             case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
             case _ =>
             (properties.isOwned, previousIsOwnedValue, preexistingProperty) match {
-              case (Some(false), _, _) => Redirect(CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionPropertiesID)))
+              case (Some(false), _, _) => Redirect(CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(ihtProperties.AppSectionPropertiesID)))
               case (Some(true), Some(true), _) =>
-                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesOwnedID)))
+                Redirect(CommonHelper
+                  .addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
+                    Some(ihtProperties.AssetsPropertiesOwnedID)))
               case (Some(true), _, false) =>
                 Redirect(iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
               case (_, _, true) =>
-                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesOwnedID)))
+                Redirect(CommonHelper
+                  .addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(),
+                    Some(ihtProperties.AssetsPropertiesOwnedID)))
               case _ =>
                 Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
                 InternalServerError

@@ -18,7 +18,7 @@ package iht.controllers.application.assets.insurancePolicy
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -28,7 +28,7 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.MessagesApi
 
 @Singleton
-class InsurancePolicyDetailsDeceasedOwnController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class InsurancePolicyDetailsDeceasedOwnController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased)
 
   def onPageLoad = authorisedForIht {
@@ -54,7 +54,7 @@ class InsurancePolicyDetailsDeceasedOwnController @Inject()(val messagesApi: Mes
         insurancePolicyDeceasedOwnQuestionForm,
         insurance_policy_details_deceased_own.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(InsurancePayingToDeceasedYesNoID))
+        CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(ihtProperties.InsurancePayingToDeceasedYesNoID))
       )
     }
   }

@@ -18,7 +18,7 @@ package iht.controllers.application.assets.household
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -29,10 +29,12 @@ import iht.views.html.application.asset.household.household_jointly_owned
 import play.api.i18n.MessagesApi
 
 @Singleton
-class HouseholdJointlyOwnedController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class HouseholdJointlyOwnedController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdJointlyOwned)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(AssetsHouseholdSharedID))
+  val submitUrl = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(),
+      Some(ihtProperties.AssetsHouseholdSharedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
