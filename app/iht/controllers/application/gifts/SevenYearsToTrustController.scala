@@ -28,11 +28,14 @@ import iht.views.html.application.gift.seven_years_to_trust
 import play.api.i18n.MessagesApi
 
 @Singleton
-class SevenYearsToTrustController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class SevenYearsToTrustController @Inject()(
+                                             val messagesApi: MessagesApi,
+                                             val ihtProperties: IhtProperties,
+                                             val applicationForms: ApplicationForms) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[AllGifts](giftSevenYearsToTrustForm, seven_years_to_trust.apply, _.allGifts)
+      estateElementOnPageLoad[AllGifts](applicationForms.giftSevenYearsToTrustForm, seven_years_to_trust.apply, _.allGifts)
   }
 
   def onSubmit = authorisedForIht {
@@ -45,7 +48,7 @@ class SevenYearsToTrustController @Inject()(val messagesApi: MessagesApi, val ih
           (_.copy(isToTrust=gifts.isToTrust))))
           (updatedAD, None)
         }
-      estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm,
+      estateElementOnSubmit[AllGifts](applicationForms.giftSevenYearsToTrustForm,
         seven_years_to_trust.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),

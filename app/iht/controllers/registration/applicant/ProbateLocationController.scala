@@ -19,7 +19,7 @@ package iht.controllers.registration.applicant
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.ControllerHelper.Mode
-import iht.forms.registration.ApplicantForms._
+import iht.forms.registration.ApplicantForms
 import iht.models.{ApplicantDetails, RegistrationDetails}
 import iht.utils.{CommonHelper, RegistrationKickOutHelper}
 import iht.views.html.registration.{applicant => views}
@@ -28,8 +28,11 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Request}
 
 @Singleton
-class ProbateLocationController @Inject()(val messagesApi: MessagesApi) extends RegistrationApplicantControllerWithEditMode {
-  def form = probateLocationForm
+class ProbateLocationController @Inject()(
+                                           val messagesApi: MessagesApi,
+                                           val applicantForms: ApplicantForms
+                                         ) extends RegistrationApplicantControllerWithEditMode {
+  def form = applicantForms.probateLocationForm
 
   override def guardConditions = guardConditionsApplicantProbateLocation
 

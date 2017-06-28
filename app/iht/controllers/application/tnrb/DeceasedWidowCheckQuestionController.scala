@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.TnrbForms._
+import iht.forms.TnrbForms
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
@@ -34,7 +34,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class DeceasedWidowCheckQuestionController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class DeceasedWidowCheckQuestionController @Inject() (
+                                                       implicit val messagesApi: MessagesApi,
+                                                       val ihtProperties: IhtProperties,
+                                                       val ihtFormValidator: IhtFormValidator,
+                                                       val tnrbForms: TnrbForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
@@ -49,7 +53,7 @@ class DeceasedWidowCheckQuestionController @Inject() (implicit val messagesApi: 
             applicationDetails match {
               case Some(appDetails) => {
 
-                val filledForm = deceasedWidowCheckQuestionForm.fill(appDetails.widowCheck.getOrElse(
+                val filledForm = tnrbForms.deceasedWidowCheckQuestionForm.fill(appDetails.widowCheck.getOrElse(
                   WidowCheck(None, None)))
 
                 Ok(iht.views.html.application.tnrb.deceased_widow_check_question(
@@ -77,7 +81,7 @@ class DeceasedWidowCheckQuestionController @Inject() (implicit val messagesApi: 
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(deceasedWidowCheckQuestionForm
+          val boundForm = ihtFormValidator.addDeceasedNameToAllFormErrors(tnrbForms.deceasedWidowCheckQuestionForm
             .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           applicationDetailsFuture.flatMap {

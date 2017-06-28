@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.TnrbForms._
+import iht.forms.TnrbForms
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
@@ -34,7 +34,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PermanentHomeController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PermanentHomeController @Inject() (
+                                          implicit val messagesApi: MessagesApi,
+                                          val ihtProperties: IhtProperties,
+                                          val ihtFormValidator: IhtFormValidator,
+                                          val tnrbForms: TnrbForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -51,7 +55,7 @@ class PermanentHomeController @Inject() (implicit val messagesApi: MessagesApi, 
             applicationDetails match {
               case Some(appDetails) => {
 
-                val filledForm = partnerLivingInUkForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                val filledForm = tnrbForms.partnerLivingInUkForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
                 Ok(iht.views.html.application.tnrb.permanent_home(
@@ -78,7 +82,7 @@ class PermanentHomeController @Inject() (implicit val messagesApi: MessagesApi, 
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(partnerLivingInUkForm
+          val boundForm = ihtFormValidator.addDeceasedNameToAllFormErrors(tnrbForms.partnerLivingInUkForm
             .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           applicationDetailsFuture.flatMap {

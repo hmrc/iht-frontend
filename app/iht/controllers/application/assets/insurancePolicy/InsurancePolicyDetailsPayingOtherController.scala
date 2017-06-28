@@ -19,7 +19,6 @@ package iht.controllers.application.assets.insurancePolicy
 import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
@@ -29,10 +28,13 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.MessagesApi
 
 @Singleton
-class InsurancePolicyDetailsPayingOtherController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class InsurancePolicyDetailsPayingOtherController @Inject()(
+                                                             val messagesApi: MessagesApi,
+                                                             val ihtProperties: IhtProperties,
+                                                             val applicationForms: ApplicationForms) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyPayingOtherForm, insurance_policy_details_paying_other.apply,
+      estateElementOnPageLoad[InsurancePolicy](applicationForms.insurancePolicyPayingOtherForm, insurance_policy_details_paying_other.apply,
         _.allAssets.flatMap(_.insurancePolicy))
   }
 
@@ -64,7 +66,7 @@ class InsurancePolicyDetailsPayingOtherController @Inject()(val messagesApi: Mes
 
 
       estateElementOnSubmitConditionalRedirect[InsurancePolicy](
-        insurancePolicyPayingOtherForm,
+        applicationForms.insurancePolicyPayingOtherForm,
         insurance_policy_details_paying_other.apply,
         updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInsurancePremiumsPayedForSomeoneElse)

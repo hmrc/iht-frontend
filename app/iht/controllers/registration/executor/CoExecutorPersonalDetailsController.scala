@@ -33,6 +33,7 @@ import scala.concurrent.Future
 
 @Singleton
 class CoExecutorPersonalDetailsController @Inject()(val coExecutorForms: CoExecutorForms,
+                                                    val ihtProperties: IhtProperties,
                                                     val messagesApi: MessagesApi) extends RegistrationController {
   override def guardConditions = guardConditionsCoExecutorPersonalDetails
 
@@ -47,7 +48,7 @@ class CoExecutorPersonalDetailsController @Inject()(val coExecutorForms: CoExecu
 
         val form: Form[CoExecutor] = id match {
           case None =>
-            if (rd.coExecutors.length >= IhtProperties.maxCoExecutors) {
+            if (rd.coExecutors.length >= ihtProperties.maxCoExecutors) {
               throw new Exception("Attempting to add too many co-executors")
             }
             else {
@@ -66,7 +67,7 @@ class CoExecutorPersonalDetailsController @Inject()(val coExecutorForms: CoExecu
   }
 
   private def submitNewCoExecutor(rd: RegistrationDetails, coExecutor: CoExecutor, mode: Mode.Value)(implicit hc: HeaderCarrier) = {
-    if (rd.coExecutors.length >= IhtProperties.maxCoExecutors) {
+    if (rd.coExecutors.length >= ihtProperties.maxCoExecutors) {
       throw new Exception("Attempting to add too many co-executors")
     }
     else {

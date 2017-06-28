@@ -30,7 +30,11 @@ import play.api.mvc.Call
 import scala.concurrent.Future
 
 @Singleton
-class OtherPersonsAddressController @Inject()(val messagesApi: MessagesApi, val coExecutorForms: CoExecutorForms) extends RegistrationController {
+class OtherPersonsAddressController @Inject()(
+                                               val messagesApi: MessagesApi,
+                                               val coExecutorForms: CoExecutorForms,
+                                               val ihtProperties: IhtProperties
+                                             ) extends RegistrationController {
   override def guardConditions: Set[Predicate] = guardConditionsCoExecutorAddress
 
   def loadRouteUk(id: String) = routes.OtherPersonsAddressController.onPageLoadUK(id)
@@ -52,7 +56,7 @@ class OtherPersonsAddressController @Inject()(val messagesApi: MessagesApi, val 
   def nextPageRoute = routes.ExecutorOverviewController.onPageLoad
 
   def isInternationalAddress: (UkAddress) => Boolean = (addr) => addr.postCode.trim.isEmpty &&
-    addr.countryCode != IhtProperties.ukIsoCountryCode
+    addr.countryCode != ihtProperties.ukIsoCountryCode
 
   def onPageLoadUK(id: String) = onPageLoad(id, false, submitRouteUk(id), loadRouteAbroad(id))
 

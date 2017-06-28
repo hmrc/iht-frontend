@@ -34,7 +34,7 @@ class MoneyOwedController @Inject()(val messagesApi: MessagesApi, val ihtPropert
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElement](moneyOwedForm, money_owed.apply, _.allAssets.flatMap(_.moneyOwed))
+      estateElementOnPageLoad[BasicEstateElement](applicationForms.moneyOwedForm, money_owed.apply, _.allAssets.flatMap(_.moneyOwed))
   }
 
   def onSubmit = authorisedForIht {
@@ -54,7 +54,7 @@ class MoneyOwedController @Inject()(val messagesApi: MessagesApi, val ihtPropert
           (updatedAD, None)
         }
 
-      estateElementOnSubmit[BasicEstateElement](moneyOwedForm,
+      estateElementOnSubmit[BasicEstateElement](applicationForms.moneyOwedForm,
         money_owed.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(ihtProperties.AppSectionMoneyOwedID))

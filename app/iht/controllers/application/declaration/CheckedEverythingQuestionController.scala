@@ -20,25 +20,24 @@ import javax.inject.Inject
 
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
-import iht.forms.ApplicationForms
 import iht.utils.{CommonHelper, LogHelper}
 import play.api.i18n.MessagesApi
 
 import scala.concurrent.Future
 
-class CheckedEverythingQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class CheckedEverythingQuestionController @Inject()(val messagesApi: MessagesApi, applicationForms: ApplicationForms) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       withRegistrationDetails { rd =>
-        Future.successful(Ok(iht.views.html.application.declaration.checked_everything_question(checkedEverythingQuestionForm, rd)))
+        Future.successful(Ok(iht.views.html.application.declaration.checked_everything_question(applicationForms.checkedEverythingQuestionForm, rd)))
       }
   }
 
 
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
-      val boundForm = ApplicationForms.checkedEverythingQuestionForm.bindFromRequest
+      val boundForm = applicationForms.checkedEverythingQuestionForm.bindFromRequest
       withRegistrationDetails { rd =>
         boundForm.fold(
           formWithErrors => {

@@ -16,13 +16,12 @@
 
 package iht.forms.registration
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import iht.constants._
 import iht.forms.mappings.DateMapping
 import iht.models._
 import iht.utils.IhtFormValidator
-import iht.utils.IhtFormValidator._
 import play.api.data.Forms._
 import play.api.data.{Form, Mapping}
 import play.api.mvc.Request
@@ -33,10 +32,12 @@ import scala.concurrent.ExecutionContext
 //object CoExecutorForms extends CoExecutorForms
 
 @Singleton
-class CoExecutorForms {
-  def ihtFormValidator: IhtFormValidator = IhtFormValidator
+class CoExecutorForms @Inject() (
+                                  val ihtFormValidator:IhtFormValidator,
+                                  val ihtProperties: IhtProperties
+                                ) {
   val addressMappingCoexecInternational: Mapping[UkAddress] = mapping(
-    "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
+    "ukAddressLine1" -> of(ihtFormValidator.ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
       "error.address.giveUsing35CharsOrLess",
@@ -48,7 +49,7 @@ class CoExecutorForms {
   )(UkAddress.applyInternational)(UkAddress.unapplyInternational)
 
   val addressMappingCoexecUk = mapping(
-    "ukAddressLine1" -> of(ihtAddress("ukAddressLine2", "ukAddressLine3",
+    "ukAddressLine1" -> of(ihtFormValidator.ihtAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "postCode", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
       "error.address.giveUsing35CharsOrLess", "error.address.givePostcode",
@@ -65,12 +66,12 @@ class CoExecutorForms {
   def coExecutorPersonalDetailsForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
-      "firstName" -> ihtNonEmptyText("error.firstName.give")
+      "firstName" -> ihtFormValidator.ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess",
-          f => f.length <= IhtProperties.validationMaxLengthFirstName),
-      "lastName" -> ihtNonEmptyText("error.lastName.give")
+          f => f.length <= ihtProperties.validationMaxLengthFirstName),
+      "lastName" -> ihtFormValidator.ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess",
-          f => f.length <= IhtProperties.validationMaxLengthLastName),
+          f => f.length <= ihtProperties.validationMaxLengthLastName),
       "dateOfBirth" -> DateMapping(
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",
@@ -87,12 +88,12 @@ class CoExecutorForms {
       "nino" -> ihtFormValidator.ninoForCoExecutor(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
         "id"),
-      "phoneNo" -> mandatoryPhoneNumber(
+      "phoneNo" -> ihtFormValidator.mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",
         "error.phoneNumber.giveUsingOnlyLettersAndNumbers"
       ),
-      "isAddressInUk" -> yesNoQuestion("error.address.isInUK.give")
+      "isAddressInUk" -> ihtFormValidator.yesNoQuestion("error.address.isInUK.give")
     )
     (
       (id, firstName, lastName, dateOfBirth, nino, phoneNo, isAddressInUk) =>
@@ -108,12 +109,12 @@ class CoExecutorForms {
   def coExecutorPersonalDetailsEditForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
-      "firstName" -> ihtNonEmptyText("error.firstName.give")
+      "firstName" -> ihtFormValidator.ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess",
-          f => f.length <= IhtProperties.validationMaxLengthFirstName),
-      "lastName" -> ihtNonEmptyText("error.lastName.give")
+          f => f.length <= ihtProperties.validationMaxLengthFirstName),
+      "lastName" -> ihtFormValidator.ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess",
-          f => f.length <= IhtProperties.validationMaxLengthLastName),
+          f => f.length <= ihtProperties.validationMaxLengthLastName),
       "dateOfBirth" -> DateMapping(
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",
@@ -130,7 +131,7 @@ class CoExecutorForms {
       "nino" -> ihtFormValidator.ninoForCoExecutor(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers",
         "id"),
-      "phoneNo" -> mandatoryPhoneNumber(
+      "phoneNo" -> ihtFormValidator.mandatoryPhoneNumber(
         "error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess",
         "error.phoneNumber.giveUsingOnlyLettersAndNumbers"
@@ -147,13 +148,13 @@ class CoExecutorForms {
 
   val othersApplyingForProbateForm = Form(
     single(
-      "areOthersApplyingForProbate" -> yesNoQuestion("error.applicant.selectIfAnyoneElseApplyingForProbate")
+      "areOthersApplyingForProbate" -> ihtFormValidator.yesNoQuestion("error.applicant.selectIfAnyoneElseApplyingForProbate")
     )
   )
 
   val executorOverviewForm = Form(
     single(
-      "addMoreCoExecutors" -> yesNoQuestion("error.applicant.selectIfAnyoneElseApplyingForProbate")
+      "addMoreCoExecutors" -> ihtFormValidator.yesNoQuestion("error.applicant.selectIfAnyoneElseApplyingForProbate")
     )
   )
 

@@ -27,10 +27,13 @@ import iht.utils.CommonHelper
 import iht.views.html.application.debts.owed_outside_uk
 import play.api.i18n.MessagesApi
 
-class OwedOutsideUKDebtsController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class OwedOutsideUKDebtsController @Inject()(
+                                              val messagesApi: MessagesApi,
+                                              val ihtProperties: IhtProperties,
+                                              val applicationForms: ApplicationForms) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElementLiabilities](debtsOutsideUkForm,
+      estateElementOnPageLoad[BasicEstateElementLiabilities](applicationForms.debtsOutsideUkForm,
         owed_outside_uk.apply, _.allLiabilities.flatMap(_.debtsOutsideUk))
   }
 
@@ -51,7 +54,7 @@ class OwedOutsideUKDebtsController @Inject()(val messagesApi: MessagesApi, val i
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-        debtsOutsideUkForm,
+        applicationForms.debtsOutsideUkForm,
         owed_outside_uk.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(ihtProperties.DebtsOwedOutsideUKID))

@@ -27,11 +27,11 @@ import iht.views.html.application.gift.seven_years_given_in_last_7_years
 import play.api.i18n.MessagesApi
 
 @Singleton
-class SevenYearsGivenInLast7YearsController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class SevenYearsGivenInLast7YearsController @Inject()(val messagesApi: MessagesApi, applicationForms: ApplicationForms) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[AllGifts](giftSevenYearsGivenInLast7YearsForm, seven_years_given_in_last_7_years.apply, _.allGifts)
+      estateElementOnPageLoad[AllGifts](applicationForms.giftSevenYearsGivenInLast7YearsForm, seven_years_given_in_last_7_years.apply, _.allGifts)
   }
 
   def onSubmit = authorisedForIht {
@@ -44,7 +44,7 @@ class SevenYearsGivenInLast7YearsController @Inject()(val messagesApi: MessagesA
           (_.copy(isGivenInLast7Years=gifts.isGivenInLast7Years))))
           (updatedAD, None)
         }
-      estateElementOnSubmit[AllGifts](giftSevenYearsGivenInLast7YearsForm,
+      estateElementOnSubmit[AllGifts](applicationForms.giftSevenYearsGivenInLast7YearsForm,
         seven_years_given_in_last_7_years.apply,
         updateApplicationDetails,
         iht.controllers.application.gifts.routes.SevenYearsToTrustController.onPageLoad())

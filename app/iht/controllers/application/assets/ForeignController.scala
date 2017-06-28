@@ -18,7 +18,7 @@ package iht.controllers.application.assets
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
@@ -29,12 +29,12 @@ import iht.views.html.application.asset._
 import play.api.i18n.MessagesApi
 
 @Singleton
-class ForeignController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class ForeignController @Inject()(val messagesApi: MessagesApi, ihtProperties: IhtProperties, applicationForms: ApplicationForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsForeign)
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElement](foreignForm, foreign.apply, _.allAssets.flatMap(_.foreign))
+      estateElementOnPageLoad[BasicEstateElement](applicationForms.foreignForm, foreign.apply, _.allAssets.flatMap(_.foreign))
   }
 
   def onSubmit = authorisedForIht {
@@ -53,10 +53,10 @@ class ForeignController @Inject()(val messagesApi: MessagesApi) extends EstateCo
           ))
           (updatedAD, None)
         }
-      estateElementOnSubmit[BasicEstateElement](foreignForm,
+      estateElementOnSubmit[BasicEstateElement](applicationForms.foreignForm,
         foreign.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionForeignID))
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(ihtProperties.AppSectionForeignID))
       )
     }
   }

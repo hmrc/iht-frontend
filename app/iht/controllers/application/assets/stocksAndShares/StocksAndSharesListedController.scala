@@ -28,7 +28,10 @@ import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_listed
 import play.api.i18n.MessagesApi
 
 @Singleton
-class StocksAndSharesListedController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class StocksAndSharesListedController @Inject()(
+                                                 val messagesApi: MessagesApi,
+                                                 val ihtProperties: IhtProperties,
+                                                 val applicationForms: ApplicationForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsStocksAndSharesListed)
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(),
@@ -36,7 +39,7 @@ class StocksAndSharesListedController @Inject()(val messagesApi: MessagesApi, va
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[StockAndShare](stockAndShareListedForm, stocks_and_shares_listed.apply,_.allAssets.flatMap(_.stockAndShare))
+      estateElementOnPageLoad[StockAndShare](applicationForms.stockAndShareListedForm, stocks_and_shares_listed.apply,_.allAssets.flatMap(_.stockAndShare))
     }
   }
 
@@ -64,7 +67,7 @@ class StocksAndSharesListedController @Inject()(val messagesApi: MessagesApi, va
         }
 
       estateElementOnSubmit[StockAndShare](
-        stockAndShareListedForm,
+        applicationForms.stockAndShareListedForm,
         stocks_and_shares_listed.apply,
         updateApplicationDetails,
         submitUrl

@@ -16,6 +16,8 @@
 
 package iht.forms
 
+import javax.inject.Singleton
+
 import iht.models.QuestionnaireModel
 import play.api.data.Form
 import play.api.data.Forms._
@@ -23,7 +25,8 @@ import play.api.data.Forms._
 /**
  * Created by yasar on 10/9/15.
  */
-object QuestionnaireForms {
+@Singleton
+class QuestionnaireForms {
   val questionnaire_form = Form[QuestionnaireModel](
     // scalastyle:off magic.number
     mapping(

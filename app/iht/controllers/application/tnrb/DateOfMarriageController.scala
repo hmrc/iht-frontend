@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.TnrbForms._
+import iht.forms.TnrbForms
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
@@ -35,7 +35,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class DateOfMarriageController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class DateOfMarriageController @Inject() (
+                                           implicit val messagesApi: MessagesApi,
+                                           val ihtProperties: IhtProperties,
+                                           val tnrbForms: TnrbForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -61,7 +64,7 @@ class DateOfMarriageController @Inject() (implicit val messagesApi: MessagesApi,
           } yield {
             applicationDetails match {
               case Some(appDetails) =>
-                val filledForm = dateOfMarriageForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                val filledForm = tnrbForms.dateOfMarriageForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
                 Ok(iht.views.html.application.tnrb.date_of_marriage(
@@ -89,7 +92,7 @@ class DateOfMarriageController @Inject() (implicit val messagesApi: MessagesApi,
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = dateOfMarriageForm.bindFromRequest
+          val boundForm = tnrbForms.dateOfMarriageForm.bindFromRequest
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) =>

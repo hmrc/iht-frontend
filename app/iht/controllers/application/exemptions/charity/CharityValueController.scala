@@ -32,7 +32,10 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
 
-class CharityValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class CharityValueController @Inject()(
+                                        val messagesApi: MessagesApi,
+                                        val ihtProperties: IhtProperties,
+                                        val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onSubmit(), Some(ihtProperties.ExemptionsCharitiesValueID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
@@ -66,7 +69,7 @@ class CharityValueController @Inject()(val messagesApi: MessagesApi, val ihtProp
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
-          Future.successful(Ok(iht.views.html.application.exemption.charity.assets_left_to_charity_value(assetsLeftToCharityValueForm,
+          Future.successful(Ok(iht.views.html.application.exemption.charity.assets_left_to_charity_value(applicationForms.assetsLeftToCharityValueForm,
             regDetails,
             submitUrl,
             cancelUrl)))
@@ -77,7 +80,7 @@ class CharityValueController @Inject()(val messagesApi: MessagesApi, val ihtProp
   def onEditPageLoad(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        estateElementOnEditPageLoadWithNavigation[Charity](assetsLeftToCharityValueForm,
+        estateElementOnEditPageLoadWithNavigation[Charity](applicationForms.assetsLeftToCharityValueForm,
           assets_left_to_charity_value.apply,
           retrieveSectionDetailsOrExceptionIfInvalidID(id),
           editSubmitUrl(id),
@@ -109,7 +112,7 @@ class CharityValueController @Inject()(val messagesApi: MessagesApi, val ihtProp
                        charityId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](
-      assetsLeftToCharityValueForm,
+      applicationForms.assetsLeftToCharityValueForm,
       assets_left_to_charity_value.apply,
       updateApplicationDetails,
       (_, updatedCharityID) => locationAfterSuccessfulSave(updatedCharityID),

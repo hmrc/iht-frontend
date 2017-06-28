@@ -28,7 +28,10 @@ import iht.views.html.application.asset.trusts.trusts_more_than_one_question
 import play.api.i18n.MessagesApi
 
 @Singleton
-class TrustsMoreThanOneQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class TrustsMoreThanOneQuestionController @Inject()(
+                                                     val messagesApi: MessagesApi,
+                                                     val ihtProperties: IhtProperties,
+                                                     val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),
@@ -37,7 +40,7 @@ class TrustsMoreThanOneQuestionController @Inject()(val messagesApi: MessagesApi
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[HeldInTrust](trustsMoreThanOneQuestionForm, trusts_more_than_one_question.apply, _.allAssets.flatMap(_.heldInTrust))
+      estateElementOnPageLoad[HeldInTrust](applicationForms.trustsMoreThanOneQuestionForm, trusts_more_than_one_question.apply, _.allAssets.flatMap(_.heldInTrust))
   }
 
   def onSubmit = authorisedForIht {
@@ -57,7 +60,7 @@ class TrustsMoreThanOneQuestionController @Inject()(val messagesApi: MessagesApi
         }
 
       estateElementOnSubmit[HeldInTrust](
-        trustsMoreThanOneQuestionForm,
+        applicationForms.trustsMoreThanOneQuestionForm,
         trusts_more_than_one_question.apply,
         updateApplicationDetails,
         submitUrl

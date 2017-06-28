@@ -16,13 +16,11 @@
 
 package iht.controllers.filter
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import iht.constants.Constants
 import iht.controllers.auth.CustomPasscodeAuthentication
-import iht.forms.FilterForms._
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import iht.forms.FilterForms
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
@@ -33,17 +31,17 @@ import scala.concurrent.Future
   */
 
 @Singleton
-class FilterController extends FrontendController with CustomPasscodeAuthentication {
+class FilterController @Inject() (val filterForms: FilterForms)extends FrontendController with CustomPasscodeAuthentication {
 
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.filter_view(filterForm)))
+      Future.successful(Ok(iht.views.html.filter.filter_view(filterForms.filterForm)))
     }
   }
 
   def onSubmit = customAuthenticatedActionAsync {
     implicit request => {
-      val boundForm = filterForm.bindFromRequest()
+      val boundForm = filterForms.filterForm.bindFromRequest()
 
       boundForm.fold(
         formWithErrors => {

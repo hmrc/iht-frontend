@@ -26,11 +26,11 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.MessagesApi
 
 @Singleton
-class InsurancePolicyDetailsInTrustController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class InsurancePolicyDetailsInTrustController @Inject()(val messagesApi: MessagesApi, applicationForms: ApplicationForms) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyInTrustForm, insurance_policy_details_in_trust.apply,
+      estateElementOnPageLoad[InsurancePolicy](applicationForms.insurancePolicyInTrustForm, insurance_policy_details_in_trust.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -57,7 +57,7 @@ class InsurancePolicyDetailsInTrustController @Inject()(val messagesApi: Message
           ))
           (updatedAD, None)
         }
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyInTrustForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](applicationForms.insurancePolicyInTrustForm,
         insurance_policy_details_in_trust.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isInTrust)
           .fold(insurancePoliciesRedirectLocation)(_=>

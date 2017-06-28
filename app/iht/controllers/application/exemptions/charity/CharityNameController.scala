@@ -32,7 +32,10 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
 
-class CharityNameController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class CharityNameController @Inject()(
+                                       val messagesApi: MessagesApi,
+                                       val ihtProperties: IhtProperties,
+                                       val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ihtProperties.ExemptionsCharitiesNameID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
@@ -64,7 +67,7 @@ class CharityNameController @Inject()(val messagesApi: MessagesApi, val ihtPrope
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetails { regDetails =>
-        Future.successful(Ok(iht.views.html.application.exemption.charity.charity_name(charityNameForm,
+        Future.successful(Ok(iht.views.html.application.exemption.charity.charity_name(applicationForms.charityNameForm,
           regDetails,
           submitUrl,
           cancelUrl)))
@@ -74,7 +77,7 @@ class CharityNameController @Inject()(val messagesApi: MessagesApi, val ihtPrope
 
   def onEditPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnEditPageLoadWithNavigation[Charity](charityNameForm,
+      estateElementOnEditPageLoadWithNavigation[Charity](applicationForms.charityNameForm,
             charity_name.apply,
             retrieveSectionDetailsOrExceptionIfInvalidID(id),
             editSubmitUrl(id),
@@ -104,7 +107,7 @@ class CharityNameController @Inject()(val messagesApi: MessagesApi, val ihtPrope
                        charityId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](
-      charityNameForm,
+      applicationForms.charityNameForm,
       charity_name.apply,
       updateApplicationDetails,
       (_, updatedCharityID) => locationAfterSuccessfulSave(updatedCharityID),

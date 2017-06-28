@@ -28,14 +28,17 @@ import iht.views.html.application.asset.pensions.pensions_owned_question
 import play.api.i18n.MessagesApi
 
 @Singleton
-class PensionsOwnedQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PensionsOwnedQuestionController @Inject()(
+                                                 val messagesApi: MessagesApi,
+                                                 val ihtProperties: IhtProperties,
+                                                 val applicationForms: ApplicationForms) extends EstateController {
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(),
       Some(ihtProperties.AssetsPensionsOwnedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[PrivatePension](pensionsOwnedQuestionForm, pensions_owned_question.apply, _.allAssets.flatMap(_.privatePension))
+      estateElementOnPageLoad[PrivatePension](applicationForms.pensionsOwnedQuestionForm, pensions_owned_question.apply, _.allAssets.flatMap(_.privatePension))
   }
 
   def onSubmit = authorisedForIht {
@@ -59,7 +62,7 @@ class PensionsOwnedQuestionController @Inject()(val messagesApi: MessagesApi, va
         }
 
       estateElementOnSubmitConditionalRedirect[PrivatePension](
-        pensionsOwnedQuestionForm,
+        applicationForms.pensionsOwnedQuestionForm,
         pensions_owned_question.apply,
         updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.privatePension).flatMap(_.isOwned) match {

@@ -30,12 +30,14 @@ import iht.views.html.application.asset._
 import play.api.i18n.MessagesApi
 
 @Singleton
-class BusinessInterestsController @Inject() (val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController  with IhtConnectors {
+class BusinessInterestsController @Inject() (val messagesApi: MessagesApi,
+                                             val ihtProperties: IhtProperties,
+                                             val applicationForms: ApplicationForms) extends EstateController  with IhtConnectors {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsBusinessInterests)
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElement](businessInterestForm, business_interests.apply, _.allAssets.flatMap(_.businessInterest))
+      estateElementOnPageLoad[BasicEstateElement](applicationForms.businessInterestForm, business_interests.apply, _.allAssets.flatMap(_.businessInterest))
   }
 
   def onSubmit = authorisedForIht {
@@ -55,7 +57,7 @@ class BusinessInterestsController @Inject() (val messagesApi: MessagesApi, val i
           (updatedAD, None)
         }
 
-      estateElementOnSubmit[BasicEstateElement](businessInterestForm,
+      estateElementOnSubmit[BasicEstateElement](applicationForms.businessInterestForm,
         business_interests.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(ihtProperties.AppSectionBusinessInterestID))

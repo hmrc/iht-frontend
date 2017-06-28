@@ -28,7 +28,9 @@ import play.api.i18n.MessagesApi
 import scala.concurrent.Future
 
 @Singleton
-class ExemptionsOverviewController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends ApplicationController{
+class ExemptionsOverviewController @Inject()(
+                                              val messagesApi: MessagesApi,
+                                              val ihtProperties: IhtProperties) extends ApplicationController{
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails { rd => ad =>

@@ -28,7 +28,9 @@ import iht.views.html.application.asset.trusts.trusts_value
 import play.api.i18n.MessagesApi
 
 @Singleton
-class TrustsValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class TrustsValueController @Inject()(val messagesApi: MessagesApi,
+                                      val ihtProperties: IhtProperties,
+                                      val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),
@@ -37,7 +39,7 @@ class TrustsValueController @Inject()(val messagesApi: MessagesApi, val ihtPrope
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[HeldInTrust](trustsValueForm, trusts_value.apply, _.allAssets.flatMap(_.heldInTrust))
+      estateElementOnPageLoad[HeldInTrust](applicationForms.trustsValueForm, trusts_value.apply, _.allAssets.flatMap(_.heldInTrust))
   }
 
   def onSubmit = authorisedForIht {
@@ -57,7 +59,7 @@ class TrustsValueController @Inject()(val messagesApi: MessagesApi, val ihtPrope
         }
 
       estateElementOnSubmit[HeldInTrust](
-        trustsValueForm,
+        applicationForms.trustsValueForm,
         trusts_value.apply,
         updateApplicationDetails,
         submitUrl

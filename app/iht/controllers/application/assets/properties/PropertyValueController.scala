@@ -34,7 +34,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PropertyValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PropertyValueController @Inject()(
+                                         val messagesApi: MessagesApi,
+                                         val ihtProperties: IhtProperties,
+                                         val applicationForms: ApplicationForms) extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
   val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
@@ -55,7 +58,7 @@ class PropertyValueController @Inject()(val messagesApi: MessagesApi, val ihtPro
         withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-          Future.successful(Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm,
+          Future.successful(Ok(iht.views.html.application.asset.properties.property_value(applicationForms.propertyValueForm,
             submitUrl,
             cancelUrl,
             deceasedName)))
@@ -79,7 +82,7 @@ class PropertyValueController @Inject()(val messagesApi: MessagesApi, val ihtPro
                   throw new RuntimeException("No Property found for the id")
                 } {
                   (matchedProperty) =>
-                    Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm.fill(matchedProperty),
+                    Ok(iht.views.html.application.asset.properties.property_value(applicationForms.propertyValueForm.fill(matchedProperty),
                       editSubmitUrl(id),
                       editCancelUrl(id),
                       deceasedName))
@@ -125,7 +128,7 @@ class PropertyValueController @Inject()(val messagesApi: MessagesApi, val ihtPro
     withRegistrationDetails { regDetails =>
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-      val boundForm = propertyValueForm.bindFromRequest
+      val boundForm =  applicationForms.propertyValueForm.bindFromRequest
       boundForm.fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)
@@ -204,7 +207,7 @@ class PropertyValueController @Inject()(val messagesApi: MessagesApi, val ihtPro
               Redirect(routes.PropertyValueController.onEditPageLoad(id))
             } {
               (matchedProperty) =>
-                Ok(iht.views.html.application.asset.properties.property_value(propertyValueForm.fill(matchedProperty),
+                Ok(iht.views.html.application.asset.properties.property_value(applicationForms.propertyValueForm.fill(matchedProperty),
                   routes.PropertyValueController.onEditSubmit(id),
                   editCancelUrl(id),
                   deceasedName

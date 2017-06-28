@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.TnrbForms._
+
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
@@ -33,7 +33,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PartnerNameController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PartnerNameController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val tnrbForms: TnrbForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 

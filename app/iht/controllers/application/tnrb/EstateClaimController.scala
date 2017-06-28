@@ -20,7 +20,8 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.TnrbForms._
+import iht.forms.TnrbForms
+
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
@@ -34,7 +35,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class EstateClaimController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class EstateClaimController @Inject() (
+                                        implicit val messagesApi: MessagesApi,
+                                        val ihtProperties: IhtProperties,
+                                        val tnrbForms: TnrbForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -50,7 +54,7 @@ class EstateClaimController @Inject() (implicit val messagesApi: MessagesApi, va
             applicationDetails match {
               case Some(appDetails) => {
 
-                val filledForm = estateClaimAnyBusinessForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                val filledForm = tnrbForms.estateClaimAnyBusinessForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
                 Ok(iht.views.html.application.tnrb.estate_claim(
@@ -74,7 +78,7 @@ class EstateClaimController @Inject() (implicit val messagesApi: MessagesApi, va
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = estateClaimAnyBusinessForm.bindFromRequest
+          val boundForm = tnrbForms.estateClaimAnyBusinessForm.bindFromRequest
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {

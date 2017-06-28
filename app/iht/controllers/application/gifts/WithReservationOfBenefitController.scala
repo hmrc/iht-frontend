@@ -18,7 +18,7 @@ package iht.controllers.application.gifts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
@@ -34,12 +34,16 @@ import play.api.i18n.MessagesApi
  */
 
 @Singleton
-class WithReservationOfBenefitController @Inject()(val messagesApi: MessagesApi) extends EstateController{
+class WithReservationOfBenefitController @Inject()(
+                                                    val messagesApi: MessagesApi,
+                                                    applicationForms:ApplicationForms,
+                                                    ihtProperties: IhtProperties
+                                                  ) extends EstateController{
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[AllGifts](giftWithReservationFromBenefitForm, with_reservation_of_benefit.apply, _.allGifts)
+      estateElementOnPageLoad[AllGifts](applicationForms.giftWithReservationFromBenefitForm, with_reservation_of_benefit.apply, _.allGifts)
   }
 
   def onSubmit = authorisedForIht {
@@ -52,10 +56,10 @@ class WithReservationOfBenefitController @Inject()(val messagesApi: MessagesApi)
             (_.copy(isReservation = gifts.isReservation))))
           (updatedAD, None)
         }
-      estateElementOnSubmit[AllGifts](giftWithReservationFromBenefitForm,
+      estateElementOnSubmit[AllGifts](applicationForms.giftWithReservationFromBenefitForm,
         with_reservation_of_benefit.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsReservationBenefitQuestionID))
+        CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(ihtProperties.GiftsReservationBenefitQuestionID))
       )
     }
   }

@@ -29,7 +29,10 @@ import iht.views.html.application.asset.vehicles.vehicles_jointly_owned
 import play.api.i18n.MessagesApi
 
 @Singleton
-class VehiclesJointlyOwnedController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class VehiclesJointlyOwnedController @Inject()(
+                                                val messagesApi: MessagesApi,
+                                                val ihtProperties: IhtProperties,
+                                                val applicationForms: ApplicationForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsVehiclesJointlyOwned)
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(),
@@ -37,7 +40,7 @@ class VehiclesJointlyOwnedController @Inject()(val messagesApi: MessagesApi, val
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](vehiclesJointlyOwnedForm, vehicles_jointly_owned.apply,_.allAssets.flatMap(_.vehicles))
+      estateElementOnPageLoad[ShareableBasicEstateElement](applicationForms.vehiclesJointlyOwnedForm, vehicles_jointly_owned.apply,_.allAssets.flatMap(_.vehicles))
     }
   }
 
@@ -63,7 +66,7 @@ class VehiclesJointlyOwnedController @Inject()(val messagesApi: MessagesApi, val
         }
 
       estateElementOnSubmit[ShareableBasicEstateElement](
-        vehiclesJointlyOwnedForm,
+        applicationForms.vehiclesJointlyOwnedForm,
         vehicles_jointly_owned.apply,
         updateApplicationDetails,
         submitUrl

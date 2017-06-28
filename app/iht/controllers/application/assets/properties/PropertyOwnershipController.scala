@@ -34,7 +34,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PropertyOwnershipController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PropertyOwnershipController @Inject()(
+                                             val messagesApi: MessagesApi,
+                                             val ihtProperties: IhtProperties,
+                                             val applicationForms: ApplicationForms) extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
 
@@ -57,7 +60,7 @@ class PropertyOwnershipController @Inject()(val messagesApi: MessagesApi, val ih
         withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-          Future.successful(Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm,
+          Future.successful(Ok(iht.views.html.application.asset.properties.property_ownership(applicationForms.typeOfOwnershipForm,
             submitUrl,
             cancelUrl,
             deceasedName)))
@@ -83,7 +86,7 @@ class PropertyOwnershipController @Inject()(val messagesApi: MessagesApi, val ih
                   throw new RuntimeException("No Property found for the id")
                 } {
                   (matchedProperty) =>
-                    Ok(iht.views.html.application.asset.properties.property_ownership(typeOfOwnershipForm.fill(matchedProperty),
+                    Ok(iht.views.html.application.asset.properties.property_ownership(applicationForms.typeOfOwnershipForm.fill(matchedProperty),
                       editSubmitUrl(id),
                       editCancelUrl(id),
                       deceasedName))
@@ -128,7 +131,7 @@ class PropertyOwnershipController @Inject()(val messagesApi: MessagesApi, val ih
     withRegistrationDetails { regDetails =>
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
 
-      val boundForm = typeOfOwnershipForm.bindFromRequest
+      val boundForm =  applicationForms.typeOfOwnershipForm.bindFromRequest
       boundForm.fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)

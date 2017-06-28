@@ -34,11 +34,14 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PartnerDateOfBirthController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PartnerDateOfBirthController @Inject()(
+                                              val messagesApi: MessagesApi,
+                                              val ihtProperties: IhtProperties,
+                                              val applicationForms: ApplicationForms) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request =>
-        estateElementOnPageLoad[PartnerExemption](spouseDateOfBirthForm, partner_date_of_birth.apply, _.allExemptions.flatMap(_.partner))
+        estateElementOnPageLoad[PartnerExemption](applicationForms.spouseDateOfBirthForm, partner_date_of_birth.apply, _.allExemptions.flatMap(_.partner))
   }
 
   def onSubmit = authorisedForIht {
@@ -46,7 +49,7 @@ class PartnerDateOfBirthController @Inject()(val messagesApi: MessagesApi, val i
       implicit request => {
 
         withRegistrationDetails { regDetails =>
-          val boundForm = spouseDateOfBirthForm.bindFromRequest
+          val boundForm = applicationForms.spouseDateOfBirthForm.bindFromRequest
 
           boundForm.fold(
             formWithErrors =>

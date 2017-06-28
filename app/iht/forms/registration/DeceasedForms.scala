@@ -16,29 +16,33 @@
 
 package iht.forms.registration
 
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
 
 import iht.constants.{FieldMappings, IhtProperties}
 import iht.forms.mappings.DateMapping
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, UkAddress}
 import iht.utils.IhtFormValidator
-import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages
 
-object DeceasedForms {
+@Singleton
+class DeceasedForms @Inject() (
+                                val ihtFormValidator: IhtFormValidator,
+                                val ihtProperties: IhtProperties,
+                                val dateMapping: DateMapping
+                              ) {
 
   val deceasedDateOfDeathForm = Form(
     mapping(
-      "dateOfDeath" -> DateMapping.dateOfDeath
+      "dateOfDeath" -> dateMapping.dateOfDeath
     )(DeceasedDateOfDeath.apply)(DeceasedDateOfDeath.unapply)
   )
 
   def deceasedPermanentHomeForm(implicit messages: Messages): Form[DeceasedDetails] = Form(
     mapping(
-      "domicile" -> of(radioOptionString("error.deceasedPermanentHome.selectLocation", FieldMappings.domicileMap))
+      "domicile" -> of(ihtFormValidator.radioOptionString("error.deceasedPermanentHome.selectLocation", FieldMappings.domicileMap))
     )
     (
       (domicile) => DeceasedDetails(None, None, None, None, None, None, domicile, None, None)
@@ -50,13 +54,14 @@ object DeceasedForms {
 
   def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now())(implicit messages: Messages) = Form(
     mapping(
-      "firstName" -> ihtNonEmptyText("error.firstName.give")
-        .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthFirstName),
-      "lastName" -> ihtNonEmptyText("error.lastName.give")
-        .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthLastName),
-      "nino" -> nino,
-      "dateOfBirth" -> DateMapping.dateOfBirth.verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => isDobBeforeDod(dateOfDeath, x)),
-      "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages))))
+      "firstName" -> ihtFormValidator.ihtNonEmptyText("error.firstName.give")
+        .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= ihtProperties.validationMaxLengthFirstName),
+      "lastName" -> ihtFormValidator.ihtNonEmptyText("error.lastName.give")
+        .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= ihtProperties.validationMaxLengthLastName),
+      "nino" -> ihtFormValidator.nino,
+      "dateOfBirth" -> dateMapping.dateOfBirth
+        .verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => ihtFormValidator.isDobBeforeDod(dateOfDeath, x)),
+      "maritalStatus" -> of(ihtFormValidator.radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages))))
     (
       (firstName, lastName, nino, dateOfBirth, maritalStatus) =>
         DeceasedDetails(Some(firstName), None, Some(lastName), Some(nino), None, Some(dateOfBirth), None, maritalStatus, None)
@@ -73,7 +78,7 @@ object DeceasedForms {
 
   val deceasedAddressQuestionForm = Form(
     mapping(
-      "isAddressInUk" -> yesNoQuestion("error.address.wasInUK.give")
+      "isAddressInUk" -> ihtFormValidator.yesNoQuestion("error.address.wasInUK.give")
     )
     (
       (isAddressInUk) => DeceasedDetails(None, None, None, None, None, None, None, None, isAddressInUk)
@@ -85,7 +90,7 @@ object DeceasedForms {
 
   val deceasedAddressDetailsUKForm = Form(
     mapping(
-      "ukAddress.addressLine1" -> of(ihtAddress(
+      "ukAddress.addressLine1" -> of(ihtFormValidator.ihtAddress(
         "ukAddress.ukAddressLine2", "ukAddress.ukAddressLine3",
         "ukAddress.ukAddressLine4", "ukAddress.postCode", "ukAddress.countryCode",
         "error.address.give", "error.address.giveInLine1And2",
@@ -116,11 +121,15 @@ object DeceasedForms {
 
   val deceasedAddressDetailsOutsideUKForm = Form(
     mapping(
-      "ukAddress.addressLine1" -> ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
-      "ukAddress.ukAddressLine2" -> ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
-      "ukAddress.addressLine3" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
-      "ukAddress.addressLine4" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
-      "ukAddress.countryCode" -> ihtNonEmptyText("error.country.select")
+      "ukAddress.addressLine1" -> ihtFormValidator
+        .ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
+      "ukAddress.ukAddressLine2" -> ihtFormValidator
+        .ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
+      "ukAddress.addressLine3" -> optional(text)
+        .verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
+      "ukAddress.addressLine4" -> optional(text)
+        .verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
+      "ukAddress.countryCode" -> ihtFormValidator.ihtNonEmptyText("error.country.select")
     )
     (
       (addressLine1, addressLine2, addressLine3, addressLine4, countryCode) => DeceasedDetails(None, None, None, None,

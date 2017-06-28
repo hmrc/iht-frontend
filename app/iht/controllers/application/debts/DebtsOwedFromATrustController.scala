@@ -31,7 +31,7 @@ class DebtsOwedFromATrustController @Inject() (implicit val messagesApi: Message
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElementLiabilities](debtsTrustForm,
+      estateElementOnPageLoad[BasicEstateElementLiabilities](applicationForms.debtsTrustForm,
         owed_from_trust.apply, _.allLiabilities.flatMap(_.trust))
   }
 
@@ -52,7 +52,7 @@ class DebtsOwedFromATrustController @Inject() (implicit val messagesApi: Message
           (updatedAD, None)
         }
 
-      estateElementOnSubmit[BasicEstateElementLiabilities](debtsTrustForm,
+      estateElementOnSubmit[BasicEstateElementLiabilities](applicationForms.debtsTrustForm,
         owed_from_trust.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(ihtProperties.DebtsOwedFromTrustID))

@@ -32,7 +32,10 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
 
-class CharityNumberController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class CharityNumberController @Inject()(
+                                         val messagesApi: MessagesApi,
+                                         val ihtProperties: IhtProperties,
+                                         val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNumberController.onSubmit(), Some(ihtProperties.ExemptionsCharitiesNumberID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
@@ -62,7 +65,7 @@ class CharityNumberController @Inject()(val messagesApi: MessagesApi, val ihtPro
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetails { regDetails =>
-        Future.successful(Ok(iht.views.html.application.exemption.charity.charity_number(charityNumberForm,
+        Future.successful(Ok(iht.views.html.application.exemption.charity.charity_number(applicationForms.charityNumberForm,
           regDetails,
           submitUrl,
           cancelUrl)))
@@ -72,7 +75,7 @@ class CharityNumberController @Inject()(val messagesApi: MessagesApi, val ihtPro
 
   def onEditPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnEditPageLoadWithNavigation[Charity](charityNumberForm,
+      estateElementOnEditPageLoadWithNavigation[Charity](applicationForms.charityNumberForm,
             charity_number.apply,
             retrieveSectionDetailsOrExceptionIfInvalidID(id),
             editSubmitUrl(id),
@@ -102,7 +105,7 @@ class CharityNumberController @Inject()(val messagesApi: MessagesApi, val ihtPro
                        charityId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[Charity](
-      charityNumberForm,
+      applicationForms.charityNumberForm,
       charity_number.apply,
       updateApplicationDetails,
       (_, updatedCharityID) => locationAfterSuccessfulSave(updatedCharityID),

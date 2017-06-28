@@ -37,14 +37,17 @@ import scala.concurrent.Future
   */
 
 @Singleton
-class GivenAwayController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class GivenAwayController @Inject()(
+                                     val messagesApi: MessagesApi,
+                                     val ihtProperties: IhtProperties,
+                                     val applicationForms: ApplicationForms) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request =>
         withApplicationDetails { regDetails =>
           appDetails =>
-            val fm = appDetails.allGifts.fold(giftsGivenAwayForm)(giftsGivenAwayForm.fill)
+            val fm = appDetails.allGifts.fold(applicationForms.giftsGivenAwayForm)(applicationForms.giftsGivenAwayForm.fill)
 
             CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>
               val giftsList = appDetails.giftsList
@@ -69,7 +72,7 @@ class GivenAwayController @Inject()(val messagesApi: MessagesApi, val ihtPropert
                 (_.copy(isGivenAway = gifts.isGivenAway))))
                 (updateApplicationDetailsWithUpdatedAllGifts(updatedAllDetails), None)
               }
-            val boundForm = giftsGivenAwayForm.bindFromRequest
+            val boundForm = applicationForms.giftsGivenAwayForm.bindFromRequest
             boundForm.fold(
               formWithErrors => {
                 CommonHelper.getOrException(regDetails.deceasedDateOfDeath.map { ddod =>

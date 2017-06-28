@@ -16,6 +16,8 @@
 
 package iht.forms.mappings
 
+import javax.inject.Singleton
+
 import iht.utils.CommonHelper
 import org.joda.time.format.DateTimeFormatterBuilder
 import org.joda.time.{DateTimeFieldType, LocalDate}
@@ -25,7 +27,8 @@ import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult}
 
 import scala.util.Try
 
-object DateMapping {
+@Singleton
+class DateMapping {
 
   private val isYearValidPredicate: Int => Boolean = year => year > 999 && year <= 9999
   private val isMonthValidPredicate: Int => Boolean = month => month > 0 && month < 13

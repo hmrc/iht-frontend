@@ -18,7 +18,6 @@ package iht.controllers.application.exemptions
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationController
 import play.api.i18n.MessagesApi
 

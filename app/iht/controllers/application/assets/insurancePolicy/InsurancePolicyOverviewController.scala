@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
+import iht.forms.ApplicationForms
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._

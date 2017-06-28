@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.TnrbForms._
+import iht.forms.TnrbForms
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
@@ -37,7 +37,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class DeceasedWidowCheckDateController @Inject() (
+                                                   implicit val messagesApi: MessagesApi, 
+                                                   val ihtProperties: IhtProperties, 
+                                                   val tnrbForms: TnrbForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
@@ -52,7 +55,7 @@ class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: Mess
             applicationDetails match {
               case Some(appDetails) => {
 
-                val filledForm = deceasedWidowCheckDateForm.fill(appDetails.widowCheck.getOrElse(
+                val filledForm = tnrbForms.deceasedWidowCheckDateForm.fill(appDetails.widowCheck.getOrElse(
                   WidowCheck(None, None)))
 
                 Ok(iht.views.html.application.tnrb.deceased_widow_check_date(
@@ -78,7 +81,7 @@ class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: Mess
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = deceasedWidowCheckDateForm.bindFromRequest
+          val boundForm = tnrbForms.deceasedWidowCheckDateForm.bindFromRequest
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {

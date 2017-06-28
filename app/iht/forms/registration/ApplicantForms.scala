@@ -16,19 +16,21 @@
 
 package iht.forms.registration
 
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.FieldMappings
 import iht.models.{ApplicantDetails, UkAddress}
 import iht.utils.IhtFormValidator
-import iht.utils.IhtFormValidator._
-import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
+import play.api.data.{Form, Mapping}
 import play.api.i18n.Messages
 
-object ApplicantForms {
+@Singleton
+class ApplicantForms @Inject() (val ihtFormValidator: IhtFormValidator) {
 
   val applyingForProbateForm = Form(
     mapping(
-      "isApplyingForProbate" -> yesNoQuestion("error.applicantIsApplyingForProbate.select")
+      "isApplyingForProbate" -> ihtFormValidator.yesNoQuestion("error.applicantIsApplyingForProbate.select")
     )
     (
       (isApplyingForProbate) => ApplicantDetails(isApplyingForProbate = isApplyingForProbate)
@@ -40,7 +42,7 @@ object ApplicantForms {
 
   def probateLocationForm(implicit messages: Messages) = Form(
     mapping(
-      "country" -> of(radioOptionString("error.applicantProbateLocation.select", FieldMappings.applicantCountryMap))
+      "country" -> of(ihtFormValidator.radioOptionString("error.applicantProbateLocation.select", FieldMappings.applicantCountryMap))
     )
     (
       (country) => ApplicantDetails(country = country)
@@ -52,9 +54,9 @@ object ApplicantForms {
 
   val applicantTellUsAboutYourselfForm = Form(
     mapping(
-      "phoneNo" -> phoneNumberOptionString("error.phoneNumber.give",
+      "phoneNo" -> ihtFormValidator.phoneNumberOptionString("error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess", "error.phoneNumber.giveUsingOnlyLettersAndNumbers"),
-      "doesLiveInUK" -> yesNoQuestion("error.address.isInUK.give")
+      "doesLiveInUK" -> ihtFormValidator.yesNoQuestion("error.address.isInUK.give")
     )
     (
       (phoneNo, doesLiveInUK) => ApplicantDetails(None, None, None, None, None, None, phoneNo, None, None,
@@ -67,7 +69,7 @@ object ApplicantForms {
 
   val applicantTellUsAboutYourselfEditForm = Form(
     mapping(
-      "phoneNo" -> phoneNumberOptionString("error.phoneNumber.give",
+      "phoneNo" -> ihtFormValidator.phoneNumberOptionString("error.phoneNumber.give",
         "error.phoneNumber.giveUsing27CharactersOrLess", "error.phoneNumber.giveUsingOnlyLettersAndNumbers")
     )
     (
@@ -79,7 +81,7 @@ object ApplicantForms {
   )
 
   val addressMappingInternational: Mapping[UkAddress] = mapping(
-    "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
+    "ukAddressLine1" -> of(ihtFormValidator.ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
       "error.address.giveUsing35CharsOrLess",
@@ -91,7 +93,7 @@ object ApplicantForms {
   )(UkAddress.applyInternational)(UkAddress.unapplyInternational)
 
   val addressMappingUk = mapping(
-    "ukAddressLine1" -> of(ihtAddress("ukAddressLine2", "ukAddressLine3",
+    "ukAddressLine1" -> of(ihtFormValidator.ihtAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "postCode", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
       "error.address.giveUsing35CharsOrLess", "error.address.givePostcode",

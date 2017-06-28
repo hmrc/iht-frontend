@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.applicant.{routes => applicantRoutes}
-import iht.forms.registration.DeceasedForms._
+import iht.forms.registration.DeceasedForms
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.CommonHelper
 import iht.views.html.registration.{deceased => views}
@@ -29,8 +29,11 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Request}
 
 @Singleton
-class DeceasedAddressDetailsOutsideUKController @Inject()(val messagesApi: MessagesApi) extends RegistrationDeceasedControllerWithEditMode {
-  def form = deceasedAddressDetailsOutsideUKForm
+class DeceasedAddressDetailsOutsideUKController @Inject()(
+                                                           val messagesApi: MessagesApi,
+                                                           val deceasedForms: DeceasedForms
+                                                         ) extends RegistrationDeceasedControllerWithEditMode {
+  def form = deceasedForms.deceasedAddressDetailsOutsideUKForm
 
   override def guardConditions: Set[Predicate] = guardConditionsDeceasedLastContactAddress
 
@@ -46,24 +49,27 @@ class DeceasedAddressDetailsOutsideUKController @Inject()(val messagesApi: Messa
     (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
+    Ok(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name),
+      editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
+    BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute,
+      switchToUkRoute)
     (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name),editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
+    BadRequest(views.deceased_address_details_outside_uk(form, CommonHelper.getDeceasedNameOrDefaultString(name),editSubmitRoute,
+      switchToUkEditRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   override def fillForm(rd: RegistrationDetails) = {
     val dd = CommonHelper.getOrException(rd.deceasedDetails)
 
     if (CommonHelper.getOrException(dd.isAddressInUK)) {
-      deceasedAddressDetailsOutsideUKForm
+      deceasedForms.deceasedAddressDetailsOutsideUKForm
     } else {
-      deceasedAddressDetailsOutsideUKForm.fill(dd)
+      deceasedForms.deceasedAddressDetailsOutsideUKForm.fill(dd)
     }
   }
 

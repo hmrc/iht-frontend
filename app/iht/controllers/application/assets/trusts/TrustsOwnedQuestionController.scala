@@ -29,13 +29,16 @@ import play.api.i18n.MessagesApi
 
 
 @Singleton
-class TrustsOwnedQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class TrustsOwnedQuestionController @Inject()(
+                                               val messagesApi: MessagesApi,
+                                               val ihtProperties: IhtProperties,
+                                               val applicationForms: ApplicationForms) extends EstateController {
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(ihtProperties.AssetsTrustsBenefitedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[HeldInTrust](trustsOwnedQuestionForm, trusts_owned_question.apply, _.allAssets.flatMap(_.heldInTrust))
+      estateElementOnPageLoad[HeldInTrust](applicationForms.trustsOwnedQuestionForm, trusts_owned_question.apply, _.allAssets.flatMap(_.heldInTrust))
   }
 
   def onSubmit = authorisedForIht {
@@ -59,7 +62,7 @@ class TrustsOwnedQuestionController @Inject()(val messagesApi: MessagesApi, val 
         }
 
       estateElementOnSubmitConditionalRedirect[HeldInTrust](
-        trustsOwnedQuestionForm,
+        applicationForms.trustsOwnedQuestionForm,
         trusts_owned_question.apply,
         updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.heldInTrust).flatMap(_.isOwned) match {

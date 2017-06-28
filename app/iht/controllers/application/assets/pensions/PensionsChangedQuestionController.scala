@@ -37,7 +37,7 @@ class PensionsChangedQuestionController @Inject()(val messagesApi: MessagesApi, 
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[PrivatePension](pensionsChangedQuestionForm, pensions_changed_question.apply, _.allAssets.flatMap(_.privatePension))
+      estateElementOnPageLoad[PrivatePension](applicationForms.pensionsChangedQuestionForm, pensions_changed_question.apply, _.allAssets.flatMap(_.privatePension))
   }
 
   def onSubmit = authorisedForIht {
@@ -57,7 +57,7 @@ class PensionsChangedQuestionController @Inject()(val messagesApi: MessagesApi, 
         }
 
       estateElementOnSubmit[PrivatePension](
-        pensionsChangedQuestionForm,
+        applicationForms.pensionsChangedQuestionForm,
         pensions_changed_question.apply,
         updateApplicationDetails,
         submitUrl

@@ -28,11 +28,14 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.MessagesApi
 
 @Singleton
-class InsurancePolicyDetailsJointController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class InsurancePolicyDetailsJointController @Inject()(
+                                                       val messagesApi: MessagesApi,
+                                                       val ihtProperties: IhtProperties,
+                                                       val applicationForms: ApplicationForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesJointlyOwned)
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyJointQuestionForm, insurance_policy_details_joint.apply,
+      estateElementOnPageLoad[InsurancePolicy](applicationForms.insurancePolicyJointQuestionForm, insurance_policy_details_joint.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -50,7 +53,7 @@ class InsurancePolicyDetailsJointController @Inject()(val messagesApi: MessagesA
           (updatedAD, None)
         }
       estateElementOnSubmit[InsurancePolicy](
-        insurancePolicyJointQuestionForm,
+        applicationForms.insurancePolicyJointQuestionForm,
         insurance_policy_details_joint.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(insurancePoliciesRedirectLocation, Some(ihtProperties.InsuranceJointlyHeldYesNoID))

@@ -28,10 +28,13 @@ import iht.views.html.application.debts.any_other_debts
 import play.api.i18n.MessagesApi
 
 @Singleton
-class AnyOtherDebtsController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class AnyOtherDebtsController @Inject()(
+                                         val messagesApi: MessagesApi,
+                                         val ihtProperties: IhtProperties,
+                                         val applicationForms: ApplicationForms) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElementLiabilities](anyOtherDebtsForm,
+      estateElementOnPageLoad[BasicEstateElementLiabilities](applicationForms.anyOtherDebtsForm,
         any_other_debts.apply, _.allLiabilities.flatMap(_.other))
   }
 
@@ -52,7 +55,7 @@ class AnyOtherDebtsController @Inject()(val messagesApi: MessagesApi, val ihtPro
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-        anyOtherDebtsForm,
+        applicationForms.anyOtherDebtsForm,
         any_other_debts.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(ihtProperties.DebtsOtherID))

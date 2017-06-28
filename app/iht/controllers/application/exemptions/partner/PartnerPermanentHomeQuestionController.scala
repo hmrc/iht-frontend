@@ -37,7 +37,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PartnerPermanentHomeQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PartnerPermanentHomeQuestionController @Inject()(
+                                                        val messagesApi: MessagesApi,
+                                                        val ihtProperties: IhtProperties,
+                                                        val ihtFormValidator: IhtFormValidator,
+                                                        val applicationForms: ApplicationForms) extends EstateController {
   val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
   val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
     Some(ihtProperties.ExemptionsPartnerHomeID))
@@ -57,7 +61,7 @@ class PartnerPermanentHomeQuestionController @Inject()(val messagesApi: Messages
               case Some(appDetails) => {
 
                 val filledForm = appDetails.allExemptions.flatMap(_.partner)
-                  .fold(partnerPermanentHomeQuestionForm)(partnerPermanentHomeQuestionForm.fill)
+                  .fold(applicationForms.partnerPermanentHomeQuestionForm)(applicationForms.partnerPermanentHomeQuestionForm.fill)
 
                 Ok(partner_permanent_home_question(filledForm,
                   registrationDetails,
@@ -79,7 +83,7 @@ class PartnerPermanentHomeQuestionController @Inject()(val messagesApi: Messages
       implicit request => {
 
         withRegistrationDetails { regDetails =>
-          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(partnerPermanentHomeQuestionForm
+          val boundForm = ihtFormValidator.addDeceasedNameToAllFormErrors(applicationForms.partnerPermanentHomeQuestionForm
             .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
@@ -88,7 +92,7 @@ class PartnerPermanentHomeQuestionController @Inject()(val messagesApi: Messages
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {
-              IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
+              ihtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
                 .fold(
                 formWithErrors => {
                   Future.successful(BadRequest(partner_permanent_home_question(formWithErrors,

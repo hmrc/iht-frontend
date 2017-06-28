@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.TnrbForms._
+import iht.forms.TnrbForms
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
@@ -34,7 +34,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class EstatePassedToDeceasedOrCharityController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class EstatePassedToDeceasedOrCharityController @Inject() (
+                                                            implicit val messagesApi: MessagesApi, 
+                                                            val ihtProperties: IhtProperties,
+                                                            val ihtFormValidator: IhtFormValidator,
+                                                            val tnrbForms: TnrbForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -52,7 +56,7 @@ class EstatePassedToDeceasedOrCharityController @Inject() (implicit val messages
             applicationDetails match {
               case Some(appDetails) => {
 
-                val filledForm = estatePassedToDeceasedOrCharityForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                val filledForm = tnrbForms.estatePassedToDeceasedOrCharityForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
                 Ok(iht.views.html.application.tnrb.estate_passed_to_deceased_or_charity(
@@ -78,7 +82,7 @@ class EstatePassedToDeceasedOrCharityController @Inject() (implicit val messages
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(estatePassedToDeceasedOrCharityForm
+          val boundForm = ihtFormValidator.addDeceasedNameToAllFormErrors(tnrbForms.estatePassedToDeceasedOrCharityForm
             .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
           applicationDetailsFuture.flatMap {

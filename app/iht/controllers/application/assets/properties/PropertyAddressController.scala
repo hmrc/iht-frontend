@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
+import iht.forms.ApplicationForms
 import iht.forms.ApplicationForms.propertyAddressForm
 import iht.models._
 import iht.models.application.ApplicationDetails
@@ -38,7 +39,10 @@ import scala.concurrent.Future
   */
 
 @Singleton
-class PropertyAddressController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PropertyAddressController @Inject()(
+                                           val messagesApi: MessagesApi,
+                                           val ihtProperties: IhtProperties,
+                                           val applicationForms: ApplicationForms) extends EstateController {
 
   def editCancelUrl(id: String) = routes.PropertyDetailsOverviewController.onEditPageLoad(id)
 
@@ -57,7 +61,7 @@ class PropertyAddressController @Inject()(val messagesApi: MessagesApi, val ihtP
     implicit user =>
       implicit request => {
         Future.successful(Ok(iht.views.html.application.asset.properties.property_address(
-          propertyAddressForm,
+          applicationForms.propertyAddressForm,
           cancelUrl,
           submitUrl)))
       }
@@ -80,7 +84,7 @@ class PropertyAddressController @Inject()(val messagesApi: MessagesApi, val ihtP
                 } {
                   (matchedProperty) =>
                     Ok(iht.views.html.application.asset.properties.property_address(
-                      propertyAddressForm.fill(matchedProperty),
+                      applicationForms.propertyAddressForm.fill(matchedProperty),
                       editCancelUrl(id),
                       editSubmitUrl(id)
                     ))
@@ -122,7 +126,7 @@ class PropertyAddressController @Inject()(val messagesApi: MessagesApi, val ihtP
                        cancelUrl: Call,
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
-    val boundForm = propertyAddressForm.bindFromRequest
+    val boundForm =  applicationForms.propertyAddressForm.bindFromRequest
     boundForm.fold(
       formWithErrors => {
         LogHelper.logFormError(formWithErrors)

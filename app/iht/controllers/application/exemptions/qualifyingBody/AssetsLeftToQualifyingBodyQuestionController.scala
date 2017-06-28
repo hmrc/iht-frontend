@@ -29,7 +29,10 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.Call
 
 @Singleton
-class AssetsLeftToQualifyingBodyQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class AssetsLeftToQualifyingBodyQuestionController @Inject()(
+                                                              val messagesApi: MessagesApi,
+                                                              val ihtProperties: IhtProperties,
+                                                              val applicationForms: ApplicationForms) extends EstateController {
   val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
     Some(ihtProperties.ExemptionsOtherID))
   val qualifyingBodyOverviewPage: Call =
@@ -40,7 +43,7 @@ class AssetsLeftToQualifyingBodyQuestionController @Inject()(val messagesApi: Me
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[BasicExemptionElement](assetsLeftToQualifyingBodyQuestionForm,
+      estateElementOnPageLoad[BasicExemptionElement](applicationForms.assetsLeftToQualifyingBodyQuestionForm,
         assets_left_to_qualifying_body_question.apply, _.allExemptions.flatMap(_.qualifyingBody))
     }
   }
@@ -67,7 +70,7 @@ class AssetsLeftToQualifyingBodyQuestionController @Inject()(val messagesApi: Me
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
       estateElementOnSubmitConditionalRedirect[BasicExemptionElement](
-        assetsLeftToQualifyingBodyQuestionForm,
+        applicationForms.assetsLeftToQualifyingBodyQuestionForm,
         assets_left_to_qualifying_body_question.apply,
         updateApplicationDetails,
         (ad, _) => {

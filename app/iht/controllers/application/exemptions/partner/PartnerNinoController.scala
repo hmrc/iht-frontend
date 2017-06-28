@@ -28,13 +28,16 @@ import iht.views.html.application.exemption.partner.partner_nino
 import play.api.i18n.MessagesApi
 
 @Singleton
-class PartnerNinoController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PartnerNinoController @Inject()(
+                                       val messagesApi: MessagesApi,
+                                       val ihtProperties: IhtProperties,
+                                       val applicationForms: ApplicationForms) extends EstateController {
   val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
     Some(ihtProperties.ExemptionsPartnerNinoID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[PartnerExemption](partnerNinoForm, partner_nino.apply, _.allExemptions.flatMap(_.partner))
+      estateElementOnPageLoad[PartnerExemption](applicationForms.partnerNinoForm, partner_nino.apply, _.allExemptions.flatMap(_.partner))
   }
 
   def onSubmit = authorisedForIht {
@@ -68,7 +71,7 @@ class PartnerNinoController @Inject()(val messagesApi: MessagesApi, val ihtPrope
         }
 
       estateElementOnSubmit[PartnerExemption](
-        partnerNinoForm,
+        applicationForms.partnerNinoForm,
         partner_nino.apply,
         updateApplicationDetails,
         submitUrl

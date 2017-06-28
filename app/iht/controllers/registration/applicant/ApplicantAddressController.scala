@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.controllers.registration.RegistrationController
 import iht.controllers.registration.executor.{routes => executorRoutes}
-import iht.forms.registration.ApplicantForms._
+import iht.forms.registration.ApplicantForms
 import iht.utils.CommonHelper
 import iht.views.html.registration.{applicant => views}
 import play.api.i18n.MessagesApi
@@ -29,7 +29,10 @@ import play.api.mvc.Call
 import scala.concurrent.Future
 
 @Singleton
-class ApplicantAddressController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
+class ApplicantAddressController @Inject()(
+                                            val messagesApi: MessagesApi,
+                                            val applicantForms: ApplicantForms
+                                          ) extends RegistrationController {
   override def guardConditions: Set[Predicate] = guardConditionsApplicantAddress
 
   lazy val loadRouteUk = routes.ApplicantAddressController.onPageLoadUk
@@ -51,7 +54,7 @@ class ApplicantAddressController @Inject()(val messagesApi: MessagesApi) extends
                        cancelCall: Option[Call] = None) = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
-        val formType = if(isInternational) applicantAddressAbroadForm else applicantAddressUkForm
+        val formType = if(isInternational) applicantForms.applicantAddressAbroadForm else applicantForms.applicantAddressUkForm
         val ad = CommonHelper.getOrException(rd.applicantDetails)
 
         val form = if (CommonHelper.getOrException(ad.doesLiveInUK) == isInternational) {
@@ -77,7 +80,7 @@ class ApplicantAddressController @Inject()(val messagesApi: MessagesApi) extends
     implicit user => implicit request => {
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
         val boundForm =
-          if (isInternational) applicantAddressAbroadForm.bindFromRequest else applicantAddressUkForm.bindFromRequest
+          if (isInternational) applicantForms.applicantAddressAbroadForm.bindFromRequest else applicantForms.applicantAddressUkForm.bindFromRequest
 
         boundForm.fold(formWithErrors => {
           Future.successful(BadRequest(views.applicant_address(formWithErrors,

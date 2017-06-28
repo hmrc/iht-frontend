@@ -21,7 +21,7 @@ import javax.inject.{Inject, Singleton}
 import iht.connector.CitizenDetailsConnector
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
-import iht.forms.registration.ApplicantForms._
+import iht.forms.registration.ApplicantForms
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
 import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
@@ -36,9 +36,11 @@ import scala.concurrent.Future
 @Singleton
 class ApplicantTellUsAboutYourselfController @Inject()(
                   val citizenDetailsConnector: CitizenDetailsConnector,
-                  val messagesApi: MessagesApi) extends RegistrationApplicantControllerWithEditMode {
+                  val applicantForms: ApplicantForms,
+                  val messagesApi: MessagesApi
+                                                      ) extends RegistrationApplicantControllerWithEditMode {
 
-  def form = applicantTellUsAboutYourselfForm
+  def form = applicantForms.applicantTellUsAboutYourselfForm
 
   override def guardConditions: Set[Predicate] = guardConditionsApplicantContactDetails
 
@@ -84,9 +86,9 @@ class ApplicantTellUsAboutYourselfController @Inject()(
     implicit user => implicit request => {
       withRegistrationDetails { rd =>
         val formType = if (mode == Mode.Standard) {
-            applicantTellUsAboutYourselfForm
+            applicantForms.applicantTellUsAboutYourselfForm
           } else {
-            applicantTellUsAboutYourselfEditForm
+            applicantForms.applicantTellUsAboutYourselfEditForm
           }
 
         val boundForm = formType.bindFromRequest

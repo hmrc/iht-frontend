@@ -39,7 +39,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class GiftsDetailsController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class GiftsDetailsController @Inject()(
+                                        val messagesApi: MessagesApi,
+                                        val ihtProperties: IhtProperties,
+                                        val applicationForms: ApplicationForms) extends EstateController {
   override val applicationSection: Option[String] = Some(ApplicationKickOutHelper.ApplicationSectionGiftDetails)
   private lazy val cancelLabelKey = "GiftsDetailsCancelLabel"
   private lazy val sevenYearsGiftsRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
@@ -70,8 +73,8 @@ class GiftsDetailsController @Inject()(val messagesApi: MessagesApi, val ihtProp
           val prevYearsGifts = ad.giftsList.fold(createPreviousYearsGiftsLists(ddod.dateOfDeath))(identity)
 
           prevYearsGifts.find(_.yearId.contains(id))
-            .fold(previousYearsGiftsForm)(matchedGift => {
-              previousYearsGiftsForm.fill(matchedGift)
+            .fold(applicationForms.previousYearsGiftsForm)(matchedGift => {
+              applicationForms.previousYearsGiftsForm.fill(matchedGift)
             })
         }(form =>
           Ok(
@@ -92,7 +95,7 @@ class GiftsDetailsController @Inject()(val messagesApi: MessagesApi, val ihtProp
     implicit user =>
       implicit request => {
         withApplicationDetails { rd => ad =>
-          val boundForm = previousYearsGiftsForm.bindFromRequest
+          val boundForm = applicationForms.previousYearsGiftsForm.bindFromRequest
           lazy val cancelLabelKeyValue = cachingConnector
             .getSingleValueSync(cancelLabelKey).fold(cancelLabelKeyValueReturnToGifts)(identity)
           boundForm.fold(

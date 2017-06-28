@@ -27,10 +27,13 @@ import iht.utils.CommonHelper
 import iht.views.html.application.debts.funeral_expenses
 import play.api.i18n.MessagesApi
 
-class FuneralExpensesController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class FuneralExpensesController @Inject()(
+                                           val messagesApi: MessagesApi,
+                                           val ihtProperties: IhtProperties,
+                                           val applicationForms: ApplicationForms) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElementLiabilities](funeralExpensesForm,
+      estateElementOnPageLoad[BasicEstateElementLiabilities](applicationForms.funeralExpensesForm,
         funeral_expenses.apply, _.allLiabilities.flatMap(_.funeralExpenses))
   }
 
@@ -51,7 +54,7 @@ class FuneralExpensesController @Inject()(val messagesApi: MessagesApi, val ihtP
           (updatedAD, None)
         }
       estateElementOnSubmit[BasicEstateElementLiabilities](
-        funeralExpensesForm,
+        applicationForms.funeralExpensesForm,
         funeral_expenses.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(ihtProperties.DebtsFuneralExpensesID))

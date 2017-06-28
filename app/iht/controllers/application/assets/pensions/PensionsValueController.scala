@@ -28,7 +28,10 @@ import iht.views.html.application.asset.pensions.pensions_value
 import play.api.i18n.MessagesApi
 
 @Singleton
-class PensionsValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PensionsValueController @Inject()(
+                                         val messagesApi: MessagesApi,
+                                         val ihtProperties: IhtProperties,
+                                         val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(),
@@ -37,7 +40,7 @@ class PensionsValueController @Inject()(val messagesApi: MessagesApi, val ihtPro
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[PrivatePension](pensionsValueForm, pensions_value.apply, _.allAssets.flatMap(_.privatePension))
+      estateElementOnPageLoad[PrivatePension](applicationForms.pensionsValueForm, pensions_value.apply, _.allAssets.flatMap(_.privatePension))
   }
 
   def onSubmit = authorisedForIht {
@@ -57,7 +60,7 @@ class PensionsValueController @Inject()(val messagesApi: MessagesApi, val ihtPro
         }
 
       estateElementOnSubmit[PrivatePension](
-        pensionsValueForm,
+        applicationForms.pensionsValueForm,
         pensions_value.apply,
         updateApplicationDetails,
         submitUrl

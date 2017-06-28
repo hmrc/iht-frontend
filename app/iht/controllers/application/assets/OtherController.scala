@@ -30,12 +30,15 @@ import play.api.i18n.MessagesApi
 
 
 @Singleton
-class OtherController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class OtherController @Inject()(
+                                 val messagesApi: MessagesApi,
+                                 val ihtProperties: IhtProperties,
+                                 val applicationForms: ApplicationForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsOther)
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
-      estateElementOnPageLoad[BasicEstateElement](otherForm, other.apply, _.allAssets.flatMap(_.other))
+      estateElementOnPageLoad[BasicEstateElement](applicationForms.otherForm, other.apply, _.allAssets.flatMap(_.other))
   }
 
   def onSubmit = authorisedForIht {
@@ -55,7 +58,7 @@ class OtherController @Inject()(val messagesApi: MessagesApi, val ihtProperties:
           (updatedAD, None)
         }
 
-      estateElementOnSubmit[BasicEstateElement](otherForm,
+      estateElementOnSubmit[BasicEstateElement](applicationForms.otherForm,
         other.apply,
         updateApplicationDetails,
         CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(ihtProperties.AppSectionOtherID))

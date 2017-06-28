@@ -33,7 +33,7 @@ class InsurancePolicyDetailsDeceasedOwnController @Inject()(val messagesApi: Mes
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyDeceasedOwnQuestionForm, insurance_policy_details_deceased_own.apply,
+      estateElementOnPageLoad[InsurancePolicy](applicationForms.insurancePolicyDeceasedOwnQuestionForm, insurance_policy_details_deceased_own.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }

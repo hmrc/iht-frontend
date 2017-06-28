@@ -20,12 +20,12 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
-import iht.forms.TnrbForms._
+import iht.forms.TnrbForms
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
-import iht.utils.{CommonHelper, _}
 import iht.utils.tnrb.TnrbHelper
+import iht.utils.{CommonHelper, _}
 import play.api.Logger
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
@@ -34,7 +34,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class BenefitFromTrustController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class BenefitFromTrustController @Inject() (
+                                             implicit val messagesApi: MessagesApi, 
+                                             val ihtProperties: IhtProperties, 
+                                             val tnrbForms: TnrbForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -50,7 +53,7 @@ class BenefitFromTrustController @Inject() (implicit val messagesApi: MessagesAp
             applicationDetails match {
               case Some(appDetails) => {
 
-                val filledForm = benefitFromTrustForm.fill(appDetails.increaseIhtThreshold.getOrElse(
+                val filledForm = tnrbForms.benefitFromTrustForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
                 Ok(iht.views.html.application.tnrb.benefit_from_trust(
@@ -76,7 +79,7 @@ class BenefitFromTrustController @Inject() (implicit val messagesApi: MessagesAp
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = benefitFromTrustForm.bindFromRequest
+          val boundForm = tnrbForms.benefitFromTrustForm.bindFromRequest
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {

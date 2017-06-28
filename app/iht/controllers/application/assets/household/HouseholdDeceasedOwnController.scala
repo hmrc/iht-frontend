@@ -29,7 +29,10 @@ import iht.views.html.application.asset.household.household_deceased_own
 import play.api.i18n.MessagesApi
 
 @Singleton
-class HouseholdDeceasedOwnController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class HouseholdDeceasedOwnController @Inject()(
+                                                val messagesApi: MessagesApi,
+                                                val ihtProperties: IhtProperties,
+                                                val applicationForms: ApplicationForms) extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdDeceasedOwned)
   val submitUrl = CommonHelper
@@ -38,7 +41,8 @@ class HouseholdDeceasedOwnController @Inject()(val messagesApi: MessagesApi, val
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](householdFormOwn, household_deceased_own.apply,_.allAssets.flatMap(_.household))
+      estateElementOnPageLoad[ShareableBasicEstateElement](applicationForms.householdFormOwn,
+        household_deceased_own.apply,_.allAssets.flatMap(_.household))
     }
   }
 
@@ -63,7 +67,7 @@ class HouseholdDeceasedOwnController @Inject()(val messagesApi: MessagesApi, val
         }
 
       estateElementOnSubmit[ShareableBasicEstateElement](
-        householdFormOwn,
+        applicationForms.householdFormOwn,
         household_deceased_own.apply,
         updateApplicationDetails,
         submitUrl

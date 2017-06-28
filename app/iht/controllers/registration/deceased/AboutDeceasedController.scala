@@ -20,7 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
-import iht.forms.registration.DeceasedForms.aboutDeceasedForm
+import iht.forms.registration.DeceasedForms
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
 import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
@@ -31,8 +31,11 @@ import play.api.mvc.{AnyContent, Request}
 import scala.concurrent.Future
 
 @Singleton
-class AboutDeceasedController @Inject()(val messagesApi: MessagesApi) extends RegistrationDeceasedControllerWithEditMode {
-  def form = aboutDeceasedForm()
+class AboutDeceasedController @Inject()(
+                                         val messagesApi: MessagesApi,
+                                         val deceasedForms: DeceasedForms
+                                       ) extends RegistrationDeceasedControllerWithEditMode {
+  def form = deceasedForms.aboutDeceasedForm()
 
   override def guardConditions = guardConditionsAboutDeceased
 
@@ -58,14 +61,14 @@ class AboutDeceasedController @Inject()(val messagesApi: MessagesApi) extends Re
 
   override def fillForm(rd: RegistrationDetails) = {
     val dateOfDeath = rd.deceasedDateOfDeath.map(_.dateOfDeath).getOrElse(LocalDate.now)
-    rd.deceasedDetails.fold(aboutDeceasedForm())(dd => aboutDeceasedForm(dateOfDeath).fill(dd))
+    rd.deceasedDetails.fold(deceasedForms.aboutDeceasedForm())(dd => deceasedForms.aboutDeceasedForm(dateOfDeath).fill(dd))
   }
 
   override def submit(mode: Mode.Value = Mode.Standard) = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetails { rd =>
         val dateOfDeath = rd.deceasedDateOfDeath.getOrElse(DeceasedDateOfDeath(LocalDate.now())).dateOfDeath
-        val boundForm = aboutDeceasedForm(dateOfDeath).bindFromRequest
+        val boundForm = deceasedForms.aboutDeceasedForm(dateOfDeath).bindFromRequest
         boundForm.fold(
           formWithErrors => {
             if (mode == Mode.Standard) {

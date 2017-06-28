@@ -35,12 +35,15 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PropertiesOwnedQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PropertiesOwnedQuestionController @Inject()(
+                                                   val messagesApi: MessagesApi,
+                                                   val ihtProperties: IhtProperties,
+                                                   val applicationForms: ApplicationForms) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request =>
-        estateElementOnPageLoad[Properties](propertiesForm, properties_owned_question.apply, _.allAssets.flatMap(_.properties))
+        estateElementOnPageLoad[Properties](applicationForms.propertiesForm, properties_owned_question.apply, _.allAssets.flatMap(_.properties))
   }
 
   def onSubmit = authorisedForIht {
@@ -53,7 +56,7 @@ class PropertiesOwnedQuestionController @Inject()(val messagesApi: MessagesApi, 
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
-          val boundForm = propertiesForm.bindFromRequest
+          val boundForm =  applicationForms.propertiesForm.bindFromRequest
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {

@@ -32,7 +32,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PDFController @Inject()(val xmlFoToPDF: XmlFoToPDF, val messagesApi: MessagesApi, val pdfFormatter: PdfFormatter, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends ApplicationController with IhtActions with I18nSupport {
+class PDFController @Inject()(
+                               val xmlFoToPDF: XmlFoToPDF,
+                               val messagesApi: MessagesApi,
+                               val pdfFormatter: PdfFormatter,
+                               val ihtProperties: IhtProperties) extends ApplicationController with IhtActions with I18nSupport {
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
     ihtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
 

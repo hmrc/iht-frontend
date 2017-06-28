@@ -19,6 +19,7 @@ package iht.controllers.registration.deceased
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.ControllerHelper.Mode
+import iht.forms.registration.DeceasedForms
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
@@ -28,8 +29,11 @@ import play.api.i18n.MessagesApi
 import play.api.mvc._
 
 @Singleton
-class DeceasedPermanentHomeController @Inject()(val messagesApi: MessagesApi) extends RegistrationDeceasedControllerWithEditMode {
-  def form = deceasedPermanentHomeForm
+class DeceasedPermanentHomeController @Inject()(
+                                                 val messagesApi: MessagesApi,
+                                                 val deceasedForms: DeceasedForms
+                                               ) extends RegistrationDeceasedControllerWithEditMode {
+  def form = deceasedForms.deceasedPermanentHomeForm
 
   override def guardConditions: Set[Predicate] = guardConditionsDeceasedPermanentHome
 

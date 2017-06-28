@@ -32,6 +32,7 @@ import play.api.i18n.MessagesApi
 class AssetsLeftToCharityQuestionController @Inject()(
                                                        val metrics: Metrics,
                                                        val messagesApi: MessagesApi,
+                                                       val applicationForms: ApplicationForms,
                                                        val ihtProperties: IhtProperties) extends EstateController {
   val exemptionsOverviewPage = CommonHelper
     .addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
@@ -45,7 +46,7 @@ class AssetsLeftToCharityQuestionController @Inject()(
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[BasicExemptionElement](assetsLeftToCharityQuestionForm,
+      estateElementOnPageLoad[BasicExemptionElement](applicationForms.assetsLeftToCharityQuestionForm,
         assets_left_to_charity_question.apply, _.allExemptions.flatMap(_.charity))
     }
   }
@@ -73,7 +74,7 @@ class AssetsLeftToCharityQuestionController @Inject()(
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
       estateElementOnSubmitConditionalRedirect[BasicExemptionElement](
-        assetsLeftToCharityQuestionForm,
+        applicationForms.assetsLeftToCharityQuestionForm,
         assets_left_to_charity_question.apply,
         updateApplicationDetails,
         (ad, _) => {

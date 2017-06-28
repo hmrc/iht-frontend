@@ -16,15 +16,14 @@
 
 package iht.forms
 
+import javax.inject.{Inject, Singleton}
+
 import iht.forms.mappings.DateMapping
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
-import iht.utils._
-import org.joda.time.LocalDate
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
+import iht.utils.IhtFormValidator
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.{Constraint, Invalid, Valid}
-import iht.utils.IhtFormValidator
-import iht.utils.IhtFormValidator._
 
 /**
  * Created by Vineet Tyagi on 23/04/15.
@@ -32,7 +31,8 @@ import iht.utils.IhtFormValidator._
  * Form for iht.views.application.tnrb_Eligibilty Page
  *
  */
-object TnrbForms {
+@Singleton
+class TnrbForms @Inject() (val ihtFormValidator:IhtFormValidator){
   // Widow check form.
   private def isWidowedRequiredConstraint: Constraint[WidowCheck] = Constraint({
     case WidowCheck(None, _) => Invalid("error.selectAnswer")
@@ -46,7 +46,7 @@ object TnrbForms {
   })
 
   val partnerLivingInUkForm = Form(mapping(
-    "isPartnerLivingInUk" -> yesNoQuestion("error.isPartnerLivingInUk.select")
+    "isPartnerLivingInUk" -> ihtFormValidator.yesNoQuestion("error.isPartnerLivingInUk.select")
   )(
     (isPartnerLivingInUk) => TnrbEligibiltyModel(isPartnerLivingInUk, None, None, None ,None, None, None, None, None, None, None)
   )
@@ -56,7 +56,7 @@ object TnrbForms {
   )
 
   val giftMadeBeforeDeathForm = Form(mapping(
-    "isGiftMadeBeforeDeath" -> yesNoQuestion("error.isGiftMadeBeforeDeath.select")
+    "isGiftMadeBeforeDeath" -> ihtFormValidator.yesNoQuestion("error.isGiftMadeBeforeDeath.select")
   )(
     (isGiftMadeBeforeDeath) => TnrbEligibiltyModel(None, isGiftMadeBeforeDeath, None, None ,None, None, None, None, None, None, None)
   )
@@ -66,7 +66,7 @@ object TnrbForms {
   )
 
   val estateClaimAnyBusinessForm = Form(mapping(
-    "isStateClaimAnyBusiness" -> yesNoQuestion("error.isStateClaimAnyBusiness.select")
+    "isStateClaimAnyBusiness" -> ihtFormValidator.yesNoQuestion("error.isStateClaimAnyBusiness.select")
   )(
     (isStateClaimAnyBusiness) => TnrbEligibiltyModel(None, None, isStateClaimAnyBusiness, None ,None, None, None, None, None, None, None)
   )
@@ -76,7 +76,7 @@ object TnrbForms {
   )
 
   val partnerGiftWithResToOtherForm = Form(mapping(
-    "isPartnerGiftWithResToOther" -> yesNoQuestion("error.isPartnerGiftWithResToOther.select")
+    "isPartnerGiftWithResToOther" -> ihtFormValidator.yesNoQuestion("error.isPartnerGiftWithResToOther.select")
   )(
     (isPartnerGiftWithResToOther) => TnrbEligibiltyModel(None, None, None, isPartnerGiftWithResToOther ,None, None, None, None, None, None, None)
   )
@@ -86,7 +86,7 @@ object TnrbForms {
   )
 
   val benefitFromTrustForm = Form(mapping(
-    "isPartnerBenFromTrust" -> yesNoQuestion("error.isPartnerBenFromTrust.select")
+    "isPartnerBenFromTrust" -> ihtFormValidator.yesNoQuestion("error.isPartnerBenFromTrust.select")
   )(
     (isPartnerBenFromTrust) => TnrbEligibiltyModel(None, None, None, None ,isPartnerBenFromTrust, None, None, None, None, None, None)
   )
@@ -96,7 +96,7 @@ object TnrbForms {
   )
 
   val estatePassedToDeceasedOrCharityForm = Form(mapping(
-    "isEstateBelowIhtThresholdApplied" -> yesNoQuestion("error.isEstateBelowIhtThresholdApplied.select")
+    "isEstateBelowIhtThresholdApplied" -> ihtFormValidator.yesNoQuestion("error.isEstateBelowIhtThresholdApplied.select")
   )(
     (isEstateBelowIhtThresholdApplied) => TnrbEligibiltyModel(None, None, None, None ,None, isEstateBelowIhtThresholdApplied, None, None, None, None, None)
   )
@@ -106,7 +106,7 @@ object TnrbForms {
   )
 
   val jointAssetPassedForm = Form(mapping(
-    "isJointAssetPassed" -> yesNoQuestion("error.isJointAssetPassed.select")
+    "isJointAssetPassed" -> ihtFormValidator.yesNoQuestion("error.isJointAssetPassed.select")
   )(
     (isJointAssetPassed) => TnrbEligibiltyModel(None, None, None, None ,None, None, isJointAssetPassed, None, None, None, None)
   )
@@ -116,7 +116,7 @@ object TnrbForms {
   )
 
   val deceasedWidowCheckQuestionForm = Form(mapping(
-    "widowed" -> yesNoQuestion("error.widowed.select")
+    "widowed" -> ihtFormValidator.yesNoQuestion("error.widowed.select")
   )(
     (widowed) => WidowCheck(widowed, None)
   )
@@ -136,7 +136,7 @@ object TnrbForms {
   )
 
   val partnerNameForm = Form(mapping(
-    "firstName" ->of(IhtFormValidator.validatePartnerName(
+    "firstName" ->of(ihtFormValidator.validatePartnerName(
       "lastName"
     )),
     "lastName" -> optional(text)

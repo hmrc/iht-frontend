@@ -36,7 +36,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class AssetsLeftToPartnerQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class AssetsLeftToPartnerQuestionController @Inject()(
+                                                       val messagesApi: MessagesApi,
+                                                       val ihtProperties: IhtProperties,
+                                                       val ihtFormValidator: IhtFormValidator,
+                                                       val applicationForms: ApplicationForms) extends EstateController {
 
   val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
   val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
@@ -57,7 +61,7 @@ class AssetsLeftToPartnerQuestionController @Inject()(val messagesApi: MessagesA
               case Some(appDetails) => {
 
                 val filledForm = appDetails.allExemptions.flatMap(_.partner)
-                  .fold(assetsLeftToSpouseQuestionForm)(assetsLeftToSpouseQuestionForm.fill)
+                  .fold(applicationForms.assetsLeftToSpouseQuestionForm)(applicationForms.assetsLeftToSpouseQuestionForm.fill)
 
                 Ok(assets_left_to_partner_question(filledForm,
                   registrationDetails,
@@ -79,7 +83,7 @@ class AssetsLeftToPartnerQuestionController @Inject()(val messagesApi: MessagesA
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val boundForm = assetsLeftToSpouseQuestionForm.bindFromRequest
+          val boundForm = applicationForms.assetsLeftToSpouseQuestionForm.bindFromRequest
 
           val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
@@ -87,7 +91,7 @@ class AssetsLeftToPartnerQuestionController @Inject()(val messagesApi: MessagesA
 
           applicationDetailsFuture.flatMap {
             case Some(appDetails) => {
-              IhtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
+              ihtFormValidator.addDeceasedNameToAllFormErrors(boundForm, regDetails.deceasedDetails.fold("")(_.name))
                 .fold(
                 formWithErrors => {
                   Future.successful(BadRequest(assets_left_to_partner_question(formWithErrors,

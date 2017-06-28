@@ -26,7 +26,10 @@ import play.api.i18n.MessagesApi
 import scala.concurrent.Future
 
 @Singleton
-class DeleteCoExecutorController @Inject()(val messagesApi: MessagesApi) extends RegistrationController {
+class DeleteCoExecutorController @Inject()(
+                                            val messagesApi: MessagesApi,
+                                            val ihtProperties: IhtProperties
+                                          ) extends RegistrationController {
   def areThereOthersApplying: Predicate = (rd, _) => rd.areOthersApplyingForProbate.getOrElse(false)
 
   def isThereMoreThanOneCoExecutor: Predicate = (rd, _) => rd.coExecutors.nonEmpty
@@ -44,7 +47,7 @@ class DeleteCoExecutorController @Inject()(val messagesApi: MessagesApi) extends
             Future.successful(InternalServerError("Coexecutor confirm deletion of id " + id + " fails. Id not found."))
           } else {
             val coExecutor = rd.coExecutors(index)
-            val addr = IhtProperties.ukIsoCountryCode
+            val addr = ihtProperties.ukIsoCountryCode
             Future.successful(Ok(iht.views.html.registration.executor.delete_coexecutor_confirm(coExecutor)))
           }
         }

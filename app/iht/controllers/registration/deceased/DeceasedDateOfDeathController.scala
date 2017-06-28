@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
+import iht.forms.registration.DeceasedForms
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
@@ -32,10 +33,13 @@ import play.api.mvc._
 import scala.util.{Failure, Success, Try}
 
 @Singleton
-class DeceasedDateOfDeathController @Inject()(val messagesApi: MessagesApi) extends RegistrationBaseControllerWithEditMode[DeceasedDateOfDeath] {
+class DeceasedDateOfDeathController @Inject()(
+                                               val messagesApi: MessagesApi,
+                                               val deceasedForms: DeceasedForms
+                                             ) extends RegistrationBaseControllerWithEditMode[DeceasedDateOfDeath] {
   def fillForm(rd: RegistrationDetails) = rd.deceasedDateOfDeath.fold(form)(dd => form.fill(dd))
 
-  def form = deceasedDateOfDeathForm
+  def form = deceasedForms.deceasedDateOfDeathForm
 
   override def guardConditions: Set[Predicate] = Set((_, _) => true)
 

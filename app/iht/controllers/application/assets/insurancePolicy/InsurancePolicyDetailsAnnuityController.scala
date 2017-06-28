@@ -27,11 +27,11 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.MessagesApi
 
 @Singleton
-class InsurancePolicyDetailsAnnuityController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class InsurancePolicyDetailsAnnuityController @Inject()(val messagesApi: MessagesApi, val applicationForms: ApplicationForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesAnnuities)
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyAnnuityForm, insurance_policy_details_annuity.apply,
+      estateElementOnPageLoad[InsurancePolicy](applicationForms.insurancePolicyAnnuityForm, insurance_policy_details_annuity.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -49,7 +49,7 @@ class InsurancePolicyDetailsAnnuityController @Inject()(val messagesApi: Message
           (updatedAD, None)
         }
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyAnnuityForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](applicationForms.insurancePolicyAnnuityForm,
         insurance_policy_details_annuity.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.isAnnuitiesBought)
           .fold(insurancePoliciesRedirectLocation)(_=>

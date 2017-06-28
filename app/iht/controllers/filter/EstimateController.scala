@@ -31,7 +31,7 @@ import scala.concurrent.Future
 class EstimateController extends FrontendController with CustomPasscodeAuthentication {
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.estimate(estimateForm)))
+      Future.successful(Ok(iht.views.html.filter.estimate(applicationForms.estimateForm)))
     }
   }
 

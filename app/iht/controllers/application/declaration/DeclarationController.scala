@@ -29,10 +29,9 @@ import iht.models.enums.StatsSource
 import iht.utils.CommonHelper._
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
-import play.api.{Application, Logger}
-import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
+import play.api.{Application, Logger}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
 
@@ -41,7 +40,12 @@ import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
 @Singleton
-class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi, val app: Application) extends ApplicationController {
+class DeclarationController @Inject()(
+                                       val metrics: Metrics,
+                                       val messagesApi: MessagesApi,
+                                       val app: Application,
+                                       val ihtProperties: IhtProperties,
+                                       val applicationForms: ApplicationForms) extends ApplicationController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
@@ -53,7 +57,7 @@ class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: Mes
           } yield {
 
             Ok(iht.views.html.application.declaration.declaration(
-              DeclarationViewModel(ApplicationForms.declarationForm,
+              DeclarationViewModel(applicationForms.declarationForm,
                 appDetails,
                 regDetails,
                 CommonHelper.getNino(user),
@@ -69,7 +73,7 @@ class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: Mes
       implicit request => {
         withRegistrationDetails { rd =>
           if (rd.coExecutors.nonEmpty) {
-            val boundForm = ApplicationForms.declarationForm.bindFromRequest
+            val boundForm = applicationForms.declarationForm.bindFromRequest
             boundForm.fold(
               formWithErrors => {
                 LogHelper.logFormError(formWithErrors)
@@ -78,7 +82,7 @@ class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: Mes
                     getOrException(rd.ihtReference), rd.acknowledgmentReference)
                 } yield {
                   BadRequest(iht.views.html.application.declaration.declaration(
-                    DeclarationViewModel(ApplicationForms.declarationForm,
+                    DeclarationViewModel(applicationForms.declarationForm,
                       appDetails,
                       rd,
                       CommonHelper.getNino(user),
@@ -220,13 +224,13 @@ class DeclarationController @Inject()(val metrics: Metrics, val messagesApi: Mes
       grossEstateValue
     }
 
-    if (grossEstateValue <= IhtProperties.taxThreshold) {
+    if (grossEstateValue <= ihtProperties.taxThreshold) {
       Some(ControllerHelper.ReasonForBeingBelowLimitExceptedEstate)
-    } else if (grossEstateValueMinusExemptionsAndLiabilities <= IhtProperties.taxThreshold &&
-      grossEstateValue <= IhtProperties.grossEstateLimit &&
-      grossEstateValue > IhtProperties.taxThreshold) {
+    } else if (grossEstateValueMinusExemptionsAndLiabilities <= ihtProperties.taxThreshold &&
+      grossEstateValue <= ihtProperties.grossEstateLimit &&
+      grossEstateValue > ihtProperties.taxThreshold) {
       Some(ControllerHelper.ReasonForBeingBelowLimitSpouseCivilPartnerOrCharityExemption)
-    } else if (grossEstateValueMinusExemptionsAndLiabilities <= IhtProperties.transferredNilRateBand) {
+    } else if (grossEstateValueMinusExemptionsAndLiabilities <= ihtProperties.transferredNilRateBand) {
       Some(ControllerHelper.ReasonForBeingBelowLimitTNRB)
     } else {
       None

@@ -29,7 +29,10 @@ import iht.views.html.application.asset.household.household_jointly_owned
 import play.api.i18n.MessagesApi
 
 @Singleton
-class HouseholdJointlyOwnedController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class HouseholdJointlyOwnedController @Inject()(
+                                                 val messagesApi: MessagesApi,
+                                                 val ihtProperties: IhtProperties,
+                                                 val applicationForms: ApplicationForms) extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdJointlyOwned)
   val submitUrl = CommonHelper
@@ -38,7 +41,7 @@ class HouseholdJointlyOwnedController @Inject()(val messagesApi: MessagesApi, va
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[ShareableBasicEstateElement](householdJointlyOwnedForm, household_jointly_owned.apply,_.allAssets.flatMap(_.household))
+      estateElementOnPageLoad[ShareableBasicEstateElement](applicationForms.householdJointlyOwnedForm, household_jointly_owned.apply,_.allAssets.flatMap(_.household))
     }
   }
 
@@ -64,7 +67,7 @@ class HouseholdJointlyOwnedController @Inject()(val messagesApi: MessagesApi, va
         }
 
       estateElementOnSubmit[ShareableBasicEstateElement](
-        householdJointlyOwnedForm,
+        applicationForms.householdJointlyOwnedForm,
         household_jointly_owned.apply,
         updateApplicationDetails,
         submitUrl

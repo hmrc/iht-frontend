@@ -16,17 +16,20 @@
 
 package iht.forms
 
-import play.api.data.Form
-import play.api.data.Forms._
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.Constants._
 import iht.constants.FieldMappings
-import iht.utils.IhtFormValidator._
+import iht.utils.IhtFormValidator
+import play.api.data.Form
+import play.api.data.Forms._
 import play.api.i18n.Messages
 
-object FilterForms {
+@Singleton
+class FilterForms @Inject() (val ihtFormValidator:IhtFormValidator) {
   def filterForm (implicit messages: Messages) = Form(
     mapping(
-      filterChoices -> of(radioOptionString("error.selectAnswer", FieldMappings.filterChoicesWithoutHints))
+      filterChoices -> of(ihtFormValidator.radioOptionString("error.selectAnswer", FieldMappings.filterChoicesWithoutHints))
     )
     (
       identity
@@ -38,7 +41,7 @@ object FilterForms {
 
   def domicileForm (implicit messages: Messages) = Form(
     mapping(
-      domicile -> of(radioOptionString("error.selectAnswer", FieldMappings.domicileChoices))
+      domicile -> of(ihtFormValidator.radioOptionString("error.selectAnswer", FieldMappings.domicileChoices))
     )
     (
       identity
@@ -50,7 +53,7 @@ object FilterForms {
 
   def estimateForm (implicit messages: Messages) = Form(
     mapping(
-      estimate -> of(radioOptionString("error.selectAnswer", FieldMappings.estimateChoices))
+      estimate -> of(ihtFormValidator.radioOptionString("error.selectAnswer", FieldMappings.estimateChoices))
     )
     (
       identity

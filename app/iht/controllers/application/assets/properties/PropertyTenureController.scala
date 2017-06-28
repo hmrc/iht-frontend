@@ -34,7 +34,10 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PropertyTenureController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class PropertyTenureController @Inject()(
+                                          val messagesApi: MessagesApi,
+                                          val ihtProperties: IhtProperties,
+                                          val applicationForms: ApplicationForms) extends EstateController {
 
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionProperties)
   val cancelRedirectLocation = routes.PropertiesOverviewController.onPageLoad()
@@ -54,7 +57,7 @@ class PropertyTenureController @Inject()(val messagesApi: MessagesApi, val ihtPr
       implicit request => {
         withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
-          Future.successful(Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm,
+          Future.successful(Ok(iht.views.html.application.asset.properties.property_tenure(applicationForms.propertyTenureForm,
             submitUrl,
             cancelUrl,
             deceasedName)))
@@ -78,7 +81,7 @@ class PropertyTenureController @Inject()(val messagesApi: MessagesApi, val ihtPr
                   throw new RuntimeException("No Property found for the id")
                 } {
                   (matchedProperty) =>
-                    Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm.fill(matchedProperty),
+                    Ok(iht.views.html.application.asset.properties.property_tenure(applicationForms.propertyTenureForm.fill(matchedProperty),
                       editSubmitUrl(id),
                       editCancelUrl(id),
                       deceasedName))
@@ -123,7 +126,7 @@ class PropertyTenureController @Inject()(val messagesApi: MessagesApi, val ihtPr
                         implicit user: AuthContext, request: Request[_]) = {
     withRegistrationDetails { regDetails =>
       val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
-      val boundForm = propertyTenureForm.bindFromRequest
+      val boundForm =  applicationForms.propertyTenureForm.bindFromRequest
       boundForm.fold(
         formWithErrors => {
           LogHelper.logFormError(formWithErrors)

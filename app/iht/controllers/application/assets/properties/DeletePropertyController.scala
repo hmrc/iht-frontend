@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationController
+import iht.forms.ApplicationForms
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
 import iht.utils.CommonHelper

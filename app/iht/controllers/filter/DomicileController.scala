@@ -16,29 +16,27 @@
 
 package iht.controllers.filter
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 import iht.constants.Constants
 import iht.controllers.auth.CustomPasscodeAuthentication
-import iht.forms.FilterForms._
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import iht.forms.FilterForms
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
 @Singleton
-class DomicileController extends FrontendController with CustomPasscodeAuthentication {
+class DomicileController @Inject() (filterForms:FilterForms) extends FrontendController with CustomPasscodeAuthentication {
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.domicile(domicileForm)))
+      Future.successful(Ok(iht.views.html.filter.domicile(filterForms.domicileForm)))
     }
   }
 
   def onSubmit = customAuthenticatedActionAsync {
     implicit request => {
 
-      val boundForm = domicileForm.bindFromRequest
+      val boundForm = filterForms.domicileForm.bindFromRequest
 
       boundForm.fold(
         formWithErrors => Future.successful(BadRequest(iht.views.html.filter.domicile(formWithErrors))),

@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
+import iht.forms.ApplicationForms
 import iht.forms.ApplicationForms.qualifyingBodyValueForm
 import iht.models._
 import iht.models.application.ApplicationDetails
@@ -33,7 +34,10 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import scala.concurrent.Future
 
 @Singleton
-class QualifyingBodyValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties, val applicationForms: ApplicationForms) extends EstateController {
+class QualifyingBodyValueController @Inject()(
+                                               val messagesApi: MessagesApi,
+                                               val ihtProperties: IhtProperties,
+                                               val applicationForms: ApplicationForms) extends EstateController {
 
   val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onSubmit(),
     Some(ihtProperties.ExemptionsOtherValueID))
@@ -69,7 +73,7 @@ class QualifyingBodyValueController @Inject()(val messagesApi: MessagesApi, val 
       implicit request => {
         withRegistrationDetails { regDetails =>
           Future.successful(Ok(
-            iht.views.html.application.exemption.qualifyingBody.qualifying_body_value(qualifyingBodyValueForm,
+            iht.views.html.application.exemption.qualifyingBody.qualifying_body_value(applicationForms.qualifyingBodyValueForm,
               regDetails,
               submitUrl,
               cancelUrl)))
@@ -80,7 +84,7 @@ class QualifyingBodyValueController @Inject()(val messagesApi: MessagesApi, val 
   def onEditPageLoad(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        estateElementOnEditPageLoadWithNavigation[QualifyingBody](qualifyingBodyValueForm,
+        estateElementOnEditPageLoadWithNavigation[QualifyingBody](applicationForms.qualifyingBodyValueForm,
           qualifying_body_value.apply,
           retrieveQualifyingBodyDetailsOrExceptionIfInvalidID(id),
           editSubmitUrl(id),
@@ -112,7 +116,7 @@ class QualifyingBodyValueController @Inject()(val messagesApi: MessagesApi, val 
                        charityId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
     estateElementOnSubmitWithIdAndNavigation[QualifyingBody](
-      qualifyingBodyValueForm,
+      applicationForms.qualifyingBodyValueForm,
       qualifying_body_value.apply,
       updateApplicationDetails,
       (_, updatedQualifyingBodyID) => locationAfterSuccessfulSave(updatedQualifyingBodyID),

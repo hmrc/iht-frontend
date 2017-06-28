@@ -27,12 +27,12 @@ import iht.views.html.application.asset.insurancePolicy.insurance_policy_details
 import play.api.i18n.MessagesApi
 
 @Singleton
-class InsurancePolicyDetailsMoreThanMaxValueController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class InsurancePolicyDetailsMoreThanMaxValueController @Inject()(val messagesApi: MessagesApi, applicationForms:ApplicationForms) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesMoreThanMax)
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[InsurancePolicy](insurancePolicyMoreThanMaxForm, insurance_policy_details_more_than_max_value.apply,
+      estateElementOnPageLoad[InsurancePolicy](applicationForms.insurancePolicyMoreThanMaxForm, insurance_policy_details_more_than_max_value.apply,
         _.allAssets.flatMap(_.insurancePolicy))
     }
   }
@@ -49,7 +49,7 @@ class InsurancePolicyDetailsMoreThanMaxValueController @Inject()(val messagesApi
           (updatedAD, None)
         }
 
-      estateElementOnSubmitConditionalRedirect[InsurancePolicy](insurancePolicyMoreThanMaxForm,
+      estateElementOnSubmitConditionalRedirect[InsurancePolicy](applicationForms.insurancePolicyMoreThanMaxForm,
         insurance_policy_details_more_than_max_value.apply, updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.insurancePolicy).flatMap(_.moreThanMaxValue)
           .fold(insurancePoliciesRedirectLocation)(_=>

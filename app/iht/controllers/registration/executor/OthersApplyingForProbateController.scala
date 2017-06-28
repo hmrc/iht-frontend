@@ -18,6 +18,7 @@ package iht.controllers.registration.executor
 
 import javax.inject.{Inject, Singleton}
 
+import iht.constants.IhtProperties
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms
 import iht.models.RegistrationDetails
@@ -28,7 +29,11 @@ import play.api.mvc.Call
 import scala.concurrent.Future
 
 @Singleton
-class OthersApplyingForProbateController @Inject()(val messagesApi: MessagesApi, val coExecutorForms: CoExecutorForms) extends RegistrationController {
+class OthersApplyingForProbateController @Inject()(
+                                                    val messagesApi: MessagesApi,
+                                                    val ihtProperties: IhtProperties,
+                                                    val coExecutorForms: CoExecutorForms
+                                                  ) extends RegistrationController {
   override def guardConditions: Set[Predicate] = Set(isThereAnApplicantAddress)
 
   private def submitRoute(arrivedFromOverview: Boolean) =
@@ -65,7 +70,8 @@ class OthersApplyingForProbateController @Inject()(val messagesApi: MessagesApi,
         val boundForm = coExecutorForms.othersApplyingForProbateForm.bindFromRequest
         boundForm.fold(
           formWithErrors => {
-            Future.successful(BadRequest(iht.views.html.registration.executor.others_applying_for_probate(formWithErrors,
+            Future.successful(BadRequest(iht.views.html.registration.executor.others_applying_for_probate(
+              formWithErrors,
               submitRoute(arrivedFromOverview), cancelCall)))
           },
 
@@ -76,7 +82,8 @@ class OthersApplyingForProbateController @Inject()(val messagesApi: MessagesApi,
             }
             cachingConnector.storeRegistrationDetails(rdUpdated).flatMap(storeResult => {
               val route = getOrException(rdUpdated.areOthersApplyingForProbate) match {
-                case true if arrivedFromOverview && rd.coExecutors.isEmpty => Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
+                case true if arrivedFromOverview && rd.coExecutors.isEmpty =>
+                  Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
                 case true if arrivedFromOverview => Redirect(routes.ExecutorOverviewController.onPageLoad())
                 case true if !arrivedFromOverview => Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
                 case false => Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad())
