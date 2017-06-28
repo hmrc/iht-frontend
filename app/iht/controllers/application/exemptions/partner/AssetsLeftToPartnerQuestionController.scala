@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.partner
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -36,11 +36,12 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class AssetsLeftToPartnerQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class AssetsLeftToPartnerQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
   val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
-  val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerID))
-  val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerAssetsID))
+  val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+    Some(ihtProperties.ExemptionsPartnerID))
+  val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ihtProperties.ExemptionsPartnerAssetsID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>

@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.partner
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
@@ -34,7 +34,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PartnerDateOfBirthController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class PartnerDateOfBirthController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request =>
@@ -73,7 +73,7 @@ class PartnerDateOfBirthController @Inject()(val messagesApi: MessagesApi) exten
           applicationDetails = copyOfAD)
       ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).flatMap { _ =>
         Future.successful(Redirect(applicationDetails.kickoutReason.fold(
-          addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerDobID))
+          addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ihtProperties.ExemptionsPartnerDobID))
         )(_ => kickoutRedirectLocation)))
         }
     }

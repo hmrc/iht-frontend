@@ -18,30 +18,29 @@ package iht.controllers.application.exemptions.qualifyingBody
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms.qualifyingBodyNameForm
-import iht.metrics.Metrics
-import iht.models.application.ApplicationDetails
 import iht.models._
+import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_name
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
-import play.api.i18n.MessagesApi
 
 @Singleton
-class QualifyingBodyNameController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class QualifyingBodyNameController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onSubmit(), Some(ExemptionsOtherNameID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onSubmit(), Some(ihtProperties.ExemptionsOtherNameID))
   val cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
-  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onEditSubmit(id), Some(ExemptionsOtherNameID))
+  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyNameController.onEditSubmit(id),
+    Some(ihtProperties.ExemptionsOtherNameID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id => routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)))

@@ -18,13 +18,12 @@ package iht.controllers.application.tnrb
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
-import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, ApplicationStatus => AppStatus}
 import play.api.Logger
@@ -32,14 +31,10 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-
 import scala.concurrent.Future
 
 @Singleton
-class EstatePassedToDeceasedOrCharityController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
+class EstatePassedToDeceasedOrCharityController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -63,7 +58,7 @@ class EstatePassedToDeceasedOrCharityController @Inject() (implicit val messages
                 Ok(iht.views.html.application.tnrb.estate_passed_to_deceased_or_charity(
                   filledForm,
                   deceasedName,
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbEstatePassedToDeceasedID))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(ihtProperties.TnrbEstatePassedToDeceasedID))
                 ))
               }
               case _ => InternalServerError("Application details not found")
@@ -126,7 +121,7 @@ class EstatePassedToDeceasedOrCharityController @Inject() (implicit val messages
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
           case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbEstatePassedToDeceasedID))
+          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(ihtProperties.TnrbEstatePassedToDeceasedID))
         }
       }
     }

@@ -16,14 +16,14 @@
 
 package iht.controllers.application.tnrb
 
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
-import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
 import iht.models.RegistrationDetails
+import iht.models.application.ApplicationDetails
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.tnrb.TnrbHelper._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
@@ -34,13 +34,10 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
 @Singleton
-class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
+class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
@@ -63,7 +60,7 @@ class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: Mess
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   registrationDetails,
-                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
+                  cancelLinkUrlForWidowCheckPages(appDetails, Some(ihtProperties.TnrbSpouseDateOfDeathID)),
                   cancelLinkTextForWidowCheckPages(appDetails)))
               }
               case _ => InternalServerError("Application details not found")
@@ -92,7 +89,7 @@ class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: Mess
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     regDetails,
-                    cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseDateOfDeathID)),
+                    cancelLinkUrlForWidowCheckPages(appDetails, Some(ihtProperties.TnrbSpouseDateOfDeathID)),
                     cancelLinkTextForWidowCheckPages(appDetails))))
                 },
                 widowModel => {
@@ -153,7 +150,7 @@ class DeceasedWidowCheckDateController @Inject() (implicit val messagesApi: Mess
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
           case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseDateOfDeathID))
+          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(ihtProperties.TnrbSpouseDateOfDeathID))
         }
       }
     }

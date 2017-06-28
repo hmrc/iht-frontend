@@ -18,14 +18,13 @@ package iht.controllers.application.tnrb
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.CommonHelper
 import iht.utils.CommonHelper._
 import play.api.i18n.MessagesApi
+
 import scala.concurrent.Future
 
 @Singleton

@@ -22,7 +22,7 @@ package iht.controllers.application.gifts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
@@ -39,7 +39,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class GiftsDetailsController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class GiftsDetailsController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection: Option[String] = Some(ApplicationKickOutHelper.ApplicationSectionGiftDetails)
   private lazy val cancelLabelKey = "GiftsDetailsCancelLabel"
   private lazy val sevenYearsGiftsRedirectLocation = iht.controllers.application.gifts.routes.SevenYearsGiftsValuesController.onPageLoad()
@@ -78,7 +78,7 @@ class GiftsDetailsController @Inject()(val messagesApi: MessagesApi) extends Est
             iht.views.html.application.gift.gifts_details(
               form,
               rd,
-              Some(CommonHelper.addFragmentIdentifier(cancelUrl.get, Some(GiftsValueDetailID + id.toString))),
+              Some(CommonHelper.addFragmentIdentifier(cancelUrl.get, Some(ihtProperties.GiftsValueDetailID + id.toString))),
               cancelLabel
             )
           )
@@ -139,7 +139,8 @@ class GiftsDetailsController @Inject()(val messagesApi: MessagesApi) extends Est
             applicationID = previousYearsGifts.yearId)
         }{newAD =>
           ihtConnector.saveApplication(nino, newAD, rd.acknowledgmentReference).map(_ =>
-            Redirect(newAD.kickoutReason.fold(CommonHelper.addFragmentIdentifier(sevenYearsGiftsRedirectLocation, Some(GiftsValueDetailID + (idToUpdate + 1).toString))) {
+            Redirect(newAD.kickoutReason.fold(CommonHelper.addFragmentIdentifier(sevenYearsGiftsRedirectLocation,
+              Some(ihtProperties.GiftsValueDetailID + (idToUpdate + 1).toString))) {
               _ => {
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastSectionKey, applicationSection.fold("")(identity))
                 cachingConnector.storeSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey, previousYearsGifts.yearId.getOrElse(""))

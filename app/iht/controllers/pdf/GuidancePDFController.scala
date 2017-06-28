@@ -16,7 +16,6 @@
 
 package iht.controllers.pdf
 
-import java.io.{ByteArrayInputStream, File, FileInputStream, FileNotFoundException}
 import javax.inject.Singleton
 
 import akka.stream.scaladsl.{FileIO, Source}
@@ -24,11 +23,8 @@ import akka.util.ByteString
 import iht.constants.Constants
 import iht.controllers.auth.CustomPasscodeAuthentication
 import play.api.http.HttpEntity
-import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{ResponseHeader, Result}
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
-
-import scala.util.{Failure, Success, Try}
 
 @Singleton
 class GuidancePDFController extends FrontendController with CustomPasscodeAuthentication {

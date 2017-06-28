@@ -18,7 +18,7 @@ package iht.controllers.application.gifts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -28,7 +28,7 @@ import iht.views.html.application.gift.seven_years_to_trust
 import play.api.i18n.MessagesApi
 
 @Singleton
-class SevenYearsToTrustController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class SevenYearsToTrustController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
@@ -48,7 +48,8 @@ class SevenYearsToTrustController @Inject()(val messagesApi: MessagesApi) extend
       estateElementOnSubmit[AllGifts](giftSevenYearsToTrustForm,
         seven_years_to_trust.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(), Some(GiftsSevenYearsQuestionID2))
+        CommonHelper.addFragmentIdentifier(iht.controllers.application.gifts.routes.GiftsOverviewController.onPageLoad(),
+          Some(ihtProperties.GiftsSevenYearsQuestionID2))
       )
     }
   }

@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.charity
 
 import javax.inject.Inject
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -32,14 +32,14 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
 
-class CharityValueController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class CharityValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onSubmit(), Some(ExemptionsCharitiesValueID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onSubmit(), Some(ihtProperties.ExemptionsCharitiesValueID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.CharityDetailsOverviewController.onEditPageLoad(id)
 
-  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onEditSubmit(id), Some(ExemptionsCharitiesValueID))
+  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.CharityValueController.onEditSubmit(id), Some(ihtProperties.ExemptionsCharitiesValueID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id => routes.CharityDetailsOverviewController.onEditPageLoad(id)))

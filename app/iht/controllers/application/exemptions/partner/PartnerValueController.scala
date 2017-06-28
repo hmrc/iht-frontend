@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.partner
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -28,8 +28,9 @@ import iht.views.html.application.exemption.partner.partner_value
 import play.api.i18n.MessagesApi
 
 @Singleton
-class PartnerValueController @Inject()(val messagesApi: MessagesApi) extends EstateController {
-  val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerValueID))
+class PartnerValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+  val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+    Some(ihtProperties.ExemptionsPartnerValueID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

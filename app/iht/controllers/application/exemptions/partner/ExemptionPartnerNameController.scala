@@ -18,8 +18,7 @@ package iht.controllers.application.exemptions.partner
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
@@ -35,7 +34,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class ExemptionPartnerNameController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class ExemptionPartnerNameController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionExemptionsSpouse)
 
   def onPageLoad = authorisedForIht {
@@ -87,7 +86,7 @@ class ExemptionPartnerNameController @Inject()(val messagesApi: MessagesApi) ext
 
           ihtConnector.saveApplication(nino, applicationDetails, regDetails.acknowledgmentReference).map { _ =>
             Redirect(applicationDetails.kickoutReason.fold(
-              addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNameID))
+              addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ihtProperties.ExemptionsPartnerNameID))
             )(_ => kickoutRedirectLocation))
           }
     }

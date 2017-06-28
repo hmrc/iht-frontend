@@ -16,31 +16,26 @@
 
 package iht.controllers.application.tnrb
 
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
-import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
-import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import org.joda.time.LocalDate
 import play.api.data.Form
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import scala.concurrent.Future
-import play.api.i18n.MessagesApi
 
 @Singleton
-class DateOfMarriageController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
+class DateOfMarriageController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -74,7 +69,7 @@ class DateOfMarriageController @Inject() (implicit val messagesApi: MessagesApi)
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   deceasedName,
                   predeceasedName(appDetails),
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseDateOfMarriageID))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(ihtProperties.TnrbSpouseDateOfMarriageID))
                 )
                 )
               case _ => InternalServerError("Application details not found")
@@ -152,6 +147,6 @@ class DateOfMarriageController @Inject() (implicit val messagesApi: MessagesApi)
         tnrbModel.dateOfMarriage, None))(_.copy(dateOfMarriage = tnrbModel.dateOfMarriage))))
 
     ihtConnector.saveApplication(nino, updatedAppDetails, regDetails.acknowledgmentReference) map (_ =>
-      TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(TnrbSpouseDateOfMarriageID)))
+      TnrbHelper.successfulTnrbRedirect(updatedAppDetails, Some(ihtProperties.TnrbSpouseDateOfMarriageID)))
   }
 }

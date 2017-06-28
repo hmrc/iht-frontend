@@ -19,28 +19,28 @@ package iht.controllers.application
 import javax.inject.{Inject, Singleton}
 
 import iht.connector.CachingConnector
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.tnrb.TnrbHelper
-import iht.utils._
-import iht.viewmodels.application.overview.EstateOverviewViewModel
-import iht.utils._
 import iht.utils.CommonHelper._
+import iht.utils._
+import iht.utils.tnrb.TnrbHelper
+import iht.viewmodels.application.overview.EstateOverviewViewModel
 import org.joda.time.LocalDate
 import play.api.Application
 import play.api.i18n.MessagesApi
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 @Singleton
-class EstateOverviewController @Inject() (implicit val messagesApi: MessagesApi, app: Application) extends ApplicationController {
+class EstateOverviewController @Inject() (
+                                           implicit val messagesApi: MessagesApi,
+                                           val app: Application,
+                                           val ihtProperties: IhtProperties) extends ApplicationController {
 
 val checkedEverythingQuestionPage = iht.controllers.application.declaration.routes.CheckedEverythingQuestionController.onPageLoad()
 
@@ -117,11 +117,11 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
     val maritalStatus = getMaritalStatus(regDetails)
     val kickOutReason = appDetails.kickoutReason
 
-    val declarableCondition1 = netEstateValue <= exemptionsThresholdValue.toInt &&
+    val declarableCondition1 = netEstateValue <= ihtProperties.exemptionsThresholdValue.toInt &&
                                 tnrb.isEmpty && kickOutReason.isEmpty
 
-    val declarableCondition2 = netEstateValue <= transferredNilRateBand.toInt &&
-      tnrb.isDefined && !maritalStatus.equals(statusSingle) && kickOutReason.isEmpty
+    val declarableCondition2 = netEstateValue <= ihtProperties.transferredNilRateBand.toInt &&
+      tnrb.isDefined && !maritalStatus.equals(ihtProperties.statusSingle) && kickOutReason.isEmpty
 
     if (declarableCondition1 || declarableCondition2) {
       Redirect(checkedEverythingQuestionPage)
@@ -147,11 +147,11 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
 
     val noExemptionsAndTnrb = exemptions.isEmpty && widowCheck.isEmpty && tnrb.isEmpty
 
-    val estateValueMoreThanTaxThreshold = totalEstateValue > exemptionsThresholdValue.toInt
-    val estateValueBetweenTaxAndTnrbThreshold = netEstateValue > exemptionsThresholdValue.toInt &&
-                                                netEstateValue <= transferredNilRateBand.toInt
+    val estateValueMoreThanTaxThreshold = totalEstateValue > ihtProperties.exemptionsThresholdValue.toInt
+    val estateValueBetweenTaxAndTnrbThreshold = netEstateValue > ihtProperties.exemptionsThresholdValue.toInt &&
+                                                netEstateValue <= ihtProperties.transferredNilRateBand.toInt
 
-    if (totalEstateValue > grossEstateLimit.toInt || kickOutReason.isDefined) {
+    if (totalEstateValue > ihtProperties.grossEstateLimit.toInt || kickOutReason.isDefined) {
 
       Redirect(kickOutPage)
 
@@ -161,11 +161,11 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
         getExemptionsGuidanceRedirect(getOrException(regDetails.ihtReference), appDetails, cachingConnector)))
 
     } else if (estateValueBetweenTaxAndTnrbThreshold && exemptions.isDefined &&
-      (widowCheck.isEmpty || widowCheckQuestionAnsweredNo) && !maritalStatus.equals(statusSingle)) {
+      (widowCheck.isEmpty || widowCheckQuestionAnsweredNo) && !maritalStatus.equals(ihtProperties.statusSingle)) {
 
       Redirect(getTnrbLinkUrlForContinueButton(regDetails, appDetails))
 
-    } else if (estateValueBetweenTaxAndTnrbThreshold && tnrb.isDefined && !maritalStatus.equals(statusSingle)) {
+    } else if (estateValueBetweenTaxAndTnrbThreshold && tnrb.isDefined && !maritalStatus.equals(ihtProperties.statusSingle)) {
 
       Redirect(TnrbHelper.getEntryPointForTnrb(regDetails, appDetails))
 

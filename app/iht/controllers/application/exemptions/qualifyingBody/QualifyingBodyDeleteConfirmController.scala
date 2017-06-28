@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.qualifyingBody
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.utils.CommonHelper
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_delete_confirm
@@ -28,7 +28,7 @@ import play.api.i18n.MessagesApi
 import scala.concurrent.Future
 
 @Singleton
-class QualifyingBodyDeleteConfirmController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class QualifyingBodyDeleteConfirmController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails {
@@ -61,7 +61,8 @@ class QualifyingBodyDeleteConfirmController @Inject()(val messagesApi: MessagesA
 
             ihtConnector.saveApplication(nino, newAppDetails, rd.acknowledgmentReference).map {
               case Some(_) =>
-                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAddID)))
+                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(),
+                  Some(ihtProperties.ExemptionsOtherAddID)))
               case _ => {
                 Logger.warn("Save of app details fails with id = " + id
                   + " during save of app details during onSubmit of delete confirmation")

@@ -19,12 +19,12 @@ package iht.controllers.application.tnrb
 import javax.inject.{Inject, Singleton}
 
 import iht.controllers.application.EstateController
-import iht.metrics.Metrics
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.html.application.tnrb.tnrb_guidance
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, AnyContent}
+
 import scala.concurrent.Future
 
 @Singleton

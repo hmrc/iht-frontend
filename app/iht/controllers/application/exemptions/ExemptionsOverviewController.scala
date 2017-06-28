@@ -28,7 +28,7 @@ import play.api.i18n.MessagesApi
 import scala.concurrent.Future
 
 @Singleton
-class ExemptionsOverviewController @Inject()(val messagesApi: MessagesApi) extends ApplicationController{
+class ExemptionsOverviewController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends ApplicationController{
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails { rd => ad =>
@@ -57,5 +57,5 @@ class ExemptionsOverviewController @Inject()(val messagesApi: MessagesApi) exten
    * @return
    */
   private def isEligible(registrationDetails: RegistrationDetails): Boolean =
-    registrationDetails.deceasedDetails.map(_.maritalStatus.contains(IhtProperties.statusMarried)).fold(false)(identity)
+    registrationDetails.deceasedDetails.map(_.maritalStatus.contains(ihtProperties.statusMarried)).fold(false)(identity)
 }

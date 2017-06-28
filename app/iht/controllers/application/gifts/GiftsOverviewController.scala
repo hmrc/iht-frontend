@@ -18,7 +18,7 @@ package iht.controllers.application.gifts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
@@ -32,7 +32,7 @@ import play.api.i18n.{Messages, MessagesApi}
 import scala.concurrent.Future
 
 @Singleton
-class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class GiftsOverviewController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   private def givenAwayYesNoItems(allGifts: AllGifts, rd: RegistrationDetails) = {
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isGivenAway, routes.GivenAwayController.onPageLoad(),
@@ -116,7 +116,7 @@ class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends Es
       questionTitlesMessagesFileItems = Seq(messages("page.iht.application.gifts.lastYears.givenAway.question", deceasedName)),
       ad,
       regDetails,
-      questionLinkIds = Seq(GiftsGivenAwayQuestionID)
+      questionLinkIds = Seq(ihtProperties.GiftsGivenAwayQuestionID)
     )
 
     lazy val sectionReservation = createSectionFromYesNoQuestions(
@@ -128,8 +128,8 @@ class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends Es
       questionTitlesMessagesFileItems = Seq(messages("iht.estateReport.gifts.reservation.question", deceasedName)),
       ad,
       regDetails,
-      sectionLinkId = GiftsReservationBenefitSectionID,
-      questionLinkIds = Seq(GiftsReservationBenefitQuestionID)
+      sectionLinkId = ihtProperties.GiftsReservationBenefitSectionID,
+      questionLinkIds = Seq(ihtProperties.GiftsReservationBenefitQuestionID)
     )
 
     lazy val sectionSevenYears = createSectionFromYesNoQuestions(
@@ -142,8 +142,8 @@ class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends Es
         messages("page.iht.application.gifts.trust.question", deceasedName)),
       ad,
       regDetails,
-      sectionLinkId = GiftsSevenYearsSectionID,
-      questionLinkIds = Seq(GiftsSevenYearsQuestionID, GiftsSevenYearsQuestionID2)
+      sectionLinkId = ihtProperties.GiftsSevenYearsSectionID,
+      questionLinkIds = Seq(ihtProperties.GiftsSevenYearsQuestionID, ihtProperties.GiftsSevenYearsQuestionID2)
     )
 
     lazy val sectionValueGivenAway = createSectionFromValueQuestions(
@@ -160,8 +160,8 @@ class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends Es
       questionTitlesMessagesFilePrefix = "page.iht.application.gifts.overview.value",
       _.isValueEnteredForPastYearsGifts,
       ad,
-      sectionLinkId = GiftsValueOfGiftsSectionID,
-      questionLinkId = GiftsValueOfGiftsQuestionID
+      sectionLinkId = ihtProperties.GiftsValueOfGiftsSectionID,
+      questionLinkId = ihtProperties.GiftsValueOfGiftsQuestionID
     )
 
     allGifts.isGivenAway match {

@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.charity
 
 import javax.inject.Inject
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models._
@@ -32,13 +32,13 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.concurrent.Future
 
-class CharityNameController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class CharityNameController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ExemptionsCharitiesNameID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onSubmit(), Some(ihtProperties.ExemptionsCharitiesNameID))
   val cancelUrl = routes.CharityDetailsOverviewController.onPageLoad()
 
   def editCancelUrl(id: String) = routes.CharityDetailsOverviewController.onEditPageLoad(id)
-  def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(ExemptionsCharitiesNameID))
+  def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.CharityNameController.onEditSubmit(id), Some(ihtProperties.ExemptionsCharitiesNameID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id=>routes.CharityDetailsOverviewController.onEditPageLoad(id)))

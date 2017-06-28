@@ -18,26 +18,23 @@ package iht.controllers.application.tnrb
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
-import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import play.api.Logger
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
 @Singleton
-class JointlyOwnedAssetsController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
+class JointlyOwnedAssetsController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -61,7 +58,7 @@ class JointlyOwnedAssetsController @Inject() (implicit val messagesApi: Messages
                 Ok(iht.views.html.application.tnrb.jointly_owned_assets(
                   filledForm,
                   deceasedName,
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbJointAssetsPassedToDeceasedID))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(ihtProperties.TnrbJointAssetsPassedToDeceasedID))
                 ))
               }
               case _ => InternalServerError("Application details not found")
@@ -124,7 +121,7 @@ class JointlyOwnedAssetsController @Inject() (implicit val messagesApi: Messages
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
           case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbJointAssetsPassedToDeceasedID))
+          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(ihtProperties.TnrbJointAssetsPassedToDeceasedID))
         }
       }
     }

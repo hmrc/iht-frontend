@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.qualifyingBody
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -29,10 +29,12 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.Call
 
 @Singleton
-class AssetsLeftToQualifyingBodyQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
-  val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))
+class AssetsLeftToQualifyingBodyQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+  val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+    Some(ihtProperties.ExemptionsOtherID))
   val qualifyingBodyOverviewPage: Call =
-    CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAssetsID))
+    CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(),
+      Some(ihtProperties.ExemptionsOtherAssetsID))
   val qualifyingBodyDetailsOverviewPage: Call =
     iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 

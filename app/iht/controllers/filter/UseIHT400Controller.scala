@@ -18,7 +18,6 @@ package iht.controllers.filter
 
 import javax.inject.{Inject, Singleton}
 
-import iht.config.FrontendAuthConnector
 import iht.controllers.auth.CustomPasscodeAuthentication
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.frontend.controller.FrontendController

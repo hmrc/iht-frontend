@@ -16,27 +16,25 @@
 
 package iht.controllers.application.tnrb
 
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
 
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
-import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
 import iht.models.RegistrationDetails
-import iht.utils._
+import iht.models.application.ApplicationDetails
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
+import iht.utils.{CommonHelper, _}
 import iht.utils.tnrb.TnrbHelper
 import play.api.Logger
-import play.api.data.FormError
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
-import iht.utils.CommonHelper
 
 @Singleton
-class BenefitFromTrustController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
+class BenefitFromTrustController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -59,7 +57,7 @@ class BenefitFromTrustController @Inject() (implicit val messagesApi: MessagesAp
                   filledForm,
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseBenefitFromTrustID)))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(ihtProperties.TnrbSpouseBenefitFromTrustID)))
                 )
               }
               case _ => InternalServerError("Application details not found")
@@ -123,7 +121,7 @@ class BenefitFromTrustController @Inject() (implicit val messagesApi: MessagesAp
       } { _ =>
         updatedAppDetailsWithKickOutReason.kickoutReason match {
           case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(TnrbSpouseBenefitFromTrustID))
+          case _ => TnrbHelper.successfulTnrbRedirect(updatedAppDetailsWithKickOutReason, Some(ihtProperties.TnrbSpouseBenefitFromTrustID))
         }
       }
     }

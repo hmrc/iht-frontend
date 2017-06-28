@@ -18,18 +18,16 @@ package iht.controllers.filter
 
 import javax.inject.{Inject, Singleton}
 
-import iht.config.FrontendAuthConnector
 import iht.constants.Constants._
-import iht.constants.IhtProperties._
 import iht.controllers.auth.CustomPasscodeAuthentication
 import play.api.i18n.MessagesApi
-import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
 @Singleton
-class UseServiceController @Inject() (implicit val messagesApi: MessagesApi) extends FrontendController with CustomPasscodeAuthentication {
+class UseServiceController @Inject() (
+                                       implicit val messagesApi: MessagesApi) extends FrontendController with CustomPasscodeAuthentication {
 
   private def onPageLoad(estimatedValue: String) = customAuthenticatedActionAsync {
     implicit request => {

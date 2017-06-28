@@ -18,13 +18,12 @@ package iht.controllers.application.tnrb
 
 import javax.inject.{Inject, Singleton}
 
-import iht.connector.IhtConnectors
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
-import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
-import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import play.api.Logger
@@ -32,14 +31,10 @@ import play.api.i18n.MessagesApi
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
-
 import scala.concurrent.Future
 
 @Singleton
-class DeceasedWidowCheckQuestionController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
+class DeceasedWidowCheckQuestionController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
 
   def onPageLoad = authorisedForIht {
@@ -63,7 +58,7 @@ class DeceasedWidowCheckQuestionController @Inject() (implicit val messagesApi: 
                   appDetails.increaseIhtThreshold.fold(
                     TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   registrationDetails,
-                  cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
+                  cancelLinkUrlForWidowCheckPages(appDetails, Some(ihtProperties.TnrbSpouseMartialStatusID)),
                   cancelLinkTextForWidowCheckPages(appDetails)))
               }
               case _ => InternalServerError("Application details not found")
@@ -94,7 +89,7 @@ class DeceasedWidowCheckQuestionController @Inject() (implicit val messagesApi: 
                     appDetails.increaseIhtThreshold.fold(
                       TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     regDetails,
-                    cancelLinkUrlForWidowCheckPages(appDetails, Some(TnrbSpouseMartialStatusID)),
+                    cancelLinkUrlForWidowCheckPages(appDetails, Some(ihtProperties.TnrbSpouseMartialStatusID)),
                     cancelLinkTextForWidowCheckPages(appDetails))))
                 },
                 widowModel => {
@@ -132,7 +127,7 @@ class DeceasedWidowCheckQuestionController @Inject() (implicit val messagesApi: 
         appDetails =>
           if (appDetails.widowCheck.fold(false)(_.widowed.fold(false)(identity))) {
             appDetails.isWidowCheckSectionCompleted match {
-              case true => Redirect(CommonHelper.addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(TnrbSpouseMartialStatusID)))
+              case true => Redirect(CommonHelper.addFragmentIdentifier(routes.TnrbOverviewController.onPageLoad(), Some(ihtProperties.TnrbSpouseMartialStatusID)))
               case _ => Redirect(routes.DeceasedWidowCheckDateController.onPageLoad())
             }
 

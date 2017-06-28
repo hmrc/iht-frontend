@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.qualifyingBody
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms.qualifyingBodyValueForm
 import iht.models._
@@ -33,13 +33,15 @@ import uk.gov.hmrc.play.frontend.auth.AuthContext
 import scala.concurrent.Future
 
 @Singleton
-class QualifyingBodyValueController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class QualifyingBodyValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onSubmit(), Some(ExemptionsOtherValueID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onSubmit(),
+    Some(ihtProperties.ExemptionsOtherValueID))
   val cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
-  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onEditSubmit(id), Some(ExemptionsOtherValueID))
+  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onEditSubmit(id),
+    Some(ihtProperties.ExemptionsOtherValueID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id => routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)))

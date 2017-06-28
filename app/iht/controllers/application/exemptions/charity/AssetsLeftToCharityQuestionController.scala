@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.charity
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
@@ -29,10 +29,19 @@ import iht.views.html.application.exemption.charity.assets_left_to_charity_quest
 import play.api.i18n.MessagesApi
 
 @Singleton
-class AssetsLeftToCharityQuestionController @Inject()(val metrics: Metrics, val messagesApi: MessagesApi) extends EstateController {
-  val exemptionsOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsCharityID))
-  val charityOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
-  val charityDetailsOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
+class AssetsLeftToCharityQuestionController @Inject()(
+                                                       val metrics: Metrics,
+                                                       val messagesApi: MessagesApi,
+                                                       val ihtProperties: IhtProperties) extends EstateController {
+  val exemptionsOverviewPage = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(),
+      Some(ihtProperties.ExemptionsCharityID))
+  val charityOverviewPage = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(),
+      Some(ihtProperties.ExemptionsCharitiesAssetsID))
+  val charityDetailsOverviewPage = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(),
+      Some(ihtProperties.ExemptionsCharitiesAssetsID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

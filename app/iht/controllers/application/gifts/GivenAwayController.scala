@@ -18,7 +18,7 @@ package iht.controllers.application.gifts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -37,7 +37,7 @@ import scala.concurrent.Future
   */
 
 @Singleton
-class GivenAwayController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class GivenAwayController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user =>
@@ -84,7 +84,7 @@ class GivenAwayController @Inject()(val messagesApi: MessagesApi) extends Estate
                   estateElementModel,
                   regDetails,
                   updateApplicationDetails,
-                  redirectLocation = (_, _) => CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(GiftsGivenAwayQuestionID)),
+                  redirectLocation = (_, _) => CommonHelper.addFragmentIdentifier(giftsRedirectLocation, Some(ihtProperties.GiftsGivenAwayQuestionID)),
                   None
                 )
               }
