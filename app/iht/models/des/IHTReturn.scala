@@ -402,7 +402,7 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
       x => x.transferOfNilRateBand.fold(false)(_=> true)
     }
 
-    if (isTnrbApplicable) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
+    if (isTnrbApplicable) ihtProperties.transferredNilRateBand else ihtProperties.exemptionsThresholdValue
   }
 }
 

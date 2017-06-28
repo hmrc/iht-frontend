@@ -94,11 +94,11 @@ object DeclarationSectionViewModel {
     val kickOutReason = appDetailsUpdatedWithKickOut.kickoutReason
     val maritalStatus = getOrException(getOrException(regDetails.deceasedDetails).maritalStatus)
 
-    if (netEstateValue <= IhtProperties.exemptionsThresholdValue.toInt
+    if (netEstateValue <= ihtProperties.exemptionsThresholdValue.toInt
       && tnrb.isEmpty && kickOutReason.isEmpty) {
       Declarable
-    } else if (netEstateValue <= IhtProperties.transferredNilRateBand.toInt &&
-      tnrb.isDefined && !maritalStatus.equals(IhtProperties.statusSingle) && kickOutReason.isEmpty) {
+    } else if (netEstateValue <= ihtProperties.transferredNilRateBand.toInt &&
+      tnrb.isDefined && !maritalStatus.equals(ihtProperties.statusSingle) && kickOutReason.isEmpty) {
       Declarable
     } else {
       NotDeclarable

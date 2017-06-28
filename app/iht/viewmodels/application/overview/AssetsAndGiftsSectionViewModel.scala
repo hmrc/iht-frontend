@@ -20,7 +20,7 @@ import iht.models.application.ApplicationDetails
 import play.api.i18n.{Lang, Messages}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import play.api.Application
 
 case class AssetsAndGiftsSectionViewModel(behaveAsIncreasingTheEstateSection: Boolean,

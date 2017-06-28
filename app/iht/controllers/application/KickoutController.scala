@@ -20,21 +20,24 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.enums.KickOutSource
-import iht.models.RegistrationDetails
 import iht.utils.tnrb._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper, ApplicationStatus => AppStatus}
-import play.api.{Application, Logger}
 import play.api.i18n.MessagesApi
 import play.api.mvc.Request
+import play.api.{Application, Logger}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import play.api.i18n.Messages.Implicits._
 
 import scala.concurrent.Future
 
 @Singleton
-class KickoutController @Inject() (val messagesApi: MessagesApi, val metrics: Metrics, app: Application) extends ApplicationController {
+class KickoutController @Inject() (
+                                    val messagesApi: MessagesApi,
+                                    val metrics: Metrics,
+                                    val ihtProperties: IhtProperties,
+                                    val app: Application) extends ApplicationController {
   val storageFailureMessage = "Failed to successfully store kickout flag"
 
   def onPageLoad = authorisedForIht {
@@ -99,7 +102,7 @@ class KickoutController @Inject() (val messagesApi: MessagesApi, val metrics: Me
                   if (!isUpdated) {
                     Logger.info("Application deleted after a kickout but unable to update metrics")
                   }
-                  Future.successful(Redirect(IhtProperties.linkEstateReportKickOut))
+                  Future.successful(Redirect(ihtProperties.linkEstateReportKickOut))
                 }
               })
             }

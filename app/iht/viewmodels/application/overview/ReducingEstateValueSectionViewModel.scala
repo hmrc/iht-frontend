@@ -23,7 +23,7 @@ import iht.utils.CommonHelper
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 
 case class ReducingEstateValueSectionViewModel(debtRow: Option[OverviewRow],
                                       exemptionRow: OverviewRow,
@@ -33,7 +33,7 @@ object ReducingEstateValueSectionViewModel {
 
   private def isExemptionsCompletedWithNoValueDependentOnMaritalStatus(applicationDetails: ApplicationDetails,
                                                                registrationDetails: RegistrationDetails) = {
-    !registrationDetails.deceasedDetails.flatMap(_.maritalStatus).contains(IhtProperties.statusMarried) match {
+    !registrationDetails.deceasedDetails.flatMap(_.maritalStatus).contains(ihtProperties.statusMarried) match {
       case true => applicationDetails.isExemptionsCompletedWithoutPartnerExemptionWithNoValue
       case false => applicationDetails.isExemptionsCompletedWithNoValue
     }

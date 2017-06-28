@@ -19,7 +19,7 @@ package iht.controllers.application.debts
 import javax.inject.Inject
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationController
 import iht.forms.ApplicationForms
 import iht.models._

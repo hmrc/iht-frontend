@@ -21,7 +21,6 @@ import javax.inject.{Inject, Singleton}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.RegistrationBaseControllerWithEditMode
 import iht.forms.registration.DeceasedForms
-import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.utils.RegistrationKickOutHelper
 import iht.views.html.registration.{deceased => views}

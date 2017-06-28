@@ -148,7 +148,7 @@ object TnrbHelper {
   }
 
   private def isBeforeCivilPartnershipDate(dateOfPreDeceased: LocalDate): Boolean = {
-    val civilPartnerDate = IhtProperties.dateOfCivilPartnershipInclusion
+    val civilPartnerDate = ihtProperties.dateOfCivilPartnershipInclusion
     dateOfPreDeceased.isBefore(civilPartnerDate)
   }
 
@@ -171,8 +171,8 @@ object TnrbHelper {
     * Partial function, which will throw an exception if Marital Status value is not in range
     */
   val urlForIncreasingThreshold: PartialFunction[String, Call] = {
-      case IhtProperties.statusWidowed => deceasedWidowCheckDatePage
-      case maritalStatus if maritalStatus == IhtProperties.statusMarried || maritalStatus ==IhtProperties.statusDivorced =>
+      case ihtProperties.statusWidowed => deceasedWidowCheckDatePage
+      case maritalStatus if maritalStatus == ihtProperties.statusMarried || maritalStatus ==ihtProperties.statusDivorced =>
         deceasedWidowCheckQuestionPage
   }
 

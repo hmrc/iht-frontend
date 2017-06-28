@@ -42,7 +42,7 @@ cancelUrl = Some(cancelUrl)){
     CommonHelper.getOrException(predeceasedDate).getYear.toString)</p>
 
     @ihtHelpers.standard.input_with_help(partnerNameForm("firstName"),
-        '_maxlength -> IhtProperties.validationMaxLengthFirstName,
+        '_maxlength -> ihtProperties.validationMaxLengthFirstName,
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",
@@ -51,7 +51,7 @@ cancelUrl = Some(cancelUrl)){
     )
 
     @ihtHelpers.standard.input_with_help(partnerNameForm("lastName"),
-        '_maxlength -> IhtProperties.validationMaxLengthLastName,
+        '_maxlength -> ihtProperties.validationMaxLengthLastName,
         '_divClass -> "form-group ",
         '_inputClass -> "form-control",
         '_labelTextClass -> "form-label",

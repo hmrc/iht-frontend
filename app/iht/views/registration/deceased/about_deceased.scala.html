@@ -37,7 +37,7 @@ isFullWidth=false) {
 
 @helpers.form(action = actionLocation, 'autoComplete -> "off") {
     @ihtHelpers.standard.input_with_help(aboutDeceased("firstName"),
-        '_maxlength -> IhtProperties.validationMaxLengthFirstName,
+        '_maxlength -> ihtProperties.validationMaxLengthFirstName,
         '_divClass -> "form-group",
         '_inputClass -> "form-control form-control--block",
         '_labelTextClass -> "bold",
@@ -47,7 +47,7 @@ isFullWidth=false) {
         '_label -> Html(Messages("iht.firstName")))
 
     @ihtHelpers.standard.input_with_help(aboutDeceased("lastName"),
-        '_maxlength -> IhtProperties.validationMaxLengthLastName,
+        '_maxlength -> ihtProperties.validationMaxLengthLastName,
         '_divClass -> "form-group",
         '_inputClass -> "form-control form-control--block",
         '_labelTextClass -> "bold",

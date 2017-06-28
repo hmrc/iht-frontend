@@ -18,18 +18,21 @@ package iht.forms
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.Constants._
-import iht.constants.FieldMappings
+import iht.constants.{Constants, FieldMappings}
 import iht.utils.IhtFormValidator
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages
 
 @Singleton
-class FilterForms @Inject() (val ihtFormValidator:IhtFormValidator) {
+class FilterForms @Inject() (
+                              val ihtFormValidator:IhtFormValidator,
+                              val fieldMappings: FieldMappings,
+                              val constants: Constants
+                            ) {
   def filterForm (implicit messages: Messages) = Form(
     mapping(
-      filterChoices -> of(ihtFormValidator.radioOptionString("error.selectAnswer", FieldMappings.filterChoicesWithoutHints))
+      constants.filterChoices -> of(ihtFormValidator.radioOptionString("error.selectAnswer", fieldMappings.filterChoicesWithoutHints))
     )
     (
       identity
@@ -41,7 +44,7 @@ class FilterForms @Inject() (val ihtFormValidator:IhtFormValidator) {
 
   def domicileForm (implicit messages: Messages) = Form(
     mapping(
-      domicile -> of(ihtFormValidator.radioOptionString("error.selectAnswer", FieldMappings.domicileChoices))
+      constants.domicile -> of(ihtFormValidator.radioOptionString("error.selectAnswer", fieldMappings.domicileChoices))
     )
     (
       identity
@@ -53,7 +56,7 @@ class FilterForms @Inject() (val ihtFormValidator:IhtFormValidator) {
 
   def estimateForm (implicit messages: Messages) = Form(
     mapping(
-      estimate -> of(ihtFormValidator.radioOptionString("error.selectAnswer", FieldMappings.estimateChoices))
+      constants.estimate -> of(ihtFormValidator.radioOptionString("error.selectAnswer", fieldMappings.estimateChoices))
     )
     (
       identity

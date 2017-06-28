@@ -113,6 +113,6 @@ class KickoutController @Inject()(val metrics: Metrics, val messagesApi: Message
   def onSubmit = authorisedForIht {
     implicit user => implicit request =>
       metrics.kickOutCounter(KickOutSource.REGISTRATION)
-      Future.successful(Redirect(IhtProperties.linkRegistrationKickOut))
+      Future.successful(Redirect(ihtProperties.linkRegistrationKickOut))
   }
 }

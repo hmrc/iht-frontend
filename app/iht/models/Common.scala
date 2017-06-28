@@ -41,7 +41,7 @@ object UkAddress {
     Some((address.ukAddressLine1, address.ukAddressLine2, address.ukAddressLine3, address.ukAddressLine4, Some(address.countryCode)))
 
   def applyUk(line1: String, line2: String, line3: Option[String], line4: Option[String], postCode: String) =
-    new UkAddress(line1, line2, line3, line4, postCode, IhtProperties.ukIsoCountryCode)
+    new UkAddress(line1, line2, line3, line4, postCode, ihtProperties.ukIsoCountryCode)
 
   def unapplyUk(address: UkAddress): Option[(String, String, Option[String], Option[String], String)] =
   Some((address.ukAddressLine1, address.ukAddressLine2, address.ukAddressLine3, address.ukAddressLine4, address.postCode))

@@ -624,12 +624,12 @@ object ApplicationKickOutHelper {
 
   private lazy val checksAllSectionsMaxValue: FunctionListMap = ListMap(
     AssetsTotalValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      (applicationDetails.totalAssetsValue + applicationDetails.totalGiftsValue) > IhtProperties.validationTotalAssetMaxValue
+      (applicationDetails.totalAssetsValue + applicationDetails.totalGiftsValue) > ihtProperties.validationTotalAssetMaxValue
     })
 
   private lazy val checksActiveSectionOnlyMaxValue: FunctionListMap = ListMap(
     SingleSectionMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      sectionTotal.exists(_ > IhtProperties.validationTotalAssetMaxValue)
+      sectionTotal.exists(_ > ihtProperties.validationTotalAssetMaxValue)
     }
   )
 
@@ -643,7 +643,7 @@ object ApplicationKickOutHelper {
     },
     PensionsValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.privatePension.
-        flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        flatMap(_.value)).fold(BigDecimal(0))(identity) > ihtProperties.validationTotalAssetMaxValue
     },
     AnnuitiesOnInsurance -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.insurancePolicy
@@ -660,39 +660,39 @@ object ApplicationKickOutHelper {
     },
     ForeignAssetsValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.foreign
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationForeignAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > ihtProperties.validationForeignAssetMaxValue
     },
     AssetsMoneyOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.moneyOwed
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > ihtProperties.validationTotalAssetMaxValue
     },
     AssetsDeceasedMoneyOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.money
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > ihtProperties.validationTotalAssetMaxValue
     },
     AssetsMoneyJointlyOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.money
-        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > ihtProperties.validationTotalAssetMaxValue
     },
     AssetsHouseholdDeceasedOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.household
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > ihtProperties.validationTotalAssetMaxValue
     },
     AssetsHouseholdJointlyOwed -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.household
-        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > ihtProperties.validationTotalAssetMaxValue
     },
     AssetsVehiclesDeceasedOwned -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.vehicles
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > ihtProperties.validationTotalAssetMaxValue
     },
     AssetsVehiclesJointlyOwned -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.vehicles
-        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > IhtProperties.validationTotalAssetMaxValue
+        .flatMap(_.shareValue)).fold(BigDecimal(0))(identity) > ihtProperties.validationTotalAssetMaxValue
     },
     TrustValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.heldInTrust
-        .flatMap(_.value)).fold(BigDecimal(0))(identity) > IhtProperties.validationTrustMaxValue
+        .flatMap(_.value)).fold(BigDecimal(0))(identity) > ihtProperties.validationTrustMaxValue
     },
     InsuranceMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.allAssets.flatMap(_.insurancePolicy.flatMap(_.moreThanMaxValue)).fold(false)(identity)
@@ -707,7 +707,7 @@ object ApplicationKickOutHelper {
       applicationDetails.allGifts.flatMap(_.isToTrust).fold(false)(_.booleanValue)
     },
     GiftsMaxValue -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      applicationDetails.totalPastYearsGiftsValueExcludingExemptions > IhtProperties.giftsMaxValue
+      applicationDetails.totalPastYearsGiftsValueExcludingExemptions > ihtProperties.giftsMaxValue
     },
     PartnerHomeInUK -> { (registrationDetails, applicationDetails, sectionTotal) =>
       !applicationDetails.allExemptions.flatMap(_.partner.flatMap(_.isPartnerHomeInUK)).fold(true)(identity)
@@ -723,8 +723,8 @@ object ApplicationKickOutHelper {
     },
     PartnerDiedBeforeMinDate -> { (registrationDetails, applicationDetails, sectionTotal) => {
       def preDeceasedDiedEligible(x: LocalDate) =
-        x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
-          x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
+        x.isAfter(ihtProperties.dateOfPredeceasedForTnrbEligibility) ||
+          x.isEqual(ihtProperties.dateOfPredeceasedForTnrbEligibility)
 
       applicationDetails.widowCheck.flatMap(_.dateOfPreDeceased).fold(false) {
         dateOfPreDeceased => !preDeceasedDiedEligible(dateOfPreDeceased)
@@ -739,8 +739,8 @@ object ApplicationKickOutHelper {
   lazy val checksWidowOpc: FunctionListMap = ListMap(
     PartnerDiedBeforeMinDateOpc -> { (registrationDetails, applicationDetails, sectionTotal) => {
       def preDeceasedDiedEligible(x: LocalDate) =
-        x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
-          x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
+        x.isAfter(ihtProperties.dateOfPredeceasedForTnrbEligibility) ||
+          x.isEqual(ihtProperties.dateOfPredeceasedForTnrbEligibility)
 
       applicationDetails.widowCheck.flatMap(_.dateOfPreDeceased).fold(false) {
         dateOfPreDeceased => !preDeceasedDiedEligible(dateOfPreDeceased)
@@ -755,11 +755,11 @@ object ApplicationKickOutHelper {
   lazy val checksBackend: FunctionListMap = ListMap(
     TnrbEstateMoreThanThreshold -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.netValueAfterExemptionAndDebtsForPositiveExemption >
-        2 * IhtProperties.tnrbThresholdLimit
+        2 * ihtProperties.tnrbThresholdLimit
     },
     AssetsTotalValueMoreThanThresholdAfterExemption -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.netValueAfterExemptionAndDebtsForPositiveExemption >
-        IhtProperties.exemptionsThresholdValue && applicationDetails.increaseIhtThreshold.isEmpty &&
+        ihtProperties.exemptionsThresholdValue && applicationDetails.increaseIhtThreshold.isEmpty &&
         CommonHelper.isExemptionsCompleted(registrationDetails, applicationDetails)
     }
   )

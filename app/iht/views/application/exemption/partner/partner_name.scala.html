@@ -36,7 +36,7 @@ headingClass = "heading-large") {
 'autoComplete -> "off"){
 
 @ihtHelpers.standard.input_with_help(partnerExemptionNameForm("firstName"),
-'_maxlength -> IhtProperties.validationMaxLengthFirstName,
+'_maxlength -> ihtProperties.validationMaxLengthFirstName,
 '_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
@@ -44,7 +44,7 @@ headingClass = "heading-large") {
 '_help -> Html(Messages("iht.firstName.hint")))
 
 @ihtHelpers.standard.input_with_help(partnerExemptionNameForm("lastName"),
-'_maxlength -> IhtProperties.validationMaxLengthLastName,
+'_maxlength -> ihtProperties.validationMaxLengthLastName,
 '_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",

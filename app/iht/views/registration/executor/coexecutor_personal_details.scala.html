@@ -44,7 +44,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
     <input type="hidden" name="id" value='@coExecutorDetails.data.get("id")'>
 
       @ihtHelpers.standard.input_with_help(coExecutorDetails("firstName"),
-          '_maxlength -> IhtProperties.validationMaxLengthFirstName,
+          '_maxlength -> ihtProperties.validationMaxLengthFirstName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -52,7 +52,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_help -> Html(Messages("iht.firstName.hint")))
 
       @ihtHelpers.standard.input_with_help(coExecutorDetails("lastName"),
-          '_maxlength -> IhtProperties.validationMaxLengthLastName,
+          '_maxlength -> ihtProperties.validationMaxLengthLastName,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
@@ -78,7 +78,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
 
 
       @ihtHelpers.standard.input_with_help(coExecutorDetails("phoneNo"),
-          '_maxlength -> IhtProperties.validationMaxLengthPhoneNo,
+          '_maxlength -> ihtProperties.validationMaxLengthPhoneNo,
           '_divClass -> "form-group",
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",

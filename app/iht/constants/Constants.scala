@@ -18,19 +18,21 @@ package iht.constants
 
 import java.net.URL
 import java.nio.file.{Path, Paths}
+import javax.inject.{Inject, Singleton}
 
-import play.api.Play
-import play.api.Play.current
+import iht.utils.CommonHelper
+import play.api.Environment
 
 import scala.collection.immutable.ListMap
-import iht.constants.IhtProperties._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by dbeer on 04/08/15.
   */
-object Constants {
+@Singleton
+class Constants @Inject() (
+                            val env: Environment,
+                            val ihtProperties:IhtProperties
+                          ) {
 
   val insurancePolicyFormFieldsWithExtraContentLineInErrorSummary = Set(
     "policyInDeceasedName", "isJointlyOwned", "isInsurancePremiumsPayedForSomeoneElse", "isAnnuitiesBought", "isInTrust"
@@ -73,7 +75,7 @@ object Constants {
 
   val MaxIterationValueForGiftYears = 8
 
-  val PDFHMRCGuidance: URL = Play.classloader.getResource("pdf/151001 Notes to help you fill in IHT online - final - for DDCN.pdf")
+  val PDFHMRCGuidance: URL = CommonHelper.getOrException(env.resource("pdf/151001 Notes to help you fill in IHT online - final - for DDCN.pdf"))
   val pDFHMRCGuidance: Path = Paths.get(PDFHMRCGuidance.toURI)
 
   val yesAnswer = "Yes"
@@ -109,25 +111,25 @@ object Constants {
   lazy val moreThan1million = "more-than-1million"
 
   lazy val ETMPAssetCodesToIHTMessageKeys = ListMap(
-    ETMPAssetCodeMoney -> "iht.estateReport.assets.money.upperCaseInitial",
-    ETMPAssetCodeHouseHold -> "iht.estateReport.assets.householdAndPersonalItems.title",
-    ETMPAssetCodePrivatePension -> "iht.estateReport.assets.privatePensions",
-    ETMPAssetCodeStockShareNotListed -> "iht.estateReport.assets.stocksAndSharesNotListed",
-    ETMPAssetCodeStockShareListed -> "iht.estateReport.assets.stocksAndSharesListed",
-    ETMPAssetCodeInsurancePolicy -> "iht.estateReport.assets.insurancePolicies",
-    ETMPAssetCodeBusinessInterest -> "iht.estateReport.assets.businessInterests.title",
-    ETMPAssetCodeNominatedAsset -> "iht.estateReport.assets.nominated",
-    ETMPAssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
-    ETMPAssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
-    ETMPAssetCodeOtherAsset -> "page.iht.application.assets.main-section.other.title",
-    ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title",
-    ETMPAssetCodeDeceasedsHome -> "page.iht.application.assets.propertyType.deceasedHome.label"
+    ihtProperties.ETMPAssetCodeMoney -> "iht.estateReport.assets.money.upperCaseInitial",
+    ihtProperties.ETMPAssetCodeHouseHold -> "iht.estateReport.assets.householdAndPersonalItems.title",
+    ihtProperties.ETMPAssetCodePrivatePension -> "iht.estateReport.assets.privatePensions",
+    ihtProperties.ETMPAssetCodeStockShareNotListed -> "iht.estateReport.assets.stocksAndSharesNotListed",
+    ihtProperties.ETMPAssetCodeStockShareListed -> "iht.estateReport.assets.stocksAndSharesListed",
+    ihtProperties.ETMPAssetCodeInsurancePolicy -> "iht.estateReport.assets.insurancePolicies",
+    ihtProperties.ETMPAssetCodeBusinessInterest -> "iht.estateReport.assets.businessInterests.title",
+    ihtProperties.ETMPAssetCodeNominatedAsset -> "iht.estateReport.assets.nominated",
+    ihtProperties.ETMPAssetCodeForeignAsset -> "iht.estateReport.assets.foreign.title",
+    ihtProperties.ETMPAssetCodeMoneyOwed -> "iht.estateReport.assets.moneyOwed",
+    ihtProperties.ETMPAssetCodeOtherAsset -> "page.iht.application.assets.main-section.other.title",
+    ihtProperties.ETMPAssetCodeTrust -> "iht.estateReport.assets.heldInATrust.title",
+    ihtProperties.ETMPAssetCodeDeceasedsHome -> "page.iht.application.assets.propertyType.deceasedHome.label"
   )
 
   lazy val ETMPExemptionTypesToIHTMessageKeys = ListMap(
-    ETMPExemptionTypeCharity -> "pdf.exemption.charity",
-    ETMPExemptionTypeSpouse -> "pdf.exemption.spouse",
-    ETMPExemptionTypeGNCP -> "pdf.exemption.otherQualifyingBodies"
+    ihtProperties.ETMPExemptionTypeCharity -> "pdf.exemption.charity",
+    ihtProperties.ETMPExemptionTypeSpouse -> "pdf.exemption.spouse",
+    ihtProperties.ETMPExemptionTypeGNCP -> "pdf.exemption.otherQualifyingBodies"
   )
 
   lazy val  NINO= "customerNino"

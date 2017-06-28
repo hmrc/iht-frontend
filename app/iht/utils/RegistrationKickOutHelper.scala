@@ -45,8 +45,8 @@ object RegistrationKickOutHelper {
 
   def kickoutReasonDeceasedDateOfDeathInternal(deceasedDateOfDeath:DeceasedDateOfDeath): Option[String] =
     deceasedDateOfDeath.dateOfDeath match {
-    case x if IhtProperties.dateOfDeathMinValidationDate.compareTo(deceasedDateOfDeath.dateOfDeath) > 0 => Some(KickoutDeceasedDateOfDeathDateCapitalTax)
-    case x if IhtProperties.dateOfDeathMaxValidationDate.compareTo(deceasedDateOfDeath.dateOfDeath) > 0 => Some(KickoutDeceasedDateOfDeathDateOther)
+    case x if ihtProperties.dateOfDeathMinValidationDate.compareTo(deceasedDateOfDeath.dateOfDeath) > 0 => Some(KickoutDeceasedDateOfDeathDateCapitalTax)
+    case x if ihtProperties.dateOfDeathMaxValidationDate.compareTo(deceasedDateOfDeath.dateOfDeath) > 0 => Some(KickoutDeceasedDateOfDeathDateOther)
     case _ => None
   }
 
@@ -55,16 +55,16 @@ object RegistrationKickOutHelper {
 
   def kickoutReasonDeceasedDetails(rd: RegistrationDetails): Option[String] =
     rd.deceasedDetails.flatMap(_.domicile).flatMap{
-      case IhtProperties.domicileEnglandOrWales => None
-      case IhtProperties.domicileScotland => Some(KickoutDeceasedDetailsLocationScotland)
-      case IhtProperties.domicileNorthernIreland => Some(KickoutDeceasedDetailsLocationNI)
+      case ihtProperties.domicileEnglandOrWales => None
+      case ihtProperties.domicileScotland => Some(KickoutDeceasedDetailsLocationScotland)
+      case ihtProperties.domicileNorthernIreland => Some(KickoutDeceasedDetailsLocationNI)
       case _ => Some(KickoutDeceasedDetailsLocationOther)
   }
 
   def kickoutReasonApplicantDetails(rd: RegistrationDetails): Option[String] = {
     rd.applicantDetails.flatMap(_.country).flatMap{
-      case IhtProperties.applicantCountryScotland => Some(RegistrationKickOutHelper.KickoutApplicantDetailsProbateScotland)
-      case IhtProperties.applicantCountryNorthernIreland => Some(RegistrationKickOutHelper.KickoutApplicantDetailsProbateNi)
+      case ihtProperties.applicantCountryScotland => Some(RegistrationKickOutHelper.KickoutApplicantDetailsProbateScotland)
+      case ihtProperties.applicantCountryNorthernIreland => Some(RegistrationKickOutHelper.KickoutApplicantDetailsProbateNi)
       case _ => None
     }
   }

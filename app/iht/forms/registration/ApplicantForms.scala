@@ -26,7 +26,10 @@ import play.api.data.{Form, Mapping}
 import play.api.i18n.Messages
 
 @Singleton
-class ApplicantForms @Inject() (val ihtFormValidator: IhtFormValidator) {
+class ApplicantForms @Inject() (
+                                 val ihtFormValidator: IhtFormValidator,
+                                 val fieldMappings: FieldMappings
+                               ) {
 
   val applyingForProbateForm = Form(
     mapping(
@@ -42,7 +45,7 @@ class ApplicantForms @Inject() (val ihtFormValidator: IhtFormValidator) {
 
   def probateLocationForm(implicit messages: Messages) = Form(
     mapping(
-      "country" -> of(ihtFormValidator.radioOptionString("error.applicantProbateLocation.select", FieldMappings.applicantCountryMap))
+      "country" -> of(ihtFormValidator.radioOptionString("error.applicantProbateLocation.select", fieldMappings.applicantCountryMap))
     )
     (
       (country) => ApplicantDetails(country = country)

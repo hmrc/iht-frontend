@@ -29,8 +29,8 @@ object DeclarationHelper {
     val totalAssetsValue = appDetails.totalAssetsValue
     val totalGiftsValue = appDetails.totalGiftsValue
     val totalExemptionsValue = appDetails.totalExemptionsValue
-    val thresholdValue = IhtProperties.exemptionsThresholdValue
-    val tnrbThresholdValue = IhtProperties.transferredNilRateBand
+    val thresholdValue = ihtProperties.exemptionsThresholdValue
+    val tnrbThresholdValue = ihtProperties.transferredNilRateBand
 
     if(totalAssetsValue + totalGiftsValue <= thresholdValue
       && totalExemptionsValue == BigDecimal(0) && appDetails.increaseIhtThreshold.isEmpty) {

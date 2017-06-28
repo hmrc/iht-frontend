@@ -36,7 +36,7 @@ case class ApplicantDetails(firstName: Option[String] = None,
                             ukAddress: Option[UkAddress] = None,
                             phoneNo: Option[String] = None,
                             country: Option[String] = None,
-                            role: Option[String] = Some(IhtProperties.roleLeadExecutor),
+                            role: Option[String] = Some(ihtProperties.roleLeadExecutor),
                             doesLiveInUK: Option[Boolean] = None,
                             isApplyingForProbate: Option[Boolean] = None
                            ) {
@@ -99,7 +99,7 @@ case class CoExecutor(id: Option[String] = None,
                       utr: Option[String] = None,
                       ukAddress: Option[UkAddress] = None,
                       contactDetails: ContactDetails,
-                      role: Option[String] = Some(IhtProperties.roleExecutor),
+                      role: Option[String] = Some(ihtProperties.roleExecutor),
                       isAddressInUk: Option[Boolean] = None) {
 
 

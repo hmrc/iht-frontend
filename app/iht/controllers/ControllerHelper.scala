@@ -62,9 +62,9 @@ object ControllerHelper {
   // accessed via this route.
   val noBackLinkAvailableKey = "NoBackLinkAvailable"
 
-  val TaxThreshold = IhtProperties.taxThreshold
-  val GrossEstateLimit = IhtProperties.grossEstateLimit
-  val TransferredNilRateBand = IhtProperties.transferredNilRateBand
+  val TaxThreshold = ihtProperties.taxThreshold
+  val GrossEstateLimit = ihtProperties.grossEstateLimit
+  val TransferredNilRateBand = ihtProperties.transferredNilRateBand
 
   // Values to differentiate timeout and system error
   val errorRequestTimeOut = "requestTimeOut"

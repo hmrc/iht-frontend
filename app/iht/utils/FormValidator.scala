@@ -16,17 +16,19 @@
 
 package iht.utils
 
+import javax.inject.Inject
+
 import iht.constants.IhtProperties
 import org.joda.time.LocalDate
 import play.api.data.Forms._
+import play.api.data._
 import play.api.data.format.Formatter
 import play.api.data.validation._
-import play.api.data._
 import uk.gov.hmrc.play.validators.Validators._
 
 import scala.collection.immutable.ListMap
 
-trait FormValidator {
+class FormValidator @Inject() (ihtProperties:IhtProperties) {
   protected val ninoRegex = """(?i)(^$|^(?!BG|GB|KN|NK|NT|TN|ZZ)([A-Z]{2})[0-9]{6}[A-D]?$)"""
   // scalastyle:off line.size.limit
   protected val postCodeFormat = "(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))"
@@ -34,7 +36,7 @@ trait FormValidator {
   protected val phoneNoFormat = "^[A-Z0-9 \\)\\/\\(\\-\\*#]{1,27}$"
   protected lazy val moneyFormatSimple = """^(\d{1,10}+([.]\d{1,2})?)$""".r
 
-  lazy val countryCodes = IhtProperties.validCountryCodes
+  lazy val countryCodes = ihtProperties.validCountryCodes
 
   def validateCountryCode(x: String) = countryCodes.contains(x.toUpperCase)
 
@@ -112,7 +114,7 @@ trait FormValidator {
           t match {
             case p if p.length == 0 => Left(Seq(FormError(key, blankValueMessageKey)))
             case num => {
-              if (num.length > IhtProperties.validationMaxLengthPhoneNo) {
+              if (num.length > ihtProperties.validationMaxLengthPhoneNo) {
                 Left(Seq(FormError(key, invalidLengthMessageKey)))
               } else if (!validatePhoneNumber(num)) {
                 Left(Seq(FormError(key, invalidValueMessageKey)))
@@ -140,7 +142,7 @@ trait FormValidator {
           t match {
             case p if p.length == 0 => Left(Seq(FormError(key, blankValueMessageKey)))
             case num =>
-              if (num.length > IhtProperties.validationMaxLengthPhoneNo) {
+              if (num.length > ihtProperties.validationMaxLengthPhoneNo) {
                 Left(Seq(FormError(key, invalidLengthMessageKey)))
               } else if (!validatePhoneNumber(num)) {
                 Left(Seq(FormError(key, invalidValueMessageKey)))
@@ -173,7 +175,7 @@ trait FormValidator {
 
 
   def ihtIsPostcodeLengthValid(value: String) = {
-    value.length <= IhtProperties.validationMaxLengthPostcode && isPostcodeLengthValid(value)
+    value.length <= ihtProperties.validationMaxLengthPostcode && isPostcodeLengthValid(value)
   }
 
 

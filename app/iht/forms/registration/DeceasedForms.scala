@@ -31,7 +31,8 @@ import play.api.i18n.Messages
 class DeceasedForms @Inject() (
                                 val ihtFormValidator: IhtFormValidator,
                                 val ihtProperties: IhtProperties,
-                                val dateMapping: DateMapping
+                                val dateMapping: DateMapping,
+                                val fieldMappings: FieldMappings
                               ) {
 
   val deceasedDateOfDeathForm = Form(
@@ -42,7 +43,7 @@ class DeceasedForms @Inject() (
 
   def deceasedPermanentHomeForm(implicit messages: Messages): Form[DeceasedDetails] = Form(
     mapping(
-      "domicile" -> of(ihtFormValidator.radioOptionString("error.deceasedPermanentHome.selectLocation", FieldMappings.domicileMap))
+      "domicile" -> of(ihtFormValidator.radioOptionString("error.deceasedPermanentHome.selectLocation", fieldMappings.domicileMap))
     )
     (
       (domicile) => DeceasedDetails(None, None, None, None, None, None, domicile, None, None)
@@ -61,7 +62,7 @@ class DeceasedForms @Inject() (
       "nino" -> ihtFormValidator.nino,
       "dateOfBirth" -> dateMapping.dateOfBirth
         .verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => ihtFormValidator.isDobBeforeDod(dateOfDeath, x)),
-      "maritalStatus" -> of(ihtFormValidator.radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages))))
+      "maritalStatus" -> of(ihtFormValidator.radioOptionString("error.deceasedMaritalStatus.select", fieldMappings.maritalStatusMap(messages))))
     (
       (firstName, lastName, nino, dateOfBirth, maritalStatus) =>
         DeceasedDetails(Some(firstName), None, Some(lastName), Some(nino), None, Some(dateOfBirth), None, maritalStatus, None)

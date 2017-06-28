@@ -26,10 +26,10 @@ object GiftsHelper {
   def createPreviousYearsGiftsLists(dateOfDeath: LocalDate): Seq[PreviousYearsGifts] = {
     def previousYearsGifts(dateOfDeath: LocalDate): Seq[PreviousYearsGifts] = {
       val startingDate = new LocalDate(dateOfDeath.getYear,
-        IhtProperties.giftsStartMonth,
-        IhtProperties.giftsStartDay)
+        ihtProperties.giftsStartMonth,
+        ihtProperties.giftsStartDay)
 
-      val giftYears = IhtProperties.giftsYears
+      val giftYears = ihtProperties.giftsYears
       val noOfYearsToCalculate = if(startingDate.minusDays(1).isEqual(dateOfDeath)) { giftYears } else {giftYears + 1}
       val sevenYearsPriorDate = dateOfDeath.minusYears(giftYears).plusDays(1)
 

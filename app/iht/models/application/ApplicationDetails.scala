@@ -368,7 +368,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   }
 
   def currentThreshold: BigDecimal =
-    if (isSuccessfulTnrbCase) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
+    if (isSuccessfulTnrbCase) ihtProperties.transferredNilRateBand else ihtProperties.exemptionsThresholdValue
 
   def isEstateOverThreshold: Boolean = netValueAfterExemptionAndDebtsForPositiveExemption > currentThreshold
 }

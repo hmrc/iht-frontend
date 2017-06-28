@@ -134,7 +134,7 @@ object CommonHelper {
   def isDateWithInRange(date: LocalDate): Boolean = {
     val dateString = date.toString
     val dateTime = new DateTime(dateString)
-    val dateRange = dateTime.dayOfMonth.withMaximumValue.plusMonths(IhtProperties.DateRangeMonths).toLocalDate
+    val dateRange = dateTime.dayOfMonth.withMaximumValue.plusMonths(ihtProperties.DateRangeMonths).toLocalDate
     LocalDate.now().compareTo(dateRange) < 0
   }
 
@@ -177,8 +177,8 @@ object CommonHelper {
     * Check the Predeceased Date Of Death Tnrb Eligibility
     */
   def preDeceasedDiedEligible(x: LocalDate) =
-    x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
-      x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
+    x.isAfter(ihtProperties.dateOfPredeceasedForTnrbEligibility) ||
+      x.isEqual(ihtProperties.dateOfPredeceasedForTnrbEligibility)
 
   /**
     * Iterates through ListMap of ApplicationDetails->Boolean functions, executing each one in turn, passing in the
@@ -228,7 +228,7 @@ object CommonHelper {
     if (getOrException(rd.deceasedDetails.map(_.maritalStatus)) == statusMarried) newValueMarried else newValueNotMarried
 
   def getDateBeforeSevenYears(date: LocalDate) = {
-    date.minusYears(IhtProperties.giftsYears.toInt).plusDays(1)
+    date.minusYears(ihtProperties.giftsYears.toInt).plusDays(1)
   }
 
   def mapBigDecimalPair(first: Option[BigDecimal],
@@ -358,7 +358,7 @@ object CommonHelper {
     */
   def isExemptionsCompleted(rd: RegistrationDetails,
                             ad: ApplicationDetails) = {
-    !rd.deceasedDetails.flatMap(_.maritalStatus).contains(IhtProperties.statusMarried) match {
+    !rd.deceasedDetails.flatMap(_.maritalStatus).contains(ihtProperties.statusMarried) match {
       case true => ad.isExemptionsCompletedWithoutPartnerExemption
       case false => ad.isExemptionsCompleted
     }
@@ -474,7 +474,7 @@ object CommonHelper {
     for (namePart <- nameArr) {
       var subparts = namePart.split("-")
       for (subpart <- subparts) {
-        if (subpart.length > IhtProperties.hyphenateNamesLength) {
+        if (subpart.length > ihtProperties.hyphenateNamesLength) {
           restrictName = true;
         }
       }

@@ -173,7 +173,7 @@ class DateMapping {
     )
   )
 
-  val dateOfBirth: Mapping[LocalDate] = DateMapping(
+  val dateOfBirth: Mapping[LocalDate] = apply(
     "error.dateOfBirth.giveFull",
     "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",
     "error.dateOfBirth.giveCorrectDay",
@@ -187,7 +187,7 @@ class DateMapping {
     "error.dateOfBirth.giveCorrectMonthYear"
   )
 
-  val dateOfDeath: Mapping[LocalDate] = DateMapping(
+  val dateOfDeath: Mapping[LocalDate] = apply(
     "error.dateOfDeath.giveFull",
     "error.dateOfDeath.giveCorrectDateUsingOnlyNumbers",
     "error.dateOfDeath.giveCorrectDay",
@@ -201,7 +201,7 @@ class DateMapping {
     "error.dateOfDeath.giveCorrectMonthYear"
   )
 
-  val dateOfMarriage: Mapping[LocalDate] = DateMapping(
+  val dateOfMarriage: Mapping[LocalDate] = apply(
     "error.dateOfMarriage.giveFull",
     "error.dateOfMarriage.giveCorrectDateUsingOnlyNumbers",
     "error.dateOfMarriage.giveCorrectDay",

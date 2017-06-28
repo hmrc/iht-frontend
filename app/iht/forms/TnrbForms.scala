@@ -32,7 +32,10 @@ import play.api.data.validation.{Constraint, Invalid, Valid}
  *
  */
 @Singleton
-class TnrbForms @Inject() (val ihtFormValidator:IhtFormValidator){
+class TnrbForms @Inject() (
+                            val ihtFormValidator:IhtFormValidator,
+                            dateMapping: DateMapping
+                          ){
   // Widow check form.
   private def isWidowedRequiredConstraint: Constraint[WidowCheck] = Constraint({
     case WidowCheck(None, _) => Invalid("error.selectAnswer")
@@ -126,7 +129,7 @@ class TnrbForms @Inject() (val ihtFormValidator:IhtFormValidator){
   )
 
   val deceasedWidowCheckDateForm = Form(mapping(
-    "dateOfPreDeceased" -> DateMapping.dateOfDeath
+    "dateOfPreDeceased" -> dateMapping.dateOfDeath
   )(
     (dateOfPreDeceased) => WidowCheck(None, Some(dateOfPreDeceased))
   )
@@ -149,7 +152,7 @@ class TnrbForms @Inject() (val ihtFormValidator:IhtFormValidator){
   )
 
   val dateOfMarriageForm = Form(mapping(
-    "dateOfMarriage" -> DateMapping.dateOfMarriage
+    "dateOfMarriage" -> dateMapping.dateOfMarriage
   )(
     (dateOfMarriage) => TnrbEligibiltyModel(None, None, None, None ,None, None, None, None, None, Some(dateOfMarriage), None)
   )

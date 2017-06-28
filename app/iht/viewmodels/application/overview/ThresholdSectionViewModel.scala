@@ -17,7 +17,7 @@
 package iht.viewmodels.application.overview
 
 import iht.constants.IhtProperties
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
@@ -57,7 +57,7 @@ object ThresholdSectionViewModel {
         .fold[LocalDate](new LocalDate)(identity))
 
       CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus match {
-        case Some(IhtProperties.statusSingle) => false
+        case Some(ihtProperties.statusSingle) => false
         case _ => !thresholdIncreaseSectionAccessed && claimDateInRange
       }
     }

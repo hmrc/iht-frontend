@@ -76,7 +76,7 @@ trait QuestionnaireController extends FrontendController with IhtActions {
             nino = CommonHelper.getNinoFromSession(request).fold("")(identity)
           )
           explicitAuditConnector.sendEvent(questionnaireEvent)
-          Redirect(IhtProperties.linkGovUkIht)
+          Redirect(ihtProperties.linkGovUkIht)
         }
       )
   }

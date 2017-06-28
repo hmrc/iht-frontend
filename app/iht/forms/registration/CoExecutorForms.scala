@@ -29,12 +29,11 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
 
-//object CoExecutorForms extends CoExecutorForms
-
 @Singleton
 class CoExecutorForms @Inject() (
                                   val ihtFormValidator:IhtFormValidator,
-                                  val ihtProperties: IhtProperties
+                                  val ihtProperties: IhtProperties,
+                                  val dateMapping: DateMapping
                                 ) {
   val addressMappingCoexecInternational: Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtFormValidator.ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
@@ -72,7 +71,7 @@ class CoExecutorForms @Inject() (
       "lastName" -> ihtFormValidator.ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess",
           f => f.length <= ihtProperties.validationMaxLengthLastName),
-      "dateOfBirth" -> DateMapping(
+      "dateOfBirth" -> dateMapping(
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",
         "error.dateOfBirth.giveCorrectDay",
@@ -115,7 +114,7 @@ class CoExecutorForms @Inject() (
       "lastName" -> ihtFormValidator.ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess",
           f => f.length <= ihtProperties.validationMaxLengthLastName),
-      "dateOfBirth" -> DateMapping(
+      "dateOfBirth" -> dateMapping(
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",
         "error.dateOfBirth.giveCorrectDay",

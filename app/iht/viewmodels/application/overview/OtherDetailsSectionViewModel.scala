@@ -20,7 +20,7 @@ import iht.models.application.ApplicationDetails
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 
 case class OtherDetailsSectionViewModel(debtRow: OverviewRow,
                                         showClaimExemptionLink: Boolean,

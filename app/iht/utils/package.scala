@@ -55,13 +55,13 @@ package object utils {
    */
   def additionalApplicantType(role:String): String = {
 
-    val roleAdmin = IhtProperties.roleAdministrator
-    val roleLeadExecutor = IhtProperties.roleLeadExecutor
+    val roleAdmin = ihtProperties.roleAdministrator
+    val roleLeadExecutor = ihtProperties.roleLeadExecutor
 
     if (role == roleAdmin) {
-      IhtProperties.roleAdministrator
+      ihtProperties.roleAdministrator
     } else if (role == roleLeadExecutor) {
-      IhtProperties.roleExecutor
+      ihtProperties.roleExecutor
     } else {
       role
     }
@@ -71,12 +71,12 @@ package object utils {
    * Get sequence of country code and country name
    */
   def countryCodes(implicit lang: play.api.i18n.Lang): Seq[(String, String)] = {
-    lazy val countryCodes = IhtProperties.validCountryCodes
+    lazy val countryCodes = ihtProperties.validCountryCodes
     countryCodes.map(x => (x, Messages(s"country.$x"))).sortWith(_._2 < _._2)
   }
 
   def internationalCountries(implicit lang: play.api.i18n.Lang): Seq[(String, String)] =
-    countryCodes filter {case(key, _) => key != IhtProperties.ukIsoCountryCode}
+    countryCodes filter {case(key, _) => key != ihtProperties.ukIsoCountryCode}
 
   /*
    * Get country name from country code
