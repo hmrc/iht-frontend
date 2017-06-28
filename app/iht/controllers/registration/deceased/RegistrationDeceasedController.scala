@@ -19,8 +19,6 @@ package iht.controllers.registration.deceased
 import iht.controllers.registration.RegistrationBaseController
 import iht.models.{DeceasedDetails, RegistrationDetails}
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 trait RegistrationDeceasedController extends RegistrationBaseController[DeceasedDetails] {
   def fillForm(rd: RegistrationDetails): Form[DeceasedDetails] =

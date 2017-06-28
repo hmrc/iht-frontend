@@ -246,7 +246,7 @@ object CommonHelper {
     }
   }
 
-  def previousYearsGiftsAccessibility(element: PreviousYearsGifts) = {
+  def previousYearsGiftsAccessibility(element: PreviousYearsGifts)(implicit messages:Messages) = {
     val messageFileSectionKey = "page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader"
     val startDate = getOrException(element.startDate)
     val endDate = getOrException(element.endDate)
@@ -255,25 +255,25 @@ object CommonHelper {
     val amountAddedToEstate = totalGifts - totalExemptions
 
     mapBigDecimalPair(element.value, element.exemptions,
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))
+      messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
+      messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))
   }
 
   def previousYearsGiftsAccessibilityTotals(totalPastYearsGifts: BigDecimal,
                                             totalExemptionsValue: BigDecimal,
                                             totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
-                                            elements: Seq[PreviousYearsGifts]): Option[(String, String, String)] = {
+                                            elements: Seq[PreviousYearsGifts])(implicit messages:Messages): Option[(String, String, String)] = {
     val messageFileSectionKey = "page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total"
     val sortedGifts = elements.sortWith((a, b) => getOrException(a.startDate) < getOrException(b.startDate))
     val earliestDate = getOrException(sortedGifts.head.startDate)
     val latestDate = getOrException(sortedGifts.reverse.head.endDate)
 
     Some(
-      (Messages(s"$messageFileSectionKey.gifts.screenReader", earliestDate, latestDate, totalPastYearsGifts),
-        Messages(s"$messageFileSectionKey.exemptions.screenReader", earliestDate, latestDate, totalExemptionsValue),
-        Messages(s"$messageFileSectionKey.estate.screenReader", earliestDate, latestDate, totalPastYearsGiftsValueExcludingExemptions))
+      (messages(s"$messageFileSectionKey.gifts.screenReader", earliestDate, latestDate, totalPastYearsGifts),
+        messages(s"$messageFileSectionKey.exemptions.screenReader", earliestDate, latestDate, totalExemptionsValue),
+        messages(s"$messageFileSectionKey.estate.screenReader", earliestDate, latestDate, totalPastYearsGiftsValueExcludingExemptions))
     )
   }
 
@@ -282,7 +282,7 @@ object CommonHelper {
 
   def isSectionComplete[T](inputSection: Seq[Option[T]]) = inputSection.forall(_.isDefined)
 
-  def getMessageKeyValueOrBlank(key: String) = if (key.length == 0) key else Messages(key)
+  def getMessageKeyValueOrBlank(key: String)(implicit messages: Messages) = if (key.length == 0) key else messages(key)
 
   def withValue[A, B](value: A)(func: A => B) = func(value)
 
@@ -452,15 +452,15 @@ object CommonHelper {
   }
 
   def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails,
-                                     wrapName: Boolean = false): String =
+                                     wrapName: Boolean = false)(implicit messages: Messages): String =
     if (wrapName) {
-      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
+      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)).toString
     } else {
-      regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
+      regDetails.deceasedDetails.fold(messages("iht.the.deceased"))(_.name)
     }
 
-  def getDeceasedNameOrDefaultString(deceasedName: Option[String]): String = {
-    deceasedName.fold(Messages("iht.the.deceased")) { identity }
+  def getDeceasedNameOrDefaultString(deceasedName: Option[String])(implicit messages: Messages): String = {
+    deceasedName.fold(messages("iht.the.deceased")) { identity }
   }
   /**
     * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)

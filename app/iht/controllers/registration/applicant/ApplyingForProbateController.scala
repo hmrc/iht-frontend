@@ -23,9 +23,7 @@ import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, RegistrationDetails}
 import iht.utils.{CommonHelper, RegistrationKickOutHelper}
 import iht.views.html.registration.{applicant => views}
-import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import play.api.mvc.{AnyContent, Request}
 
@@ -44,19 +42,19 @@ class ApplyingForProbateController @Inject()(val messagesApi: MessagesApi) exten
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applying_for_probate(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applying_for_probate(form, CommonHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applying_for_probate(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applying_for_probate(form, CommonHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, messagesApi.preferred(request)))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
     val x = rd.applicantDetails.getOrElse(new ApplicantDetails) copy (

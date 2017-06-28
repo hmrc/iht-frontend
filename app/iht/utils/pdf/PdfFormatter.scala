@@ -16,23 +16,20 @@
 
 package iht.utils.pdf
 
-import javax.inject.{Singleton, Inject}
+import javax.inject.Singleton
+
 import iht.constants.FieldMappings.maritalStatusMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import models.des.iht_return.{Asset, Exemption, IHTReturn}
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
 
 import scala.collection.immutable.ListMap
 
-/**
-  * Created by vineet on 13/06/16.
-  */
-object PdfFormatter {
+@Singleton
+class PdfFormatter {
 
   def getYearFromDate(inputDate: String): Int = {
     val jodadate = LocalDate.parse(inputDate)
@@ -42,9 +39,9 @@ object PdfFormatter {
   /*
    * Get country name from country code
    */
-  def countryName(countryCode: String): String = {
+  def countryName(countryCode: String)(implicit messages: Messages): String = {
     val input = s"country.$countryCode"
-    Messages(s"country.$countryCode") match {
+    messages(s"country.$countryCode") match {
       case `input` => {
         ""
       }

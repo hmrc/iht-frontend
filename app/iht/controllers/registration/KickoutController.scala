@@ -24,8 +24,6 @@ import iht.models.enums.KickOutSource
 import iht.utils.CommonHelper
 import iht.utils.RegistrationKickOutHelper._
 import iht.views.html.registration.kickout._
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat
@@ -38,24 +36,24 @@ class KickoutController @Inject()(val metrics: Metrics, val messagesApi: Message
 
   def probateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
-    iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad())(contentLines)(request, applicationMessages)
+    iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad())(contentLines)(request, messagesApi.preferred(request))
 
   def locationKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.deceasedDetails.kickout.location.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad())(contentLines)(request, applicationMessages)
+    iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad())(contentLines)(request, messagesApi.preferred(request))
 
   def capitalTaxKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
     iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad(),
-      messages("iht.registration.kickout.returnToTheDateOfDeath"))(contentLines)(request, applicationMessages)
+      messages("iht.registration.kickout.returnToTheDateOfDeath"))(contentLines)(request, messagesApi.preferred(request))
 
   def dateOtherKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request, applicationMessages)
+    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request, messagesApi.preferred(request))
 
   def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages, deceasedName: String) =
     kickout_template(messages("page.iht.registration.notApplyingForProbate.kickout.summary", deceasedName),
-    iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad())(contentLines)(request, applicationMessages)
+    iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad())(contentLines)(request, messagesApi.preferred(request))
 
   def content(implicit messages:Messages, deceasedName: String): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->
@@ -104,9 +102,8 @@ class KickoutController @Inject()(val metrics: Metrics, val messagesApi: Message
     implicit user => implicit request => {
       withRegistrationDetails { regDetails =>
         cachingConnector.getSingleValue(RegistrationKickoutReasonCachingKey) map { reason => {
-          val messages = Messages.Implicits.applicationMessages
           val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
-          Ok(content(messages, deceasedName)(CommonHelper.getOrException(reason))(request))
+          Ok(content(messagesApi.preferred(request), deceasedName)(CommonHelper.getOrException(reason))(request))
         }
         }
       }

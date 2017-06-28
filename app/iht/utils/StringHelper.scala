@@ -50,9 +50,9 @@ object StringHelper {
     }
   }
 
-  def yesNoFormat(v: Option[Boolean]): String = v match {
-    case Some(true) => Messages("iht.yes")
-    case Some(false) => Messages("iht.no")
+  def yesNoFormat(v: Option[Boolean])(implicit messages: Messages): String = v match {
+    case Some(true) => messages("iht.yes")
+    case Some(false) => messages("iht.no")
     case _ => ""
   }
 

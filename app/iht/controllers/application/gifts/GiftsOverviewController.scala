@@ -44,7 +44,7 @@ class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends Es
   }
 
   private def withReservationYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) =  {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd, true)
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd, true)(messages)
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isReservation, routes.WithReservationOfBenefitController.onPageLoad(),
         _.allGifts.flatMap(_.isReservation).fold(false)(_ => true),
@@ -55,7 +55,7 @@ class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends Es
   }
 
   private def sevenYearsYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) = {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd, true)
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd, true)(messages)
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isGivenInLast7Years, routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
         _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => true),
@@ -106,7 +106,7 @@ class GiftsOverviewController @Inject()(val messagesApi: MessagesApi) extends Es
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
                                    allGifts: AllGifts)(implicit messages:Messages) = {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)
+    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)(messages)
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
       title = None,
