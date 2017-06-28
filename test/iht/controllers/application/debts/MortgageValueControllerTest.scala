@@ -50,7 +50,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
     override val isWhiteListEnabled = false
   }
 
-  def mortgageValueControllerNotAuthorised = new MortgageValueController{
+  def mortgageValueControllerNotAuthorised = new MortgageValueController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector

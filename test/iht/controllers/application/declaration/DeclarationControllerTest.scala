@@ -54,7 +54,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     mockedMetrics
   }
 
-  def declarationController = new DeclarationController(metrics, messagesApi) {
+  def declarationController = new DeclarationController(metrics, messagesApi, app) {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector()
@@ -62,7 +62,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override val isWhiteListEnabled = false
   }
 
-  def declarationControllerNotAuthorised = new DeclarationController(metrics, messagesApi) {
+  def declarationControllerNotAuthorised = new DeclarationController(metrics, messagesApi, app) {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)

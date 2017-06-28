@@ -31,14 +31,14 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def qualifyingBodyDetailsOverviewController = new QualifyingBodyDetailsOverviewController {
+  def qualifyingBodyDetailsOverviewController = new QualifyingBodyDetailsOverviewController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }
 
-  def qualifyingBodyDetailsOverviewControllerNotAuthorised = new QualifyingBodyDetailsOverviewController {
+  def qualifyingBodyDetailsOverviewControllerNotAuthorised = new QualifyingBodyDetailsOverviewController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector

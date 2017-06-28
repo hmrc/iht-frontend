@@ -37,14 +37,14 @@ class ExemptionsGuidanceControllerTest extends ApplicationControllerTest with Ht
   val mockIhtConnector = mock[IhtConnector]
 
   // Create controller object and pass in mock.
-  def exemptionsGuidanceController = new ExemptionsGuidanceController {
+  def exemptionsGuidanceController = new ExemptionsGuidanceController (messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val isWhiteListEnabled = false
   }
 
-  def exemptionsGuidanceControllerNotAuthorised = new ExemptionsGuidanceController {
+  def exemptionsGuidanceControllerNotAuthorised = new ExemptionsGuidanceController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)

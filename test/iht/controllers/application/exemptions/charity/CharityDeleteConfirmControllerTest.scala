@@ -36,13 +36,13 @@ class CharityDeleteConfirmControllerTest extends ApplicationControllerTest with 
     mockIhtConnector = mock[IhtConnector]
   }
 
-  def charityDeleteConfirmController = new CharityDeleteConfirmController {
+  def charityDeleteConfirmController = new CharityDeleteConfirmController (messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def charityDeleteControllerNotAuthorised = new CharityDeleteConfirmController {
+  def charityDeleteControllerNotAuthorised = new CharityDeleteConfirmController (messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

@@ -35,13 +35,13 @@ class PartnerOverviewControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def partnerOverviewController = new PartnerOverviewController {
+  def partnerOverviewController = new PartnerOverviewController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def partnerOverviewControllerNotAuthorised = new PartnerOverviewController {
+  def partnerOverviewControllerNotAuthorised = new PartnerOverviewController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

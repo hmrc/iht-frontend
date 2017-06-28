@@ -47,13 +47,13 @@ class QualifyingBodyNameControllerTest extends ApplicationControllerTest with Be
     mockIhtConnector = mock[IhtConnector]
   }
 
-  def qualifyingBodyNameController = new QualifyingBodyNameController {
+  def qualifyingBodyNameController = new QualifyingBodyNameController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def qualifyingBodyNameControllerNotAuthorised = new QualifyingBodyNameController {
+  def qualifyingBodyNameControllerNotAuthorised = new QualifyingBodyNameController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

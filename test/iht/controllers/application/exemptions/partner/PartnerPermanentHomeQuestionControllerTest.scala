@@ -38,13 +38,13 @@ class PartnerPermanentHomeQuestionControllerTest extends ApplicationControllerTe
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def partnerPermanentHomeQuestionController = new PartnerPermanentHomeQuestionController {
+  def partnerPermanentHomeQuestionController = new PartnerPermanentHomeQuestionController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def partnerPermanentHomeQuestionControllerNotAuthorised = new PartnerPermanentHomeQuestionController {
+  def partnerPermanentHomeQuestionControllerNotAuthorised = new PartnerPermanentHomeQuestionController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

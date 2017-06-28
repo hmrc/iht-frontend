@@ -35,14 +35,14 @@ class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationCon
   val mockIhtConnector = mock[IhtConnector]
 
   // Create controller object and pass in mock.
-  def controller = new ExemptionsGuidanceIncreasingThresholdController {
+  def controller = new ExemptionsGuidanceIncreasingThresholdController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val isWhiteListEnabled = false
   }
 
-  def controllerNotAuthorised = new ExemptionsGuidanceIncreasingThresholdController {
+  def controllerNotAuthorised = new ExemptionsGuidanceIncreasingThresholdController (messagesApi){
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)

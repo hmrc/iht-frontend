@@ -34,13 +34,13 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def assetsLeftToCharityQuestionController = new AssetsLeftToCharityQuestionController {
+  def assetsLeftToCharityQuestionController = new AssetsLeftToCharityQuestionController (metrics, messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def assetsLeftToCharityQuestionControllerNotAuthorised = new AssetsLeftToCharityQuestionController {
+  def assetsLeftToCharityQuestionControllerNotAuthorised = new AssetsLeftToCharityQuestionController(metrics, messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

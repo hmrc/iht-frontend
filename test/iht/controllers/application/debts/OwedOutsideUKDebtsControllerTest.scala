@@ -35,7 +35,7 @@ class OwedOutsideUKDebtsControllerTest extends ApplicationControllerTest{
     override val ihtConnector = mockIhtConnector
   }
 
-  def debtsOutsideUkControllerNotAuthorised = new OwedOutsideUKDebtsController {
+  def debtsOutsideUkControllerNotAuthorised = new OwedOutsideUKDebtsController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

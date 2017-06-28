@@ -35,13 +35,13 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
   var mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
-  def charityNumberController = new CharityNumberController {
+  def charityNumberController = new CharityNumberController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def charityNumberControllerNotAuthorised = new CharityNumberController {
+  def charityNumberControllerNotAuthorised = new CharityNumberController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
@@ -180,7 +180,7 @@ class CharityNumberControllerTest extends ApplicationControllerTest with BeforeA
     "save application, update charity and  go to Charity Details Overview page on submit in edit mode" in {
       val mockIhtConnectorTemp: IhtConnector = mock[IhtConnector]
       val mockCachingConnectorTemp: CachingConnector = mock[CachingConnector]
-      def charityNumberControllerTemp = new CharityNumberController {
+      def charityNumberControllerTemp = new CharityNumberController(messagesApi) {
         override val authConnector = createFakeAuthConnector(isAuthorised = true)
         override val cachingConnector = mockCachingConnectorTemp
         override val ihtConnector = mockIhtConnectorTemp

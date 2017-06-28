@@ -33,13 +33,13 @@ class WithReservationOfBenefitControllerTest  extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def withReservationOfBenefitController = new WithReservationOfBenefitController {
+  def withReservationOfBenefitController = new WithReservationOfBenefitController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def withReservationOfBenefitControllerNotAuthorised = new WithReservationOfBenefitController {
+  def withReservationOfBenefitControllerNotAuthorised = new WithReservationOfBenefitController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

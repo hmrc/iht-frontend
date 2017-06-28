@@ -37,13 +37,13 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
     mockIhtConnector = mock[IhtConnector]
   }
 
-  def qualifyingBodyDeleteConfirmController = new QualifyingBodyDeleteConfirmController {
+  def qualifyingBodyDeleteConfirmController = new QualifyingBodyDeleteConfirmController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def qualifyingBodyDeleteControllerNotAuthorised = new QualifyingBodyDeleteConfirmController {
+  def qualifyingBodyDeleteControllerNotAuthorised = new QualifyingBodyDeleteConfirmController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

@@ -35,13 +35,13 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def assetsLeftToQualifyingBodyQuestionController = new AssetsLeftToQualifyingBodyQuestionController {
+  def assetsLeftToQualifyingBodyQuestionController = new AssetsLeftToQualifyingBodyQuestionController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def assetsLeftToQualifyingBodyQuestionControllerNotAuthorised = new AssetsLeftToQualifyingBodyQuestionController {
+  def assetsLeftToQualifyingBodyQuestionControllerNotAuthorised = new AssetsLeftToQualifyingBodyQuestionController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

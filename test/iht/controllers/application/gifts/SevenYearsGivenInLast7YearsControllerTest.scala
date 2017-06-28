@@ -37,13 +37,13 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def sevenYearsGivenInLast7YearsController = new SevenYearsGivenInLast7YearsController {
+  def sevenYearsGivenInLast7YearsController = new SevenYearsGivenInLast7YearsController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def sevenYearsGivenInLast7YearsControllerNotAuthorised = new SevenYearsGivenInLast7YearsController {
+  def sevenYearsGivenInLast7YearsControllerNotAuthorised = new SevenYearsGivenInLast7YearsController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

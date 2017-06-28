@@ -37,14 +37,12 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector()
     override val isWhiteListEnabled = false
-    def ihtConnector = mockIhtConnector
   }
 
   def declarationReceivedControllerNotAuthorised = new DeclarationReceivedController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val isWhiteListEnabled = false
-    def ihtConnector = mockIhtConnector
   }
 
   "Declaration Received " must {

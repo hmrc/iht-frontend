@@ -34,14 +34,14 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def charityDetailsOverviewController = new CharityDetailsOverviewController {
+  def charityDetailsOverviewController = new CharityDetailsOverviewController (messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }
 
-  def charityDetailsOverviewControllerNotAuthorised = new CharityDetailsOverviewController {
+  def charityDetailsOverviewControllerNotAuthorised = new CharityDetailsOverviewController (messagesApi){
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector

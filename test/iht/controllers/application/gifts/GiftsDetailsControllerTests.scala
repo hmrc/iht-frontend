@@ -48,16 +48,14 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
     )
 
   // Create gift details controller object and pass in mock.
-  def giftsDetailsController = new GiftsDetailsController {
-    def metrics : Metrics = Metrics
+  def giftsDetailsController = new GiftsDetailsController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }
 
-  def giftsDetailsControllerNotAuthorised = new GiftsDetailsController {
-    def metrics : Metrics = Metrics
+  def giftsDetailsControllerNotAuthorised = new GiftsDetailsController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector
