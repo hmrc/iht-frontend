@@ -38,7 +38,7 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 @Singleton
-class XmlFoToPDF @Inject() (env:Environment) {
+class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResolver) {
   private val filePathForFOPConfig = "pdf/fop.xconf"
   private val folderForPDFTemplates = "pdf/templates"
   private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance/main.xsl"
@@ -198,7 +198,6 @@ class XmlFoToPDF @Inject() (env:Environment) {
 
   private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {
     val BASEURI = new File(".").toURI
-    val fopURIResolver = new FopURIResolver
     CommonHelper.getOrException(env.resourceAsStream(filePathForFOPConfig).map { is =>
       val confBuilder = new FopConfParser(is,
         EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder

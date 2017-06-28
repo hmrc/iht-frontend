@@ -18,24 +18,19 @@ package iht.utils.pdf
 
 import java.io.OutputStream
 import java.net.URI
+import javax.inject.{Inject, Singleton}
 
 import org.apache.xmlgraphics.io.{Resource, ResourceResolver}
-import play.api.{Logger, Play}
-import play.api.Play.current
+import play.api.{Environment, Logger}
 
-/**
-  * Created by david-beer on 25/10/16.
-  */
-object FopURIResolver extends FopURIResolver
-
-class FopURIResolver extends ResourceResolver {
-
+@Singleton
+class FopURIResolver @Inject() (env:Environment) extends ResourceResolver {
   override def getOutputStream(uri: URI): OutputStream = ???
 
   override def getResource(uri: URI): Resource = {
     Logger.info("URI to convert to resource " + uri.toASCIIString)
     val resource: String = uri.getPath.substring(uri.getPath.lastIndexOf("/pdf") + 1)
-    Option(Play.classloader.getResourceAsStream(resource)) match {
+    env.resourceAsStream(resource) match {
       case None =>
         Logger.info ("No input stream")
         throw new RuntimeException("No input stream available for FOP resource")
