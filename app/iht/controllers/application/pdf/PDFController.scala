@@ -32,7 +32,7 @@ import uk.gov.hmrc.play.http.HeaderCarrier
 import scala.concurrent.Future
 
 @Singleton
-class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationController with IhtActions with I18nSupport {
+class PDFController @Inject()(val xmlFoToPDF: XmlFoToPDF, val messagesApi: MessagesApi) extends ApplicationController with IhtActions with I18nSupport {
   private def pdfHeaders(fileName: String): Seq[(String, String)] =
     IhtProperties.pdfStaticHeaders :+ Tuple2(CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
 
@@ -44,7 +44,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
         val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
         withApplicationDetails { regDetails =>
           applicationDetails =>
-            val pdfByteArray = XmlFoToPDF.createPreSubmissionPDF(
+            val pdfByteArray = xmlFoToPDF.createPreSubmissionPDF(
               regDetails,
               applicationDetails,
               DeclarationHelper.getDeclarationType(applicationDetails), messages)
@@ -66,7 +66,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
             getSubmittedApplicationDetails(nino,
               registrationDetails, messages) map {
               case Some(ihtReturn) =>
-                val pdfByteArray = XmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
+                val pdfByteArray = xmlFoToPDF.createClearancePDF(registrationDetails, CommonHelper.getOrException(
                   ihtReturn.declaration, "No declaration found").declarationDate.getOrElse(
                   throw new RuntimeException("Declaration Date not available")), messages)
                 Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
@@ -90,7 +90,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
             ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
               getSubmittedApplicationDetails(nino, regDetails, messages) map {
                 case Some(ihtReturn) =>
-                  val pdfByteArray = XmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
+                  val pdfByteArray = xmlFoToPDF.createPostSubmissionPDF(regDetails, ihtReturn, messages)
                   Ok(pdfByteArray).withHeaders(pdfHeaders(fileName): _*)
                 case _ =>
                   internalServerError

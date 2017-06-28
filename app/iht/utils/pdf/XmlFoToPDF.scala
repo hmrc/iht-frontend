@@ -17,11 +17,11 @@
 package iht.utils.pdf
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File}
+import javax.inject.{Inject, Singleton}
 import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
-import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.tnrb.TnrbHelper
@@ -33,18 +33,12 @@ import org.apache.fop.events.model.EventSeverity
 import org.apache.fop.events.{Event, EventFormatter, EventListener}
 import org.apache.xmlgraphics.util.MimeConstants
 import org.joda.time.LocalDate
-import play.api.Play.current
+import play.api.{Environment, Logger}
 import play.api.i18n.Messages
-import play.api.{Logger, Play}
-import play.i18n.Lang
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
-/**
-  * Created by david-beer on 07/06/16.
-  */
-object XmlFoToPDF extends XmlFoToPDF
-
-trait XmlFoToPDF {
+@Singleton
+class XmlFoToPDF @Inject() (env:Environment) {
   private val filePathForFOPConfig = "pdf/fop.xconf"
   private val folderForPDFTemplates = "pdf/templates"
   private val filePathForClearanceXSL = s"$folderForPDFTemplates/clearance/main.xsl"
@@ -100,75 +94,79 @@ trait XmlFoToPDF {
   private def createClearanceTransformer(registrationDetails: RegistrationDetails,
                                          declarationDate: LocalDate,
                                          messages: Messages): Transformer = {
-    val template: StreamSource = new StreamSource(
-      Play.classloader.getResourceAsStream(filePathForClearanceXSL))
-    val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-    transformerFactory.setURIResolver(new StylesheetResolver)
-    val transformer: Transformer = transformerFactory.newTransformer(template)
-    setupTransformerEventHandling(transformer)
+    CommonHelper.getOrException(env.resourceAsStream(filePathForClearanceXSL).map { is =>
+      val template: StreamSource = new StreamSource(is)
+      val transformerFactory: TransformerFactory = TransformerFactory.newInstance
+      transformerFactory.setURIResolver(new StylesheetResolver)
+      val transformer: Transformer = transformerFactory.newTransformer(template)
+      setupTransformerEventHandling(transformer)
 
-    setupCommonTransformerParameters(transformer, messages)
-    transformer.setParameter("declaration-date", Dates.formatDate(declarationDate)(messages.lang))
-    transformer
+      setupCommonTransformerParameters(transformer, messages)
+      transformer.setParameter("declaration-date", Dates.formatDate(declarationDate)(messages.lang))
+      transformer
+    })
   }
 
   private def createPreSubmissionTransformer(registrationDetails: RegistrationDetails,
                                              applicationDetails: ApplicationDetails,
                                              messages: Messages): Transformer = {
-    val template: StreamSource = new StreamSource(Play.classloader
-      .getResourceAsStream(filePathForPreSubmissionXSL))
-    val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-    transformerFactory.setURIResolver(new StylesheetResolver)
-    val transformer: Transformer = transformerFactory.newTransformer(template)
-    setupTransformerEventHandling(transformer)
-    val preDeceasedName = applicationDetails.increaseIhtThreshold.map(
-      xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)).fold("")(identity)
+    CommonHelper.getOrException(env.resourceAsStream(filePathForPreSubmissionXSL).map { is =>
+      val template: StreamSource = new StreamSource(is)
+      val transformerFactory: TransformerFactory = TransformerFactory.newInstance
+      transformerFactory.setURIResolver(new StylesheetResolver)
+      val transformer: Transformer = transformerFactory.newTransformer(template)
+      setupTransformerEventHandling(transformer)
+      val preDeceasedName = applicationDetails.increaseIhtThreshold.map(
+        xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)).fold("")(identity)
 
-    val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
-    val dateOfPredeceased = applicationDetails.widowCheck.flatMap { x => x.dateOfPreDeceased }
+      val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
+      val dateOfPredeceased = applicationDetails.widowCheck.flatMap { x => x.dateOfPreDeceased }
 
-    setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
-      applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalExemptionsValue,
-      applicationDetails.totalGiftsValue, messages)
+      setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
+        applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalExemptionsValue,
+        applicationDetails.totalGiftsValue, messages)
 
-    transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
-    transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
-    transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
-    transformer.setParameter("estateValue", applicationDetails.totalNetValue)
-    transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
-    transformer.setParameter("marriedOrCivilPartnershipLabel",
-      TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
-    transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
-    transformer
+      transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
+      transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
+      transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
+      transformer.setParameter("estateValue", applicationDetails.totalNetValue)
+      transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
+      transformer.setParameter("marriedOrCivilPartnershipLabel",
+        TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
+      transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
+      transformer
+    })
   }
 
   private def createPostSubmissionTransformer(registrationDetails: RegistrationDetails,
                                               ihtReturn: IHTReturn,
                                               messages: Messages): Transformer = {
-    val templateSource: StreamSource = new StreamSource(Play.classloader.getResourceAsStream(filePathForPostSubmissionXSL))
-    val transformerFactory: TransformerFactory = TransformerFactory.newInstance
-    transformerFactory.setURIResolver(new StylesheetResolver)
-    val transformer: Transformer = transformerFactory.newTransformer(templateSource)
-    setupTransformerEventHandling(transformer)
-    val preDeceasedName = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head
-      .spouse.map(xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)))).fold("")(identity)
-    val dateOfMarriage: LocalDate = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head.spouse.
-      flatMap(_.dateOfMarriage))).fold(new LocalDate)(identity)
-    val declarationDate: LocalDate = CommonHelper.getOrException(ihtReturn.declaration, "No declaration found").declarationDate.
-      getOrElse(throw new RuntimeException("Declaration Date not available"))
+    CommonHelper.getOrException(env.resourceAsStream(filePathForPostSubmissionXSL).map { is =>
+      val templateSource: StreamSource = new StreamSource(is)
+      val transformerFactory: TransformerFactory = TransformerFactory.newInstance
+      transformerFactory.setURIResolver(new StylesheetResolver)
+      val transformer: Transformer = transformerFactory.newTransformer(templateSource)
+      setupTransformerEventHandling(transformer)
+      val preDeceasedName = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head
+        .spouse.map(xx => xx.firstName.fold("")(identity) + " " + xx.lastName.fold("")(identity)))).fold("")(identity)
+      val dateOfMarriage: LocalDate = ihtReturn.deceased.flatMap(_.transferOfNilRateBand.flatMap(_.deceasedSpouses.head.spouse.
+        flatMap(_.dateOfMarriage))).fold(new LocalDate)(identity)
+      val declarationDate: LocalDate = CommonHelper.getOrException(ihtReturn.declaration, "No declaration found").declarationDate.
+        getOrElse(throw new RuntimeException("Declaration Date not available"))
 
-    setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, Option(dateOfMarriage),
-      ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
-      ihtReturn.totalGiftsValue, messages)
+      setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, Option(dateOfMarriage),
+        ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
+        ihtReturn.totalGiftsValue, messages)
 
-    transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
-    transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
-    transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
-    transformer.setParameter("estateValue", ihtReturn.totalNetValue)
-    transformer.setParameter("thresholdValue", ihtReturn.currentThreshold)
+      transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
+      transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
+      transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
+      transformer.setParameter("estateValue", ihtReturn.totalNetValue)
+      transformer.setParameter("thresholdValue", ihtReturn.currentThreshold)
 
 
-    transformer
+      transformer
+    })
   }
 
   private def setupCommonTransformerParameters(transformer: Transformer, messages: Messages): Unit = {
@@ -201,14 +199,16 @@ trait XmlFoToPDF {
   private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {
     val BASEURI = new File(".").toURI
     val fopURIResolver = new FopURIResolver
-    val confBuilder = new FopConfParser(Play.classloader.getResourceAsStream(filePathForFOPConfig),
-      EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder
-    val fopFactory: FopFactory = confBuilder.build
-    val foUserAgent: FOUserAgent = fopFactory.newFOUserAgent
+    CommonHelper.getOrException(env.resourceAsStream(filePathForFOPConfig).map { is =>
+      val confBuilder = new FopConfParser(is,
+        EnvironmentalProfileFactory.createRestrictedIO(BASEURI, fopURIResolver)).getFopFactoryBuilder
+      val fopFactory: FopFactory = confBuilder.build
+      val foUserAgent: FOUserAgent = fopFactory.newFOUserAgent
 
-    setupFOPEventHandling(foUserAgent)
+      setupFOPEventHandling(foUserAgent)
 
-    fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, pdfoutStream)
+      fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, pdfoutStream)
+    })
   }
 
   private def setupTransformerEventHandling(transformer: Transformer) = {
