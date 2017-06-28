@@ -46,8 +46,6 @@ headingName: String = "",
 isRegistration: Boolean = false
 )(mainContent: Html)(implicit messages: Messages)
 
-@lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
-
 @headingClassName() = @{
     if(headingClass != ""){
         headingClass
@@ -109,6 +107,19 @@ isRegistration: Boolean = false
     }
 }
 
+@languageMap = @{
+    Map("english" -> Lang("en"),
+        "cymraeg" -> Lang("cy"))
+}
+
+@langToCall(lang: String) = @{
+    if(ApplicationConfig.isWelshEnabled) {
+        iht.controllers.routes.CustomLanguageController.switchToLanguage(lang)
+    } else {
+        iht.controllers.routes.CustomLanguageController.switchToLanguage("english")
+    }
+}
+
 @commonContentHeader = {
     @subTitle.map{ st =>
         <h3 class="heading-medium subTitle">@st</h3>
@@ -117,8 +128,8 @@ isRegistration: Boolean = false
     @if(ApplicationConfig.isWelshEnabled){
         @{
             views.html.language_selection(
-                lc.languageMap,
-                lc.langToCall,
+                languageMap,
+                langToCall,
                 Some("align-right")
             )
         }
