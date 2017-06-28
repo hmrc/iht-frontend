@@ -24,8 +24,6 @@ import org.joda.time.LocalDate
 import scala.util.{Failure, Try}
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 sealed abstract class RowCompletionStatus
@@ -134,13 +132,13 @@ object EstateOverviewViewModel {
       )
   }
 
-  private def buildTotalRow(applicationDetails: ApplicationDetails) = {
+  private def buildTotalRow(applicationDetails: ApplicationDetails)(implicit messages: Messages, lang : play.api.i18n.Lang) = {
     (applicationDetails.hasSeenExemptionGuidance, applicationDetails.isValueEnteredForExemptions) match {
       case (Some(hasSeen), isEntered) if hasSeen || isEntered => Some(OverviewRowWithoutLink(
         id = "grand-total-section",
         label = applicationDetails.totalExemptionsValueOption match {
-          case Some(x) if x > 0 => Messages("page.iht.application.estateOverview.totalValueOfTheEstate")
-          case _ => Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")
+          case Some(x) if x > 0 => messages("page.iht.application.estateOverview.totalValueOfTheEstate")
+          case _ => messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")
         },
         value = applicationDetails.totalExemptionsValueOption match {
           case Some(x) if x > 0 => DisplayValue(CurrentValue(applicationDetails.totalNetValue.max(0)))

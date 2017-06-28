@@ -132,7 +132,7 @@ class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResol
       transformer.setParameter("estateValue", applicationDetails.totalNetValue)
       transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
       transformer.setParameter("marriedOrCivilPartnershipLabel",
-        TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
+        TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased)(messages))
       transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
       transformer
     })
@@ -193,7 +193,7 @@ class XmlFoToPDF @Inject() (val env:Environment, val fopURIResolver: FopURIResol
     transformer.setParameter("giftsTotal", totalPastYearsGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("preDeceasedName", preDeceasedName)
-    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
+    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage)(messages))
   }
 
   private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {
