@@ -35,13 +35,13 @@ class SevenYearsToTrustControllerTest  extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def sevenYearsToTrustController = new SevenYearsToTrustController {
+  def sevenYearsToTrustController = new SevenYearsToTrustController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def sevenYearsToTrustControllerNotAuthorised = new SevenYearsToTrustController {
+  def sevenYearsToTrustControllerNotAuthorised = new SevenYearsToTrustController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

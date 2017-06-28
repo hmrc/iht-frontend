@@ -38,13 +38,13 @@ class PartnerNinoControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def partnerNinoController = new PartnerNinoController {
+  def partnerNinoController = new PartnerNinoController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def partnerNinoControllerNotAuthorised = new PartnerNinoController {
+  def partnerNinoControllerNotAuthorised = new PartnerNinoController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

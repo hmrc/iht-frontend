@@ -39,13 +39,13 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
-  def assetsLeftToPartnerQuestionController = new AssetsLeftToPartnerQuestionController {
+  def assetsLeftToPartnerQuestionController = new AssetsLeftToPartnerQuestionController((messagesApi)) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def assetsLeftToPartnerQuestionControllerNotAuthorised = new AssetsLeftToPartnerQuestionController {
+  def assetsLeftToPartnerQuestionControllerNotAuthorised = new AssetsLeftToPartnerQuestionController((messagesApi)) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

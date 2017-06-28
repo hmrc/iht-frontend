@@ -42,14 +42,14 @@ class SevenYearsGiftsValuesControllerTest extends ApplicationControllerTest with
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def sevenYearsGiftsValuesController = new SevenYearsGiftsValuesController {
+  def sevenYearsGiftsValuesController = new SevenYearsGiftsValuesController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }
 
-  def sevenYearsGiftsValuesControllerNotAuthorised = new SevenYearsGiftsValuesController {
+  def sevenYearsGiftsValuesControllerNotAuthorised = new SevenYearsGiftsValuesController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector

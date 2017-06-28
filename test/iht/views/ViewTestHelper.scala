@@ -16,6 +16,7 @@
 
 package iht.views
 
+import iht.metrics.Metrics
 import iht.models.UkAddress
 import iht.testhelpers.ContentChecker
 import iht.utils.CommonHelper
@@ -42,6 +43,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   val messageKeysDelimiter = ", "
 
   implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val metrics = app.injector.instanceOf[Metrics]
 
   def titleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
     val doc = asDocument(pageContent)

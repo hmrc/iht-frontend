@@ -37,14 +37,14 @@ class PartnerDateOfBirthControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def partnerDateOfBirthController = new PartnerDateOfBirthController {
+  def partnerDateOfBirthController = new PartnerDateOfBirthController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }
 
-  def partnerDateOfBirthControllerNotAuthorised = new PartnerDateOfBirthController {
+  def partnerDateOfBirthControllerNotAuthorised = new PartnerDateOfBirthController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector

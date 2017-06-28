@@ -42,13 +42,13 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
     mockIhtConnector = mock[IhtConnector]
   }
 
-  def qualifyingBodyValueController = new QualifyingBodyValueController {
+  def qualifyingBodyValueController = new QualifyingBodyValueController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def qualifyingBodyValueControllerNotAuthorised = new QualifyingBodyValueController {
+  def qualifyingBodyValueControllerNotAuthorised = new QualifyingBodyValueController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

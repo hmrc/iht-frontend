@@ -38,13 +38,13 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
   var mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
-  def giftsOverviewController = new GiftsOverviewController {
+  def giftsOverviewController = new GiftsOverviewController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def giftsOverviewControllerNotAuthorised = new GiftsOverviewController {
+  def giftsOverviewControllerNotAuthorised = new GiftsOverviewController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

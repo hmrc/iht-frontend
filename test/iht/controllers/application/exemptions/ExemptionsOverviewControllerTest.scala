@@ -36,12 +36,12 @@ class ExemptionsOverviewControllerTest extends ApplicationControllerTest with Be
   var mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
-  def exemptionsSummaryController = new ExemptionsOverviewController {
+  def exemptionsSummaryController = new ExemptionsOverviewController (messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
-  def exemptionsSummaryControllerNotAuthorised = new ExemptionsOverviewController {
+  def exemptionsSummaryControllerNotAuthorised = new ExemptionsOverviewController (messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

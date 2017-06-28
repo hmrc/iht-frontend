@@ -36,14 +36,14 @@ class ExemptionPartnerNameControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def partnerNameController = new ExemptionPartnerNameController {
+  def partnerNameController = new ExemptionPartnerNameController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }
 
-  def partnerNameControllerNotAuthorised = new ExemptionPartnerNameController {
+  def partnerNameControllerNotAuthorised = new ExemptionPartnerNameController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val ihtConnector = mockIhtConnector

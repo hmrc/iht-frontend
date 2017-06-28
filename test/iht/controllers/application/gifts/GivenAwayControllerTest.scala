@@ -54,13 +54,13 @@ class GivenAwayControllerTest  extends ApplicationControllerTest{
       saveAppDetails = true)
   }
 
-  def givenAwayController = new GivenAwayController {
+  def givenAwayController = new GivenAwayController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def givenAwayControllerNotAuthorised = new GivenAwayController {
+  def givenAwayControllerNotAuthorised = new GivenAwayController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

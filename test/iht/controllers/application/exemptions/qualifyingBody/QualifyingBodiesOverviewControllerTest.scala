@@ -70,7 +70,7 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
 
   def controllerNotAuthorised = getController(authorised = false)
 
-  private def getController(authorised: Boolean = true) = new QualifyingBodiesOverviewController {
+  private def getController(authorised: Boolean = true) = new QualifyingBodiesOverviewController(messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = authorised)

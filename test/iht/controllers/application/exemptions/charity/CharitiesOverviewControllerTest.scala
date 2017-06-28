@@ -45,14 +45,14 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
     allExemptions = Some(CommonBuilder.buildAllExemptions.copy(
       charity = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true))))))
 
-  def charitiesOverviewController = new CharitiesOverviewController {
+  def charitiesOverviewController = new CharitiesOverviewController (messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
   }
 
-  def charitiesOverviewControllerNotAuthorised = new CharitiesOverviewController {
+  def charitiesOverviewControllerNotAuthorised = new CharitiesOverviewController (messagesApi) {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector

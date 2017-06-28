@@ -47,13 +47,13 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
       storeAppDetailsInCache = true)
   }
 
-  def partnerValueController = new PartnerValueController {
+  def partnerValueController = new PartnerValueController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def partnerValueControllerNotAuthorised = new PartnerValueController {
+  def partnerValueControllerNotAuthorised = new PartnerValueController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector

@@ -41,13 +41,13 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
     mockIhtConnector = mock[IhtConnector]
   }
 
-  def assetsLeftToCharityValueController = new CharityValueController {
+  def assetsLeftToCharityValueController = new CharityValueController(messagesApi){
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
   }
 
-  def assetsLeftToCharityValueControllerNotAuthorised = new CharityValueController {
+  def assetsLeftToCharityValueControllerNotAuthorised = new CharityValueController(messagesApi) {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
