@@ -18,7 +18,7 @@ package iht.controllers.application.assets.trusts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -28,9 +28,11 @@ import iht.views.html.application.asset.trusts.trusts_value
 import play.api.i18n.MessagesApi
 
 @Singleton
-class TrustsValueController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class TrustsValueController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsValueID))
+  val submitUrl = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(),
+      Some(ihtProperties.AssetsTrustsValueID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsTrustsValue)
 
   def onPageLoad = authorisedForIht {

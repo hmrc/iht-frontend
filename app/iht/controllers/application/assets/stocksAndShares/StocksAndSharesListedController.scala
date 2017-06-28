@@ -18,7 +18,7 @@ package iht.controllers.application.assets.stocksAndShares
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -28,9 +28,11 @@ import iht.views.html.application.asset.stocksAndShares.stocks_and_shares_listed
 import play.api.i18n.MessagesApi
 
 @Singleton
-class StocksAndSharesListedController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class StocksAndSharesListedController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsStocksAndSharesListed)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(), Some(AssetsStocksListedID))
+  val submitUrl = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(),
+    Some(ihtProperties.AssetsStocksListedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

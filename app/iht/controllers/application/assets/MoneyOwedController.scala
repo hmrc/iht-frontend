@@ -18,7 +18,7 @@ package iht.controllers.application.assets
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -29,7 +29,7 @@ import iht.views.html.application.asset._
 import play.api.i18n.MessagesApi
 
 @Singleton
-class MoneyOwedController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class MoneyOwedController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed)
 
   def onPageLoad = authorisedForIht {
@@ -57,7 +57,7 @@ class MoneyOwedController @Inject()(val messagesApi: MessagesApi) extends Estate
       estateElementOnSubmit[BasicEstateElement](moneyOwedForm,
         money_owed.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionMoneyOwedID))
+        CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(ihtProperties.AppSectionMoneyOwedID))
       )
     }
   }

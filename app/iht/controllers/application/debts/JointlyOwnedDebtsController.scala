@@ -18,7 +18,7 @@ package iht.controllers.application.debts
 
 import javax.inject.Inject
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -27,7 +27,7 @@ import iht.utils.CommonHelper
 import iht.views.html.application.debts.jointly_owned
 import play.api.i18n.MessagesApi
 
-class JointlyOwnedDebtsController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class JointlyOwnedDebtsController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
       estateElementOnPageLoad[BasicEstateElementLiabilities](jointlyOwnedDebts,
@@ -54,7 +54,7 @@ class JointlyOwnedDebtsController @Inject()(val messagesApi: MessagesApi) extend
         jointlyOwnedDebts,
         jointly_owned.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedJointlyID))
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(ihtProperties.DebtsOwedJointlyID))
       )
     }
   }

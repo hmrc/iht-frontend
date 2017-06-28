@@ -18,7 +18,7 @@ package iht.controllers.application.assets.vehicles
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -29,9 +29,11 @@ import iht.views.html.application.asset.vehicles.vehicles_deceased_own
 import play.api.i18n.MessagesApi
 
 @Singleton
-class VehiclesDeceasedOwnController @Inject()(val messagesApi: MessagesApi) extends EstateController {
+class VehiclesDeceasedOwnController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsVehiclesDeceasedOwned)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(), Some(AssetsVehiclesOwnID))
+  val submitUrl = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(),
+      Some(ihtProperties.AssetsVehiclesOwnID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

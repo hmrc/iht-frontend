@@ -18,7 +18,7 @@ package iht.controllers.application.assets.trusts
 
 import javax.inject.{Inject, Singleton}
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -29,8 +29,9 @@ import play.api.i18n.MessagesApi
 
 
 @Singleton
-class TrustsOwnedQuestionController @Inject()(val messagesApi: MessagesApi) extends EstateController {
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsBenefitedID))
+class TrustsOwnedQuestionController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+  val submitUrl = CommonHelper
+    .addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(ihtProperties.AssetsTrustsBenefitedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
@@ -63,7 +64,7 @@ class TrustsOwnedQuestionController @Inject()(val messagesApi: MessagesApi) exte
         updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.heldInTrust).flatMap(_.isOwned) match {
           case Some(true) => submitUrl
-          case Some(false) => CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionHeldInTrustID))
+          case Some(false) => CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(ihtProperties.AppSectionHeldInTrustID))
           case _ => throw new RuntimeException("Held in trust value does not exist")
         }
       )

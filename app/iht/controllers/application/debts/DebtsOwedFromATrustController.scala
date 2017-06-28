@@ -18,7 +18,7 @@ package iht.controllers.application.debts
 
 import javax.inject.Inject
 
-import iht.constants.IhtProperties._
+import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
@@ -26,9 +26,8 @@ import iht.models.application.debts._
 import iht.utils.CommonHelper
 import iht.views.html.application.debts._
 import play.api.i18n.MessagesApi
-import javax.inject.{Inject, Singleton}
 
-class DebtsOwedFromATrustController @Inject() (implicit val messagesApi: MessagesApi) extends EstateController {
+class DebtsOwedFromATrustController @Inject() (implicit val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>
@@ -56,7 +55,7 @@ class DebtsOwedFromATrustController @Inject() (implicit val messagesApi: Message
       estateElementOnSubmit[BasicEstateElementLiabilities](debtsTrustForm,
         owed_from_trust.apply,
         updateApplicationDetails,
-        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(DebtsOwedFromTrustID))
+        CommonHelper.addFragmentIdentifier(debtsRedirectLocation, Some(ihtProperties.DebtsOwedFromTrustID))
       )
     }
   }
