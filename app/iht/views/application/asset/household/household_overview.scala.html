@@ -25,7 +25,7 @@
 @import scala.collection.immutable.Seq
 @import iht.utils.CommonHelper
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @(household:Option[ShareableBasicEstateElement],
   registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -124,7 +124,7 @@ isFullWidth=false
              @ihtHelpers.custom.return_link(
                 messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                AppSectionHouseholdID
+                ihtProperties.AppSectionHouseholdID
             )
         }
      </div>

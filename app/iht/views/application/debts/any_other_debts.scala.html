@@ -15,7 +15,7 @@
 *@
 
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 @import iht.models._
 @import iht.models.application.debts.BasicEstateElementLiabilities
 @import iht.utils.CommonHelper
@@ -30,7 +30,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(anyOtherDebtsForm, AppSectionDebtsOther)
+    @ihtHelpers.custom.error_summary_override_keys(anyOtherDebtsForm, ihtProperties.AppSectionDebtsOther)
 
     @helpers.form(action = iht.controllers.application.debts.routes.AnyOtherDebtsController.onSubmit, 'autoComplete -> "off") {
 

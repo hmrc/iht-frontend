@@ -21,7 +21,7 @@
 @import iht.models.application.assets.HeldInTrust
 @import iht.utils.CommonHelper
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @(trustsOwnedQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -56,7 +56,7 @@ headingClass = "heading-large"){
             @ihtHelpers.custom.return_link(
                 Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                AppSectionHeldInTrustID
+                ihtProperties.AppSectionHeldInTrustID
             )
         }
 }

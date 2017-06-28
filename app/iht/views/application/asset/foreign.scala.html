@@ -21,7 +21,7 @@
 
 @import iht.utils._
 @import iht.constants.Constants
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 @import iht.utils.CommonHelper
 
 @(foreignForm: Form[BasicEstateElement],
@@ -56,7 +56,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
             @ihtHelpers.custom.return_link(
                 Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                AppSectionForeignID
+                ihtProperties.AppSectionForeignID
             )
         }
     }

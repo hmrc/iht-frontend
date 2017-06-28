@@ -24,7 +24,7 @@
 @import iht.utils._
 @import iht.utils.OverviewHelper._
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @(appDetails:ApplicationDetails,
 exemptions:AllExemptions,
@@ -59,7 +59,7 @@ headingName = deceasedName) {
                 title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
                 name= "partner",
                 id = ExemptionsPartnerID,
-                value = displayValue(appDetails, AppSectionExemptionsPartnerTotalAssets, isComplete, Some("site.noAssetsLeft")),
+                value = displayValue(appDetails, ihtProperties.AppSectionExemptionsPartnerTotalAssets, isComplete, Some("site.noAssetsLeft")),
                 valueScreenReader = "",
                 link = if(exemptions.partner.fold(false){
                     partner => partner.isAssetForDeceasedPartner.isDefined && partner.isPartnerHomeInUK.isDefined
@@ -96,7 +96,7 @@ headingName = deceasedName) {
             name = "charity",
             id = ExemptionsCharityID,
             value = displayValue(appDetails,
-                        AppSectionExemptionsCharityValue,
+                        ihtProperties.AppSectionExemptionsCharityValue,
                         isComplete,
                         Some("site.noAssetsLeft")),
             valueScreenReader = "",
@@ -130,7 +130,7 @@ headingName = deceasedName) {
             name = "qualifyingBody",
             id = ExemptionsOtherID,
             value = displayValue(appDetails,
-                        AppSectionExemptionsQualifyingBodyValue,
+                        ihtProperties.AppSectionExemptionsQualifyingBodyValue,
                         isComplete,
                         Some("site.noAssetsLeft")),
                         valueScreenReader = "",

@@ -20,7 +20,7 @@
 @import iht.views.html._
 @import iht.utils._
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 @import iht.utils.CommonHelper
 
 @(businessInterestForm: Form[BasicEstateElement],
@@ -32,7 +32,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
     browserTitle = Some(Messages("page.iht.application.assets.businessInterest.browserTitle")),
     isFullWidth = false
 ) {
-    @ihtHelpers.custom.error_summary_override_keys(businessInterestForm, AppSectionBusinessInterest)
+    @ihtHelpers.custom.error_summary_override_keys(businessInterestForm, ihtProperties.AppSectionBusinessInterest)
 
     @helpers.form(action = iht.controllers.application.assets.routes.BusinessInterestsController.onSubmit, 'autoComplete -> "off") {
         <p class="lede">@Html(Messages("page.iht.application.assets.businessInterest.description.p1",deceasedName))</p>
@@ -55,7 +55,7 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
             @ihtHelpers.custom.return_link(
                 Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                AppSectionBusinessInterestID
+                ihtProperties.AppSectionBusinessInterestID
             )
         }
     }

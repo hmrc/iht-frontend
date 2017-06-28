@@ -16,6 +16,8 @@
 
 package iht.utils
 
+import javax.inject.Inject
+
 import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.models.{RegistrationDetails, UkAddress}
@@ -29,9 +31,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
-object IhtFormValidator extends IhtFormValidator
-
-trait IhtFormValidator extends FormValidator {
+class IhtFormValidator @Inject() (val ihtProperties: IhtProperties) extends FormValidator {
   def cachingConnector: CachingConnector = CachingConnector
 
   def validateGiftsDetails(valueKey: String, exemptionsValueKey: String) = new Formatter[Option[String]] {
@@ -47,7 +47,7 @@ trait IhtFormValidator extends FormValidator {
       if (theValue.isSuccess && theExemptionsValue.isSuccess) {
         if (BigDecimal(value) < BigDecimal(exemptionsValue)) {
           errors += FormError(exemptionsValueKey, "error.giftsDetails.exceedsGivenAway")
-        } else if (BigDecimal(exemptionsValue) > IhtProperties.giftsInYearMaxExemptionsValue) {
+        } else if (BigDecimal(exemptionsValue) > ihtProperties.giftsInYearMaxExemptionsValue) {
           errors += FormError(exemptionsValueKey, "error.giftsDetails.exceedsLimit")
         }
       } else if (value.length == 0 && theExemptionsValue.isSuccess) {
@@ -171,7 +171,7 @@ trait IhtFormValidator extends FormValidator {
       data.get(addr3Key),
       data.get(addr4Key),
       data.getOrElse(postcodeKey, ""),
-      data.getOrElse(countryCodeKey, IhtProperties.ukIsoCountryCode))
+      data.getOrElse(countryCodeKey, ihtProperties.ukIsoCountryCode))
   }
 
   private def validateOptionalAddressLine(addrKey: String, addr: String, maxLength: Int,
@@ -220,7 +220,7 @@ trait IhtFormValidator extends FormValidator {
                                    invalidCountryCodeMessageKey: String): Option[FormError] = {
     if (countryCode.trim.isEmpty) {
       Some(FormError(countryCodeKey, blankCountryCodeMessageKey))
-    } else if (countryCode != IhtProperties.ukIsoCountryCode) {
+    } else if (countryCode != ihtProperties.ukIsoCountryCode) {
       Some(FormError(countryCodeKey, invalidCountryCodeMessageKey))
     } else {
       None
@@ -241,18 +241,18 @@ trait IhtFormValidator extends FormValidator {
         errors += FormError(addr2Key, "")
       } else {
         validateMandatoryAddressLine(key, addr._1,
-          IhtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
+          ihtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
           invalidAddressLineMessageKey, errors)
         validateMandatoryAddressLine(addr2Key, addr._2,
-          IhtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
+          ihtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
           invalidAddressLineMessageKey, errors)
         validateOptionalAddressLine(addr3Key, addr._3,
-          IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
+          ihtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
         validateOptionalAddressLine(addr4Key, addr._4,
-          IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
+          ihtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
       }
 
-      if (addr._6.length == 0 || addr._6 == IhtProperties.ukIsoCountryCode) {
+      if (addr._6.length == 0 || addr._6 == ihtProperties.ukIsoCountryCode) {
         validatePostcode(addr._5, postcodeKey, blankPostcodeMessageKey, invalidPostcodeMessageKey, errors)
       }
 
@@ -288,15 +288,15 @@ trait IhtFormValidator extends FormValidator {
         errors += FormError(addr2Key, "")
       } else {
         validateMandatoryAddressLine(key, addr._1,
-          IhtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
+          ihtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
           invalidAddressLineMessageKey, errors)
         validateMandatoryAddressLine(addr2Key, addr._2,
-          IhtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
+          ihtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
           invalidAddressLineMessageKey, errors)
         validateOptionalAddressLine(addr3Key, addr._3,
-          IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
+          ihtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
         validateOptionalAddressLine(addr4Key, addr._4,
-          IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
+          ihtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
       }
 
       validateIntlCountryCode(countryCodeKey, addr._5, blankCountryCode, errors)
@@ -320,7 +320,7 @@ trait IhtFormValidator extends FormValidator {
       if (radioValue == None) {
         errors += FormError(key, noSelectionMessagesKey)
       } else {
-        if (items != ListMap.empty && !IhtFormValidator.existsInKeys(radioValue.getOrElse(""), items)) {
+        if (items != ListMap.empty && !existsInKeys(radioValue.getOrElse(""), items)) {
           errors += FormError(key, "Invalid item selected")
         }
       }
@@ -348,7 +348,7 @@ trait IhtFormValidator extends FormValidator {
   def radioOptionString(noSelectionMessagesKey: String, items: ListMap[String, String] = ListMap.empty) = new Formatter[Option[String]] {
     override def bind(key: String, data: Map[String, String]) = {
       Try(data.get(key)) match {
-        case Success(Some(value)) if IhtFormValidator.existsInKeys(value, items) => Right(Some(value))
+        case Success(Some(value)) if existsInKeys(value, items) => Right(Some(value))
         case Success(Some(_)) => Left(List(FormError(key, "error.invalid")))
         case Success(None) => Left(List(FormError(key, noSelectionMessagesKey)))
         case Failure(_) => Left(List(FormError(key, "error.invalid")))
@@ -373,12 +373,12 @@ trait IhtFormValidator extends FormValidator {
 
       if (firstName.getOrElse("").isEmpty) {
         errors += FormError(key, "error.firstName.give")
-      } else if (CommonHelper.getOrException(firstName).length > IhtProperties.validationMaxLengthFirstName) {
+      } else if (CommonHelper.getOrException(firstName).length > ihtProperties.validationMaxLengthFirstName) {
         errors += FormError(key, "error.firstName.giveUsingXCharsOrLess")
       }
       if (lastName.getOrElse("").isEmpty) {
         errors += FormError(lastNameKey, "error.lastName.give")
-      } else if (CommonHelper.getOrException(lastName).length > IhtProperties.validationMaxLengthLastName) {
+      } else if (CommonHelper.getOrException(lastName).length > ihtProperties.validationMaxLengthLastName) {
         errors += FormError(lastNameKey, "error.lastName.giveUsingXCharsOrLess")
       }
 
@@ -436,8 +436,8 @@ trait IhtFormValidator extends FormValidator {
         lazy val valueMinusSpaces = value.replaceAll("\\s", "")
         value match {
           case n if n.isEmpty => Left(Seq(FormError(key, blankMessageKey)))
-          case n if valueMinusSpaces.length < IhtProperties.validationMinLengthNINO ||
-            valueMinusSpaces.length > IhtProperties.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
+          case n if valueMinusSpaces.length < ihtProperties.validationMinLengthNINO ||
+            valueMinusSpaces.length > ihtProperties.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
           case n if !valueMinusSpaces.matches(ninoRegex) => Left(Seq(FormError(key, formatMessageKey)))
           case n => Right(n)
         }

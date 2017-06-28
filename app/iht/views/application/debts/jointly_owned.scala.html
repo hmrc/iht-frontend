@@ -20,7 +20,7 @@
 @import iht.views.html._
 @import iht.utils._
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 
@@ -31,7 +31,7 @@
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(jointlyOwnedDebtsForm, AppSectionDebtsOwedOnJointAssets)
+    @ihtHelpers.custom.error_summary_override_keys(jointlyOwnedDebtsForm, ihtProperties.AppSectionDebtsOwedOnJointAssets)
 
     @helpers.form(action = iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onSubmit, 'autoComplete -> "off") {
 

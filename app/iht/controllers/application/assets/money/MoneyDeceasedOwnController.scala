@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 
 import iht.constants.IhtProperties
 import iht.controllers.application.EstateController
+import iht.forms.ApplicationForms
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.AllAssets
@@ -29,14 +30,18 @@ import iht.views.html.application.asset.money.money_deceased_own
 import play.api.i18n.MessagesApi
 
 @Singleton
-class MoneyDeceasedOwnController @Inject()(val messagesApi: MessagesApi, val ihtProperties: IhtProperties) extends EstateController {
+class MoneyDeceasedOwnController @Inject()(
+                                            val messagesApi: MessagesApi,
+                                            val ihtProperties: IhtProperties,
+                                            val applicationForms: ApplicationForms
+                                          ) extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned)
   val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(ihtProperties.AssetsMoneyOwnID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        estateElementOnPageLoad[ShareableBasicEstateElement](moneyFormOwn, money_deceased_own.apply, _.allAssets.flatMap(_.money))
+        estateElementOnPageLoad[ShareableBasicEstateElement](applicationForms.moneyFormOwn, money_deceased_own.apply, _.allAssets.flatMap(_.money))
       }
   }
 
@@ -63,7 +68,7 @@ class MoneyDeceasedOwnController @Inject()(val messagesApi: MessagesApi, val iht
           }
 
         estateElementOnSubmit[ShareableBasicEstateElement](
-          moneyFormOwn,
+          applicationForms.moneyFormOwn,
           money_deceased_own.apply,
           updateApplicationDetails,
           submitUrl

@@ -21,7 +21,7 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.models.application.debts._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @import iht.utils._
 @import iht.constants.Constants._
@@ -53,7 +53,7 @@ isFullWidth=false) {
     @defining(appDetails.isCompleteMortgages) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.mortgages"),
             "mortgages", DebtsMortgagesID,
-            displayValue(appDetails, AppSectionMortgages, isComplete, Some("site.noDebts")), "",
+            displayValue(appDetails, ihtProperties.AppSectionMortgages, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.MortgagesOverviewController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -79,7 +79,7 @@ isFullWidth=false) {
     @defining(debts.funeralExpenses.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.funeralExpenses.title"),
     "funeralExpenses", DebtsFuneralExpensesID,
-            displayValue(appDetails, AppSectionFuneralExpenses, isComplete, Some("site.noDebts")), "",
+            displayValue(appDetails, ihtProperties.AppSectionFuneralExpenses, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.FuneralExpensesController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -103,7 +103,7 @@ isFullWidth=false) {
     @defining(debts.trust.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.debtsTrust.title"),
     "debtsFromTrust", DebtsOwedFromTrustID,
-            displayValue(appDetails, AppSectionDebtsOwedFromTrust, isComplete, Some("site.noDebts")), "",
+            displayValue(appDetails, ihtProperties.AppSectionDebtsOwedFromTrust, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -129,7 +129,7 @@ isFullWidth=false) {
     @defining(debts.debtsOutsideUk.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.owedOutsideUK"),
     "debtsOutsideUk", DebtsOwedOutsideUKID,
-            displayValue(appDetails, AppSectionDebtsOwedToAnyoneOutsideUK, isComplete, Some("site.noDebts")), "",
+            displayValue(appDetails, ihtProperties.AppSectionDebtsOwedToAnyoneOutsideUK, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -155,7 +155,7 @@ isFullWidth=false) {
     @defining(debts.jointlyOwned.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.owedOnJointAssets"),
     "jointlyOwned", DebtsOwedJointlyID,
-            displayValue(appDetails, AppSectionDebtsOwedOnJointAssets, isComplete, Some("site.noDebts")), "",
+            displayValue(appDetails, ihtProperties.AppSectionDebtsOwedOnJointAssets, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,
@@ -181,7 +181,7 @@ isFullWidth=false) {
     @defining(debts.other.flatMap(_.isComplete)) { isComplete =>
         @ihtHelpers.custom.generic_overview_item(Messages("iht.estateReport.debts.other.title"),
     "other", DebtsOtherID,
-            displayValue(appDetails, AppSectionDebtsOther, isComplete, Some("site.noDebts")), "",
+            displayValue(appDetails, ihtProperties.AppSectionDebtsOther, isComplete, Some("site.noDebts")), "",
             Some(iht.controllers.application.debts.routes.AnyOtherDebtsController.onPageLoad()),
             ihtHelpers.custom.generic_overview_status_label(
                 isComplete = isComplete,

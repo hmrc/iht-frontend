@@ -25,7 +25,7 @@
 @import iht.utils.OverviewHelper._
 @import iht.utils.CommonHelper
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @(propertyList: List[Property] = List.empty[Property],
     properties:Option[Properties],
@@ -113,7 +113,7 @@ isFullWidth=false
 @ihtHelpers.custom.return_link(
     Messages("site.link.return.assets"),
     Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-    AppSectionPropertiesID
+    ihtProperties.AppSectionPropertiesID
 )
 
 }

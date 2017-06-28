@@ -16,6 +16,8 @@
 
 package iht.forms
 
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.IhtProperties
 import iht.forms.mappings.DateMapping
 import iht.forms.validators.{MandatoryCurrencyForOptions, OptionalCurrency}
@@ -26,13 +28,13 @@ import iht.models.application.debts._
 import iht.models.application.exemptions._
 import iht.models.application.gifts._
 import iht.utils.IhtFormValidator
-import iht.utils.IhtFormValidator._
 import play.api.data.Form
 import play.api.data.Forms._
 
-object ApplicationForms {
+@Singleton
+class ApplicationForms @Inject() (val ihtProperties: IhtProperties, val ihtFormValidator:IhtFormValidator) {
   val addressMapping = mapping(
-    "ukAddressLine1" -> of(ihtAddress("address.ukAddressLine2", "address.ukAddressLine3",
+    "ukAddressLine1" -> of(ihtFormValidator.ihtAddress("address.ukAddressLine2", "address.ukAddressLine3",
       "address.ukAddressLine4", "address.postCode", "address.countryCode",
       "error.address.give", "error.address.giveInLine1And2",
       "error.address.giveUsing35CharsOrLess", "error.address.givePostcode",
@@ -46,18 +48,18 @@ object ApplicationForms {
 
   def basicEstateElementMapping(selectErrorKey:String) =  mapping(
     "value" -> OptionalCurrency(),
-    "isOwned" -> yesNoQuestion(selectErrorKey)
+    "isOwned" -> ihtFormValidator.yesNoQuestion(selectErrorKey)
   )(BasicEstateElement.apply)(BasicEstateElement.unapply)
 
   def basicEstateElementLiabilitiesMapping(selectErrorKey:String) =  mapping(
-    "isOwned" -> yesNoQuestion(selectErrorKey),
+    "isOwned" -> ihtFormValidator.yesNoQuestion(selectErrorKey),
     "value" -> OptionalCurrency()
   )(BasicEstateElementLiabilities.apply)(BasicEstateElementLiabilities.unapply)
 
 
   def shareableBasicEstateElementMapping(fieldName:String) =  mapping(
-    "value" -> optionalCurrencyWithoutFieldName,
-    "shareValue" -> optionalCurrencyWithoutFieldName,
+    "value" -> ihtFormValidator.optionalCurrencyWithoutFieldName,
+    "shareValue" -> ihtFormValidator.optionalCurrencyWithoutFieldName,
     "isOwned" -> optional(boolean),
     "isOwnedShare" -> optional(boolean)
   )(ShareableBasicEstateElement.apply)(ShareableBasicEstateElement.unapply)
@@ -65,7 +67,7 @@ object ApplicationForms {
   def shareableBasicEstateElementFormOwn(selectErrorKey:String): Form[ShareableBasicEstateElement] = Form (
     mapping(
       "value" -> OptionalCurrency(),
-      "isOwned" -> yesNoQuestion(selectErrorKey)
+      "isOwned" -> ihtFormValidator.yesNoQuestion(selectErrorKey)
     )(
       (value, isOwned) => ShareableBasicEstateElement(value, None, isOwned, None)
     )(
@@ -76,7 +78,7 @@ object ApplicationForms {
   def shareableBasicEstateElementFormJoint(selectErrorKey:String): Form[ShareableBasicEstateElement] = Form (
     mapping(
       "shareValue" -> OptionalCurrency(),
-      "isOwnedShare" -> yesNoQuestion(selectErrorKey)
+      "isOwnedShare" -> ihtFormValidator.yesNoQuestion(selectErrorKey)
     )(
       (shareValue, isOwnedShare) => ShareableBasicEstateElement(None, shareValue, None, isOwnedShare)
     )(
@@ -86,7 +88,7 @@ object ApplicationForms {
 
   // Assets forms.
   val propertyTenureForm = Form(mapping(
-    "tenure" -> of(ihtRadio("error.assets.property.tenure.select")))
+    "tenure" -> of(ihtFormValidator.ihtRadio("error.assets.property.tenure.select")))
     ((tenure) => Property(None,None,None,None,Some(tenure),None))
     ((property: Property) => property.tenure)
   )
@@ -101,13 +103,13 @@ object ApplicationForms {
   )
 
   val propertyTypeForm = Form(mapping(
-    "propertyType" -> of(ihtRadio("error.assets.property.type.select")))
+    "propertyType" -> of(ihtFormValidator.ihtRadio("error.assets.property.type.select")))
     ( (propertyType) => Property(None, None, Some(propertyType), None, None, None) )
     ( (property: Property) => property.propertyType)
   )
 
   val typeOfOwnershipForm = Form(mapping(
-    "typeOfOwnership" -> of(ihtRadio("error.assets.property.ownership.select")))
+    "typeOfOwnership" -> of(ihtFormValidator.ihtRadio("error.assets.property.ownership.select")))
     ((typeOfOwnership) => Property(None, None, None, Some(typeOfOwnership), None, None))
     ((property: Property) => property.typeOfOwnership)
   )
@@ -134,7 +136,7 @@ object ApplicationForms {
 
   val pensionsOwnedQuestionForm = Form(
     mapping(
-      "isOwned" -> yesNoQuestion("error.assets.privatePensions.deceasedOwned.select")
+      "isOwned" -> ihtFormValidator.yesNoQuestion("error.assets.privatePensions.deceasedOwned.select")
     )(
       (isOwned) => PrivatePension(None,None,isOwned)
     )(
@@ -144,7 +146,7 @@ object ApplicationForms {
 
   val pensionsChangedQuestionForm = Form(
     mapping(
-      "isChanged" -> yesNoQuestion("error.assets.privatePensions.changed.select")
+      "isChanged" -> ihtFormValidator.yesNoQuestion("error.assets.privatePensions.changed.select")
     )(
       (isChanged) => PrivatePension(isChanged,None,None)
     )(
@@ -165,7 +167,7 @@ object ApplicationForms {
   def stockAndShareListedForm = Form (
     mapping(
       "valueListed" -> OptionalCurrency(),
-      "isListed" -> yesNoQuestion("error.assets.stocksAndShares.listed.select")
+      "isListed" -> ihtFormValidator.yesNoQuestion("error.assets.stocksAndShares.listed.select")
     )(
       (valueListed, isListed) => StockAndShare(None, valueListed, None, None, isListed)
     )(
@@ -176,7 +178,7 @@ object ApplicationForms {
   def stockAndShareNotListedForm = Form (
     mapping(
       "valueNotListed" -> OptionalCurrency(),
-      "isNotListed" -> yesNoQuestion("error.assets.stocksAndShares.notListed.select")
+      "isNotListed" -> ihtFormValidator.yesNoQuestion("error.assets.stocksAndShares.notListed.select")
     )(
       (valueNotListed, isNotListed) => StockAndShare(valueNotListed, None, None, isNotListed, None)
     )(
@@ -187,7 +189,7 @@ object ApplicationForms {
   val insurancePolicyDeceasedOwnQuestionForm = Form(
     mapping(
       "value" -> OptionalCurrency(),
-      "policyInDeceasedName" -> yesNoQuestion("error.assets.insurancePolicy.deceasedOwned.select")
+      "policyInDeceasedName" -> ihtFormValidator.yesNoQuestion("error.assets.insurancePolicy.deceasedOwned.select")
     )(
       (value, policyInDeceasedName) => InsurancePolicy(None, None, value, None, policyInDeceasedName,None,None,None,None,None)
     )(
@@ -198,7 +200,7 @@ object ApplicationForms {
   val insurancePolicyJointQuestionForm = Form(
     mapping(
       "shareValue" -> OptionalCurrency(),
-      "isJointlyOwned" -> yesNoQuestion("error.assets.insurancePolicy.jointlyOwned.select")
+      "isJointlyOwned" -> ihtFormValidator.yesNoQuestion("error.assets.insurancePolicy.jointlyOwned.select")
     )(
       (shareValue, isJointlyOwned) => InsurancePolicy(None, None, None, shareValue, None, isJointlyOwned,None,None,None,None)
     )(
@@ -208,7 +210,7 @@ object ApplicationForms {
 
   val insurancePolicyPayingOtherForm = Form(
     mapping(
-      "isInsurancePremiumsPayedForSomeoneElse" -> yesNoQuestion("error.assets.insurancePolicy.payedToSomeoneElse.select")
+      "isInsurancePremiumsPayedForSomeoneElse" -> ihtFormValidator.yesNoQuestion("error.assets.insurancePolicy.payedToSomeoneElse.select")
     )(
       (isInsurancePremiumsPayedForSomeoneElse) =>
         InsurancePolicy(None, isInsurancePremiumsPayedForSomeoneElse, None, None, None, None,None,None,None,None)
@@ -219,7 +221,7 @@ object ApplicationForms {
 
   val insurancePolicyMoreThanMaxForm = Form(
     mapping(
-      "moreThanMaxValue" -> yesNoQuestion("error.assets.insurancePolicy.moreThanMaxValue.select")
+      "moreThanMaxValue" -> ihtFormValidator.yesNoQuestion("error.assets.insurancePolicy.moreThanMaxValue.select")
     )(
       (moreThanMaxValue) =>
         InsurancePolicy(None, None, None, None, None, None,None,None,None,moreThanMaxValue)
@@ -230,7 +232,7 @@ object ApplicationForms {
 
   val insurancePolicyAnnuityForm = Form(
     mapping(
-      "isAnnuitiesBought" -> yesNoQuestion("error.assets.insurancePolicy.isAnnuitiesBought.select")
+      "isAnnuitiesBought" -> ihtFormValidator.yesNoQuestion("error.assets.insurancePolicy.isAnnuitiesBought.select")
     )(
       (isAnnuitiesBought) =>
         InsurancePolicy(isAnnuitiesBought, None, None, None, None, None,None,None,None,None)
@@ -241,7 +243,7 @@ object ApplicationForms {
 
   val insurancePolicyInTrustForm = Form(
     mapping(
-      "isInTrust" -> yesNoQuestion("error.assets.insurancePolicy.isInTrust.select")
+      "isInTrust" -> ihtFormValidator.yesNoQuestion("error.assets.insurancePolicy.isInTrust.select")
     )(
       (isInTrust) =>
         InsurancePolicy(None, None, None, None, None, None, isInTrust, None, None, None)
@@ -256,7 +258,7 @@ object ApplicationForms {
 
   val trustsOwnedQuestionForm = Form(
     mapping(
-      "isOwned" -> yesNoQuestion("error.assets.heldInTrust.deceasedOwned.select")
+      "isOwned" -> ihtFormValidator.yesNoQuestion("error.assets.heldInTrust.deceasedOwned.select")
     )(
         (isOwned) => HeldInTrust(None,None,isOwned)
       )(
@@ -266,7 +268,7 @@ object ApplicationForms {
 
   val trustsMoreThanOneQuestionForm = Form(
     mapping(
-      "isMoreThanOne" -> yesNoQuestion("error.assets.heldInTrust.moreThanOne.select")
+      "isMoreThanOne" -> ihtFormValidator.yesNoQuestion("error.assets.heldInTrust.moreThanOne.select")
     )(
       (isMoreThanOne) => HeldInTrust(isMoreThanOne,None,None)
     )(
@@ -292,7 +294,7 @@ object ApplicationForms {
 
   val propertiesForm = Form(
     mapping(
-      "isOwned" -> yesNoQuestion("error.assets.property.owned.select")
+      "isOwned" -> ihtFormValidator.yesNoQuestion("error.assets.property.owned.select")
     )(Properties.apply)(Properties.unapply)
   )
 
@@ -307,7 +309,7 @@ object ApplicationForms {
 
   // Gifts forms.
   val giftsGivenAwayForm = Form(
-    mapping("isGivenAway" -> yesNoQuestion("error.giftsGivenAway.select")
+    mapping("isGivenAway" -> ihtFormValidator.yesNoQuestion("error.giftsGivenAway.select")
     )(
         (isGivenAway) => AllGifts(isGivenAway, None, None, None , None)
       )
@@ -317,7 +319,7 @@ object ApplicationForms {
   )
 
   val giftWithReservationFromBenefitForm = Form(
-    mapping("reservation.isReservation" -> yesNoQuestion("error.giftWithReservationFromBenefit.select")
+    mapping("reservation.isReservation" -> ihtFormValidator.yesNoQuestion("error.giftWithReservationFromBenefit.select")
     )(
         (giftWithReservation) => AllGifts(None, giftWithReservation, None, None ,None)
       )
@@ -327,7 +329,7 @@ object ApplicationForms {
   )
 
   val giftSevenYearsToTrustForm = Form(
-    mapping("trust.isToTrust" -> yesNoQuestion("error.giftSevenYearsToTrust.select")
+    mapping("trust.isToTrust" -> ihtFormValidator.yesNoQuestion("error.giftSevenYearsToTrust.select")
     )(
         (isToTrust) => AllGifts(None, None, isToTrust, None ,None)
       )
@@ -337,7 +339,7 @@ object ApplicationForms {
   )
 
   val giftSevenYearsGivenInLast7YearsForm = Form(
-    mapping("givenInPast.isGivenInLast7Years" -> yesNoQuestion("error.giftSevenYearsGivenInLast7Years.select")
+    mapping("givenInPast.isGivenInLast7Years" -> ihtFormValidator.yesNoQuestion("error.giftSevenYearsGivenInLast7Years.select")
     )(
         (isGivenInLast7Years) => AllGifts(None, None, None, isGivenInLast7Years ,None)
       )
@@ -347,7 +349,7 @@ object ApplicationForms {
   )
 
   val previousYearsGiftsForm = Form(mapping(
-    "yearId" -> of(IhtFormValidator.validateGiftsDetails("value", "exemptions")),
+    "yearId" -> of(ihtFormValidator.validateGiftsDetails("value", "exemptions")),
     "value" -> OptionalCurrency(),
     "exemptions" -> OptionalCurrency(),
     "startDate" -> optional(text),
@@ -369,7 +371,7 @@ object ApplicationForms {
   val  mortgagesForm = Form(
     mapping(
       "value" -> OptionalCurrency(),
-      "isOwned" -> yesNoQuestion("error.debts.mortgage.select")
+      "isOwned" -> ihtFormValidator.yesNoQuestion("error.debts.mortgage.select")
     )((value, isOwned) => Mortgage("",value,isOwned))
     ((mortgage: Mortgage) => Some(Tuple2(mortgage.value, mortgage.isOwned)))
   )
@@ -387,7 +389,7 @@ object ApplicationForms {
 
   // Exemptions forms.
   val assetsLeftToSpouseQuestionForm = Form(mapping(
-    "isAssetForDeceasedPartner" -> yesNoQuestion("error.isAssetForDeceasedPartner.select")
+    "isAssetForDeceasedPartner" -> ihtFormValidator.yesNoQuestion("error.isAssetForDeceasedPartner.select")
   )(
     (isAssetForDeceasedPartner) => PartnerExemption(isAssetForDeceasedPartner, None, None, None, None, None, None)
   )
@@ -397,7 +399,7 @@ object ApplicationForms {
   )
 
   val partnerPermanentHomeQuestionForm = Form(mapping(
-    "isPartnerHomeInUK" -> yesNoQuestion("error.isPartnerHomeInUK.select")
+    "isPartnerHomeInUK" -> ihtFormValidator.yesNoQuestion("error.isPartnerHomeInUK.select")
   )(
     (isPartnerHomeInUK) => PartnerExemption(None, isPartnerHomeInUK, None, None, None, None, None)
   )
@@ -407,7 +409,7 @@ object ApplicationForms {
   )
 
   val partnerNinoForm = Form(mapping(
-    "nino" -> nino
+    "nino" -> ihtFormValidator.nino
   )(
     (nino) => PartnerExemption(None, None, None, None, None, Some(nino), None)
   )
@@ -429,11 +431,11 @@ object ApplicationForms {
 
 
   val charityNumberForm = Form(mapping(
-    "charityNumber" -> ihtNonEmptyText("error.charityNumber.give")
+    "charityNumber" -> ihtFormValidator.ihtNonEmptyText("error.charityNumber.give")
       .verifying("error.charityNumber.enterUsingOnly6Or7Numbers",
-        f=>f.length <= IhtProperties.validationMaxCharityNumberLength)
+        f=>f.length <= ihtProperties.validationMaxCharityNumberLength)
       .verifying("error.charityNumber.enterUsingOnly6Or7Numbers",
-        f=>f.length >= IhtProperties.validationMinCharityNumberLength || f.length==0)
+        f=>f.length >= ihtProperties.validationMinCharityNumberLength || f.length==0)
   )(
       (charityNumber) => Charity(None, None, Some(charityNumber), None)
     )
@@ -453,12 +455,12 @@ object ApplicationForms {
   )
 
   val partnerExemptionNameForm = Form(mapping(
-  "firstName" -> ihtNonEmptyText( "error.firstName.give")
+  "firstName" -> ihtFormValidator.ihtNonEmptyText( "error.firstName.give")
     .verifying("error.firstName.giveUsingXCharsOrLess",
-      _.trim.length <= IhtProperties.validationMaxLengthFirstName),
-  "lastName" -> ihtNonEmptyText( "error.lastName.give")
+      _.trim.length <= ihtProperties.validationMaxLengthFirstName),
+  "lastName" -> ihtFormValidator.ihtNonEmptyText( "error.lastName.give")
     .verifying( "error.lastName.giveUsingXCharsOrLess",
-      _.trim.length <= IhtProperties.validationMaxLengthLastName))
+      _.trim.length <= ihtProperties.validationMaxLengthLastName))
     (
       (firstName, lastName) => PartnerExemption(None, None, Some(firstName), Some(lastName), None, None, None)
     )
@@ -470,7 +472,7 @@ object ApplicationForms {
   )
 
   val assetsLeftToCharityQuestionForm = Form(mapping(
-    "isAssetForCharity" -> yesNoQuestion("error.isAssetForCharity.select")
+    "isAssetForCharity" -> ihtFormValidator.yesNoQuestion("error.isAssetForCharity.select")
   )(
       (isAssetForCharity) => BasicExemptionElement(isAssetForCharity)
     )
@@ -490,8 +492,8 @@ object ApplicationForms {
   )
 
   val charityNameForm = Form(mapping(
-    "name" -> ihtNonEmptyText("error.charityName.enterName")
-      .verifying("error.charityName.giveUsing35CharactersOrLess", f=>f.length <= IhtProperties.validationMaxLengthCharityName))
+    "name" -> ihtFormValidator.ihtNonEmptyText("error.charityName.enterName")
+      .verifying("error.charityName.giveUsing35CharactersOrLess", f=>f.length <= ihtProperties.validationMaxLengthCharityName))
   (
     (name) => Charity(None, Some(name), None, None)
   )
@@ -510,8 +512,8 @@ object ApplicationForms {
   )
 
   val qualifyingBodyNameForm: Form[QualifyingBody] = Form(mapping(
-    "name" -> ihtNonEmptyText("error.qualifyingBodyName.enterName")
-      .verifying("error.qualifyingBodyName.giveUsing35CharactersOrLess", f=>f.length <= IhtProperties.validationMaxLengthQualifyingBodyName))
+    "name" -> ihtFormValidator.ihtNonEmptyText("error.qualifyingBodyName.enterName")
+      .verifying("error.qualifyingBodyName.giveUsing35CharactersOrLess", f=>f.length <= ihtProperties.validationMaxLengthQualifyingBodyName))
   (
     name => QualifyingBody(None, Some(name), None)
   )(
@@ -519,7 +521,7 @@ object ApplicationForms {
   ))
 
   val assetsLeftToQualifyingBodyQuestionForm = Form(mapping(
-    "isAssetForQualifyingBody" -> yesNoQuestion("error.isAssetForQualifyingBody.select")
+    "isAssetForQualifyingBody" -> ihtFormValidator.yesNoQuestion("error.isAssetForQualifyingBody.select")
   )(
       (isAssetForQualifyingBody) => BasicExemptionElement(isAssetForQualifyingBody)
     )
@@ -531,13 +533,13 @@ object ApplicationForms {
   // Declaration form.
   val declarationForm = Form(
     single(
-      "isDeclared" -> of(IhtFormValidator.validateDeclaration)
+      "isDeclared" -> of(ihtFormValidator.validateDeclaration)
     )
   )
 
   val checkedEverythingQuestionForm = Form(
     single(
-      "hasChecked" -> yesNoQuestion("error.hasCheckedEverything.select")
+      "hasChecked" -> ihtFormValidator.yesNoQuestion("error.hasCheckedEverything.select")
     )
   )
 }

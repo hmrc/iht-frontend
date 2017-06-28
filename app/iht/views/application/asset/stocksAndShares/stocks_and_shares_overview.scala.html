@@ -24,7 +24,7 @@
 @import iht.utils.OverviewHelper._
 @import scala.collection.immutable.Seq
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @(stocks:Option[StockAndShare],
   registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
@@ -108,7 +108,7 @@ isFullWidth=false
          @ihtHelpers.custom.return_link(
             Messages("page.iht.application.return.to.assetsOf", deceasedName),
             Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-            AppSectionStockAndShareID
+            ihtProperties.AppSectionStockAndShareID
         )
 
     </div>

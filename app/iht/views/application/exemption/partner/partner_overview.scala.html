@@ -18,7 +18,7 @@
 @import iht.models.application.ApplicationDetails
 @import iht.utils.CommonHelper._
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 @import iht.utils.OverviewHelper._
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
@@ -40,7 +40,7 @@ isFullWidth=false) {
                                       getDeceasedNameOrDefaultString(registrationDetails, true)),
                     name="partner.assetsLeftForPartner",
                     id = ExemptionsPartnerAssetsID,
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerIsAssetForDeceasedPartner, isComplete),
+                    value=displayValue(appDetails, ihtProperties.AppSectionExemptionsPartnerIsAssetForDeceasedPartner, isComplete),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(
@@ -65,7 +65,7 @@ isFullWidth=false) {
                     title = Messages("iht.estateReport.exemptions.partner.homeInUK.question"),
                     name = "partner.homeInUK",
                     id = ExemptionsPartnerHomeID,
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerIsPartnerHomeInUK, isComplete),
+                    value=displayValue(appDetails, ihtProperties.AppSectionExemptionsPartnerIsPartnerHomeInUK, isComplete),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(
@@ -88,7 +88,7 @@ isFullWidth=false) {
                     title = Messages("page.iht.application.exemptions.overview.partner.name.title"),
                     name="partner.name",
                     id = ExemptionsPartnerNameID,
-                    value=ihtHelpers.custom.name(displayValue(appDetails, AppSectionExemptionsPartnerName, isComplete)).toString,
+                    value=ihtHelpers.custom.name(displayValue(appDetails, ihtProperties.AppSectionExemptionsPartnerName, isComplete)).toString,
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.ExemptionPartnerNameController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(
@@ -112,7 +112,7 @@ isFullWidth=false) {
                     title = Messages("page.iht.application.exemptions.overview.partner.dob.title"),
                     name="partner.dob",
                     id = ExemptionsPartnerDobID,
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerDateOfBirth, isComplete)(lang),
+                    value=displayValue(appDetails, ihtProperties.AppSectionExemptionsPartnerDateOfBirth, isComplete)(lang),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(
@@ -136,7 +136,7 @@ isFullWidth=false) {
                     title = Messages("page.iht.application.exemptions.overview.partner.nino.title"),
                     name="partner.nino",
                     id = ExemptionsPartnerNinoID,
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerNino, isComplete),
+                    value=displayValue(appDetails, ihtProperties.AppSectionExemptionsPartnerNino, isComplete),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(
@@ -160,7 +160,7 @@ isFullWidth=false) {
                     title = Messages("page.iht.application.exemptions.overview.partner.totalAssets.title"),
                     name="partner.totalAssets",
                     id = ExemptionsPartnerValueID,
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerTotalAssets, isComplete),
+                    value=displayValue(appDetails, ihtProperties.AppSectionExemptionsPartnerTotalAssets, isComplete),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerValueController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(

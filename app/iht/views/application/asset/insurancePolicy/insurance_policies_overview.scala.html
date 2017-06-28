@@ -25,7 +25,7 @@
 @import iht.views.html.application.gift._
 @import iht.views.html.application._
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
@@ -49,6 +49,6 @@ returnToMessagesKey: String
     returnToCall = returnToCall,
     returnToMessagesKey = returnToMessagesKey,
     showStatus = false,
-    returnHash = AppSectionInsurancePolicyID
+    returnHash = ihtProperties.AppSectionInsurancePolicyID
     )
 )

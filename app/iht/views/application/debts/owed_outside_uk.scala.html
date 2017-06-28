@@ -19,7 +19,7 @@
 
 @(debtsOutsideUkForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
 
@@ -27,7 +27,7 @@
     browserTitle = Some(Messages("page.iht.application.debts.debtsOutsideUk.browserTitle")),
     isFullWidth = false
 ) {
-    @ihtHelpers.custom.error_summary_override_keys(debtsOutsideUkForm, AppSectionDebtsOwedToAnyoneOutsideUK)
+    @ihtHelpers.custom.error_summary_override_keys(debtsOutsideUkForm, ihtProperties.AppSectionDebtsOwedToAnyoneOutsideUK)
 
     @helpers.form(action = iht.controllers.application.debts.routes.OwedOutsideUKDebtsController.onSubmit, 'autoComplete -> "off") {
 

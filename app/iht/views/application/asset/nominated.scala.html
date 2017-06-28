@@ -21,7 +21,7 @@
 
 @import iht.utils._
 @import iht.constants.Constants
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 @import iht.utils.CommonHelper
 
 @(nominatedForm: Form[BasicEstateElement],
@@ -62,7 +62,7 @@ isFullWidth=false
             @ihtHelpers.custom.return_link(
                 Messages("page.iht.application.return.to.assetsOf", ihtHelpers.custom.name(dd.name)),
                 Some(iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()),
-                AppSectionNominatedID
+                ihtProperties.AppSectionNominatedID
             )
         }
     }

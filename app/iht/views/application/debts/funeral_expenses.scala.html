@@ -23,14 +23,14 @@
 
 @import iht.utils._
 @import iht.constants.Constants._
-@import iht.constants.IhtProperties._
+@import iht.constants.IhtProperties
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.funeralExpenses.title"),
     browserTitle = Some(Messages("iht.estateReport.debts.funeralExpenses.title")),
     isFullWidth = false
 ) {
 
-    @ihtHelpers.custom.error_summary_override_keys(funeralExpensesForm, AppSectionFuneralExpenses)
+    @ihtHelpers.custom.error_summary_override_keys(funeralExpensesForm, ihtProperties.AppSectionFuneralExpenses)
 
     @helpers.form(action = iht.controllers.application.debts.routes.FuneralExpensesController.onSubmit, 'autoComplete -> "off") {
 
