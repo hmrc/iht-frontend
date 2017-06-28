@@ -12,13 +12,13 @@
 # Add all the application routes to the prod.routes file
 
 
-GET     /inheritance-tax/test-only/drop                  iht.controllers.testonly.TestOnlyController.deleteFirstCase
-GET     /inheritance-tax/test-only/fill                  iht.controllers.testonly.TestOnlyController.fillApplication
+GET     /inheritance-tax/test-only/drop                  @iht.controllers.testonly.TestOnlyController.deleteFirstCase
+GET     /inheritance-tax/test-only/fill                  @iht.controllers.testonly.TestOnlyController.fillApplication
 
 ->      /                             prod.Routes
 
-GET    /inheritance-tax/test-only/store-registration-details   iht.controllers.testonly.TestOnlyController.storeRegistrationDetailsPageLoad
-POST   /inheritance-tax/test-only/store-registration-details   iht.controllers.testonly.TestOnlyController.storeRegistrationDetailsSubmit
+GET    /inheritance-tax/test-only/store-registration-details   @iht.controllers.testonly.TestOnlyController.storeRegistrationDetailsPageLoad
+POST   /inheritance-tax/test-only/store-registration-details   @iht.controllers.testonly.TestOnlyController.storeRegistrationDetailsSubmit
 
-GET    /inheritance-tax/test-only/store-application-details   iht.controllers.testonly.TestOnlyController.storeApplicationDetailsPageLoad
-POST   /inheritance-tax/test-only/store-application-details   iht.controllers.testonly.TestOnlyController.storeApplicationDetailsSubmit
+GET    /inheritance-tax/test-only/store-application-details   @iht.controllers.testonly.TestOnlyController.storeApplicationDetailsPageLoad
+POST   /inheritance-tax/test-only/store-application-details   @iht.controllers.testonly.TestOnlyController.storeApplicationDetailsSubmit
