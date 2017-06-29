@@ -71,6 +71,9 @@ trait MessagesTidier {
     * in .summary, if Some(false) filters out any items not ending in .summary.
     */
   def detectDuplicateValues(filterForSummaryItems: Option[Boolean] = None): Map[String, Set[String]] = {
+
+    // minutes key has been exempted from duplication as its usage is different in welsh, hence this
+    // duplication is permitted
     val invertedMap = invertMap(readmessagesApi()).filterKeys(_!="minutes")
 
     removeUniques(
