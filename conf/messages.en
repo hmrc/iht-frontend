@@ -169,6 +169,10 @@ iht.timeoutDialog.p1 = For your security, you will be signed out in:
 iht.timeoutDialog.registration.p1 = For your security, you will be signed out and have to start registration again in:
 iht.timeoutDialog.button = Continue with the estate report
 iht.timeoutDialog.registration.button = Continue with registration
+iht.timeoutDialog.seconds = seconds
+iht.timeoutDialog.minutes = minutes
+iht.timeoutDialog.minute = minute
+iht.timeoutDialog.minutes.two = minutes
 iht.needHelp = Need help?
 iht.needHelp.guidance = If you need help with completing this estate report, contact the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
 
