@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
- Date.now = Date.now || function() { return +new Date; };  
+Date.now = Date.now || function() { return +new Date; };
  if (!window.console){ console = {log: function() {}} };
 
 function secondsToTime (secs) {
@@ -57,18 +57,6 @@ String.prototype.format = function () {
 !function ($) {
   $.timeoutDialog = function (options) {
     var settings = {
-      timeout: 900,
-      countdown: 60,
-      time: 'minutes',
-      title: 'You’re about to be signed out',
-      message: 'For your security, you’ll be signed out in <span class="countdown">{0}</span> if there’s no activity on your account. ',
-      keep_alive_url: '/keep-alive',
-      logout_url: '/sign-out',
-      restart_on_yes: true,
-      dialog_width: 340,
-      close_on_escape: true,
-      background_no_scroll: true,
-      keep_alive_button_text: 'Get another {0} minutes'
     }
 
     $.extend(settings, options)
@@ -93,29 +81,27 @@ String.prototype.format = function () {
         self.startTime = Math.round(Date.now()/1000, 0);
         self.currentMin = Math.ceil(settings.timeout / 60)
         self.destroyDialog()
-        if (settings.background_no_scroll) {
           $('html').addClass('noScroll')
-        }
         var time = secondsToTime(settings.countdown)
         var timeout = secondsToTime(settings.timeout)
          // AL: Add live region and edit dialog structure
-        $('<div id="timeout-dialog" class="timeout-dialog" role="dialog" aria-labelledby="timeout-heading timeout-message" tabindex="-1" aria-live="polite">' + 
-            '<h2 id="timeout-heading" class="heading-medium">' + settings.title + '</h2>' + 
-            '<p id="timeout-message">' +
-                settings.message + ' <br /><span class="countdown" id="timeout-countdown" role="text">' + time.m + ' ' + settings.time + '</span>' +
-            '</p>' + 
-            '<button id="timeout-keep-signin-btn" class="button">' + settings.keep_alive_button_text.format(settings.timeout / 60) + '</button>' + 
-        '</div>' + 
-        '<div id="timeout-overlay" class="timeout-overlay"></div>') 
-        .appendTo('body')
+         $('<div id="timeout-dialog" class="timeout-dialog" role="dialog" aria-labelledby="timeout-heading" aria-live="assertive">' +
+                    '<h2 id="timeout-heading" class="heading-medium">' + settings.title + '</h2>' +
+                    '<p id="timeout-message">' +
+                    settings.message + ' <br /><span class="countdown" id="timeout-countdown" role="text">' + time.m + ' ' + settings.messageMinutes + '</span>' +
+                    '</p>' +
+                    '<button id="timeout-keep-signin-btn" class="button">' + settings.keep_alive_button_text.format(settings.timeout / 60) + '</button>' +
+                    '</div>' +
+                    '<div id="timeout-overlay" class="timeout-overlay"></div>')
+                    .appendTo('body');
 
-        // AL: disable the non-dialog page to prevent confusion for VoiceOver users
+                self.activeElement = document.activeElement;
+
+                $('#timeout-keep-signin-btn').focus();
+
+                // AL: disable the non-dialog page to hide un-navigable accessibility tree
+                // can be removed once aria-modal is fully supported
         $('#skiplink-container, body>header, #global-cookie-message, body>main, body>footer').attr('aria-hidden', 'true')
-
-        var activeElement = document.activeElement
-
-        self.modalFocus = $("#timeout-dialog")
-        self.modalFocus.focus()
 
         self.addEvents();
 
@@ -123,16 +109,14 @@ String.prototype.format = function () {
 
         self.escPress = function (event) {
           if (self.dialogOpen && event.keyCode === 27) {
-            // close the dialog
-            self.keepAlive()
-            activeElement.focus()
+                        self.closeDialog()
           }
         }
 
         self.closeDialog = function () {
           if (self.dialogOpen) {
             self.keepAlive()
-            activeElement.focus()
+            self.activeElement.focus()
           }
         }
 
@@ -157,8 +141,9 @@ String.prototype.format = function () {
           self.dialogOpen = false
           $('.timeout-overlay').remove()
           $('#timeout-dialog').remove()
-          if (settings.background_no_scroll) {$('html').removeClass('noScroll')}
+          $('html').removeClass('noScroll')
         }
+
         // AL: re-enable the non-dialog page
         $('#skiplink-container, body>header, #global-cookie-message, body>main, body>footer').removeAttr('aria-hidden')
       },
@@ -170,14 +155,21 @@ String.prototype.format = function () {
           if(counter < 0){
             counter = 0;
           }
-
-          self.modalFocus.removeAttr("aria-live");
-          $('#timeout-countdown').html(counter + " seconds")
+            $("#timeout-dialog").removeAttr('aria-live');
+            $('#timeout-countdown').html(counter + " " + settings.messageSeconds)
         } else {
           var newCounter = Math.ceil(counter / 60);
           if(newCounter < self.currentMin){
               self.currentMin = newCounter
-              $('#timeout-countdown').html(newCounter + " minutes")
+              var newMessage = "";
+              if(newCounter == 1){
+                 newMessage = newCounter + " " + settings.messageMinute
+              } else if(newCounter > 1 && newCounter < 3) {
+                 newMessage = newCounter + " " + settings.messageMinutesTwo
+              } else {
+                 newMessage = newCounter + " " + settings.messageMinutes
+              }
+                 $('#timeout-countdown').html(newMessage)
           }
         }
       },
@@ -204,11 +196,9 @@ String.prototype.format = function () {
                 var now = Math.round(Date.now()/1000, 0)
                 var expiredSeconds = now - self.startTime;
                 var currentCounter = settings.countdown - expiredSeconds;
-                //console.log('Expired = ' + expiredSeconds + ' (' + now + ' - ' + self.startTime + ')');
-                //console.log('CurrentCounter = ' + currentCounter + '(' + settings.countdown + ' - ' + expiredSeconds + ')');
-
                 self.updateUI(currentCounter);
                 self.startCountdown(currentCounter);
+                $('#timeout-keep-signin-btn').focus();
             }
         }
 
@@ -216,14 +206,10 @@ String.prototype.format = function () {
         // need to widen this to cover the setTimeout which triggers the dialog for browsers which pause timers on blur
         // hiding this from IE8 as it breaks the reset - to investigate further
         if (navigator.userAgent.match(/MSIE 8/) == null) {
-            //$(window).on("blur", function(){
                 $(window).off("focus", handleFocus);
                 $(window).on("focus", handleFocus);
-            //});
-
         }
       },
-
       startCountdown: function (counter) {
         var self = this
         self.countdown = window.setInterval(function () {
@@ -245,10 +231,8 @@ String.prototype.format = function () {
 
         $.get(settings.keep_alive_url, function (data) {
           if (data === 'OK') {
-            if (settings.restart_on_yes) {
               self.setupDialogTimer()
             }
-          }
           else {
             self.signOut()
           }
