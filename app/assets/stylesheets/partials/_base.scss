@@ -54,6 +54,19 @@ https://github.com/hmrc/assets-frontend/issues/727
     }
 }
 
+/*
+====================================
+Fix placement of service name
+====================================
+*/
+@media (min-width: 769px) {
+   .header-global {
+    width: 25% !important;
+  }
+   .header-proposition {
+    width: 75% !important;
+  }
+}
 
 
 /*
