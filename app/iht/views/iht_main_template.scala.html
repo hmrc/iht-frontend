@@ -93,6 +93,10 @@ isRegistration: Boolean = false
                     countdown: @appConfig.timeOutCountdownSeconds,
                     keep_alive_url: "@iht.controllers.routes.IhtMainController.keepAlive.url",
                     title: "@Messages("iht.timeoutDialog.title")",
+                    messageSeconds: "@Messages("iht.timeoutDialog.seconds")",
+                    messageMinutes: "@Messages("iht.timeoutDialog.minutes")",
+                    messageMinute: "@Messages("iht.timeoutDialog.minute")",
+                    messageMinutesTwo: "@Messages("iht.timeoutDialog.minutes.two")",
 
         @if(isRegistration){
                     logout_url: "@iht.controllers.routes.SessionTimeoutController.onRegistrationPageLoad().url",
@@ -119,7 +123,7 @@ isRegistration: Boolean = false
             views.html.language_selection(
                 lc.languageMap,
                 lc.langToCall,
-                Some("align-right")
+                Some("translate u-align--right")
             )
         }
     }
