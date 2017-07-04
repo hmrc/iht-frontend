@@ -25,9 +25,10 @@ import iht.models.enums.StatsSource
 import iht.utils._
 import play.api.Logger
 import play.api.mvc.Result
-import uk.gov.hmrc.play.http.{ConflictException, GatewayTimeoutException, HeaderCarrier}
+import uk.gov.hmrc.play.http.{ConflictException, GatewayTimeoutException}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

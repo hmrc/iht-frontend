@@ -52,7 +52,7 @@ object CommonHelper {
   private val DateRangeMonths = 24
   def cachingConnector: CachingConnector = CachingConnector
 
-  import uk.gov.hmrc.play.http.HeaderCarrier
+  import uk.gov.hmrc.http.HeaderCarrier
 
   /**
     * Capture the Referrer URL excluding the Host URL

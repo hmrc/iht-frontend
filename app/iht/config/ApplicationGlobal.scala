@@ -29,6 +29,7 @@ import uk.gov.hmrc.play.frontend.bootstrap.DefaultFrontendGlobal
 import uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.http.ws.WSExtensions._
 
 object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
 

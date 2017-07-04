@@ -25,7 +25,7 @@ import iht.views.ViewTestHelper
 import iht.views.html.home.iht_home
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 import play.api.test.Helpers._
 
 class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {

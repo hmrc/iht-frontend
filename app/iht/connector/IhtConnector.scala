@@ -28,7 +28,9 @@ import play.api.Logger
 import play.api.http.Status._
 import play.api.libs.json.{JsError, JsValue, Json}
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http.{HeaderCarrier, _}
+import uk.gov.hmrc.http.{HeaderCarrier, _}
+import uk.gov.hmrc.play.http._
+import uk.gov.hmrc.play.http.ws.WSExtensions._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

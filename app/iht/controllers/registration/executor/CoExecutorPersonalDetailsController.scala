@@ -28,7 +28,7 @@ import iht.models.{CoExecutor, RegistrationDetails}
 import iht.views.html.registration.{executor => views}
 import play.api.data.Form
 import play.api.mvc.Call
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 

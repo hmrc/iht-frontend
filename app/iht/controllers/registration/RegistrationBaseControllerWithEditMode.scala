@@ -27,7 +27,6 @@ import play.api.mvc.{AnyContent, Request, Result}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import uk.gov.hmrc.play.http.SessionKeys
 
 import scala.concurrent.Future
 

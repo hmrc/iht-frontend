@@ -26,7 +26,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
 import play.api.mvc.Call
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.ExecutionContext.Implicits.global

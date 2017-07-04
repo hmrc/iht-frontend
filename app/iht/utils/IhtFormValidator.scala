@@ -22,7 +22,7 @@ import iht.models.{RegistrationDetails, UkAddress}
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
 import play.api.mvc.Request
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.collection.immutable.ListMap
 import scala.concurrent.duration.Duration

@@ -24,7 +24,7 @@ import iht.utils.CommonHelper
 import play.api.mvc.{Request, Result}
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 

@@ -25,7 +25,7 @@ import iht.utils.{ApplicationStatus, CommonHelper}
 import org.joda.time.LocalDate
 import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 class IhtHomeRowViewModelTest extends ApplicationControllerTest {
 

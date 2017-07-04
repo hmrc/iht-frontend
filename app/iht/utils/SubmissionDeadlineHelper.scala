@@ -19,7 +19,7 @@ package iht.utils
 import iht.connector.IhtConnector
 import iht.models.application.IhtApplication
 import org.joda.time.LocalDate
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

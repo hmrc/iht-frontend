@@ -17,8 +17,7 @@
 package iht.events
 
 import uk.gov.hmrc.play.audit.model.DataEvent
-import uk.gov.hmrc.play.http.HeaderCarrier
-import uk.gov.hmrc.play.http.logging.ForwardedFor
+import uk.gov.hmrc.http.{ForwardedFor, HeaderCarrier}
 
 import scala.util.Try
 

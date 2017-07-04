@@ -32,8 +32,9 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
+import uk.gov.hmrc.play.http.GatewayTimeoutException
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.duration._

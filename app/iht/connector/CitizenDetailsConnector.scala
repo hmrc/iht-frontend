@@ -21,7 +21,8 @@ import iht.models.CidPerson
 import play.api.Logger
 import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http.{HeaderCarrier, _}
+import uk.gov.hmrc.http.{HeaderCarrier, _}
+import uk.gov.hmrc.play.http.ws.WSExtensions._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.utils.IhtSection
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito._
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.ExecutionContext
 

@@ -24,7 +24,7 @@ import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 /**
  * Created by Vineet Tyagi on 21/04/15.

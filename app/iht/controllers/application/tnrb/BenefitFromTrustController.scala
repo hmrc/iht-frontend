@@ -29,7 +29,7 @@ import play.api.Logger
 import play.api.data.FormError
 import play.api.i18n.Messages
 import play.api.mvc.{Request, Result}
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import play.api.i18n.Messages.Implicits._

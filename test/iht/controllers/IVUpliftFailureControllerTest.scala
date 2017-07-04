@@ -25,7 +25,7 @@ import org.mockito.Mockito._
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import play.api.test.Helpers.{OK, _}
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 

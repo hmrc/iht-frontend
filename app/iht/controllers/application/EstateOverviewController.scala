@@ -28,7 +28,7 @@ import iht.viewmodels.application.overview.EstateOverviewViewModel
 import org.joda.time.LocalDate
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 

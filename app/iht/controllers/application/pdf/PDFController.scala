@@ -30,7 +30,7 @@ import models.des.iht_return.IHTReturn
 import play.api.Logger
 import play.api.i18n.{Messages, I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.Future
 

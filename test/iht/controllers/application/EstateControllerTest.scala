@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.models.application.assets._
 import iht.testhelpers.CommonBuilder
 import iht.utils.{ApplicationStatus, KickOutReason}
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 class EstateControllerTest extends ApplicationControllerTest {
 

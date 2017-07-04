@@ -20,7 +20,7 @@ import iht.connector.CachingConnector
 import iht.constants.Constants
 import iht.models.application.ApplicationDetails
 import play.api.mvc._
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 

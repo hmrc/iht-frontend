@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import play.api.http.Status._
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 
 class SessionTimeoutControllerTest extends ApplicationControllerTest with UnitSpec {

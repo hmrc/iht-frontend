@@ -27,7 +27,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.http.HeaderCarrier
 
 
 /**

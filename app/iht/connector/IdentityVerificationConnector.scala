@@ -23,7 +23,8 @@ import play.api.data.validation.ValidationError
 import play.api.libs.json.{JsPath, Json}
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.logging.MdcLoggingExecutionContext._
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpGet, HttpResponse}
+import uk.gov.hmrc.play.http.ws.WSExtensions._
 
 import scala.concurrent.Future
 
