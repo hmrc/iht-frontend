@@ -303,5 +303,45 @@ class AboutDeceasedControllerTest
       capturedValue.deceasedDetails shouldBe Some(newDetails copy (domicile = existingDeceasedDetails.domicile))
     }
 
+    "respond appropriately to an invalid submit: NINO already entered for applicant" in {
+      val nino = "QQ123456C"
+      val applicantDetails = CommonBuilder.buildApplicantDetails.copy(nino = Some(nino))
+      val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (nino=Some(nino))
+      val registrationDetails = RegistrationDetails(Some(CommonBuilder.buildDeceasedDateOfDeath),
+        Some(applicantDetails), Some(deceasedDetails))
+      val deceasedDetailsForm1 = aboutDeceasedForm(LocalDate.now).fill(deceasedDetails)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
+        data=deceasedDetailsForm1.data.toSeq)
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, None)
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+
+      val result = await(controller.onSubmit()(request))
+      status(result) shouldBe BAD_REQUEST
+      contentAsString(result) should include(messagesApi("error.nino.alreadyGiven"))
+    }
+
+    "respond appropriately to an invalid submit: NINO already entered for coexecutor" in {
+      val nino = "QQ123456C"
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+      val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (nino=Some(nino))
+      val coexec1 = CommonBuilder.buildCoExecutorPersonalDetails().copy(nino = "QL123456C")
+      val coexec2 = CommonBuilder.buildCoExecutorPersonalDetails().copy(nino = nino)
+
+      val registrationDetails = RegistrationDetails(Some(CommonBuilder.buildDeceasedDateOfDeath),
+        Some(applicantDetails), Some(deceasedDetails), coExecutors = Seq(coexec1, coexec2))
+      val deceasedDetailsForm1 = aboutDeceasedForm(LocalDate.now).fill(deceasedDetails)
+      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
+        data=deceasedDetailsForm1.data.toSeq)
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, None)
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+
+      val result = await(controller.onSubmit()(request))
+      status(result) shouldBe BAD_REQUEST
+      contentAsString(result) should include(messagesApi("error.nino.alreadyGiven"))
+    }
   }
 }
