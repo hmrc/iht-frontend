@@ -20,8 +20,8 @@ val compile = Seq(
   "uk.gov.hmrc" %% "http-caching-client" % "100.0-SNAPSHOT",
   "uk.gov.hmrc" %% "frontend-bootstrap" % "100.0-SNAPSHOT",
   "uk.gov.hmrc" %% "play-authorised-frontend" % "100.0-SNAPSHOT",
-  "uk.gov.hmrc" %% "http-verbs" % "100.0-SNAPSHOT",
-  "uk.gov.hmrc" %% "http-verbs-play-25" % "100.0-SNAPSHOT",
+//  "uk.gov.hmrc" %% "http-verbs" % "100.0-SNAPSHOT",
+//  "uk.gov.hmrc" %% "http-verbs-play-25" % "100.0-SNAPSHOT",
   "uk.gov.hmrc" %% "play-auditing" % "100.0-SNAPSHOT",
 
   "uk.gov.hmrc" %% "play-health" % "2.1.0",
