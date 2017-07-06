@@ -21,9 +21,9 @@ import iht.controllers.ControllerHelper
 import iht.models._
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.{CommonHelper, GiftsHelper, StringHelper}
 import models.des.EventRegistration
-import models.des.iht_return.IHTReturn
 import play.api.Logger
 import play.api.http.Status._
 import play.api.libs.json.{JsError, JsValue, Json}
