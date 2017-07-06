@@ -20,7 +20,7 @@ import iht.constants.IhtProperties
 import iht.constants.IhtProperties._
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DateHelper}
 import iht.utils.tnrb.TnrbHelper
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
@@ -53,7 +53,7 @@ object ThresholdSectionViewModel {
 
     val showIncreaseThresholdLink = {
 
-      val claimDateInRange = CommonHelper.isDateWithInRange( registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath)
+      val claimDateInRange = DateHelper.isDateWithInRange( registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath)
         .fold[LocalDate](new LocalDate)(identity))
 
       CommonHelper.getOrException(registrationDetails.deceasedDetails).maritalStatus match {

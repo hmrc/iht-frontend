@@ -21,11 +21,11 @@ import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.tnrb.TnrbHelper._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, DateHelper}
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.data.Form
@@ -35,6 +35,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 object DeceasedWidowCheckDateController extends DeceasedWidowCheckDateController with IhtConnectors {
@@ -125,7 +126,7 @@ trait DeceasedWidowCheckDateController extends EstateController {
     val month = boundForm("dateOfPreDeceased.month").value.getOrElse("")
     val day = boundForm("dateOfPreDeceased.day").value.getOrElse("")
 
-    CommonHelper.createDate(Some(year),
+    DateHelper.createDate(Some(year),
       Some(month),
       Some(day))
   }

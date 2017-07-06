@@ -44,8 +44,6 @@ import scala.concurrent.ExecutionContext.Implicits.global._
 
 /**
   *
-  * Created by Vineet Tyagi on 28/05/15.
-  *
   * This object contains all the common functionalities that can be reused
   */
 object CommonHelper {
@@ -127,17 +125,6 @@ object CommonHelper {
     }
   }
 
-  /**
-    * Check the current date against input date plus range (thats add 24 months in the last day of the month
-    * of input date)
-    */
-  def isDateWithInRange(date: LocalDate): Boolean = {
-    val dateString = date.toString
-    val dateTime = new DateTime(dateString)
-    val dateRange = dateTime.dayOfMonth.withMaximumValue.plusMonths(IhtProperties.DateRangeMonths).toLocalDate
-    LocalDate.now().compareTo(dateRange) < 0
-  }
-
   def getNino(user: AuthContext): String = {
     user.principal.accounts.iht.getOrElse(throw new RuntimeException("User account could not be retrieved!")).nino.value
   }
@@ -148,37 +135,6 @@ object CommonHelper {
       case false => "No"
     }
   }
-
-  def createDate(y: Option[String], m: Option[String], d: Option[String]): Option[LocalDate] = {
-    val year: String = if (y.getOrElse("").replaceAll(" ", "").length > 4) {
-      ""
-    } else {
-      y.getOrElse("")
-    }
-
-    try {
-      Some(
-        new LocalDate(
-          year.replaceAll(" ", "").toInt,
-          m.getOrElse("").replaceAll(" ", "").toInt,
-          d.getOrElse("").replaceAll(" ", "").toInt
-        )
-      )
-    } catch {
-      case e: Exception => None
-    }
-  }
-
-  def isNotFutureDate = {
-    date: LocalDate => !date.isAfter(LocalDate.now())
-  }
-
-  /**
-    * Check the Predeceased Date Of Death Tnrb Eligibility
-    */
-  def preDeceasedDiedEligible(x: LocalDate) =
-    x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
-      x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
 
   /**
     * Iterates through ListMap of ApplicationDetails->Boolean functions, executing each one in turn, passing in the
@@ -226,10 +182,6 @@ object CommonHelper {
 
   def mapMaritalStatus(rd: RegistrationDetails, newValueMarried: String = "married", newValueNotMarried: String = "notMarried") =
     if (getOrException(rd.deceasedDetails.map(_.maritalStatus)) == statusMarried) newValueMarried else newValueNotMarried
-
-  def getDateBeforeSevenYears(date: LocalDate) = {
-    date.minusYears(IhtProperties.giftsYears.toInt).plusDays(1)
-  }
 
   def mapBigDecimalPair(first: Option[BigDecimal],
                         second: Option[BigDecimal],

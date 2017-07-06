@@ -42,8 +42,6 @@ import scala.collection.immutable.ListMap
 
 /**
  *
- * Created by Vineet Tyagi on 28/05/15.
- *
  * This Class contains the Unit Tests for iht.utils.CommonHelper
  */
 class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
@@ -74,18 +72,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
 
     assert(result.equals("Awaiting return"), "Reformatted status is Awaiting return")
 
-  }
-
-  "verify the input date is within range" in {
-    val date = LocalDate.now.plusMonths(12)
-    assert(CommonHelper.isDateWithInRange(date) == true, "Given date must be with in next 24 months from last " +
-      "day of the month of the given date")
-  }
-
-  "verify the input date is not within range" in {
-    val date = LocalDate.now.minusMonths(27)
-    assert(CommonHelper.isDateWithInRange(date) == false, "Given date must be out of next 24 months from last" +
-      "day of the month of the given date")
   }
 
   "format status must format a status" in {
@@ -207,23 +193,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
   "booleanToYesNo should return No as a String" in {
     val result = CommonHelper.booleanToYesNo(boolean = false)
     result should be("No")
-  }
-
-  "createDate should return None" in {
-   val result = CommonHelper.createDate(Some(""), Some("01"), Some("10"))
-   result should be(None)
-  }
-
-  "preDeceasedDiedEligible should return true if date is later than eligibility date" in {
-   CommonHelper.preDeceasedDiedEligible(LocalDate.now) should be(true)
-  }
-
-  "preDeceasedDiedEligible should return true if date is equal to eligibility date" in {
-    CommonHelper.preDeceasedDiedEligible(new LocalDate(1974, 11, 13)) should be(true)
-  }
-
-  "preDeceasedDiedEligible should return false if date is earlier than eligibility date" in {
-    CommonHelper.preDeceasedDiedEligible(new LocalDate(1974, 11, 12)) should be(false)
   }
 
   "getOrException throws exception if String None passed in with suitable message" in {

@@ -24,7 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, DateHelper}
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -34,6 +34,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 object DateOfMarriageController extends DateOfMarriageController with IhtConnectors {
@@ -136,7 +137,7 @@ trait DateOfMarriageController extends EstateController {
     val dateOfMarriageMonth = boundForm("dateOfMarriage.month").value.getOrElse("")
     val dateOfMarriageYear = boundForm("dateOfMarriage.year").value.getOrElse("")
 
-    CommonHelper.createDate(Some(dateOfMarriageYear),
+    DateHelper.createDate(Some(dateOfMarriageYear),
       Some(dateOfMarriageMonth),
       Some(dateOfMarriageDay))
   }
