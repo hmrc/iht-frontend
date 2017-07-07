@@ -120,20 +120,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     aa shouldBe None
   }
 
-//  "getSessionId should return a string when given SessionId" in {
-//    val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
-//    val result = CommonHelper.getSessionId(hc)
-//    result.length shouldNot be(0)
-//  }
-//
-//
-//  "getSessionId should throw a RuntimeException when no SessionId found" in {
-//    val hc = new HeaderCarrier()
-//    a [RuntimeException] shouldBe thrownBy {
-//      CommonHelper.getSessionId(hc)
-//    }
-//  }
-
   "getOrException throws exception if String None passed in with suitable message" in {
     val aa:Option[String] = None
     intercept[RuntimeException] {

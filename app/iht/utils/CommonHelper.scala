@@ -80,11 +80,6 @@ object CommonHelper {
       }
   }
 
-//  def getSessionId(hc: HeaderCarrier) = {
-//    val sessionId = hc.sessionId.getOrElse(throw new RuntimeException("No session id found in header carrier"))
-//    sessionId.value
-//  }
-
   /**
     * Iterates through ListMap of ApplicationDetails->Boolean functions, executing each one in turn, passing in the
     * specified ApplicationDetails object, until one yields true, at which point the String key associated with
