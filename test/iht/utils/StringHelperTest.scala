@@ -17,6 +17,7 @@
 package iht.utils
 
 import iht.FakeIhtApp
+import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -82,5 +83,18 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     "return the string converted to new format if date is in old format DD MMM YYYY" in {
       StringHelper.parseOldAndNewDatesFormats("05 Apr 2008") shouldBe "2008-04-05"
     }
+  }
+
+
+  "trimAndUpperCaseNino should return correctly formatted nino" in {
+    val nino = CommonBuilder.DefaultNino
+    val result = StringHelper.trimAndUpperCaseNino(" " + nino.toLowerCase + " ")
+    result shouldBe nino
+  }
+
+
+  "generateAcknowledgeReference should not contain a dash" in {
+    val result = StringHelper.generateAcknowledgeReference
+    result shouldNot contain("-")
   }
 }

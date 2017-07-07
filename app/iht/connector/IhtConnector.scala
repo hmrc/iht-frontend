@@ -19,7 +19,6 @@ package iht.connector
 import iht.config.WSHttp
 import iht.controllers.ControllerHelper
 import iht.models._
-import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
 import iht.utils.{CommonHelper, GiftsHelper, StringHelper}
 import models.des.EventRegistration
@@ -88,7 +87,7 @@ object IhtConnector extends IhtConnector with ServicesConfig {
   override def submitRegistration(nino: String, rd: RegistrationDetails)(implicit headerCarrier: HeaderCarrier):
   Future[String] = {
     val er = EventRegistration.fromRegistrationDetails(rd)
-    val ninoFormatted = CommonHelper.trimAndUpperCaseNino(nino)
+    val ninoFormatted = StringHelper.trimAndUpperCaseNino(nino)
     Logger.info("Calling IHT micro-service to submit registration")
     http.POST(s"$serviceUrl/iht/$ninoFormatted/registration/submit", er) map {
       response => {

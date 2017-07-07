@@ -150,18 +150,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     aa shouldBe None
   }
 
-  "trimAndUpperCaseNino should return correctly formatted nino" in {
-    val nino = CommonBuilder.DefaultNino
-   val result = CommonHelper.trimAndUpperCaseNino(" " + nino.toLowerCase + " ")
-   result shouldBe nino
-  }
-
-
-  "generateAcknowledgeReference should not contain a dash" in {
-    val result = CommonHelper.generateAcknowledgeReference
-    result shouldNot contain("-")
-  }
-
   "getSessionId should return a string when given SessionId" in {
     val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
     val result = CommonHelper.getSessionId(hc)

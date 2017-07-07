@@ -16,17 +16,16 @@
 
 package iht.testhelpers
 
-import scala.util.Random
 import iht.constants.IhtProperties
-import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.models.application.assets._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.models.application.debts._
-import iht.models.application.assets._
-import iht.models.application.gifts._
 import iht.models.application.exemptions._
+import iht.models.application.gifts._
 import iht.models.application.tnrb._
+import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
 import iht.models.{ReturnDetails, _}
-import iht.utils.{CommonHelper, KickOutReason, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, KickOutReason, StringHelper, ApplicationStatus => AppStatus}
 import models.des.iht_return.{Declaration, IHTReturn}
 import models.des.{Deceased, Event, EventRegistration}
 import org.joda.time.{DateTime, LocalDate}
@@ -35,6 +34,8 @@ import play.api.mvc.Call
 import uk.gov.hmrc.domain.{Nino, TaxIds}
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
+
+import scala.util.Random
 
 
 object CommonBuilder {
@@ -87,7 +88,7 @@ object CommonBuilder {
   val DefaultDomicile = TestHelper.DomicileEnglandOrWales
   val DefaultMaritalStatus = TestHelper.MaritalStatusMarried
   val DefaultIHTReference = Some("ABC1234567890")
-  val DefaultAcknowledgmentReference = CommonHelper.generateAcknowledgeReference
+  val DefaultAcknowledgmentReference = StringHelper.generateAcknowledgeReference
   val DefaultIsAddressInUK = Some(true)
 
   //Default value for TnrbEligibilty Model
@@ -745,7 +746,7 @@ object CommonBuilder {
     val erCoExec3 = erCoExec1 copy(firstName = Some(DefaultCoExecutor3.firstName),
       lastName = Some(DefaultCoExecutor3.lastName))
 
-    EventRegistration(Some(CommonHelper.generateAcknowledgeReference),
+    EventRegistration(Some(StringHelper.generateAcknowledgeReference),
       Some(Event("death", "Free Estate")),
       Some(buildLeadExecutor),
       if (includeCoExecutors) Some(Seq(erCoExec1, erCoExec2, erCoExec3)) else None,

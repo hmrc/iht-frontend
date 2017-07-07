@@ -17,6 +17,7 @@
 package iht.utils
 
 import java.util.Locale
+import java.util.UUID.randomUUID
 
 import iht.utils.CommonHelper.withValue
 import play.api.Play.current
@@ -89,4 +90,13 @@ object StringHelper {
         }
     }
   }
+
+  def trimAndUpperCaseNino(nino: String) = {
+    nino.trim.replace(" ", "").toUpperCase
+  }
+
+  def generateAcknowledgeReference: String = {
+    randomUUID.toString().replaceAll("-", "")
+  }
+
 }

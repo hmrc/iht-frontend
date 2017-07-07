@@ -19,12 +19,11 @@ package iht.utils
 import java.util.UUID._
 
 import iht.connector.CachingConnector
-import iht.constants.{Constants, IhtProperties}
 import iht.constants.IhtProperties.statusMarried
+import iht.constants.{Constants, IhtProperties}
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
-import iht.models.application.gifts.PreviousYearsGifts
 import iht.views.html._
 import play.api.Logger
 import play.api.Play.current
@@ -36,10 +35,7 @@ import play.twirl.api.Html
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.collection.immutable.ListMap
-import scala.concurrent.duration.Duration
-import scala.concurrent.{ExecutionContext, Await, Future}
-import scala.util.{Try,Success,Failure}
-import scala.concurrent.ExecutionContext.Implicits.global._
+import scala.util.{Failure, Success, Try}
 
 /**
   *
@@ -82,14 +78,6 @@ object CommonHelper {
         case Failure(exception) =>
           n
       }
-  }
-
-  def trimAndUpperCaseNino(nino: String) = {
-    nino.trim.replace(" ", "").toUpperCase
-  }
-
-  def generateAcknowledgeReference: String = {
-    randomUUID.toString().replaceAll("-", "")
   }
 
   /**
