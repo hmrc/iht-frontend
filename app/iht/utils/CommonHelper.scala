@@ -22,14 +22,11 @@ import iht.constants.IhtProperties.statusMarried
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
-import iht.views.html._
-import play.api.Logger
 import play.api.Play.current
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request}
-import play.twirl.api.Html
 
 import scala.util.{Failure, Success, Try}
 
@@ -142,7 +139,7 @@ object CommonHelper {
   val isApplicantApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.isApplyingForProbate).isDefined
   val isThereAnApplicantProbateLocation: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.country).isDefined
   val isThereAnApplicantPhoneNo: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.phoneNo).isDefined
-  val isThereAnApplicantAddress: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.ukAddress).isDefined
+
   val isApplicantOthersApplyingForProbateQuestionAnsweredYes: Predicate = (rd, _) => rd.areOthersApplyingForProbate.fold(false)(identity)
   val isApplicantOthersApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.areOthersApplyingForProbate.isDefined
 
@@ -159,33 +156,6 @@ object CommonHelper {
   val isThereACoExecutorWithId: Predicate = (rd, id) => findExecutor(id, rd.coExecutors).isDefined
   val isThereACoExecutorFirstName: Predicate = (rd, id) => findExecutor(id, rd.coExecutors).fold(false) {
     _.firstName.trim.nonEmpty
-  }
-
-  def addressFormater(applicantAddress: UkAddress): String = {
-    var address: String = ihtHelpers.custom.name(applicantAddress.ukAddressLine1.toString) +
-      " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine2.toString).toString.replace("\n", "")
-
-    if (applicantAddress.ukAddressLine3.isDefined) {
-      address += " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine3.getOrElse("").toString).toString.replace("\n", "")
-    }
-
-    if (applicantAddress.ukAddressLine4.isDefined) {
-      address += " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine4.getOrElse("").toString).toString.replace("\n", "")
-    }
-
-    if (applicantAddress.postCode.toString != "") {
-      address += " \n" + applicantAddress.postCode.toString
-    }
-
-    if (countryName(applicantAddress.countryCode) != "" && applicantAddress.countryCode != "GB") {
-      address += " \n" + countryName(applicantAddress.countryCode)
-    }
-
-    address.toString().trim()
-  }
-
-  def addressLayout(address: UkAddress): Html = {
-    Html(CommonHelper.addressFormater(address).replace("\n", "<br/>"))
   }
 
   def insurancePoliciesEndLineMessageKey(form: Form[InsurancePolicy]): Option[String] = {

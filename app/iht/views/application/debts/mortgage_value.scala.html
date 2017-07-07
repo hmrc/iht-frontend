@@ -47,7 +47,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
         <div id="address" class="panel-indent panel-indent--gutter">
             @property.address match{
                 case Some(x) => {
-                    @CommonHelper.addressLayout(x)
+                    @AddressHelper.addressLayout(x)
                 }
                 case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
             }

@@ -111,18 +111,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
       ), "") shouldBe false
   }
 
-  "Predicate isThereAnApplicantAddress returns true when there is an applicant address " in {
-    CommonHelper.isThereAnApplicantAddress(CommonBuilder.buildRegistrationDetails copy(
-      applicantDetails = Some(CommonBuilder.buildApplicantDetails)
-      ), "") shouldBe true
-  }
-
-  "Predicate isThereAnApplicantAddress returns false when there is no applicant address " in {
-    CommonHelper.isThereAnApplicantAddress(CommonBuilder.buildRegistrationDetails copy(
-      applicantDetails = Some(CommonBuilder.buildApplicantDetails.copy(ukAddress = None))
-      ), "") shouldBe false
-  }
-
   "Predicate isApplicantOthersApplyingForProbateQuestionAnsweredYes returns true when" +
     " applicant others applying for probate question answered" in {
     CommonHelper.isApplicantOthersApplyingForProbateQuestionAnsweredYes(

@@ -71,7 +71,7 @@ isFullWidth=false
                     <div class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.number", (i + 1))</div>
                     @element.address match{
                         case Some(x) => {
-                            @CommonHelper.addressLayout(x)
+                            @AddressHelper.addressLayout(x)
                         }
                         case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
                     }

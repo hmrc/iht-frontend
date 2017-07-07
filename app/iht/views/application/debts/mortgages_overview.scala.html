@@ -59,7 +59,7 @@ isFullWidth= false) {
                       <div class="tabular-data__data tabular-data__data--6-12">
                           @element.address match{
                               case Some(x) => {
-                                @CommonHelper.addressLayout(x)
+                                @AddressHelper.addressLayout(x)
                               }
                               case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
                           }
