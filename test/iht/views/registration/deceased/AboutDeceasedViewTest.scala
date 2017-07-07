@@ -25,11 +25,15 @@ import org.joda.time.LocalDate
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
+import uk.gov.hmrc.play.http.HeaderCarrier
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class AboutDeceasedViewTest extends RegistrationPageBehaviour[DeceasedDetails] {
 
   override def pageTitle = messagesApi("iht.registration.deceasedDetails.title")
   override def browserTitle = messagesApi("iht.registration.deceasedDetails.title")
+
+  implicit val hc = mock[HeaderCarrier]
 
   override def form:Form[DeceasedDetails] = aboutDeceasedForm(new LocalDate())
   override def formToView:Form[DeceasedDetails] => Appendable = form => about_deceased(form, CommonBuilder.DefaultCall1)
