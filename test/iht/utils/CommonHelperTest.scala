@@ -17,16 +17,11 @@
 package iht.utils
 
 import iht.FakeIhtApp
-import iht.constants.Constants
 import iht.models.application.ApplicationDetails
 import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.Session
 import play.api.test.FakeRequest
-import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength, IhtAccount}
-import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
@@ -234,45 +229,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     }
   }
 
-  def buildAuthContext(nino:Nino): AuthContext = {
-    new AuthContext(
-      LoggedInUser(CommonBuilder.firstNameGenerator, None, None, None, CredentialStrength.Strong, ConfidenceLevel.L300 ,""),
-      Principal(None, Accounts(iht = Some(IhtAccount("", nino)) )),
-      None, None, None, None
-    )
-  }
-
-  "ensureSessionHasNino" must {
-    "throw an exception if the authcontext contains no nino" in {
-      val nino = NinoBuilder.randomNino
-      a[RuntimeException] shouldBe thrownBy {
-        CommonHelper.ensureSessionHasNino(new Session(), CommonBuilder.buildAuthContext())
-      }
-    }
-
-    "add the nino if it is not present in the session" in {
-      val nino = NinoBuilder.randomNino
-      val result = CommonHelper.ensureSessionHasNino(new Session(), buildAuthContext(nino))
-      result.get(Constants.NINO) shouldBe Some(nino.nino)
-    }
-
-    "retrieve the nino if the same nino is present in the session" in {
-      val nino = NinoBuilder.randomNino
-      val session = new Session() + (Constants.NINO -> nino.name)
-      val result = CommonHelper.ensureSessionHasNino(session, buildAuthContext(nino))
-      result.get(Constants.NINO) shouldBe Some(nino.nino)
-    }
-
-    "replace the nino if a different nino is present in the session" in {
-      val nino = NinoBuilder.randomNino
-      val newNino = NinoBuilder.randomNino
-      val session = new Session() + (Constants.NINO -> nino.name)
-      val result = CommonHelper.ensureSessionHasNino(session, buildAuthContext(newNino))
-      result.get(Constants.NINO) shouldBe Some(newNino.nino)
-    }
-  }
-
-
   "formatCurrencyForInput" must {
     "return a properly formatted number if no trailing zero provided" in {
       val number = "5000.5"
@@ -305,16 +261,4 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     }
   }
 
-  "getNinoFromSession" must {
-    "return the nino when it is present in the session" in {
-      val nino = "CSXXXXX"
-      val request = FakeRequest().withSession(Constants.NINO -> nino)
-      CommonHelper.getNinoFromSession(request) shouldBe Some(nino)
-    }
-
-    "return the empty string when nino is not present in the session" in {
-      val request = FakeRequest().withSession()
-      CommonHelper.getNinoFromSession(request) shouldBe empty
-    }
-  }
 }

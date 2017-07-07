@@ -16,17 +16,11 @@
 
 package iht.controllers.registration
 
-import java.util.UUID
-
 import iht.controllers.ControllerHelper.Mode
-import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.utils.RegistrationKickOutHelper._
+import iht.utils.{DeceasedInfoHelper, SessionHelper}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request, Result}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.play.frontend.auth.AuthContext
-import uk.gov.hmrc.play.http.SessionKeys
 
 import scala.concurrent.Future
 
@@ -50,7 +44,7 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
         } else {
           okForEditPageLoad(f, Some(deceasedName))
         }
-        val result = okResult.withSession(CommonHelper.ensureSessionHasNino(request.session, user))
+        val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, user))
         Future.successful(result)
       }
   }

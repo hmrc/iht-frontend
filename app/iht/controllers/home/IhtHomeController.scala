@@ -21,7 +21,7 @@ import java.util.UUID
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
-import iht.utils.{CommonHelper, StringHelper, ApplicationStatus => AppStatus}
+import iht.utils.{SessionHelper, StringHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import play.api.Logger
 import play.api.Play.current
@@ -70,7 +70,7 @@ trait IhtHomeController extends ApplicationController {
         } recover {
           case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
             Ok(iht.views.html.home.iht_home(Nil)).withSession(
-              CommonHelper.ensureSessionHasNino(request.session, user) +
+              SessionHelper.ensureSessionHasNino(request.session, user) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
             )
         }

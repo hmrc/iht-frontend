@@ -22,7 +22,7 @@ import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
-import iht.utils.{CommonHelper, StringHelper}
+import iht.utils.{SessionHelper, StringHelper}
 import iht.views.html.registration.{applicant => views}
 import play.api.Play.current
 import play.api.data.Form
@@ -64,7 +64,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
         } else {
           okForEditPageLoad(f)
         }
-        val result = okResult.withSession(CommonHelper.ensureSessionHasNino(request.session, user))
+        val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, user))
         Future.successful(result)
       }
   }

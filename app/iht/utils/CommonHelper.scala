@@ -16,11 +16,9 @@
 
 package iht.utils
 
-import java.util.UUID._
-
 import iht.connector.CachingConnector
+import iht.constants.Constants
 import iht.constants.IhtProperties.statusMarried
-import iht.constants.{Constants, IhtProperties}
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
@@ -30,11 +28,9 @@ import play.api.Play.current
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Session}
+import play.api.mvc.{Call, Request}
 import play.twirl.api.Html
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 
-import scala.collection.immutable.ListMap
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -44,8 +40,6 @@ import scala.util.{Failure, Success, Try}
 object CommonHelper {
   private val DateRangeMonths = 24
   def cachingConnector: CachingConnector = CachingConnector
-
-  import uk.gov.hmrc.play.http.HeaderCarrier
 
   /**
     * Capture the Referrer URL excluding the Host URL
@@ -260,21 +254,6 @@ object CommonHelper {
     }
   }
 
-  def ensureSessionHasNino(session: Session, user: AuthContext): Session =
-    withValue(StringHelper.getNino(user)) { currentNino =>
-      val optionSession = session.get(Constants.NINO).fold[Option[Session]](
-        None
-      ) { foundNino =>
-        if (foundNino == currentNino) {
-          Option(session)
-        } else {
-          None
-        }
-      }
-      optionSession.fold(session + (Constants.NINO -> currentNino))(identity)
-    }
-
-
   def addFragmentIdentifier(call: Call, identifier: Option[String] = None) = {
     identifier match {
       case None => call
@@ -289,7 +268,5 @@ object CommonHelper {
       url
     }
   }
-
-  def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(Constants.NINO)
 
 }
