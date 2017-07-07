@@ -24,9 +24,9 @@ import iht.models.application.exemptions._
 import iht.models.application.gifts._
 import iht.models.application.tnrb._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.models.des.ihtReturn.{Declaration, IHTReturn}
 import iht.models.{ReturnDetails, _}
 import iht.utils.{CommonHelper, KickOutReason, StringHelper, ApplicationStatus => AppStatus}
-import models.des.iht_return.{Declaration, IHTReturn}
 import models.des.{Deceased, Event, EventRegistration}
 import org.joda.time.{DateTime, LocalDate}
 import org.mockito.invocation.InvocationOnMock
@@ -36,7 +36,6 @@ import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLev
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 
 import scala.util.Random
-
 
 object CommonBuilder {
   val rng = new Random

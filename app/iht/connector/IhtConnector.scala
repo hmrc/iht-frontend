@@ -20,9 +20,9 @@ import iht.config.WSHttp
 import iht.controllers.ControllerHelper
 import iht.models._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
-import iht.utils.{CommonHelper, GiftsHelper, RegistrationDetailsHelper, StringHelper}
+import iht.utils.{GiftsHelper, RegistrationDetailsHelper, StringHelper}
+import iht.models.des.ihtReturn.IHTReturn
 import models.des.EventRegistration
-import models.des.iht_return.IHTReturn
 import play.api.Logger
 import play.api.http.Status._
 import play.api.libs.json.{JsError, JsValue, Json}

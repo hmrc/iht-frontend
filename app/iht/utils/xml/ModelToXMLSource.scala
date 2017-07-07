@@ -18,8 +18,8 @@ package iht.utils.xml
 
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import models.des.iht_return.IHTReturn
-import models.des.iht_return.IHTReturn._
+import iht.models.des.ihtReturn.IHTReturn
+import IHTReturn._
 import org.json.{JSONObject, XML}
 import play.api.libs.json.Json
 
