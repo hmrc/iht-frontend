@@ -24,9 +24,9 @@ import iht.constants.{Constants, IhtProperties}
 import iht.controllers.application.ApplicationController
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
+import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.pdf._
 import iht.utils.{CommonHelper, DeclarationHelper}
-import models.des.iht_return.IHTReturn
 import play.api.Logger
 import play.api.i18n.{Messages, I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector

@@ -17,11 +17,10 @@
 package iht.utils.pdf
 
 import iht.forms.FormTestHelper
+import iht.models.des.ihtReturn.Asset
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
-import models.des.iht_return.Asset
 import org.joda.time.LocalDate
-import play.api.i18n.{Messages, MessagesApi}
 
 import scala.collection.immutable.ListMap
 

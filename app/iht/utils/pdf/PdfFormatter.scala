@@ -21,7 +21,7 @@ import iht.constants.FieldMappings.maritalStatusMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import models.des.iht_return.{Asset, Exemption, IHTReturn}
+import iht.models.des.ihtReturn.{Exemption, Asset, IHTReturn}
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages

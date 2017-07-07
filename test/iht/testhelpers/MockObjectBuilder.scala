@@ -20,8 +20,8 @@ import iht.connector.{CachingConnector, CitizenDetailsConnector, IhtConnector}
 import iht.constants.Constants
 import iht.models._
 import iht.models.application.{IhtApplication, ApplicationDetails, ProbateDetails}
+import iht.models.des.ihtReturn.IHTReturn
 import iht.testhelpers.CommonBuilder._
-import models.des.iht_return.IHTReturn
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 
