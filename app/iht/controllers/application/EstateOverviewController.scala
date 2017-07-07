@@ -21,6 +21,7 @@ import iht.constants.IhtProperties._
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
+import iht.utils.RegistrationDetailsHelper._
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutHelper, ApplicationStatus, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel

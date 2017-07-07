@@ -92,7 +92,7 @@ trait RegistrationSummaryController extends RegistrationController {
       // need to know what the acknowledgement reference will be
       val ackRef = StringHelper.generateAcknowledgeReference
       val futureRegistrationDetails = cachingConnector.getRegistrationDetails
-        .map(optRegDetails => CommonHelper.getOrExceptionNoRegistration(optRegDetails))
+        .map(optRegDetails => RegistrationDetailsHelper.getOrExceptionNoRegistration(optRegDetails))
       futureRegistrationDetails.flatMap(registrationDetails => {
         val ihtReference = ihtConnector.submitRegistration(
           CommonHelper.getOrException(registrationDetails.applicantDetails).nino,

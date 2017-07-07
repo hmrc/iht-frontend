@@ -19,26 +19,15 @@ package iht.utils
 import iht.FakeIhtApp
 import iht.constants.Constants
 import iht.models.application.ApplicationDetails
-import iht.models.application.exemptions.BasicExemptionElement
-import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
 import iht.testhelpers._
-import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.{I18nSupport, Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.Session
 import play.api.test.FakeRequest
 import uk.gov.hmrc.domain.Nino
-import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
+import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength, IhtAccount}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
-import uk.gov.hmrc.play.http.HeaderCarrier
-import uk.gov.hmrc.play.http.logging.SessionId
 import uk.gov.hmrc.play.test.UnitSpec
-import uk.gov.hmrc.play.frontend.auth.connectors.domain.IhtAccount
-import uk.gov.hmrc.play.frontend.auth.Principal
-
-import scala.collection.immutable.ListMap
 
 /**
  *
@@ -60,66 +49,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
 
   }
 
-  "findFirstTrue should return correct item subscript when last of three is true" in {
-    val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
-    val aa = CommonHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
-      ListMap("1" -> a, "2" -> b, "3" -> c))
-    aa shouldBe Some("3")
-  }
-
-  "findFirstTrue should return correct item subscript when second of three is true" in {
-    val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
-    val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val aa = CommonHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
-      ListMap("1" -> a, "2" -> b, "3" -> c))
-    aa shouldBe Some("2")
-  }
-
-  "findFirstTrue should return correct item subscript when first of three is true" in {
-    val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
-    val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val aa = CommonHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
-      ListMap("1" -> a, "2" -> b, "3" -> c))
-    aa shouldBe Some("1")
-  }
-
-  "findFirstTrue should return None when none of three is true" in {
-    val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val aa = CommonHelper.findFirstTrue(CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
-      ListMap("1" -> a, "2" -> b, "3" -> c))
-    aa shouldBe None
-  }
-
-  "findFirstTrue should return correct item subscript when more than one item is true" in {
-
-    val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val c: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val d: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
-    val e: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val f: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => true
-    val g: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-    val h: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
-
-    val aa = CommonHelper.findFirstTrue(
-      CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)),
-      ListMap("1" -> a, "2" -> b, "3" -> c, "4" -> d, "5" -> e, "6" -> f, "7" -> g, "8" -> h))
-    aa shouldBe Some("4")
-  }
-
-
-  "findFirstTrue should return None when sequence is empty" in {
-    val aa = CommonHelper.findFirstTrue(
-      CommonBuilder.buildRegistrationDetails, CommonBuilder.buildApplicationDetails, Seq(BigDecimal(0)), ListMap())
-    aa shouldBe None
-  }
-
   "getOrException throws exception if String None passed in with suitable message" in {
     val aa:Option[String] = None
     intercept[RuntimeException] {
@@ -139,13 +68,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     intercept[RuntimeException] {
       CommonHelper.getOrExceptionApplicationNotSaved(aa)
     }.getMessage should include ("Unable to save application")
-  }
-
-  "getOrException throws exception if Registration Details None passed in with suitable message" in {
-    val aa:Option[RegistrationDetails] = None
-    intercept[RuntimeException] {
-      CommonHelper.getOrExceptionNoRegistration(aa)
-    }.getMessage should include ("No registration details")
   }
 
   "getOrException throws exception if IHT Ref None passed in with suitable message" in {
@@ -264,65 +186,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     val seqList = Seq(None, None, None)
     val result = CommonHelper.aggregateOfSeqOfOptionDecimal(seqList)
     result shouldBe None
-  }
-
-  "isExemptionsCompleted"  should {
-    val regDetailsMarried = CommonBuilder.buildRegistrationDetails4
-    val regDetailsWidowed = CommonBuilder.buildRegistrationDetails5
-
-
-    "return true when Deceased is Married and all exemptions have been completed" in {
-      val appDetails = CommonBuilder.buildApplicationDetails.copy(
-        allExemptions = Some(CommonBuilder.buildAllExemptions.copy(
-          partner = Some(CommonBuilder.buildPartnerExemption),
-          charity = Some(BasicExemptionElement(Some(true))),
-          qualifyingBody = Some(BasicExemptionElement(Some(false))))),
-        charities = Seq(CommonBuilder.buildCharity.copy(
-          Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(80000))))
-      )
-
-      CommonHelper.isExemptionsCompleted(regDetailsMarried, appDetails) shouldBe true
-    }
-
-    "return false when Deceased is Married but all exemptions have not been completed" in {
-      val appDetails = CommonBuilder.buildApplicationDetails.copy(
-        allExemptions = Some(CommonBuilder.buildAllExemptions.copy(
-          partner = Some(CommonBuilder.buildPartnerExemption),
-          charity = Some(BasicExemptionElement(Some(true))),
-          qualifyingBody = Some(BasicExemptionElement(Some(true))))),
-        charities = Seq(CommonBuilder.buildCharity.copy(
-          Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(80000))))
-      )
-
-      CommonHelper.isExemptionsCompleted(regDetailsMarried, appDetails) shouldBe false
-    }
-
-    "return true when Deceased's marital status is other than Married and all exemptions have been completed" in {
-
-      val appDetails = CommonBuilder.buildApplicationDetails.copy(
-        allExemptions = Some(CommonBuilder.buildAllExemptions.copy(
-          partner = None,
-          charity = Some(BasicExemptionElement(Some(true))),
-          qualifyingBody = Some(BasicExemptionElement(Some(false))))),
-        charities = Seq(CommonBuilder.buildCharity.copy(
-          Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(80000))))
-      )
-
-      CommonHelper.isExemptionsCompleted(regDetailsWidowed, appDetails) shouldBe true
-    }
-
-    "return false when Deceased's marital status is other than Married and all exemptions have not been completed" in {
-      val appDetails = CommonBuilder.buildApplicationDetails.copy(
-        allExemptions = Some(CommonBuilder.buildAllExemptions.copy(
-          partner = None,
-          charity = Some(BasicExemptionElement(Some(true))),
-          qualifyingBody = Some(BasicExemptionElement(Some(true))))),
-        charities = Seq(CommonBuilder.buildCharity.copy(
-          Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(80000))))
-      )
-
-      CommonHelper.isExemptionsCompleted(regDetailsWidowed, appDetails) shouldBe false
-    }
   }
 
 "getOrZero" should {

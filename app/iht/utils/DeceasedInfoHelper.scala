@@ -28,10 +28,6 @@ import scala.concurrent.{ExecutionContext, Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global._
 
 object DeceasedInfoHelper {
-  private val DateRangeMonths = 24
-  def cachingConnector: CachingConnector = CachingConnector
-
-  import uk.gov.hmrc.play.http.HeaderCarrier
 
   def determineStatusToUse(desStatus: String, secureStorageStatus: String): String = {
     desStatus match {

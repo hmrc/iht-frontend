@@ -22,11 +22,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{I18nSupport, MessagesApi}
 import uk.gov.hmrc.play.test.UnitSpec
 
-class DateHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
-
-  implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val referrerURL="http://localhost:9070/inheritance-tax/registration/addExecutor"
-  val host="localhost:9070"
+class DateHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
   "createDate should return None" in {
     val result = DateHelper.createDate(Some(""), Some("01"), Some("10"))

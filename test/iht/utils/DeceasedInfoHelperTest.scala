@@ -27,9 +27,6 @@ import uk.gov.hmrc.play.test.UnitSpec
 class DeceasedInfoHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I18nSupport {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val referrerURL="http://localhost:9070/inheritance-tax/registration/addExecutor"
-  val host="localhost:9070"
-
 
   "getDeceasedNameOrDefaultString" must {
     val firstName = "first"

@@ -20,7 +20,7 @@ import iht.config.WSHttp
 import iht.controllers.ControllerHelper
 import iht.models._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
-import iht.utils.{CommonHelper, GiftsHelper, StringHelper}
+import iht.utils.{CommonHelper, GiftsHelper, RegistrationDetailsHelper, StringHelper}
 import models.des.EventRegistration
 import models.des.iht_return.IHTReturn
 import play.api.Logger
@@ -196,7 +196,7 @@ object IhtConnector extends IhtConnector with ServicesConfig {
               }
               case x => {
                 Logger.info("Correctly returned for registration details")
-                CommonHelper.getOrExceptionNoRegistration(x.asOpt)
+                RegistrationDetailsHelper.getOrExceptionNoRegistration(x.asOpt)
               }
             }
           }

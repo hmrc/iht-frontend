@@ -80,31 +80,6 @@ object CommonHelper {
       }
   }
 
-  /**
-    * Iterates through ListMap of ApplicationDetails->Boolean functions, executing each one in turn, passing in the
-    * specified ApplicationDetails object, until one yields true, at which point the String key associated with
-    * the function is returned as an Option. If all functions yield false then a None is returned.
-    */
-  def findFirstTrue(registrationDetails: RegistrationDetails,
-                    applicationDetails: ApplicationDetails,
-                    sectionTotal: => Seq[BigDecimal],
-                    keysToFunctions: ListMap[String, (RegistrationDetails,
-                      ApplicationDetails, Seq[BigDecimal]) => Boolean]): Option[String] = {
-
-    val passedItems = keysToFunctions.keys.iterator.takeWhile(key =>
-      !keysToFunctions(key)(registrationDetails, applicationDetails, sectionTotal))
-
-    val passedItemsSize = passedItems.size
-
-    if (passedItemsSize >= keysToFunctions.keys.iterator.size) {
-      // If they've all yielded false
-      None
-    } else {
-      val remainingItems = keysToFunctions.keys.iterator.drop(passedItemsSize)
-      Some(remainingItems.next())
-    }
-  }
-
   def getOrExceptionIfNegative(i: Int): Int = if (i < 0) throw new RuntimeException("Unexpected negative value") else i
 
   def getOrException[A](option: Option[A], errorMessage: String = "No element found"): A =
@@ -119,8 +94,6 @@ object CommonHelper {
 
   def getOrExceptionApplicationNotSaved(option: Option[ApplicationDetails],
                                         errorMessage: String = "Unable to save application"): ApplicationDetails = getOrException(option, errorMessage)
-
-  def getOrExceptionNoRegistration(option: Option[RegistrationDetails]): RegistrationDetails = getOrException(option, "No registration details")
 
   def getEmptyStringOrElse[A](option: Option[A], noneValue: String): String = option.fold(noneValue)(_ => "")
 
@@ -209,21 +182,6 @@ object CommonHelper {
     _.firstName.trim.nonEmpty
   }
 
-  /**
-    * Checks the Exemptions Completion based on marital status
-    *
-    * @param rd : RegistrationDetails
-    * @param ad : ApplicationDetails
-    * @return
-    */
-  def isExemptionsCompleted(rd: RegistrationDetails,
-                            ad: ApplicationDetails) = {
-    !rd.deceasedDetails.flatMap(_.maritalStatus).contains(IhtProperties.statusMarried) match {
-      case true => ad.isExemptionsCompletedWithoutPartnerExemption
-      case false => ad.isExemptionsCompleted
-    }
-  }
-
   def addressFormater(applicantAddress: UkAddress): String = {
     var address: String = ihtHelpers.custom.name(applicantAddress.ukAddressLine1.toString) +
       " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine2.toString).toString.replace("\n", "")
@@ -250,15 +208,6 @@ object CommonHelper {
   def addressLayout(address: UkAddress): Html = {
     Html(CommonHelper.addressFormater(address).replace("\n", "<br/>"))
   }
-
-  /**
-    * Fetch the deceased Marital status if DeceasedDetails and MaritalStatus exists else throws exception
-    *
-    * @param regDetails
-    * @return
-    */
-  def getMaritalStatus(regDetails: RegistrationDetails) =
-    getOrException(getOrException(regDetails.deceasedDetails).maritalStatus)
 
   def insurancePoliciesEndLineMessageKey(form: Form[InsurancePolicy]): Option[String] = {
     if (form.errors.exists(error => Constants.insurancePolicyFormFieldsWithExtraContentLineInErrorSummary
