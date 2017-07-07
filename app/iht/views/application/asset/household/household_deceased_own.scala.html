@@ -22,15 +22,15 @@
 
 @import iht.utils._
 @import iht.constants.Constants
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.IhtProperties._
 
 @(household: Form[ShareableBasicEstateElement],
 registrationDetails: RegistrationDetails
 )(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
-@deceasedNameWrap() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@deceasedNameWrap() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(
     title = Messages("iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title", deceasedName),

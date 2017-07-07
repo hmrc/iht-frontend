@@ -26,7 +26,6 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.views.html._
-import org.joda.time.{DateTime, LocalDate}
 import play.api.Logger
 import play.api.Play.current
 import play.api.data.{Form, FormError}
@@ -116,13 +115,6 @@ object CommonHelper {
   def getSessionId(hc: HeaderCarrier) = {
     val sessionId = hc.sessionId.getOrElse(throw new RuntimeException("No session id found in header carrier"))
     sessionId.value
-  }
-
-  def determineStatusToUse(desStatus: String, secureStorageStatus: String): String = {
-    desStatus match {
-      case (ApplicationStatus.AwaitingReturn) => secureStorageStatus
-      case (_) => desStatus
-    }
   }
 
   def getNino(user: AuthContext): String = {
@@ -274,11 +266,6 @@ object CommonHelper {
       _ + _
     }
 
-  val isThereADateOfDeath: Predicate = (rd, _) => rd.deceasedDateOfDeath.isDefined
-  val isThereADeceasedDomicile: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.domicile).isDefined
-  val isThereADeceasedFirstName: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.firstName).isDefined
-  val isDeceasedAddressQuestionAnswered: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.isAddressInUK).isDefined
-  val isThereADeceasedAddress: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.ukAddress).isDefined
   val isApplicantApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.isApplyingForProbate).isDefined
   val isThereAnApplicantProbateLocation: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.country).isDefined
   val isThereAnApplicantPhoneNo: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.phoneNo).isDefined
@@ -403,17 +390,6 @@ object CommonHelper {
     }
   }
 
-  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails,
-                                     wrapName: Boolean = false): String =
-    if (wrapName) {
-      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
-    } else {
-      regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
-    }
-
-  def getDeceasedNameOrDefaultString(deceasedName: Option[String]): String = {
-    deceasedName.fold(Messages("iht.the.deceased")) { identity }
-  }
   /**
     * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
     * String is split on spaces and hyphens to exclude strings which would split to new lines anyway
@@ -466,12 +442,4 @@ object CommonHelper {
 
   def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(Constants.NINO)
 
-  def deceasedName(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = {
-    val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
-    val deceasedNameFuture = futureOptionRD.map {
-      case None => ""
-      case Some(rd) => rd.deceasedDetails.fold("")(_.name)
-    }
-    Await.result(deceasedNameFuture, Duration.Inf)
-  }
 }

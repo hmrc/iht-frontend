@@ -24,13 +24,13 @@
 @import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
 @import scala.collection.immutable.Seq
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
 @(trusts:Option[HeldInTrust], registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @getLinkScreenReader(element: Option[_], changeText: String, noValueText: String) = @{
     element match {

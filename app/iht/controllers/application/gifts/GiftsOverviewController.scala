@@ -17,21 +17,18 @@
 package iht.controllers.application.gifts
 
 import iht.controllers.application.EstateController
-import iht.controllers.ControllerHelper
 import iht.connector.IhtConnectors
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
-import iht.utils.CommonHelper
+import iht.utils._
 import iht.utils.CommonHelper._
 import iht.utils.ExemptionsGuidanceHelper._
 import iht.utils.OverviewHelper._
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import iht.views.html._
-import iht.constants.Constants._
 import iht.constants.IhtProperties._
 import scala.concurrent.Future
 
@@ -51,7 +48,7 @@ trait GiftsOverviewController extends EstateController {
   }
 
   private def withReservationYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) =  {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd, true)
+    val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd, true)
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isReservation, routes.WithReservationOfBenefitController.onPageLoad(),
         _.allGifts.flatMap(_.isReservation).fold(false)(_ => true),
@@ -62,7 +59,7 @@ trait GiftsOverviewController extends EstateController {
   }
 
   private def sevenYearsYesNoItems(allGifts: AllGifts, rd: RegistrationDetails)(implicit messages:Messages) = {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd, true)
+    val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd, true)
     Seq[QuestionAnswer](
       QuestionAnswer(allGifts.isGivenInLast7Years, routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
         _.allGifts.flatMap(_.isGivenInLast7Years).fold(false)(_ => true),
@@ -113,7 +110,7 @@ trait GiftsOverviewController extends EstateController {
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
                                    allGifts: AllGifts)(implicit messages:Messages) = {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)
+    val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
       title = None,

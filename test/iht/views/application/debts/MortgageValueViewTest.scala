@@ -19,14 +19,12 @@ package iht.views.application.debts
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.{Mortgage, BasicEstateElementLiabilities}
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import iht.views.application.CancelComponent
 import play.api.i18n.Messages.Implicits._
-import iht.views.html.application.debts.mortgage_value
 import iht.views.html.application.debts.{funeral_expenses, mortgage_value}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat.Appendable
-import iht.constants.Constants._
 import iht.testhelpers.TestHelper._
 
 import iht.controllers.application.debts.routes
@@ -50,10 +48,10 @@ class MortgageValueViewTest extends DebtsElementViewBehaviour[Mortgage]{
                               iht.controllers.application.debts.routes.MortgageValueController.onSubmit("1"),
                               regDetails)
 
-  override def pageTitle = messagesApi("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+  override def pageTitle = messagesApi("page.iht.application.debts.mortgageValue.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))
   override def browserTitle = messagesApi("page.iht.application.debts.mortgageValue.browserTitle")
   override def guidance = noGuidance
-  override def yesNoQuestionText = messagesApi("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+  override def yesNoQuestionText = messagesApi("page.iht.application.debts.mortgageValue.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = messagesApi("page.iht.application.debts.mortgage.inputText.value")
 
   override val cancelId = "cancel-button"

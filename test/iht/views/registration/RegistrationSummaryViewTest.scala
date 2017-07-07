@@ -18,7 +18,7 @@ package iht.views.registration
 
 import iht.models.{RegistrationDetails, UkAddress}
 import iht.testhelpers.{CommonBuilder, NinoBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import iht.views.ViewTestHelper
 import iht.views.html.registration.registration_summary
 import org.jsoup.nodes.Element
@@ -99,7 +99,7 @@ class RegistrationSummaryViewTest extends ViewTestHelper {
 
   val dob = "12 December 1998"
 
-  def deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetailsAllUKAddresses)
+  def deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetailsAllUKAddresses)
 
   def registrationDetails(deceasedUkAddress: UkAddress, applicantUkAddress: UkAddress,
                           coExecutorAddress1: UkAddress, coExecutorAddress2: UkAddress, coExecutorAddress3: UkAddress) = {

@@ -20,7 +20,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.utils.OverviewHelper._
 import iht.views.ViewTestHelper
 import iht.views.html.application.gift.gifts_overview
@@ -67,8 +67,8 @@ class GiftsOverviewViewTest extends ViewTestHelper {
     "have correct guidance paragraphs" in {
       val view = giftsOverviewView()
       messagesShouldBePresent(view.toString, messagesApi("page.iht.application.gifts.overview.guidance1",
-                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails),
-                                                      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+                                                      DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails),
+                                                      DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
       assertNotContainsText(view, messagesApi("iht.estateReport.saved.estate"))
       assertContainsText(view, messagesApi("iht.estateReport.completeEverySection"))
     }
@@ -93,7 +93,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
 
       val appDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(allGifts), giftsList = giftsList)
       val seqOfQuestions = createSeqOfQuestions(regDetails, appDetails, allGifts)
-      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+      val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
       val view = gifts_overview(regDetails,
                                 seqOfQuestions,
@@ -133,7 +133,7 @@ class GiftsOverviewViewTest extends ViewTestHelper {
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
                                    allGifts: AllGifts) = {
-    val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+    val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
     lazy val sectionIsGivenAway = createSectionFromYesNoQuestions(
       id = "givenAway",
       title = None,

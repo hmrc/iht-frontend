@@ -19,6 +19,7 @@ package iht.controllers.registration
 import iht.connector.CachingConnector
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
+import iht.utils.DeceasedInfoHelper._
 import iht.utils.CommonHelper._
 import iht.utils.{IhtSection, RegistrationKickOutHelper}
 import play.api.Logger

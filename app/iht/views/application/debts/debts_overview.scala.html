@@ -16,7 +16,7 @@
 
 @import iht.models._
 @import iht.models.application.ApplicationDetails
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.utils.OverviewHelper._
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
@@ -42,8 +42,8 @@ isFullWidth=false) {
 
 <div id="debts-overview-subtitle">
     <p class="lede">@Html(Messages("page.iht.application.debts.subtitle1",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true),
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+                                DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true),
+                                DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
     <p>@Messages("page.iht.application.debts.subtitle2")</p>
     <p>@Messages("iht.estateReport.completeEverySection")</p>
 </div>

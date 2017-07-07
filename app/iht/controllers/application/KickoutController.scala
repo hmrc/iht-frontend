@@ -24,7 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.enums.KickOutSource
 import iht.models.RegistrationDetails
 import iht.utils.tnrb._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, ApplicationStatus => AppStatus}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, DeceasedInfoHelper, ApplicationStatus => AppStatus}
 import play.api.Logger
 import play.api.i18n.Messages
 import play.api.mvc.Request
@@ -65,7 +65,7 @@ trait KickoutController extends ApplicationController {
                 val applicationLastID = cachingConnector.getSingleValueSync(ApplicationKickOutHelper.applicationLastIDKey)
 
                 cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
-                val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+                val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
                 lazy val summaryParameter1 = ApplicationKickOutHelper.sources
                   .find(source => source._1 == kickoutReason && source._2 == KickOutSource.TNRB).map(_ =>
                   TnrbHelper.spouseOrCivilPartnerLabelWithOptions(

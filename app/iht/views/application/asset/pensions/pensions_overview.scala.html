@@ -30,7 +30,7 @@
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @getLinkScreenReader(element: Option[_], changeText: String, noValueText: String) = @{
     element match {

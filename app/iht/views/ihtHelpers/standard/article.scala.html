@@ -19,7 +19,7 @@
 includeGridWrapper: Boolean = false,
 articleClasses: Option[String] = None,
 isFullWidth: Boolean = false)
-@import iht.utils.CommonHelper
+@import iht.utils._
 
 <article class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
     @content

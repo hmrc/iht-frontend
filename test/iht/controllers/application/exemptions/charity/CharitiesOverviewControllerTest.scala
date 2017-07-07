@@ -174,7 +174,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
       ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
-                                                CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+                                                DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
   }
 }

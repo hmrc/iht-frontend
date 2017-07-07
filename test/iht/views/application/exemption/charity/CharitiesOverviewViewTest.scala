@@ -17,7 +17,7 @@
 package iht.views.application.exemption.charity
 
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import iht.views.html.application.exemption.charity.charities_overview
 import iht.views.{ExitComponent, GenericNonSubmittablePageBehaviour}
 import play.api.i18n.Messages.Implicits._
@@ -36,7 +36,7 @@ trait CharitiesOverviewViewBehaviour extends GenericNonSubmittablePageBehaviour 
 
   override def guidanceParagraphs = Set(
     messagesApi("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
-      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails))
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails))
   )
 
   override def pageTitle = messagesApi("iht.estateReport.exemptions.charities.assetsLeftToCharities.title", deceasedName)

@@ -19,7 +19,7 @@ package iht.views.application.debts
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import iht.views.html.application.debts.funeral_expenses
 import play.api.i18n.Messages.Implicits._
 import play.api.data.Form
@@ -53,7 +53,7 @@ class FuneralExpensesViewTest extends DebtsElementViewBehaviour[BasicEstateEleme
   override def guidance  = guidance(
     Set(messagesApi("page.iht.application.debts.funeralExpenses.description.p1"),
       messagesApi("page.iht.application.debts.funeralExpenses.description.p2",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
   )
 
   override def formTarget = Some(routes.FuneralExpensesController.onSubmit)

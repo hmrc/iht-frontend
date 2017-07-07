@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.testhelpers.ContentChecker
-import iht.utils.CommonHelper
+import iht.utils._
 import org.mockito.Matchers._
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
@@ -200,8 +200,8 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
       val result = giftsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.gifts.overview.guidance1",
-                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails),
-                                                       CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+                                                       DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails),
+                                                       DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "display gift value on page when value entered" in {
@@ -280,7 +280,7 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     "display second 'gifts given to trust' question when all other questions answered 'No'" in {
       val regDetails = CommonBuilder.buildRegistrationDetails copy (
                             deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
-      val  deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+      val  deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
       val applicationDetails = CommonBuilder.buildApplicationDetails.copy(allGifts = Some(CommonBuilder.buildAllGifts
         .copy(isGivenAway = Some(false), isReservation = Some(false), isGivenInLast7Years = Some(false))))
       MockObjectBuilder.createMocksForExemptionsGuidanceSingleValue(mockCachingConnector, finalDestinationURL)

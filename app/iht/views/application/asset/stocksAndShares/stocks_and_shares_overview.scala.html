@@ -29,7 +29,7 @@
 @(stocks:Option[StockAndShare],
   registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.stocksAndShares"),
 browserTitle = Some(Messages("iht.estateReport.assets.stocksAndShares")),

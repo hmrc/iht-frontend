@@ -21,13 +21,13 @@
 
 @import iht.utils._
 @import iht.constants.Constants
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.IhtProperties._
 
 @(moneyJointlyOwned: Form[ShareableBasicEstateElement],
      registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(
     title = Messages("iht.estateReport.assets.money.jointlyOwned"),

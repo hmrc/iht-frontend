@@ -18,11 +18,9 @@
 @import iht.views.html._
 @import iht.models.{RegistrationDetails, UkAddress}
 @import iht.constants.IhtProperties
-@import iht.utils.CommonHelper
-@import iht.utils.StringHelper
 @import iht.constants.FieldMappings
 @import iht.controllers.ControllerHelper
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.utils.CommonHelper._
 @import iht.controllers.registration.applicant.{routes => applicantRoutes}
 @import iht.controllers.registration.deceased.{routes => deceasedRoutes}
@@ -30,7 +28,7 @@
 
 @(registrationDetails: RegistrationDetails, role:String)(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
-@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
 @iht_main_template_registration(title = Messages("iht.registration.checkYourAnswers"),
                    browserTitle = Some(Messages("iht.registration.checkYourAnswers")),

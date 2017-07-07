@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import play.api.Logger
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -44,7 +44,7 @@ trait PropertyDetailsOverviewController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { registrationDetails =>
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
           Future.successful(Ok(iht.views.html.application.asset.properties.property_details_overview(deceasedName)))
         }
       }
@@ -55,7 +55,7 @@ trait PropertyDetailsOverviewController extends EstateController {
       implicit request => {
 
         withRegistrationDetails { registrationDetails =>
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),

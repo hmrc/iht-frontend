@@ -24,7 +24,7 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
+import iht.utils._
 import play.api.Logger
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
@@ -59,7 +59,7 @@ trait PropertyTenureController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
           Future.successful(Ok(iht.views.html.application.asset.properties.property_tenure(propertyTenureForm,
             submitUrl,
             cancelUrl,
@@ -72,7 +72,7 @@ trait PropertyTenureController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { registrationData =>
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationData)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationData)
           for {
             applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
@@ -128,7 +128,7 @@ trait PropertyTenureController extends EstateController {
                        propertyId: Option[String] = None)(
                         implicit user: AuthContext, request: Request[_]) = {
     withRegistrationDetails { regDetails =>
-      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+      val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
       val boundForm = propertyTenureForm.bindFromRequest
       boundForm.fold(
         formWithErrors => {

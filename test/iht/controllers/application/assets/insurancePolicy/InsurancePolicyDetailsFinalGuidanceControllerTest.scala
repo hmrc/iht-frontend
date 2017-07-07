@@ -22,7 +22,7 @@ import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.ContentChecker
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -92,7 +92,7 @@ class InsurancePolicyDetailsFinalGuidanceControllerTest extends ApplicationContr
       status(result) shouldBe OK
 
       ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.insurance.policies.section7.guidance",
-                                            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)))
+                                            DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)))
       contentAsString(result) should include(messagesApi("page.iht.application.insurance.policies.section7.guidance2"))
     }
   }
