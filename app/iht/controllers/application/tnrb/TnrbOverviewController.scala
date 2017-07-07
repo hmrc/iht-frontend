@@ -20,11 +20,12 @@ import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
-import iht.utils.CommonHelper
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.CommonHelper._
-import play.api.i18n.Messages.Implicits._
+import iht.utils.{CommonHelper, StringHelper}
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+
 import scala.concurrent.Future
 
 object TnrbOverviewController extends TnrbOverviewController with IhtConnectors {
@@ -39,7 +40,7 @@ trait TnrbOverviewController extends EstateController {
 
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-            .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
+            .getApplication(StringHelper.getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
 
           applicationDetailsFuture.map { optionApplicationDetails =>

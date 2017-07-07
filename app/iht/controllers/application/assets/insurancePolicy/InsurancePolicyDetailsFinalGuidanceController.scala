@@ -39,7 +39,7 @@ trait InsurancePolicyDetailsFinalGuidanceController extends EstateController {
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {

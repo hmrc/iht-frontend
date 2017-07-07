@@ -21,10 +21,9 @@ import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.basicElements.ShareableBasicEstateElement
-import iht.models.RegistrationDetails
-import iht.utils.CommonHelper
-import play.api.i18n.Messages.Implicits._
+import iht.utils.{CommonHelper, StringHelper}
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
 /**
   * Created by jennygj on 30/06/16.
@@ -42,7 +41,7 @@ trait MoneyOverviewController extends EstateController {
         withRegistrationDetails { registrationDetails =>
           for {
             applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
-              CommonHelper.getNino(user),
+              StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference
             )

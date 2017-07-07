@@ -74,7 +74,7 @@ trait PropertyTenureController extends EstateController {
         withRegistrationDetails { registrationData =>
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationData)
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
               registrationData.acknowledgmentReference)
           } yield {
@@ -139,7 +139,7 @@ trait PropertyTenureController extends EstateController {
             deceasedName)))
         },
         property => {
-          processSubmit(CommonHelper.getNino(user), property, propertyId)
+          processSubmit(StringHelper.getNino(user), property, propertyId)
         }
       )
     }

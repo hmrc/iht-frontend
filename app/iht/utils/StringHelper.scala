@@ -24,6 +24,7 @@ import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import org.joda.time.format.DateTimeFormat
+import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.util.{Failure, Success, Try}
 
@@ -99,4 +100,34 @@ object StringHelper {
     randomUUID.toString().replaceAll("-", "")
   }
 
+  /**
+    * Convert the second element of array (Array created by input string) to Lowercase
+    */
+  def formatStatus(inputStatus: String) = {
+
+    val arrayStatus = inputStatus match {
+      case ApplicationStatus.KickOut => ApplicationStatus.InProgress.split(" ")
+      case ApplicationStatus.ClearanceGranted => ApplicationStatus.Closed.split(" ")
+      case _ => inputStatus.split(" ")
+    }
+
+    val firstPhase = arrayStatus.head
+
+    if (arrayStatus.length > 1) {
+      (firstPhase.replace(firstPhase.charAt(0), firstPhase.charAt(0).toUpper) + " " + arrayStatus.last.toLowerCase).trim
+    } else {
+      firstPhase.trim
+    }
+  }
+
+  def getNino(user: AuthContext): String = {
+    user.principal.accounts.iht.getOrElse(throw new RuntimeException("User account could not be retrieved!")).nino.value
+  }
+
+  def booleanToYesNo(boolean: Boolean): String = {
+    boolean match {
+      case true => "Yes"
+      case false => "No"
+    }
+  }
 }

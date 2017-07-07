@@ -20,14 +20,12 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.{CommonHelper, IhtSection}
+import iht.utils.{CommonHelper, IhtSection, StringHelper}
 import play.api.Logger
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -42,7 +40,7 @@ trait ApplicationController extends FrontendController with IhtActions {
                             (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier): Future[Result] = {
     withRegistrationDetails { registrationDetails =>
       val optionApplicationDetailsFuture = ihtConnector.getApplication(
-        CommonHelper.getNino(user),
+        StringHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
         registrationDetails.acknowledgmentReference)
 
@@ -57,7 +55,7 @@ trait ApplicationController extends FrontendController with IhtActions {
                            (implicit request: Request[_], user: AuthContext, hc: HeaderCarrier) = {
     for {
       Some(applicationDetails) <- ihtConnector.getApplication(
-        CommonHelper.getNino(user),
+        StringHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(Some(ihtReference)),
         acknowledgementReference)
     } yield applicationDetails

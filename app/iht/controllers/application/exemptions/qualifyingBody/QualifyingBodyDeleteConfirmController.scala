@@ -17,15 +17,16 @@
 package iht.controllers.application.exemptions.qualifyingBody
 
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, StringHelper}
 import iht.views.html.application.exemption.qualifyingBody.qualifying_body_delete_confirm
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
 
 object QualifyingBodyDeleteConfirmController extends QualifyingBodyDeleteConfirmController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -58,7 +59,7 @@ trait QualifyingBodyDeleteConfirmController extends EstateController {
             Future.successful(InternalServerError("QualifyingBody with id = " + id
               + " not found during onSubmit of delete confirmation"))
           } else {
-            val nino = CommonHelper.getNino(user)
+            val nino = StringHelper.getNino(user)
             val newQualifyingBodies = ad.qualifyingBodies.patch(index, Nil, 1)
             val newAppDetails = ad copy (qualifyingBodies = newQualifyingBodies)
 

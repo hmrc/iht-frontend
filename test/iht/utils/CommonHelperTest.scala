@@ -60,36 +60,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
 
   }
 
-  /*
-   * Test the input status to proper status format
-   * e.g.  - Input In review
-   *         Output In review
-   */
-  "Must convert the application status in proper format" in {
-
-    val inputStatus = "Awaiting Return"
-    val result = CommonHelper.formatStatus(inputStatus)
-
-    assert(result.equals("Awaiting return"), "Reformatted status is Awaiting return")
-
-  }
-
-  "format status must format a status" in {
-    val formattedStatus = CommonHelper.formatStatus("All gOod")
-    assert(formattedStatus == "All good")
-  }
-
-  "format status must replace kickout with in progress" in {
-    val formattedStatus = CommonHelper.formatStatus(ApplicationStatus.KickOut)
-    val formattedInProgress = CommonHelper.formatStatus(ApplicationStatus.InProgress)
-    assert(formattedStatus == formattedInProgress)
-  }
-
-  "format status must capitalise the first letter of the first word" in {
-    val formattedStatus = CommonHelper.formatStatus("lower CASES")
-    assert(formattedStatus == "Lower cases")
-  }
-
   "findFirstTrue should return correct item subscript when last of three is true" in {
     val a: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
     val b: (RegistrationDetails, ApplicationDetails, Seq[BigDecimal]) => Boolean = (rd, ad, st) => false
@@ -162,25 +132,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     a [RuntimeException] shouldBe thrownBy {
       CommonHelper.getSessionId(hc)
     }
-  }
-
-  "getNino should throw a RuntimeException when user account could not be retrieved" in {
-
-    val loggedInUser = new LoggedInUser(CommonBuilder.firstNameGenerator, None, None, None, CredentialStrength.Strong, ConfidenceLevel.L300, "")
-    val ac = new AuthContext(loggedInUser, Principal(None, Accounts()), None, None, None, None)
-    a [RuntimeException] shouldBe thrownBy {
-      CommonHelper.getNino(ac)
-    }
-  }
-
-  "booleanToYesNo should return Yes as a String" in {
-    val result = CommonHelper.booleanToYesNo(boolean = true)
-    result should be("Yes")
-  }
-
-  "booleanToYesNo should return No as a String" in {
-    val result = CommonHelper.booleanToYesNo(boolean = false)
-    result should be("No")
   }
 
   "getOrException throws exception if String None passed in with suitable message" in {

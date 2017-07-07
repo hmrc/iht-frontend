@@ -18,16 +18,15 @@ package iht.controllers.home
 
 import java.util.UUID
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.constants.Constants
 import iht.controllers.application.ApplicationController
-import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, StringHelper, ApplicationStatus => AppStatus}
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import play.api.Logger
-import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import iht.constants.Constants
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
 
 /**
   *
@@ -45,7 +44,7 @@ trait IhtHomeController extends ApplicationController {
   def onPageLoad = authorisedForIht {
     implicit user =>
       implicit request => {
-        val nino = CommonHelper.getNino(user)
+        val nino = StringHelper.getNino(user)
 
         ihtConnector.getCaseList(nino).map {
           case listOfCases if listOfCases.nonEmpty => {

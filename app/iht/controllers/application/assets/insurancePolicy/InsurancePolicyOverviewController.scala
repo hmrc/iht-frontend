@@ -17,18 +17,18 @@
 package iht.controllers.application.assets.insurancePolicy
 
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.models.RegistrationDetails
-import iht.utils.DeceasedInfoHelper
 import iht.utils.CommonHelper._
 import iht.utils.OverviewHelper._
+import iht.utils.{DeceasedInfoHelper, StringHelper}
+import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
@@ -175,7 +175,7 @@ trait InsurancePolicyOverviewController extends EstateController {
       implicit request => {
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-            .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
+            .getApplication(StringHelper.getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
 
           applicationDetailsFuture.map { optionApplicationDetails =>

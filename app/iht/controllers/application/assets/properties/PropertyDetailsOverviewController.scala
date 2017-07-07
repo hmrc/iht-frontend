@@ -16,14 +16,13 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
-import iht.utils.{CommonHelper, DeceasedInfoHelper}
+import iht.utils.{CommonHelper, DeceasedInfoHelper, StringHelper}
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
 import scala.concurrent.Future
 
@@ -58,7 +57,7 @@ trait PropertyDetailsOverviewController extends EstateController {
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {

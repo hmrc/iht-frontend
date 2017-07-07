@@ -16,20 +16,21 @@
 
 package iht.controllers.application.gifts
 
-import iht.controllers.application.EstateController
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
+import iht.controllers.application.EstateController
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.AllGifts
-import iht.utils._
 import iht.utils.CommonHelper._
 import iht.utils.ExemptionsGuidanceHelper._
 import iht.utils.OverviewHelper._
+import iht.utils._
+import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
 
 object GiftsOverviewController extends GiftsOverviewController with IhtConnectors {
@@ -79,7 +80,7 @@ trait GiftsOverviewController extends EstateController {
       implicit request => {
         withRegistrationDetails { regDetails =>
           val applicationDetailsFuture: Future[Option[ApplicationDetails]] = ihtConnector
-            .getApplication(getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
+            .getApplication(StringHelper.getNino(user), getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
 
           applicationDetailsFuture.flatMap { optionApplicationDetails =>

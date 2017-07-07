@@ -16,21 +16,20 @@
 
 package iht.controllers.application
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties._
-import iht.connector.IhtConnectors
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, ApplicationStatus, CommonHelper, ExemptionsGuidanceHelper, SubmissionDeadlineHelper}
+import iht.utils.{ApplicationKickOutHelper, ApplicationStatus, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
 import org.joda.time.LocalDate
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -52,7 +51,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
   def onPageLoadWithIhtRef(ihtReference: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        val nino = CommonHelper.getNino(user)
+        val nino = StringHelper.getNino(user)
 
         ihtConnector.getCaseDetails(nino, ihtReference).flatMap {
           caseDetails =>
@@ -89,7 +88,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
   def onContinueOrDeclarationRedirect(ihtReference: String) = authorisedForIht {
     implicit user => implicit request => {
 
-      val nino = CommonHelper.getNino(user)
+      val nino = StringHelper.getNino(user)
       withRegistrationDetails { regDetails =>
         for {
           appDetails <- getApplicationDetails(ihtReference, regDetails.acknowledgmentReference)
@@ -109,7 +108,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
 
   private def getDeadline(ad: ApplicationDetails, user: AuthContext)(
     implicit headerCarrier: HeaderCarrier): Future[LocalDate] = {
-    SubmissionDeadlineHelper(CommonHelper.getNino(user), ad.ihtRef.getOrElse(""), ihtConnector, headerCarrier)
+    SubmissionDeadlineHelper(StringHelper.getNino(user), ad.ihtRef.getOrElse(""), ihtConnector, headerCarrier)
   }
 
   private def getRedirect(regDetails: RegistrationDetails, appDetails: ApplicationDetails)(implicit hc: HeaderCarrier) = {

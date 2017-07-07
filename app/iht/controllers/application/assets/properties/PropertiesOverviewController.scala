@@ -16,17 +16,14 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.ApplicationController
 import iht.metrics.Metrics
-import iht.models._
 import iht.models.application.ApplicationDetails
-import iht.models.application.assets.Property
-import play.api.i18n.Messages.Implicits._
+import iht.models.application.assets.{Properties, Property}
+import iht.utils.{CommonHelper, StringHelper}
 import play.api.Play.current
-import iht.models.application.assets.Properties
-import iht.utils.CommonHelper
+import play.api.i18n.Messages.Implicits._
 
 object PropertiesOverviewController extends PropertiesOverviewController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -44,7 +41,7 @@ trait PropertiesOverviewController extends ApplicationController {
         withRegistrationDetails { registrationDetails =>
           for {
             applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
-              CommonHelper.getNino(user),
+              StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference
             )

@@ -16,17 +16,16 @@
 
 package iht.controllers.testonly
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.ApplicationController
 import iht.forms.testonly.TestOnlyForms.{storeRegistrationDetailsForm, _}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.CommonHelper
+import iht.utils.StringHelper
 import play.api.Logger
-import play.api.libs.json.Json
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.libs.json.Json
 
 import scala.concurrent.Future
 
@@ -38,7 +37,7 @@ trait TestOnlyController extends ApplicationController {
 
   def deleteFirstCase = authorisedForIht {
     implicit user => implicit request => {
-      val nino = CommonHelper.getNino(user)
+      val nino = StringHelper.getNino(user)
       ihtConnector.getCaseList(nino).map {
         list => {
           list.foreach {
@@ -53,7 +52,7 @@ trait TestOnlyController extends ApplicationController {
   def fillApplication = authorisedForIht {
     implicit user => implicit request => {
       withApplicationDetails { registrationDetails => applicationDetails =>
-        ihtConnector.saveApplication(CommonHelper.getNino(user),
+        ihtConnector.saveApplication(StringHelper.getNino(user),
           TestOnlyDataGenerator.buildApplicationDetails(registrationDetails.ihtReference),
           registrationDetails.acknowledgmentReference)
           .map {

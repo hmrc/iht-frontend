@@ -19,11 +19,12 @@ package iht.controllers.application.exemptions.charity
 import iht.connector.IhtConnectors
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
-import iht.utils.CommonHelper
+import iht.utils.StringHelper
 import iht.views.html.application.exemption.charity.charity_delete_confirm
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+
 import scala.concurrent.Future
 
 object CharityDeleteConfirmController extends CharityDeleteConfirmController with IhtConnectors {
@@ -57,7 +58,7 @@ trait CharityDeleteConfirmController extends EstateController {
             Future.successful(InternalServerError("Charity with id = " + id
               + " not found during onSubmit of delete confirmation"))
           } else {
-            val nino = CommonHelper.getNino(user)
+            val nino = StringHelper.getNino(user)
             val newCharities = ad.charities.patch(index, Nil, 1)
             val newAppDetails = ad copy (charities = newCharities)
 

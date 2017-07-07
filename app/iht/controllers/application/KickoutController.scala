@@ -16,21 +16,20 @@
 
 package iht.controllers.application
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.enums.KickOutSource
-import iht.models.RegistrationDetails
 import iht.utils.tnrb._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, DeceasedInfoHelper, ApplicationStatus => AppStatus}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, DeceasedInfoHelper, StringHelper, ApplicationStatus => AppStatus}
 import play.api.Logger
+import play.api.Play.current
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -53,7 +52,7 @@ trait KickoutController extends ApplicationController {
         withRegistrationDetails { regDetails =>
           Logger.info("Retrieving kickout reason")
           for {
-            applicationDetailsOpt: Option[ApplicationDetails] <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetailsOpt: Option[ApplicationDetails] <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
           } yield {
@@ -105,7 +104,7 @@ trait KickoutController extends ApplicationController {
               updateMetrics(regDetails).flatMap(isUpdated => {
                 cachingConnector.deleteSingleValueSync(ApplicationKickOutHelper.SeenFirstKickoutPageCacheKey)
                 withRegistrationDetails { regDetails =>
-                  ihtConnector.deleteApplication(CommonHelper.getNino(user), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
+                  ihtConnector.deleteApplication(StringHelper.getNino(user), CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference))
                   if (!isUpdated) {
                     Logger.info("Application deleted after a kickout but unable to update metrics")
                   }
@@ -118,7 +117,7 @@ trait KickoutController extends ApplicationController {
   }
 
   private def updateMetrics(regDetails:RegistrationDetails)(implicit user: AuthContext, request: Request[_]): Future[Boolean] = {
-    val futureOptionAD = ihtConnector.getApplication(CommonHelper.getNino(user),
+    val futureOptionAD = ihtConnector.getApplication(StringHelper.getNino(user),
       CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
       regDetails.acknowledgmentReference)
     futureOptionAD map { optionAD =>

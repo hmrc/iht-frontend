@@ -16,16 +16,15 @@
 
 package iht.controllers.application.assets.properties
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts.{Mortgage, MortgageEstateElement}
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, StringHelper}
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import iht.constants.IhtProperties._
+import play.api.i18n.Messages.Implicits._
 
 object DeletePropertyController extends DeletePropertyController with IhtConnectors
 
@@ -40,7 +39,7 @@ trait DeletePropertyController extends ApplicationController {
       implicit request => {
         withRegistrationDetails { registrationData =>
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
               registrationData.acknowledgmentReference)
           } yield {
@@ -69,7 +68,7 @@ trait DeletePropertyController extends ApplicationController {
         withRegistrationDetails { registrationData =>
           for {
             applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
-              CommonHelper.getNino(user),
+              StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
               registrationData.acknowledgmentReference)
             propertyListNew = applicationDetails.map(_.propertyList.filterNot(p => p.id.getOrElse("") == id)).getOrElse(Nil)
@@ -78,7 +77,7 @@ trait DeletePropertyController extends ApplicationController {
             applicationDetailsNew: Option[ApplicationDetails] = applicationDetails.map(
               x => x.copy(propertyList = propertyListNew, allLiabilities = x.allLiabilities.map(_.copy(mortgages = mortgageEstateElementNew))))
             storedApplication <- ihtConnector.saveApplication(
-              CommonHelper.getNino(user),
+              StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoApplication(applicationDetailsNew),
               registrationData.acknowledgmentReference)
           } yield {
