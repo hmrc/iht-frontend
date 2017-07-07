@@ -22,15 +22,20 @@ import iht.constants.IhtProperties._
 import iht.forms.FormTestHelper
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, UkAddress}
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, NinoBuilder}
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
+import play.api.i18n.Messages
 import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.http.logging.SessionId
 
 import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   def dateOfDeath(day: String, month: String, year: String) =
@@ -244,13 +249,37 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   }
 
 
+  def formsWithIhtFormValidatorMockedToSucceed(nino:String): DeceasedForms = {
+    val formatter = mock[Formatter[String]]
+    when(formatter.bind(any(), any())).thenReturn(Right(nino))
+    val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+    val mockIhtFormValidator = mock[IhtFormValidator]
+    when(mockIhtFormValidator.ninoForDeceased(any(), any(), any())(any(), any(), any()))
+      .thenReturn(fieldMapping)
+    val deceasedForms = new DeceasedForms {
+      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+    }
+    deceasedForms
+  }
+
   "About Deceased form" must {
 
     "not give an error for valid data" in {
-      deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec).bind(
-        completeAboutDeceased).get shouldBe
+      val nino = NinoBuilder.randomNino.toString
+
+      def bindFormEdit(map: Map[String, String]) = {
+        implicit val request = createFakeRequest()
+        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+        implicit val msg: Messages = messages
+        formsWithIhtFormValidatorMockedToSucceed(nino).aboutDeceasedForm().bind(map)
+      }
+
+      bindFormEdit(completeAboutDeceased).get shouldBe
         DeceasedDetails(firstName = Some(firstName),
+          middleName = None,
           lastName = Some(surname),
+          nino = Some(nino),
+          ukAddress = None,
           dateOfBirth = Some(new LocalDate(1980, 1, 1)),
           maritalStatus = Some(statusSingle),
           domicile = None,
@@ -331,6 +360,35 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     "give one date error when several date fields are invalid" in {
       val data = completeAboutDeceased + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13", "dateOfBirth.year" -> "12", "dateOfBirth.day" -> "99")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
+
+      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+    }
+
+    "give an error when the NINO is blank" in {
+      val data = completeAboutDeceased + ("nino" -> "")
+      val expectedErrors = error("nino", "error.nino.give")
+
+      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+    }
+
+    "give an error when the NINO is not supplied" in {
+      val data = completeAboutDeceased - "nino"
+      val expectedErrors = error("nino", "error.nino.give")
+
+      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+    }
+
+    "give an error when the NINO is too long" in {
+      val nino = CommonBuilder.DefaultNino
+      val data = completeAboutDeceased + ("nino" -> (nino.substring(0, nino.length() - 1) + "AA"))
+      val expectedErrors = error("nino", "error.nino.giveUsing8Or9Characters")
+
+      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+    }
+
+    "give an error when the NINO is invalid" in {
+      val data = completeAboutDeceased + ("nino" -> "INVALIDD")
+      val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
 
       checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
     }
@@ -581,12 +639,6 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
   "dateOfBirth" must {
     behave like dateOfBirth[DeceasedDetails](completeAboutDeceased, deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec))
   }
-
-  "nino" must {
-    behave like nino[DeceasedDetails](completeAboutDeceased, deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec))
-  }
-
-
 
   //endregion
 }
