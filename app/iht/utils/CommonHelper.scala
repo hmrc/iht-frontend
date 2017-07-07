@@ -316,26 +316,6 @@ object CommonHelper {
     }
   }
 
-  /**
-    * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
-    * String is split on spaces and hyphens to exclude strings which would split to new lines anyway
-    * Returns true if a part of the string is over the alloted length
-    * Allows for measures to be taken to prevent long names breaking the page layout
-    */
-  def isNameLong(name: String): Boolean = {
-    var restrictName: Boolean = false;
-    val nameArr = name.split(" ");
-    for (namePart <- nameArr) {
-      var subparts = namePart.split("-")
-      for (subpart <- subparts) {
-        if (subpart.length > IhtProperties.hyphenateNamesLength) {
-          restrictName = true;
-        }
-      }
-    }
-    restrictName
-  }
-
   def ensureSessionHasNino(session: Session, user: AuthContext): Session =
     withValue(StringHelper.getNino(user)) { currentNino =>
       val optionSession = session.get(Constants.NINO).fold[Option[Session]](

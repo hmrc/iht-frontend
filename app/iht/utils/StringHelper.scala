@@ -19,11 +19,12 @@ package iht.utils
 import java.util.Locale
 import java.util.UUID.randomUUID
 
+import iht.constants.IhtProperties
 import iht.utils.CommonHelper.withValue
+import org.joda.time.format.DateTimeFormat
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import org.joda.time.format.DateTimeFormat
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.util.{Failure, Success, Try}
@@ -130,4 +131,25 @@ object StringHelper {
       case false => "No"
     }
   }
+
+  /**
+    * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
+    * String is split on spaces and hyphens to exclude strings which would split to new lines anyway
+    * Returns true if a part of the string is over the alloted length
+    * Allows for measures to be taken to prevent long names breaking the page layout
+    */
+  def isNameLong(name: String): Boolean = {
+    var restrictName: Boolean = false;
+    val nameArr = name.split(" ");
+    for (namePart <- nameArr) {
+      var subparts = namePart.split("-")
+      for (subpart <- subparts) {
+        if (subpart.length > IhtProperties.hyphenateNamesLength) {
+          restrictName = true;
+        }
+      }
+    }
+    restrictName
+  }
+
 }
