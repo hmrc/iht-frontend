@@ -152,4 +152,6 @@ object StringHelper {
     restrictName
   }
 
+  def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
+
 }

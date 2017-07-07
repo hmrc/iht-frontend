@@ -19,7 +19,7 @@ package iht.views.registration.executor
 import iht.forms.registration.CoExecutorForms.{coExecutorAddressAbroadForm, coExecutorAddressUkForm}
 import iht.models.UkAddress
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper
+import iht.utils.StringHelper
 import iht.views.ViewTestHelper
 import iht.views.html.registration.executor.others_applying_for_probate_address
 import iht.views.registration.RegistrationPageBehaviour
@@ -34,7 +34,7 @@ trait OthersApplyingForProbateAddressViewTest extends ViewTestHelper {
 
 class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
   override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
-    CommonHelper.addApostrophe(executorName))
+    StringHelper.addApostrophe(executorName))
   override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.browserTitle")
 
   override def form:Form[UkAddress] = coExecutorAddressUkForm
@@ -53,7 +53,7 @@ class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBe
 
 class OthersApplyingForProbateAddressViewInAbroadModeTest extends RegistrationPageBehaviour[UkAddress] with OthersApplyingForProbateAddressViewTest {
   override def pageTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix",
-    CommonHelper.addApostrophe(executorName))
+    StringHelper.addApostrophe(executorName))
   override def browserTitle = messagesApi("page.iht.registration.others-applying-for-probate-address.browserTitle")
 
   override def form:Form[UkAddress] = coExecutorAddressAbroadForm

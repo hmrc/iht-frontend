@@ -118,13 +118,6 @@ object CommonHelper {
 
   def withValue[A, B](value: A)(func: A => B) = func(value)
 
-  def spy[A]: (String, A) => A = (msg, value) => {
-    Logger.debug(s"\n************:$msg " + value)
-    value
-  }
-
-  def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
-
   /**
     * returns Some(true) if all the values are true, Some(false) if any false or None.
     * None if all are None
