@@ -190,37 +190,6 @@ object CommonHelper {
     }
   }
 
-  def previousYearsGiftsAccessibility(element: PreviousYearsGifts) = {
-    val messageFileSectionKey = "page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader"
-    val startDate = getOrException(element.startDate)
-    val endDate = getOrException(element.endDate)
-    val totalGifts = element.value.fold(BigDecimal(0))(identity)
-    val totalExemptions = element.exemptions.fold(BigDecimal(0))(identity)
-    val amountAddedToEstate = totalGifts - totalExemptions
-
-    mapBigDecimalPair(element.value, element.exemptions,
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))
-  }
-
-  def previousYearsGiftsAccessibilityTotals(totalPastYearsGifts: BigDecimal,
-                                            totalExemptionsValue: BigDecimal,
-                                            totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
-                                            elements: Seq[PreviousYearsGifts]): Option[(String, String, String)] = {
-    val messageFileSectionKey = "page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total"
-    val sortedGifts = elements.sortWith((a, b) => getOrException(a.startDate) < getOrException(b.startDate))
-    val earliestDate = getOrException(sortedGifts.head.startDate)
-    val latestDate = getOrException(sortedGifts.reverse.head.endDate)
-
-    Some(
-      (Messages(s"$messageFileSectionKey.gifts.screenReader", earliestDate, latestDate, totalPastYearsGifts),
-        Messages(s"$messageFileSectionKey.exemptions.screenReader", earliestDate, latestDate, totalExemptionsValue),
-        Messages(s"$messageFileSectionKey.estate.screenReader", earliestDate, latestDate, totalPastYearsGiftsValueExcludingExemptions))
-    )
-  }
-
   def getOrMinus1(value: Option[BigDecimal]): BigDecimal = value.fold(BigDecimal(-1))(identity)
 
 
