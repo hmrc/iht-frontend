@@ -18,13 +18,12 @@ package iht.views.application.declaration
 
 import iht.forms.ApplicationForms
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper._
+import iht.testhelpers.CommonBuilder._
 import iht.utils.{DeceasedInfoHelper, DeclarationReason}
 import iht.viewmodels.application.DeclarationViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 
 class DeclarationViewTest extends ViewTestHelper {

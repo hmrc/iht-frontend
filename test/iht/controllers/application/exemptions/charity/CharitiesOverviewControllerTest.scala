@@ -19,21 +19,13 @@ package iht.controllers.application.exemptions
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.controllers.application.exemptions.charity.CharitiesOverviewController
-import iht.models.RegistrationDetails
 import iht.models.application.exemptions.Charity
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.ContentChecker
 import iht.utils._
-import org.mockito.Matchers.any
 import org.mockito.Mockito.when
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
-
-import scala.concurrent.Future
 
 class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
@@ -133,7 +125,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(CommonHelper.escapeApostrophes(validationMessage))
+      contentAsString(result) should include(CommonBuilder.escapeApostrophes(validationMessage))
     }
 
     "show name when no name validation message mocked on the charity object" in {
@@ -158,7 +150,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
 
       val result = charitiesOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(CommonHelper.escapeApostrophes(charityName))
+      contentAsString(result) should include(CommonBuilder.escapeApostrophes(charityName))
     }
 
     "show asset left to charity question text" in {

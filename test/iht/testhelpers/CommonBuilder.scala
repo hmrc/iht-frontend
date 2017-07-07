@@ -187,6 +187,12 @@ object CommonBuilder {
   val DefaultCoExecutor2 = CommonBuilder.buildCoExecutor copy(id = Some("2"), firstName = firstNameGenerator, lastName = surnameGenerator)
   val DefaultCoExecutor3 = CommonBuilder.buildCoExecutor copy(id = Some("3"), firstName = firstNameGenerator, lastName = surnameGenerator)
 
+  def escapeApostrophes(s: String): String = s.replaceAll("'", "&#x27;")
+
+  def escapeSpace(s: String) = s.replaceAll(" ", "&nbsp;")
+
+  def escapePound(s: String): String = s.replaceAll("£", "&pound;")
+
   def buildCoExecutorWithId(identifier: Option[String] = Some(DefaultId)) = CoExecutor(
     id = identifier,
     firstName = DefaultFirstName,

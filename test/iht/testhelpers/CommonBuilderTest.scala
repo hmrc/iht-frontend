@@ -16,6 +16,7 @@
 
 package iht.testhelpers
 
+import iht.utils.CommonHelper
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
@@ -98,6 +99,12 @@ class CommonBuilderTest extends UnitSpec {
       assert(registrationDetails.applicantDetails == None, "Default Applicant Details is None")
       assert(registrationDetails.deceasedDetails == None, "Default DeceasedDetais is None")
       assert(registrationDetails.coExecutors.size == 0, "Default CoExecutors size is Zero")
+    }
+  }
+
+  "escapeSpace" must {
+    "replace space with &nbsp;" in {
+      CommonBuilder.escapeSpace("first last") shouldBe "first&nbsp;last"
     }
   }
 }

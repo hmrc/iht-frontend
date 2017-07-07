@@ -20,16 +20,13 @@ import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms._
 import iht.models.{RegistrationDetails, UkAddress}
-import iht.utils.CommonHelper._
-import iht.testhelpers.{CommonBuilder, NinoBuilder}
-import iht.testhelpers.ContentChecker
+import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
+import iht.testhelpers.{CommonBuilder, ContentChecker, NinoBuilder}
+import iht.utils.CommonHelper._
 import org.joda.time._
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.{Action, AnyContent, Result}
 import play.api.test.Helpers._
 
@@ -111,9 +108,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithOthersApplyingForProbateAndOneOther = rd copy(areOthersApplyingForProbate = Some(true),
         coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithOthersApplyingForProbateAndOneOther))
-        val result = controller.onPageLoadUK("1")(
+      val result = controller.onPageLoadUK("1")(
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-in-uk/2"))
-        status(result) shouldBe SEE_OTHER
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when trying to load the international  view when trying to add a co-executor but" +
@@ -122,9 +119,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithOthersApplyingForProbateAndOneOther = rd copy(areOthersApplyingForProbate = Some(true),
         coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithOthersApplyingForProbateAndOneOther))
-        val result = controller.onPageLoadAbroad("1")(
+      val result = controller.onPageLoadAbroad("1")(
         createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
-        status(result) shouldBe SEE_OTHER
+      status(result) shouldBe SEE_OTHER
     }
 
     "load the UK display when the coExecutors address has been entered" in {
@@ -146,7 +143,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
     "load the international display when the coExecutors address has been entered" in {
       val rd = CommonBuilder.buildRegistrationDetailsWithCoExecutors
-      val existingCoExec = CommonBuilder.buildCoExecutor copy (
+      val existingCoExec = CommonBuilder.buildCoExecutor copy(
         ukAddress = Some(UkAddress("addr1", "addr2", Some("addr3"), Some("addr4"), "", "AU")),
         isAddressInUk = Some(false))
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec))
@@ -240,9 +237,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
-        val result = controller.onPageLoadUK("2")(
-          createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2"))
-        status(result) shouldBe SEE_OTHER
+      val result = controller.onPageLoadUK("2")(
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2"))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when international view accessed for a non-existent co-executor" in {
@@ -251,9 +248,9 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithCoExecs = rd copy (coExecutors = Seq(existingCoExec))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithCoExecs))
 
-        val result = controller.onPageLoadAbroad("2")(
-          createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
-        status(result) shouldBe SEE_OTHER
+      val result = controller.onPageLoadAbroad("2")(
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/2"))
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when trying to add a co-executor but no first name or last name," +
@@ -262,8 +259,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       val rdWithNoAnswer = rd copy (coExecutors = Seq(CommonBuilder.buildCoExecutor))
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithNoAnswer))
 
-        val result = controller.onPageLoadAbroad("1")(createFakeRequest())
-        status(result) shouldBe SEE_OTHER
+      val result = controller.onPageLoadAbroad("1")(createFakeRequest())
+      status(result) shouldBe SEE_OTHER
     }
 
     "raise an error when first name has not been entered from the previous page is not present" in {
@@ -273,8 +270,8 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rdWithPartialCoExec))
 
 
-        val result = controller.onPageLoadUK("2")(
-          createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2"))
+      val result = controller.onPageLoadUK("2")(
+        createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/2"))
       status(result) shouldBe SEE_OTHER
     }
 
@@ -283,26 +280,26 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
         coExecutors = Seq(inProgressCoExecutor copy (id = Some("1"))))
       val addressForm = coExecutorAddressUkForm.fill(CommonBuilder.DefaultUkAddress)
       val request = createFakeRequestWithReferrerWithBody(
-        referrerURL="http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
-        host=host, data=addressForm.data.toSeq)
+        referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
+        host = host, data = addressForm.data.toSeq)
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
       val result = controller.onSubmitUK("1")(request)
-      status(result) shouldBe(SEE_OTHER)
+      status(result) shouldBe (SEE_OTHER)
     }
   }
 
   "respond appropriately to a submit abroad with a plausible address" in {
     val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
-      coExecutors = Seq(inProgressCoExecutor copy (id = Some("1"), isAddressInUk = Some(false))))
+      coExecutors = Seq(inProgressCoExecutor copy(id = Some("1"), isAddressInUk = Some(false))))
     val addressForm = coExecutorAddressAbroadForm.fill(
-      CommonBuilder.DefaultUkAddress copy (postCode = "", countryCode = "AU"))
+      CommonBuilder.DefaultUkAddress copy(postCode = "", countryCode = "AU"))
     val request = createFakeRequestWithReferrerWithBody(
-      referrerURL="http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1",
-      host=host, data=addressForm.data.toSeq)
+      referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1",
+      host = host, data = addressForm.data.toSeq)
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
@@ -310,7 +307,7 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
 
     val result = controller.onSubmitAbroad("1")(request)
 
-    status(result) shouldBe(SEE_OTHER)
+    status(result) shouldBe (SEE_OTHER)
   }
 
   "store plausible data when submitted" in {
@@ -357,15 +354,15 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     checkForErrorOnSubmissionOfModelToInternationalRoute(address, "error.address.give")
   }
 
-    "show an error when the country code is blank when submitted to the international route" in {
-      val address = CommonBuilder.DefaultUkAddress copy (postCode = "", countryCode = "")
-      checkForErrorOnSubmissionOfModelToInternationalRoute(address, "error.country.select")
-    }
+  "show an error when the country code is blank when submitted to the international route" in {
+    val address = CommonBuilder.DefaultUkAddress copy(postCode = "", countryCode = "")
+    checkForErrorOnSubmissionOfModelToInternationalRoute(address, "error.country.select")
+  }
 
   "If you load the uk page and the coexecutors address is set up as an international address " +
     "(postcode is blank but countrycode is not uk) show an empty address" in {
     val internationalAddress = UkAddress("addr1", "addr2", Some("addr3"), Some("addr4"), "", "AU")
-    val internationalCoExecutor = CommonBuilder.buildCoExecutor copy (
+    val internationalCoExecutor = CommonBuilder.buildCoExecutor copy(
       ukAddress = Some(internationalAddress), isAddressInUk = Some(false))
     val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
       coExecutors = Seq(internationalCoExecutor copy (id = Some("1"))))
@@ -378,17 +375,17 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1"))
 
     status(result) should be(OK)
-    contentAsString(result) should not include("addr1")
-    contentAsString(result) should not include("addr2")
-    contentAsString(result) should not include("addr3")
-    contentAsString(result) should not include("addr4")
-    contentAsString(result) should not include("AU")
+    contentAsString(result) should not include ("addr1")
+    contentAsString(result) should not include ("addr2")
+    contentAsString(result) should not include ("addr3")
+    contentAsString(result) should not include ("addr4")
+    contentAsString(result) should not include ("AU")
   }
 
   "If you load the international page and the coexecutors address is set up as an uk address " +
     "(postcode is given but countrycode is uk) show an empty address" in {
     val ukAddress = UkAddress("addr1", "addr2", Some("addr3"), Some("addr4"), CommonBuilder.DefaultPostCode)
-    val ukCoExecutor = CommonBuilder.buildCoExecutor copy (ukAddress = Some(ukAddress), isAddressInUk = Some(true))
+    val ukCoExecutor = CommonBuilder.buildCoExecutor copy(ukAddress = Some(ukAddress), isAddressInUk = Some(true))
     val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
       coExecutors = Seq(ukCoExecutor copy (id = Some("1"))))
 
@@ -400,11 +397,11 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       createFakeRequestWithUri("http://localhost:9070/inheritance-tax/registration/other-persons-address-abroad/1"))
 
     status(result) should be(OK)
-    contentAsString(result) should not include("addr1")
-    contentAsString(result) should not include("addr2")
-    contentAsString(result) should not include("addr3")
-    contentAsString(result) should not include("addr4")
-    contentAsString(result) should not include(CommonBuilder.DefaultPostCode)
+    contentAsString(result) should not include ("addr1")
+    contentAsString(result) should not include ("addr2")
+    contentAsString(result) should not include ("addr3")
+    contentAsString(result) should not include ("addr4")
+    contentAsString(result) should not include (CommonBuilder.DefaultPostCode)
   }
 
   "if you submit a page with errors to the UK view it displays errors on the uk view" in {
@@ -450,15 +447,15 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
       coExecutors = Seq(inProgressCoExecutor copy (id = Some("1"))))
     val addressForm = coExecutorAddressUkForm.fill(CommonBuilder.DefaultUkAddress)
     val request = createFakeRequestWithReferrerWithBody(
-      referrerURL="http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
-      host=host, data=addressForm.data.toSeq)
+      referrerURL = "http://localhost:9070/inheritance-tax/registration/other-persons-address-uk/1",
+      host = host, data = addressForm.data.toSeq)
 
     createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
     createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
     createMockToStoreRegDetailsInCacheWithFailure(mockCachingConnector, Some(registrationDetails))
 
     val result = controller.onSubmitUK("1")(request)
-    status(result) shouldBe(INTERNAL_SERVER_ERROR)
+    status(result) shouldBe (INTERNAL_SERVER_ERROR)
   }
 
   type SubmissionFunc = String => Action[AnyContent]

@@ -193,12 +193,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     }
   }
 
-  "escapeSpace" must {
-    "replace space with &nbsp;" in {
-      CommonHelper.escapeSpace("first last") shouldBe "first&nbsp;last"
-    }
-  }
-
   "numericElements" must {
     "return the blank key if first element is blank" in {
       CommonHelper.convertToNumbers(Seq("", "2", "3"), "1", "2") shouldBe Left("1")

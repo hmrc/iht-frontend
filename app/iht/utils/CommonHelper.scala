@@ -123,15 +123,7 @@ object CommonHelper {
     value
   }
 
-  def escapeSpace(s: String) = s.replaceAll(" ", "&nbsp;")
-
-  def escapeApostrophes(s: String): String = s.replaceAll("'", "&#x27;")
-
-  def escapePound(s: String): String = s.replaceAll("£", "&pound;")
-
   def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
-
-  def addEscapedApostrophe(name: String): String = escapeApostrophes(addApostrophe(name))
 
   /**
     * returns Some(true) if all the values are true, Some(false) if any false or None.
