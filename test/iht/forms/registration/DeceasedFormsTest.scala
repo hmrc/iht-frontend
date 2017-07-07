@@ -362,6 +362,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give multiple errors when several fields are invalid" in {
+      // TODO: FIX
       val data = completeAboutDeceased + ("firstName" -> "", "nino" -> "INVALID")
       val expectedErrors = error("firstName", "error.firstName.give") ++
         error("nino", "error.nino.giveUsing8Or9Characters")
@@ -377,6 +378,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give an error when the NINO is blank" in {
+      // TODO: FIX
       val data = completeAboutDeceased + ("nino" -> "")
       val expectedErrors = error("nino", "error.nino.give")
 
@@ -384,6 +386,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give an error when the NINO is not supplied" in {
+      // TODO: FIX
       val data = completeAboutDeceased - "nino"
       val expectedErrors = error("nino", "error.nino.give")
 
@@ -391,6 +394,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give an error when the NINO is too long" in {
+      // TODO: FIX
       val nino = CommonBuilder.DefaultNino
       val data = completeAboutDeceased + ("nino" -> (nino.substring(0, nino.length() - 1) + "AA"))
       val expectedErrors = error("nino", "error.nino.giveUsing8Or9Characters")
@@ -399,6 +403,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give an error when the NINO is invalid" in {
+      // TODO: FIX
       val data = completeAboutDeceased + ("nino" -> "INVALIDD")
       val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
 

@@ -20,24 +20,20 @@ import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms
-import iht.forms.registration.DeceasedForms._
-import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
+import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.data.format.Formatter
+import play.api.data.{FieldMapping, Form, FormError, Forms}
+import play.api.mvc.Request
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
-import iht.utils.IhtFormValidator
-import play.api.data.format.Formatter
-import play.api.mvc.{Request, Result}
+
+import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
-import play.api.data.{FieldMapping, Form, FormError, Forms}
 
 
 class AboutDeceasedControllerTest extends RegistrationControllerTest with BeforeAndAfter {
@@ -255,29 +251,31 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
       status(result) shouldBe OK
       contentAsString(result) should include (deceasedName)
     }
-//
-//    "respond appropriately to an invalid submit: Missing mandatory fields" in {
-//      val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (firstName=None, lastName=None)
-//      val registrationDetails = RegistrationDetails(Some(CommonBuilder.buildDeceasedDateOfDeath),
-//        None, Some(deceasedDetails))
-//      val deceasedForms = formWithMockedNinoValidation(deceasedDetails,mockCachingConnector)
-//
-//      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
-//      implicit val hc = new HeaderCarrier()
-//      val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm().fill(deceasedDetails)
-//
-//      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
-//        data=form.data.toSeq)
-//
-//      createMockToGetRegDetailsFromCache(mockCachingConnector, None)
-//      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
-//
-//      val result = await(controller(deceasedForms).onSubmit()(request))
-//      status(result) shouldBe BAD_REQUEST
-//      contentAsString(result) should include(messagesApi("error.firstName.give"))
-//    }
+
+    "respond appropriately to an invalid submit: Missing mandatory fields" in {
+      // TODO: FIX
+      val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (firstName=None, lastName=None)
+      val registrationDetails = RegistrationDetails(Some(CommonBuilder.buildDeceasedDateOfDeath),
+        None, Some(deceasedDetails))
+      val deceasedForms = formWithMockedNinoValidation(deceasedDetails,mockCachingConnector)
+
+      implicit val req = createFakeRequestWithReferrer(referrerURL = referrerURL, host = host)
+      implicit val hc = new HeaderCarrier()
+      val form: Form[DeceasedDetails] = deceasedForms.aboutDeceasedForm().fill(deceasedDetails)
+
+      val request = createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host,
+        data=form.data.toSeq)
+
+      createMockToGetRegDetailsFromCache(mockCachingConnector, None)
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+
+      val result = await(controller(deceasedForms).onSubmit()(request))
+      status(result) shouldBe BAD_REQUEST
+      contentAsString(result) should include(messagesApi("error.firstName.give"))
+    }
 
     "respond appropriately to an invalid submit: Invalid NINO format" in {
+      // TODO: FIX
       val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (nino=Some("12345678"))
       val registrationDetails = RegistrationDetails(Some(CommonBuilder.buildDeceasedDateOfDeath),
         None, Some(deceasedDetails))
@@ -299,6 +297,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
     }
 
     "respond appropriately to an invalid submit: date of birth after date of death" in {
+      // TODO: FIX
       val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (
         dateOfBirth = Some(new LocalDate(2015, 12, 12)))
       val registrationDetails = RegistrationDetails(Some(CommonBuilder.buildDeceasedDateOfDeath), None, None)
@@ -440,6 +439,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
     }
 
     "respond appropriately to an invalid submit: NINO already entered for applicant" in {
+      // TODO: FIX
       val nino = "QQ123456C"
       val applicantDetails = CommonBuilder.buildApplicantDetails.copy(nino = Some(nino))
       val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (nino=Some(nino))
@@ -463,6 +463,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
     }
 
     "respond appropriately to an invalid submit: NINO already entered for coexecutor" in {
+      // TODO: FIX
       val nino = "QQ123456C"
      val applicantDetails = CommonBuilder.buildApplicantDetails
       val deceasedDetails = CommonBuilder.buildDeceasedDetails copy (nino=Some(nino))
