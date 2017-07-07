@@ -505,8 +505,8 @@ trait IhtFormValidator extends FormValidator {
       val isDifferentFuture = futureOptionRD.map {
         case None => true
         case Some(rd) =>
-          // TODO: also validate against coexecs
-          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino)
+          val coexecs = if(rd.coExecutors.nonEmpty) rd.coExecutors.exists(x => normalize(x.nino) != normalizedNino) else true
+          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) && coexecs
       }
       Await.result(isDifferentFuture, Duration.Inf)
     }

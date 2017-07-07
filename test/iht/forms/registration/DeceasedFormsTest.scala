@@ -248,6 +248,18 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
   }
 
+  def formsWithIhtFormValidatorMockedToFail = {
+    val formatter = mock[Formatter[String]]
+    when(formatter.bind(any(), any())).thenReturn(Left(Seq(FormError("nino", "error.nino.alreadyGiven"))))
+    val fieldMapping: FieldMapping[String] = Forms.of(formatter)
+    val mockIhtFormValidator = mock[IhtFormValidator]
+    when(mockIhtFormValidator.ninoForDeceased(any(), any(), any())(any(), any(), any()))
+      .thenReturn(fieldMapping)
+    val deceasedForms = new DeceasedForms {
+      override def ihtFormValidator: IhtFormValidator = mockIhtFormValidator
+    }
+    deceasedForms
+  }
 
   def formsWithIhtFormValidatorMockedToSucceed(nino:String): DeceasedForms = {
     val formatter = mock[Formatter[String]]
@@ -391,6 +403,20 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
 
       checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+    }
+
+    "indicate validation error when nino for coexecutor validation fails" in {
+      def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
+        implicit val request = createFakeRequest()
+        implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+        implicit val msg = messages
+        super.checkForError(formsWithIhtFormValidatorMockedToFail
+          .aboutDeceasedForm(), data, expectedErrors)
+      }
+      val data = completeAboutDeceased
+      val expectedErrors = error("nino", "error.nino.alreadyGiven")
+
+      checkForError(data, expectedErrors)
     }
   }
 
