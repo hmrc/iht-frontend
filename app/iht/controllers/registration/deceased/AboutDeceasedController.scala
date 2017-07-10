@@ -78,8 +78,10 @@ trait AboutDeceasedController extends RegistrationController {
     Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
 
   def onSubmit: Action[AnyContent] = submit(routes.AboutDeceasedController.onSubmit())
-  def onEditSubmit: Action[AnyContent] = submit(routes.AboutDeceasedController.onEditSubmit(),
-    Mode.Edit, cancelToRegSummary)
+  def onEditSubmit: Action[AnyContent] = {
+    submit(routes.AboutDeceasedController.onEditSubmit(),
+      Mode.Edit, cancelToRegSummary)
+  }
 
   def submit(onFailureActionCall: Call, mode: Mode.Value = Mode.Standard,
              cancelCall: Option[Call] = None) = authorisedForIht {
@@ -87,12 +89,7 @@ trait AboutDeceasedController extends RegistrationController {
       implicit request =>
         withRegistrationDetailsRedirectOnGuardCondition { (rd: RegistrationDetails) =>
 
-          val formType =
-            if (mode == Mode.Standard) {
-              deceasedForms.aboutDeceasedForm()
-            } else {
-              deceasedForms.aboutDeceasedForm()
-            }
+          val formType = deceasedForms.aboutDeceasedForm()
 
           val boundForm = formType.bindFromRequest()
 

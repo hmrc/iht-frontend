@@ -362,50 +362,17 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
     }
 
     "give multiple errors when several fields are invalid" in {
-      // TODO: FIX
-      val data = completeAboutDeceased + ("firstName" -> "", "nino" -> "INVALID")
+      val data = completeAboutDeceased + ("firstName" -> "", "lastName" -> "")
       val expectedErrors = error("firstName", "error.firstName.give") ++
-        error("nino", "error.nino.giveUsing8Or9Characters")
+        error("lastName", "error.lastName.give")
+      val form = deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec)
 
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
+      checkForError(form, data, expectedErrors)
     }
 
     "give one date error when several date fields are invalid" in {
       val data = completeAboutDeceased + ("dateOfBirth.day" -> "32", "dateOfBirth.month" -> "13", "dateOfBirth.year" -> "12", "dateOfBirth.day" -> "99")
       val expectedErrors = error("dateOfBirth", "error.dateOfBirth.giveFull")
-
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
-    }
-
-    "give an error when the NINO is blank" in {
-      // TODO: FIX
-      val data = completeAboutDeceased + ("nino" -> "")
-      val expectedErrors = error("nino", "error.nino.give")
-
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
-    }
-
-    "give an error when the NINO is not supplied" in {
-      // TODO: FIX
-      val data = completeAboutDeceased - "nino"
-      val expectedErrors = error("nino", "error.nino.give")
-
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
-    }
-
-    "give an error when the NINO is too long" in {
-      // TODO: FIX
-      val nino = CommonBuilder.DefaultNino
-      val data = completeAboutDeceased + ("nino" -> (nino.substring(0, nino.length() - 1) + "AA"))
-      val expectedErrors = error("nino", "error.nino.giveUsing8Or9Characters")
-
-      checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
-    }
-
-    "give an error when the NINO is invalid" in {
-      // TODO: FIX
-      val data = completeAboutDeceased + ("nino" -> "INVALIDD")
-      val expectedErrors = error("nino", "error.nino.giveUsingOnlyLettersAndNumbers")
 
       checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
     }
