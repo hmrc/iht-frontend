@@ -106,8 +106,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   //Gifts section starts
 
-  def totalPastYearsGifts: BigDecimal = CommonHelper.getOrZero(totalPastYearsGiftsOption)
-
   def totalPastYearsGiftsOption: Option[BigDecimal] = {
     val values = giftsList.getOrElse(Nil).map(x => x.value).filter(_.isDefined)
     val exemptions = giftsList.getOrElse(Nil).map(x => x.exemptions).filter(_.isDefined)
@@ -306,9 +304,9 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   //Tnrb section ends
 
-  def totalValue:BigDecimal = totalAssetsValue + totalPastYearsGifts
+  def totalValue:BigDecimal = totalAssetsValue + CommonHelper.getOrZero(totalPastYearsGiftsOption)
 
-  def totalNetValue:BigDecimal = (totalAssetsValue + totalPastYearsGifts) - totalExemptionsValue - totalLiabilitiesValue
+  def totalNetValue:BigDecimal = (totalAssetsValue + CommonHelper.getOrZero(totalPastYearsGiftsOption)) - totalExemptionsValue - totalLiabilitiesValue
 
   def currentThreshold: BigDecimal =
     if (isSuccessfulTnrbCase) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue

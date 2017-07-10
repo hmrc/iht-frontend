@@ -18,6 +18,7 @@ package iht.viewmodels.application.overview
 
 import iht.constants.IhtProperties._
 import iht.models.application.ApplicationDetails
+import iht.utils.CommonHelper
 import play.api.i18n.Messages
 
 case class AssetsAndGiftsSectionViewModel(behaveAsIncreasingTheEstateSection: Boolean,
@@ -81,7 +82,7 @@ object AssetsAndGiftsSectionViewModel {
     case None => NoValueEntered
     case Some(allGifts) if allGifts.isGiftsSectionCompletedWithNoValue => AllAnsweredNo("page.iht.application.overview.gifts.nonGiven")
     case Some(allGifts) if !applicationDetails.isValueEnteredForPastYearsGifts => NoValueEntered
-    case _ => CurrentValue(applicationDetails.totalPastYearsGifts)
+    case _ => CurrentValue(CommonHelper.getOrZero(applicationDetails.totalPastYearsGiftsOption))
   }
 
   def getScreenReaderQualifyingText(isComplete: RowCompletionStatus, moreDetailText: String, valueText: String, noValueText: String) =

@@ -622,7 +622,7 @@ object ApplicationKickOutHelper {
 
   private lazy val checksAllSectionsMaxValue: FunctionListMap = ListMap(
     AssetsTotalValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      (applicationDetails.totalAssetsValue + applicationDetails.totalPastYearsGifts) > IhtProperties.validationTotalAssetMaxValue
+      (applicationDetails.totalAssetsValue + CommonHelper.getOrZero(applicationDetails.totalPastYearsGiftsOption)) > IhtProperties.validationTotalAssetMaxValue
     })
 
   private lazy val checksActiveSectionOnlyMaxValue: FunctionListMap = ListMap(

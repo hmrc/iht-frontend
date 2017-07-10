@@ -127,7 +127,7 @@ trait XmlFoToPDF {
 
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
       applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalExemptionsValue,
-      applicationDetails.totalPastYearsGifts, messages)
+      CommonHelper.getOrZero(applicationDetails.totalPastYearsGiftsOption), messages)
 
     transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
     transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
