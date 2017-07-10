@@ -114,68 +114,6 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
   }
 
-  "totalAssetsValueOption" must {
-    "return correct assets value with Option" in {
-      applicationDetailsWithValues.totalAssetsValueOption shouldBe Some(BigDecimal(26190))
-    }
-
-    "return None where no assets" in {
-      emptyApplicationDetails.totalAssetsValueOption shouldBe empty
-    }
-  }
-
-  "isValueEnteredForAssets" must {
-    "return false if applicationDetails is empty" in {
-      emptyApplicationDetails.isValueEnteredForAssets shouldBe false
-    }
-
-    "return true if applicationDetails has a money with 0 value" in {
-      val appDetails = emptyApplicationDetails.copy(allAssets = Some(AllAssets(
-        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-          value = Some(BigDecimal(0)),
-          shareValue = None)
-        ))))
-
-      appDetails.isValueEnteredForAssets shouldBe true
-    }
-
-    "return true if applicationDetails has a money with value other than 0" in {
-      val appDetails = emptyApplicationDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
-        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-          value = Some(BigDecimal(100)),
-          shareValue = None)
-        ))))
-
-      appDetails.isValueEnteredForAssets shouldBe true
-    }
-
-    "return true if applicationDetails has a property with 0 value" in {
-      val appDetails = emptyApplicationDetails.copy(propertyList = List(CommonBuilder.buildProperty.copy(
-        id = Some("2"),
-        address = ukAddress,
-        propertyType = None,
-        typeOfOwnership = None,
-        tenure = None,
-        value = propertyValue(0)
-      )))
-
-      appDetails.isValueEnteredForAssets shouldBe true
-    }
-
-    "return true if applicationDetails has a property with value other than 0" in {
-      val appDetails = emptyApplicationDetails.copy(propertyList = List(CommonBuilder.buildProperty.copy(
-        id = Some("2"),
-        address = ukAddress,
-        propertyType = None,
-        typeOfOwnership = None,
-        tenure = None,
-        value = propertyValue(7500)
-      )))
-
-      appDetails.isValueEnteredForAssets shouldBe true
-    }
-  }
-
   "totalPastYearsGiftsOption" must {
 
     "return correct value with option when gift values and exemptions entered" in {

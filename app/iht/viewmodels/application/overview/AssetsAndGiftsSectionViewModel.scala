@@ -18,6 +18,7 @@ package iht.viewmodels.application.overview
 
 import iht.constants.IhtProperties._
 import iht.models.application.ApplicationDetails
+import iht.models.application.basicElements.EstateElement
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
 
@@ -71,10 +72,29 @@ object AssetsAndGiftsSectionViewModel {
     )
   }
 
+
+  def isValueEnteredForAssets(ad:ApplicationDetails): Boolean = {
+    val allAssets = ad.allAssets
+    Seq[Option[EstateElement]](
+      allAssets.flatMap(_.businessInterest),
+      allAssets.flatMap(_.foreign),
+      allAssets.flatMap(_.money),
+      allAssets.flatMap(_.heldInTrust),
+      allAssets.flatMap(_.household),
+      allAssets.flatMap(_.insurancePolicy),
+      allAssets.flatMap(_.moneyOwed),
+      allAssets.flatMap(_.nominated),
+      allAssets.flatMap(_.other),
+      allAssets.flatMap(_.privatePension),
+      allAssets.flatMap(_.stockAndShare),
+      allAssets.flatMap(_.vehicles)
+    ).flatten.exists(_.totalValue.isDefined) || ad.propertyList.nonEmpty
+  }
+
   def getAssetsDisplayValue(applicationDetails: ApplicationDetails) = applicationDetails.allAssets match {
     case None => NoValueEntered
     case Some(allAssets) if allAssets.areAllAssetsSectionsAnsweredNo => AllAnsweredNo("site.noAssets")
-    case Some(allAssets) if !applicationDetails.isValueEnteredForAssets => NoValueEntered
+    case Some(allAssets) if !isValueEnteredForAssets(applicationDetails) => NoValueEntered
     case _ => CurrentValue(applicationDetails.totalAssetsValue)
   }
 

@@ -18,7 +18,6 @@ package iht.models.application
 
 import iht.constants.IhtProperties
 import iht.models.application.assets._
-import iht.models.application.basicElements.EstateElement
 import iht.models.application.debts.AllLiabilities
 import iht.models.application.exemptions._
 import iht.models.application.gifts._
@@ -76,22 +75,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
     allAssets.map(_.totalValueWithoutProperties).getOrElse(BigDecimal(0)) +
       propertyList.map(_.value.getOrElse(BigDecimal(0))).sum
 
-  def isValueEnteredForAssets: Boolean = {
-    Seq[Option[EstateElement]](
-      allAssets.flatMap(_.businessInterest),
-      allAssets.flatMap(_.foreign),
-      allAssets.flatMap(_.money),
-      allAssets.flatMap(_.heldInTrust),
-      allAssets.flatMap(_.household),
-      allAssets.flatMap(_.insurancePolicy),
-      allAssets.flatMap(_.moneyOwed),
-      allAssets.flatMap(_.nominated),
-      allAssets.flatMap(_.other),
-      allAssets.flatMap(_.privatePension),
-      allAssets.flatMap(_.stockAndShare),
-      allAssets.flatMap(_.vehicles)
-    ).flatten.exists(_.totalValue.isDefined) || propertyList.nonEmpty
-  }
   //Assets section ends
 
   //Gifts section starts
