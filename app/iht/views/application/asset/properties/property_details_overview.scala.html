@@ -21,7 +21,7 @@
 @import iht.models.application.assets.Property
 @import iht.controllers.application.assets.properties.routes._
 @import iht.constants.FieldMappings
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.IhtProperties._
 
 @(deceasedName: String,
@@ -56,7 +56,7 @@ isFullWidth = false) {
                 <div class="tabular-data__data tabular-data__data--4-12">
                     @propertyAddress match{
                         case Some(x) => {
-                            @CommonHelper.addressLayout(x)
+                            @AddressHelper.addressLayout(x)
                         }
                         case None => {}
                     }

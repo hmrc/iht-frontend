@@ -17,21 +17,21 @@
 package iht.controllers.application.assets.properties
 
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, StringHelper}
 import iht.views.html.application.asset.properties.properties_owned_question
 import play.api.Logger
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
@@ -53,7 +53,7 @@ trait PropertiesOwnedQuestionController extends EstateController {
         withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -66,7 +66,7 @@ trait PropertiesOwnedQuestionController extends EstateController {
                   Future.successful(BadRequest(properties_owned_question(formWithErrors, regDetails)))
                 },
                 propertiesModel => {
-                  saveApplication(CommonHelper.getNino(user), propertiesModel, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(user), propertiesModel, appDetails, regDetails)
                 }
               )
             }

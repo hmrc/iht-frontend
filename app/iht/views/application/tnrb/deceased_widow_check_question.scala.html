@@ -20,7 +20,7 @@
 @import iht.models.RegistrationDetails
 @import iht.models.application.tnrb._
 @import iht.utils.tnrb.TnrbHelper
-@import iht.utils.CommonHelper
+@import iht.utils._
 
 @(deceasedWidowCheckQuestionForm:Form[WidowCheck],
 widowCheckModel: WidowCheck,
@@ -30,7 +30,7 @@ cancelLinkUrl:Call,
 cancelLinkText:String
 )(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 @maritalStatus() = @{TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased)}
 @spouseCivilPartner() = @{TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)}
 @question() = @{Messages("iht.estateReport.tnrb.partner.married",

@@ -22,7 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.testhelpers.ContentChecker
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -42,7 +42,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
 
-  lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+  lazy val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def setUpTests(applicationDetails: Option[ApplicationDetails] = None) = {
     createMocksForApplication(mockCachingConnector,

@@ -48,7 +48,7 @@ trait PartnerNameController extends EstateController {
       implicit request => {
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -76,7 +76,7 @@ trait PartnerNameController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -90,7 +90,7 @@ trait PartnerNameController extends EstateController {
                     CommonHelper.getOrException(appDetails.widowCheck).dateOfPreDeceased, cancelUrl)))
                 },
                 tnrbModel => {
-                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(user), tnrbModel, appDetails, regDetails)
                 }
               )
             }

@@ -16,14 +16,14 @@
 
 package iht.controllers.application.exemptions.charity
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.controllers.application.EstateController
 import iht.metrics.Metrics
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, StringHelper}
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+
 import scala.concurrent.Future
 
 /**
@@ -55,7 +55,7 @@ trait CharityDetailsOverviewController extends EstateController {
 
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {

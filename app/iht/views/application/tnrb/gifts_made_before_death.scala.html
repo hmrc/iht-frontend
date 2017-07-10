@@ -20,7 +20,7 @@
 @import iht.models.application.tnrb._
 @import iht.models.RegistrationDetails
 @import iht.utils.tnrb.TnrbHelper
-@import iht.utils.CommonHelper
+@import iht.utils._
 
 @(giftMadeBeforeDeathForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
@@ -29,7 +29,7 @@ cancelUrl:Call,
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
-@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", partnerName),
 browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),

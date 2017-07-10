@@ -16,19 +16,17 @@
 
 package iht.testhelpers
 
-import iht.models.des.ihtReturn.{Declaration, IHTReturn}
-
-import scala.util.Random
 import iht.constants.IhtProperties
-import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.models.application.assets._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.models.application.debts._
-import iht.models.application.assets._
-import iht.models.application.gifts._
 import iht.models.application.exemptions._
+import iht.models.application.gifts._
 import iht.models.application.tnrb._
+import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.models.des.ihtReturn.{Declaration, IHTReturn}
 import iht.models.{ReturnDetails, _}
-import iht.utils.{CommonHelper, KickOutReason, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, KickOutReason, StringHelper, ApplicationStatus => AppStatus}
 import models.des.{Deceased, Event, EventRegistration}
 import org.joda.time.{DateTime, LocalDate}
 import org.mockito.invocation.InvocationOnMock
@@ -37,6 +35,7 @@ import uk.gov.hmrc.domain.{Nino, TaxIds}
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 
+import scala.util.Random
 
 object CommonBuilder {
   val rng = new Random
@@ -88,7 +87,7 @@ object CommonBuilder {
   val DefaultDomicile = TestHelper.DomicileEnglandOrWales
   val DefaultMaritalStatus = TestHelper.MaritalStatusMarried
   val DefaultIHTReference = Some("ABC1234567890")
-  val DefaultAcknowledgmentReference = CommonHelper.generateAcknowledgeReference
+  val DefaultAcknowledgmentReference = StringHelper.generateAcknowledgeReference
   val DefaultIsAddressInUK = Some(true)
 
   //Default value for TnrbEligibilty Model
@@ -187,6 +186,12 @@ object CommonBuilder {
   val DefaultCoExecutor1 = CommonBuilder.buildCoExecutor copy(id = Some("1"), firstName = firstNameGenerator, lastName = surnameGenerator)
   val DefaultCoExecutor2 = CommonBuilder.buildCoExecutor copy(id = Some("2"), firstName = firstNameGenerator, lastName = surnameGenerator)
   val DefaultCoExecutor3 = CommonBuilder.buildCoExecutor copy(id = Some("3"), firstName = firstNameGenerator, lastName = surnameGenerator)
+
+  def escapeApostrophes(s: String): String = s.replaceAll("'", "&#x27;")
+
+  def escapeSpace(s: String) = s.replaceAll(" ", "&nbsp;")
+
+  def escapePound(s: String): String = s.replaceAll("£", "&pound;")
 
   def buildCoExecutorWithId(identifier: Option[String] = Some(DefaultId)) = CoExecutor(
     id = identifier,
@@ -746,7 +751,7 @@ object CommonBuilder {
     val erCoExec3 = erCoExec1 copy(firstName = Some(DefaultCoExecutor3.firstName),
       lastName = Some(DefaultCoExecutor3.lastName))
 
-    EventRegistration(Some(CommonHelper.generateAcknowledgeReference),
+    EventRegistration(Some(StringHelper.generateAcknowledgeReference),
       Some(Event("death", "Free Estate")),
       Some(buildLeadExecutor),
       if (includeCoExecutors) Some(Seq(erCoExec1, erCoExec2, erCoExec3)) else None,

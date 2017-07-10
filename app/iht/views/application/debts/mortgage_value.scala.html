@@ -20,7 +20,7 @@
 @import iht.models.application.debts._
 @import iht.models.application.assets.Property
 @import iht.utils._
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.FieldMappings
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
@@ -30,7 +30,7 @@ property: Property,
 submitUrl: Call,
 regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 
 @iht_main_template_application(title = Messages("page.iht.application.debts.mortgageValue.title", deceasedName),
     browserTitle = Some(Messages("page.iht.application.debts.mortgageValue.browserTitle")),
@@ -47,7 +47,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
         <div id="address" class="panel-indent panel-indent--gutter">
             @property.address match{
                 case Some(x) => {
-                    @CommonHelper.addressLayout(x)
+                    @AddressHelper.addressLayout(x)
                 }
                 case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
             }
@@ -55,7 +55,7 @@ regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages
 
         @ihtHelpers.custom.generic_estate_element_assets(
             assetType = Constants.AssetTypeSingle,
-            questionLabel= Messages("page.iht.application.debts.mortgageValue.title", CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)),
+            questionLabel= Messages("page.iht.application.debts.mortgageValue.title", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)),
             legendClass = "visually-hidden",
             inputTextLabel = if(property.typeOfOwnership.getOrElse(ownershipDeceasedOnly)== ownershipDeceasedOnly)
                                      Messages("page.iht.application.debts.mortgage.inputText.value")

@@ -19,7 +19,7 @@
 @import iht.models.application.gifts.PreviousYearsGifts
 @import iht.models._
 @import iht.models.application.gifts.AllGifts
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.IhtProperties._
 @import iht.constants.Constants._
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
@@ -31,8 +31,8 @@ regDetails:RegistrationDetails,
 giftsList: Seq[PreviousYearsGifts]
 )(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, false)}
-@deceasedNameWrapped() = @{CommonHelper.getDeceasedNameOrDefaultString(regDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, false)}
+@deceasedNameWrapped() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayBy",deceasedName),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAway.title")),

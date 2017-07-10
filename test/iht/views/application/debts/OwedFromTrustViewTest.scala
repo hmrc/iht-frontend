@@ -19,7 +19,7 @@ package iht.views.application.debts
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.owed_from_trust
 import play.api.data.Form
@@ -49,11 +49,11 @@ class OwedFromTrustViewTest extends DebtsElementViewBehaviour[BasicEstateElement
 
   override def guidance  = guidance(
     Set(messagesApi("page.iht.application.debts.debtsTrust.description.p1",
-      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
   )
 
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.debtsTrust.isOwned",
-                                                     CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+                                                     DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))
   override def inputValueFieldLabel = messagesApi("iht.estateReport.debts.debtsTrust.value")
   override def linkHash = TestHelper.DebtsOwedFromTrustID
 

@@ -15,7 +15,7 @@
 *@
 
 @import iht.models._
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.utils.CommonHelper.getOrException
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
@@ -86,7 +86,7 @@ returnHash: String = ""
             @if(detail.link.linkText.length>0){
               <a id='@{detail.linkId}' href="@detail.link.linkUrl">
                 <span aria-hidden="true">@Messages(detail.link.linkText)</span>
-                <span class="visually-hidden">@Messages(detail.link.linkTextAccessibility, CommonHelper.getDeceasedNameOrDefaultString(registrationDetails), detail.value)</span>
+                <span class="visually-hidden">@Messages(detail.link.linkTextAccessibility, DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails), detail.value)</span>
             </a>
             }
           </div>

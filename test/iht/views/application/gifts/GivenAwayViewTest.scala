@@ -20,16 +20,15 @@ import iht.constants.IhtProperties
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DateHelper}
 import iht.utils.CommonHelper._
 import iht.views.application.{CancelComponent, SubmittableApplicationPageBehaviour}
 import iht.views.html.application.gift.given_away
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.twirl.api.HtmlFormat.Appendable
-import play.api.test.Helpers._
-import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import org.joda.time.LocalDate
 import play.api.i18n.Lang
 
 class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
@@ -45,11 +44,15 @@ class GivenAwayViewTest extends SubmittableApplicationPageBehaviour[AllGifts] {
 
   override def browserTitle = messagesApi("iht.estateReport.gifts.givenAway.title")
 
+  def getDateBeforeSevenYears(date: LocalDate) = {
+    date.minusYears(IhtProperties.giftsYears.toInt).plusDays(1)
+  }
+
   override def guidance = guidance(
     Set(
       messagesApi("page.iht.application.gifts.lastYears.givenAway.p1",
         deceasedName,
-        CommonHelper.getDateBeforeSevenYears(
+        getDateBeforeSevenYears(
           getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath).toString(IhtProperties.dateFormatForDisplay),
         getOrException(registrationDetails.deceasedDateOfDeath).dateOfDeath.toString(IhtProperties.dateFormatForDisplay)),
       messagesApi("page.iht.application.gifts.lastYears.givenAway.p2", deceasedName)

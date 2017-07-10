@@ -23,7 +23,7 @@
 @import iht.utils._
 @import iht.views.html.ihtHelpers.custom._
 @import iht.utils.OverviewHelper._
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
@@ -31,7 +31,7 @@
     properties:Option[Properties],
     registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("page.iht.application.assets.deceased-permanent-home.sectionTitle"),
 browserTitle = Some(Messages("iht.estateReport.assets.propertiesBuildingsAndLand")),
@@ -48,7 +48,7 @@ isFullWidth=false
         <ul class="tabular-data tabular-data--list">
         @generic_overview_table_item(id = AssetsPropertiesOwnedID,
             questionText = Messages("page.iht.application.assets.properties.question.question",
-                                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
+                                      DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             questionScreenReaderText= Messages("page.iht.application.assets.properties.question.question", Messages("iht.the.deceased")),
             questionCategory= "change",
             answerValue= Messages(getBooleanDisplayValue(properties.flatMap(_.isOwned.map(x=>x)))),
@@ -71,7 +71,7 @@ isFullWidth=false
                     <div class="visually-hidden">@Messages("page.iht.application.assets.property.address.property.number", (i + 1))</div>
                     @element.address match{
                         case Some(x) => {
-                            @CommonHelper.addressLayout(x)
+                            @AddressHelper.addressLayout(x)
                         }
                         case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
                     }

@@ -16,18 +16,16 @@
 
 package iht.controllers.application.debts
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.FieldMappings
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
-import iht.models.RegistrationDetails
 import iht.models.application.assets.Property
 import iht.models.application.debts.Mortgage
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, StringHelper}
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -54,7 +52,7 @@ trait MortgagesOverviewController extends ApplicationController {
                          onCancelMessageKey: String,
                          isVisiblePropertyWarningAndLink: Boolean)(implicit user: AuthContext, request: Request[_]) = {
     withRegistrationDetails { regDetails =>
-      ihtConnector.getApplication(CommonHelper.getNino(user),
+      ihtConnector.getApplication(StringHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference) flatMap {
         case Some(applicationDetails) => {

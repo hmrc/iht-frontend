@@ -24,7 +24,7 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
+import iht.utils._
 import play.api.Logger
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
@@ -58,7 +58,7 @@ trait PropertyTypeController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
           Future.successful(Ok(iht.views.html.application.asset.properties.property_type(
             propertyTypeForm,
             cancelUrl,
@@ -73,9 +73,9 @@ trait PropertyTypeController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { registrationData =>
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationData)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationData)
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationData.ihtReference),
               registrationData.acknowledgmentReference)
           } yield {
@@ -109,7 +109,7 @@ trait PropertyTypeController extends EstateController {
                         implicit user: AuthContext, request: Request[_]) = {
 
     withRegistrationDetails { regDetails =>
-      val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+      val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
       val boundForm = propertyTypeForm.bindFromRequest
       boundForm.fold(
@@ -121,7 +121,7 @@ trait PropertyTypeController extends EstateController {
             deceasedName)))
         },
         property => {
-          processSubmit(CommonHelper.getNino(user), property, propertyId)
+          processSubmit(StringHelper.getNino(user), property, propertyId)
         }
       )
     }

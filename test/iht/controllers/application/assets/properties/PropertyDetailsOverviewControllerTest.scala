@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.CommonHelper
+import iht.utils._
 import play.api.mvc.{Request, Result}
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
@@ -39,7 +39,7 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
 
-  lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+  lazy val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def propertyDetailsOverviewController = new PropertyDetailsOverviewController {
     override val cachingConnector = mockCachingConnector

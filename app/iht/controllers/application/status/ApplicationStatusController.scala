@@ -19,16 +19,15 @@ package iht.controllers.application.status
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.EstateController
-import iht.models.application.{ApplicationDetails, ProbateDetails}
 import iht.models.RegistrationDetails
-import iht.utils.CommonHelper
+import iht.models.application.{ApplicationDetails, ProbateDetails}
+import iht.utils.{CommonHelper, StringHelper}
 import play.api.Logger
 import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
 import scala.concurrent.Future
 
 
@@ -43,7 +42,7 @@ trait ApplicationStatusController extends EstateController {
   def onPageLoad(ihtReference: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-        val nino = CommonHelper.getNino(user)
+        val nino = StringHelper.getNino(user)
         cachingConnector.storeSingleValue(Constants.PDFIHTReference, ihtReference).flatMap{ _ =>
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap { caseDetails =>
             val futureAD = getApplicationDetails(ihtReference, caseDetails.acknowledgmentReference)

@@ -19,13 +19,13 @@
 @import iht.constants.Constants._
 @import iht.models._
 @import iht.models.application.assets._
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.IhtProperties._
 
 @(insurancePolicyForm: Form[InsurancePolicy],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
 @iht_main_template_application(title = Messages("page.iht.application.insurance.policies.section4.title",deceasedName),
 browserTitle = Some(Messages("page.iht.application.insurance.policies.section4.browserTitle")),

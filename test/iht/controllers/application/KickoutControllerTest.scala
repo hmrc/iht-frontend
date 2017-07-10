@@ -22,7 +22,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.metrics.Metrics
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
-import iht.utils.{CommonHelper, KickOutReason, ApplicationStatus => AppStatus}
+import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.Matchers._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -68,7 +68,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
         status(result) should be(OK)
-        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary", CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
       }
     }
 

@@ -17,21 +17,20 @@
 package iht.controllers.application.tnrb
 
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.TnrbForms._
 import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
-import iht.models.RegistrationDetails
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 
 import scala.concurrent.Future
 
@@ -50,7 +49,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
           val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
 
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -82,7 +81,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
         withRegistrationDetails { regDetails =>
           val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
-          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -101,7 +100,7 @@ trait GiftsWithReservationOfBenefitController extends EstateController {
                     tnrbModel, deceasedName, cancelUrl)))
                 },
                 tnrbModel => {
-                  saveApplication(CommonHelper.getNino(user), tnrbModel, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(user), tnrbModel, appDetails, regDetails)
                 }
               )
             }

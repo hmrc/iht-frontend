@@ -24,9 +24,9 @@
 @import iht.utils._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
-@import iht.utils.CommonHelper
+@import iht.utils._
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.other.title"),
     browserTitle = Some(Messages("page.iht.application.assets.other.browserTitle")),

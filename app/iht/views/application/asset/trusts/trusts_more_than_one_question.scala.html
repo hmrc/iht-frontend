@@ -18,13 +18,13 @@
 @import iht.views.html._
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.IhtProperties._
 
 @(trustsMoreThanOneQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName),
 browserTitle = Some(Messages("page.iht.application.assets.trusts.moreThanOne.browserTitle")),

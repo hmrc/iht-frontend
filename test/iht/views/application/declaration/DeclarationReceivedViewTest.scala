@@ -26,7 +26,7 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
   lazy val probateDetails = CommonBuilder.buildProbateDetails
-  val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+  val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def declarationReceivedView() = {
     implicit val request = createFakeRequest()

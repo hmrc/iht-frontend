@@ -19,12 +19,10 @@ package iht.controllers.application.debts
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
-import iht.models.RegistrationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.testhelpers.ContentChecker
-import iht.utils.CommonHelper
-import play.api.i18n.Messages
+import iht.utils._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeHeaders
@@ -124,7 +122,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
       status(result) should be (OK)
       ContentChecker.stripLineBreaks(contentAsString(result)) should include (
         messagesApi("page.iht.application.debts.mortgageValue.title",
-          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+          DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "respond with bad request when form has some error" in {

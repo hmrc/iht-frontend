@@ -16,43 +16,27 @@
 
 package iht.utils
 
-import java.util.UUID._
-
 import iht.connector.CachingConnector
-import iht.constants.{Constants, IhtProperties}
+import iht.constants.Constants
 import iht.constants.IhtProperties.statusMarried
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
-import iht.models.application.gifts.PreviousYearsGifts
-import iht.views.html._
-import org.joda.time.{DateTime, LocalDate}
-import play.api.Logger
 import play.api.Play.current
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Request, Session}
-import play.twirl.api.Html
-import uk.gov.hmrc.play.frontend.auth.AuthContext
+import play.api.mvc.{Call, Request}
 
-import scala.collection.immutable.ListMap
-import scala.concurrent.duration.Duration
-import scala.concurrent.{ExecutionContext, Await, Future}
-import scala.util.{Try,Success,Failure}
-import scala.concurrent.ExecutionContext.Implicits.global._
+import scala.util.{Failure, Success, Try}
 
 /**
-  *
-  * Created by Vineet Tyagi on 28/05/15.
   *
   * This object contains all the common functionalities that can be reused
   */
 object CommonHelper {
   private val DateRangeMonths = 24
   def cachingConnector: CachingConnector = CachingConnector
-
-  import uk.gov.hmrc.play.http.HeaderCarrier
 
   /**
     * Capture the Referrer URL excluding the Host URL
@@ -87,124 +71,6 @@ object CommonHelper {
       }
   }
 
-  def trimAndUpperCaseNino(nino: String) = {
-    nino.trim.replace(" ", "").toUpperCase
-  }
-
-  def generateAcknowledgeReference: String = {
-    randomUUID.toString().replaceAll("-", "")
-  }
-
-  /**
-    * Convert the second element of array (Array created by input string) to Lowercase
-    */
-  def formatStatus(inputStatus: String) = {
-
-    val arrayStatus = inputStatus match {
-      case ApplicationStatus.KickOut => ApplicationStatus.InProgress.split(" ")
-      case ApplicationStatus.ClearanceGranted => ApplicationStatus.Closed.split(" ")
-      case _ => inputStatus.split(" ")
-    }
-
-    val firstPhase = arrayStatus.head
-
-    if (arrayStatus.length > 1) {
-      (firstPhase.replace(firstPhase.charAt(0), firstPhase.charAt(0).toUpper) + " " + arrayStatus.last.toLowerCase).trim
-    } else {
-      firstPhase.trim
-    }
-  }
-
-  def getSessionId(hc: HeaderCarrier) = {
-    val sessionId = hc.sessionId.getOrElse(throw new RuntimeException("No session id found in header carrier"))
-    sessionId.value
-  }
-
-  def determineStatusToUse(desStatus: String, secureStorageStatus: String): String = {
-    desStatus match {
-      case (ApplicationStatus.AwaitingReturn) => secureStorageStatus
-      case (_) => desStatus
-    }
-  }
-
-  /**
-    * Check the current date against input date plus range (thats add 24 months in the last day of the month
-    * of input date)
-    */
-  def isDateWithInRange(date: LocalDate): Boolean = {
-    val dateString = date.toString
-    val dateTime = new DateTime(dateString)
-    val dateRange = dateTime.dayOfMonth.withMaximumValue.plusMonths(IhtProperties.DateRangeMonths).toLocalDate
-    LocalDate.now().compareTo(dateRange) < 0
-  }
-
-  def getNino(user: AuthContext): String = {
-    user.principal.accounts.iht.getOrElse(throw new RuntimeException("User account could not be retrieved!")).nino.value
-  }
-
-  def booleanToYesNo(boolean: Boolean): String = {
-    boolean match {
-      case true => "Yes"
-      case false => "No"
-    }
-  }
-
-  def createDate(y: Option[String], m: Option[String], d: Option[String]): Option[LocalDate] = {
-    val year: String = if (y.getOrElse("").replaceAll(" ", "").length > 4) {
-      ""
-    } else {
-      y.getOrElse("")
-    }
-
-    try {
-      Some(
-        new LocalDate(
-          year.replaceAll(" ", "").toInt,
-          m.getOrElse("").replaceAll(" ", "").toInt,
-          d.getOrElse("").replaceAll(" ", "").toInt
-        )
-      )
-    } catch {
-      case e: Exception => None
-    }
-  }
-
-  def isNotFutureDate = {
-    date: LocalDate => !date.isAfter(LocalDate.now())
-  }
-
-  /**
-    * Check the Predeceased Date Of Death Tnrb Eligibility
-    */
-  def preDeceasedDiedEligible(x: LocalDate) =
-    x.isAfter(IhtProperties.dateOfPredeceasedForTnrbEligibility) ||
-      x.isEqual(IhtProperties.dateOfPredeceasedForTnrbEligibility)
-
-  /**
-    * Iterates through ListMap of ApplicationDetails->Boolean functions, executing each one in turn, passing in the
-    * specified ApplicationDetails object, until one yields true, at which point the String key associated with
-    * the function is returned as an Option. If all functions yield false then a None is returned.
-    */
-  def findFirstTrue(registrationDetails: RegistrationDetails,
-                    applicationDetails: ApplicationDetails,
-                    sectionTotal: => Seq[BigDecimal],
-                    keysToFunctions: ListMap[String, (RegistrationDetails,
-                      ApplicationDetails, Seq[BigDecimal]) => Boolean]): Option[String] = {
-
-    val passedItems = keysToFunctions.keys.iterator.takeWhile(key =>
-      !keysToFunctions(key)(registrationDetails, applicationDetails, sectionTotal))
-
-    val passedItemsSize = passedItems.size
-
-    if (passedItemsSize >= keysToFunctions.keys.iterator.size) {
-      // If they've all yielded false
-      None
-    } else {
-      val remainingItems = keysToFunctions.keys.iterator.drop(passedItemsSize)
-      Some(remainingItems.next())
-    }
-  }
-
   def getOrExceptionIfNegative(i: Int): Int = if (i < 0) throw new RuntimeException("Unexpected negative value") else i
 
   def getOrException[A](option: Option[A], errorMessage: String = "No element found"): A =
@@ -220,16 +86,10 @@ object CommonHelper {
   def getOrExceptionApplicationNotSaved(option: Option[ApplicationDetails],
                                         errorMessage: String = "Unable to save application"): ApplicationDetails = getOrException(option, errorMessage)
 
-  def getOrExceptionNoRegistration(option: Option[RegistrationDetails]): RegistrationDetails = getOrException(option, "No registration details")
-
   def getEmptyStringOrElse[A](option: Option[A], noneValue: String): String = option.fold(noneValue)(_ => "")
 
   def mapMaritalStatus(rd: RegistrationDetails, newValueMarried: String = "married", newValueNotMarried: String = "notMarried") =
     if (getOrException(rd.deceasedDetails.map(_.maritalStatus)) == statusMarried) newValueMarried else newValueNotMarried
-
-  def getDateBeforeSevenYears(date: LocalDate) = {
-    date.minusYears(IhtProperties.giftsYears.toInt).plusDays(1)
-  }
 
   def mapBigDecimalPair(first: Option[BigDecimal],
                         second: Option[BigDecimal],
@@ -246,37 +106,6 @@ object CommonHelper {
     }
   }
 
-  def previousYearsGiftsAccessibility(element: PreviousYearsGifts) = {
-    val messageFileSectionKey = "page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.link.screenReader"
-    val startDate = getOrException(element.startDate)
-    val endDate = getOrException(element.endDate)
-    val totalGifts = element.value.fold(BigDecimal(0))(identity)
-    val totalExemptions = element.exemptions.fold(BigDecimal(0))(identity)
-    val amountAddedToEstate = totalGifts - totalExemptions
-
-    mapBigDecimalPair(element.value, element.exemptions,
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate),
-      Messages(s"$messageFileSectionKey.change", startDate, endDate, totalGifts, totalExemptions, amountAddedToEstate))
-  }
-
-  def previousYearsGiftsAccessibilityTotals(totalPastYearsGifts: BigDecimal,
-                                            totalExemptionsValue: BigDecimal,
-                                            totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
-                                            elements: Seq[PreviousYearsGifts]): Option[(String, String, String)] = {
-    val messageFileSectionKey = "page.iht.application.gifts.sevenYears.values.valueOfGiftsAndExemptions.total"
-    val sortedGifts = elements.sortWith((a, b) => getOrException(a.startDate) < getOrException(b.startDate))
-    val earliestDate = getOrException(sortedGifts.head.startDate)
-    val latestDate = getOrException(sortedGifts.reverse.head.endDate)
-
-    Some(
-      (Messages(s"$messageFileSectionKey.gifts.screenReader", earliestDate, latestDate, totalPastYearsGifts),
-        Messages(s"$messageFileSectionKey.exemptions.screenReader", earliestDate, latestDate, totalExemptionsValue),
-        Messages(s"$messageFileSectionKey.estate.screenReader", earliestDate, latestDate, totalPastYearsGiftsValueExcludingExemptions))
-    )
-  }
-
   def getOrMinus1(value: Option[BigDecimal]): BigDecimal = value.fold(BigDecimal(-1))(identity)
 
 
@@ -285,21 +114,6 @@ object CommonHelper {
   def getMessageKeyValueOrBlank(key: String) = if (key.length == 0) key else Messages(key)
 
   def withValue[A, B](value: A)(func: A => B) = func(value)
-
-  def spy[A]: (String, A) => A = (msg, value) => {
-    Logger.debug(s"\n************:$msg " + value)
-    value
-  }
-
-  def escapeSpace(s: String) = s.replaceAll(" ", "&nbsp;")
-
-  def escapeApostrophes(s: String): String = s.replaceAll("'", "&#x27;")
-
-  def escapePound(s: String): String = s.replaceAll("£", "&pound;")
-
-  def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
-
-  def addEscapedApostrophe(name: String): String = escapeApostrophes(addApostrophe(name))
 
   /**
     * returns Some(true) if all the values are true, Some(false) if any false or None.
@@ -322,18 +136,6 @@ object CommonHelper {
       _ + _
     }
 
-  val isThereADateOfDeath: Predicate = (rd, _) => rd.deceasedDateOfDeath.isDefined
-  val isThereADeceasedDomicile: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.domicile).isDefined
-  val isThereADeceasedFirstName: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.firstName).isDefined
-  val isDeceasedAddressQuestionAnswered: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.isAddressInUK).isDefined
-  val isThereADeceasedAddress: Predicate = (rd, _) => rd.deceasedDetails.flatMap(_.ukAddress).isDefined
-  val isApplicantApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.isApplyingForProbate).isDefined
-  val isThereAnApplicantProbateLocation: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.country).isDefined
-  val isThereAnApplicantPhoneNo: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.phoneNo).isDefined
-  val isThereAnApplicantAddress: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.ukAddress).isDefined
-  val isApplicantOthersApplyingForProbateQuestionAnsweredYes: Predicate = (rd, _) => rd.areOthersApplyingForProbate.fold(false)(identity)
-  val isApplicantOthersApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.areOthersApplyingForProbate.isDefined
-
   /**
     * Finds the Coexecutor corresponding to the ID.
     */
@@ -348,57 +150,6 @@ object CommonHelper {
   val isThereACoExecutorFirstName: Predicate = (rd, id) => findExecutor(id, rd.coExecutors).fold(false) {
     _.firstName.trim.nonEmpty
   }
-
-  /**
-    * Checks the Exemptions Completion based on marital status
-    *
-    * @param rd : RegistrationDetails
-    * @param ad : ApplicationDetails
-    * @return
-    */
-  def isExemptionsCompleted(rd: RegistrationDetails,
-                            ad: ApplicationDetails) = {
-    !rd.deceasedDetails.flatMap(_.maritalStatus).contains(IhtProperties.statusMarried) match {
-      case true => ad.isExemptionsCompletedWithoutPartnerExemption
-      case false => ad.isExemptionsCompleted
-    }
-  }
-
-  def addressFormater(applicantAddress: UkAddress): String = {
-    var address: String = ihtHelpers.custom.name(applicantAddress.ukAddressLine1.toString) +
-      " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine2.toString).toString.replace("\n", "")
-
-    if (applicantAddress.ukAddressLine3.isDefined) {
-      address += " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine3.getOrElse("").toString).toString.replace("\n", "")
-    }
-
-    if (applicantAddress.ukAddressLine4.isDefined) {
-      address += " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine4.getOrElse("").toString).toString.replace("\n", "")
-    }
-
-    if (applicantAddress.postCode.toString != "") {
-      address += " \n" + applicantAddress.postCode.toString
-    }
-
-    if (countryName(applicantAddress.countryCode) != "" && applicantAddress.countryCode != "GB") {
-      address += " \n" + countryName(applicantAddress.countryCode)
-    }
-
-    address.toString().trim()
-  }
-
-  def addressLayout(address: UkAddress): Html = {
-    Html(CommonHelper.addressFormater(address).replace("\n", "<br/>"))
-  }
-
-  /**
-    * Fetch the deceased Marital status if DeceasedDetails and MaritalStatus exists else throws exception
-    *
-    * @param regDetails
-    * @return
-    */
-  def getMaritalStatus(regDetails: RegistrationDetails) =
-    getOrException(getOrException(regDetails.deceasedDetails).maritalStatus)
 
   def insurancePoliciesEndLineMessageKey(form: Form[InsurancePolicy]): Option[String] = {
     if (form.errors.exists(error => Constants.insurancePolicyFormFieldsWithExtraContentLineInErrorSummary
@@ -451,52 +202,6 @@ object CommonHelper {
     }
   }
 
-  def getDeceasedNameOrDefaultString(regDetails: RegistrationDetails,
-                                     wrapName: Boolean = false): String =
-    if (wrapName) {
-      ihtHelpers.custom.name(regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)).toString
-    } else {
-      regDetails.deceasedDetails.fold(Messages("iht.the.deceased"))(_.name)
-    }
-
-  def getDeceasedNameOrDefaultString(deceasedName: Option[String]): String = {
-    deceasedName.fold(Messages("iht.the.deceased")) { identity }
-  }
-  /**
-    * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
-    * String is split on spaces and hyphens to exclude strings which would split to new lines anyway
-    * Returns true if a part of the string is over the alloted length
-    * Allows for measures to be taken to prevent long names breaking the page layout
-    */
-  def isNameLong(name: String): Boolean = {
-    var restrictName: Boolean = false;
-    val nameArr = name.split(" ");
-    for (namePart <- nameArr) {
-      var subparts = namePart.split("-")
-      for (subpart <- subparts) {
-        if (subpart.length > IhtProperties.hyphenateNamesLength) {
-          restrictName = true;
-        }
-      }
-    }
-    restrictName
-  }
-
-  def ensureSessionHasNino(session: Session, user: AuthContext): Session =
-    withValue(getNino(user)) { currentNino =>
-      val optionSession = session.get(Constants.NINO).fold[Option[Session]](
-        None
-      ) { foundNino =>
-        if (foundNino == currentNino) {
-          Option(session)
-        } else {
-          None
-        }
-      }
-      optionSession.fold(session + (Constants.NINO -> currentNino))(identity)
-    }
-
-
   def addFragmentIdentifier(call: Call, identifier: Option[String] = None) = {
     identifier match {
       case None => call
@@ -512,14 +217,4 @@ object CommonHelper {
     }
   }
 
-  def getNinoFromSession(request:Request[_]): Option[String] = request.session.get(Constants.NINO)
-
-  def deceasedName(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = {
-    val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
-    val deceasedNameFuture = futureOptionRD.map {
-      case None => ""
-      case Some(rd) => rd.deceasedDetails.fold("")(_.name)
-    }
-    Await.result(deceasedNameFuture, Duration.Inf)
-  }
 }

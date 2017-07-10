@@ -15,12 +15,11 @@
 *@
 
 @import iht.models._
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.utils.CommonHelper.getOrException
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
 
-@import iht.utils._
 @import iht.utils.OverviewHelper._
 @import iht.views.html.application.gift._
 @import iht.views.html.application._
@@ -43,7 +42,7 @@ returnToMessagesKey: String
     seqRows = seqRows,
     messagesFileSectionLine1 = Messages(
                                     "page.iht.application.assets.insurance.policies.overview.guidance1",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)
+                                    DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)
                                 ),
     messagesFileSectionLine2 = "page.iht.application.assets.insurance.policies.overview.guidance2",
     returnToCall = returnToCall,

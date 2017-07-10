@@ -36,7 +36,7 @@ cancelLabel = Some(Messages("site.link.cancel"))
         @defining(propertyModel.address)  { propertyAddress =>
             @propertyAddress match{
                 case Some(x) => {
-                    @CommonHelper.addressLayout(x)
+                    @AddressHelper.addressLayout(x)
                 }
                 case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
             }

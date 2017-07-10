@@ -18,7 +18,7 @@
 @import iht.config._
 @import iht.config.ApplicationConfig
 @import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
-@import iht.utils.CommonHelper
+@import iht.utils.StringHelper
 @import iht.controllers.CustomLanguageController
 @import iht.config.ApplicationConfig
 @import play.api.Application
@@ -52,7 +52,7 @@ isRegistration: Boolean = false
     if(headingClass != ""){
         headingClass
     }else{
-        if(CommonHelper.isNameLong(headingName)){
+        if(StringHelper.isNameLong(headingName)){
             "heading-large"
         } else {
             "heading-xlarge"

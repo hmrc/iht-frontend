@@ -34,11 +34,11 @@
 
     @helpers.form(action = iht.controllers.application.debts.routes.DebtsOwedFromATrustController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Html(Messages("page.iht.application.debts.debtsTrust.description.p1", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+        <p class="lede">@Html(Messages("page.iht.application.debts.debtsTrust.description.p1", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
         @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,
-            questionLabel= Messages("page.iht.application.debts.debtsTrust.isOwned", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
+            questionLabel= Messages("page.iht.application.debts.debtsTrust.isOwned", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             inputTextLabel = Messages("iht.estateReport.debts.debtsTrust.value"),
             sharableElementForm = debtsTrustForm,
             clearTargetInput = Some("value")

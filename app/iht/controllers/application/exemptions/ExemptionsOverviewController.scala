@@ -16,17 +16,14 @@
 
 package iht.controllers.application.exemptions
 
-import iht.connector.{CachingConnector, IhtConnector}
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.IhtProperties
-import iht.connector.IhtConnectors
 import iht.controllers.application.ApplicationController
-import iht.models.application.ApplicationDetails
-import iht.models.application.exemptions._
 import iht.models.RegistrationDetails
-import iht.utils.CommonHelper
-import play.api.Logger
-import play.api.i18n.Messages.Implicits._
+import iht.models.application.exemptions._
+import iht.utils.StringHelper
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
 import scala.concurrent.Future
 
@@ -57,7 +54,7 @@ trait ExemptionsOverviewController extends ApplicationController{
           rd))
         if (!ad.hasSeenExemptionGuidance.getOrElse(false)) {
           val changedAppDetails = ad copy (hasSeenExemptionGuidance = Some(true))
-          ihtConnector.saveApplication(CommonHelper.getNino(user), changedAppDetails, rd.acknowledgmentReference).map(_=>response)
+          ihtConnector.saveApplication(StringHelper.getNino(user), changedAppDetails, rd.acknowledgmentReference).map(_=>response)
         } else {
           Future.successful(response)
         }

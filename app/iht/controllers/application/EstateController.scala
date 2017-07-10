@@ -17,13 +17,12 @@
 package iht.controllers.application
 
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.constants.Constants
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.exemptions._
 import iht.utils.ApplicationKickOutHelper.FunctionListMap
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}
@@ -31,8 +30,7 @@ import play.twirl.api.HtmlFormat._
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.Future
 import scala.util.{Failure, Success, Try}
 
 trait EstateController extends ApplicationController {
@@ -109,7 +107,7 @@ trait EstateController extends ApplicationController {
                                  retrieveSectionDetails: ApplicationDetails => Option[A])
                                 (implicit request: Request[_], user: AuthContext) = {
     withRegistrationDetails { regDetails =>
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+      val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
 
@@ -136,7 +134,7 @@ trait EstateController extends ApplicationController {
                                                    cancel: Call)(implicit request: Request[_], user: AuthContext) = {
 
     withRegistrationDetails { regDetails =>
-      val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+      val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
         CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
         regDetails.acknowledgmentReference)
 
@@ -199,7 +197,7 @@ trait EstateController extends ApplicationController {
             Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails)))
           },
           estateElementModel => {
-            estatesSaveApplication(CommonHelper.getNino(user),
+            estatesSaveApplication(StringHelper.getNino(user),
               estateElementModel,
               regDetails,
               updateApplicationDetails,
@@ -308,7 +306,7 @@ trait EstateController extends ApplicationController {
           Future.successful(BadRequest(retrievePageToDisplay(formWithErrors, regDetails, submit, cancel)))
         },
         estateElementModel => {
-          estatesSaveApplication(CommonHelper.getNino(user),
+          estatesSaveApplication(StringHelper.getNino(user),
             estateElementModel,
             regDetails,
             updateApplicationDetails,

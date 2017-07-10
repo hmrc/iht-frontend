@@ -21,7 +21,7 @@ import iht.connector.IhtConnectors
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, RegistrationDetails}
-import iht.utils.{CommonHelper, RegistrationKickOutHelper}
+import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
 import iht.views.html.registration.{applicant => views}
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Request}
@@ -45,19 +45,19 @@ trait ApplyingForProbateController extends RegistrationApplicantControllerWithEd
   lazy val editSubmitRoute = routes.ApplyingForProbateController.onEditSubmit
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applying_for_probate(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute)
+    Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.applying_for_probate(form, CommonHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
+    Ok(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applying_for_probate(form, CommonHelper.getDeceasedNameOrDefaultString(name), submitRoute)
+    BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.applying_for_probate(form, CommonHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
+    BadRequest(views.applying_for_probate(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, cancelToRegSummary)
     (request, request.acceptLanguages.head, applicationMessages))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {

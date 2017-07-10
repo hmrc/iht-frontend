@@ -16,16 +16,17 @@
 
 package iht.controllers.registration.executor
 
-import iht.connector.CachingConnector
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnectors}
 import iht.controllers.registration.{RegistrationController, routes => registrationRoutes}
 import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics
 import iht.models.RegistrationDetails
+import iht.utils.AddressHelper._
 import iht.utils.CommonHelper._
-import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.Call
+
 import scala.concurrent.Future
 
 object OthersApplyingForProbateController extends OthersApplyingForProbateController with IhtConnectors {

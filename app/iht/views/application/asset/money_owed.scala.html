@@ -21,12 +21,12 @@
 @import iht.utils._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
-@import iht.utils.CommonHelper
+@import iht.utils._
 
 @(moneyOwedForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 @deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.moneyOwed",deceasedName),

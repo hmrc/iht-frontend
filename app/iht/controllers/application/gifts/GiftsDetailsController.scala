@@ -20,26 +20,25 @@ package iht.controllers.application.gifts
  * Created by xavierzanatta on 8/5/15.
  */
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
+import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
-import iht.models.RegistrationDetails
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper}
-import iht.utils.GiftsHelper._
 import iht.utils.CommonHelper._
+import iht.utils.GiftsHelper._
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, LogHelper, StringHelper}
+import play.api.Play.current
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
+
 import scala.concurrent.Future
-import iht.constants.Constants._
 
 object GiftsDetailsController extends GiftsDetailsController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -120,7 +119,7 @@ trait GiftsDetailsController extends EstateController {
               )
             },
             previousYearsGifts => {
-              processSubmit(CommonHelper.getNino(user), previousYearsGifts, rd, ad)
+              processSubmit(StringHelper.getNino(user), previousYearsGifts, rd, ad)
             }
           )
         }

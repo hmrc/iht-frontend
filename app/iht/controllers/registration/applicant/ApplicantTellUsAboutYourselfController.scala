@@ -16,21 +16,19 @@
 
 package iht.controllers.registration.applicant
 
-import iht.connector.CitizenDetailsConnector
+import iht.connector.{CitizenDetailsConnector, IhtConnectors}
 import iht.controllers.ControllerHelper.Mode
-import iht.connector.IhtConnectors
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.forms.registration.ApplicantForms._
 import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
-import iht.utils.CommonHelper
-import iht.utils.CommonHelper._
+import iht.utils.{SessionHelper, StringHelper}
 import iht.views.html.registration.{applicant => views}
+import play.api.Play.current
 import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContent, Request, Result}
 import uk.gov.hmrc.domain.Nino
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
 
@@ -66,7 +64,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
         } else {
           okForEditPageLoad(f)
         }
-        val result = okResult.withSession(CommonHelper.ensureSessionHasNino(request.session, user))
+        val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, user))
         Future.successful(result)
       }
   }
@@ -107,7 +105,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
             }
           },
           ad => {
-            val nino = Nino(getNino(user))
+            val nino = Nino(StringHelper.getNino(user))
 
             val applicantDetailsFuture = citizenDetailsConnector.getCitizenDetails(nino).map {
               person: CidPerson => {

@@ -19,7 +19,7 @@ package iht.views.application.gifts
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.gift.with_reservation_of_benefit
 import play.api.data.Form
@@ -49,7 +49,7 @@ class WithReservationOfBenefitViewTest extends SubmittableApplicationPageBehavio
   override def guidance = guidance(
     Set(
       messagesApi("iht.estateReport.gifts.reservation.question",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))
     )
   )
 

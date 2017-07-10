@@ -19,10 +19,9 @@ package iht.connector
 import iht.config.WSHttp
 import iht.controllers.ControllerHelper
 import iht.models._
-import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
+import iht.utils.{GiftsHelper, RegistrationDetailsHelper, StringHelper}
 import iht.models.des.ihtReturn.IHTReturn
-import iht.utils.{CommonHelper, GiftsHelper, StringHelper}
 import models.des.EventRegistration
 import play.api.Logger
 import play.api.http.Status._
@@ -88,7 +87,7 @@ object IhtConnector extends IhtConnector with ServicesConfig {
   override def submitRegistration(nino: String, rd: RegistrationDetails)(implicit headerCarrier: HeaderCarrier):
   Future[String] = {
     val er = EventRegistration.fromRegistrationDetails(rd)
-    val ninoFormatted = CommonHelper.trimAndUpperCaseNino(nino)
+    val ninoFormatted = StringHelper.trimAndUpperCaseNino(nino)
     Logger.info("Calling IHT micro-service to submit registration")
     http.POST(s"$serviceUrl/iht/$ninoFormatted/registration/submit", er) map {
       response => {
@@ -197,7 +196,7 @@ object IhtConnector extends IhtConnector with ServicesConfig {
               }
               case x => {
                 Logger.info("Correctly returned for registration details")
-                CommonHelper.getOrExceptionNoRegistration(x.asOpt)
+                RegistrationDetailsHelper.getOrExceptionNoRegistration(x.asOpt)
               }
             }
           }
