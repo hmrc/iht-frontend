@@ -17,17 +17,14 @@
 package iht.models.application
 
 import iht.constants.IhtProperties
-import iht.controllers.ControllerHelper
-import iht.models.application.ApplicationDetails.Calculation
 import iht.models.application.assets._
 import iht.models.application.basicElements.EstateElement
 import iht.models.application.debts.AllLiabilities
 import iht.models.application.exemptions._
 import iht.models.application.gifts._
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
-import iht.utils.{ApplicationStatus => AppStatus, CommonHelper}
+import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
 import play.api.libs.json.Json
-import iht.utils.CommonHelper._
 
 case class ApplicationDetails(allAssets: Option[AllAssets] = None,
                               propertyList: List[Property] = Nil,
@@ -66,7 +63,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   def isCompleteProperties: Option[Boolean] = {
     val propertiesIsOwned = allAssets.flatMap(_.properties).flatMap(_.isOwned)
     val allPropertiesComplete = propertiesIsOwned.map(isOwned =>
-      if(isOwned) propertyList.size>0 && !propertyList.exists(!_.isComplete) else true )
+      if(isOwned) propertyList.nonEmpty && !propertyList.exists(!_.isComplete) else true )
 
     (propertiesIsOwned, allPropertiesComplete) match {
       case (None, _) => None
@@ -181,17 +178,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
     }
   }
 
-  def isGiftsSectionCompleted: Boolean =
-    allGifts.exists(_.isGiftsSectionCompletedWithNoValue) || isValueEnteredForPastYearsGifts
-
-  def isInitialGiftsQuestionAnsweredTrue: Boolean =
-    allGifts.flatMap(_.isGivenAway).fold(false)(identity)
-
-  def isAnyQuestionAnsweredForGifts: Boolean =
-    allGifts.exists(g=>
-      g.isGivenAway.isDefined || g.isReservation.isDefined ||
-        g.isGivenInLast7Years.isDefined || g.isToTrust.isDefined)
-
   //Gifts section ends
 
   //Debts section starts
@@ -211,17 +197,21 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
     }
   }
 
-  def isValueEnteredForDebts: Boolean = {
-    Seq[Option[EstateElement]](
-      allLiabilities.flatMap(_.funeralExpenses),
-      allLiabilities.flatMap(_.trust),
-      allLiabilities.flatMap(_.debtsOutsideUk),
-      allLiabilities.flatMap(_.jointlyOwned),
-      allLiabilities.flatMap(_.other)
-    ).flatten.exists(_.totalValue.isDefined) || allLiabilities.fold(false)(_.mortgages.isDefined)
-  }
-
   def isCompleteMortgages: Option[Boolean] = {
+    def checkIsCompleteMortgagesForNonEmptyPropertyList = {
+      val allMortgagesComplete = allLiabilities.flatMap(_.mortgages).map(_.mortgageList).
+        fold(false)(_.forall(_.isComplete.getOrElse(false)))
+
+      val mortgageListSize = allLiabilities.flatMap(_.mortgages).map(_.mortgageList).fold(0)(_.size)
+      val sizeNotMatched = propertyList.size != mortgageListSize
+
+      (sizeNotMatched, allMortgagesComplete) match {
+        case (true, _) => Some(false)
+        case (false, false) => Some(false)
+        case (false, true) => Some(true)
+      }
+    }
+
     val propertiesIsOwned: Option[Boolean] = allAssets.flatMap(_.properties).flatMap(_.isOwned)
 
     propertiesIsOwned match {
@@ -232,19 +222,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
     }
   }
 
-  private def checkIsCompleteMortgagesForNonEmptyPropertyList = {
-    val allMortgagesComplete = allLiabilities.flatMap(_.mortgages).map(_.mortgageList).
-      fold(false)(_.forall(_.isComplete.getOrElse(false)))
-
-    val mortgageListSize = allLiabilities.flatMap(_.mortgages).map(_.mortgageList).fold(0)(_.size)
-    val sizeNotMatched = propertyList.size != mortgageListSize
-
-    (sizeNotMatched, allMortgagesComplete) match {
-      case (true, _) => Some(false)
-      case (false, false) => Some(false)
-      case (false, true) => Some(true)
-    }
-  }
   //Debts section ends
 
   //Exemptions section starts
@@ -279,16 +256,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
       case _ => Some(true)
     }
   }
-
-  def isExemptionsCompleted = isCompleteCharities.getOrElse(false) &&
-    isCompleteQualifyingBodies.getOrElse(false) &&
-    allExemptions.flatMap(_.partner.flatMap(_.isComplete)).getOrElse(false)
-
-  def isExemptionsCompletedWithoutPartnerExemption =
-    (isCompleteCharities, isCompleteQualifyingBodies) match {
-      case (Some(true), Some(true)) => true
-      case _ => false
-    }
 
   def isExemptionsCompletedWithNoValue = allExemptions.fold(false){_.isExemptionsSectionCompletedWithNoValue}
 
@@ -340,37 +307,12 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   //Tnrb section ends
 
-  def isSubmittable: Boolean = (totalAssetsValue, areAllAssetsCompleted) match {
-    case (tav, Some(true)) if tav>0 => true
-    case _ => false
-  }
-
   def totalValue:BigDecimal = totalAssetsValue + totalGiftsValue
 
   def totalNetValue:BigDecimal = (totalAssetsValue + totalGiftsValue) - totalExemptionsValue - totalLiabilitiesValue
 
-  def calculationUsed:Calculation.Value = {
-    import ApplicationDetails.Calculation._
-
-    if (totalAssetsValue + totalGiftsValue == 0 && totalExemptionsValue == 0) {
-      NO_CALCULATION
-    } else if (totalAssetsValue + totalGiftsValue <= ControllerHelper.TaxThreshold && totalExemptionsValue == 0) {
-      GROSS
-    } else if (totalExemptionsValue == 0) {
-      GROSS
-    } else if (totalExemptionsValue > 0 && ((totalValue - totalLiabilitiesValue) - totalExemptionsValue)<0) {
-      NET_NEGATIVE
-    } else if (totalLiabilitiesValue > 0 && totalExemptionsValue > 0) {
-      NET_MINUS_DEBTS
-    } else {
-      NET
-    }
-  }
-
   def currentThreshold: BigDecimal =
     if (isSuccessfulTnrbCase) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
-
-  def isEstateOverThreshold: Boolean = netValueAfterExemptionAndDebtsForPositiveExemption > currentThreshold
 }
 
 object ApplicationDetails {
