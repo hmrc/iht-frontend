@@ -1855,8 +1855,6 @@ iht.estateReport.pdf.declaration.declaringThat = You are declaring that:
 pdf.page.number = Page
 
 #Kickouts - Estate report - common
-page.iht.application.liabilities.title = {0}’s debts
-pdf.liabilities.total.title = Total Debts
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold
 iht.estateReport.kickout.nextSteps = You must complete the Inheritance Tax estate report by using an IHT-400 form. When you finish this service, you will be given a copy of the form.
 iht.estateReport.kickout.returnToEstateOverview = If you want to change any value
@@ -2482,9 +2480,9 @@ error.debts.mortgage.select = Select an answer for if there was a mortgage on th
 error.mortgages.currencyValue.length.summary = enter a mortgage value using less than 11 numbers
 error.mortgages.currencyValue.summary = enter a mortgage value using only numbers
 
-error.debts.funeralExpenses.select  = Select an answer for if there are any funeral expenses being paid out of the estate
 error.funeralExpenses.currencyValue.length.summary = enter a value for funeral costs using less than 11 numbers
 error.funeralExpenses.currencyValue.summary = enter a value for funeral costs using only numbers
+error.debts.funeralExpenses.select  = Select an answer for if there are any funeral expenses being paid out of the estate
 
 error.debts.trusts.select = Select an answer for if there are any debts from a trust that {0} benefitted from
 error.debtsFromTrust.currencyValue.length.summary = enter a value for debts owed from a trust using less than 11 numbers
