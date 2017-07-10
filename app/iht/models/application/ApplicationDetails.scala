@@ -76,16 +76,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
     allAssets.map(_.totalValueWithoutProperties).getOrElse(BigDecimal(0)) +
       propertyList.map(_.value.getOrElse(BigDecimal(0))).sum
 
-  def totalAssetsValueOption: Option[BigDecimal] = {
-    if (allAssets.map(_.areAllAssetsSectionsAnsweredNo).fold(false)(identity)) {
-      None
-    } else {
-      val allAssetsValue = allAssets.map(_.totalValueWithoutPropertiesOption)
-      val allPropertyValue = CommonHelper.aggregateOfSeqOfOptionDecimal(propertyList.map(_.value))
-      CommonHelper.aggregateOfSeqOfOptionDecimal(Seq(allAssetsValue.flatten, allPropertyValue))
-    }
-  }
-
   def isValueEnteredForAssets: Boolean = {
     Seq[Option[EstateElement]](
       allAssets.flatMap(_.businessInterest),
