@@ -136,12 +136,12 @@ object CommonHelper {
       _ + _
     }
 
-  val isApplicantApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.isApplyingForProbate).isDefined
-  val isThereAnApplicantProbateLocation: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.country).isDefined
-  val isThereAnApplicantPhoneNo: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.phoneNo).isDefined
-
-  val isApplicantOthersApplyingForProbateQuestionAnsweredYes: Predicate = (rd, _) => rd.areOthersApplyingForProbate.fold(false)(identity)
-  val isApplicantOthersApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.areOthersApplyingForProbate.isDefined
+//  val isApplicantApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.isApplyingForProbate).isDefined
+//  val isThereAnApplicantProbateLocation: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.country).isDefined
+//  val isThereAnApplicantPhoneNo: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.phoneNo).isDefined
+//
+//  val isApplicantOthersApplyingForProbateQuestionAnsweredYes: Predicate = (rd, _) => rd.areOthersApplyingForProbate.fold(false)(identity)
+//  val isApplicantOthersApplyingForProbateQuestionAnswered: Predicate = (rd, _) => rd.areOthersApplyingForProbate.isDefined
 
   /**
     * Finds the Coexecutor corresponding to the ID.

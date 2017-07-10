@@ -18,7 +18,6 @@ package iht.utils
 
 import iht.FakeIhtApp
 import iht.models.application.ApplicationDetails
-import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.test.FakeRequest
@@ -70,69 +69,6 @@ class CommonHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with I
     intercept[RuntimeException] {
       CommonHelper.getOrExceptionNoIHTRef(aa)
     }.getMessage should include ("No IHT Reference")
-  }
-
-  "Predicate isApplicantApplyingForProbateQuestionAnswered returns true when applicant probate " +
-    "question answered" in {
-    CommonHelper.isApplicantApplyingForProbateQuestionAnswered(CommonBuilder.buildRegistrationDetails copy(
-        applicantDetails = Some(CommonBuilder.buildApplicantDetails)
-      ), "") shouldBe true
-  }
-
-  "Predicate isApplicantApplyingForProbateQuestionAnswered returns false when applicant probate " +
-    "question is not answered" in {
-    CommonHelper.isApplicantApplyingForProbateQuestionAnswered(CommonBuilder.buildRegistrationDetails copy(
-      applicantDetails = Some(CommonBuilder.buildApplicantDetails.copy(isApplyingForProbate = None))
-      ), "") shouldBe false
-  }
-
-  "Predicate isThereAnApplicantProbateLocation returns true when there is an applicant probate location " in {
-    CommonHelper.isThereAnApplicantProbateLocation(CommonBuilder.buildRegistrationDetails copy(
-      applicantDetails = Some(CommonBuilder.buildApplicantDetails)
-      ), "") shouldBe true
-  }
-
-  "Predicate isThereAnApplicantProbateLocation returns false when there is no applicant probate" +
-    " location selected " in {
-    CommonHelper.isThereAnApplicantProbateLocation(CommonBuilder.buildRegistrationDetails copy(
-      applicantDetails = Some(CommonBuilder.buildApplicantDetails.copy(country = None))
-      ), "") shouldBe false
-  }
-
-  "Predicate isThereAnApplicantPhoneNo returns true when there is an applicant phone no " in {
-    CommonHelper.isThereAnApplicantPhoneNo(CommonBuilder.buildRegistrationDetails copy(
-      applicantDetails = Some(CommonBuilder.buildApplicantDetails)
-      ), "") shouldBe true
-  }
-
-  "Predicate isThereAnApplicantPhoneNo returns false when there is no applicant phone no " in {
-    CommonHelper.isThereAnApplicantPhoneNo(CommonBuilder.buildRegistrationDetails copy(
-      applicantDetails = Some(CommonBuilder.buildApplicantDetails.copy(phoneNo = None))
-      ), "") shouldBe false
-  }
-
-  "Predicate isApplicantOthersApplyingForProbateQuestionAnsweredYes returns true when" +
-    " applicant others applying for probate question answered" in {
-    CommonHelper.isApplicantOthersApplyingForProbateQuestionAnsweredYes(
-      CommonBuilder.buildRegistrationDetails copy(
-      areOthersApplyingForProbate = Some(true)
-      ), "") shouldBe true
-  }
-
-  "Predicate isApplicantOthersApplyingForProbateQuestionAnsweredYes returns false when" +
-    " applicant others applying for probate question is not answered" in {
-    CommonHelper.isApplicantOthersApplyingForProbateQuestionAnsweredYes(
-      CommonBuilder.buildRegistrationDetails copy(
-      areOthersApplyingForProbate = None
-      ), "") shouldBe false
-  }
-
-  "Predicate isApplicantOthersApplyingForProbateQuestionAnsweredYes returns false when" +
-    " applicant others applying for probate question is value is selected as No" in {
-    CommonHelper.isApplicantOthersApplyingForProbateQuestionAnsweredYes(
-      CommonBuilder.buildRegistrationDetails copy(
-      areOthersApplyingForProbate = Some(false)
-      ), "") shouldBe false
   }
 
  "aggregateOfSeqOfOption returns Some(false) where at least one element is Some(false)" in {

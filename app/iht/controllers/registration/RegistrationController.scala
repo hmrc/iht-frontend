@@ -20,6 +20,7 @@ import iht.connector.CachingConnector
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
 import iht.utils.AddressHelper._
+import iht.utils.ApplicantHelper._
 import iht.utils.CommonHelper._
 import iht.utils.DeceasedInfoHelper._
 import iht.utils.{IhtSection, RegistrationKickOutHelper}
