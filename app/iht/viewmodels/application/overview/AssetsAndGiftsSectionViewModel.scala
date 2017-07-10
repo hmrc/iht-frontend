@@ -16,12 +16,9 @@
 
 package iht.viewmodels.application.overview
 
-import iht.models.application.ApplicationDetails
-import play.api.i18n.{Lang, Messages}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import iht.constants.IhtProperties._
-import play.api.Application
+import iht.models.application.ApplicationDetails
+import play.api.i18n.Messages
 
 case class AssetsAndGiftsSectionViewModel(behaveAsIncreasingTheEstateSection: Boolean,
                                           assetRow: OverviewRow,
@@ -84,7 +81,7 @@ object AssetsAndGiftsSectionViewModel {
     case None => NoValueEntered
     case Some(allGifts) if allGifts.isGiftsSectionCompletedWithNoValue => AllAnsweredNo("page.iht.application.overview.gifts.nonGiven")
     case Some(allGifts) if !applicationDetails.isValueEnteredForPastYearsGifts => NoValueEntered
-    case _ => CurrentValue(applicationDetails.totalGiftsValue)
+    case _ => CurrentValue(applicationDetails.totalPastYearsGifts)
   }
 
   def getScreenReaderQualifyingText(isComplete: RowCompletionStatus, moreDetailText: String, valueText: String, noValueText: String) =

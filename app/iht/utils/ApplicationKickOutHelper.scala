@@ -29,8 +29,6 @@ import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.i18n.Messages
 import play.api.mvc.Call
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.collection.immutable.ListMap
 
@@ -624,7 +622,7 @@ object ApplicationKickOutHelper {
 
   private lazy val checksAllSectionsMaxValue: FunctionListMap = ListMap(
     AssetsTotalValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      (applicationDetails.totalAssetsValue + applicationDetails.totalGiftsValue) > IhtProperties.validationTotalAssetMaxValue
+      (applicationDetails.totalAssetsValue + applicationDetails.totalPastYearsGifts) > IhtProperties.validationTotalAssetMaxValue
     })
 
   private lazy val checksActiveSectionOnlyMaxValue: FunctionListMap = ListMap(

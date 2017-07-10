@@ -105,7 +105,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   //Assets section ends
 
   //Gifts section starts
-  def totalGiftsValue: BigDecimal = totalPastYearsGifts
 
   def totalPastYearsGifts: BigDecimal = CommonHelper.getOrZero(totalPastYearsGiftsOption)
 
@@ -307,9 +306,9 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   //Tnrb section ends
 
-  def totalValue:BigDecimal = totalAssetsValue + totalGiftsValue
+  def totalValue:BigDecimal = totalAssetsValue + totalPastYearsGifts
 
-  def totalNetValue:BigDecimal = (totalAssetsValue + totalGiftsValue) - totalExemptionsValue - totalLiabilitiesValue
+  def totalNetValue:BigDecimal = (totalAssetsValue + totalPastYearsGifts) - totalExemptionsValue - totalLiabilitiesValue
 
   def currentThreshold: BigDecimal =
     if (isSuccessfulTnrbCase) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue

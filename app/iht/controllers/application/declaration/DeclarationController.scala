@@ -249,7 +249,7 @@ trait DeclarationController extends ApplicationController {
     */
   private def fillMetricsData(appDetails: ApplicationDetails, regDetails: RegistrationDetails) = {
     val assetValue = appDetails.totalAssetsValue
-    val giftValue = appDetails.totalGiftsValue
+    val giftValue = appDetails.totalPastYearsGifts
     val debtsValue = appDetails.totalLiabilitiesValue
     val exemptionsValue = appDetails.totalExemptionsValue
     val totalAssets = assetValue + giftValue
