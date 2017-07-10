@@ -116,7 +116,7 @@ trait BenefitFromTrustController extends EstateController {
       fold(new TnrbEligibiltyModel(None, None, None, None, isPartnerBenFromTrust = tnrbModel.isPartnerBenFromTrust,
         None, None, None, None, None, None))(_.copy(isPartnerBenFromTrust = tnrbModel.isPartnerBenFromTrust))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks = ApplicationKickOutHelper.checksTnrbEligibility,
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutCommonHelper.updateKickout(checks = ApplicationKickOutCommonHelper.checksTnrbEligibility,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 

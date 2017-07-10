@@ -25,7 +25,7 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutCommonHelper, CommonHelper, IhtFormValidator, StringHelper}
 import iht.views.html._
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import play.api.Logger
@@ -136,7 +136,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
       nino = existingNino,
       totalAssets = existingTotalAssets)
 
-    val applicationDetails = ApplicationKickOutHelper.updateKickout(checks = ApplicationKickOutHelper.checksEstate,
+    val applicationDetails = ApplicationKickOutCommonHelper.updateKickout(checks = ApplicationKickOutCommonHelper.checksEstate,
       prioritySection = applicationSection,
       registrationDetails = regDetails,
       applicationDetails = appDetails.copy(allExemptions = Some(appDetails.allExemptions.fold(new

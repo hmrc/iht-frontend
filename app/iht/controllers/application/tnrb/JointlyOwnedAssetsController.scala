@@ -25,7 +25,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutCommonHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -113,7 +113,7 @@ trait JointlyOwnedAssetsController extends EstateController {
       fold(new TnrbEligibiltyModel(None, None, None, None, None, None, isJointAssetPassed = tnrbModel.isJointAssetPassed,
         None, None, None, None))(_.copy(isJointAssetPassed = tnrbModel.isJointAssetPassed))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks = ApplicationKickOutHelper.checksTnrbEligibility,
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutCommonHelper.updateKickout(checks = ApplicationKickOutCommonHelper.checksTnrbEligibility,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 

@@ -71,10 +71,10 @@ deceasedName: String)(implicit request:Request[_], messages: Messages)
 
     <div class="subsection">
         <h2 id="iht.nextSteps" class="heading-medium">@Messages("iht.nextSteps")</h2>
-        @ApplicationKickOutHelper.nextSteps1.find( _._1 == kickoutReason).map{nextSteps1=><p>@nextSteps1._2</p>}
-        @ApplicationKickOutHelper.nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>
+        @ApplicationKickOutCommonHelper.nextSteps1.find( _._1 == kickoutReason).map{nextSteps1=><p>@nextSteps1._2</p>}
+        @ApplicationKickOutCommonHelper.nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>
         @nextSteps2._2@Messages("iht.comma") @ApplicationKickOutHelper.returnLinkUrl( kickoutReason, applicationDetails.ihtRef.fold("")(identity), applicationLastSection, applicationLastID ).map{ url=>
-        <a id="back-button" href=@url>@ApplicationKickOutHelper.nextSteps2ReturnLinkText.find( _._1 == kickoutReason).map{linkText => @linkText._2}</a>@Messages("iht.fullStop")
+        <a id="back-button" href=@url>@ApplicationKickOutCommonHelper.nextSteps2ReturnLinkText.find( _._1 == kickoutReason).map{linkText => @linkText._2}</a>@Messages("iht.fullStop")
         }</p>}
 
     </div>

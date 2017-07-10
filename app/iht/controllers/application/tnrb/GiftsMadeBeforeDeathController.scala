@@ -25,7 +25,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutCommonHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -119,7 +119,7 @@ trait GiftsMadeBeforeDeathController extends EstateController {
       fold(new TnrbEligibiltyModel(None, isGiftMadeBeforeDeath = tnrbModel.isGiftMadeBeforeDeath, None, None, None, None, None, None,
         None, None, None))(_.copy(isGiftMadeBeforeDeath = tnrbModel.isGiftMadeBeforeDeath))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks = ApplicationKickOutHelper.checksTnrbEligibility,
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutCommonHelper.updateKickout(checks = ApplicationKickOutCommonHelper.checksTnrbEligibility,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 

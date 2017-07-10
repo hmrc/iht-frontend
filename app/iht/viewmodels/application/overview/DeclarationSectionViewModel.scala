@@ -21,9 +21,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import iht.utils.RegistrationDetailsHelper._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import iht.utils.{ApplicationKickOutCommonHelper, CommonHelper}
 
 /**
   * Created by vineet on 17/10/16.
@@ -88,8 +86,8 @@ object DeclarationSectionViewModel {
 
     val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
     val tnrb = appDetails.increaseIhtThreshold
-    val appDetailsUpdatedWithKickOut = ApplicationKickOutHelper.updateKickout(
-                                                checks = ApplicationKickOutHelper.checksBackend,
+    val appDetailsUpdatedWithKickOut = ApplicationKickOutCommonHelper.updateKickout(
+                                                checks = ApplicationKickOutCommonHelper.checksBackend,
                                                 registrationDetails = regDetails,
                                                 applicationDetails = appDetails)
     val kickOutReason = appDetailsUpdatedWithKickOut.kickoutReason

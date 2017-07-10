@@ -22,7 +22,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.exemptions._
 import iht.utils.ApplicationKickOutHelper.FunctionListMap
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutCommonHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Call, Request, Result}
@@ -265,12 +265,12 @@ trait EstateController extends ApplicationController {
   /**
     * Updates the Kick out if applicable
     */
-  def updateKickout(checks: FunctionListMap = ApplicationKickOutHelper.checksEstate,
+  def updateKickout(checks: FunctionListMap = ApplicationKickOutCommonHelper.checksEstate,
                     registrationDetails: RegistrationDetails,
                     applicationDetails: ApplicationDetails,
                     applicationID: Option[String] = None)
                    (implicit request: Request[_], hc: HeaderCarrier): ApplicationDetails =
-    ApplicationKickOutHelper.updateKickout(checks = checks,
+    ApplicationKickOutCommonHelper.updateKickout(checks = checks,
       prioritySection = applicationSection,
       registrationDetails = registrationDetails,
       applicationDetails = applicationDetails,

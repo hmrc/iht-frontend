@@ -26,7 +26,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.tnrb.TnrbHelper._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, DateHelper, StringHelper}
+import iht.utils.{ApplicationKickOutCommonHelper, ApplicationKickOutHelper, CommonHelper, DateHelper, StringHelper}
 import org.joda.time.LocalDate
 import play.api.Logger
 import play.api.Play.current
@@ -141,7 +141,7 @@ trait DeceasedWidowCheckDateController extends EstateController {
       fold(new WidowCheck(widowed = Some(true), dateOfPreDeceased = widowModel.dateOfPreDeceased))
       (_.copy(widowed = Some(true), dateOfPreDeceased = widowModel.dateOfPreDeceased))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutHelper.updateKickout(checks = ApplicationKickOutHelper.checksWidowOpc,
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutCommonHelper.updateKickout(checks = ApplicationKickOutCommonHelper.checksWidowOpc,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 
