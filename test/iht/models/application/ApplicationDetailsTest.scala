@@ -19,7 +19,6 @@ package iht.models.application
 import iht.FakeIhtApp
 import iht.constants.IhtProperties
 import iht.models.application.assets._
-import iht.models.application.debts._
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder, TestHelper}

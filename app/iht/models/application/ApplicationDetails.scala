@@ -43,6 +43,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
                              ) {
 
   //Assets section starts
+
   def areAllAssetsCompleted = CommonHelper.aggregateOfSeqOfOption(
     Seq[Option[Boolean]](isCompleteProperties,
       allAssets.flatMap(_.money).flatMap(_.isComplete),
@@ -128,7 +129,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
   def areAllGiftSectionsCompleted: Option[Boolean] = {
     allGifts match {
-      case Some(gifts) => {
+      case Some(gifts) =>
         val givenAway = gifts.isGivenAway
         val isReservation = gifts.isReservation
         val isToTrust = gifts.isToTrust
@@ -143,7 +144,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
           case (Some(true), _, _, _, false) => Some(false)
           case _ => Some(false)
         }
-      }
       case _ => None
     }
   }
@@ -151,13 +151,13 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   //Gifts section ends
 
   //Debts section starts
+
   def areAllDebtsCompleted =
     CommonHelper.aggregateOfSeqOfOption{
       Seq(allLiabilities.flatMap(_.areAllDebtsExceptMortgagesCompleted), isCompleteMortgages)
     }
 
   def totalLiabilitiesValue:BigDecimal = CommonHelper.getOrZero(totalLiabilitiesValueOption)
-  //allLiabilities.map(_.totalValue()).getOrElse(BigDecimal(0))
 
   def totalLiabilitiesValueOption: Option[BigDecimal] = {
     if (allLiabilities.map(_.doesAnyDebtSectionHaveAValue).fold(false)(identity)) {
@@ -200,8 +200,6 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
       case (Some(true), Some(true), Some(true)) => true
       case _ => false
     }
-
-  //Exemptions related methods section starts
 
   def isCompleteCharities: Option[Boolean] = {
     val charitiesIsOwned = allExemptions.flatMap(_.charity).flatMap(_.isSelected)
@@ -258,6 +256,7 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
   def netValueAfterExemptionAndDebtsForPositiveExemption:BigDecimal = {
     if (totalExemptionsValue>0) (totalValue - totalLiabilitiesValue) - totalExemptionsValue else totalValue-totalExemptionsValue
   }
+
   //Exemptions section ends
 
   //Tnrb section starts
@@ -287,9 +286,4 @@ case class ApplicationDetails(allAssets: Option[AllAssets] = None,
 
 object ApplicationDetails {
   implicit val formats = Json.format[ApplicationDetails]
-
-  object Calculation extends Enumeration {
-    type Calculation = Value
-    val NET_NEGATIVE, NET_MINUS_DEBTS, GROSS, NET, NO_CALCULATION = Value
-  }
 }
