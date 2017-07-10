@@ -25,7 +25,6 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.CommonBuilder._
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
-import iht.utils.ApplicationKickOutCommonHelper
 
 class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
