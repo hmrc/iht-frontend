@@ -16,7 +16,7 @@
 
 package iht.testhelpers
 
-import models.des.iht_return._
+import iht.models.des.ihtReturn._
 import org.joda.time.{LocalDate, LocalDateTime}
 
 object IHTReturnTestHelper {

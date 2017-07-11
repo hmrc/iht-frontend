@@ -74,7 +74,7 @@ class RegistrationTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 object tempDetails {
 
   val DefaultIHTReference=Some("ABC1234567890")
-  val DefaultAcknowledgmentReference = CommonHelper.generateAcknowledgeReference
+  val DefaultAcknowledgmentReference = StringHelper.generateAcknowledgeReference
 
   def emptyRegistrationDetails() = {
     RegistrationDetails( deceasedDateOfDeath=None,

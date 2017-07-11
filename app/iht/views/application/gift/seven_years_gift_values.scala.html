@@ -21,7 +21,7 @@
 @import iht.constants.IhtProperties
 @import iht.utils._
 @import iht.forms.ApplicationForms._
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 @import org.joda.time.LocalDate
@@ -80,13 +80,13 @@ browserTitle = Some(Messages("page.iht.application.gifts.sevenYears.values.brows
                         <td class="table__detail--responsive">
                             <a id="value-of-gifts-for-period-@element.yearId" href='@iht.controllers.application.gifts.routes.GiftsDetailsController.onPageLoad(element.yearId.getOrElse(""))'>
                                 <span aria-hidden="true">@Messages("iht.change")</span>
-                                <span class="visually-hidden">@CommonHelper.previousYearsGiftsAccessibility(element)</span>
+                                <span class="visually-hidden">@GiftsHelper.previousYearsGiftsAccessibility(element)</span>
                             </a>
                         </td>
                     </tr>
                 }
                 <tr class="table__row--responsive table--font-reset highlight table--spaced-top">
-                @CommonHelper.previousYearsGiftsAccessibilityTotals(totalPastYearsGifts, totalExemptionsValue, totalPastYearsGiftsValueExcludingExemptions, giftsList).map{ totals =>
+                @GiftsHelper.previousYearsGiftsAccessibilityTotals(totalPastYearsGifts, totalExemptionsValue, totalPastYearsGiftsValueExcludingExemptions, giftsList).map{ totals =>
                     <th class="table__detail--responsive"><strong>@Messages("iht.estateReport.gifts.totalOverSevenYears")</strong></th>
                     <td class="table__detail--responsive u-align--tablet-right" data-heading="@Messages("page.iht.application.gifts.lastYears.tableTitle1")" id="total-gifts-value"><div aria-hidden="true">@if(previousYearsGiftsValueIsDefined){&pound;@CommonHelper.numberWithCommas(totalPastYearsGifts)}</div>
                         <span class="visually-hidden">@totals._1</span>

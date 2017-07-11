@@ -20,6 +20,7 @@ import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
+import iht.utils.RegistrationDetailsHelper._
 import iht.utils.{ApplicationKickOutHelper, CommonHelper}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current

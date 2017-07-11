@@ -21,7 +21,7 @@ import iht.constants.IhtProperties
 import iht.connector.IhtConnectors
 import iht.metrics.Metrics
 import iht.models.enums.KickOutSource
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.utils.RegistrationKickOutHelper._
 import iht.views.html.registration.kickout._
 import play.api.i18n.Messages
@@ -112,7 +112,7 @@ trait KickoutController extends RegistrationController {
       withRegistrationDetails { regDetails =>
         cachingConnector.getSingleValue(RegistrationKickoutReasonCachingKey) map { reason => {
           val messages = Messages.Implicits.applicationMessages
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
           Ok(content(messages, deceasedName)(CommonHelper.getOrException(reason))(request))
         }
         }

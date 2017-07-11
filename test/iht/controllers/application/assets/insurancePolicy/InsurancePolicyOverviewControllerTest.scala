@@ -21,7 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
 import iht.testhelpers.{CommonBuilder, TestHelper}
 import iht.testhelpers.ContentChecker
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.test.Helpers._
@@ -48,7 +48,7 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
     ihtReference = Some("ABC123"))
 
-  lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)
+  lazy val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)
 
   val allAssets = CommonBuilder.buildAllAssets copy (insurancePolicy = Some(InsurancePolicy(
     isAnnuitiesBought = Some(true),

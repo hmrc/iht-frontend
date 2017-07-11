@@ -71,7 +71,7 @@ isFullWidth=true
 
 <p>@Messages("page.iht.application.declaration_received.paragraph2")</p>
 
-    @defining(CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)) { deceasedName =>
+    @defining(DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)) { deceasedName =>
 
         <h3>@Messages("page.iht.application.declaration_received.subheading3")</h3>
         <p>

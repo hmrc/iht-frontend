@@ -21,7 +21,7 @@ import iht.forms.registration.ApplicantForms._
 import iht.models.ApplicantDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.{CommonHelper, RegistrationKickOutHelper}
+import iht.utils.{DeceasedInfoHelper, RegistrationKickOutHelper}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -62,9 +62,9 @@ class ApplyingForProbateControllerTest
       val result = controller.onPageLoad(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate", CommonHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
       contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"))
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p2", CommonHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
+      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p2", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
       contentAsString(result) should include(messagesApi("iht.continue"))
       contentAsString(result) should not include(messagesApi("site.link.cancel"))
     }

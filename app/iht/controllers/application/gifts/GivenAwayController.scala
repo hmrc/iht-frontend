@@ -18,16 +18,14 @@ package iht.controllers.application.gifts
 
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
-import iht.controllers.ControllerHelper
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
-import iht.models.application.gifts.{AllGifts, PreviousYearsGifts}
+import iht.models.application.gifts.AllGifts
 import iht.utils.GiftsHelper.createPreviousYearsGiftsLists
-import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, StringHelper, ApplicationStatus => AppStatus}
 import iht.views.html.application.gift.given_away
-import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 
@@ -85,7 +83,7 @@ trait GivenAwayController extends EstateController {
                 })
               },
               estateElementModel => {
-                estatesSaveApplication(CommonHelper.getNino(user),
+                estatesSaveApplication(StringHelper.getNino(user),
                   estateElementModel,
                   regDetails,
                   updateApplicationDetails,

@@ -19,7 +19,7 @@ package iht.viewmodels.application.overview
 import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, RegistrationDetailsHelper}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -68,7 +68,7 @@ object ReducingEstateValueSectionViewModel {
       } else {
         DisplayValueAsNegative(getExemptionsDisplayValue(applicationDetails))(messages)
       }
-    val exemptionCompletionStatus = if (CommonHelper.isExemptionsCompleted(registrationDetails, applicationDetails)) {
+    val exemptionCompletionStatus = if (RegistrationDetailsHelper.isExemptionsCompleted(registrationDetails, applicationDetails)) {
         Complete
       } else if (applicationDetails.noExemptionsHaveBeenAnswered) {
         NotStarted

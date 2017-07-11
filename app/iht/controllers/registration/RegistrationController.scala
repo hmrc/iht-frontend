@@ -19,18 +19,18 @@ package iht.controllers.registration
 import iht.connector.CachingConnector
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
+import iht.utils.AddressHelper._
+import iht.utils.ApplicantHelper._
 import iht.utils.CommonHelper._
+import iht.utils.DeceasedInfoHelper._
 import iht.utils.{IhtSection, RegistrationKickOutHelper}
 import play.api.Logger
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 import scala.concurrent.Future
-import scala.util.{Failure, Success, Try}
 
 
 trait RegistrationController extends FrontendController with IhtActions {

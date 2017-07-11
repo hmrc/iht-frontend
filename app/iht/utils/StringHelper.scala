@@ -17,12 +17,15 @@
 package iht.utils
 
 import java.util.Locale
+import java.util.UUID.randomUUID
 
+import iht.constants.IhtProperties
 import iht.utils.CommonHelper.withValue
+import org.joda.time.format.DateTimeFormat
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import org.joda.time.format.DateTimeFormat
+import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.util.{Failure, Success, Try}
 
@@ -89,4 +92,66 @@ object StringHelper {
         }
     }
   }
+
+  def trimAndUpperCaseNino(nino: String) = {
+    nino.trim.replace(" ", "").toUpperCase
+  }
+
+  def generateAcknowledgeReference: String = {
+    randomUUID.toString().replaceAll("-", "")
+  }
+
+  /**
+    * Convert the second element of array (Array created by input string) to Lowercase
+    */
+  def formatStatus(inputStatus: String) = {
+
+    val arrayStatus = inputStatus match {
+      case ApplicationStatus.KickOut => ApplicationStatus.InProgress.split(" ")
+      case ApplicationStatus.ClearanceGranted => ApplicationStatus.Closed.split(" ")
+      case _ => inputStatus.split(" ")
+    }
+
+    val firstPhase = arrayStatus.head
+
+    if (arrayStatus.length > 1) {
+      (firstPhase.replace(firstPhase.charAt(0), firstPhase.charAt(0).toUpper) + " " + arrayStatus.last.toLowerCase).trim
+    } else {
+      firstPhase.trim
+    }
+  }
+
+  def getNino(user: AuthContext): String = {
+    user.principal.accounts.iht.getOrElse(throw new RuntimeException("User account could not be retrieved!")).nino.value
+  }
+
+  def booleanToYesNo(boolean: Boolean): String = {
+    boolean match {
+      case true => "Yes"
+      case false => "No"
+    }
+  }
+
+  /**
+    * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
+    * String is split on spaces and hyphens to exclude strings which would split to new lines anyway
+    * Returns true if a part of the string is over the alloted length
+    * Allows for measures to be taken to prevent long names breaking the page layout
+    */
+  def isNameLong(name: String): Boolean = {
+    var restrictName: Boolean = false;
+    val nameArr = name.split(" ");
+    for (namePart <- nameArr) {
+      var subparts = namePart.split("-")
+      for (subpart <- subparts) {
+        if (subpart.length > IhtProperties.hyphenateNamesLength) {
+          restrictName = true;
+        }
+      }
+    }
+    restrictName
+  }
+
+  def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
+
 }

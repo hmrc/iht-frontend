@@ -17,26 +17,26 @@
 package iht.controllers.application.exemptions.partner
 
 import iht.connector.IhtConnectors
+import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator}
 import iht.utils.CommonHelper._
+import iht.utils.{ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.views.html._
 import iht.views.html.application.exemption.partner.partner_permanent_home_question
 import play.api.Logger
+import play.api.Play.current
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.views.html._
 
 import scala.concurrent.Future
-import iht.constants.IhtProperties._
 
 object PartnerPermanentHomeQuestionController extends PartnerPermanentHomeQuestionController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -53,7 +53,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
 
         withRegistrationDetails { registrationDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(registrationDetails.ihtReference),
               registrationDetails.acknowledgmentReference)
           } yield {
@@ -86,7 +86,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
           val boundForm = IhtFormValidator.addDeceasedNameToAllFormErrors(partnerPermanentHomeQuestionForm
             .bindFromRequest, regDetails.deceasedDetails.fold("")(_.name))
 
-          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -101,7 +101,7 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
                     returnUrl(regDetails, appDetails))))
                 },
                 partnerExemption => {
-                  saveApplication(CommonHelper.getNino(user), partnerExemption, regDetails, appDetails)
+                  saveApplication(StringHelper.getNino(user), partnerExemption, regDetails, appDetails)
                 }
               )
             }

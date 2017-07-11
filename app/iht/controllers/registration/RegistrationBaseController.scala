@@ -20,7 +20,7 @@ import iht.connector.CachingConnector
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.models.RegistrationDetails
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import iht.utils.RegistrationKickOutHelper._
 import play.api.data.Form
 import play.api.mvc.{AnyContent, Call, Request, Result}
@@ -63,7 +63,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
   def pageLoad(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request =>
       withRegistrationDetailsRedirectOnGuardCondition { rd =>
-        val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd)
+        val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
         Future.successful(okForPageLoad(fillForm(rd), Some(deceasedName)))
       }
   }
@@ -73,7 +73,7 @@ trait RegistrationBaseController[T] extends RegistrationController {
       implicit user => implicit request => {
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
           val boundForm = performAdditionalValidation(form.bindFromRequest, rd, mode)
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
           boundForm.fold(
             formWithErrors => Future.successful(badRequestForSubmit(formWithErrors, Some(deceasedName)))
             ,

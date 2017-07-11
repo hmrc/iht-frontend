@@ -19,7 +19,7 @@ package iht.views.application.gifts
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.gift.seven_years_to_trust
 import play.api.data.Form
@@ -49,7 +49,7 @@ class SevenYearsToTrustViewTest extends SubmittableApplicationPageBehaviour[AllG
 
   override def guidance = guidance(
     Set(
-      messagesApi("page.iht.application.gifts.trust.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+      messagesApi("page.iht.application.gifts.trust.question", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))
     )
   )
 

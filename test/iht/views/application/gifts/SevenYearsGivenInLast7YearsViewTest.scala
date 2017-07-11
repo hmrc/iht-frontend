@@ -19,7 +19,7 @@ package iht.views.application.gifts
 import iht.forms.ApplicationForms._
 import iht.models.application.gifts.AllGifts
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, DeceasedInfoHelper}
 import iht.views.application.{SubmittableApplicationPageBehaviour, CancelComponent}
 import iht.views.html.application.gift.seven_years_given_in_last_7_years
 import play.api.data.Form
@@ -47,13 +47,13 @@ class SevenYearsGivenInLast7YearsViewTest extends SubmittableApplicationPageBeha
 
   override def guidance = guidance(
     Set(
-      messagesApi("page.iht.application.gifts.lastYears.question", CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+      messagesApi("page.iht.application.gifts.lastYears.question", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
       messagesApi("page.iht.application.gifts.lastYears.description.p1"),
       messagesApi("iht.estateReport.assets.money.lowerCaseInitial"),
       messagesApi("iht.estateReport.gifts.stocksAndSharesListed"),
       messagesApi("page.iht.application.gifts.lastYears.description.e3"),
       messagesApi("page.iht.application.gifts.lastYears.description.e4"),
-      messagesApi("page.iht.application.gifts.lastYears.description.p3", CommonHelper.getDeceasedNameOrDefaultString(regDetails))
+      messagesApi("page.iht.application.gifts.lastYears.description.p3", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))
     )
   )
 

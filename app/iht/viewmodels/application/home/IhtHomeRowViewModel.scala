@@ -21,7 +21,7 @@ import javax.inject.Inject
 import iht.connector.IhtConnector
 import iht.constants.IhtProperties
 import iht.models.application.IhtApplication
-import iht.utils.{CommonHelper, ApplicationStatus => AppStatus}
+import iht.utils.{CommonHelper, DeceasedInfoHelper, ApplicationStatus => AppStatus}
 import play.api.{Application, Logger}
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
@@ -137,7 +137,7 @@ object IhtHomeRowViewModel {
       case _ => {
         val applicationDetails = CommonHelper.getOrExceptionNoApplication(Await.result(ihtConnector
           .getApplication(nino, ihtApp.ihtRefNo, ihtApp.acknowledgmentReference), Duration.Inf))
-         CommonHelper.determineStatusToUse(ihtApp.currentStatus, applicationDetails.status)
+         DeceasedInfoHelper.determineStatusToUse(ihtApp.currentStatus, applicationDetails.status)
       }
     }
   }

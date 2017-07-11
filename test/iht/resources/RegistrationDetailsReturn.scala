@@ -17,10 +17,10 @@
 package iht.resources
 
 import iht.models.{ApplicantDetails, CoExecutor, DeceasedDetails}
-import iht.utils.CommonHelper
+import iht.utils.StringHelper
 
 case class RegistrationDetailsReturn(applicantDetails: ApplicantDetails, deceasedDetails: DeceasedDetails,
-                                     coExecutors: Seq[CoExecutor], acknowledgementRef: String = CommonHelper.generateAcknowledgeReference) {
+                                     coExecutors: Seq[CoExecutor], acknowledgementRef: String = StringHelper.generateAcknowledgeReference) {
 
   val data =
     s"""

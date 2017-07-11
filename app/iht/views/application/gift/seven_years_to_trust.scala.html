@@ -39,7 +39,7 @@ browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeat
 <div id="seven-years-to-trust-question">
         @ihtHelpers.standard.input_yes_no_radio_group(
         GiftSevenYearsToTrustForm("trust.isToTrust"),
-        '_legend -> Html(Messages("page.iht.application.gifts.trust.question", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true))),
+        '_legend -> Html(Messages("page.iht.application.gifts.trust.question", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true))),
         '_hintText -> Messages("page.iht.application.gifts.trust.question.hint"),
         '_divClass -> Some("form-group"))
 </div>

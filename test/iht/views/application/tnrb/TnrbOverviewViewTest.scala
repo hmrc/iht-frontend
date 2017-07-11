@@ -17,7 +17,7 @@
 package iht.views.application.tnrb
 
 import iht.testhelpers.{CommonBuilder, ContentChecker}
-import iht.utils.CommonHelper
+import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.ViewTestHelper
 import iht.views.html.application.tnrb.tnrb_overview
@@ -60,7 +60,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
       view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance2",
                             TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                              messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                                        CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
+                                        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))),
                              CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString ))
       view should include(messagesApi("iht.estateReport.completeEverySection"))
 
@@ -80,7 +80,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
                                messagesApi("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading",
                                  TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                                  messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails))),
+                                          DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))),
                                  CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString))
 
       assertEqualsValue(doc, "li#home-in-uk span",
@@ -105,7 +105,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
                               messagesApi("page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading",
                                 TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                                  messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                                          CommonHelper.getDeceasedNameOrDefaultString(regDetails)))))
+                                          DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))))
 
      assertEqualsValue(doc, "li#partner-marital-status span",
         messagesApi("iht.estateReport.tnrb.partner.married",
@@ -118,7 +118,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
           TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel,
             widowCheckModel,
             messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                    CommonHelper.getDeceasedNameOrDefaultString(regDetails)))))
+                    DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))))
 
      assertEqualsValue(doc, "li#partner-name span",
         messagesApi("page.iht.application.tnrbEligibilty.overview.partner.name.question",

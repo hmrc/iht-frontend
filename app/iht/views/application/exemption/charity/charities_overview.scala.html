@@ -36,13 +36,13 @@ isFullWidth=false
         <ul>
         @generic_overview_table_item(id = ExemptionsCharitiesAssetsID,
         questionText = Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question",
-                                CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
+                                DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
         questionScreenReaderText= Messages("iht.estateReport.exemptions.charities.assetLeftToCharity.question"),
         questionCategory= "change",
         answerValue= Messages(getDisplayValueForBoolean(isAssetLeftToCharity)),
         link = Some(iht.controllers.application.exemptions.charity.routes.AssetsLeftToCharityQuestionController.onPageLoad),
         linkScreenReader = Messages("page.iht.application.exemptions.charityOverview.questionLabel.screenreader.link.value",
-            CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))
+            DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))
         </ul>
 
         <div class="subsection">

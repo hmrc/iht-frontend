@@ -19,14 +19,14 @@
 
 @import iht.models._
 @import iht.models.application.assets.HeldInTrust
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
 @(trustsOwnedQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 @deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.question",deceasedName),

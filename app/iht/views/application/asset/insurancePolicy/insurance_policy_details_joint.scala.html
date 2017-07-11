@@ -27,7 +27,7 @@ registrationDetails: RegistrationDetails
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("page.iht.application.insurance.policies.section2.title"),
     browserTitle = Some(Messages("page.iht.application.insurance.policies.section2.browserTitle")),

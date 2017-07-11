@@ -70,7 +70,7 @@ trait DeclarationController extends ApplicationController {
               DeclarationViewModel(ApplicationForms.declarationForm,
                 appDetails,
                 regDetails,
-                CommonHelper.getNino(user),
+                StringHelper.getNino(user),
                 ihtConnector)))
 
           }
@@ -95,7 +95,7 @@ trait DeclarationController extends ApplicationController {
                     DeclarationViewModel(ApplicationForms.declarationForm,
                       appDetails,
                       rd,
-                      CommonHelper.getNino(user),
+                      StringHelper.getNino(user),
                       ihtConnector)
                   ))
                 }
@@ -117,9 +117,9 @@ trait DeclarationController extends ApplicationController {
   private def processApplicationOrRedirect(implicit request: Request[_], hc: HeaderCarrier, user: AuthContext) = {
     withRegistrationDetails { rd =>
       val ihtReference = CommonHelper.getOrException(rd.ihtReference)
-      ihtConnector.getCaseDetails(CommonHelper.getNino(user), ihtReference) flatMap { rd =>
+      ihtConnector.getCaseDetails(StringHelper.getNino(user), ihtReference) flatMap { rd =>
         if (rd.status == ApplicationStatus.AwaitingReturn) {
-          processApplication(CommonHelper.getNino(user))
+          processApplication(StringHelper.getNino(user))
         } else {
           Future.successful(Redirect(
             iht.controllers.home.routes.IhtHomeController.onPageLoad()))

@@ -42,7 +42,7 @@ headingName = deceasedName
         <ul class="tabular-data tabular-data--list">
         @generic_overview_table_item(id = ExemptionsOtherAssetsID,
             questionText = Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
-                                    CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
+            DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)),
             questionScreenReaderText= Messages("page.iht.application.exemptions.qualifyingBodyOverview.question",
                                                 Messages("iht.the.deceased")),
             questionCategory= "change",

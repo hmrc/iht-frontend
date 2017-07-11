@@ -18,7 +18,7 @@ package iht.views.application.tnrb
 
 import iht.forms.TnrbForms._
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.ViewTestHelper
 import play.api.i18n.Messages.Implicits._
@@ -39,7 +39,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
   lazy val pageTitle = messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
                               TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                                    messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                                               CommonHelper.getDeceasedNameOrDefaultString(regDetails))))
+                                               DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))))
 
 
   lazy val browserTitle = messagesApi("iht.estateReport.tnrb.increasingIHTThreshold")

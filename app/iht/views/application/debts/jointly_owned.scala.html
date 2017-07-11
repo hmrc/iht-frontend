@@ -24,7 +24,7 @@
 
 @(jointlyOwnedDebtsForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 
-@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.owedOnJointAssets"),
     browserTitle = Some(Messages("page.iht.application.debts.jointlyOwned.browserTitle")),
@@ -35,7 +35,7 @@
 
     @helpers.form(action = iht.controllers.application.debts.routes.JointlyOwnedDebtsController.onSubmit, 'autoComplete -> "off") {
 
-        <p class="lede">@Html(Messages("page.iht.application.debts.jointlyOwned.description.p1", CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+        <p class="lede">@Html(Messages("page.iht.application.debts.jointlyOwned.description.p1", DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
 
         @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,

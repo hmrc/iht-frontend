@@ -18,7 +18,7 @@ package iht.views.application
 
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
-import iht.utils.{ApplicationKickOutHelper, CommonHelper, KickOutReason}
+import iht.utils.{ApplicationKickOutHelper, KickOutReason}
 import iht.views.ViewTestHelper
 import iht.views.html.application.iht_kickout_application
 import play.api.i18n.Messages.Implicits._
@@ -106,7 +106,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
     messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.returnToEstateOverview"))
     messagesShouldBePresent(view.toString, messagesApi("site.threshold.value.display"))
     messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.ihtThreshold"))
-    messagesShouldBePresent(view.toString, CommonHelper.escapePound(messagesApi("page.iht.application.overview.value")))
+    messagesShouldBePresent(view.toString, CommonBuilder.escapePound(messagesApi("page.iht.application.overview.value")))
 
     val returnLink = view.getElementById("back-button")
     returnLink.text shouldBe messagesApi("iht.estateReport.kickout.returnToEstateOverview.linkText")

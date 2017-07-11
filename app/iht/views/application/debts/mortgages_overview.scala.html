@@ -34,7 +34,7 @@ onCancelMessageKey: String)(implicit request:Request[_], messages: Messages)
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.mortgages"),
 browserTitle = Some(Messages("iht.estateReport.debts.mortgages")),
@@ -59,7 +59,7 @@ isFullWidth= false) {
                       <div class="tabular-data__data tabular-data__data--6-12">
                           @element.address match{
                               case Some(x) => {
-                                @CommonHelper.addressLayout(x)
+                                @AddressHelper.addressLayout(x)
                               }
                               case None => {@Messages("page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text")}
                           }

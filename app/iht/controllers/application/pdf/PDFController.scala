@@ -24,11 +24,11 @@ import iht.constants.{Constants, IhtProperties}
 import iht.controllers.application.ApplicationController
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
+import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.pdf._
-import iht.utils.{CommonHelper, DeclarationHelper}
-import models.des.iht_return.IHTReturn
+import iht.utils.{CommonHelper, DeclarationHelper, StringHelper}
 import play.api.Logger
-import play.api.i18n.{Messages, I18nSupport, MessagesApi}
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -73,7 +73,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
         cachingConnector.getSingleValue(Constants.PDFIHTReference).flatMap { optionIHTReference =>
           val ihtReference = CommonHelper.getOrException(optionIHTReference)
           val fileName = s"${messages("pdf.clearanceCertificate.title")}.pdf"
-          val nino = CommonHelper.getNino(user)
+          val nino = StringHelper.getNino(user)
           ihtConnector.getCaseDetails(nino, ihtReference).flatMap(registrationDetails =>
             getSubmittedApplicationDetails(nino,
               registrationDetails, messages) map {
@@ -99,7 +99,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
           optionIHTReference => optionIHTReference match {
             case Some(ihtReference) => {
               val fileName = s"${messages("iht.inheritanceTaxEstateReport")}.pdf"
-              val nino = CommonHelper.getNino(user)
+              val nino = StringHelper.getNino(user)
               ihtConnector.getCaseDetails(nino, ihtReference).flatMap(regDetails =>
                 getSubmittedApplicationDetails(nino, regDetails, messages) map {
                   case Some(ihtReturn) =>

@@ -22,14 +22,13 @@
 
 @import iht.utils._
 @import iht.forms.ApplicationForms._
-@import iht.utils.CommonHelper._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
 @(SevenYearsGiftsForm: Form[AllGifts],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
 browserTitle = Some(Messages("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"))

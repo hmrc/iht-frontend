@@ -19,7 +19,7 @@ package iht.views.application.debts
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.any_other_debts
 import play.api.data.Form
@@ -49,7 +49,7 @@ class AnyOtherDebtsViewTest extends DebtsElementViewBehaviour[BasicEstateElement
   override def guidance  = guidance(
     Set(messagesApi("page.iht.application.debts.other.description.p1"),
       messagesApi("page.iht.application.debts.other.description.p2",
-        CommonHelper.getDeceasedNameOrDefaultString(regDetails)),
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
       messagesApi("page.iht.application.debts.other.description.p3"))
   )
 

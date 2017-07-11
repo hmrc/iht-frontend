@@ -16,22 +16,20 @@
 
 package iht.controllers.application.debts
 
-import iht.connector.{CachingConnector, IhtConnector}
-import iht.connector.IhtConnectors
+import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
+import iht.constants.IhtProperties._
 import iht.controllers.application.ApplicationController
 import iht.forms.ApplicationForms._
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.Property
 import iht.models.application.debts._
-import iht.utils.{ApplicationStatus, CommonHelper}
+import iht.utils.{ApplicationStatus, CommonHelper, StringHelper}
 import play.api.Logger
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.constants.IhtProperties._
-import iht.utils.CommonHelper
 
 import scala.concurrent.Future
 
@@ -51,7 +49,7 @@ trait MortgageValueController extends ApplicationController {
 
         withRegistrationDetails { regDetails =>
           for {
-            applicationDetails <- ihtConnector.getApplication(CommonHelper.getNino(user),
+            applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
               CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
               regDetails.acknowledgmentReference)
           } yield {
@@ -103,7 +101,7 @@ trait MortgageValueController extends ApplicationController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val applicationDetailsFuture = ihtConnector.getApplication(CommonHelper.getNino(user),
+          val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
 
@@ -125,7 +123,7 @@ trait MortgageValueController extends ApplicationController {
                 },
                 mortgage => {
                   val newMort = mortgage.copy(id = id)
-                  saveApplication(CommonHelper.getNino(user), id, newMort, appDetails, regDetails)
+                  saveApplication(StringHelper.getNino(user), id, newMort, appDetails, regDetails)
                 }
               )
             }

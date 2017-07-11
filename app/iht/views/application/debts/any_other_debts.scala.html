@@ -18,7 +18,7 @@
 @import iht.constants.IhtProperties._
 @import iht.models._
 @import iht.models.application.debts.BasicEstateElementLiabilities
-@import iht.utils.CommonHelper
+@import iht.utils._
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
 
@@ -36,7 +36,7 @@ registrationDetails: RegistrationDetails)(implicit request: Request[_], messages
 
         <p class="lede">@Messages("page.iht.application.debts.other.description.p1")</p>
         <p>@Html(Messages("page.iht.application.debts.other.description.p2",
-                      CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
+                      DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)))</p>
         <p>@Messages("page.iht.application.debts.other.description.p3")</p>
         @ihtHelpers.custom.generic_estate_element_assets(
             assetType = AssetTypeSingle,

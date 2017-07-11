@@ -18,13 +18,12 @@ package iht.views.application.declaration
 
 import iht.forms.ApplicationForms
 import iht.testhelpers.CommonBuilder
-import iht.utils.CommonHelper._
-import iht.utils.{CommonHelper, DeclarationReason}
+import iht.testhelpers.CommonBuilder._
+import iht.utils.{DeceasedInfoHelper, DeclarationReason}
 import iht.viewmodels.application.DeclarationViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.application.declaration.declaration
 import org.jsoup.nodes.Document
-import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 
 class DeclarationViewTest extends ViewTestHelper {
@@ -70,7 +69,7 @@ class DeclarationViewTest extends ViewTestHelper {
   lazy val coExecutorsConfirmationTextMsgKey= "iht.estateReport.declaration.coExecutors.confirmationText"
 
   lazy val regDetails = CommonBuilder.buildRegistrationDetails1
-  val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+  val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def declarationView(isMultipleExecutor: Boolean, declarationType: String) = {
     implicit val request = createFakeRequest()

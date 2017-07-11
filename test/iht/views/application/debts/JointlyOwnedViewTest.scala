@@ -19,7 +19,7 @@ package iht.views.application.debts
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.utils.CommonHelper
+import iht.utils.DeceasedInfoHelper
 import play.api.i18n.Messages.Implicits._
 import iht.views.html.application.debts.jointly_owned
 import iht.views.html.application.debts.{funeral_expenses, jointly_owned}
@@ -51,7 +51,7 @@ class JointlyOwnedViewTest extends DebtsElementViewBehaviour[BasicEstateElementL
 
   override def guidance  = guidance(
     Set(messagesApi("page.iht.application.debts.jointlyOwned.description.p1",
-      CommonHelper.getDeceasedNameOrDefaultString(regDetails)))
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
   )
 
   override def yesNoQuestionText = messagesApi("page.iht.application.debts.jointlyOwned.isOwned")

@@ -22,12 +22,12 @@
 @import iht.utils._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
-@import iht.utils.CommonHelper
+@import iht.utils._
 
 @(nominatedForm: Form[BasicEstateElement],
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName = @{CommonHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.nominated"),
 browserTitle = Some(Messages("page.iht.application.assets.nominated.browserTitle")),

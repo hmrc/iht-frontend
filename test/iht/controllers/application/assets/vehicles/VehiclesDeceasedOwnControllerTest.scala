@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.CommonHelper
+import iht.utils._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -43,7 +43,7 @@ class VehiclesDeceasedOwnControllerTest extends ApplicationControllerTest {
   lazy val regDetails = CommonBuilder.buildRegistrationDetails copy (
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails), ihtReference = Some("AbC123"))
 
-  lazy val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(regDetails)
+  lazy val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
 
   def setUpTests(applicationDetails: ApplicationDetails) = {
     createMocksForApplication(mockCachingConnector,

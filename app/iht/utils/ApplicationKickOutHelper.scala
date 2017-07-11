@@ -760,7 +760,7 @@ object ApplicationKickOutHelper {
     AssetsTotalValueMoreThanThresholdAfterExemption -> { (registrationDetails, applicationDetails, sectionTotal) =>
       applicationDetails.netValueAfterExemptionAndDebtsForPositiveExemption >
         IhtProperties.exemptionsThresholdValue && applicationDetails.increaseIhtThreshold.isEmpty &&
-        CommonHelper.isExemptionsCompleted(registrationDetails, applicationDetails)
+        RegistrationDetailsHelper.isExemptionsCompleted(registrationDetails, applicationDetails)
     }
   )
 
@@ -820,7 +820,7 @@ object ApplicationKickOutHelper {
         .fold(emptyFunctionListMap)(identity) ++ checksAllSectionsMaxValue ++ checksNonActiveSectionsOnly
     }
 
-    val kickoutReason = CommonHelper.findFirstTrue(registrationDetails, applicationDetails, sectionTotal, getChecks)
+    val kickoutReason = RegistrationDetailsHelper.findFirstTrue(registrationDetails, applicationDetails, sectionTotal, getChecks)
     Logger.debug("Kickout check returns: " + kickoutReason)
     kickoutReason
   }
