@@ -377,7 +377,7 @@ class DeceasedFormsTest extends FormTestHelper with FakeIhtApp {
       checkForError(deceasedForms.aboutDeceasedForm()(messages, createFakeRequest(true), hc, ec), data, expectedErrors)
     }
 
-    "indicate validation error when nino for coexecutor validation fails" in {
+    "indicate validation error when nino for deceased validation fails" in {
       def checkForError(data: Map[String, String], expectedErrors: Seq[FormError]): Unit = {
         implicit val request = createFakeRequest()
         implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
