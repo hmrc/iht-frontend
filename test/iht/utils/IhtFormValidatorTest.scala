@@ -47,6 +47,19 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
     ihtFormValidator.ninoForCoExecutor("", "", "", coExecutorIDKey)
   }
 
+  def ninoForDeceasedMapping(rd:RegistrationDetails): FieldMapping[String] = {
+    val mockCachingConnector = mock[CachingConnector]
+    val ihtFormValidator = new IhtFormValidator {
+      override def cachingConnector = mockCachingConnector
+    }
+
+    when(mockCachingConnector.getRegistrationDetails(any(), any())) thenReturn Future.successful(Some(rd))
+
+    implicit val request = createFakeRequest()
+    implicit val hc = new HeaderCarrier(sessionId = Some(SessionId("1")))
+    ihtFormValidator.ninoForDeceased("", "", "")
+  }
+
   "validateBasicEstateElementLiabilities" must {
     val vpp = IhtFormValidator.validateBasicEstateElementLiabilities("value")
     "displays error if no value" in {
@@ -268,5 +281,48 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         .bind(Map("" -> nino2)) shouldBe
         Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
+  }
+
+  "nino for deceased" should {
+
+    "respond with no error when nino not same as main executor nino or an executor nino" in {
+      val nino = NinoBuilder.randomNino.toString()
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
+
+      ninoForDeceasedMapping(CommonBuilder.buildRegistrationDetails1 copy (
+        applicantDetails = Some(ad))).bind(Map("" -> nino)) shouldBe Right(nino)
+    }
+
+    "respond with error when nino entered for nino matches previously entered nino for applicant" in {
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(CommonBuilder.DefaultNino))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (applicantDetails = Some(ad))
+
+      ninoForDeceasedMapping(rd)
+        .bind(Map("" -> NinoBuilder.addSpacesToNino(CommonBuilder.DefaultNino))) shouldBe
+        Left(Seq(FormError("", "error.nino.alreadyGiven")))
+    }
+
+    "respond with error when nino entered for deceased matches previously entered nino for a coexecutor" in {
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = Some(CommonBuilder.DefaultNino),
+        ukAddress = None, role = None, isAddressInUk = None)
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (applicantDetails = Some(ad), coExecutors = Seq(coExec1))
+
+      ninoForDeceasedMapping(rd)
+        .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+    }
+
+    "respond with error when nino entered for deceased matches previously entered nino for a 2nd coexecutor" in {
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = Some(NinoBuilder.randomNino.toString()),
+        ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor1 copy (nino = Some(CommonBuilder.DefaultNino),
+        ukAddress = None, role = None, isAddressInUk = None)
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (applicantDetails = Some(ad), coExecutors = Seq(coExec1, coExec2))
+
+      ninoForDeceasedMapping(rd)
+        .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+    }
+
   }
 }

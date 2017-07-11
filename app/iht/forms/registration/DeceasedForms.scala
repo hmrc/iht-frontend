@@ -16,8 +16,6 @@
 
 package iht.forms.registration
 
-import javax.inject.{Singleton, Inject}
-
 import iht.constants.{FieldMappings, IhtProperties}
 import iht.forms.mappings.DateMapping
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, UkAddress}
@@ -26,9 +24,17 @@ import iht.utils.IhtFormValidator._
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.Messages
+import play.api.mvc.Request
+import uk.gov.hmrc.play.http.HeaderCarrier
 
-object DeceasedForms {
+import scala.concurrent.ExecutionContext
+
+object DeceasedForms extends DeceasedForms
+
+trait DeceasedForms {
+
+  def ihtFormValidator: IhtFormValidator = IhtFormValidator
 
   val deceasedDateOfDeathForm = Form(
     mapping(
@@ -48,13 +54,15 @@ object DeceasedForms {
     )
   )
 
-  def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now())(implicit messages: Messages) = Form(
+  def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now())(implicit messages: Messages, request: Request[_],
+                                                                  hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthFirstName),
       "lastName" -> ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthLastName),
-      "nino" -> nino,
+      "nino" -> ihtFormValidator.ninoForDeceased(
+        "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers"),
       "dateOfBirth" -> DateMapping.dateOfBirth.verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => isDobBeforeDod(dateOfDeath, x)),
       "maritalStatus" -> of(radioOptionString("error.deceasedMaritalStatus.select", FieldMappings.maritalStatusMap(messages))))
     (
