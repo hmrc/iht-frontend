@@ -19,7 +19,6 @@ package iht.models.application
 import iht.FakeIhtApp
 import iht.constants.IhtProperties
 import iht.models.application.assets._
-import iht.models.application.debts._
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.{AssetsWithAllSectionsSetToNoBuilder, CommonBuilder, TestHelper}
@@ -112,68 +111,6 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       emptyApplicationDetails.totalAssetsValue shouldBe BigDecimal(0)
     }
 
-  }
-
-  "totalAssetsValueOption" must {
-    "return correct assets value with Option" in {
-      applicationDetailsWithValues.totalAssetsValueOption shouldBe Some(BigDecimal(26190))
-    }
-
-    "return None where no assets" in {
-      emptyApplicationDetails.totalAssetsValueOption shouldBe empty
-    }
-  }
-
-  "isValueEnteredForAssets" must {
-    "return false if applicationDetails is empty" in {
-      emptyApplicationDetails.isValueEnteredForAssets shouldBe false
-    }
-
-    "return true if applicationDetails has a money with 0 value" in {
-      val appDetails = emptyApplicationDetails.copy(allAssets = Some(AllAssets(
-        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-          value = Some(BigDecimal(0)),
-          shareValue = None)
-        ))))
-
-      appDetails.isValueEnteredForAssets shouldBe true
-    }
-
-    "return true if applicationDetails has a money with value other than 0" in {
-      val appDetails = emptyApplicationDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
-        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-          value = Some(BigDecimal(100)),
-          shareValue = None)
-        ))))
-
-      appDetails.isValueEnteredForAssets shouldBe true
-    }
-
-    "return true if applicationDetails has a property with 0 value" in {
-      val appDetails = emptyApplicationDetails.copy(propertyList = List(CommonBuilder.buildProperty.copy(
-        id = Some("2"),
-        address = ukAddress,
-        propertyType = None,
-        typeOfOwnership = None,
-        tenure = None,
-        value = propertyValue(0)
-      )))
-
-      appDetails.isValueEnteredForAssets shouldBe true
-    }
-
-    "return true if applicationDetails has a property with value other than 0" in {
-      val appDetails = emptyApplicationDetails.copy(propertyList = List(CommonBuilder.buildProperty.copy(
-        id = Some("2"),
-        address = ukAddress,
-        propertyType = None,
-        typeOfOwnership = None,
-        tenure = None,
-        value = propertyValue(7500)
-      )))
-
-      appDetails.isValueEnteredForAssets shouldBe true
-    }
   }
 
   "totalPastYearsGiftsOption" must {
@@ -337,66 +274,6 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
   }
 
-  "isGiftsSectionCompleted" must {
-
-    "return true when the gifts section is completed and user has declared gifts" in {
-      val gifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true), isToTrust = Some(false),
-        isReservation = Some(false), isGivenInLast7Years = Some(true))
-      val giftsValues = Seq(CommonBuilder.buildPreviousYearsGifts)
-      val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts), giftsList = Some(giftsValues))
-      appDetails.isGiftsSectionCompleted shouldBe true
-    }
-
-    "return true when the gifts section is completed and user has no gifts to declare" in {
-      val gifts = AssetsWithAllSectionsSetToNoBuilder.buildAllGifts
-      val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.isGiftsSectionCompleted shouldBe true
-    }
-
-    "return false when the gifts section is not completed because user has not answered all questions" in {
-      val gifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
-      val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.isGiftsSectionCompleted shouldBe false
-    }
-
-    "return false when the gifts section is not completed because user has not entered any gift values" in {
-      val gifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true), isToTrust = Some(false),
-        isReservation = Some(false), isGivenInLast7Years = Some(true))
-      val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.isGiftsSectionCompleted shouldBe false
-    }
-  }
-
-  "isAnyQuestionAnsweredForGifts" must {
-
-    "return true if at least one question has been answered" in {
-      val gifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true), isToTrust = Some(false))
-      val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.isAnyQuestionAnsweredForGifts shouldBe true
-    }
-
-    "return false if no question has been answered" in {
-      val gifts = CommonBuilder.buildAllGifts
-      val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.isAnyQuestionAnsweredForGifts shouldBe false
-    }
-  }
-
-  "isInitialGiftsQuestionAnsweredTrue" must {
-
-    "return true if gifts given away question has been answered" in {
-      val gifts = CommonBuilder.buildAllGifts.copy(isGivenAway = Some(true))
-      val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.isInitialGiftsQuestionAnsweredTrue shouldBe true
-    }
-
-    "return false if gifts given away question has not been answered" in {
-      val gifts = CommonBuilder.buildAllGifts
-      val appDetails = emptyApplicationDetails.copy(allGifts = Some(gifts))
-      appDetails.isInitialGiftsQuestionAnsweredTrue shouldBe false
-    }
-  }
-
   "areAllDebtsCompleted" must {
 
     "return Some(true) when all debts section are complete" in {
@@ -436,24 +313,6 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
       val appDetails = CommonBuilder.buildApplicationDetails copy (allLiabilities = None)
       val res = appDetails.totalLiabilitiesValue
       appDetails.totalLiabilitiesValueOption shouldBe None
-    }
-  }
-
-  "isValueEnteredForDebts" must {
-
-    "return true if value entered for any of the debts" in {
-      applicationDetailsWithValues.isValueEnteredForDebts shouldBe true
-    }
-
-    "return false if no value is entered for all the debts" in {
-      val allLiabilities = CommonBuilder.buildAllLiabilities.copy(
-        funeralExpenses = Some(BasicEstateElementLiabilities(value = None, isOwned = Some(true))),
-        trust = Some(BasicEstateElementLiabilities(value = None, isOwned = Some(true)))
-      )
-
-      val appDetails = emptyApplicationDetails.copy(allLiabilities = Some(allLiabilities))
-
-      appDetails.isValueEnteredForDebts shouldBe false
     }
   }
 
@@ -647,65 +506,6 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
 
     "return None when the qualifying bodies section has not been started at all" in {
       emptyApplicationDetails.isCompleteQualifyingBodies shouldBe empty
-    }
-  }
-
-  "isExemptionsCompleted" must {
-
-    "return true when all exemptions have been completed with values" in {
-      val partner = Some(CommonBuilder.buildPartnerExemption)
-      val charityList = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true)))
-      val qualifyingBodies = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true)))
-      val exemptions = CommonBuilder.buildAllExemptions.copy(partner, charityList, qualifyingBodies)
-
-      val appDetails = emptyApplicationDetails.copy(
-        allExemptions = Some(exemptions),
-        charities = Seq(CommonBuilder.charity),
-        qualifyingBodies = Seq(CommonBuilder.qualifyingBody))
-
-      appDetails.isExemptionsCompleted shouldBe true
-    }
-
-    "return false when answers indicate there are exemptions, but not all sections have been completed with values" in {
-      val partner = Some(CommonBuilder.buildPartnerExemption)
-      val charityList = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true)))
-      val qualifyingBodies = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true)))
-      val exemptions = CommonBuilder.buildAllExemptions.copy(partner, charityList, qualifyingBodies)
-
-      val appDetails = emptyApplicationDetails.copy(
-        allExemptions = Some(exemptions),
-        qualifyingBodies = Seq(CommonBuilder.qualifyingBody))
-
-      appDetails.isExemptionsCompleted shouldBe false
-    }
-  }
-
-  "isExemptionsCompletedWithoutPartnerExemption" must {
-
-    "return true when all exemptions, excluding partner, have been completed with values" in {
-      val charityList = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true)))
-      val qualifyingBodies = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true)))
-      val exemptions = CommonBuilder.buildAllExemptions.copy(None, charityList, qualifyingBodies)
-
-      val appDetails = emptyApplicationDetails.copy(
-        allExemptions = Some(exemptions),
-        charities = Seq(CommonBuilder.charity),
-        qualifyingBodies = Seq(CommonBuilder.qualifyingBody))
-
-      appDetails.isExemptionsCompletedWithoutPartnerExemption shouldBe true
-    }
-
-    "return false when there are exemptions, other than partner, " +
-      "but not all sections have been completed with values" in {
-      val charityList = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true)))
-      val qualifyingBodies = Some(CommonBuilder.buildBasicExemptionElement.copy(isSelected = Some(true)))
-      val exemptions = CommonBuilder.buildAllExemptions.copy(None, charityList, qualifyingBodies)
-
-      val appDetails = emptyApplicationDetails.copy(
-        allExemptions = Some(exemptions),
-        qualifyingBodies = Seq(CommonBuilder.qualifyingBody))
-
-      appDetails.isExemptionsCompletedWithoutPartnerExemption shouldBe false
     }
   }
 
@@ -965,23 +765,6 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
     }
   }
 
-  "isSubmittable" must {
-
-    "return true when total assets value is completed and value is more than 0 " in {
-      applicationDetailsWithValues.isSubmittable shouldBe true
-    }
-
-    "return false when all the assets section are not completed" in {
-      val assets = CommonBuilder.buildApplicationDetailsWithAllAssets.allAssets.getOrElse(CommonBuilder.buildAllAssets)
-      val inCompleteHeldAndTrustSection = CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true))
-
-      val appDetailsWithAssetsCompleted = CommonBuilder.buildApplicationDetailsWithAllAssets.copy(
-        allAssets = Some(assets.copy(heldInTrust = Some(inCompleteHeldAndTrustSection))))
-
-      appDetailsWithAssetsCompleted.isSubmittable shouldBe false
-    }
-  }
-
   "totalValue" must {
     "return correct value of assets entered" in {
       applicationDetailsWithValues.totalValue shouldBe BigDecimal(29193)
@@ -1011,97 +794,6 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
     }
   }
 
-  "calculationUsed" must {
-
-    "return calculation used as GROSS for an estate" in {
-      val appDetails = emptyApplicationDetails copy (
-        allAssets = Some(CommonBuilder.buildAllAssets.copy(
-          money = Some(CommonBuilder.buildShareableBasicElement.copy(value = Some(BigDecimal(300000))))
-        ))
-        )
-
-      appDetails.calculationUsed shouldBe ApplicationDetails.Calculation.GROSS
-    }
-
-    "return calculation used as NET for an estate when there is no Debts" in {
-      val charity = buildCharity(id = Some("1"), totalValue = Some(BigDecimal(1000)))
-      val qualifyingBody = buildQualifyingBody(id = Some("1"), totalValue = Some(BigDecimal(100)))
-
-      val appDetails = applicationDetailsWithValues.copy(
-        charities = Seq(charity),
-        qualifyingBodies = Seq(qualifyingBody),
-        allLiabilities = None
-      )
-
-      appDetails.calculationUsed shouldBe ApplicationDetails.Calculation.NET
-    }
-
-    "return calculation used as NET_MINUS_DEBTS for an estate that takes away debts and is positive" in {
-      val mortgage1 = CommonBuilder.buildMortgage.copy(id = "1", value = Some(BigDecimal(5000)))
-      val mortgage2 = CommonBuilder.buildMortgage.copy(id = "2", value = Some(BigDecimal(2000)))
-
-      val mortgageList = List(mortgage1, mortgage2)
-
-      val liabilities = CommonBuilder.buildAllLiabilities.copy(
-        funeralExpenses = Some(CommonBuilder.buildBasicEstateElementLiabilities.copy(
-                          value = Some(BigDecimal(400)), isOwned = Some(true))),
-        trust = Some(CommonBuilder.buildBasicEstateElementLiabilities.copy(
-                          value = Some(BigDecimal(100)), isOwned = Some(true))),
-        mortgages = Some(CommonBuilder.buildMortgageEstateElement.copy(Some(true), mortgageList))
-      )
-
-      val charity = buildCharity(id = Some("1"), totalValue = Some(BigDecimal(1000)))
-      val qualifyingBody = buildQualifyingBody(id = Some("1"), totalValue = Some(BigDecimal(100)))
-
-      val appDetails = applicationDetailsWithValues.copy(allLiabilities = Some(liabilities),
-        charities = Seq(charity),
-        qualifyingBodies = Seq(qualifyingBody))
-
-      appDetails.calculationUsed shouldBe ApplicationDetails.Calculation.NET_MINUS_DEBTS
-    }
-
-    "return calculation used as NET_NEGATIVE  for an estate that is negative" in {
-      val mortgage1 = CommonBuilder.buildMortgage.copy(id = "1", value = Some(BigDecimal(50000)))
-      val mortgage2 = CommonBuilder.buildMortgage.copy(id = "2", value = Some(BigDecimal(20000)))
-
-      val mortgageList = List(mortgage1, mortgage2)
-
-      val liabilities = CommonBuilder.buildAllLiabilities.copy(
-        funeralExpenses = Some(CommonBuilder.buildBasicEstateElementLiabilities.copy(
-          value = Some(BigDecimal(400)), isOwned = Some(true))),
-        trust = Some(CommonBuilder.buildBasicEstateElementLiabilities.copy(
-          value = Some(BigDecimal(100)), isOwned = Some(true))),
-        mortgages = Some(CommonBuilder.buildMortgageEstateElement.copy(Some(true), mortgageList))
-      )
-
-      val charity = buildCharity(id = Some("1"), totalValue = Some(BigDecimal(1000)))
-      val qualifyingBody = buildQualifyingBody(id = Some("1"), totalValue = Some(BigDecimal(100)))
-
-      val appDetails = applicationDetailsWithValues.copy(allLiabilities = Some(liabilities),
-        charities = Seq(charity),
-        qualifyingBodies = Seq(qualifyingBody))
-
-      appDetails.calculationUsed shouldBe ApplicationDetails.Calculation.NET_NEGATIVE
-    }
-
-    "return calculation used as NO_CALCULATION when no assets or gifts" in {
-      emptyApplicationDetails.calculationUsed shouldBe ApplicationDetails.Calculation.NO_CALCULATION
-    }
-
-    "return calculation used as NET for an estate with exemptions but" +
-      "assets below threshold but has previous defined exemptions" in {
-      val charity = buildCharity(id = Some("1"), totalValue = Some(BigDecimal(1000)))
-      val qualifyingBody = buildQualifyingBody(id = Some("1"), totalValue = Some(BigDecimal(100)))
-
-      val appDetails = applicationDetailsWithValues.copy(
-        charities = Seq(charity),
-        qualifyingBodies = Seq(qualifyingBody),
-        allLiabilities = None)
-
-      appDetails.calculationUsed shouldBe ApplicationDetails.Calculation.NET
-    }
-  }
-
   "currentThreshold" must {
 
     "return threshold as 650K if Tnrb is completed and successful" in {
@@ -1120,55 +812,6 @@ class ApplicationDetailsTest extends UnitSpec with FakeIhtApp with MockitoSugar 
         (isGiftMadeBeforeDeath = Some(true))))
 
       appDetails.currentThreshold shouldBe IhtProperties.exemptionsThresholdValue
-    }
-  }
-
-  "isEstateOverThreshold" must {
-
-    "return false if the threshold is lower and the estate is below it then it should return false" in {
-      val appDetails = emptyApplicationDetails.copy(allAssets = Some(AllAssets(
-        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-          value = Some(BigDecimal(1001)), shareValue = Some(BigDecimal(0)))))))
-      appDetails.isEstateOverThreshold shouldBe false
-
-    }
-
-    "return false if the threshold is lower and the estate value is equal to it, then it should return false" in {
-      val appDetails = emptyApplicationDetails.copy(allAssets = Some(AllAssets(
-        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-          value = Some(IhtProperties.exemptionsThresholdValue), shareValue = Some(BigDecimal(0)))))))
-      appDetails.isEstateOverThreshold shouldBe false
-    }
-
-    "return true if the threshold is lower and the estate value is over it then it should return true" in {
-      val appDetails = emptyApplicationDetails.copy(allAssets = Some(AllAssets(
-        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-          value = Some(IhtProperties.exemptionsThresholdValue + BigDecimal(1)), shareValue = Some(BigDecimal(0)))))))
-      appDetails.isEstateOverThreshold shouldBe true
-    }
-
-    "return false if the threshold is higher and the estate is below it then it should return false" in {
-      val appDetails = emptyApplicationDetails.copy(increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility),
-        allAssets = Some(CommonBuilder.buildAllAssets.copy(
-          money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-            value = Some(BigDecimal(1001)), shareValue = Some(BigDecimal(0)))))))
-      appDetails.isEstateOverThreshold shouldBe false
-    }
-    "return false if the threshold is higher and the estate value is equal to it, then it should return false" in {
-      val appDetails = emptyApplicationDetails.copy(increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility),
-        widowCheck = Some(CommonBuilder.buildWidowedCheck.copy(Some(true), Some(new LocalDate(2012, 1, 1)))),
-        allAssets = Some(AllAssets(
-          money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-            value = Some(IhtProperties.transferredNilRateBand), shareValue = Some(BigDecimal(0)))))))
-      appDetails.isEstateOverThreshold shouldBe false
-    }
-
-    "return false if the threshold is higher and the estate value is over it then it should return true" in {
-      val appDetails = emptyApplicationDetails.copy(increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility),
-        allAssets = Some(AllAssets(
-          money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
-            value = Some(IhtProperties.transferredNilRateBand + BigDecimal(1)), shareValue = Some(BigDecimal(0)))))))
-      appDetails.isEstateOverThreshold shouldBe true
     }
   }
 
