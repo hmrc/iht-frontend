@@ -493,7 +493,50 @@ trait IhtFormValidator extends FormValidator {
     }
   }
 
+  private def ninoForDeceasedFormatter(blankMessageKey: String, lengthMessageKey: String,
+                                         formatMessageKey: String)(
+                                          implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = new Formatter[String] {
+
+    def normalize(s:String) = s.replaceAll("\\s", "").toUpperCase
+
+    def ninoIsUnique(nino: String): Boolean = {
+      val normalizedNino = normalize(nino)
+      val futureOptionRD: Future[Option[RegistrationDetails]] = cachingConnector.getRegistrationDetails
+      val isDifferentFuture = futureOptionRD.map {
+        case None => true
+        case Some(rd) =>
+          val doesNotMatchCoexecNino = if(rd.coExecutors.isEmpty) true else !rd.coExecutors.map(x => normalize(x.nino)).contains(normalizedNino)
+          rd.applicantDetails.flatMap(_.nino).fold(true)(normalize(_) != normalizedNino) && doesNotMatchCoexecNino
+      }
+      Await.result(isDifferentFuture, Duration.Inf)
+    }
+
+    override def bind(key: String, data: Map[String, String]) = {
+      val value = data.get(key).fold("")(identity)
+
+      ninoFormatter(blankMessageKey, lengthMessageKey, formatMessageKey).bind(key, data) match {
+        case Right(_) =>
+          if (ninoIsUnique(value)) {
+            Right(value)
+          } else {
+            Left(Seq(FormError(key, "error.nino.alreadyGiven")))
+          }
+        case Left(errors) => Left(errors)
+      }
+    }
+
+    override def unbind(key: String, value: String): Map[String, String] = {
+      Map(key -> value.toString)
+    }
+  }
+
+
   def ninoForCoExecutor(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String, coExecutorIDKey:String)(
     implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
     Forms.of(ninoForCoExecutorFormatter(blankMessageKey, lengthMessageKey, formatMessageKey, coExecutorIDKey))
+
+  def ninoForDeceased(blankMessageKey: String, lengthMessageKey: String, formatMessageKey: String)(
+    implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext): FieldMapping[String] =
+    Forms.of(ninoForDeceasedFormatter(blankMessageKey, lengthMessageKey, formatMessageKey))
+
 }

@@ -242,10 +242,9 @@ object ApplicationKickOutNonSummaryHelper {
     AssetsTotalValueMoreThanThresholdAfterExemption -> messages("iht.estateReport.kickout.returnToEstateOverview.linkText")
   )
 
-
   private lazy val checksAllSectionsMaxValue: FunctionListMap = ListMap(
     AssetsTotalValueMoreThanMax -> { (registrationDetails, applicationDetails, sectionTotal) =>
-      (applicationDetails.totalAssetsValue + applicationDetails.totalGiftsValue) > IhtProperties.validationTotalAssetMaxValue
+      (applicationDetails.totalAssetsValue + CommonHelper.getOrZero(applicationDetails.totalPastYearsGiftsOption)) > IhtProperties.validationTotalAssetMaxValue
     })
 
   private lazy val checksActiveSectionOnlyMaxValue: FunctionListMap = ListMap(

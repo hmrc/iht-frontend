@@ -17,22 +17,26 @@
 package iht.viewmodels.application.overview
 
 import iht.models.application.assets._
-import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
-import iht.models.application.gifts.AllGifts
+import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.testhelpers.CommonBuilder
+import iht.testhelpers.TestHelper._
 import iht.{FakeIhtApp, TestUtils}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Messages.Implicits._
-import play.api.i18n.{Messages, MessagesApi}
+import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.test.UnitSpec
-import iht.testhelpers.TestHelper._
 
 class AssetsAndGiftsSectionViewModelTest extends UnitSpec with FakeIhtApp with MockitoSugar with TestUtils with BeforeAndAfter {
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
 
   val applicationDetails = CommonBuilder.buildApplicationDetails
+
+  val emptyApplicationDetails = CommonBuilder.buildApplicationDetails
+  val ukAddress = Some(CommonBuilder.DefaultUkAddress)
+
+  private def propertyValue(value: BigDecimal) = Some(value)
 
   "Assets and Gifts view model" must {
 
@@ -72,7 +76,7 @@ class AssetsAndGiftsSectionViewModelTest extends UnitSpec with FakeIhtApp with M
     }
 
     "have the correct text when all answers to assets questions are 'No'" in {
-      val appDetails = applicationDetails.copy (allAssets = Some(CommonBuilder.buildAllAssetsAnsweredNo))
+      val appDetails = applicationDetails.copy(allAssets = Some(CommonBuilder.buildAllAssetsAnsweredNo))
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
       viewModel.assetRow.value shouldBe messagesApi("site.noAssets")
@@ -134,7 +138,7 @@ class AssetsAndGiftsSectionViewModelTest extends UnitSpec with FakeIhtApp with M
     }
 
     "have a blank value for gifts when there are gifts but no values have been given" in {
-      val appDetails = applicationDetails copy (allGifts = Some(CommonBuilder.buildAllGiftsWithValues),
+      val appDetails = applicationDetails copy(allGifts = Some(CommonBuilder.buildAllGiftsWithValues),
         giftsList = Some(Seq(CommonBuilder.buildPreviousYearsGifts.copy(None, None, None, None, None))))
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
@@ -187,7 +191,7 @@ class AssetsAndGiftsSectionViewModelTest extends UnitSpec with FakeIhtApp with M
     "show Give more details when only gift with reservation and gifts given away in 7 years have been answered" in {
       val giftsValues = Seq(CommonBuilder.buildPreviousYearsGifts)
       val allGifts = CommonBuilder.buildAllGifts copy (isGivenAway = Some(true))
-      val appDetails = applicationDetails copy (allGifts = Some(allGifts), giftsList = Some(giftsValues))
+      val appDetails = applicationDetails copy(allGifts = Some(allGifts), giftsList = Some(giftsValues))
 
       val viewModel = AssetsAndGiftsSectionViewModel(appDetails, false)
 
@@ -239,5 +243,57 @@ class AssetsAndGiftsSectionViewModelTest extends UnitSpec with FakeIhtApp with M
 
     //endregion
 
+  }
+
+  "isValueEnteredForAssets" must {
+    "return false if applicationDetails is empty" in {
+      AssetsAndGiftsSectionViewModel.isValueEnteredForAssets(emptyApplicationDetails) shouldBe false
+    }
+
+    "return true if applicationDetails has a money with 0 value" in {
+      val appDetails = emptyApplicationDetails.copy(allAssets = Some(AllAssets(
+        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
+          value = Some(BigDecimal(0)),
+          shareValue = None)
+        ))))
+
+      AssetsAndGiftsSectionViewModel.isValueEnteredForAssets(appDetails) shouldBe true
+    }
+
+    "return true if applicationDetails has a money with value other than 0" in {
+      val appDetails = emptyApplicationDetails.copy(allAssets = Some(CommonBuilder.buildAllAssets.copy(
+        money = Some(CommonBuilder.buildShareableBasicElementExtended.copy(
+          value = Some(BigDecimal(100)),
+          shareValue = None)
+        ))))
+
+      AssetsAndGiftsSectionViewModel.isValueEnteredForAssets(appDetails) shouldBe true
+    }
+
+    "return true if applicationDetails has a property with 0 value" in {
+      val appDetails = emptyApplicationDetails.copy(propertyList = List(CommonBuilder.buildProperty.copy(
+        id = Some("2"),
+        address = ukAddress,
+        propertyType = None,
+        typeOfOwnership = None,
+        tenure = None,
+        value = propertyValue(0)
+      )))
+
+      AssetsAndGiftsSectionViewModel.isValueEnteredForAssets(appDetails) shouldBe true
+    }
+
+    "return true if applicationDetails has a property with value other than 0" in {
+      val appDetails = emptyApplicationDetails.copy(propertyList = List(CommonBuilder.buildProperty.copy(
+        id = Some("2"),
+        address = ukAddress,
+        propertyType = None,
+        typeOfOwnership = None,
+        tenure = None,
+        value = propertyValue(7500)
+      )))
+
+      AssetsAndGiftsSectionViewModel.isValueEnteredForAssets(appDetails) shouldBe true
+    }
   }
 }

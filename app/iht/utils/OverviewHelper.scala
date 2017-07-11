@@ -17,15 +17,14 @@
 package iht.utils
 
 import iht.constants.Constants._
-import iht.constants.IhtProperties
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
-import play.api.i18n.{Lang, Messages}
-import play.api.mvc.Call
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.Call
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 import scala.collection.immutable.ListMap
@@ -55,6 +54,16 @@ object OverviewHelper {
   case class Section(id: String, title: Option[String], link: Link, details: Seq[Question], sectionLinkId: String = "")
 
   case class Question(id: String, title: String, link: Link, value: String, status: String = "", linkId: String = "")
+
+  private def totalAssetsValueOption(ad:ApplicationDetails): Option[BigDecimal] = {
+    if (ad.allAssets.map(_.areAllAssetsSectionsAnsweredNo).fold(false)(identity)) {
+      None
+    } else {
+      val allAssetsValue = ad.allAssets.map(_.totalValueWithoutPropertiesOption)
+      val allPropertyValue = CommonHelper.aggregateOfSeqOfOptionDecimal(ad.propertyList.map(_.value))
+      CommonHelper.aggregateOfSeqOfOptionDecimal(Seq(allAssetsValue.flatten, allPropertyValue))
+    }
+  }
 
   private def overviewDisplayValues(implicit lang: Lang): ListMap[String, ApplicationDetails => String] = ListMap(
     AppSectionProperties -> { (ad) =>
@@ -131,7 +140,7 @@ object OverviewHelper {
       }
     },
     AppSectionEstateAssets -> { ad =>
-      ad.totalAssetsValueOption.fold("")(assetsValue =>
+      totalAssetsValueOption(ad).fold("")(assetsValue =>
         "£" + numberWithCommas(assetsValue))
     },
     AppSectionEstateGifts -> { ad =>

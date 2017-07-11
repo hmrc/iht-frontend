@@ -16,7 +16,6 @@
 
 package iht.utils
 
-import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.models._
 import iht.models.application.ApplicationDetails
@@ -65,9 +64,20 @@ object RegistrationDetailsHelper {
     */
   def isExemptionsCompleted(rd: RegistrationDetails,
                             ad: ApplicationDetails) = {
+
+    def isExemptionsCompleted(ad:ApplicationDetails) = ad.isCompleteCharities.getOrElse(false) &&
+      ad.isCompleteQualifyingBodies.getOrElse(false) &&
+      ad.allExemptions.flatMap(_.partner.flatMap(_.isComplete)).getOrElse(false)
+
+    def isExemptionsCompletedWithoutPartnerExemption(ad:ApplicationDetails) =
+      (ad.isCompleteCharities, ad.isCompleteQualifyingBodies) match {
+        case (Some(true), Some(true)) => true
+        case _ => false
+      }
+
     !rd.deceasedDetails.flatMap(_.maritalStatus).contains(IhtProperties.statusMarried) match {
-      case true => ad.isExemptionsCompletedWithoutPartnerExemption
-      case false => ad.isExemptionsCompleted
+      case true => isExemptionsCompletedWithoutPartnerExemption(ad)
+      case false => isExemptionsCompleted(ad)
     }
   }
 
