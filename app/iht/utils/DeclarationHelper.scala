@@ -27,7 +27,7 @@ object DeclarationHelper {
   def getDeclarationType(appDetails: ApplicationDetails): String  = {
 
     val totalAssetsValue = appDetails.totalAssetsValue
-    val totalGiftsValue = appDetails.totalGiftsValue
+    val totalGiftsValue = CommonHelper.getOrZero(appDetails.totalPastYearsGiftsOption)
     val totalExemptionsValue = appDetails.totalExemptionsValue
     val thresholdValue = IhtProperties.exemptionsThresholdValue
     val tnrbThresholdValue = IhtProperties.transferredNilRateBand

@@ -47,8 +47,11 @@ object ExemptionsGuidanceHelper {
     */
   def guidanceRedirect(finalDestination: Call, applicationDetails: ApplicationDetails, connector: CachingConnector)(
     implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[Call]] = {
+
+    def isEstateOverThreshold(ad:ApplicationDetails): Boolean = ad.netValueAfterExemptionAndDebtsForPositiveExemption > ad.currentThreshold
+
     connector.getSingleValue(Constants.ExemptionsGuidanceContinueUrlKey).flatMap{ (continueUrl: Option[String]) =>
-      val shouldShowGuidance = applicationDetails.isEstateOverThreshold && !applicationDetails.hasSeenExemptionGuidance.getOrElse(false) &&
+      val shouldShowGuidance = isEstateOverThreshold(applicationDetails) && !applicationDetails.hasSeenExemptionGuidance.getOrElse(false) &&
         continueUrl.isEmpty
       if(shouldShowGuidance) {
         connector.storeSingleValue(Constants.ExemptionsGuidanceContinueUrlKey, finalDestination.url).map{ _=>
