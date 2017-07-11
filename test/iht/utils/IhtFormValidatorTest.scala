@@ -312,5 +312,17 @@ class IhtFormValidatorTest extends UnitSpec with MockitoSugar with FakeIhtApp {
         .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
     }
 
+    "respond with error when nino entered for deceased matches previously entered nino for a 2nd coexecutor" in {
+      val coExec1 = CommonBuilder.DefaultCoExecutor1 copy (nino = Some(NinoBuilder.randomNino.toString()),
+        ukAddress = None, role = None, isAddressInUk = None)
+      val coExec2 = CommonBuilder.DefaultCoExecutor1 copy (nino = Some(CommonBuilder.DefaultNino),
+        ukAddress = None, role = None, isAddressInUk = None)
+      val ad = CommonBuilder.buildApplicantDetails copy (nino = Some(NinoBuilder.randomNino.toString()))
+      val rd = CommonBuilder.buildRegistrationDetails1 copy (applicantDetails = Some(ad), coExecutors = Seq(coExec1, coExec2))
+
+      ninoForDeceasedMapping(rd)
+        .bind(Map("" -> CommonBuilder.DefaultNino)) shouldBe Left(Seq(FormError("", "error.nino.alreadyGiven")))
+    }
+
   }
 }
