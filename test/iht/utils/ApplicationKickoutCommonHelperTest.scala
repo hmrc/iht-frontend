@@ -36,7 +36,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for TrustsMoreThanOne" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustsMoreThanOne) foreach { ad => {
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
             registrationDetails=registrationDetails, applicationDetails=ad,
             sectionTotal=Seq(BigDecimal(0)))
         result shouldBe Some(KickOutReason.TrustsMoreThanOne)
@@ -47,7 +47,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for ForeignAssetsValueMoreThanMax" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.ForeignAssetsValueMoreThanMax) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsForeign),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsForeign),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.ForeignAssetsValueMoreThanMax)
     }
@@ -56,7 +56,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for TrustValueMoreThanMax" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustValueMoreThanMax) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.TrustValueMoreThanMax)
     }
@@ -65,7 +65,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for PensionDisposedLastTwoYears" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.PensionDisposedLastTwoYears) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.PensionDisposedLastTwoYears)
     }
@@ -75,7 +75,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for InTrustLessThanSevenYears" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.InTrustLessThanSevenYears) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsInTrust),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.InTrustLessThanSevenYears)
     }
@@ -84,7 +84,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for InsuranceMoreThanMax" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.InsuranceMoreThanMax) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=
           Some(ApplicationKickOutHelper.ApplicationSectionAssetsInsurancePoliciesMoreThanMax),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.InsuranceMoreThanMax)
@@ -94,7 +94,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for GiftsWithReservationOfBenefit" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.GiftsWithReservationOfBenefit) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.GiftsWithReservationOfBenefit)
     }
@@ -103,7 +103,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for GiftsGivenInPast" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.GiftsGivenInPast) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.GiftsToTrust)
     }
@@ -112,7 +112,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for GiftsToTrust" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.GiftsToTrust) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.GiftsGivenInPast)
     }
@@ -121,7 +121,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for GiftsMaxValue" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.GiftsMaxValue) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.GiftsMaxValue)
     }
@@ -131,7 +131,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
     "all asset sections filled in with value" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.AssetsTotalValueMoreThanMax) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=None,
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=None,
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.AssetsTotalValueMoreThanMax)
     }
@@ -142,7 +142,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustsMoreThanOne) foreach { ad =>
       CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.TrustValueMoreThanMax) foreach { ad =>
         val result =
-          ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
+          ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned),
             registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(1000001)))
         result shouldBe Some(KickOutReason.SingleSectionMoreThanMax)
       }
@@ -152,7 +152,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
   "update application details with correct kickout reason and status for PartnerHomeInUK" in {
     CommonBuilder.buildApplicationDetailsForKickout(KickOutReason.PartnerHomeInUK) foreach { ad =>
       val result =
-        ApplicationKickOutCommonHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
+        ApplicationKickOutNonSummaryHelper.check(prioritySection=Some(ApplicationKickOutHelper.ApplicationSectionGiftsGivenAway),
           registrationDetails=registrationDetails, applicationDetails=ad, sectionTotal=Seq(BigDecimal(0)))
       result shouldBe Some(KickOutReason.PartnerHomeInUK)
     }
@@ -172,7 +172,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
         Some("1"),Some("testCharity"),Some("123456"), Some(BigDecimal(40000)))))
 
 
-    val result = ApplicationKickOutCommonHelper.updateKickout(checks =ApplicationKickOutCommonHelper.checksBackend,
+    val result = ApplicationKickOutNonSummaryHelper.updateKickout(checks =ApplicationKickOutNonSummaryHelper.checksBackend,
           registrationDetails=registrationDetails, applicationDetails=appDetails)
       result.kickoutReason shouldBe Some(KickOutReason.AssetsTotalValueMoreThanThresholdAfterExemption)
 
@@ -204,7 +204,7 @@ class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with
     ApplicationKickOutHelper.ApplicationSectionProperties -> Tuple2(Seq(BigDecimal(300)), Some("3"))
     ).foreach { section =>
       "get section total should calculate correct total for " + section._1 + " section " + section._2._2.fold("")(xx=>"(" + xx + ")") in {
-        ApplicationKickOutCommonHelper.getSectionTotal(Some(section._1), section._2._2,
+        ApplicationKickOutNonSummaryHelper.getSectionTotal(Some(section._1), section._2._2,
            ad) shouldBe section._2._1
     }
   }

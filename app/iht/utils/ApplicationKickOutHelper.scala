@@ -307,7 +307,8 @@ object ApplicationKickOutHelper {
   /**
     * The url for the "return" link.
     */
-  def returnLinkUrl(kickoutReason: String, ihtRef: String, applicationLastSection: Option[String], applicationLastID: Option[String]): Option[Call] = {
+  def returnLinkUrl(kickoutReason: String, ihtRef: String, applicationLastSection: Option[String],
+                    applicationLastID: Option[String]): Option[Call] = {
     val returnLinkFound: Option[(String, Either[Call, Option[String]])] = returnLinkUrls.find(_._1 == kickoutReason)
     returnLinkFound.map {
       rl =>

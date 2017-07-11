@@ -25,7 +25,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.tnrb.TnrbHelper._
-import iht.utils.{ApplicationKickOutCommonHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -115,7 +115,7 @@ trait DeceasedWidowCheckQuestionController extends EstateController {
 
     val updatedAppDetails = getUpdatedAppDetails(appDetails, widowModel)
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutCommonHelper.updateKickout(checks = ApplicationKickOutCommonHelper.checksWidowOpc,
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksWidowOpc,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 

@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import iht.utils.RegistrationDetailsHelper._
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutCommonHelper, ApplicationStatus, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
 import org.joda.time.LocalDate
 import play.api.Play.current
@@ -93,8 +93,8 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
       withRegistrationDetails { regDetails =>
         for {
           appDetails <- getApplicationDetails(ihtReference, regDetails.acknowledgmentReference)
-          appDetailsWithKickOutUpdatedOpt <- ihtConnector.saveApplication(nino, ApplicationKickOutCommonHelper.updateKickout(
-            checks = ApplicationKickOutCommonHelper.checksBackend,
+          appDetailsWithKickOutUpdatedOpt <- ihtConnector.saveApplication(nino, ApplicationKickOutNonSummaryHelper.updateKickout(
+            checks = ApplicationKickOutNonSummaryHelper.checksBackend,
             registrationDetails = regDetails,
             applicationDetails = appDetails), regDetails.acknowledgmentReference)
 

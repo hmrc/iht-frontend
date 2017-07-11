@@ -25,7 +25,7 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutCommonHelper, ApplicationKickOutHelper, CommonHelper, StringHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, CommonHelper, StringHelper}
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -107,7 +107,7 @@ trait EstateClaimController extends EstateController {
       fold(new TnrbEligibiltyModel(None, None, isStateClaimAnyBusiness = tnrbModel.isStateClaimAnyBusiness, None, None,
         None, None, None, None, None, None))(_.copy(isStateClaimAnyBusiness = tnrbModel.isStateClaimAnyBusiness))))
 
-    val updatedAppDetailsWithKickOutReason = ApplicationKickOutCommonHelper.updateKickout(checks = ApplicationKickOutCommonHelper.checksTnrbEligibility,
+    val updatedAppDetailsWithKickOutReason = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksTnrbEligibility,
       registrationDetails = regDetails,
       applicationDetails = updatedAppDetails)
 

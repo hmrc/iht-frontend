@@ -31,7 +31,7 @@ import play.api.i18n.Messages
 
 import scala.collection.immutable.ListMap
 
-object ApplicationKickOutCommonHelper {
+object ApplicationKickOutNonSummaryHelper {
 
   /**
     * Get sequence of values for section.
@@ -454,16 +454,16 @@ object ApplicationKickOutCommonHelper {
     * ID for section total is relevant only for kickouts which are to be applied to a specific section for a specific
     * ID, currently only for the kickout logic stored in checksActiveSectionOnlyMaxValue, above.
     */
-  def updateKickout(checks: FunctionListMap = ApplicationKickOutCommonHelper.checksEstate,
+  def updateKickout(checks: FunctionListMap = ApplicationKickOutNonSummaryHelper.checksEstate,
                     prioritySection: Option[String] = None,
                     registrationDetails: RegistrationDetails,
                     applicationDetails: ApplicationDetails,
                     idForSectionTotal: Option[String] = None): ApplicationDetails = {
-    val kickoutReason = ApplicationKickOutCommonHelper.check(checks = checks,
+    val kickoutReason = ApplicationKickOutNonSummaryHelper.check(checks = checks,
       prioritySection = prioritySection,
       registrationDetails = registrationDetails,
       applicationDetails = applicationDetails,
-      sectionTotal = ApplicationKickOutCommonHelper.getSectionTotal(prioritySection, idForSectionTotal, applicationDetails))
+      sectionTotal = ApplicationKickOutNonSummaryHelper.getSectionTotal(prioritySection, idForSectionTotal, applicationDetails))
 
     val status = kickoutReason.fold(AppStatus.InProgress)(_ => AppStatus.KickOut)
     applicationDetails copy(status = status, kickoutReason = kickoutReason)

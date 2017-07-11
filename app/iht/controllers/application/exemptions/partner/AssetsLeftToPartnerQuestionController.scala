@@ -25,7 +25,7 @@ import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
-import iht.utils.{ApplicationKickOutCommonHelper, CommonHelper, IhtFormValidator, StringHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, CommonHelper, IhtFormValidator, StringHelper}
 import iht.views.html.application.exemption.partner.assets_left_to_partner_question
 import play.api.Logger
 import play.api.Play.current
@@ -122,7 +122,7 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
 
     val updatedPartnerExemption = getUpdatedPartnerExemption(appDetails, pe)
 
-    val applicationDetails = ApplicationKickOutCommonHelper.updateKickout(checks = ApplicationKickOutCommonHelper.checksEstate,
+    val applicationDetails = ApplicationKickOutNonSummaryHelper.updateKickout(checks = ApplicationKickOutNonSummaryHelper.checksEstate,
       prioritySection = applicationSection,
       registrationDetails = regDetails,
       applicationDetails = appDetails.copy(allExemptions = Some(appDetails.allExemptions.fold(new
