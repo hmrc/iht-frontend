@@ -26,7 +26,7 @@ import iht.testhelpers.CommonBuilder._
 import org.scalatest.mock.MockitoSugar
 import uk.gov.hmrc.play.test.UnitSpec
 
-class ApplicationKickoutCommonHelperTest extends UnitSpec with MockitoSugar with FakeIhtApp {
+class ApplicationKickoutNonSummaryHelperTest extends UnitSpec with MockitoSugar with FakeIhtApp {
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
     deceasedDetails = Some(CommonBuilder.buildDeceasedDetails),
