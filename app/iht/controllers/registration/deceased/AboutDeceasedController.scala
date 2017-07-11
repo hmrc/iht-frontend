@@ -23,7 +23,7 @@ import iht.forms.registration.DeceasedForms
 import iht.forms.registration.DeceasedForms.aboutDeceasedForm
 import iht.metrics.Metrics
 import iht.models.{DeceasedDetails, RegistrationDetails}
-import iht.utils.CommonHelper
+import iht.utils.{DeceasedInfoHelper, SessionHelper}
 import iht.views.html.registration.{deceased => views}
 import org.joda.time.LocalDate
 import play.api.Play.current
@@ -53,7 +53,7 @@ trait AboutDeceasedController extends RegistrationController {
     implicit user =>
       implicit request =>
         withRegistrationDetailsRedirectOnGuardCondition { rd =>
-          val deceasedName = CommonHelper.getDeceasedNameOrDefaultString(rd)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
           val dateOfDeath = rd.deceasedDateOfDeath.map(_.dateOfDeath).getOrElse(LocalDate.now)
           val f = rd.deceasedDetails.fold(aboutDeceasedForm())(dd => aboutDeceasedForm(dateOfDeath).fill(dd))
           val okResult: Result = if (mode == Mode.Standard) {
@@ -61,7 +61,7 @@ trait AboutDeceasedController extends RegistrationController {
           } else {
             okForEditPageLoad(f, Some(deceasedName))
           }
-          val result = okResult.withSession(CommonHelper.ensureSessionHasNino(request.session, user))
+          val result = okResult.withSession(SessionHelper.ensureSessionHasNino(request.session, user))
           Future.successful(result)
         }
   }
