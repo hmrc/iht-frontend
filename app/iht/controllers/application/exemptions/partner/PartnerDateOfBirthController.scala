@@ -23,7 +23,7 @@ import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
-import iht.utils.{ApplicationKickOutHelper, StringHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, StringHelper}
 import iht.views.html.application.exemption.partner.partner_date_of_birth
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -75,8 +75,8 @@ trait PartnerDateOfBirthController extends EstateController {
         val updatedAllExemptions = ad.allExemptions.fold(new AllExemptions(partner = Some(pe)))(
           _ copy (partner = existingOptionPartnerExemption.map(_ copy (dateOfBirth = pe.dateOfBirth))))
         val copyOfAD = ad copy (allExemptions = Some(updatedAllExemptions))
-        val applicationDetails = ApplicationKickOutHelper.updateKickout(
-          checks = ApplicationKickOutHelper.checksEstate,
+        val applicationDetails = ApplicationKickOutNonSummaryHelper.updateKickout(
+          checks = ApplicationKickOutNonSummaryHelper.checksEstate,
           prioritySection = applicationSection,
           registrationDetails = regDetails,
           applicationDetails = copyOfAD)

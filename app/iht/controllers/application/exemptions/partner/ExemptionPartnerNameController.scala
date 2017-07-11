@@ -23,7 +23,7 @@ import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
 import iht.models.application.exemptions._
 import iht.utils.CommonHelper._
-import iht.utils.{ApplicationKickOutHelper, StringHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, StringHelper}
 import iht.views.html.application.exemption.partner.partner_name
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -86,8 +86,8 @@ trait ExemptionPartnerNameController extends EstateController {
             new AllExemptions(partner = Some(pe)))(_.copy(Some(existingPartnerExemptions.copy(
             firstName = pe.firstName, lastName = pe.lastName))))
 
-          val applicationDetails = ApplicationKickOutHelper.updateKickout(
-            checks = ApplicationKickOutHelper.checksEstate,
+          val applicationDetails = ApplicationKickOutNonSummaryHelper.updateKickout(
+            checks = ApplicationKickOutNonSummaryHelper.checksEstate,
             prioritySection = applicationSection,
             registrationDetails = regDetails,
             applicationDetails = appDetails.copy(allExemptions = Some(appDetailsCopy)))

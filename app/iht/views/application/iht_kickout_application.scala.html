@@ -16,7 +16,7 @@
 
 @import iht.models.application._
 @import iht.utils.{KickOutReason => KickOut}
-@import iht.utils.ApplicationKickOutHelper
+@import iht.utils.ApplicationKickOutSummaryHelper
 
 @( kickoutReason: String,
 applicationDetails: ApplicationDetails,
@@ -34,11 +34,11 @@ deceasedName: String)(implicit request:Request[_], messages: Messages)
 @iht_main_template_application(title = Messages("iht.notPossibleToUseService"),
     browserTitle = Some(Messages("iht.notPossibleToUseService"))) {
     <div class="panel-indent">
-        @ApplicationKickOutHelper.summary.find( _._1 == kickoutReason).map{summary =>
+        @ApplicationKickOutSummaryHelper.summary.find( _._1 == kickoutReason).map{summary =>
             <p id="kickout-message">@Messages(summary._2, summaryParameter1, deceasedName)</p>}
-        @if(!ApplicationKickOutHelper.summaryBullets(kickoutReason).isEmpty) {
+        @if(!ApplicationKickOutSummaryHelper.summaryBullets(kickoutReason).isEmpty) {
         <ul class="bullets" id="summary-bullets">
-            @ApplicationKickOutHelper.summaryBullets(kickoutReason).map{txt=>
+            @ApplicationKickOutSummaryHelper.summaryBullets(kickoutReason).map{txt=>
             <li>@txt</li>
             }
         </ul>
@@ -71,10 +71,10 @@ deceasedName: String)(implicit request:Request[_], messages: Messages)
 
     <div class="subsection">
         <h2 id="iht.nextSteps" class="heading-medium">@Messages("iht.nextSteps")</h2>
-        @ApplicationKickOutHelper.nextSteps1.find( _._1 == kickoutReason).map{nextSteps1=><p>@nextSteps1._2</p>}
-        @ApplicationKickOutHelper.nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>
+        @ApplicationKickOutNonSummaryHelper.nextSteps1.find( _._1 == kickoutReason).map{nextSteps1=><p>@nextSteps1._2</p>}
+        @ApplicationKickOutNonSummaryHelper.nextSteps2.find( _._1 == kickoutReason).map{nextSteps2=><p>
         @nextSteps2._2@Messages("iht.comma") @ApplicationKickOutHelper.returnLinkUrl( kickoutReason, applicationDetails.ihtRef.fold("")(identity), applicationLastSection, applicationLastID ).map{ url=>
-        <a id="back-button" href=@url>@ApplicationKickOutHelper.nextSteps2ReturnLinkText.find( _._1 == kickoutReason).map{linkText => @linkText._2}</a>@Messages("iht.fullStop")
+        <a id="back-button" href=@url>@ApplicationKickOutNonSummaryHelper.nextSteps2ReturnLinkText.find( _._1 == kickoutReason).map{linkText => @linkText._2}</a>@Messages("iht.fullStop")
         }</p>}
 
     </div>
