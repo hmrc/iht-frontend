@@ -17,6 +17,6 @@ You will need to clone the project first then navigate to the main folder and ru
 
 You will also need the [IHT Microservice](https://github.com/hmrc/iht) to run on port 9071 in the same way as above.
 
-## License
+### License
 
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
