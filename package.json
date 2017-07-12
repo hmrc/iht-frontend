@@ -4,7 +4,7 @@
   "description": "Frontend for IHT service from HMRC",
   "directories": {},
   "scripts": {
-    "test": "./node_modules/.bin/jasmine test/spec/**/*.js"
+    "test": "node --harmony ./node_modules/.bin/jasmine test/spec/**/*.js"
   },
   "author": "",
   "license": "ISC",
