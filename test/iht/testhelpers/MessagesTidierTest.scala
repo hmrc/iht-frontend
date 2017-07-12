@@ -74,6 +74,49 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
 
   val mockedMessagesTidier = new MessagesTidier {
     override val messages: Map[String, Map[String, String]] = Map("en" -> mockedMessagesWithDuplicateValuesAsMap)
+
+    val mockedEnglishMessages = Map(
+      "a.b.c" -> "one",
+      "d.e.f" -> "two",
+      "g.h.i" -> "one",
+      "i.a.s" -> "ool",
+      "a.x.v" -> "one",
+      "u.w.q" -> "two"
+    )
+
+    val mockedEnglishMessagesForFailure = Map(
+      "a.b.c" -> "one",
+      "d.e.f" -> "two",
+      "g.h.i" -> "one",
+      "i.a.s" -> "ool",
+      "a.x.v" -> "one"
+    )
+
+    val mockedWelshMessages = Map(
+      "a.b.c" -> "ffl",
+      "d.e.f" -> "llf",
+      "g.h.i" -> "flfl",
+      "i.a.s" -> "ylfl",
+      "a.x.v" -> "yfl'f",
+      "u.w.q" -> "flff'f"
+    )
+
+    val mockedWelshMessagesForFailure = Map(
+      "a.b.c" -> "ffl",
+      "d.e.f" -> "llf",
+      "g.h.i" -> "flfl",
+      "i.a.s" -> "ylfl",
+      "u.w.q" -> "flff'f"
+    )
+
+    override def compareMessageFileKeys(): Set[String] = (mockedEnglishMessages.keySet -- mockedWelshMessages.keySet) ++
+        (mockedWelshMessages.keySet -- mockedEnglishMessages.keySet)
+
+    def compareMessageFileKeysWelshFailure: Set[String] = (mockedEnglishMessages.keySet -- mockedWelshMessagesForFailure.keySet) ++
+        (mockedWelshMessagesForFailure.keySet -- mockedEnglishMessages.keySet)
+
+    def compareMessageFileKeysEnglishFailure: Set[String] = (mockedEnglishMessagesForFailure.keySet -- mockedWelshMessages.keySet) ++
+        (mockedWelshMessages.keySet -- mockedEnglishMessagesForFailure.keySet)
   }
 
   def getResourceAsFilePath(filePath: String) = {
@@ -616,6 +659,26 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
           fail(failureMessageForConsole)
         }
       }
+    }
+
+    "compareMessageFileKeys" must {
+
+      "not fail when mocked english and welsh message files have the same keys" in {
+        val diff: Set[String] = mockedMessagesTidier.compareMessageFileKeys()
+        assert(diff == Set.empty)
+      }
+
+      "fail when mocked english and welsh message files do not have the same keys" in {
+        val diff: Set[String] = mockedMessagesTidier.compareMessageFileKeysWelshFailure
+        val diff2 = mockedMessagesTidier.compareMessageFileKeysEnglishFailure
+        assert(diff != Set.empty && diff2 != Set.empty)
+      }
+
+      "not fail with real messages files" in {
+        pending
+        assert(MessagesTidier.compareMessageFileKeys() == Set.empty)
+      }
+
     }
 
     /*

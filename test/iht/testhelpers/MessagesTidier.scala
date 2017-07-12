@@ -560,6 +560,12 @@ trait MessagesTidier {
     (transformedLines, mapOfItemsToReplaceCounts.toMap)
   }
 
+  def compareMessageFileKeys() = {
+    val english = readMessageFile("messages.en").right.get
+    val welsh = readMessageFile("messages.cy").right.get
+    (english.keySet -- welsh.keySet) ++ (welsh.keySet -- english.keySet)
+  }
+
 }
 
 object MessagesTidier extends MessagesTidier {
