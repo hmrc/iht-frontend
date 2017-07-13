@@ -141,6 +141,8 @@ iht.notPossibleToUseService = It is not possible for you to use this service
 iht.postcode = Postcode
 iht.returnToLastQuestion = Return to last question
 iht.roughEstimateEstateWorth = How much do you think the estate is worth?
+iht.roughEstimateEstateWorth.guidance = Include an estimate of the value of any houses or money in bank accounts that the person who has died might have owned.
+
 iht.saveAndContinue = Save and continue
 iht.shouldUseOnlineService = You can use the online service
 iht.signedOut = You have been signed out

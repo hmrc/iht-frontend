@@ -31,6 +31,8 @@ headingClass = "heading-medium"){
 
 @helpers.form(action = iht.controllers.filter.routes.EstimateController.onSubmit,'autoComplete -> "off") {
 
+<p>@Html(Messages("iht.roughEstimateEstateWorth.guidance"))</p>
+
 @ihtHelpers.custom.error_summary(form)
 
 @ihtHelpers.standard.input_radio_group(
