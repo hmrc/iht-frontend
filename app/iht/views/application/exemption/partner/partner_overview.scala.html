@@ -86,7 +86,7 @@ isFullWidth=false) {
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.name ).map(_=>true)) { isComplete =>
                 ihtHelpers.custom.generic_overview_item(
-                    title = Messages("page.iht.application.exemptions.overview.partner.name.title"),
+                    title = Messages("page.iht.application.exemptions.partner.name.title"),
                     name="partner.name",
                     id = ExemptionsPartnerNameID,
                     value=ihtHelpers.custom.name(displayValue(appDetails, AppSectionExemptionsPartnerName, isComplete)).toString,
@@ -110,7 +110,7 @@ isFullWidth=false) {
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.dateOfBirth ).map(_=>true)) { isComplete =>
                 ihtHelpers.custom.generic_overview_item(
-                    title = Messages("page.iht.application.exemptions.overview.partner.dob.title"),
+                    title = Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
                     name="partner.dob",
                     id = ExemptionsPartnerDobID,
                     value=displayValue(appDetails, AppSectionExemptionsPartnerDateOfBirth, isComplete)(lang),
@@ -134,7 +134,7 @@ isFullWidth=false) {
         @{
             defining(appDetails.allExemptions.flatMap(_.partner).flatMap(_.nino ).map(_=>true)) { isComplete =>
                 ihtHelpers.custom.generic_overview_item(
-                    title = Messages("page.iht.application.exemptions.overview.partner.nino.title"),
+                    title = Messages("page.iht.application.exemptions.partner.nino.sectionTitle"),
                     name="partner.nino",
                     id = ExemptionsPartnerNinoID,
                     value=displayValue(appDetails, AppSectionExemptionsPartnerNino, isComplete),
