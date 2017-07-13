@@ -140,7 +140,9 @@ iht.noChangeToHowReportToHMRC = There is no change to how you report to HMRC
 iht.notPossibleToUseService = It is not possible for you to use this service
 iht.postcode = Postcode
 iht.returnToLastQuestion = Return to last question
-iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank accounts that the the person who has died might have owned, how much do you think the the person who has died’s estate is worth?
+iht.roughEstimateEstateWorth = How much do you think the estate is worth?
+iht.roughEstimateEstateWorth.guidance = Include an estimate of the value of any houses or money in bank accounts that the person who has died might have owned.
+
 iht.saveAndContinue = Save and continue
 iht.shouldUseOnlineService = You can use the online service
 iht.signedOut = You have been signed out
@@ -234,7 +236,7 @@ page.iht.filter.paperform.iht400.link.text = IHT-400 form
 page.iht.filter.useService.under325000.paragraph0 = Because you think the estate might be worth less than £325,000, you can use the online service to report the estate value to HMRC.
 page.iht.filter.useService.paragraphFinal = You will need to register to use the service first, but before that, you will need to confirm who you are with HMRC.
 page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the estate might be worth between £325,000 and £1 million, you can use the online service to report the estate value to HMRC.
-page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you will be able to claim any estate exemptions or transfer the unused threshold from a spouse or civil partner who died before the person who has died.
+page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you will be able to claim any estate exemptions or transfer the unused threshold if there was a spouse or civil partner whose death was before the person who has died.
 
 #Registration
 iht.registration.changeAddressToAbroad = Change the address to one that is abroad
@@ -289,7 +291,7 @@ page.iht.registration.deceasedDateOfDeath.dateOfDeath.label = Enter the deceased
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint = For example, 21 3 2010
 
 #Registration - Deceased’s permanent home
-page.iht.registration.deceasedPermanentHome.title = Where was the person who has died’s permanent home?
+page.iht.registration.deceasedPermanentHome.title = Where was the permanent home of the person who has died?
 page.iht.registration.deceasedPermanentHome.browserTitle = Permanent home
 iht.common.other = Other
 
