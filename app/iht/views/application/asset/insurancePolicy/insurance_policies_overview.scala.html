@@ -33,6 +33,8 @@ returnToMessagesKey: String
 )(implicit request:Request[_], messages: Messages)
 
 
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+
 @iht_main_template_application(
     title = Messages("iht.estateReport.assets.insurancePolicies"),
     browserTitle = Some(Messages("iht.estateReport.assets.insurancePolicies")),
@@ -42,12 +44,18 @@ returnToMessagesKey: String
     seqRows = seqRows,
     messagesFileSectionLine1 = Messages(
                                     "page.iht.application.assets.insurance.policies.overview.guidance1",
-                                    DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)
+                                    deceasedName
                                 ),
     messagesFileSectionLine2 = "page.iht.application.assets.insurance.policies.overview.guidance2",
     returnToCall = returnToCall,
     returnToMessagesKey = returnToMessagesKey,
     showStatus = false,
-    returnHash = AppSectionInsurancePolicyID
+    returnHash = AppSectionInsurancePolicyID,
+    messagesFileBullets = Seq(
+        Messages("page.iht.application.assets.insurance.policies.overview.guidance.bullet1"),
+        Messages("page.iht.application.assets.insurance.policies.overview.guidance.bullet2"),
+        Messages("page.iht.application.assets.insurance.policies.overview.guidance.bullet3"),
+        Messages("page.iht.application.assets.insurance.policies.overview.guidance.bullet4", deceasedName)
     )
+  )
 )
