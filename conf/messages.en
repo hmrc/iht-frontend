@@ -1419,13 +1419,10 @@ page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenread
 page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value = Change the answer for did {0} leave anything to their spouse or civil partner
 page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.noValue = Give answer for is the spouse’s or civil partner’s permanent home in the UK
 page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.value = Change the answer for is the spouse’s or civil partner’s permanent home in the UK
-page.iht.application.exemptions.overview.partner.name.title = Name of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.name.screenreader.link.noValue = Give the name of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.name.screenreader.link.value = Change the name of the spouse or civil partner
-page.iht.application.exemptions.overview.partner.dob.title = Date of birth of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.dob.screenreader.link.noValue = Give the date of birth of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.dob.screenreader.link.value = Change the date of birth of the spouse or civil partner
-page.iht.application.exemptions.overview.partner.nino.title = National Insurance number of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.nino.screenreader.link.noValue = Give the National Insurance number of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.nino.screenreader.link.value = Change the National Insurance number for the spouse or civil partner
 page.iht.application.exemptions.overview.partner.totalAssets.title = Total value of all assets left to the spouse or civil partner
