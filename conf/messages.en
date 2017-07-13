@@ -1113,7 +1113,7 @@ page.iht.application.assets.deceased-permanent-home.question4.hint = If the dece
 page.iht.application.assets.deceased-permanent-home.table.header = Properties
 page.iht.application.assets.deceased-permanent-home.table.emptyRow.text = You have not added any properties to this estate.
 page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text = No address added
-page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by the deceased then there will be no mortgages owed as a debt from the estate.
+page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by {0} then there will be no mortgages owed as a debt from the estate.
 
 #Estate report - Assets - Any other assets not listed
 iht.estateReport.assets.other.title = Any other assets not listed
