@@ -1929,7 +1929,7 @@ page.iht.application.kickout.final.summary = Because you cannot use Inheritance 
 page.iht.application.kickout.final.getCopy.title = Get a copy of the estate report
 page.iht.application.kickout.final.getCopy.guidance1 = You will not be able to get a copy of the estate report when you finish.
 page.iht.application.kickout.final.getCopy.guidance2.youShould = You should
-page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or print a copy of the estate report (PDF, <500KB)
+page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or print a copy of the estate report (PDF, size is less than 500KB)
 page.iht.application.kickout.final.getCopy.guidance3 = This will have all of the details you have entered so that you can write them on the IHT-400 form. If you are not able to save or print a copy at the moment, return to the estate overview and come back when you are able to do this.
 page.iht.application.kickout.final.guidance.onFinish = By selecting finish you will be given a copy of the IHT-400 form and this estate report will be deleted.
 
