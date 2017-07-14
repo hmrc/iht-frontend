@@ -66,7 +66,8 @@ class EstateOverviewViewTest extends ViewTestHelper{
     thresholdSection = dummyThresholdSection,
     grandTotalRow = None,
     declarationSection = dummyDeclarationSectionViewModel,
-    increasingThresholdRow = Some(dummyOverviewRow)
+    increasingThresholdRow = Some(dummyOverviewRow),
+    submissionMonthsLeft = 5
   )
 
   "Estate overview view" must {
@@ -112,7 +113,7 @@ class EstateOverviewViewTest extends ViewTestHelper{
     "show the correct 'Go to your Inheritance Tax estate reports' link" in {
       implicit val request = createFakeRequest()
       val expectedUrl = "/inheritance-tax/estate-report"
-      val view = overview_sidebar("").toString
+      val view = overview_sidebar("", 5).toString
       val doc = asDocument(view)
       assertRenderedById(doc, "return-to-estate-report-link")
       val link: Element = doc.getElementById("return-to-estate-report-link")

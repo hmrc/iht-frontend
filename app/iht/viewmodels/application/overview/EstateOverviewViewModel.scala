@@ -20,6 +20,8 @@ import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
 import org.joda.time.LocalDate
+import org.joda.time.Months
+import org.joda.time.DateTime
 
 import scala.util.{Failure, Try}
 //import play.api.Application
@@ -97,7 +99,8 @@ case class EstateOverviewViewModel (ihtReference: String,
                                     thresholdSection: ThresholdSectionViewModel,
                                     grandTotalRow: Option[OverviewRowWithoutLink],
                                     declarationSection: DeclarationSectionViewModel,
-                                    increasingThresholdRow: Option[OverviewRow])
+                                    increasingThresholdRow: Option[OverviewRow],
+                                    submissionMonthsLeft: Int)
 
 object EstateOverviewViewModel {
 
@@ -131,7 +134,8 @@ object EstateOverviewViewModel {
       thresholdSection = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages),
       grandTotalRow = buildTotalRow(applicationDetails),
       declarationSection = DeclarationSectionViewModel(registrationDetails, applicationDetails),
-      increasingThresholdRow = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages).increasingThresholdRow
+      increasingThresholdRow = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages).increasingThresholdRow,
+      submissionMonthsLeft = Months.monthsBetween(new LocalDate(), new LocalDate(deadlineDate)).getMonths()
       )
   }
 

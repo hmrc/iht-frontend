@@ -23,9 +23,16 @@ import play.api.i18n.Messages.Implicits._
 class OverviewSidebarViewTest extends ViewTestHelper {
 
  lazy val submissionDate = "2 October 2016"
+  lazy val submissionMonthsLeftOver = -13
+  lazy val submissionMonthsLeft = 8
+
  lazy val viewAsDoc = {
     implicit val request = createFakeRequest()
-    asDocument(overview_sidebar(submissionDate).toString)
+    asDocument(overview_sidebar(submissionDate, submissionMonthsLeftOver).toString)
+  }
+  lazy val viewAsDocWithMonthCountdown = {
+    implicit val request = createFakeRequest()
+    asDocument(overview_sidebar(submissionDate, submissionMonthsLeft).toString)
   }
 
   "Overview Sidebar view" must {
@@ -38,6 +45,11 @@ class OverviewSidebarViewTest extends ViewTestHelper {
     "show the correct date that has been input to the view " in {
       assertRenderedById(viewAsDoc, "estate-report-deadline-date")
       assertContainsText(viewAsDoc, submissionDate)
+    }
+
+    "show the correct month countdown " in {
+      assertRenderedById(viewAsDocWithMonthCountdown, "estate-report-deadline-date")
+      assertContainsText(viewAsDocWithMonthCountdown, "8 months")
     }
 
     "show the correct style class for the date panel" in {
