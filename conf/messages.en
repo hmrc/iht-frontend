@@ -1,6 +1,6 @@
 #Across Site
 site.pdf.document.link.text = PDF document
-iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off. (PDF, <500KB)
+iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off. (PDF, size less than 500KB)
 site.copyApplication.link = copy of the application
 site.title.govuk = - GOV.UK
 site.application.title = Complete an Inheritance Tax estate report
