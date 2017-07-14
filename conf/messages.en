@@ -963,7 +963,11 @@ iht.estateReport.assets.stocksAndSharesListed = Stocks and shares listed on an e
 iht.estateReport.assets.stocksAndSharesNotListed = Stocks and shares not listed on an exchange
 
 #Estate report - Assets - Insurance policies
-page.iht.application.assets.insurance.policies.overview.guidance1 = This includes any life insurance policies or insurance bonds that pay out to the estate, policies held in ISAs, money paid under a mortgage protection policy and any policies on the life of another person that would pay out to {0}.
+page.iht.application.assets.insurance.policies.overview.guidance1 = This includes:
+page.iht.application.assets.insurance.policies.overview.guidance.bullet1 = any life insurance policies or insurance bonds that pay out to the estate
+page.iht.application.assets.insurance.policies.overview.guidance.bullet2 = policies held in ISAs
+page.iht.application.assets.insurance.policies.overview.guidance.bullet3 = money paid under a mortgage protection policy
+page.iht.application.assets.insurance.policies.overview.guidance.bullet4 = any policies on the life of another person that would pay out to {0}
 page.iht.application.assets.insurances.sectionName = insurances
 page.iht.application.assets.insurances.inputLabel1 = Value of the deceased’s insurance policies held in their own name when they died
 page.iht.application.assets.insurances.isjointlyowned = Were any insurance policies jointly owned?
@@ -1109,7 +1113,7 @@ page.iht.application.assets.deceased-permanent-home.question4.hint = If the dece
 page.iht.application.assets.deceased-permanent-home.table.header = Properties
 page.iht.application.assets.deceased-permanent-home.table.emptyRow.text = You have not added any properties to this estate.
 page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text = No address added
-page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by the deceased then there will be no mortgages owed as a debt from the estate.
+page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by {0} then there will be no mortgages owed as a debt from the estate.
 
 #Estate report - Assets - Any other assets not listed
 iht.estateReport.assets.other.title = Any other assets not listed

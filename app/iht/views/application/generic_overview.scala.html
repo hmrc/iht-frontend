@@ -31,10 +31,18 @@ returnToCall: Option[Call],
 returnToMessagesKey: String,
 returnAsButton: Boolean = false,
 showStatus: Boolean = true,
-returnHash: String = ""
+returnHash: String = "",
+messagesFileBullets:Seq[String] = Seq.empty
 )(implicit request:Request[_], messages: Messages)
 
 <p id="assets-guidance1" class="lede">@Html(Messages(messagesFileSectionLine1))</p>
+@if(!messagesFileBullets.isEmpty) {
+    <ul class="bullets">
+    @messagesFileBullets.map{ bullet =>
+        <li>@bullet</li>
+    }
+    </ul>
+}
 @if(Messages.isDefinedAt(messagesFileSectionLine2)) {
 <p id="assets-guidance2">@Html(Messages(messagesFileSectionLine2))</p>
 }
