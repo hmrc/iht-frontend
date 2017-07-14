@@ -598,8 +598,8 @@ page.iht.application.overview.common.estatevalue = Based on the details you have
 page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by {0} that were not included in this estate report, let HMRC know by using a
 page.iht.application.overview.common.helptext.part2 = Only do this if these assets increase the value of the estate over the Inheritance Tax threshold.
 page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
-page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, <500KB)
-page.iht.application.overview.common.viewcertificate = View clearance certificate (PDF, <500KB)
+page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, size is less than 500KB)
+page.iht.application.overview.common.viewcertificate = View clearance certificate (PDF, size is less than 500KB)
 
 #Estate report - Estate overview
 page.iht.application.estateOverview.noValue = No value given
@@ -1781,7 +1781,7 @@ page.iht.application.declaration_received.probate.paragraph1 = HMRC will review 
 page.iht.application.declaration_received.paragraph2 = HMRC might also check the valuation of any properties that you have entered – if they do this, the Valuation Office might call you.
 page.iht.application.declaration_received.paragraph3 = When you have sent off your Probate Application form (PA1), you will be told by the Probate Service what to do next to receive your grant of representation.
 page.iht.application.declaration_received.paragraph4 = Once you have received this and completed everything you need to do with {0}’s estate, you can get a statutory certificate of discharge from HMRC by clearing this estate report. To do this, view this estate report from your Inheritance Tax estate reports page.
-page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it (PDF,<500KB)
+page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it (PDF, size is less than 500KB)
 page.iht.application.declaration_received.paragraph5.part2 = HMRC recommend that you keep a copy for your own use along with anything you have used to give any details about what {0} owned or owed. You should keep these for 5 years in case anyone asks to see these details.
 page.iht.application.declaration_received.hint = What happens if you find assets that you have not included in this estate report
 page.iht.application.declaration_received.continuelink = Continue to your Inheritance Tax estate reports
