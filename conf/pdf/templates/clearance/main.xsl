@@ -52,7 +52,7 @@
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
                         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold">
-                            <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.registration.registrationSummary.deceasedTable.title')" />
+                            <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.personwhohasdied')" />
                         </fo:block>
                         <fo:block>
                             <fo:table space-before="0.5cm">
@@ -95,7 +95,10 @@
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part1')"/>
+                        <xsl:value-of select="concat(' ', deceasedDetails/firstName,' ', deceasedDetails/lastName)" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part2')" />
+
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
