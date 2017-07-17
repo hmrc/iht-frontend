@@ -396,7 +396,7 @@ page.iht.registration.others-applying-for-probate-address.address.guidance = Thi
 #Registration Summary
 
 #Registration Summary - Deceased info
-page.iht.registration.registrationSummary.deceasedTable.title = Deceased’s details
+page.iht.registration.registrationSummary.deceasedTable.title = The person who has died
 page.iht.registration.registrationSummary.subTitle = You will not be able to change these details online after you have confirmed them.
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title
@@ -666,7 +666,7 @@ iht.estateReport.returnToEstateOverview = Return to estate overview
 page.iht.application.assets.main-section.personalbelongings.title = Personal belongings
 page.iht.application.assets.main-section.other.title = Other assets
 page.iht.application.assets.main-section.properties.delete.warning = This will also delete any mortgage that has been added to this property.
-page.iht.application.assets.subtitle = An asset is anything the deceased owned that has a value.
+page.iht.application.assets.subtitle = An asset is anything {0} owned that has a value.
 
 iht.estateReport.assets.getProfessionalValuation = HMRC recommend that you get a professional valuation for anything that might be worth more than £500. Any estimates should be made on an open market value and not an insurance or replacement value.
 iht.estateReport.assets.howOwnedByDeceased = How was this owned by {0}?
@@ -1813,7 +1813,8 @@ page.iht.application.probateDetails.probateDetailsNotAvailableText = You will ne
 
 #Estate report - Pdf
 pdf.totalassets.text = Total Assets
-pdf.totalexemptions.text = Total Exemptions
+pdf.totalexemptions.text = Total value of estate exemptions
+pdf.iht.estateReport.ihtThreshold = The Inheritance Tax Threshold is
 pdf.totalTrusts.text = Total of Trusts
 pdf.tnrb.title.text = Increasing the Inheritance Tax threshold by transferring {0}’s spouse’s or civil partner’s unused threshold
 pdf.total.text = Total

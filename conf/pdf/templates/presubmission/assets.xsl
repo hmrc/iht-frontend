@@ -13,7 +13,7 @@
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
         </fo:block>
         <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
-            <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.assets.subtitle')"/>
+            <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.subtitle', $deceasedName)"/>
         </fo:block>
         <xsl:comment>Assets Properties section starts</xsl:comment>
         <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
