@@ -23,8 +23,8 @@ import play.api.i18n.Messages.Implicits._
 class OverviewSidebarViewTest extends ViewTestHelper {
 
  lazy val submissionDate = "2 October 2016"
-  lazy val submissionMonthsLeftOver = -13
-  lazy val submissionMonthsLeft = 8
+  lazy val submissionMonthsLeftOver = 5
+  lazy val submissionMonthsLeft = 6
 
  lazy val viewAsDoc = {
     implicit val request = createFakeRequest()
@@ -42,14 +42,14 @@ class OverviewSidebarViewTest extends ViewTestHelper {
       noMessageKeysShouldBePresent(view)
     }
 
-    "show the correct date that has been input to the view " in {
+    "show the deadline date when ther are 5 or less motnhs remaining " in {
       assertRenderedById(viewAsDoc, "estate-report-deadline-date")
       assertContainsText(viewAsDoc, submissionDate)
     }
 
-    "show the correct month countdown " in {
+    "show the month countdown when there are 6 or more months remaining " in {
       assertRenderedById(viewAsDocWithMonthCountdown, "estate-report-deadline-date")
-      assertContainsText(viewAsDocWithMonthCountdown, "8 months")
+      assertContainsText(viewAsDocWithMonthCountdown, "6 months")
     }
 
     "show the correct style class for the date panel" in {

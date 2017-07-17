@@ -135,8 +135,12 @@ object EstateOverviewViewModel {
       grandTotalRow = buildTotalRow(applicationDetails),
       declarationSection = DeclarationSectionViewModel(registrationDetails, applicationDetails),
       increasingThresholdRow = ThresholdSectionViewModel(registrationDetails, applicationDetails)(messages).increasingThresholdRow,
-      submissionMonthsLeft = Months.monthsBetween(new LocalDate(), new LocalDate(deadlineDate)).getMonths()
+      submissionMonthsLeft = getMonthsLeft(new LocalDate(), new LocalDate(deadlineDate))
       )
+  }
+
+  private def getMonthsLeft(currentDate: LocalDate, deadlineDate: LocalDate) = {
+    Months.monthsBetween(new LocalDate(), new LocalDate(deadlineDate)).getMonths() + 1
   }
 
   private def buildTotalRow(applicationDetails: ApplicationDetails) = {
