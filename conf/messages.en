@@ -1746,6 +1746,8 @@ iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax th
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
 iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 form. You will also need to complete an IHT-402 form to increase the threshold. When you finish this service, you will be given a copy of the form.
 iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and their {2} died?
+iht.estateReport.tnrb.partner.hint = If {0} was {1} more than once in their lifetime and their {2} died first both times, you must choose one estate to transfer the unused threshold from.
+
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
 
@@ -1909,9 +1911,10 @@ page.iht.application.tnrb.kickout.partnerNotLivingInUk.summary = This is because
 page.iht.application.tnrb.kickout.giftMadeBeforeDeath.summary = This is because {0} gave gifts that were not exempt.
 page.iht.application.tnrb.kickout.stateClaimAnyBusiness.summary = This is because {0} had claimed relief against their estate.
 page.iht.application.tnrb.kickout.partnerGiftWithResToOther.summary = This is because {0} gave a gift with the reservation of benefit.
-page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = This is because {0} had benefitted from a trust during their lifetime.
-page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because {0}’s or civil partner’s estate did not all pass to {1}, a charity or another qualifying body.
-page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because {0}’s or civil partner’s jointly owned assets did not all pass to {1}.
+page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = This is because {0} had the right to benefit from a trust during their lifetime.
+page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because {0}’s estate did not all pass to {1}, a charity or another qualifying body.
+page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because {0}’s jointly owned assets did not all pass to {1}.
+
 page.iht.application.tnrb.kickout.kickOutNonJavaScript.summary = It is not possible to use the Inheritance Tax Online Service because HMRC need more details about {0}’s or civil partner’s estate.
 iht.application.TnrbEligibilty.kickout.message = Not eligible for TNRB.
 
