@@ -18,10 +18,10 @@
 
 <div id="estate-report-deadline-date" class="panel-indent panel-indent--gutter">
     @if(submissionMonthsLeft >= 6){
-        <p>@Messages("page.iht.application.overview.time.limit1.months") <br/><strong>@submissionMonthsLeft @Messages("iht.date.months")</strong><br />@Messages("page.iht.application.overview.time.limit2")</p>
+        <p>@Messages("page.iht.application.overview.time.limit1.months") <strong class="u--block">@submissionMonthsLeft @Messages("iht.date.months") </strong>@Messages("page.iht.application.overview.time.limit2")</p>
         <p>@Messages("page.iht.application.overview.timeScale.guidance.months")</p>
     } else {
-        <p>@Messages("page.iht.application.overview.time.limit1") <br/><strong>@submitDate </strong><br />@Messages("page.iht.application.overview.time.limit2")</p>
+        <p>@Messages("page.iht.application.overview.time.limit1") <strong class="u--block">@submitDate </strong>@Messages("page.iht.application.overview.time.limit2")</p>
         <p>@Messages("page.iht.application.overview.timeScale.guidance")</p>
     }
 </div>
