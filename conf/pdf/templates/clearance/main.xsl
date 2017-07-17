@@ -52,7 +52,7 @@
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
                         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold">
-                            <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.personwhohasdied')" />
+                            <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.personWhoHasDied')" />
                         </fo:block>
                         <fo:block>
                             <fo:table space-before="0.5cm">
