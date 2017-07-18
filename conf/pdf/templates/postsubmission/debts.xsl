@@ -123,7 +123,7 @@
 
                                     <xsl:call-template name="table-row-money-short-vpad-no-border">
                                         <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'iht.totalValueOfDebts')"/>
+                                                        select="scala:getMessagesText($translator, 'page.iht.application.debts.overview.total')"/>
                                         <xsl:with-param name="value"
                                                         select='format-number(number($debtsTotal), "##,###.00")'/>
                                     </xsl:call-template>

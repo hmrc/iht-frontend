@@ -55,7 +55,7 @@
 
                                     <xsl:call-template name="table-row-money-short-vpad-no-border">
                                         <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'iht.totalValueOfExemptions')"/>
+                                                        select="scala:getMessagesText($translator, 'pdf.totalexemptions.text')"/>
                                         <xsl:with-param name="value"
                                                         select='format-number(number($exemptionsTotal), "##,###.00")'/>
                                     </xsl:call-template>
