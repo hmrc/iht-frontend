@@ -24,13 +24,18 @@ class OverviewSidebarViewTest extends ViewTestHelper {
 
  lazy val submissionDate = "2 October 2016"
   lazy val submissionMonthsLeftOver = 5
-  lazy val submissionMonthsLeft = 6
+  lazy val submissionMonthsYear = 12
+  lazy val submissionMonthsLeft = 13
 
  lazy val viewAsDoc = {
     implicit val request = createFakeRequest()
     asDocument(overview_sidebar(submissionDate, submissionMonthsLeftOver).toString)
   }
-  lazy val viewAsDocWithMonthCountdown = {
+  lazy val viewAsDocWithYear = {
+    implicit val request = createFakeRequest()
+    asDocument(overview_sidebar(submissionDate, submissionMonthsYear).toString)
+  }
+  lazy val viewAsDocWithMonths = {
     implicit val request = createFakeRequest()
     asDocument(overview_sidebar(submissionDate, submissionMonthsLeft).toString)
   }
@@ -42,14 +47,19 @@ class OverviewSidebarViewTest extends ViewTestHelper {
       noMessageKeysShouldBePresent(view)
     }
 
-    "show the deadline date when ther are 5 or less motnhs remaining " in {
+    "show the deadline date when there are 11 or less months remaining " in {
       assertRenderedById(viewAsDoc, "estate-report-deadline-date")
       assertContainsText(viewAsDoc, submissionDate)
     }
 
-    "show the month countdown when there are 6 or more months remaining " in {
-      assertRenderedById(viewAsDocWithMonthCountdown, "estate-report-deadline-date")
-      assertContainsText(viewAsDocWithMonthCountdown, "6 months")
+    "show the year copy when there are 12 months remaining " in {
+      assertRenderedById(viewAsDocWithYear, "estate-report-deadline-date")
+      assertContainsText(viewAsDocWithYear, "1 year")
+    }
+
+    "show the month countdown when there are 13 months remaining " in {
+      assertRenderedById(viewAsDocWithMonths, "estate-report-deadline-date")
+      assertContainsText(viewAsDocWithMonths, "13 months")
     }
 
     "show the correct style class for the date panel" in {

@@ -17,8 +17,12 @@
 @(submitDate: String, submissionMonthsLeft: Int)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 <div id="estate-report-deadline-date" class="panel-indent panel-indent--gutter">
-    @if(submissionMonthsLeft >= 6){
-        <p>@Messages("page.iht.application.overview.time.limit1.months") <strong class="u--block">@submissionMonthsLeft @Messages("iht.date.months") </strong>@Messages("page.iht.application.overview.time.limit2")</p>
+    @if(submissionMonthsLeft >= 12){
+        @if(submissionMonthsLeft == 12){
+            <p>@Messages("page.iht.application.overview.time.limit1.year")</p>
+        }else{
+            <p>@Messages("page.iht.application.overview.time.limit1.months") @submissionMonthsLeft @Messages("iht.date.months") @Messages("page.iht.application.overview.time.limit2")</p>
+        }
         <p>@Messages("page.iht.application.overview.timeScale.guidance.months")</p>
     } else {
         <p>@Messages("page.iht.application.overview.time.limit1") <strong class="u--block">@submitDate </strong>@Messages("page.iht.application.overview.time.limit2")</p>
