@@ -20,12 +20,12 @@
 
                 <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.5cm">
                     <xsl:value-of
-                            select="scala:getMessagesTextWithParameter($translator, 'pdf.tnrb.title.text', $deceasedName )"/>
+                            select="scala:getMessagesTextWithParameter($translator, 'pdf.tnrb.title.text', $preDeceasedName )"/>
                 </fo:block>
 
                 <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="0.5cm">
                     <fo:block>
-                        <fo:table space-before="0.5cm">
+                        <fo:table space-before="0.5cm" space-after="1.0cm">
                             <fo:table-column column-number="1" column-width="60%"/>
                             <fo:table-column column-number="2" column-width="40%"/>
                             <fo:table-body font-size="12pt">
@@ -114,6 +114,8 @@
                                 <xsl:template name="table-row-blank-tall-border-both-grey-thin"/>
                             </fo:table-body>
                         </fo:table>
+                        <xsl:value-of
+                                select="scala:getMessagesText($translator, 'iht.pdf.TnrbEligibilty.thresholdLimit.label')"/>
                     </fo:block>
                 </fo:block>
             </xsl:when>

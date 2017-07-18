@@ -47,21 +47,24 @@
                             </fo:table>
                         </xsl:for-each>
 
-                        <fo:table space-before="0.5cm">
-                            <fo:table-column column-number="1" column-width="60%"/>
-                            <fo:table-column column-number="2" column-width="40%"/>
-                            <fo:table-body font-size="12pt">
+                        <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold">
+                            <fo:table space-before="0.5cm">
+                                <fo:table-column column-number="1" column-width="60%"/>
+                                <fo:table-column column-number="2" column-width="40%"/>
+                                <fo:table-body font-size="12pt">
 
-                                <xsl:call-template name="table-row-money-short-vpad-no-border">
-                                    <xsl:with-param name="label"
-                                                    select="scala:getMessagesText($translator, 'iht.valueOfExemptions')"/>
-                                    <xsl:with-param name="value" select='format-number(number($exemptionsTotal), "##,###.00")'/>
-                                </xsl:call-template>
+                                    <xsl:call-template name="table-row-money-short-vpad-no-border">
+                                        <xsl:with-param name="label"
+                                                        select="scala:getMessagesText($translator, 'iht.totalValueOfExemptions')"/>
+                                        <xsl:with-param name="value"
+                                                        select='format-number(number($exemptionsTotal), "##,###.00")'/>
+                                    </xsl:call-template>
 
-                                <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
-                            </fo:table-body>
-                        </fo:table>
+                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
+                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+                                </fo:table-body>
+                            </fo:table>
+                        </fo:block>
                     </fo:block>
                 </fo:block>
             </xsl:when>

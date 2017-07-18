@@ -51,7 +51,7 @@
         </fo:block>
         <fo:block>
             <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.ihtThreshold')"/>
+                <xsl:value-of select="scala:getMessagesText($translator, 'pdf.iht.estateReport.ihtThreshold')"/>
                 &#xA3;<xsl:value-of select='format-number(number($thresholdValue), "##,###.00")'/>
             </fo:block>
         </fo:block>
