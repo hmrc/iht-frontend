@@ -101,6 +101,8 @@ iht.date.day = Day
 iht.date.month = Month
 iht.date.year = Year
 
+iht.date.months = months
+
 iht.to = to
 iht.back = Back
 iht.change = Change
@@ -624,9 +626,13 @@ page.iht.application.overview.browserTitle = Estate overview
 page.iht.application.overview.gifts.nonGiven = No gifts given
 page.iht.application.overview.value = Estate value
 page.iht.application.overview.submit.button.disabled = To continue you need to tick that you have checked all of the estate details that you have entered and there is nothing else to tell HMRC about.
+
 page.iht.application.overview.time.limit1 = You have until
-page.iht.application.overview.time.limit2 = to send your estate report.
+page.iht.application.overview.time.limit2 = to send this estate report.
+page.iht.application.overview.time.limit1.months = You have
+page.iht.application.overview.time.limit1.year = You have 1 year to send this estate report.
 page.iht.application.overview.timeScale.guidance = If you do not send the estate report by this date, it will be deleted and you will have to start again.
+page.iht.application.overview.timeScale.guidance.months = If you do not send the estate report by this time, it will be deleted and you will have to start again.
 
 page.iht.application.overview.reducingTheEstateValue.total = Total taken away from the estate value
 page.iht.application.overview.title2.screenReader = You have until {0} to send your estate report.
