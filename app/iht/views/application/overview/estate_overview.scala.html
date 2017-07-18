@@ -36,7 +36,7 @@
 @iht_main_template_application(title = Messages("page.iht.application.overview.title2", model.deceasedName),
     browserTitle = Some(Messages("page.iht.application.overview.browserTitle")),
     isFullWidth=false,
-    sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline),
+    sidebarLinks = iht.views.html.application.overview.overview_sidebar(model.submissionDeadline, model.submissionMonthsLeft),
     headingClass = if(checkNameSize(model.deceasedName)){"heading-large"} else {"heading-xlarge"},
     headingName = model.deceasedName
 ){
