@@ -95,7 +95,9 @@
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph')" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part1')"/>
+                        <xsl:value-of select="concat(' ', deceasedDetails/firstName,' ', deceasedDetails/lastName)" />
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part2')" />
                     </fo:block>
 
                     <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
