@@ -67,7 +67,7 @@ trait PensionsOwnedQuestionController extends EstateController {
         updateApplicationDetails,
         (ad, _) =>  ad.allAssets.flatMap(allAssets=>allAssets.privatePension).flatMap(_.isOwned) match {
           case Some(true) => submitUrl
-          case Some(false) => assetsRedirectLocation
+          case Some(false) => CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionPrivatePensionID))
           case _ => throw new RuntimeException("Pensions value does not exist")
         }
       )
