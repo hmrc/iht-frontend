@@ -157,9 +157,6 @@ iht.useIHT400PaperForm = You must use an IHT-400 paper form
 iht.usePaperForm = You must use a paper form
 iht.viewOrChange = View or change
 iht.value = Value
-iht.valueOfAssets = Value of assets
-iht.valueOfDebts = Value of debts
-iht.valueOfExemptions = Value of exemptions
 iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
 iht.comma = ,
@@ -1822,7 +1819,6 @@ pdf.totalassets.text = Total Assets
 pdf.totalexemptions.text = Total value of estate exemptions
 pdf.iht.estateReport.ihtThreshold = The Inheritance Tax Threshold is
 pdf.totalTrusts.text = Total of Trusts
-pdf.tnrb.title.text = Increasing the Inheritance Tax threshold by transferring {0}’s spouse’s or civil partner’s unused threshold
 pdf.total.text = Total
 pdf.assetDescription.text = Asset
 pdf.liabilityType.text = Debt
@@ -1866,6 +1862,8 @@ pdf.registration.lastContactAddress = Last contact address
 pdf.meta.author = HM Revenue & Customs
 iht.estateReport.pdf.declaration.declaringThat = You are declaring that:
 pdf.page.number = Page
+iht.pdf.TnrbEligibilty.thresholdLimit.label = The Inheritance Tax threshold has been increased to £650,000
+iht.pdf.endOfTheEstateReport = End of {0}'s estate report
 
 #Kickouts - Estate report - common
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold

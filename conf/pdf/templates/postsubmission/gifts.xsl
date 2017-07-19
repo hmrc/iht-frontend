@@ -121,30 +121,32 @@
                         </fo:table>
                     </fo:block>
                     <!-- Total Gifts row-->
-                    <fo:table space-before="0.5cm">
-                        <fo:table-column column-number="1" column-width="25%"/>
-                        <fo:table-column column-number="2" column-width="25%"/>
-                        <fo:table-column column-number="3" column-width="25%"/>
-                        <fo:table-column column-number="4" column-width="25%"/>
+                    <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold">
+                        <fo:table space-before="0.5cm" >
+                            <fo:table-column column-number="1" column-width="25%"/>
+                            <fo:table-column column-number="2" column-width="25%"/>
+                            <fo:table-column column-number="3" column-width="25%"/>
+                            <fo:table-column column-number="4" column-width="25%"/>
 
-                        <fo:table-body font-size="12pt">
-                            <xsl:call-template name="table-row-money-3-values-border-top-black">
-                                <xsl:with-param name="label"
-                                                select="scala:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
-                                <xsl:with-param name="value1">
-                                    <xsl:value-of select='format-number($giftsTotalExclExemptions, "##,##0.00")'/>
-                                </xsl:with-param>
-                                <xsl:with-param name="value2">
-                                    <xsl:value-of select='format-number($giftsExemptionsTotal, "##,##0.00")'/>
-                                </xsl:with-param>
-                                <xsl:with-param name="value3">
-                                    <xsl:value-of select='format-number($giftsTotal, "##,##0.00")'/>
-                                </xsl:with-param>
-                            </xsl:call-template>
-                            <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
-                        </fo:table-body>
+                            <fo:table-body font-size="12pt" font-weight="Bold">
+                                <xsl:call-template name="table-row-money-3-values-border-top-black">
+                                    <xsl:with-param name="label"
+                                                    select="scala:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
+                                    <xsl:with-param name="value1">
+                                        <xsl:value-of select='format-number($giftsTotalExclExemptions, "##,##0.00")'/>
+                                    </xsl:with-param>
+                                    <xsl:with-param name="value2">
+                                        <xsl:value-of select='format-number($giftsExemptionsTotal, "##,##0.00")'/>
+                                    </xsl:with-param>
+                                    <xsl:with-param name="value3">
+                                        <xsl:value-of select='format-number($giftsTotal, "##,##0.00")'/>
+                                    </xsl:with-param>
+                                </xsl:call-template>
+                                <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
+                            </fo:table-body>
 
-                    </fo:table>
+                        </fo:table>
+                     </fo:block>
                 </fo:block>
             </xsl:when>
             <xsl:otherwise>
