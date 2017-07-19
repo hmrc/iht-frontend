@@ -14,11 +14,20 @@
 * limitations under the License.
 *@
 
-@(submitDate: String)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
+@(submitDate: String, submissionMonthsLeft: Int)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
 
 <div id="estate-report-deadline-date" class="panel-indent panel-indent--gutter">
-    <p>@Messages("page.iht.application.overview.time.limit1") <br/><strong>@submitDate </strong><br />@Messages("page.iht.application.overview.time.limit2")</p>
-    <p>@Messages("page.iht.application.overview.timeScale.guidance")</p>
+    @if(submissionMonthsLeft >= 12){
+        @if(submissionMonthsLeft == 12){
+            <p>@Messages("page.iht.application.overview.time.limit1.year")</p>
+        }else{
+            <p>@Messages("page.iht.application.overview.time.limit1.months") @submissionMonthsLeft @Messages("iht.date.months") @Messages("page.iht.application.overview.time.limit2")</p>
+        }
+        <p>@Messages("page.iht.application.overview.timeScale.guidance.months")</p>
+    } else {
+        <p>@Messages("page.iht.application.overview.time.limit1") <strong class="u--block">@submitDate </strong>@Messages("page.iht.application.overview.time.limit2")</p>
+        <p>@Messages("page.iht.application.overview.timeScale.guidance")</p>
+    }
 </div>
 <a id="return-to-estate-report-link" href="@iht.controllers.home.routes.IhtHomeController.onPageLoad()">
     @Messages("iht.estateReport.goToEstateReports")
