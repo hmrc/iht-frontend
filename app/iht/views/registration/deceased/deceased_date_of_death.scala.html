@@ -43,22 +43,6 @@ browserTitle = Some(Messages("iht.dateOfDeath")),
                 '_fieldsetId -> "date-of-death"
             )
 
-
-@ihtHelpers.standard.dropdown(deceasedDateOfDeath("ukAddress.countryCode"),
-countryCodes,
-true,
-true,
-'_inputClass -> "form-control",
-'_label -> Html(Messages("iht.country")),
-'_labelTextClass -> "form-label",
-'_id -> Messages("page.iht.registration.registrationSummary.deceasedInfo.countryCode.id"),
-'_labelid -> "ukAddress.countryCode-container",
-'_emptyValueText -> " "
-)
-
-
-
-
             @ihtHelpers.custom.continue_button()
     }
 }

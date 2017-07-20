@@ -14,7 +14,7 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(Reporter.reporter);
 
 
-fdescribe('Application accessibility : ', function() {
+describe('Application accessibility : ', function() {
     var driver;
 
     beforeEach(function(done) {

@@ -28,6 +28,11 @@ a[rel="external"]:after {
     border-width: 1px;
     border-color: #bfc1c3;
 }
+//remove inherited margin from list item (caused flickering when hovering over list with mouse)
+.autocomplete__option {
+    margin: 0;
+}
+//constrain input to same width as othe rinputs
 @media (min-width: 641px) {
     .autocomplete__wrapper {
         width: 50%;
