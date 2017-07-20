@@ -43,7 +43,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
 
   val kickOutPage = iht.controllers.application.routes.KickoutController.onPageLoad()
   val exemptionsOverviewPage= iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad()
-  val tnrbGuidancePage = iht.controllers.application.tnrb.routes.TnrbGuidanceController.onPageLoad()
+  val tnrbGuidancePage = iht.controllers.application.tnrb.routes.TnrbGuidanceController.onSystemPageLoad()
 
   def cachingConnector: CachingConnector
 
@@ -132,46 +132,41 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
 
   }
 
+  private def isEstateOverGrossEstateLimit(appDetails: ApplicationDetails) = appDetails.totalValue > grossEstateLimit.toInt
+
+  private def isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails: ApplicationDetails) = {
+    appDetails.totalValue > exemptionsThresholdValue.toInt && appDetails.allExemptions.isEmpty &&
+    appDetails.widowCheck.isEmpty && appDetails.increaseIhtThreshold.isEmpty
+  }
+
+  private def isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails: ApplicationDetails, regDetails: RegistrationDetails) = {
+    val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
+
+    netEstateValue > exemptionsThresholdValue.toInt && netEstateValue <= transferredNilRateBand.toInt &&
+    appDetails.allExemptions.isDefined && appDetails.widowCheck.isEmpty && !getMaritalStatus(regDetails).equals(statusSingle)
+  }
+
+  private def isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails: ApplicationDetails, regDetails: RegistrationDetails)  = {
+    val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
+
+    netEstateValue > exemptionsThresholdValue.toInt && netEstateValue <= transferredNilRateBand.toInt &&
+    appDetails.increaseIhtThreshold.isDefined && !getMaritalStatus(regDetails).equals(statusSingle)
+  }
+
   private def getNotDeclarableRedirect(regDetails: RegistrationDetails,
                                         appDetails: ApplicationDetails)
                                       (implicit headerCarrier: HeaderCarrier): Result ={
 
-    val totalEstateValue = appDetails.totalValue
-    val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
-    val kickOutReason = appDetails.kickoutReason
-    val exemptions = appDetails.allExemptions
-    val maritalStatus = getMaritalStatus(regDetails)
-    val tnrb = appDetails.increaseIhtThreshold
-    val widowCheck = appDetails.widowCheck
-    val widowCheckQuestionAnsweredNo = appDetails.widowCheck.flatMap(_.widowed).fold(false)(identity)
-
-
-    val noExemptionsAndTnrb = exemptions.isEmpty && widowCheck.isEmpty && tnrb.isEmpty
-
-    val estateValueMoreThanTaxThreshold = totalEstateValue > exemptionsThresholdValue.toInt
-    val estateValueBetweenTaxAndTnrbThreshold = netEstateValue > exemptionsThresholdValue.toInt &&
-                                                netEstateValue <= transferredNilRateBand.toInt
-
-    if (totalEstateValue > grossEstateLimit.toInt || kickOutReason.isDefined) {
-
+    if (isEstateOverGrossEstateLimit(appDetails)) {
       Redirect(kickOutPage)
-
-    } else if (estateValueMoreThanTaxThreshold && noExemptionsAndTnrb) {
-
+    } else if (isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails)) {
       Redirect(getExemptionsLinkUrlForContinueButton(
         getExemptionsGuidanceRedirect(getOrException(regDetails.ihtReference), appDetails, cachingConnector)))
-
-    } else if (estateValueBetweenTaxAndTnrbThreshold && exemptions.isDefined &&
-      (widowCheck.isEmpty || widowCheckQuestionAnsweredNo) && !maritalStatus.equals(statusSingle)) {
-
+    } else if (isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails)) {
       Redirect(getTnrbLinkUrlForContinueButton(regDetails, appDetails))
-
-    } else if (estateValueBetweenTaxAndTnrbThreshold && tnrb.isDefined && !maritalStatus.equals(statusSingle)) {
-
+    } else if (isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails)) {
       Redirect(TnrbHelper.getEntryPointForTnrb(regDetails, appDetails))
-
     } else {
-
       Redirect(kickOutPage)
     }
   }
@@ -185,9 +180,10 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
   private def getExemptionsLinkUrlForContinueButton(url: Option[Call]) =  url.fold(exemptionsOverviewPage)(identity)
 
   private def getTnrbLinkUrlForContinueButton(regDetails: RegistrationDetails, appDetails: ApplicationDetails) = {
-    appDetails.isWidowCheckQuestionAnswered match {
-      case true => TnrbHelper.getEntryPointForTnrb(regDetails, appDetails)
-      case _ => tnrbGuidancePage
+    if (appDetails.isWidowCheckQuestionAnswered) {
+      TnrbHelper.getEntryPointForTnrb(regDetails, appDetails)
+    } else {
+      tnrbGuidancePage
     }
   }
 
