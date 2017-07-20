@@ -39,6 +39,7 @@ exports.actsAsStandardForm = actsAsStandardForm;
 var actsAsBasicPage = function actsAsBasicPage(done, driver, options){
    driver.get(options.url)
    driver.wait(until.titleContains(options.pageTitle), 2000)
+   driver.sleep(5000)
    driver.then(function(){
        accessibilityhelper.checkAccessibility(done, driver)
    });

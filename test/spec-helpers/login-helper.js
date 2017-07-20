@@ -1,18 +1,20 @@
+var Browser = require('./browser.js');
+
 var authenticate = function(done, driver, regOrApp) {
     var redirectUrl, title;
     var selenium = require('selenium-webdriver')
     var By = selenium.By, until = selenium.until;
 
     if(regOrApp == 'reg'){
-        redirectUrl = 'http://localhost:9070/inheritance-tax/registration/date-of-death';
+        redirectUrl = Browser.baseUrl + '/registration/date-of-death';
         title = 'Date of death';
     }
     if(regOrApp == 'app'){
-        redirectUrl = 'http://localhost:9070/inheritance-tax/estate-report';
+        redirectUrl = Browser.baseUrl + '/estate-report';
         title = 'Your estate reports';
     }
     if(regOrApp == 'report'){
-        redirectUrl = 'http://localhost:9070/inheritance-tax/estate-report/estate-overview/CS700100A000001';
+        redirectUrl = Browser.baseUrl + '/estate-report/estate-overview/CS700100A000001';
         title = 'Estate overview';
     }
 
@@ -31,7 +33,7 @@ var authenticate = function(done, driver, regOrApp) {
     driver.wait(until.titleContains(title), 1000)
     .then(function () {
         if(regOrApp == 'app' || regOrApp == 'report'){
-            driver.get('http://localhost:9070/inheritance-tax/test-only/drop');
+            driver.get(Browser.baseUrl + '/test-only/drop');
         }
         done();
     });

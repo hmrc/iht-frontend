@@ -20,3 +20,16 @@
 a[rel="external"]:after {
     content: none;
 }
+
+
+//align the newer style gds accessible-autocomplete with the older style AF form inputs
+.autocomplete__input,
+.autocomplete__menu {
+    border-width: 1px;
+    border-color: #bfc1c3;
+}
+@media (min-width: 641px) {
+    .autocomplete__wrapper {
+        width: 50%;
+    }
+}

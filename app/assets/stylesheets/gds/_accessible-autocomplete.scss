@@ -1,0 +1,169 @@
+/*
+GDS Accessible Autocomplete
+v1.5.0
+https://github.com/alphagov/accessible-autocomplete
+
+
+The MIT License (MIT)
+
+Copyright (c) 2017 Crown Copyright (Government Digital Service)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+.autocomplete__wrapper {
+  position: relative;
+}
+
+.autocomplete__hint,
+.autocomplete__input {
+  -webkit-appearance: none;
+  border: 2px solid;
+  border-radius: 0; /* Safari 10 on iOS adds implicit border rounding. */
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  margin-bottom: 0; /* BUG: Safari 10 on macOS seems to add an implicit margin. */
+  width: 100%;
+}
+
+.autocomplete__input {
+  background-color: transparent;
+  position: relative;
+}
+
+.autocomplete__hint {
+  color: #BFC1C3;
+  position: absolute;
+}
+
+.autocomplete__input--default{
+  padding: 4px;
+}
+
+.autocomplete__input--focused {
+  outline-offset: 0;
+  outline: 3px solid #ffbf47;
+}
+
+.autocomplete__input--show-all-values {
+  padding: 4px 34px 4px 4px;
+  cursor: pointer;
+}
+
+.autocomplete__dropdown-arrow-down{
+  z-index: -1;
+  display: inline-block;
+  position: absolute;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  top: 10px;
+}
+
+.autocomplete__menu {
+  background-color: #fff;
+  border: 2px solid #0B0C0C;
+  border-top: 0;
+  color: #34384B;
+  margin: 0;
+  max-height: 342px;
+  overflow-x: hidden;
+  padding: 0;
+  width: 100%;
+  width: calc(100% - 4px);
+}
+
+.autocomplete__menu--visible {
+  display: block;
+}
+
+.autocomplete__menu--hidden {
+  display: none;
+}
+
+.autocomplete__menu--overlay {
+  box-shadow: rgba(0, 0, 0, 0.256863) 0px 2px 6px;
+  left: 0;
+  position: absolute;
+  top: 100%;
+  z-index: 100;
+}
+
+.autocomplete__menu--inline {
+  position: relative;
+}
+
+.autocomplete__option {
+  border-bottom: solid #BFC1C3;
+  border-width: 1px 0;
+  cursor: pointer;
+  display: block;
+  position: relative;
+}
+
+.autocomplete__option > * {
+  pointer-events: none;
+}
+
+.autocomplete__option:first-of-type {
+  border-top-width: 0;
+}
+
+.autocomplete__option:last-of-type {
+  border-bottom-width: 0;
+}
+
+.autocomplete__option--odd {
+  background-color: #FAFAFA;
+}
+
+.autocomplete__option--focused,
+.autocomplete__option:hover {
+  background-color: #005EA5;
+  border-color: #005EA5;
+  color: white;
+  outline: none;
+}
+
+.autocomplete__option--no-results {
+  background-color: #FAFAFA;
+  color: #646b6f;
+  cursor: not-allowed;
+}
+
+.autocomplete__hint,
+.autocomplete__input,
+.autocomplete__option {
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.autocomplete__hint,
+.autocomplete__option {
+  padding: 4px;
+}
+
+@media (min-width: 641px) {
+  .autocomplete__hint,
+  .autocomplete__input,
+  .autocomplete__option {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
