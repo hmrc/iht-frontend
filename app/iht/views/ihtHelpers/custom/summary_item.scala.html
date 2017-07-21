@@ -24,10 +24,16 @@
     hasChangeLink:Boolean = true,
     changeLink:String="",
     changeLinkHiddenText:String="",
-    linkId: String="")(implicit messages: Messages)
+    linkId: String="",
+    isNested: Boolean = false
+)(implicit messages: Messages)
 
 <li class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
-    <div class="tabular-data__data tabular-data__data--4-12">@Html(label.replace("\n", "<br/>"))</div>
+    @if(isNested){
+        <h4 class="tabular-data__data tabular-data__data--4-12">@Html(label.replace("\n", "<br/>"))</h4>
+    } else {
+        <h3 class="tabular-data__data tabular-data__data--4-12">@Html(label.replace("\n", "<br/>"))</h3>
+    }
     <div class="tabular-data__data tabular-data__data--6-12">
         @Html(data.trim().replace("\n", "<br/>"))
     </div>

@@ -65,7 +65,8 @@
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#firstName",
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.name.link.screenReader", coExecutor.name),
-            linkId = "change-coexecutor-" + i + "-name"
+            linkId = "change-coexecutor-" + i + "-name",
+            isNested = true
         )
 
         @ihtHelpers.custom.summary_item(
@@ -74,7 +75,8 @@
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#date-of-birth",
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader", coExecutor.name),
-            linkId = "change-coexecutor-" + i + "-date-of-birth"
+            linkId = "change-coexecutor-" + i + "-date-of-birth",
+            isNested = true
         )
 
         @ihtHelpers.custom.summary_item(
@@ -83,7 +85,8 @@
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#nino",
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader", coExecutor.name),
-            linkId = "change-coexecutor-" + i + "-nino"
+            linkId = "change-coexecutor-" + i + "-nino",
+            isNested = true
         )
 
         @ihtHelpers.custom.summary_item(
@@ -95,7 +98,8 @@
                 executorRoutes.OtherPersonsAddressController.onEditPageLoadAbroad(id).url + "#details"
             },
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader", coExecutor.name),
-            linkId = "change-coexecutor-" + i + "-address"
+            linkId = "change-coexecutor-" + i + "-address",
+            isNested = true
         )
 
         @ihtHelpers.custom.summary_item(
@@ -104,7 +108,8 @@
             dataScreenReaderText = "",
             changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#phoneNo",
             changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.coExecutorTable.phoneNumber.link.screenReader", coExecutor.name),
-            linkId = "change-coexecutor-" + i + "-phone-number"
+            linkId = "change-coexecutor-" + i + "-phone-number",
+            isNested = true
         )
 
       </ul>
