@@ -23,7 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper._
 import iht.utils.RegistrationDetailsHelper._
 import iht.utils.tnrb.TnrbHelper
-import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
+import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationStatus, EstateNotDeclarableHelper, ExemptionsGuidanceHelper, StringHelper, SubmissionDeadlineHelper}
 import iht.viewmodels.application.overview.EstateOverviewViewModel
 import org.joda.time.LocalDate
 import play.api.Play.current
@@ -132,39 +132,18 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
 
   }
 
-  private def isEstateOverGrossEstateLimit(appDetails: ApplicationDetails) = appDetails.totalValue > grossEstateLimit.toInt
-
-  private def isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails: ApplicationDetails) = {
-    appDetails.totalValue > exemptionsThresholdValue.toInt && appDetails.allExemptions.isEmpty &&
-    appDetails.widowCheck.isEmpty && appDetails.increaseIhtThreshold.isEmpty
-  }
-
-  private def isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails: ApplicationDetails, regDetails: RegistrationDetails) = {
-    val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
-
-    netEstateValue > exemptionsThresholdValue.toInt && netEstateValue <= transferredNilRateBand.toInt &&
-    appDetails.allExemptions.isDefined && appDetails.widowCheck.isEmpty && !getMaritalStatus(regDetails).equals(statusSingle)
-  }
-
-  private def isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails: ApplicationDetails, regDetails: RegistrationDetails)  = {
-    val netEstateValue = appDetails.netValueAfterExemptionAndDebtsForPositiveExemption
-
-    netEstateValue > exemptionsThresholdValue.toInt && netEstateValue <= transferredNilRateBand.toInt &&
-    appDetails.increaseIhtThreshold.isDefined && !getMaritalStatus(regDetails).equals(statusSingle)
-  }
-
   private def getNotDeclarableRedirect(regDetails: RegistrationDetails,
                                         appDetails: ApplicationDetails)
                                       (implicit headerCarrier: HeaderCarrier): Result ={
 
-    if (isEstateOverGrossEstateLimit(appDetails)) {
+    if (EstateNotDeclarableHelper.isEstateOverGrossEstateLimit(appDetails)) {
       Redirect(kickOutPage)
-    } else if (isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails)) {
+    } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeExemptionsStarted(appDetails)) {
       Redirect(getExemptionsLinkUrlForContinueButton(
         getExemptionsGuidanceRedirect(getOrException(regDetails.ihtReference), appDetails, cachingConnector)))
-    } else if (isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails)) {
+    } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeTnrbStarted(appDetails, regDetails)) {
       Redirect(getTnrbLinkUrlForContinueButton(regDetails, appDetails))
-    } else if (isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails)) {
+    } else if (EstateNotDeclarableHelper.isEstateValueMoreThanTaxThresholdBeforeTnrbFinished(appDetails, regDetails)) {
       Redirect(TnrbHelper.getEntryPointForTnrb(regDetails, appDetails))
     } else {
       Redirect(kickOutPage)
