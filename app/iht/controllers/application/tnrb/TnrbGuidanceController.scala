@@ -22,9 +22,10 @@ import iht.metrics.Metrics
 import iht.utils._
 import iht.utils.tnrb.TnrbHelper
 import iht.views.html.application.tnrb.tnrb_guidance
-import play.api.mvc.{Action, AnyContent}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Action, AnyContent}
+
 import scala.concurrent.Future
 
 object TnrbGuidanceController extends TnrbGuidanceController with IhtConnectors {
@@ -32,16 +33,42 @@ object TnrbGuidanceController extends TnrbGuidanceController with IhtConnectors 
 }
 
 trait TnrbGuidanceController extends EstateController{
+
   def onPageLoad: Action[AnyContent] = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetails { rd =>
           val ihtReference = CommonHelper.getOrException(rd.ihtReference)
           val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
-          Future.successful(Ok(tnrb_guidance(ihtReference,
+          val title = "iht.estateReport.tnrb.increasingIHTThreshold"
+          val browserTitle = "iht.estateReport.tnrb.increasingThreshold"
+          Future.successful(Ok(tnrb_guidance(
+            ihtReference,
             TnrbHelper.urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
-            deceasedName))
+            deceasedName,
+            title,
+            browserTitle,
+            systemGenerated = false))
           )
       }
     }
   }
+
+  def onSystemPageLoad: Action[AnyContent] = authorisedForIht {
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { rd =>
+          val ihtReference = CommonHelper.getOrException(rd.ihtReference)
+          val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
+          val title = "page.iht.application.tnrb.guidance.system.title"
+          Future.successful(Ok(tnrb_guidance(
+            ihtReference,
+            TnrbHelper.urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus))).url,
+            deceasedName,
+            title, title,
+            systemGenerated = true))
+          )
+        }
+      }
+  }
+
 }
