@@ -38,11 +38,6 @@
 
     @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
-    <fieldset id="details">
-        <legend class="visually-hidden">
-            @Messages("iht.registration.deceased.lastContactAddress", deceasedName)
-        </legend>
-
     @ihtHelpers.standard.input_with_help(
     deceasedAddressDetailsUKForm("ukAddress.addressLine1"),
     '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
@@ -82,8 +77,6 @@
     '_inputClass -> "form-control form-control-1-4",
     '_labelTextClass -> "form-label ",
     '_label -> Html(Messages("iht.postcode")))
-
-    </fieldset>
 
     <p>@ihtHelpers.custom.return_link(Messages("iht.registration.changeAddressToAbroad"),Some(changeNationalityLocation))</p>
 

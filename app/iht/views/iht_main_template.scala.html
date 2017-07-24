@@ -25,7 +25,7 @@
 @import play.api.Play.current
 @import ihtHelpers.custom._
 
-@(title: String,
+@(title: String = "",
 signOutText: String = "",
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
@@ -139,6 +139,7 @@ isRegistration: Boolean = false
 }
 
 @mainContentIht = {
+    @if(title > ""){
     <h1 class="@headingClassName">
         @if(headingName > ""){
             @parseForName(title, headingName)
@@ -146,6 +147,7 @@ isRegistration: Boolean = false
             @Html(title)
         }
     </h1>
+    }
     @mainContent
 
     @backUrl.map{ url =>

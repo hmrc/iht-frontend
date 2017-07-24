@@ -24,7 +24,7 @@
     actionLocation: Call,
     cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
 
-@iht_main_template_registration(title = Messages("page.iht.registration.applicant.applyingForProbate", deceasedName),
+@iht_main_template_registration(title = "",
 browserTitle = Some(Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")),
 isFullWidth=false,
 cancelUrl=cancelLocation,
@@ -34,15 +34,16 @@ hasTimeOut=true) {
 
 @helpers.form(action = actionLocation,'autoComplete -> "off") {
 
-<p class="lede">@Messages("page.iht.registration.applicant.applyingForProbate.p1")</p>
-<p>@Messages("page.iht.registration.applicant.applyingForProbate.p2", deceasedName)</p>
-
   @ihtHelpers.standard.input_yes_no_radio_group(
     applyingForProbateForm("isApplyingForProbate"),
     '_legend -> Messages("page.iht.registration.applicant.applyingForProbate", deceasedName),
-    '_legendClass -> Some("visually-hidden"),
+    '_legendClass -> Some("legend-with-heading"),
     '_fieldsetId -> "applying-for-probate",
-    '_divClass -> "form-group")
+    '_divClass -> "form-group",
+    '_legendIsHeading -> true,
+    '_hintText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.applicant.applyingForProbate.p1") + "</p><p>" + Messages("page.iht.registration.applicant.applyingForProbate.p2", deceasedName) + "</p>"),
+    '_hintClass -> "form-hint--heavy"
+  )
 
 @ihtHelpers.custom.continue_button()
 }

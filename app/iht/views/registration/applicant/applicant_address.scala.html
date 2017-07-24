@@ -40,11 +40,6 @@
 
     @helpers.form(action = actionCall,'autoComplete -> "off") {
 
-    <fieldset id="details">
-        <legend class="visually-hidden">
-            @Messages("page.iht.registration.applicantAddress.title")
-        </legend>
-
         <div id="ukAddress_ukAddressLine1-container" class="form-group">
           @ihtHelpers.standard.input_with_help(form("ukAddressLine1"),
             '_maxlength -> IhtProperties.validationMaxLengthAddresslines,
@@ -107,7 +102,6 @@
                 @Messages("iht.registration.changeAddressToAbroad")
             </a>
         }
-    </fieldset>
 
         @ihtHelpers.custom.continue_button()
     }

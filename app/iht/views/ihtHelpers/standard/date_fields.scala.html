@@ -14,7 +14,13 @@
 * limitations under the License.
 *@
 
-@(formItem:Form[_], fieldName: String, label: String, childFormName: Option[String],args:(Symbol,Any)*)(implicit messages: Messages)
+@(
+    formItem:Form[_],
+    fieldName: String,
+    label: String,
+    childFormName: Option[String],
+    args:(Symbol,Any)*
+)(implicit messages: Messages)
 
 @import play.api.i18n._
 @import views.html.helper._
@@ -24,6 +30,7 @@
 @childFormField={@if(!childFormName.getOrElse("").isEmpty){@childFormName.getOrElse("").}else{}}
 @elements = @{ new FieldElements(formItem(childFormField+fieldName).id, formItem(childFormField+fieldName),null,args.toMap, messages) }
 
+@labelAsHeading = @{ elements.args.get('_legendIsHeading).getOrElse(false).asInstanceOf[Boolean] }
 
 <div id="@{elements.field.name}-container" class="form-group @elements.args.get('_groupClass) @if(elements.hasErrors) {form-field--error}">
 
@@ -34,8 +41,12 @@
   } else {
     <fieldset class="date-of-birth">
   }
-    <legend class="date-of-birth__legend bold-small @elements.args.get('_legendClass)">
-        @elements.args.get('_legend)
+    <legend class="@if(!labelAsHeading){date-of-birth__legend bold-small }@elements.args.get('_legendClass)">
+        @if(labelAsHeading) {
+            <h1 class="heading-xlarge">@elements.args.get('_legend)</h1>
+        } else {
+            @elements.args.get('_legend)
+        }
     </legend>
 }
 
