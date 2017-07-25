@@ -96,7 +96,5 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   //IV confidence level.
   override lazy val ivUpliftConfidenceLevel: Int = configuration.getString("iv-uplift.confidence-level").getOrElse("50").toInt
 
-  override val isWelshEnabled: Boolean  = {
-    configuration.getBoolean("welsh.enabled").getOrElse(runningEnvironment != "PROD")
-  }
+  override val isWelshEnabled: Boolean  = configuration.getBoolean("welsh.enabled").getOrElse(runningEnvironment != "PROD")
 }
