@@ -95,6 +95,7 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
 
   //IV confidence level.
   override lazy val ivUpliftConfidenceLevel: Int = configuration.getString("iv-uplift.confidence-level").getOrElse("50").toInt
-
+  // If you want to override the default visibility for Welsh language toggle then you need to add this key in the respective env. 
+  // Default visibility - off in PROD and on in every other env
   override val isWelshEnabled: Boolean  = configuration.getBoolean("welsh.enabled").getOrElse(runningEnvironment != "PROD")
 }
