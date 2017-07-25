@@ -3,9 +3,12 @@ $(document).ready(function() {
 // =====================================================
 // Remove hidden attribute from js-visible elements
 // =====================================================
+$("html").attr('lang', 'cy');
+
+// =====================================================
+// Remove hidden attribute from js-visible elements
+// =====================================================
 $('.js-visible').removeAttr('hidden');
-
-
 
 // =====================================================
 // Initialise show-hide-content

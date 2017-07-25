@@ -14,13 +14,14 @@
 * limitations under the License.
 *@
 
+@import iht.config.ApplicationConfig
+@import iht.utils._
 
 @(content: Html,
 includeGridWrapper: Boolean = false,
 articleClasses: Option[String] = None,
 isFullWidth: Boolean = false)
-@import iht.utils._
 
-<article class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
+<article lang = "@if(ApplicationConfig.isWelshEnabled){cy} else {en}" class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
     @content
 </article>
