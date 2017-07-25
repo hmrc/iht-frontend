@@ -40,5 +40,13 @@
 <div id='continue-button' class="subsection">
     <a id="exit" href="@linkExitToGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
 </div>
-@previous_answers(country)
+
+@previous_answers(
+        country match {
+            case "Scotland" => Messages("iht.countries.scotland")
+            case "Northern Ireland" => Messages("iht.countries.northernIreland")
+            case "Other country" => Messages("page.iht.filter.domicile.choice.other")
+            case _ => country
+        }
+    )
 }
