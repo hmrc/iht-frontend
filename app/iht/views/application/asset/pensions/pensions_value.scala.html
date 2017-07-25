@@ -26,22 +26,21 @@
 @(pensionsValueForm: Form[PrivatePension],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid"),
+@iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.pensions.value.browserTitle")),
 isFullWidth=false){
     @ihtHelpers.custom.error_summary_override_keys(pensionsValueForm, Constants.AppSectionPrivatePension)
-
-    <p class="lede">@Messages("page.iht.application.assets.pensions.hint")</p>
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsValueController.onSubmit,'autoComplete -> "off") {
 
 
             @ihtHelpers.custom.input_estate_value(pensionsValueForm("value"),
             '_currency -> "GBP",
-            '_divClass -> "form-group",
-            '_labelTextClass -> "visually-hidden",
             '_label -> Html(Messages("iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid")),
-            '_inputClass -> "form-control js-valInput"
+            '_inputClass -> "form-control js-valInput",
+            '_legendIsHeading -> true,
+            '_hintText -> Html("<p class=\"lede\">" + Messages("page.iht.application.assets.pensions.hint") + "</p>"),
+            '_hintClass -> "form-hint--heavy"
             )
       <div id="action-button" class="form-field form-field--submit">
          <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

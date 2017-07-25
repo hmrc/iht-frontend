@@ -141,3 +141,14 @@ Replicate collapsing margins for legend h1 followed by hint copy
 .legend-with-heading + .form-hint p {
     margin-top: 0;
 }
+
+/*
+====================================
+Sort out styles for labels inside h1s
+====================================
+*/
+h1 > label {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+}

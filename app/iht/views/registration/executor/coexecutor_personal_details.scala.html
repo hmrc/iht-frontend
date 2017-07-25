@@ -49,7 +49,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.firstName")),
-          '_help -> Html(Messages("iht.firstName.hint")))
+          '_hintText -> Html(Messages("iht.firstName.hint")))
 
       @ihtHelpers.standard.input_with_help(coExecutorDetails("lastName"),
           '_maxlength -> IhtProperties.validationMaxLengthLastName,
@@ -74,7 +74,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.nationalInsuranceNo")),
-          '_help -> Html(Messages("iht.ninoExample")))
+          '_hintText -> Html(Messages("iht.ninoExample")))
 
 
       @ihtHelpers.standard.input_with_help(coExecutorDetails("phoneNo"),
@@ -83,7 +83,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           '_inputClass -> "form-control",
           '_labelTextClass -> "bold",
           '_label -> Html(Messages("iht.registration.checklist.phoneNo.upperCaseInitial")),
-          '_help -> Html(Messages("site.phoneNo.hint")))
+          '_hintText -> Html(Messages("site.phoneNo.hint")))
 
     @if(mode == Mode.Standard) {
         @defining("co-executor-personal-details")  { sectionName =>

@@ -29,24 +29,25 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
 @iht_main_template_application(
-    title = Messages("page.iht.application.pensions.isOwned.title",deceasedName),
+    title = "",
     browserTitle = Some(Messages("page.iht.application.pensions.isOwned.browserTitle")),
-    isFullWidth=false,
-    headingName = deceasedName,
-    headingClass = "heading-large"
+    isFullWidth=false
 ){
     @ihtHelpers.custom.error_summary_override_keys(pensionsOwnedQuestionForm, Constants.AppSectionPrivatePension)
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsOwnedQuestionController.onSubmit,'autoComplete -> "off") {
 
-            <p id="pensions-question-description1">@Messages("page.iht.application.assets.pensions.isOwned.p1")</p>
             @ihtHelpers.standard.input_yes_no_radio_group(
             pensionsOwnedQuestionForm("isOwned"),
             '_legend -> Html(Messages("page.iht.application.pensions.isOwned.title",deceasedName)),
-            '_legendClass -> "visually-hidden",
+            '_legendClass -> "legend-with-heading",
             '_shownElementNo -> Some("mortgage-guidance-panel"),
             '_hiddenElementYes -> Some("mortgage-guidance-panel"),
-            '_divClass -> Some("form-group"))
+            '_divClass -> Some("form-group"),
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large",
+            '_hintText -> Html("<p>" + Messages("page.iht.application.assets.pensions.isOwned.p1") + "</p>"),
+            '_hintClass -> "form-hint--heavy")
 
           <div id="action-button" class="form-field form-field--submit">
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
