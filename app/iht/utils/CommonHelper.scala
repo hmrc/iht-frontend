@@ -217,4 +217,8 @@ object CommonHelper {
     }
   }
 
+  def translateToWelsh(content: String, englishMessages: Messages, welshMessages: Messages): String = {
+    ""
+  }
+
 }

@@ -23,6 +23,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.{Properties, Property}
 import iht.utils.{CommonHelper, StringHelper}
 import play.api.Play.current
+import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 
 object PropertiesOverviewController extends PropertiesOverviewController with IhtConnectors {
@@ -39,6 +40,11 @@ trait PropertiesOverviewController extends ApplicationController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { registrationDetails =>
+
+
+
+          throw new RuntimeException("WAAAAAAAAAAAAAA")
+
           for {
             applicationDetails: Option[ApplicationDetails] <- ihtConnector.getApplication(
               StringHelper.getNino(user),

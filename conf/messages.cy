@@ -999,3 +999,6 @@ page.iht.application.exemptions.overview.charity.detailsOverview.value.screenrea
 error.address.giveInLine1And2=Rhowch gyfeiriad yn llinell 1 a 2
 page.iht.registration.checklist.startRegistrationButton=Dechrau''r broses gofrestru
 
+global.error.InternalServerError500.title = Sorry, we are experiencing technical difficulties - 500waoo
+global.error.InternalServerError500.heading = Sorry, we’re experiencing technical difficultieswaoo
+global.error.InternalServerError500.message = Please try again in a few minutes.waoo
