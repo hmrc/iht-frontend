@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.viewmodels.application.home
+package iht.viewmodels.application.estateReports
 
 import iht.connector.IhtConnector
 import iht.constants.IhtProperties

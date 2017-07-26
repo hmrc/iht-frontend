@@ -28,7 +28,7 @@ import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
+class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControllerTest {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   var mockIhtConnector = mock[IhtConnector]
