@@ -46,7 +46,7 @@ registrationDetails: RegistrationDetails
             <div data-exclude="true">
                 @ihtHelpers.standard.input_yes_no_radio_group(
                     insurancePolicyForm("isJointlyOwned"),
-                    '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", deceasedName)),
+                    '_legend -> Html(Messages("iht.estateReport.insurancePolicies.jointlyHeld.question", ihtHelpers.custom.name(deceasedName).toString)),
                     '_shownElementNo -> None,
                     '_shownElementYes -> Some("deceaseds-policy"),
                     '_hiddenElementYes -> None,
@@ -57,7 +57,7 @@ registrationDetails: RegistrationDetails
 
                 <div class="js-hidden panel-indent panel-indent--gutter" id="deceaseds-policy">
                     @ihtHelpers.custom.input_estate_value(insurancePolicyForm("shareValue"),
-                    '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", deceasedName),
+                    '_label -> Messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", ihtHelpers.custom.name(deceasedName).toString),
                     '_hintText -> Messages("page.iht.application.insurance.policies.section2.guidance2", deceasedName),
                     '_sectionName -> (sectionName + "1"),
                     '_currency -> "GBP",

@@ -36,7 +36,7 @@ hasTimeOut=true) {
 
   @ihtHelpers.standard.input_yes_no_radio_group(
     applyingForProbateForm("isApplyingForProbate"),
-    '_legend -> Messages("page.iht.registration.applicant.applyingForProbate", deceasedName),
+    '_legend -> Messages("page.iht.registration.applicant.applyingForProbate", ihtHelpers.custom.name(deceasedName).toString),
     '_legendClass -> Some("legend-with-heading"),
     '_fieldsetId -> "applying-for-probate",
     '_divClass -> "form-group",

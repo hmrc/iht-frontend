@@ -39,7 +39,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
             @ihtHelpers.standard.input_yes_no_radio_group(
             pensionsOwnedQuestionForm("isOwned"),
-            '_legend -> Html(Messages("page.iht.application.pensions.isOwned.title",deceasedName)),
+            '_legend -> Html(Messages("page.iht.application.pensions.isOwned.title",ihtHelpers.custom.name(deceasedName).toString)),
             '_legendClass -> "legend-with-heading",
             '_shownElementNo -> Some("mortgage-guidance-panel"),
             '_hiddenElementYes -> Some("mortgage-guidance-panel"),

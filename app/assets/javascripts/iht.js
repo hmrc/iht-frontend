@@ -181,7 +181,7 @@ function setFocus(el){
 /// In all other instances focus will not be set
 /// =====================================================
 function setInputFocus(elid) {
-    var labelTarget = $('label[id="' + elid + '"]');
+    var labelTarget = $('label[id="' + elid + '"], div[id="' + elid + '"]');
     var fieldsetTarget = $('[id="' + elid + '"] fieldset, fieldset[id="' + elid + '"]').first();
 
     if(labelTarget.length > 0 && fieldsetTarget.length == 0){

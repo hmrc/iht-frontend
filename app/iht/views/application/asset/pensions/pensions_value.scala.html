@@ -29,6 +29,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.pensions.value.browserTitle")),
 isFullWidth=false){
+
     @ihtHelpers.custom.error_summary_override_keys(pensionsValueForm, Constants.AppSectionPrivatePension)
 
     @helpers.form(action = iht.controllers.application.assets.pensions.routes.PensionsValueController.onSubmit,'autoComplete -> "off") {

@@ -41,7 +41,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
             @ihtHelpers.standard.input_yes_no_radio_group(
                 pensionsChangedQuestionForm("isChanged"),
-                '_legend -> Html(Messages("page.iht.application.assets.pensions.changed.title", deceasedName)),
+                '_legend -> Html(Messages("page.iht.application.assets.pensions.changed.title", ihtHelpers.custom.name(deceasedName).toString)),
                 '_legendClass -> Some("legend-with-heading"),
                 '_divClass -> Some("form-group"),
                 '_legendIsHeading -> true,

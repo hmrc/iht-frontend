@@ -26,26 +26,28 @@ submitUrl:Call,
 cancelUrl:Call,
 deceasedName: String)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.properties.value.question", deceasedName),
+@iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.property.value.browserTitle")),
 isFullWidth=false,
 cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(AssetsPropertiesPropertyValueID))),
-cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
-headingName = deceasedName,
-headingClass = "heading-large"
+cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
 ){
     @ihtHelpers.custom.error_summary(propertyValueForm)
 
-<p id="property-value-guidance1">@Messages("page.iht.application.property.value.question.hint1", deceasedName)</p>
-<p id="property-value-guidance2">@Messages("page.iht.application.property.value.question.hint2", deceasedName)</p>
     @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
             @ihtHelpers.custom.input_estate_value(propertyValueForm("value"),
-            '_currency -> "GBP",
-            '_divClass -> "form-group",
-        '_labelTextClass -> "visually-hidden",
-        '_label -> Html(Messages("iht.estateReport.assets.properties.value.question", deceasedName)),
-        '_inputClass -> "form-control js-valInput")
+                '_currency -> "GBP",
+                '_divClass -> "form-group",
+                '_label -> Html(Messages("iht.estateReport.assets.properties.value.question", ihtHelpers.custom.name(deceasedName).toString)),
+                '_inputClass -> "form-control js-valInput",
+
+                '_legendIsHeading -> true,
+                '_headingClass -> "heading-large",
+                '_hintText -> Html("<p id=\"property-value-guidance1\">" + Messages("page.iht.application.property.value.question.hint1", deceasedName) + "</p>" +
+                                "<p id=\"property-value-guidance2\">" + Messages("page.iht.application.property.value.question.hint2") + "</p>"),
+                '_hintClass -> "form-hint--heavy"
+            )
 
         <div id="action-button" class="form-field form-field--submit">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

@@ -21,12 +21,11 @@
 @import iht.views.html._
 
 @elements = @{new FieldElements(field.id, field, null, args.toMap, messages) }
-@fieldsetClass = {@if(elements.hasErrors){ form-field--error}}
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 @labelAsHeading = @{ elements.args.get('_legendIsHeading).getOrElse(false).asInstanceOf[Boolean] }
 @label = @{ Html(elements.args.get('_legend).get.toString) }
 
-<div @if(elements.args.get('_shownElementYes).isDefined ||elements.args.get('_clearTargetYes).isDefined || elements.args.get('_hiddenElementYes).isDefined){data-exclude="true"} id="@{elements.field.name}-container" class="@elements.args.get('_divClass) @fieldsetClass" data-main-question="@elements.args.get('_mainQuestion).getOrElse(true)">
+<div @if(elements.args.get('_shownElementYes).isDefined ||elements.args.get('_clearTargetYes).isDefined || elements.args.get('_hiddenElementYes).isDefined){data-exclude="true"} id="@{elements.field.name}-container" class="@elements.args.get('_divClass)" data-main-question="@elements.args.get('_mainQuestion).getOrElse(true)">
 
 
 @if(elements.args.get('_legend).isDefined) {
@@ -60,7 +59,9 @@
     '_slideOutText -> elements.args.get('_slideOutText),
     '_needHighlight -> true)
 }
-
+@if(elements.hasErrors) {
+    <div class="form-field form-field--error">
+}
 @elements.errors.map{error => <span class="error-notification">@Messages(error)</span>}
 
 @import java.lang.String; val labelYes=Messages("iht.yes")
@@ -117,6 +118,9 @@
 
 
 
+}
+@if(elements.hasErrors) {
+    </div>
 }
 @if(elements.args.get('_legend).isDefined) {
 </fieldset>

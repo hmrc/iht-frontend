@@ -55,24 +55,27 @@
     id="@elements.field.name"
     @if(elements.args.contains('_screenReader)){aria-label="@screenReader"}/>
 }
-
+@hasErrors = @{elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)}
 
 
 
 @if(typeOfInput != "hidden") {
     <div class="form-group">
         @if(labelAsHeading) {<h1 class="@if(elements.args.get('_headingClass).isDefined){@elements.args.get('_headingClass)}else {heading-xlarge}">}
-            <label id="@{elements.field.name}-container"
+            <label
                    for="@elements.field.name"
-                   class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }
-                       @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}"
+                   class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }"
                     @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)}>
 
                     @if(labelHighlight){<strong>}
                     @if(!labelAfter && elements.args.contains('_label)) {
-                        <span @if(elements.args.contains('_labelTextClass)){class="@elements.args.get('_labelTextClass)"}>
+                        @if(elements.args.contains('_labelTextClass)){
+                        <span class="@elements.args.get('_labelTextClass)">
                             @elements.label
                         </span>
+                        } else {
+                            @elements.label
+                        }
                     }
                     @if(labelHighlight){</strong>}
             </label>
@@ -93,6 +96,10 @@
         '_needHighlight -> true)
     }
 
+
+    <div  class="form-field @if(hasErrors){ form-field--error}" id="@{elements.field.name}-container">
+
+
     @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
     @if(elements.args.contains('_hint) && elements.args.contains('_slideOutText)) {
         @ihtHelpers.standard.accordion_slider_help_text(
@@ -108,16 +115,21 @@
     case _ => {@input}
     }
 
-@if(labelHighlight){<strong>}
+
     @if(labelAfter && elements.args.contains('_label)) {
+        @if(labelHighlight){<strong>}
         <span @if(elements.args.contains('_labelTextClass)) {
             class="@elements.args.get('_labelTextClass)"}>
         @if(labelAfter && elements.args.contains('_label)) {
             @elements.label
         }
         </span>
+        @if(labelHighlight){</strong>}
     }
-    @if(labelHighlight){</strong>}
+
+
+    </div>
+
 
     @if(typeOfInput != "hidden") {
         </div>

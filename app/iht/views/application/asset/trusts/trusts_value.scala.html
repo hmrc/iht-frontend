@@ -26,9 +26,9 @@
 @(trustsValueForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",deceasedName),
+@iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.trusts.value.browserTitle")),
 isFullWidth=false,
 headingName = deceasedName,
@@ -36,13 +36,13 @@ headingClass = "heading-large"){
     @ihtHelpers.custom.error_summary_override_keys(trustsValueForm, Constants.AppSectionHeldInTrust)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit,'autoComplete -> "off") {
 
-
-            @ihtHelpers.custom.input_estate_value(trustsValueForm("value"),
+        @ihtHelpers.custom.input_estate_value(trustsValueForm("value"),
             '_label -> Messages("iht.estateReport.assets.heldInTrust.valueOfTrust",deceasedName),
             '_currency -> "GBP",
             '_divClass -> "form-group",
-            '_labelTextClass -> "visually-hidden",
-            '_inputClass -> "form-control js-valInput")
+            '_legendIsHeading -> true,
+            '_inputClass -> "form-control js-valInput"
+         )
          <div id="action-button" class="form-field form-field--submit">
            <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>
         </div>
