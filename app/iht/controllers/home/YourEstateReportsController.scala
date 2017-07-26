@@ -64,12 +64,12 @@ trait YourEstateReportsController extends ApplicationController {
               ihtCase => IhtHomeRowViewModel(nino, ihtCase, ihtConnector)
             }
 
-            Ok(iht.views.html.home.your_estate_reports(viewModels))
+            Ok(iht.views.html.estateReports.your_estate_reports(viewModels))
               .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino))
           }
         } recover {
           case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
-            Ok(iht.views.html.home.your_estate_reports(Nil)).withSession(
+            Ok(iht.views.html.estateReports.your_estate_reports(Nil)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, user) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
             )

@@ -22,7 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import iht.views.ViewTestHelper
-import iht.views.html.home.your_estate_reports
+import iht.views.html.estateReports.your_estate_reports
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.http.HeaderCarrier
