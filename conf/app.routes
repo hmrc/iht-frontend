@@ -3,7 +3,7 @@
 # Remove this once the whitelisting email is no longer being sent
 GET         /assets/resources/151001%20Notes%20to%20help%20you%20fill%20in%20IHT%20online%20-%20final%20-%20for%20DDCN.pdf iht.controllers.pdf.GuidancePDFController.loadPDF
 
-GET         /keep-alive                                              iht.controllers.IhtMainController.keepAlive
+GET         /keep-alive                                              iht.controllers.SessionManagementController.keepAlive
 
 GET         /assets/*file                                             controllers.Assets.versioned(path="/public", file: Asset)
 ->          /template                                                template.Routes
@@ -12,7 +12,7 @@ GET         /assets/*file                                             controller
 
 GET         /estate-report                                           iht.controllers.home.IhtHomeController.onPageLoad
 
-GET         /signout                                                 iht.controllers.IhtMainController.signOut
+GET         /signout                                                 iht.controllers.SessionManagementController.signOut
 
 GET         /                                                        iht.controllers.PrivateBetaLandingPageController.passcode(p:Option[String])
 
