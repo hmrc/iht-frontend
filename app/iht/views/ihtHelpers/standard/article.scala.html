@@ -27,8 +27,8 @@
 includeGridWrapper: Boolean = false,
 articleClasses: Option[String] = None,
 isFullWidth: Boolean = false,
-currentLang: String)(implicit messages: Messages)
+currentLang: String = "en")(implicit messages: Messages)
 
-<article  lang = '@if(currentLang == "cy"){cy} else {en}' class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
+<article  @if(currentLang.equals("cy")){lang = "cy"} class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
     @content
 </article>

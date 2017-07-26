@@ -178,10 +178,6 @@ isRegistration: Boolean = false
 
 @getHelpForm = @{ihtHelpers.custom.report_a_problem_link(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
 
-
-@sidebarIht = @{layouts.sidebar(sidebarLinks, Some("sidebar"))}
-
-
 @content = {
     @layouts.main_content(
         article = ihtHelpers.standard.article(content = mainContentIht,
@@ -191,7 +187,9 @@ isRegistration: Boolean = false
         mainContentHeader = commonContentHeader,
         serviceInfo = serviceInfo,
         getHelpForm = getHelpForm,
-        sidebar = sidebarIht)
+        sidebar = ihtHelpers.standard.sidebar(sidebarLinks = sidebarLinks,
+                                              sidebarClass = Some("sidebar"),
+                                              currentLang = currentLang))
 }
 
 @bodyEnd = {

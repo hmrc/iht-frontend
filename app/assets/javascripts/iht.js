@@ -3,6 +3,7 @@ $(document).ready(function() {
 // =====================================================
 // Sets the lang attribute of html to the language selected
 // =====================================================
+
 $("html").attr('lang', $("article").attr('lang'));
 
 // =====================================================
