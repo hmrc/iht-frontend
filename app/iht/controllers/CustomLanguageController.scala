@@ -21,8 +21,9 @@ import javax.inject.{Inject, _}
 import iht.config.ApplicationConfig
 import play.api.Play
 import play.api.i18n.{Lang, MessagesApi}
-import play.api.mvc.{Action, AnyContent, Call}
+import play.api.mvc.{Request, Action, AnyContent, Call}
 import uk.gov.hmrc.play.config.RunMode
+import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
 
@@ -38,6 +39,15 @@ class CustomLanguageController @Inject()(implicit val messagesApi: MessagesApi) 
       iht.controllers.routes.CustomLanguageController.switchToLanguage("english")
     }
   }
+
+  def getLanguage(lang: String)(implicit request: Request[_]): String = {
+    if(ApplicationConfig.isWelshEnabled) {
+        languageMap.getOrElse(lang, LanguageUtils.getCurrentLang).language
+      } else {
+        englishLang.language
+      }
+  }
+
 
   override def switchToLanguage(language: String): Action[AnyContent] =  Action { implicit request =>
     val lang =

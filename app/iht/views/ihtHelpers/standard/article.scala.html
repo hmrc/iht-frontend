@@ -16,12 +16,20 @@
 
 @import iht.config.ApplicationConfig
 @import iht.utils._
+@import play.api.Play.current
+@import iht.controllers.CustomLanguageController
+@import play.api.Application
+@import iht.config._
+@import play.api.Application
+@import iht.utils.StringHelper
 
 @(content: Html,
 includeGridWrapper: Boolean = false,
 articleClasses: Option[String] = None,
-isFullWidth: Boolean = false)
+isFullWidth: Boolean = false)(implicit request: Request[_], messages: Messages)
 
-<article lang = "@if(ApplicationConfig.isWelshEnabled){cy} else {en}" class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
+@lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
+
+<article lang = "@if(lc.getLanguage == "cy"){cy} else {en}" class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
     @content
 </article>
