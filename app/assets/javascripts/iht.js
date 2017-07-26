@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
 // =====================================================
-// Remove hidden attribute from js-visible elements
+// Sets the lang attribute of html to the language selected
 // =====================================================
-$("html").attr('lang', 'cy');
+$("html").attr('lang', $("article").attr('lang'));
 
 // =====================================================
 // Remove hidden attribute from js-visible elements

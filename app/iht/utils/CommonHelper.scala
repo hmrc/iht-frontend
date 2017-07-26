@@ -218,6 +218,4 @@ object CommonHelper {
     }
   }
 
-  def getLanguage()(implicit request:Request[_]): String = LanguageUtils.getCurrentLang.language
-
 }

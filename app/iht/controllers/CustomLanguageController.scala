@@ -21,9 +21,8 @@ import javax.inject.{Inject, _}
 import iht.config.ApplicationConfig
 import play.api.Play
 import play.api.i18n.{Lang, MessagesApi}
-import play.api.mvc.{Request, Action, AnyContent, Call}
+import play.api.mvc.{Action, AnyContent, Call}
 import uk.gov.hmrc.play.config.RunMode
-import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
 

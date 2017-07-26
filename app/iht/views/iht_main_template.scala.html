@@ -25,6 +25,7 @@
 @import play.api.Play.current
 @import ihtHelpers.custom._
 @import iht.utils.CommonHelper
+@import uk.gov.hmrc.play.language.LanguageUtils
 
 @(title: String,
 signOutText: String = "",
@@ -48,6 +49,7 @@ isRegistration: Boolean = false
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
+@currentLang = @{LanguageUtils.getCurrentLang.language}
 
 @headingClassName() = @{
     if(headingClass != ""){
@@ -185,7 +187,7 @@ isRegistration: Boolean = false
         article = ihtHelpers.standard.article(content = mainContentIht,
                                               includeGridWrapper = false,
                                               isFullWidth = isFullWidth,
-                                                getLang = CommonHelper.getLanguage),
+                                              currentLang = currentLang),
         mainContentHeader = commonContentHeader,
         serviceInfo = serviceInfo,
         getHelpForm = getHelpForm,
