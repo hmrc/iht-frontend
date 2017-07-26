@@ -22,7 +22,7 @@ import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.utils.{SessionHelper, StringHelper, ApplicationStatus => AppStatus}
-import iht.viewmodels.application.estateReports.YourEstateReportsRowViewModel
+import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._

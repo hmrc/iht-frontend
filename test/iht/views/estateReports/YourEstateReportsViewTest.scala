@@ -20,7 +20,7 @@ import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import iht.viewmodels.application.estateReports.YourEstateReportsRowViewModel
+import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.estateReports.your_estate_reports
 import play.api.i18n.Messages.Implicits._

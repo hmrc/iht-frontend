@@ -22,7 +22,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.ApplicationStatus
-import iht.viewmodels.application.estateReports.YourEstateReportsRowViewModel
+import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import org.joda.time.LocalDate
 import uk.gov.hmrc.play.http.HeaderCarrier
 
