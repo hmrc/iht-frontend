@@ -110,7 +110,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
                 }
               )
             }
-            case _ => Future.successful(Redirect(iht.controllers.home.routes.YourEstateReportsController.onPageLoad()))
+            case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
           }
         }
       }

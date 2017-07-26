@@ -287,7 +287,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
       val result = declarationController.onSubmit()(createFakeRequest())
 
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) should be(Some(iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url))
+      redirectLocation(result) should be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,

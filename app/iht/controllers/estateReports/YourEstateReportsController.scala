@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.controllers.home
+package iht.controllers.estateReports
 
 import java.util.UUID
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.controllers.home
+package iht.controllers.estateReports
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
@@ -48,14 +48,14 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
   implicit val hc = new HeaderCarrier
   // Create controller object and pass in mock.
-  def ihtHomeController = new YourEstateReportsController {
+  def yourEstateReportsController = new YourEstateReportsController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val isWhiteListEnabled = false
   }
 
-  def ihtHomeControllerNotAuthorised = new YourEstateReportsController {
+  def yourEstateReportsControllerNotAuthorised = new YourEstateReportsController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
@@ -67,7 +67,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
     val appDetails = CommonBuilder.buildApplicationDetailsWithAllAssets
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
-      val result = ihtHomeControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
+      val result = yourEstateReportsControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be (Some(loginUrl))
     }
@@ -76,7 +76,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
 
       createCommonMocksForYourEstateReportsController(mockIhtConnector, ihtAppList = prepareDataForPage)
 
-      val result =ihtHomeController.onPageLoad (createFakeRequest())
+      val result =yourEstateReportsController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
       contentAsString(result) should include(messagesApi("page.iht.home.title"))
       contentAsString(result) should include(messagesApi("page.iht.home.applicationList.table.guidance.label"))
@@ -89,7 +89,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
         appDetails = applicationDetails,
         ihtAppList = prepareDataForPage1)
 
-      val result =ihtHomeController.onPageLoad (createFakeRequest())
+      val result =yourEstateReportsController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
       contentAsString(result) should include(messagesApi("iht.notStarted"))
     }
@@ -101,7 +101,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
         appDetails = applicationDetails,
         ihtAppList = prepareDataForPage1)
 
-      val result =ihtHomeController.onPageLoad (createFakeRequest())
+      val result =yourEstateReportsController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
       contentAsString(result) should include(messagesApi("iht.inProgress"))
     }
@@ -113,7 +113,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
         appDetails = applicationDetails,
         ihtAppList = prepareDataForPage2)
 
-      val result =ihtHomeController.onPageLoad (createFakeRequest())
+      val result =yourEstateReportsController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
       contentAsString(result) should include(messagesApi("iht.closed"))
     }
@@ -125,7 +125,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
         appDetails = applicationDetails,
         ihtAppList = prepareDataForPage3)
 
-      val result =ihtHomeController.onPageLoad (createFakeRequest())
+      val result =yourEstateReportsController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
       contentAsString(result) should include(messagesApi("iht.inReview"))
     }
@@ -136,7 +136,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
         override def answer(invocation: InvocationOnMock): Future[Seq[IhtApplication]] = {
           Future.failed(new Upstream4xxResponse("", 404, 404, Map()))
         }})
-      val result = ihtHomeController.onPageLoad(createFakeRequest())
+      val result = yourEstateReportsController.onPageLoad(createFakeRequest())
       status(result) shouldBe (OK)
     }
   }

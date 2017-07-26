@@ -95,10 +95,10 @@ trait RegistrationController extends FrontendController with IhtActions {
         body(rd)
       } else if(!checkGuardCondition(rd, id) && rd.deceasedDateOfDeath.isDefined) {
         Logger.info(s"Registration guard condition not met when ${request.uri} requested so re-directing to estate reports page")
-        Future.successful(Redirect(iht.controllers.home.routes.YourEstateReportsController.onPageLoad()))
+        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       } else {
         Logger.info(s"Registration details not found in cache when $uri requested so re-directing to estate reports page")
-        Future.successful(Redirect(iht.controllers.home.routes.YourEstateReportsController.onPageLoad()))
+        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       }
     }
   }
@@ -117,7 +117,7 @@ trait RegistrationController extends FrontendController with IhtActions {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
         Logger.info(s"Registration details not found in cache when $url requested so re-directing to application overview page")
-        Future.successful(Redirect(iht.controllers.home.routes.YourEstateReportsController.onPageLoad()))
+        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       case Some(rd) => body(rd)
     }
   }

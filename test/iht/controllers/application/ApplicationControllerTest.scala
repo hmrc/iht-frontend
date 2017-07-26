@@ -35,7 +35,7 @@ trait ApplicationControllerTest extends ViewTestHelper {
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       val result = func
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url)
+      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
   }
 }

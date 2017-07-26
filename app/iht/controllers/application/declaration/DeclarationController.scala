@@ -122,7 +122,7 @@ trait DeclarationController extends ApplicationController {
           processApplication(StringHelper.getNino(user))
         } else {
           Future.successful(Redirect(
-            iht.controllers.home.routes.YourEstateReportsController.onPageLoad()))
+            iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
         }
       }
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.views.home
+package iht.views.estateReports
 
 import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest

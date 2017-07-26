@@ -38,7 +38,7 @@ trait IVUpliftFailureController extends FrontendController{
 
   val identityVerificationConnector: IdentityVerificationConnector = IdentityVerificationConnector
 
-  val ivUrlApplication = iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url
+  val ivUrlApplication = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
   val ivUrlRegistration =iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad().url
 
   def showNotAuthorisedApplication(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>

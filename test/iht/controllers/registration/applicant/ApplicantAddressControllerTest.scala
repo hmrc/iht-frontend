@@ -334,7 +334,7 @@ class ApplicantAddressControllerTest extends RegistrationControllerTest  {
 
       val result = await(controller.onPageLoadUk(createFakeRequest()))
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url)
+      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
 
     "redirect address to estate report if RegistrationDetails object does not contain applicant details" in {
