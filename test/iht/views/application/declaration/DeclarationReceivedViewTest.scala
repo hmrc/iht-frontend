@@ -101,7 +101,7 @@ class DeclarationReceivedViewTest extends ViewTestHelper {
       val view = declarationReceivedView()
 
       val continue = view.getElementById("continue-to-estate-report")
-      continue.attr("href") shouldBe iht.controllers.home.routes.IhtHomeController.onPageLoad.url
+      continue.attr("href") shouldBe iht.controllers.home.routes.YourEstateReportsController.onPageLoad.url
       continue.text() shouldBe messagesApi("page.iht.application.declaration_received.continuelink")
 
     }

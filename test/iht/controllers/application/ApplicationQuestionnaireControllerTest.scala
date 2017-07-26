@@ -78,7 +78,7 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
     "redirect to Case List page when Nino is not present in the session" in {
       val result = questionnaireController.onPageLoad()(createFakeRequest(false).withSession())
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
+      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url)
     }
 
     "respond with redirect on page submit" in {

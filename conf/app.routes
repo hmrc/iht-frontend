@@ -10,7 +10,7 @@ GET         /assets/*file                                             controller
 ->          /estate-report                                           taxreturn.Routes
 ->          /registration                                            registration.Routes
 
-GET         /estate-report                                           iht.controllers.home.IhtHomeController.onPageLoad
+GET         /estate-report                                           iht.controllers.home.YourEstateReportsController.onPageLoad
 
 GET         /signout                                                 iht.controllers.SessionManagementController.signOut
 

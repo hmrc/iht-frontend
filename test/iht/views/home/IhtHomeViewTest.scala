@@ -22,7 +22,7 @@ import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
 import iht.viewmodels.application.home.IhtHomeRowViewModel
 import iht.views.ViewTestHelper
-import iht.views.html.home.iht_home
+import iht.views.html.home.your_estate_reports
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -37,7 +37,7 @@ class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
   def ihtHomeView(ihtApplications: Seq[IhtHomeRowViewModel] = Nil) = {
     implicit val request = createFakeRequest()
 
-    val view = iht_home(ihtApplications).toString()
+    val view = your_estate_reports(ihtApplications).toString()
     asDocument(view)
   }
 

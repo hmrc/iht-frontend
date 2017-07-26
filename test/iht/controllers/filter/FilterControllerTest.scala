@@ -71,7 +71,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
       val result = controller.onSubmit()(request)
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url))
+      redirectLocation(result) should be(Some(iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url))
     }
 
     "redirect to the already started page as the ultimate destination when the page is submitted with the already started choice selected" in {

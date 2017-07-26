@@ -60,7 +60,7 @@ trait FilterController extends FrontendController with CustomPasscodeAuthenticat
           choice => {
             choice.getOrElse("") match {
               case Constants.continueEstateReport =>
-                Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+                Future.successful(Redirect(iht.controllers.home.routes.YourEstateReportsController.onPageLoad()))
               case Constants.alreadyStarted =>
                 Future.successful(Redirect(iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()))
               case Constants.agent =>

@@ -40,7 +40,7 @@ class ClosedClearedApplicationViewTest extends ApplicationStatusViewBehaviour {
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.home.routes.IhtHomeController.onPageLoad(),
+      iht.controllers.home.routes.YourEstateReportsController.onPageLoad(),
       messagesApi("page.iht.application.overview.common.return")
     )
   )

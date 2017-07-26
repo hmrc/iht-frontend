@@ -208,7 +208,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
         createMockToGetRegDetailsFromCache(mockCachingConnector, None)
         val result = kickoutController.onPageLoad(createFakeRequest())
         status(result) should be(SEE_OTHER)
-        redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
+        redirectLocation(result) shouldBe Some(iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url)
       }
     }
   }

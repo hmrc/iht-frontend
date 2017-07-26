@@ -242,7 +242,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
 
       val result = await(controller.onPageLoad(createFakeRequest()))
       status(result) shouldBe SEE_OTHER
-      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
+      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url)
     }
 
     "redirect to the estate report page if the RegistrationDetails does not contain contact number" in {

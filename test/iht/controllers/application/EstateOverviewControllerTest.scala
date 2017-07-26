@@ -138,7 +138,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
       val result = controller.onPageLoadWithIhtRef(ref)(createFakeRequest())
       status(result) shouldBe SEE_OTHER
       redirectLocation(result) should be(
-        Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url))
+        Some(iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url))
     }
 
 

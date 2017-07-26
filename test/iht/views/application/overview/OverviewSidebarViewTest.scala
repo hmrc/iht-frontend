@@ -76,7 +76,7 @@ class OverviewSidebarViewTest extends ViewTestHelper {
     "show the return link with correct text" in {
       val link = viewAsDoc.getElementById("return-to-estate-report-link")
       link.text shouldBe messagesApi("iht.estateReport.goToEstateReports")
-      link.attr("href") shouldBe iht.controllers.home.routes.IhtHomeController.onPageLoad().url
+      link.attr("href") shouldBe iht.controllers.home.routes.YourEstateReportsController.onPageLoad().url
     }
   }
 
