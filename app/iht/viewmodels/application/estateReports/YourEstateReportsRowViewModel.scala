@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package iht.viewmodels.application.home
-
-import javax.inject.Inject
+package iht.viewmodels.application.estateReports
 
 import iht.connector.IhtConnector
-import iht.constants.IhtProperties
 import iht.models.application.IhtApplication
 import iht.utils.{CommonHelper, DeceasedInfoHelper, ApplicationStatus => AppStatus}
-import play.api.{Application, Logger}
+import play.api.i18n.Messages.Implicits._
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
+import play.api.{Application, Logger}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 import scala.concurrent.Await
@@ -55,10 +51,10 @@ object YourEstateReportsRowViewModel {
     new YourEstateReportsRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
       ihtRefNo = ihtApp.ihtRefNo,
       dateOfDeath = Dates.formatDate(ihtApp.dateOfDeath).toString,
-      currentStatus = getApplicationStatusMessage(currentStatus),
-      linkLabel = getLinkLabel(currentStatus),
+      currentStatus = getApplicationStatusMessage(currentStatus)(messages),
+      linkLabel = getLinkLabel(currentStatus)(messages),
       link = getLink(currentStatus, ihtRef),
-      linkScreenreader = getLinkScreenreader(currentStatus, s"${ihtApp.firstName} ${ihtApp.lastName}")
+      linkScreenreader = getLinkScreenreader(currentStatus, s"${ihtApp.firstName} ${ihtApp.lastName}")(messages)
     )
   }
 

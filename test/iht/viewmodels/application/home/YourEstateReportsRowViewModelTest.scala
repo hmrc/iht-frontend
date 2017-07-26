@@ -21,10 +21,9 @@ import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.{ApplicationStatus, CommonHelper}
+import iht.utils.ApplicationStatus
+import iht.viewmodels.application.estateReports.YourEstateReportsRowViewModel
 import org.joda.time.LocalDate
-import play.api.i18n.MessagesApi
-import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
