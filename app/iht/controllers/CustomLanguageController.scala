@@ -40,15 +40,6 @@ class CustomLanguageController @Inject()(implicit val messagesApi: MessagesApi) 
     }
   }
 
-  def getLanguage(lang: String)(implicit request: Request[_]): String = {
-    if(ApplicationConfig.isWelshEnabled) {
-        languageMap.getOrElse(lang, LanguageUtils.getCurrentLang).language
-      } else {
-        englishLang.language
-      }
-  }
-
-
   override def switchToLanguage(language: String): Action[AnyContent] =  Action { implicit request =>
     val lang =
       if(ApplicationConfig.isWelshEnabled) {

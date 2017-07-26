@@ -21,15 +21,14 @@
 @import play.api.Application
 @import iht.config._
 @import play.api.Application
-@import iht.utils.StringHelper
+@import uk.gov.hmrc.play.language.LanguageUtils
 
 @(content: Html,
 includeGridWrapper: Boolean = false,
 articleClasses: Option[String] = None,
-isFullWidth: Boolean = false)(implicit request: Request[_], messages: Messages)
+isFullWidth: Boolean = false,
+getLang: (() => String))(implicit request:Request[_], messages: Messages)
 
-@lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
-
-<article lang = "@if(lc.getLanguage == "cy"){cy} else {en}" class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
+<article lang = '@if(getLang() == "cy"){cy} else {en}' class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
     @content
 </article>
