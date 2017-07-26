@@ -27,7 +27,7 @@ import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-class IhtHomeRowViewModelTest extends ApplicationControllerTest {
+class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
 
   var mockIhtConnector = mock[IhtConnector]
   implicit val hc = new HeaderCarrier
@@ -37,10 +37,10 @@ class IhtHomeRowViewModelTest extends ApplicationControllerTest {
     createMockToGetApplicationDetails(mockIhtConnector)
   }
 
-  "IhtHomeRowViewModel" must {
+  "YourEstateReportsRowViewModel" must {
 
     val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.NotStarted)
-    def viewModel = IhtHomeRowViewModel("", ihtApp, mockIhtConnector)
+    def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector)
 
     "should be created from IhtApplication with deceased name" in {
       viewModel.deceasedName shouldBe CommonBuilder.DefaultName
@@ -60,7 +60,7 @@ class IhtHomeRowViewModelTest extends ApplicationControllerTest {
 
     "should be created from IhtApplication with status of in progress" in {
       val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.InProgress)
-      def viewModel = IhtHomeRowViewModel("", ihtApp, mockIhtConnector)
+      def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector)
       viewModel.currentStatus shouldBe messagesApi("iht.inProgress")
     }
 

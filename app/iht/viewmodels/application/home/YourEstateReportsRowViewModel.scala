@@ -36,7 +36,7 @@ import scala.concurrent.duration.Duration
 /**
   * Created by vineet on 26/09/16.
   */
-case class IhtHomeRowViewModel(deceasedName: String,
+case class YourEstateReportsRowViewModel(deceasedName: String,
                                ihtRefNo: String,
                                dateOfDeath: String,
                                currentStatus: String,
@@ -44,7 +44,7 @@ case class IhtHomeRowViewModel(deceasedName: String,
                                link: Call,
                                linkScreenreader: String)
 
-object IhtHomeRowViewModel {
+object YourEstateReportsRowViewModel {
   def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier,
                                                     lang: Lang, application: Application) = {
 
@@ -52,7 +52,7 @@ object IhtHomeRowViewModel {
     val currentStatus = getStatus(nino, ihtApp, ihtConnector)
     val ihtRef = ihtApp.ihtRefNo
 
-    new IhtHomeRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
+    new YourEstateReportsRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
       ihtRefNo = ihtApp.ihtRefNo,
       dateOfDeath = Dates.formatDate(ihtApp.dateOfDeath).toString,
       currentStatus = getApplicationStatusMessage(currentStatus),

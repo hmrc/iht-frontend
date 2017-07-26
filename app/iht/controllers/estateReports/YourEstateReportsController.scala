@@ -22,7 +22,7 @@ import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.utils.{SessionHelper, StringHelper, ApplicationStatus => AppStatus}
-import iht.viewmodels.application.home.IhtHomeRowViewModel
+import iht.viewmodels.application.home.YourEstateReportsRowViewModel
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -61,7 +61,7 @@ trait YourEstateReportsController extends ApplicationController {
             }
 
             val viewModels = listOfCases.map {
-              ihtCase => IhtHomeRowViewModel(nino, ihtCase, ihtConnector)
+              ihtCase => YourEstateReportsRowViewModel(nino, ihtCase, ihtConnector)
             }
 
             Ok(iht.views.html.estateReports.your_estate_reports(viewModels))

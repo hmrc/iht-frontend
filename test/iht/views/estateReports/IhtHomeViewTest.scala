@@ -20,7 +20,7 @@ import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import iht.viewmodels.application.home.IhtHomeRowViewModel
+import iht.viewmodels.application.home.YourEstateReportsRowViewModel
 import iht.views.ViewTestHelper
 import iht.views.html.estateReports.your_estate_reports
 import play.api.i18n.Messages.Implicits._
@@ -34,7 +34,7 @@ class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
   var mockIhtConnector = mock[IhtConnector]
   lazy val registrationChecklistPageUrl= iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()
 
-  def ihtHomeView(ihtApplications: Seq[IhtHomeRowViewModel] = Nil) = {
+  def ihtHomeView(ihtApplications: Seq[YourEstateReportsRowViewModel] = Nil) = {
     implicit val request = createFakeRequest()
 
     val view = your_estate_reports(ihtApplications).toString()
@@ -43,8 +43,8 @@ class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
 
   lazy val ihtApplications = {
     implicit val hc = new HeaderCarrier
-    Seq(IhtHomeRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector),
-      IhtHomeRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector))
+    Seq(YourEstateReportsRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector),
+      YourEstateReportsRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector))
   }
 
   before {
