@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.views.ihtHelpers
+package iht.views.ihtHelpers.custom
 
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
