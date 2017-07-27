@@ -1004,7 +1004,6 @@ page.iht.application.exemptions.overview.charity.detailsOverview.value.screenrea
 error.address.giveInLine1And2=Rhowch gyfeiriad yn llinell 1 a 2
 page.iht.registration.checklist.startRegistrationButton=Dechrau''r broses gofrestru
 
-
 # frontend-bootstrap error messages
 
 global.error.InternalServerError500.link.gov-uk-iht.text=Ymlaen i Drosolwg o Dreth Etifeddiant
@@ -1022,15 +1021,3 @@ global.error.InternalServerError500.heading=Mae''n ddrwg gennym, rydym yn profi 
 global.error.InternalServerError500.message=Rhowch gynnig arall arni mewn ychydig.
 
 # end of frontend-bootstrap error messages
-
-
-
-
-
-
-
-
-
-
-
-
