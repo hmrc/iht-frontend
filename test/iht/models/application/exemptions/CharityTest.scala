@@ -19,7 +19,7 @@ package iht.models.application.exemptions
 import iht.FakeIhtApp
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.play.test.UnitSpec
 
 /**
@@ -28,6 +28,7 @@ import uk.gov.hmrc.play.test.UnitSpec
 class CharityTest extends UnitSpec with MockitoSugar with FakeIhtApp{
 
   implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val messages: Messages = messagesApi.preferred(Seq(Lang("en")))
 
   "isComplete" must {
 
