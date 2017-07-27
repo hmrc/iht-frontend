@@ -39,11 +39,11 @@ case class Charity(id: Option[String],
     * Scenario 4: Charity name, no charity number, charity value => Charity name, charity value displayed
     * Scenario 5: No charity name, charity number, charity value => "No charity name given", charity value displayed
     */
-  def nameValidationMessage: Option[String] = {
+  def nameValidationMessage()(implicit messages: Messages): Option[String] = {
     (name, number, totalValue) match {
-      case (None, None, Some(_)) => Some(Messages("site.noCharityNameAndNumberGiven")) // scenario 1
+      case (None, None, Some(_)) => Some(messages("site.noCharityNameAndNumberGiven")) // scenario 1
       case (Some(_), _, _) => None // scenarios 2 & 4
-      case (None, _, _) => Some(Messages("site.noCharityNameGiven")) // scenario 3 & 5
+      case (None, _, _) => Some(messages("site.noCharityNameGiven")) // scenario 3 & 5
     }
   }
 }

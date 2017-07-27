@@ -17,10 +17,9 @@
 package iht.controllers.filter
 
 import iht.controllers.auth.CustomPasscodeAuthentication
-import play.api.i18n.Messages
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
@@ -29,13 +28,13 @@ object TransitionController extends TransitionController
 trait TransitionController extends FrontendController with CustomPasscodeAuthentication {
 
 
-  def onPageLoadScotland = doPageLoad(Messages("iht.countries.scotland"))
-  def onPageLoadNorthernIreland = doPageLoad(Messages("iht.countries.northernIreland"))
-  def onPageLoadOtherCountry = doPageLoad(Messages("page.iht.filter.domicile.choice.other"))
+  def onPageLoadScotland = doPageLoad("iht.countries.scotland")
+  def onPageLoadNorthernIreland = doPageLoad("iht.countries.northernIreland")
+  def onPageLoadOtherCountry = doPageLoad("page.iht.filter.domicile.choice.other")
 
-  def doPageLoad(country: String) = customAuthenticatedActionAsync {
+  def doPageLoad(countryMessageKey: String) = customAuthenticatedActionAsync {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.use_paper_form(country)))
+      Future.successful(Ok(iht.views.html.filter.use_paper_form(countryMessageKey)))
     }
   }
 }

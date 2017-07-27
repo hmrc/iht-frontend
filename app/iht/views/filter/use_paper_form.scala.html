@@ -20,7 +20,7 @@
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 
-@(country: String)(implicit request:Request[_], messages: Messages)
+@(countryMessageKey: String)(implicit request:Request[_], messages: Messages)
 
 @iht_main_template_registration(title = Messages("iht.usePaperForm"),
     browserTitle = Some(Messages("iht.usePaperForm")),
@@ -28,17 +28,20 @@
     hasSignOut = false,
     hasTimeOut = false){
 
-@if(country == Messages("iht.countries.scotland")) {
+@if(countryMessageKey == "iht.countries.scotland") {
     @use_paper_form_scotland()
 }
-@if(country == Messages("iht.countries.northernIreland")) {
+@if(countryMessageKey == "iht.countries.northernIreland") {
     @use_paper_form_northern_ireland()
 }
-@if(country == Messages("page.iht.filter.domicile.choice.other")) {
+@if(countryMessageKey == "page.iht.filter.domicile.choice.other") {
     @use_paper_form_other_country()
 }
 <div id='continue-button' class="subsection">
     <a id="exit" href="@linkExitToGovUKIHTForms" class="button">@Messages("iht.exitToGovUK")</a>
 </div>
-@previous_answers(country)
+
+@previous_answers(
+        messages(countryMessageKey)
+    )
 }

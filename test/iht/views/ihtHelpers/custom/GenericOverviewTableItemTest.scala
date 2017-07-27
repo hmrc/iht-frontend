@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.views.ihtHelpers
+package iht.views.ihtHelpers.custom
 
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.generic_overview_table_item

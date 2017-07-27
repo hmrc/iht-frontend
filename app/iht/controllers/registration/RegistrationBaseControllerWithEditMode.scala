@@ -57,10 +57,11 @@ trait RegistrationBaseControllerWithEditMode[T] extends RegistrationBaseControll
 
           boundForm.fold(
             formWithErrors => {
+              val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(rd)
               if (mode == Mode.Standard) {
-                Future.successful(badRequestForSubmit(formWithErrors))
+                Future.successful(badRequestForSubmit(formWithErrors, Some(deceasedName)))
               } else {
-                Future.successful(badRequestForEditSubmit(formWithErrors))
+                Future.successful(badRequestForEditSubmit(formWithErrors, Some(deceasedName)))
               }
             },
             details => {

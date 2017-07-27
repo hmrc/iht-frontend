@@ -1,5 +1,5 @@
 @*
-* Copyright 2016 HM Revenue & Customs
+* Copyright 2015 HM Revenue & Customs
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -14,18 +14,11 @@
 * limitations under the License.
 *@
 
-@()(implicit request:Request[_], messages: Messages)
+@(sidebarLinks: Html,
+sidebarClass: Option[String] = None,
+currentLang: String = "en")
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
-@import iht.constants.IhtProperties
+<aside  @if(currentLang.equals("cy")){lang = "cy"} @if( sidebarClass.isDefined ) {class="@sidebarClass.get"}>
+    @sidebarLinks
+</aside>
 
-<p>@messages("page.iht.filter.paperform.scotland.p1")</p>
-
-<p>
-    @messages("page.iht.filter.paperform.scotland.p2.start")
-    <a id="scottish-courts-link" href="@IhtProperties.linkScottishCourtAndTribunal" rel="external">
-        @messages("page.iht.filter.paperform.scotland.link.text")
-    </a>
-    @messages("page.iht.filter.paperform.scotland.p2.end")
-</p>
