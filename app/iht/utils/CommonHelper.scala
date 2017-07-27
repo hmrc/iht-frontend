@@ -24,8 +24,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import play.api.Play.current
 import play.api.data.{Form, FormError}
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.Messages.Implicits.applicationMessages
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Call, Request}
 
 import scala.util.{Failure, Success, Try}
@@ -217,15 +217,21 @@ object CommonHelper {
     }
   }
 
-  def translateToWelsh(content: String, sourceMessages: Messages, targetMessages: Messages): String = {
+  def translateToPreferredLanguage(content: String, sourceMessages: Messages, targetLanguageCode: String): String = {
     val sourceLang = sourceMessages.lang.code.substring(0,2)
-    val targetLang = targetMessages.lang.code.substring(0,2)
-    if (sourceLang == targetLang) {
+    if (sourceLang == targetLanguageCode) {
       content
     } else {
-      val key = sourceMessages.messages.messages(sourceLang).find(_._2 == content).fold(content)(_._1)
-      targetMessages.messages.messages(targetLang)(key)
+      val key = sourceMessages.messages.messages(sourceLang).find(_._2 == content).fold("Key not found")(_._1)
+      sourceMessages.messages.messages(targetLanguageCode)(key).replace("''", "'")
     }
   }
 
+  def messagesForLang(sourceMessages: Messages, targetLanguageCode: String): Messages = {
+    val sourceLang = sourceMessages.lang.code.substring(0,2)
+    implicit val lang = Lang.apply(targetLanguageCode)
+    val ff = applicationMessages
+    ff
+
+  }
 }
