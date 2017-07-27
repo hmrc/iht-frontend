@@ -74,7 +74,7 @@ val checkedEverythingQuestionPage = iht.controllers.application.declaration.rout
                   }
                 }
               }
-              case _ => Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+              case _ => Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
             }
         }
       }
