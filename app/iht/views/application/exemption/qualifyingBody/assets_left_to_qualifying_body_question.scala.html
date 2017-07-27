@@ -24,39 +24,42 @@
 @(assetsLeftToQualifyingBodyQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
+@helpCopy() = @{
+    <p class="lede">{Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1")}</p>
+    <p>{Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2")}</p>
+    <p>{Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3")}</p>
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName),
-browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle")),
-isFullWidth = false,
-cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))),
-cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
-                            ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity)))),
-headingName = deceasedName,
-headingClass = "heading-large"
+    <details>
+        <summary class="summary">{Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies")}</summary>
+        <div id="assets-left-to-gncp-help-text" class="panel-indent panel-indent--gutter">
+            {Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.help.contents")}
+        </div>
+    </details>
+}
+
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.browserTitle")),
+    isFullWidth = false,
+    cancelUrl = Some(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))),
+    cancelLabel = Some(Messages("page.iht.application.return.to.exemptionsOf",
+                            ihtHelpers.custom.name(registrationDetails.deceasedDetails.map(_.name).fold("")(identity))))
 ){
 
 @ihtHelpers.custom.error_summary(assetsLeftToQualifyingBodyQuestionForm)
 @helpers.form(action = iht.controllers.application.exemptions.qualifyingBody.routes.AssetsLeftToQualifyingBodyQuestionController.onSubmit,
                        'autocomplete -> "off") {
 
-    <p class="lede">@Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p1")</p>
-    <p>@Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.p2")</p>
-    <p>@Messages("iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBody.p3")</p>
-
-    <details>
-      <summary class="summary">@Messages("iht.estateReport.exemptions.qualifyingBodies.howFindOutQualifies")</summary>
-      <div id="assets-left-to-gncp-help-text" class="panel-indent panel-indent--gutter">
-        @Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.help.contents")
-      </div>
-    </details>
-
 
     @ihtHelpers.standard.input_yes_no_radio_group(
     assetsLeftToQualifyingBodyQuestionForm("isAssetForQualifyingBody"),
     '_divClass -> Some("form-group"),
     '_legend -> Messages("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName),
-    '_legendClass -> Some("visually-hidden")
+    '_legendIsHeading -> true,
+    '_headingClass -> "heading-large",
+    '_hintText -> helpCopy,
+    '_hintClass -> "form-hint--heavy"
 )
 
 

@@ -27,12 +27,13 @@ registrationDetails:RegistrationDetails,
 submitUrl:Call,
 cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.charityName.sectionTitle"),
-browserTitle = Some(Messages("iht.estateReport.exemptions.charities.charityName.title")),
-cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsCharitiesNameID))),
-cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
-isFullWidth=false,
-headingClass = "heading-large"){
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("iht.estateReport.exemptions.charities.charityName.title")),
+    cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsCharitiesNameID))),
+    cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
+    isFullWidth=false
+){
 @ihtHelpers.custom.error_summary(charityNameForm)
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
@@ -41,7 +42,8 @@ headingClass = "heading-large"){
     '_divClass -> "form-group ",
     '_inputClass -> "form-control",
     '_label -> Html(Messages("page.iht.application.exemptions.charityName.sectionTitle")),
-    '_labelTextClass -> "visually-hidden"
+    '_legendIsHeading -> true,
+    '_headingClass -> "heading-large"
     )
     <div id="action-button" class="form-field form-field--submit">
         <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

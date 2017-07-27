@@ -64,7 +64,7 @@
         @if(labelAsHeading) {<h1 class="@if(elements.args.get('_headingClass).isDefined){@elements.args.get('_headingClass)}else {heading-xlarge}">}
             <label
                    for="@elements.field.name"
-                   class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }"
+                    @if(elements.args.get('_labelClass)){class=" @elements.args.get('_labelClass)"}
                     @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)}>
 
                     @if(labelHighlight){<strong>}

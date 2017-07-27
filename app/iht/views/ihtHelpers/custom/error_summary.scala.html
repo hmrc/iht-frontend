@@ -28,7 +28,7 @@
 *@
 
 @if(form.hasErrors) {
-<div id="errors" role="group" class="validation-summary" aria-labelledby="errors-heading">
+<div id="errors" tabindex="-1" role="alert" class="validation-summary" aria-labelledby="errors-heading">
     <h1 class="heading-small" id="errors-heading">@Messages("error.problem")</h1>
     <p>@Messages("error.checkCorrect")</p>
     <ul class="error-list">

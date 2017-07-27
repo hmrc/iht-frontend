@@ -32,7 +32,7 @@
 
 @labelAsHeading = @{ elements.args.get('_legendIsHeading).getOrElse(false).asInstanceOf[Boolean] }
 
-<div id="@{elements.field.name}-container" class="form-group @elements.args.get('_groupClass) @if(elements.hasErrors) {form-field--error}">
+
 
 
 @if(elements.args.get('_legend).isDefined) {
@@ -55,7 +55,7 @@
         @elements.args.get('_hintText)
     </div>
     }
-
+<div id="@{elements.field.name}-container" class="form-field @elements.args.get('_groupClass) @if(elements.hasErrors) {form-field--error}">
     @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
 
 
@@ -100,8 +100,8 @@
     '_type -> "number",
     '_dataAttributes -> (if(elements.args.contains('_inputDataAttributes) ){ elements.args.get('_inputDataAttributes)} else "")
     )
-
+</div>
 @if(elements.args.get('_legend).isDefined) {
 </fieldset>
 }
-</div>
+
