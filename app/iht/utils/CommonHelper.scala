@@ -24,8 +24,8 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import play.api.Play.current
 import play.api.data.{Form, FormError}
+import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits.applicationMessages
-import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Call, Request}
 
 import scala.util.{Failure, Success, Try}
