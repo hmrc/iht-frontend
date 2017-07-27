@@ -28,6 +28,11 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 @deceasedNameWrap = @{ihtHelpers.custom.name(deceasedName)}
+@helpCopy = @{
+    <p id="guidance-1">{Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1", deceasedName)}</p>
+    <p id="guidance-2">{Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2", deceasedName)}</p>
+}
+
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.insurance.policies.section3.browserTitle")),
@@ -43,8 +48,7 @@ isFullWidth=false
             '_divClass -> Some("form-group"),
             '_legendIsHeading -> true,
             '_headingClass -> "heading-large",
-            '_hintText -> Html("<p id=\"guidance-1\">" + Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText1", deceasedNameWrap)) + "</p>" +
-                                "<p id=\"guidance-2\">" + Html(Messages("iht.estateReport.insurancePolicies.premiumsNotPayingOut.question.hintText2", deceasedNameWrap)) + "</p>"),
+            '_hintText -> helpCopy,
             '_hintClass -> "form-hint--heavy"
         )
 

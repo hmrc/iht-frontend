@@ -27,6 +27,9 @@
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@helpCopy() = @{
+    <p id="insurance-policy-description">{Messages("page.iht.application.insurance.policies.section6.guidance")}</p>
+}
 
 @iht_main_template_application(title = "",
 browserTitle=Some(Messages("page.iht.application.insurance.policies.section6.browserTitle")),
@@ -43,7 +46,7 @@ isFullWidth=false
             '_divClass -> Some("form-group"),
             '_legendIsHeading -> true,
             '_headingClass -> "heading-large",
-            '_hintText -> Html("<p id=\"insurance-policy-description\">" + Messages("page.iht.application.insurance.policies.section6.guidance") + "</p>"),
+            '_hintText -> helpCopy,
             '_hintClass -> "form-hint--heavy"
         )
 

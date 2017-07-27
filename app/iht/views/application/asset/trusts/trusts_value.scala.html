@@ -30,9 +30,8 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.trusts.value.browserTitle")),
-isFullWidth=false,
-headingName = deceasedName,
-headingClass = "heading-large"){
+isFullWidth=false
+){
     @ihtHelpers.custom.error_summary_override_keys(trustsValueForm, Constants.AppSectionHeldInTrust)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsValueController.onSubmit,'autoComplete -> "off") {
 

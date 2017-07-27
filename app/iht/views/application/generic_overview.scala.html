@@ -39,7 +39,7 @@ messagesFileBullets:Seq[String] = Seq.empty
 @if(!messagesFileBullets.isEmpty) {
     <ul class="bullets">
     @messagesFileBullets.map{ bullet =>
-        <li>@bullet</li>
+        <li>@Html(bullet)</li>
     }
     </ul>
 }
