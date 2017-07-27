@@ -216,22 +216,4 @@ object CommonHelper {
       url
     }
   }
-
-  def translateToPreferredLanguage(content: String, sourceMessages: Messages, targetLanguageCode: String): String = {
-    val sourceLang = sourceMessages.lang.code.substring(0,2)
-    if (sourceLang == targetLanguageCode) {
-      content
-    } else {
-      val key = sourceMessages.messages.messages(sourceLang).find(_._2 == content).fold("Key not found")(_._1)
-      sourceMessages.messages.messages(targetLanguageCode)(key).replace("''", "'")
-    }
-  }
-
-  def messagesForLang(sourceMessages: Messages, targetLanguageCode: String): Messages = {
-    val sourceLang = sourceMessages.lang.code.substring(0,2)
-    implicit val lang = Lang.apply(targetLanguageCode)
-    val ff = applicationMessages
-    ff
-
-  }
 }

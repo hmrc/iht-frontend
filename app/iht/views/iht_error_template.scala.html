@@ -18,8 +18,8 @@
 @import iht.constants.IhtProperties
 @import play.api.Play.current
 @import play.api.i18n.Messages.Implicits.applicationMessagesApi
-@import iht.utils.CommonHelper.translateToPreferredLanguage
-@import iht.utils.CommonHelper.messagesForLang
+@import iht.utils.MessagesHelper.translateToPreferredLanguage
+@import iht.utils.MessagesHelper.messagesForLang
 
 @(pageTitle: String, heading: String, message: String)(implicit request: Request[_], messages: Messages)
 @contentHeader = {
