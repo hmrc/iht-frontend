@@ -29,19 +29,20 @@ registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
 cancelLinkText:String)(implicit request:Request[_], messages: Messages)
 
-@partnerName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
+@partnerName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 @spouseLabel() = @{TnrbHelper.spouseOrCivilPartnerLabel(
                         tnrbModel,
                         widowCheckModel,
                         Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",partnerName),
-                        false
+                        true
                 )}
 
-@iht_main_template_application(title = Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",spouseLabel),
-browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
-cancelUrl = Some(cancelLinkUrl),
-cancelLabel=Some(cancelLinkText),
-headingName = partnerName){
+@iht_main_template_application(
+    title = "",
+    browserTitle  = Some(Messages("iht.estateReport.tnrb.increasingIHTThreshold")),
+    cancelUrl = Some(cancelLinkUrl),
+    cancelLabel=Some(cancelLinkText)
+){
 
 @ihtHelpers.custom.error_summary(deceasedWidowCheckDateForm, Some(
     Map(
@@ -53,15 +54,17 @@ headingName = partnerName){
 @helpers.form(action = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onSubmit,'autoComplete -> "off") {
 
 @ihtHelpers.standard.date_fields(
-deceasedWidowCheckDateForm,
-"dateOfPreDeceased",
-"",
-None,
-'_hintText -> Messages("iht.dateExample2"),
-'_labelTextClass -> "bold",
-'_groupId -> "responsibleFromDateFieldSet",
-'_legend -> Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",spouseLabel),
-'_legendClass -> Some("visually-hidden")
+    deceasedWidowCheckDateForm,
+    "dateOfPreDeceased",
+    "",
+    None,
+    '_hintText -> Messages("iht.dateExample2"),
+    '_labelTextClass -> "bold",
+    '_groupId -> "responsibleFromDateFieldSet",
+    '_legend -> Html(Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question", spouseLabel)),
+    '_legendClass -> Some("legend-with-heading"),
+    '_headingClass -> "heading-large",
+    '_legendIsHeading -> true
 )
 <div id="action-button" class="form-field form-field--submit">
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

@@ -30,11 +30,12 @@
 
 @defining(Messages("iht.estateReport.tnrb.dateOfMarriage",
     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>
-    @iht_main_template_application(title = pageTitle,
+    @iht_main_template_application(
+        title = "",
         browserTitle = Some(pageTitle),
         cancelLabel = Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-        cancelUrl = Some(cancelUrl),
-        headingName = deceasedName) {
+        cancelUrl = Some(cancelUrl)
+    ) {
 
         @ihtHelpers.custom.error_summary(dateOfMarriageForm, Some(
                 Map(
@@ -44,19 +45,19 @@
         )
 
         @helpers.form(action = iht.controllers.application.tnrb.routes.DateOfMarriageController.onSubmit, 'autoComplete -> "off") {
-            <p>@Html(Messages("iht.estateReport.tnrb.dateOfMarriage.hint",
-                TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel),
-                deceasedName, predeceasedName))</p>
+
             @ihtHelpers.standard.date_fields(
                 dateOfMarriageForm,
                 "dateOfMarriage",
                 pageTitle,
                 None,
-                '_hintText -> Messages("iht.dateExample2"),
-                '_labelTextClass -> "bold",
+                '_hintText -> Html("<p>" + Messages("iht.estateReport.tnrb.dateOfMarriage.hint", TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName, predeceasedName) + "</p>" +
+                                "<p class=\"form-hint\">" + Messages("iht.dateExample2") + "</p>"),
+                '_hintClass -> "form-hint--heavy",
                 '_groupId -> "responsibleFromDateFieldSet",
                 '_legend -> pageTitle,
-                '_legendClass -> Some("visually-hidden")
+                '_legendClass -> Some("legend-with-heading"),
+                '_legendIsHeading -> true
             )
             <div id="action-button" class="form-field form-field--submit">
                 <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

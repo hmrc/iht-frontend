@@ -151,3 +151,14 @@ h1 > label {
     line-height: inherit;
     font-weight: inherit;
 }
+
+/*
+====================================
+Spacing for error summary where it comes before h1
+This flips the margins from the standard
+====================================
+*/
+article > .validation-summary:first-child {
+    margin-bottom: 0;
+    margin-top: 30px;
+}

@@ -27,25 +27,25 @@ widowCheck: WidowCheck,
 cancelUrl:Call
 )(implicit request:Request[_], messages: Messages)
 
-@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
+@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.tnrb.benefitFromTrust.question",
-partnerName),
-browserTitle = Some(Messages("page.iht.application.tnrb.benefitFromTrust.browserTitle")),
-cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(cancelUrl),
-headingName = partnerName,
-headingClass = "heading-large"){
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("page.iht.application.tnrb.benefitFromTrust.browserTitle")),
+    cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+    cancelUrl = Some(cancelUrl)
+){
     @ihtHelpers.custom.error_summary(benefitFromTrustForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.BenefitFromTrustController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
-        benefitFromTrustForm("isPartnerBenFromTrust"),
-        '_divClass -> Some("form-group"),
-        '_legend -> Messages("iht.estateReport.tnrb.benefitFromTrust.question",
-        TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"))),
-        '_legendClass -> Some("visually-hidden")
+            benefitFromTrustForm("isPartnerBenFromTrust"),
+            '_divClass -> Some("form-group"),
+            '_legend -> Messages("iht.estateReport.tnrb.benefitFromTrust.question", partnerName),
+            '_legendClass -> Some("legend-with-heading"),
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large"
       )
 
         <div id="action-button" class="form-field form-field--submit">
