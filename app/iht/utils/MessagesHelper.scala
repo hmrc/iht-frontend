@@ -30,8 +30,12 @@ object MessagesHelper {
     if (sourceLang == targetLanguageCode) {
       content
     } else {
-      val key = sourceMessages.messages.messages(sourceLang).find(_._2 == content).fold("Key not found")(_._1)
-      sourceMessages.messages.messages(targetLanguageCode)(key).replace("''", "'")
+      sourceMessages.messages.messages(sourceLang).find(_._2 == content) match {
+        case None =>
+          content
+        case Some(messageFound) =>
+          sourceMessages.messages.messages(targetLanguageCode)(messageFound._1).replace("''", "'")
+      }
     }
   }
 
