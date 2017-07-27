@@ -2297,8 +2297,6 @@ error.selectAnswer.summary = select an answer
 error.signOutLater = Sign out and complete this service at another time.
 error.value.blank = A value should be entered
 
-
-
 # frontend-bootstrap error messages
 
 global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Inheritance Tax overview
