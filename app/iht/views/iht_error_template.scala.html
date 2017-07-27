@@ -25,16 +25,10 @@
 <h1>@heading</h1>
 }
 
-@mainContent = {
-<p>
-    @{
-        val ff: Messages = applicationMessagesApi.preferred(request)
-        println( "\n***>>>====" + ff("error.address.blank") )
-        println( "\n***<<<====" + messages("error.address.blank") )
-        CommonHelper.translateToWelsh(messages("error.address.blank"), messages, ff)
-    }
+@preferredMessages = @{applicationMessagesApi.preferred(request)}
 
-    @message</p>
+@mainContent = {
+<p>@CommonHelper.translateToWelsh(message, messages, preferredMessages)</p>
 
 <br>
 <div id="gov-uk-iht-button">

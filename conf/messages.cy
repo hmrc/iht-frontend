@@ -15,7 +15,7 @@ error.postcode.incorrect=Nodwch god post dilys
 error.giftsDetails.exceedsGivenAway=Ni all cyfanswm yr eithriadau sy''n cael eu hawlio ar gyfer flwyddyn fod yn fwy na chyfanswm gwerth y rhoddion a rhoddwyd i ffwrdd
 iht.date.months=mis
 page.iht.registration.registrationSummary.applicantInfo.dateOfBirth.data.screenReader=Eich dyddiad geni yw {0}. Ni ellir newid hwn
-global.error.InternalServerError500.message=Rhowch gynnig arall arni mewn ychydig.
+
 page.iht.application.exemptions.partner.name.browserTitle=Enw''r partner
 page.iht.registration.questionnaire.p1=Nid oes unrhyw fanylion a roddwyd gennych wedi''u cadw. Mae angen i chi gwblhau''r broses gofrestru mewn un tro.
 error.length.assets.policies=Nodwch werth gan ddefnyddio llai nag 11 rhif
@@ -234,7 +234,7 @@ iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodyNotCharit
 iht.timeout.signBackToGG=Mewngofnodwch yn ôl i Borth y Llywodraeth
 iht.estateReport.exemptions.guidance.claimingEstateExemptions=Gwneud cais am eithriadau''r ystâd
 page.iht.application.debts.overview.funeralExpenses.screenReader.value=£{0} yw swm y treuliau angladd
-global.error.badRequest400.title=Cais drwg – 400
+
 page.iht.application.exemptions.assetLeftToGncp.screenReader.value=Swm yr asedion a adawyd i gorff cymwys arall yw £{0}
 page.iht.application.debts.debtsOutsideUk.description.p1=Dyma swm yr holl ddyledion sy''n ddyledus i unrhyw un y tu allan i''r DU, gan gynnwys unrhyw beth sy''n ddyledus ar asedion tramor.
 page.iht.application.overview.assets.screenReader.noValue.link=Dechreuwch roi fanylion ar gyfer asedion yn yr ystâd
@@ -368,7 +368,7 @@ error.debtsOutsideUk.currencyValue.length.summary=nodwch werth ar gyfer dyledion
 page.iht.registration.registrationSummary.coExecutorTable.others-are-applying.text=Mae pobl eraill yn gwneud cais am brofiant
 page.iht.application.overview.exemptions.screenReader.noValue=Nid ydych wedi nodi unrhyw eithriadau''r ystâd
 error.dateOfMarriage.giveFull=Rhowch ddyddiad llawn ar gyfer priodi
-global.error.badRequest400.heading=Cais drwg
+
 error.dateOfDeath.giveCorrectMonth=Rhowch fis cywir ar gyfer y farwolaeth gan ddefnyddio''r rhifau 1 i 12
 page.iht.application.debts.overview.funeralExpenses.screenReader.link.value=Newidiwch swm y treuliau angladd
 page.iht.registration.registrationSummary.applicantInfo.email.link.screenReader=Newid eich cyfeiriad e-bost
@@ -653,7 +653,7 @@ iht.estateReport.declaration.checkedEverything.p1=Os ydych yn dal i ddisgwyl cly
 page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.moreDetail=Rhowch ragor o fanylion am ddyledion sy''n ddyledus i unrhyw un y tu allan i''r DU
 site.changeDate=Newid dyddiad
 error.vehicles.currencyValue.summary=nodwch werth ar gyfer cerbydau modur gan ddefnyddio rhifau''n unig
-global.error.pageNotFound404.title=Heb ddod o hyd i''r dudalen – 404
+
 site.link.giveDetails=Rhowch fanylion
 page.iht.questionnaire.easy-to-use.very-difficult=Anodd iawn
 site.copyApplication.link=copi o''r cais
@@ -687,7 +687,7 @@ page.iht.application.overview.tnrb.screenReader.link=Bwrw golwg ar neu newid man
 error.dateOfBirth.incorrect=Nodwch ddyddiad geni dilys
 error.address.give=Rhowch gyfeiriad
 page.iht.application.exemptions.guidance.content4=Gallai gwerth yr ystâd ddisgyn yn is na''r trothwy Treth Etifeddiant drwy wneud cais am yr eithriadau hyn.
-global.error.pageNotFound404.heading=Ni ellir dod o hyd i''r dudalen hon
+
 page.iht.home.applicationList.table.guidance.label.empty=Nid ydych wedi cofrestru er mwyn llenwi adroddiad Treth Etifeddiant ynghylch yr ystâd.
 page.iht.registration.applicant.applyingForProbate.p1=Os ydych yn gwneud cais am brofiant, byddwch hefyd yn llenwi PA1 - ffurflen gais ar gyfer Profiant.
 error.isEstateBelowIhtThresholdApplied.select=Dewiswch ateb ar gyfer os trosglwyddwyd yr ystâd i gyd i''r ymadawedig, elusen neu gorff cymwys arall
@@ -716,7 +716,8 @@ error.address.blank=Nodwch gyfeiriad
 error.length.giftsDetails.value=Nodwch werth gan ddefnyddio llai nag 11 rhif
 site.noCharityNameGiven=Ni roddwyd enw elusen
 page.iht.registration.applicantAddress.title=Eich cyfeiriad
-global.error.InternalServerError500.title=Rydym yn profi anawsterau technegol
+
+
 page.iht.registration.co-executor-personal-details.isAddressInUk=A yw ei gyfeiriad yn y DU?
 page.iht.application.overview.timeScale.guidance.months=Os na fyddwch yn anfon yr adroddiad ynghylch yr ystâd erbyn yr adeg hon, caiff ei ddileu a bydd yn rhaid i chi ddechrau o''r newydd.
 error.postcode.invalid.character=Mae''r llinell hon yn cynnwys cymeriad annilys. Dyma''r cymeriadau dilys: A-Z a-z 0-9 - ’ , / & bwlch
@@ -776,7 +777,8 @@ error.privatePension.currencyValue.length.summary=nodwch werth ar gyfer pensiyna
 page.iht.application.exemptions.overview.charity.screenReader.link.noValue=Rhowch ateb ar gyfer asedion a adawyd i elusennau
 site.button.details.correct.exitToGovK=Mae''r manylion a roddwyd yn gywir – gadael, ac ymlaen i GOV.UK
 page.iht.application.declaration_received.subtitle=Yr hyn sy''n digwydd nesaf
-global.error.InternalServerError500.link.gov-uk-iht.text=Ymlaen i Drosolwg o Dreth Etifeddiant
+
+
 error.isAssetForDeceasedPartner.select=Dewiswch ateb ar gyfer os oes unrhyw asedion wedi''u gadael i briod neu bartner sifil yr ymadawedig
 page.iht.application.exemptions.overview.partner.dob.title=Dyddiad geni''r priod neu''r partner sifil
 page.iht.home.applicationList.table.guidance.label=Dyma''r holl adroddiadau Treth Etifeddiant ynghylch yr ystâd rydych wedi''u cofrestru.
@@ -803,7 +805,9 @@ error.dateOfDeath.giveCorrectYear=Rhowch flwyddyn gywir ar gyfer y farwolaeth
 site.date-hint-text=Er enghraifft, 31 12 2014
 site.noCharityNumberGiven=Ni roddwyd rhif elusen
 iht.estateReport.exemptions.charities.returnToAssetsLeftToCharities=Yn ôl i asedion a adawyd i elusennau
-global.error.InternalServerError500.heading=Mae''n ddrwg gennym, rydym yn profi anawsterau technegol
+
+
+
 iht.estateReport.exemptions.guidance.provideAssetsDetails=Bydd rhaid i chi roi manylion yr asedion hyn yn yr adran ynghylch eithriadau''r ystâd. Gallwch gadw''r manylion yr ydych wedi eu nodi a dychwelyd iddynt ar unrhyw adeg drwy''r dudalen drosolwg ar gyfer yr ystâd.
 page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader=Dyddiad geni''r ymadawedig yw {0}
 page.iht.application.debts.overview.debtsOutsideUk.screenReader.link.noValue=Rhowch swm ar gyfer dyledion sy''n ddyledus i unrhyw un y tu allan i''r DU
@@ -938,7 +942,8 @@ iht.change=Newid
 iht.registration.deceased.lastContactAddress=Cyfeiriad cyswllt diwethaf {0}
 error.assets.insurancePolicy.moreThanMaxValue.select=Dewiswch ateb ar gyfer a dalodd yr ymadawedig mwy na £3,000 mewn unrhyw flwyddyn am bolisiau yswiriant nad oedd disgwyl iddynt dalu allan i''w ystâd/hystâd
 iht.giveMoreDetails=Rhowch ragor o fanylion
-global.error.InternalServerError500.link.gov-uk.text=Chwilio drwy GOV.UK.
+
+
 iht.estateReport.declaration.title=Datganiad
 iht.registration.applicant.tellUsAboutYourself=Eich manylion cyswllt
 iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext=Os nad ydych yn gwybod a fydd asedion sy''n mynd i gorff arall wedi eu heithrio rhag Treth Etifeddiant, ffoniwch y llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072. Unwaith eich bod wedi rhoi enw''r corff, cewch wybod a fydd unrhyw asedion a adawyd iddo wedi eu heithrio rhag Treth Etifeddiant.
@@ -999,6 +1004,33 @@ page.iht.application.exemptions.overview.charity.detailsOverview.value.screenrea
 error.address.giveInLine1And2=Rhowch gyfeiriad yn llinell 1 a 2
 page.iht.registration.checklist.startRegistrationButton=Dechrau''r broses gofrestru
 
-global.error.InternalServerError500.title = Sorry, we are experiencing technical difficulties - 500waoo
-global.error.InternalServerError500.heading = Sorry, we’re experiencing technical difficultieswaoo
-global.error.InternalServerError500.message = Please try again in a few minutes.waoo
+
+# frontend-bootstrap error messages
+
+global.error.InternalServerError500.link.gov-uk-iht.text=Ymlaen i Drosolwg o Dreth Etifeddiant
+global.error.InternalServerError500.link.gov-uk.text=Chwilio drwy GOV.UK.
+
+global.error.badRequest400.title=Cais drwg – 400
+global.error.badRequest400.heading=Cais drwg
+global.error.badRequest400.message=Welsh??? Please check that you have entered the correct web address.
+global.error.pageNotFound404.title=Heb ddod o hyd i''r dudalen – 404
+global.error.pageNotFound404.heading=Ni ellir dod o hyd i''r dudalen hon
+global.error.pageNotFound404.message=Welsh???Please check that you have entered the correct web address.
+
+global.error.InternalServerError500.title=Rydym yn profi anawsterau technegol
+global.error.InternalServerError500.heading=Mae''n ddrwg gennym, rydym yn profi anawsterau technegol
+global.error.InternalServerError500.message=Rhowch gynnig arall arni mewn ychydig.
+
+# end of frontend-bootstrap error messages
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2297,10 +2297,12 @@ error.selectAnswer.summary = select an answer
 error.signOutLater = Sign out and complete this service at another time.
 error.value.blank = A value should be entered
 
-global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Inheritance Tax overview
-global.error.InternalServerError500.link.gov-uk.text = Explore GOV.UK.
+
 
 # frontend-bootstrap error messages
+
+global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Inheritance Tax overview
+global.error.InternalServerError500.link.gov-uk.text = Explore GOV.UK.
 
 global.error.badRequest400.title = Bad request - 400
 global.error.badRequest400.heading = Bad request

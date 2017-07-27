@@ -217,8 +217,15 @@ object CommonHelper {
     }
   }
 
-  def translateToWelsh(content: String, englishMessages: Messages, welshMessages: Messages): String = {
-    ""
+  def translateToWelsh(content: String, sourceMessages: Messages, targetMessages: Messages): String = {
+    val sourceLang = sourceMessages.lang.code.substring(0,2)
+    val targetLang = targetMessages.lang.code.substring(0,2)
+    if (sourceLang == targetLang) {
+      content
+    } else {
+      val key = sourceMessages.messages.messages(sourceLang).find(_._2 == content).fold(content)(_._1)
+      targetMessages.messages.messages(targetLang)(key)
+    }
   }
 
 }
