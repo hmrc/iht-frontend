@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package iht.views.ihtHelpers
+package iht.views.ihtHelpers.standard
 
 import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.standard.input_radio_group_with_hints
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.hmrc.play.test.UnitSpec
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.test.UnitSpec
 
 /**
  * Created by jennygj on 28/10/16.

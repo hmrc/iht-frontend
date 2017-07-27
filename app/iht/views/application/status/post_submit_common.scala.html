@@ -19,7 +19,7 @@
 
 @(deceasedName: String, inReview: Boolean)(implicit request:Request[_], messages: Messages)
 
-@Html(Messages("page.iht.application.overview.common.estatevalue", ihtHelpers.custom.name(deceasedName)))
+@Html(Messages("page.iht.application.overview.common.estatevalue", deceasedName))
 @if(inReview) { <p>@Messages("page.iht.application.overview.inreview.helptext")</p> }
 <div class="panel-indent">@Messages("page.iht.application.overview.common.helptext.part1", deceasedName)
     <a id="corrective-account-form" href="@IhtProperties.correctiveAccountsLink">@Messages("iht.estateReport.correctiveAccountForm")</a>.
