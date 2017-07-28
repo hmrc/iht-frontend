@@ -140,7 +140,7 @@
                 @ihtHelpers.custom.summary_item(
                     label = Messages("iht.address.upperCaseInitial"),
                     data = AddressHelper.addressFormater(CommonHelper.getOrException(applicantDetails.ukAddress)),
-                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.address.data.screenReader", AddressHelper.addressFormater(CommonHelper.getOrException(applicantDetails.ukAddress))),
+                    dataScreenReaderText = Messages("page.iht.registration.applicantAddress.title", AddressHelper.addressFormater(CommonHelper.getOrException(applicantDetails.ukAddress))),
                     changeLink = if (CommonHelper.getOrException(applicantDetails.doesLiveInUK) == true) {
                         applicantRoutes.ApplicantAddressController.onEditPageLoadUk.url + "#details" } else {
                         applicantRoutes.ApplicantAddressController.onEditPageLoadAbroad.url + "#details"
@@ -151,7 +151,7 @@
                 @ihtHelpers.custom.summary_item(
                     label = Messages("iht.registration.checklist.phoneNo.upperCaseInitial"),
                     data = CommonHelper.getOrException(applicantDetails.phoneNo),
-                    dataScreenReaderText = Messages("page.iht.registration.registrationSummary.applicantInfo.phoneNumber.data.screenReader", CommonHelper.getOrException(applicantDetails.phoneNo)),
+                    dataScreenReaderText = Messages("page.iht.registration.applicantDetails.phoneNo.label", CommonHelper.getOrException(applicantDetails.phoneNo)),
                     changeLink = applicantRoutes.ApplicantTellUsAboutYourselfController.onEditPageLoad.url + "#phoneNo",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.phoneNumber.link.screenReader"),
                     linkId="change-phone-number"
@@ -159,7 +159,7 @@
                 @ihtHelpers.custom.summary_item(
                     label = Messages("iht.registration.applicant.applyingForProbate"),
                     data = StringHelper.yesNoFormat(applicantDetails.isApplyingForProbate),
-                    dataScreenReaderText = "",
+                    dataScreenReaderText = Messages("iht.registration.applicant.applyingForProbate"),
                     changeLink = applicantRoutes.ApplyingForProbateController.onEditPageLoad.url + "#applying-for-probate",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.applyingForProbate.link.screenReader"),
                     linkId="change-applying-for-probate"
@@ -167,7 +167,7 @@
                 @ihtHelpers.custom.summary_item(
                     label = Messages("page.iht.registration.applicant.probateLocation.title"),
                     data = FieldMappings.domicileMap(messages)(CommonHelper.getOrException(applicantDetails.country)).toString,
-                    dataScreenReaderText = "",
+                    dataScreenReaderText = Messages("page.iht.registration.applicant.probateLocation.title"),
                     changeLink = applicantRoutes.ProbateLocationController.onEditPageLoad.url + "#country",
                     changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.applicantInfo.country.link.screenReader"),
                     linkId="change-probate-location"

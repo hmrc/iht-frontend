@@ -71,7 +71,7 @@
                     @ihtHelpers.custom.summary_item(
                         label = Messages("iht.dateofbirth"),
                         data = Dates.formatDate(coExecutor.dateOfBirth).toString,
-                        dataScreenReaderText = Messages("page.iht.registration.checklist.exec.dob.screenreader", execName),
+                        dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader", execName),
                         changeLink = executorRoutes.CoExecutorPersonalDetailsController.onEditPageLoad(id).url + "#date-of-birth",
                         changeLinkHiddenText = Messages("page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader", coExecutor.name),
                         linkId = "change-coexecutor-" + i + "-date-of-birth",
@@ -91,7 +91,7 @@
                     @ihtHelpers.custom.summary_item(
                         label = Messages("iht.address.upperCaseInitial"),
                         data = AddressHelper.addressFormater(CommonHelper.getOrException(coExecutor.ukAddress)),
-                        dataScreenReaderText = Messages("page.iht.registration.checklist.exec.address.screenreader", execName),
+                        dataScreenReaderText = Messages("page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader", execName),
                         changeLink = if (CommonHelper.getOrException(coExecutor.isAddressInUk) == true) {
                             executorRoutes.OtherPersonsAddressController.onEditPageLoadUK(id).url + "#details" } else {
                             executorRoutes.OtherPersonsAddressController.onEditPageLoadAbroad(id).url + "#details"

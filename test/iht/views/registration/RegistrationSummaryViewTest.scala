@@ -320,7 +320,7 @@ object SharableOverviewRow {
       )
       case 3 =>
         SharableOverviewRow(
-          rowText = cells.get(0).text,
+          rowText = cells.get(0).select("span[aria-hidden]").text,
           value = cells.get(1).text,
           linkText = getLinkText(cells.get(2).getElementsByTag("a").first),
           linkHref = getLinkHref(cells.get(2).getElementsByTag("a").first)

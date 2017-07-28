@@ -279,9 +279,7 @@ page.iht.registration.checklist.exec.reveal.label2 = Their name should be given 
 page.iht.registration.checklist.exec.reveal.label3 = The phone number given is one that HMRC can contact this person on. This might happen after you have finished the estate report and it is being reviewed.
 
 page.iht.registration.checklist.exec.name.screenreader = {0}’s name
-page.iht.registration.checklist.exec.dob.screenreader = {0}’s date of birth
 page.iht.registration.checklist.exec.nino.screenreader = {0}’s National Insurance Number
-page.iht.registration.checklist.exec.address.screenreader = {0}’s address
 page.iht.registration.checklist.exec.phone.screenreader = {0}’s phone number
 
 iht.registration.checklist.dateOfBirth = date of birth
@@ -449,12 +447,10 @@ page.iht.registration.registrationSummary.applicantInfo.nino.link.screenReader =
 page.iht.registration.registrationSummary.applicantInfo.nino.data.screenReader = Your national insurance number is {0}. This cannot be changed
 
 page.iht.registration.registrationSummary.applicantInfo.address.link.screenReader = Change your address
-page.iht.registration.registrationSummary.applicantInfo.address.data.screenReader = Your address
 
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.id = contactDetails.phoneNo
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.id.container = contactDetails_phoneNo-container
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.link.screenReader = Change your phone number
-page.iht.registration.registrationSummary.applicantInfo.phoneNumber.data.screenReader = Your phone number
 
 page.iht.registration.registrationSummary.applicantInfo.email.id.container = contactDetails_email-container
 page.iht.registration.registrationSummary.applicantInfo.email.link.screenReader = Change your email address
