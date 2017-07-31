@@ -1,5 +1,5 @@
 @*
-* Copyright 2016 HM Revenue & Customs
+* Copyright 2015 HM Revenue & Customs
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -14,14 +14,11 @@
 * limitations under the License.
 *@
 
-@(implicit request : Request[_], messages: Messages)
+@(sidebarLinks: Html,
+sidebarClass: Option[String] = None,
+currentLang: String = "en")
 
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
+<aside  @if(currentLang.equals("cy")){lang = "cy"} @if( sidebarClass.isDefined ) {class="@sidebarClass.get"}>
+    @sidebarLinks
+</aside>
 
-<p><Strong>@Messages("error.cannotSend")</Strong></p>
-<p>@Messages("error.signOutLater")</p>
-
-<div id="continue-button">
-    <a class="button" href="@iht.controllers.routes.SessionManagementController.signOut.url">@Messages("site.button.signOut")</a>
-</div>

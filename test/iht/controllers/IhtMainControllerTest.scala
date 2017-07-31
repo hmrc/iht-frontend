@@ -21,12 +21,12 @@ import iht.controllers.application.ApplicationControllerTest
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
-class IhtMainControllerTest extends ApplicationControllerTest {
+class SessionManagementControllerTest extends ApplicationControllerTest {
 
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def ihtMainController = new IhtMainController {
+  def ihtMainController = new SessionManagementController {
 
   }
 

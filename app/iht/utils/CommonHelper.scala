@@ -26,7 +26,8 @@ import play.api.Play.current
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits.applicationMessages
-import play.api.mvc.{Call, Request}
+import play.api.mvc.{RequestHeader, Call, Request}
+import uk.gov.hmrc.play.language.LanguageUtils
 
 import scala.util.{Failure, Success, Try}
 

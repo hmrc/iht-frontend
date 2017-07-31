@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package iht.viewmodels.application.home
+package iht.viewmodels.estateReports
 
 import iht.connector.IhtConnector
 import iht.constants.IhtProperties
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import iht.utils.{ApplicationStatus, CommonHelper}
+import iht.utils.ApplicationStatus
+import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import org.joda.time.LocalDate
-import play.api.i18n.MessagesApi
-import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
-class IhtHomeRowViewModelTest extends ApplicationControllerTest {
+class YourEstateReportsRowViewModelTest extends ApplicationControllerTest {
 
   var mockIhtConnector = mock[IhtConnector]
   implicit val hc = new HeaderCarrier
@@ -37,10 +36,10 @@ class IhtHomeRowViewModelTest extends ApplicationControllerTest {
     createMockToGetApplicationDetails(mockIhtConnector)
   }
 
-  "IhtHomeRowViewModel" must {
+  "YourEstateReportsRowViewModel" must {
 
     val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.NotStarted)
-    def viewModel = IhtHomeRowViewModel("", ihtApp, mockIhtConnector)
+    def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector)
 
     "should be created from IhtApplication with deceased name" in {
       viewModel.deceasedName shouldBe CommonBuilder.DefaultName
@@ -60,7 +59,7 @@ class IhtHomeRowViewModelTest extends ApplicationControllerTest {
 
     "should be created from IhtApplication with status of in progress" in {
       val ihtApp = CommonBuilder.buildIhtApplication.copy(currentStatus = ApplicationStatus.InProgress)
-      def viewModel = IhtHomeRowViewModel("", ihtApp, mockIhtConnector)
+      def viewModel = YourEstateReportsRowViewModel("", ihtApp, mockIhtConnector)
       viewModel.currentStatus shouldBe messagesApi("iht.inProgress")
     }
 

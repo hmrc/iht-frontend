@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package iht.views.ihtHelpers
+package iht.views.ihtHelpers.custom
 
+import iht.testhelpers.TestHelper._
 import iht.viewmodels.application.overview._
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.overview_item
 import play.api.i18n.Messages.Implicits._
-import iht.testhelpers.TestHelper._
 
 class OverviewItemViewTest extends ViewTestHelper {
 

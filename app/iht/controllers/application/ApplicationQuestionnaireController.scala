@@ -33,5 +33,5 @@ trait ApplicationQuestionnaireController extends ApplicationController with Ques
     application_questionnaire(form)
   }
   override def callPageLoad = iht.controllers.application.routes.ApplicationQuestionnaireController.onPageLoad()
-  override val redirectLocationOnMissingNino = iht.controllers.home.routes.IhtHomeController.onPageLoad()
+  override val redirectLocationOnMissingNino = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()
 }

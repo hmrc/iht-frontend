@@ -40,7 +40,7 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
     behave like applicationStatusPage()
 
     "show submit button with correct target and text" in {
-      doc.getElementsByTag("form").attr("action") shouldBe iht.controllers.home.routes.IhtHomeController.onPageLoad().url
+      doc.getElementsByTag("form").attr("action") shouldBe iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
       val submitButton = doc.getElementById("return-input")
       submitButton.`val` shouldBe messagesApi("page.iht.application.overview.common.return")
     }

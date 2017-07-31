@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package iht.controllers.home
+package iht.controllers.estateReports
 
 import java.util.UUID
 
@@ -22,7 +22,7 @@ import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationController
 import iht.utils.{SessionHelper, StringHelper, ApplicationStatus => AppStatus}
-import iht.viewmodels.application.home.IhtHomeRowViewModel
+import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import play.api.Logger
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -33,9 +33,9 @@ import uk.gov.hmrc.play.http.{SessionKeys, Upstream4xxResponse}
   * Created by Vineet Tyagi on 18/06/15.
   *
   */
-object IhtHomeController extends IhtHomeController with IhtConnectors
+object YourEstateReportsController extends YourEstateReportsController with IhtConnectors
 
-trait IhtHomeController extends ApplicationController {
+trait YourEstateReportsController extends ApplicationController {
 
   def cachingConnector: CachingConnector
 
@@ -61,15 +61,15 @@ trait IhtHomeController extends ApplicationController {
             }
 
             val viewModels = listOfCases.map {
-              ihtCase => IhtHomeRowViewModel(nino, ihtCase, ihtConnector)
+              ihtCase => YourEstateReportsRowViewModel(nino, ihtCase, ihtConnector)
             }
 
-            Ok(iht.views.html.home.iht_home(viewModels))
+            Ok(iht.views.html.estateReports.your_estate_reports(viewModels))
               .withSession(request.session + (SessionKeys.sessionId -> s"session-${UUID.randomUUID}") + (Constants.NINO -> nino))
           }
         } recover {
           case e: Upstream4xxResponse if e.upstreamResponseCode == 404 =>
-            Ok(iht.views.html.home.iht_home(Nil)).withSession(
+            Ok(iht.views.html.estateReports.your_estate_reports(Nil)).withSession(
               SessionHelper.ensureSessionHasNino(request.session, user) +
                 (SessionKeys.sessionId -> s"session-${UUID.randomUUID}")
             )

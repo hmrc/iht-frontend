@@ -41,7 +41,7 @@ isFullWidth=false) {
                                       getDeceasedNameOrDefaultString(registrationDetails, true)),
                     name="partner.assetsLeftForPartner",
                     id = ExemptionsPartnerAssetsID,
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerIsAssetForDeceasedPartner, isComplete),
+                    value=Messages(getDisplayValueForBoolean(isComplete)),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.AssetsLeftToPartnerQuestionController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(
@@ -66,7 +66,7 @@ isFullWidth=false) {
                     title = Messages("iht.estateReport.exemptions.partner.homeInUK.question"),
                     name = "partner.homeInUK",
                     id = ExemptionsPartnerHomeID,
-                    value=displayValue(appDetails, AppSectionExemptionsPartnerIsPartnerHomeInUK, isComplete),
+                    value=Messages(getDisplayValueForBoolean(isComplete)),
                     valueScreenReader="",
                     link=Some(iht.controllers.application.exemptions.partner.routes.PartnerPermanentHomeQuestionController.onPageLoad()),
                     linkText=ihtHelpers.custom.generic_overview_status_link(
