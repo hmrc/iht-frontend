@@ -24,6 +24,7 @@ import iht.testhelpers.{CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils._
 import org.mockito.Mockito.when
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -32,6 +33,7 @@ class CharitiesOverviewControllerTest extends ApplicationControllerTest {
   implicit val hc = new HeaderCarrier()
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
+  implicit val messages: Messages = messagesApi.preferred(Seq(Lang("en")))
 
   val applicationDetailsWithCharityLeftTrue = CommonBuilder.buildApplicationDetails.copy(
     allExemptions = Some(CommonBuilder.buildAllExemptions.copy(

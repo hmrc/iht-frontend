@@ -29,8 +29,8 @@ class UsePaperFormViewTest extends ViewTestHelper {
   lazy val iht205FormUrl= "https://www.gov.uk/government/publications/inheritance-tax-return-of-estate-information-iht205-2011"
   lazy val iht401FormUrl= "https://www.gov.uk/government/publications/inheritance-tax-domicile-outside-the-united-kingdom-iht401"
 
-  def getPageAsDoc(country: String = "") = {
-    val result = use_paper_form(country)(fakeRequest, applicationMessages)
+  def getPageAsDoc(countryMessageKey: String = "") = {
+    val result = use_paper_form(countryMessageKey)(fakeRequest, applicationMessages)
     asDocument(contentAsString(result))
   }
 
@@ -64,14 +64,14 @@ class UsePaperFormViewTest extends ViewTestHelper {
   "Use Paper Form view, when rendering for Scotland" must {
 
     "contain the correct content" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.scotland"))
+      val doc = getPageAsDoc("iht.countries.scotland")
       doc.text() should include(messagesApi("page.iht.filter.paperform.scotland.p1"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.scotland.p2.start"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.scotland.p2.end"))
     }
 
     "contain a link to the Scottish Courts and Tribunals guidance" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.scotland"))
+      val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("scottish-courts-link")
       link.text should be(messagesApi("page.iht.filter.paperform.scotland.link.text"))
       link.attr("rel") should be("external")
@@ -79,28 +79,28 @@ class UsePaperFormViewTest extends ViewTestHelper {
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.scotland"))
+      val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("start-again")
       link.text() should be(messagesApi("iht.startAgain"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.scotland"))
+      val doc = getPageAsDoc("iht.countries.scotland")
       val row = doc.getElementById("domicile-row")
       row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(messagesApi("iht.countries.scotland"))
     }
 
     "contain a 'Change' link to go back to the domicile page" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.scotland"))
+      val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("change-domicile")
       link.text() should be(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain 'Exit to GOV.UK' button to exit from the service" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.scotland"))
+      val doc = getPageAsDoc("iht.countries.scotland")
       val link = doc.getElementById("exit")
       link.text() should be(messagesApi("iht.exitToGovUK"))
       link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
@@ -110,31 +110,30 @@ class UsePaperFormViewTest extends ViewTestHelper {
   "Use Paper Form view, when rendering for Northern Ireland" must {
 
     "contain the correct content" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
+      val doc = getPageAsDoc("iht.countries.northernIreland")
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p1"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p2.sentence1.start"))
-      doc.text() should include(messagesApi("iht.fullStop"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p2.sentence2.start"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p2.sentence2.end"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p3"))
     }
 
     "contain a link to the IHT-400 paper form" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
+      val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("iht-400-link")
       link.text should be(messagesApi("page.iht.filter.paperform.iht400.link.text"))
       link.attr("href") should be (iht400FormUrl)
     }
 
     "contain a link to the IHT-205 paper form" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
+      val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("iht-205-link")
       link.text should be(messagesApi("page.iht.filter.paperform.northern.ireland.iht205.link.text"))
       link.attr("href") should be (iht205FormUrl)
     }
 
     "contain a link to NI Direct" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
+      val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("nidirect-link")
       link.text should be(messagesApi("page.iht.filter.paperform.northern.ireland.nidirect.link.text"))
       link.attr("rel") should be("external")
@@ -142,28 +141,28 @@ class UsePaperFormViewTest extends ViewTestHelper {
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
+      val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("start-again")
       link.text() should be(messagesApi("iht.startAgain"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
+      val doc = getPageAsDoc("iht.countries.northernIreland")
       val row = doc.getElementById("domicile-row")
       row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(messagesApi("iht.countries.northernIreland"))
     }
 
     "contain a 'Change' link to go back to the domicile page" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
+      val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("change-domicile")
       link.text() should be(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain 'Exit to GOV.UK' button to exit from the service" in {
-      val doc = getPageAsDoc(messagesApi("iht.countries.northernIreland"))
+      val doc = getPageAsDoc("iht.countries.northernIreland")
       val link = doc.getElementById("exit")
       link.text() should be(messagesApi("iht.exitToGovUK"))
       link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)
@@ -173,51 +172,49 @@ class UsePaperFormViewTest extends ViewTestHelper {
   "Use Paper Form view, when rendering for another country" must {
 
     "contain the correct content" in {
-      val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
+      val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       doc.text() should include(messagesApi("page.iht.filter.paperform.other.country.p1.sentence1.start"))
-      doc.text() should include(messagesApi("iht.fullStop"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.other.country.p1.sentence2.start"))
-      doc.text() should include(messagesApi("iht.fullStop"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.other.country.p2"))
     }
 
     "contain a link to the IHT-400 paper form" in {
-      val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
+      val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("iht-400-link")
       link.text should be(messagesApi("page.iht.filter.paperform.iht400.link.text"))
       link.attr("href") should be (iht400FormUrl)
     }
 
     "contain a link to the IHT-401 paper form" in {
-      val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
+      val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("iht-401-link")
       link.text should be(messagesApi("page.iht.filter.paperform.other.country.iht401.link.text"))
       link.attr("href") should be (iht401FormUrl)
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {
-      val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
+      val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("start-again")
       link.text() should be(messagesApi("iht.startAgain"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain a row showing the user's answer to the previous question" in {
-      val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
+      val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val row = doc.getElementById("domicile-row")
       row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
       row.text() should include(messagesApi("page.iht.filter.domicile.choice.other"))
     }
 
     "contain a 'Change' link to go back to the domicile page" in {
-      val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
+      val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("change-domicile")
       link.text() should be(messagesApi("iht.change"))
       link.attr("href") should be(iht.controllers.filter.routes.DomicileController.onPageLoad().url)
     }
 
     "contain 'Exit to GOV.UK' button to exit from the service" in {
-      val doc = getPageAsDoc(messagesApi("page.iht.filter.domicile.choice.other"))
+      val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       val link = doc.getElementById("exit")
       link.text() should be(messagesApi("iht.exitToGovUK"))
       link.attr("href") should be(IhtProperties.linkExitToGovUKIHTForms)

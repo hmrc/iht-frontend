@@ -40,7 +40,7 @@ trait ApplicationStatusViewBehaviour extends GenericNonSubmittablePageBehaviour 
 
   override def exitComponent: Option[ExitComponent] = Some(
     ExitComponent(
-      iht.controllers.home.routes.IhtHomeController.onPageLoad(),
+      iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad(),
       messagesApi("page.iht.application.overview.common.return")
     )
   )

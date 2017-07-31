@@ -321,6 +321,7 @@ POST        /any-mortgage-on-property/:id                                       
 ### TNRB ###
 
 GET         /increase-the-threshold                                                             iht.controllers.application.tnrb.TnrbGuidanceController.onPageLoad
+GET         /estate-value-over-the-threshold                                                    iht.controllers.application.tnrb.TnrbGuidanceController.onSystemPageLoad
 
 GET         /increasing-the-threshold                                                           iht.controllers.application.tnrb.TnrbOverviewController.onPageLoad
 

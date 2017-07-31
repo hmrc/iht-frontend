@@ -29,12 +29,14 @@ class IhtMainTemplateTest extends ViewTestHelper {
   "RegistrationMainTemplate" must {
 
     "contain the correct text for the sign out link" in {
+      implicit val request = createFakeRequest()
       val signOutUrl = "localhost"
       iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
         .toString should include (signOutUrl)
     }
 
     "contain the correct text for need help accordion component" in {
+      implicit val request = createFakeRequest()
       val signOutUrl = "localhost"
       val view = iht_main_template(title = "", signOutText = "", signOutUrl = Some(Call("GET", signOutUrl)), headerTitle = None)(HtmlFormat.empty)
         .toString
