@@ -113,7 +113,6 @@ class UsePaperFormViewTest extends ViewTestHelper {
       val doc = getPageAsDoc("iht.countries.northernIreland")
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p1"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p2.sentence1.start"))
-      doc.text() should include(messagesApi("iht.fullStop"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p2.sentence2.start"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p2.sentence2.end"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.northern.ireland.p3"))
@@ -175,9 +174,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
     "contain the correct content" in {
       val doc = getPageAsDoc("page.iht.filter.domicile.choice.other")
       doc.text() should include(messagesApi("page.iht.filter.paperform.other.country.p1.sentence1.start"))
-      doc.text() should include(messagesApi("iht.fullStop"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.other.country.p1.sentence2.start"))
-      doc.text() should include(messagesApi("iht.fullStop"))
       doc.text() should include(messagesApi("page.iht.filter.paperform.other.country.p2"))
     }
 
