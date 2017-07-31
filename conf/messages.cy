@@ -1011,10 +1011,10 @@ global.error.InternalServerError500.link.gov-uk.text=Chwilio drwy GOV.UK.
 
 global.error.badRequest400.title=Cais drwg – 400
 global.error.badRequest400.heading=Cais drwg
-global.error.badRequest400.message=Welsh??? Please check that you have entered the correct web address.
+global.error.badRequest400.message=Gwiriwch eich bod wedi nodi''r cyfeiriad gwe cywir.
 global.error.pageNotFound404.title=Heb ddod o hyd i''r dudalen – 404
 global.error.pageNotFound404.heading=Ni ellir dod o hyd i''r dudalen hon
-global.error.pageNotFound404.message=Welsh???Please check that you have entered the correct web address.
+global.error.pageNotFound404.message=Gwiriwch eich bod wedi nodi''r cyfeiriad gwe cywir.
 
 global.error.InternalServerError500.title=Rydym yn profi anawsterau technegol
 global.error.InternalServerError500.heading=Mae''n ddrwg gennym, rydym yn profi anawsterau technegol
