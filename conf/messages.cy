@@ -1,4 +1,3 @@
-iht.fullStop = .
 page.iht.application.overview.common.viewcopy=Bwrw golwg ar gopi o’r adroddiad hwn ynghylch yr ystâd (PDF, <500KB)
 error.stockAndShare.currencyValue.length.summary=nodwch werth ar gyfer stoc a chyfranddaliadau gan ddefnyddio llai nag 11 rhif
 site.phoneNo.hint=Gall hwn fod yn ffôn symudol neu’n llinell dir. Mae’n bosibl y bydd angen i CThEM cysylltu â nhw ynghylch y manylion yr ydych yn eu rhoi.
