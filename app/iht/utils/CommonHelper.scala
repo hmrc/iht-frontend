@@ -25,9 +25,8 @@ import iht.models.application.assets.InsurancePolicy
 import play.api.Play.current
 import play.api.data.{Form, FormError}
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{RequestHeader, Call, Request}
-import uk.gov.hmrc.play.language.LanguageUtils
+import play.api.i18n.Messages.Implicits.applicationMessages
+import play.api.mvc.{Call, Request}
 
 import scala.util.{Failure, Success, Try}
 
@@ -217,5 +216,4 @@ object CommonHelper {
       url
     }
   }
-
 }

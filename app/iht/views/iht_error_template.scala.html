@@ -16,25 +16,39 @@
 
 @import iht.config.ApplicationConfig._
 @import iht.constants.IhtProperties
+@import play.api.Play.current
+@import play.api.i18n.Messages.Implicits.applicationMessagesApi
+@import iht.utils.MessagesHelper.translateToPreferredLanguage
+@import iht.utils.MessagesHelper.messagesForLang
 
 @(pageTitle: String, heading: String, message: String)(implicit request: Request[_], messages: Messages)
 @contentHeader = {
-<h1>@heading</h1>
+<h1>@translateToPreferredLanguage(heading, messages, preferredLanguageCode)</h1>
 }
+
+@preferredLanguageCode = @{applicationMessagesApi.preferred(request).lang.code.substring(0,2)}
+@msg = @{messagesForLang(messages, preferredLanguageCode)}
+
 @mainContent = {
-<p>@message</p>
+<p>@translateToPreferredLanguage(message, messages, preferredLanguageCode)</p>
 
 <br>
-
 <div id="gov-uk-iht-button">
-    <p><a class='button' href ='@IhtProperties.linkGovUkIht'>@Messages("global.error.InternalServerError500.link.gov-uk-iht.text")</a></p>
+    <p>
+        <a class='button' href ='@IhtProperties.linkGovUkIht'>
+            @msg("global.error.InternalServerError500.link.gov-uk-iht.text")
+        </a>
+    </p>
 </div>
 
 <div id="gov-uk-button">
-    <p><a href ='@IhtProperties.linkGovUk'>@Messages("global.error.InternalServerError500.link.gov-uk.text")</a></p>
+    <p>
+        <a href ='@IhtProperties.linkGovUk'>
+            @msg("global.error.InternalServerError500.link.gov-uk.text")
+        </a>
+    </p>
 </div>
 }
 
-
-@iht_main_template_application(title = pageTitle,
-    contentHeader = Some(contentHeader))(mainContent)
+@iht_main_template_application(title = translateToPreferredLanguage(pageTitle, messages, preferredLanguageCode),
+    contentHeader = Some(contentHeader))(mainContent)(request, msg)
