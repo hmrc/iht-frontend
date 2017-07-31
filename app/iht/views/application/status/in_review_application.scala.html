@@ -32,7 +32,7 @@ sidebarLinks= iht.views.html.application.status.post_submission_sidebar(ihtref, 
 <div>
     @post_submit_common(deceasedName, true)
     <div id="return-button">
-        @helpers.form(action = iht.controllers.home.routes.IhtHomeController.onPageLoad) {
+        @helpers.form(action = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad) {
         <p><input id="return-input" class="button" type="submit" value="@Messages("page.iht.application.overview.common.return")"></p>
         }
     </div>

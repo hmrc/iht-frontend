@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package iht.viewmodels.application.home
-
-import javax.inject.Inject
+package iht.viewmodels.estateReports
 
 import iht.connector.IhtConnector
-import iht.constants.IhtProperties
 import iht.models.application.IhtApplication
 import iht.utils.{CommonHelper, DeceasedInfoHelper, ApplicationStatus => AppStatus}
-import play.api.{Application, Logger}
+import play.api.i18n.Messages.Implicits._
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
+import play.api.{Application, Logger}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import uk.gov.hmrc.play.language.LanguageUtils.Dates
 
 import scala.concurrent.Await
@@ -36,7 +32,7 @@ import scala.concurrent.duration.Duration
 /**
   * Created by vineet on 26/09/16.
   */
-case class IhtHomeRowViewModel(deceasedName: String,
+case class YourEstateReportsRowViewModel(deceasedName: String,
                                ihtRefNo: String,
                                dateOfDeath: String,
                                currentStatus: String,
@@ -44,7 +40,7 @@ case class IhtHomeRowViewModel(deceasedName: String,
                                link: Call,
                                linkScreenreader: String)
 
-object IhtHomeRowViewModel {
+object YourEstateReportsRowViewModel {
   def apply(nino: String, ihtApp: IhtApplication, ihtConnector: IhtConnector)(implicit headerCarrier: HeaderCarrier,
                                                     lang: Lang, application: Application) = {
 
@@ -52,13 +48,13 @@ object IhtHomeRowViewModel {
     val currentStatus = getStatus(nino, ihtApp, ihtConnector)
     val ihtRef = ihtApp.ihtRefNo
 
-    new IhtHomeRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
+    new YourEstateReportsRowViewModel(deceasedName = s"${ihtApp.firstName} ${ihtApp.lastName}",
       ihtRefNo = ihtApp.ihtRefNo,
       dateOfDeath = Dates.formatDate(ihtApp.dateOfDeath).toString,
-      currentStatus = getApplicationStatusMessage(currentStatus),
-      linkLabel = getLinkLabel(currentStatus),
+      currentStatus = getApplicationStatusMessage(currentStatus)(messages),
+      linkLabel = getLinkLabel(currentStatus)(messages),
       link = getLink(currentStatus, ihtRef),
-      linkScreenreader = getLinkScreenreader(currentStatus, s"${ihtApp.firstName} ${ihtApp.lastName}")
+      linkScreenreader = getLinkScreenreader(currentStatus, s"${ihtApp.firstName} ${ihtApp.lastName}")(messages)
     )
   }
 

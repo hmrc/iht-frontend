@@ -35,7 +35,7 @@ trait DuplicateRegistrationController extends RegistrationController {
 
   def onSubmit = authorisedForIht {
     implicit user => implicit request => {
-        Future(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+        Future(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
     }
   }
 }

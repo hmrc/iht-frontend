@@ -28,9 +28,9 @@ import scala.concurrent.Future
 /**
  * Created by yasar on 7/6/15.
  */
-object IhtMainController extends IhtMainController
+object SessionManagementController extends SessionManagementController
 
-trait IhtMainController extends FrontendController with CustomPasscodeAuthentication with IhtActions with IhtConnectors {
+trait SessionManagementController extends FrontendController with CustomPasscodeAuthentication with IhtActions with IhtConnectors {
   override lazy val ihtSection = IhtSection.Application
 
   def signOut = customAuthenticatedActionAsync {

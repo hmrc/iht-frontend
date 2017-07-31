@@ -66,7 +66,7 @@ trait ApplicationController extends FrontendController with IhtActions {
     cachingConnector.getRegistrationDetails flatMap {
       case None =>
         Logger.info("Registration details not found so re-directing to application overview page")
-        Future.successful(Redirect(iht.controllers.home.routes.IhtHomeController.onPageLoad()))
+        Future.successful(Redirect(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad()))
       case Some(rd) => body(rd)
     }
   }

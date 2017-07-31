@@ -146,19 +146,20 @@ trait PartnerPermanentHomeQuestionController extends EstateController {
       (_ => kickoutRedirectLocation)))
   }
 
-  private def returnLabel(regDetails: RegistrationDetails, appDetails: ApplicationDetails): String = {
+  private def returnLabel(regDetails: RegistrationDetails,
+                          appDetails: ApplicationDetails)(implicit messages: Messages): String = {
     val deceasedName = ihtHelpers.custom.name(regDetails.deceasedDetails.map(_.name).getOrElse(""))
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
       case Some(x) => {
         if (x.isPartnerHomeInUK.isDefined) {
-          Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
+          messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
         } else {
-          Messages("page.iht.application.return.to.exemptionsOf", deceasedName)
+          messages("page.iht.application.return.to.exemptionsOf", deceasedName)
         }
       }
       case None => {
-        Messages("page.iht.application.return.to.exemptionsOf", deceasedName)
+        messages("page.iht.application.return.to.exemptionsOf", deceasedName)
       }
     }
   }
