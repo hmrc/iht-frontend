@@ -160,7 +160,6 @@ iht.value = Value
 iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
 iht.comma = ,
-iht.fullStop = .
 iht.dropdown.matches = {0} matches found. Use arrow keys or swipe to navigate the list
 iht.dropdown.of = ({0} of {1})
 iht.dropdown.closed = Suggestions list closed
