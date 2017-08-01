@@ -89,7 +89,7 @@
     @if(elements.args.contains('_hintText) && !elements.args.contains('_slideOutText)) {
         <div class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}">@elements.args.get('_hintText)</div>
     }
-    @if(elements.args.contains('_hint) && elements.args.contains('_slideOutText)) {
+    @if(elements.args.contains('_hintText) && elements.args.contains('_slideOutText)) {
         @ihtHelpers.standard.accordion_slider_help_text(
         '_hintText -> elements.args.get('_hintText),
         '_slideOutText -> elements.args.get('_slideOutText),
@@ -101,13 +101,6 @@
 
 
     @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
-    @if(elements.args.contains('_hint) && elements.args.contains('_slideOutText)) {
-        @ihtHelpers.standard.accordion_slider_help_text(
-        '_helpText -> elements.args.get('_help),
-        '_slideOutText -> elements.args.get('_slideOutText),
-        '_needHighlight -> true)
-    }
-
 
     @elements.args.get('_currency) match {
     case Some("GBP") => {<span data-currency="GBP">&pound;</span> @input}

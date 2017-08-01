@@ -138,7 +138,7 @@ describe('TNRB, accessibility : ', function() {
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/any-trusts-in-estate',
-            pageTitle: "Any trust benefitted"
+            pageTitle: "Any trust benefited"
 
         })
     });

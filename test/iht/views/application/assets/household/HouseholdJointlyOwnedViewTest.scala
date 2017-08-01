@@ -41,7 +41,7 @@ class HouseholdJointlyOwnedViewTest extends ShareableElementInputViewBehaviour[S
   override def browserTitle = messagesApi("page.iht.application.assets.household.joint.browserTitle")
   override def questionTitle = messagesApi("iht.estateReport.assets.household.joint.question", deceasedName)
   override def valueQuestion = messagesApi("iht.estateReport.assets.household.valueOfJointlyOwned", deceasedName)
-  override def hasValueQuestionHelp = false
+  override def hasValueQuestionHelp = true
   override def valueQuestionHelp = messagesApi("iht.estateReport.assets.getProfessionalValuation")
   override def returnLinkText = messagesApi("site.link.return.household")
   override def returnLinkUrl = HouseholdOverviewController.onPageLoad().url
