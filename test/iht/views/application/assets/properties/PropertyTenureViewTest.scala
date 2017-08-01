@@ -33,7 +33,7 @@ class PropertyTenureViewTest extends SubmittableApplicationPageBehaviour[Propert
     Set(
       messagesApi("iht.estateReport.assets.property.youCan"),
       messagesApi("iht.estateReport.assets.property.findOutFromLandRegistry"),
-      messagesApi("page.iht.application.assets.property.tenure.guidance1b")
+      messagesApi("page.iht.application.assets.property.ownership.guidance1b")
     )
   )
 

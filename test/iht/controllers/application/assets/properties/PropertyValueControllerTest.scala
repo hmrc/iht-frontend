@@ -98,13 +98,13 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display the page title on page load" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "display property value label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "display property question sub label on page" in {
@@ -133,7 +133,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
+      contentAsString(result).replace("\n","") should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

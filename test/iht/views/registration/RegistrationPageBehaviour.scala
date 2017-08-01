@@ -132,10 +132,6 @@ trait RegistrationPageBehaviour[A] extends ViewTestHelper {
   def addressPageAbroad(guidance: => Seq[String]): Unit = {
     addressPage( guidance )
 
-    "have a fieldset with the Id 'details'" in {
-      doc.getElementsByTag("fieldset").first.id shouldBe "details"
-    }
-
     "have a country code field" in {
       assertRenderedById(doc, "countryCode")
     }

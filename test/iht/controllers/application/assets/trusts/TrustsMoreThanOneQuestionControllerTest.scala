@@ -28,6 +28,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper
+import iht.testhelpers.ContentChecker
 
 class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
   val mockCachingConnector = mock[CachingConnector]
@@ -74,7 +75,7 @@ class TrustsMoreThanOneQuestionControllerTest extends ApplicationControllerTest{
 
       val result = trustsMoreThanOneQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName))
     }
 
     "save application and go to held in trust overview page on submit when user selects No" in {
