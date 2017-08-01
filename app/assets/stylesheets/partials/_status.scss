@@ -9,6 +9,10 @@
   width: calc(5.5em + 10px);
 }
 
+[lang="cy"] .progress-status {
+  width: calc(6.5em + 10px)
+}
+
 @media screen and (min-width: 641px){
     .progress-status {
         width: calc(5em + 10px);
