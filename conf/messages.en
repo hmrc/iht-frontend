@@ -276,6 +276,11 @@ page.iht.registration.checklist.exec.title = If anyone else is applying to the P
 page.iht.registration.checklist.exec.reveal.label1 = The easiest thing to do is to ask the person who you are adding for their details. They will be able to find their National Insurance number on a payslip, a P45 or a P60 form.
 page.iht.registration.checklist.exec.reveal.label2 = Their name should be given as it is shown on their passport or birth certificate. This might be different to the name that you know them by.
 page.iht.registration.checklist.exec.reveal.label3 = The phone number given is one that HMRC can contact this person on. This might happen after you have finished the estate report and it is being reviewed.
+
+page.iht.registration.checklist.exec.name.screenreader = {0}’s name
+page.iht.registration.checklist.exec.nino.screenreader = {0}’s National Insurance Number
+page.iht.registration.checklist.exec.phone.screenreader = {0}’s phone number
+
 iht.registration.checklist.dateOfBirth = date of birth
 iht.registration.checklist.phoneNo.lowerCaseInitial = phone number
 iht.registration.checklist.phoneNo.upperCaseInitial = Phone number
@@ -398,33 +403,33 @@ page.iht.registration.registrationSummary.deceasedTable.title = The person who h
 page.iht.registration.registrationSummary.subTitle = You will not be able to change these details online after you have confirmed them.
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title
-page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = Deceased’s name is {0}
+page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = The name of the person who has died
 page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader = Change {0}’s name
 page.iht.registration.registrationSummary.deceasedInfo.lastName.id = lastName
 
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.id = dateOfDeath
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.id.container = dateOfDeath-container
-page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.data.screenReader = Deceased’s date of death is {0}
+page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.data.screenReader = {0}’s date of death
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader = Change {0}’s date of death
 
-page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader = Deceased’s date of birth is {0}
+page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader = {0}’s date of birth
 page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader = Change {0}’s date of birth
 
-page.iht.registration.registrationSummary.deceasedInfo.nino.data.screenReader = Deceased’s national insurance number is {0}
+page.iht.registration.registrationSummary.deceasedInfo.nino.data.screenReader = {0}’s national insurance number
 page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader = Change {0}’s national insurance number
 
-page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader = Deceased’s address is {0}
+page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader = {0}’s address
 page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader = Change {0}’s address
 
 page.iht.registration.registrationSummary.deceasedInfo.location.id = domicile
 page.iht.registration.registrationSummary.deceasedInfo.location.id.container = domicile-container
-page.iht.registration.registrationSummary.deceasedInfo.location.data.screenReader = The location of the deceased’s permanent home is {0}
+page.iht.registration.registrationSummary.deceasedInfo.location.data.screenReader = The location of {0}’s permanent home
 page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader = Change the location of {0}’s permanent home
 
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label = Relationship status
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.id = maritalStatus
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.id.container = maritalStatus-container
-page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.data.screenReader = Deceased’s relationship status is {0}
+page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.data.screenReader = {0}’s relationship status
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader = Change {0}’s relationship status
 
 page.iht.registration.registrationSummary.deceasedInfo.countryCode.id = ukAddress.countryCode
@@ -441,12 +446,10 @@ page.iht.registration.registrationSummary.applicantInfo.nino.link.screenReader =
 page.iht.registration.registrationSummary.applicantInfo.nino.data.screenReader = Your national insurance number is {0}. This cannot be changed
 
 page.iht.registration.registrationSummary.applicantInfo.address.link.screenReader = Change your address
-page.iht.registration.registrationSummary.applicantInfo.address.data.screenReader = Your address is {0}
 
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.id = contactDetails.phoneNo
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.id.container = contactDetails_phoneNo-container
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.link.screenReader = Change your phone number
-page.iht.registration.registrationSummary.applicantInfo.phoneNumber.data.screenReader = Your phone number is {0}
 
 page.iht.registration.registrationSummary.applicantInfo.email.id.container = contactDetails_email-container
 page.iht.registration.registrationSummary.applicantInfo.email.link.screenReader = Change your email address

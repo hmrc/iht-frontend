@@ -64,7 +64,7 @@ describe('Trusts (Assets) accessibility : ', function() {
 
         behaves.actsAsStandardForm(done, driver, {
             url: Browser.baseUrl + '/estate-report/how-many-trusts',
-            pageTitle: "How many trusts benefitted"
+            pageTitle: "How many trusts benefited"
 
         })
     });
