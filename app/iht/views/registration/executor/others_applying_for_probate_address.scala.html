@@ -40,13 +40,7 @@
 @ihtHelpers.custom.error_summary(othersApplyingForProbateAddressForm)
 
 @helpers.form(action = actionCall,'autoComplete -> "off") {
-
-    <fieldset id="details">
-        <legend class="visually-hidden">
-           @Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix", addApostrophe(name))
-        </legend>
-
-        <p class="lede" id="other-persons-address-guidance">@Messages("page.iht.registration.others-applying-for-probate-address.address.guidance")</p>
+    <p class="lede" id="other-persons-address-guidance">@Messages("page.iht.registration.others-applying-for-probate-address.address.guidance")</p>
 
     <div id="ukAddress_ukAddressLine1-container" class="form-group">
       @ihtHelpers.standard.input_with_help(othersApplyingForProbateAddressForm("ukAddressLine1"),
@@ -105,8 +99,6 @@
       </div>
       <a href="@changeNationalityLocation">@Messages("iht.registration.changeAddressToAbroad")</a>
     }
-
-    </fieldset>
 
     @ihtHelpers.custom.continue_button()
 }

@@ -25,6 +25,7 @@ import play.api.mvc.{Request, Result}
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import iht.testhelpers.ContentChecker
 
 import scala.concurrent.Future
 
@@ -113,7 +114,7 @@ trait PropertyDetailsOverviewControllerBehaviour extends ApplicationControllerTe
     "display value of property question on the page" in {
       val result = propertyDetailsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "redirect to properties overview when onEditPageLoad is called with a property ID that does not exist" in {

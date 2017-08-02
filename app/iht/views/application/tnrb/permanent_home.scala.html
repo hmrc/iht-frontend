@@ -27,26 +27,27 @@ tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck,
 cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
+@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.tnrb.permanentHome.question",partnerName),
-browserTitle = Some(Messages("iht.registration.deceased.locationOfPermanentHome")),
-cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(cancelUrl),
-headingName = partnerName,
-headingClass = "heading-large"
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("iht.registration.deceased.locationOfPermanentHome")),
+    cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+    cancelUrl = Some(cancelUrl)
 ){
     @ihtHelpers.custom.error_summary(partnerLivingInUkForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.PermanentHomeController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
-        partnerLivingInUkForm("isPartnerLivingInUk"),
-        '_hintText -> Html(Messages("page.iht.application.tnrb.permanentHome.question.hint")),
-        '_divClass -> Some("form-group"),
-        '_legend -> Messages("iht.estateReport.tnrb.permanentHome.question",TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)),
-        '_legendClass -> Some("visually-hidden")
-)
+            partnerLivingInUkForm("isPartnerLivingInUk"),
+            '_hintText -> Html(Messages("page.iht.application.tnrb.permanentHome.question.hint")),
+            '_divClass -> Some("form-group"),
+            '_legend -> Messages("iht.estateReport.tnrb.permanentHome.question",partnerName),
+            '_legendClass -> Some("legend-with-heading"),
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large"
+        )
 
         <div id="action-button" class="form-field form-field--submit">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

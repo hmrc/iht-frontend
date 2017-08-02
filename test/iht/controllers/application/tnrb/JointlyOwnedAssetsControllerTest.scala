@@ -26,6 +26,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.testhelpers.ContentChecker
 
 /**
  *
@@ -89,7 +90,7 @@ class JointlyOwnedAssetsControllerTest  extends ApplicationControllerTest{
 
       val result = jointlyOwnedAssetsController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("page.iht.application.tnrb.jointlyOwnedAssets.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("page.iht.application.tnrb.jointlyOwnedAssets.question",
         CommonBuilder.DefaultFirstName + " " +CommonBuilder.DefaultLastName))
     }
 

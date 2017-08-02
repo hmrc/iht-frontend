@@ -43,9 +43,6 @@ class OthersApplyingForProbateAddressViewInUKModeTest extends RegistrationPageBe
       isInternational = false, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   "Others Applying for Probate Address View in UK Mode" must {
-    "have a fieldset with the Id 'details' in UK mode" in {
-      asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
-    }
 
     behave like addressPageUK(guidance)
   }
@@ -62,9 +59,6 @@ class OthersApplyingForProbateAddressViewInAbroadModeTest extends RegistrationPa
       isInternational = true, CommonBuilder.DefaultCall1, CommonBuilder.DefaultCall1)
 
   "Others Applying for Probate Address View in Abroad Mode" must {
-    "have a fieldset with the Id 'details' in UK mode" in {
-      asDocument(view).getElementsByTag("fieldset").first.id shouldBe "details"
-    }
 
     behave like addressPageAbroad(guidance)
   }

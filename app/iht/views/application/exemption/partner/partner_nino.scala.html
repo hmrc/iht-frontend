@@ -24,12 +24,13 @@
 @(partnerNinoForm: Form[iht.models.application.exemptions.PartnerExemption],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.partner.nino.sectionTitle"),
-browserTitle = Some(Messages("page.iht.application.exemptions.partner.nino.browserTitle")),
-cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad, Some(ExemptionsPartnerNinoID))),
-cancelLabel = Some(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")),
-isFullWidth=false,
-headingClass = "heading-large"){
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("page.iht.application.exemptions.partner.nino.browserTitle")),
+    cancelUrl = Some(addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad, Some(ExemptionsPartnerNinoID))),
+    cancelLabel = Some(Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")),
+    isFullWidth=false
+){
     @ihtHelpers.custom.error_summary(partnerNinoForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerNinoController.onSubmit,'autoComplete -> "off") {
 
@@ -37,10 +38,10 @@ headingClass = "heading-large"){
             @ihtHelpers.standard.input_with_help(partnerNinoForm("nino"),
             '_divClass -> "form-group ",
             '_inputClass -> "form-control",
-            '_labelTextClass -> "form-label",
             '_label -> Html(Messages("page.iht.application.exemptions.partner.nino.sectionTitle")),
-            '_labelTextClass -> "visually-hidden",
-            '_help -> Html(Messages("iht.ninoExample"))
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large",
+            '_hintText -> Html(Messages("iht.ninoExample"))
             )
 
             <div id="action-button" class="form-field form-field--submit">

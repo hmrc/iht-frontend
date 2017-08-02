@@ -37,19 +37,16 @@ headingClass = "heading-large") {
 
 @ihtHelpers.standard.input_with_help(partnerExemptionNameForm("firstName"),
 '_maxlength -> IhtProperties.validationMaxLengthFirstName,
-'_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
 '_label -> Html(Messages("page.iht.application.exemptions.partner.name.firstName.label")),
-'_help -> Html(Messages("iht.firstName.hint")))
+'_hintText -> Html(Messages("iht.firstName.hint")))
 
 @ihtHelpers.standard.input_with_help(partnerExemptionNameForm("lastName"),
 '_maxlength -> IhtProperties.validationMaxLengthLastName,
-'_divClass -> "form-group",
 '_inputClass -> "form-control",
 '_labelTextClass -> "bold",
-'_label -> Html(Messages("page.iht.application.exemptions.partner.name.lastName.label")),
-'_help -> "")
+'_label -> Html(Messages("page.iht.application.exemptions.partner.name.lastName.label")))
 
 <div id="action-button" class="form-field form-field--submit">
   <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

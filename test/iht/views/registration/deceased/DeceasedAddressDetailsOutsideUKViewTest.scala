@@ -52,10 +52,6 @@ class DeceasedAddressDetailsOutsideUKViewTest extends RegistrationPageBehaviour[
 
     behave like registrationPageWithErrorSummaryBox()
 
-    "have a fieldset with the Id 'details'" in {
-      doc.getElementsByTag("fieldset").first.id shouldBe "details"
-    }
-
     "have a line 1 field" in {
       assertRenderedById(doc, "ukAddress.addressLine1")
     }

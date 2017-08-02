@@ -30,6 +30,7 @@ import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.models.application.ApplicationDetails
+import iht.testhelpers.ContentChecker
 
 /**
  * Created by james on 16/06/16.
@@ -98,13 +99,13 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
     "display the page title on page load" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "display property value label on page" in {
       val result = propertyValueController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "display property question sub label on page" in {
@@ -133,7 +134,7 @@ class PropertyValueControllerTest extends ApplicationControllerTest {
 
       val result = propertyValueController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.properties.value.question", deceasedName))
     }
 
     "redirect to PropertyDetails overview page on submit" in {

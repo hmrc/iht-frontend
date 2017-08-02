@@ -26,6 +26,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import iht.testhelpers.ContentChecker
 
 /**
  *
@@ -90,7 +91,7 @@ class BenefitFromTrustControllerTest  extends ApplicationControllerTest{
 
       val result = benefitFromTrustController.onPageLoad (createFakeRequest())
       status(result) shouldBe OK
-      contentAsString(result) should include(messagesApi("iht.estateReport.tnrb.benefitFromTrust.question",
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include(messagesApi("iht.estateReport.tnrb.benefitFromTrust.question",
         s"$firstName $secondName"))
     }
 

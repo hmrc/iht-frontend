@@ -1,4 +1,13 @@
 @import '_forms__mixin';
+/*
+====================================
+Makes the form hint use default color
+====================================
+*/
+.form-hint--heavy {
+    color: inherit;
+}
+
 
 /*
 ====================================
@@ -106,4 +115,50 @@ input[type=number]::-webkit-outer-spin-button {
 }
 input[type=number] {
     -moz-appearance:textfield;
+}
+
+
+/*
+====================================
+Sorts out margins on headings contained in legends
+Without this the margin on the headings collapses
+The padding fixes this.
+Also remove default margin on legend (as we're adding margin with the heading styles)
+====================================
+*/
+.legend-with-heading {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-bottom: 0;
+}
+/*
+====================================
+Replicate collapsing margins for legend h1 followed by hint copy
+====================================
+*/
+.legend-with-heading + .form-hint,
+.legend-with-heading + .form-hint p {
+    margin-top: 0;
+}
+
+/*
+====================================
+Sort out styles for labels inside h1s
+====================================
+*/
+h1 > label {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+}
+
+/*
+====================================
+Spacing for error summary where it comes before h1
+This flips the margins from the standard
+====================================
+*/
+article > .validation-summary:first-child {
+    margin-bottom: 0;
+    margin-top: 30px;
 }

@@ -26,26 +26,28 @@ tnrbModel:TnrbEligibiltyModel,
 deceasedName:String,
 cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedName),
-browserTitle = Some(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")),
-cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(cancelUrl),
-headingName = deceasedName,
-headingClass = "heading-large"){
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.browserTitle")),
+    cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+    cancelUrl = Some(cancelUrl)
+){
     @ihtHelpers.custom.error_summary(partnerGiftWithResToOtherForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.GiftsWithReservationOfBenefitController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
-        partnerGiftWithResToOtherForm("isPartnerGiftWithResToOther"),
-        '_hintText -> Html(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
+            partnerGiftWithResToOtherForm("isPartnerGiftWithResToOther"),
+            '_hintText -> Html(Messages("page.iht.application.tnrb.giftsWithReservationOfBenefit.question.hint",
                             spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")),
                             ihtHelpers.custom.name(deceasedName),
                                 spouseOrCivilPartnerName(tnrbModel, Messages("iht.estateReport.tnrb.thSouseAndCivilPartner")))),
-        '_divClass -> Some("-change form-group"),
-        '_legend -> Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", deceasedName),
-        '_legendClass -> Some("visually-hidden")
-)
+            '_divClass -> Some("-change form-group"),
+            '_legend -> Messages("iht.estateReport.tnrb.giftsWithReservationOfBenefit.question", ihtHelpers.custom.name(deceasedName)),
+            '_legendClass -> Some("legend-with-heading"),
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large"
+        )
 
         <div id="action-button" class="form-field form-field--submit">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

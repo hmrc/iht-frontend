@@ -28,6 +28,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper
+import iht.testhelpers.ContentChecker
 
 class TrustsValueControllerTest extends ApplicationControllerTest{
 
@@ -75,7 +76,7 @@ class TrustsValueControllerTest extends ApplicationControllerTest{
 
       val result = trustsValueController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.heldInTrust.valueOfTrust", deceasedName))
     }
 
     "save the trusts value and go to held in trust overview page on submit" in {
