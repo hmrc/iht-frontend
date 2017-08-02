@@ -26,6 +26,7 @@
 @import ihtHelpers.custom._
 @import iht.utils.CommonHelper
 @import uk.gov.hmrc.play.language.LanguageUtils
+@import iht.utils.misc.LocalPartialRetriever
 
 @(title: String = "",
 signOutText: String = "",
@@ -45,7 +46,8 @@ signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = "",
-isRegistration: Boolean = false
+isRegistration: Boolean = false,
+localPartialRetriever: LocalPartialRetriever
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -178,7 +180,7 @@ isRegistration: Boolean = false
         serviceInfoContent = None)
 }
 
-@getHelpForm = @{ihtHelpers.custom.report_a_problem_link(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+@getHelpForm = @{ihtHelpers.standard.get_help_form(appConfig = appConfig)}
 
 @content = {
     @layouts.main_content(

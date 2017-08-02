@@ -1,0 +1,11 @@
+@import iht.utils.misc.LocalPartialRetriever
+@import iht.config.AppConfig
+@import play.api.i18n.Messages
+
+@(supportLinkEnabled: Boolean = true,
+includeGridWrapper: Boolean = true,
+appConfig: AppConfig)(implicit localPartialRetriever: LocalPartialRetriever,
+                                messages: Messages,
+                                requestHeader: RequestHeader)
+
+@localPartialRetriever.getPartialContent(appConfig.reportAProblemPartialUrl)(requestHeader)
