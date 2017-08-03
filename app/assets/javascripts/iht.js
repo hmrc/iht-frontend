@@ -93,8 +93,8 @@ if(typeof window.navigator != "undefined" && typeof window.navigator.userAgent !
 // =====================================================
 // Country code autocomplete
 // =====================================================
-if($('#iht-auto-complete').length > 0){
-    var countryCode = new Autobox($('select'), $('#iht-auto-complete'), $('#iht-suggestions-list'), $("#iht-autoCompleteSuggestionStatus"));
+if($('[data-enhanced-select]').length > 0){
+    var countryCode = new Autobox($('select'));
 }
 
 
