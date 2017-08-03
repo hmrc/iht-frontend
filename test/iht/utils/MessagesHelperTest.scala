@@ -58,7 +58,7 @@ class MessagesHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with
     }
   }
 
-  "isInEnglishMessages" must {
+  "englishMessages" must {
     "return item from englishMessages when the key exists" in {
       when(messagesApi.messages).thenReturn(msg)
       MessagesHelper.englishMessages("a.a", messages) shouldBe Some("a")
