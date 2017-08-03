@@ -19,9 +19,8 @@ package iht.controllers.application.debts
 import iht.connector.{CachingConnector, IhtConnector, IhtConnectors}
 import iht.constants.FieldMappings
 import iht.controllers.application.ApplicationController
-import iht.models.application.assets.Property
-import iht.models.application.debts.Mortgage
-import iht.utils.{CommonHelper, StringHelper}
+import iht.models.application.assets.Properties
+import iht.utils.{CommonHelper, PropertyAndMortgageHelper, StringHelper}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Request}
@@ -57,13 +56,12 @@ trait MortgagesOverviewController extends ApplicationController {
         regDetails.acknowledgmentReference) flatMap {
         case Some(applicationDetails) => {
           val propertyList = applicationDetails.propertyList
-          val mortgageList = applicationDetails.allLiabilities.flatMap(_.mortgages.map(_.mortgageList)).
-            getOrElse(List.empty[Mortgage])
-
-          val updatedMortgageList = updateMortgageListFromPropertyList(propertyList, mortgageList)
+          val properties = applicationDetails.allAssets.flatMap(_.properties).getOrElse(Properties(None))
+          val updatedMortgages = PropertyAndMortgageHelper.updateMortgages(properties, applicationDetails)
+          val mortgageList = if(updatedMortgages.getOrElse(None) == None) Nil else { updatedMortgages.get.mortgageList }
 
           Future.successful(Ok(iht.views.html.application.debts.mortgages_overview(propertyList,
-            updatedMortgageList,
+            mortgageList,
             FieldMappings.typesOfOwnership(regDetails.deceasedDetails.fold("")(_.name)),
             regDetails,
             onCancel,
@@ -82,17 +80,4 @@ trait MortgagesOverviewController extends ApplicationController {
     }
   }
 
-  /**
-   *
-   * @param propertyList
-   * @param mortgageList
-   * @return copy of the mortgage list updated from properties
-   */
-  def updateMortgageListFromPropertyList(propertyList: List[Property], mortgageList: List[Mortgage]): List[Mortgage] = {
-    val propertyIdList: Set[String] = propertyList.map(p => p.id.getOrElse("")).toSet
-    val mortgageIdList: Set[String] = mortgageList.map(m => m.id).toSet
-    if (propertyIdList.union(mortgageIdList) != propertyIdList) throw new RuntimeException("MortgageList>PropertyList")
-    val a: List[Mortgage] = propertyIdList.diff(mortgageIdList).map(id => Mortgage(id, None)).toList
-    mortgageList ::: a
-  }
 }
