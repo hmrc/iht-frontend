@@ -82,21 +82,21 @@ class PropertyAndMortgageHelperTest extends UnitSpec with FakeIhtApp with Mockit
         result shouldBe Nil
       }
 
-      "return 1 mortgage when there is 1 property and mortgage details have been entered for it" in {
+      "return 1 mortgage when there is 1 property and 2 mortgages" in {
         val result = helper.reduceMortgagesToMatchProperties(appDetailsWithoutProperties.copy(
           propertyList = List(CommonBuilder.property),
           allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled)))
         result.size shouldBe 1
       }
 
-      "return 2 mortgages when there are 2 properties and mortgage details have been entered for 2 properties" in {
+      "return 2 mortgages when there are 2 properties and 2 mortgages" in {
         val result = helper.reduceMortgagesToMatchProperties(appDetailsWithoutProperties.copy(
           propertyList = List(CommonBuilder.property, CommonBuilder.property2),
           allLiabilities = Some(CommonBuilder.buildAllLiabilitiesWithAllSectionsFilled)))
         result.size shouldBe 2
       }
 
-      "return 2 mortgages when there are 3 properties and mortgage details have only been entered for 2 properties" in {
+      "return 2 mortgages when there are 3 properties and 2 mortgages" in {
         val result = helper.reduceMortgagesToMatchProperties(appDetailsWithoutProperties.copy(
           propertyList = List(CommonBuilder.property,
             CommonBuilder.property2,

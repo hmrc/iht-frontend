@@ -39,20 +39,17 @@ object PropertyAndMortgageHelper {
   }
 
   def isMortgagesLargerThanProperties(appDetails: ApplicationDetails): Boolean = {
-    val properties = appDetails.propertyList.toSet
     val mortgages: Option[MortgageEstateElement] = appDetails.allLiabilities.flatMap(_.mortgages)
-    if(mortgages.isDefined)  mortgages.get.mortgageList.size > properties.size else false
+    mortgages.map(_.mortgageList.size).fold(0)(identity) > appDetails.propertyList.size
   }
 
   def reduceMortgagesToMatchProperties(appDetails: ApplicationDetails): List[Mortgage] = {
     val mortgages: Option[MortgageEstateElement] = appDetails.allLiabilities.flatMap(_.mortgages)
-    val newMortgages: List[Mortgage] = mortgages.get.mortgageList take appDetails.propertyList.size
-    newMortgages
+    mortgages.map(_.mortgageList).getOrElse(Nil) take appDetails.propertyList.size
   }
 
   def updateMortgages(properties: Properties, appDetails: ApplicationDetails): Option[MortgageEstateElement] = {
     (properties.isOwned, isMortgagesLargerThanProperties(appDetails)) match {
-      case (Some(false), _) => None
       case (Some(true), false) => appDetails.allLiabilities.flatMap(_.mortgages)
       case (Some(true), true) => Some(MortgageEstateElement(Some(true), reduceMortgagesToMatchProperties(appDetails)))
       case _ => None
