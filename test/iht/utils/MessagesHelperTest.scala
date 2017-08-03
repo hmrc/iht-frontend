@@ -57,4 +57,15 @@ class MessagesHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar with
       MessagesHelper.messagesForLang(messages, "cy").lang shouldBe Lang("cy")
     }
   }
+
+  "isInEnglishMessages" must {
+    "return true when the key exists" in {
+      when(messagesApi.messages).thenReturn(msg)
+      MessagesHelper.isInEnglishMessages("a.a", messages) shouldBe true
+    }
+    "return false when the key does not exist" in {
+      when(messagesApi.messages).thenReturn(msg)
+      MessagesHelper.isInEnglishMessages("x.a", messages) shouldBe false
+    }
+  }
 }
