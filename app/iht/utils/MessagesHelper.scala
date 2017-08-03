@@ -44,5 +44,10 @@ object MessagesHelper {
     applicationMessages
   }
 
-  def isInEnglishMessages(messageKey: String, messages: Messages): Boolean = messages.messages.messages("en").exists(_._1 == messageKey)
+  def englishMessages(messageKey: String, messages: Messages): Option[String] = {
+    messages.messages.messages("en").find(_._1 == messageKey) match {
+      case None => None
+      case Some(msg) => Some(msg._2.replace("''", "'"))
+    }
+  }
 }
