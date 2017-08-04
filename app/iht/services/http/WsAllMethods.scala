@@ -27,8 +27,8 @@ import iht.config.IhtAuditConnector
   * Created by vineet on 02/08/17.
   */
 
-@Singleton
-class WsAllMethods extends WSHttp with HttpAuditing with AppName with RunMode {
+
+object WsAllMethods extends WSHttp with HttpAuditing with AppName with RunMode {
   override val auditConnector = IhtAuditConnector
   override val hooks = Seq (AuditingHook)
 }

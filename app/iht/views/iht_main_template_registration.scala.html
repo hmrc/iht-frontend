@@ -20,6 +20,7 @@
 @(title: String,
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
+appConfig: iht.config.AppConfig = iht.config.ApplicationConfig,
 subTitle: Option[String] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
@@ -32,13 +33,14 @@ hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
 headingName: String = ""
-)(mainContent: Html)(implicit request : Request[_], messages: Messages, localPartialRetriever: LocalPartialRetriever)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @iht_main_template(
     title = title,
     signOutText = Messages("common.signOut"),
     browserTitle = browserTitle,
     contentHeader = contentHeader,
+    appConfig = appConfig,
     subTitle = subTitle,
     isFullWidth = isFullWidth,
     backUrl = backUrl,

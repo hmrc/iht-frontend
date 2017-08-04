@@ -25,9 +25,9 @@ import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 /**
   * Created by vineet on 02/08/17.
   */
-@Singleton
-class LocalPartialRetriever @Inject() (override val httpGet: WsAllMethods) extends FormPartialRetriever {
+
+object LocalPartialRetriever extends FormPartialRetriever {
   override def crypto = SessionCookieCryptoFilter.encrypt
-  //override val httpGet = WsAllMethods
+  override val httpGet = WsAllMethods
 
 }

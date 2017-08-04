@@ -118,8 +118,7 @@ trait DeclarationController extends ApplicationController {
 
   private def processApplicationOrRedirect(implicit request: Request[_],
                                                     hc: HeaderCarrier,
-                                                    user: AuthContext,
-                                                    localPartialRetriever: LocalPartialRetriever) = {
+                                                    user: AuthContext) = {
     withRegistrationDetails { rd =>
       val ihtReference = CommonHelper.getOrException(rd.ihtReference)
       ihtConnector.getCaseDetails(StringHelper.getNino(user), ihtReference) flatMap { rd =>
@@ -135,10 +134,9 @@ trait DeclarationController extends ApplicationController {
 
   private def processApplication(nino: String)(implicit request: Request[_],
                                                         hc: HeaderCarrier,
-                                                        user: AuthContext,
-                                                        localPartialRetriever: LocalPartialRetriever): Future[Result] = {
+                                                        user: AuthContext): Future[Result] = {
     val errorHandler: PartialFunction[Throwable, Result] = {
-      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages, localPartialRetriever))
+      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages))
     }
     withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference

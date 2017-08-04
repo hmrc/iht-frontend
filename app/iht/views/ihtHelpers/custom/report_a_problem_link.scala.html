@@ -17,8 +17,8 @@
 @(ajaxFormPartialUrl: String, nonJSFormPageUrl: String)(implicit messages: Messages)
 <div class="report-error">
     <script type="text/javascript">var reportProblemAjaxUrl = "@{Html(ajaxFormPartialUrl)}";</script>
-    <a class="report-error__toggle js-visible" id="get-help-action" href="form-label">@Messages("report.a.problem.link")</a>
-    <a class="report-error__toggle js-hidden" href="@nonJSFormPageUrl">@Messages("report.a.problem.link")</a>
+    <a class="report-error__toggle js-visible" id="get-help-action" href="form-label">@Messages("site.changeName")</a>
+    <a class="report-error__toggle js-hidden" href="@nonJSFormPageUrl">@Messages("site.changeName")</a>
     <div id="report-error-partial-form" class="report-error__content hidden">
         <div class="report-error__loading"></div>
     </div>
