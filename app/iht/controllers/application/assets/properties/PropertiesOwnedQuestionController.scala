@@ -17,14 +17,14 @@
 package iht.controllers.application.assets.properties
 
 import iht.connector.IhtConnectors
-import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
 import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.utils.{CommonHelper, StringHelper}
+import iht.models.application.debts.AllLiabilities
+import iht.utils.{CommonHelper, PropertyAndMortgageHelper, StringHelper}
 import iht.views.html.application.asset.properties.properties_owned_question
 import play.api.Logger
 import play.api.Play.current
@@ -51,7 +51,6 @@ trait PropertiesOwnedQuestionController extends EstateController {
     implicit user =>
       implicit request => {
         withRegistrationDetails { regDetails =>
-          val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
 
           val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
@@ -60,7 +59,7 @@ trait PropertiesOwnedQuestionController extends EstateController {
           val boundForm = propertiesForm.bindFromRequest
 
           applicationDetailsFuture.flatMap {
-            case Some(appDetails) => {
+            case Some(appDetails) =>
               boundForm.fold(
                 formWithErrors => {
                   Future.successful(BadRequest(properties_owned_question(formWithErrors, regDetails)))
@@ -69,7 +68,6 @@ trait PropertiesOwnedQuestionController extends EstateController {
                   saveApplication(StringHelper.getNino(user), propertiesModel, appDetails, regDetails)
                 }
               )
-            }
             case _ => Future.successful(InternalServerError("Application details not found"))
           }
         }
@@ -83,17 +81,14 @@ trait PropertiesOwnedQuestionController extends EstateController {
                                                                hc: HeaderCarrier,
                                                                user: AuthContext): Future[Result] = {
 
-    val updatedPropertyList = properties.isOwned match {
-      case Some(false) => Nil
-      case _ => appDetails.propertyList
-    }
 
-    val updatedAppDetails = appDetails.copy(allAssets = Some(appDetails.allAssets.fold
-    (new AllAssets(properties = Some(properties)))(_.copy(
-      properties = Some(properties)))), propertyList = updatedPropertyList)
-
-    val previousIsOwnedValue: Option[Boolean] = appDetails.allAssets.flatMap(_.properties.flatMap(_.isOwned))
-    val preexistingProperty: Boolean = appDetails.propertyList.nonEmpty
+    val updatedAppDetails = appDetails.copy(
+      allAssets = Some(appDetails.allAssets.fold(new AllAssets(properties = Some(properties)))(_.copy(
+        properties = Some(properties)))),
+      propertyList = PropertyAndMortgageHelper.updatePropertyList(properties, appDetails),
+      allLiabilities = Some(appDetails.allLiabilities.fold(new AllLiabilities())(_.copy(
+        mortgages = PropertyAndMortgageHelper.updateMortgages(properties, appDetails))))
+    )
 
     val adAfterUpdatedForKickout = updateKickout(registrationDetails = regDetails, applicationDetails = updatedAppDetails)
     ihtConnector.saveApplication(nino, adAfterUpdatedForKickout, regDetails.acknowledgmentReference)
@@ -103,20 +98,8 @@ trait PropertiesOwnedQuestionController extends EstateController {
           InternalServerError
         } { _ =>
           adAfterUpdatedForKickout.kickoutReason match {
-            case Some(reason) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
-            case _ =>
-            (properties.isOwned, previousIsOwnedValue, preexistingProperty) match {
-              case (Some(false), _, _) => Redirect(CommonHelper.addFragmentIdentifier(assetsRedirectLocation, Some(AppSectionPropertiesID)))
-              case (Some(true), Some(true), _) =>
-                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesOwnedID)))
-              case (Some(true), _, false) =>
-                Redirect(iht.controllers.application.assets.properties.routes.PropertyDetailsOverviewController.onPageLoad())
-              case (_, _, true) =>
-                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.properties.routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesOwnedID)))
-              case _ =>
-                Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
-                InternalServerError
-            }
+            case Some(_) => Redirect(iht.controllers.application.routes.KickoutController.onPageLoad())
+            case _ => PropertyAndMortgageHelper.determineRedirectLocationForPropertiesOwnedQuestion(properties, appDetails)
           }
         }
       }
