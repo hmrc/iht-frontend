@@ -26,6 +26,7 @@ import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
 import iht.models.enums.StatsSource
 import iht.utils.CommonHelper._
+import iht.utils.misc.LocalPartialRetriever
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger
@@ -81,6 +82,7 @@ trait DeclarationController extends ApplicationController {
   def onSubmit = authorisedForIht {
     implicit user =>
       implicit request => {
+
         withRegistrationDetails { rd =>
           if (rd.coExecutors.nonEmpty) {
             val boundForm = ApplicationForms.declarationForm.bindFromRequest
@@ -114,7 +116,10 @@ trait DeclarationController extends ApplicationController {
       }
   }
 
-  private def processApplicationOrRedirect(implicit request: Request[_], hc: HeaderCarrier, user: AuthContext) = {
+  private def processApplicationOrRedirect(implicit request: Request[_],
+                                                    hc: HeaderCarrier,
+                                                    user: AuthContext,
+                                                    localPartialRetriever: LocalPartialRetriever) = {
     withRegistrationDetails { rd =>
       val ihtReference = CommonHelper.getOrException(rd.ihtReference)
       ihtConnector.getCaseDetails(StringHelper.getNino(user), ihtReference) flatMap { rd =>
@@ -128,9 +133,12 @@ trait DeclarationController extends ApplicationController {
     }
   }
 
-  private def processApplication(nino: String)(implicit request: Request[_], hc: HeaderCarrier, user: AuthContext): Future[Result] = {
+  private def processApplication(nino: String)(implicit request: Request[_],
+                                                        hc: HeaderCarrier,
+                                                        user: AuthContext,
+                                                        localPartialRetriever: LocalPartialRetriever): Future[Result] = {
     val errorHandler: PartialFunction[Throwable, Result] = {
-      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages))
+      case ex: Throwable => Ok(iht.views.html.application.application_error(submissionException(ex))(request, applicationMessages, localPartialRetriever))
     }
     withRegistrationDetails { regDetails =>
       val ihtAppReference = regDetails.ihtReference

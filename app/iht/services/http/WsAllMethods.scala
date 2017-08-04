@@ -19,15 +19,16 @@ package iht.services.http
 import javax.inject.{Inject, Singleton}
 
 import uk.gov.hmrc.play.audit.http.HttpAuditing
-import uk.gov.hmrc.play.audit.http.HttpAuditing.AuditingHook
 import uk.gov.hmrc.play.config.{RunMode, AppName}
 import uk.gov.hmrc.play.http.ws.WSHttp
 import iht.config.IhtAuditConnector
-import uk.gov.hmrc.play.audit.http
+
 /**
   * Created by vineet on 02/08/17.
   */
+
 @Singleton
-class WsAllMethods @Inject() (override val auditConnector: IhtAuditConnector) extends WSHttp with HttpAuditing with AppName with RunMode {
+class WsAllMethods extends WSHttp with HttpAuditing with AppName with RunMode {
+  override val auditConnector = IhtAuditConnector
   override val hooks = Seq (AuditingHook)
 }
