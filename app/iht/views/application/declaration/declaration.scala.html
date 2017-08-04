@@ -32,9 +32,11 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
 
         @model.riskMessageFromEdh.map{ riskMessage =>
                 <div class="alert">
-                    @if(riskMessage.trim == Messages("iht.application.declaration.risking.money.message")) {
-                        @Messages("iht.application.declaration.risking.money.message.amended", deceasedName)
-                    } else { @riskMessage }
+                    @if(MessagesHelper.englishMessages("iht.application.declaration.risking.money.message", messages) == model.riskMessageFromEdh){
+                        @messages("iht.application.declaration.risking.money.message.amended", deceasedName)
+                    } else {
+                        @riskMessage
+                    }
                 </div>
         }
 
