@@ -7,6 +7,7 @@
 
     <xsl:param name="translator"/>
     <xsl:param name="versionParam" select="'1.0'"/>
+    <xsl:param name="deceasedName"/>
 
     <xsl:template name="declaration">
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
@@ -59,7 +60,7 @@
                 </fo:list-item-label>
                 <fo:list-item-body start-indent="2em">
                     <fo:block>
-                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.declaration.completedAllReasonableEnquiries')" />
+                        <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.declaration.completedAllReasonableEnquiries', $deceasedName)" />
                     </fo:block>
                 </fo:list-item-body>
             </fo:list-item>
