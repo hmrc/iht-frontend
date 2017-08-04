@@ -177,19 +177,20 @@ trait AssetsLeftToPartnerQuestionController extends EstateController {
     }
   }
 
-  private def returnLabel(regDetails: RegistrationDetails, appDetails: ApplicationDetails): String = {
+  private def returnLabel(regDetails: RegistrationDetails,
+                          appDetails: ApplicationDetails)(implicit messages: Messages): String = {
     val deceasedName = regDetails.deceasedDetails.map(_.name)
     val partner = appDetails.allExemptions.flatMap(_.partner)
     partner match {
       case Some(x) => {
         if (x.isAssetForDeceasedPartner.isDefined && x.isPartnerHomeInUK.isDefined) {
-          Messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
+          messages("iht.estateReport.exemptions.partner.returnToAssetsLeftToSpouse")
         } else {
-          Messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
+          messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
         }
       }
       case None => {
-        Messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
+        messages("page.iht.application.return.to.exemptionsOf", deceasedName.getOrElse(""))
       }
     }
   }

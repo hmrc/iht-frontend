@@ -14,13 +14,21 @@
 * limitations under the License.
 *@
 
+@import iht.config.ApplicationConfig
+@import iht.utils._
+@import play.api.Play.current
+@import iht.controllers.CustomLanguageController
+@import play.api.Application
+@import iht.config._
+@import play.api.Application
+@import uk.gov.hmrc.play.language.LanguageUtils
 
 @(content: Html,
 includeGridWrapper: Boolean = false,
 articleClasses: Option[String] = None,
-isFullWidth: Boolean = false)
-@import iht.utils._
+isFullWidth: Boolean = false,
+currentLang: String = "en")(implicit messages: Messages)
 
-<article class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
+<article  @if(currentLang.equals("cy")){lang = "cy"} class="@if(!isFullWidth){content__body} @if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @CommonHelper.getOrException(articleClasses) }">
     @content
 </article>

@@ -1,11 +1,16 @@
 $(document).ready(function() {
 
 // =====================================================
+// Sets the lang attribute of html to the language selected
+// =====================================================
+if($('article').attr('lang')){
+    $("html").attr('lang', $("article").attr('lang'));
+}
+
+// =====================================================
 // Remove hidden attribute from js-visible elements
 // =====================================================
 $('.js-visible').removeAttr('hidden');
-
-
 
 // =====================================================
 // Initialise show-hide-content
@@ -88,8 +93,8 @@ if(typeof window.navigator != "undefined" && typeof window.navigator.userAgent !
 // =====================================================
 // Country code autocomplete
 // =====================================================
-if($('#iht-auto-complete').length > 0){
-    var countryCode = new Autobox($('select'), $('#iht-auto-complete'), $('#iht-suggestions-list'), $("#iht-autoCompleteSuggestionStatus"));
+if($('[data-enhanced-select]').length > 0){
+    var countryCode = new Autobox($('select'));
 }
 
 
@@ -181,7 +186,7 @@ function setFocus(el){
 /// In all other instances focus will not be set
 /// =====================================================
 function setInputFocus(elid) {
-    var labelTarget = $('label[id="' + elid + '"]');
+    var labelTarget = $('label[id="' + elid + '"], div[id="' + elid + '"]');
     var fieldsetTarget = $('[id="' + elid + '"] fieldset, fieldset[id="' + elid + '"]').first();
 
     if(labelTarget.length > 0 && fieldsetTarget.length == 0){

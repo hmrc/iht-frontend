@@ -20,7 +20,6 @@ import iht.utils.{AuthHelper, IhtSection}
 import play.api.Play
 import play.api.Play.current
 import play.api.mvc.{Action, AnyContent, Request, Result}
-import uk.gov.hmrc.passcode.authentication.PasscodeAuthentication
 import uk.gov.hmrc.play.frontend.auth._
 
 import scala.concurrent.Future

@@ -29,6 +29,8 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
+import iht.testhelpers.ContentChecker
+
 /**
  * Created by Vineet on 22/06/16.
  */
@@ -97,7 +99,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
       val deceasedName = regDetails.deceasedDetails.map(_.name).fold("")(identity)
 
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "display the correct title on page in edit mode" in {
@@ -108,7 +110,7 @@ class PropertyOwnershipControllerTest extends ApplicationControllerTest {
 
       val result = propertyOwnershipController.onEditPageLoad("1")(createFakeRequest())
       status(result) should be (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.assets.howOwnedByDeceased", deceasedName))
     }
 
     "respond with INTERNAL_SERVER_ERROR on page load in edit mode when application details could not be retrieved" in {

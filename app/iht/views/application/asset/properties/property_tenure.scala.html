@@ -28,18 +28,13 @@ deceasedName: String
 @import iht.utils._
 @import iht.constants.IhtProperties._
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.properties.freeholdOrLeasehold"),
+@iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.property.tenure.browserTitle")),
 cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(AssetsPropertiesTenureID))),
-cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
-headingClass = "heading-large") {
+cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
+) {
 
 @ihtHelpers.custom.error_summary(propertyTenure)
-
-<p id="tenure-guidance">@Messages("iht.estateReport.assets.property.youCan")
-<span id="land-registry"><a id="land-registry-link" href="@IhtProperties.linkLandRegistry">
-    @Messages("iht.estateReport.assets.property.findOutFromLandRegistry")</a></span>
-@Messages("page.iht.application.assets.property.tenure.guidance1b")</p>
 
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
@@ -52,7 +47,16 @@ FieldMappings.tenures(deceasedName).toSeq,
 '_labelTextClass -> "bold",
 '_labelAfter -> false,
 '_legend -> Messages("iht.estateReport.assets.properties.freeholdOrLeasehold"),
-'_legendClass -> Some("visually-hidden")
+
+'_legendClass -> Some("legend-with-heading"),
+'_legendIsHeading -> true,
+'_headingClass -> "heading-large",
+'_hintText -> Html("<p id=\"tenure-guidance\">" + Messages("iht.estateReport.assets.property.youCan") +
+    " <a id=\"land-registry-link\" href=\"" + IhtProperties.linkLandRegistry + "\">" +
+    Messages("iht.estateReport.assets.property.findOutFromLandRegistry") + "</a> " +
+    Messages("page.iht.application.assets.property.tenure.guidance1b") + "</p>"
+),
+'_hintClass -> "form-hint--heavy"
 )
 
 <div id="save-property-button" class="form-field form-field--submit">

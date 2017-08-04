@@ -14,37 +14,37 @@
  * limitations under the License.
  */
 
-package iht.views.home
+package iht.views.estateReports
 
 import iht.connector.IhtConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.MockObjectBuilder._
-import iht.viewmodels.application.home.IhtHomeRowViewModel
+import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
 import iht.views.ViewTestHelper
-import iht.views.html.home.iht_home
+import iht.views.html.estateReports.your_estate_reports
 import play.api.i18n.Messages.Implicits._
 import play.api.i18n.MessagesApi
-import uk.gov.hmrc.play.http.HeaderCarrier
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.http.HeaderCarrier
 
-class IhtHomeViewTest extends ViewTestHelper with ApplicationControllerTest {
+class YourEstateReportsViewTest extends ViewTestHelper with ApplicationControllerTest {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
   var mockIhtConnector = mock[IhtConnector]
   lazy val registrationChecklistPageUrl= iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad()
 
-  def ihtHomeView(ihtApplications: Seq[IhtHomeRowViewModel] = Nil) = {
+  def ihtHomeView(ihtApplications: Seq[YourEstateReportsRowViewModel] = Nil) = {
     implicit val request = createFakeRequest()
 
-    val view = iht_home(ihtApplications).toString()
+    val view = your_estate_reports(ihtApplications).toString()
     asDocument(view)
   }
 
   lazy val ihtApplications = {
     implicit val hc = new HeaderCarrier
-    Seq(IhtHomeRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector),
-      IhtHomeRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector))
+    Seq(YourEstateReportsRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector),
+      YourEstateReportsRowViewModel("", CommonBuilder.buildIhtApplication, mockIhtConnector))
   }
 
   before {

@@ -1,20 +1,45 @@
-var Autobox = function(selectInput, enhancedInput, suggestionList, statusContainer){
+var Autobox = function(selectInput){
+    if($('html.lte-ie8').length > 0){ return false; }
+
     this.select = selectInput;      //the (hidden) select input the autocomplete will be searching
-    this.input = enhancedInput;     //the text field the user will be typing into
-    this.list = suggestionList;     //the list to hold the suggestions
-    this.status = statusContainer;  //the container to populate with status updates for screenreaders
+
     this.cList;                     //the currently selected suggestion
     this.cListVal;                  //the related value
     this.listItems;                 //the list of suggestions
 
-    this.messageMatches = this.input.attr("data-matches");
-    this.messageOf = this.input.attr("data-options");
-    this.messageClose = this.input.attr("data-close");
-    this.messageSelected = this.input.attr("data-selected");
+    this.messageMatches = this.select.attr("data-matches");
+    this.messageOf = this.select.attr("data-options");
+    this.messageClose = this.select.attr("data-close");
+    this.messageSelected = this.select.attr("data-selected");
 
+    this.addUI();
     this.setInitialValue();
     this.addEvents();
 }
+
+
+Autobox.prototype.addUI = function(){
+    var _autobox = this;
+    var autoUI, inputBox, listBox, statusBox;
+    inputBox = '<input type="text" name="iht-auto-complete" id="iht-auto-complete" class="form-control form-control--block js-iht-auto-complete" autocomplete="off" spellcheck="false" data-rule-suggestion="true" role="combobox" aria-owns="iht-suggestions-list" aria-expanded="false" />';
+    listBox = '<ul role="listbox" class="suggestions js-suggestions" id="iht-suggestions-list"></ul>';
+    statusBox = '<span role="status" aria-live="assertive" aria-relevant="text" class="visually-hidden js-suggestions-status-message" id="iht-autoCompleteSuggestionStatus"></span>';
+
+    autoUI = inputBox + '<div class="suggestions-input-container">' + listBox + statusBox + '</div>';
+
+    _autobox.select.addClass('js-hidden');
+    _autobox.select.after(autoUI);
+
+    // update label to point to the enhanced input
+    $('[for="' + _autobox.select.attr('id') + '"]').attr('for', 'iht-auto-complete')
+
+    _autobox.input = $('#iht-auto-complete');                   //the text field the user will be typing into
+    _autobox.list = $('#iht-suggestions-list');                 //the list to hold the suggestions
+    _autobox.status = $('#iht-autoCompleteSuggestionStatus');  //the container to populate with status updates for screenreaders
+
+
+}
+
 
 //=============================================
 // If the select input has a selected value this assigns it to the input also

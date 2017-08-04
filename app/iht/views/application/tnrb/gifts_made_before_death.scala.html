@@ -28,28 +28,30 @@ widowCheck: WidowCheck,
 cancelUrl:Call,
 registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), false)}
+@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", partnerName),
-browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
-cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(cancelUrl),
-headingName = partnerName,
-headingClass = "heading-large"
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
+    cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+    cancelUrl = Some(cancelUrl)
 ){
     @ihtHelpers.custom.error_summary(giftMadeBeforeDeathForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.GiftsMadeBeforeDeathController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
-        giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),
-        '_hintText -> Html("<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1",
-    TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint", deceasedName)))
-                                 + "</p><p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"),
-        '_divClass -> Some("form-group"),
-        '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)),
-        '_legendClass -> Some("visually-hidden")
+            giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),
+            '_hintText -> Html(
+                    "<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1", TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint", deceasedName))) + "</p>" +
+                    "<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"
+            ),
+            '_divClass -> Some("form-group"),
+            '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", partnerName),
+            '_legendClass -> Some("legend-with-heading"),
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large"
         )
 
         <div id="action-button" class="form-field form-field--submit">

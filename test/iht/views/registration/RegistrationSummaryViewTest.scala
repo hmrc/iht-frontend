@@ -312,7 +312,7 @@ case class SharableOverviewRow(rowText: String = "", value: String = "", linkTex
 
 object SharableOverviewRow {
   def apply(element: Element): SharableOverviewRow = {
-    val cells = element.select("div:not(.visually-hidden)")
+    val cells = element.select("li > *:not(.visually-hidden)")
     val row = cells.size match {
       case 2 => SharableOverviewRow(
         rowText = cells.get(0).text,
@@ -320,7 +320,7 @@ object SharableOverviewRow {
       )
       case 3 =>
         SharableOverviewRow(
-          rowText = cells.get(0).text,
+          rowText = cells.get(0).select("span[aria-hidden]").text,
           value = cells.get(1).text,
           linkText = getLinkText(cells.get(2).getElementsByTag("a").first),
           linkHref = getLinkHref(cells.get(2).getElementsByTag("a").first)

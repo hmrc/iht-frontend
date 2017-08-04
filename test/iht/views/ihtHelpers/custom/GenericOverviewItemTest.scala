@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package iht.views.ihtHelpers
+package iht.views.ihtHelpers.custom
 
-import iht.{FakeIhtApp, TestUtils}
+import iht.FakeIhtApp
 import iht.views.HtmlSpec
 import iht.views.html.ihtHelpers.custom._
-import uk.gov.hmrc.play.test.UnitSpec
 import play.api.i18n.Messages.Implicits._
-import play.api.i18n.MessagesApi
+import uk.gov.hmrc.play.test.UnitSpec
 
 
 class GenericOverviewItemTest extends UnitSpec with FakeIhtApp with HtmlSpec {

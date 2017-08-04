@@ -48,11 +48,12 @@
     @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification" id="@elements.args.get('_error_id)" role="tooltip" id="@elements.field.name">@Messages(error)</span>}
     }
 
-    @if(labelHighlight){<strong>}
+
     <span @if(elements.args.contains('_labelTextClass)) { class="@elements.args.get('_labelTextClass)"}>
-    @if(!labelAfter && elements.args.contains('_label)) { @elements.label }
+        @if(labelHighlight){<strong>}
+            @if(!labelAfter && elements.args.contains('_label)) { @elements.label }
+        @if(labelHighlight){</strong>}
     </span>
-    @if(labelHighlight){</strong>}
 
     <input
     @if(elements.args.contains('_type)){type="@elements.args.get('_type)" }else{type="text" }
@@ -67,11 +68,5 @@
     value="@value"
     />
 
-
-    @if(labelHighlight){<strong>}
-    <span @if(elements.args.contains('_labelTextClass)) { class="@elements.args.get('_labelTextClass)"}>
-    @if(labelAfter && elements.args.contains('_label)) { @elements.label }
-    </span>
-    @if(labelHighlight){</strong>}
     </label>
 </div>

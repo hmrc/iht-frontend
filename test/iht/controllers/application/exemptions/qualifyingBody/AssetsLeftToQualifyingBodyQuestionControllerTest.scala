@@ -26,6 +26,7 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import iht.testhelpers.ContentChecker
 
 /**
  * Created by james on 16/08/16.
@@ -90,7 +91,7 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
         storeAppDetailsInCache = true)
 
       val result = assetsLeftToQualifyingBodyQuestionController.onPageLoad()(createFakeRequest())
-      val resultAsString = contentAsString(result)
+      val resultAsString = ContentChecker.stripLineBreaks(contentAsString(result))
       resultAsString should include (messagesApi("iht.saveAndContinue"))
       resultAsString should include (messagesApi("page.iht.application.exemptions.assetsLeftToQualifyingBody.sectionTitle", deceasedName))
     }

@@ -30,24 +30,12 @@
 
 <div data-exclude="true" class="form-group @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}">
 
-    @if(isComboBox){
-        <label for="iht-auto-complete" hidden class="js-visible @elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)-js} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
-            @if(labelHighlight){<strong>}
-            @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
-            @if(labelHighlight){</strong>}
-        </label>
-        <label for="@if( elements.args.get('_id) ) {@elements.args.get('_id)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")}" class="js-hidden @elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
-            @if(labelHighlight){<strong>}
-            @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
-            @if(labelHighlight){</strong>}
-        </label>
-    } else {
-        <label for="@if( elements.args.get('_id) ) {@elements.args.get('_id)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")}" class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
-            @if(labelHighlight){<strong>}
-            @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
-            @if(labelHighlight){</strong>}
-        </label>
-    }
+
+    <label for="@if( elements.args.get('_id) ) {@elements.args.get('_id)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")}" class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }" @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)} id="@if( elements.args.get('_labelid) ) {@elements.args.get('_labelid)} else {@elements.field.name.replaceAll("""[\.\[\]]""", "-")_field}">
+        @if(labelHighlight){<strong>}
+        @if(elements.args.contains('_label)) {<span class="form-label @if(elements.args.contains('_labelClass)){ @elements.args.get('_labelClass)}"> @elements.label </span>}
+        @if(labelHighlight){</strong>}
+    </label>
 
     @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
     @if(parentElements.isDefined) {
@@ -59,7 +47,17 @@
     @elements.args.get('_hintText)
     </span>
     }
-    <select id="@elements.field.name" name="@elements.field.name" class="@if( elements.args.get('_inputClass) ){ @elements.args.get('_inputClass) } @if(isComboBox){js-hidden}" @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}>
+    <select
+            id="@elements.field.name"
+            name="@elements.field.name"
+            class="@if( elements.args.get('_inputClass) ){ @elements.args.get('_inputClass) }"
+            data-matches="@Messages("iht.dropdown.matches")"
+            data-options="@Messages("iht.dropdown.of")"
+            data-close="@Messages("iht.dropdown.closed")"
+            data-selected="@Messages("iht.dropdown.selected")"
+            @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
+            @if(isComboBox){ data-enhanced-select="true"}
+    >
     @if(displayEmptyValue) {
     <option value="@elements.args.get('_emptyValue)" selected="selected">@elements.args.get('_emptyValueText)</option>
     }
@@ -72,26 +70,4 @@
     }
     </select>
 
-    @if(isComboBox){
-    <div class="suggestions-input-container js-visible" hidden>
-        <input type="text"
-               name="iht-auto-complete"
-               id="iht-auto-complete"
-               class="form-control form-control--block js-iht-auto-complete"
-               autocomplete="off"
-               spellcheck="false"
-               data-rule-suggestion="true"
-               role="combobox"
-               aria-owns="iht-suggestions-list"
-               aria-expanded="false"
-               data-matches="@Messages("iht.dropdown.matches")"
-               data-options="@Messages("iht.dropdown.of")"
-               data-close="@Messages("iht.dropdown.closed")"
-               data-selected="@Messages("iht.dropdown.selected")"
-        />
-        <ul role="listbox" class="suggestions js-suggestions" id="iht-suggestions-list"></ul>
-        <span role="status" aria-live="assertive" aria-relevant="text" class="visually-hidden js-suggestions-status-message" id="iht-autoCompleteSuggestionStatus"></span>
-    </div>
-
-    }
 </div>

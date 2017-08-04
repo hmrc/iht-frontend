@@ -1,6 +1,6 @@
 #Across Site
 site.pdf.document.link.text = PDF document
-iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off. (PDF, <500KB)
+iht.estateReport.copyOfTheEstateReportAndPrint = You should open a copy of the estate report and print it off. (PDF, size is less than 500KB)
 site.copyApplication.link = copy of the application
 site.title.govuk = - GOV.UK
 site.application.title = Complete an Inheritance Tax estate report
@@ -101,6 +101,8 @@ iht.date.day = Day
 iht.date.month = Month
 iht.date.year = Year
 
+iht.date.months = months
+
 iht.to = to
 iht.back = Back
 iht.change = Change
@@ -140,7 +142,9 @@ iht.noChangeToHowReportToHMRC = There is no change to how you report to HMRC
 iht.notPossibleToUseService = It is not possible for you to use this service
 iht.postcode = Postcode
 iht.returnToLastQuestion = Return to last question
-iht.roughEstimateEstateWorth = Using an estimate of any houses or money in bank accounts that the the person who has died might have owned, how much do you think the the person who has died’s estate is worth?
+iht.roughEstimateEstateWorth = How much do you think the estate is worth?
+iht.roughEstimateEstateWorth.guidance = Include an estimate of the value of any houses or money in bank accounts that the person who has died might have owned.
+
 iht.saveAndContinue = Save and continue
 iht.shouldUseOnlineService = You can use the online service
 iht.signedOut = You have been signed out
@@ -153,13 +157,9 @@ iht.useIHT400PaperForm = You must use an IHT-400 paper form
 iht.usePaperForm = You must use a paper form
 iht.viewOrChange = View or change
 iht.value = Value
-iht.valueOfAssets = Value of assets
-iht.valueOfDebts = Value of debts
-iht.valueOfExemptions = Value of exemptions
 iht.whatDoYouWantToDo = What do you want to do?
 iht.yes = Yes
 iht.comma = ,
-iht.fullStop = .
 iht.dropdown.matches = {0} matches found. Use arrow keys or swipe to navigate the list
 iht.dropdown.of = ({0} of {1})
 iht.dropdown.closed = Suggestions list closed
@@ -234,7 +234,7 @@ page.iht.filter.paperform.iht400.link.text = IHT-400 form
 page.iht.filter.useService.under325000.paragraph0 = Because you think the estate might be worth less than £325,000, you can use the online service to report the estate value to HMRC.
 page.iht.filter.useService.paragraphFinal = You will need to register to use the service first, but before that, you will need to confirm who you are with HMRC.
 page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the estate might be worth between £325,000 and £1 million, you can use the online service to report the estate value to HMRC.
-page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you will be able to claim any estate exemptions or transfer the unused threshold from a spouse or civil partner who died before the person who has died.
+page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you will be able to claim any estate exemptions or transfer the unused threshold if there was a spouse or civil partner whose death was before the person who has died.
 
 #Registration
 iht.registration.changeAddressToAbroad = Change the address to one that is abroad
@@ -276,6 +276,11 @@ page.iht.registration.checklist.exec.title = If anyone else is applying to the P
 page.iht.registration.checklist.exec.reveal.label1 = The easiest thing to do is to ask the person who you are adding for their details. They will be able to find their National Insurance number on a payslip, a P45 or a P60 form.
 page.iht.registration.checklist.exec.reveal.label2 = Their name should be given as it is shown on their passport or birth certificate. This might be different to the name that you know them by.
 page.iht.registration.checklist.exec.reveal.label3 = The phone number given is one that HMRC can contact this person on. This might happen after you have finished the estate report and it is being reviewed.
+
+page.iht.registration.checklist.exec.name.screenreader = {0}’s name
+page.iht.registration.checklist.exec.nino.screenreader = {0}’s National Insurance Number
+page.iht.registration.checklist.exec.phone.screenreader = {0}’s phone number
+
 iht.registration.checklist.dateOfBirth = date of birth
 iht.registration.checklist.phoneNo.lowerCaseInitial = phone number
 iht.registration.checklist.phoneNo.upperCaseInitial = Phone number
@@ -289,7 +294,7 @@ page.iht.registration.deceasedDateOfDeath.dateOfDeath.label = Enter the deceased
 page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint = For example, 21 3 2010
 
 #Registration - Deceased’s permanent home
-page.iht.registration.deceasedPermanentHome.title = Where was the person who has died’s permanent home?
+page.iht.registration.deceasedPermanentHome.title = Where was the permanent home of the person who has died?
 page.iht.registration.deceasedPermanentHome.browserTitle = Permanent home
 iht.common.other = Other
 
@@ -394,37 +399,37 @@ page.iht.registration.others-applying-for-probate-address.address.guidance = Thi
 #Registration Summary
 
 #Registration Summary - Deceased info
-page.iht.registration.registrationSummary.deceasedTable.title = Deceased’s details
+page.iht.registration.registrationSummary.deceasedTable.title = The person who has died
 page.iht.registration.registrationSummary.subTitle = You will not be able to change these details online after you have confirmed them.
 page.iht.registration.registrationSummary.focusElement.prefix = focusElementId
 page.iht.registration.registrationSummary.deceasedInfo.title.id = title
-page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = Deceased’s name is {0}
+page.iht.registration.registrationSummary.deceasedInfo.name.data.screenReader = The name of the person who has died
 page.iht.registration.registrationSummary.deceasedInfo.name.link.screenReader = Change {0}’s name
 page.iht.registration.registrationSummary.deceasedInfo.lastName.id = lastName
 
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.id = dateOfDeath
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.id.container = dateOfDeath-container
-page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.data.screenReader = Deceased’s date of death is {0}
+page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.data.screenReader = {0}’s date of death
 page.iht.registration.registrationSummary.deceasedInfo.dateOfDeath.link.screenReader = Change {0}’s date of death
 
-page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader = Deceased’s date of birth is {0}
+page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.data.screenReader = {0}’s date of birth
 page.iht.registration.registrationSummary.deceasedInfo.dateOfBirth.link.screenReader = Change {0}’s date of birth
 
-page.iht.registration.registrationSummary.deceasedInfo.nino.data.screenReader = Deceased’s national insurance number is {0}
+page.iht.registration.registrationSummary.deceasedInfo.nino.data.screenReader = {0}’s national insurance number
 page.iht.registration.registrationSummary.deceasedInfo.nino.link.screenReader = Change {0}’s national insurance number
 
-page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader = Deceased’s address is {0}
+page.iht.registration.registrationSummary.deceasedInfo.address.data.screenReader = {0}’s address
 page.iht.registration.registrationSummary.deceasedInfo.address.link.screenReader = Change {0}’s address
 
 page.iht.registration.registrationSummary.deceasedInfo.location.id = domicile
 page.iht.registration.registrationSummary.deceasedInfo.location.id.container = domicile-container
-page.iht.registration.registrationSummary.deceasedInfo.location.data.screenReader = The location of the deceased’s permanent home is {0}
+page.iht.registration.registrationSummary.deceasedInfo.location.data.screenReader = The location of {0}’s permanent home
 page.iht.registration.registrationSummary.deceasedInfo.location.link.screenReader = Change the location of {0}’s permanent home
 
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.label = Relationship status
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.id = maritalStatus
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.id.container = maritalStatus-container
-page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.data.screenReader = Deceased’s relationship status is {0}
+page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.data.screenReader = {0}’s relationship status
 page.iht.registration.registrationSummary.deceasedInfo.maritalStatus.link.screenReader = Change {0}’s relationship status
 
 page.iht.registration.registrationSummary.deceasedInfo.countryCode.id = ukAddress.countryCode
@@ -441,12 +446,10 @@ page.iht.registration.registrationSummary.applicantInfo.nino.link.screenReader =
 page.iht.registration.registrationSummary.applicantInfo.nino.data.screenReader = Your national insurance number is {0}. This cannot be changed
 
 page.iht.registration.registrationSummary.applicantInfo.address.link.screenReader = Change your address
-page.iht.registration.registrationSummary.applicantInfo.address.data.screenReader = Your address is {0}
 
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.id = contactDetails.phoneNo
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.id.container = contactDetails_phoneNo-container
 page.iht.registration.registrationSummary.applicantInfo.phoneNumber.link.screenReader = Change your phone number
-page.iht.registration.registrationSummary.applicantInfo.phoneNumber.data.screenReader = Your phone number is {0}
 
 page.iht.registration.registrationSummary.applicantInfo.email.id.container = contactDetails_email-container
 page.iht.registration.registrationSummary.applicantInfo.email.link.screenReader = Change your email address
@@ -596,8 +599,8 @@ page.iht.application.overview.common.estatevalue = Based on the details you have
 page.iht.application.overview.common.helptext.part1 = If you find any more assets owned by {0} that were not included in this estate report, let HMRC know by using a
 page.iht.application.overview.common.helptext.part2 = Only do this if these assets increase the value of the estate over the Inheritance Tax threshold.
 page.iht.application.overview.common.return = Return to your Inheritance Tax estate reports
-page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, <500KB)
-page.iht.application.overview.common.viewcertificate = View clearance certificate (PDF, <500KB)
+page.iht.application.overview.common.viewcopy = View a copy of this estate report (PDF, size is less than 500KB)
+page.iht.application.overview.common.viewcertificate = View clearance certificate (PDF, size is less than 500KB)
 
 #Estate report - Estate overview
 page.iht.application.estateOverview.noValue = No value given
@@ -622,9 +625,13 @@ page.iht.application.overview.browserTitle = Estate overview
 page.iht.application.overview.gifts.nonGiven = No gifts given
 page.iht.application.overview.value = Estate value
 page.iht.application.overview.submit.button.disabled = To continue you need to tick that you have checked all of the estate details that you have entered and there is nothing else to tell HMRC about.
+
 page.iht.application.overview.time.limit1 = You have until
-page.iht.application.overview.time.limit2 = to send your estate report.
+page.iht.application.overview.time.limit2 = to send this estate report.
+page.iht.application.overview.time.limit1.months = You have
+page.iht.application.overview.time.limit1.year = You have 1 year to send this estate report.
 page.iht.application.overview.timeScale.guidance = If you do not send the estate report by this date, it will be deleted and you will have to start again.
+page.iht.application.overview.timeScale.guidance.months = If you do not send the estate report by this time, it will be deleted and you will have to start again.
 
 page.iht.application.overview.reducingTheEstateValue.total = Total taken away from the estate value
 page.iht.application.overview.title2.screenReader = You have until {0} to send your estate report.
@@ -664,7 +671,7 @@ iht.estateReport.returnToEstateOverview = Return to estate overview
 page.iht.application.assets.main-section.personalbelongings.title = Personal belongings
 page.iht.application.assets.main-section.other.title = Other assets
 page.iht.application.assets.main-section.properties.delete.warning = This will also delete any mortgage that has been added to this property.
-page.iht.application.assets.subtitle = An asset is anything the deceased owned that has a value.
+page.iht.application.assets.subtitle = An asset is anything {0} owned that has a value.
 
 iht.estateReport.assets.getProfessionalValuation = HMRC recommend that you get a professional valuation for anything that might be worth more than £500. Any estimates should be made on an open market value and not an insurance or replacement value.
 iht.estateReport.assets.howOwnedByDeceased = How was this owned by {0}?
@@ -961,7 +968,11 @@ iht.estateReport.assets.stocksAndSharesListed = Stocks and shares listed on an e
 iht.estateReport.assets.stocksAndSharesNotListed = Stocks and shares not listed on an exchange
 
 #Estate report - Assets - Insurance policies
-page.iht.application.assets.insurance.policies.overview.guidance1 = This includes any life insurance policies or insurance bonds that pay out to the estate, policies held in ISAs, money paid under a mortgage protection policy and any policies on the life of another person that would pay out to {0}.
+page.iht.application.assets.insurance.policies.overview.guidance1 = This includes:
+page.iht.application.assets.insurance.policies.overview.guidance.bullet1 = any life insurance policies or insurance bonds that pay out to the estate
+page.iht.application.assets.insurance.policies.overview.guidance.bullet2 = policies held in ISAs
+page.iht.application.assets.insurance.policies.overview.guidance.bullet3 = money paid under a mortgage protection policy
+page.iht.application.assets.insurance.policies.overview.guidance.bullet4 = any policies on the life of another person that would pay out to {0}
 page.iht.application.assets.insurances.sectionName = insurances
 page.iht.application.assets.insurances.inputLabel1 = Value of the deceased’s insurance policies held in their own name when they died
 page.iht.application.assets.insurances.isjointlyowned = Were any insurance policies jointly owned?
@@ -1060,28 +1071,28 @@ page.iht.application.assets.nominated.question = Did {0} have any nominated asse
 
 #Estate report - Assets - Assets held in a trust
 page.iht.application.assets.held-in-trust.sectionName = held-in-trust
-page.iht.application.assets.held-in-trust.description.p1 = If the deceased benefitted from a trust during their lifetime, such as regular payments being received or dividends from shares, these need to be included in the value of their estate. This includes assets in a trust that the deceased benefitted from during their lifetime, or was entitled to benefit from.
+page.iht.application.assets.held-in-trust.description.p1 = If the deceased benefited from a trust during their lifetime, such as regular payments being received or dividends from shares, these need to be included in the value of their estate. This includes assets in a trust that the deceased benefited from during their lifetime, or was entitled to benefit from.
 page.iht.application.assets.held-in-trust.description.p2 = If the deceased had the right to live in a house that was held in a trust during their lifetime, the value of that property should be included.
 
 page.iht.application.assets.trusts.isOwned.browserTitle = Any assets in trust
-page.iht.application.assets.trusts.moreThanOne.browserTitle = How many trusts benefitted from
+page.iht.application.assets.trusts.moreThanOne.browserTitle = How many trusts benefited from
 page.iht.application.assets.trusts.value.browserTitle = Trust value
 
 page.iht.application.assets.trusts.question.screenreader.link.noValue = Give an answer for did the deceased benefit from, or have the right to benefit from, a trust during their lifetime
 page.iht.application.assets.trusts.question.screenreader.link.value = Change the answer for did the deceased benefit from, or have the right to benefit from, a trust during their lifetime
-page.iht.application.assets.trusts.moreThanOne.question.screenreader.link.noValue = Give an answer for was the deceased benefitting from, or have the right to benefit from, more than 1 trust
-page.iht.application.assets.trusts.moreThanOne.question.screenreader.link.value = Change the answer for was the deceased benefitting from, or have the right to benefit from, more than 1 trust
-page.iht.application.assets.trusts.value.screenreader.link.noValue = Give the value of the trust that the deceased benefitted from when they died
-page.iht.application.assets.trusts.value.screenreader.link.value = Change the value of the trust that the deceased benefitted from when they died
+page.iht.application.assets.trusts.moreThanOne.question.screenreader.link.noValue = Give an answer for was the deceased benefiting from, or have the right to benefit from, more than 1 trust
+page.iht.application.assets.trusts.moreThanOne.question.screenreader.link.value = Change the answer for was the deceased benefiting from, or have the right to benefit from, more than 1 trust
+page.iht.application.assets.trusts.value.screenreader.link.noValue = Give the value of the trust that the deceased benefited from when they died
+page.iht.application.assets.trusts.value.screenreader.link.value = Change the value of the trust that the deceased benefited from when they died
 
 iht.estateReport.assets.heldInATrust.title = Assets held in a trust
 iht.estateReport.assets.heldInTrust.needInclusion = If {0} had the right to live in a house that was held in trust during their lifetime, the value of that property should also be included.
 iht.estateReport.assets.heldInTrust.title = Assets held in trust
-iht.estateReport.assets.heldInTrust.valueOfTrust = Value of the trust that {0} benefitted from when they died
+iht.estateReport.assets.heldInTrust.valueOfTrust = Value of the trust that {0} benefited from when they died
 
-iht.estateReport.assets.trusts.benefittedFromHeldInTrust = These are all the assets that {0} benefitted from, or had the right to benefit from, that were held in trust.
-iht.estateReport.assets.trusts.moreThanOne.question = Was {0} benefitting from, or have the right to benefit from, more than 1 trust?
-iht.estateReport.assets.trusts.needInclusion = If {0} benefitted from a trust during their lifetime, such as getting regular payments or dividends from shares, these need to be included in the value of the estate.
+iht.estateReport.assets.trusts.benefittedFromHeldInTrust = These are all the assets that {0} benefited from, or had the right to benefit from, that were held in trust.
+iht.estateReport.assets.trusts.moreThanOne.question = Was {0} benefiting from, or have the right to benefit from, more than 1 trust?
+iht.estateReport.assets.trusts.needInclusion = If {0} benefited from a trust during their lifetime, such as getting regular payments or dividends from shares, these need to be included in the value of the estate.
 iht.estateReport.assets.trusts.question = Did {0} benefit from, or have the right to benefit from, a trust during their lifetime?
 
 #Estate report - Assets - Foreign
@@ -1100,14 +1111,12 @@ page.iht.application.assets.deceased-permanent-home.description.p1 = This includ
 page.iht.application.assets.deceased-permanent-home.description.p2 = These could also be any non-residential buildings or any land owned by {0}. This could be business properties such as a shop or a farm. You should also include the value of anything attached to land, such as fishing or shooting rights.
 page.iht.application.assets.deceased-permanent-home.typeofownership.label = How was this owned?
 page.iht.application.assets.deceased-permanent-home.question2.hint = You can find out how a property was owned from the Land Registry. Joint tenants and tenants in common are names that describe how a property is owned with another person.
-page.iht.application.assets.deceased-permanent-home.question3 = Was this a freehold or a leasehold property?
 page.iht.application.assets.deceased-permanent-home.question3.hint = You can find out from the Land Registry if a property was freehold or leasehold.
-page.iht.application.assets.deceased-permanent-home.question4 = What was this property?
 page.iht.application.assets.deceased-permanent-home.question4.hint = If the deceased did not live at a property that they owned, you should choose deceased’s home if this was the last property that they owned and also lived at.
 page.iht.application.assets.deceased-permanent-home.table.header = Properties
 page.iht.application.assets.deceased-permanent-home.table.emptyRow.text = You have not added any properties to this estate.
 page.iht.application.assets.deceased-permanent-home.table.emptyAddress.text = No address added
-page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by the deceased then there will be no mortgages owed as a debt from the estate.
+page.iht.application.assets.property.question.mortgage.text = If there are no properties, buildings or land owned by {0} then there will be no mortgages owed as a debt from the estate.
 
 #Estate report - Assets - Any other assets not listed
 iht.estateReport.assets.other.title = Any other assets not listed
@@ -1134,7 +1143,7 @@ page.iht.application.gifts.guidance.kindOfGifts.description4 = If the deceased g
 page.iht.application.gifts.guidance.kindOfGifts.description5 = If a gift of a house, land or building was made to anything that is not a person, like to a trust or to a charity, then you will also need to use the IHT-400 form.
 page.iht.application.gifts.guidance.withReservation.description1 = People sometimes give something away but still benefit from it. An example of this is where someone gives away their home to a family member but still lives there.
 page.iht.application.gifts.guidance.withReservation.description2 = Other examples are where someone has owned a caravan and given it away but still enjoyed holidays in it afterwards, or a picture that was given away but still displayed in the deceased’s house.
-page.iht.application.gifts.guidance.withReservation.description3 = Take your time to work out what might have been given away in the 7 years before the deceased died and work out if the deceased benefitted from what they gave away.
+page.iht.application.gifts.guidance.withReservation.description3 = Take your time to work out what might have been given away in the 7 years before the deceased died and work out if the deceased benefited from what they gave away.
 page.iht.application.gifts.guidance.withReservation.description4 = You will not need to give a value for these, but you will need to say if the deceased gave a gift like this. If they did, you will not be able to use this service and you will need to complete the estate report using an IHT-400 paper form.
 
 page.iht.application.gifts.guidance.claimingExemptions.title = Claiming exemptions on what was given away
@@ -1207,8 +1216,8 @@ page.iht.application.gifts.lastYears.givenAway.question = Did {0} give gifts awa
 page.iht.application.gifts.overview.givenAway.question1.yes.screenReader.link.value = Yes, the deceased gave away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 page.iht.application.gifts.overview.givenAway.question1.no.screenReader.link.value = No, the deceased did not give away more than £3,000 of gifts in any of the 7 years before they died. Change this answer.
 
-page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value = Give an answer for if {0} still benefitted from any gifts given away.
-page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value = Yes, {0} still benefitted from gifts given away. Change this answer.
+page.iht.application.gifts.overview.reservation.giveAnswer.screenReader.link.value = Give an answer for if {0} still benefited from any gifts given away.
+page.iht.application.gifts.overview.reservation.question1.yes.screenReader.link.value = Yes, {0} still benefited from gifts given away. Change this answer.
 page.iht.application.gifts.overview.reservation.question1.no.screenReader.link.value = No, {0} did not benefit from any gifts given away. Change this answer.
 
 page.iht.application.gifts.overview.sevenYears.giveAnswer.screenReader.link.value = Give an answer for what types of gifts were given away in the 7 years before death.
@@ -1276,12 +1285,12 @@ page.iht.application.giftsDetails.amountAdded = Amount added to the estate value
 iht.estateReport.gifts.givenAway.title = Gifts given away
 iht.estateReport.gifts.givenAwayBy = Gifts given away by {0}
 iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath = Types of gifts given away in the 7 years before death
-iht.estateReport.gifts.reservation.question = Did {0} give any gifts away that they still benefitted from?
+iht.estateReport.gifts.reservation.question = Did {0} give any gifts away that they still benefited from?
 iht.estateReport.gifts.returnToGiftsGivenAway = Return to gifts given away in the 7 years before death
 iht.estateReport.gifts.returnToGiftsGivenAwayInThe7YearsBeforeDeath = Return to value of gifts given away in the 7 years before death
 iht.estateReport.gifts.stocksAndSharesListed = stocks and shares listed on the London Stock Exchange
 iht.estateReport.gifts.valueOfGiftsGivenAway = Value of gifts given away in the 7 years before death
-iht.estateReport.gifts.withReservation.title = Gifts given away that {0} still benefitted from
+iht.estateReport.gifts.withReservation.title = Gifts given away that {0} still benefited from
 
 iht.estateReport.gifts.withReservation.titleWithoutName = Gifts with reservation of benefit
 
@@ -1355,8 +1364,8 @@ page.iht.application.debts.funeralExpenses.description.p2 = If {0} paid for a fu
 page.iht.application.debts.funeralExpenses.isOwned = Are there any funeral expenses being paid out of the estate?
 
 page.iht.application.debts.debtsTrust.browserTitle = Debts owed from trust
-page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that {0} was benefitting from. If the trustees only gave you the value of a trust after deducting any debts then do not include a value here.
-page.iht.application.debts.debtsTrust.isOwned = Are there any debts being paid out of the estate that are owed from a trust that {0} benefitted from?
+page.iht.application.debts.debtsTrust.description.p1 = This is the value of any debts owed from a trust that {0} was benefiting from. If the trustees only gave you the value of a trust after deducting any debts then do not include a value here.
+page.iht.application.debts.debtsTrust.isOwned = Are there any debts being paid out of the estate that are owed from a trust that {0} benefited from?
 
 page.iht.application.debts.debtsOutsideUk.browserTitle = Foreign debts
 page.iht.application.debts.debtsOutsideUk.description.p1 = This is the value of all debts owed to anyone outside of the UK including anything owed on any foreign assets.
@@ -1417,13 +1426,10 @@ page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenread
 page.iht.application.exemptions.overview.partner.assetsLeftForPartner.screenreader.link.value = Change the answer for did {0} leave anything to their spouse or civil partner
 page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.noValue = Give answer for is the spouse’s or civil partner’s permanent home in the UK
 page.iht.application.exemptions.overview.partner.homeInUK.screenreader.link.value = Change the answer for is the spouse’s or civil partner’s permanent home in the UK
-page.iht.application.exemptions.overview.partner.name.title = Name of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.name.screenreader.link.noValue = Give the name of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.name.screenreader.link.value = Change the name of the spouse or civil partner
-page.iht.application.exemptions.overview.partner.dob.title = Date of birth of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.dob.screenreader.link.noValue = Give the date of birth of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.dob.screenreader.link.value = Change the date of birth of the spouse or civil partner
-page.iht.application.exemptions.overview.partner.nino.title = National Insurance number of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.nino.screenreader.link.noValue = Give the National Insurance number of the spouse or civil partner
 page.iht.application.exemptions.overview.partner.nino.screenreader.link.value = Change the National Insurance number for the spouse or civil partner
 page.iht.application.exemptions.overview.partner.totalAssets.title = Total value of all assets left to the spouse or civil partner
@@ -1614,7 +1620,7 @@ page.iht.application.tnrb.jointlyOwnedAssets.question = Did all of the jointly o
 page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle = Fully exempt estate
 page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question = Did all of the estate pass to {0}, a charity or another qualifying body?
 
-page.iht.application.tnrb.benefitFromTrust.browserTitle = Any trust benefitted from in estate
+page.iht.application.tnrb.benefitFromTrust.browserTitle = Any trust benefited from in estate
 
 page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle = Any non-exempt gifts given away
 page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1 = On {0}’s estate report, IHT-205 or 400, you need to check the value of gifts given away in each year and the amount of exemptions claimed against those gifts.
@@ -1636,6 +1642,9 @@ page.iht.application.tnrb.guidance.p3 = If you already know that you need to tra
 page.iht.application.tnrb.guidance.panelIndent.text = This is only needed if the estate value is over the Inheritance Tax threshold.
 
 page.iht.application.tnrb.guidance.continueLink.text = Continue to increasing the threshold
+
+page.iht.application.tnrb.guidance.system.title = The value of the estate is above the Inheritance Tax threshold
+page.iht.application.tnrb.guidance.system.p1 = It might be possible to increase the Inheritance Tax threshold up to £650,000 if {0} was married or in a civil partnership at any time and their spouse or civil partner died.
 
 page.iht.application.TnrbEligibilty.spouse.commonText = spouse
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText = spouse or civil partner
@@ -1743,6 +1752,8 @@ iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax th
 iht.estateReport.tnrb.increasingThreshold = Increasing the threshold
 iht.estateReport.tnrb.kickout.nextSteps = You should complete the Inheritance Tax estate report by completing an IHT-400 form. You will also need to complete an IHT-402 form to increase the threshold. When you finish this service, you will be given a copy of the form.
 iht.estateReport.tnrb.partner.married = Was {0} {1} at any point in their life and their {2} died?
+iht.estateReport.tnrb.partner.hint = If {0} was {1} more than once in their lifetime and their {2} died first both times, you must choose one estate to transfer the unused threshold from.
+
 iht.estateReport.tnrb.permanentHome.question = Did {0} have their permanent home in the UK?
 iht.estateReport.tnrb.stateClaim.question = Did the estate claim any business or agricultural relief?
 
@@ -1782,7 +1793,7 @@ page.iht.application.declaration_received.probate.paragraph1 = HMRC will review 
 page.iht.application.declaration_received.paragraph2 = HMRC might also check the valuation of any properties that you have entered – if they do this, the Valuation Office might call you.
 page.iht.application.declaration_received.paragraph3 = When you have sent off your Probate Application form (PA1), you will be told by the Probate Service what to do next to receive your grant of representation.
 page.iht.application.declaration_received.paragraph4 = Once you have received this and completed everything you need to do with {0}’s estate, you can get a statutory certificate of discharge from HMRC by clearing this estate report. To do this, view this estate report from your Inheritance Tax estate reports page.
-page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it (PDF,<500KB)
+page.iht.application.declaration_received.paragraph5.link = You can save a copy of this estate report by downloading it (PDF, size is less than 500KB)
 page.iht.application.declaration_received.paragraph5.part2 = HMRC recommend that you keep a copy for your own use along with anything you have used to give any details about what {0} owned or owed. You should keep these for 5 years in case anyone asks to see these details.
 page.iht.application.declaration_received.hint = What happens if you find assets that you have not included in this estate report
 page.iht.application.declaration_received.continuelink = Continue to your Inheritance Tax estate reports
@@ -1808,9 +1819,9 @@ page.iht.application.probateDetails.probateDetailsNotAvailableText = You will ne
 
 #Estate report - Pdf
 pdf.totalassets.text = Total Assets
-pdf.totalexemptions.text = Total Exemptions
+pdf.totalexemptions.text = Total value of estate exemptions
+pdf.iht.estateReport.ihtThreshold = The Inheritance Tax Threshold is
 pdf.totalTrusts.text = Total of Trusts
-pdf.tnrb.title.text = Increasing the Inheritance Tax threshold by transferring {0}’s spouse’s or civil partner’s unused threshold
 pdf.total.text = Total
 pdf.assetDescription.text = Asset
 pdf.liabilityType.text = Debt
@@ -1836,7 +1847,8 @@ pdf.clearanceCertificate.taxableProperty.title.text = the assets passing under t
 pdf.clearanceCertificate.title = Clearance certificate
 pdf.clearanceCertificate.summary = This is in relation to the Inheritance Tax Act 1984 s239(2)
 pdf.clearanceCertificate.estateReport.date.label = Estate report sent to HMRC
-pdf.clearanceCertificate.firstParagraph = This certificate applies to the assets and property passing under the deceased’s will and/or the rules of intestacy and reported to HMRC on the above date.
+pdf.clearanceCertificate.firstParagraph.part1 = This certificate applies to the assets and property passing under
+pdf.clearanceCertificate.firstParagraph.part2 = ’s will and/or the rules of intestacy and reported to HMRC on the above date.
 pdf.clearanceCertificate.coExecutor.paragraph1 = The Commissioners of HM Revenue & Customs discharge:
 pdf.clearanceCertificate.coExecutor.paragraph2 = from any (further) claim for tax or duty on the value attributable to the property returned above.
 pdf.clearanceCertificate.lastParagraph.line1 = This certificate does not itself constitute a determination of values of individual items for any other HM Revenue & Customs purposes
@@ -1853,6 +1865,8 @@ pdf.registration.lastContactAddress = Last contact address
 pdf.meta.author = HM Revenue & Customs
 iht.estateReport.pdf.declaration.declaringThat = You are declaring that:
 pdf.page.number = Page
+iht.pdf.TnrbEligibilty.thresholdLimit.label = The Inheritance Tax threshold has been increased to £650,000
+iht.pdf.endOfTheEstateReport = End of {0}'s estate report
 
 #Kickouts - Estate report - common
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold
@@ -1904,9 +1918,10 @@ page.iht.application.tnrb.kickout.partnerNotLivingInUk.summary = This is because
 page.iht.application.tnrb.kickout.giftMadeBeforeDeath.summary = This is because {0} gave gifts that were not exempt.
 page.iht.application.tnrb.kickout.stateClaimAnyBusiness.summary = This is because {0} had claimed relief against their estate.
 page.iht.application.tnrb.kickout.partnerGiftWithResToOther.summary = This is because {0} gave a gift with the reservation of benefit.
-page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = This is because {0} had benefitted from a trust during their lifetime.
-page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because {0}’s or civil partner’s estate did not all pass to {1}, a charity or another qualifying body.
-page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because {0}’s or civil partner’s jointly owned assets did not all pass to {1}.
+page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = This is because {0} had the right to benefit from a trust during their lifetime.
+page.iht.application.tnrb.kickout.estateBelowIhtThresholdApplied.summary = This is because {0}’s estate did not all pass to {1}, a charity or another qualifying body.
+page.iht.application.tnrb.kickout.jointAssetPassed.summary = This is because {0}’s jointly owned assets did not all pass to {1}.
+
 page.iht.application.tnrb.kickout.kickOutNonJavaScript.summary = It is not possible to use the Inheritance Tax Online Service because HMRC need more details about {0}’s or civil partner’s estate.
 iht.application.TnrbEligibilty.kickout.message = Not eligible for TNRB.
 
@@ -1930,7 +1945,7 @@ page.iht.application.kickout.final.summary = Because you cannot use Inheritance 
 page.iht.application.kickout.final.getCopy.title = Get a copy of the estate report
 page.iht.application.kickout.final.getCopy.guidance1 = You will not be able to get a copy of the estate report when you finish.
 page.iht.application.kickout.final.getCopy.guidance2.youShould = You should
-page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or print a copy of the estate report (PDF, <500KB)
+page.iht.application.kickout.final.getCopy.guidance2.saveAndPrint = save or print a copy of the estate report (PDF, size is less than 500KB)
 page.iht.application.kickout.final.getCopy.guidance3 = This will have all of the details you have entered so that you can write them on the IHT-400 form. If you are not able to save or print a copy at the moment, return to the estate overview and come back when you are able to do this.
 page.iht.application.kickout.final.guidance.onFinish = By selecting finish you will be given a copy of the IHT-400 form and this estate report will be deleted.
 
@@ -2284,15 +2299,23 @@ error.selectAnswer.summary = select an answer
 error.signOutLater = Sign out and complete this service at another time.
 error.value.blank = A value should be entered
 
-global.error.InternalServerError500.heading = Sorry, we are experiencing technical difficulties
+# frontend-bootstrap error messages
+
 global.error.InternalServerError500.link.gov-uk-iht.text = Continue to Inheritance Tax overview
 global.error.InternalServerError500.link.gov-uk.text = Explore GOV.UK.
-global.error.InternalServerError500.message = Please try again in a few moments.
-global.error.InternalServerError500.title = We are experiencing technical difficulties
-global.error.badRequest400.heading = Bad request
+
 global.error.badRequest400.title = Bad request - 400
-global.error.pageNotFound404.heading = This page cannot be found
+global.error.badRequest400.heading = Bad request
+global.error.badRequest400.message=Please check that you have entered the correct web address.
 global.error.pageNotFound404.title = Page not found - 404
+global.error.pageNotFound404.heading = This page cannot be found
+global.error.pageNotFound404.message=Please check that you have entered the correct web address.
+
+global.error.InternalServerError500.title = We are experiencing technical difficulties
+global.error.InternalServerError500.heading = Sorry, we are experiencing technical difficulties
+global.error.InternalServerError500.message = Please try again in a few moments.
+
+# end of frontend-bootstrap error messages
 
 error.address.blank = Enter an address
 error.address.blank.summary = enter an address
@@ -2450,7 +2473,7 @@ error.nominated.currencyValue.length.summary = enter a value for nominated asset
 error.nominated.currencyValue.summary = enter a value for nominated assets using only numbers
 
 error.assets.heldInTrust.deceasedOwned.select = Select an answer for whether there are any assets held in a trust in the estate
-error.assets.heldInTrust.moreThanOne.select  = Select an answer for whether {0} benefitted from, had the right to benefit from, a trust during their lifetime
+error.assets.heldInTrust.moreThanOne.select  = Select an answer for whether {0} benefited from, had the right to benefit from, a trust during their lifetime
 
 error.assets.foreign.select = Select an answer for whether there are any foreign assets in the estate
 error.assets.moneyOwedToDeceased.select = Select an answer for if there was any money owed to {0}
@@ -2484,7 +2507,7 @@ error.funeralExpenses.currencyValue.length.summary = enter a value for funeral c
 error.funeralExpenses.currencyValue.summary = enter a value for funeral costs using only numbers
 error.debts.funeralExpenses.select  = Select an answer for if there are any funeral expenses being paid out of the estate
 
-error.debts.trusts.select = Select an answer for if there are any debts from a trust that {0} benefitted from
+error.debts.trusts.select = Select an answer for if there are any debts from a trust that {0} benefited from
 error.debtsFromTrust.currencyValue.length.summary = enter a value for debts owed from a trust using less than 11 numbers
 error.debtsFromTrust.currencyValue.summary = enter a value for debts owed from a trust using only numbers
 

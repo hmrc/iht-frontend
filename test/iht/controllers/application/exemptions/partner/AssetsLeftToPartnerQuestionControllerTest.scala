@@ -29,6 +29,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper._
+import iht.testhelpers.ContentChecker
 
 /**
  * Created by Vineet Tyagi on 29/07/16.
@@ -87,7 +88,7 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
 
       val result = assetsLeftToPartnerQuestionController.onPageLoad (createFakeRequest())
       status(result) shouldBe (OK)
-      contentAsString(result) should include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName))
+      ContentChecker.stripLineBreaks(contentAsString(result)) should include (messagesApi("iht.estateReport.exemptions.spouse.assetLeftToSpouse.question", deceasedName))
     }
 
     "respond with internal server error on page load when no app details" in {

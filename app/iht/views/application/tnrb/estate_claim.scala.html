@@ -24,20 +24,23 @@
 cancelUrl:Call
 )(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("iht.estateReport.tnrb.stateClaim.question"),
-browserTitle = Some(Messages("page.iht.application.tnrb.stateClaim.browserTitle")),
-cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(cancelUrl),
-headingClass = "heading-large"){
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("page.iht.application.tnrb.stateClaim.browserTitle")),
+    cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+    cancelUrl = Some(cancelUrl)
+){
     @ihtHelpers.custom.error_summary(estateClaimAnyBusinessForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.EstateClaimController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
-          estateClaimAnyBusinessForm("isStateClaimAnyBusiness"),
-          '_divClass -> Some("form-group"),
-          '_legend -> Messages("iht.estateReport.tnrb.stateClaim.question"),
-          '_legendClass -> Some("visually-hidden")
+            estateClaimAnyBusinessForm("isStateClaimAnyBusiness"),
+            '_divClass -> Some("form-group"),
+            '_legend -> Messages("iht.estateReport.tnrb.stateClaim.question"),
+            '_legendClass -> Some("legend-with-heading"),
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large"
         )
 
         <div id="action-button" class="form-field form-field--submit">

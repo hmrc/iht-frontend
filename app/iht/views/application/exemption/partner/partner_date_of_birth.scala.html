@@ -22,23 +22,25 @@
 @import iht.utils.CommonHelper._
 
 @(spouseDateOfBirthForm: Form[PartnerExemption], registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
-browserTitle=Some(Messages("page.iht.application.exemptions.partner.dateOfBirth.browserTitle")),
-isFullWidth=false,
-headingClass = "heading-large") {
+@iht_main_template_application(
+    title = "",
+    browserTitle=Some(Messages("page.iht.application.exemptions.partner.dateOfBirth.browserTitle")),
+    isFullWidth=false
+) {
 
     @ihtHelpers.custom.error_summary(spouseDateOfBirthForm)
     @helpers.form(action = iht.controllers.application.exemptions.partner.routes.PartnerDateOfBirthController.onSubmit,
         'autoComplete -> "off") {
-        @ihtHelpers.standard.date_fields(spouseDateOfBirthForm,
+        @ihtHelpers.standard.date_fields(
+            spouseDateOfBirthForm,
             "dateOfBirth",
             "",
             None,
             '_hintText -> Messages("iht.dateExample"),
             '_groupId -> "responsibleFromDateFieldSet",
-            '_labelTextClass -> "bold",
             '_legend -> Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
-            '_legendClass -> Some("visually-hidden")
+            '_legendClass -> Some("legend-with-heading"),
+            '_legendIsHeading -> true
         )
 
     <div id="action-button" class="form-field form-field--submit">

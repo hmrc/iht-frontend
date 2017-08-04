@@ -29,14 +29,10 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
 @iht_main_template_application(
-    title = Messages("page.iht.application.assets.pensions.changed.title", deceasedName),
+    title = "",
     browserTitle = Some(Messages("page.iht.application.assets.pensions.changed.browserTitle")),
-    isFullWidth=false,
-    headingName = deceasedName,
-    headingClass = "heading-large"
+    isFullWidth=false
 ){
-
-    <p class="lede">@Messages("page.iht.application.assets.pensions.changed.question")</p>
 
     @ihtHelpers.custom.error_summary_override_keys(pensionsChangedQuestionForm, Constants.AppSectionPrivatePension)
 
@@ -44,10 +40,15 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
 
 
             @ihtHelpers.standard.input_yes_no_radio_group(
-            pensionsChangedQuestionForm("isChanged"),
-            '_legend -> Html(Messages("page.iht.application.assets.pensions.changed.title", deceasedName)),
-            '_legendClass -> Some("visually-hidden"),
-            '_divClass -> Some("form-group"))
+                pensionsChangedQuestionForm("isChanged"),
+                '_legend -> Html(Messages("page.iht.application.assets.pensions.changed.title", ihtHelpers.custom.name(deceasedName).toString)),
+                '_legendClass -> Some("legend-with-heading"),
+                '_divClass -> Some("form-group"),
+                '_legendIsHeading -> true,
+                '_headingClass -> "heading-large",
+                '_hintText -> Html("<p class=\"lede\">" + Messages("page.iht.application.assets.pensions.changed.question") + "</p>"),
+                '_hintClass -> "form-hint--heavy"
+            )
 
          <div id="action-button" class="form-field form-field--submit">
            <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

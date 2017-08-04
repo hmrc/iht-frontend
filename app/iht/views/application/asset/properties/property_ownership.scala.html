@@ -28,35 +28,37 @@ deceasedName: String
 @import iht.utils._
 @import iht.constants.IhtProperties._
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName),
+@iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.property.ownership.browserTitle")),
 cancelUrl=Some(CommonHelper.addFragmentIdentifier(cancelUrl, Some(AssetsPropertiesPropertyOwnershipID))),
-cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty")),
-headingName = deceasedName,
-headingClass = "heading-large") {
+cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProperty"))
+) {
 
 @ihtHelpers.custom.error_summary(propertyOwnership)
-
-<p id="property-ownership-guidance-1">@Messages("iht.estateReport.assets.property.youCan")
-    <span id="land-registry"><a id="land-registry-link" href="@IhtProperties.linkLandRegistry">
-        @Messages("iht.estateReport.assets.property.findOutFromLandRegistry")</a></span>
-    @Messages("page.iht.application.assets.property.ownership.guidance1b")</p>
-
-<p id="property-ownership-guidance-2">@Messages("page.iht.application.assets.property.ownership.guidance2")</p>
 
 @helpers.form(action = submitUrl,'autoComplete -> "off") {
 
 @ihtHelpers.standard.input_radio_group_with_hints(
-propertyOwnership("typeOfOwnership"),
-FieldMappings.typesOfOwnership(deceasedName).toSeq,
-'_fieldsetId -> "role1",
-'_groupClass -> "form-group",
-'_labelClass -> "block-label radio-label",
-'_labelTextClass -> "bold",
-'_labelAfter -> false,
-'_legend -> Messages("iht.estateReport.assets.howOwnedByDeceased", deceasedName),
-'_legendClass -> Some("visually-hidden"),
-'_ariaHintID -> "tenancyHint"
+    propertyOwnership("typeOfOwnership"),
+    FieldMappings.typesOfOwnership(deceasedName).toSeq,
+    '_fieldsetId -> "role1",
+    '_groupClass -> "form-group",
+    '_labelClass -> "block-label radio-label",
+    '_labelTextClass -> "bold",
+    '_labelAfter -> false,
+    '_ariaHintID -> "tenancyHint",
+    '_legend -> Messages("iht.estateReport.assets.howOwnedByDeceased", ihtHelpers.custom.name(deceasedName).toString),
+
+    '_legendClass -> Some("legend-with-heading"),
+    '_legendIsHeading -> true,
+    '_headingClass -> "heading-large",
+    '_hintText -> Html("<p id=\"property-ownership-guidance-1\">" + Messages("iht.estateReport.assets.property.youCan") +
+                        " <a id=\"land-registry-link\" href=\"" + IhtProperties.linkLandRegistry + "\">" +
+                        Messages("iht.estateReport.assets.property.findOutFromLandRegistry") + "</a> " +
+                        Messages("page.iht.application.assets.property.ownership.guidance1b") + "</p>" +
+                        "<p id=\"property-ownership-guidance-2\">" + Messages("page.iht.application.assets.property.ownership.guidance2") + "</p>"
+                    ),
+    '_hintClass -> "form-hint--heavy"
 )
 
 <div id="tenancyHint" class="text js-tenancyHint js-hidden">

@@ -63,7 +63,7 @@ import play.api.Play.current
     "respond with not implemented" in {
       val result = duplicateRegistrationController.onSubmit(createFakeRequest())
       status(result) shouldBe(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url))
+      redirectLocation(result) should be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
     }
   }
 }

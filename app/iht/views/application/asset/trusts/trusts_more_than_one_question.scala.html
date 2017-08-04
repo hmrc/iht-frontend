@@ -24,13 +24,11 @@
 @(trustsMoreThanOneQuestionForm: Form[HeldInTrust],
 registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
 
-@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
+@deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
-@iht_main_template_application(title = Messages("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName),
+@iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.trusts.moreThanOne.browserTitle")),
-isFullWidth=false,
-headingName = deceasedName,
-headingClass = "heading-large"){
+isFullWidth=false){
     @ihtHelpers.custom.error_summary(trustsMoreThanOneQuestionForm)
     @helpers.form(action = iht.controllers.application.assets.trusts.routes.TrustsMoreThanOneQuestionController.onSubmit,'autoComplete -> "off") {
 
@@ -38,7 +36,10 @@ headingClass = "heading-large"){
             trustsMoreThanOneQuestionForm("isMoreThanOne"),
             '_divClass -> Some("-change form-group"),
             '_legend -> Html(Messages("iht.estateReport.assets.trusts.moreThanOne.question", deceasedName)),
-            '_legendClass -> Some("visually-hidden")
+            '_legendClass -> Some("legend-with-heading"),
+            '_divClass -> Some("form-group"),
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large"
             )
 
       <div id="action-button" class="form-field form-field--submit">

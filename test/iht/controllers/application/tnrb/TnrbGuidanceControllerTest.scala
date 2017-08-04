@@ -72,10 +72,33 @@ class TnrbGuidanceControllerTest  extends ApplicationControllerTest with HtmlSpe
         messagesApi("iht.estateReport.tnrb.increasingIHTThreshold"))
     }
 
+    "respond with OK on system page load" in {
+      createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusWidowed)
+
+      val result = controller.onSystemPageLoad (createFakeRequest())
+      status(result) shouldBe OK
+      val content = contentAsString(result)
+      val doc = asDocument(content)
+      assertEqualsValue(doc, "h1",
+        messagesApi("page.iht.application.tnrb.guidance.system.title"))
+    }
+
     "respond with continue link with correct content in on page load when deceased was widowed" in {
       createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusWidowed)
 
       val result = controller.onPageLoad(createFakeRequest())
+      status(result) shouldBe OK
+      val content = contentAsString(result)
+      val doc = asDocument(content)
+
+      val link: Element = doc.getElementById("continue-to-increasing-threshold-link")
+      link.text() shouldBe messagesApi("page.iht.application.tnrb.guidance.continueLink.text")
+    }
+
+    "respond with continue link with correct content in on system page load when deceased was widowed" in {
+      createMocksForRegistrationAndApplicationWithMaritalStatus(TestHelper.MaritalStatusWidowed)
+
+      val result = controller.onSystemPageLoad(createFakeRequest())
       status(result) shouldBe OK
       val content = contentAsString(result)
       val doc = asDocument(content)

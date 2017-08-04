@@ -26,12 +26,12 @@
         submitUrl: Call,
         cancelUrl: Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.exemptions.charityValue.sectionTitle"),
+@iht_main_template_application(
+    title = "",
     browserTitle = Some(Messages("page.iht.application.exemptions.charityValue.browserTitle")),
     cancelUrl = Some(addFragmentIdentifier(cancelUrl, Some(ExemptionsCharitiesValueID))),
     cancelLabel = Some(Messages("iht.estateReport.exemptions.charities.returnToAddACharity")),
-    isFullWidth = false,
-    headingClass = "heading-large"
+    isFullWidth = false
 ) {
     @ihtHelpers.custom.error_summary(assetsLeftToCharityValueForm)
     @helpers.form(action = submitUrl, 'autoComplete -> "off") {
@@ -41,8 +41,9 @@
             '_currency -> "GBP",
             '_divClass -> "form-group",
             '_label -> Html(Messages("page.iht.application.exemptions.charityValue.sectionTitle")),
-            '_labelTextClass -> "visually-hidden",
-            '_inputClass -> "form-control js-valInput"
+            '_inputClass -> "form-control js-valInput",
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large"
         )
         <div id="action-button" class="form-field form-field--submit">
             <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

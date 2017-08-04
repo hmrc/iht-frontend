@@ -112,19 +112,19 @@ class PartnerOverviewViewTest extends PartnerOverviewViewBehaviour {
     )
 
     behave like assetsLeftToSpouseAttributeWithValueAndChange(2,
-      messagesApi("page.iht.application.exemptions.overview.partner.name.title"),
+      messagesApi("page.iht.application.exemptions.partner.name.title"),
       partner.name.fold("")(identity),
       messagesApi("iht.change")
     )
 
     behave like assetsLeftToSpouseAttributeWithValueAndChange(3,
-      messagesApi("page.iht.application.exemptions.overview.partner.dob.title"),
+      messagesApi("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
       getDateDisplayValue(partner.dateOfBirth),
       messagesApi("iht.change")
     )
 
     behave like assetsLeftToSpouseAttributeWithValueAndChange(4,
-      messagesApi("page.iht.application.exemptions.overview.partner.nino.title"),
+      messagesApi("page.iht.application.exemptions.partner.nino.sectionTitle"),
       CommonHelper.getOrException(partner.nino),
       messagesApi("iht.change")
     )
@@ -152,19 +152,19 @@ class PartnerOverviewViewWithNoValuesTest extends PartnerOverviewViewBehaviour {
 
   "Partner overview view where no values entered" must {
     behave like assetsLeftToSpouseAttributeWithValueAndChange(2,
-      messagesApi("page.iht.application.exemptions.overview.partner.name.title"),
+      messagesApi("page.iht.application.exemptions.partner.name.title"),
       CommonBuilder.emptyString,
       messagesApi("site.link.giveName")
     )
 
     behave like assetsLeftToSpouseAttributeWithValueAndChange(3,
-      messagesApi("page.iht.application.exemptions.overview.partner.dob.title"),
+      messagesApi("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
       CommonBuilder.emptyString,
       messagesApi("site.link.giveDate")
     )
 
     behave like assetsLeftToSpouseAttributeWithValueAndChange(4,
-      messagesApi("page.iht.application.exemptions.overview.partner.nino.title"),
+      messagesApi("page.iht.application.exemptions.partner.nino.sectionTitle"),
       CommonBuilder.emptyString,
       messagesApi("site.link.giveDetails")
     )

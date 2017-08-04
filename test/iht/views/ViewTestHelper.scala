@@ -99,14 +99,14 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   def labelShouldBe(doc: Document, labelId: String, messageKey: String) = {
 
     val label = doc.getElementById(labelId)
-    val mainLabel = label.getElementsByTag("span").first
+    val mainLabel = label.getElementsByTag("label").first
     mainLabel.text shouldBe messagesApi(messageKey)
   }
 
   def labelHelpTextShouldBe(doc: Document, labelId: String, messageKey: String) = {
 
     val label = doc.getElementById(labelId)
-    val helpText = label.getElementsByTag("span").get(1)
+    val helpText = label.getElementsByClass("form-hint").get(0)
     helpText.text shouldBe messagesApi(messageKey)
   }
 

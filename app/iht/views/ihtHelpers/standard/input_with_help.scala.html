@@ -29,55 +29,21 @@
 @typeOfInput = @{elements.args.get('_type).getOrElse("")}
 @ariaControls = @{elements.args.get('_ariaControls).getOrElse("")}
 @screenReader = @{elements.args.get('_screenReader).getOrElse("")}
-
-@if(typeOfInput != "hidden") {
-
-<label id="@{elements.field.name}-container" for="@elements.field.name"
-       class="@elements.args.get('_divClass) @if( elements.args.get('_labelClass) ){ @elements.args.get('_labelClass) }
-           @if(elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)) {form-field--error}"
-        @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)}>
-}
-
-@if(labelHighlight){<strong>}
-    @if(!labelAfter && elements.args.contains('_label)) {
-        <span @if(elements.args.contains('_labelTextClass)) {
-            class="@elements.args.get('_labelTextClass)"}>
-       @elements.label
-        </span>
-    }
-    @if(labelHighlight){</strong>}
-
-    @if(parentElements.isDefined) {
-    @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@Messages(error)</span>}
-    }
-
-    @if(elements.args.contains('_help) && !elements.args.contains('_slideOutText)) {
-        <span class="form-hint text">@elements.args.get('_help)</span>
-    }
-    @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
-    @if(elements.args.contains('_help) && elements.args.contains('_slideOutText)) {
-        @ihtHelpers.standard.accordion_slider_help_text(
-        '_helpText -> elements.args.get('_help),
-        '_slideOutText -> elements.args.get('_slideOutText),
-        '_needHighlight -> true)
-    }
-
+@labelAsHeading = @{ elements.args.get('_legendIsHeading).getOrElse(false).asInstanceOf[Boolean] }
 @input = {
-<input
-
-    @if(elements.args.contains('_currency)){
+    <input
+        @if(elements.args.contains('_currency)){
         type="text"
         data-type="currency"
         value="@CommonHelper.formatCurrencyForInput(value.toString())"
-    } else {
-        @if( elements.args.get('_type) ){
-            type="@elements.args.get('_type)"
         } else {
-            type="text"
+        @if( elements.args.get('_type) ){
+        type="@elements.args.get('_type)"
+        } else {
+        type="text"
         }
         value="@value"
-    }
-
+        }
     @if( elements.args.get('_inputClass) ){ class="@elements.args.get('_inputClass)
     @if(elements.args.contains('_currency)){form-control-1-3}
     @if(elements.errors.size>0){error-field}" }
@@ -87,28 +53,77 @@
     @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
     name="@elements.field.name"
     id="@elements.field.name"
-
     @if(elements.args.contains('_screenReader)){aria-label="@screenReader"}/>
 }
+@hasErrors = @{elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)}
+
+
+
+@if(typeOfInput != "hidden") {
+    <div class="form-group" id="@{elements.field.name}-container">
+        @if(labelAsHeading) {<h1 class="@if(elements.args.get('_headingClass).isDefined){@elements.args.get('_headingClass)}else {heading-xlarge}">}
+            <label
+                   for="@elements.field.name"
+                    @if(elements.args.get('_labelClass)){class=" @elements.args.get('_labelClass)"}
+                    @if(elements.args.contains('_labelDataAttributes)){@elements.args.get('_labelDataAttributes)}>
+
+                    @if(labelHighlight){<strong>}
+                    @if(!labelAfter && elements.args.contains('_label)) {
+                        @if(elements.args.contains('_labelTextClass)){
+                        <span class="@elements.args.get('_labelTextClass)">
+                            @Html(elements.label.toString)
+                        </span>
+                        } else {
+                            @Html(elements.label.toString)
+                        }
+                    }
+                    @if(labelHighlight){</strong>}
+            </label>
+        @if(labelAsHeading) {</h1>}
+}
+
+    @if(parentElements.isDefined) {
+    @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@Messages(error)</span>}
+    }
+
+    @if(elements.args.contains('_hintText) && !elements.args.contains('_slideOutText)) {
+        <div class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}">@elements.args.get('_hintText)</div>
+    }
+    @if(elements.args.contains('_hintText) && elements.args.contains('_slideOutText)) {
+        @ihtHelpers.standard.accordion_slider_help_text(
+        '_hintText -> elements.args.get('_hintText),
+        '_slideOutText -> elements.args.get('_slideOutText),
+        '_needHighlight -> true)
+    }
+
+
+    <div class="form-field @if(hasErrors){ form-field--error}">
+
+
+    @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
+
     @elements.args.get('_currency) match {
     case Some("GBP") => {<span data-currency="GBP">&pound;</span> @input}
     case Some("Euro") => { <span data-currency="Euro">€</span> @input}
     case _ => {@input}
     }
-    @if(elements.args.contains('_hint) ) {
-        <span class="form-hint text">@elements.args.get('_hint)</span>
-    }
-@if(labelHighlight){<strong>}
+
+
     @if(labelAfter && elements.args.contains('_label)) {
+        @if(labelHighlight){<strong>}
         <span @if(elements.args.contains('_labelTextClass)) {
             class="@elements.args.get('_labelTextClass)"}>
         @if(labelAfter && elements.args.contains('_label)) {
             @elements.label
         }
         </span>
+        @if(labelHighlight){</strong>}
     }
-    @if(labelHighlight){</strong>}
 
-@if(typeOfInput != "hidden") {
-  </label>
-}
+
+    </div>
+
+
+    @if(typeOfInput != "hidden") {
+        </div>
+    }

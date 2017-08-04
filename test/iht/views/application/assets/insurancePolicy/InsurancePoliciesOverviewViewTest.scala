@@ -20,10 +20,7 @@ import iht.testhelpers.CommonBuilder
 import iht.views.application.{ApplicationPageBehaviour, CancelComponent, Guidance}
 import iht.views.html.application.asset.insurancePolicy.insurance_policies_overview
 import play.api.i18n.Messages.Implicits._
-import iht.testhelpers.TestHelper
 import play.api.mvc.Call
-import iht.constants.Constants._
-import iht.constants.IhtProperties._
 
 class InsurancePoliciesOverviewViewTest extends ApplicationPageBehaviour {
 
@@ -38,8 +35,13 @@ class InsurancePoliciesOverviewViewTest extends ApplicationPageBehaviour {
 
   override def view:String = insurance_policies_overview(regDetails, Nil, Some(call), returnUrlTextMsgKey).toString()
 
-  override def guidance: Guidance = guidance(Set(messagesApi("page.iht.application.assets.insurance.policies.overview.guidance1",
-    deceasedName)))
+  override def guidance: Guidance = guidance(Set(
+    messagesApi("page.iht.application.assets.insurance.policies.overview.guidance1", deceasedName),
+    messagesApi("page.iht.application.assets.insurance.policies.overview.guidance.bullet1"),
+    messagesApi("page.iht.application.assets.insurance.policies.overview.guidance.bullet2"),
+    messagesApi("page.iht.application.assets.insurance.policies.overview.guidance.bullet3"),
+    messagesApi("page.iht.application.assets.insurance.policies.overview.guidance.bullet4", deceasedName)
+  ))
 
   override def formTarget: Option[Call] = None
 

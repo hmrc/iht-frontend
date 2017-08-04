@@ -24,22 +24,24 @@
 deceasedName:String,
 cancelUrl:Call)(implicit request:Request[_], messages: Messages)
 
-@iht_main_template_application(title = Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", deceasedName),
-browserTitle = Some(Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")),
-cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-cancelUrl = Some(cancelUrl),
-headingName = deceasedName,
-headingClass = "heading-large"){
+@iht_main_template_application(
+    title = "",
+    browserTitle = Some(Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.browserTitle")),
+    cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+    cancelUrl = Some(cancelUrl)
+){
     @ihtHelpers.custom.error_summary(estatePassedToDeceasedOrCharityForm)
 
     @helpers.form(action = iht.controllers.application.tnrb.routes.EstatePassedToDeceasedOrCharityController.onSubmit,'autoComplete -> "off") {
 
         @ihtHelpers.standard.input_yes_no_radio_group(
-        estatePassedToDeceasedOrCharityForm("isEstateBelowIhtThresholdApplied"),
-        '_divClass -> Some("form-group"),
-        '_legend -> Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", deceasedName),
-        '_legendClass -> Some("visually-hidden")
-)
+            estatePassedToDeceasedOrCharityForm("isEstateBelowIhtThresholdApplied"),
+            '_divClass -> Some("form-group"),
+            '_legend -> Messages("page.iht.application.tnrb.estatePassedToDeceasedOrCharity.question", ihtHelpers.custom.name(deceasedName)),
+            '_legendClass -> Some("legend-with-heading"),
+            '_legendIsHeading -> true,
+            '_headingClass -> "heading-large"
+        )
 
         <div id="action-button" class="form-field form-field--submit">
           <button class="button" id="save-continue" name="action" value="save">@Messages("iht.saveAndContinue")</button>

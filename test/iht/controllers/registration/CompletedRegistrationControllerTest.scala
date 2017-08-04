@@ -88,7 +88,7 @@ import play.api.Play.current
     "respond with not implemented" in {
       val result = completedRegistrationController.onSubmit(createFakeRequest())
       status(result) shouldBe(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url))
+      redirectLocation(result) should be(Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url))
     }
 
     "display the valid content on the page" in {
@@ -105,7 +105,7 @@ import play.api.Play.current
       createMockToGetRegDetailsFromCache(mockCachingConnector, None)
       val result = completedRegistrationController.onPageLoad()(createFakeRequest())
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) shouldBe Some(iht.controllers.home.routes.IhtHomeController.onPageLoad().url)
+      redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
     }
 
   }

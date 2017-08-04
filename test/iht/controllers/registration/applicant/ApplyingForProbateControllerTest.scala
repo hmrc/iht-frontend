@@ -27,6 +27,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Result
 import play.api.test.Helpers._
+import iht.testhelpers.ContentChecker
 
 import scala.concurrent.Future
 
@@ -62,11 +63,13 @@ class ApplyingForProbateControllerTest
       val result = controller.onPageLoad(createFakeRequest())
 
       status(result) should be(OK)
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"))
-      contentAsString(result) should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p2", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
-      contentAsString(result) should include(messagesApi("iht.continue"))
-      contentAsString(result) should not include(messagesApi("site.link.cancel"))
+
+      val contentResult = ContentChecker.stripLineBreaks(contentAsString(result))
+      contentResult should include(messagesApi("page.iht.registration.applicant.applyingForProbate", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
+      contentResult should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p1"))
+      contentResult should include(messagesApi("page.iht.registration.applicant.applyingForProbate.p2", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regdDetailsWithDeceasedDetails)))
+      contentResult should include(messagesApi("iht.continue"))
+      contentResult should not include(messagesApi("site.link.cancel"))
     }
 
     "load when revisited after answering Yes" in {

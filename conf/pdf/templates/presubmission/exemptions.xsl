@@ -50,19 +50,19 @@
                             </xsl:call-template>
                             <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"
-                                                select="scala:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.name.title')"/>
+                                                select="scala:getMessagesText($translator, 'page.iht.application.exemptions.partner.name.title')"/>
                                 <xsl:with-param name="value"
                                                 select="concat(allExemptions/partner/firstName,' ', allExemptions/partner/lastName)"/>
                             </xsl:call-template>
                             <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"
-                                                select="scala:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.dob.title')"/>
+                                                select="scala:getMessagesText($translator, 'page.iht.application.exemptions.partner.dateOfBirth.question.title')"/>
                                 <xsl:with-param name="value"
                                                 select="scala:getDateForDisplay($translator, allExemptions/partner/dateOfBirth)"/>
                             </xsl:call-template>
                             <xsl:call-template name="table-row-short-vpad">
                                 <xsl:with-param name="label"
-                                                select="scala:getMessagesText($translator, 'page.iht.application.exemptions.overview.partner.nino.title')"/>
+                                                select="scala:getMessagesText($translator, 'page.iht.application.exemptions.partner.nino.sectionTitle')"/>
                                 <xsl:with-param name="value"
                                                 select="allExemptions/partner/nino"/>
                             </xsl:call-template>
