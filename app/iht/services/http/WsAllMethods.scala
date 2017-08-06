@@ -16,8 +16,6 @@
 
 package iht.services.http
 
-import javax.inject.{Inject, Singleton}
-
 import uk.gov.hmrc.play.audit.http.HttpAuditing
 import uk.gov.hmrc.play.config.{RunMode, AppName}
 import uk.gov.hmrc.play.http.ws.WSHttp

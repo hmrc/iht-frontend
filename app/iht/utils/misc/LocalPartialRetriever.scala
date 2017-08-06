@@ -16,8 +16,6 @@
 
 package iht.utils.misc
 
-import javax.inject.{Inject, Singleton}
-
 import iht.services.http.WsAllMethods
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter

@@ -2551,5 +2551,3 @@ error.isEstateBelowIhtThresholdApplied.select = Select an answer for if all of t
 error.isJointAssetPassed.select = Select an answer for if all of the jointly owned assets passed from the estate to {0}
 error.predeceasedDateOfDeath.afterMarriage = Enter a date of death which is after the date of marriage or civil partnership
 error.predeceasedDateOfMarriage.beforeDateOfDeath = Enter a date of marriage or civil partnership which is before the date of death
-
-report.a.problem.link = Is there anything wrong with this page?
