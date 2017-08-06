@@ -30,7 +30,7 @@ val compile = Seq(
   "uk.gov.hmrc" %% "passcode-verification" % "4.1.0",
   "uk.gov.hmrc" %% "play-authorised-frontend" % "6.3.0",
   "uk.gov.hmrc" %% "http-verbs" % "6.3.0",
-  //"uk.gov.hmrc" %% "play-auditing" % "2.9.0",
+  "uk.gov.hmrc" %% "play-auditing" % "2.6.0",
   "uk.gov.hmrc" %% "domain" % "4.1.0",
   "uk.gov.hmrc" %% "play-language" % "3.0.0",
   "com.github.fge" % "json-schema-validator" % jsonSchemaValidatorVersion,

@@ -64,7 +64,7 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
                                           Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed), None, CommonBuilder.firstNameGenerator, CommonBuilder.firstNameGenerator)
 
       val headers = view.getElementsByTag("h2")
-      headers.size shouldBe 2
+      headers.size shouldBe 3
       headers.first.text() shouldBe messagesApi("iht.nextSteps")
     }
 
