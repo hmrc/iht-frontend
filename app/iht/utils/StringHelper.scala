@@ -21,10 +21,12 @@ import java.util.UUID.randomUUID
 
 import iht.constants.IhtProperties
 import iht.utils.CommonHelper.withValue
+import iht.views.html.ihtHelpers.custom.name
 import org.joda.time.format.DateTimeFormat
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
+import play.twirl.api.Html
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
 import scala.util.{Failure, Success, Try}
@@ -153,5 +155,23 @@ object StringHelper {
   }
 
   def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
+
+  def formatForDisplay(name:String) = {
+    val nameArr = name.split(" ");
+    var restrictName: Boolean = false;
+    for (namePart <- nameArr) {
+      var subparts = namePart.split("-")
+      for (subpart <- subparts) {
+        if(subpart.length > IhtProperties.hyphenateNamesLength){
+          restrictName = true;
+        }
+      }
+    }
+    if(restrictName){
+      Html(s"""<span class="copy--restricted">$name</span>""")
+    } else {
+      Html(name)
+    }
+  }
 
 }
