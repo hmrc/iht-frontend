@@ -101,4 +101,21 @@
     <xsl:attribute name="color">blue</xsl:attribute>
 </xsl:attribute-set>
 
+    <xsl:attribute-set name="tabular-cell">
+        <xsl:attribute name="font-family">OpenSans</xsl:attribute>
+        <xsl:attribute name="font-weight">normal</xsl:attribute>
+        <xsl:attribute name="padding-top">5px</xsl:attribute>
+        <xsl:attribute name="padding-bottom">5px</xsl:attribute>
+        <xsl:attribute name="padding-left">5px</xsl:attribute>
+        <xsl:attribute name="padding-right">5px</xsl:attribute>
+        <xsl:attribute name="font-size">12pt</xsl:attribute>
+        <xsl:attribute name="color">red</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="tabular-cell--header">
+        <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
+        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="color">mediumslateblue</xsl:attribute>
+    </xsl:attribute-set>
+
 </xsl:stylesheet>
