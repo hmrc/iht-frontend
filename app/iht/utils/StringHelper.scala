@@ -188,7 +188,7 @@ object StringHelper {
   def splitAndMapElements(s:String, separators: Seq[Char], func: String => String): String = {
     val mappedElements = split(s, separators).map { element =>
       val nameComponent = element._1
-      (func(nameComponent), element._2)
+      Tuple2(func(nameComponent), element._2)
     }
     mappedElements.foldLeft(emptyString){ (op1, op2) =>
         op1 + op2._1 + op2._2.fold("")(_.toString)
