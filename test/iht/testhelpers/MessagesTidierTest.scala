@@ -676,10 +676,6 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
 
       "not fail with real messages files" in {
         val result = MessagesTidier.compareMessageFileKeys().toSeq.sorted
-        val file = new File("/home/" + System.getProperty("user.name") + "/missingKeys.txt")
-        val bw = new BufferedWriter(new FileWriter(file))
-        result.foreach(key => bw.write(key + "\n"))
-        bw.close()
         assert(MessagesTidier.compareMessageFileKeys() == Set.empty)
       }
 

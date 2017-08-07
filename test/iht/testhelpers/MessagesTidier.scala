@@ -551,10 +551,17 @@ trait MessagesTidier {
     (transformedLines, mapOfItemsToReplaceCounts.toMap)
   }
 
-  def compareMessageFileKeys() = {
+  def compareMessageFileKeys(): Set[String] = {
     val english = readMessageFile("messages.en").right.get
     val welsh = readMessageFile("messages.cy").right.get
-    (english.keySet -- welsh.keySet) ++ (welsh.keySet -- english.keySet)
+    val result = (english.keySet -- welsh.keySet) ++ (welsh.keySet -- english.keySet)
+    if(result.nonEmpty) {
+      val file = new File("/home/" + System.getProperty("user.name") + "/Desktop/missingKeysAndValues.txt")
+      val bw = new BufferedWriter(new FileWriter(file))
+      result.toSeq.sorted.foreach(key => bw.write(key + " - " + english.getOrElse(key, "") + "\n"))
+      bw.close()
+    }
+    result
   }
 
 }
