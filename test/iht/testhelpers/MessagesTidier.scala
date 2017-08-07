@@ -307,10 +307,6 @@ trait MessagesTidier {
     pw.close()
   }
 
-  private def sortListMapByKey(messages: Map[String, String]): Map[String, String] = {
-    ListMap(messages.toSeq.sortBy(_._1): _*)
-  }
-
   def mergeMaps(first: Map[String, Int], second: Map[String, Int]): Map[String, Int] = {
     val updatedFirstFromSecond = first.map { elementFromFirst =>
       val newIntVal = if (second.exists(_._1 == elementFromFirst._1)) {
@@ -417,7 +413,6 @@ trait MessagesTidier {
     }
 
     val fileTemp = new java.io.File(messagesFilePath)
-    val fileTemp2 = new java.io.File(messagesFileOutputPath)
 
     if (fileTemp.exists) {
       val itemsReplaced: Set[(String, Int)] = replaceInAllFolders(
@@ -462,8 +457,6 @@ trait MessagesTidier {
       throw new RuntimeException("Messages file " + fileTemp.getAbsolutePath + " not found")
     }
   }
-
-  def filterOutDuplicatesWithSameValue(messages: Seq[(String, String)]): Seq[(String, String)] = ???
 
   def sortErrormessagesApi(m: Map[String, String]): Seq[(String, String)] =
     m.toSeq.filter(tp => tp._1.contains("error") || tp._1.contains("validation")).sortBy(_._1)
@@ -518,8 +511,6 @@ trait MessagesTidier {
 
     val optionalTuples: Seq[Option[(String, String)]] = allMessages.map { line =>
       lazy val parsed = line.split("=")
-      lazy val element1 = if (parsed.length > 0) parsed(0) else ""
-      lazy val element2 = if (parsed.length > 1) parsed(1) else ""
 
       if (line.startsWith("#") && line.contains("=")) {
         Some(Tuple2("", line))

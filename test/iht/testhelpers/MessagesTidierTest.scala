@@ -675,7 +675,11 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
       }
 
       "not fail with real messages files" in {
-        pending
+        val result = MessagesTidier.compareMessageFileKeys().toSeq.sorted
+        val file = new File("/home/" + System.getProperty("user.name") + "/missingKeys.txt")
+        val bw = new BufferedWriter(new FileWriter(file))
+        result.foreach(key => bw.write(key + "\n"))
+        bw.close()
         assert(MessagesTidier.compareMessageFileKeys() == Set.empty)
       }
 
@@ -688,7 +692,7 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
     if (runTestsThatReplaceMessageKeys) {
       "replaceInAllFoldersAndRemoveFromMessagesFile" must {
         "replace all message keys" in {
-          val commonBaseFolder = "/home/grant"
+          val commonBaseFolder = "/home/" + System.getProperty("user.name")
           val sourceBaseFolder = s"$commonBaseFolder/Applications/hmrc-development-environment/hmrc/iht-frontend"
           val workFolder = s"$commonBaseFolder/Desktop"
 
