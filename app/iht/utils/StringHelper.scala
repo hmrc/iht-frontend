@@ -29,6 +29,7 @@ import play.api.i18n.Messages.Implicits._
 import play.twirl.api.Html
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
+import scala.collection.mutable.ListBuffer
 import scala.util.{Failure, Success, Try}
 
 object StringHelper {
@@ -156,22 +157,61 @@ object StringHelper {
 
   def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
 
-  def formatNameAsHTML(name:String) = {
-    val nameArr = name.split(" ");
-    var restrictName: Boolean = false;
-    for (namePart <- nameArr) {
-      var subparts = namePart.split("-")
-      for (subpart <- subparts) {
-        if(subpart.length > IhtProperties.hyphenateNamesLength){
-          restrictName = true;
+  /**
+    * Split string using specified delimiters and produce seq of elements
+    * followed by the delimiter used.
+    */
+  def split(s: String, delimiters: Seq[Char]): Seq[(String, Option[Char])] = {
+    if (s.isEmpty) {
+      Seq.empty
+    } else {
+      var result = new ListBuffer[(String, Option[Char])]()
+      val emptyString = ""
+      var current = emptyString
+      s.foreach { c =>
+        delimiters.find(_ == c) match {
+          case None => current += c
+          case Some(found) =>
+            result = result :+ (current, Some(found))
+            current = emptyString
         }
       }
+      result :+ (current, None)
     }
-    if(restrictName){
-      Html(s"""<span class="copy--restricted">$name</span>""")
-    } else {
-      Html(name)
+  }
+
+  def formatNameAsHTML(name:String) = {
+    val separators = Array(' ', '-')
+    val seqHtml = name.split(separators).toSeq.map { element =>
+      if (element.length > IhtProperties.hyphenateNamesLength) {
+        s"""<span class="copy--restricted">$name</span>"""
+      } else {
+        name
+      }
     }
+    seqHtml.foldLeft(""){ (op1, op2) =>
+      if (op1.isEmpty) {
+        op2
+      } else {
+        op1 + " " + op2
+      }
+    }
+
+//    val nameArr = name.split(" ");
+//    var restrictName: Boolean = false;
+//    for (namePart <- nameArr) {
+//      var subparts = namePart.split("-")
+//      for (subpart <- subparts) {
+//        if(subpart.length > IhtProperties.hyphenateNamesLength){
+//          restrictName = true;
+//        }
+//      }
+//    }
+//    if(restrictName){
+//      Html(s"""<span class="copy--restricted">$name</span>""")
+//    } else {
+//      Html(name)
+//    }
   }
 
 }

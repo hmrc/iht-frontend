@@ -19,11 +19,13 @@ package iht.utils
 import iht.FakeIhtApp
 import iht.testhelpers.CommonBuilder
 import org.scalatest.mock.MockitoSugar
+import play.twirl.api.Html
 import uk.gov.hmrc.play.frontend.auth.connectors.domain.{Accounts, ConfidenceLevel, CredentialStrength}
 import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 import uk.gov.hmrc.play.test.UnitSpec
 
 class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+  private val hyphenateNamesLength = 15
   "parseAssignmentsToSeqTuples" must {
     "parse correctly a valid seq of 2 assignments with spaces before or after key values" in {
       val result = StringHelper.parseAssignmentsToSeqTuples(
@@ -61,6 +63,70 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       a[RuntimeException] shouldBe thrownBy {
         StringHelper.parseAssignmentsToSeqTuples("aaa=bbb=ccc")
       }
+    }
+  }
+
+  "split" must {
+    "return portions and delimiters" in {
+      val expectedResult = Seq(
+        "one" -> Some(' '),
+        "two" -> Some(' '),
+        "three" -> Some('-'),
+        "four" -> Some(' '),
+        "five" -> Some(' '),
+        "six" -> Some('-'),
+        "seven" -> None
+      )
+      val result: Seq[(String, Option[Char])] = StringHelper.split("one two three-four five six-seven", Seq(' ', '-'))
+      result shouldBe expectedResult
+    }
+
+    "return portions and delimiters where ends with -" in {
+      val expectedResult = Seq(
+        "one" -> Some(' '),
+        "two" -> Some(' '),
+        "three" -> Some('-'),
+        "four" -> Some(' '),
+        "five" -> Some(' '),
+        "six" -> Some('-'),
+        "" -> None
+      )
+      val result: Seq[(String, Option[Char])] = StringHelper.split("one two three-four five six-", Seq(' ', '-'))
+      result shouldBe expectedResult
+    }
+
+    "return empty Seq where empty string" in {
+      val expectedResult = Seq.empty
+      val result: Seq[(String, Option[Char])] = StringHelper.split("", Seq(' ', '-'))
+      result shouldBe expectedResult
+    }
+
+    "return portions and delimiters where one space only" in {
+      val expectedResult = Seq(
+        "" -> Some(' '),
+        "" -> None
+      )
+      val result: Seq[(String, Option[Char])] = StringHelper.split(" ", Seq(' ', '-'))
+      result shouldBe expectedResult
+    }
+
+    "return portions and delimiters where one space and one -" in {
+      val expectedResult = Seq(
+        "" -> Some(' '),
+        "" -> Some('-'),
+        "" -> None
+      )
+      val result: Seq[(String, Option[Char])] = StringHelper.split(" -", Seq(' ', '-'))
+      result shouldBe expectedResult
+    }
+  }
+
+  "formatNameAsHTML" must {
+    "display name correctly when first name before hyphenation boundary and long last name" in {
+      val firstName = "A" * hyphenateNamesLength
+      val expectedResult = s"""$firstName <span class="copy--restricted">McMcMcMcMcMcMcMcMcMcMcMcMcMcMcIb</span>"""
+      val result = StringHelper.formatNameAsHTML(s"""$firstName McMcMcMcMcMcMcMcMcMcMcMcMcMcMcIb""")
+      result shouldBe expectedResult
     }
   }
 
@@ -146,5 +212,4 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     val formattedStatus = StringHelper.formatStatus("lower CASES")
     assert(formattedStatus == "Lower cases")
   }
-
 }
