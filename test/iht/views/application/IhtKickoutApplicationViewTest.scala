@@ -37,7 +37,9 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
                                 applicationLastID: Option[String] = None,
                                 summaryParameter1:String,
                                 deceasedName: String)  = {
+
     implicit val request = createFakeRequest()
+
     val view = iht_kickout_application(kickOutReason,
                                        applicationDetails,
                                        applicationLastSection,
@@ -52,7 +54,10 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
     "have the correct title and browser title" in {
       val view = ihtKickOutApplicationView("",
                                           appDetails,
-                                          Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed), None, CommonBuilder.firstNameGenerator, CommonBuilder.firstNameGenerator).toString
+                                          Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed),
+                                          None,
+                                          CommonBuilder.firstNameGenerator,
+                                          CommonBuilder.firstNameGenerator).toString
       titleShouldBeCorrect(view, messagesApi("iht.notPossibleToUseService"))
       browserTitleShouldBeCorrect(view, messagesApi("iht.notPossibleToUseService"))
 
@@ -61,17 +66,23 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
     "have 'Next steps' heading" in {
       val view = ihtKickOutApplicationView("",
                                           appDetails,
-                                          Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed), None, CommonBuilder.firstNameGenerator, CommonBuilder.firstNameGenerator)
+                                          Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed),
+                                          None,
+                                          CommonBuilder.firstNameGenerator,
+                                          CommonBuilder.firstNameGenerator)
 
       val headers = view.getElementsByTag("h2")
-      headers.size shouldBe 3
+      headers.size should be > 1
       headers.first.text() shouldBe messagesApi("iht.nextSteps")
     }
 
     "have details are correct button " in {
       val view = ihtKickOutApplicationView("",
-        appDetails,
-        Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed), None, CommonBuilder.firstNameGenerator, CommonBuilder.firstNameGenerator)
+                                          appDetails,
+                                          Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed),
+                                          None,
+                                          CommonBuilder.firstNameGenerator,
+                                          CommonBuilder.firstNameGenerator)
 
       val detailsAreCorrectButton = view.getElementById("finish")
       detailsAreCorrectButton.attr("value") shouldBe messagesApi("site.button.details.correct")
@@ -82,10 +93,14 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
     "have correct text and return link for Kickout Reason more than a Million" in {
 
       val view = ihtKickOutApplicationView(KickOutReason.AssetsTotalValueMoreThanMax,
-        appDetails,
-        Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed), None, CommonBuilder.firstNameGenerator, CommonBuilder.firstNameGenerator)
+                                            appDetails,
+                                            Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyOwed),
+                                            None,
+                                            CommonBuilder.firstNameGenerator,
+                                            CommonBuilder.firstNameGenerator)
 
-      messagesShouldBePresent(view.toString, messagesApi("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"))
+      messagesShouldBePresent(view.toString,
+                              messagesApi("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"))
       messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.assets.kickout.MoreThan1Million"))
       messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.returnToEstateOverview"))
 
@@ -98,8 +113,11 @@ class IhtKickoutApplicationViewTest extends ViewTestHelper{
 
   "have correct text and return link for Kickout Reason PartnerDiedBeforeMinDate" in {
     val view = ihtKickOutApplicationView(KickOutReason.PartnerDiedBeforeMinDate,
-      appDetails,
-      Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation), None, CommonBuilder.firstNameGenerator, CommonBuilder.firstNameGenerator)
+                                          appDetails,
+                                          Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation),
+                                          None,
+                                          CommonBuilder.firstNameGenerator,
+                                          CommonBuilder.firstNameGenerator)
 
     messagesShouldBePresent(view.toString,messagesApi("page.iht.application.tnrb.kickout.estateMoreThanThreshold.summary"))
     messagesShouldBePresent(view.toString, messagesApi("iht.estateReport.kickout.nextSteps"))
