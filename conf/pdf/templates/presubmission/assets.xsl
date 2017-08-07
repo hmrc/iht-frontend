@@ -7,6 +7,7 @@
 
     <xsl:param name="translator"/>
     <xsl:param name="versionParam" select="'1.0'"/>
+    <xsl:param name="deceasedName"/>
 
     <xsl:template name="pre-assets">
         <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
@@ -847,7 +848,7 @@
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/other/isOwned='true'">
                                     <xsl:call-template name="table-row-money-tall">
-                                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.moneyOwed.inputLabel1')" />
+                                        <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.moneyOwed.inputLabel1', $deceasedName)" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/other/value">
                                                 <xsl:value-of select='allAssets/other/value'/>

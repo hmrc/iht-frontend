@@ -26,7 +26,7 @@ import play.api.i18n.{Lang, Messages}
   */
 object MessagesHelper {
   def translateToPreferredLanguage(content: String, sourceMessages: Messages, targetLanguageCode: String): String = {
-    val sourceLang = sourceMessages.lang.code.substring(0,2)
+    val sourceLang = sourceMessages.lang.code.substring(0, 2)
     if (sourceLang == targetLanguageCode) {
       content
     } else {
@@ -42,5 +42,12 @@ object MessagesHelper {
   def messagesForLang(sourceMessages: Messages, targetLanguageCode: String): Messages = {
     implicit val lang = Lang.apply(targetLanguageCode)
     applicationMessages
+  }
+
+  def englishMessages(messageKey: String, messages: Messages): Option[String] = {
+    messages.messages.messages("en").find(_._1 == messageKey) match {
+      case None => None
+      case Some(msg) => Some(msg._2.replace("''", "'"))
+    }
   }
 }
