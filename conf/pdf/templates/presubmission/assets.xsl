@@ -43,7 +43,7 @@
                                         <fo:table-column column-number="1" column-width="60%"/>
                                         <fo:table-column column-number="2" column-width="40%"/>
                                         <fo:table-body font-size="12pt">
-                                            <xsl:call-template name="table-row-uk-address">
+                                            <xsl:call-template name="table-row--address">
                                                 <xsl:with-param name="label"
                                                                 select="scala:getMessagesText($translator, 'iht.address.upperCaseInitial')"/>
                                                 <xsl:with-param name="value" select="address"/>
@@ -875,8 +875,8 @@
                         <xsl:with-param name="value" select='$assetsTotal'/>
                     </xsl:call-template>
 
-                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+
+
                 </fo:table-body>
             </fo:table>
         </fo:block>

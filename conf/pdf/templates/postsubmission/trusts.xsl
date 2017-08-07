@@ -19,7 +19,7 @@
                             <fo:table-column column-number="1" column-width="60%"/>
                             <fo:table-column column-number="2" column-width="40%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad-border-top-black">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'pdf.assetDescription.text')"/>
                                     <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.estateReport.assets.heldInATrust.title')"/>
@@ -29,8 +29,8 @@
                                                     select="scala:getMessagesText($translator, 'iht.value')"/>
                                     <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
                                 </xsl:call-template>
-                                <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+
+
                             </fo:table-body>
                         </fo:table>
                     </xsl:for-each>

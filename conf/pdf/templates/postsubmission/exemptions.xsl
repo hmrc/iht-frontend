@@ -29,7 +29,7 @@
                                 <fo:table-column column-number="2" column-width="40%"/>
                                 <fo:table-body font-size="12pt">
 
-                                    <xsl:call-template name="table-row-tall-border-top-black">
+                                    <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'pdf.exemption.table.text')"/>
                                         <xsl:with-param name="value" select="exemptionType"/>
@@ -41,8 +41,8 @@
                                         <xsl:with-param name="value" select='format-number(number(overrideValue), "##,###.00")'/>
                                     </xsl:call-template>
 
-                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+
+
                                 </fo:table-body>
                             </fo:table>
                         </xsl:for-each>
@@ -60,8 +60,8 @@
                                                         select='format-number(number($exemptionsTotal), "##,###.00")'/>
                                     </xsl:call-template>
 
-                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+
+
                                 </fo:table-body>
                             </fo:table>
                         </fo:block>

@@ -29,7 +29,7 @@
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    3. <xsl:value-of select="$label"/>
+                    2. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
@@ -41,7 +41,7 @@
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    3. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell">
@@ -59,14 +59,13 @@
         </fo:table-row>
     </xsl:template>
 
-
     <xsl:template name="table-row--currency-right">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    5. <xsl:value-of select="$label"/>
+                    4. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
@@ -84,19 +83,25 @@
         <fo:table-row xsl:use-attribute-sets="row row--heavy">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    7. <xsl:value-of select="$label"/>
+                    5. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                            &#xA3;<xsl:value-of select='format-number(number($value), "##,###0.00")'/>
-
+                    <xsl:choose>
+                        <xsl:when test="$value &gt; 1">
+                            &#xA3;<xsl:value-of select='format-number(number($value), "##,###.00")'/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            &#xA3;<xsl:value-of select="$value"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-money-3-values-border-top-black">
+    <xsl:template name="table-row--currency-3-col">
         <xsl:param name="label"/>
         <xsl:param name="value1"/>
         <xsl:param name="value2"/>
@@ -104,7 +109,7 @@
         <fo:table-row xsl:use-attribute-sets="row row--heavy">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    9. <xsl:value-of select="$label"/>
+                    6. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
@@ -152,156 +157,13 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-money-border-top-black-line-height-18">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    10. <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:choose>
-                        <xsl:when test="$value &gt; 1">
-                            &#xA3;<xsl:value-of select='format-number(number($value), "##,###.00")'/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            &#xA3;<xsl:value-of select="$value"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-short-vpad-border-top-black">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    11. <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:value-of select="$value"/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-tall-border-top-black">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    12. <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:value-of select="$value"/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-tall-border-top-black-thin">
+    <xsl:template name="table-row--yes-no">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    13. <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:value-of select="$value"/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-blank-short-vpad-border-top-grey-thin">
-        <fo:table-row xsl:use-attribute-sets="row">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                14. <fo:block/>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block/>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-blank-tall-border-both-grey-thin">
-        <fo:table-row xsl:use-attribute-sets="row">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                15. <fo:block/>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block/>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-blank-tall-border-both-black-thick">
-        <fo:table-row xsl:use-attribute-sets="row row--heavy row--total">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                16. <fo:block/>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block/>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-tall-lpad-border-top-black">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-
-        <fo:table-row xsl:use-attribute-sets="row row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    17. <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:value-of select="$value"/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-tall-lpad-border-top-grey-thin">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    18. <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell  xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:value-of select="$value"/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-yes-no-short-lpad-border-top-grey-thin">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    19. <xsl:value-of
+                    7. <xsl:value-of
                             select="$label"/>
                 </fo:block>
             </fo:table-cell>
@@ -325,13 +187,13 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-uk-address">
+    <xsl:template name="table-row--address">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    20. <xsl:value-of select="$label"/>
+                    8. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell">

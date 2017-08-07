@@ -45,7 +45,7 @@
                                         select="scala:getMessagesText($translator, 'page.iht.application.overview.value')"/>
                         <xsl:with-param name="value" select="$estateValue"/>
                     </xsl:call-template>
-                    <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
+
                 </fo:table-body>
             </fo:table>
         </fo:block>

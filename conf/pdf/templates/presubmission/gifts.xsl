@@ -207,7 +207,7 @@
                                     <fo:table-column column-number="3" column-width="25%"/>
                                     <fo:table-column column-number="4" column-width="25%"/>
                                     <fo:table-body font-size="12pt">
-                                        <xsl:call-template name="table-row-money-3-values-border-top-black">
+                                        <xsl:call-template name="table-row--currency-3-col">
                                             <xsl:with-param name="label"
                                                             select="scala:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
                                             <xsl:with-param name="value1">
@@ -220,7 +220,7 @@
                                                 <xsl:value-of select='$giftsTotal'/>
                                             </xsl:with-param>
                                         </xsl:call-template>
-                                        <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
+
                                     </fo:table-body>
                                 </fo:table>
                             </fo:block>

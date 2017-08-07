@@ -24,7 +24,7 @@
                         <fo:table-column column-number="1" column-width="22%"/>
                         <fo:table-column column-number="2" column-width="78%"/>
                         <fo:table-body font-size="12pt">
-                            <xsl:call-template name="table-row-short-vpad-border-top-black">
+                            <xsl:call-template name="table-row">
                                 <xsl:with-param name="label"
                                                 select="scala:getMessagesText($translator, 'iht.firstName')"/>
                                 <xsl:with-param name="value" select="firstName"/>
@@ -45,7 +45,7 @@
                                                 select="scala:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
                                 <xsl:with-param name="value" select="nino"/>
                             </xsl:call-template>
-                            <xsl:call-template name="table-row-uk-address">
+                            <xsl:call-template name="table-row--address">
                                 <xsl:with-param name="label"
                                                 select="scala:getMessagesText($translator, 'iht.registration.contactAddress')"/>
                                 <xsl:with-param name="value" select="ukAddress"/>
@@ -55,8 +55,8 @@
                                                 select="scala:getMessagesText($translator, 'iht.registration.checklist.phoneNo.upperCaseInitial')"/>
                                 <xsl:with-param name="value" select="contactDetails/phoneNo"/>
                             </xsl:call-template>
-                            <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                            <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
+
+
                         </fo:table-body>
                     </fo:table>
                 </xsl:for-each>
