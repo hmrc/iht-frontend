@@ -29,7 +29,7 @@
 
 @if(form.hasErrors) {
 <div id="errors" tabindex="-1" role="alert" class="validation-summary" aria-labelledby="errors-heading">
-    <h1 class="heading-small" id="errors-heading">@Messages("error.problem")</h1>
+    <h2 class="heading-small" id="errors-heading">@Messages("error.problem")</h2>
     <p>@Messages("error.checkCorrect")</p>
     <ul class="error-list">
         @form.errors.map { error =>
