@@ -11,15 +11,14 @@
 
 
     <xsl:template name="estate-summary">
-        <xsl:param name="value"/>
-        <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" page-break-before="always">
+        <fo:block xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.overview.title2', $deceasedName)"/>
         </fo:block>
         <fo:block>
-            <fo:table space-before="0.5cm">
+            <fo:table>
                 <fo:table-column column-number="1" />
                 <fo:table-column column-number="2" />
-                <fo:table-body font-size="12pt">
+                <fo:table-body>
                     <xsl:call-template name="table-row--currency-right">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
@@ -40,7 +39,7 @@
                                         select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
                         <xsl:with-param name="value" select="$exemptionsTotal"/>
                     </xsl:call-template>
-                    <xsl:call-template name="table-row--currency-right">
+                    <xsl:call-template name="table-row--currency-right-total">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'page.iht.application.overview.value')"/>
                         <xsl:with-param name="value" select="$estateValue"/>
@@ -49,11 +48,9 @@
                 </fo:table-body>
             </fo:table>
         </fo:block>
-        <fo:block>
-            <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                <xsl:value-of select="scala:getMessagesText($translator, 'pdf.iht.estateReport.ihtThreshold')"/>
-                &#xA3;<xsl:value-of select='format-number(number($thresholdValue), "##,###.00")'/>
-            </fo:block>
+        <fo:block xsl:use-attribute-sets="copy">
+            <xsl:value-of select="scala:getMessagesText($translator, 'pdf.iht.estateReport.ihtThreshold')"/>
+            &#xA3;<xsl:value-of select='format-number(number($thresholdValue), "##,###.00")'/>
         </fo:block>
     </xsl:template>
 

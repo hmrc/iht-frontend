@@ -13,27 +13,20 @@
     <xsl:template name="executors-details">
         <xsl:param name="value"/>
 
-        <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" page-break-before="always">
+        <fo:block xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.registration.othersApplyingForProbate')"/>
         </fo:block>
 
-        <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before=".5cm">
+        <fo:block>
             <fo:block>
                 <xsl:for-each select="./coExecutors">
-                    <fo:table space-before="0.5cm" space-after="1.5cm">
+                    <fo:block xsl:use-attribute-sets="h3">
+                        <xsl:value-of select="firstName"/><xsl:text> </xsl:text><xsl:value-of select="lastName"/>
+                    </fo:block>
+                    <fo:table>
                         <fo:table-column column-number="1" column-width="22%"/>
                         <fo:table-column column-number="2" column-width="78%"/>
-                        <fo:table-body font-size="12pt">
-                            <xsl:call-template name="table-row">
-                                <xsl:with-param name="label"
-                                                select="scala:getMessagesText($translator, 'iht.firstName')"/>
-                                <xsl:with-param name="value" select="firstName"/>
-                            </xsl:call-template>
-                            <xsl:call-template name="table-row">
-                                <xsl:with-param name="label"
-                                                select="scala:getMessagesText($translator, 'iht.lastName')"/>
-                                <xsl:with-param name="value" select="lastName"/>
-                            </xsl:call-template>
+                        <fo:table-body>
                             <xsl:call-template name="table-row">
                                 <xsl:with-param name="label"
                                                 select="scala:getMessagesText($translator, 'iht.dateofbirth')"/>

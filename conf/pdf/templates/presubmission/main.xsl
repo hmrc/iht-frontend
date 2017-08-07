@@ -26,6 +26,11 @@
         <xsl:attribute name="space-before">0.5cm</xsl:attribute>
         <xsl:attribute name="color">blue</xsl:attribute>
     </xsl:attribute-set>
+    <xsl:attribute-set name="copy--heavy">
+        <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
+        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="color">plum</xsl:attribute>
+    </xsl:attribute-set>
 
     <xsl:attribute-set name="h1">
         <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
@@ -40,12 +45,16 @@
         <xsl:attribute name="font-size">16pt</xsl:attribute>
         <xsl:attribute name="font-weight">bold</xsl:attribute>
         <xsl:attribute name="space-before">0.5cm</xsl:attribute>
+        <xsl:attribute name="space-after">0.5cm</xsl:attribute>
         <xsl:attribute name="color">green</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="h3">
-        <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
+        <xsl:attribute name="font-family">OpenSans</xsl:attribute>
         <xsl:attribute name="font-size">14pt</xsl:attribute>
+        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="space-before">0.5cm</xsl:attribute>
+        <xsl:attribute name="space-after">0.25cm</xsl:attribute>
         <xsl:attribute name="color">orange</xsl:attribute>
     </xsl:attribute-set>
 
@@ -57,13 +66,13 @@
     </xsl:attribute-set>
 
     <xsl:attribute-set name="row">
-        <xsl:attribute name="border-top">1px solid maroon</xsl:attribute>
+        <xsl:attribute name="border-top">1px dashed maroon</xsl:attribute>
     </xsl:attribute-set>
     <xsl:attribute-set name="row--heavy">
-        <xsl:attribute name="border-top">3px solid maroon</xsl:attribute>
+        <xsl:attribute name="border-top">3px dotted blueviolet</xsl:attribute>
     </xsl:attribute-set>
     <xsl:attribute-set name="row--total">
-        <xsl:attribute name="border-bottom">3px solid maroon</xsl:attribute>
+        <xsl:attribute name="border-bottom">3px solid darkcyan</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="cell">
@@ -71,6 +80,8 @@
         <xsl:attribute name="padding-bottom">5px</xsl:attribute>
         <xsl:attribute name="padding-left">5px</xsl:attribute>
         <xsl:attribute name="padding-right">5px</xsl:attribute>
+        <xsl:attribute name="font-size">12pt</xsl:attribute>
+        <xsl:attribute name="color">mediumslateblue</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="set-right">
