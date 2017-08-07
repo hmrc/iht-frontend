@@ -172,11 +172,11 @@ object StringHelper {
         delimiters.find(_ == c) match {
           case None => current += c
           case Some(found) =>
-            result = result :+ (current, Some(found))
+            result = result :+ Tuple2(current, Some(found))
             current = emptyString
         }
       }
-      result :+ (current, None)
+      result :+ Tuple2(current, None)
     }
   }
 
