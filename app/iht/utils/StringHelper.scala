@@ -136,7 +136,7 @@ object StringHelper {
   }
 
   /**
-    * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
+    * Takes a string and checks its constituent parts against a max length (nameRestrictLength)
     * String is split on spaces and hyphens to exclude strings which would split to new lines anyway
     * Returns true if a part of the string is over the alloted length
     * Allows for measures to be taken to prevent long names breaking the page layout
@@ -147,7 +147,7 @@ object StringHelper {
     for (namePart <- nameArr) {
       var subparts = namePart.split("-")
       for (subpart <- subparts) {
-        if (subpart.length > IhtProperties.hyphenateNamesLength) {
+        if (subpart.length > IhtProperties.nameRestrictLength) {
           restrictName = true;
         }
       }

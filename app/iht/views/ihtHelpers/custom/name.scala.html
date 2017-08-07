@@ -1,14 +1,12 @@
 @import iht.constants.IhtProperties
 @import iht.utils.StringHelper
 @(name: String)
-@defining(Seq(' ', '-')){separators =>
-    @{
-        Html(StringHelper.splitAndMapElements(name, separators, x =>
-            if (x.length > IhtProperties.hyphenateNamesLength) {
-                s"""<span class="copy--restricted">$x</span>"""
-            } else {
-                x
-            }
-        ))
-    }
+@{
+    Html(StringHelper.splitAndMapElements(name,IhtProperties.nameRestrictDelimiters, x =>
+        if (x.length > IhtProperties.nameRestrictLength) {
+            s"""<span class="copy--restricted">$x</span>"""
+        } else {
+            x
+        }
+    ))
 }
