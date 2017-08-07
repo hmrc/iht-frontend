@@ -42,7 +42,7 @@
 
     <xsl:attribute-set name="h2">
         <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
-        <xsl:attribute name="font-size">16pt</xsl:attribute>
+        <xsl:attribute name="font-size">18pt</xsl:attribute>
         <xsl:attribute name="font-weight">bold</xsl:attribute>
         <xsl:attribute name="space-before">0.5cm</xsl:attribute>
         <xsl:attribute name="space-after">0.5cm</xsl:attribute>
@@ -51,7 +51,7 @@
 
     <xsl:attribute-set name="h3">
         <xsl:attribute name="font-family">OpenSans</xsl:attribute>
-        <xsl:attribute name="font-size">14pt</xsl:attribute>
+        <xsl:attribute name="font-size">16pt</xsl:attribute>
         <xsl:attribute name="font-weight">bold</xsl:attribute>
         <xsl:attribute name="space-before">0.5cm</xsl:attribute>
         <xsl:attribute name="space-after">0.25cm</xsl:attribute>
@@ -60,9 +60,9 @@
 
     <xsl:attribute-set name="h4">
         <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
-        <xsl:attribute name="font-size">12pt</xsl:attribute>
+        <xsl:attribute name="font-size">14pt</xsl:attribute>
         <xsl:attribute name="font-weight">bold</xsl:attribute>
-        <xsl:attribute name="color">pink</xsl:attribute>
+        <xsl:attribute name="color">saddlebrown</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="row">
@@ -162,8 +162,8 @@
                 </fo:static-content>
 
                 <fo:flow flow-name="xsl-region-body">
-                    <fo:block xsl:use-attribute-sets="h1">
-                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
+                    <fo:block role="H1" xsl:use-attribute-sets="h1">
+                        A: <xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
                     </fo:block>
                     <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of
