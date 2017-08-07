@@ -26,7 +26,6 @@ import iht.models._
 import iht.models.application.{ApplicationDetails, ProbateDetails}
 import iht.models.enums.StatsSource
 import iht.utils.CommonHelper._
-import iht.utils.misc.LocalPartialRetriever
 import iht.utils.{CommonHelper, _}
 import iht.viewmodels.application.DeclarationViewModel
 import play.api.Logger

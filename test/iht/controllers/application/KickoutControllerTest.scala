@@ -55,6 +55,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
   "Kickout Controller" must {
     "load ihtkickout in flight page " in {
+
         val applicationDetails = CommonBuilder.buildApplicationDetails
           .copy(kickoutReason = Some(KickOutReason.ForeignAssetsValueMoreThanMax),
             status = AppStatus.KickOut)
@@ -66,7 +67,8 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
         status(result) should be(OK)
-        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
+        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary",
+                                                DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "load ihtkickout on im done page " in {

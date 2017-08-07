@@ -42,7 +42,6 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   val messageKeysDelimiter = ", "
 
   implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  //val  test = app.injector.instanceOf[LocalPartialRetriever]
 
   def titleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
     val doc = asDocument(pageContent)
