@@ -158,8 +158,8 @@ object StringHelper {
   def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
 
   /**
-    * Split string using specified delimiters and produce seq of elements
-    * followed by the delimiter used.
+    * Split string using specified delimiters and produce seq of each element
+    * accompanied by the delimiter used after it.
     */
   def split(s: String, delimiters: Seq[Char]): Seq[(String, Option[Char])] = {
     if (s.isEmpty) {
@@ -180,38 +180,18 @@ object StringHelper {
     }
   }
 
-  def formatNameAsHTML(name:String) = {
-    val separators = Array(' ', '-')
-    val seqHtml = name.split(separators).toSeq.map { element =>
-      if (element.length > IhtProperties.hyphenateNamesLength) {
-        s"""<span class="copy--restricted">$name</span>"""
-      } else {
-        name
-      }
+  /**
+    * Split string using the specified delimiters and map each element to
+    * another string using the specified function then reconstruct the string
+    * and return it.
+    */
+  def splitAndMapElements(s:String, separators: Seq[Char], func: String => String): String = {
+    val seqHtml = split(s, separators).map { element =>
+      val nameComponent = element._1
+      (func(nameComponent), element._2)
     }
     seqHtml.foldLeft(""){ (op1, op2) =>
-      if (op1.isEmpty) {
-        op2
-      } else {
-        op1 + " " + op2
-      }
+        op1 + op2._1 + op2._2.fold("")(_.toString)
     }
-
-//    val nameArr = name.split(" ");
-//    var restrictName: Boolean = false;
-//    for (namePart <- nameArr) {
-//      var subparts = namePart.split("-")
-//      for (subpart <- subparts) {
-//        if(subpart.length > IhtProperties.hyphenateNamesLength){
-//          restrictName = true;
-//        }
-//      }
-//    }
-//    if(restrictName){
-//      Html(s"""<span class="copy--restricted">$name</span>""")
-//    } else {
-//      Html(name)
-//    }
   }
-
 }

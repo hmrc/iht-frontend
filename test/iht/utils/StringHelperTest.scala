@@ -25,7 +25,6 @@ import uk.gov.hmrc.play.frontend.auth.{AuthContext, LoggedInUser, Principal}
 import uk.gov.hmrc.play.test.UnitSpec
 
 class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
-  private val hyphenateNamesLength = 15
   "parseAssignmentsToSeqTuples" must {
     "parse correctly a valid seq of 2 assignments with spaces before or after key values" in {
       val result = StringHelper.parseAssignmentsToSeqTuples(
@@ -121,11 +120,10 @@ class StringHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     }
   }
 
-  "formatNameAsHTML" must {
-    "display name correctly when first name before hyphenation boundary and long last name" in {
-      val firstName = "A" * hyphenateNamesLength
-      val expectedResult = s"""$firstName <span class="copy--restricted">McMcMcMcMcMcMcMcMcMcMcMcMcMcMcIb</span>"""
-      val result = StringHelper.formatNameAsHTML(s"""$firstName McMcMcMcMcMcMcMcMcMcMcMcMcMcMcIb""")
+  "splitAndMapElements" must {
+    "map elements using space and dash as delimiters" in {
+      val expectedResult = "xxx two xxx-three xxx four xxx-xxx five xxx six"
+      val result = StringHelper.splitAndMapElements("one two one-three one four one-one five one six", Seq(' ', '-'), x => if (x == "one") "xxx" else x)
       result shouldBe expectedResult
     }
   }
