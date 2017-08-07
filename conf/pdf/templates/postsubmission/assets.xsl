@@ -32,7 +32,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
@@ -58,7 +58,7 @@
                                         <xsl:with-param name="value" select="scala:getMessagesText($translator, 'pdf.assets.property.otherResidential')"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
@@ -84,7 +84,7 @@
                                         <xsl:with-param name="value" select="scala:getMessagesText($translator, 'pdf.assets.property.otherLandAndBuildings')"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>
@@ -110,7 +110,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -136,7 +136,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -163,7 +163,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -191,7 +191,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -217,7 +217,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -243,7 +243,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -270,7 +270,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -302,7 +302,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -328,7 +328,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -354,7 +354,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -380,7 +380,7 @@
                                         <xsl:with-param name="value" select="assetDescription"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value"
@@ -399,7 +399,7 @@
                             <fo:table-column column-number="2" column-width="40%"/>
                             <fo:table-body font-size="12pt">
 
-                                <xsl:call-template name="table-row-money-short-vpad-no-border">
+                                <xsl:call-template name="table-row--currency">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'page.iht.application.assets.overview.total')"/>
                                     <xsl:with-param name="value"

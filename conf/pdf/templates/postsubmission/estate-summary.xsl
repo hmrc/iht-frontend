@@ -20,27 +20,27 @@
                 <fo:table-column column-number="1" />
                 <fo:table-column column-number="2" />
                 <fo:table-body font-size="12pt">
-                    <xsl:call-template name="table-row-money-tall-value-align-right">
+                    <xsl:call-template name="table-row--currency-right">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
                         <xsl:with-param name="value" select="$assetsTotal"/>
                     </xsl:call-template>
-                    <xsl:call-template name="table-row-money-tall-value-align-right">
+                    <xsl:call-template name="table-row--currency-right">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'iht.estateReport.gifts.givenAway.title')"/>
                         <xsl:with-param name="value" select="$giftsTotal"/>
                     </xsl:call-template>
-                    <xsl:call-template name="table-row-money-tall-value-align-right">
+                    <xsl:call-template name="table-row--currency-right">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
                         <xsl:with-param name="value" select="$debtsTotal"/>
                     </xsl:call-template>
-                    <xsl:call-template name="table-row-money-tall-value-align-right">
+                    <xsl:call-template name="table-row--currency-right">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
                         <xsl:with-param name="value" select="$exemptionsTotal"/>
                     </xsl:call-template>
-                    <xsl:call-template name="table-row-money-tall-value-align-right">
+                    <xsl:call-template name="table-row--currency-right">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'page.iht.application.overview.value')"/>
                         <xsl:with-param name="value" select="$estateValue"/>

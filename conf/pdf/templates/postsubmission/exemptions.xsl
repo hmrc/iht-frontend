@@ -35,7 +35,7 @@
                                         <xsl:with-param name="value" select="exemptionType"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'pdf.total.text')"/>
                                         <xsl:with-param name="value" select='format-number(number(overrideValue), "##,###.00")'/>
@@ -53,7 +53,7 @@
                                 <fo:table-column column-number="2" column-width="40%"/>
                                 <fo:table-body font-size="12pt">
 
-                                    <xsl:call-template name="table-row-money-short-vpad-no-border">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'pdf.totalexemptions.text')"/>
                                         <xsl:with-param name="value"

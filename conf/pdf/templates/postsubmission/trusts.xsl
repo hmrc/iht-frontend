@@ -24,7 +24,7 @@
                                                     select="scala:getMessagesText($translator, 'pdf.assetDescription.text')"/>
                                     <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.estateReport.assets.heldInATrust.title')"/>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row-money-tall">
+                                <xsl:call-template name="table-row--currency">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'iht.value')"/>
                                     <xsl:with-param name="value" select='format-number(number(assetTotalValue), "##,###.00")'/>

@@ -7,16 +7,16 @@
                 xmlns:formatter="java:iht.utils.pdf.PdfFormatter">
     <xsl:param name="pdfFormatter"/>
 
-    <xsl:template name="table-row-tall">
+    <xsl:template name="table-row">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    1. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$value"/>
                 </fo:block>
@@ -24,44 +24,27 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-short-vpad">
+    <xsl:template name="table-row--novalue">
         <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
-                <fo:block>
-                    <xsl:value-of select="$value"/>
+                    3. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-short-vpad-no-value">
-        <xsl:param name="label"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
-                <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-money-tall">
+    <xsl:template name="table-row--currency">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value &gt; 1">
@@ -76,16 +59,17 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-money-tall-value-align-right">
+
+    <xsl:template name="table-row--currency-right">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    5. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="right" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
                     &#xA3;<xsl:value-of select='format-number(number($value), "##,##0.00")'/>
                 </fo:block>
@@ -93,67 +77,20 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row-money-tall-border-top-black">
+    <xsl:template name="table-row--currency-total">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.3mm black" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <xsl:param name="modifierclass"/>
+        <fo:table-row xsl:use-attribute-sets="row row--heavy">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    7. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt">
-                <fo:block>
-                    <xsl:choose>
-                        <xsl:when test="$value &gt; 1">
-                            &#xA3;<xsl:value-of select='format-number(number($value), "##,###.00")'/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            &#xA3;<xsl:value-of select="$value"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-money-tall-border-top-black-value-decimal-zero">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.3mm black" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
-                <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                             &#xA3;<xsl:value-of select='format-number(number($value), "##,###0.00")'/>
 
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
-    <xsl:template name="table-row-money-short-vpad-no-border">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="0pt" padding-bottom="6pt">
-                <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="0pt" padding-bottom="6pt">
-                <fo:block>
-                    <xsl:choose>
-                        <xsl:when test="$value &gt; 1">
-                            &#xA3;<xsl:value-of select='format-number(number($value), "##,###.00")'/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            &#xA3;<xsl:value-of select="$value"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
@@ -164,13 +101,13 @@
         <xsl:param name="value1"/>
         <xsl:param name="value2"/>
         <xsl:param name="value3"/>
-        <fo:table-row border-top="solid 0.3mm black" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <fo:table-row xsl:use-attribute-sets="row row--heavy">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    9. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="right" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value1 = '-1'">
@@ -184,7 +121,7 @@
                     </xsl:choose>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="right" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value2 = '-1'">
@@ -198,7 +135,7 @@
                     </xsl:choose>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="right" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value3 = '-1'">
@@ -218,16 +155,13 @@
     <xsl:template name="table-row-money-border-top-black-line-height-18">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-
-        <fo:table-row border-top="solid 0.3mm black" line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt"
-                           padding-bottom="6pt">
+        <fo:table-row xsl:use-attribute-sets="row row--heavy">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    10. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt"
-                           padding-bottom="6pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value &gt; 1">
@@ -245,13 +179,13 @@
     <xsl:template name="table-row-short-vpad-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.3mm black" line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
+        <fo:table-row xsl:use-attribute-sets="row row--heavy">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    11. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$value"/>
                 </fo:block>
@@ -262,13 +196,13 @@
     <xsl:template name="table-row-tall-border-top-black">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.3mm black" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <fo:table-row xsl:use-attribute-sets="row row--heavy">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    12. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$value"/>
                 </fo:block>
@@ -279,13 +213,13 @@
     <xsl:template name="table-row-tall-border-top-black-thin">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm black" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    13. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$value"/>
                 </fo:block>
@@ -294,35 +228,33 @@
     </xsl:template>
 
     <xsl:template name="table-row-blank-short-vpad-border-top-grey-thin">
-        <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
-                <fo:block/>
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
+                14. <fo:block/>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block/>
             </fo:table-cell>
         </fo:table-row>
     </xsl:template>
 
     <xsl:template name="table-row-blank-tall-border-both-grey-thin">
-        <fo:table-row border-top="solid 0.1mm gray" border-bottom="solid 0.1mm gray"
-                      line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
-                <fo:block/>
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
+                15. <fo:block/>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block/>
             </fo:table-cell>
         </fo:table-row>
     </xsl:template>
 
     <xsl:template name="table-row-blank-tall-border-both-black-thick">
-        <fo:table-row border-top="solid 0.3mm black" border-bottom="solid 0.1mm gray"
-                      line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
-                <fo:block/>
+        <fo:table-row xsl:use-attribute-sets="row row--heavy row--total">
+            <fo:table-cell xsl:use-attribute-sets="cell">
+                16. <fo:block/>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block/>
             </fo:table-cell>
         </fo:table-row>
@@ -332,13 +264,13 @@
         <xsl:param name="label"/>
         <xsl:param name="value"/>
 
-        <fo:table-row border-top="solid 0.3mm black" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <fo:table-row xsl:use-attribute-sets="row row--heavy">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    17. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="20pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$value"/>
                 </fo:block>
@@ -349,13 +281,13 @@
     <xsl:template name="table-row-tall-lpad-border-top-grey-thin">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="30pt">
-            <fo:table-cell text-align="left" padding-left="4pt">
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    18. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="20pt">
+            <fo:table-cell  xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$value"/>
                 </fo:block>
@@ -366,16 +298,14 @@
     <xsl:template name="table-row-yes-no-short-lpad-border-top-grey-thin">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt"
-                           padding-bottom="6pt">
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of
+                    19. <xsl:value-of
                             select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="20pt" padding-top="6pt"
-                           padding-bottom="6pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <!-- choose has been used to show Yes for true and No for false -->
                     <xsl:choose>
@@ -398,13 +328,13 @@
     <xsl:template name="table-row-uk-address">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    <xsl:value-of select="$label"/>
+                    20. <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$value/ukAddressLine1"/>
                 </fo:block>

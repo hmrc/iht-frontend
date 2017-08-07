@@ -28,7 +28,7 @@
                                     <fo:table-column column-number="1" column-width="70%"/>
                                     <fo:table-column column-number="2" column-width="30%"/>
                                     <fo:table-body font-size="12pt">
-                                        <xsl:call-template name="table-row-short-vpad">
+                                        <xsl:call-template name="table-row">
                                             <xsl:with-param name="label"
                                                             select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.properties.question.question', $deceasedName)"/>
                                             <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.yes')"/>
@@ -48,22 +48,22 @@
                                                                 select="scala:getMessagesText($translator, 'iht.address.upperCaseInitial')"/>
                                                 <xsl:with-param name="value" select="address"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row-short-vpad">
+                                            <xsl:call-template name="table-row">
                                                 <xsl:with-param name="label"
                                                                 select="scala:getMessagesText($translator, 'iht.estateReport.assets.properties.whatKind.question')"/>
                                                 <xsl:with-param name="value" select="propertyType"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row-short-vpad">
+                                            <xsl:call-template name="table-row">
                                                 <xsl:with-param name="label"
                                                                 select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.howOwnedByDeceased', $deceasedName)"/>
                                                 <xsl:with-param name="value" select="typeOfOwnership"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row-short-vpad">
+                                            <xsl:call-template name="table-row">
                                                 <xsl:with-param name="label"
                                                                 select="scala:getMessagesText($translator, 'iht.estateReport.assets.properties.freeholdOrLeasehold')"/>
                                                 <xsl:with-param name="value" select="tenure"/>
                                             </xsl:call-template>
-                                            <xsl:call-template name="table-row-money-tall">
+                                            <xsl:call-template name="table-row--currency">
                                                 <xsl:with-param name="label"
                                                                 select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.properties.value.question', $deceasedName)"/>
                                                 <xsl:with-param name="value">
@@ -99,7 +99,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.money.ownName.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
@@ -113,7 +113,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/money/isOwned='true'">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'page.iht.application.assets.money.inputLabel1')"/>
                                         <xsl:with-param name="value">
@@ -134,7 +134,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body>
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.money.jointly.owned.question', $deceasedName)" />
                                     <xsl:with-param name="value">
                                         <xsl:choose>
@@ -148,7 +148,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/money/isOwnedShare='true'">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'page.iht.application.assets.money.jointly.owned.input.value.label')"/>
                                         <xsl:with-param name="value">
@@ -177,7 +177,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.household.ownName.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:choose>
@@ -191,7 +191,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/household/isOwned='true'">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.estateReport.assets.household.deceasedOwnedValue')"/>
                                         <xsl:with-param name="value">
@@ -212,7 +212,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body>
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.household.joint.question', $deceasedName)" />
                                     <xsl:with-param name="value">
                                         <xsl:choose>
@@ -226,7 +226,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/household/isOwnedShare='true'">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.estateReport.assets.household.valueOfJointlyOwned')"/>
                                         <xsl:with-param name="value">
@@ -255,7 +255,7 @@
                         <fo:table-column column-number="1" column-width="70%"/>
                         <fo:table-column column-number="2" column-width="30%"/>
                         <fo:table-body font-size="12pt">
-                            <xsl:call-template name="table-row-short-vpad">
+                            <xsl:call-template name="table-row">
                                 <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.vehicles.ownName.question', $deceasedName)"/>
                                 <xsl:with-param name="value">
                                     <xsl:choose>
@@ -269,7 +269,7 @@
                                 </xsl:with-param>
                             </xsl:call-template>
                             <xsl:if test="allAssets/vehicles/isOwned='true'">
-                                <xsl:call-template name="table-row-money-tall">
+                                <xsl:call-template name="table-row--currency">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'iht.estateReport.assets.household.deceasedOwnedValue')"/>
                                     <xsl:with-param name="value">
@@ -290,7 +290,7 @@
                         <fo:table-column column-number="1" column-width="70%"/>
                         <fo:table-column column-number="2" column-width="30%"/>
                         <fo:table-body>
-                            <xsl:call-template name="table-row-short-vpad">
+                            <xsl:call-template name="table-row">
                                 <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.vehicles.jointly.owned.question', $deceasedName)" />
                                 <xsl:with-param name="value">
                                     <xsl:choose>
@@ -304,7 +304,7 @@
                                 </xsl:with-param>
                             </xsl:call-template>
                             <xsl:if test="allAssets/vehicles/isOwnedShare='true'">
-                                <xsl:call-template name="table-row-money-tall">
+                                <xsl:call-template name="table-row--currency">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'iht.estateReport.assets.vehicles.valueOfJointlyOwned')"/>
                                     <xsl:with-param name="value">
@@ -330,7 +330,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.pensions.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -345,7 +345,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/privatePension/isChanged">
-                                    <xsl:call-template name="table-row-short-vpad">
+                                    <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'page.iht.application.assets.pensions.changed.question')"/>
                                         <xsl:with-param name="value">
@@ -363,7 +363,7 @@
                                 </xsl:if>
 
                                 <xsl:if test="allAssets/privatePension/isChanged='false'">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.estateReport.assets.pensions.valueOfRemainingPaymentsBeingPaid')"/>
                                         <xsl:with-param name="value">
@@ -390,7 +390,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.stocksAndShares.listed.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -405,7 +405,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/stockAndShare/valueListed">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares.valueOfListed')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/stockAndShare/valueListed">
@@ -423,7 +423,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.stocksAndShares.notListed.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -438,7 +438,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/stockAndShare/valueNotListed">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares.valueOfNotListed')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/stockAndShare/valueNotListed">
@@ -465,7 +465,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.insurancePolicies.ownName.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -480,7 +480,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/insurancePolicy/value">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/insurancePolicy/value">
@@ -499,7 +499,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.insurancePolicies.jointlyHeld.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -514,7 +514,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/insurancePolicy/shareValue">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/insurancePolicy/shareValue">
@@ -533,7 +533,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.insurancePolicies.premiumsNotPayingOut.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -548,7 +548,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/insurancePolicy/moreThanMaxValue">
-                                    <xsl:call-template name="table-row-short-vpad">
+                                    <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question', $deceasedName)"/>
                                         <xsl:with-param name="value">
@@ -564,7 +564,7 @@
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
-                                    <xsl:call-template name="table-row-short-vpad">
+                                    <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.buyAnnuity.question', $deceasedName)"/>
                                         <xsl:with-param name="value">
@@ -578,7 +578,7 @@
                                             </xsl:choose>
                                         </xsl:with-param>
                                     </xsl:call-template>
-                                    <xsl:call-template name="table-row-short-vpad">
+                                    <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.insurance.policies.overview.other.question4', $deceasedName)"/>
                                         <xsl:with-param name="value">
@@ -609,7 +609,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.businessInterest.isOwned', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -625,7 +625,7 @@
                                 </xsl:call-template>
                                 <xsl:choose>
                                     <xsl:when test="allAssets/businessInterest/isOwned='true'">
-                                        <xsl:call-template name="table-row-money-tall">
+                                        <xsl:call-template name="table-row--currency">
                                             <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.businessInterest.inputLabel1')" />
                                             <xsl:with-param name="value">
                                                 <xsl:if test="allAssets/businessInterest/value">
@@ -651,7 +651,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.nominated.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -667,7 +667,7 @@
                                 </xsl:call-template>
                                 <xsl:choose>
                                     <xsl:when test="allAssets/nominated/isOwned='true'">
-                                        <xsl:call-template name="table-row-money-tall">
+                                        <xsl:call-template name="table-row--currency">
                                             <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.nominated.inputLabel1')" />
                                             <xsl:with-param name="value">
                                                 <xsl:if test="allAssets/nominated/value">
@@ -693,7 +693,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.trusts.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -708,7 +708,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/heldInTrust/isOwned='true'">
-                                    <xsl:call-template name="table-row-short-vpad">
+                                    <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.trusts.moreThanOne.question', $deceasedName)"/>
                                         <xsl:with-param name="value">
@@ -727,7 +727,7 @@
                                             </xsl:if>
                                         </xsl:with-param>
                                     </xsl:call-template>
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.heldInTrust.valueOfTrust', $deceasedName)" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/heldInTrust/value">
@@ -752,7 +752,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.foreign.deceasedOwned.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -767,7 +767,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/foreign/isOwned='true'">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.foreign.inputLabel1')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/foreign/value">
@@ -792,7 +792,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.moneyOwed.isOwned', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -807,7 +807,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/moneyOwed/isOwned='true'">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.moneyOwed.inputLabel1')" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/moneyOwed/value">
@@ -832,7 +832,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.other.isOwned', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -847,7 +847,7 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/other/isOwned='true'">
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.moneyOwed.inputLabel1', $deceasedName)" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/other/value">
@@ -864,12 +864,12 @@
         </fo:block>
         <xsl:comment>Assets Total section starts</xsl:comment>
         <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm" page-break-inside="avoid">
-            <fo:table space-before="0.5cm">
+            <fo:table>
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>
                 <fo:table-body font-size="12pt">
 
-                    <xsl:call-template name="table-row-money-tall-border-top-black-value-decimal-zero">
+                    <xsl:call-template name="table-row--currency-total">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'page.iht.application.assets.overview.total')"/>
                         <xsl:with-param name="value" select='$assetsTotal'/>

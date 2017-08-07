@@ -26,7 +26,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.lastYears.givenAway.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -44,7 +44,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.reservation.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -62,7 +62,7 @@
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
                             <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.lastYears.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -70,7 +70,7 @@
                                         <xsl:if test="allGifts/isGivenInLast7Years='true'"><xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/></xsl:if>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.trust.question', $deceasedName)"/>
                                     <xsl:with-param name="value">

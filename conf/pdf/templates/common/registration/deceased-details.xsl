@@ -13,7 +13,7 @@
     <xsl:template name="deceased-details">
         <xsl:param name="value"/>
 
-        <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm">
+        <fo:block xsl:use-attribute-sets="h2">
             <xsl:value-of
                     select="scala:getMessagesText($translator, 'page.iht.registration.registrationSummary.deceasedTable.title')"/>
         </fo:block>
@@ -30,24 +30,24 @@
                                             select="scala:getMessagesText($translator, 'iht.firstName')"/>
                             <xsl:with-param name="value" select="deceasedDetails/firstName"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.lastName')"/>
                             <xsl:with-param name="value" select="deceasedDetails/lastName"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.dateofbirth')"/>
                             <xsl:with-param name="value"
                                             select="scala:getDateForDisplay($translator,deceasedDetails/dateOfBirth)"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.dateOfDeath')"/>
                             <xsl:with-param name="value"
                                             select="scala:getDateForDisplay($translator,deceasedDateOfDeath/dateOfDeath)"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
                             <xsl:with-param name="value" select="deceasedDetails/nino"/>
@@ -57,12 +57,12 @@
                                             select="scala:getMessagesText($translator, 'pdf.registration.lastContactAddress')"/>
                             <xsl:with-param name="value" select="deceasedDetails/ukAddress"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.registration.deceased.locationOfPermanentHome')"/>
                             <xsl:with-param name="value" select="deceasedDetails/domicile"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'page.iht.registration.deceasedDetails.maritalStatus.label')"/>
                             <xsl:with-param name="value" select="deceasedDetails/maritalStatus"/>

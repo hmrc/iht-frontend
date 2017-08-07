@@ -15,8 +15,92 @@
     <xsl:include href="pdf/templates/common/registration/case-details.xsl"/>
     <xsl:include href="pdf/templates/presubmission/application-details.xsl"/>
 
+    <xsl:attribute-set name="root">
+        <xsl:attribute name="font-family">OpenSans</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="copy">
+        <xsl:attribute name="font-family">OpenSans</xsl:attribute>
+        <xsl:attribute name="font-size">12pt</xsl:attribute>
+        <xsl:attribute name="font-weight">normal</xsl:attribute>
+        <xsl:attribute name="space-before">0.5cm</xsl:attribute>
+        <xsl:attribute name="color">blue</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="h1">
+        <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
+        <xsl:attribute name="font-size">24pt</xsl:attribute>
+        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="space-before">0.5cm</xsl:attribute>
+        <xsl:attribute name="color">red</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="h2">
+        <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
+        <xsl:attribute name="font-size">16pt</xsl:attribute>
+        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="space-before">0.5cm</xsl:attribute>
+        <xsl:attribute name="color">green</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="h3">
+        <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
+        <xsl:attribute name="font-size">14pt</xsl:attribute>
+        <xsl:attribute name="color">orange</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="h4">
+        <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
+        <xsl:attribute name="font-size">12pt</xsl:attribute>
+        <xsl:attribute name="font-weight">bold</xsl:attribute>
+        <xsl:attribute name="color">pink</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="row">
+        <xsl:attribute name="border-top">1px solid maroon</xsl:attribute>
+    </xsl:attribute-set>
+    <xsl:attribute-set name="row--heavy">
+        <xsl:attribute name="border-top">3px solid maroon</xsl:attribute>
+    </xsl:attribute-set>
+    <xsl:attribute-set name="row--total">
+        <xsl:attribute name="border-bottom">3px solid maroon</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="cell">
+        <xsl:attribute name="padding-top">5px</xsl:attribute>
+        <xsl:attribute name="padding-bottom">5px</xsl:attribute>
+        <xsl:attribute name="padding-left">5px</xsl:attribute>
+        <xsl:attribute name="padding-right">5px</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="set-right">
+        <xsl:attribute name="text-align">right</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="page-header">
+        <xsl:attribute name="border-bottom">1px solid red</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="page-footer--title">
+        <xsl:attribute name="font-family">OpenSans</xsl:attribute>
+        <xsl:attribute name="font-size">8pt</xsl:attribute>
+        <xsl:attribute name="font-weight">normal</xsl:attribute>
+        <xsl:attribute name="text-align">left</xsl:attribute>
+        <xsl:attribute name="space-before">0.5cm</xsl:attribute>
+        <xsl:attribute name="color">blue</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="page-footer--page-number">
+        <xsl:attribute name="font-family">OpenSans</xsl:attribute>
+        <xsl:attribute name="font-size">8pt</xsl:attribute>
+        <xsl:attribute name="font-weight">normal</xsl:attribute>
+        <xsl:attribute name="text-align">right</xsl:attribute>
+        <xsl:attribute name="space-before">0.5cm</xsl:attribute>
+        <xsl:attribute name="color">blue</xsl:attribute>
+    </xsl:attribute-set>
+
     <xsl:template match="/">
-        <fo:root font-family="OpenSans">
+        <fo:root xsl:use-attribute-sets="root">
             <fo:layout-master-set>
                 <fo:simple-page-master master-name="simple"
                                        page-height="29.7cm" page-width="21.0cm"
@@ -40,20 +124,20 @@
 
             <fo:page-sequence master-reference="simple">
                 <fo:static-content flow-name="xsl-region-before">
-                    <fo:block border-bottom-style="solid">
+                    <fo:block xsl:use-attribute-sets="page-header">
                         <fo:external-graphic src="url('pdf/logo/hmrc_logo.jpg')" height="50px" content-width="scale-to-fit"/>
                     </fo:block>
                 </fo:static-content>
 
-                <fo:static-content flow-name="xsl-region-after" font-family="OpenSans" font-size="12pt">
-                    <fo:block text-align="right" padding-top="6pt">
+                <fo:static-content flow-name="xsl-region-after">
+                    <fo:block>
                         <fo:table>
-                            <fo:table-body font-size="8pt">
+                            <fo:table-body>
                                 <fo:table-row>
-                                    <fo:table-cell text-align= "left">
+                                    <fo:table-cell xsl:use-attribute-sets="page-footer--title">
                                         <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></fo:block>
                                     </fo:table-cell>
-                                    <fo:table-cell>
+                                    <fo:table-cell xsl:use-attribute-sets="page-footer--page-number">
                                         <fo:block>
                                                 <xsl:value-of select="scala:getMessagesText($translator, 'pdf.page.number')" />
                                                 <xsl:text>&#160;</xsl:text>
@@ -67,19 +151,19 @@
                 </fo:static-content>
 
                 <fo:flow flow-name="xsl-region-body">
-                    <fo:block font-family="OpenSans-Bold" font-size="24" font-weight="bold">
+                    <fo:block xsl:use-attribute-sets="h1">
                         <xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
                     </fo:block>
-                    <fo:block font-family="OpenSans" font-size="12" font-weight="normal" space-before="0.5cm">
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of
                                 select="concat(scala:getMessagesText($translator, 'pdf.inheritance.tax.reference'), ' ', $ihtReference)"/>
                     </fo:block>
 
-                    <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
                     </fo:block>
 
-                    <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.p2')"/>
                     </fo:block>
                     <xsl:apply-templates/>

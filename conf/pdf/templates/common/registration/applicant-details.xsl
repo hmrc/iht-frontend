@@ -27,18 +27,18 @@
                                             select="scala:getMessagesText($translator, 'iht.firstName')"/>
                             <xsl:with-param name="value" select="applicantDetails/firstName"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.lastName')"/>
                             <xsl:with-param name="value" select="applicantDetails/lastName"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.dateofbirth')"/>
                             <xsl:with-param name="value"
                                             select="scala:getDateForDisplay($translator,applicantDetails/dateOfBirth)"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.nationalInsuranceNo')"/>
                             <xsl:with-param name="value" select="applicantDetails/nino"/>
@@ -48,12 +48,12 @@
                                             select="scala:getMessagesText($translator, 'iht.registration.contactAddress')"/>
                             <xsl:with-param name="value" select="applicantDetails/ukAddress"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.registration.checklist.phoneNo.upperCaseInitial')"/>
                             <xsl:with-param name="value" select="applicantDetails/phoneNo"/>
                         </xsl:call-template>
-                        <xsl:call-template name="table-row-short-vpad">
+                        <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'page.iht.registration.applicant.probateLocation.title')"/>
                             <xsl:with-param name="value" select="applicantDetails/country"/>
