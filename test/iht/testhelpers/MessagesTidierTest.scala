@@ -677,7 +677,7 @@ class MessagesTidierTest extends UnitSpec with FakeIhtApp {
       "not fail with real messages files" in {
         pending
         val result = MessagesTidier.compareMessageFileKeys()
-        assert(result.isEmpty, "\n \n There are message keys missing from messages.cy - " +
+        assert(result.isEmpty, "\n \n There are message keys missing from messages.en and/or messages.cy - " +
           "see the file /home/" + System.getProperty("user.name") + "/Desktop/missingKeysAndValues.txt for more info")
       }
 
