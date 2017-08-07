@@ -186,11 +186,11 @@ object StringHelper {
     * and return it.
     */
   def splitAndMapElements(s:String, separators: Seq[Char], func: String => String): String = {
-    val seqHtml = split(s, separators).map { element =>
+    val mappedElements = split(s, separators).map { element =>
       val nameComponent = element._1
       (func(nameComponent), element._2)
     }
-    seqHtml.foldLeft(emptyString){ (op1, op2) =>
+    mappedElements.foldLeft(emptyString){ (op1, op2) =>
         op1 + op2._1 + op2._2.fold("")(_.toString)
     }
   }
