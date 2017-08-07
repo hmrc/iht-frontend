@@ -156,7 +156,7 @@ object StringHelper {
 
   def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
 
-  def formatForDisplay(name:String) = {
+  def formatNameAsHTML(name:String) = {
     val nameArr = name.split(" ");
     var restrictName: Boolean = false;
     for (namePart <- nameArr) {
