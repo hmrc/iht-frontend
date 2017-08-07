@@ -42,6 +42,7 @@ object StringHelper {
   private val SecondNumberEnd = 6
   private val ThirdNumberStart = 6
   private val ThirdNumberEnd = 8
+  private val emptyString = ""
 
   def ninoFormat(s: String) = {
     if (s.length >= 9) {
@@ -166,7 +167,6 @@ object StringHelper {
       Seq.empty
     } else {
       var result = new ListBuffer[(String, Option[Char])]()
-      val emptyString = ""
       var current = emptyString
       s.foreach { c =>
         delimiters.find(_ == c) match {
@@ -190,7 +190,7 @@ object StringHelper {
       val nameComponent = element._1
       (func(nameComponent), element._2)
     }
-    seqHtml.foldLeft(""){ (op1, op2) =>
+    seqHtml.foldLeft(emptyString){ (op1, op2) =>
         op1 + op2._1 + op2._2.fold("")(_.toString)
     }
   }
