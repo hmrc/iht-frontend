@@ -556,10 +556,11 @@ trait MessagesTidier {
     val welsh = readMessageFile("messages.cy").right.get
     val result = (english.keySet -- welsh.keySet) ++ (welsh.keySet -- english.keySet)
     if(result.nonEmpty) {
-      val file = new File("/home/" + System.getProperty("user.name") + "/Desktop/missingKeysAndValues.txt")
+      val file = new File("/home/" + System.getProperty("user.name") + "/missingKeysAndValues.csv")
       val bw = new BufferedWriter(new FileWriter(file))
-      result.toSeq.sorted.foreach(key => bw.write(key + " - "
-        + english.getOrElse(key, "English value missing") + " - " + welsh.getOrElse(key, "Welsh value missing") + "\n"))
+      result.toSeq.sorted.foreach(key => bw.write(key + " = "
+        + english.getOrElse(key, "English value missing") + " = " +
+        welsh.getOrElse(key, "Welsh value missing") + "\n"))
       bw.close()
     }
     result
