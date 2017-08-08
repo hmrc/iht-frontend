@@ -16,8 +16,6 @@
 
 @import iht.models._
 @import iht.models.application.basicElements.BasicEstateElement
-
-@(otherForm: Form[BasicEstateElement], registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 
@@ -25,6 +23,10 @@
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(otherForm: Form[BasicEstateElement],
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 

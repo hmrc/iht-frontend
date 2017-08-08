@@ -14,12 +14,6 @@
 * limitations under the License.
 *@
 
-@(propertyOwnership:Form[iht.models.application.assets.Property],
-submitUrl:Call,
-cancelUrl:Call,
-deceasedName: String
-)(implicit request:Request[_], messages: Messages)
-
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
@@ -27,6 +21,13 @@ deceasedName: String
 @import iht.constants.IhtProperties
 @import iht.utils._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(propertyOwnership:Form[iht.models.application.assets.Property],
+submitUrl:Call,
+cancelUrl:Call,
+deceasedName: String
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.property.ownership.browserTitle")),

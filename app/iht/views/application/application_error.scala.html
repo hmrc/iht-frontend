@@ -16,9 +16,11 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(errorType:String)(implicit request:Request[_],
-                             messages: Messages)
+                             messages: Messages,
+                             ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("error.problem"),
 browserTitle = Some(Messages("error.problem"))

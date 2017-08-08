@@ -23,9 +23,10 @@
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(foreignForm: Form[BasicEstateElement],
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 

@@ -28,11 +28,12 @@
 @import iht.controllers.application.assets.trusts.routes._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(appDetails:ApplicationDetails,
 assets:AllAssets,
 ihtReference: String,
-deceasedName: String)(implicit request:Request[_], messages: Messages)
+deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
     isComplete match {
