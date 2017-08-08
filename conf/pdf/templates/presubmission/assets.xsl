@@ -515,7 +515,7 @@
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/insurancePolicy/value">
                                     <xsl:call-template name="table-row--currency">
-                                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut')" />
+                                        <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut', $deceasedName)" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/insurancePolicy/value">
                                                 <xsl:value-of select='allAssets/insurancePolicy/value'/>
@@ -526,7 +526,7 @@
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
-                    <xsl:comment>Assets insurance policies that wer jointly held with someone else</xsl:comment>
+                    <xsl:comment>Assets insurance policies that were jointly held with someone else</xsl:comment>
                     <fo:block>
                         <fo:block xsl:use-attribute-sets="h4">
                             <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.assets.insurance.policies.overview.joint.title')"/>
@@ -551,7 +551,7 @@
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/insurancePolicy/shareValue">
                                     <xsl:call-template name="table-row--currency">
-                                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare')" />
+                                        <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare', $deceasedName)" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/insurancePolicy/shareValue">
                                                 <xsl:value-of select='allAssets/insurancePolicy/shareValue'/>
