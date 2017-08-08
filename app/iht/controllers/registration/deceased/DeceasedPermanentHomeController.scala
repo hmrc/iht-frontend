@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.IhtFormPartialRetriever
 import iht.constants.FieldMappings._
 import iht.controllers.ControllerHelper.Mode
 import iht.connector.IhtConnectors
@@ -28,6 +29,7 @@ import play.api.data.Form
 import play.api.mvc._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 object DeceasedPermanentHomeController extends DeceasedPermanentHomeController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -45,21 +47,23 @@ trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWith
   lazy val submitRoute = routes.DeceasedPermanentHomeController.onSubmit
   lazy val editSubmitRoute = routes.DeceasedPermanentHomeController.onEditSubmit
 
+  override implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def onwardRoute(rd: RegistrationDetails) = routes.AboutDeceasedController.onPageLoad
 
