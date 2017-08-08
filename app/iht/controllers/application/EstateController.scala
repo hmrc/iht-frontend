@@ -22,6 +22,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.exemptions._
 import iht.utils.ApplicationKickOutHelper.FunctionListMap
+import iht.utils.misc.LocalPartialRetriever
 import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
 import play.api.data.{Form, FormError}
@@ -40,6 +41,8 @@ trait EstateController extends ApplicationController {
   def cachingConnector: CachingConnector
 
   def ihtConnector: IhtConnector
+
+  def localPartialRetriever: LocalPartialRetriever
 
   val assetsRedirectLocation =
     iht.controllers.application.assets.routes.AssetsOverviewController.onPageLoad()

@@ -4,7 +4,8 @@
 
 @(supportLinkEnabled: Boolean = true,
 includeGridWrapper: Boolean = true,
-appConfig: AppConfig)(implicit  messages: Messages,
+appConfig: AppConfig,
+localPartialRetriever: LocalPartialRetriever)(implicit  messages: Messages,
                                 requestHeader: RequestHeader)
 
-@LocalPartialRetriever.getPartialContent(appConfig.reportAProblemPartialUrl)(requestHeader)
+@localPartialRetriever.getPartialContent(appConfig.reportAProblemPartialUrl)(requestHeader)

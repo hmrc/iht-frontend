@@ -24,6 +24,7 @@ import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
+import iht.utils.misc.LocalPartialRetriever
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
@@ -37,6 +38,7 @@ import scala.concurrent.Future
 
 object GiftsMadeBeforeDeathController extends GiftsMadeBeforeDeathController with IhtConnectors {
   def metrics: Metrics = Metrics
+  def localPartialRetriever = LocalPartialRetriever
 }
 
 trait GiftsMadeBeforeDeathController extends EstateController {
@@ -63,7 +65,8 @@ trait GiftsMadeBeforeDeathController extends EstateController {
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbGiftsGivenAwayID)),
-                  registrationDetails
+                  registrationDetails,
+                  localPartialRetriever
                 )
                 )
               }
@@ -95,7 +98,9 @@ trait GiftsMadeBeforeDeathController extends EstateController {
                   Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_made_before_death(formWithErrors,
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                    cancelUrl, regDetails
+                    cancelUrl,
+                    regDetails,
+                    localPartialRetriever
                   )))
                 },
                 tnrbModel => {

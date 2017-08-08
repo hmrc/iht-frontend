@@ -21,21 +21,24 @@
 @import iht.models.RegistrationDetails
 @import iht.utils.tnrb.TnrbHelper
 @import iht.utils._
+@import iht.utils.misc.LocalPartialRetriever
 
 @(giftMadeBeforeDeathForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck,
 cancelUrl:Call,
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails: RegistrationDetails,
+localPartialRetriever: LocalPartialRetriever)(implicit request:Request[_], messages: Messages)
 
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(
-    title = "",
-    browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
-    cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-    cancelUrl = Some(cancelUrl)
+title = "",
+browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
+cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+cancelUrl = Some(cancelUrl),
+localPartialRetriever = localPartialRetriever
 ){
     @ihtHelpers.custom.error_summary(giftMadeBeforeDeathForm)
 

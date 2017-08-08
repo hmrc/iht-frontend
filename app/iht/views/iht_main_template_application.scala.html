@@ -20,7 +20,6 @@
 @(title: String,
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
-appConfig: iht.config.AppConfig = iht.config.ApplicationConfig,
 subTitle: Option[String] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
@@ -32,7 +31,8 @@ hasSignOut: Boolean = true,
 hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
-headingName: String = ""
+headingName: String = "",
+localPartialRetriever: LocalPartialRetriever
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages)
 
 @iht_main_template(
@@ -40,7 +40,6 @@ headingName: String = ""
     signOutText = Messages("site.button.signOut"),
     browserTitle = browserTitle,
     contentHeader = contentHeader,
-    appConfig = appConfig,
     subTitle = subTitle,
     isFullWidth = isFullWidth,
     backUrl = backUrl,
@@ -54,5 +53,6 @@ headingName: String = ""
     headerTitle = Some(Messages("site.application.title")),
     headingClass = headingClass,
     headingName = headingName,
-    isRegistration = false
+    isRegistration = false,
+    localPartialRetriever = localPartialRetriever
 )(mainContent)

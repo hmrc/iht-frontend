@@ -33,7 +33,6 @@
 signOutText: String = "",
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
-appConfig: iht.config.AppConfig = iht.config.ApplicationConfig,
 subTitle: Option[String] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
@@ -47,7 +46,8 @@ signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = "",
-isRegistration: Boolean = false
+isRegistration: Boolean = false,
+localPartialRetriever: LocalPartialRetriever
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -91,11 +91,11 @@ isRegistration: Boolean = false
 
     <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
     @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
-    @if(hasTimeOut && appConfig.enableRefresh) {
+    @if(hasTimeOut && ApplicationConfig.enableRefresh) {
             <script>
                 $.timeoutDialog({
-                    timeout: @appConfig.timeOutSeconds,
-                    countdown: @appConfig.timeOutCountdownSeconds,
+                    timeout: @ApplicationConfig.timeOutSeconds,
+                    countdown: @ApplicationConfig.timeOutCountdownSeconds,
                     keep_alive_url: "@iht.controllers.routes.SessionManagementController.keepAlive.url",
                     title: "@Messages("iht.timeoutDialog.title")",
                     messageSeconds: "@Messages("iht.timeoutDialog.seconds")",
@@ -168,8 +168,8 @@ isRegistration: Boolean = false
 @betaBanner = {
     @layouts.betaBanner(
         userLoggedIn = false,
-        betaFeedbackUrl = appConfig.betaFeedbackUrl,
-        betaFeedbackUnauthenticatedUrl = appConfig.betaFeedbackUnauthenticatedUrl,
+        betaFeedbackUrl = ApplicationConfig.betaFeedbackUrl,
+        betaFeedbackUnauthenticatedUrl = ApplicationConfig.betaFeedbackUnauthenticatedUrl,
         showFeedbackLinkInBetaBanner = true)
 }
 
@@ -180,7 +180,7 @@ isRegistration: Boolean = false
         serviceInfoContent = None)
 }
 
-@getHelpForm = @{ihtHelpers.standard.get_help_form(appConfig = appConfig)}
+@getHelpForm = @{ihtHelpers.standard.get_help_form(appConfig = ApplicationConfig)}
 
 @content = {
     @layouts.main_content(
@@ -198,8 +198,8 @@ isRegistration: Boolean = false
 
 @bodyEnd = {
     @layouts.footer(
-        analyticsToken = appConfig.analyticsToken,
-        analyticsHost = appConfig.analyticsHost,
+        analyticsToken = ApplicationConfig.analyticsToken,
+        analyticsHost = ApplicationConfig.analyticsHost,
         ssoUrl = None,
         scriptElem = Some(scriptElement),
         gaCalls = None)
