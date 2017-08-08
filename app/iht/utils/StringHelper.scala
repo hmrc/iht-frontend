@@ -21,12 +21,15 @@ import java.util.UUID.randomUUID
 
 import iht.constants.IhtProperties
 import iht.utils.CommonHelper.withValue
+import iht.views.html.ihtHelpers.custom.name
 import org.joda.time.format.DateTimeFormat
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
+import play.twirl.api.Html
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 
+import scala.collection.mutable.ListBuffer
 import scala.util.{Failure, Success, Try}
 
 object StringHelper {
@@ -39,6 +42,7 @@ object StringHelper {
   private val SecondNumberEnd = 6
   private val ThirdNumberStart = 6
   private val ThirdNumberEnd = 8
+  private val emptyString = ""
 
   def ninoFormat(s: String) = {
     if (s.length >= 9) {
@@ -133,7 +137,7 @@ object StringHelper {
   }
 
   /**
-    * Takes a string and checks its constituent parts against a max length (hyphenateNamesLength)
+    * Takes a string and checks its constituent parts against a max length (nameRestrictLength)
     * String is split on spaces and hyphens to exclude strings which would split to new lines anyway
     * Returns true if a part of the string is over the alloted length
     * Allows for measures to be taken to prevent long names breaking the page layout
@@ -144,7 +148,7 @@ object StringHelper {
     for (namePart <- nameArr) {
       var subparts = namePart.split("-")
       for (subpart <- subparts) {
-        if (subpart.length > IhtProperties.hyphenateNamesLength) {
+        if (subpart.length > IhtProperties.nameRestrictLength) {
           restrictName = true;
         }
       }
@@ -154,4 +158,40 @@ object StringHelper {
 
   def addApostrophe(name: String): String = name + "'" + (if (name.endsWith("s")) "" else "s")
 
+  /**
+    * Split string using specified delimiters and produce seq of each element
+    * accompanied by the delimiter used after it.
+    */
+  def split(s: String, delimiters: Seq[Char]): Seq[(String, Option[Char])] = {
+    if (s.isEmpty) {
+      Seq.empty
+    } else {
+      var result = new ListBuffer[(String, Option[Char])]()
+      var current = emptyString
+      s.foreach { c =>
+        delimiters.find(_ == c) match {
+          case None => current += c
+          case Some(found) =>
+            result = result :+ Tuple2(current, Some(found))
+            current = emptyString
+        }
+      }
+      result :+ Tuple2(current, None)
+    }
+  }
+
+  /**
+    * Split string using the specified delimiters and map each element to
+    * another string using the specified function then reconstruct the string
+    * and return it.
+    */
+  def splitAndMapElements(s:String, separators: Seq[Char], func: String => String): String = {
+    val mappedElements = split(s, separators).map { element =>
+      val nameComponent = element._1
+      Tuple2(func(nameComponent), element._2)
+    }
+    mappedElements.foldLeft(emptyString){ (op1, op2) =>
+        op1 + op2._1 + op2._2.fold("")(_.toString)
+    }
+  }
 }
