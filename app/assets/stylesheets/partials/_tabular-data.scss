@@ -95,6 +95,11 @@ Give headings more presence on mobile when stacked
     @include tabData;
   }
 
+/* reduce font size of total value row to improve text wrap */
+  .tabular-data__total {
+    font-size: 16px;
+  }
+
 /*
 ====================================
 End tabular-data
