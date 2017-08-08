@@ -115,7 +115,7 @@
                                         </fo:table-cell>
                                     </fo:table-row>
                                 </xsl:for-each>
-                                <xsl:comment>Blank row to display line at end of section</xsl:comment>
+
 
                             </fo:table-body>
                         </fo:table>
@@ -129,7 +129,7 @@
                             <fo:table-column column-number="4" column-width="25%"/>
 
                             <fo:table-body font-size="12pt" font-weight="Bold">
-                                <xsl:call-template name="table-row-money-3-values-border-top-black">
+                                <xsl:call-template name="table-row--currency-3-col">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
                                     <xsl:with-param name="value1">
@@ -142,7 +142,7 @@
                                         <xsl:value-of select='format-number($giftsTotal, "##,##0.00")'/>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
+
                             </fo:table-body>
 
                         </fo:table>

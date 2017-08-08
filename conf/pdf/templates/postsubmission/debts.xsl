@@ -34,20 +34,20 @@
                             <fo:table-body font-size="12pt">
                                 <xsl:choose>
                                     <xsl:when test="./liabilities != ''">
-                                        <xsl:call-template name="table-row-tall">
+                                        <xsl:call-template name="table-row">
                                             <xsl:with-param name="label"
                                                             select="scala:getMessagesText($translator, 'pdf.liabilityType.text')"/>
                                             <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
                                         </xsl:call-template>
 
-                                        <xsl:call-template name="table-row-money-tall">
+                                        <xsl:call-template name="table-row--currency">
                                             <xsl:with-param name="label"
                                                             select="scala:getMessagesText($translator, 'iht.value')"/>
                                             <xsl:with-param name="value" select='format-number(number(./liabilities/liabilityAmount), "##,###.00")'/>
                                         </xsl:call-template>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+
                                     </xsl:otherwise>
                                 </xsl:choose>
 
@@ -70,20 +70,20 @@
                                 <fo:table-column column-number="2" column-width="40%"/>
                                 <fo:table-body font-size="12pt">
 
-                                    <xsl:call-template name="table-row-tall-border-top-black-thin">
+                                    <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'pdf.liabilityType.text')"/>
                                         <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value" select='format-number(number(liabilityAmount), "##,###.00")'/>
                                     </xsl:call-template>
 
-                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+
+
                                 </fo:table-body>
                             </fo:table>
                             </xsl:if>
@@ -96,20 +96,20 @@
                                 <fo:table-column column-number="2" column-width="40%"/>
                                 <fo:table-body font-size="12pt">
 
-                                    <xsl:call-template name="table-row-tall-border-top-black-thin">
+                                    <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'pdf.liabilityType.text')"/>
                                         <xsl:with-param name="value" select="scala:getMessagesText($translator, 'iht.common.other')"/>
                                     </xsl:call-template>
 
-                                    <xsl:call-template name="table-row-money-tall">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.value')"/>
                                         <xsl:with-param name="value" select='format-number(number(liabilityAmount), "##,###.00")'/>
                                     </xsl:call-template>
 
-                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+
+
                                 </fo:table-body>
                             </fo:table>
                             </xsl:if>
@@ -121,15 +121,15 @@
                                 <fo:table-column column-number="2" column-width="40%"/>
                                 <fo:table-body font-size="12pt">
 
-                                    <xsl:call-template name="table-row-money-short-vpad-no-border">
+                                    <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'page.iht.application.debts.overview.total')"/>
                                         <xsl:with-param name="value"
                                                         select='format-number(number($debtsTotal), "##,###.00")'/>
                                     </xsl:call-template>
 
-                                    <xsl:comment>Blank row to display line at end of section</xsl:comment>
-                                    <xsl:call-template name="table-row-blank-tall-border-both-grey-thin"/>
+
+
                                 </fo:table-body>
                             </fo:table>
                         </fo:block>

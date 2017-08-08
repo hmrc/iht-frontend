@@ -14,6 +14,8 @@
     <xsl:include href="pdf/templates/common/registration/case-details.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/iht-return.xsl"/>
 
+    <xsl:include href="pdf/templates/common/styles.xsl"/>
+
     <xsl:template match="/">
         <fo:root font-family="OpenSans">
             <fo:layout-master-set>
