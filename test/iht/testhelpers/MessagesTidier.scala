@@ -558,9 +558,9 @@ trait MessagesTidier {
     if(result.nonEmpty) {
       val file = new File("/home/" + System.getProperty("user.name") + "/missingKeysAndValues.csv")
       val bw = new BufferedWriter(new FileWriter(file))
-      result.toSeq.sorted.foreach(key => bw.write(key + " = "
-        + english.getOrElse(key, "English value missing") + " = " +
-        welsh.getOrElse(key, "Welsh value missing") + "\n"))
+      result.toSeq.sorted.foreach(key => bw.write(key + " = " +
+        (if(english.get(key).isEmpty) "English value missing \n"
+        else if(welsh.get(key).isEmpty) "Welsh value is missing \n")))
       bw.close()
     }
     result
