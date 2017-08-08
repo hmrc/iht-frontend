@@ -8,7 +8,7 @@
     <xsl:param name="translator"/>
     <xsl:param name="pdfFormatter"/>
     <xsl:param name="versionParam" select="'1.0'"/>
-
+    <xsl:param name="estateOverviewDisplayMode"/>
 
     <xsl:template name="estate-summary">
         <fo:block  role="H2" xsl:use-attribute-sets="h2" page-break-before="always">

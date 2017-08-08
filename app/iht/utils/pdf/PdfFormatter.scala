@@ -119,15 +119,15 @@ object PdfFormatter {
     * 5 Base + TNRB completed + exemptions
     */
   // scalastyle:off magic.number
-  def displayMode(ad:ApplicationDetails):Int = {
-    def isExemptionsUnlocked: Boolean = ad.hasSeenExemptionGuidance.fold(false)(identity)
-    def exemptionsValue = ad.totalExemptionsValue
-    def isTnrbCompleted = ad.isSuccessfulTnrbCase
-    def zero = BigDecimal(0)
+  def estateOverviewDisplayMode(ad:ApplicationDetails):Int = {
+    val isExemptionsUnlocked: Boolean = ad.hasSeenExemptionGuidance.fold(false)(identity)
+    val exemptionsValue = ad.totalExemptionsValue
+    val isTnrbCompleted = ad.isSuccessfulTnrbCase
+    val zero = BigDecimal(0)
     (isTnrbCompleted, isExemptionsUnlocked, exemptionsValue) match {
       case (true, false, _) => 2
-      case (false, true, zero) => 3
-      case (true, true, zero) => 4
+      case (false, true, `zero`) => 3
+      case (true, true, `zero`) => 4
       case (true, true, _) => 5
       case _ => 1
     }
