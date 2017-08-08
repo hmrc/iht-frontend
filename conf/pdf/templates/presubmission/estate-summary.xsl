@@ -11,7 +11,7 @@
 
 
     <xsl:template name="estate-summary">
-        <fo:block  role="H2" xsl:use-attribute-sets="h2" page-break-before="always">
+        <fo:block role="H2" xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.overview.title2', $deceasedName)"/>
         </fo:block>
         <fo:block>

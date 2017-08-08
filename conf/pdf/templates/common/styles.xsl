@@ -138,6 +138,12 @@
         <xsl:attribute name="padding-left">5px</xsl:attribute>
         <xsl:attribute name="padding-right">5px</xsl:attribute>
         <xsl:attribute name="font-size">12pt</xsl:attribute>
+        <xsl:attribute name="border-top">1px solid lightgray</xsl:attribute>
+        <xsl:attribute name="border-right">1px solid lightgray</xsl:attribute>
+    </xsl:attribute-set>
+
+    <xsl:attribute-set name="tabular-cell--no-right-border">
+        <xsl:attribute name="border-right">none</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="tabular-cell--header">

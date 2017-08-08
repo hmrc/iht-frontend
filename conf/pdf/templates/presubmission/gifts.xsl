@@ -113,7 +113,7 @@
                                                 </fo:block>
                                             </fo:table-cell>
                                             <fo:table-cell>
-                                                <fo:block xsl:use-attribute-sets="tabular-cell tabular-cell--header set-right">
+                                                <fo:block xsl:use-attribute-sets="tabular-cell tabular-cell--no-right-border tabular-cell--header set-right">
                                                     <xsl:value-of
                                                             select="scala:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle3')"/>
                                                 </fo:block>
@@ -159,7 +159,7 @@
                                                                 </xsl:if>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell xsl:use-attribute-sets="tabular-cell set-right">
+                                                        <fo:table-cell xsl:use-attribute-sets="tabular-cell tabular-cell--no-right-border set-right">
                                                             <fo:block>
                                                                 <xsl:choose>
                                                                     <xsl:when test="value and exemptions">

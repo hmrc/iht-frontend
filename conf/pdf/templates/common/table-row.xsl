@@ -130,12 +130,12 @@
         <xsl:param name="value2"/>
         <xsl:param name="value3"/>
         <fo:table-row xsl:use-attribute-sets="row row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell">
+            <fo:table-cell xsl:use-attribute-sets="tabular-cell">
                 <fo:block>
                     <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell set-right">
+            <fo:table-cell xsl:use-attribute-sets="tabular-cell set-right">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value1 = '-1'">
@@ -149,7 +149,7 @@
                     </xsl:choose>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell set-right">
+            <fo:table-cell xsl:use-attribute-sets="tabular-cell set-right">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value2 = '-1'">
@@ -163,7 +163,7 @@
                     </xsl:choose>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell set-right">
+            <fo:table-cell xsl:use-attribute-sets="tabular-cell tabular-cell--no-right-border set-right">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value3 = '-1'">
