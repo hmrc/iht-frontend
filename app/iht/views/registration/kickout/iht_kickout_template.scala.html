@@ -14,13 +14,16 @@
 * limitations under the License.
 *@
 
+@import uk.gov.hmrc.play.views.html._
+@import iht.views.html._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 @(pageTitle: String,
 summaryMessage: String,
 returnToUrl: Call,
-hasTimeOut:Boolean = false)(nextStepsContent: Html)(implicit request : Request[_], messages: Messages)
-
-@import uk.gov.hmrc.play.views.html._
-@import iht.views.html._
+hasTimeOut:Boolean = false)(nextStepsContent: Html)(implicit request : Request[_],
+                                                    messages: Messages,
+                                                    ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title=pageTitle,
 browserTitle = Some(pageTitle),

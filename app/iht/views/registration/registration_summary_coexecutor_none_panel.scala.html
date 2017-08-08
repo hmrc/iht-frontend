@@ -14,7 +14,9 @@
 * limitations under the License.
 *@
 
-@(role: String)(implicit request : Request[_], messages: Messages)
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(role: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 <section class="section">
   <h2 class="heading-medium additionalExecutorHeader">

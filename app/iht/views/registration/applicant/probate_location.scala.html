@@ -20,9 +20,13 @@
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
 @import iht.constants.FieldMappings._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(probateLocationForm:Form[iht.models.ApplicantDetails],
-    actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
+    actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_],
+                                                                        lang: play.api.i18n.Lang,
+                                                                        messages: Messages,
+                                                                        ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = "",
 browserTitle = Some(Messages("page.iht.registration.applicant.probateLocation.browserTitle")),

@@ -16,18 +16,22 @@
 
 package iht.controllers.filter
 
+import iht.config.IhtFormPartialRetriever
 import iht.constants.Constants
 import iht.controllers.auth.CustomPasscodeAuthentication
 import iht.forms.FilterForms._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 object EstimateController extends EstimateController
 
 trait EstimateController extends FrontendController with CustomPasscodeAuthentication {
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.estimate(estimateForm)))

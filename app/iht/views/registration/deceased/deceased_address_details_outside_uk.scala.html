@@ -20,11 +20,15 @@
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
 @import iht.constants._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(deceasedAddressDetailsOutsideUKForm:Form[iht.models.DeceasedDetails], deceasedName: String,
     actionLocation: Call,
     changeNationalityLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_],
+                                                  lang: play.api.i18n.Lang,
+                                                  messages: Messages,
+                                                  ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.registration.deceased.lastContactAddress", deceasedName),
     browserTitle = Some(Messages("iht.registration.contactAddress")),

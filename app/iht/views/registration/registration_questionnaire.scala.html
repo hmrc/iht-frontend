@@ -19,8 +19,9 @@
 @import iht.models._
 @import iht.controllers.ControllerHelper
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(form: Form[_])(implicit request : Request[_], messages: Messages)
+@(form: Form[_])(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.signedOut"), hasSignOut=false) {
 <div>

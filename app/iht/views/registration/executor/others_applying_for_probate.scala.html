@@ -20,10 +20,11 @@
 
 @import iht.utils._
 @import iht.controllers.ControllerHelper._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(othersApplyingForProbateForm: Form[Option[Boolean]],
     actionCall: Call,
-    cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages)
+    cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = "",
 browserTitle = Some(Messages("page.iht.registration.others-applying-for-probate.browserTitle")),
