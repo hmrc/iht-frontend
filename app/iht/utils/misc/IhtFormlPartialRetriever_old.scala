@@ -25,12 +25,14 @@ import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
   */
 
 
-trait LocalPartialRetriever extends FormPartialRetriever {
+/*
+trait IhtFormPartialRetriever extends FormPartialRetriever {
   override def crypto = SessionCookieCryptoFilter.encrypt
   override val httpGet = WsAllMethods
 
 }
 
-object LocalPartialRetriever extends LocalPartialRetriever {
+object IhtFormPartialRetriever extends IhtFormPartialRetriever {
 
 }
+*/

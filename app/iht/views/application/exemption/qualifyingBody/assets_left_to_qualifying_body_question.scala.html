@@ -20,9 +20,10 @@
 @import iht.models._
 @import iht.utils._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(assetsLeftToQualifyingBodyQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 @helpCopy() = @{

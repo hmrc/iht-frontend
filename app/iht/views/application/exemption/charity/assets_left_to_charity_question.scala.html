@@ -22,9 +22,10 @@
 @import iht.utils.CommonHelper._
 @import iht.utils.DeceasedInfoHelper._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(assetsLeftToCharityQuestionForm: Form[iht.models.application.exemptions.BasicExemptionElement],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.charities.assetsLeftToACharity.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.assetLeftToCharity.browserTitle")),

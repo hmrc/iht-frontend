@@ -16,6 +16,7 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.IhtFormPartialRetriever
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -24,7 +25,6 @@ import iht.metrics.Metrics
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
-import iht.utils.misc.LocalPartialRetriever
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.{ApplicationKickOutNonSummaryHelper, ApplicationKickOutHelper, CommonHelper, IhtFormValidator, StringHelper}
 import play.api.Logger
@@ -32,16 +32,18 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 
 object GiftsMadeBeforeDeathController extends GiftsMadeBeforeDeathController with IhtConnectors {
   def metrics: Metrics = Metrics
-  def localPartialRetriever = LocalPartialRetriever
+
 }
 
 trait GiftsMadeBeforeDeathController extends EstateController {
+
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -65,8 +67,7 @@ trait GiftsMadeBeforeDeathController extends EstateController {
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                   CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbGiftsGivenAwayID)),
-                  registrationDetails,
-                  localPartialRetriever
+                  registrationDetails
                 )
                 )
               }
@@ -99,8 +100,7 @@ trait GiftsMadeBeforeDeathController extends EstateController {
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
                     cancelUrl,
-                    regDetails,
-                    localPartialRetriever
+                    regDetails
                   )))
                 },
                 tnrbModel => {

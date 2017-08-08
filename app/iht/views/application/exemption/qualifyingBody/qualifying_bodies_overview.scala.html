@@ -21,10 +21,11 @@
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(qualifyingBodies: Seq[QualifyingBody],
 registrationDetails: RegistrationDetails,
-isAssetLeftToQualifyingBody: Boolean)(implicit request:Request[_], messages: Messages)
+isAssetLeftToQualifyingBody: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
 

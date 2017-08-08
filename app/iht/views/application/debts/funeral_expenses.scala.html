@@ -16,14 +16,17 @@
 
 @import iht.models._
 @import iht.models.application.debts.BasicEstateElementLiabilities
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(funeralExpensesForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 
 @import iht.utils._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
+
+@(funeralExpensesForm: Form[BasicEstateElementLiabilities],
+registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.funeralExpenses.title"),
     browserTitle = Some(Messages("iht.estateReport.debts.funeralExpenses.title")),
