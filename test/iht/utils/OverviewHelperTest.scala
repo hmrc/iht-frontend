@@ -22,9 +22,11 @@ import iht.models.application.assets.InsurancePolicy
 import iht.models.application.debts.BasicEstateElementLiabilities
 import iht.testhelpers._
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.{Lang, Messages, MessagesApi}
 import uk.gov.hmrc.play.test.UnitSpec
 
 class OverviewHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
+  implicit val messages = new Messages(Lang("en"), app.injector.instanceOf[MessagesApi])
 
   val allAssetsAllFilled = CommonBuilder.buildAllAssetsWithAllSectionsFilled copy(
     insurancePolicy = Some(InsurancePolicy(policyInDeceasedName = Some(false), isJointlyOwned = Some(false),
