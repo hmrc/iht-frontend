@@ -156,13 +156,13 @@ object OverviewHelper {
   def displayValue(appDetails: ApplicationDetails,
                    section: String,
                    isComplete: Option[Boolean],
-                   noneMessage: Option[String] = Some("site.noneInEstate"))(implicit lang: Lang) = {
+                   noneMessage: Option[String] = Some("site.noneInEstate"))(implicit lang: Lang, messages: Messages) = {
 
     overviewDisplayValues.find(_._1 == section).map(_._2).map(expr => expr(appDetails))
       .fold(throw new RuntimeException("Attempt to display value for unknown section:" + section)) { displayValueFound =>
         (displayValueFound.isEmpty, isComplete) match {
           case (true, Some(true)) =>
-            noneMessage.map(Messages(_)).fold("")(identity)
+            noneMessage.map(messages(_)).fold("")(identity)
           case _ =>
             displayValueFound
         }
