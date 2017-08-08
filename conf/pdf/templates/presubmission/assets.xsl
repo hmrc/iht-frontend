@@ -13,12 +13,16 @@
         <fo:block xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
         </fo:block>
-        <fo:block xsl:use-attribute-sets="copy">
+        <fo:block xsl:use-attribute-sets="copy copy--lede">
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.subtitle', $deceasedName)"/>
         </fo:block>
+
+
         <xsl:comment>Assets Properties section starts</xsl:comment>
-        <fo:block>
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.propertiesBuildingsAndLand')"/>
+        <fo:block xsl:use-attribute-sets="section">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.propertiesBuildingsAndLand')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allAssets/properties != ''">
                     <xsl:choose>
@@ -88,7 +92,7 @@
         </fo:block>
 
         <xsl:comment>Assets money section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.money.upperCaseInitial')"/>
             </fo:block>
@@ -170,7 +174,7 @@
         </fo:block>
 
         <xsl:comment>Assets household section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.householdAndPersonalItems.title')"/>
             </fo:block>
@@ -253,7 +257,7 @@
 
 
         <xsl:comment>Assets vehicles section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.vehicles')"/>
             </fo:block>
@@ -335,7 +339,7 @@
 
 
         <xsl:comment>Assets private pensions section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.privatePensions')"/>
             </fo:block>
@@ -398,14 +402,16 @@
 
 
         <xsl:comment>Assets stocks and shares section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares')"/>
             </fo:block>
             <xsl:choose>
                 <xsl:when test="allAssets/stockAndShare != ''">
                     <fo:block>
+                    <fo:block xsl:use-attribute-sets="h4">
                         <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndSharesListed')"/>
+                    </fo:block>
                         <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
@@ -438,7 +444,9 @@
                         </fo:table>
                     </fo:block>
                     <fo:block>
-                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndSharesNotListed')"/>
+                        <fo:block xsl:use-attribute-sets="h4">
+                            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndSharesNotListed')"/>
+                        </fo:block>
                         <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
@@ -476,7 +484,7 @@
 
 
         <xsl:comment>Assets insurance policies section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies')"/>
             </fo:block>
@@ -632,7 +640,7 @@
 
 
         <xsl:comment>Assets business interests section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.businessInterests.title')"/>
             </fo:block>
@@ -678,7 +686,7 @@
 
 
         <xsl:comment>Assets nominated assets section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.nominated')"/>
             </fo:block>
@@ -724,7 +732,7 @@
 
 
         <xsl:comment>Assets held in trust section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.heldInTrust.title')"/>
             </fo:block>
@@ -787,7 +795,7 @@
 
 
         <xsl:comment>Assets foreign assets section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.foreign.title')"/>
             </fo:block>
@@ -831,7 +839,7 @@
 
 
         <xsl:comment>Assets Money Owed section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.moneyOwed', $deceasedName)"/>
             </fo:block>
@@ -875,7 +883,7 @@
 
 
         <xsl:comment>Assets Other assets section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.other.title')"/>
             </fo:block>
@@ -919,7 +927,7 @@
 
 
         <xsl:comment>Assets Total section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:table>
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>

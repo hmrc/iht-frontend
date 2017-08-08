@@ -12,13 +12,13 @@
         <fo:block page-break-before="always" xsl:use-attribute-sets="h2">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
         </fo:block>
-        <fo:block xsl:use-attribute-sets="copy">
+        <fo:block xsl:use-attribute-sets="copy copy--lede">
             <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'pdf.debts.summary.p1', $deceasedName, $deceasedName)"/>
         </fo:block>
 
 
         <xsl:comment>Debts Mortgages section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
             </fo:block>
@@ -81,7 +81,7 @@
 
 
         <xsl:comment>Debts Funeral Expenses section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
             </fo:block>
@@ -125,7 +125,7 @@
 
 
         <xsl:comment>Debts owed from a trust</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.debtsTrust.title')"/>
             </fo:block>
@@ -169,7 +169,7 @@
 
 
         <xsl:comment>Debts owed to anyone outside of the UK</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedOutsideUK')"/>
             </fo:block>
@@ -213,7 +213,7 @@
 
 
         <xsl:comment>Debts owed on any jointly owned assets</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedOnJointAssets')"/>
             </fo:block>
@@ -254,9 +254,9 @@
             </xsl:choose>
         </fo:block>
 
-
+<fo:block page-break-inside="avoid">
         <xsl:comment>Any other debts not listed</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.other.title')"/>
             </fo:block>
@@ -300,7 +300,7 @@
 
 
         <xsl:comment>Debts Total section starts</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section">
             <fo:table>
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>
@@ -315,5 +315,6 @@
                 </fo:table-body>
             </fo:table>
         </fo:block>
+</fo:block>
     </xsl:template>
 </xsl:stylesheet>

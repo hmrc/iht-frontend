@@ -13,7 +13,7 @@
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.givenAwayBy', $deceasedName)"/>
         </fo:block>
 
-        <fo:block xsl:use-attribute-sets="copy">
+        <fo:block xsl:use-attribute-sets="copy copy--lede">
             <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'page.iht.application.gifts.overview.guidance1', $deceasedName, $deceasedName)"/>
         </fo:block>
 

@@ -14,13 +14,13 @@
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
         </fo:block>
 
-        <fo:block xsl:use-attribute-sets="copy">
+        <fo:block xsl:use-attribute-sets="copy copy--lede">
             <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.guidance1')"/>
         </fo:block>
 
         <xsl:comment>Exemptions Left to spouse or partner section starts only if if maried or civil partnership</xsl:comment>
         <xsl:if test="allExemptions/partner">
-            <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
                 <fo:block xsl:use-attribute-sets="h3">
                     <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.partner.assetsLeftToSpouse.title')"/>
                 </fo:block>
@@ -87,7 +87,7 @@
 
 
         <xsl:comment>Exemptions Charities Section</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.charities.assetsLeftToCharities.title')"/>
             </fo:block>
@@ -116,12 +116,14 @@
                         </fo:table>
 
                         <fo:block>
-                            <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.charityOverviewTable.header')"/>
+                            <fo:block xsl:use-attribute-sets="h4">
+                                <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.charityOverviewTable.header')"/>
+                            </fo:block>
                             <xsl:if test="charities">
                                 <fo:table space-before="0.5cm">
                                     <fo:table-column column-number="1" column-width="70%"/>
                                     <fo:table-column column-number="2" column-width="30%"/>
-                                    <fo:table-body font-size="12pt">
+                                    <fo:table-body>
                                         <xsl:for-each select="charities">
                                             <xsl:call-template name="table-row">
                                                 <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.exemptions.charityName.sectionTitle')"/>
@@ -159,9 +161,9 @@
             </xsl:choose>
         </fo:block>
 
-
+    <fo:block page-break-inside="avoid">
         <xsl:comment>Exemptions Qualifying bodies Section</xsl:comment>
-        <fo:block page-break-inside="avoid">
+        <fo:block xsl:use-attribute-sets="section">
             <fo:block xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title')"/>
             </fo:block>
@@ -232,7 +234,7 @@
 
 
         <xsl:comment>Exemptions Total section starts</xsl:comment>
-        <fo:block>
+        <fo:block xsl:use-attribute-sets="section">
             <fo:table>
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>
@@ -249,5 +251,6 @@
                 </fo:table-body>
             </fo:table>
         </fo:block>
+    </fo:block>
     </xsl:template>
 </xsl:stylesheet>

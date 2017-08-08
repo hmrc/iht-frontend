@@ -26,7 +26,7 @@
                                        margin-left="2cm" margin-right="2cm">
                     <fo:region-body margin-top="2.5cm" margin-bottom="2.5cm"/>
                     <fo:region-before extent="2.4cm"/>
-                    <fo:region-after extent="2.4cm"/>
+                    <fo:region-after extent="1.4cm"/>
                 </fo:simple-page-master>
             </fo:layout-master-set>
             <x:xmpmeta xmlns:x="adobe:ns:meta/">
@@ -70,19 +70,20 @@
 
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block role="H1" xsl:use-attribute-sets="h1">
-                        A: <xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
+                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
                     </fo:block>
-                    <fo:block xsl:use-attribute-sets="copy">
-                        <xsl:value-of
-                                select="concat(scala:getMessagesText($translator, 'pdf.inheritance.tax.reference'), ' ', $ihtReference)"/>
-                    </fo:block>
+                    <fo:block xsl:use-attribute-sets="copy--lede">
+                        <fo:block xsl:use-attribute-sets="copy">
+                            <xsl:value-of select="concat(scala:getMessagesText($translator, 'pdf.inheritance.tax.reference'), ' ', $ihtReference)"/>
+                        </fo:block>
 
-                    <fo:block xsl:use-attribute-sets="copy">
-                        <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
-                    </fo:block>
+                        <fo:block xsl:use-attribute-sets="copy">
+                            <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'pdf.inheritance.tax.application.summary.p1', $deceasedName, $applicantName)"/>
+                        </fo:block>
 
-                    <fo:block xsl:use-attribute-sets="copy">
-                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.p2')"/>
+                        <fo:block xsl:use-attribute-sets="copy">
+                            <xsl:value-of select="scala:getMessagesText($translator, 'pdf.inheritance.tax.application.summary.p2')"/>
+                        </fo:block>
                     </fo:block>
                     <xsl:apply-templates/>
                 </fo:flow>

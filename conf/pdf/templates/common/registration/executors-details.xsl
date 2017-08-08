@@ -18,8 +18,9 @@
         </fo:block>
 
         <fo:block>
-            <fo:block>
+
                 <xsl:for-each select="./coExecutors">
+                    <fo:block xsl:use-attribute-sets="section">
                     <fo:block xsl:use-attribute-sets="h3">
                         <xsl:value-of select="firstName"/><xsl:text> </xsl:text><xsl:value-of select="lastName"/>
                     </fo:block>
@@ -52,8 +53,9 @@
 
                         </fo:table-body>
                     </fo:table>
+                    </fo:block>
                 </xsl:for-each>
-            </fo:block>
+
         </fo:block>
     </xsl:template>
 </xsl:stylesheet>

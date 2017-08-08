@@ -13,7 +13,7 @@
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    1. <xsl:value-of select="$label"/>
+                    <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell">
@@ -29,7 +29,7 @@
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    2. <xsl:value-of select="$label"/>
+                    <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
@@ -41,7 +41,7 @@
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    3. <xsl:value-of select="$label"/>
+                    <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell">
@@ -65,7 +65,7 @@
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    4. <xsl:value-of select="$label"/>
+                    <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
@@ -82,7 +82,7 @@
         <fo:table-row xsl:use-attribute-sets="row row--heavy">
             <fo:table-cell xsl:use-attribute-sets="cell copy--large">
                 <fo:block>
-                    5. <xsl:value-of select="$label"/>
+                    <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell copy--large">
@@ -106,7 +106,7 @@
         <fo:table-row xsl:use-attribute-sets="row row--heavy">
             <fo:table-cell xsl:use-attribute-sets="cell copy--large">
                 <fo:block>
-                    6. <xsl:value-of select="$label"/>
+                    <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right copy--large">
@@ -132,7 +132,7 @@
         <fo:table-row xsl:use-attribute-sets="row row--heavy">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    7. <xsl:value-of select="$label"/>
+                    <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
@@ -186,7 +186,7 @@
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    8. <xsl:value-of
+                    <xsl:value-of
                             select="$label"/>
                 </fo:block>
             </fo:table-cell>
@@ -216,7 +216,7 @@
         <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
-                    9. <xsl:value-of select="$label"/>
+                    <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell">
