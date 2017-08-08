@@ -14,21 +14,20 @@
     <xsl:param name="marriageLabel"/>
 
     <xsl:template name="tnrb">
-        <xsl:param name="value"/>
+
         <xsl:choose>
             <xsl:when test="deceased/transferOfNilRateBand != ''">
 
-                <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="1.5cm">
-                    <xsl:value-of
-                            select="scala:getMessagesTextWithParameter($translator, 'pdf.inheritance.tax.application.summary.tnrb.title', $preDeceasedName )"/>
-                </fo:block>
-
-                <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="0.5cm">
+                <fo:block page-break-inside="avoid">
+                    <fo:block role="H2" xsl:use-attribute-sets="h2">
+                        <xsl:value-of
+                                select="scala:getMessagesTextWithParameter($translator, 'pdf.inheritance.tax.application.summary.tnrb.title', $preDeceasedName )"/>
+                    </fo:block>
                     <fo:block>
-                        <fo:table space-before="0.5cm" space-after="1.0cm">
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="60%"/>
                             <fo:table-column column-number="2" column-width="40%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
 
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
@@ -109,13 +108,12 @@
                                                     select="deceased/transferOfNilRateBand/deceasedSpouses/spousesEstate/jointAssetsPassingToOther"/>
                                 </xsl:call-template>
 
-
-
-
                             </fo:table-body>
                         </fo:table>
-                        <xsl:value-of
-                                select="scala:getMessagesText($translator, 'iht.pdf.TnrbEligibilty.thresholdLimit.label')"/>
+
+                        <fo:block xsl:use-attribute-sets="copy">
+                            <xsl:value-of select="scala:getMessagesText($translator, 'iht.pdf.TnrbEligibilty.thresholdLimit.label')"/>
+                        </fo:block>
                     </fo:block>
                 </fo:block>
             </xsl:when>
