@@ -10,23 +10,25 @@
     <xsl:param name="versionParam" select="'1.0'"/>
 
     <xsl:template name="pre-exemptions">
-        <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
+        <fo:block xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
         </fo:block>
-        <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
+
+        <fo:block xsl:use-attribute-sets="copy">
             <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.guidance1')"/>
         </fo:block>
+
         <xsl:comment>Exemptions Left to spouse or partner section starts only if if maried or civil partnership</xsl:comment>
         <xsl:if test="allExemptions/partner">
-            <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm"
-                      page-break-inside="avoid">
-                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.partner.assetsLeftToSpouse.title')"/>
-            </fo:block>
-            <fo:block font-family="OpenSans" font-size="12pt">
-                <fo:table space-before="0.5cm">
+            <fo:block page-break-inside="avoid">
+                <fo:block xsl:use-attribute-sets="h3">
+                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.partner.assetsLeftToSpouse.title')"/>
+                </fo:block>
+
+                <fo:table>
                     <fo:table-column column-number="1" column-width="70%"/>
                     <fo:table-column column-number="2" column-width="30%"/>
-                    <fo:table-body font-size="12pt">
+                    <fo:table-body>
                         <xsl:call-template name="table-row">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.exemptions.spouse.assetLeftToSpouse.question', $deceasedName)"/>
@@ -82,16 +84,20 @@
                 </fo:table>
             </fo:block>
         </xsl:if>
+
+
         <xsl:comment>Exemptions Charities Section</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.charities.assetsLeftToCharities.title')"/>
+        <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.charities.assetsLeftToCharities.title')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allExemptions/charity">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.exemptions.charities.assetLeftToCharity.question', $deceasedName)"/>
@@ -108,7 +114,8 @@
                                 </xsl:call-template>
                             </fo:table-body>
                         </fo:table>
-                        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
+
+                        <fo:block>
                             <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.charityOverviewTable.header')"/>
                             <xsl:if test="charities">
                                 <fo:table space-before="0.5cm">
@@ -137,7 +144,7 @@
                                 </fo:table>
                             </xsl:if>
                             <xsl:if test="not(charities)">
-                                <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                                <fo:block>
                                     <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.charityOverview.noCharities.text')"/>
                                 </fo:block>
                             </xsl:if>
@@ -145,22 +152,26 @@
                     </fo:block>
                 </xsl:when>
                 <xsl:otherwise>
-                    <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                    <fo:block>
                         <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.charityOverview.noCharities.text')"/>
                     </fo:block>
                 </xsl:otherwise>
             </xsl:choose>
         </fo:block>
+
+
         <xsl:comment>Exemptions Qualifying bodies Section</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title')"/>
+        <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allExemptions/qualifyingBody">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.exemptions.qualifyingBodyOverview.question', $deceasedName)"/>
@@ -177,13 +188,15 @@
                                 </xsl:call-template>
                             </fo:table-body>
                         </fo:table>
-                        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
-                            <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.qualifyingBodyOverviewTable.header')"/>
+                        <fo:block>
+                            <fo:block xsl:use-attribute-sets="h4">
+                                <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.qualifyingBodyOverviewTable.header')"/>
+                            </fo:block>
                             <xsl:if test="qualifyingBodies">
-                                <fo:table space-before="0.5cm">
+                                <fo:table>
                                     <fo:table-column column-number="1" column-width="70%"/>
                                     <fo:table-column column-number="2" column-width="30%"/>
-                                    <fo:table-body font-size="12pt">
+                                    <fo:table-body>
                                         <xsl:for-each select="qualifyingBodies">
                                             <xsl:call-template name="table-row">
                                                 <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.estateReport.qualifyingBodies.qualifyingBodyName')"/>
@@ -202,7 +215,7 @@
                                 </fo:table>
                             </xsl:if>
                             <xsl:if test="not(qualifyingBodies)">
-                                <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                                <fo:block xsl:use-attribute-sets="copy">
                                     <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text')"/>
                                 </fo:block>
                             </xsl:if>
@@ -210,18 +223,20 @@
                     </fo:block>
                 </xsl:when>
                 <xsl:otherwise>
-                    <fo:block font-family="OpenSans" font-weight="regular" font-size="12pt" space-before="0.5cm">
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.qualifyingBodyOverview.noQualifyingBodies.text')"/>
                     </fo:block>
                 </xsl:otherwise>
             </xsl:choose>
         </fo:block>
-        <xsl:comment>Assets Total section starts</xsl:comment>
-        <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm">
-            <fo:table space-before="0.5cm">
+
+
+        <xsl:comment>Exemptions Total section starts</xsl:comment>
+        <fo:block>
+            <fo:table>
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>
-                <fo:table-body font-size="12pt">
+                <fo:table-body>
 
                     <xsl:call-template name="table-row--currency-total">
                         <xsl:with-param name="label"

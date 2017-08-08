@@ -23,6 +23,13 @@
     <xsl:attribute name="color">plum</xsl:attribute>
 </xsl:attribute-set>
 
+<xsl:attribute-set name="copy--large">
+    <xsl:attribute name="font-family">OpenSans</xsl:attribute>
+    <xsl:attribute name="font-size">16pt</xsl:attribute>
+    <xsl:attribute name="font-weight">normal</xsl:attribute>
+    <xsl:attribute name="color">green</xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:attribute-set name="h1">
     <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
     <xsl:attribute name="font-size">24pt</xsl:attribute>
@@ -53,6 +60,8 @@
     <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
     <xsl:attribute name="font-size">14pt</xsl:attribute>
     <xsl:attribute name="font-weight">bold</xsl:attribute>
+    <xsl:attribute name="space-before">0.5cm</xsl:attribute>
+    <xsl:attribute name="space-after">0.25cm</xsl:attribute>
     <xsl:attribute name="color">saddlebrown</xsl:attribute>
 </xsl:attribute-set>
 

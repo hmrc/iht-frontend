@@ -9,22 +9,26 @@
     <xsl:param name="versionParam" select="'1.0'"/>
 
     <xsl:template name="pre-debts">
-        <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
+        <fo:block page-break-before="always" xsl:use-attribute-sets="h2">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
         </fo:block>
-        <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
+        <fo:block xsl:use-attribute-sets="copy">
             <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'pdf.debts.summary.p1', $deceasedName, $deceasedName)"/>
         </fo:block>
+
+
         <xsl:comment>Debts Mortgages section starts</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
+        <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allLiabilities/mortgages/mortgageList/isOwned='true'">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                                 <xsl:for-each select="allLiabilities/mortgages/mortgageList">
                                     <xsl:variable name="property-id" select="id"/>
                                     <xsl:variable name="mortgage-value" select="value"/>
@@ -59,11 +63,11 @@
                     </fo:block>
                 </xsl:when>
                 <xsl:otherwise>
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                             <xsl:call-template name="table-row--novalue">
                                 <xsl:with-param name="label"
                                                 select="scala:getMessagesText($translator, 'site.noneInEstate')"/>
@@ -74,16 +78,20 @@
                 </xsl:otherwise>
             </xsl:choose>
         </fo:block>
+
+
         <xsl:comment>Debts Funeral Expenses section starts</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
+        <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allLiabilities/funeralExpenses != ''">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'page.iht.application.debts.funeralExpenses.isOwned')"/>
@@ -114,16 +122,20 @@
                 </xsl:when>
             </xsl:choose>
         </fo:block>
+
+
         <xsl:comment>Debts owed from a trust</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.debtsTrust.title')"/>
+        <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.debtsTrust.title')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allLiabilities/trust != ''">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.debts.debtsTrust.isOwned', $deceasedName)"/>
@@ -154,16 +166,20 @@
                 </xsl:when>
             </xsl:choose>
         </fo:block>
+
+
         <xsl:comment>Debts owed to anyone outside of the UK</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedOutsideUK')"/>
+        <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedOutsideUK')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allLiabilities/debtsOutsideUk != ''">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'page.iht.application.debts.debtsOutsideUk.isOwned')"/>
@@ -194,16 +210,20 @@
                 </xsl:when>
             </xsl:choose>
         </fo:block>
+
+
         <xsl:comment>Debts owed on any jointly owned assets</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedOnJointAssets')"/>
+        <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedOnJointAssets')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allLiabilities/jointlyOwned != ''">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'page.iht.application.debts.jointlyOwned.isOwned')"/>
@@ -233,16 +253,20 @@
                 </xsl:when>
             </xsl:choose>
         </fo:block>
+
+
         <xsl:comment>Any other debts not listed</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.other.title')"/>
+        <fo:block page-break-inside="avoid">
+            <fo:block xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.other.title')"/>
+            </fo:block>
             <xsl:choose>
                 <xsl:when test="allLiabilities/other != ''">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
+                            <fo:table-body>
                                 <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesText($translator, 'page.iht.application.debts.other.isOwned')"/>
@@ -273,19 +297,20 @@
                 </xsl:when>
             </xsl:choose>
         </fo:block>
-        <xsl:comment>Assets Total section starts</xsl:comment>
-        <fo:block font-family="OpenSans-Bold" font-size="16" font-weight="bold" space-before="0.5cm" page-break-inside="avoid">
-            <fo:table space-before="0.5cm">
+
+
+        <xsl:comment>Debts Total section starts</xsl:comment>
+        <fo:block page-break-inside="avoid">
+            <fo:table>
                 <fo:table-column column-number="1" column-width="70%"/>
                 <fo:table-column column-number="2" column-width="30%"/>
-                <fo:table-body font-size="12pt">
+                <fo:table-body>
 
                     <xsl:call-template name="table-row--currency-total">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'page.iht.application.debts.overview.total')"/>
                         <xsl:with-param name="value" select='$debtsTotal'/>
                     </xsl:call-template>
-
 
                 </fo:table-body>
             </fo:table>
