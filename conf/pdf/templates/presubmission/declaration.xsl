@@ -10,7 +10,7 @@
     <xsl:param name="deceasedName"/>
 
     <xsl:template name="declaration">
-        <fo:block page-break-before="always" xsl:use-attribute-sets="h2">
+        <fo:block page-break-before="always" role="H2" xsl:use-attribute-sets="h2">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.declaration.title')"/>
         </fo:block>
         <xsl:comment>First bullet block starts</xsl:comment>

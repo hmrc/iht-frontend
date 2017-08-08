@@ -10,11 +10,11 @@
     <xsl:param name="versionParam" select="'1.0'"/>
 
     <xsl:template name="pre-tnrb">
-        <fo:block page-break-before="always" xsl:use-attribute-sets="h2">
+        <fo:block page-break-before="always"  role="H2" xsl:use-attribute-sets="h2">
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'pdf.inheritance.tax.application.summary.tnrb.title', $preDeceasedName)"/>
         </fo:block>
         <fo:block>
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading',
                     $preDeceasedName, formatter:getYearFromDate($pdfFormatter, widowCheck/dateOfPreDeceased))"/>
             </fo:block>
@@ -124,7 +124,7 @@
             </fo:table>
         </fo:block>
 
-        <fo:block xsl:use-attribute-sets="h3">
+        <fo:block  role="H3" xsl:use-attribute-sets="h3">
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'site.nameDetails', $preDeceasedName)"/>
         </fo:block>
         <fo:block>

@@ -13,7 +13,7 @@
     <xsl:template name="deceased-details">
         <xsl:param name="value"/>
 
-        <fo:block xsl:use-attribute-sets="h2">
+        <fo:block  role="H2" xsl:use-attribute-sets="h2">
             <xsl:value-of
                     select="scala:getMessagesText($translator, 'page.iht.registration.registrationSummary.deceasedTable.title')"/>
         </fo:block>

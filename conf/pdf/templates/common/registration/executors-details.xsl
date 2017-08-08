@@ -13,7 +13,7 @@
     <xsl:template name="executors-details">
         <xsl:param name="value"/>
 
-        <fo:block xsl:use-attribute-sets="h2" page-break-before="always">
+        <fo:block  role="H2" xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.registration.othersApplyingForProbate')"/>
         </fo:block>
 
@@ -21,7 +21,7 @@
 
                 <xsl:for-each select="./coExecutors">
                     <fo:block xsl:use-attribute-sets="section">
-                    <fo:block xsl:use-attribute-sets="h3">
+                    <fo:block  role="H3" xsl:use-attribute-sets="h3">
                         <xsl:value-of select="firstName"/><xsl:text> </xsl:text><xsl:value-of select="lastName"/>
                     </fo:block>
                     <fo:table>

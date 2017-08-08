@@ -12,7 +12,7 @@
 
     <xsl:template name="applicant-details">
         <xsl:param name="value"/>
-        <fo:block xsl:use-attribute-sets="h2" page-break-before="always">
+        <fo:block  role="H2" xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.registration.registrationSummary.applicantTable.title')"/>
         </fo:block>
 

@@ -80,12 +80,12 @@
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row xsl:use-attribute-sets="row row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell copy--large">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell copy--large">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value &gt; 1">
@@ -104,12 +104,12 @@
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row xsl:use-attribute-sets="row row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell copy--large">
+            <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell set-right copy--large">
+            <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$value &gt; 1">

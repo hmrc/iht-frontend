@@ -9,7 +9,7 @@
     <xsl:param name="versionParam" select="'1.0'"/>
 
     <xsl:template name="pre-gifts">
-        <fo:block page-break-before="always" xsl:use-attribute-sets="h2">
+        <fo:block page-break-before="always"  role="H2" xsl:use-attribute-sets="h2">
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.givenAwayBy', $deceasedName)"/>
         </fo:block>
 
@@ -39,7 +39,7 @@
 
                     <xsl:comment>Gifts With Reservation section starts</xsl:comment>
                     <fo:block page-break-inside="avoid">
-                        <fo:block xsl:use-attribute-sets="h3">
+                        <fo:block  role="H3" xsl:use-attribute-sets="h3">
                             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.withReservation.title', $deceasedName)"/>
                         </fo:block>
                         <fo:table>
@@ -60,7 +60,7 @@
 
                     <xsl:comment>Gifts With Reservation section starts</xsl:comment>
                     <fo:block page-break-inside="avoid">
-                        <fo:block xsl:use-attribute-sets="h3">
+                        <fo:block  role="H3" xsl:use-attribute-sets="h3">
                             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath')"/>
                         </fo:block>
                         <fo:table>
@@ -90,7 +90,7 @@
                     <xsl:comment>Gifts Value and Year Break down</xsl:comment>
                     <xsl:if test="allGifts/isGivenAway='true'">
                         <fo:block page-break-inside="avoid">
-                            <fo:block xsl:use-attribute-sets="h3">
+                            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.gifts.valueOfGiftsGivenAway')"/>
                             </fo:block>
                             <fo:block>

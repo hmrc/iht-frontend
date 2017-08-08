@@ -10,7 +10,7 @@
     <xsl:param name="deceasedName"/>
 
     <xsl:template name="pre-assets">
-        <fo:block xsl:use-attribute-sets="h2" page-break-before="always">
+        <fo:block  role="H2" xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
         </fo:block>
         <fo:block xsl:use-attribute-sets="copy copy--lede">
@@ -20,7 +20,7 @@
 
         <xsl:comment>Assets Properties section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.propertiesBuildingsAndLand')"/>
             </fo:block>
             <xsl:choose>
@@ -93,12 +93,12 @@
 
         <xsl:comment>Assets money section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.money.upperCaseInitial')"/>
             </fo:block>
             <xsl:choose>
                 <xsl:when test="allAssets/money != ''">
-                    <fo:block xsl:use-attribute-sets="h4">
+                    <fo:block role="H4" xsl:use-attribute-sets="h4">
                         <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.moneyOwned', $deceasedName)"/>
                     </fo:block>
                     <fo:block>
@@ -134,7 +134,7 @@
                         </fo:table>
                     </fo:block>
 
-                    <fo:block xsl:use-attribute-sets="h4">
+                    <fo:block role="H4" xsl:use-attribute-sets="h4">
                         <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.money.jointlyOwned')"/>
                     </fo:block>
                     <fo:block>
@@ -175,12 +175,12 @@
 
         <xsl:comment>Assets household section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.householdAndPersonalItems.title')"/>
             </fo:block>
             <xsl:choose>
                 <xsl:when test="allAssets/household != ''">
-                    <fo:block xsl:use-attribute-sets="h4">
+                    <fo:block role="H4" xsl:use-attribute-sets="h4">
                         <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.householdAndPersonalItemsOwnedByDeceased.title', $deceasedName)"/>
                     </fo:block>
                     <fo:block>
@@ -216,7 +216,7 @@
                         </fo:table>
                     </fo:block>
 
-                    <fo:block xsl:use-attribute-sets="h4">
+                    <fo:block role="H4" xsl:use-attribute-sets="h4">
                         <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.householdAndPersonalItemsJointlyOwned.title', $deceasedName)"/>
                     </fo:block>
                     <fo:block>
@@ -258,12 +258,12 @@
 
         <xsl:comment>Assets vehicles section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.vehicles')"/>
             </fo:block>
             <xsl:choose>
             <xsl:when test="allAssets/vehicles != ''">
-                <fo:block xsl:use-attribute-sets="h4">
+                <fo:block role="H4" xsl:use-attribute-sets="h4">
                     <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.vehiclesOwned', $deceasedName)"/>
                 </fo:block>
                 <fo:block>
@@ -298,7 +298,7 @@
                         </fo:table-body>
                     </fo:table>
                 </fo:block>
-                <fo:block xsl:use-attribute-sets="h4">
+                <fo:block role="H4" xsl:use-attribute-sets="h4">
                     <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.vehicles.overview.joint.title',$deceasedName)"/>
                 </fo:block>
                 <fo:block>
@@ -340,7 +340,7 @@
 
         <xsl:comment>Assets private pensions section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.privatePensions')"/>
             </fo:block>
             <xsl:choose>
@@ -403,13 +403,13 @@
 
         <xsl:comment>Assets stocks and shares section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndShares')"/>
             </fo:block>
             <xsl:choose>
                 <xsl:when test="allAssets/stockAndShare != ''">
                     <fo:block>
-                    <fo:block xsl:use-attribute-sets="h4">
+                    <fo:block role="H4" xsl:use-attribute-sets="h4">
                         <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndSharesListed')"/>
                     </fo:block>
                         <fo:table>
@@ -444,7 +444,7 @@
                         </fo:table>
                     </fo:block>
                     <fo:block>
-                        <fo:block xsl:use-attribute-sets="h4">
+                        <fo:block role="H4" xsl:use-attribute-sets="h4">
                             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.stocksAndSharesNotListed')"/>
                         </fo:block>
                         <fo:table>
@@ -485,14 +485,14 @@
 
         <xsl:comment>Assets insurance policies section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.insurancePolicies')"/>
             </fo:block>
             <xsl:choose>
                 <xsl:when test="allAssets/insurancePolicy != ''">
                     <xsl:comment>Assets insurance policies paying out to the deceased</xsl:comment>
                     <fo:block>
-                        <fo:block xsl:use-attribute-sets="h4">
+                        <fo:block role="H4" xsl:use-attribute-sets="h4">
                             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.payingOutToDeceased', $deceasedName)"/>
                         </fo:block>
                         <fo:table>
@@ -528,7 +528,7 @@
                     </fo:block>
                     <xsl:comment>Assets insurance policies that were jointly held with someone else</xsl:comment>
                     <fo:block>
-                        <fo:block xsl:use-attribute-sets="h4">
+                        <fo:block role="H4" xsl:use-attribute-sets="h4">
                             <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.assets.insurance.policies.overview.joint.title')"/>
                         </fo:block>
                         <fo:table>
@@ -564,7 +564,7 @@
                     </fo:block>
                     <xsl:comment>Assets insurance premiums that wer paid by the deceased for someone</xsl:comment>
                     <fo:block>
-                        <fo:block xsl:use-attribute-sets="h4">
+                        <fo:block role="H4" xsl:use-attribute-sets="h4">
                             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.premiumsPaidByOther', $deceasedName)"/>
                         </fo:block>
                         <fo:table>
@@ -641,7 +641,7 @@
 
         <xsl:comment>Assets business interests section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.businessInterests.title')"/>
             </fo:block>
             <xsl:choose>
@@ -687,7 +687,7 @@
 
         <xsl:comment>Assets nominated assets section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.nominated')"/>
             </fo:block>
             <xsl:choose>
@@ -733,7 +733,7 @@
 
         <xsl:comment>Assets held in trust section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.heldInTrust.title')"/>
             </fo:block>
             <xsl:choose>
@@ -796,7 +796,7 @@
 
         <xsl:comment>Assets foreign assets section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.foreign.title')"/>
             </fo:block>
             <xsl:choose>
@@ -840,7 +840,7 @@
 
         <xsl:comment>Assets Money Owed section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.moneyOwed', $deceasedName)"/>
             </fo:block>
             <xsl:choose>
@@ -884,7 +884,7 @@
 
         <xsl:comment>Assets Other assets section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.other.title')"/>
             </fo:block>
             <xsl:choose>

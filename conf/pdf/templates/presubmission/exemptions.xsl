@@ -10,7 +10,7 @@
     <xsl:param name="versionParam" select="'1.0'"/>
 
     <xsl:template name="pre-exemptions">
-        <fo:block xsl:use-attribute-sets="h2" page-break-before="always">
+        <fo:block  role="H2" xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
         </fo:block>
 
@@ -21,7 +21,7 @@
         <xsl:comment>Exemptions Left to spouse or partner section starts only if if maried or civil partnership</xsl:comment>
         <xsl:if test="allExemptions/partner">
             <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-                <fo:block xsl:use-attribute-sets="h3">
+                <fo:block  role="H3" xsl:use-attribute-sets="h3">
                     <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.partner.assetsLeftToSpouse.title')"/>
                 </fo:block>
 
@@ -88,7 +88,7 @@
 
         <xsl:comment>Exemptions Charities Section</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.charities.assetsLeftToCharities.title')"/>
             </fo:block>
             <xsl:choose>
@@ -116,7 +116,7 @@
                         </fo:table>
 
                         <fo:block>
-                            <fo:block xsl:use-attribute-sets="h4">
+                            <fo:block role="H4" xsl:use-attribute-sets="h4">
                                 <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.charityOverviewTable.header')"/>
                             </fo:block>
                             <xsl:if test="charities">
@@ -164,7 +164,7 @@
     <fo:block page-break-inside="avoid">
         <xsl:comment>Exemptions Qualifying bodies Section</xsl:comment>
         <fo:block xsl:use-attribute-sets="section">
-            <fo:block xsl:use-attribute-sets="h3">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.qualifyingBodies.assetsLeftToQualifyingBodies.title')"/>
             </fo:block>
             <xsl:choose>
@@ -191,7 +191,7 @@
                             </fo:table-body>
                         </fo:table>
                         <fo:block>
-                            <fo:block xsl:use-attribute-sets="h4">
+                            <fo:block role="H4" xsl:use-attribute-sets="h4">
                                 <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.exemptions.qualifyingBodyOverviewTable.header')"/>
                             </fo:block>
                             <xsl:if test="qualifyingBodies">
