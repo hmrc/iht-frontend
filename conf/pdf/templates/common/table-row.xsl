@@ -94,7 +94,7 @@
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
-                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
+                    <xsl:if test='starts-with($value, "-") and $value!="-0"'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
@@ -111,7 +111,7 @@
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
-                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
+                    <xsl:if test='starts-with($value, "-") and $value!="-0"'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
