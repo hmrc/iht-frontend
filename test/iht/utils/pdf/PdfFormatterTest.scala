@@ -17,6 +17,7 @@
 package iht.utils.pdf
 
 import iht.forms.FormTestHelper
+import iht.models.application.ApplicationDetails
 import iht.models.des.ihtReturn.Asset
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
@@ -31,11 +32,22 @@ class PdfFormatterTest extends FormTestHelper {
 
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
-  def incompleteTnrb = CommonBuilder.buildTnrbEligibility
-
-  def completeTnrb = incompleteTnrb copy (
-    dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
+  def incompleteTnrb(ad:ApplicationDetails) = {
+    ad copy (
+      increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility ),
+      widowCheck = None
     )
+  }
+
+  def completeTnrb(ad:ApplicationDetails) = {
+    val tnrb = CommonBuilder.buildTnrbEligibility copy (
+      dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
+    )
+    ad copy (
+      increaseIhtThreshold = Some(tnrb),
+      widowCheck = Some(CommonBuilder.buildWidowedCheck)
+      )
+  }
 
   "display value" must {
     "must return the year from specified date" in {
@@ -124,10 +136,8 @@ class PdfFormatterTest extends FormTestHelper {
     "return 2 when in addition to base Tnrb completed and exemptions locked" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts copy(
-            increaseIhtThreshold = Some(completeTnrb),
-            hasSeenExemptionGuidance = Some(false),
-            widowCheck = Some(CommonBuilder.buildWidowedCheck)
+          completeTnrb(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(false)
           )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 2
@@ -136,8 +146,7 @@ class PdfFormatterTest extends FormTestHelper {
     "return 3 when in addition to base Tnrb started but not completed and exemptions unlocked but zero" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts copy(
-            increaseIhtThreshold = Some(incompleteTnrb),
+          incompleteTnrb(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(true)
           )
         )
@@ -147,10 +156,8 @@ class PdfFormatterTest extends FormTestHelper {
     "return 4 when in addition to base Tnrb completed and exemptions unlocked but zero" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts copy(
-            increaseIhtThreshold = Some(completeTnrb),
-            hasSeenExemptionGuidance = Some(true),
-            widowCheck = Some(CommonBuilder.buildWidowedCheck)
+          completeTnrb(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
           )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 4
@@ -159,10 +166,8 @@ class PdfFormatterTest extends FormTestHelper {
     "return 5 when in addition to base Tnrb completed and exemptions unlocked but more than zero" in {
       val ad =
         CommonBuilder.buildSomeExemptions(
-          CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts copy(
-            increaseIhtThreshold = Some(completeTnrb),
-            hasSeenExemptionGuidance = Some(true),
-            widowCheck = Some(CommonBuilder.buildWidowedCheck)
+          completeTnrb(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
           )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 5
