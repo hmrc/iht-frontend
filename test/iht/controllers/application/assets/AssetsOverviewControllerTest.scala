@@ -21,9 +21,10 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
 import org.mockito.Matchers._
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  *
@@ -39,6 +40,7 @@ class AssetsOverviewControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val allAssets=CommonBuilder.buildAllAssets
