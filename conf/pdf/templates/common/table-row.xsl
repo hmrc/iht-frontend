@@ -86,7 +86,7 @@
     <xsl:template name="table-row--currency-right-total">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row row--heavy">
+        <fo:table-row xsl:use-attribute-sets="row--bottom">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$label"/>
@@ -94,14 +94,7 @@
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
-                    <xsl:choose>
-                        <xsl:when test="$value &gt; 1">
-                            &#xA3;<xsl:value-of select='format-number(number($value), "##,###.00")'/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            &#xA3;<xsl:value-of select="$value"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
@@ -118,7 +111,41 @@
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
-                    &#xA3;<xsl:value-of select='format-number(number($value), "##,##0.00")'/>
+                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+    </xsl:template>
+
+    <xsl:template name="table-row--currency-right--heavy">
+        <xsl:param name="label"/>
+        <xsl:param name="value"/>
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell--heavy">
+                <fo:block>
+                    <xsl:value-of select="$label"/>
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell xsl:use-attribute-sets="cell--heavy set-right">
+                <fo:block>
+                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+    </xsl:template>
+
+    <xsl:template name="table-row--currency-right-total-heavy">
+        <xsl:param name="label"/>
+        <xsl:param name="value"/>
+        <fo:table-row xsl:use-attribute-sets="row--bottom">
+            <fo:table-cell xsl:use-attribute-sets="cell--heavy">
+                <fo:block>
+                    <xsl:value-of select="$label"/>
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell xsl:use-attribute-sets="cell--heavy set-right">
+                <fo:block>
+                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
@@ -135,7 +162,7 @@
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell--heavy shaded set-right">
                 <fo:block>
-                    &#xA3;<xsl:value-of select='format-number(number($value), "##,##0.00")'/>
+                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value,"-","")), "##,##0.00")'/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>

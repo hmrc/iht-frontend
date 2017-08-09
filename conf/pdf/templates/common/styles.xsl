@@ -82,6 +82,10 @@
 <xsl:attribute-set name="row">
     <xsl:attribute name="border-top">1px solid gray</xsl:attribute>
 </xsl:attribute-set>
+<xsl:attribute-set name="row--bottom">
+    <xsl:attribute name="border-top">1px solid gray</xsl:attribute>
+    <xsl:attribute name="border-bottom">1px solid gray</xsl:attribute>
+</xsl:attribute-set>
 <xsl:attribute-set name="row--heavy">
     <xsl:attribute name="border-top">3px solid black</xsl:attribute>
 </xsl:attribute-set>
@@ -106,6 +110,7 @@
     <xsl:attribute name="padding-left">0</xsl:attribute>
     <xsl:attribute name="padding-right">10px</xsl:attribute>
     <xsl:attribute name="font-size">12pt</xsl:attribute>
+    <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
     <xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>
 
