@@ -129,6 +129,7 @@ object PdfFormatter {
       case (false, true, `zero`) => 3
       case (true, true, `zero`) => 4
       case (true, true, _) => 5
+      case (false, true, _) => 6
       case _ => 1
     }
   }

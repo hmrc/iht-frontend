@@ -32,14 +32,14 @@ class PdfFormatterTest extends FormTestHelper {
 
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
-  def incompleteTnrb(ad:ApplicationDetails) = {
+  def incompleteTnrbIncreaseThreshold(ad:ApplicationDetails) = {
     ad copy (
       increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility ),
       widowCheck = None
     )
   }
 
-  def completeTnrb(ad:ApplicationDetails) = {
+  def completeTnrbIncreaseThreshold(ad:ApplicationDetails) = {
     val tnrb = CommonBuilder.buildTnrbEligibility copy (
       dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
     )
@@ -47,6 +47,17 @@ class PdfFormatterTest extends FormTestHelper {
       increaseIhtThreshold = Some(tnrb),
       widowCheck = Some(CommonBuilder.buildWidowedCheck)
       )
+  }
+
+  def completeTnrbNotIncreaseThreshold(ad:ApplicationDetails) = {
+    val tnrb = CommonBuilder.buildTnrbEligibility copy (
+      isPartnerLivingInUk = Some(false),
+      dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
+      )
+    ad copy (
+      increaseIhtThreshold = Some(tnrb),
+      widowCheck = Some(CommonBuilder.buildWidowedCheck)
+    )
   }
 
   "display value" must {
@@ -136,7 +147,7 @@ class PdfFormatterTest extends FormTestHelper {
     "return 2 when in addition to base Tnrb completed and exemptions locked" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          completeTnrb(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(false)
           )
         )
@@ -146,31 +157,61 @@ class PdfFormatterTest extends FormTestHelper {
     "return 3 when in addition to base Tnrb started but not completed and exemptions unlocked but zero" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          incompleteTnrb(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(true)
           )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 3
     }
 
-    "return 4 when in addition to base Tnrb completed and exemptions unlocked but zero" in {
+    "return 3 when in addition to base Tnrb not increased and exemptions unlocked but zero" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          completeTnrb(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          completeTnrbNotIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+            )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 3
+    }
+
+    "return 4 when in addition to base Tnrb increased and exemptions unlocked but zero" in {
+      val ad =
+        CommonBuilder.buildExemptionsWithNoValues(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(true)
           )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 4
     }
 
-    "return 5 when in addition to base Tnrb completed and exemptions unlocked but more than zero" in {
+    "return 5 when in addition to base Tnrb increased and exemptions unlocked but more than zero" in {
       val ad =
         CommonBuilder.buildSomeExemptions(
-          completeTnrb(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(true)
           )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 5
+    }
+
+    "return 6 when in addition to base Tnrb started but not completed and exemptions unlocked but more than zero" in {
+      val ad =
+        CommonBuilder.buildSomeExemptions(
+          incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+            )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
+    }
+
+    "return 6 when in addition to base Tnrb not increased and exemptions unlocked but more than zero" in {
+      val ad =
+        CommonBuilder.buildSomeExemptions(
+          completeTnrbNotIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+            )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
     }
   }
 
