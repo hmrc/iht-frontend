@@ -111,7 +111,8 @@ object PdfFormatter {
   }
 
   /**
-    * Calculate the display mode for the estate overview section of the pre-submission PDF:-
+    * Calculate the display mode for the estate overview section of the pre-submission PDF. This
+    * tells the PDF template how and where the different sections are to be displayed.
     *
     * 1) Base (assets, gifts, debts)
     * 2) Base + TNRB threshold increased + exemptions locked
