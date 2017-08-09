@@ -137,10 +137,7 @@ trait XmlFoToPDF {
     transformer.setParameter("marriedOrCivilPartnershipLabel",
       TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
     transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
-    CommonHelper.withValue(PdfFormatter.estateOverviewDisplayMode(applicationDetails)) { mode =>
-      println( "\n>>>>>MODE=" + mode)
-      transformer.setParameter("estateOverviewDisplayMode",mode)
-    }
+      transformer.setParameter("estateOverviewDisplayMode",PdfFormatter.estateOverviewDisplayMode(applicationDetails))
     transformer
   }
 
