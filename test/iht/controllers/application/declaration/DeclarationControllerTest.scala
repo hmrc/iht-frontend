@@ -26,7 +26,7 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.{AllExemptions, PartnerExemption}
 import iht.models.application.tnrb.TnrbEligibiltyModel
 import iht.models.enums.StatsSource
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.ApplicationStatus
 import org.mockito.Matchers._
@@ -34,6 +34,8 @@ import play.api.http.Status.OK
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 class DeclarationControllerTest extends ApplicationControllerTest {
 
   // Implicit objects required by play framework.
@@ -51,6 +53,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override lazy val metrics:Metrics = mock[Metrics]
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def declarationControllerNotAuthorised = new DeclarationController {
@@ -59,6 +62,7 @@ class DeclarationControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override lazy val metrics:Metrics = mock[Metrics]
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def mockForApplicationStatus(requiredStatus: String) = {

@@ -22,13 +22,14 @@ import iht.forms.registration.CoExecutorForms._
 import iht.models.{RegistrationDetails, UkAddress}
 import iht.testhelpers.CommonBuilder._
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, ContentChecker, NinoBuilder}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker, NinoBuilder}
 import iht.utils.StringHelper._
 import org.joda.time._
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
 import play.api.mvc.{Action, AnyContent, Result}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -47,12 +48,14 @@ class OtherPersonsAddressControllerTest extends RegistrationControllerTest with 
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new OtherPersonsAddressController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "OtherPersonsAddressController" must {

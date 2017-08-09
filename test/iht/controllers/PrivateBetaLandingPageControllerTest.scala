@@ -19,7 +19,9 @@ package iht.controllers
 import iht.config.FrontendAuthConnector
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
+import iht.testhelpers.MockFormPartialRetriever
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PrivateBetaLandingPageControllerTest extends ApplicationControllerTest {
 
@@ -29,6 +31,7 @@ class PrivateBetaLandingPageControllerTest extends ApplicationControllerTest {
   def privateBetaLandingPageController = new PrivateBetaLandingPageController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
 

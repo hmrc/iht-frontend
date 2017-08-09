@@ -20,12 +20,14 @@ import iht.connector.IdentityVerificationConnector
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.enums.IdentityVerificationResult
 import iht.models.enums.IdentityVerificationResult.IdentityVerificationResult
+import iht.testhelpers.MockFormPartialRetriever
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import play.api.test.Helpers.{OK, _}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -35,6 +37,7 @@ class IVUpliftFailureControllerTest extends ApplicationControllerTest {
 
   def controller = new IVUpliftFailureController {
     override val identityVerificationConnector = mockIdentityVerificationConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
 

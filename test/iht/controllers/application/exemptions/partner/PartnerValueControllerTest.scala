@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
@@ -29,6 +29,7 @@ import play.api.test.Helpers._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jennygj on 03/08/16.
@@ -51,12 +52,14 @@ class PartnerValueControllerTest extends ApplicationControllerTest{
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def partnerValueControllerNotAuthorised = new PartnerValueController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "PartnerValueControllerTest" must {

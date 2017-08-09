@@ -19,12 +19,14 @@ package iht.controllers.application
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
 import iht.models.QuestionnaireModel
+import iht.testhelpers.MockFormPartialRetriever
 import iht.utils.{CommonHelper, IhtSection}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -43,23 +45,19 @@ class ApplicationQuestionnaireControllerTest extends ApplicationControllerTest {
   def questionnaireController = new ApplicationQuestionnaireController {
     override val authConnector = createFakeAuthConnector()
     override val isWhiteListEnabled = false
-
     override def explicitAuditConnector = mockAuditConnector
-
     def cachingConnector = mockCachingConnector
-
     def ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def questionnaireControllerNotAuthorised = new ApplicationQuestionnaireController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
-
     override def explicitAuditConnector = mockAuditConnector
-
     def cachingConnector = mockCachingConnector
-
     def ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "onApplicationPageLoad method" must {
