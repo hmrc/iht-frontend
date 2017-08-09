@@ -32,6 +32,7 @@ object DomicileController extends DomicileController {
 }
 
 trait DomicileController extends FrontendController with CustomPasscodeAuthentication {
+
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def onPageLoad = customAuthenticatedActionAsync {

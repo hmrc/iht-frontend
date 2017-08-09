@@ -31,7 +31,9 @@ class UserAbortedViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.userAborted.title")
 
-  def view: String = user_aborted(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
+  def view: String = user_aborted(CommonBuilder.DefaultCall1.url)(createFakeRequest(),
+                                                                  applicationMessages,
+                                                                  formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

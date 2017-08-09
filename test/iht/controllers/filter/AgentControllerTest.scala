@@ -18,11 +18,13 @@ package iht.controllers.filter
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
+import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
   * Created by adwelly on 24/10/2016.
@@ -36,6 +38,7 @@ class AgentControllerTest extends ApplicationControllerTest with HtmlSpec {
   def controller = new AgentController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "AgentController" must {

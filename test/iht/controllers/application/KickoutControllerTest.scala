@@ -21,7 +21,7 @@ import java.util.UUID
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.metrics.Metrics
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.Matchers._
 import play.api.i18n.Messages.Implicits._
@@ -29,6 +29,7 @@ import play.api.Play.current
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.SessionKeys
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class KickoutControllerTest extends ApplicationControllerTest {
 
@@ -41,6 +42,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
     override lazy val metrics:Metrics = mock[Metrics]
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def kickoutControllerNotAuthorised = new KickoutController {
@@ -49,6 +51,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
     override lazy val metrics:Metrics = mock[Metrics]
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val uuid = s"session-${UUID.randomUUID}"

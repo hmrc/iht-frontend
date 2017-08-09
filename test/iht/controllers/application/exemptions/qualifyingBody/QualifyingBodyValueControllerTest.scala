@@ -19,13 +19,14 @@ package iht.controllers.application.exemptions.qualifyingBody
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.exemptions.QualifyingBody
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContentAsFormUrlEncoded, Request}
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jennygj on 26/08/16.
@@ -46,12 +47,14 @@ class QualifyingBodyValueControllerTest extends ApplicationControllerTest with B
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def qualifyingBodyValueControllerNotAuthorised = new QualifyingBodyValueController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForQualifyingBodyValue = {
