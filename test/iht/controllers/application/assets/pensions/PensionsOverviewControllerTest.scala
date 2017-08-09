@@ -18,9 +18,10 @@ package iht.controllers.application.assets.pensions
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jennygj on 30/06/16.
@@ -34,12 +35,14 @@ class PensionsOverviewControllerTest extends ApplicationControllerTest {
       override val authConnector = createFakeAuthConnector()
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
+      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     def pensionsOverviewControllerNotAuthorised = new PensionsOverviewController {
       override val authConnector = createFakeAuthConnector(false)
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
+      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
   "PensionsOverviewController" must {
     "redirect to login page on PageLoad if the user is not logged in" in {
