@@ -59,23 +59,6 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row--currency-right">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell set-right">
-                <fo:block>
-                    &#xA3;<xsl:value-of select='format-number(number($value), "##,##0.00")'/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
-
     <xsl:template name="table-row--currency-total">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
@@ -100,10 +83,27 @@
         </fo:table-row>
     </xsl:template>
 
+    <xsl:template name="table-row--currency-right">
+        <xsl:param name="label"/>
+        <xsl:param name="value"/>
+        <fo:table-row xsl:use-attribute-sets="row">
+            <fo:table-cell xsl:use-attribute-sets="cell">
+                <fo:block>
+                    <xsl:value-of select="$label"/>
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell xsl:use-attribute-sets="cell set-right">
+                <fo:block>
+                    &#xA3;<xsl:value-of select='format-number(number($value), "##,##0.00")'/>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+    </xsl:template>
+
     <xsl:template name="table-row--currency-right-total">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row row--heavy">
+        <fo:table-row xsl:use-attribute-sets="row">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$label"/>

@@ -29,28 +29,56 @@
                                         select="scala:getMessagesText($translator, 'iht.estateReport.gifts.givenAway.title')"/>
                         <xsl:with-param name="value" select="$giftsTotal"/>
                     </xsl:call-template>
+                    <xsl:if test="$estateOverviewDisplayMode=0">
+                        <xsl:call-template name="table-row--currency-right">
+                            <xsl:with-param name="label"
+                                            select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
+                            <xsl:with-param name="value" select="$debtsTotal"/>
+                        </xsl:call-template>
+                    </xsl:if>
+                    <xsl:if test="$estateOverviewDisplayMode=0">
+                        <xsl:call-template name="table-row--currency-right">
+                            <xsl:with-param name="label"
+                                            select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
+                            <xsl:with-param name="value" select="$exemptionsTotal"/>
+                        </xsl:call-template>
+                    </xsl:if>
+                    <xsl:if test="$estateOverviewDisplayMode=2">
+                        <xsl:call-template name="table-row--currency-right-total">
+                            <xsl:with-param name="label"
+                                            select="scala:getMessagesText($translator, 'page.iht.application.estateOverview.valueOfAssetsAndGifts')"/>
+                            <xsl:with-param name="value" select="$estateValue"/>
+                        </xsl:call-template>
+                        <xsl:call-template name="table-row--novalue">
+                            <xsl:with-param name="label"
+                                            select="scala:getMessagesText($translator, 'page.iht.application.tnrbEligibilty.increasedTnrbThreshold.title')"/>
+                        </xsl:call-template>
+                        <xsl:call-template name="table-row--currency-right">
+                            <xsl:with-param name="label"
+                                            select="scala:getMessagesText($translator, 'iht.estateReport.ihtThreshold')"/>
+                            <xsl:with-param name="value" select="$thresholdValue"/>
+                        </xsl:call-template>
+                    </xsl:if>
+                </fo:table-body>
+            </fo:table>
+        </fo:block>
+        <fo:block  role="H2" xsl:use-attribute-sets="h3">
+            <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.estateOverview.otherDetailsNeeded')"/>
+        </fo:block>
+        <fo:block>
+            <fo:table>
+            <fo:table-column column-number="1" />
+            <fo:table-column column-number="2" />
+            <fo:table-body>
+                <xsl:if test="$estateOverviewDisplayMode=2">
                     <xsl:call-template name="table-row--currency-right">
                         <xsl:with-param name="label"
                                         select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
                         <xsl:with-param name="value" select="$debtsTotal"/>
                     </xsl:call-template>
-                    <xsl:call-template name="table-row--currency-right">
-                        <xsl:with-param name="label"
-                                        select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
-                        <xsl:with-param name="value" select="$exemptionsTotal"/>
-                    </xsl:call-template>
-                    <xsl:call-template name="table-row--currency-right-total">
-                        <xsl:with-param name="label"
-                                        select="scala:getMessagesText($translator, 'page.iht.application.overview.value')"/>
-                        <xsl:with-param name="value" select="$estateValue"/>
-                    </xsl:call-template>
-
-                </fo:table-body>
+                </xsl:if>
+            </fo:table-body>
             </fo:table>
-        </fo:block>
-        <fo:block xsl:use-attribute-sets="copy">
-            <xsl:value-of select="scala:getMessagesText($translator, 'pdf.iht.estateReport.ihtThreshold')"/>
-            &#xA3;<xsl:value-of select='format-number(number($thresholdValue), "##,###.00")'/>
         </fo:block>
     </xsl:template>
 
