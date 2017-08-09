@@ -29,7 +29,6 @@ import play.api.data.Form
 import play.api.mvc._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 object DeceasedPermanentHomeController extends DeceasedPermanentHomeController with IhtConnectors {
   def metrics: Metrics = Metrics
@@ -46,8 +45,6 @@ trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWith
 
   lazy val submitRoute = routes.DeceasedPermanentHomeController.onSubmit
   lazy val editSubmitRoute = routes.DeceasedPermanentHomeController.onEditSubmit
-
-  override implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, submitRoute)

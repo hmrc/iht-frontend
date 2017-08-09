@@ -16,6 +16,7 @@
 
 package iht.controllers.registration
 
+import iht.config.IhtFormPartialRetriever
 import iht.connector.CachingConnector
 import iht.constants.IhtProperties
 import iht.connector.IhtConnectors
@@ -29,6 +30,7 @@ import play.api.mvc.Request
 import play.twirl.api.HtmlFormat
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -43,26 +45,33 @@ trait KickoutController extends RegistrationController {
 
   val metrics: Metrics
 
+  override implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+
+  val applicantProbateLocationPageLoad = iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad()
+  val deceasedPermHomePageLoad = iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad()
+  val deceasedDateOfDeathPageLoad = iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad()
+  val applicantApplyingForProbatePageLoad = iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad()
+
   def probateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.applicantDetails.kickout.probate.summary"),
-    iht.controllers.registration.applicant.routes.ProbateLocationController.onPageLoad())(contentLines)(request, applicationMessages)
+      applicantProbateLocationPageLoad)(contentLines)(request, applicationMessages, formPartialRetriever)
 
   def locationKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.deceasedDetails.kickout.location.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedPermanentHomeController.onPageLoad())(contentLines)(request, applicationMessages)
+      deceasedPermHomePageLoad)(contentLines)(request, applicationMessages, formPartialRetriever)
 
   def capitalTaxKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.deceasedDateOfDeath.kickout.date.capital.tax.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad(),
-      messages("iht.registration.kickout.returnToTheDateOfDeath"))(contentLines)(request, applicationMessages)
+      deceasedDateOfDeathPageLoad,
+      messages("iht.registration.kickout.returnToTheDateOfDeath"))(contentLines)(request, applicationMessages, formPartialRetriever)
 
   def dateOtherKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages) =
     kickout_template(messages("page.iht.registration.deceasedDateOfDeath.kickout.date.other.summary"),
-    iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad())(contentLines)(request, applicationMessages)
+      deceasedDateOfDeathPageLoad)(contentLines)(request, applicationMessages,formPartialRetriever)
 
   def notApplyingForProbateKickoutView(contentLines: Seq[String])(implicit request: Request[_], messages:Messages, deceasedName: String) =
     kickout_template(messages("page.iht.registration.notApplyingForProbate.kickout.summary", deceasedName),
-    iht.controllers.registration.applicant.routes.ApplyingForProbateController.onPageLoad())(contentLines)(request, applicationMessages)
+      applicantApplyingForProbatePageLoad)(contentLines)(request, applicationMessages, formPartialRetriever)
 
   def content(implicit messages:Messages, deceasedName: String): Map[String, Request[_] => HtmlFormat.Appendable] = Map(
     KickoutApplicantDetailsProbateScotland ->
