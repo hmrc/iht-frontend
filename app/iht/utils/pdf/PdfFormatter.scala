@@ -111,12 +111,16 @@ object PdfFormatter {
   }
 
   /**
+    * Calculate the display mode for the estate overview section of the pre-submission PDF:-
     *
-    * 1 Base
-    * 2 Base + TNRB + exemptions locked
-    * 3 Base + exemptions unlocked but zero
-    * 4 Base + TNRB completed + exemptions unlocked but zero
-    * 5 Base + TNRB completed + exemptions
+    * 1) Base (assets, gifts, debts)
+    * 2) Base + TNRB threshold increased + exemptions locked
+    * 3) Base + TNRB threshold not increased OR TNRB not completed + exemptions unlocked but 0
+    * 4) Base + TNRB threshold increased + exemptions unlocked but 0
+    * 5) Base + TNRB threshold increased + exemptions unlocked and > 0
+    * 6) Base + TNRB threshold not increased OR TNRB not completed + exemptions unlocked and > 0
+    *
+    * If none of scenarios 2)-6) apply then it should fall back to scenario 1).
     */
   // scalastyle:off magic.number
   def estateOverviewDisplayMode(ad:ApplicationDetails):Int = {
