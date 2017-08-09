@@ -88,6 +88,9 @@
 <xsl:attribute-set name="row--total">
     <xsl:attribute name="border-bottom">3px solid black</xsl:attribute>
 </xsl:attribute-set>
+<xsl:attribute-set name="shaded">
+    <xsl:attribute name="background-color">#dee0e2</xsl:attribute>
+</xsl:attribute-set>
 
 <xsl:attribute-set name="cell">
     <xsl:attribute name="padding-top">8px</xsl:attribute>
@@ -97,7 +100,16 @@
     <xsl:attribute name="font-size">12pt</xsl:attribute>
 </xsl:attribute-set>
 
-<xsl:attribute-set name="declaration">
+<xsl:attribute-set name="cell--heavy">
+    <xsl:attribute name="padding-top">8px</xsl:attribute>
+    <xsl:attribute name="padding-bottom">8px</xsl:attribute>
+    <xsl:attribute name="padding-left">0</xsl:attribute>
+    <xsl:attribute name="padding-right">10px</xsl:attribute>
+    <xsl:attribute name="font-size">12pt</xsl:attribute>
+    <xsl:attribute name="font-weight">bold</xsl:attribute>
+</xsl:attribute-set>
+
+    <xsl:attribute-set name="declaration">
     <xsl:attribute name="padding-top">0.25cm</xsl:attribute>
     <xsl:attribute name="padding-bottom">0.5cm</xsl:attribute>
 </xsl:attribute-set>

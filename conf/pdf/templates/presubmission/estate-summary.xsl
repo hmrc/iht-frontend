@@ -44,7 +44,7 @@
                         </xsl:call-template>
                     </xsl:if>
                     <xsl:if test="$estateOverviewDisplayMode=2">
-                        <xsl:call-template name="table-row--currency-right-total">
+                        <xsl:call-template name="table-row--currency-right-total-shaded">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'page.iht.application.estateOverview.valueOfAssetsAndGifts')"/>
                             <xsl:with-param name="value" select="$estateValue"/>
