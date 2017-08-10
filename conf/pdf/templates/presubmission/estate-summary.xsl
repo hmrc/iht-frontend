@@ -40,7 +40,7 @@
                         <xsl:call-template name="table-row--currency-right">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
-                            <xsl:with-param name="value" select="$exemptionsTotal"/>
+                            <xsl:with-param name="value" select="concat('-', $exemptionsTotal)"/>
                         </xsl:call-template>
                     </xsl:if>
                     <xsl:if test="$estateOverviewDisplayMode=1 or $estateOverviewDisplayMode=2 or $estateOverviewDisplayMode=6">
