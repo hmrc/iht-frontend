@@ -9,26 +9,25 @@
     <xsl:param name="versionParam" select="'1.0'"/>
 
     <xsl:template name="pre-gifts">
-        <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold" page-break-before="always">
+        <fo:block page-break-before="always"  role="H2" xsl:use-attribute-sets="h2">
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.givenAwayBy', $deceasedName)"/>
         </fo:block>
 
-        <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular" space-before="0.5cm">
+        <fo:block xsl:use-attribute-sets="copy copy--lede">
             <xsl:value-of select="scala:getMessagesTextWithParameters($translator, 'page.iht.application.gifts.overview.guidance1', $deceasedName, $deceasedName)"/>
         </fo:block>
 
         <xsl:comment>Gifts Given Away section starts</xsl:comment>
-        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm">
+        <fo:block>
             <xsl:choose>
                 <xsl:when test="allGifts != ''">
-                    <fo:block font-family="OpenSans" font-size="12pt">
-                        <fo:table space-before="0.5cm">
+                    <fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
-                                    <xsl:with-param name="label"
-                                                    select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.lastYears.givenAway.question', $deceasedName)"/>
+                            <fo:table-body>
+                                <xsl:call-template name="table-row">
+                                    <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.lastYears.givenAway.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allGifts/isGivenAway='false'"><xsl:value-of select="scala:getMessagesText($translator, 'iht.no')"/></xsl:if>
                                         <xsl:if test="allGifts/isGivenAway='true'"><xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/></xsl:if>
@@ -37,14 +36,17 @@
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
+
                     <xsl:comment>Gifts With Reservation section starts</xsl:comment>
-                    <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-                        <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.withReservation.title', $deceasedName)"/>
-                        <fo:table space-before="0.5cm">
+                    <fo:block page-break-inside="avoid">
+                        <fo:block  role="H3" xsl:use-attribute-sets="h3">
+                            <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.withReservation.title', $deceasedName)"/>
+                        </fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                            <fo:table-body>
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.gifts.reservation.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -55,14 +57,17 @@
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
+
                     <xsl:comment>Gifts With Reservation section starts</xsl:comment>
-                    <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm" page-break-inside="avoid">
-                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath')"/>
-                        <fo:table space-before="0.5cm">
+                    <fo:block page-break-inside="avoid">
+                        <fo:block  role="H3" xsl:use-attribute-sets="h3">
+                            <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath')"/>
+                        </fo:block>
+                        <fo:table>
                             <fo:table-column column-number="1" column-width="70%"/>
                             <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body font-size="12pt">
-                                <xsl:call-template name="table-row-short-vpad">
+                            <fo:table-body>
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.lastYears.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -70,7 +75,7 @@
                                         <xsl:if test="allGifts/isGivenInLast7Years='true'"><xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/></xsl:if>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                                <xsl:call-template name="table-row-short-vpad">
+                                <xsl:call-template name="table-row">
                                     <xsl:with-param name="label"
                                                     select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.gifts.trust.question', $deceasedName)"/>
                                     <xsl:with-param name="value">
@@ -81,34 +86,34 @@
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
+
                     <xsl:comment>Gifts Value and Year Break down</xsl:comment>
                     <xsl:if test="allGifts/isGivenAway='true'">
-                        <fo:block font-family="OpenSans" font-size="16pt" font-weight="regular" space-before="0.5cm"
-                                  page-break-inside="avoid">
-                            <xsl:value-of
-                                    select="scala:getMessagesText($translator, 'iht.estateReport.gifts.valueOfGiftsGivenAway')"/>
-                            <fo:block font-family="OpenSans" font-size="12pt" font-weight="regular"
-                                      space-before="0.5cm">
+                        <fo:block page-break-inside="avoid">
+                            <fo:block  role="H3" xsl:use-attribute-sets="h3">
+                                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.gifts.valueOfGiftsGivenAway')"/>
+                            </fo:block>
+                            <fo:block>
                                 <fo:table>
                                     <fo:table-header>
-                                        <fo:table-row line-height="18pt">
-                                            <fo:table-cell text-align="left" padding-left="4pt">
+                                        <fo:table-row>
+                                            <fo:table-cell>
                                                 <fo:block/>
                                             </fo:table-cell>
-                                            <fo:table-cell text-align="right" padding-left="4pt">
-                                                <fo:block>
+                                            <fo:table-cell>
+                                                <fo:block xsl:use-attribute-sets="tabular-cell tabular-cell--header set-right">
                                                     <xsl:value-of
                                                             select="scala:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle1')"/>
                                                 </fo:block>
                                             </fo:table-cell>
-                                            <fo:table-cell text-align="right" padding-left="4pt">
-                                                <fo:block>
+                                            <fo:table-cell>
+                                                <fo:block xsl:use-attribute-sets="tabular-cell tabular-cell--header set-right">
                                                     <xsl:value-of
                                                             select="scala:getMessagesText($translator, 'page.iht.exemptions.title')"/>
                                                 </fo:block>
                                             </fo:table-cell>
-                                            <fo:table-cell text-align="right" padding-left="4pt">
-                                                <fo:block>
+                                            <fo:table-cell>
+                                                <fo:block xsl:use-attribute-sets="tabular-cell tabular-cell--no-right-border tabular-cell--header set-right">
                                                     <xsl:value-of
                                                             select="scala:getMessagesText($translator, 'page.iht.application.gifts.lastYears.tableTitle3')"/>
                                                 </fo:block>
@@ -119,14 +124,14 @@
                                         <xsl:choose>
                                             <xsl:when test="giftsList">
                                                 <xsl:for-each select="giftsList">
-                                                    <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
-                                                        <fo:table-cell text-align="left" padding-left="4pt">
+                                                    <fo:table-row>
+                                                        <fo:table-cell xsl:use-attribute-sets="tabular-cell">
                                                             <fo:block>
                                                                 <xsl:value-of select="startDate"/> to
                                                                 <xsl:value-of select="endDate"/>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell text-align="right" padding-left="4pt">
+                                                        <fo:table-cell xsl:use-attribute-sets="tabular-cell set-right">
                                                             <fo:block>
                                                                 <xsl:if test="value">
                                                                     <xsl:choose>
@@ -140,7 +145,7 @@
                                                                 </xsl:if>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell text-align="right" padding-left="4pt">
+                                                        <fo:table-cell xsl:use-attribute-sets="tabular-cell set-right">
                                                             <fo:block>
                                                                 <xsl:if test="exemptions">
                                                                     <xsl:choose>
@@ -154,7 +159,7 @@
                                                                 </xsl:if>
                                                             </fo:block>
                                                         </fo:table-cell>
-                                                        <fo:table-cell text-align="right" padding-left="4pt">
+                                                        <fo:table-cell xsl:use-attribute-sets="tabular-cell tabular-cell--no-right-border set-right">
                                                             <fo:block>
                                                                 <xsl:choose>
                                                                     <xsl:when test="value and exemptions">
@@ -183,7 +188,7 @@
                                                 </xsl:for-each>
                                             </xsl:when>
                                             <xsl:otherwise>
-                                                <fo:table-row border-top="solid 0.1mm gray" line-height="18pt">
+                                                <fo:table-row>
                                                     <fo:table-cell>
                                                         <fo:block/>
                                                     </fo:table-cell>
@@ -201,15 +206,14 @@
                                         </xsl:choose>
                                     </fo:table-body>
                                 </fo:table>
-                                <fo:table space-before="0.5cm">
+                                <fo:table>
                                     <fo:table-column column-number="1" column-width="25%"/>
                                     <fo:table-column column-number="2" column-width="25%"/>
                                     <fo:table-column column-number="3" column-width="25%"/>
                                     <fo:table-column column-number="4" column-width="25%"/>
-                                    <fo:table-body font-size="12pt">
-                                        <xsl:call-template name="table-row-money-3-values-border-top-black">
-                                            <xsl:with-param name="label"
-                                                            select="scala:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
+                                    <fo:table-body>
+                                        <xsl:call-template name="table-row--currency-3-col">
+                                            <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.estateReport.gifts.totalOverSevenYears')"/>
                                             <xsl:with-param name="value1">
                                                 <xsl:value-of select='$giftsTotalExclExemptions'/>
                                             </xsl:with-param>
@@ -220,7 +224,7 @@
                                                 <xsl:value-of select='$giftsTotal'/>
                                             </xsl:with-param>
                                         </xsl:call-template>
-                                        <xsl:call-template name="table-row-blank-short-vpad-border-top-grey-thin"/>
+
                                     </fo:table-body>
                                 </fo:table>
                             </fo:block>

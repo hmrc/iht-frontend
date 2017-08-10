@@ -14,8 +14,10 @@
     <xsl:include href="pdf/templates/common/registration/case-details.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/iht-return.xsl"/>
 
+    <xsl:include href="pdf/templates/common/styles.xsl"/>
+
     <xsl:template match="/">
-        <fo:root font-family="OpenSans">
+        <fo:root xsl:use-attribute-sets="root">
             <fo:layout-master-set>
                 <fo:simple-page-master master-name="main-other"
                                        page-height="29.7cm" page-width="21.0cm"
@@ -23,7 +25,7 @@
                                        margin-left="2cm" margin-right="2cm">
                     <fo:region-body margin-top="2.5cm" margin-bottom="2.5cm"/>
                     <fo:region-before extent="2.4cm"/>
-                    <fo:region-after extent="2.4cm"/>
+                    <fo:region-after extent="1.4cm"/>
 
                 </fo:simple-page-master>
 
@@ -58,25 +60,25 @@
 
             <fo:page-sequence master-reference="main">
                 <fo:static-content flow-name="xsl-region-before">
-                    <fo:block border-bottom-style="solid">
+                    <fo:block xsl:use-attribute-sets="page-header">
                         <fo:external-graphic src="url('pdf/logo/hmrc_logo.jpg')" height="50px" content-width="scale-to-fit"/>
                     </fo:block>
                 </fo:static-content>
 
                 <fo:static-content flow-name="xsl-region-end-of-report">
-                    <fo:block text-align="left" padding-top="6pt" font-family="OpenSans-Bold" font-weight="bold">
+                    <fo:block xsl:use-attribute-sets="section copy--heavy">
                         <xsl:value-of
                                 select="scala:getMessagesTextWithParameter($translator, 'iht.pdf.endOfTheEstateReport', $deceasedName)"/>
                     </fo:block>
 
-                    <fo:block text-align="right" padding-top="6pt">
+                    <fo:block>
                         <fo:table>
-                            <fo:table-body font-size="8pt">
+                            <fo:table-body>
                                 <fo:table-row>
-                                    <fo:table-cell text-align= "left">
+                                    <fo:table-cell xsl:use-attribute-sets="page-footer--title">
                                         <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></fo:block>
                                     </fo:table-cell>
-                                    <fo:table-cell>
+                                    <fo:table-cell xsl:use-attribute-sets="page-footer--page-number">
                                         <fo:block>
                                             <xsl:value-of select="scala:getMessagesText($translator, 'pdf.page.number')" />
                                             <xsl:text>&#160;</xsl:text>
@@ -90,16 +92,16 @@
                 </fo:static-content>
 
 
-                <fo:static-content flow-name="xsl-region-after" font-family="OpenSans" font-size="12pt">
+                <fo:static-content flow-name="xsl-region-after">
 
-                  <fo:block text-align="right" padding-top="6pt">
+                  <fo:block>
                         <fo:table>
-                            <fo:table-body font-size="8pt">
+                            <fo:table-body>
                                 <fo:table-row>
-                                    <fo:table-cell text-align= "left">
+                                    <fo:table-cell xsl:use-attribute-sets="page-footer--title">
                                         <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/></fo:block>
                                     </fo:table-cell>
-                                    <fo:table-cell>
+                                    <fo:table-cell xsl:use-attribute-sets="page-footer--page-number">
                                         <fo:block>
                                             <xsl:value-of select="scala:getMessagesText($translator, 'pdf.page.number')" />
                                             <xsl:text>&#160;</xsl:text>
@@ -113,13 +115,15 @@
                 </fo:static-content>
 
                 <fo:flow flow-name="xsl-region-body">
-                    <fo:block font-family="OpenSans-Bold" font-size="24" font-weight="bold">
-                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
+                    <fo:block role="H1" xsl:use-attribute-sets="h1">
+                       <xsl:value-of select="scala:getMessagesText($translator, 'iht.inheritanceTaxEstateReport')"/>
                     </fo:block>
-                    <fo:block font-family="OpenSans" font-size="12" font-weight="normal" space-before="0.5cm">
-                        <xsl:value-of
-                                select="concat(scala:getMessagesText($translator, 'pdf.inheritance.tax.reference'),' ', $ihtReference)"/>
-                        <fo:block space-before="0.5cm">
+                    <fo:block xsl:use-attribute-sets="copy--lede">
+                        <fo:block xsl:use-attribute-sets="copy">
+                            <xsl:value-of
+                                    select="concat(scala:getMessagesText($translator, 'pdf.inheritance.tax.reference'),' ', $ihtReference)"/>
+                        </fo:block>
+                        <fo:block xsl:use-attribute-sets="copy">
                             <xsl:value-of select="concat(scala:getMessagesText($translator, 'pdf.inheritance.tax.declaration.date.text'),' ', $declarationDate)"/>
                         </fo:block>
                     </fo:block>

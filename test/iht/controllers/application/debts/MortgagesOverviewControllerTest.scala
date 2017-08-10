@@ -148,21 +148,6 @@ class MortgagesOverviewControllerTest extends ApplicationControllerTest {
       }
     }
 
-    "updateMortgageListFromPropertyList throws exception if discrepancy between mortgages and properties" in {
-      val propertyList = List[Property](
-        Property(Some("1"), Some(CommonBuilder.DefaultUkAddress),
-          Some("Deceased's home"), Some("Deceased only"), Some("Leasehold"), Some(BigDecimal(9)))
-      )
-      val mortgagesList = List[Mortgage](
-        Mortgage( "1", Some(BigDecimal(2))),
-        Mortgage( "2", Some(BigDecimal(2)))
-      )
-
-      a[RuntimeException] shouldBe thrownBy {
-        await(mortgagesOverviewController.updateMortgageListFromPropertyList(propertyList, mortgagesList))
-      }
-    }
-
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
       mortgagesOverviewController.onPageLoad(createFakeRequest()))
   }

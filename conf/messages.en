@@ -1866,7 +1866,7 @@ pdf.meta.author = HM Revenue & Customs
 iht.estateReport.pdf.declaration.declaringThat = You are declaring that:
 pdf.page.number = Page
 iht.pdf.TnrbEligibilty.thresholdLimit.label = The Inheritance Tax threshold has been increased to £650,000
-iht.pdf.endOfTheEstateReport = End of {0}'s estate report
+iht.pdf.endOfTheEstateReport = End of {0}''s estate report
 
 #Kickouts - Estate report - common
 page.iht.application.kickout.back.tnrb = Return to increasing the Inheritance Tax threshold

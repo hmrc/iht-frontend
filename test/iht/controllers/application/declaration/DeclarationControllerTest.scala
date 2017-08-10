@@ -31,6 +31,7 @@ import iht.testhelpers.MockObjectBuilder._
 import iht.utils.ApplicationStatus
 import org.mockito.Matchers._
 import play.api.http.Status.OK
+import play.api.i18n.Messages
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.{GatewayTimeoutException, HeaderCarrier}
@@ -108,20 +109,51 @@ class DeclarationControllerTest extends ApplicationControllerTest {
 
     }
 
-    "respond with OK on page load for valueLessThanNilRateBand, single executor and show risk message" in {
+
+    "respond with OK on page load for valueLessThanNilRateBand, single executor and show risk message where message not found in messages file" in {
 
       val testRiskMessage = "Risk message is present"
 
       createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
       createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
       createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
-      createMockToGetSingleValueSyncFromCache(mockCachingConnector, same("shouldDisplayRealtimeRiskingMessage"), Some(testRiskMessage))
       createMockToGetApplicationDetails(mockIhtConnector, Some(CommonBuilder.buildApplicationDetailsWithAllAssets.copy(
         allAssets = Some(CommonBuilder.buildAllAssetsWithAllSectionsFilled.copy(money = None)))))
       createMockToGetRealtimeRiskMessage(mockIhtConnector, Some(testRiskMessage))
 
+      val rd = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
+
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
+
+
       val result = declarationController.onPageLoad()(createFakeRequest())
+
       contentAsString(result) should include(testRiskMessage)
+      status(result) shouldBe (OK)
+
+    }
+
+    "respond with OK on page load for valueLessThanNilRateBand, single executor and show risk message where message is found in messages file" in {
+
+      val testRiskMessage = messagesApi("iht.application.declaration.risking.money.message")
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, CommonBuilder.buildRegistrationDetails)
+      createMockToGetSingleValueFromCache(mockCachingConnector, same("declarationType"), Some("valueLessThanNilRateBand"))
+      createMockToGetSingleValueFromCache(mockCachingConnector, same("isMultipleExecutor"), Some("false"))
+      createMockToGetApplicationDetails(mockIhtConnector, Some(CommonBuilder.buildApplicationDetailsWithAllAssets.copy(
+        allAssets = Some(CommonBuilder.buildAllAssetsWithAllSectionsFilled.copy(money = None)))))
+      createMockToGetRealtimeRiskMessage(mockIhtConnector, Some(testRiskMessage))
+
+      val rd = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
+
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(rd))
+
+      val deceasedName = rd.deceasedDetails.map(_.name).getOrElse("")
+
+      val result = declarationController.onPageLoad()(createFakeRequest())
+      val expectedRiskMessage = messagesApi("iht.application.declaration.risking.money.message.amended", deceasedName)
+
+      contentAsString(result) should include(expectedRiskMessage)
       status(result) shouldBe (OK)
 
     }
