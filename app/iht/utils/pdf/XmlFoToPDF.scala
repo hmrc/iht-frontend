@@ -160,6 +160,13 @@ trait XmlFoToPDF {
       ihtReturn.totalGiftsValue, messages)
 
     transformer.setParameter("sumHouseholdAssets", ihtReturn.totalForAssetIDs(Set("0016","0017","0018")))
+
+    CommonHelper.withValue(ihtReturn.exemptionTotalsByExemptionType) { totals =>
+      transformer.setParameter(s"exemptionTotalsSpouse",totals.find(_._1 == "Spouse").fold(BigDecimal(0))(_._2))
+      transformer.setParameter(s"exemptionTotalsCharity",totals.find(_._1 == "Charity").fold(BigDecimal(0))(_._2))
+      transformer.setParameter(s"exemptionTotalsGNCP",totals.find(_._1 == "GNCP").fold(BigDecimal(0))(_._2))
+    }
+
     transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)

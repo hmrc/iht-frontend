@@ -60,6 +60,12 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
     filteredOptionSetAsset.fold(BigDecimal(0))( _.map(_.assetTotalValue.fold(BigDecimal(0))(identity)).sum)
   }
 
+  def exemptionTotalsByExemptionType: Map[String, BigDecimal] = {
+    val optionTotalledExemptions: Option[Map[Option[String], BigDecimal]] = freeEstate.flatMap(_.estateExemptions).map(_.groupBy(_.exemptionType))
+      .map( _.map( item => item._1 -> item._2.map(_.overrideValue.fold(BigDecimal(0))(identity)).sum))
+    optionTotalledExemptions.fold[Map[Option[String], BigDecimal]](Map.empty)(identity).map(x => x._1.fold("")(identity) -> x._2)
+  }
+
   def totalExemptionsValue =
     freeEstate.flatMap(_.estateExemptions).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
       (a, b) => a + b.overrideValue.fold(BigDecimal(0))(identity)))
