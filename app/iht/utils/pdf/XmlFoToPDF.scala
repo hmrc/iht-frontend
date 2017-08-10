@@ -159,7 +159,7 @@ trait XmlFoToPDF {
       ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
       ihtReturn.totalGiftsValue, messages)
 
-    transformer.setParameter("sumHouseholdAssets", ihtReturn.totalForAssetIDs(Set("0016")))
+    transformer.setParameter("sumHouseholdAssets", ihtReturn.totalForAssetIDs(Set("0016","0017","0018")))
     transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)

@@ -18,50 +18,12 @@
                     <fo:block role="H2" xsl:use-attribute-sets="h2">
                         <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
                     </fo:block>
-                    <fo:block>
-                        <xsl:for-each select="freeEstate/estateExemptions">
-                            <fo:table>
-                                <fo:table-column column-number="1" column-width="60%"/>
-                                <fo:table-column column-number="2" column-width="40%"/>
-                                <fo:table-body>
-
-                                    <xsl:call-template name="table-row">
-                                        <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'pdf.exemption.table.text')"/>
-                                        <xsl:with-param name="value" select="exemptionType"/>
-                                    </xsl:call-template>
-
-                                    <xsl:call-template name="table-row--currency">
-                                        <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'pdf.total.text')"/>
-                                        <xsl:with-param name="value" select='format-number(number(overrideValue), "##,###.00")'/>
-                                    </xsl:call-template>
 
 
 
-                                </fo:table-body>
-                            </fo:table>
                         </xsl:for-each>
-
-                        <fo:block>
-                            <fo:table>
-                                <fo:table-column column-number="1" column-width="60%"/>
-                                <fo:table-column column-number="2" column-width="40%"/>
-                                <fo:table-body>
-
-                                    <xsl:call-template name="table-row--currency-total">
-                                        <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'pdf.totalexemptions.text')"/>
-                                        <xsl:with-param name="value"
-                                                        select='format-number(number($exemptionsTotal), "##,###.00")'/>
-                                    </xsl:call-template>
-
-
-
-                                </fo:table-body>
-                            </fo:table>
-                        </fo:block>
-                    </fo:block>
+                        </fo:table-body>
+                    </fo:table>
                 </fo:block>
             </xsl:when>
         </xsl:choose>

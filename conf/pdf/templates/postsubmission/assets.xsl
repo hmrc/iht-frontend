@@ -9,62 +9,32 @@
     <xsl:param name="pdfFormatter"/>
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="assetsTotal"/>
+    <xsl:param name="sumHouseholdAssets" />
     <xsl:include href="pdf/templates/postsubmission/trusts.xsl"/>
     <xsl:template name="assets">
+    <fo:block>
         <xsl:choose>
             <xsl:when test="freeEstate/estateAssets != ''">
                 <fo:block role="H2" xsl:use-attribute-sets="h2" page-break-before="always">
                     <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.inEstate')"/>
                 </fo:block>
 
-                <xsl:variable name="assetHome">
-                    <xsl:if test="freeEstate/estateAssets/assetCode='0016'">1</xsl:if>
-                </xsl:variable>
-                <xsl:variable name="assetRes">
-                    <xsl:if test="freeEstate/estateAssets/assetCode='0017'">2</xsl:if>
-                </xsl:variable>
-                <xsl:variable name="assetLand">
-                    <xsl:if test="freeEstate/estateAssets/assetCode='0018'">3</xsl:if>
-                </xsl:variable>
-                <xsl:variable name="houseTotal" select="sum(($assetHome | $assetRes | $assetLand)[number(.) = .])">
-                <!--$assetTotalValue-->
-                <xsl:value-of select="$houseTotal"/>
-                <fo:block>
-                    <fo:table>
+
+
+                <fo:table>
                         <fo:table-column column-number="1" column-width="60%"/>
                         <fo:table-column column-number="2" column-width="40%"/>
 
 
 
                         <fo:table-body>
-
+                            <xsl:call-template name="table-row--currency-right">
+                                <xsl:with-param name="label" select="scala:getMessagesText($translator, 'pdf.assets.property.all')"/>
+                                <xsl:with-param name="value" select="$sumHouseholdAssets"/>
+                            </xsl:call-template>
 
                         <!--Loop through each one in turn to maintain items in required order-->
-                        <xsl:for-each select="freeEstate/estateAssets">
 
-                            <xsl:if test="assetCode='0016'">
-                                <xsl:call-template name="table-row--currency-right">
-                                    <xsl:with-param name="label" select="assetDescription"/>
-                                    <xsl:with-param name="value" select="assetTotalValue"/>
-                                </xsl:call-template>
-                            </xsl:if>
-                        </xsl:for-each>
-                        <xsl:for-each select="freeEstate/estateAssets">
-                            <xsl:if test="assetCode='0017'">
-                                <xsl:call-template name="table-row--currency-right">
-                                    <xsl:with-param name="label" select="scala:getMessagesText($translator, 'pdf.assets.property.otherResidential')"/>
-                                    <xsl:with-param name="value" select="assetTotalValue"/>
-                                </xsl:call-template>
-                            </xsl:if>
-                        </xsl:for-each>
-                        <xsl:for-each select="freeEstate/estateAssets">
-                            <xsl:if test="assetCode='0018'">
-                                <xsl:call-template name="table-row--currency-right">
-                                    <xsl:with-param name="label" select="scala:getMessagesText($translator, 'pdf.assets.property.otherLandAndBuildings')"/>
-                                    <xsl:with-param name="value" select="assetTotalValue"/>
-                                </xsl:call-template>
-                            </xsl:if>
-                        </xsl:for-each>
                         <xsl:for-each select="freeEstate/estateAssets">
                             <xsl:if test="assetCode='9001'">
                                 <xsl:call-template name="table-row--currency-right">
@@ -173,13 +143,8 @@
                     </fo:table-body>
                 </fo:table>
 
-
-
-
-
-                </fo:block>
             </xsl:when>
         </xsl:choose>
-
+    </fo:block>
     </xsl:template>
 </xsl:stylesheet>
