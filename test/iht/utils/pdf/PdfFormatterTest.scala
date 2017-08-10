@@ -17,6 +17,7 @@
 package iht.utils.pdf
 
 import iht.forms.FormTestHelper
+import iht.models.application.ApplicationDetails
 import iht.models.des.ihtReturn.Asset
 import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
@@ -30,6 +31,34 @@ import scala.collection.immutable.ListMap
 class PdfFormatterTest extends FormTestHelper {
 
   val regDetails = CommonBuilder.buildRegistrationDetails1
+
+  def incompleteTnrbIncreaseThreshold(ad:ApplicationDetails) = {
+    ad copy (
+      increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility ),
+      widowCheck = None
+    )
+  }
+
+  def completeTnrbIncreaseThreshold(ad:ApplicationDetails) = {
+    val tnrb = CommonBuilder.buildTnrbEligibility copy (
+      dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
+    )
+    ad copy (
+      increaseIhtThreshold = Some(tnrb),
+      widowCheck = Some(CommonBuilder.buildWidowedCheck)
+      )
+  }
+
+  def completeTnrbNotIncreaseThreshold(ad:ApplicationDetails) = {
+    val tnrb = CommonBuilder.buildTnrbEligibility copy (
+      isPartnerLivingInUk = Some(false),
+      dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
+      )
+    ad copy (
+      increaseIhtThreshold = Some(tnrb),
+      widowCheck = Some(CommonBuilder.buildWidowedCheck)
+    )
+  }
 
   "display value" must {
     "must return the year from specified date" in {
@@ -61,14 +90,14 @@ class PdfFormatterTest extends FormTestHelper {
     )
     val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "")
     val expectedSetOfAssets = ihtReturn.freeEstate.flatMap(_.estateAssets)
-      .fold[Set[Asset]](Set.empty)(identity).map{ asset =>
-      val newAssetDescription = asset.assetDescription.map(x=>
+      .fold[Set[Asset]](Set.empty)(identity).map { asset =>
+      val newAssetDescription = asset.assetDescription.map(x =>
         etmpTitlesMappedToPDFMessageKeys.get(x) match {
           case None => x
           case Some(newMessageKey) => messagesApi(newMessageKey, CommonBuilder.DefaultString)
         }
       )
-      asset copy(assetDescription = newAssetDescription)
+      asset copy (assetDescription = newAssetDescription)
     }
     val result = PdfFormatter.transform(ihtReturn, CommonBuilder.DefaultString, messages)
     val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
@@ -108,4 +137,82 @@ class PdfFormatterTest extends FormTestHelper {
         regDetails.deceasedDetails.fold("")(_.name)))
     }
   }
+
+  "estateOverviewDisplayMode" must {
+    "return 1 when only assets, gifts and debts are filled in (base)" in {
+      val ad = CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 1
+    }
+
+    "return 2 when in addition to base Tnrb completed and exemptions locked" in {
+      val ad =
+        CommonBuilder.buildExemptionsWithNoValues(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(false)
+          )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 2
+    }
+
+    "return 3 when in addition to base Tnrb started but not completed and exemptions unlocked but zero" in {
+      val ad =
+        CommonBuilder.buildExemptionsWithNoValues(
+          incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+          )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 3
+    }
+
+    "return 3 when in addition to base Tnrb not increased and exemptions unlocked but zero" in {
+      val ad =
+        CommonBuilder.buildExemptionsWithNoValues(
+          completeTnrbNotIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+            )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 3
+    }
+
+    "return 4 when in addition to base Tnrb increased and exemptions unlocked but zero" in {
+      val ad =
+        CommonBuilder.buildExemptionsWithNoValues(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+          )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 4
+    }
+
+    "return 5 when in addition to base Tnrb increased and exemptions unlocked but more than zero" in {
+      val ad =
+        CommonBuilder.buildSomeExemptions(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+          )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 5
+    }
+
+    "return 6 when in addition to base Tnrb started but not completed and exemptions unlocked but more than zero" in {
+      val ad =
+        CommonBuilder.buildSomeExemptions(
+          incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+            )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
+    }
+
+    "return 6 when in addition to base Tnrb not increased and exemptions unlocked but more than zero" in {
+      val ad =
+        CommonBuilder.buildSomeExemptions(
+          completeTnrbNotIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+            hasSeenExemptionGuidance = Some(true)
+            )
+        )
+      PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
+    }
+  }
+
 }
