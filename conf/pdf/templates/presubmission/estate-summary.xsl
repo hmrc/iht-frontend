@@ -10,6 +10,8 @@
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="estateOverviewDisplayMode"/>
 
+    <xsl:comment>estateOverviewDisplayMode is calculated by PdfFormatter.estateOverviewDisplayMode - more info by checking its comment.</xsl:comment>
+  
     <xsl:template name="estate-summary">
         <fo:block  role="H2" xsl:use-attribute-sets="h2" page-break-before="always">
             <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.overview.title2', $deceasedName)"/>
