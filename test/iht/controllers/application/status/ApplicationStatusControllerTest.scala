@@ -34,7 +34,7 @@ class ApplicationStatusControllerTest extends ApplicationControllerTest {
   val mockIhtConnector = mock[IhtConnector]
 
   def applicationStatusController = new ApplicationStatusController {
-    def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
+    def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_], formPartialRetriever: FormPartialRetriever) =>
       iht.views.html.application.status.in_review_application(ihtReference,
                                                       deceasedName,
                                                       probateDetails)(request, applicationMessages, formPartialRetriever)

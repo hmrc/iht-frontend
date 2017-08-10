@@ -27,7 +27,7 @@ class ApplicationInReviewControllerTest extends ApplicationControllerTest with H
     "implement the correct view" in {
       val request = createFakeRequest()
       implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
-      val pageContent = ApplicationInReviewController.getView("","",CommonBuilder.buildProbateDetails)(request).toString
+      val pageContent = ApplicationInReviewController.getView("","",CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
       titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.inreview.title"))
     }
   }
