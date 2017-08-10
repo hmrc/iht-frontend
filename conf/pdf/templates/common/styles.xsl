@@ -105,11 +105,6 @@
 </xsl:attribute-set>
 
 <xsl:attribute-set name="cell--heavy">
-    <xsl:attribute name="padding-top">8px</xsl:attribute>
-    <xsl:attribute name="padding-bottom">8px</xsl:attribute>
-    <xsl:attribute name="padding-left">0</xsl:attribute>
-    <xsl:attribute name="padding-right">10px</xsl:attribute>
-    <xsl:attribute name="font-size">12pt</xsl:attribute>
     <xsl:attribute name="font-family">OpenSans-Bold</xsl:attribute>
     <xsl:attribute name="font-weight">bold</xsl:attribute>
 </xsl:attribute-set>

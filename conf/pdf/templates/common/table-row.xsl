@@ -121,12 +121,12 @@
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row xsl:use-attribute-sets="row">
-            <fo:table-cell xsl:use-attribute-sets="cell--heavy">
+            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy">
                 <fo:block>
                     <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell--heavy set-right">
+            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy set-right">
                 <fo:block>
                     <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
                 </fo:block>
@@ -138,12 +138,12 @@
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row xsl:use-attribute-sets="row--bottom">
-            <fo:table-cell xsl:use-attribute-sets="cell--heavy">
+            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy">
                 <fo:block>
                     <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell--heavy set-right">
+            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy set-right">
                 <fo:block>
                     <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
                 </fo:block>
@@ -155,12 +155,12 @@
         <xsl:param name="label"/>
         <xsl:param name="value"/>
         <fo:table-row xsl:use-attribute-sets="row">
-            <fo:table-cell xsl:use-attribute-sets="cell--heavy shaded">
+            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy shaded">
                 <fo:block>
                     <xsl:value-of select="$label"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell--heavy shaded set-right">
+            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy shaded set-right">
                 <fo:block>
                     <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value,"-","")), "##,##0.00")'/>
                 </fo:block>
