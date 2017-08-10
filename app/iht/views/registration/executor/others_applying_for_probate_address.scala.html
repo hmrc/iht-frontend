@@ -21,6 +21,7 @@
 @import iht.utils.StringHelper._
 @import iht.constants.IhtProperties
 @import iht.constants._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(othersApplyingForProbateAddressForm: Form[iht.models.UkAddress],
     id: String,
@@ -28,7 +29,7 @@
     isInternational: Boolean,
     actionCall: Call,
     changeNationalityLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages)
+    cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.others-applying-for-probate-address.sectionTitlePostfix", addApostrophe(name)),
                    browserTitle = Some(Messages("page.iht.registration.others-applying-for-probate-address.browserTitle")),

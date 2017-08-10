@@ -25,9 +25,13 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.models.application.exemptions._
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(appDetails:ApplicationDetails,
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
+registrationDetails: RegistrationDetails)(implicit request:Request[_],
+                                                   messages: Messages,
+                                                   lang : play.api.i18n.Lang,
+                                                   ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("iht.estateReport.exemptions.partner.assetsLeftToSpouse.title"),
 browserTitle = Some(Messages("page.iht.application.exemptions.partner.overview.browserTitle")),

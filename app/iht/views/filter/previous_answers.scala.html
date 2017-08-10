@@ -19,8 +19,10 @@
 @import iht.constants.FieldMappings
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(country: String, estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Messages)
+@(country: String,
+estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 <section class="section">
     <div class="grid-layout grid-layout--stacked grid-layout--nogutter divider--bottom">

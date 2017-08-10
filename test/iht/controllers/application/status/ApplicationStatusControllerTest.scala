@@ -21,25 +21,29 @@ import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages.Implicits._
 import org.mockito.Matchers.same
 import play.api.mvc.Request
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplicationStatusControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
   def applicationStatusController = new ApplicationStatusController {
-    def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) =>
-      iht.views.html.application.status.in_review_application(ihtReference, deceasedName, probateDetails)(request, applicationMessages)
+    def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_], formPartialRetriever: FormPartialRetriever) =>
+      iht.views.html.application.status.in_review_application(ihtReference,
+                                                      deceasedName,
+                                                      probateDetails)(request, applicationMessages, formPartialRetriever)
 
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector()
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {

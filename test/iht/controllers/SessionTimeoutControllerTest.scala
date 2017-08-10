@@ -18,9 +18,11 @@ package iht.controllers
 
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
+import iht.testhelpers.MockFormPartialRetriever
 import play.api.http.Status._
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.play.test.UnitSpec
 
 class SessionTimeoutControllerTest extends ApplicationControllerTest with UnitSpec {
@@ -30,7 +32,7 @@ class SessionTimeoutControllerTest extends ApplicationControllerTest with UnitSp
   val mockAuditConnector = mock[ExplicitAuditConnector]
 
   def controller = new SessionTimeoutController{
-
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val request = FakeRequest()

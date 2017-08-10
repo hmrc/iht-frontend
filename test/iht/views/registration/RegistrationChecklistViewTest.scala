@@ -25,13 +25,13 @@ class RegistrationChecklistViewTest extends ViewTestHelper {
   "RegistrationChecklistView" must {
 
     "have no message keys in html" in {
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "contain the correct page heading and contents for first paragraph of guidance" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
       view should include (messagesApi("page.iht.registration.checklist.title"))
       view should include (messagesApi("page.iht.registration.checklist.label1"))
@@ -40,7 +40,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper {
     }
 
     "contain the required contents for the deceased guidance section" in {
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
       view should include (messagesApi("iht.name.lowerCaseInitial"))
       view should include (messagesApi("iht.registration.checklist.dateOfBirth"))
@@ -59,7 +59,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper {
 
     "contain the required contents for the Applicant guidance section" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
       view should include (messagesApi("iht.address.lowerCaseInitial"))
       view should include (messagesApi("iht.nationalInsuranceNo"))
@@ -76,7 +76,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper {
 
     "contain the required contents for the grant of representation guidance section" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
       view should include (messagesApi("iht.name.lowerCaseInitial"))
       view should include (messagesApi("iht.registration.checklist.dateOfBirth"))
@@ -92,7 +92,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper {
 
     "contain Start registration button with target as deceased date of death page" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
       val doc = asDocument(view)
 
       view should include (messagesApi("page.iht.registration.checklist.startRegistrationButton"))
@@ -105,7 +105,7 @@ class RegistrationChecklistViewTest extends ViewTestHelper {
 
     "contain Leave this page to get all the details you need link and has a target as what you want to do page" in {
 
-      val view = registration_checklist()(createFakeRequest(), applicationMessages).toString
+      val view = registration_checklist()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
       val doc = asDocument(view)
 
       val link = doc.getElementById("leave-page")

@@ -17,13 +17,14 @@
 @import iht.models.application._
 @import iht.utils.{KickOutReason => KickOut}
 @import iht.utils.ApplicationKickOutSummaryHelper
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @( kickoutReason: String,
 applicationDetails: ApplicationDetails,
 applicationLastSection: Option[String],
 applicationLastID: Option[String],
 summaryParameter1:String,
-deceasedName: String)(implicit request:Request[_], messages: Messages)
+deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._

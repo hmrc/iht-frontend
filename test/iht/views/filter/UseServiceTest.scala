@@ -32,13 +32,13 @@ class UseServiceTest extends ViewTestHelper {
   "use_service" must {
 
     "have no message keys in html" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val view = asDocument(contentAsString(result)).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "generate appropriate content for the title" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
@@ -46,7 +46,7 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "generate appropriate content for the browser title" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val browserTitleElement = doc.getElementsByTag("title").first
 
@@ -54,42 +54,42 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "generate content for under 325000 paragraph zero when given the under 325 paramater" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
       paragraph0.text() should be(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
     }
 
     "generate content for the between 325000 and 1 million paragraph zero when given the between parameter" in {
-      val result = use_service(between325000and1million)(fakeRequest, applicationMessages)
+      val result = use_service(between325000and1million)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph0")
       paragraph0.text() should be(messagesApi("page.iht.filter.useService.between325000And1Million.paragraph0"))
     }
 
     "generate content for the between 325000 and 1 million paragraph one when given the between parameter" in {
-      val result = use_service(between325000and1million)(fakeRequest, applicationMessages)
+      val result = use_service(between325000and1million)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph1")
       paragraph0.text() should be(messagesApi("page.iht.filter.useService.between325000And1Million.paragraph1"))
     }
 
     "generate content for the final paragraph when given the under 325 parameter" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph-final")
       paragraph0.text() should be(messagesApi("page.iht.filter.useService.paragraphFinal"))
     }
 
     "generate content for the final paragraph when given the between parameter" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val paragraph0 = doc.getElementById("paragraph-final")
       paragraph0.text() should be(messagesApi("page.iht.filter.useService.paragraphFinal"))
     }
 
     "contain a link with the button class with the text 'Continue'" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -97,7 +97,7 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "contain a link with the button class with href attribute pointing to the start pages" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -105,13 +105,13 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "contain a 'Previous answers' section" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       assertRenderedById(doc, "previous-answers")
     }
 
     "contain a 'Start again' link to go back to the domicile page" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("start-again")
       link.text() should be(messagesApi("iht.startAgain"))
@@ -119,7 +119,7 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "contain a row showing the user's answer to the previous domicile question" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("domicile-row")
       row.text() should include(messagesApi("page.iht.registration.deceasedPermanentHome.title"))
@@ -127,7 +127,7 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "contain a 'Change' link to go back to the domicile page" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-domicile")
       link.text() should be(messagesApi("iht.change"))
@@ -135,7 +135,7 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the under 32500 parameter" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("estimate-row")
       row.text() should include(messagesApi("iht.roughEstimateEstateWorth"))
@@ -143,7 +143,7 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "contain a row showing the user's answer to the previous estimate question when given the between parameter" in {
-      val result = use_service(between325000and1million)(fakeRequest, applicationMessages)
+      val result = use_service(between325000and1million)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val row = doc.getElementById("estimate-row")
       row.text() should include(messagesApi("iht.roughEstimateEstateWorth"))
@@ -151,7 +151,7 @@ class UseServiceTest extends ViewTestHelper {
     }
 
     "contain a 'Change' link to go back to the estimate page" in {
-      val result = use_service(under325000)(fakeRequest, applicationMessages)
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
       link.text() should be(messagesApi("iht.change"))

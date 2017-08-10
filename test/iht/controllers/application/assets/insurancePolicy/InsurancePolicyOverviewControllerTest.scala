@@ -19,12 +19,12 @@ package iht.controllers.application.assets.insurancePolicy
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.{CommonBuilder, TestHelper}
-import iht.testhelpers.ContentChecker
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper, ContentChecker}
 import iht.utils.DeceasedInfoHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -42,6 +42,7 @@ class InsurancePolicyOverviewControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(

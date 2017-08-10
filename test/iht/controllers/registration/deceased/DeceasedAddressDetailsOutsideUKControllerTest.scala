@@ -22,13 +22,14 @@ import iht.controllers.registration.applicant.{routes => applicantRoutes}
 import iht.controllers.registration.{routes => registrationRoutes}
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails, UkAddress}
 
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedAddressDetailsOutsideUKControllerTest
   extends RegistrationDeceasedControllerWithEditModeBehaviour[DeceasedAddressDetailsOutsideUKController]{
@@ -37,12 +38,14 @@ class DeceasedAddressDetailsOutsideUKControllerTest
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new DeceasedAddressDetailsOutsideUKController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   before {

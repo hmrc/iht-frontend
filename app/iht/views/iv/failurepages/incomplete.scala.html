@@ -15,7 +15,9 @@
 *@
 
 @import iht.constants.IhtProperties
-@()(implicit request : Request[_], messages: Messages)
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @message={
     <p>@Messages("iht.iv.unableToContinue")</p>

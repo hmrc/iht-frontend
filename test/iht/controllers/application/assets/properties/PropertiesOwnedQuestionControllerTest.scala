@@ -21,12 +21,12 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.controllers.application.assets.routes.AssetsOverviewController
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.Properties
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.TestHelper
 import iht.utils.CommonHelper
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
 
@@ -46,12 +46,14 @@ class PropertiesOwnedQuestionControllerTest extends ApplicationControllerTest{
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertiesOwnedQuestionControllerNotAuthorised = new PropertiesOwnedQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "PropertiesOwnedQuestionController" must {

@@ -40,11 +40,14 @@ class ExecutorOverviewViewTest extends YesNoQuestionViewBehaviour[Option[Boolean
   override def formToView: Form[Option[Boolean]] => Appendable =
     form => executor_overview(form, true,
       Seq(CommonBuilder.DefaultCoExecutor1, CommonBuilder.DefaultCoExecutor2),
-      CommonBuilder.DefaultCall1)(createFakeRequest(), applicationMessages)
+      CommonBuilder.DefaultCall1)(createFakeRequest(), applicationMessages, formPartialRetriever)
 
   def editModeViewAsDocument = {
     implicit val request = createFakeRequest()
-    val view = executor_overview(form, true, Seq(), CommonBuilder.DefaultCall1, Some(CommonBuilder.DefaultCall2))(createFakeRequest(), applicationMessages)
+    val view = executor_overview(form,
+      true, Seq(),
+      CommonBuilder.DefaultCall1,
+      Some(CommonBuilder.DefaultCall2))(createFakeRequest(), applicationMessages, formPartialRetriever)
     asDocument(view)
   }
 

@@ -1500,4 +1500,3 @@ error.address.giveInLine1And2=Rhowch gyfeiriad yn llinell 1 a 2
 page.iht.application.assets.propertyType.nonResidential.label=Tir, adeilad dibreswyl neu fusnes
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased={0}
 page.iht.registration.checklist.startRegistrationButton=Dechrau''r broses gofrestru
-

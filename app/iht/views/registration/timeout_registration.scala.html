@@ -14,11 +14,12 @@
 * limitations under the License.
 *@
 
-@()(implicit request : Request[_], messages: Messages)
-
 @import iht.constants.IhtProperties
 @import iht.views.html._
 @import iht.config.ApplicationConfig
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.signedOut"),
 hasSignOut=false,

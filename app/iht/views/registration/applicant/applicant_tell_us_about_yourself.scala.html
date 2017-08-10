@@ -20,10 +20,12 @@
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
 @import iht.constants._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(applicantTellUsAboutYourselfForm:Form[iht.models.ApplicantDetails],
     mode: Mode.Value = Mode.Standard,
-    actionLocation: Call, cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
+    actionLocation: Call,
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.registration.applicant.tellUsAboutYourself"),
 browserTitle = Some(Messages("iht.registration.applicant.tellUsAboutYourself")),

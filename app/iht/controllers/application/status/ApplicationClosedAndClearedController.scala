@@ -20,10 +20,12 @@ import iht.connector.IhtConnectors
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 object ApplicationClosedAndClearedController extends ApplicationStatusController with IhtConnectors {
-  def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_]) => {
+  def getView = (ihtReference, deceasedName, probateDetails) => (request: Request[_], formPartialRetriever: FormPartialRetriever) => {
       implicit val req = request
+      implicit val fpr = formPartialRetriever
       iht.views.html.application.status.closed_cleared_application(ihtReference, deceasedName, probateDetails)
     }
 }

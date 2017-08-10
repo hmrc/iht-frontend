@@ -1,0 +1,11 @@
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.config.AppConfig
+@import play.api.i18n.Messages
+
+@(supportLinkEnabled: Boolean = true,
+includeGridWrapper: Boolean = true,
+appConfig: AppConfig)(implicit  messages: Messages,
+                                requestHeader: RequestHeader,
+                                ihtFormPartialRetriever: FormPartialRetriever)
+
+@ihtFormPartialRetriever.getPartialContent(appConfig.reportAProblemPartialUrl)(requestHeader)

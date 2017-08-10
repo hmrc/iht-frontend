@@ -23,13 +23,14 @@ import iht.models.application.basicElements.ShareableBasicEstateElement
 import iht.models.application.exemptions.BasicExemptionElement
 import iht.models.RegistrationDetails
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.views.HtmlSpec
 import org.mockito.Matchers._
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSpec {
 
@@ -58,6 +59,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new EstateOverviewController {
@@ -65,6 +67,7 @@ class EstateOverviewControllerTest extends ApplicationControllerTest with HtmlSp
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {

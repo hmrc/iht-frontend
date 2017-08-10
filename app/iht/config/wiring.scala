@@ -16,13 +16,15 @@
 
 package iht.config
 
+import iht.services.http.WsAllMethods
 import uk.gov.hmrc.play.audit.http.HttpAuditing
 import uk.gov.hmrc.play.audit.http.config.LoadAuditingConfig
 import uk.gov.hmrc.play.audit.http.connector.{AuditConnector => Auditing}
 import uk.gov.hmrc.play.config.{AppName, RunMode, ServicesConfig}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
+import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import uk.gov.hmrc.play.http.ws.{WSDelete, WSGet, WSPost, WSPut}
-import uk.gov.hmrc.play.partials.CachedStaticHtmlPartialRetriever
+import uk.gov.hmrc.play.partials.{FormPartialRetriever, CachedStaticHtmlPartialRetriever}
 
 object IhtAuditConnector extends Auditing with AppName with RunMode {
   override lazy val auditingConfig = LoadAuditingConfig(s"$env.auditing")
@@ -35,6 +37,11 @@ object WSHttp extends WSGet with WSPut with WSPost with WSDelete with AppName wi
 
 object CachedStaticHtmlPartialProvider extends CachedStaticHtmlPartialRetriever {
   override val httpGet = WSHttp
+}
+
+object IhtFormPartialRetriever extends FormPartialRetriever {
+  override def crypto = SessionCookieCryptoFilter.encrypt
+  override val httpGet = WsAllMethods
 }
 
 trait FrontendAuthConnector extends AuthConnector with ServicesConfig {

@@ -23,7 +23,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
@@ -32,6 +32,7 @@ import play.api.test.Helpers._
 import play.api.test.Helpers.{contentAsString, _}
 import iht.utils.CommonHelper
 import iht.testhelpers.TestHelper._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
 
@@ -53,12 +54,14 @@ class StocksAndSharesListedControllerTest extends ApplicationControllerTest {
     val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def stocksAndSharesListedControllerNotAuthorised = new StocksAndSharesListedController {
     val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   before {

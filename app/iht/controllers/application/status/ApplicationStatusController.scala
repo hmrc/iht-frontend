@@ -27,6 +27,7 @@ import play.api.mvc.Request
 import play.twirl.api.HtmlFormat.Appendable
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -37,7 +38,7 @@ trait ApplicationStatusController extends EstateController {
 
   def ihtConnector: IhtConnector
 
-  def getView: (String, String, ProbateDetails) => Request[_] => Appendable
+  def getView: (String, String, ProbateDetails) => (Request[_], FormPartialRetriever) => Appendable
 
   def onPageLoad(ihtReference: String) = authorisedForIht {
     implicit user =>
@@ -51,7 +52,7 @@ trait ApplicationStatusController extends EstateController {
             )
             val deceasedDetails = CommonHelper.getOrException(caseDetails.deceasedDetails)
             futureProbateDetails.map { probateDetails =>
-              Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request))
+              Ok(getView(ihtReference, deceasedDetails.name, probateDetails)(request, formPartialRetriever))
             }
           }
         }

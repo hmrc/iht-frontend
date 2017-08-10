@@ -26,12 +26,14 @@
 @import ihtHelpers.custom._
 @import iht.utils.CommonHelper
 @import uk.gov.hmrc.play.language.LanguageUtils
+@import iht.config.IhtFormPartialRetriever
+@import iht.config.ApplicationConfig
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(title: String = "",
 signOutText: String = "",
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
-appConfig: iht.config.AppConfig = iht.config.ApplicationConfig,
 subTitle: Option[String] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
@@ -46,7 +48,7 @@ headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = "",
 isRegistration: Boolean = false
-)(mainContent: Html)(implicit  request:Request[_], messages: Messages)
+)(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
 @currentLang = @{LanguageUtils.getCurrentLang.language}
@@ -89,11 +91,11 @@ isRegistration: Boolean = false
 
     <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
     @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
-    @if(hasTimeOut && appConfig.enableRefresh) {
+    @if(hasTimeOut && ApplicationConfig.enableRefresh) {
             <script>
                 $.timeoutDialog({
-                    timeout: @appConfig.timeOutSeconds,
-                    countdown: @appConfig.timeOutCountdownSeconds,
+                    timeout: @ApplicationConfig.timeOutSeconds,
+                    countdown: @ApplicationConfig.timeOutCountdownSeconds,
                     keep_alive_url: "@iht.controllers.routes.SessionManagementController.keepAlive.url",
                     title: "@Messages("iht.timeoutDialog.title")",
                     messageSeconds: "@Messages("iht.timeoutDialog.seconds")",
@@ -166,8 +168,8 @@ isRegistration: Boolean = false
 @betaBanner = {
     @layouts.betaBanner(
         userLoggedIn = false,
-        betaFeedbackUrl = appConfig.betaFeedbackUrl,
-        betaFeedbackUnauthenticatedUrl = appConfig.betaFeedbackUnauthenticatedUrl,
+        betaFeedbackUrl = ApplicationConfig.betaFeedbackUrl,
+        betaFeedbackUnauthenticatedUrl = ApplicationConfig.betaFeedbackUnauthenticatedUrl,
         showFeedbackLinkInBetaBanner = true)
 }
 
@@ -178,7 +180,7 @@ isRegistration: Boolean = false
         serviceInfoContent = None)
 }
 
-@getHelpForm = @{ihtHelpers.custom.report_a_problem_link(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+@getHelpForm = @{ihtHelpers.standard.get_help_form(appConfig = ApplicationConfig)}
 
 @content = {
     @layouts.main_content(
@@ -196,8 +198,8 @@ isRegistration: Boolean = false
 
 @bodyEnd = {
     @layouts.footer(
-        analyticsToken = appConfig.analyticsToken,
-        analyticsHost = appConfig.analyticsHost,
+        analyticsToken = ApplicationConfig.analyticsToken,
+        analyticsHost = ApplicationConfig.analyticsHost,
         ssoUrl = None,
         scriptElem = Some(scriptElement),
         gaCalls = None)

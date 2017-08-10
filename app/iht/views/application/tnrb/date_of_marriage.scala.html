@@ -20,13 +20,14 @@
 @import iht.models.application.tnrb._
 @import iht.utils._
 @import iht.utils.tnrb.TnrbHelper
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(dateOfMarriageForm: Form[TnrbEligibiltyModel],
         widowCheckModel: WidowCheck,
         deceasedName: String,
         predeceasedName: String,
         cancelUrl: Call
-)(implicit request: Request[_], messages: Messages)
+)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @defining(Messages("iht.estateReport.tnrb.dateOfMarriage",
     TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel))) { pageTitle =>

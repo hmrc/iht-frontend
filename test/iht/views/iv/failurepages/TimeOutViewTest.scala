@@ -32,7 +32,7 @@ class TimeOutViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.timeout.title")
 
-  def view: String = timeout(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
+  def view: String = timeout(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

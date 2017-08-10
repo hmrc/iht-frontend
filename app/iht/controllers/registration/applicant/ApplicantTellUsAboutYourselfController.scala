@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.applicant
 
+import iht.config.IhtFormPartialRetriever
 import iht.connector.{CitizenDetailsConnector, IhtConnectors}
 import iht.controllers.ControllerHelper.Mode
 import iht.controllers.registration.{routes => registrationRoutes}
@@ -29,6 +30,7 @@ import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{AnyContent, Request, Result}
 import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -48,12 +50,14 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   def citizenDetailsConnector: CitizenDetailsConnector
 
+  //override implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+
   lazy val submitRoute = routes.ApplicantTellUsAboutYourselfController.onSubmit
   lazy val editSubmitRoute = routes.ApplicantTellUsAboutYourselfController.onEditSubmit
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   override def pageLoad(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request =>
@@ -71,15 +75,15 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Standard, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.applicant_tell_us_about_yourself(form, Mode.Edit, editSubmitRoute, cancelToRegSummary)
-  (request, request.acceptLanguages.head, applicationMessages))
+  (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   // Implementation not required as we are overriding the submit method
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value = Mode.Standard) = ???

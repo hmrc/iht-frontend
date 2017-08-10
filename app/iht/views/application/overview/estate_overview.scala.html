@@ -19,8 +19,9 @@
 @import iht.views.html.ihtHelpers.custom._
 @import play.twirl.api.Html
 @import iht.constants.IhtProperties
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(model: EstateOverviewViewModel)(implicit request:Request[_], messages: Messages)
+@(model: EstateOverviewViewModel)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @checkNameSize(name: String) = @{
   var nameislong = false;

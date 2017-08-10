@@ -14,12 +14,13 @@
 * limitations under the License.
 *@
 
-@(coExecutor: iht.models.CoExecutor)(implicit request : Request[_], messages: Messages)
-
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.constants.IhtProperties
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(coExecutor: iht.models.CoExecutor)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.deleteExecutor.title", Messages("page.iht.registration.executor-overview.entity-name")),
  browserTitle = Some(Messages("page.iht.registration.deleteExecutor.browserTitle")),

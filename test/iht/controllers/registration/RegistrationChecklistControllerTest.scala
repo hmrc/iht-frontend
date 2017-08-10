@@ -18,10 +18,12 @@ package iht.controllers.registration
 
 import iht.config.FrontendAuthConnector
 import iht.connector.{CachingConnector, IhtConnector}
+import iht.testhelpers.MockFormPartialRetriever
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class RegistrationChecklistControllerTest extends RegistrationControllerTest {
 
@@ -34,6 +36,7 @@ class RegistrationChecklistControllerTest extends RegistrationControllerTest {
   def registrationChecklistController = new RegistrationChecklistController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "RegistrationChecklistController" must {

@@ -16,10 +16,12 @@
 
 package iht.controllers.filter
 
+import iht.config.IhtFormPartialRetriever
 import iht.controllers.auth.CustomPasscodeAuthentication
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -31,6 +33,8 @@ trait TransitionController extends FrontendController with CustomPasscodeAuthent
   def onPageLoadScotland = doPageLoad("iht.countries.scotland")
   def onPageLoadNorthernIreland = doPageLoad("iht.countries.northernIreland")
   def onPageLoadOtherCountry = doPageLoad("page.iht.filter.domicile.choice.other")
+
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def doPageLoad(countryMessageKey: String) = customAuthenticatedActionAsync {
     implicit request => {

@@ -16,12 +16,14 @@
 
 package iht.controllers
 
+import iht.config.IhtFormPartialRetriever
 import iht.connector.IhtConnectors
 import iht.controllers.auth.{CustomPasscodeAuthentication, IhtActions}
 import iht.utils.IhtSection
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -32,6 +34,7 @@ object SessionManagementController extends SessionManagementController
 
 trait SessionManagementController extends FrontendController with CustomPasscodeAuthentication with IhtActions with IhtConnectors {
   override lazy val ihtSection = IhtSection.Application
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def signOut = customAuthenticatedActionAsync {
     implicit request => {

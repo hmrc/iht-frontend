@@ -16,14 +16,16 @@
 
 @import iht.models._
 @import iht.models.application.debts.BasicEstateElementLiabilities
-
-@(debtsTrustForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 
 @import iht.utils._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(debtsTrustForm: Form[BasicEstateElementLiabilities],
+  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.debtsTrust.title"),
     browserTitle = Some(Messages("page.iht.application.debts.debtsTrust.browserTitle")),

@@ -20,8 +20,9 @@
 @import iht.constants.Constants._
 @import iht.forms.FilterForms._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@()(implicit request:Request[_], messages: Messages)
+@()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.noChangeToHowReportToHMRC"),
   browserTitle = Some(Messages("iht.noChangeToHowReportToHMRC")),

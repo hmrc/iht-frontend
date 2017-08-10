@@ -16,13 +16,14 @@
 
 package iht.controllers.filter
 
-import iht.config.FrontendAuthConnector
+import iht.config.{IhtFormPartialRetriever, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.CustomPasscodeAuthentication
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 import scala.concurrent.Future
 
 /**
@@ -38,6 +39,8 @@ object AgentController extends AgentController {
 trait AgentController extends FrontendController with CustomPasscodeAuthentication {
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
+
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def onPageLoad = customAuthenticatedActionAsync {
     implicit request => {
