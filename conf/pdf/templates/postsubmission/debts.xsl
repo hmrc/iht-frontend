@@ -15,7 +15,8 @@
             <xsl:choose>
                 <xsl:when test="freeEstate/estateAssets != '' or freeEstate/estateLiabilities != ''">
                     <fo:block role="H2" xsl:use-attribute-sets="h2">
-                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
+                        <xsl:value-of
+                                select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
                     </fo:block>
                 </xsl:when>
             </xsl:choose>
@@ -24,51 +25,50 @@
                 <fo:table-column column-number="1" column-width="60%"/>
                 <fo:table-column column-number="2" column-width="40%"/>
                 <fo:table-body>
-                    <xsl:choose>
-                        <xsl:when test="freeEstate/estateAssets != ''">
-                            <xsl:for-each select="freeEstate/estateAssets">
-                                <xsl:if test="assetCode='0016'">
-                                    <xsl:choose>
-                                        <xsl:when test="./liabilities != ''">
-                                            <xsl:call-template name="table-row--currency-right">
-                                                <xsl:with-param name="label"
-                                                                select="scala:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
-                                                <xsl:with-param name="value" select='format-number(number(./liabilities/liabilityAmount), "##,###.00")'/>
-                                            </xsl:call-template>
-                                        </xsl:when>
-
-                                    </xsl:choose>
-                                </xsl:if>
-                            </xsl:for-each>
-                        </xsl:when>
-
-                        <xsl:when test="freeEstate/estateLiabilities != ''">
-                           <xsl:for-each select="freeEstate/estateLiabilities">
-
-                               <xsl:if test="liabilityType = 'Funeral Expenses'">
-                                   <xsl:call-template name="table-row--currency-right">
+                    <xsl:if test="freeEstate/estateAssets != ''">
+                        <xsl:for-each select="freeEstate/estateAssets">
+                            <xsl:if test="assetCode='0016'">
+                                <xsl:choose>
+                                    <xsl:when test="./liabilities != ''">
+                                        <xsl:call-template name="table-row--currency-right">
                                             <xsl:with-param name="label"
-                                                            select="scala:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
-                                            <xsl:with-param name="value" select='format-number(number(liabilityAmount), "##,###.00")'/>
+                                                            select="scala:getMessagesText($translator, 'iht.estateReport.debts.mortgages')"/>
+                                            <xsl:with-param name="value" select="./liabilities/liabilityAmount"/>
                                         </xsl:call-template>
-                                </xsl:if>
-                            </xsl:for-each>
+                                    </xsl:when>
 
-                            <xsl:for-each select="freeEstate/estateLiabilities">
-                                <xsl:if test="liabilityType !='Funeral Expenses'">
+                                </xsl:choose>
+                            </xsl:if>
+                        </xsl:for-each>
+                    </xsl:if>
+
+
+                    <xsl:if test="freeEstate/estateLiabilities != ''">
+                        <xsl:for-each select="freeEstate/estateLiabilities">
+                            <xsl:choose>
+                                <xsl:when test="liabilityType = 'Funeral Expenses'">
+                                    <xsl:call-template name="table-row--currency-right">
+                                        <xsl:with-param name="label"
+                                                        select="scala:getMessagesText($translator, 'iht.estateReport.debts.funeralExpenses.title')"/>
+                                        <xsl:with-param name="value" select="liabilityAmount"/>
+                                    </xsl:call-template>
+                                </xsl:when>
+
+                                <xsl:otherwise>
                                     <xsl:call-template name="table-row--currency-right">
                                         <xsl:with-param name="label"
                                                         select="scala:getMessagesText($translator, 'iht.common.other')"/>
-                                        <xsl:with-param name="value" select='format-number(number(liabilityAmount), "##,###.00")'/>
+                                        <xsl:with-param name="value" select="liabilityAmount"/>
                                     </xsl:call-template>
-                                </xsl:if>
-                            </xsl:for-each>
-                        </xsl:when>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:for-each>
+                    </xsl:if>
 
-                </xsl:choose>
                     <xsl:call-template name="table-row--currency-right-total">
-                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.debts.overview.total')"/>
-                        <xsl:with-param name="value" select="format-number(number($debtsTotal), '##,###.00')"/>
+                        <xsl:with-param name="label"
+                                        select="scala:getMessagesText($translator, 'page.iht.application.debts.overview.total')"/>
+                        <xsl:with-param name="value" select="$debtsTotal"/>
                     </xsl:call-template>
                 </fo:table-body>
             </fo:table>

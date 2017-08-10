@@ -162,9 +162,9 @@ trait XmlFoToPDF {
     transformer.setParameter("sumHouseholdAssets", ihtReturn.totalForAssetIDs(Set("0016","0017","0018")))
 
     CommonHelper.withValue(ihtReturn.exemptionTotalsByExemptionType) { totals =>
-      transformer.setParameter(s"exemptionTotalsSpouse",totals.find(_._1 == "Spouse").fold(BigDecimal(0))(_._2))
+      transformer.setParameter(s"exemptionTotalsSpouse",totals.find(_._1 == "Spouse or civil partner").fold(BigDecimal(0))(_._2))
       transformer.setParameter(s"exemptionTotalsCharity",totals.find(_._1 == "Charity").fold(BigDecimal(0))(_._2))
-      transformer.setParameter(s"exemptionTotalsGNCP",totals.find(_._1 == "GNCP").fold(BigDecimal(0))(_._2))
+      transformer.setParameter(s"exemptionTotalsGNCP",totals.find(_._1 == "Other qualifying bodies").fold(BigDecimal(0))(_._2))
     }
 
     transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
