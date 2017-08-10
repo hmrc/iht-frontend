@@ -55,6 +55,11 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
     debtsValueWithoutMortgage + mortgageValue
   }
 
+  def totalForAssetIDs(assetIDs:Set[String]) = {
+    val filteredOptionSetAsset = freeEstate.flatMap(_.estateAssets).map(_.filter( _.assetCode.fold(false)( id => assetIDs.contains(id))))
+    filteredOptionSetAsset.fold(BigDecimal(0))( _.map(_.assetTotalValue.fold(BigDecimal(0))(identity)).sum)
+  }
+
   def totalExemptionsValue =
     freeEstate.flatMap(_.estateExemptions).fold(BigDecimal(0))(_.foldLeft(BigDecimal(0))(
       (a, b) => a + b.overrideValue.fold(BigDecimal(0))(identity)))

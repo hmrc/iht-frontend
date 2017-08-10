@@ -23,7 +23,7 @@ import javax.xml.transform.{ErrorListener, Transformer, TransformerException, Tr
 
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.models.des.ihtReturn.IHTReturn
+import iht.models.des.ihtReturn.{Asset, IHTReturn}
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import iht.utils.{CommonHelper, _}
@@ -159,13 +159,12 @@ trait XmlFoToPDF {
       ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
       ihtReturn.totalGiftsValue, messages)
 
+    transformer.setParameter("sumHouseholdAssets", ihtReturn.totalForAssetIDs(Set("0016")))
     transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
     transformer.setParameter("estateValue", ihtReturn.totalNetValue)
     transformer.setParameter("thresholdValue", ihtReturn.currentThreshold)
-
-
     transformer
   }
 
