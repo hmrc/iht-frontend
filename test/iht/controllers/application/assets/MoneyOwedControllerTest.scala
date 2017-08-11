@@ -65,8 +65,6 @@ class MoneyOwedControllerTest extends ApplicationControllerTest{
 
     "respond with OK on page load" in {
 
-      println()
-
       val applicationDetails = CommonBuilder.buildApplicationDetails
       val applicationDetailsTemp = CommonBuilder.buildApplicationDetails
 
