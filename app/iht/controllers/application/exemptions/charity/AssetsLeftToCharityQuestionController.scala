@@ -34,9 +34,14 @@ object AssetsLeftToCharityQuestionController extends AssetsLeftToCharityQuestion
 }
 
 trait AssetsLeftToCharityQuestionController extends EstateController {
-  val exemptionsOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsCharityID))
-  val charityOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
-  val charityDetailsOverviewPage = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
+  val exemptionsOverviewPage = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsCharityID))
+
+  val charityOverviewPage = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.exemptions.charity.routes.CharitiesOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
+
+  val charityDetailsOverviewPage = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.exemptions.charity.routes.CharityDetailsOverviewController.onPageLoad(), Some(ExemptionsCharitiesAssetsID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

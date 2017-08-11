@@ -21,7 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
@@ -30,9 +30,9 @@ import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
-import iht.testhelpers.ContentChecker
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 import scala.concurrent.Future
 
 /**
@@ -49,11 +49,13 @@ class InsurancePolicyDetailsDeceasedOwnControllerTest extends ApplicationControl
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
   def insurancePolicyDetailsDeceasedOwnControllerNotAuthorised = new InsurancePolicyDetailsDeceasedOwnController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(

@@ -19,10 +19,11 @@
 @import iht.utils._
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(applyingForProbateForm:Form[iht.models.ApplicantDetails], deceasedName: String,
     actionLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = "",
 browserTitle = Some(Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")),

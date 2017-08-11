@@ -16,6 +16,7 @@
 
 package iht.controllers.application.tnrb
 
+import iht.config.IhtFormPartialRetriever
 import iht.connector.IhtConnectors
 import iht.constants.IhtProperties._
 import iht.controllers.application.EstateController
@@ -31,15 +32,18 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 
 object GiftsMadeBeforeDeathController extends GiftsMadeBeforeDeathController with IhtConnectors {
   def metrics: Metrics = Metrics
+
 }
 
 trait GiftsMadeBeforeDeathController extends EstateController {
+
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
@@ -95,7 +99,8 @@ trait GiftsMadeBeforeDeathController extends EstateController {
                   Future.successful(BadRequest(iht.views.html.application.tnrb.gifts_made_before_death(formWithErrors,
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                    cancelUrl, regDetails
+                    cancelUrl,
+                    regDetails
                   )))
                 },
                 tnrbModel => {

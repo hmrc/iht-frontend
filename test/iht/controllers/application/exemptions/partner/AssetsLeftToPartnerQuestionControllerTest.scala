@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.PartnerExemption
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
@@ -29,7 +29,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper._
-import iht.testhelpers.ContentChecker
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by Vineet Tyagi on 29/07/16.
@@ -44,12 +44,14 @@ class AssetsLeftToPartnerQuestionControllerTest extends ApplicationControllerTes
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToPartnerQuestionControllerNotAuthorised = new AssetsLeftToPartnerQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   before {

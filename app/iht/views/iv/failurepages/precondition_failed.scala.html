@@ -15,8 +15,9 @@
 *@
 
 @import iht.constants.IhtProperties
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@()(implicit request : Request[_], messages: Messages)
+@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @message={
 <p>@Messages("page.iht.iv.failure.preconditionFailed.p1")

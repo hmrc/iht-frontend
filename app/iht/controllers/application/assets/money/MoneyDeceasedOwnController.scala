@@ -36,7 +36,8 @@ object MoneyDeceasedOwnController extends MoneyDeceasedOwnController with IhtCon
 
 trait MoneyDeceasedOwnController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyDeceasedOwned)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneyOwnID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneyOwnID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>

@@ -16,12 +16,14 @@
 
 @import iht.models._
 @import iht.models.application.debts.BasicEstateElementLiabilities
-
-@(debtsOutsideUkForm: Form[BasicEstateElementLiabilities], registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages)
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
 @import iht.views.html._
 @import uk.gov.hmrc.play.views.html._
+
+@(debtsOutsideUkForm: Form[BasicEstateElementLiabilities],
+  registrationDetails: RegistrationDetails)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("iht.estateReport.debts.owedOutsideUK"),
     browserTitle = Some(Messages("page.iht.application.debts.debtsOutsideUk.browserTitle")),

@@ -33,7 +33,7 @@ class Failure2FAViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.2fa.title")
 
-  def view: String = failure_2fa(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
+  def view: String = failure_2fa(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

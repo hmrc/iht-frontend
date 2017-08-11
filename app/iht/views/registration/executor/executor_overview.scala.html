@@ -20,12 +20,13 @@
 @import iht.utils._
 @import iht.constants.IhtProperties
 @import iht.models.CoExecutor
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(addMoreCoExecutorsForm: Form[Option[Boolean]],
   areOthersApplying: Boolean,
   coExecutors: Seq[CoExecutor],
   actionCall: Call,
-  cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages)
+  cancelCall: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.registration.othersApplyingForProbate"),
   browserTitle = Some(Messages("page.iht.registration.executor-overview.browserTitle")),

@@ -20,12 +20,13 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.debts.BasicEstateElementLiabilities
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
 
@@ -38,6 +39,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy(
@@ -49,7 +51,7 @@ class DebtsOwedFromTrustControllerTest extends ApplicationControllerTest {
     mockIhtConnector = mock[IhtConnector]
   }
 
-  "Any other Debts" must {
+  "DebtsOwedFromTrust" must {
     "return OK on page load" in {
       createMocksForApplication(mockCachingConnector,
         mockIhtConnector,

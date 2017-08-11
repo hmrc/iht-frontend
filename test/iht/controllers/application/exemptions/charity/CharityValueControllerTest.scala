@@ -21,13 +21,14 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.Charity
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class CharityValueControllerTest extends ApplicationControllerTest with BeforeAndAfter {
@@ -45,12 +46,14 @@ class CharityValueControllerTest extends ApplicationControllerTest with BeforeAn
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToCharityValueControllerNotAuthorised = new CharityValueController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForApplicationWithCharity = {

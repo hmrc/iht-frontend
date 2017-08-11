@@ -21,11 +21,12 @@
 @import iht.utils.CommonHelper._
 @import iht.constants.IhtProperties._
 @import iht.constants._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(charityNumberForm: Form[iht.models.application.exemptions.Charity],
-registrationDetails:RegistrationDetails,
-submitUrl:Call,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages)
+  registrationDetails:RegistrationDetails,
+  submitUrl:Call,
+  cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.exemptions.charityNumber.browserTitle")),

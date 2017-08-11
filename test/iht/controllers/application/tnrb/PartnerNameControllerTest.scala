@@ -19,12 +19,13 @@ package iht.controllers.application.tnrb
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.TnrbForms._
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.test.Helpers._
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  *
@@ -40,12 +41,14 @@ class PartnerNameControllerTest  extends ApplicationControllerTest{
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def partnerNameControllerNotAuthorised = new PartnerNameController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "PartnerNameController" must {

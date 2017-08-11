@@ -44,7 +44,10 @@ object AssetsLeftToPartnerQuestionController extends AssetsLeftToPartnerQuestion
 trait AssetsLeftToPartnerQuestionController extends EstateController {
 
   val partnerPermanentHomePage = routes.PartnerPermanentHomeQuestionController.onPageLoad()
-  val exemptionsOverviewPage = addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerID))
+
+  val exemptionsOverviewPage = addFragmentIdentifier(
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsPartnerID))
+
   val partnerOverviewPage = addFragmentIdentifier(routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerAssetsID))
 
   def onPageLoad = authorisedForIht {

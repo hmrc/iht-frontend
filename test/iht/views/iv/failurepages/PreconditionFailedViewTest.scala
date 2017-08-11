@@ -31,7 +31,7 @@ class PreconditionFailedViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.preconditionFailed.title")
 
-  def view: String = precondition_failed()(createFakeRequest(), applicationMessages).toString
+  def view: String = precondition_failed()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

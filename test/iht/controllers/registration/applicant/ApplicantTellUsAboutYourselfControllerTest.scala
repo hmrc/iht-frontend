@@ -23,7 +23,7 @@ import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, RegistrationDetails}
 import iht.models._
 import iht.models.application.debts._
-import iht.testhelpers.{NinoBuilder, CommonBuilder}
+import iht.testhelpers.{MockFormPartialRetriever, NinoBuilder, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
@@ -34,6 +34,7 @@ import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.domain.{Nino, TaxIds}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ApplicantTellUsAboutYourselfControllerTest
   extends RegistrationApplicantControllerWithEditModeBehaviour[ApplicantTellUsAboutYourselfController]
@@ -52,6 +53,7 @@ class ApplicantTellUsAboutYourselfControllerTest
    override val metrics:Metrics = mock[Metrics]
    override val isWhiteListEnabled = false
    override def citizenDetailsConnector = mockCitizenDetailsConnector
+   override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
 
   def controllerNotAuthorised = new ApplicantTellUsAboutYourselfController {
@@ -61,6 +63,7 @@ class ApplicantTellUsAboutYourselfControllerTest
     override val isWhiteListEnabled = false
     override def guardConditions: Set[Predicate] = Set((_, _) => true)
     override def citizenDetailsConnector = mockCitizenDetailsConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   before {

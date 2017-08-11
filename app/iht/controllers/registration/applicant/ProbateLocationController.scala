@@ -50,19 +50,19 @@ trait ProbateLocationController extends RegistrationApplicantControllerWithEditM
 
   def okForPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.probate_location(form, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.probate_location(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.probate_location(form, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[ApplicantDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.probate_location(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def applyChangesToRegistrationDetails(rd: RegistrationDetails, ad: ApplicantDetails, mode: Mode.Value) = {
     val x = CommonHelper.getOrException(rd.applicantDetails) copy (country = ad.country)

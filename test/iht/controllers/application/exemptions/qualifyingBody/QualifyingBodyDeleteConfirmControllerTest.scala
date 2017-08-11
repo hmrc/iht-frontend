@@ -18,7 +18,7 @@ package iht.controllers.application.exemptions.qualifyingBody
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
@@ -27,6 +27,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.utils.CommonHelper._
 import iht.testhelpers.TestHelper._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
@@ -41,12 +42,14 @@ class QualifyingBodyDeleteConfirmControllerTest extends ApplicationControllerTes
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def qualifyingBodyDeleteControllerNotAuthorised = new QualifyingBodyDeleteConfirmController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val qualifyingBody1 = CommonBuilder.buildQualifyingBody.copy(

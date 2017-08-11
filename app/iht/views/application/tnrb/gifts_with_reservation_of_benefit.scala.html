@@ -20,11 +20,12 @@
 @import iht.models.application.tnrb._
 @import iht.models.RegistrationDetails
 @import iht.utils.tnrb.TnrbHelper._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(partnerGiftWithResToOtherForm:Form[TnrbEligibiltyModel],
 tnrbModel:TnrbEligibiltyModel,
 deceasedName:String,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages)
+cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(
     title = "",

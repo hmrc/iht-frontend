@@ -21,7 +21,7 @@ import java.util.UUID
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.metrics.Metrics
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, MockObjectBuilder, TestHelper}
 import iht.utils.{DeceasedInfoHelper, KickOutReason, ApplicationStatus => AppStatus}
 import org.mockito.Matchers._
 import play.api.i18n.Messages.Implicits._
@@ -29,6 +29,7 @@ import play.api.Play.current
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.SessionKeys
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class KickoutControllerTest extends ApplicationControllerTest {
 
@@ -41,6 +42,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
     override lazy val metrics:Metrics = mock[Metrics]
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def kickoutControllerNotAuthorised = new KickoutController {
@@ -49,13 +51,13 @@ class KickoutControllerTest extends ApplicationControllerTest {
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
     override lazy val metrics:Metrics = mock[Metrics]
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val uuid = s"session-${UUID.randomUUID}"
 
   "Kickout Controller" must {
     "load ihtkickout in flight page " in {
-      running(app){
 
         val applicationDetails = CommonBuilder.buildApplicationDetails
           .copy(kickoutReason = Some(KickOutReason.ForeignAssetsValueMoreThanMax),
@@ -68,12 +70,11 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
         status(result) should be(OK)
-        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
-      }
+        contentAsString(result) should include(messagesApi("page.iht.application.assets.kickout.foreignAssetsValueMoreThanMax.summary",
+                                                DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
     }
 
     "load ihtkickout on im done page " in {
-      running(app){
         val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
           increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility),
           widowCheck = Some(CommonBuilder.buildWidowedCheck),
@@ -88,29 +89,23 @@ class KickoutControllerTest extends ApplicationControllerTest {
         val result = kickoutController.onPageLoad(createFakeRequest(isAuthorised = true))
         status(result) should be(OK)
         contentAsString(result) should include(messagesApi("page.iht.application.tnrb.kickout.estateValueNotInLimit.summary"))
-      }
     }
   }
 
   "onPageLoad method" must {
     "redirect to ida login page on ApplicationPageLoad if the user is not logged in" in {
-      running(app){
         val result = kickoutControllerNotAuthorised.onPageLoad(createFakeRequest(isAuthorised = false))
         status(result) should be(SEE_OTHER)
         redirectLocation(result) should be(Some(loginUrl))
-      }
     }
 
     "redirect to ida login page on Submit if the user is not logged in" in {
-      running(app){
         val result = kickoutControllerNotAuthorised.onSubmit(createFakeRequest(isAuthorised = false))
         status(result) should be(SEE_OTHER)
         redirectLocation(result) should be (Some(loginUrl))
-      }
     }
 
     "respond with OK on page load when there is a valid kickout Reason data in Keystore" in {
-      running(app){
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val applicationDetails = CommonBuilder.buildApplicationDetails.copy(
           kickoutReason = Some(TestHelper.KickOutAnnuitiesOnInsurance),
@@ -124,11 +119,9 @@ class KickoutControllerTest extends ApplicationControllerTest {
 
         val result = kickoutController.onPageLoad(createFakeRequest())
         status(result) shouldBe OK
-      }
     }
 
     "intercept RuntimeException on page load when there is no application details data in Keystore" in {
-      running(app){
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector, singleValueReturn = None)
@@ -138,12 +131,10 @@ class KickoutControllerTest extends ApplicationControllerTest {
         intercept[RuntimeException] {
           val result = kickoutController.onPageLoad(createFakeRequest())
           status(result) shouldBe INTERNAL_SERVER_ERROR
-        }
       }
     }
 
     "intercept RuntimeException on page load when there is NOT a valid kickoutReason data in Keystore" in {
-      running(app){
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToGetApplicationDetails(mockIhtConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
@@ -154,12 +145,10 @@ class KickoutControllerTest extends ApplicationControllerTest {
         intercept[RuntimeException] {
           val result = kickoutController.onPageLoad(createFakeRequest())
           status(result) shouldBe INTERNAL_SERVER_ERROR
-        }
       }
     }
 
     "respond with redirect to deleting estate report page on page submission" in {
-      running(app){
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector)
@@ -171,11 +160,9 @@ class KickoutControllerTest extends ApplicationControllerTest {
         status(result) shouldBe SEE_OTHER
         redirectLocation(result) should be (Some(
           iht.controllers.application.routes.KickoutController.onPageLoadDeleting().url))
-      }
     }
 
     "respond with redirect to iht400 page on page submission when first page already seen" in {
-      running(app){
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector)
@@ -186,11 +173,9 @@ class KickoutControllerTest extends ApplicationControllerTest {
         status(result) shouldBe SEE_OTHER
         redirectLocation(result) should be (Some(
           "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"))
-      }
     }
 
     "respond with INTERNAL_SERVER_ERROR on page submission when unable to store value in cache" in {
-      running(app){
         createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector)
         createMockToDoNothingWhenDeleteSingleValueSyncFromCache(mockCachingConnector)
         createMockToGetSingleValueSyncFromCache(mockCachingConnector)
@@ -200,16 +185,13 @@ class KickoutControllerTest extends ApplicationControllerTest {
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
         status(result) shouldBe INTERNAL_SERVER_ERROR
-      }
     }
 
     "respond with redirect to application overview when no registration details found in cache" in {
-      running(app) {
         createMockToGetRegDetailsFromCache(mockCachingConnector, None)
         val result = kickoutController.onPageLoad(createFakeRequest())
         status(result) should be(SEE_OTHER)
         redirectLocation(result) shouldBe Some(iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url)
-      }
     }
   }
 }

@@ -24,7 +24,7 @@ class ApplicationClosedControllerTest extends ApplicationControllerTest with Htm
   "ApplicationClosedController" must {
     "implement a view" in {
       val request = createFakeRequest()
-      val pageContent = ApplicationClosedController.getView("","",CommonBuilder.buildProbateDetails)(request).toString
+      val pageContent = ApplicationClosedController.getView("","",CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
       titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.common.title"))
     }
   }

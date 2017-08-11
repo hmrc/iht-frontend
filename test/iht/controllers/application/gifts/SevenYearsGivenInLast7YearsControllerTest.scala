@@ -20,12 +20,12 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.RegistrationDetails
-import iht.testhelpers.CommonBuilder
-import iht.testhelpers.ContentChecker
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils._
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  *
@@ -41,12 +41,14 @@ class SevenYearsGivenInLast7YearsControllerTest  extends ApplicationControllerTe
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def sevenYearsGivenInLast7YearsControllerNotAuthorised = new SevenYearsGivenInLast7YearsController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val allGifts=CommonBuilder.buildAllGifts

@@ -21,7 +21,7 @@ import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms._
 import iht.models.UkAddress
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.scalatest.BeforeAndAfter
 import play.api.i18n.Messages
@@ -29,6 +29,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import iht.utils._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeleteCoExecutorControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
@@ -40,12 +41,14 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deleteCoExecutorControllerNotAuthorised = new DeleteCoExecutorController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val coExecutor=CommonBuilder.buildCoExecutor
