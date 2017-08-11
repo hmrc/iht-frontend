@@ -63,14 +63,13 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
 
   override lazy val isWhitelistEnabled = configuration.getBoolean("passcodeAuthentication.enabled").getOrElse(false)
 
-  private val contactHost = readOrEmpty(s"$env.microservice.contact-frontend.service-url")
   private lazy val contactFrontendService = baseUrl("contact-frontend")
 
   override lazy val reportAProblemPartialUrl = s"$contactFrontendService/contact/problem_reports"
   override lazy val reportAProblemNonJSUrl = s"$contactFrontendService/contact/problem_reports_nonjs?service=iht"
 
-  override lazy val betaFeedbackUrl = s"$contactHost/contact/beta-feedback"
-  override lazy val betaFeedbackUnauthenticatedUrl = s"$contactHost/contact/beta-feedback-unauthenticated"
+  override lazy val betaFeedbackUrl = s"$contactFrontendService/contact/beta-feedback"
+  override lazy val betaFeedbackUnauthenticatedUrl = s"$contactFrontendService/contact/beta-feedback-unauthenticated"
 
   override val runningEnvironment: String =  configuration.getString("current-environment").getOrElse("local")
 
