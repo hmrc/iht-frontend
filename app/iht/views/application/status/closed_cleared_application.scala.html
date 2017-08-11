@@ -20,8 +20,11 @@
 @import uk.gov.hmrc.play.views.html._
 @import iht.utils._
 @import iht.views.html.application.overview._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(ihtref: String, deceasedName: String, probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages)
+@(ihtref: String,
+deceasedName: String,
+probateDetails: ProbateDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("page.iht.application.overview.common.title"),
 browserTitle = Some(Messages("page.iht.application.overview.common.title")),

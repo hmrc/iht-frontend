@@ -21,7 +21,7 @@ import iht.constants.IhtProperties
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.IhtFormValidator
 import org.joda.time.LocalDate
@@ -31,6 +31,7 @@ import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.mvc.Request
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -46,8 +47,9 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector()
    override val isWhiteListEnabled = false
-    override def deceasedForms = deceasedForms2
-    override def checkGuardCondition(registrationDetails: RegistrationDetails, id: String): Boolean = true
+   override def deceasedForms = deceasedForms2
+   override def checkGuardCondition(registrationDetails: RegistrationDetails, id: String): Boolean = true
+   override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new AboutDeceasedController {
@@ -55,6 +57,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
     override def deceasedForms = DeceasedForms
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def formWithMockedNinoValidation(deceased: DeceasedDetails, mockCachingConnector: CachingConnector): DeceasedForms = {

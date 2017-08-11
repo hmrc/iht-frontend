@@ -21,11 +21,12 @@
 @import iht.models.RegistrationDetails
 @import iht.utils.tnrb.TnrbHelper
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(partnerLivingInUkForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages)
+cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
 

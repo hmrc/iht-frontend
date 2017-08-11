@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.{ApplicationDetails, IhtApplication}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -31,6 +31,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.{HeaderCarrier, Upstream4xxResponse}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent._
 /**
@@ -53,6 +54,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def yourEstateReportsControllerNotAuthorised = new YourEstateReportsController {
@@ -60,6 +62,7 @@ class YourEstateReportsControllerTest  extends ApplicationControllerTest{
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "YourEstateReportsController" must {

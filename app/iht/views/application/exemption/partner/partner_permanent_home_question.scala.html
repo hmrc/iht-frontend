@@ -20,11 +20,12 @@
 @import iht.models._
 @import iht.utils.CommonHelper._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(partnerPermanentHomeQuestionForm: Form[iht.models.application.exemptions.PartnerExemption],
 registrationDetails:RegistrationDetails,
 cancelLabel: String,
-cancelUrl: Call)(implicit request:Request[_], messages: Messages)
+cancelUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(
     title = "",

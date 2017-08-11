@@ -20,13 +20,13 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms.assetsLeftToQualifyingBodyQuestionForm
 import iht.models.application.exemptions.BasicExemptionElement
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
-import iht.testhelpers.ContentChecker
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by james on 16/08/16.
@@ -40,12 +40,14 @@ class AssetsLeftToQualifyingBodyQuestionControllerTest extends ApplicationContro
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToQualifyingBodyQuestionControllerNotAuthorised = new AssetsLeftToQualifyingBodyQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "AssetsLeftToQualifyingBodyQuestionControllerTest" must {

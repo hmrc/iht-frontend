@@ -25,13 +25,14 @@
 @import iht.utils.OverviewHelper._
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(appDetails:ApplicationDetails,
 exemptions:AllExemptions,
 charities: Seq[Charity] = Seq(),
 qualifyingBodies: Seq[QualifyingBody]= Seq(),
 married: Boolean,
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @getScreenReaderQualifyingText(isComplete: Option[Boolean], moreDetailText: String, valueText: String, noValueText: String) = @{
     isComplete match {

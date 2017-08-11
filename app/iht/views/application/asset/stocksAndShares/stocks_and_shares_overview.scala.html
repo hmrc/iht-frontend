@@ -25,9 +25,10 @@
 @import scala.collection.immutable.Seq
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(stocks:Option[StockAndShare],
-  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+  registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 

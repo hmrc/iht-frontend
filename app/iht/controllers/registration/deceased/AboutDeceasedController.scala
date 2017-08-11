@@ -72,10 +72,10 @@ trait AboutDeceasedController extends RegistrationController {
   def onwardRouteInEditMode(rd: RegistrationDetails): Call = registrationRoutes.RegistrationSummaryController.onPageLoad()
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.about_deceased(form, submitRoute)(request, applicationMessages))
+    Ok(views.about_deceased(form, submitRoute)(request, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
+    Ok(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages, formPartialRetriever))
 
   def onSubmit: Action[AnyContent] = submit(routes.AboutDeceasedController.onSubmit())
   def onEditSubmit: Action[AnyContent] = {
@@ -117,8 +117,8 @@ trait AboutDeceasedController extends RegistrationController {
   }
 
   def badRequestForSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.about_deceased(form, submitRoute)(request, applicationMessages))
+    BadRequest(views.about_deceased(form, submitRoute)(request, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails])(implicit request: Request[AnyContent]) =
-    BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
+    BadRequest(views.about_deceased(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages, formPartialRetriever))
 }

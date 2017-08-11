@@ -31,7 +31,7 @@ class LockedOutViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.lockedOut.title")
 
-  def view: String = locked_out()(createFakeRequest(), applicationMessages).toString
+  def view: String = locked_out()(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

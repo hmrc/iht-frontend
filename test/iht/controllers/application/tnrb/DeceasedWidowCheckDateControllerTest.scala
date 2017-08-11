@@ -22,7 +22,7 @@ import iht.forms.TnrbForms._
 import iht.models.application.ApplicationDetails
 import iht.models.application.tnrb.WidowCheck
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
 import iht.utils.CommonHelper
 import iht.utils.tnrb.TnrbHelper
 import iht.views.HtmlSpec
@@ -34,6 +34,7 @@ import play.api.Play.current
 import play.api.test.Helpers._
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  *
@@ -50,12 +51,14 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deceasedWidowCheckDateControllerNotAuthorised = new DeceasedWidowCheckDateController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   before {

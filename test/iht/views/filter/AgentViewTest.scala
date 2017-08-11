@@ -31,13 +31,13 @@ class AgentViewTest extends ViewTestHelper {
   "FilterView" must {
 
     "have no message keys in html" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
       val view = asDocument(contentAsString(result)).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "generate appropriate content for the title" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
@@ -45,7 +45,7 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "generate appropriate content for the browser title" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val browserTitleElement = doc.getElementsByTag("title").first
 
@@ -53,7 +53,7 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "generate content text informing the agent that there is no change" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val contentPara = doc.getElementById("agent-content")
 
@@ -61,7 +61,7 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "contain a link with the button class with the text 'Exit to GOV.UK'" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -69,7 +69,7 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "contain a link with a button class with the correct exit link" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
@@ -77,7 +77,7 @@ class AgentViewTest extends ViewTestHelper {
     }
 
     "contain a link with id 'back' with the text 'Back'" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 
@@ -86,7 +86,7 @@ class AgentViewTest extends ViewTestHelper {
 
 
     "contain a link with id 'back' with the href that points to the main filter page" in {
-      val result = agent_view()(fakeRequest, applicationMessages)
+      val result = agent_view()(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val button = doc.getElementById("back")
 

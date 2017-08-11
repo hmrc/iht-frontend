@@ -14,13 +14,15 @@
 * limitations under the License.
 *@
 
-@(propertyModel: iht.models.application.assets.Property)(implicit request:Request[_], messages: Messages)
-
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
 @import iht.utils.CommonHelper._
 @import iht.constants.IhtProperties._
+@import iht.models.application.assets.Property
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(propertyModel: Property)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("page.iht.application.propertyDetails.deleteProperty.title"),
 browserTitle = Some(Messages("page.iht.application.propertyDetails.deleteProperty.title")),

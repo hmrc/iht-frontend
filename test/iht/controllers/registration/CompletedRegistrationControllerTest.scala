@@ -17,7 +17,7 @@
 package iht.controllers.registration
 
 import iht.connector.CachingConnector
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils._
 import play.api.i18n.Messages
@@ -25,6 +25,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CompletedRegistrationControllerTest extends RegistrationControllerTest {
   val requestWithHeaders=FakeRequest().withHeaders(("referer",referrerURL),("host",host))
@@ -37,12 +38,14 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def completedRegistrationControllerNotAuthorised = new CompletedRegistrationController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val ihtReference = "AB123456"

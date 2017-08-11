@@ -14,16 +14,17 @@
 * limitations under the License.
 *@
 
-@(propertyAddressForm: Form[iht.models.application.assets.Property],
-cancelUrl: Call,
-submitUrl: Call)(implicit request:Request[_], messages: Messages)
-
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
 @import iht.constants._
 @import iht.utils._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(propertyAddressForm: Form[iht.models.application.assets.Property],
+cancelUrl: Call,
+submitUrl: Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("iht.estateReport.assets.property.whatIsAddress.question"),
 browserTitle = Some(Messages("page.iht.application.assets.property.address.browserTitle")),

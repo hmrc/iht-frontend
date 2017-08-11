@@ -19,8 +19,9 @@
 @import iht.utils._
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@()(implicit request:Request[_], messages: Messages)
+@()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = "Store Application Details",
 browserTitle = Some("Store Application Details"),

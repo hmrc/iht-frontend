@@ -27,6 +27,7 @@
 @import org.joda.time.LocalDate
 @import org.joda.time.format._
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(
 giftsList: Seq[PreviousYearsGifts],
@@ -36,7 +37,7 @@ totalPastYearsGiftsValueExcludingExemptions: BigDecimal,
 totalExemptionsValue: BigDecimal,
 previousYearsGiftsExemptionsIsDefined: Boolean,
 previousYearsGiftsValueIsDefined: Boolean
-)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
+)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
 
 
 @iht_main_template_application(title = Messages("iht.estateReport.gifts.valueOfGiftsGivenAway"),

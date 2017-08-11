@@ -19,6 +19,7 @@ package iht.controllers.filter
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.FilterForms._
+import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
@@ -27,6 +28,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
   * Created by adwelly on 21/10/2016.
@@ -43,6 +45,7 @@ class FilterControllerTest extends ApplicationControllerTest with HtmlSpec {
   def controller = new FilterController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "FilterController" must {

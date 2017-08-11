@@ -18,7 +18,7 @@ package iht.controllers.registration
 
 import iht.connector.CachingConnector
 import iht.metrics.Metrics
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.RegistrationKickOutHelper
 import org.mockito.Matchers._
@@ -26,6 +26,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.Result
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -38,11 +39,14 @@ class KickoutControllerTest extends RegistrationControllerTest {
   "RegistrationKickoutControllerTest" must {
     "respond suitably to onPageLoad" in {
       val request = createFakeRequest(isAuthorised = true)
+
       def controller = new KickoutController{
         override val authConnector = createFakeAuthConnector(isAuthorised=true)
         override lazy val metrics:Metrics = mock[Metrics]
         override val cachingConnector = mockCachingConnector
+        override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
       }
+
       val registrationDetails = CommonBuilder.buildRegistrationDetailsWithDeceasedDetails
       createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
       Seq(

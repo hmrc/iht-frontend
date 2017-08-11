@@ -15,7 +15,9 @@
 *@
 
 @import iht.constants.IhtProperties
-@(ivUrl: String)(implicit request : Request[_], messages: Messages)
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(ivUrl: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @message={
 <p>@Messages("page.iht.iv.failure.technicalIssue.p1")</p>

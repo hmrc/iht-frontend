@@ -27,11 +27,12 @@
 @import iht.utils.DeceasedInfoHelper._
 @import iht.constants.Constants._
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(registrationDetails: RegistrationDetails,
         widowCheckModel: WidowCheck,
         tnrbModel: TnrbEligibiltyModel,
-        ihtReference: String)(implicit request: Request[_], messages: Messages, lang : play.api.i18n.Lang)
+        ihtReference: String)(implicit request: Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
 
     @iht_main_template_application(
         title = Messages("iht.estateReport.tnrb.increasingIHTThreshold"),

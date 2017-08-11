@@ -25,11 +25,12 @@
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
 @import org.joda.time.LocalDate
 @import org.joda.time.format._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(giftsGivenAwayForm:Form[AllGifts],
 regDetails:RegistrationDetails,
 giftsList: Seq[PreviousYearsGifts]
-)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang)
+)(implicit request:Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 @deceasedNameWrapped() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)}

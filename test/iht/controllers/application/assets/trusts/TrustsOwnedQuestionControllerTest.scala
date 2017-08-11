@@ -20,12 +20,13 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.assets.HeldInTrust
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.test.Helpers._
 import iht.testhelpers.TestHelper._
 import iht.utils.CommonHelper
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
 
@@ -37,12 +38,14 @@ class TrustsOwnedQuestionControllerTest extends ApplicationControllerTest{
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def trustsOwnedQuestionControllerNotAuthorised = new TrustsOwnedQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "HeldInTrustQuestionController" must {

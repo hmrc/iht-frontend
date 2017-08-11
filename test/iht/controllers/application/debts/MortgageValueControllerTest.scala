@@ -19,9 +19,8 @@ package iht.controllers.application.debts
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.ContentChecker
 import iht.utils._
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -29,6 +28,7 @@ import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.testhelpers.TestHelper._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -46,6 +46,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def mortgageValueControllerNotAuthorised = new MortgageValueController{
@@ -53,6 +54,7 @@ class MortgageValueControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector
     override val isWhiteListEnabled = false
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

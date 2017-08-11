@@ -19,10 +19,11 @@
 
 @import iht.models.application.tnrb.TnrbEligibiltyModel
 @import iht.models.RegistrationDetails
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(estateClaimAnyBusinessForm:Form[TnrbEligibiltyModel],
 cancelUrl:Call
-)(implicit request:Request[_], messages: Messages)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(
     title = "",

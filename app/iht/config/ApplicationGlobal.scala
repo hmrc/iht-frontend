@@ -29,12 +29,14 @@ import uk.gov.hmrc.play.frontend.bootstrap.DefaultFrontendGlobal
 import uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 object ApplicationGlobal extends DefaultFrontendGlobal with RunMode {
 
   override val auditConnector = IhtAuditConnector
   override val loggingFilter = IhtLoggingFilter
   override val frontendAuditFilter = IhtAuditFilter
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   override def onStart(app: Application) {
     super.onStart(app)
