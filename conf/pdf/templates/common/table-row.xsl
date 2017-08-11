@@ -70,7 +70,14 @@
             </fo:table-cell>
             <fo:table-cell xsl:use-attribute-sets="cell set-right">
                 <fo:block>
-                    &#xA3;<xsl:value-of select='format-number(number($value), "##,##0.00")'/>
+                    <xsl:choose>
+                        <xsl:when test="$value &gt; 1">
+                            &#xA3;<xsl:value-of select='format-number(number($value), "##,###.00")'/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            &#xA3;<xsl:value-of select="$value"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>
