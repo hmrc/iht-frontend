@@ -40,14 +40,14 @@ class DeleteCoExecutorControllerTest extends RegistrationControllerTest with Bef
   def deleteCoExecutorController = new DeleteCoExecutorController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deleteCoExecutorControllerNotAuthorised = new DeleteCoExecutorController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

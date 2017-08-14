@@ -37,14 +37,14 @@ class CompletedRegistrationControllerTest extends RegistrationControllerTest {
   def completedRegistrationController = new CompletedRegistrationController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def completedRegistrationControllerNotAuthorised = new CompletedRegistrationController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

@@ -45,7 +45,7 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
   // Create controller object and pass in mock.
   def questionnaireController = new RegistrationQuestionnaireController {
     override val authConnector = createFakeAuthConnector()
-    override val isWhiteListEnabled = false
+
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
     def ihtConnector = mockIhtConnector
@@ -54,7 +54,7 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
 
   def questionnaireControllerNotAuthorised = new RegistrationQuestionnaireController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
-    override val isWhiteListEnabled = false
+
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
     def ihtConnector = mockIhtConnector

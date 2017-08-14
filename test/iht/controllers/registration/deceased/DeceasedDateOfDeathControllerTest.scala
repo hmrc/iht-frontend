@@ -67,14 +67,14 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
   def controller = new DeceasedDateOfDeathController {
     override lazy val cachingConnector = mockCachingConnector
     override lazy val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new DeceasedDateOfDeathController {
     override lazy val cachingConnector = mockCachingConnector
     override lazy val authConnector = createFakeAuthConnector(isAuthorised=false)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

@@ -40,7 +40,7 @@ class ProbateLocationControllerTest
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector(isAuthorised=true)
    override val metrics:Metrics = mock[Metrics]
-   override val isWhiteListEnabled = false
+
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
 
@@ -48,7 +48,7 @@ class ProbateLocationControllerTest
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val metrics:Metrics = mock[Metrics]
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

@@ -18,12 +18,10 @@ package iht.controllers
 
 import iht.config.{IhtFormPartialRetriever, FrontendAuthConnector}
 import iht.connector.{CachingConnector, IhtConnector}
-import iht.controllers.auth.CustomPasscodeAuthentication
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import uk.gov.hmrc.passcode.authentication.{PasscodeAuthenticationProvider, PasscodeVerificationConfig}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -34,7 +32,7 @@ object PrivateBetaLandingPageController extends PrivateBetaLandingPageController
   lazy val authConnector: AuthConnector = FrontendAuthConnector
 }
 
-trait PrivateBetaLandingPageController extends FrontendController  with CustomPasscodeAuthentication {
+trait PrivateBetaLandingPageController extends FrontendController {
 
   def cachingConnector: CachingConnector
   def ihtConnector: IhtConnector
@@ -57,19 +55,19 @@ trait PrivateBetaLandingPageController extends FrontendController  with CustomPa
     }
   }
 
-  def showLandingPageWithPasscode(passcodeCopy:String, p:Option[String]) = customAuthenticatedActionAsync {
+  def showLandingPageWithPasscode(passcodeCopy:String, p:Option[String]) = UnauthorisedAction.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.private_beta_landing_page(p)))
     }
   }
 
-  def showLandingPage = customAuthenticatedActionAsync {
+  def showLandingPage = UnauthorisedAction.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.private_beta_landing_page(None)))
     }
   }
 
-  def start(p:Option[String]) = customAuthenticatedActionAsync {
+  def start(p:Option[String]) = UnauthorisedAction.async {
     implicit request => {
       Future.successful(Redirect(iht.controllers.filter.routes.FilterController.onPageLoad))
     }

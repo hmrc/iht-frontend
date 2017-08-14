@@ -34,14 +34,14 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
   def deceasedAddressQuestionController = new DeceasedAddressQuestionController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deceasedAddressQuestionControllerNotAuthorised = new DeceasedAddressQuestionController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

@@ -25,14 +25,14 @@ class DuplicateRegistrationControllerTest extends RegistrationControllerTest{
   // Create controller object and pass in mock.
   def duplicateRegistrationController = new DuplicateRegistrationController {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     override val cachingConnector = mock[CachingConnector]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def duplicateRegistrationControllerNotAuthorised = new DuplicateRegistrationController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override val cachingConnector = mock[CachingConnector]
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }

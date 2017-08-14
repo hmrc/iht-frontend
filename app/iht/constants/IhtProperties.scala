@@ -74,6 +74,7 @@ object IhtProperties {
   lazy val linkGovUkIht: String = getProperty("linkGovUkIht")
   lazy val linkRegistrationKickOut: String = getProperty("linkRegistrationKickOut")
   lazy val linkEstateReportKickOut: String = getProperty("linkEstateReportKickOut")
+  lazy val linkValuingEstateOfDeceased: String = getProperty("linkValuingEstateOfDeceased")
   lazy val linkIHTGifts: String = getProperty("linkIHTGifts")
   lazy val linkGovUk: String = getProperty("linkGovUk")
   lazy val linkIHT401: String = getProperty("linkIHT401")

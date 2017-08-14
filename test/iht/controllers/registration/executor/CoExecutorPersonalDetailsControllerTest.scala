@@ -44,7 +44,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
   def controller(coExecutorForms2:CoExecutorForms) = new CoExecutorPersonalDetailsController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     override def coExecutorForms = coExecutorForms2
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -52,7 +52,7 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
   def controllerNotAuthorised = new CoExecutorPersonalDetailsController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override def coExecutorForms = CoExecutorForms
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
