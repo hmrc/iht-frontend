@@ -16,7 +16,6 @@
 
 package iht.views
 
-import iht.config.IhtFormPartialRetriever
 import iht.models.UkAddress
 import iht.testhelpers.{MockFormPartialRetriever, ContentChecker}
 import iht.utils.CommonHelper

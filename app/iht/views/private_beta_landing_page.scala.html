@@ -18,9 +18,12 @@
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.constants.IhtProperties._
 
-@(p:Option[String])(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_registration(title = Messages("site.application.title"), hasSignOut=false, hasTimeOut=false) {
+@iht_main_template_registration(title = Messages("site.application.title"),
+                                browserTitle = Some(Messages("site.application.title")),
+                                hasSignOut=false,
+                                hasTimeOut=false) {
 
 <p>@Messages("iht.private.beta.landing.page.info1")
     @Messages("iht.private.beta.landing.page.info2")
