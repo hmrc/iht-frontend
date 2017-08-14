@@ -133,12 +133,10 @@
                                 </xsl:call-template>
                             </xsl:if>
                         </xsl:for-each>
-
-                        <xsl:call-template name="table-row--currency-right-total">
+                        <xsl:call-template name="table-row--currency-right-total-heavy">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'page.iht.application.assets.overview.total')"/>
-                            <xsl:with-param name="value"
-                                            select='format-number(number($assetsTotal), "##,###.00")'/>
+                            <xsl:with-param name="value" select="$assetsTotal"/>
                         </xsl:call-template>
                     </fo:table-body>
                 </fo:table>
