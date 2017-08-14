@@ -86,7 +86,7 @@
     <xsl:template name="table-row--currency-right-total">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row--bottom">
+        <fo:table-row xsl:use-attribute-sets="row--bottom row--heavy">
             <fo:table-cell xsl:use-attribute-sets="cell">
                 <fo:block>
                     <xsl:value-of select="$label"/>
@@ -120,7 +120,7 @@
     <xsl:template name="table-row--currency-right--heavy">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row">
+        <fo:table-row xsl:use-attribute-sets="row row--heavy">
             <fo:table-cell xsl:use-attribute-sets="cell cell--heavy">
                 <fo:block>
                     <xsl:value-of select="$label"/>
@@ -137,7 +137,7 @@
     <xsl:template name="table-row--currency-right-total-heavy">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row--bottom">
+        <fo:table-row xsl:use-attribute-sets="row--bottom row--heavy">
             <fo:table-cell xsl:use-attribute-sets="cell cell--heavy">
                 <fo:block>
                     <xsl:value-of select="$label"/>
