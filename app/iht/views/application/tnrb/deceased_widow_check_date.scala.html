@@ -35,7 +35,7 @@ cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormP
                         tnrbModel,
                         widowCheckModel,
                         Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",partnerName),
-                        true
+                        true, messages.lang.code
                 )}
 
 @iht_main_template_application(

@@ -16,6 +16,7 @@
 
 package iht.utils.tnrb
 
+import akka.japi.Option.Some
 import iht.FakeIhtApp
 import iht.constants.IhtProperties
 import iht.controllers.application.tnrb.routes
@@ -29,7 +30,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.test.UnitSpec
 import iht.testhelpers.TestHelper._
-import play.api.i18n.MessagesApi
+import play.api.i18n.{Messages, MessagesApi}
 
 /**
  *
@@ -131,8 +132,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
       val result = TnrbHelper.preDeceasedMaritalStatusLabel(tnrbModel, widowCheck)
-      result should be(messagesApi("iht.the.deceased") + " "  +
-        messagesApi(marriedOrInCivilPartnershipMessageKey))
+      result should be(messagesApi("iht.the.deceased") + " " + messagesApi(marriedOrInCivilPartnershipMessageKey))
     }
 
     "return prefix plus spouse message when name has not been entered and date of death is before " +
@@ -148,34 +148,34 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   "spouseOrCivilPartnerMessage" must {
     "return spouse message as the date is before Civil Partnership Inclusion date" in {
       val result = TnrbHelper.spouseOrCivilPartnerMessage(Some(civilPartnershipExclusionDateMinusOne))
-      result should be(messagesApi(spouseMessageKey))
+      result should be(spouseMessageKey)
     }
 
     "return spouse or CivilPartner message as the date is equal to Civil Partnership Inclusion date" in {
       val result = TnrbHelper.spouseOrCivilPartnerMessage(Some(civilPartnershipExclusionDate))
-      result should be(messagesApi(spouseOrCivilPartnerMessageKey))
+      result should be(spouseOrCivilPartnerMessageKey)
     }
 
     "return spouse or CivilPartner message as the date is after Civil Partnership Inclusion date" in {
       val result = TnrbHelper.spouseOrCivilPartnerMessage(Some(civilPartnershipExclusionDatePlusOne))
-      result should be(messagesApi(spouseOrCivilPartnerMessageKey))
+      result should be(spouseOrCivilPartnerMessageKey)
     }
   }
 
   "preDeceasedMaritalStatusSubLabel" must {
     "return spouse message as the date is before Civil Partnership Inclusion date" in {
       val result = TnrbHelper.preDeceasedMaritalStatusSubLabel(Some(civilPartnershipExclusionDateMinusOne))
-      result should be(messagesApi(marriedMessageKey))
+      result should be(marriedMessageKey)
     }
 
     "return spouse or CivilPartner message as the date is equal to Civil Partnership Inclusion date" in {
       val result = TnrbHelper.preDeceasedMaritalStatusSubLabel(Some(civilPartnershipExclusionDate))
-      result should be(messagesApi(marriedOrInCivilPartnershipMessageKey))
+      result should be(marriedOrInCivilPartnershipMessageKey)
     }
 
     "return spouse or CivilPartner message as the date is after Civil Partnership Inclusion date" in {
       val result = TnrbHelper.preDeceasedMaritalStatusSubLabel(Some(civilPartnershipExclusionDatePlusOne))
-      result should be(messagesApi(marriedOrInCivilPartnershipMessageKey))
+      result should be(marriedOrInCivilPartnershipMessageKey)
     }
   }
 
