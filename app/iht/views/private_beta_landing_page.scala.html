@@ -16,27 +16,30 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
-@import iht.constants.IhtProperties._
 
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(p:Option[String])(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_registration(title = Messages("site.application.title"),
-                                browserTitle = Some(Messages("site.application.title")),
-                                hasSignOut=false,
-                                hasTimeOut=false) {
+@iht_main_template_registration(title = Messages("site.application.title"), hasSignOut=false, hasTimeOut=false) {
 
-<p>@Messages("iht.private.beta.landing.page.info1")
-    @Messages("iht.private.beta.landing.page.info2")
-    <a id = "valuing-estate-of-deceased" href="@linkValuingEstateOfDeceased">
-        @Messages("iht.private.beta.landing.page.info3")
+<p>@Messages("page.iht.private.beta.landing.page.intro.p1")</p>
+<ul class="bullets">
+    <li>@Messages("page.iht.private.beta.landing.page.intro.bullet1") <a href='https://www.gov.uk/wills-probate-inheritance'>@Messages("page.iht.private.beta.landing.page.intro.bullet1.link")</a></li>
+    <li>@Messages("page.iht.private.beta.landing.page.intro.bullet2")</li>
+</ul>
+<p>@Messages("page.iht.private.beta.landing.page.can.use.info1")</p>
+
+
+<p>
+    @Messages("page.iht.private.beta.landing.page.can.use.info2")
+    <a href='@iht.controllers.pdf.routes.GuidancePDFController.loadPDF().url'>
+        @Messages("page.iht.private.beta.landing.page.can.use.info2.link")
     </a>
-    @Messages("iht.page")
-    @Messages("iht.period")
+    @Messages("page.iht.private.beta.landing.page.can.use.info2.afterlink")
 </p>
 
 <div class="form-field form-field--submit">
-    <a href="@linkValuingEstateOfDeceased" id="iht-registration" class="button">
-        @Messages("iht.goToGovUk")
+    <a href="@iht.controllers.routes.PrivateBetaLandingPageController.start(p)" id="iht-registration" class="button">
+        @Messages("iht.continue")
     </a>
 </div>
 

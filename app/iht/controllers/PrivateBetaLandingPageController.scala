@@ -57,13 +57,13 @@ trait PrivateBetaLandingPageController extends FrontendController {
 
   def showLandingPageWithPasscode(passcodeCopy:String, p:Option[String]) = UnauthorisedAction.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.private_beta_landing_page()))
+      Future.successful(Ok(iht.views.html.private_beta_landing_page(p)))
     }
   }
 
   def showLandingPage = UnauthorisedAction.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.private_beta_landing_page()))
+      Future.successful(Ok(iht.views.html.private_beta_landing_page(None)))
     }
   }
 

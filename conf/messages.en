@@ -177,9 +177,6 @@ iht.needHelp = Need help?
 iht.needHelp.guidance = If you need help with completing this estate report, contact the Inheritance Tax helpline on 0300 123 1072. If you are outside of the UK, call +44 300 123 1072.
 
 iht.theDeceased = The deceased
-iht.goToGovUk = Go to GOV.UK
-iht.page = page
-iht.period = .
 
 #Private Beta landing page
 page.iht.private.beta.landing.page.intro.p1 = Use this service to:
@@ -191,11 +188,6 @@ page.iht.private.beta.landing.page.can.use.info1 = You can only apply to the Pro
 page.iht.private.beta.landing.page.can.use.info2 = HMRC suggest that you
 page.iht.private.beta.landing.page.can.use.info2.link = read the Inheritance Tax guidance notes
 page.iht.private.beta.landing.page.can.use.info2.afterlink = which give more detail on how to correctly complete an estate report.
-
-iht.private.beta.landing.page.info1 = The Inheritance Tax online service is now available through GOV.UK.
-iht.private.beta.landing.page.info2 = You can now
-iht.private.beta.landing.page.info3 = access the service through the valuing the estate of someone who has died
-
 
 #Pre registration filtering
 page.iht.filter.agent.content = There is no change to how agents report estate values to HMRC. You must continue to use either an IHT-205 or an IHT-400 paper form.
