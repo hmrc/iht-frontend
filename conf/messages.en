@@ -1852,9 +1852,9 @@ pdf.clearanceCertificate.firstParagraph.part1 = This certificate applies to the 
 pdf.clearanceCertificate.firstParagraph.part2 = ’s will and/or the rules of intestacy and reported to HMRC on the above date.
 pdf.clearanceCertificate.coExecutor.paragraph1 = The Commissioners of HM Revenue & Customs discharge:
 pdf.clearanceCertificate.coExecutor.paragraph2 = from any (further) claim for tax or duty on the value attributable to the property returned above.
-pdf.clearanceCertificate.lastParagraph.line1 = This certificate does not itself constitute a determination of values of individual items for any other HM Revenue & Customs purposes
-pdf.clearanceCertificate.lastParagraph.line2 = . In particular, the issue of the certificate does not necessarily mean that values have been “ascertained” or that values may be taken as market values for capital gains tax within the provisions of section 274 and paragraph 9, schedule 11, Taxation of Chargeable Gains Act 1992
-pdf.clearanceCertificate.lastParagraph.line3 = . This certificate is not valid in certain circumstances, such as in the case of fraud or failure to disclose material facts or if further tax becomes payable as a result of an instrument of variation – see section 239 (4) Inheritance Tax Act 1984.
+pdf.clearanceCertificate.lastParagraph.line1 = This certificate does not itself constitute a determination of values of individual items for any other HM Revenue & Customs purposes.
+pdf.clearanceCertificate.lastParagraph.line2 = In particular, the issue of the certificate does not necessarily mean that values have been “ascertained” or that values may be taken as market values for capital gains tax within the provisions of section 274 and paragraph 9, schedule 11, Taxation of Chargeable Gains Act 1992.
+pdf.clearanceCertificate.lastParagraph.line3 = This certificate is not valid in certain circumstances, such as in the case of fraud or failure to disclose material facts or if further tax becomes payable as a result of an instrument of variation – see section 239 (4) Inheritance Tax Act 1984.
 
 pdf.inheritance.tax.declaration.date.text = Date of declaration:
 pdf.inheritance.tax.application.summary.p1 = This is a copy of {0}’s Inheritance Tax estate report completed by {1}. HMRC recommend that you keep a copy of this report for your personal use.

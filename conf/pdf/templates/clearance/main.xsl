@@ -6,13 +6,18 @@
                 xmlns:scala="java:iht.utils.pdf.XSLScalaBridge"
                 xmlns:formatter="java:iht.utils.pdf.PdfFormatter">
 
+    <xsl:include href="pdf/templates/common/table-row.xsl"/>
+    <xsl:include href="pdf/templates/common/styles.xsl"/>
+
     <xsl:param name="translator" />
     <xsl:param name="pdfFormatter"/>
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="declaration-date"/>
 
+
+
     <xsl:template match="RegistrationDetails">
-        <fo:root font-family="OpenSans">
+        <fo:root xsl:use-attribute-sets="root">
             <fo:layout-master-set>
                 <fo:simple-page-master master-name="simple"
                                        page-height="29.7cm" page-width="21.0cm"
@@ -43,101 +48,93 @@
                 </fo:static-content>
 
                 <fo:flow flow-name="xsl-region-body">
-                    <fo:block font-family="OpenSans-Bold" font-size="24pt" font-weight="bold">
+                    <fo:block role="H1" xsl:use-attribute-sets="h1">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.title')"/>
-                        <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                            <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.summary')"/>
-                        </fo:block>
+                    </fo:block>
+                    <fo:block xsl:use-attribute-sets="copy">
+                        <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.summary')"/>
                     </fo:block>
 
-                    <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
-                        <fo:block font-family="OpenSans-Bold" font-size="16pt" font-weight="bold">
+
+                    <fo:block>
+                        <fo:block role="H2" xsl:use-attribute-sets="h2">
                             <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.registration.registrationSummary.deceasedTable.title')" />
                         </fo:block>
                         <fo:block>
-                            <fo:table space-before="0.5cm">
+                            <fo:table>
                                 <fo:table-column column-number="1" />
                                 <fo:table-column column-number="2" />
-                                <fo:table-body font-size="12pt" >
-                                    <fo:table-row line-height="30pt">
-                                        <fo:table-cell text-align="left" border-top ="solid 0.3mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
-                                            <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'iht.name.upperCaseInitial')" /></fo:block>
-                                        </fo:table-cell>
-                                        <fo:table-cell text-align="left" border-top ="solid 0.3mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
-                                            <fo:block>
-                                                <xsl:value-of select="concat(deceasedDetails/firstName,' ', deceasedDetails/lastName)" />
-                                            </fo:block>
-                                        </fo:table-cell>
-                                    </fo:table-row>
-                                    <fo:table-row line-height="30pt">
-                                        <fo:table-cell text-align="left" border-top ="solid 0.0mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
-                                            <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'iht.dateOfDeath')" /></fo:block>
-                                        </fo:table-cell>
-                                        <fo:table-cell text-align="left" border-top ="solid 0.0mm gray" border-bottom ="solid 0.1mm gray" padding-left="4pt">
-                                            <fo:block>
-                                                <xsl:value-of select="scala:getDateForDisplay($translator,./deceasedDateOfDeath/dateOfDeath)" />
-                                            </fo:block>
-                                        </fo:table-cell>
-                                    </fo:table-row>
-                                    <fo:table-row line-height="30pt">
-                                        <fo:table-cell text-align="left" border-top ="solid 0.1mm gray" border-bottom ="solid 0.3mm gray" padding-left="4pt">
-                                            <fo:block><xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.estateReport.date.label')" /></fo:block>
-                                        </fo:table-cell>
-                                        <fo:table-cell text-align="left" border-top ="solid 0.1mm gray" border-bottom ="solid 0.3mm gray" padding-left="4pt">
-                                            <fo:block>
-                                                <xsl:value-of select="$declaration-date"/>
-                                            </fo:block>
-                                        </fo:table-cell>
-                                    </fo:table-row>
+                                <fo:table-body>
+                                    <xsl:call-template name="table-row">
+                                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.name.upperCaseInitial')"/>
+                                        <xsl:with-param name="value" select="concat(deceasedDetails/firstName,' ', deceasedDetails/lastName)"/>
+                                    </xsl:call-template>
+                                    <xsl:call-template name="table-row">
+                                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'iht.dateOfDeath')"/>
+                                        <xsl:with-param name="value" select="scala:getDateForDisplay($translator,./deceasedDateOfDeath/dateOfDeath)"/>
+                                    </xsl:call-template>
+                                    <xsl:call-template name="table-row">
+                                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.estateReport.date.label')"/>
+                                        <xsl:with-param name="value" select="$declaration-date"/>
+                                    </xsl:call-template>
                                 </fo:table-body>
                             </fo:table>
                         </fo:block>
                     </fo:block>
 
-                    <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part1')"/>
                         <xsl:value-of select="concat(' ', deceasedDetails/firstName,' ', deceasedDetails/lastName)" />
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part2')" />
                     </fo:block>
 
-                    <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.coExecutor.paragraph1')" />
-                        <fo:list-block space-before="0.25em" space-after="0.25em">
-                            <fo:list-item space-after="0.5em">
-                                <fo:list-item-label start-indent="1em">
+                    </fo:block>
+
+                    <fo:list-block xsl:use-attribute-sets="copy list">
+                        <fo:list-item xsl:use-attribute-sets="list__item">
+                            <fo:list-item-label end-indent="1em">
+                                <fo:block>
+                                    &#x2022;
+                                </fo:block>
+                            </fo:list-item-label>
+                            <fo:list-item-body start-indent="2em">
+                                <fo:block>
+                                    <xsl:value-of select="concat(applicantDetails/firstName,' ', applicantDetails/lastName)" />
+                                </fo:block>
+                            </fo:list-item-body>
+                        </fo:list-item>
+                        <xsl:for-each select="./coExecutors">
+                            <fo:list-item xsl:use-attribute-sets="list__item">
+                                <fo:list-item-label end-indent="1em">
                                     <fo:block>
                                         &#x2022;
                                     </fo:block>
                                 </fo:list-item-label>
                                 <fo:list-item-body start-indent="2em">
                                     <fo:block>
-                                        <xsl:value-of select="concat(applicantDetails/firstName,' ', applicantDetails/lastName)" />
+                                        <xsl:value-of select="concat(firstName,' ', lastName)" />
                                     </fo:block>
                                 </fo:list-item-body>
                             </fo:list-item>
-                            <xsl:for-each select="./coExecutors">
-                                <fo:list-item space-after="0.5em">
-                                    <fo:list-item-label start-indent="1em">
-                                        <fo:block>
-                                            &#x2022;
-                                        </fo:block>
-                                    </fo:list-item-label>
-                                    <fo:list-item-body start-indent="2em">
-                                        <fo:block>
-                                            <xsl:value-of select="concat(firstName,' ', lastName)" />
-                                        </fo:block>
-                                    </fo:list-item-body>
-                                </fo:list-item>
-                            </xsl:for-each>
-                        </fo:list-block>
+                        </xsl:for-each>
+                    </fo:list-block>
+
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator,'pdf.clearanceCertificate.coExecutor.paragraph2')"/>
                     </fo:block>
 
-                    <fo:block font-family="OpenSans" font-size="12pt" font-weight="normal" space-before="1cm">
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line1')"/>
+                    </fo:block>
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line2')"/>
+                    </fo:block>
+                    <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.lastParagraph.line3')"/>
                     </fo:block>
+
 
                 </fo:flow>
             </fo:page-sequence>
