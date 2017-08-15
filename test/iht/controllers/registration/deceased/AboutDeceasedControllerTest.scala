@@ -46,7 +46,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
   def controller(deceasedForms2:DeceasedForms) = new AboutDeceasedController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector()
-   override val isWhiteListEnabled = false
+
    override def deceasedForms = deceasedForms2
    override def checkGuardCondition(registrationDetails: RegistrationDetails, id: String): Boolean = true
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
@@ -55,7 +55,7 @@ class AboutDeceasedControllerTest extends RegistrationControllerTest with Before
   def controllerNotAuthorised = new AboutDeceasedController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override def deceasedForms = DeceasedForms
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }

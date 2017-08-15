@@ -51,7 +51,7 @@ class ApplicantTellUsAboutYourselfControllerTest
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector(isAuthorised=true)
    override val metrics:Metrics = mock[Metrics]
-   override val isWhiteListEnabled = false
+
    override def citizenDetailsConnector = mockCitizenDetailsConnector
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
@@ -60,7 +60,7 @@ class ApplicantTellUsAboutYourselfControllerTest
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val metrics:Metrics = mock[Metrics]
-    override val isWhiteListEnabled = false
+
     override def guardConditions: Set[Predicate] = Set((_, _) => true)
     override def citizenDetailsConnector = mockCitizenDetailsConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever

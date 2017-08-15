@@ -53,7 +53,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val metrics:Metrics = mock[Metrics]
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
@@ -62,7 +62,7 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val metrics:Metrics = mock[Metrics]
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

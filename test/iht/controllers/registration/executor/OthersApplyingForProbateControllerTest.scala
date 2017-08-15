@@ -42,7 +42,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
     override def metrics: Metrics = Metrics
     override def cachingConnector: CachingConnector = mockCachingConnector
     override protected def authConnector: AuthConnector = createFakeAuthConnector(true)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
@@ -50,7 +50,7 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
     override def metrics: Metrics = Metrics
     override def cachingConnector: CachingConnector = mockCachingConnector
     override protected def authConnector: AuthConnector = createFakeAuthConnector(false)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 

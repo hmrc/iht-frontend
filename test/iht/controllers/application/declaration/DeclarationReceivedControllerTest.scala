@@ -37,7 +37,7 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
   def declarationReceivedController = new DeclarationReceivedController{
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     def ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
@@ -45,7 +45,7 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
   def declarationReceivedControllerNotAuthorised = new DeclarationReceivedController{
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
-    override val isWhiteListEnabled = false
+
     def ihtConnector = mockIhtConnector
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }

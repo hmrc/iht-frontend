@@ -24,7 +24,6 @@ import uk.gov.hmrc.play.config.ServicesConfig
 trait AppConfig {
   val analyticsToken: Option[String]
   val analyticsHost: String
-  val isWhitelistEnabled: Boolean
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
   val betaFeedbackUrl: String
@@ -60,8 +59,6 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
 
   override lazy val analyticsToken: Option[String] = configuration.getString("google-analytics.token")
   override lazy val analyticsHost: String = configuration.getString("google-analytics.host").getOrElse("auto")
-
-  override lazy val isWhitelistEnabled = configuration.getBoolean("passcodeAuthentication.enabled").getOrElse(false)
 
   private lazy val contactFrontendService = baseUrl("contact-frontend")
 

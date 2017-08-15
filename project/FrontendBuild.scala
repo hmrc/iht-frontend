@@ -27,7 +27,6 @@ val compile = Seq(
   "uk.gov.hmrc" %% "play-config" % "4.3.0",
   "uk.gov.hmrc" %% "play-filters" % "5.10.0",
   "uk.gov.hmrc" %% "logback-json-logger" % "3.1.0",
-  "uk.gov.hmrc" %% "passcode-verification" % "4.1.0",
   "uk.gov.hmrc" %% "play-authorised-frontend" % "6.3.0",
   "uk.gov.hmrc" %% "http-verbs" % "6.3.0",
   "uk.gov.hmrc" %% "play-auditing" % "2.6.0",

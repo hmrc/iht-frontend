@@ -45,14 +45,14 @@ class DeceasedPermanentHomeControllerTest
  def controller = new DeceasedPermanentHomeController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector(isAuthorised=true)
-   override val isWhiteListEnabled = false
+
    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
 
   def controllerNotAuthorised = new DeceasedPermanentHomeController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
