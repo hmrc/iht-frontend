@@ -66,6 +66,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           None,
           '_hintText -> Messages("iht.dateExample"),
           '_groupId -> "responsibleFromDateFieldSet",
+          '_hintId -> "dobHint",
           '_labelTextClass -> "bold",
           '_fieldsetId -> "date-of-birth",
           '_legend -> Html(Messages("iht.dateofbirth")))

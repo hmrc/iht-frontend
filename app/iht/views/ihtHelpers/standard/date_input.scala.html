@@ -62,7 +62,7 @@
     @if( elements.args.get('_placeholder) ){ placeholder="@elements.args.get('_placeholder)" }
     @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
     @if(elements.args.contains('_lengthMax) ){ minlength="1" pattern=".{1,@elements.args.get('_lengthMax)}" maxlength = "@elements.args.get('_lengthMax)"}
-
+    @if(elements.args.contains('_hint)) {aria-describedby="@elements.args.get('_hint)"}
     name="@elements.field.name"
     id="@elements.field.name"
     value="@value"

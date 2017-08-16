@@ -47,10 +47,9 @@ cancelUrl = Some(cancelUrl)
 
         @ihtHelpers.standard.input_yes_no_radio_group(
             giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),
-            '_hintText -> Html(
-                    "<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1", TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint", deceasedName))) + "</p>" +
-                    "<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"
-            ),
+            '_extraText -> Html(
+"<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1", TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint", deceasedName))) + "</p>"),
+            '_hintText ->  Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"),
             '_divClass -> Some("form-group"),
             '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", partnerName),
             '_legendClass -> Some("legend-with-heading"),

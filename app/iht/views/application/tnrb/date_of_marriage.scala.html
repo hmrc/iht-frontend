@@ -52,9 +52,9 @@
                 "dateOfMarriage",
                 pageTitle,
                 None,
-                '_hintText -> Html("<p>" + Messages("iht.estateReport.tnrb.dateOfMarriage.hint", TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName, predeceasedName) + "</p>" +
-                                "<p class=\"form-hint\">" + Messages("iht.dateExample2") + "</p>"),
-                '_hintClass -> "form-hint--heavy",
+                '_extraText -> Html("<p>" + Messages("iht.estateReport.tnrb.dateOfMarriage.hint", TnrbHelper.marriageOrCivilPartnerShipLabel(widowCheckModel), deceasedName, predeceasedName) + "</p>"),
+                '_hintText -> Messages("iht.dateExample2"),
+                '_hintId -> "domHint",
                 '_groupId -> "responsibleFromDateFieldSet",
                 '_legend -> pageTitle,
                 '_legendClass -> Some("legend-with-heading"),

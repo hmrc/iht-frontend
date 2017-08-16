@@ -30,6 +30,7 @@
 @ariaControls = @{elements.args.get('_ariaControls).getOrElse("")}
 @screenReader = @{elements.args.get('_screenReader).getOrElse("")}
 @labelAsHeading = @{ elements.args.get('_legendIsHeading).getOrElse(false).asInstanceOf[Boolean] }
+@hintID = @{elements.field.name + "Hint"}
 @input = {
     <input
         @if(elements.args.contains('_currency)){
@@ -51,12 +52,12 @@
     @if( elements.args.get('_ariaControls) ){ aria-controls="@elements.args.get('_ariaControls)" }
     @if( elements.args.get('_maxlength) ){ maxlength="@elements.args.get('_maxlength)" }
     @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
+    @if(elements.args.contains('_hintText)) {aria-describedby="@hintID"}
     name="@elements.field.name"
     id="@elements.field.name"
     @if(elements.args.contains('_screenReader)){aria-label="@screenReader"}/>
 }
 @hasErrors = @{elements.hasErrors || (parentElements.isDefined && CommonHelper.getOrException(parentElements).hasErrors)}
-
 
 
 @if(typeOfInput != "hidden") {
@@ -86,8 +87,14 @@
     @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@Messages(error)</span>}
     }
 
+    @if(elements.args.get('_extraText).isDefined) {
+    <div>
+        @elements.args.get('_extraText)
+    </div>
+    }
+
     @if(elements.args.contains('_hintText) && !elements.args.contains('_slideOutText)) {
-        <div class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}">@elements.args.get('_hintText)</div>
+        <div id="@hintID" class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}">@elements.args.get('_hintText)</div>
     }
     @if(elements.args.contains('_hintText) && elements.args.contains('_slideOutText)) {
         @ihtHelpers.standard.accordion_slider_help_text(
