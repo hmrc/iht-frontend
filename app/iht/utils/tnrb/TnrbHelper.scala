@@ -95,11 +95,11 @@ object TnrbHelper {
 
   def spouseOrCivilPartnerNameLabel(tnrbModel: TnrbEligibiltyModel,
                                     widowCheck: WidowCheck,
-                                    prefixText: String=""): String={
+                                    prefixText: String="")(implicit messages: Messages): String={
     if(tnrbModel.Name.toString.trim!=""){
-      Messages("iht.name.upperCaseInitial")
+      messages("iht.name.upperCaseInitial")
     } else {
-      prefixText + " " + spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)
+      prefixText + " " + messages(spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased))
     }
   }
 
@@ -109,7 +109,7 @@ object TnrbHelper {
       tnrbModel.Name.toString + " " + messages("page.iht.application.tnrbEligibilty.partner.married.label")
     } else {
       messages("iht.the.deceased") + " " +
-        preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased)
+        messages(preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased))
     }
   }
 
