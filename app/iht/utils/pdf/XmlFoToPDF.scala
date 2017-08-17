@@ -265,11 +265,10 @@ trait XmlFoToPDF {
 
   private def assetsNetValue( applicationDetails: ApplicationDetails) = {
 
-    val totalExemptionsValue = applicationDetails.totalExemptionsValue
-    if(totalExemptionsValue>0){
-      applicationDetails.totalNetValue
-    }else{
-      applicationDetails.totalValue
+    applicationDetails.totalExemptionsValue match {
+      case x if x>0 => applicationDetails.totalNetValue
+      case _ => applicationDetails.totalValue
     }
+
   }
 }
