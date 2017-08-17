@@ -103,7 +103,6 @@
                 </fo:table>
             </fo:block>
         </xsl:if>
-
         <xsl:if test="$estateOverviewDisplayMode = 6">
             <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.estateOverview.otherDetailsNeeded')"/>
