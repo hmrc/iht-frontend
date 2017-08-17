@@ -125,8 +125,6 @@ trait XmlFoToPDF {
     val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
     val dateOfPredeceased = applicationDetails.widowCheck.flatMap { x => x.dateOfPreDeceased }
 
-    val totalExemptionsValue = applicationDetails.totalExemptionsValue
-
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
       applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalExemptionsValue,
       CommonHelper.getOrZero(applicationDetails.totalPastYearsGiftsOption), messages)
