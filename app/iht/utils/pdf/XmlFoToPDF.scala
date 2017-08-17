@@ -125,6 +125,8 @@ trait XmlFoToPDF {
     val dateOfMarriage = applicationDetails.increaseIhtThreshold.map(xx => xx.dateOfMarriage.fold(new LocalDate)(identity))
     val dateOfPredeceased = applicationDetails.widowCheck.flatMap { x => x.dateOfPreDeceased }
 
+    val totalExemptionsValue = applicationDetails.totalExemptionsValue
+
     setupCommonTransformerParametersPreAndPost(transformer, registrationDetails, preDeceasedName, dateOfMarriage,
       applicationDetails.totalAssetsValue, applicationDetails.totalLiabilitiesValue, applicationDetails.totalExemptionsValue,
       CommonHelper.getOrZero(applicationDetails.totalPastYearsGiftsOption), messages)
@@ -132,7 +134,8 @@ trait XmlFoToPDF {
     transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
     transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
-    transformer.setParameter("estateValue", applicationDetails.totalNetValue)
+
+    transformer.setParameter("estateValue", assetsNetValue(applicationDetails))
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
     transformer.setParameter("marriedOrCivilPartnershipLabel",
       TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
@@ -258,5 +261,15 @@ trait XmlFoToPDF {
       }
     }
     foUserAgent.getEventBroadcaster.addEventListener(eventListener)
+  }
+
+  private def assetsNetValue( applicationDetails: ApplicationDetails) = {
+
+    val totalExemptionsValue = applicationDetails.totalExemptionsValue
+    if(totalExemptionsValue>0){
+      applicationDetails.totalNetValue
+    }else{
+      applicationDetails.totalValue
+    }
   }
 }
