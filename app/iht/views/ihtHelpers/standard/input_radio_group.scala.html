@@ -43,6 +43,12 @@
     </legend>
 }
 
+@if(elements.args.get('_extraText).isDefined) {
+<div>
+    @elements.args.get('_extraText)
+</div>
+}
+
 @if(elements.args.get('_hintText).isDefined) {
 <div class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}" id="@elements.args.get('_hintId)">
     @elements.args.get('_hintText)

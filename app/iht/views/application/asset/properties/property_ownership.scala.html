@@ -53,13 +53,12 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
     '_legendClass -> Some("legend-with-heading"),
     '_legendIsHeading -> true,
     '_headingClass -> "heading-large",
-    '_hintText -> Html("<p id=\"property-ownership-guidance-1\">" + Messages("iht.estateReport.assets.property.youCan") +
+    '_extraText -> Html("<p id=\"property-ownership-guidance-1\">" + Messages("iht.estateReport.assets.property.youCan") +
                         " <a id=\"land-registry-link\" href=\"" + IhtProperties.linkLandRegistry + "\">" +
                         Messages("iht.estateReport.assets.property.findOutFromLandRegistry") + "</a> " +
                         Messages("page.iht.application.assets.property.ownership.guidance1b") + "</p>" +
                         "<p id=\"property-ownership-guidance-2\">" + Messages("page.iht.application.assets.property.ownership.guidance2") + "</p>"
-                    ),
-    '_hintClass -> "form-hint--heavy"
+                    )
 )
 
 <div id="tenancyHint" class="text js-tenancyHint js-hidden">
