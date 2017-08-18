@@ -18,7 +18,7 @@
 @import iht.utils._
 @(ihtref: String, probateDetails: ProbateDetails, title: String)(implicit request:Request[_], messages: Messages)
 
-<div class="overview-top-highlight sidebar-links">
+<div class="panel-indent panel-indent--gutter">
     <p id="in-review-side-text">@Messages(title)</p>
     <p>
         <a id="view-app-copy" href="@iht.controllers.application.pdf.routes.PDFController.onPostSubmissionPDF()">
