@@ -38,7 +38,7 @@
                             <xsl:with-param name="value" select="concat('-', $debtsTotal)"/>
                         </xsl:call-template>
                     </xsl:if>
-                    <xsl:if test="$estateOverviewDisplayMode=3 or $estateOverviewDisplayMode=4 or $estateOverviewDisplayMode=5">
+                    <xsl:if test="$estateOverviewDisplayMode!=1 and $estateOverviewDisplayMode!=2">
                         <xsl:call-template name="table-row--currency-right">
                             <xsl:with-param name="label"
                                             select="scala:getMessagesText($translator, 'iht.estateReport.exemptions.title')"/>
@@ -85,7 +85,7 @@
                 </fo:table-body>
             </fo:table>
         </fo:block>
-        <xsl:if test="$estateOverviewDisplayMode!=5">
+        <xsl:if test="$estateOverviewDisplayMode!=5 and $estateOverviewDisplayMode!=6">
             <fo:block  role="H3" xsl:use-attribute-sets="h3">
                 <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.estateOverview.otherDetailsNeeded')"/>
             </fo:block>
@@ -103,5 +103,24 @@
                 </fo:table>
             </fo:block>
         </xsl:if>
+        <xsl:if test="$estateOverviewDisplayMode = 6">
+            <fo:block  role="H3" xsl:use-attribute-sets="h3">
+                <xsl:value-of select="scala:getMessagesText($translator, 'page.iht.application.estateOverview.otherDetailsNeeded')"/>
+            </fo:block>
+            <fo:block>
+                <fo:table>
+                    <fo:table-column column-number="1" />
+                    <fo:table-column column-number="2" />
+                    <fo:table-body>
+                        <xsl:call-template name="table-row--currency-right-total">
+                            <xsl:with-param name="label"
+                                            select="scala:getMessagesText($translator, 'iht.estateReport.debts.owedFromEstate')"/>
+                            <xsl:with-param name="value" select="concat('-', $debtsTotal)"/>
+                        </xsl:call-template>
+                    </fo:table-body>
+                </fo:table>
+            </fo:block>
+        </xsl:if>
+
     </xsl:template>
 </xsl:stylesheet>
