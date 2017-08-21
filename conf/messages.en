@@ -1719,7 +1719,7 @@ page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.no.scree
 
 page.iht.application.TnrbEligibilty.dateOfMarriage.label = Date of marriage or civil partnership to {0}
 
-page.iht.application.TnrbEligibilty.isPartnerLivingInUk.label = Did {0}’s {1} have their permanent home in the UK?
+
 page.iht.application.TnrbEligibilty.isGiftMadeBeforeDeath.label = Did {0}’s {1} give any gifts away in the 7 years before they died?
 page.iht.application.TnrbEligibilty.isGiftMadeBeforeDeath.hint = Answer yes if the total value of all gifts given away was more than £3,000 in any 1 year.
 page.iht.application.TnrbEligibilty.isPartnerGiftWithResToOther.label = Did the {0} give any gifts with reservation of benefit to anyone apart from {1}?
@@ -2553,5 +2553,4 @@ error.isJointAssetPassed.select = Select an answer for if all of the jointly own
 error.predeceasedDateOfDeath.afterMarriage = Enter a date of death which is after the date of marriage or civil partnership
 error.predeceasedDateOfMarriage.beforeDateOfDeath = Enter a date of marriage or civil partnership which is before the date of death
 
-##
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson = {0}’s {1}

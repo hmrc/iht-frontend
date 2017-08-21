@@ -1503,12 +1503,12 @@ page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label=bri
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label=yn briod neu mewn partneriaeth sifil
 page.iht.application.TnrbEligibilty.spouse.commonText=priod
 
-##iht.estateReport.tnrb.partner.married=A oedd {0} {1} ar unrhyw adeg tra''r oedd yn fyw, a bu farw''r {2}?
-
 iht.estateReport.tnrb.partner.married=A fu {0} {1} ar unrhyw adeg tra''r oedd yn fyw, a bu farw''r {2}?
-
-##iht.estateReport.tnrb.partner.hint=Os oedd {0} {1} fwy nag unwaith tra''r oedd yn fyw, a bu farw''r {2} yn gyntaf bob tro, mae''n rhaid i chi ddewis un ystâd i drosglwyddo''r lwfans sydd heb ei ddefnyddio ohoni.
-
 iht.estateReport.tnrb.partner.hint=Os bu {0} {1} fwy nag unwaith tra''r oedd yn fyw, a bu farw''r {2} yn gyntaf bob tro, mae''n rhaid i chi ddewis un ystâd i drosglwyddo''r lwfans sydd heb ei ddefnyddio ohoni.
 
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson = {1} {0}
+page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
+
+page.iht.application.tnrbEligibilty.partner.married.label = yn briod
+page.iht.application.tnrbEligibilty.partner.marriage.label = priodas
+
