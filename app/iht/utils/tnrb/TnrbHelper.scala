@@ -54,7 +54,7 @@ object TnrbHelper {
     }(identity)
   }
 
-  def spouseOrCivilPartnerLabel(tnrbModel: TnrbEligibiltyModel,
+  def spouseOrCivilPartnerLabelGenitive(tnrbModel: TnrbEligibiltyModel,
                                 widowCheck: WidowCheck,
                                 prefixText: String="",
                                 wrapName: Boolean = false)(implicit messages: Messages): String  = {
@@ -70,7 +70,7 @@ object TnrbHelper {
     }
   }
 
-  def spouseOrCivilPartnerLabel2(tnrbModel: TnrbEligibiltyModel,
+  def spouseOrCivilPartnerLabelPossessive(tnrbModel: TnrbEligibiltyModel,
                                 widowCheck: WidowCheck,
                                 prefixText: String="",
                                 wrapName: Boolean = false)(implicit messages: Messages): String  = {

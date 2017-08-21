@@ -47,7 +47,7 @@
             Html(
                 Messages(
                     "page.iht.application.tnrbEligibilty.overview.guidance2",
-                    TnrbHelper.spouseOrCivilPartnerLabel(
+                    TnrbHelper.spouseOrCivilPartnerLabelGenitive(
                         tnrbModel,
                         widowCheckModel,
                         getDeceasedNameOrDefaultString(registrationDetails)
@@ -61,7 +61,7 @@
         <p id="tnrb-guidance3">@Messages("iht.estateReport.completeEverySection")</p>
 
         @defining(getOrException(registrationDetails.deceasedDetails).name) { deceasedName =>
-            @defining(TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
+            @defining(TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
 
                 <section class="section">
 
@@ -89,7 +89,7 @@
                             @tnrb_overview_table_row(id = "date-of-preDeceased",
                                 questionText = Html(messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
 
-                                    messages(TnrbHelper.spouseOrCivilPartnerLabel(
+                                    messages(TnrbHelper.spouseOrCivilPartnerLabelGenitive(
                                         tnrbModel,
                                         widowCheckModel,
                                         getDeceasedNameOrDefaultString(registrationDetails, true),
@@ -118,7 +118,7 @@
         <h2 id="tnrb-partner-personal-details">
         @Html(
             messages("page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading",
-                messages(TnrbHelper.spouseOrCivilPartnerLabel(
+                messages(TnrbHelper.spouseOrCivilPartnerLabelGenitive(
                     tnrbModel,
                     widowCheckModel,
                     getDeceasedNameOrDefaultString(registrationDetails, true),
@@ -131,7 +131,7 @@
         <ul class="tabular-data tabular-data--list">
 
         @defining(getOrException(registrationDetails.deceasedDetails).name) { deceasedName =>
-            @defining(TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
+            @defining(TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
 
                 @defining(if(tnrbModel.firstName.isDefined) "some" else "none") { messageFileSuffix =>
                     @defining(if(tnrbModel.Name.toString.trim == "") "" else tnrbModel.Name.toString) { answerValue =>
@@ -191,7 +191,7 @@
             @Html(
                 Messages("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading",
 
-                    TnrbHelper.spouseOrCivilPartnerLabel(
+                    TnrbHelper.spouseOrCivilPartnerLabelGenitive(
                         tnrbModel,
                         widowCheckModel,
                         Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
@@ -206,7 +206,7 @@
             <ul id="tnrb-overview-partner-estate-table" class="tabular-data tabular-data--list">
 
             @defining(getOrException(registrationDetails.deceasedDetails).name) { deceasedName =>
-                @defining(TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
+                @defining(TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
 
                     @tnrb_overview_table_row(id = "is-estate-below-iht-threshold-applied",
                         questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.charity.question", predeceasedName, ihtHelpers.custom.name(deceasedName))),

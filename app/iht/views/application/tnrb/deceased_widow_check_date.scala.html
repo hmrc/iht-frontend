@@ -31,7 +31,7 @@ cancelLinkUrl:Call,
 cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @partnerName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
-@spouseLabel() = @{TnrbHelper.spouseOrCivilPartnerLabel(
+@spouseLabel() = @{TnrbHelper.spouseOrCivilPartnerLabelGenitive(
                         tnrbModel,
                         widowCheckModel,
                         partnerName,
