@@ -16,14 +16,19 @@
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
-@(ihtReference:String, url: String, deceasedName: String, titleKey: String, browserTitleKey: String, systemGenerated: Boolean)(implicit request:Request[_], messages: Messages)
+@(ihtReference:String,
+url: String,
+deceasedName: String,
+titleKey: String,
+browserTitleKey: String,
+systemGenerated: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages(titleKey),
     browserTitle = Some(Messages(browserTitleKey))){
 
-    <div class="form-group">
         @if(systemGenerated) {
             <p>@Messages("page.iht.application.tnrb.guidance.system.p1", deceasedName)</p>
         } else {
@@ -35,12 +40,15 @@
             <p>@Messages("page.iht.application.tnrb.guidance.p3")</p>
         }
 
-        <a id ="continue-to-increasing-threshold-link" @if(systemGenerated) { class="button"} href='@url'>
-        @Messages("page.iht.application.tnrb.guidance.continueLink.text")
-        </a>
-    </div>
+    @if(systemGenerated){ <div id="action-button" class="form-field form-field--submit"> }
+    <a id ="continue-to-increasing-threshold-link" @if(systemGenerated) { class="button"} href='@url'>
+    @Messages("page.iht.application.tnrb.guidance.continueLink.text")
+    </a>
+    @if(systemGenerated){ </div> }
+    @if(!systemGenerated){ <div id="action-button" class="form-field form-field--submit"> }
     <a id ="continue-to-estate-overview-button" @if(!systemGenerated) { class="button" } href='@iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(ihtReference)'>
     @Messages("iht.estateReport.returnToEstateOverview")
     </a>
+    @if(!systemGenerated){ </div> }
 
 }

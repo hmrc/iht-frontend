@@ -23,9 +23,10 @@
 @import iht.models.application.gifts.AllGifts
 @import iht.constants.Constants._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(giftWithReservationFromBenefitForm:Form[AllGifts],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 @deceasedName = @{getDeceasedNameOrDefaultString(registrationDetails, false)}
 
 @iht_main_template_application(

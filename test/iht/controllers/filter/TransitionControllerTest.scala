@@ -17,16 +17,20 @@
 package iht.controllers.filter
 
 import iht.controllers.application.ApplicationControllerTest
+import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class TransitionControllerTest extends ApplicationControllerTest with HtmlSpec {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  def controller = new TransitionController {}
+  def controller = new TransitionController {
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
+  }
 
   "Transition Controller" must {
 

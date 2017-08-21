@@ -21,13 +21,14 @@
 @import iht.models.application.tnrb._
 @import iht.utils.tnrb.TnrbHelper
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(deceasedWidowCheckDateForm:Form[WidowCheck],
 widowCheckModel: WidowCheck,
 tnrbModel: TnrbEligibiltyModel,
 registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
-cancelLinkText:String)(implicit request:Request[_], messages: Messages)
+cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @partnerName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 @spouseLabel() = @{TnrbHelper.spouseOrCivilPartnerLabel(
@@ -59,6 +60,7 @@ cancelLinkText:String)(implicit request:Request[_], messages: Messages)
     "",
     None,
     '_hintText -> Messages("iht.dateExample2"),
+    '_hintId -> "dodHint",
     '_labelTextClass -> "bold",
     '_groupId -> "responsibleFromDateFieldSet",
     '_legend -> Html(Messages("page.iht.application.tnrbEligibilty.overview.partner.dod.question", spouseLabel)),

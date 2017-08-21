@@ -23,13 +23,14 @@ import iht.forms.registration.ApplicantForms._
 import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, DeceasedDateOfDeath, RegistrationDetails}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class ProbateLocationControllerTest
   extends RegistrationApplicantControllerWithEditModeBehaviour[ProbateLocationController] {
@@ -39,14 +40,16 @@ class ProbateLocationControllerTest
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector(isAuthorised=true)
    override val metrics:Metrics = mock[Metrics]
-   override val isWhiteListEnabled = false
+
+   override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
 
   def controllerNotAuthorised = new ProbateLocationController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val metrics:Metrics = mock[Metrics]
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   before {

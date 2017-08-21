@@ -24,7 +24,8 @@ class ApplicationClosedAndClearedControllerTest extends ApplicationControllerTes
   "ApplicationClosedAndClearedController" must {
     "implement a view" in {
       val request = createFakeRequest()
-      val pageContent = ApplicationClosedAndClearedController.getView("","",CommonBuilder.buildProbateDetails)(request).toString
+      val pageContent = ApplicationClosedAndClearedController.getView("", "",
+                                                              CommonBuilder.buildProbateDetails)(request, formPartialRetriever).toString
       titleShouldBeCorrect(pageContent, messagesApi("page.iht.application.overview.common.title"))
     }
   }

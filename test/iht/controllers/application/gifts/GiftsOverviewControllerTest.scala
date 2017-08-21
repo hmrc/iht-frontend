@@ -21,12 +21,12 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, MockObjectBuilder, TestHelper}
-import iht.testhelpers.ContentChecker
+import iht.testhelpers._
 import iht.utils._
 import org.mockito.Matchers._
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
   *
@@ -42,12 +42,14 @@ class GiftsOverviewControllerTest extends ApplicationControllerTest {
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def giftsOverviewControllerNotAuthorised = new GiftsOverviewController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def createMocksForRegistrationAndApplication(rd: RegistrationDetails, ad: ApplicationDetails) = {

@@ -16,23 +16,26 @@
 
 package iht.controllers.filter
 
-import iht.controllers.auth.CustomPasscodeAuthentication
+import iht.config.IhtFormPartialRetriever
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.frontend.controller.{UnauthorisedAction, FrontendController}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 object TransitionController extends TransitionController
 
-trait TransitionController extends FrontendController with CustomPasscodeAuthentication {
+trait TransitionController extends FrontendController {
 
 
   def onPageLoadScotland = doPageLoad("iht.countries.scotland")
   def onPageLoadNorthernIreland = doPageLoad("iht.countries.northernIreland")
   def onPageLoadOtherCountry = doPageLoad("page.iht.filter.domicile.choice.other")
 
-  def doPageLoad(countryMessageKey: String) = customAuthenticatedActionAsync {
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+
+  def doPageLoad(countryMessageKey: String) = UnauthorisedAction.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.use_paper_form(countryMessageKey)))
     }

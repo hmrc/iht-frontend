@@ -19,12 +19,13 @@ package iht.controllers.application.declaration
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.mockito.Matchers.same
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 class DeclarationReceivedControllerTest extends ApplicationControllerTest {
@@ -36,15 +37,17 @@ class DeclarationReceivedControllerTest extends ApplicationControllerTest {
   def declarationReceivedController = new DeclarationReceivedController{
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     def ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def declarationReceivedControllerNotAuthorised = new DeclarationReceivedController{
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
-    override val isWhiteListEnabled = false
+
     def ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "Declaration Received " must {

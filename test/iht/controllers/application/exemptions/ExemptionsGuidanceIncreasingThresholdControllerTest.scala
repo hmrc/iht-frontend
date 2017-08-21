@@ -19,11 +19,12 @@ package iht.controllers.application.exemptions
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.mockito.Matchers._
 import play.api.i18n.MessagesApi
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jon on 23/07/15.
@@ -39,14 +40,16 @@ class ExemptionsGuidanceIncreasingThresholdControllerTest extends ApplicationCon
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new ExemptionsGuidanceIncreasingThresholdController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val finalDestinationUrl = "url"

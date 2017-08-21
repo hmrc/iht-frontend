@@ -18,12 +18,13 @@ package iht.controllers.application.assets.stocksAndShares
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by yasar on 30/06/16.
@@ -39,12 +40,14 @@ class StocksAndSharesOverviewControllerTest extends ApplicationControllerTest {
       override val authConnector = createFakeAuthConnector()
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
+      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     def stocksAndSharesOverviewControllerNotAuthorised = new StocksAndSharesOverviewController {
       override val authConnector = createFakeAuthConnector(false)
       override val cachingConnector = mockCachingConnector
       override val ihtConnector = mockIhtConnector
+      override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
     }
 
     "respond with OK on page load" in {

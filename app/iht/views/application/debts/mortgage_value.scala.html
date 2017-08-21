@@ -24,11 +24,12 @@
 @import iht.constants.FieldMappings
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(mortgagesForm: Form[iht.models.application.debts.Mortgage],
 property: Property,
 submitUrl: Call,
-regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+regDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, false)}
 

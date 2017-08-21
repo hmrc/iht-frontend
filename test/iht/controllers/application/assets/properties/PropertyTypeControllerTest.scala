@@ -21,7 +21,7 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.ApplicationDetails
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -29,6 +29,7 @@ import play.api.test.Helpers._
 import iht.utils.ApplicationKickOutHelper
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -54,12 +55,14 @@ class PropertyTypeControllerTest extends ApplicationControllerTest {
     val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertyTypeControllerNotAuthorised = new PropertyTypeController {
     val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "PropertyTypeController" must {

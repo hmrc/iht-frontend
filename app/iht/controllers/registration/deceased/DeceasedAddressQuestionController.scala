@@ -41,12 +41,16 @@ trait DeceasedAddressQuestionController extends RegistrationDeceasedController {
   override val storageFailureMessage = "Storage of registration details fails during deceased address question"
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_question(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), routes.DeceasedAddressQuestionController.onSubmit())
-    (request, request.acceptLanguages.head, applicationMessages))
+    Ok(views.deceased_address_question(form,
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
+      routes.DeceasedAddressQuestionController.onSubmit())
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_question(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), routes.DeceasedAddressQuestionController.onSubmit())
-    (request, request.acceptLanguages.head, applicationMessages))
+    BadRequest(views.deceased_address_question(form,
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
+      routes.DeceasedAddressQuestionController.onSubmit())
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def onwardRoute(rd: RegistrationDetails) = {
     val addressInUk = rd.deceasedDetails.flatMap(_.isAddressInUK)

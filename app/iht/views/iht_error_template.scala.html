@@ -20,8 +20,12 @@
 @import play.api.i18n.Messages.Implicits.applicationMessagesApi
 @import iht.utils.MessagesHelper.translateToPreferredLanguage
 @import iht.utils.MessagesHelper.messagesForLang
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(pageTitle: String, heading: String, message: String)(implicit request: Request[_], messages: Messages)
+@(pageTitle: String,
+heading: String,
+message: String)(implicit request: Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+
 @contentHeader = {
 <h1>@translateToPreferredLanguage(heading, messages, preferredLanguageCode)</h1>
 }
@@ -51,4 +55,4 @@
 }
 
 @iht_main_template_application(title = translateToPreferredLanguage(pageTitle, messages, preferredLanguageCode),
-    contentHeader = Some(contentHeader))(mainContent)(request, msg)
+    contentHeader = Some(contentHeader))(mainContent)(request, msg, ihtFormPartialRetriever)

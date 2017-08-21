@@ -36,7 +36,9 @@ object HouseholdDeceasedOwnController extends HouseholdDeceasedOwnController wit
 
 trait HouseholdDeceasedOwnController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsHouseholdDeceasedOwned)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(AssetsHouseholdOwnID))
+
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.household.routes.HouseholdOverviewController.onPageLoad(), Some(AssetsHouseholdOwnID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

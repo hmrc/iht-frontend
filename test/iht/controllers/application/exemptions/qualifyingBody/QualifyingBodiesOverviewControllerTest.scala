@@ -21,15 +21,15 @@ import iht.controllers.application.ApplicationControllerTest
 import iht.controllers.application.exemptions.qualifyingBody.{routes => qualifyingBodyRoutes}
 import iht.models.application.ApplicationDetails
 import iht.models.application.exemptions.QualifyingBody
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.CommonBuilder._
-import iht.testhelpers.ContentChecker
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
 
@@ -74,7 +74,8 @@ class QualifyingBodiesOverviewControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = authorised)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "Qualifying Bodies Overview Controller" must {

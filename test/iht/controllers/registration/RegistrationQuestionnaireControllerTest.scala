@@ -19,12 +19,14 @@ package iht.controllers.registration
 import iht.connector.{CachingConnector, ExplicitAuditConnector, IhtConnector}
 import iht.constants.{Constants, IhtProperties}
 import iht.models.QuestionnaireModel
+import iht.testhelpers.MockFormPartialRetriever
 import iht.utils.IhtSection
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 /**
@@ -43,18 +45,20 @@ class RegistrationQuestionnaireControllerTest extends RegistrationControllerTest
   // Create controller object and pass in mock.
   def questionnaireController = new RegistrationQuestionnaireController {
     override val authConnector = createFakeAuthConnector()
-    override val isWhiteListEnabled = false
+
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
     def ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def questionnaireControllerNotAuthorised = new RegistrationQuestionnaireController {
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
-    override val isWhiteListEnabled = false
+
     override def explicitAuditConnector = mockAuditConnector
     def cachingConnector = mockCachingConnector
     def ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "onApplicationPageLoad method" must {

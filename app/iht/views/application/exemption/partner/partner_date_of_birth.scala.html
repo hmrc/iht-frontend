@@ -20,8 +20,10 @@
 @import iht.models.application.exemptions._
 @import iht.constants.IhtProperties._
 @import iht.utils.CommonHelper._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(spouseDateOfBirthForm: Form[PartnerExemption], registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
+@(spouseDateOfBirthForm: Form[PartnerExemption],
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 @iht_main_template_application(
     title = "",
     browserTitle=Some(Messages("page.iht.application.exemptions.partner.dateOfBirth.browserTitle")),
@@ -37,6 +39,7 @@
             "",
             None,
             '_hintText -> Messages("iht.dateExample"),
+            '_hintId -> "dobHint",
             '_groupId -> "responsibleFromDateFieldSet",
             '_legend -> Messages("page.iht.application.exemptions.partner.dateOfBirth.question.title"),
             '_legendClass -> Some("legend-with-heading"),

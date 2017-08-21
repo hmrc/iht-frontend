@@ -19,7 +19,7 @@ package iht.controllers.application.exemptions.charity
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages
@@ -28,6 +28,7 @@ import play.api.Play.current
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
 
@@ -38,14 +39,16 @@ class CharityDetailsOverviewControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def charityDetailsOverviewControllerNotAuthorised = new CharityDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

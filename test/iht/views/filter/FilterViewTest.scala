@@ -32,13 +32,13 @@ class FilterViewTest extends ViewTestHelper {
   "filter_view" must {
 
     "have no message keys in html" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val view = asDocument(contentAsString(result)).toString
       noMessageKeysShouldBePresent(view)
     }
 
     "generate appropriate content for the title" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
 
@@ -46,7 +46,7 @@ class FilterViewTest extends ViewTestHelper {
     }
 
     "generate appropriate content for the browser title" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("title").first
 
@@ -54,7 +54,7 @@ class FilterViewTest extends ViewTestHelper {
     }
 
     "contain an appropriate field set" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val fieldSet = doc.getElementsByTag("fieldset")
       val id = fieldSet.attr("id")
@@ -62,14 +62,14 @@ class FilterViewTest extends ViewTestHelper {
     }
 
     "contain the first radio button with the text 'I want to continue an estate report that I've already started' and no hint" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val mainSpan = doc.getElementById("filter-choices-continue-main")
       mainSpan.text() should be(messagesApi("page.iht.filter.filter.choice.main.continue"))
     }
 
     "contain the first radio button without a hint" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
       val label =  doc.getElementById("filter-choices-continue-label")
@@ -77,28 +77,28 @@ class FilterViewTest extends ViewTestHelper {
     }
 
     "contain the second radio button with the text 'I want to register so I can tell HMRC about a person's estate" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val mainElement = doc.getElementById("filter-choices-register-main")
       mainElement.text() should be(messagesApi("page.iht.filter.filter.choice.main.register"))
     }
 
     "contains a second button with the hint 'You’ll be asked a couple of questions first to make sure you’re using the right service.'" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val hintElement = doc.getElementById("filter-choices-register-hint")
       hintElement.text() should be(messagesApi("page.iht.filter.filter.choice.main.register.hint"))
     }
 
     "contain the third radio button with the text 'I've already started registration and want to continue'" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
       assertEqualsMessage(doc, "label#filter-choices-already-started-label > span", "page.iht.filter.filter.choice.main.alreadyStarted")
     }
 
     "contain the third radio button without a hint" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
       val label =  doc.getElementById("filter-choices-already-started-label")
@@ -106,14 +106,14 @@ class FilterViewTest extends ViewTestHelper {
     }
 
     "contain the fourth radio button with the text 'I'm an agent and reporting on behalf of a client'" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
       assertEqualsMessage(doc, "label#filter-choices-agent-label > span", "page.iht.filter.filter.choice.main.agent")
     }
 
     "contain the fourth radio button without a hint" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
 
       val label =  doc.getElementById("filter-choices-agent-label")
@@ -121,7 +121,7 @@ class FilterViewTest extends ViewTestHelper {
     }
 
     "contain a continue button with the text 'Continue'" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val button = doc.select("input#continue").first
 
@@ -129,7 +129,7 @@ class FilterViewTest extends ViewTestHelper {
     }
 
     "contain a form with the action attribute set to the FilterController onSubmit URL" in {
-      val result = filter_view(filterForm)(fakeRequest, applicationMessages)
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))
       val formElement = doc.getElementsByTag("form").first
 

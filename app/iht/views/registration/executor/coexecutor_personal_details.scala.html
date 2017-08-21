@@ -19,11 +19,12 @@
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
 @import iht.constants._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(coExecutorDetails:Form[iht.models.CoExecutor],
 mode: Mode.Value = Mode.Standard,
 actionLocation: Call,
-cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages)
+cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("page.iht.registration.co-executor-personal-details.title"),
   browserTitle = Some(Messages("page.iht.registration.co-executor-personal-details.browserTitle")),
@@ -65,6 +66,7 @@ cancelLocation: Option[Call] = None)(implicit request : Request[_], messages: Me
           None,
           '_hintText -> Messages("iht.dateExample"),
           '_groupId -> "responsibleFromDateFieldSet",
+          '_hintId -> "dobHint",
           '_labelTextClass -> "bold",
           '_fieldsetId -> "date-of-birth",
           '_legend -> Html(Messages("iht.dateofbirth")))

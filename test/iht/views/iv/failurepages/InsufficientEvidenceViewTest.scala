@@ -32,7 +32,9 @@ class InsufficientEvidenceViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("error.problem")
 
-  def view: String = insufficient_evidence(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
+  def view: String = insufficient_evidence(CommonBuilder.DefaultCall1.url)(createFakeRequest(),
+                                                                          applicationMessages,
+                                                                          formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

@@ -25,12 +25,13 @@
 @import iht.views.html.application.gift._
 @import iht.views.html.application._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(registrationDetails:RegistrationDetails,
 seqRows:Seq[Section],
 returnToCall: Option[Call],
 returnToMessagesKey: String
-)(implicit request:Request[_], messages: Messages)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 
 @deceasedName() = @{getOrException(registrationDetails.deceasedDetails.map(_.name))}

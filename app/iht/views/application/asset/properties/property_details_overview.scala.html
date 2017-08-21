@@ -23,9 +23,10 @@
 @import iht.constants.FieldMappings
 @import iht.utils._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(deceasedName: String,
-property:Option[Property]=None)(implicit request:Request[_], messages: Messages)
+property:Option[Property]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @getUpdateElements(data: Option[_], changeText: String, noValueText: String, currencyValue: Boolean = false) = {
     @(data, currencyValue) match {

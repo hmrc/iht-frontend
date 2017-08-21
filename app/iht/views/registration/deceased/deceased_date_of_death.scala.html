@@ -18,10 +18,11 @@
 @import iht.views.html._
 @import iht.utils._
 @import iht.controllers.ControllerHelper._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(deceasedDateOfDeath:Form[iht.models.DeceasedDateOfDeath],
 actionLocation: Call,
-cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages)
+cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(
     title = "",
@@ -38,6 +39,7 @@ cancelLocation:Option[Call]=None)(implicit request:Request[_], messages: Message
             "",
             None,
             '_hintText -> Messages("page.iht.registration.deceasedDateOfDeath.dateOfDeath.hint"),
+            '_hintId -> "dodHint",
             '_groupId -> "responsibleFromDateFieldSet",
             '_groupClass -> "",
             '_labelTextClass -> "bold",

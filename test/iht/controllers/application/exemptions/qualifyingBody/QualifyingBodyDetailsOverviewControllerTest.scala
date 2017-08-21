@@ -19,13 +19,14 @@ package iht.controllers.application.exemptions.qualifyingBody
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.models.application.ApplicationDetails
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.CommonHelper
 import play.api.i18n.Messages.Implicits._
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
@@ -35,14 +36,16 @@ class QualifyingBodyDetailsOverviewControllerTest extends ApplicationControllerT
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def qualifyingBodyDetailsOverviewControllerNotAuthorised = new QualifyingBodyDetailsOverviewController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

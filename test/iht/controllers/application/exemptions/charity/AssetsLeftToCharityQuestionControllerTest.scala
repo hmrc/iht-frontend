@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.models.application.exemptions.BasicExemptionElement
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
@@ -28,6 +28,7 @@ import play.api.Play.current
 import iht.utils.CommonHelper._
 import iht.testhelpers.TestHelper._
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTest {
 
@@ -38,12 +39,14 @@ class AssetsLeftToCharityQuestionControllerTest extends ApplicationControllerTes
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def assetsLeftToCharityQuestionControllerNotAuthorised = new AssetsLeftToCharityQuestionController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "AssetsLeftToCharityQuestionControllerTest" must {

@@ -33,7 +33,7 @@ class TechnicalIssueViewTest extends GenericNonSubmittablePageBehaviour {
 
   def browserTitle = messagesApi("page.iht.iv.failure.technicalIssue.title")
 
-  def view: String = technical_issue(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages).toString
+  def view: String = technical_issue(CommonBuilder.DefaultCall1.url)(createFakeRequest(), applicationMessages, formPartialRetriever).toString
 
   override def exitComponent = Some(
     ExitComponent(

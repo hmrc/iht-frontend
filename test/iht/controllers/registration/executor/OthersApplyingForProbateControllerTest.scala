@@ -21,7 +21,7 @@ import iht.controllers.registration.{RegistrationControllerTest, routes => regis
 import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics
 import iht.models.{DeceasedDateOfDeath, RegistrationDetails}
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
@@ -29,6 +29,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class OthersApplyingForProbateControllerTest extends RegistrationControllerTest {
 
@@ -41,14 +42,16 @@ class OthersApplyingForProbateControllerTest extends RegistrationControllerTest 
     override def metrics: Metrics = Metrics
     override def cachingConnector: CachingConnector = mockCachingConnector
     override protected def authConnector: AuthConnector = createFakeAuthConnector(true)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def othersApplyingForProbateControllerNotAuthorised = new OthersApplyingForProbateController {
     override def metrics: Metrics = Metrics
     override def cachingConnector: CachingConnector = mockCachingConnector
     override protected def authConnector: AuthConnector = createFakeAuthConnector(false)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "OthersApplyingForProbateController" must {

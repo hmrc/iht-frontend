@@ -30,7 +30,7 @@ class UsePaperFormViewTest extends ViewTestHelper {
   lazy val iht401FormUrl= "https://www.gov.uk/government/publications/inheritance-tax-domicile-outside-the-united-kingdom-iht401"
 
   def getPageAsDoc(countryMessageKey: String = "") = {
-    val result = use_paper_form(countryMessageKey)(fakeRequest, applicationMessages)
+    val result = use_paper_form(countryMessageKey)(fakeRequest, applicationMessages, formPartialRetriever)
     asDocument(contentAsString(result))
   }
 

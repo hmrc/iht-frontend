@@ -20,7 +20,7 @@ import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
 import iht.forms.ApplicationForms._
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -29,6 +29,8 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.models.application.ApplicationDetails
 import iht.utils.CommonHelper
+import uk.gov.hmrc.play.partials.FormPartialRetriever
+
 /**
  * Created by Vineet on 22/06/16.
  */
@@ -50,14 +52,16 @@ class PropertyTenureControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def propertyTenureControllerNotAuthorised = new PropertyTenureController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

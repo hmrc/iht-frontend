@@ -20,10 +20,11 @@
 @import iht.controllers.ControllerHelper
 @import iht.constants._
 @import iht.controllers.ControllerHelper.Mode
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(aboutDeceased:Form[iht.models.DeceasedDetails],
 actionLocation: Call,
-cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages)
+cancelLocation: Option[Call] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 
 @iht_main_template_registration(title = Messages("iht.registration.deceasedDetails.title"),
@@ -58,6 +59,7 @@ isFullWidth=false) {
         Messages("iht.dateofbirth"),
         None,
         '_hintText -> Messages("iht.dateExample"),
+        '_hintId -> "dobHint",
         '_groupId -> "responsibleFromDateFieldSet",
         '_labelClass -> "",
         '_legend -> Html(Messages("iht.dateofbirth")),
@@ -68,8 +70,8 @@ isFullWidth=false) {
         '_inputClass -> "form-control form-control--block",
         '_labelClass -> "",
         '_labelTextClass -> "bold",
-        '_label -> Html(Messages("iht.nationalInsuranceNo",
-        '_hintText -> Html(Messages("iht.ninoExample")))))
+        '_label -> Html(Messages("iht.nationalInsuranceNo")),
+        '_hintText -> Html(Messages("iht.ninoExample")))
 
         <div id="maritalStatus-container">
             @ihtHelpers.standard.input_radio_group(

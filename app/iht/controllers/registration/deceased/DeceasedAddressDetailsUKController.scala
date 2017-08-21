@@ -46,20 +46,34 @@ trait DeceasedAddressDetailsUKController extends RegistrationDeceasedControllerW
   lazy val switchToUkEditRoute = routes.DeceasedAddressDetailsOutsideUKController.onEditPageLoad
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_uk(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    Ok(views.deceased_address_details_uk(form,
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
+      submitRoute,
+      switchToUkRoute)
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_address_details_uk(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    Ok(views.deceased_address_details_uk(form,
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
+      editSubmitRoute,
+      switchToUkEditRoute,
+      cancelToRegSummary)
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_uk(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), submitRoute, switchToUkRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    BadRequest(views.deceased_address_details_uk(form,
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
+      submitRoute,
+      switchToUkRoute)
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_address_details_uk(form, DeceasedInfoHelper.getDeceasedNameOrDefaultString(name), editSubmitRoute, switchToUkEditRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    BadRequest(views.deceased_address_details_uk(form,
+      DeceasedInfoHelper.getDeceasedNameOrDefaultString(name),
+      editSubmitRoute,
+      switchToUkEditRoute,
+      cancelToRegSummary)
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   override def fillForm(rd: RegistrationDetails) = {
     val dd = CommonHelper.getOrException(rd.deceasedDetails)

@@ -21,11 +21,12 @@
 @import iht.utils.CommonHelper._
 @import iht.constants.IhtProperties._
 @import iht.constants._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(charityNumberForm: Form[iht.models.application.exemptions.Charity],
-registrationDetails:RegistrationDetails,
-submitUrl:Call,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages)
+  registrationDetails:RegistrationDetails,
+  submitUrl:Call,
+  cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.exemptions.charityNumber.browserTitle")),
@@ -42,11 +43,10 @@ isFullWidth=false
                 '_label -> Html(Messages("iht.estateReport.exemptions.charities.charityNo.question")),
                 '_legendIsHeading -> true,
                 '_headingClass -> "heading-large",
-                '_hintText -> Html("<p class=\"lede\">" + Messages("page.iht.application.exemptions.charityNumber.p1") + " " +
+                '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.application.exemptions.charityNumber.p1") + " " +
                                     "<a rel=\"external\" href=\"" + charityLink + "\" id=\"charity-register\">" + Messages("page.iht.application.exemptions.charityNumber.linkText") + "</a> " +
                                     Messages("page.iht.application.exemptions.charityNumber.p2") + "</p>"
-                ),
-                '_hintClass -> "form-hint--heavy"
+                )
             )
 
         <div id="action-button" class="form-field form-field--submit">

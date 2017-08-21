@@ -19,10 +19,11 @@
 @import iht.utils._
 @import iht.controllers.ControllerHelper._
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(applyingForProbateForm:Form[iht.models.ApplicantDetails], deceasedName: String,
     actionLocation: Call,
-    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
+    cancelLocation: Option[Call] = None)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = "",
 browserTitle = Some(Messages("page.iht.registration.applicant.applyingForProbate.browserTitle")),
@@ -41,8 +42,7 @@ hasTimeOut=true) {
     '_fieldsetId -> "applying-for-probate",
     '_divClass -> "form-group",
     '_legendIsHeading -> true,
-    '_hintText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.applicant.applyingForProbate.p1") + "</p><p>" + Messages("page.iht.registration.applicant.applyingForProbate.p2", deceasedName) + "</p>"),
-    '_hintClass -> "form-hint--heavy"
+    '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.applicant.applyingForProbate.p1") + "</p><p>" + Messages("page.iht.registration.applicant.applyingForProbate.p2", deceasedName) + "</p>")
   )
 
 @ihtHelpers.custom.continue_button()

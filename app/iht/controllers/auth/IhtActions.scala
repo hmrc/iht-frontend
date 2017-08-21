@@ -24,18 +24,17 @@ import uk.gov.hmrc.play.frontend.auth._
 
 import scala.concurrent.Future
 
-trait IhtActions extends Actions with CustomPasscodeAuthentication {
+trait IhtActions extends Actions {
   private type AsyncPlayUserRequest = AuthContext => (Request[AnyContent] => Future[Result])
 
-  private def grantAccessIfOnWhitelist(body: AsyncPlayUserRequest)(implicit authContext: AuthContext, request: Request[AnyContent]): Future[Result] = {
+  /*private def grantAccessIfOnWhitelist(body: AsyncPlayUserRequest)(implicit authContext: AuthContext, request: Request[AnyContent]): Future[Result] = {
     withVerifiedPasscode {
       body(authContext)(request)
     }
-  }
+  }*/
 
   protected val ihtSection: IhtSection.Value
 
-  val isWhiteListEnabled: Boolean = Play.configuration.getBoolean("passcodeAuthentication.enabled").getOrElse(false)
   private lazy val ihtCompositePageVisibilityPredicate = AuthHelper.getIhtCompositePageVisibilityPredicate(ihtSection)
   lazy val ihtRegime = AuthHelper.getIhtTaxRegime(ihtSection)
 
@@ -46,11 +45,7 @@ trait IhtActions extends Actions with CustomPasscodeAuthentication {
     ).async {
       implicit authContext =>
         implicit request =>
-          if (isWhiteListEnabled) {
-            grantAccessIfOnWhitelist(body)
-          } else {
-            body(authContext)(request)
-          }
+           body(authContext)(request)
     }
   }
 }

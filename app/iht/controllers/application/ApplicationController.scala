@@ -16,6 +16,7 @@
 
 package iht.controllers.application
 
+import iht.config.IhtFormPartialRetriever
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.auth.IhtActions
 import iht.models.RegistrationDetails
@@ -26,11 +27,14 @@ import play.api.mvc.{Request, Result}
 import uk.gov.hmrc.play.frontend.auth.AuthContext
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
 trait ApplicationController extends FrontendController with IhtActions {
   override lazy val ihtSection = IhtSection.Application
+
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def cachingConnector: CachingConnector
 

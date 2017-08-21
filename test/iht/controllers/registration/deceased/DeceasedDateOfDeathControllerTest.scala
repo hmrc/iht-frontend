@@ -20,7 +20,7 @@ import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms._
 import iht.models._
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.RegistrationKickOutHelper
 import iht.utils.RegistrationKickOutHelper._
@@ -32,6 +32,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
 
@@ -66,13 +67,15 @@ class DeceasedDateOfDeathControllerTest extends RegistrationControllerTest {
   def controller = new DeceasedDateOfDeathController {
     override lazy val cachingConnector = mockCachingConnector
     override lazy val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new DeceasedDateOfDeathController {
     override lazy val cachingConnector = mockCachingConnector
     override lazy val authConnector = createFakeAuthConnector(isAuthorised=false)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "dateOfDeath controller" must {

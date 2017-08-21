@@ -30,7 +30,9 @@ class InReviewApplicationViewTest extends ApplicationStatusViewBehaviour {
 
   def browserTitle = messagesApi("page.iht.application.overview.inreview.title")
 
-  def view: String = in_review_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(), applicationMessages).toString
+  def view: String = in_review_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(),
+                                                                                 applicationMessages,
+                                                                                  formPartialRetriever).toString
 
   override val exitId: String = "return-link"
 

@@ -158,7 +158,7 @@
                                 <xsl:if test="allAssets/money/isOwnedShare='true'">
                                     <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'page.iht.application.assets.money.jointly.owned.input.value.label')"/>
+                                                        select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.money.jointly.owned.input.value.label', $deceasedName)"/>
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/money/shareValue">
                                                 <xsl:value-of select='allAssets/money/shareValue'/>
@@ -204,7 +204,7 @@
                                 <xsl:if test="allAssets/household/isOwned='true'">
                                     <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'iht.estateReport.assets.household.deceasedOwnedValue')"/>
+                                                        select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.household.deceasedOwnedValue', $deceasedName)"/>
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/household/value">
                                                <xsl:value-of select='allAssets/household/value'/>
@@ -240,7 +240,7 @@
                                 <xsl:if test="allAssets/household/isOwnedShare='true'">
                                     <xsl:call-template name="table-row--currency">
                                         <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'iht.estateReport.assets.household.valueOfJointlyOwned')"/>
+                                                        select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.household.valueOfJointlyOwned', $deceasedName)"/>
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/household/shareValue">
                                                 <xsl:value-of select='allAssets/household/shareValue'/>
@@ -287,7 +287,7 @@
                             <xsl:if test="allAssets/vehicles/isOwned='true'">
                                 <xsl:call-template name="table-row--currency">
                                     <xsl:with-param name="label"
-                                                    select="scala:getMessagesText($translator, 'iht.estateReport.assets.household.deceasedOwnedValue')"/>
+                                                    select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.household.deceasedOwnedValue', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allAssets/vehicles/value">
                                             <xsl:value-of select='allAssets/vehicles/value'/>
@@ -322,7 +322,7 @@
                             <xsl:if test="allAssets/vehicles/isOwnedShare='true'">
                                 <xsl:call-template name="table-row--currency">
                                     <xsl:with-param name="label"
-                                                    select="scala:getMessagesText($translator, 'iht.estateReport.assets.vehicles.valueOfJointlyOwned')"/>
+                                                    select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.vehicles.valueOfJointlyOwned', $deceasedName)"/>
                                     <xsl:with-param name="value">
                                         <xsl:if test="allAssets/vehicles/shareValue">
                                             <xsl:value-of select='allAssets/vehicles/shareValue'/>
@@ -668,7 +668,7 @@
                                 <xsl:choose>
                                     <xsl:when test="allAssets/businessInterest/isOwned='true'">
                                         <xsl:call-template name="table-row--currency">
-                                            <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.businessInterest.inputLabel1')" />
+                                            <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.businessInterest.inputLabel1', $deceasedName)" />
                                             <xsl:with-param name="value">
                                                 <xsl:if test="allAssets/businessInterest/value">
                                                     <xsl:value-of select='allAssets/businessInterest/value'/>
@@ -714,7 +714,7 @@
                                 <xsl:choose>
                                     <xsl:when test="allAssets/nominated/isOwned='true'">
                                         <xsl:call-template name="table-row--currency">
-                                            <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.nominated.inputLabel1')" />
+                                            <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.nominated.inputLabel1', $deceasedName)" />
                                             <xsl:with-param name="value">
                                                 <xsl:if test="allAssets/nominated/value">
                                                     <xsl:value-of select='allAssets/nominated/value'/>
@@ -822,7 +822,7 @@
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/foreign/isOwned='true'">
                                     <xsl:call-template name="table-row--currency">
-                                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.foreign.inputLabel1')" />
+                                        <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.foreign.inputLabel1', $deceasedName)" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/foreign/value">
                                                 <xsl:value-of select='allAssets/foreign/value'/>
@@ -866,7 +866,7 @@
                                 </xsl:call-template>
                                 <xsl:if test="allAssets/moneyOwed/isOwned='true'">
                                     <xsl:call-template name="table-row--currency">
-                                        <xsl:with-param name="label" select="scala:getMessagesText($translator, 'page.iht.application.assets.moneyOwed.inputLabel1')" />
+                                        <xsl:with-param name="label" select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.moneyOwed.inputLabel1', $deceasedName)" />
                                         <xsl:with-param name="value">
                                             <xsl:if test="allAssets/moneyOwed/value">
                                                 <xsl:value-of select='allAssets/moneyOwed/value'/>

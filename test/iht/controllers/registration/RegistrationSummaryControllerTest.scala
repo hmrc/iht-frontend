@@ -25,9 +25,8 @@ import iht.metrics.Metrics
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.debts._
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, ContentChecker}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.ContentChecker
 import iht.utils.StringHelper
 import iht.utils.CommonHelper._
 import org.joda.time.LocalDate
@@ -40,6 +39,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.{ConflictException, GatewayTimeoutException}
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -53,7 +53,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
     override val metrics:Metrics = mock[Metrics]
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new RegistrationSummaryController {
@@ -61,7 +62,8 @@ class RegistrationSummaryControllerTest extends RegistrationControllerTest{
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
     override val metrics:Metrics = mock[Metrics]
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def anchorLink(route: String, postfix: String) = s"$route#$postfix"

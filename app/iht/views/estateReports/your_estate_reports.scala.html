@@ -14,7 +14,10 @@
 * limitations under the License.
 *@
 
-@(applications:Seq[iht.viewmodels.estateReports.YourEstateReportsRowViewModel])(implicit request:Request[_], messages: Messages)
+@import iht.viewmodels.estateReports.YourEstateReportsRowViewModel
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(applications:Seq[YourEstateReportsRowViewModel])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._

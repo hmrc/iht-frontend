@@ -16,6 +16,7 @@
 
 package iht.controllers.registration.deceased
 
+import iht.config.IhtFormPartialRetriever
 import iht.constants.FieldMappings._
 import iht.controllers.ControllerHelper.Mode
 import iht.connector.IhtConnectors
@@ -47,19 +48,19 @@ trait DeceasedPermanentHomeController extends RegistrationDeceasedControllerWith
 
   def okForPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     Ok(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, submitRoute)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[DeceasedDetails], name: Option[String])(implicit request: Request[AnyContent]) =
     BadRequest(views.deceased_permanent_home(form, editSubmitRoute, cancelToRegSummary)
-    (request, request.acceptLanguages.head, applicationMessages))
+    (request, request.acceptLanguages.head, applicationMessages, formPartialRetriever))
 
   def onwardRoute(rd: RegistrationDetails) = routes.AboutDeceasedController.onPageLoad
 

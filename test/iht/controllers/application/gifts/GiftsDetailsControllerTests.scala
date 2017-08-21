@@ -22,7 +22,7 @@ import iht.forms.ApplicationForms._
 import iht.metrics.Metrics
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.http.Status._
 import play.api.i18n.Messages.Implicits._
@@ -31,6 +31,7 @@ import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
 import iht.constants.Constants._
 import iht.constants.IhtProperties._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by jamestuttle on 09/10/15.
@@ -53,7 +54,8 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def giftsDetailsControllerNotAuthorised = new GiftsDetailsController {
@@ -61,7 +63,8 @@ class GiftsDetailsControllerTests extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   implicit val headerCarrier = FakeHeaders()

@@ -20,7 +20,7 @@ import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.CoExecutorForms
 import iht.models.{CoExecutor, RegistrationDetails}
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import iht.utils.IhtFormValidator
 import org.scalatest.BeforeAndAfter
@@ -29,6 +29,7 @@ import play.api.data.{FieldMapping, Form, FormError, Forms}
 import play.api.mvc.{Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
@@ -43,15 +44,17 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
   def controller(coExecutorForms2:CoExecutorForms) = new CoExecutorPersonalDetailsController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     override def coExecutorForms = coExecutorForms2
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def controllerNotAuthorised = new CoExecutorPersonalDetailsController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override def coExecutorForms = CoExecutorForms
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def formWithMockedNinoValidation(coExecutor: CoExecutor, mockCachingConnector: CachingConnector): CoExecutorForms = {

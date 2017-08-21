@@ -18,10 +18,11 @@ package iht.controllers.application.debts
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.http.Status._
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DebtsOverviewControllerTest extends ApplicationControllerTest {
 
@@ -29,11 +30,12 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
   val mockCachingConnector = mock[CachingConnector]
   val mockIhtConnector = mock[IhtConnector]
 
-  def DebtsOverviewController = new DebtsOverviewController {
+  def debtsOverviewController = new DebtsOverviewController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
     override val ihtConnector = mockIhtConnector
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val registrationDetails = CommonBuilder.buildRegistrationDetails copy (
@@ -48,7 +50,7 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
         appDetails = Some(CommonBuilder.buildApplicationDetails),
         getAppDetails = true)
 
-      val result = DebtsOverviewController.onPageLoad()(createFakeRequest())
+      val result = debtsOverviewController.onPageLoad()(createFakeRequest())
       status(result) should be (OK)
     }
 
@@ -64,11 +66,11 @@ class DebtsOverviewControllerTest extends ApplicationControllerTest {
         getAppDetails = true)
 
       a[RuntimeException] shouldBe thrownBy {
-        await(DebtsOverviewController.onPageLoad()(createFakeRequest()))
+        await(debtsOverviewController.onPageLoad()(createFakeRequest()))
       }
     }
 
     behave like controllerOnPageLoadWithNoExistingRegistrationDetails(mockCachingConnector,
-      DebtsOverviewController.onPageLoad(createFakeRequest()))
+      debtsOverviewController.onPageLoad(createFakeRequest()))
   }
 }

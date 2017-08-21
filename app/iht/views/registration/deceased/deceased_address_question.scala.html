@@ -19,9 +19,10 @@
 @import iht.utils._
 @import iht.controllers.ControllerHelper
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(deceasedAddressQuestionForm:Form[iht.models.DeceasedDetails], deceasedName: String,
-actionLocation: Call)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages)
+actionLocation: Call)(implicit request:Request[_], lang: play.api.i18n.Lang, messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = "",
 browserTitle = Some(Messages("iht.registration.contactAddress")),
@@ -39,8 +40,7 @@ hasTimeOut=true) {
       '_fieldsetId -> "last-contact-address-in-uk",
       '_divClass -> Some("form-group"),
       '_legendIsHeading -> true,
-      '_hintText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.deceasedAddressQuestion.p1", deceasedName) + "</p><p class=\"lede\">" + Messages("page.iht.registration.deceasedAddressQuestion.p2") + "</p>"),
-      '_hintClass -> "form-hint--heavy"
+      '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.registration.deceasedAddressQuestion.p1", deceasedName) + "</p><p class=\"lede\">" + Messages("page.iht.registration.deceasedAddressQuestion.p2") + "</p>")
     )
 
       <input id = 'continue-button' class='button' type='submit' value='@Messages("iht.continue")' />

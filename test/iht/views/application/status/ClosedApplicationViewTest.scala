@@ -33,7 +33,9 @@ class ClosedApplicationViewTest extends ApplicationStatusViewBehaviour {
 
   def browserTitle = messagesApi("page.iht.application.overview.common.title")
 
-  def view: String = closed_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(), applicationMessages).toString
+  def view: String = closed_application(ihtRef, deceasedName, probateDetails)(createFakeRequest(),
+                                                                              applicationMessages,
+                                                                              formPartialRetriever).toString
 
   override val exitId: String = "return-link"
 

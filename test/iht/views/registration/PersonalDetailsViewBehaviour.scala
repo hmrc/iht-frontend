@@ -71,6 +71,10 @@ trait PersonalDetailsViewBehaviour[A] extends RegistrationPageBehaviour[A] {
       labelShouldBe(doc, "nino-container", "iht.nationalInsuranceNo")
     }
 
+    "have hint text for nino" in {
+      labelHelpTextShouldBe(doc, "nino-container", "iht.ninoExample")
+    }
+
     "have a nino field" in {
       assertRenderedById(doc, "nino")
     }

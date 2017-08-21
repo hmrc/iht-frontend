@@ -20,8 +20,10 @@
 @import iht.models._
 @import iht.utils.CommonHelper._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(charity: iht.models.application.exemptions.Charity, submitUrl:Call)(implicit request:Request[_], messages: Messages)
+@(charity: iht.models.application.exemptions.Charity,
+  submitUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("page.iht.application.exemptions.charityDelete.sectionTitle"),
 browserTitle = Some(Messages("page.iht.application.exemptions.charityDelete.browserTitle")),

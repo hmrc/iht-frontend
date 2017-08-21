@@ -26,9 +26,6 @@ import play.api.test.Helpers._
 
 class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAfter {
 
-//  implicit val headerCarrier = FakeHeaders()
-//  implicit val request = FakeRequest()
-//  implicit val hc = new HeaderCarrier
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector:IhtConnector = mock[IhtConnector]
 
@@ -40,9 +37,8 @@ class TestOnlyControllerTest extends ApplicationControllerTest with BeforeAndAft
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
-    override val isWhiteListEnabled = false
-  }
 
+  }
 
   "Test Only Controller" must {
 

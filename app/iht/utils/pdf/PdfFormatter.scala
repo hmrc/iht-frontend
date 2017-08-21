@@ -109,4 +109,34 @@ object PdfFormatter {
     }
     ad copy (propertyList = transformedSeqProperties)
   }
+
+  /**
+    * Calculate the display mode for the estate overview section of the pre-submission PDF. This
+    * tells the PDF template how and where the different sections are to be displayed.
+    *
+    * 1) Base (assets, gifts, debts)
+    * 2) Base + TNRB threshold increased + exemptions locked
+    * 3) Base + TNRB threshold not increased OR TNRB not completed + exemptions unlocked but 0
+    * 4) Base + TNRB threshold increased + exemptions unlocked but 0
+    * 5) Base + TNRB threshold increased + exemptions unlocked and > 0
+    * 6) Base + TNRB threshold not increased OR TNRB not completed + exemptions unlocked and > 0
+    *
+    * If none of scenarios 2)-6) apply then it should fall back to scenario 1).
+    */
+  // scalastyle:off magic.number
+  def estateOverviewDisplayMode(ad:ApplicationDetails):Int = {
+    val isExemptionsUnlocked: Boolean = ad.hasSeenExemptionGuidance.fold(false)(identity)
+    val exemptionsValue = ad.totalExemptionsValue
+    val isTnrbCompleted = ad.isSuccessfulTnrbCase
+    val zero = BigDecimal(0)
+    (isTnrbCompleted, isExemptionsUnlocked, exemptionsValue) match {
+      case (true, false, _) => 2
+      case (false, true, `zero`) => 3
+      case (true, true, `zero`) => 4
+      case (true, true, _) => 5
+      case (false, true, _) => 6
+      case _ => 1
+    }
+  }
+  // scalastyle:on magic.number
 }

@@ -20,12 +20,13 @@ import iht.connector.CachingConnector
 import iht.controllers.registration.RegistrationControllerTest
 import iht.forms.registration.DeceasedForms.deceasedAddressQuestionForm
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import org.joda.time.LocalDate
 import org.scalatest.BeforeAndAfter
 import play.api.data.Form
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest with BeforeAndAfter {
 
@@ -33,13 +34,15 @@ class DeceasedAddressQuestionControllerTest extends RegistrationControllerTest w
   def deceasedAddressQuestionController = new DeceasedAddressQuestionController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = true)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def deceasedAddressQuestionControllerNotAuthorised = new DeceasedAddressQuestionController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   before {

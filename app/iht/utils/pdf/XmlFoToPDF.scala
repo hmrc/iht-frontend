@@ -23,7 +23,7 @@ import javax.xml.transform.{ErrorListener, Transformer, TransformerException, Tr
 
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.models.des.ihtReturn.IHTReturn
+import iht.models.des.ihtReturn.{Asset, IHTReturn}
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import iht.utils.{CommonHelper, _}
@@ -132,11 +132,13 @@ trait XmlFoToPDF {
     transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
     transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
-    transformer.setParameter("estateValue", applicationDetails.totalNetValue)
+
+    transformer.setParameter("estateValue", assetsNetValue(applicationDetails))
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
     transformer.setParameter("marriedOrCivilPartnershipLabel",
       TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
     transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
+      transformer.setParameter("estateOverviewDisplayMode",PdfFormatter.estateOverviewDisplayMode(applicationDetails))
     transformer
   }
 
@@ -159,13 +161,19 @@ trait XmlFoToPDF {
       ihtReturn.totalAssetsValue + ihtReturn.totalTrustsValue, ihtReturn.totalDebtsValue, ihtReturn.totalExemptionsValue,
       ihtReturn.totalGiftsValue, messages)
 
+    transformer.setParameter("sumHouseholdAssets", ihtReturn.totalForAssetIDs(Set("0016","0017","0018")))
+
+    CommonHelper.withValue(ihtReturn.exemptionTotalsByExemptionType) { totals =>
+      transformer.setParameter(s"exemptionTotalsSpouse",totals.find(_._1 == "Spouse or civil partner").fold(BigDecimal(0))(_._2))
+      transformer.setParameter(s"exemptionTotalsCharity",totals.find(_._1 == "Charity").fold(BigDecimal(0))(_._2))
+      transformer.setParameter(s"exemptionTotalsGNCP",totals.find(_._1 == "Other qualifying bodies").fold(BigDecimal(0))(_._2))
+    }
+
     transformer.setParameter("declarationDate", Dates.formatDate(declarationDate)(messages.lang))
     transformer.setParameter("giftsExemptionsTotal", ihtReturn.giftsExemptionsTotal)
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
     transformer.setParameter("estateValue", ihtReturn.totalNetValue)
     transformer.setParameter("thresholdValue", ihtReturn.currentThreshold)
-
-
     transformer
   }
 
@@ -251,5 +259,14 @@ trait XmlFoToPDF {
       }
     }
     foUserAgent.getEventBroadcaster.addEventListener(eventListener)
+  }
+
+  private def assetsNetValue( applicationDetails: ApplicationDetails) = {
+
+    applicationDetails.totalExemptionsValue match {
+      case x if x>0 => applicationDetails.totalNetValue
+      case _ => applicationDetails.totalValue
+    }
+
   }
 }

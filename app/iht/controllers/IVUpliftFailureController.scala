@@ -16,6 +16,7 @@
 
 package iht.controllers
 
+import iht.config.IhtFormPartialRetriever
 import iht.connector.IdentityVerificationConnector
 import iht.models.enums.IdentityVerificationResult
 import iht.views.html.iv.failurepages._
@@ -24,6 +25,7 @@ import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 
 import scala.concurrent.Future
@@ -40,6 +42,8 @@ trait IVUpliftFailureController extends FrontendController{
 
   val ivUrlApplication = iht.controllers.estateReports.routes.YourEstateReportsController.onPageLoad().url
   val ivUrlRegistration =iht.controllers.registration.deceased.routes.DeceasedDateOfDeathController.onPageLoad().url
+
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
   def showNotAuthorisedApplication(journeyId: Option[String]) : Action[AnyContent] = UnauthorisedAction.async {implicit request =>
     Logger.debug(message = "Entered showNotAuthorisedApplication with journeyId " + journeyId)

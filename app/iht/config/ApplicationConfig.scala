@@ -24,7 +24,6 @@ import uk.gov.hmrc.play.config.ServicesConfig
 trait AppConfig {
   val analyticsToken: Option[String]
   val analyticsHost: String
-  val isWhitelistEnabled: Boolean
   val reportAProblemPartialUrl: String
   val reportAProblemNonJSUrl: String
   val betaFeedbackUrl: String
@@ -61,13 +60,13 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val analyticsToken: Option[String] = configuration.getString("google-analytics.token")
   override lazy val analyticsHost: String = configuration.getString("google-analytics.host").getOrElse("auto")
 
-  override lazy val isWhitelistEnabled = configuration.getBoolean("passcodeAuthentication.enabled").getOrElse(false)
+  private lazy val contactFrontendService = baseUrl("contact-frontend")
 
-  private val contactHost = readOrEmpty(s"$env.microservice.contact-frontend.service-url")
-  override lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=iht"
-  override lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=iht"
-  override lazy val betaFeedbackUrl = s"$contactHost/contact/beta-feedback"
-  override lazy val betaFeedbackUnauthenticatedUrl = s"$contactHost/contact/beta-feedback-unauthenticated"
+  override lazy val reportAProblemPartialUrl = s"$contactFrontendService/contact/problem_reports"
+  override lazy val reportAProblemNonJSUrl = s"$contactFrontendService/contact/problem_reports_nonjs?service=iht"
+
+  override lazy val betaFeedbackUrl = s"$contactFrontendService/contact/beta-feedback"
+  override lazy val betaFeedbackUnauthenticatedUrl = s"$contactFrontendService/contact/beta-feedback-unauthenticated"
 
   override val runningEnvironment: String =  configuration.getString("current-environment").getOrElse("local")
 

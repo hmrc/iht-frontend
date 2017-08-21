@@ -14,12 +14,6 @@
 * limitations under the License.
 *@
 
-@(propertyTenure:Form[iht.models.application.assets.Property],
-submitUrl:Call,
-cancelUrl:Call,
-deceasedName: String
-)(implicit request:Request[_], messages: Messages)
-
 @import uk.gov.hmrc.play.views.html._
 @import iht.views.html._
 @import iht.utils._
@@ -27,6 +21,13 @@ deceasedName: String
 @import iht.constants.IhtProperties
 @import iht.utils._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(propertyTenure:Form[iht.models.application.assets.Property],
+submitUrl:Call,
+cancelUrl:Call,
+deceasedName: String
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.assets.property.tenure.browserTitle")),
@@ -51,12 +52,11 @@ FieldMappings.tenures(deceasedName).toSeq,
 '_legendClass -> Some("legend-with-heading"),
 '_legendIsHeading -> true,
 '_headingClass -> "heading-large",
-'_hintText -> Html("<p id=\"tenure-guidance\">" + Messages("iht.estateReport.assets.property.youCan") +
+'_extraText -> Html("<p id=\"tenure-guidance\">" + Messages("iht.estateReport.assets.property.youCan") +
     " <a id=\"land-registry-link\" href=\"" + IhtProperties.linkLandRegistry + "\">" +
     Messages("iht.estateReport.assets.property.findOutFromLandRegistry") + "</a> " +
     Messages("page.iht.application.assets.property.tenure.guidance1b") + "</p>"
-),
-'_hintClass -> "form-hint--heavy"
+)
 )
 
 <div id="save-property-button" class="form-field form-field--submit">

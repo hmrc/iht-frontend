@@ -32,19 +32,21 @@ trait ApplicationErrorViewBehaviour extends GenericNonSubmittablePageBehaviour {
 class ApplicationErrorViewServiceUnavailableTest extends ApplicationErrorViewBehaviour {
   override def guidanceParagraphs = Set(messagesApi("error.report.redo"))
 
-  override def view: String = application_error("serviceUnavailable")(createFakeRequest(), applicationMessages).toString
+  override def view: String = application_error("serviceUnavailable")(createFakeRequest(),
+                                                                      applicationMessages,
+                                                                      formPartialRetriever).toString
 
   "Application error view for service unavailable" must {
     behave like nonSubmittablePage()
-
-
   }
 }
 
 class ApplicationErrorViewRequestTimeOutTest extends ApplicationErrorViewBehaviour {
   override def guidanceParagraphs = Set(messagesApi("error.cannotSend"))
 
-  override def view: String = application_error("requestTimeOut")(createFakeRequest(), applicationMessages).toString
+  override def view: String = application_error("requestTimeOut")(createFakeRequest(),
+                                                                  applicationMessages,
+                                                                  formPartialRetriever).toString
 
   "Application error view for request timeOut" must {
     behave like nonSubmittablePage()
@@ -58,7 +60,9 @@ class ApplicationErrorViewRequestTimeOutTest extends ApplicationErrorViewBehavio
 class ApplicationErrorViewSomeOtherTest extends ApplicationErrorViewBehaviour {
   override def guidanceParagraphs = Set(messagesApi("error.cannotSend"), messagesApi("error.report.redo"))
 
-  override def view: String = application_error("someOther")(createFakeRequest(), applicationMessages).toString
+  override def view: String = application_error("someOther")(createFakeRequest(),
+                                                             applicationMessages,
+                                                             formPartialRetriever).toString
 
   "Application error view for some other error" must {
     behave like nonSubmittablePage()

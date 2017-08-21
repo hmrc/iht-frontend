@@ -21,21 +21,25 @@
 @import iht.models.RegistrationDetails
 @import iht.utils.tnrb.TnrbHelper
 @import iht.utils._
+@import iht.config.IhtFormPartialRetriever
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(giftMadeBeforeDeathForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck,
 cancelUrl:Call,
-registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails: RegistrationDetails)(implicit request:Request[_],
+                                                   messages: Messages,
+                                                   ihtFormPartialRetriever: FormPartialRetriever)
 
 @partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 
 @iht_main_template_application(
-    title = "",
-    browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
-    cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
-    cancelUrl = Some(cancelUrl)
+title = "",
+browserTitle = Some(Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.browserTitle")),
+cancelLabel=Some(Messages("page.iht.application.tnrb.returnToIncreasingThreshold")),
+cancelUrl = Some(cancelUrl)
 ){
     @ihtHelpers.custom.error_summary(giftMadeBeforeDeathForm)
 
@@ -43,10 +47,9 @@ registrationDetails: RegistrationDetails)(implicit request:Request[_], messages:
 
         @ihtHelpers.standard.input_yes_no_radio_group(
             giftMadeBeforeDeathForm("isGiftMadeBeforeDeath"),
-            '_hintText -> Html(
-                    "<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1", TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint", deceasedName))) + "</p>" +
-                    "<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2") + "</p>"
-            ),
+            '_extraText -> Html(
+"<p>" + Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint1", TnrbHelper.spouseOrCivilPartnerName(tnrbModel, Messages("page.iht.application.tnrb.spouseOrCivilPartner.hint", deceasedName))) + "</p>"),
+            '_hintText ->  Messages("page.iht.application.tnrb.giftsMadeBeforeDeath.question.hint2"),
             '_divClass -> Some("form-group"),
             '_legend -> Messages("iht.estateReport.tnrb.giftsMadeBeforeDeath.question", partnerName),
             '_legendClass -> Some("legend-with-heading"),

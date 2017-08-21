@@ -25,7 +25,9 @@
 @import iht.utils.OverviewHelper._
 @import iht.models.application.exemptions._
 @import iht.constants.IhtProperties._
-@(charity:Option[Charity]=None)(implicit request:Request[_], messages: Messages)
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
+
+@(charity:Option[Charity]=None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @returnId() = @{
     defining(charity.flatMap(_.id))  { charityId =>

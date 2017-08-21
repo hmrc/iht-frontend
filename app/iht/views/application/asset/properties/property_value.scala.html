@@ -20,11 +20,12 @@
 @import iht.models._
 @import iht.utils._
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(propertyValueForm: Form[iht.models.application.assets.Property],
 submitUrl:Call,
 cancelUrl:Call,
-deceasedName: String)(implicit request:Request[_], messages: Messages)
+deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = "",
 browserTitle = Some(Messages("page.iht.application.property.value.browserTitle")),
@@ -44,9 +45,8 @@ cancelLabel = Some(Messages("iht.estateReport.assets.properties.returnToAddAProp
 
                 '_legendIsHeading -> true,
                 '_headingClass -> "heading-large",
-                '_hintText -> Html("<p id=\"property-value-guidance1\">" + Messages("page.iht.application.property.value.question.hint1", deceasedName) + "</p>" +
-                                "<p id=\"property-value-guidance2\">" + Messages("page.iht.application.property.value.question.hint2") + "</p>"),
-                '_hintClass -> "form-hint--heavy"
+                '_extraText -> Html("<p id=\"property-value-guidance1\">" + Messages("page.iht.application.property.value.question.hint1", deceasedName) + "</p>" +
+                                "<p id=\"property-value-guidance2\">" + Messages("page.iht.application.property.value.question.hint2") + "</p>")
             )
 
         <div id="action-button" class="form-field form-field--submit">

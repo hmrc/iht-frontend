@@ -17,7 +17,7 @@
 package iht.views
 
 import iht.models.UkAddress
-import iht.testhelpers.ContentChecker
+import iht.testhelpers.{MockFormPartialRetriever, ContentChecker}
 import iht.utils.CommonHelper
 import iht.{FakeIhtApp, TestUtils}
 import org.jsoup.Jsoup
@@ -26,6 +26,7 @@ import org.jsoup.safety.Whitelist
 import org.scalatest.BeforeAndAfter
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.MessagesApi
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.collection.JavaConversions._
@@ -42,6 +43,7 @@ trait ViewTestHelper extends UnitSpec with FakeIhtApp with MockitoSugar with Tes
   val messageKeysDelimiter = ", "
 
   implicit override val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
 
   def titleShouldBeCorrect(pageContent: String, expectedTitle: String) = {
     val doc = asDocument(pageContent)

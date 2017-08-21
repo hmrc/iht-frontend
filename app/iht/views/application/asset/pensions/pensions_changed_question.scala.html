@@ -22,9 +22,10 @@
 @import iht.utils._
 @import iht.constants.Constants
 @import iht.constants.IhtProperties._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(pensionsChangedQuestionForm: Form[PrivatePension],
-registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages)
+registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 
@@ -46,8 +47,7 @@ registrationDetails:RegistrationDetails)(implicit request:Request[_], messages: 
                 '_divClass -> Some("form-group"),
                 '_legendIsHeading -> true,
                 '_headingClass -> "heading-large",
-                '_hintText -> Html("<p class=\"lede\">" + Messages("page.iht.application.assets.pensions.changed.question") + "</p>"),
-                '_hintClass -> "form-hint--heavy"
+                '_extraText -> Html("<p class=\"lede\">" + Messages("page.iht.application.assets.pensions.changed.question") + "</p>")
             )
 
          <div id="action-button" class="form-field form-field--submit">

@@ -21,6 +21,7 @@
 @import iht.models.application.tnrb._
 @import iht.utils.tnrb.TnrbHelper
 @import iht.utils._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(deceasedWidowCheckQuestionForm:Form[WidowCheck],
 widowCheckModel: WidowCheck,
@@ -28,11 +29,13 @@ tnrbModel: TnrbEligibiltyModel,
 registrationDetails:RegistrationDetails,
 cancelLinkUrl:Call,
 cancelLinkText:String
-)(implicit request:Request[_], messages: Messages)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 @deceasedNameWrap() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
 @maritalStatus() = @{TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased)}
 @spouseCivilPartner() = @{TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)}
+
 @question() = @{Messages("iht.estateReport.tnrb.partner.married",
     deceasedNameWrap,
     maritalStatus,
@@ -58,9 +61,7 @@ cancelLinkText:String
     '_divClass -> Some("form-group"),
     '_legend -> Html(question),
     '_legendIsHeading -> true,
-    '_headingClass -> "heading-large",
-    '_hintText -> helpCopy,
-    '_hintClass -> "form-hint--heavy"
+    '_extraText -> helpCopy
 )
 
 <div id="action-button" class="form-field form-field--submit">

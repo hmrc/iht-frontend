@@ -17,25 +17,29 @@
 package iht.controllers.registration
 
 import iht.connector.CachingConnector
+import iht.testhelpers.MockFormPartialRetriever
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DuplicateRegistrationControllerTest extends RegistrationControllerTest{
   // Create controller object and pass in mock.
   def duplicateRegistrationController = new DuplicateRegistrationController {
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
     override val cachingConnector = mock[CachingConnector]
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def duplicateRegistrationControllerNotAuthorised = new DuplicateRegistrationController {
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
     override val cachingConnector = mock[CachingConnector]
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   val ihtReference = "XX121212"
   // Perform tests.
-  "CompletedRegistrationController" must {
+  "DuplicateRegistrationController" must {
 
     "redirect to GG login page on PageLoad if the user is not logged in" in {
       val result = duplicateRegistrationControllerNotAuthorised.onPageLoad(ihtReference)(createFakeRequest(isAuthorised = false))

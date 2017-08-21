@@ -18,13 +18,14 @@ package iht.controllers.application.tnrb
 
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
-import iht.testhelpers.CommonBuilder
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder}
 import iht.testhelpers.MockObjectBuilder._
 import play.api.i18n.MessagesApi
 import play.api.i18n.Messages.Implicits._
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.hmrc.play.http.HeaderCarrier
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 /**
  * Created by Vineet Tyagi on 21/04/15.
@@ -54,14 +55,16 @@ class TnrbOverviewControllerTest extends ApplicationControllerTest {
     override val cachingConnector = mockCachingConnector
 	  override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=true)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   def tnrbOverviewControllerNotAuthorised = new TnrbOverviewController {
     override val cachingConnector = mockCachingConnector
     override val ihtConnector = mockIhtConnector
     override val authConnector = createFakeAuthConnector(isAuthorised=false)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   "TnrbOverviewController" must {

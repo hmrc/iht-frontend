@@ -22,7 +22,7 @@ import iht.controllers.ControllerHelper.Mode
 import iht.forms.registration.DeceasedForms._
 import iht.models.{DeceasedDateOfDeath, DeceasedDetails, RegistrationDetails}
 import iht.testhelpers.MockObjectBuilder._
-import iht.testhelpers.{CommonBuilder, TestHelper}
+import iht.testhelpers.{MockFormPartialRetriever, CommonBuilder, TestHelper}
 import iht.utils.RegistrationKickOutHelper._
 import org.joda.time.LocalDate
 import play.api.data.Form
@@ -31,6 +31,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 class DeceasedPermanentHomeControllerTest
   extends RegistrationDeceasedControllerWithEditModeBehaviour[DeceasedPermanentHomeController]{
@@ -44,13 +45,15 @@ class DeceasedPermanentHomeControllerTest
  def controller = new DeceasedPermanentHomeController {
    override val cachingConnector = mockCachingConnector
    override val authConnector = createFakeAuthConnector(isAuthorised=true)
-   override val isWhiteListEnabled = false
+
+   override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
  }
 
   def controllerNotAuthorised = new DeceasedPermanentHomeController {
     override val cachingConnector = mockCachingConnector
     override val authConnector = createFakeAuthConnector(isAuthorised = false)
-    override val isWhiteListEnabled = false
+
+    override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
   before {

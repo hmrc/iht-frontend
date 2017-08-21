@@ -16,12 +16,13 @@
 
 package iht.controllers.filter
 
+import iht.config.IhtFormPartialRetriever
 import iht.constants.Constants
-import iht.controllers.auth.CustomPasscodeAuthentication
 import iht.forms.FilterForms._
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.play.frontend.controller.{UnauthorisedAction, FrontendController}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
 
@@ -29,14 +30,17 @@ object DomicileController extends DomicileController {
 
 }
 
-trait DomicileController extends FrontendController with CustomPasscodeAuthentication {
-  def onPageLoad = customAuthenticatedActionAsync {
+trait DomicileController extends FrontendController {
+
+  implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
+
+  def onPageLoad = UnauthorisedAction.async {
     implicit request => {
       Future.successful(Ok(iht.views.html.filter.domicile(domicileForm)))
     }
   }
 
-  def onSubmit = customAuthenticatedActionAsync {
+  def onSubmit = UnauthorisedAction.async {
     implicit request => {
 
       val boundForm = domicileForm.bindFromRequest

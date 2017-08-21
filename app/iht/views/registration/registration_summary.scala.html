@@ -25,8 +25,10 @@
 @import iht.controllers.registration.applicant.{routes => applicantRoutes}
 @import iht.controllers.registration.deceased.{routes => deceasedRoutes}
 @import uk.gov.hmrc.play.language.LanguageUtils.Dates
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(registrationDetails: RegistrationDetails, role:String)(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang)
+@(registrationDetails: RegistrationDetails,
+role:String)(implicit request : Request[_], messages: Messages, lang : play.api.i18n.Lang, ihtFormPartialRetriever: FormPartialRetriever)
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails)}
 

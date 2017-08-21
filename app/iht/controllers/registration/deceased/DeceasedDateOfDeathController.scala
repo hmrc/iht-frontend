@@ -51,16 +51,16 @@ trait DeceasedDateOfDeathController extends RegistrationBaseControllerWithEditMo
   lazy val editSubmitRoute = routes.DeceasedDateOfDeathController.onEditSubmit
 
   def okForPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages))
+    Ok(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages, formPartialRetriever))
 
   def okForEditPageLoad(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    Ok(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
+    Ok(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages, formPartialRetriever))
 
   def badRequestForSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages))
+    BadRequest(views.deceased_date_of_death(form, submitRoute)(request, applicationMessages, formPartialRetriever))
 
   def badRequestForEditSubmit(form: Form[DeceasedDateOfDeath], name: Option[String])(implicit request: Request[AnyContent]) =
-    BadRequest(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages))
+    BadRequest(views.deceased_date_of_death(form, editSubmitRoute, cancelToRegSummary)(request, applicationMessages, formPartialRetriever))
 
   def onwardRoute(rd: RegistrationDetails) = routes.DeceasedPermanentHomeController.onPageLoad
 

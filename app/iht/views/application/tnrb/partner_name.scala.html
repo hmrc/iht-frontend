@@ -23,11 +23,12 @@
 @import org.joda.time.LocalDate
 @import iht.constants.IhtProperties
 @import iht.constants._
+@import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(partnerNameForm:Form[TnrbEligibiltyModel],
 predeceasedDate: Option[LocalDate],
 cancelUrl: Call
-)(implicit request:Request[_], messages: Messages)
+)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_application(title = Messages("page.iht.application.TnrbEligibilty.partnerName.label",TnrbHelper.spouseOrCivilPartnerMessage(predeceasedDate)),
 browserTitle = Some(Messages("page.iht.application.TnrbEligibilty.partnerName.label",TnrbHelper.spouseOrCivilPartnerMessage(predeceasedDate))),
