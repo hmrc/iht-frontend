@@ -132,7 +132,8 @@ trait XmlFoToPDF {
     transformer.setParameter("giftsTotalExclExemptions", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsValueExcludingExemptionsOption))
     transformer.setParameter("giftsExemptionsTotal", CommonHelper.getOrMinus1(applicationDetails.totalPastYearsGiftsExemptionsOption))
     transformer.setParameter("applicantName", registrationDetails.applicantDetails.map(_.name).fold("")(identity))
-    transformer.setParameter("estateValue", applicationDetails.totalNetValue)
+
+    transformer.setParameter("estateValue", assetsNetValue(applicationDetails))
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
     transformer.setParameter("marriedOrCivilPartnershipLabel",
       TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased)(messages))
@@ -258,5 +259,14 @@ trait XmlFoToPDF {
       }
     }
     foUserAgent.getEventBroadcaster.addEventListener(eventListener)
+  }
+
+  private def assetsNetValue( applicationDetails: ApplicationDetails) = {
+
+    applicationDetails.totalExemptionsValue match {
+      case x if x>0 => applicationDetails.totalNetValue
+      case _ => applicationDetails.totalValue
+    }
+
   }
 }

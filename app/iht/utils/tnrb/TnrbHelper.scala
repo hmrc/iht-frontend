@@ -51,8 +51,6 @@ object TnrbHelper {
 
       messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson",
         prefixText, messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)))
-
-       // messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)) + " " + optionPrefixText.fold("")(identity)
     }(identity)
   }
 
@@ -69,6 +67,21 @@ object TnrbHelper {
     } else {
       messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson",
         prefixText, messages(spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)(messages)))
+    }
+  }
+
+  def spouseOrCivilPartnerLabel2(tnrbModel: TnrbEligibiltyModel,
+                                widowCheck: WidowCheck,
+                                prefixText: String="",
+                                wrapName: Boolean = false)(implicit messages: Messages): String  = {
+    if(tnrbModel.Name.toString.trim!=""){
+      if(wrapName) {
+        ihtHelpers.custom.name(tnrbModel.Name.toString).toString
+      }else{
+        tnrbModel.Name.toString
+      }
+    } else {
+      prefixText + " " + spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)(messages)
     }
   }
 

@@ -60,14 +60,26 @@ Fix placement of service name
 ====================================
 */
 @media (min-width: 769px) {
-   .header-global {
-    width: 25% !important;
+   #global-header.with-proposition .header-wrapper .header-global {
+    width: 25%;
   }
-   .header-proposition {
-    width: 75% !important;
+   #global-header.with-proposition .header-wrapper .header-proposition {
+    width: 75%;
   }
 }
-
+@media (min-width: 800px){
+    #global-header .header-proposition #proposition-links {
+        width: 100%;
+    }
+}
+@media (min-width: 920px){
+    #global-header .header-proposition #proposition-links {
+        width: auto;
+    }
+}
+.header__menu__proposition-name {
+    padding-right: 20px;
+}
 
 /*
 ====================================

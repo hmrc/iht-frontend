@@ -1514,3 +1514,5 @@ page.iht.application.tnrbEligibilty.partner.marriage.label = priodas
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson = {0} {1}
 
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = previous?? {0}
+
+page.iht.application.tnrbEligibilty.partner.additional.label.their = their????

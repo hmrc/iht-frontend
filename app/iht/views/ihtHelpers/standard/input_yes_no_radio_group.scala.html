@@ -24,6 +24,7 @@
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 @labelAsHeading = @{ elements.args.get('_legendIsHeading).getOrElse(false).asInstanceOf[Boolean] }
 @label = @{ Html(elements.args.get('_legend).get.toString) }
+@hintID = @{elements.args.get('_hintId).getOrElse("ynHint").asInstanceOf[String]}
 
 <div @if(elements.args.get('_shownElementYes).isDefined ||elements.args.get('_clearTargetYes).isDefined || elements.args.get('_hiddenElementYes).isDefined){data-exclude="true"} id="@{elements.field.name}-container" class="@elements.args.get('_divClass)" data-main-question="@elements.args.get('_mainQuestion).getOrElse(true)">
 
@@ -43,8 +44,15 @@
         }
     </legend>
 }
+
+@if(elements.args.get('_extraText).isDefined) {
+<div>
+    @elements.args.get('_extraText)
+</div>
+}
+
 @if(elements.args.get('_hintText).isDefined && !elements.args.contains('_slideOutText)) {
-    <div class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}" @if(elements.args.get('_hintId).isDefined){id="@elements.args.get('_hintId)"}>
+    <div class="form-hint@if(elements.args.get('_hintClass).isDefined) { @elements.args.get('_hintClass)}" @if(hintID>""){id="@hintID"}>
     @elements.args.get('_hintText)
     </div>
 }
@@ -86,8 +94,9 @@
             name="@elements.field.name"
             value="@valueYes"
             @elements.args.get('_inputClass).map{inputClass => class="@inputClass"}
-    @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
-    @field.value.filter( _ == valueYes).map{_ => checked="checked"}/>
+            @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
+            @if(elements.args.contains('_hintText)){aria-describedby="@hintID" }
+            @field.value.filter( _ == valueYes).map{_ => checked="checked"} />
     </label>
 }
 
@@ -113,6 +122,7 @@
             value="@valueNo"
             @elements.args.get('_inputClass).map{inputClass => class="@inputClass"}
     @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
+        @if(elements.args.contains('_hintText)){aria-describedby="@hintID" }
     @field.value.filter( _ == valueNo).map{_ => checked="checked"}/>
     </label>
 

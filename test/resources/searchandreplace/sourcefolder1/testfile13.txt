@@ -1,9 +1,0 @@
-Bla
-bla
-
-@Messages("aa.bb.cc")
-
-@Messages("dd.ee.ff")
-
-bla
-bla
