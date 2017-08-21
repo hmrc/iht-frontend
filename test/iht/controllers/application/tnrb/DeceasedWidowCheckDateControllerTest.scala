@@ -316,7 +316,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       headers.size() shouldBe 1
 
       val expectedTitle = messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-        TnrbHelper.spouseOrCivilPartnerLabel(
+        TnrbHelper.spouseOrCivilPartnerLabelGenitive(
           CommonHelper.getOrException(ad.increaseIhtThreshold),
           CommonHelper.getOrException(ad.widowCheck),
           messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")
