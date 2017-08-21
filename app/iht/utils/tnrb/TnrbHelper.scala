@@ -54,6 +54,9 @@ object TnrbHelper {
     }(identity)
   }
 
+  /**
+    * This produces content like: <prefix>'s spouse or civil partner, i.e. genitive grammatical case.
+    */
   def spouseOrCivilPartnerLabelGenitive(tnrbModel: TnrbEligibiltyModel,
                                 widowCheck: WidowCheck,
                                 prefixText: String="",
@@ -70,6 +73,9 @@ object TnrbHelper {
     }
   }
 
+  /**
+    * This produces content like: <prefix> (e.g. their) spouse or civil partner, i.e. possessive.
+    */
   def spouseOrCivilPartnerLabelPossessive(tnrbModel: TnrbEligibiltyModel,
                                 widowCheck: WidowCheck,
                                 prefixText: String="",
