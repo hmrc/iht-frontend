@@ -308,7 +308,6 @@ page.iht.registration.deceasedDetails.title.hint=Nodwch Mr, Mrs, Miss, Ms neu de
 page.iht.registration.notApplyingForProbate.kickout.p2 = If you want to change your answer=gallwch ddychwelyd i''r dudalen ddiwethaf y gwnaethoch ymweld â hi.
 error.debtsOutsideUk.currencyValue.summary=nodwch werth ar gyfer dyledion sy''n ddyledus y tu allan i''r DU gan ddefnyddio rhifau''n unig
 iht.estateReport.exemptions.charities.registeredCharityNo=Rhif elusen gofrestredig
-iht.estateReport.tnrb.partner.hint=Os oedd {0} {1} fwy nag unwaith tra''r oedd yn fyw, a bu farw''r {2} yn gyntaf bob tro, mae''n rhaid i chi ddewis un ystâd i drosglwyddo''r lwfans sydd heb ei ddefnyddio ohoni.
 page.iht.application.assets.typeOfOwnership.inCommon.hint=Roedd {0} yn berchen ar ychydig o''r eiddo hwn ond nid yw''r gyfran honno''n trosglwyddo''n awtomatig i aelod arall ar y cyd. Gellir gadael yr eiddo hwn i rywun arall mewn ewyllys.
 page.iht.application.assets.insurance.policies.overview.guidance.bullet4=unrhyw bolisïau ar fywyd person arall a fyddai''n talu i {0}
 page.iht.application.debts.overview.mortgages.screenReader.link.noValue=Rhowch swm ar gyfer morgeisi
@@ -377,7 +376,6 @@ page.iht.application.tnrb.stateClaim.browserTitle=Unrhyw ryddhad y gwnaed cais a
 page.iht.application.debts.mortgages.noProperties.description=Nid ydych wedi ychwanegu unrhyw eiddo, adeiladau na thir fel ased.
 error.partner.blank.summary=nodwch werth ar gyfer cyfanswm yr asedion
 page.iht.application.exemptions.overview.qualifyingBody.screenReader.link.noValue=Rhowch ateb ar gyfer asedion a adawyd i gyrff cymwys eraill
-iht.estateReport.tnrb.partner.married=A oedd {0} {1} ar unrhyw adeg tra''r oedd yn fyw, a bu farw''r {2}?
 page.iht.application.overview.exemptions.screenReader=Swm y cais am eithriadau''r ystâd yw £{0}
 page.iht.application.declaration_received.paragraph5.part2=Mae CThEM yn awgrymu''ch bod yn cadw copi ar gyfer eich defnydd eich hun, ynghyd ag unrhyw beth a ddefnyddiwyd gennych i roi unrhyw fanylion o''r hyn roedd {0} yn berchen arnynt, neu a oedd yn ddyledus arno. Dylech gadw''r rhain am 5 mlynedd rhag ofn bod rhywun yn gofyn am gael gweld y manylion hynny.
 iht.estateReport.gifts.givenAway.title=Rhoddion a roddwyd i ffwrdd
@@ -1504,3 +1502,13 @@ page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText=priod neu ba
 page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label=briodas neu bartneriaeth sifil
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label=yn briod neu mewn partneriaeth sifil
 page.iht.application.TnrbEligibilty.spouse.commonText=priod
+
+##iht.estateReport.tnrb.partner.married=A oedd {0} {1} ar unrhyw adeg tra''r oedd yn fyw, a bu farw''r {2}?
+
+iht.estateReport.tnrb.partner.married=A fu {0} {1} ar unrhyw adeg tra''r oedd yn fyw, a bu farw''r {2}?
+
+##iht.estateReport.tnrb.partner.hint=Os oedd {0} {1} fwy nag unwaith tra''r oedd yn fyw, a bu farw''r {2} yn gyntaf bob tro, mae''n rhaid i chi ddewis un ystâd i drosglwyddo''r lwfans sydd heb ei ddefnyddio ohoni.
+
+iht.estateReport.tnrb.partner.hint=Os bu {0} {1} fwy nag unwaith tra''r oedd yn fyw, a bu farw''r {2} yn gyntaf bob tro, mae''n rhaid i chi ddewis un ystâd i drosglwyddo''r lwfans sydd heb ei ddefnyddio ohoni.
+
+page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson = {1} {0}

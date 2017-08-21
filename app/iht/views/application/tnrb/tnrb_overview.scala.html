@@ -50,10 +50,7 @@
                     TnrbHelper.spouseOrCivilPartnerLabel(
                         tnrbModel,
                         widowCheckModel,
-                        Messages(
-                            "page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                            getDeceasedNameOrDefaultString(registrationDetails)
-                        )
+                        getDeceasedNameOrDefaultString(registrationDetails)
                     ),
                     CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString
                 )

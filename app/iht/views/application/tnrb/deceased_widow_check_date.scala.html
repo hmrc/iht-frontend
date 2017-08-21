@@ -34,8 +34,8 @@ cancelLinkText:String)(implicit request:Request[_], messages: Messages, ihtFormP
 @spouseLabel() = @{TnrbHelper.spouseOrCivilPartnerLabel(
                         tnrbModel,
                         widowCheckModel,
-                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",partnerName),
-                        true, messages.lang.code
+                        partnerName,
+                        true
                 )}
 
 @iht_main_template_application(

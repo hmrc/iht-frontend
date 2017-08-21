@@ -58,8 +58,7 @@ object TnrbHelper {
   def spouseOrCivilPartnerLabel(tnrbModel: TnrbEligibiltyModel,
                                 widowCheck: WidowCheck,
                                 prefixText: String="",
-                                wrapName: Boolean = false,
-                                country: String = "en")(implicit messages: Messages): String  = {
+                                wrapName: Boolean = false)(implicit messages: Messages): String  = {
     if(tnrbModel.Name.toString.trim!=""){
       if(wrapName) {
         ihtHelpers.custom.name(tnrbModel.Name.toString).toString
@@ -67,11 +66,8 @@ object TnrbHelper {
         tnrbModel.Name.toString
       }
     } else {
-      if(country == "en") {
-        prefixText + " " + messages(spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased))
-      } else {
-        messages(spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)) + " " + prefixText
-      }
+      messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson",
+        prefixText, messages(spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)))
     }
   }
 
