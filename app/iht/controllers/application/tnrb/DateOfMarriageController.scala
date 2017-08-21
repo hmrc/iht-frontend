@@ -45,7 +45,7 @@ trait DateOfMarriageController extends EstateController {
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
   private def predeceasedName(appDetails: ApplicationDetails)(implicit messages: Messages) = {
-    TnrbHelper.spouseOrCivilPartnerLabelPossessive(
+    TnrbHelper.spouseOrCivilPartnerLabel2(
       tnrbModel = appDetails.increaseIhtThreshold.fold(
         TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
       widowCheck = CommonHelper.getOrException(appDetails.widowCheck),

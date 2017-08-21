@@ -34,7 +34,7 @@ class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibilty
   def widowCheck = CommonBuilder.buildWidowedCheck
 
   override def pageTitle = messagesApi("iht.estateReport.tnrb.benefitFromTrust.question",
-    TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck,
+    TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,
       messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 
   override def browserTitle = messagesApi("page.iht.application.tnrb.benefitFromTrust.browserTitle")

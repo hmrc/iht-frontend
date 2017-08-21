@@ -47,17 +47,17 @@ object TnrbHelper {
     }.fold{
       val dateOfPreDeceased = optionWidowCheck.flatMap(_.dateOfPreDeceased)
 
-      val prefixText = optionPrefixText.fold("")(identity)
+      val prefixText = optionPrefixText.fold("")(identity) // John Smith's previous
 
       messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson",
         prefixText, messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)))
     }(identity)
   }
 
-  def spouseOrCivilPartnerLabelGenitive(tnrbModel: TnrbEligibiltyModel,
-                                        widowCheck: WidowCheck,
-                                        prefixText: String="",
-                                        wrapName: Boolean = false)(implicit messages: Messages): String  = {
+  def spouseOrCivilPartnerLabel(tnrbModel: TnrbEligibiltyModel,
+                                widowCheck: WidowCheck,
+                                prefixText: String="",
+                                wrapName: Boolean = false)(implicit messages: Messages): String  = {
     if(tnrbModel.Name.toString.trim!=""){
       if(wrapName) {
         ihtHelpers.custom.name(tnrbModel.Name.toString).toString
@@ -70,10 +70,10 @@ object TnrbHelper {
     }
   }
 
-  def spouseOrCivilPartnerLabelPossessive(tnrbModel: TnrbEligibiltyModel,
-                                          widowCheck: WidowCheck,
-                                          prefixText: String="",
-                                          wrapName: Boolean = false)(implicit messages: Messages): String  = {
+  def spouseOrCivilPartnerLabel2(tnrbModel: TnrbEligibiltyModel,
+                                widowCheck: WidowCheck,
+                                prefixText: String="",
+                                wrapName: Boolean = false)(implicit messages: Messages): String  = {
     if(tnrbModel.Name.toString.trim!=""){
       if(wrapName) {
         ihtHelpers.custom.name(tnrbModel.Name.toString).toString

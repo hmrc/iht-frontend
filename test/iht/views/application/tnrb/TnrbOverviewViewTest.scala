@@ -58,7 +58,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
       val view = ContentChecker.stripLineBreaks(tnrb_overview(regDetails, widowCheckModel, tnrbModel, ihtReference).toString)
       view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance1"))
       view should include(messagesApi("page.iht.application.tnrbEligibilty.overview.guidance2",
-                            TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
+                            TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                              messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                         DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))),
                              CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString ))
@@ -69,7 +69,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
     "show the correct headings and all the questions text" in {
 
       val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
-      val predeceasedName = TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
+      val predeceasedName = TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                                             messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the"))
 
       implicit val request = createFakeRequest()
@@ -78,7 +78,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
 
       assertEqualsValue(doc, "h2#tnrb-partner-estate",
                                messagesApi("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading",
-                                 TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
+                                 TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                                  messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                           DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))),
                                  CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString))
@@ -103,7 +103,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
 
       assertEqualsValue(doc, "h2#tnrb-partner-personal-details",
                               messagesApi("page.iht.application.tnrbEligibilty.overview.partner.personalDetails.heading",
-                                TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
+                                TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
                                  messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                           DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))))
 
@@ -115,7 +115,7 @@ class TnrbOverviewViewTest extends ViewTestHelper {
 
     assertEqualsValue(doc, "li#date-of-preDeceased span",
         messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-          TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel,
+          TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel,
             widowCheckModel,
             messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                     DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))))

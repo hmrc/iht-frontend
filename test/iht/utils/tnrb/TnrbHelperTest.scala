@@ -73,7 +73,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     "return spouse or CivilPartner name when name has been entered" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName), lastName = Some(spouseOrCivilPartnerLastName))
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
-      val result = TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck)
+      val result = TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck)
       result should be(spouseOrCivilPartnerFirstName + " " + spouseOrCivilPartnerLastName)
     }
 
@@ -81,7 +81,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       "Civil Partnership Inclusion date" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
-      val result = TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, "prefix")
+      val result = TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck, "prefix")
       result should be("prefix’s " + messagesApi(spouseOrCivilPartnerMessageKey))
     }
 
@@ -89,7 +89,7 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       "Civil Partnership Inclusion date" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDateMinusOne))
-      val result = TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, "prefix")
+      val result = TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck, "prefix")
       result should be("prefix’s " + messagesApi(spouseMessageKey))
     }
   }
