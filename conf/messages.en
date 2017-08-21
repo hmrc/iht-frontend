@@ -2554,3 +2554,5 @@ error.predeceasedDateOfDeath.afterMarriage = Enter a date of death which is afte
 error.predeceasedDateOfMarriage.beforeDateOfDeath = Enter a date of marriage or civil partnership which is before the date of death
 
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson = {0}’s {1}
+
+page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson = {0} {1}

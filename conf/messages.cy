@@ -1511,4 +1511,6 @@ page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
 
 page.iht.application.tnrbEligibilty.partner.married.label = yn briod
 page.iht.application.tnrbEligibilty.partner.marriage.label = priodas
+page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson = {0} {1}
 
+page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous = previous?? {0}

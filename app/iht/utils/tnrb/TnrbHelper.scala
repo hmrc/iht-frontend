@@ -40,18 +40,19 @@ object TnrbHelper {
   
   def spouseOrCivilPartnerLabelWithOptions(optionTnrbModel: Option[TnrbEligibiltyModel],
                                 optionWidowCheck: Option[WidowCheck],
-                                optionPrefixText: Option[String]=None,
-                                country: String = "en")(implicit messages: Messages): String  = {
+                                optionPrefixText: Option[String]=None)(implicit messages: Messages): String  = {
     optionTnrbModel.flatMap{tnrbModel=>
       val name = tnrbModel.Name.toString.trim
       if(name.length==0) None else Some(name)
     }.fold{
       val dateOfPreDeceased = optionWidowCheck.flatMap(_.dateOfPreDeceased)
-      if(country == "en") {
-        optionPrefixText.fold("")(identity) + " " + messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages))
-      } else {
-        messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)) + " " + optionPrefixText.fold("")(identity)
-      }
+
+      val prefixText = optionPrefixText.fold("")(identity) // John Smith's previous
+
+      messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson",
+        prefixText, messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)))
+
+       // messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)) + " " + optionPrefixText.fold("")(identity)
     }(identity)
   }
 
