@@ -1499,6 +1499,11 @@ page.iht.application.assets.propertyType.nonResidential.label=Tir, adeilad dibre
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased={0}
 page.iht.registration.checklist.startRegistrationButton=Dechrau''r broses gofrestru
 
+page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText=priod neu bartner sifil
+page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label=briodas neu bartneriaeth sifil
+page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label=yn briod neu mewn partneriaeth sifil
+page.iht.application.TnrbEligibilty.spouse.commonText=priod
+
 error.assets.insurancePolicy.isAnnuitiesBought.select = Dewiswch ateb ar gyfer p''un a brynodd {0} blwydd-dal ar unrhyw adeg tra bu''n fyw
 error.assets.heldInTrust.moreThanOne.select = Dewiswch ateb ar gyfer p''un a oedd gan {0} yr hawl i  fuddio o, neu a wnaeth fuddio o, ymddiriedolaeth tra bu''n fyw
 error.assets.insurancePolicy.payedToSomeoneElse.select = Dewiswch ateb ar gyfer p''un a wnaeth {0} erioed talu premiymau yswiriant ar gyfer polisi nad oedd disgwyl y byddai''n talu i''r ystâd
@@ -1513,7 +1518,6 @@ page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
 page.iht.application.tnrbEligibilty.partner.married.label = yn briod
 page.iht.application.tnrbEligibilty.partner.marriage.label = priodas
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson = {0} {1}
-
 
 iht.estateReport.pdf.declaration.declaringThat=Rydych yn datgan y canlynol:
 iht.pdf.endOfTheEstateReport=Diwedd adroddiad ystâd {0}
