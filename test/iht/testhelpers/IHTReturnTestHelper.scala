@@ -79,7 +79,7 @@ object IHTReturnTestHelper {
       declaration=Some(declaration))
   }
 
-  private def buildGifts = {
+  def buildGifts = {
     Set(Set(
       makeGiftWithOutExemption(1000, toDate("2005-04-05")),
       makeGiftWithExemption(2000, 200, toDate("2006-04-05")),

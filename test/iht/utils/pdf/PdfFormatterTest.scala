@@ -18,8 +18,8 @@ package iht.utils.pdf
 
 import iht.forms.FormTestHelper
 import iht.models.application.ApplicationDetails
-import iht.models.des.ihtReturn.Asset
-import iht.testhelpers.CommonBuilder
+import iht.models.des.ihtReturn.{Asset, Gift}
+import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper}
 import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
 import org.joda.time.LocalDate
 
@@ -42,18 +42,18 @@ class PdfFormatterTest extends FormTestHelper {
   def completeTnrbIncreaseThreshold(ad:ApplicationDetails) = {
     val tnrb = CommonBuilder.buildTnrbEligibility copy (
       dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
-    )
+      )
     ad copy (
       increaseIhtThreshold = Some(tnrb),
       widowCheck = Some(CommonBuilder.buildWidowedCheck)
-      )
+    )
   }
 
   def completeTnrbNotIncreaseThreshold(ad:ApplicationDetails) = {
     val tnrb = CommonBuilder.buildTnrbEligibility copy (
       isPartnerLivingInUk = Some(false),
       dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
-      )
+    )
     ad copy (
       increaseIhtThreshold = Some(tnrb),
       widowCheck = Some(CommonBuilder.buildWidowedCheck)
@@ -94,12 +94,12 @@ class PdfFormatterTest extends FormTestHelper {
       val newAssetDescription = asset.assetDescription.map(x =>
         etmpTitlesMappedToPDFMessageKeys.get(x) match {
           case None => x
-          case Some(newMessageKey) => messagesApi(newMessageKey, CommonBuilder.DefaultString)
+          case Some(newMessageKey) => messagesApi(newMessageKey, regDetails.deceasedDetails.fold("")(_.name))
         }
       )
       asset copy (assetDescription = newAssetDescription)
     }
-    val result = PdfFormatter.transform(ihtReturn, CommonBuilder.DefaultString, messages)
+    val result = PdfFormatter.transform(ihtReturn, regDetails, messages)
     val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
     setOfAssets shouldBe expectedSetOfAssets
   }
@@ -149,7 +149,7 @@ class PdfFormatterTest extends FormTestHelper {
         CommonBuilder.buildExemptionsWithNoValues(
           completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(false)
-          )
+            )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 2
     }
@@ -159,7 +159,7 @@ class PdfFormatterTest extends FormTestHelper {
         CommonBuilder.buildExemptionsWithNoValues(
           incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(true)
-          )
+            )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 3
     }
@@ -179,7 +179,7 @@ class PdfFormatterTest extends FormTestHelper {
         CommonBuilder.buildExemptionsWithNoValues(
           completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(true)
-          )
+            )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 4
     }
@@ -189,7 +189,7 @@ class PdfFormatterTest extends FormTestHelper {
         CommonBuilder.buildSomeExemptions(
           completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
             hasSeenExemptionGuidance = Some(true)
-          )
+            )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 5
     }
@@ -212,6 +212,15 @@ class PdfFormatterTest extends FormTestHelper {
             )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
+    }
+  }
+
+  "padGifts" must {
+    "pad correctly where 7 years exactly" in {
+      val dateOfDeath = CommonBuilder.DefaultDOD
+      val gifts = IHTReturnTestHelper.buildGifts
+      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath))
+      result shouldBe gifts
     }
   }
 
