@@ -137,7 +137,7 @@ class PDFController @Inject()(val messagesApi: MessagesApi) extends ApplicationC
         None
       case Some(ihtReturn) =>
         Logger.info("IhtReturn details have been successfully retrieved ")
-        Some(PdfFormatter.transform(ihtReturn, registrationDetails.deceasedDetails.fold("")(_.name), messages))
+        Some(PdfFormatter.transform(ihtReturn, registrationDetails, messages))
     }
   }
 }

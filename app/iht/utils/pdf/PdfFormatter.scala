@@ -16,12 +16,14 @@
 
 package iht.utils.pdf
 
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
+
 import iht.constants.FieldMappings.maritalStatusMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.models.des.ihtReturn.{Exemption, Asset, IHTReturn}
+import iht.models.des.ihtReturn.{Asset, Exemption, Gift, IHTReturn}
+import iht.utils.CommonHelper
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages
@@ -66,7 +68,15 @@ object PdfFormatter {
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
       lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
-  def transform(ihtReturn:IHTReturn, deceasedName: String, messages: Messages): IHTReturn = {
+  def padGifts(setOfGifts:Set[Gift], dateOfDeath: LocalDate):Set[Gift] = {
+    setOfGifts
+  }
+
+  def transform(ihtReturn:IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
+
+    val deceasedName: String = registrationDetails.deceasedDetails.fold("")(_.name)
+    val dateOfDeath: LocalDate = CommonHelper.getOrException(registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath))
+
     val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
       _.assetCode,
       Constants.ETMPAssetCodesToIHTMessageKeys,
@@ -85,7 +95,12 @@ object PdfFormatter {
       )
     )
 
-    ihtReturn copy (freeEstate = optionFreeEstate)
+    val optionSetSetGift = ihtReturn.gifts.map( _.map( setGift => padGifts(setGift, dateOfDeath)))
+
+    ihtReturn copy(
+      freeEstate = optionFreeEstate,
+      gifts = optionSetSetGift
+    )
   }
 
   def transform(rd: RegistrationDetails, messages: Messages): RegistrationDetails = {

@@ -18,8 +18,8 @@ package iht.utils.pdf
 
 import iht.forms.FormTestHelper
 import iht.models.application.ApplicationDetails
-import iht.models.des.ihtReturn.Asset
-import iht.testhelpers.CommonBuilder
+import iht.models.des.ihtReturn.{Asset, Gift}
+import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper}
 import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
 import org.joda.time.LocalDate
 
@@ -94,12 +94,12 @@ class PdfFormatterTest extends FormTestHelper {
       val newAssetDescription = asset.assetDescription.map(x =>
         etmpTitlesMappedToPDFMessageKeys.get(x) match {
           case None => x
-          case Some(newMessageKey) => messagesApi(newMessageKey, CommonBuilder.DefaultString)
+          case Some(newMessageKey) => messagesApi(newMessageKey, regDetails.deceasedDetails.fold("")(_.name))
         }
       )
       asset copy (assetDescription = newAssetDescription)
     }
-    val result = PdfFormatter.transform(ihtReturn, CommonBuilder.DefaultString, messages)
+    val result = PdfFormatter.transform(ihtReturn, regDetails, messages)
     val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
     setOfAssets shouldBe expectedSetOfAssets
   }
@@ -212,6 +212,15 @@ class PdfFormatterTest extends FormTestHelper {
             )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
+    }
+  }
+
+  "padGifts" must {
+    "pad correctly where 7 years exactly" in {
+      val dateOfDeath = CommonBuilder.DefaultDOD
+      val gifts = IHTReturnTestHelper.buildGifts
+      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath))
+      result shouldBe gifts
     }
   }
 
