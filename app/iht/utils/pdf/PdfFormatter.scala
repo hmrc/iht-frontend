@@ -18,12 +18,14 @@ package iht.utils.pdf
 
 import javax.inject.{Inject, Singleton}
 
+import iht.utils.GiftsHelper
 import iht.constants.FieldMappings.maritalStatusMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
+import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn.{Asset, Exemption, Gift, IHTReturn}
-import iht.utils.CommonHelper
+import iht.utils.{CommonHelper, GiftsHelper}
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages
@@ -68,8 +70,35 @@ object PdfFormatter {
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
       lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
+  def combineGiftSets(masterSet:Set[Gift], subSet: Set[Gift]):Set[Gift] = {
+    masterSet.map { masterGift =>
+      subSet.find(_.dateOfGift == masterGift.dateOfGift) match {
+        case None => masterGift
+        case Some(g) => g
+      }
+    }
+  }
+
   def padGifts(setOfGifts:Set[Gift], dateOfDeath: LocalDate):Set[Gift] = {
-    setOfGifts
+    val xx = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath)
+    val allPreviousYearsGifts: Set[Gift] = xx.map { previousYearsGifts =>
+      val sd = previousYearsGifts.startDate.map( s => LocalDate.parse(s))
+      val valueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
+      Gift(
+        assetCode=Some("9095"),
+        assetDescription=Some("Rolled up gifts"),
+        assetID=Some("null"),
+        valuePrevOwned = valueOrZero,
+        percentageSharePrevOwned = Some(BigDecimal(100)),
+        valueRetained = Some(BigDecimal(0)),
+        percentageRetained = Some(BigDecimal(0)),
+        lossToEstate = valueOrZero,
+        dateOfGift = sd,
+        assetTotalValue = valueOrZero,
+        howheld = Some("Standard")
+      )
+    }.toSet
+    combineGiftSets( allPreviousYearsGifts, setOfGifts)
   }
 
   def transform(ihtReturn:IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
