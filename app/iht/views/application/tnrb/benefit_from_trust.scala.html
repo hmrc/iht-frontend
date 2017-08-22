@@ -27,7 +27,7 @@ widowCheck: WidowCheck,
 cancelUrl:Call
 )(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
+@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
 
 @iht_main_template_application(
     title = "",

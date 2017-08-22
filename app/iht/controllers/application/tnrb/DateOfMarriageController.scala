@@ -44,13 +44,13 @@ trait DateOfMarriageController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionGiftsWithReservation)
   val cancelUrl = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
 
-  private def predeceasedName(appDetails: ApplicationDetails) = {
-    TnrbHelper.spouseOrCivilPartnerLabel(
+  private def predeceasedName(appDetails: ApplicationDetails)(implicit messages: Messages) = {
+    TnrbHelper.spouseOrCivilPartnerLabelPossessive(
       tnrbModel = appDetails.increaseIhtThreshold.fold(
         TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
       widowCheck = CommonHelper.getOrException(appDetails.widowCheck),
-      prefixText = Messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"),
-      wrapName = true)
+      prefixText = messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"),
+      wrapName = true)(messages)
   }
 
   def onPageLoad = authorisedForIht {
