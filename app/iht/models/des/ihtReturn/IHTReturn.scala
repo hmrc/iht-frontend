@@ -102,9 +102,9 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
 
   def totalNetValue:BigDecimal = {
     if(totalExemptionsValue > 0) {
-      (totalAssetsValue + totalGiftsValue) - totalExemptionsValue - totalDebtsValue
+      (totalAssetsValue + totalTrustsValue + totalGiftsValue) - totalExemptionsValue - totalDebtsValue
     } else {
-      (totalAssetsValue + totalGiftsValue)
+      totalAssetsValue + totalTrustsValue + totalGiftsValue
     }
   }
 
