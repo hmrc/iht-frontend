@@ -7,6 +7,12 @@
                 xmlns:formatter="java:iht.utils.pdf.PdfFormatter">
     <xsl:param name="pdfFormatter"/>
 
+
+    <!--Basic row
+
+    Col    | Col   |
+
+    -->
     <xsl:template name="table-row">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
@@ -35,6 +41,27 @@
         </fo:table-row>
     </xsl:template>
 
+            Col     |
+
+            -->
+            <xsl:template name="table-row--novalue">
+                <xsl:param name="label"/>
+                <fo:table-row xsl:use-attribute-sets="row">
+                    <fo:table-cell xsl:use-attribute-sets="cell">
+                        <fo:block>
+                            <xsl:value-of select="$label"/>
+                        </fo:block>
+                    </fo:table-cell>
+                </fo:table-row>
+            </xsl:template>
+
+
+
+    <!--Row with currency in right cell
+
+    Col    | £Col   |
+
+    -->
     <xsl:template name="table-row--currency">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
@@ -59,6 +86,66 @@
         </fo:table-row>
     </xsl:template>
 
+            <!--Row with currency in right cell
+            Currency right-aligned
+
+            Col    |     £Col |
+
+            -->
+            <xsl:template name="table-row--currency-right">
+                <xsl:param name="label"/>
+                <xsl:param name="value"/>
+                <fo:table-row xsl:use-attribute-sets="row">
+                    <fo:table-cell xsl:use-attribute-sets="cell">
+                        <fo:block>
+                            <xsl:value-of select="$label"/>
+                        </fo:block>
+                    </fo:table-cell>
+                    <fo:table-cell xsl:use-attribute-sets="cell set-right">
+                        <fo:block>
+                            <xsl:if test='starts-with($value, "-") and $value!="-0"'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
+                        </fo:block>
+                    </fo:table-cell>
+                </fo:table-row>
+            </xsl:template>
+
+                    <!--Row with currency in right cell
+                    Currency right-aligned
+                    Normal top border
+                    Heavy font weight
+
+                    _______________________
+                    *Col*    |     *£Col* |
+
+                    -->
+                    <xsl:template name="table-row--currency-right--heavy">
+                        <xsl:param name="label"/>
+                        <xsl:param name="value"/>
+                        <fo:table-row xsl:use-attribute-sets="row">
+                            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy">
+                                <fo:block>
+                                    <xsl:value-of select="$label"/>
+                                </fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy set-right">
+                                <fo:block>
+                                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
+                                </fo:block>
+                            </fo:table-cell>
+                        </fo:table-row>
+                    </xsl:template>
+
+
+
+    <!--Row with currency in right cell
+    Left-aligned
+    Thick top border
+    Normal font weight
+
+    ==================
+    Col    | £Col    |
+
+    -->
     <xsl:template name="table-row--currency-total">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
@@ -83,57 +170,45 @@
         </fo:table-row>
     </xsl:template>
 
-    <xsl:template name="table-row--currency-right-total">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row--bottom row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell set-right">
-                <fo:block>
-                    <xsl:if test='starts-with($value, "-") and $value!="-0"'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
+            <!--Row with currency in right cell
+            Currency right-aligned
+            Thick top border
+            Normal font weight
 
-    <xsl:template name="table-row--currency-right">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row">
-            <fo:table-cell xsl:use-attribute-sets="cell">
-                <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell set-right">
-                <fo:block>
-                    <xsl:if test='starts-with($value, "-") and $value!="-0"'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
+            ===================
+            Col    |     £Col |
 
-    <xsl:template name="table-row--currency-right--heavy">
-        <xsl:param name="label"/>
-        <xsl:param name="value"/>
-        <fo:table-row xsl:use-attribute-sets="row row--heavy">
-            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy">
-                <fo:block>
-                    <xsl:value-of select="$label"/>
-                </fo:block>
-            </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="cell cell--heavy set-right">
-                <fo:block>
-                    <xsl:if test='starts-with($value, "-")'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
-                </fo:block>
-            </fo:table-cell>
-        </fo:table-row>
-    </xsl:template>
+            -->
+            <xsl:template name="table-row--currency-right-total">
+                <xsl:param name="label"/>
+                <xsl:param name="value"/>
+                <fo:table-row xsl:use-attribute-sets="row--bottom row--heavy">
+                    <fo:table-cell xsl:use-attribute-sets="cell">
+                        <fo:block>
+                            <xsl:value-of select="$label"/>
+                        </fo:block>
+                    </fo:table-cell>
+                    <fo:table-cell xsl:use-attribute-sets="cell set-right">
+                        <fo:block>
+                            <xsl:if test='starts-with($value, "-") and $value!="-0"'>-</xsl:if>&#xA3;<xsl:value-of select='format-number(number(translate($value, "-", "")), "##,##0.00")'/>
+                        </fo:block>
+                    </fo:table-cell>
+                </fo:table-row>
+            </xsl:template>
 
+
+
+    <!--Row with currency in right cell
+    Currency right-aligned
+    Thick top border
+    Bottom border
+    Heavy font weight
+
+    =======================
+    *Col*    |     *£Col* |
+    _______________________
+
+    -->
     <xsl:template name="table-row--currency-right-total-heavy">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
@@ -151,6 +226,17 @@
         </fo:table-row>
     </xsl:template>
 
+
+    <!--Row with currency in right cell
+    Currency right-aligned
+    Top border
+    Heavy font weight
+    Shaded
+
+    ________________________
+    *Col* ////|//// *£Col* |
+
+    -->
     <xsl:template name="table-row--currency-right-total-shaded">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
@@ -168,6 +254,8 @@
         </fo:table-row>
     </xsl:template>
 
+
+    <!-- 3 column row, used for Gifts -->
     <xsl:template name="table-row--currency-3-col">
         <xsl:param name="label"/>
         <xsl:param name="value1"/>
@@ -224,6 +312,12 @@
         </fo:table-row>
     </xsl:template>
 
+
+    <!--Row with Yes/No answer
+
+    Col   | Yes     |
+
+    -->
     <xsl:template name="table-row--yes-no">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
@@ -254,6 +348,12 @@
         </fo:table-row>
     </xsl:template>
 
+
+    <!--Row with address answer
+
+    Col   | Address   |
+
+    -->
     <xsl:template name="table-row--address">
         <xsl:param name="label"/>
         <xsl:param name="value"/>
