@@ -1503,6 +1503,11 @@ page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label=bri
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label=yn briod neu mewn partneriaeth sifil
 page.iht.application.TnrbEligibilty.spouse.commonText=priod
 
+error.assets.insurancePolicy.isAnnuitiesBought.select = Dewiswch ateb ar gyfer p''un a brynodd {0} blwydd-dal ar unrhyw adeg tra bu''n fyw
+error.assets.heldInTrust.moreThanOne.select = Dewiswch ateb ar gyfer p''un a oedd gan {0} yr hawl i  fuddio o, neu a wnaeth fuddio o, ymddiriedolaeth tra bu''n fyw
+error.assets.insurancePolicy.payedToSomeoneElse.select = Dewiswch ateb ar gyfer p''un a wnaeth {0} erioed talu premiymau yswiriant ar gyfer polisi nad oedd disgwyl y byddai''n talu i''r ystâd
+error.assets.insurancePolicy.isInTrust.select = Dewiswch ateb ar gyfer p''un a dalodd {0} am bolisïau yswiriant a gafodd eu rhoi mewn ymddiriedolaeth yn ystod y 7 mlynedd cyn y bu farw
+
 iht.estateReport.tnrb.partner.married=A fu {0} {1} ar unrhyw adeg tra''r oedd yn fyw, a bu farw''r {2}?
 iht.estateReport.tnrb.partner.hint=Os bu {0} {1} fwy nag unwaith tra''r oedd yn fyw, a bu farw''r {2} yn gyntaf bob tro, mae''n rhaid i chi ddewis un ystâd i drosglwyddo''r lwfans sydd heb ei ddefnyddio ohoni.
 
