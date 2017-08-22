@@ -324,7 +324,7 @@ object OverviewHelper {
       details = if (shouldDisplay(ad)) {
         Seq(Question(
           id = id + "-value",
-          title = Messages(s"$questionTitlesMessagesFilePrefix.question1"),
+          title = s"$questionTitlesMessagesFilePrefix.question1",
           link = Link(messagesFileChangeValues, questionLevelLinkAccessibilityTextValue, linkUrl),
           value = getBigDecimalDisplayValue(questionAnswerExprValue),
           status = if (getBigDecimalDisplayValue(questionAnswerExprValue) == "") {
