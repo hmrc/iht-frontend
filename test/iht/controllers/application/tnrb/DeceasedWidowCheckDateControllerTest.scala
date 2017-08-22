@@ -44,6 +44,8 @@ import uk.gov.hmrc.play.partials.FormPartialRetriever
 class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest with HtmlSpec with BeforeAndAfter {
 
   override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val messages: Messages = mock[Messages]
+
   val mockCachingConnector = mock[CachingConnector]
   var mockIhtConnector = mock[IhtConnector]
 
@@ -314,7 +316,7 @@ class DeceasedWidowCheckDateControllerTest  extends ApplicationControllerTest wi
       headers.size() shouldBe 1
 
       val expectedTitle = messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-        TnrbHelper.spouseOrCivilPartnerLabel(
+        TnrbHelper.spouseOrCivilPartnerLabelGenitive(
           CommonHelper.getOrException(ad.increaseIhtThreshold),
           CommonHelper.getOrException(ad.widowCheck),
           messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased")

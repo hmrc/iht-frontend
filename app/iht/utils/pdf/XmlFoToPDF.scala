@@ -136,7 +136,7 @@ trait XmlFoToPDF {
     transformer.setParameter("estateValue", assetsNetValue(applicationDetails))
     transformer.setParameter("thresholdValue", applicationDetails.currentThreshold)
     transformer.setParameter("marriedOrCivilPartnershipLabel",
-      TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased))
+      TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased)(messages))
     transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
       transformer.setParameter("estateOverviewDisplayMode",PdfFormatter.estateOverviewDisplayMode(applicationDetails))
     transformer

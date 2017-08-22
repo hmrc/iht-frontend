@@ -40,20 +40,27 @@ object TnrbHelper {
   
   def spouseOrCivilPartnerLabelWithOptions(optionTnrbModel: Option[TnrbEligibiltyModel],
                                 optionWidowCheck: Option[WidowCheck],
-                                optionPrefixText: Option[String]=None): String  = {
+                                optionPrefixText: Option[String]=None)(implicit messages: Messages): String  = {
     optionTnrbModel.flatMap{tnrbModel=>
       val name = tnrbModel.Name.toString.trim
       if(name.length==0) None else Some(name)
     }.fold{
       val dateOfPreDeceased = optionWidowCheck.flatMap(_.dateOfPreDeceased)
-      optionPrefixText.fold("")(identity) + " " + spouseOrCivilPartnerMessage(dateOfPreDeceased)
+
+      val prefixText = optionPrefixText.fold("")(identity) // John Smith's previous
+
+      messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson",
+        prefixText, messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)))
     }(identity)
   }
 
-  def spouseOrCivilPartnerLabel(tnrbModel: TnrbEligibiltyModel,
+  /**
+    * This produces content like: <prefix>'s spouse or civil partner, i.e. genitive grammatical case.
+    */
+  def spouseOrCivilPartnerLabelGenitive(tnrbModel: TnrbEligibiltyModel,
                                 widowCheck: WidowCheck,
                                 prefixText: String="",
-                                wrapName: Boolean = false): String  = {
+                                wrapName: Boolean = false)(implicit messages: Messages): String  = {
     if(tnrbModel.Name.toString.trim!=""){
       if(wrapName) {
         ihtHelpers.custom.name(tnrbModel.Name.toString).toString
@@ -61,7 +68,26 @@ object TnrbHelper {
         tnrbModel.Name.toString
       }
     } else {
-      prefixText + " " + spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)
+      messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson",
+        prefixText, messages(spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)(messages)))
+    }
+  }
+
+  /**
+    * This produces content like: <prefix> (e.g. their) spouse or civil partner, i.e. possessive.
+    */
+  def spouseOrCivilPartnerLabelPossessive(tnrbModel: TnrbEligibiltyModel,
+                                widowCheck: WidowCheck,
+                                prefixText: String="",
+                                wrapName: Boolean = false)(implicit messages: Messages): String  = {
+    if(tnrbModel.Name.toString.trim!=""){
+      if(wrapName) {
+        ihtHelpers.custom.name(tnrbModel.Name.toString).toString
+      }else{
+        tnrbModel.Name.toString
+      }
+    } else {
+      prefixText + " " + spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)(messages)
     }
   }
 
@@ -78,40 +104,40 @@ object TnrbHelper {
   }
 
 
-  def marriageOrCivilPartnerShipLabel(widowCheck: WidowCheck): String =
+  def marriageOrCivilPartnerShipLabel(widowCheck: WidowCheck)(implicit messages: Messages): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.tnrbEligibilty.partner.marriage.label",
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label",
-      dateOfPreDeceased = widowCheck.dateOfPreDeceased)
+      dateOfPreDeceased = widowCheck.dateOfPreDeceased)(messages)
 
   def spouseOrCivilPartnerNameLabel(tnrbModel: TnrbEligibiltyModel,
                                     widowCheck: WidowCheck,
-                                    prefixText: String=""): String={
+                                    prefixText: String="")(implicit messages: Messages): String={
     if(tnrbModel.Name.toString.trim!=""){
-      Messages("iht.name.upperCaseInitial")
+      messages("iht.name.upperCaseInitial")
     } else {
-      prefixText + " " + spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)
+      prefixText + " " + messages(spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)(messages))
     }
   }
 
   def preDeceasedMaritalStatusLabel(tnrbModel: TnrbEligibiltyModel,
-                                    widowCheck: WidowCheck): String = {
+                                    widowCheck: WidowCheck)(implicit messages: Messages): String = {
     if(tnrbModel.Name.toString.trim!=""){
-      tnrbModel.Name.toString + " " + Messages("page.iht.application.tnrbEligibilty.partner.married.label")
+      tnrbModel.Name.toString + " " + messages("page.iht.application.tnrbEligibilty.partner.married.label")
     } else {
-      Messages("iht.the.deceased") + " " +
-        preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased)
+      messages("iht.the.deceased") + " " +
+        messages(preDeceasedMaritalStatusSubLabel(widowCheck.dateOfPreDeceased)(messages))
     }
   }
 
-  def spouseOrCivilPartnerMessage(dateOfPreDeceased: Option[LocalDate]): String =
+  def spouseOrCivilPartnerMessage(dateOfPreDeceased: Option[LocalDate])(implicit messages: Messages): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.TnrbEligibilty.spouse.commonText",
     messagesKeyPartner = "page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText",
-    dateOfPreDeceased = dateOfPreDeceased)
+    dateOfPreDeceased = dateOfPreDeceased)(messages)
 
-  def preDeceasedMaritalStatusSubLabel(dateOfPreDeceased: Option[LocalDate]): String =
+  def preDeceasedMaritalStatusSubLabel(dateOfPreDeceased: Option[LocalDate])(implicit messages:Messages): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.tnrbEligibilty.partner.married.label",
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label",
-      dateOfPreDeceased = dateOfPreDeceased)
+      dateOfPreDeceased = dateOfPreDeceased)(messages)
 
   def marriageOrCivilPartnerShipLabelForPdf(date: Option[LocalDate]): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.tnrbEligibilty.partner.marriage.label",
@@ -140,13 +166,13 @@ object TnrbHelper {
 
   private def spouseOrCivilPartnerMessageText(messagesKeySpouse:String,
                                               messagesKeyPartner:String,
-                                              dateOfPreDeceased: Option[LocalDate]) =
+                                              dateOfPreDeceased: Option[LocalDate])(implicit messages: Messages) =
   {
     val key = dateOfPreDeceased match {
       case Some(date) if isBeforeCivilPartnershipDate(date) => messagesKeySpouse
       case _ => messagesKeyPartner
     }
-    Messages(key)
+    messages(key)
   }
 
   private def isBeforeCivilPartnershipDate(dateOfPreDeceased: LocalDate): Boolean = {

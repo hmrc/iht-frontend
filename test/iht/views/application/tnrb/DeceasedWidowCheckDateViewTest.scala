@@ -37,7 +37,7 @@ class DeceasedWidowCheckDateViewTest extends ViewTestHelper {
 
 
   lazy val pageTitle = messagesApi("page.iht.application.tnrbEligibilty.overview.partner.dod.question",
-                              TnrbHelper.spouseOrCivilPartnerLabel(tnrbModel, widowCheckModel,
+                              TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel,
                                    messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
                                                DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails))))
 
