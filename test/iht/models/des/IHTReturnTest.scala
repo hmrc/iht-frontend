@@ -96,13 +96,13 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
     "sort correctly" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
       val expectedDates = Set(Seq[Option[LocalDate]](
-        Some(new LocalDate("2005-04-05")),
-        Some(new LocalDate("2006-04-05")),
-        Some(new LocalDate("2007-04-05")),
-        Some(new LocalDate("2008-04-05")),
-        Some(new LocalDate("2009-04-05")),
+        Some(new LocalDate("2011-04-05")),
         Some(new LocalDate("2010-04-05")),
-        Some(new LocalDate("2011-04-05"))
+        Some(new LocalDate("2009-04-05")),
+        Some(new LocalDate("2008-04-05")),
+        Some(new LocalDate("2007-04-05")),
+        Some(new LocalDate("2006-04-05")),
+        Some(new LocalDate("2005-04-05"))
       ))
 
       val sortedIHTReturn: IHTReturn = IHTReturn.sortByGiftDate(ihtReturn)

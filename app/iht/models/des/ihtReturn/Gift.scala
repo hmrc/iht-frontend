@@ -50,10 +50,10 @@ case class Gift(
                ) extends Ordered[Gift] {
 
   override def compare(that: Gift) = {
-    (this.dateOfGift, that.dateOfGift) match {
+    (that.dateOfGift, this.dateOfGift) match {
       case (None, None) => 0
-      case (Some(_), None) =>
-      case (None, Some(_)) =>
+      case (Some(_), None) => 1
+      case (None, Some(_)) => -1
       case (Some(x), Some(y)) => x.compareTo(y)
     }
   }
