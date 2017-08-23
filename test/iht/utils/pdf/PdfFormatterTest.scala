@@ -216,38 +216,38 @@ class PdfFormatterTest extends FormTestHelper {
     }
   }
 
-  //  "combineGiftSets" must {
-  //    "combine two sets updating with values in second set" in {
-  //      val expectedGifts = Set(
-  //        makeGiftWithOutExemption(111, toDate("2008-04-05")),
-  //        makeGiftWithOutExemption(5000, toDate("2009-04-05")),
-  //        makeGiftWithOutExemption(222, toDate("2010-04-05")),
-  //        makeGiftWithOutExemption(5000, toDate("2011-04-05")),
-  //        makeGiftWithOutExemption(5000, toDate("2012-04-05")),
-  //        makeGiftWithOutExemption(333, toDate("2013-04-05")),
-  //        makeGiftWithOutExemption(444, toDate("2014-10-05"))
-  //      )
-  //
-  //      val gifts1 = Set(
-  //        makeGiftWithOutExemption(3000, toDate("2008-04-05")),
-  //        makeGiftWithOutExemption(5000, toDate("2009-04-05")),
-  //        makeGiftWithOutExemption(5000, toDate("2010-04-05")),
-  //        makeGiftWithOutExemption(5000, toDate("2011-04-05")),
-  //        makeGiftWithOutExemption(5000, toDate("2012-04-05")),
-  //        makeGiftWithOutExemption(5000, toDate("2013-04-05")),
-  //        makeGiftWithOutExemption(7000, toDate("2014-10-05"))
-  //      )
-  //
-  //      val gifts2 = Set(
-  //        makeGiftWithOutExemption(111, toDate("2008-04-05")),
-  //        makeGiftWithOutExemption(222, toDate("2010-04-05")),
-  //        makeGiftWithOutExemption(333, toDate("2013-04-05")),
-  //        makeGiftWithOutExemption(444, toDate("2014-10-05"))
-  //      )
-  //
-  //      PdfFormatter.combineGiftSets(gifts1, gifts2) shouldBe expectedGifts
-  //    }
-  //  }
+    "combineGiftSets" must {
+      "combine two sets updating with values in second set" in {
+        val expectedGifts = Set(
+          makeGiftWithOutExemption(111, toDate("2008-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2009-04-05")),
+          makeGiftWithOutExemption(222, toDate("2010-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2011-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2012-04-05")),
+          makeGiftWithOutExemption(333, toDate("2013-04-05")),
+          makeGiftWithOutExemption(444, toDate("2014-10-05"))
+        )
+
+        val gifts1 = Set(
+          makeGiftWithOutExemption(3000, toDate("2008-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2009-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2010-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2011-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2012-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2013-04-05")),
+          makeGiftWithOutExemption(7000, toDate("2014-10-05"))
+        )
+
+        val gifts2 = Set(
+          makeGiftWithOutExemption(111, toDate("2008-04-05")),
+          makeGiftWithOutExemption(222, toDate("2010-04-05")),
+          makeGiftWithOutExemption(333, toDate("2013-04-05")),
+          makeGiftWithOutExemption(444, toDate("2014-10-05"))
+        )
+
+        PdfFormatter.combineGiftSets(gifts1, gifts2) shouldBe expectedGifts
+      }
+    }
 
   "padGifts" must {
     "pad correctly where 7 years exactly" in {
@@ -279,29 +279,29 @@ class PdfFormatterTest extends FormTestHelper {
       result shouldBe expectedGifts
     }
 
-    //    "pad correctly where < 7 years" in {
-    //      val dateOfDeath = CommonBuilder.DefaultDOD // LocalDate(2014, 10, 5)
-    //
-    //      val expectedGifts = Set(Set(
-    //        makeGiftWithOutExemption(0,   toDate("2007-10-06")),
-    //        makeGiftWithOutExemption(0,   toDate("2008-04-06")),
-    //        makeGiftWithOutExemption(111, toDate("2009-04-06")),
-    //        makeGiftWithOutExemption(222, toDate("2010-04-06")),
-    //        makeGiftWithOutExemption(0,   toDate("2011-04-06")),
-    //        makeGiftWithOutExemption(333, toDate("2012-04-06")),
-    //        makeGiftWithOutExemption(0,   toDate("2013-04-06")),
-    //        makeGiftWithOutExemption(0,   toDate("2014-04-06"))
-    //      ))
-    //
-    //      val gifts = Set(Set(
-    //        makeGiftWithOutExemption(111, toDate("2009-04-06")),
-    //        makeGiftWithOutExemption(222, toDate("2010-04-06")),
-    //        makeGiftWithOutExemption(333, toDate("2012-04-06"))
-    //      ))
-    //      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath))
-    //
-    //      result shouldBe expectedGifts
-    //    }
+    "pad correctly where < 7 years" in {
+      val dateOfDeath = CommonBuilder.DefaultDOD // LocalDate(2014, 10, 5)
+
+      val expectedGifts = Set(Set(
+        makeGiftWithOutExemption(0,   toDate("2008-04-05")),
+        makeGiftWithOutExemption(0,   toDate("2009-04-05")),
+        makeGiftWithOutExemption(0,   toDate("2010-04-05")),
+        makeGiftWithOutExemption(0,   toDate("2011-04-05")),
+        makeGiftWithOutExemption(666, toDate("2012-04-05")),
+        makeGiftWithOutExemption(0,   toDate("2013-04-05")),
+        makeGiftWithOutExemption(777, toDate("2014-04-05")),
+        makeGiftWithOutExemption(888, toDate("2014-10-05"))
+      ))
+
+      val gifts = Set(Set(
+        makeGiftWithOutExemption(666, toDate("2012-04-05")),
+        makeGiftWithOutExemption(777, toDate("2014-04-05")),
+        makeGiftWithOutExemption(888, toDate("2014-10-05"))
+      ))
+      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath))
+
+      result shouldBe expectedGifts
+    }
   }
 
 }
