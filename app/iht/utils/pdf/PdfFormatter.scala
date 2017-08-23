@@ -70,7 +70,7 @@ object PdfFormatter {
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
       lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
-  def combineGiftSets(masterSet:Set[Gift], subSet: Set[Gift]):Set[Gift] = {
+  def combineGiftSets(masterSet:Seq[Gift], subSet: Seq[Gift]):Seq[Gift] = {
     masterSet.map { masterGift =>
       subSet.find(_.dateOfGift == masterGift.dateOfGift) match {
         case None => masterGift
@@ -79,13 +79,13 @@ object PdfFormatter {
     }
   }
 
-  def padGifts(setOfGifts:Set[Gift], dateOfDeath: LocalDate):Set[Gift] = {
-    val allPreviousYearsGifts: Set[Gift] = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath).map { previousYearsGifts =>
+  def padGifts(setOfGifts:Seq[Gift], dateOfDeath: LocalDate):Seq[Gift] = {
+    val allPreviousYearsGifts: Seq[Gift] = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath).map { previousYearsGifts =>
       val endDate = previousYearsGifts.endDate.map( s => LocalDate.parse(s))
       val valueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
       Gift(
         assetCode=Some("9095"),
-        assetDescription=Some("Rolled up gifts"),
+        assetDescription=Some("Rolled up gifts minus exemption of £0"),
         assetID=Some("null"),
         valuePrevOwned = valueOrZero,
         percentageSharePrevOwned = Some(BigDecimal(100)),
@@ -96,7 +96,7 @@ object PdfFormatter {
         assetTotalValue = valueOrZero,
         howheld = Some("Standard")
       )
-    }.toSet
+    }
     combineGiftSets( allPreviousYearsGifts, setOfGifts)
   }
 

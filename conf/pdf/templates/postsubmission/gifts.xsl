@@ -80,24 +80,14 @@
                                         <fo:table-cell xsl:use-attribute-sets="tabular-cell set-right">
                                             <fo:block>
                                                 <xsl:if test="$giftsValue">
-                                                    <xsl:choose>
-                                                        <xsl:when test="valuePrevOwned &gt; 0">
-                                                            &#xA3;<xsl:value-of select='format-number(number(valuePrevOwned), "##,##0.00")'/>
-                                                        </xsl:when>
-                                                    </xsl:choose>
+                                                     &#xA3;<xsl:value-of select='format-number(number(valuePrevOwned), "##,##0.00")'/>
                                                 </xsl:if>
                                             </fo:block>
                                         </fo:table-cell>
 
                                         <fo:table-cell xsl:use-attribute-sets="tabular-cell set-right">
                                             <fo:block>
-                                                <xsl:choose>
-                                                    <xsl:when test="$exemptionsValue &gt; 0">
-                                                        <xsl:value-of select='format-number($exemptionsValue, "##,##0.00")'/>
-                                                     </xsl:when>
-                                                    <xsl:otherwise>
-                                                    </xsl:otherwise>
-                                                </xsl:choose>
+                                                &#xA3;<xsl:value-of select='format-number($exemptionsValue, "##,##0.00")'/>
                                             </fo:block>
                                         </fo:table-cell>
 

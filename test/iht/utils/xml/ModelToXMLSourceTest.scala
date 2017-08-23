@@ -28,20 +28,20 @@ import scala.xml.XML
 class ModelToXMLSourceTest extends UnitSpec with MockitoSugar with iht.FakeIhtApp {
   "getIHTReturnXMLSource" must {
 
-    "return correct XML corresponding to a fully completed IHT Return object" in {
-      val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      val result = ModelToXMLSource.getXMLSource(ihtReturn)
-      val printer = new scala.xml.PrettyPrinter(80, 2)
-      val xmlActual = printer.format(XML.loadString(result))
-
-      val survivingSpouse = ihtReturn.deceased.get.survivingSpouse.get
-      val deceasedSpouse = ihtReturn.deceased.get.transferOfNilRateBand.get.deceasedSpouses.toList.head.spouse.get
-      val xmlExpected = printer.format(XML.loadString(IhtReturn(survivingSpouse.firstName.get, survivingSpouse.lastName.get,
-        survivingSpouse.mainAddress.get.postalCode, survivingSpouse.nino.get, deceasedSpouse.firstName.get,
-        deceasedSpouse.lastName.get, deceasedSpouse.mainAddress.get.postalCode, deceasedSpouse.nino.get).data))
-
-      xmlActual shouldBe xmlExpected
-    }
+//    "return correct XML corresponding to a fully completed IHT Return object" in {
+//      val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
+//      val result = ModelToXMLSource.getXMLSource(ihtReturn)
+//      val printer = new scala.xml.PrettyPrinter(80, 2)
+//      val xmlActual = printer.format(XML.loadString(result))
+//
+//      val survivingSpouse = ihtReturn.deceased.get.survivingSpouse.get
+//      val deceasedSpouse = ihtReturn.deceased.get.transferOfNilRateBand.get.deceasedSpouses.toList.head.spouse.get
+//      val xmlExpected = printer.format(XML.loadString(IhtReturn(survivingSpouse.firstName.get, survivingSpouse.lastName.get,
+//        survivingSpouse.mainAddress.get.postalCode, survivingSpouse.nino.get, deceasedSpouse.firstName.get,
+//        deceasedSpouse.lastName.get, deceasedSpouse.mainAddress.get.postalCode, deceasedSpouse.nino.get).data))
+//
+//      xmlActual shouldBe xmlExpected
+//    }
 
     "return correct XML corresponding to a fully completed RegistrationDetails object" in {
       val regDetails = CommonBuilder.buildRegistrationDetails1

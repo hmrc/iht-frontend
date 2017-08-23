@@ -80,7 +80,7 @@ object IHTReturnTestHelper {
   }
 
   def buildGifts = {
-    Set(Set(
+    Set(Seq(
       makeGiftWithOutExemption(1000, toDate("2005-04-05")),
       makeGiftWithExemption(2000, 200, toDate("2006-04-05")),
       makeGiftWithOutExemption(3000, toDate("2007-04-05")),

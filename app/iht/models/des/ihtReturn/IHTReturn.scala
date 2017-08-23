@@ -26,7 +26,7 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
                      submitter: Option[Submitter] = None,
                      deceased: Option[Deceased] = None,
                      freeEstate: Option[FreeEstate] = None,
-                     gifts: Option[Set[Set[Gift]]] = None,
+                     gifts: Option[Set[Seq[Gift]]] = None,
                      trusts: Option[Set[Trust]] = None,
                      declaration: Option[Declaration] = None) {
 
@@ -121,7 +121,7 @@ object IHTReturn {
   implicit val formats = Json.format[IHTReturn]
 
   def sortByGiftDate(ihtReturn: IHTReturn) = {
-    val optionSetSetGifts: Option[Set[Set[Gift]]] = ihtReturn.gifts.map(_.map(setGifts => collection.immutable.SortedSet[Gift]() ++ setGifts))
+    val optionSetSetGifts: Option[Set[Seq[Gift]]] = ihtReturn.gifts.map(_.map(seqGifts => seqGifts.sorted))
     ihtReturn copy (gifts = optionSetSetGifts)
   }
 }

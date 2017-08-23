@@ -228,7 +228,7 @@ class PdfFormatterTest extends FormTestHelper {
           makeGiftWithOutExemption(444, toDate("2014-10-05"))
         )
 
-        val gifts1 = Set(
+        val gifts1 = Seq(
           makeGiftWithOutExemption(3000, toDate("2008-04-05")),
           makeGiftWithOutExemption(5000, toDate("2009-04-05")),
           makeGiftWithOutExemption(5000, toDate("2010-04-05")),
@@ -238,14 +238,14 @@ class PdfFormatterTest extends FormTestHelper {
           makeGiftWithOutExemption(7000, toDate("2014-10-05"))
         )
 
-        val gifts2 = Set(
+        val gifts2 = Seq(
           makeGiftWithOutExemption(111, toDate("2008-04-05")),
           makeGiftWithOutExemption(222, toDate("2010-04-05")),
           makeGiftWithOutExemption(333, toDate("2013-04-05")),
           makeGiftWithOutExemption(444, toDate("2014-10-05"))
         )
 
-        PdfFormatter.combineGiftSets(gifts1, gifts2) shouldBe expectedGifts
+        PdfFormatter.combineGiftSets(gifts1, gifts2).toSet shouldBe expectedGifts
       }
     }
 
@@ -264,7 +264,7 @@ class PdfFormatterTest extends FormTestHelper {
         makeGiftWithOutExemption(888, toDate("2016-10-10"))
       ))
 
-      val gifts = Set(Set(
+      val gifts = Set(Seq(
         makeGiftWithOutExemption(444, toDate("2010-04-05")),
         makeGiftWithOutExemption(555, toDate("2011-04-05")),
         makeGiftWithOutExemption(111, toDate("2012-04-05")),
@@ -274,7 +274,7 @@ class PdfFormatterTest extends FormTestHelper {
         makeGiftWithOutExemption(777, toDate("2016-04-05")),
         makeGiftWithOutExemption(888, toDate("2016-10-10"))
       ))
-      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath))
+      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath).toSet)
 
       result shouldBe expectedGifts
     }
@@ -293,12 +293,12 @@ class PdfFormatterTest extends FormTestHelper {
         makeGiftWithOutExemption(888, toDate("2016-10-10"))
       ))
 
-      val gifts = Set(Set(
+      val gifts = Set(Seq(
         makeGiftWithOutExemption(444, toDate("2010-04-05")),
         makeGiftWithOutExemption(777, toDate("2016-04-05")),
         makeGiftWithOutExemption(888, toDate("2016-10-10"))
       ))
-      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath))
+      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath).toSet)
 
       result shouldBe expectedGifts
     }
