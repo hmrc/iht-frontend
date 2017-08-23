@@ -36,7 +36,7 @@ class GiftsMadeBeforeDeathViewTest extends YesNoQuestionViewBehaviour[TnrbEligib
   val deceasedDetailsName = CommonBuilder.buildDeceasedDetails.name
 
   override def pageTitle = messagesApi("iht.estateReport.tnrb.giftsMadeBeforeDeath.question",
-    TnrbHelper.spouseOrCivilPartnerLabel(
+    TnrbHelper.spouseOrCivilPartnerLabelGenitive(
       tnrbModel, widowCheck,
       messagesApi("page.iht.application.tnrbEligibilty.partner.additional.label.the")))
 

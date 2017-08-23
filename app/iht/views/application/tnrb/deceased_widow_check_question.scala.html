@@ -33,17 +33,17 @@ cancelLinkText:String
 
 @deceasedName = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, false)}
 @deceasedNameWrap() = @{DeceasedInfoHelper.getDeceasedNameOrDefaultString(registrationDetails, true)}
-@maritalStatus() = @{TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased)}
-@spouseCivilPartner() = @{TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased)}
+@maritalStatus() = @{messages(TnrbHelper.preDeceasedMaritalStatusSubLabel(widowCheckModel.dateOfPreDeceased))}
+@spouseCivilPartner() = @{messages(TnrbHelper.spouseOrCivilPartnerMessage(widowCheckModel.dateOfPreDeceased))}
 
-@question() = @{Messages("iht.estateReport.tnrb.partner.married",
+@question() = @{messages("iht.estateReport.tnrb.partner.married",
     deceasedNameWrap,
     maritalStatus,
     spouseCivilPartner
     )}
 
 @helpCopy() = @{
-    <p>{Messages("iht.estateReport.tnrb.partner.hint", deceasedName, maritalStatus, spouseCivilPartner)}</p>
+    <p>{messages("iht.estateReport.tnrb.partner.hint", deceasedName, maritalStatus, spouseCivilPartner)}</p>
 }
 
 @iht_main_template_application(

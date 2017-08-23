@@ -171,7 +171,8 @@ trait GiftsOverviewController extends EstateController {
 
     allGifts.isGivenAway match {
       case Some(false) => Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears)
-      case _ => Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears, sectionValueGivenAway)
+      case _ =>
+        Seq(sectionIsGivenAway, sectionReservation, sectionSevenYears, sectionValueGivenAway)
     }
   }
 
