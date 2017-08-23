@@ -47,7 +47,12 @@ case class Gift(
                  percentageRetained: Option[BigDecimal] = None,
                  lossToEstate: Option[BigDecimal] = None,
                  dateOfGift: Option[LocalDate] = None
-               )
+               ) extends Ordered[Gift] {
+
+  override def compare(that: Gift) = {
+    this.dateOfGift.get.compareTo(that.dateOfGift.get)
+  }
+}
 
 object Gift {
   implicit val formats = Json.format[Gift]
