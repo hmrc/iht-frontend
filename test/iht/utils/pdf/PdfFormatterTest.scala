@@ -284,17 +284,21 @@ class PdfFormatterTest extends FormTestHelper {
 
       val expectedGifts = Set(Set(
         makeGiftWithOutExemption(444, toDate("2010-04-05")),
-        makeGiftWithOutExemption(0,   toDate("2011-04-05")),
-        makeGiftWithOutExemption(0,   toDate("2012-04-05")),
+        makeGiftWithOutExemption(555, toDate("2011-04-05")),
+        makeGiftWithOutExemption(111, toDate("2012-04-05")),
         makeGiftWithOutExemption(0,   toDate("2013-04-05")),
-        makeGiftWithOutExemption(0,   toDate("2014-04-05")),
-        makeGiftWithOutExemption(0,   toDate("2015-04-05")),
+        makeGiftWithOutExemption(666, toDate("2014-04-05")),
+        makeGiftWithOutExemption(333, toDate("2015-04-05")),
         makeGiftWithOutExemption(777, toDate("2016-04-05")),
         makeGiftWithOutExemption(888, toDate("2016-10-10"))
       ))
 
       val gifts = Set(Seq(
         makeGiftWithOutExemption(444, toDate("2010-04-05")),
+        makeGiftWithOutExemption(555, toDate("2011-04-05")),
+        makeGiftWithOutExemption(111, toDate("2012-04-05")),
+        makeGiftWithOutExemption(666, toDate("2014-04-05")),
+        makeGiftWithOutExemption(333, toDate("2015-04-05")),
         makeGiftWithOutExemption(777, toDate("2016-04-05")),
         makeGiftWithOutExemption(888, toDate("2016-10-10"))
       ))

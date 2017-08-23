@@ -85,7 +85,7 @@ object PdfFormatter {
       val valueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
       Gift(
         assetCode=Some("9095"),
-        assetDescription=Some("Rolled up gifts minus exemption of £0"),
+        assetDescription=Some("Rolled up gifts"),
         assetID=Some("null"),
         valuePrevOwned = valueOrZero,
         percentageSharePrevOwned = Some(BigDecimal(100)),
