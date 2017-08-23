@@ -80,8 +80,7 @@ object PdfFormatter {
   }
 
   def padGifts(setOfGifts:Set[Gift], dateOfDeath: LocalDate):Set[Gift] = {
-    val xx = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath)
-    val allPreviousYearsGifts: Set[Gift] = xx.map { previousYearsGifts =>
+    val allPreviousYearsGifts: Set[Gift] = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath).map { previousYearsGifts =>
       val endDate = previousYearsGifts.endDate.map( s => LocalDate.parse(s))
       val valueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
       Gift(
