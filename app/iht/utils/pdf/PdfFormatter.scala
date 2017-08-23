@@ -82,7 +82,7 @@ object PdfFormatter {
   def padGifts(setOfGifts:Set[Gift], dateOfDeath: LocalDate):Set[Gift] = {
     val xx = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath)
     val allPreviousYearsGifts: Set[Gift] = xx.map { previousYearsGifts =>
-      val sd = previousYearsGifts.startDate.map( s => LocalDate.parse(s))
+      val sd = previousYearsGifts.endDate.map( s => LocalDate.parse(s))
       val valueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
       Gift(
         assetCode=Some("9095"),
