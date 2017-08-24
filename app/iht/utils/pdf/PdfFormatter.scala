@@ -82,19 +82,22 @@ object PdfFormatter {
   def padGifts(setOfGifts:Seq[Gift], dateOfDeath: LocalDate):Seq[Gift] = {
     val allPreviousYearsGifts: Seq[Gift] = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath).map { previousYearsGifts =>
       val endDate = previousYearsGifts.endDate.map( s => LocalDate.parse(s))
-      val valueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
+      val giftValueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
+      val exemptionValueOrZero = Option(previousYearsGifts.exemptions.fold(BigDecimal(0))(identity))
+      val netGiftValue = giftValueOrZero.fold(BigDecimal(0))(identity) - exemptionValueOrZero.fold(BigDecimal(0))(identity)
+
       Gift(
         assetCode=Some("9095"),
         assetDescription=Some("Rolled up gifts"),
         assetID=Some("null"),
-        valuePrevOwned = valueOrZero,
+        assetTotalValue = Some(netGiftValue),
+        valuePrevOwned = giftValueOrZero,
         percentageSharePrevOwned = Some(BigDecimal(100)),
         valueRetained = Some(BigDecimal(0)),
         percentageRetained = Some(BigDecimal(0)),
-        lossToEstate = valueOrZero,
-        dateOfGift = endDate,
-        assetTotalValue = valueOrZero,
-        howheld = Some("Standard")
+        howheld = Some("Standard"),
+        lossToEstate = Some(netGiftValue),
+        dateOfGift = endDate
       )
     }
     combineGiftSets( allPreviousYearsGifts, setOfGifts)
