@@ -295,99 +295,99 @@ case class IhtReturn(survivingSpouseFirstName: String, survivingSpouseSurname: S
          <reasonForBeingBelowLimit>Excepted Estate</reasonForBeingBelowLimit>
          <declarationAccepted>true</declarationAccepted>
        </declaration>
-       <gifts>
-         <array>
-           <assetCode>9095</assetCode>
-           <valueRetained>0</valueRetained>
-           <assetID>null</assetID>
-           <percentageSharePrevOwned>100</percentageSharePrevOwned>
-           <percentageRetained>0</percentageRetained>
-           <assetTotalValue>6000</assetTotalValue>
-           <howheld>Standard</howheld>
-           <assetDescription>Rolled up gifts</assetDescription>
-           <lossToEstate>6000</lossToEstate>
-           <valuePrevOwned>6000</valuePrevOwned>
-           <dateOfGift>2010-04-05</dateOfGift>
-         </array>
-         <array>
-           <assetCode>9095</assetCode>
-           <valueRetained>0</valueRetained>
-           <assetID>null</assetID>
-           <percentageSharePrevOwned>100</percentageSharePrevOwned>
-           <percentageRetained>0</percentageRetained>
-           <assetTotalValue>5000</assetTotalValue>
-           <howheld>Standard</howheld>
-           <assetDescription>Rolled up gifts</assetDescription>
-           <lossToEstate>5000</lossToEstate>
-           <valuePrevOwned>5000</valuePrevOwned>
-           <dateOfGift>2009-04-05</dateOfGift>
-         </array>
-         <array>
-           <assetCode>9095</assetCode>
-           <valueRetained>0</valueRetained>
-           <assetID>null</assetID>
-           <percentageSharePrevOwned>100</percentageSharePrevOwned>
-           <percentageRetained>0</percentageRetained>
-           <assetTotalValue>1800</assetTotalValue>
-           <howheld>Standard</howheld>
-           <assetDescription>Rolled up gifts minus exemption of £200</assetDescription>
-           <lossToEstate>1800</lossToEstate>
-           <valuePrevOwned>2000</valuePrevOwned>
-           <dateOfGift>2006-04-05</dateOfGift>
-         </array>
-         <array>
-           <assetCode>9095</assetCode>
-           <valueRetained>0</valueRetained>
-           <assetID>null</assetID>
-           <percentageSharePrevOwned>100</percentageSharePrevOwned>
-           <percentageRetained>0</percentageRetained>
-           <assetTotalValue>1000</assetTotalValue>
-           <howheld>Standard</howheld>
-           <assetDescription>Rolled up gifts</assetDescription>
-           <lossToEstate>1000</lossToEstate>
-           <valuePrevOwned>1000</valuePrevOwned>
-           <dateOfGift>2005-04-05</dateOfGift>
-         </array>
-         <array>
-           <assetCode>9095</assetCode>
-           <valueRetained>0</valueRetained>
-           <assetID>null</assetID>
-           <percentageSharePrevOwned>100</percentageSharePrevOwned>
-           <percentageRetained>0</percentageRetained>
-           <assetTotalValue>3000</assetTotalValue>
-           <howheld>Standard</howheld>
-           <assetDescription>Rolled up gifts</assetDescription>
-           <lossToEstate>3000</lossToEstate>
-           <valuePrevOwned>3000</valuePrevOwned>
-           <dateOfGift>2007-04-05</dateOfGift>
-         </array>
-         <array>
-           <assetCode>9095</assetCode>
-           <valueRetained>0</valueRetained>
-           <assetID>null</assetID>
-           <percentageSharePrevOwned>100</percentageSharePrevOwned>
-           <percentageRetained>0</percentageRetained>
-           <assetTotalValue>4000</assetTotalValue>
-           <howheld>Standard</howheld>
-           <assetDescription>Rolled up gifts</assetDescription>
-           <lossToEstate>4000</lossToEstate>
-           <valuePrevOwned>4000</valuePrevOwned>
-           <dateOfGift>2008-04-05</dateOfGift>
-         </array>
-         <array>
-           <assetCode>9095</assetCode>
-           <valueRetained>0</valueRetained>
-           <assetID>null</assetID>
-           <percentageSharePrevOwned>100</percentageSharePrevOwned>
-           <percentageRetained>0</percentageRetained>
-           <assetTotalValue>7000</assetTotalValue>
-           <howheld>Standard</howheld>
-           <assetDescription>Rolled up gifts</assetDescription>
-           <lossToEstate>7000</lossToEstate>
-           <valuePrevOwned>7000</valuePrevOwned>
-           <dateOfGift>2011-04-05</dateOfGift>
-         </array>
-       </gifts>
+         <gifts>
+            <array>
+              <assetCode>9095</assetCode>
+              <valueRetained>0</valueRetained>
+              <assetID>null</assetID>
+              <percentageSharePrevOwned>100</percentageSharePrevOwned>
+              <percentageRetained>0</percentageRetained>
+              <assetTotalValue>7000</assetTotalValue>
+              <howheld>Standard</howheld>
+              <assetDescription>Rolled up gifts</assetDescription>
+              <lossToEstate>7000</lossToEstate>
+              <valuePrevOwned>7000</valuePrevOwned>
+              <dateOfGift>2011-04-05</dateOfGift>
+            </array>
+            <array>
+              <assetCode>9095</assetCode>
+              <valueRetained>0</valueRetained>
+              <assetID>null</assetID>
+              <percentageSharePrevOwned>100</percentageSharePrevOwned>
+              <percentageRetained>0</percentageRetained>
+              <assetTotalValue>6000</assetTotalValue>
+              <howheld>Standard</howheld>
+              <assetDescription>Rolled up gifts</assetDescription>
+              <lossToEstate>6000</lossToEstate>
+              <valuePrevOwned>6000</valuePrevOwned>
+              <dateOfGift>2010-04-05</dateOfGift>
+            </array>
+            <array>
+              <assetCode>9095</assetCode>
+              <valueRetained>0</valueRetained>
+              <assetID>null</assetID>
+              <percentageSharePrevOwned>100</percentageSharePrevOwned>
+              <percentageRetained>0</percentageRetained>
+              <assetTotalValue>5000</assetTotalValue>
+              <howheld>Standard</howheld>
+              <assetDescription>Rolled up gifts</assetDescription>
+              <lossToEstate>5000</lossToEstate>
+              <valuePrevOwned>5000</valuePrevOwned>
+              <dateOfGift>2009-04-05</dateOfGift>
+            </array>
+            <array>
+              <assetCode>9095</assetCode>
+              <valueRetained>0</valueRetained>
+              <assetID>null</assetID>
+              <percentageSharePrevOwned>100</percentageSharePrevOwned>
+              <percentageRetained>0</percentageRetained>
+              <assetTotalValue>4000</assetTotalValue>
+              <howheld>Standard</howheld>
+              <assetDescription>Rolled up gifts</assetDescription>
+              <lossToEstate>4000</lossToEstate>
+              <valuePrevOwned>4000</valuePrevOwned>
+              <dateOfGift>2008-04-05</dateOfGift>
+            </array>
+            <array>
+              <assetCode>9095</assetCode>
+              <valueRetained>0</valueRetained>
+              <assetID>null</assetID>
+              <percentageSharePrevOwned>100</percentageSharePrevOwned>
+              <percentageRetained>0</percentageRetained>
+              <assetTotalValue>3000</assetTotalValue>
+              <howheld>Standard</howheld>
+              <assetDescription>Rolled up gifts</assetDescription>
+              <lossToEstate>3000</lossToEstate>
+              <valuePrevOwned>3000</valuePrevOwned>
+              <dateOfGift>2007-04-05</dateOfGift>
+            </array>
+            <array>
+              <assetCode>9095</assetCode>
+              <valueRetained>0</valueRetained>
+              <assetID>null</assetID>
+              <percentageSharePrevOwned>100</percentageSharePrevOwned>
+              <percentageRetained>0</percentageRetained>
+              <assetTotalValue>1800</assetTotalValue>
+              <howheld>Standard</howheld>
+              <assetDescription>Rolled up gifts minus exemption of £200</assetDescription>
+              <lossToEstate>1800</lossToEstate>
+              <valuePrevOwned>2000</valuePrevOwned>
+              <dateOfGift>2006-04-05</dateOfGift>
+            </array>
+            <array>
+              <assetCode>9095</assetCode>
+              <valueRetained>0</valueRetained>
+              <assetID>null</assetID>
+              <percentageSharePrevOwned>100</percentageSharePrevOwned>
+              <percentageRetained>0</percentageRetained>
+              <assetTotalValue>1000</assetTotalValue>
+              <howheld>Standard</howheld>
+              <assetDescription>Rolled up gifts</assetDescription>
+              <lossToEstate>1000</lossToEstate>
+              <valuePrevOwned>1000</valuePrevOwned>
+              <dateOfGift>2005-04-05</dateOfGift>
+            </array>
+          </gifts>
      </IHTReturn>"""
     .stripMargin
 }

@@ -16,12 +16,16 @@
 
 package iht.utils.pdf
 
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
+
+import iht.utils.GiftsHelper
 import iht.constants.FieldMappings.maritalStatusMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.models.des.ihtReturn.{Exemption, Asset, IHTReturn}
+import iht.models.application.gifts.PreviousYearsGifts
+import iht.models.des.ihtReturn.{Asset, Exemption, Gift, IHTReturn}
+import iht.utils.{CommonHelper, GiftsHelper}
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages
@@ -57,7 +61,7 @@ object PdfFormatter {
                              lookupItems:ListMap[String,String],
                              applyLookedUpItemToB:(B,String)=>B):Option[Set[B]] =
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
-        lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
+      lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
   def updateETMPOptionSeq[B](optionSetOfB:Option[Seq[B]],
                              getExprToLookupAsOption:B=>Option[String],
@@ -66,7 +70,44 @@ object PdfFormatter {
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
       lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
-  def transform(ihtReturn:IHTReturn, deceasedName: String, messages: Messages): IHTReturn = {
+  def combineGiftSets(masterSet:Seq[Gift], subSet: Seq[Gift]):Seq[Gift] = {
+    masterSet.map { masterGift =>
+      subSet.find(_.dateOfGift == masterGift.dateOfGift) match {
+        case None => masterGift
+        case Some(g) => g
+      }
+    }
+  }
+
+  def padGifts(setOfGifts:Seq[Gift], dateOfDeath: LocalDate):Seq[Gift] = {
+    val allPreviousYearsGifts: Seq[Gift] = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath).map { previousYearsGifts =>
+      val endDate = previousYearsGifts.endDate.map( s => LocalDate.parse(s))
+      val giftValueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
+      val exemptionValueOrZero = Option(previousYearsGifts.exemptions.fold(BigDecimal(0))(identity))
+      val netGiftValue = giftValueOrZero.fold(BigDecimal(0))(identity) - exemptionValueOrZero.fold(BigDecimal(0))(identity)
+
+      Gift(
+        assetCode=Some("9095"),
+        assetDescription=Some("Rolled up gifts"),
+        assetID=Some("null"),
+        assetTotalValue = Some(netGiftValue),
+        valuePrevOwned = giftValueOrZero,
+        percentageSharePrevOwned = Some(BigDecimal(100)),
+        valueRetained = Some(BigDecimal(0)),
+        percentageRetained = Some(BigDecimal(0)),
+        howheld = Some("Standard"),
+        lossToEstate = Some(netGiftValue),
+        dateOfGift = endDate
+      )
+    }
+    combineGiftSets( allPreviousYearsGifts, setOfGifts)
+  }
+
+  def transform(ihtReturn:IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
+
+    val deceasedName: String = registrationDetails.deceasedDetails.fold("")(_.name)
+    val dateOfDeath: LocalDate = CommonHelper.getOrException(registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath))
+
     val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
       _.assetCode,
       Constants.ETMPAssetCodesToIHTMessageKeys,
@@ -82,10 +123,15 @@ object PdfFormatter {
     val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (
       estateAssets = optionSetAsset,
       estateExemptions = optionSeqExemption
-      )
+    )
     )
 
-    ihtReturn copy (freeEstate = optionFreeEstate)
+    val optionSetSetGift = ihtReturn.gifts.map( _.map( setGift => padGifts(setGift, dateOfDeath)))
+
+    ihtReturn copy(
+      freeEstate = optionFreeEstate,
+      gifts = optionSetSetGift
+    )
   }
 
   def transform(rd: RegistrationDetails, messages: Messages): RegistrationDetails = {
@@ -101,7 +147,7 @@ object PdfFormatter {
     val transformedSeqProperties = ad.propertyList.map { p =>
       val optionTransformedTenure: Option[String] = p.tenure.map(t => FieldMappings.tenures(deceasedName)(messages)(t)._1)
       val optionTransformedHowheld: Option[String] = p.typeOfOwnership.map{
-                hh => FieldMappings.typesOfOwnership(deceasedName)(messages)(hh)._1
+        hh => FieldMappings.typesOfOwnership(deceasedName)(messages)(hh)._1
       }
       val optionTransformedPropertyType: Option[String] = p.propertyType.map(pt => FieldMappings.propertyType(messages)(pt))
 

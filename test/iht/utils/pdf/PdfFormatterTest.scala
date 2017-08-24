@@ -18,9 +18,10 @@ package iht.utils.pdf
 
 import iht.forms.FormTestHelper
 import iht.models.application.ApplicationDetails
+import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn.Asset
 import iht.testhelpers.CommonBuilder
-import iht.testhelpers.IHTReturnTestHelper.buildIHTReturnCorrespondingToApplicationDetailsAllFields
+import iht.testhelpers.IHTReturnTestHelper.{buildIHTReturnCorrespondingToApplicationDetailsAllFields, _}
 import org.joda.time.LocalDate
 
 import scala.collection.immutable.ListMap
@@ -32,29 +33,29 @@ class PdfFormatterTest extends FormTestHelper {
 
   val regDetails = CommonBuilder.buildRegistrationDetails1
 
-  def incompleteTnrbIncreaseThreshold(ad:ApplicationDetails) = {
-    ad copy (
-      increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility ),
+  def incompleteTnrbIncreaseThreshold(ad: ApplicationDetails) = {
+    ad copy(
+      increaseIhtThreshold = Some(CommonBuilder.buildTnrbEligibility),
       widowCheck = None
     )
   }
 
-  def completeTnrbIncreaseThreshold(ad:ApplicationDetails) = {
+  def completeTnrbIncreaseThreshold(ad: ApplicationDetails) = {
     val tnrb = CommonBuilder.buildTnrbEligibility copy (
       dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
-    )
-    ad copy (
+      )
+    ad copy(
       increaseIhtThreshold = Some(tnrb),
       widowCheck = Some(CommonBuilder.buildWidowedCheck)
-      )
+    )
   }
 
-  def completeTnrbNotIncreaseThreshold(ad:ApplicationDetails) = {
-    val tnrb = CommonBuilder.buildTnrbEligibility copy (
+  def completeTnrbNotIncreaseThreshold(ad: ApplicationDetails) = {
+    val tnrb = CommonBuilder.buildTnrbEligibility copy(
       isPartnerLivingInUk = Some(false),
       dateOfPreDeceased = CommonBuilder.DefaultPartnerDOD
-      )
-    ad copy (
+    )
+    ad copy(
       increaseIhtThreshold = Some(tnrb),
       widowCheck = Some(CommonBuilder.buildWidowedCheck)
     )
@@ -94,12 +95,12 @@ class PdfFormatterTest extends FormTestHelper {
       val newAssetDescription = asset.assetDescription.map(x =>
         etmpTitlesMappedToPDFMessageKeys.get(x) match {
           case None => x
-          case Some(newMessageKey) => messagesApi(newMessageKey, CommonBuilder.DefaultString)
+          case Some(newMessageKey) => messagesApi(newMessageKey, regDetails.deceasedDetails.fold("")(_.name))
         }
       )
       asset copy (assetDescription = newAssetDescription)
     }
-    val result = PdfFormatter.transform(ihtReturn, CommonBuilder.DefaultString, messages)
+    val result = PdfFormatter.transform(ihtReturn, regDetails, messages)
     val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
     setOfAssets shouldBe expectedSetOfAssets
   }
@@ -147,9 +148,9 @@ class PdfFormatterTest extends FormTestHelper {
     "return 2 when in addition to base Tnrb completed and exemptions locked" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy (
             hasSeenExemptionGuidance = Some(false)
-          )
+            )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 2
     }
@@ -157,9 +158,9 @@ class PdfFormatterTest extends FormTestHelper {
     "return 3 when in addition to base Tnrb started but not completed and exemptions unlocked but zero" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy (
             hasSeenExemptionGuidance = Some(true)
-          )
+            )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 3
     }
@@ -167,7 +168,7 @@ class PdfFormatterTest extends FormTestHelper {
     "return 3 when in addition to base Tnrb not increased and exemptions unlocked but zero" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          completeTnrbNotIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          completeTnrbNotIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy (
             hasSeenExemptionGuidance = Some(true)
             )
         )
@@ -177,9 +178,9 @@ class PdfFormatterTest extends FormTestHelper {
     "return 4 when in addition to base Tnrb increased and exemptions unlocked but zero" in {
       val ad =
         CommonBuilder.buildExemptionsWithNoValues(
-          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy (
             hasSeenExemptionGuidance = Some(true)
-          )
+            )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 4
     }
@@ -187,9 +188,9 @@ class PdfFormatterTest extends FormTestHelper {
     "return 5 when in addition to base Tnrb increased and exemptions unlocked but more than zero" in {
       val ad =
         CommonBuilder.buildSomeExemptions(
-          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          completeTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy (
             hasSeenExemptionGuidance = Some(true)
-          )
+            )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 5
     }
@@ -197,7 +198,7 @@ class PdfFormatterTest extends FormTestHelper {
     "return 6 when in addition to base Tnrb started but not completed and exemptions unlocked but more than zero" in {
       val ad =
         CommonBuilder.buildSomeExemptions(
-          incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          incompleteTnrbIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy (
             hasSeenExemptionGuidance = Some(true)
             )
         )
@@ -207,11 +208,101 @@ class PdfFormatterTest extends FormTestHelper {
     "return 6 when in addition to base Tnrb not increased and exemptions unlocked but more than zero" in {
       val ad =
         CommonBuilder.buildSomeExemptions(
-          completeTnrbNotIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy(
+          completeTnrbNotIncreaseThreshold(CommonBuilder.buildApplicationDetailsWithAssetsGiftsAndDebts) copy (
             hasSeenExemptionGuidance = Some(true)
             )
         )
       PdfFormatter.estateOverviewDisplayMode(ad) shouldBe 6
+    }
+  }
+
+    "combineGiftSets" must {
+      "combine two sets updating with values in second set" in {
+        val expectedGifts = Set(
+          makeGiftWithOutExemption(111, toDate("2008-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2009-04-05")),
+          makeGiftWithOutExemption(222, toDate("2010-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2011-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2012-04-05")),
+          makeGiftWithOutExemption(333, toDate("2013-04-05")),
+          makeGiftWithOutExemption(444, toDate("2014-10-05"))
+        )
+
+        val gifts1 = Seq(
+          makeGiftWithOutExemption(3000, toDate("2008-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2009-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2010-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2011-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2012-04-05")),
+          makeGiftWithOutExemption(5000, toDate("2013-04-05")),
+          makeGiftWithOutExemption(7000, toDate("2014-10-05"))
+        )
+
+        val gifts2 = Seq(
+          makeGiftWithOutExemption(111, toDate("2008-04-05")),
+          makeGiftWithOutExemption(222, toDate("2010-04-05")),
+          makeGiftWithOutExemption(333, toDate("2013-04-05")),
+          makeGiftWithOutExemption(444, toDate("2014-10-05"))
+        )
+
+        PdfFormatter.combineGiftSets(gifts1, gifts2).toSet shouldBe expectedGifts
+      }
+    }
+
+  "padGifts" must {
+    "pad correctly where 7 years exactly" in {
+      val dateOfDeath = new LocalDate(2016, 10, 10)
+
+      val expectedGifts = Set(Set(
+        makeGiftWithOutExemption(444, toDate("2010-04-05")),
+        makeGiftWithOutExemption(555, toDate("2011-04-05")),
+        makeGiftWithOutExemption(111, toDate("2012-04-05")),
+        makeGiftWithOutExemption(222, toDate("2013-04-05")),
+        makeGiftWithOutExemption(666, toDate("2014-04-05")),
+        makeGiftWithOutExemption(333, toDate("2015-04-05")),
+        makeGiftWithOutExemption(777, toDate("2016-04-05")),
+        makeGiftWithOutExemption(888, toDate("2016-10-10"))
+      ))
+
+      val gifts = Set(Seq(
+        makeGiftWithOutExemption(444, toDate("2010-04-05")),
+        makeGiftWithOutExemption(555, toDate("2011-04-05")),
+        makeGiftWithOutExemption(111, toDate("2012-04-05")),
+        makeGiftWithOutExemption(222, toDate("2013-04-05")),
+        makeGiftWithOutExemption(666, toDate("2014-04-05")),
+        makeGiftWithOutExemption(333, toDate("2015-04-05")),
+        makeGiftWithOutExemption(777, toDate("2016-04-05")),
+        makeGiftWithOutExemption(888, toDate("2016-10-10"))
+      ))
+      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath).toSet)
+
+      result shouldBe expectedGifts
+    }
+
+    "pad correctly where < 7 years" in {
+      val dateOfDeath = new LocalDate(2016, 10, 10)
+
+      val expectedGifts = Set(Set(
+        makeGiftWithOutExemption(444, toDate("2010-04-05")),
+        makeGiftWithOutExemption(555, toDate("2011-04-05")),
+        makeGiftWithOutExemption(0,   toDate("2012-04-05")),
+        makeGiftWithOutExemption(0,   toDate("2013-04-05")),
+        makeGiftWithOutExemption(666, toDate("2014-04-05")),
+        makeGiftWithOutExemption(0,   toDate("2015-04-05")),
+        makeGiftWithOutExemption(777, toDate("2016-04-05")),
+        makeGiftWithOutExemption(888, toDate("2016-10-10"))
+      ))
+
+      val gifts = Set(Seq(
+        makeGiftWithOutExemption(444, toDate("2010-04-05")),
+        makeGiftWithOutExemption(555, toDate("2011-04-05")),
+        makeGiftWithOutExemption(666, toDate("2014-04-05")),
+        makeGiftWithOutExemption(777, toDate("2016-04-05")),
+        makeGiftWithOutExemption(888, toDate("2016-10-10"))
+      ))
+      val result = gifts.map(setGifts => PdfFormatter.padGifts(setGifts, dateOfDeath).toSet)
+
+      result shouldBe expectedGifts
     }
   }
 

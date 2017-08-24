@@ -79,8 +79,8 @@ object IHTReturnTestHelper {
       declaration=Some(declaration))
   }
 
-  private def buildGifts = {
-    Set(Set(
+  def buildGifts = {
+    Set(Seq(
       makeGiftWithOutExemption(1000, toDate("2005-04-05")),
       makeGiftWithExemption(2000, 200, toDate("2006-04-05")),
       makeGiftWithOutExemption(3000, toDate("2007-04-05")),
@@ -116,7 +116,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def makeGiftWithOutExemption(value:BigDecimal, date:LocalDate) = {
+  def makeGiftWithOutExemption(value:BigDecimal, date:LocalDate) = {
     Gift(
       assetCode=Some("9095"),
       assetDescription=Some("Rolled up gifts"),
@@ -132,7 +132,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def makeGiftWithExemption(value: BigDecimal, exemptions: BigDecimal, date: LocalDate) = {
+  def makeGiftWithExemption(value: BigDecimal, exemptions: BigDecimal, date: LocalDate) = {
     val totalGiftValue = value - exemptions
     Gift(
       assetCode=Some("9095"),
