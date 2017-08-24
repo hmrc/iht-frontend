@@ -29,6 +29,8 @@ import play.twirl.api.HtmlFormat.Appendable
 class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibiltyModel] {
   override def guidance = noGuidance
 
+  lazy val deceasedName = "Xyz zzm"
+
   def tnrbModel = CommonBuilder.buildTnrbEligibility
 
   def widowCheck = CommonBuilder.buildWidowedCheck
@@ -44,7 +46,7 @@ class BenefitFromTrustViewTest extends YesNoQuestionViewBehaviour[TnrbEligibilty
   override def form: Form[TnrbEligibiltyModel] = benefitFromTrustForm
 
   override def formToView: Form[TnrbEligibiltyModel] => Appendable =
-    form => benefit_from_trust(form, tnrbModel, widowCheck, CommonBuilder.DefaultCall2)
+    form => benefit_from_trust(form, tnrbModel, widowCheck, deceasedName, CommonBuilder.DefaultCall2)
 
   override def cancelComponent = None
 

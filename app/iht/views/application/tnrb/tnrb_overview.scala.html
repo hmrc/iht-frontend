@@ -186,27 +186,18 @@
 
 
         <section class="section">
-
-            <h2 id="tnrb-partner-estate">
-            @Html(
-                Messages("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading",
-
-                    TnrbHelper.spouseOrCivilPartnerLabelGenitive(
-                        tnrbModel,
-                        widowCheckModel,
-                        Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased",
-                            getDeceasedNameOrDefaultString(registrationDetails, true)
-                        ), true
-                    ),
-                    CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString
-                )
-            )
-            </h2>
-
-            <ul id="tnrb-overview-partner-estate-table" class="tabular-data tabular-data--list">
-
             @defining(getOrException(registrationDetails.deceasedDetails).name) { deceasedName =>
                 @defining(TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheckModel, getDeceasedNameOrDefaultString(registrationDetails, true), true)) { predeceasedName =>
+
+                    <h2 id="tnrb-partner-estate">
+                        @Html(
+                            Messages("page.iht.application.tnrbEligibilty.overview.partnerEstate.questions.heading", predeceasedName,
+                                CommonHelper.getOrException(widowCheckModel.dateOfPreDeceased).getYear.toString
+                            )
+                        )
+                    </h2>
+
+                    <ul id="tnrb-overview-partner-estate-table" class="tabular-data tabular-data--list">
 
                     @tnrb_overview_table_row(id = "is-estate-below-iht-threshold-applied",
                         questionText = Html(Messages("page.iht.application.tnrbEligibilty.overview.charity.question", predeceasedName, ihtHelpers.custom.name(deceasedName))),

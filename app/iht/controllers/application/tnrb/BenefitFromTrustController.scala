@@ -61,10 +61,13 @@ trait BenefitFromTrustController extends EstateController {
                 val filledForm = benefitFromTrustForm.fill(appDetails.increaseIhtThreshold.getOrElse(
                   TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None)))
 
+                val deceasedName = CommonHelper.getOrException(registrationDetails.deceasedDetails).name
+
                 Ok(iht.views.html.application.tnrb.benefit_from_trust(
                   filledForm,
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                  deceasedName,
                   CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpouseBenefitFromTrustID)))
                 )
               }
@@ -80,6 +83,8 @@ trait BenefitFromTrustController extends EstateController {
       implicit request => {
         withRegistrationDetails { regDetails =>
 
+          val deceasedName = CommonHelper.getOrException(regDetails.deceasedDetails).name
+
           val applicationDetailsFuture = ihtConnector.getApplication(StringHelper.getNino(user),
             CommonHelper.getOrExceptionNoIHTRef(regDetails.ihtReference),
             regDetails.acknowledgmentReference)
@@ -93,6 +98,7 @@ trait BenefitFromTrustController extends EstateController {
                   Future.successful(BadRequest(iht.views.html.application.tnrb.benefit_from_trust(formWithErrors,
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
+                    deceasedName,
                     cancelUrl)))
                 },
                 tnrbModel => {
