@@ -1559,3 +1559,4 @@ pdf.clearanceCertificate.coExecutor.paragraph2=rhag unrhyw gais (pellach) am dre
 pdf.clearanceCertificate.lastParagraph.line1=Nid yw''r dystysgrif hon ynddi''i hun yn golygu dyfarniad o werthoedd eitemau unigol at unrhyw ddibenion eraill Cyllid a Thollau EM
 pdf.clearanceCertificate.lastParagraph.line2=. Yn benodol, nid yw anfon y dystysgrif yn golygu, o reidrwydd, bod gwerthoedd wedi "cael eu canfod" neu y gellir cymryd gwerthoedd fel gwerthoedd y farchnad at ddibenion treth enillion cyfalaf o fewn darpariaethau adran 274 a pharagraff 9, atodlen 11 o Ddeddf Trethiant Enillion Trethadwy 1992
 pdf.clearanceCertificate.lastParagraph.line3=. Nid yw''r dystysgrif hon yn ddilys mewn rhai amgylchiadau, megis achos o dwyll neu fethu â datgelu ffeithiau perthnasol neu os daw treth bellach yn daladwy o ganlyniad i offeryn amrywio - gweler adran 239 (4) Deddf Treth Etifeddiant 1984.
+pdf.assets.property.all=Eiddo, adeiladau a thir
