@@ -1083,6 +1083,7 @@ page.iht.application.overview.timeScale.guidance.months=Os na fyddwch yn anfon y
 page.iht.application.tnrb.threshold.screenReader=Y trothwy Treth Etifeddiant yw £{0}
 error.postcode.invalid.character=Mae''r llinell hon yn cynnwys cymeriad annilys. Dyma''r cymeriadau dilys: A-Z a-z 0-9 - ’ , / & bwlch
 iht.estateReport.exemptions.charities.charityNo.question=Beth yw rhif yr elusen gofrestredig?
+page.iht.application.assets.stocksAndShares.overview.guidance = Dyma unrhyw stociau a chyfranddaliadau yn y DU yr oedd {0} yn berchen arnynt pan fu farw.
 page.iht.application.assets.stocksAndShares.overview.guidance2=Bydd angen i chi wahanu unrhyw stociau a chyfranddaliadau wedi''u rhestru ar gyfnewidfa oddi wrth rhai nad oeddynt wedi''u rhestru.
 error.debts.trusts.select=Dewiswch ateb ar gyfer a oes unrhyw ddyledion o ymddiriedolaeth y bu {0} yn elwa ohoni
 iht.registration.kickout.returnToTheDateOfDeath=dychwelyd i ddyddiad y farwolaeth
@@ -1319,6 +1320,7 @@ page.iht.registration.applicantDetails.role.settlor.label=Setlwr
 page.iht.filter.paperform.northern.ireland.p2.sentence2.start=Os nad ydych yn siŵr beth yw gwerth yr ystâd, dechreuwch lenwi''r
 page.iht.registration.applicantDetails.role.agent.label=Asiant
 page.iht.application.probateDetails.probateDetailsNotAvailableText=Bydd angen i chi lenwi''ch PA1 - ffurflen gais ar gyfer Profiant, gyda rhai manylion o''r adroddiad ynghylch yr ystâd, cyn eich bod yn ei phostio. Gallwch ddod o hyd i''r manylion hynny drwy fwrw golwg ar yr adroddiad hwn ynghylch yr ystâd ar eich tudalen adroddiadau Treth Etifeddiant ynghylch yr ystâd.
+iht.estateReport.assets.howOwnedByDeceased = Sut berchnogwyd ar hwn gan {0}?
 iht.estateReport.assets.getProfessionalValuation=Mae CThEM yn argymell eich bod yn cael prisiad proffesiynol o unrhyw beth all fod yn werth mwy na £500. Dylid gwneud amcangyfrif ar y gwerth ar farchnad agored ac nid gwerth yswiriant neu adnewyddu.
 page.iht.application.charity.edit.screenReader=Newidiwch unrhyw fanylion a roddwyd gennych ar gyfer {0} (elusen {1})
 page.iht.application.debts.overview.screenReader.total=£{0} yw cyfanswm y dyledion sy''n ddyledus o''r ystâd
@@ -1504,8 +1506,8 @@ page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label=bri
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label=yn briod neu mewn partneriaeth sifil
 page.iht.application.TnrbEligibilty.spouse.commonText=priod
 
-error.assets.insurancePolicy.isAnnuitiesBought.select = Dewiswch ateb ar gyfer p''un a brynodd {0} blwydd-dal ar unrhyw adeg tra bu''n fyw
-error.assets.heldInTrust.moreThanOne.select = Dewiswch ateb ar gyfer p''un a oedd gan {0} yr hawl i  fuddio o, neu a wnaeth fuddio o, ymddiriedolaeth tra bu''n fyw
+error.assets.insurancePolicy.isAnnuitiesBought.select = Dewiswch ateb ar gyfer p'un a brynodd {0} flwydd-dal ar unrhyw adeg tra'n fyw
+error.assets.heldInTrust.moreThanOne.select = Dewiswch ateb ar gyfer p''un a wnaeth {0} fuddio o, neu â''r hawl i fuddio o, mwy nag 1 ymddiriedolaeth
 error.assets.insurancePolicy.payedToSomeoneElse.select = Dewiswch ateb ar gyfer p''un a wnaeth {0} erioed talu premiymau yswiriant ar gyfer polisi nad oedd disgwyl y byddai''n talu i''r ystâd
 error.assets.insurancePolicy.isInTrust.select = Dewiswch ateb ar gyfer p''un a dalodd {0} am bolisïau yswiriant a gafodd eu rhoi mewn ymddiriedolaeth yn ystod y 7 mlynedd cyn y bu farw
 
