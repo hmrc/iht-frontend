@@ -17,6 +17,7 @@
 package iht.models.des
 
 import iht.FakeIhtApp
+import iht.models.des.ihtReturn.{Gift, IHTReturn}
 import iht.testhelpers.IHTReturnTestHelper._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
@@ -88,6 +89,26 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
       val expectedResult = Map("Spouse" -> BigDecimal(25), "Charity" -> BigDecimal(83), "GNCP" -> BigDecimal(61))
       ihtReturn.exemptionTotalsByExemptionType shouldBe expectedResult
+    }
+  }
+
+  "sortByGiftDate" must {
+    "sort correctly" in {
+      val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
+      val expectedDates = Set(Seq[Option[LocalDate]](
+        Some(new LocalDate("2011-04-05")),
+        Some(new LocalDate("2010-04-05")),
+        Some(new LocalDate("2009-04-05")),
+        Some(new LocalDate("2008-04-05")),
+        Some(new LocalDate("2007-04-05")),
+        Some(new LocalDate("2006-04-05")),
+        Some(new LocalDate("2005-04-05"))
+      ))
+
+      val sortedIHTReturn: IHTReturn = IHTReturn.sortByGiftDate(ihtReturn)
+      val actualDates: Set[Seq[Option[LocalDate]]] = sortedIHTReturn.gifts.map(_.map(_.toSeq.map(_.dateOfGift)))
+        .fold[Set[Seq[Option[LocalDate]]]](Set.empty)(identity)
+      actualDates shouldBe expectedDates
     }
   }
 }

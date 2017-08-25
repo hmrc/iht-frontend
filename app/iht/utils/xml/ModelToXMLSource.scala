@@ -47,9 +47,6 @@ trait ModelToXMLSource {
     val regDetailsXMLString = getXMLSource(registrationDetails)
     val ihtReturnXMLString = getXMLSource(ihtReturn)
     val postSubmissionXML = s"<$XMLRootPostSubmission>" + regDetailsXMLString + ihtReturnXMLString + s"</$XMLRootPostSubmission>"
-
-//    val pp = new scala.xml.PrettyPrinter(80, 2)
-//    Logger.debug("Post-submission generated XML: " + pp.format(scala.xml.XML.loadString(postSubmissionXML)))
     postSubmissionXML.getBytes
   }
 

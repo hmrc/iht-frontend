@@ -26,7 +26,7 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
                      submitter: Option[Submitter] = None,
                      deceased: Option[Deceased] = None,
                      freeEstate: Option[FreeEstate] = None,
-                     gifts: Option[Set[Set[Gift]]] = None,
+                     gifts: Option[Set[Seq[Gift]]] = None,
                      trusts: Option[Set[Trust]] = None,
                      declaration: Option[Declaration] = None) {
 
@@ -46,7 +46,7 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
         val matchedLiabilities: Set[Liability] = setOfMatchedAssets.flatMap(_.liabilities).flatten
 
         val liabilitiesWithMortgage: Set[Liability] = matchedLiabilities.filter(
-                                                        _.liabilityType.getOrElse("") == Constants.MortgageLiabilityType)
+          _.liabilityType.getOrElse("") == Constants.MortgageLiabilityType)
         liabilitiesWithMortgage.map(_.liabilityAmount.getOrElse(BigDecimal(0))).sum
 
       }
@@ -55,14 +55,14 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
     debtsValueWithoutMortgage + mortgageValue
   }
 
-  def totalForAssetIDs(assetIDs:Set[String]) = {
-    val filteredOptionSetAsset = freeEstate.flatMap(_.estateAssets).map(_.filter( _.assetCode.fold(false)( id => assetIDs.contains(id))))
-    filteredOptionSetAsset.fold(BigDecimal(0))( _.map(_.assetTotalValue.fold(BigDecimal(0))(identity)).sum)
+  def totalForAssetIDs(assetIDs: Set[String]) = {
+    val filteredOptionSetAsset = freeEstate.flatMap(_.estateAssets).map(_.filter(_.assetCode.fold(false)(id => assetIDs.contains(id))))
+    filteredOptionSetAsset.fold(BigDecimal(0))(_.map(_.assetTotalValue.fold(BigDecimal(0))(identity)).sum)
   }
 
   def exemptionTotalsByExemptionType: Map[String, BigDecimal] = {
     val optionTotalledExemptions: Option[Map[Option[String], BigDecimal]] = freeEstate.flatMap(_.estateExemptions).map(_.groupBy(_.exemptionType))
-      .map( _.map( item => item._1 -> item._2.map(_.overrideValue.fold(BigDecimal(0))(identity)).sum))
+      .map(_.map(item => item._1 -> item._2.map(_.overrideValue.fold(BigDecimal(0))(identity)).sum))
     optionTotalledExemptions.fold[Map[Option[String], BigDecimal]](Map.empty)(identity).map(x => x._1.fold("")(identity) -> x._2)
   }
 
@@ -110,7 +110,7 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
 
   def currentThreshold: BigDecimal = {
     val isTnrbApplicable = deceased.fold(false) {
-      x => x.transferOfNilRateBand.fold(false)(_=> true)
+      x => x.transferOfNilRateBand.fold(false)(_ => true)
     }
 
     if (isTnrbApplicable) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
@@ -121,14 +121,7 @@ object IHTReturn {
   implicit val formats = Json.format[IHTReturn]
 
   def sortByGiftDate(ihtReturn: IHTReturn) = {
-    val setOfGifts: Set[Gift] = ihtReturn.gifts.fold[Set[Gift]](Set())(_.flatten)
-    val seqOfGifts: Seq[Gift] = setOfGifts.toSeq
-    val sortedGifts: Seq[Gift] = seqOfGifts.sortBy(_.dateOfGift)
-    val sortedSetGifts: Option[Set[Set[Gift]]] = if (sortedGifts.isEmpty) {
-      None
-    } else {
-      Some(Set(sortedGifts.toSet))
-    }
-    ihtReturn copy (gifts = sortedSetGifts)
+    val optionSetSetGifts: Option[Set[Seq[Gift]]] = ihtReturn.gifts.map(_.map(seqGifts => seqGifts.sorted))
+    ihtReturn copy (gifts = optionSetSetGifts)
   }
 }
