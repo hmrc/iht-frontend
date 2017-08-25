@@ -1497,6 +1497,7 @@ error.blank.assets.properties.propertyType=Dewiswch pa fath o eiddo yw hwn
 iht.estateReport.declaration.executors=Mae ysgutorion eraill
 page.iht.questionnaire.easy-to-use.difficult=Anodd
 page.iht.application.exemptions.overview.charity.detailsOverview.value.screenreader.link.value=Newidiwch gyfanswm yr asedion a gafodd yr elusen
+page.iht.application.tnrb.returnToIncreasingThreshold = Yn ôl i gynyddu''r trothwy
 page.iht.application.tnrb.guidance.p1=Mae''n bosibl y gellir cynyddu''r trothwy Treth Etifeddiant os oedd priod neu bartner sifil a fu farw cyn {0}. Gwneir hynny drwy drosglwyddo unrhyw lwfans na chafodd ei ddefnyddio o ystâd y priod neu''r partner sifil hwnnw.
 error.address.giveInLine1And2=Rhowch gyfeiriad yn llinell 1 a 2
 page.iht.application.assets.propertyType.nonResidential.label=Tir, adeilad dibreswyl neu fusnes
@@ -1564,5 +1565,3 @@ pdf.clearanceCertificate.lastParagraph.line1=Nid yw''r dystysgrif hon ynddi''i h
 pdf.clearanceCertificate.lastParagraph.line2=. Yn benodol, nid yw anfon y dystysgrif yn golygu, o reidrwydd, bod gwerthoedd wedi "cael eu canfod" neu y gellir cymryd gwerthoedd fel gwerthoedd y farchnad at ddibenion treth enillion cyfalaf o fewn darpariaethau adran 274 a pharagraff 9, atodlen 11 o Ddeddf Trethiant Enillion Trethadwy 1992
 pdf.clearanceCertificate.lastParagraph.line3=. Nid yw''r dystysgrif hon yn ddilys mewn rhai amgylchiadau, megis achos o dwyll neu fethu â datgelu ffeithiau perthnasol neu os daw treth bellach yn daladwy o ganlyniad i offeryn amrywio - gweler adran 239 (4) Deddf Treth Etifeddiant 1984.
 pdf.assets.property.all=Eiddo, adeiladau a thir
-
-page.iht.application.tnrb.returnToIncreasingThreshold = Yn ôl i gynyddu''r trothwy
