@@ -200,7 +200,7 @@ trait XmlFoToPDF {
     transformer.setParameter("giftsTotal", totalPastYearsGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("preDeceasedName", preDeceasedName)
-    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
+    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage)(messages))
   }
 
   private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {
