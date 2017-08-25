@@ -1411,7 +1411,9 @@ error.assets.insurancePolicy.moreThanMaxValue.select=Dewiswch ateb ar gyfer a da
 iht.giveMoreDetails=Rhowch ragor o fanylion
 global.error.InternalServerError500.link.gov-uk.text=Chwilio drwy GOV.UK.
 iht.estateReport.declaration.title=Datganiad
-iht.estateReport.tnrb.dateOfMarriage.hint=Hwn yw dyddiad y {0} rhwng {1} a {2}
+iht.estateReport.tnrb.dateOfMarriage.hint=Hwn yw dyddiad y {0} rhwng {1} {2}
+page.iht.application.tnrbEligibilty.partner.additional.label.their = a''r
+
 iht.estateReport.assets.household.deceasedOwnedValue=Gwerth yr hyn yr oedd {0} yn berchen arno yn ei enw''i hun
 iht.registration.applicant.tellUsAboutYourself=Eich manylion cyswllt
 iht.estateReport.exemptions.qualifyingBodies.assetLeftToQualifyingBody.helptext=Os nad ydych yn gwybod a fydd asedion sy''n mynd i gorff arall wedi eu heithrio rhag Treth Etifeddiant, ffoniwch y llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072. Unwaith eich bod wedi rhoi enw''r corff, cewch wybod a fydd unrhyw asedion a adawyd iddo wedi eu heithrio rhag Treth Etifeddiant.
@@ -1562,3 +1564,5 @@ pdf.clearanceCertificate.lastParagraph.line1=Nid yw''r dystysgrif hon ynddi''i h
 pdf.clearanceCertificate.lastParagraph.line2=. Yn benodol, nid yw anfon y dystysgrif yn golygu, o reidrwydd, bod gwerthoedd wedi "cael eu canfod" neu y gellir cymryd gwerthoedd fel gwerthoedd y farchnad at ddibenion treth enillion cyfalaf o fewn darpariaethau adran 274 a pharagraff 9, atodlen 11 o Ddeddf Trethiant Enillion Trethadwy 1992
 pdf.clearanceCertificate.lastParagraph.line3=. Nid yw''r dystysgrif hon yn ddilys mewn rhai amgylchiadau, megis achos o dwyll neu fethu â datgelu ffeithiau perthnasol neu os daw treth bellach yn daladwy o ganlyniad i offeryn amrywio - gweler adran 239 (4) Deddf Treth Etifeddiant 1984.
 pdf.assets.property.all=Eiddo, adeiladau a thir
+
+page.iht.application.tnrb.returnToIncreasingThreshold = Yn ôl i gynyddu''r trothwy
