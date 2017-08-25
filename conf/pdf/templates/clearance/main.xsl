@@ -84,7 +84,9 @@
 
                     <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part1')"/>
+                        <xsl:text> </xsl:text>
                         <xsl:value-of select="concat(' ', deceasedDetails/firstName,' ', deceasedDetails/lastName)" />
+                        <xsl:text> </xsl:text>
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part2')" />
                     </fo:block>
 
