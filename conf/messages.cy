@@ -1521,7 +1521,7 @@ page.iht.application.TnrbEligibilty.spouseOrCivilPartner.ofPerson = {1} {0}
 page.iht.application.tnrbEligibilty.overview.partner.name.question = {0}
 
 page.iht.application.tnrbEligibilty.partner.married.label = yn briod
-page.iht.application.tnrbEligibilty.partner.marriage.label = priodas
+page.iht.application.tnrbEligibilty.partner.marriage.label = briodas
 page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson = {0} {1}
 
 iht.estateReport.pdf.declaration.declaringThat=Rydych yn datgan y canlynol:
@@ -1566,3 +1566,6 @@ pdf.clearanceCertificate.lastParagraph.line2=Yn benodol, nid yw anfon y dystysgr
 pdf.clearanceCertificate.lastParagraph.line3=Nid yw''r dystysgrif hon yn ddilys mewn rhai amgylchiadau, megis achos o dwyll neu fethu â datgelu ffeithiau perthnasol neu os daw treth bellach yn daladwy o ganlyniad i offeryn amrywio - gweler adran 239 (4) Deddf Treth Etifeddiant 1984.
 pdf.assets.property.all=Eiddo, adeiladau a thir
 page.iht.application.gifts.overview.value.question1 = Y swm a ychwanegwyd i werth yr ystâd
+iht.common.other = Arall
+pdf.clearanceCertificate.estateReport.date.label = Dyddiad anfon adroddiad yr ystâd at CThEM
+

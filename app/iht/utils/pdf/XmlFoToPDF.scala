@@ -177,10 +177,15 @@ trait XmlFoToPDF {
   }
 
   private def setupCommonTransformerParameters(transformer: Transformer, messages: Messages): Unit = {
-
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", XSLScalaBridge(messages))
     transformer.setParameter("pdfFormatter", PdfFormatter)
+    val hmrcLogoFile = if (messages.lang.code == "en") {
+      "pdf/logo/hmrc_logo_en.jpg"
+    } else {
+      "pdf/logo/hmrc_logo_cy.jpg"
+    }
+    transformer.setParameter("hmrcLogo", hmrcLogoFile)
   }
 
   private def setupCommonTransformerParametersPreAndPost(transformer: Transformer,
