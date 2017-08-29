@@ -24,7 +24,7 @@ import iht.models.application.exemptions._
 import iht.models.application.gifts._
 import iht.models.application.tnrb._
 import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
-import iht.models.des.ihtReturn.{Declaration, IHTReturn}
+import iht.models.des.ihtReturn._
 import iht.models.{ReturnDetails, _}
 import iht.utils.{CommonHelper, KickOutReason, StringHelper, ApplicationStatus => AppStatus}
 import models.des.{Deceased, Event, EventRegistration}
@@ -821,6 +821,11 @@ object CommonBuilder {
     declarationAccepted = DefaultDeclarationAccepted,
     coExecutorsAccepted = DefaultCoExecutorsAccepted,
     declarationDate = DefaultDeclarationDate)
+
+  val buildFreeEstate = FreeEstate(estateAssets = None,  interestInOtherEstate = None,
+    estateLiabilities = None, estateExemptions = None)
+
+  val buildEstateExemptions = Exemption(exemptionType = None, percentageAmount = None, overrideValue = None)
 
   val buildIHTReturn = IHTReturn(
     acknowledgmentReference = None,
