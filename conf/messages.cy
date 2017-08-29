@@ -1509,7 +1509,7 @@ page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label=bri
 page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label=yn briod neu mewn partneriaeth sifil
 page.iht.application.TnrbEligibilty.spouse.commonText=priod
 
-error.assets.insurancePolicy.isAnnuitiesBought.select = Dewiswch ateb ar gyfer p'un a brynodd {0} flwydd-dal ar unrhyw adeg tra'n fyw
+error.assets.insurancePolicy.isAnnuitiesBought.select = Dewiswch ateb ar gyfer p''un a brynodd {0} flwydd-dal ar unrhyw adeg tra''n fyw
 error.assets.heldInTrust.moreThanOne.select = Dewiswch ateb ar gyfer p''un a wnaeth {0} fuddio o, neu â''r hawl i fuddio o, mwy nag 1 ymddiriedolaeth
 error.assets.insurancePolicy.payedToSomeoneElse.select = Dewiswch ateb ar gyfer p''un a wnaeth {0} erioed talu premiymau yswiriant ar gyfer polisi nad oedd disgwyl y byddai''n talu i''r ystâd
 error.assets.insurancePolicy.isInTrust.select = Dewiswch ateb ar gyfer p''un a dalodd {0} am bolisïau yswiriant a gafodd eu rhoi mewn ymddiriedolaeth yn ystod y 7 mlynedd cyn y bu farw
