@@ -81,9 +81,9 @@ package object utils {
   /*
    * Get country name from country code
    */
-  def countryName(countryCode: String)(implicit lang: play.api.i18n.Lang): String = {
+  def countryName(countryCode: String)(implicit lang: play.api.i18n.Lang, messages: Messages): String = {
     val input = s"country.$countryCode"
-    Messages(s"country.$countryCode") match {
+    messages(s"country.$countryCode") match {
       case `input` => {
         ""
       }
