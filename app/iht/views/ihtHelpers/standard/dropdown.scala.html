@@ -37,9 +37,9 @@
         @if(labelHighlight){</strong>}
     </label>
 
-    @elements.errors.map { error => <span class="error-notification">@Messages(error)</span>}
+    @elements.errors.map { error => <span class="error-notification">@messages(error)</span>}
     @if(parentElements.isDefined) {
-    @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@Messages(error)</span>}
+    @CommonHelper.getOrException(parentElements).errors.map { error => <span class="error-notification">@messages(error)</span>}
     }
 
     @if(elements.args.contains('_hintText)) {
@@ -51,10 +51,10 @@
             id="@elements.field.name"
             name="@elements.field.name"
             class="@if( elements.args.get('_inputClass) ){ @elements.args.get('_inputClass) }"
-            data-matches="@Messages("iht.dropdown.matches")"
-            data-options="@Messages("iht.dropdown.of")"
-            data-close="@Messages("iht.dropdown.closed")"
-            data-selected="@Messages("iht.dropdown.selected")"
+            data-matches="@messages("iht.dropdown.matches")"
+            data-options="@messages("iht.dropdown.of")"
+            data-close="@messages("iht.dropdown.closed")"
+            data-selected="@messages("iht.dropdown.selected")"
             @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
             @if(isComboBox){ data-enhanced-select="true"}
     >

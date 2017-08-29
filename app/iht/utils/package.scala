@@ -70,13 +70,13 @@ package object utils {
   /*
    * Get sequence of country code and country name
    */
-  def countryCodes(implicit lang: play.api.i18n.Lang): Seq[(String, String)] = {
+  def countryCodes(implicit lang: play.api.i18n.Lang, messages: Messages): Seq[(String, String)] = {
     lazy val countryCodes = IhtProperties.validCountryCodes
-    countryCodes.map(x => (x, Messages(s"country.$x"))).sortWith(_._2 < _._2)
+    countryCodes.map(x => (x, messages(s"country.$x"))).sortWith(_._2 < _._2)
   }
 
-  def internationalCountries(implicit lang: play.api.i18n.Lang): Seq[(String, String)] =
-    countryCodes filter {case(key, _) => key != IhtProperties.ukIsoCountryCode}
+  def internationalCountries(implicit lang: play.api.i18n.Lang, messages: Messages): Seq[(String, String)] =
+    countryCodes(lang, messages) filter {case(key, _) => key != IhtProperties.ukIsoCountryCode}
 
   /*
    * Get country name from country code
