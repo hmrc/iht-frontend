@@ -21,8 +21,12 @@ import iht.constants.IhtProperties._
 import iht.forms.FormTestHelper
 import iht.forms.registration.ApplicantForms._
 import iht.models.{ApplicantDetails, UkAddress}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 
 class ApplicantFormsTest extends FormTestHelper with FakeIhtApp {
+
+  implicit val lang = Lang.defaultLang
+  implicit val msg = messages
 
   def applyingForProbate(value: String) = Map("isApplyingForProbate" -> value)
 

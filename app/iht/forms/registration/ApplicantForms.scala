@@ -22,7 +22,7 @@ import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 import play.api.data.{Form, Mapping}
 import play.api.data.Forms._
-import play.api.i18n.Messages
+import play.api.i18n.{Lang, Messages}
 
 object ApplicantForms {
 
@@ -78,12 +78,12 @@ object ApplicantForms {
     )
   )
 
-  val addressMappingInternational: Mapping[UkAddress] = mapping(
+  def addressMappingInternational(lang: Lang, messages: Messages): Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
       "error.address.giveUsing35CharsOrLess",
-      "error.country.select")),
+      "error.country.select")(lang, messages)),
     "ukAddressLine2" -> text,
     "ukAddressLine3" -> optional(text),
     "ukAddressLine4" -> optional(text),
@@ -103,6 +103,6 @@ object ApplicantForms {
   )(UkAddress.applyUk)(UkAddress.unapplyUk)
 
   val applicantAddressUkForm = Form(addressMappingUk)
-  val applicantAddressAbroadForm = Form(addressMappingInternational)
+  def applicantAddressAbroadForm(implicit lang: Lang, messages: Messages) = Form(addressMappingInternational(lang, messages))
 
 }

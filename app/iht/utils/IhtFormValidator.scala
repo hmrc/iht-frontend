@@ -21,6 +21,7 @@ import iht.constants.IhtProperties
 import iht.models.{RegistrationDetails, UkAddress}
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, FormError, Forms}
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -208,10 +209,10 @@ trait IhtFormValidator extends FormValidator {
   }
 
   private def validateIntlCountryCode(countryCodeKey: String, countryCode: String, errorMessageKey: String,
-                                      errors: scala.collection.mutable.ListBuffer[FormError]) = {
+                                      errors: scala.collection.mutable.ListBuffer[FormError])(implicit lang: Lang, messages:Messages) = {
     countryCode match {
       case a if a.length == 0 => errors += FormError(countryCodeKey, errorMessageKey)
-      case a if !validateInternationalCountryCode(a) => errors += FormError(countryCodeKey, errorMessageKey)
+      case a if !validateInternationalCountryCode(a)(lang, messages) => errors += FormError(countryCodeKey, errorMessageKey)
       case _ => {}
     }
   }
@@ -274,7 +275,7 @@ trait IhtFormValidator extends FormValidator {
                               countryCodeKey: String, allLinesBlankMessageKey: String,
                               blankFirstTwoAddrLinesMessageKey: String, invalidAddressLineMessageKey: String,
                               blankCountryCode: String,
-                              blankBothFirstTwoAddrLinesMessageKey: Option[String] = None) = new Formatter[String] {
+                              blankBothFirstTwoAddrLinesMessageKey: Option[String] = None)(implicit lang: Lang, messages: Messages) = new Formatter[String] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
       val addr = getIntlAddrDetails(data, key, addr2Key, addr3Key, addr4Key, countryCodeKey)
@@ -299,7 +300,7 @@ trait IhtFormValidator extends FormValidator {
           IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
       }
 
-      validateIntlCountryCode(countryCodeKey, addr._5, blankCountryCode, errors)
+      validateIntlCountryCode(countryCodeKey, addr._5, blankCountryCode, errors)(lang, messages)
 
       if (errors.isEmpty) {
         Right(addr._1)

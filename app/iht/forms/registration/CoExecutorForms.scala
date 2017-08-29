@@ -23,6 +23,7 @@ import iht.utils.IhtFormValidator
 import iht.utils.IhtFormValidator._
 import play.api.data.Forms._
 import play.api.data.{Form, Mapping}
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
 
@@ -32,7 +33,7 @@ object CoExecutorForms extends CoExecutorForms
 
 trait CoExecutorForms {
   def ihtFormValidator: IhtFormValidator = IhtFormValidator
-  val addressMappingCoexecInternational: Mapping[UkAddress] = mapping(
+  def addressMappingCoexecInternational(implicit lang: Lang, messages: Messages): Mapping[UkAddress] = mapping(
     "ukAddressLine1" -> of(ihtInternationalAddress("ukAddressLine2", "ukAddressLine3",
       "ukAddressLine4", "countryCode",
       "error.address.give", "error.address.giveInLine1And2",
@@ -57,7 +58,7 @@ trait CoExecutorForms {
   )(UkAddress.applyUk)(UkAddress.unapplyUk)
 
   val coExecutorAddressUkForm = Form(addressMappingCoexecUk)
-  val coExecutorAddressAbroadForm = Form(addressMappingCoexecInternational)
+  def coExecutorAddressAbroadForm(implicit lang: Lang, messages: Messages) = Form(addressMappingCoexecInternational(lang, messages))
 
   def coExecutorPersonalDetailsForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(

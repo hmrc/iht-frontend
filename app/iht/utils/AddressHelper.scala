@@ -18,13 +18,14 @@ package iht.utils
 
 import iht.models._
 import iht.views.html._
+import play.api.i18n.{Lang, Messages}
 import play.twirl.api.Html
 
 object AddressHelper {
 
   val isThereAnApplicantAddress: Predicate = (rd, _) => rd.applicantDetails.flatMap(_.ukAddress).isDefined
 
-  def addressFormater(applicantAddress: UkAddress): String = {
+  def addressFormater(applicantAddress: UkAddress)(implicit messages: Messages): String = {
     var address: String = ihtHelpers.custom.name(applicantAddress.ukAddressLine1.toString) +
       " \n" + ihtHelpers.custom.name(applicantAddress.ukAddressLine2.toString).toString.replace("\n", "")
 
@@ -47,7 +48,7 @@ object AddressHelper {
     address.toString().trim()
   }
 
-  def addressLayout(address: UkAddress): Html = {
+  def addressLayout(address: UkAddress)(implicit messages: Messages): Html = {
     Html(AddressHelper.addressFormater(address).replace("\n", "<br/>"))
   }
 

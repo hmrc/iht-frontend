@@ -28,6 +28,7 @@ import org.mockito.Matchers._
 import org.mockito.Mockito._
 import play.api.data.format.Formatter
 import play.api.data.{FieldMapping, Form, FormError, Forms}
+import play.api.i18n.Lang
 import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.http.logging.SessionId
@@ -36,6 +37,9 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class CoExecutorFormsTest extends FormTestHelper with FakeIhtApp {
+
+  implicit val lang = Lang.defaultLang
+  implicit val msg = messages
 
   def othersApplyingForProbate(value: String) = Map("areOthersApplyingForProbate" -> value)
 
