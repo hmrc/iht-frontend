@@ -22,6 +22,7 @@ import play.api.data.Forms._
 import play.api.data.format.Formatter
 import play.api.data.validation._
 import play.api.data._
+import play.api.i18n.{Lang, Messages}
 import uk.gov.hmrc.play.validators.Validators._
 
 import scala.collection.immutable.ListMap
@@ -38,7 +39,7 @@ trait FormValidator {
 
   def validateCountryCode(x: String) = countryCodes.contains(x.toUpperCase)
 
-  def validateInternationalCountryCode(code: String) = internationalCountries.map(_._1).contains(code.toUpperCase)
+  def validateInternationalCountryCode(code: String)(implicit lang: Lang, messages: Messages) = internationalCountries(lang, messages).map(_._1).contains(code.toUpperCase)
 
   def isNotFutureDate = {
     date: LocalDate => !date.isAfter(LocalDate.now())
