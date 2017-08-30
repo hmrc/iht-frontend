@@ -109,11 +109,11 @@ case class IHTReturn(acknowledgmentReference: Option[String] = None,
   }
 
   def currentThreshold: BigDecimal = {
-    val isTnrbApplicable = deceased.fold(false) {
-      x => x.transferOfNilRateBand.fold(false)(_ => true)
-    }
+      if (isTnrbApplicable) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
+  }
 
-    if (isTnrbApplicable) IhtProperties.transferredNilRateBand else IhtProperties.exemptionsThresholdValue
+  def isTnrbApplicable: Boolean = deceased.fold(false) {
+    x => x.transferOfNilRateBand.fold(false)(_ => true)
   }
 }
 

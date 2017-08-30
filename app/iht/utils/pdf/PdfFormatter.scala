@@ -215,5 +215,13 @@ object PdfFormatter {
     }
   }
 
+  def estateOverviewDisplayModeForPostPdf(ihtReturn: IHTReturn) = {
+    val totalExemptionsValue = ihtReturn.totalExemptionsValue
+    if (totalExemptionsValue > 0) {
+      Constants.DisplayModeExemption
+    } else {
+      Constants.DisplayModeNoExemption
+    }
+  }
   // scalastyle:on magic.number
 }

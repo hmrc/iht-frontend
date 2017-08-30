@@ -313,4 +313,22 @@ class PdfFormatterTest extends FormTestHelper {
     }
   }
 
+  "estateOverviewDisplayModeForPostPdf" must {
+    "return exemptions mode when exemptions value is greater than 0" in {
+
+      val estateExemptions1 = CommonBuilder.buildEstateExemptions.copy(exemptionType = Some("Spouse"),
+                                                                        overrideValue = Some(BigDecimal(5000)))
+      val freeEstate = CommonBuilder.buildFreeEstate.copy(estateExemptions = Some(Seq(estateExemptions1)))
+      val ihtReturnWithPositiveExemptions = CommonBuilder.buildIHTReturn.copy(freeEstate = Some(freeEstate))
+
+      PdfFormatter.estateOverviewDisplayModeForPostPdf(ihtReturnWithPositiveExemptions) shouldBe "exemption"
+
+    }
+
+    "return exemptions mode when total exemptions value is 0" in {
+      val ihtReturnWithNoExemptions = CommonBuilder.buildIHTReturn
+      PdfFormatter.estateOverviewDisplayModeForPostPdf(ihtReturnWithNoExemptions) shouldBe "noExemption"
+    }
+  }
+
 }
