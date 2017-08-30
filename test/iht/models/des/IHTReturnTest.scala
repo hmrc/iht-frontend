@@ -18,6 +18,7 @@ package iht.models.des
 
 import iht.FakeIhtApp
 import iht.models.des.ihtReturn.{Gift, IHTReturn}
+import iht.testhelpers.CommonBuilder
 import iht.testhelpers.IHTReturnTestHelper._
 import org.joda.time.LocalDate
 import org.scalatest.mock.MockitoSugar
@@ -109,6 +110,20 @@ class IHTReturnTest extends UnitSpec with FakeIhtApp with MockitoSugar {
       val actualDates: Set[Seq[Option[LocalDate]]] = sortedIHTReturn.gifts.map(_.map(_.toSeq.map(_.dateOfGift)))
         .fold[Set[Seq[Option[LocalDate]]]](Set.empty)(identity)
       actualDates shouldBe expectedDates
+    }
+  }
+
+  "isTnrbApplicable" must {
+    "return false when there is no tnrb" in {
+
+      val ihtReturnWihNoTnrb = CommonBuilder.buildIHTReturn
+      ihtReturnWihNoTnrb.isTnrbApplicable shouldBe false
+    }
+
+    "return true when there is no tnrb" in {
+      val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
+
+      ihtReturn.isTnrbApplicable shouldBe true
     }
   }
 }

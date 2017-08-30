@@ -21,6 +21,7 @@ import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
+import iht.constants.Constants
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
 import iht.models.des.ihtReturn.{Asset, IHTReturn}
@@ -137,7 +138,7 @@ trait XmlFoToPDF {
     transformer.setParameter("marriedOrCivilPartnershipLabel",
       TnrbHelper.preDeceasedMaritalStatusSubLabel(dateOfPredeceased)(messages))
     transformer.setParameter("kickout", applicationDetails.kickoutReason.isEmpty)
-      transformer.setParameter("estateOverviewDisplayMode",PdfFormatter.estateOverviewDisplayMode(applicationDetails))
+    transformer.setParameter("estateOverviewDisplayMode",PdfFormatter.estateOverviewDisplayMode(applicationDetails))
     transformer
   }
 
@@ -173,6 +174,8 @@ trait XmlFoToPDF {
     transformer.setParameter("giftsTotalExclExemptions", ihtReturn.giftsTotalExclExemptions)
     transformer.setParameter("estateValue", ihtReturn.totalNetValue)
     transformer.setParameter("thresholdValue", ihtReturn.currentThreshold)
+    transformer.setParameter("tnrbEligibility", ihtReturn.isTnrbApplicable)
+    transformer.setParameter("estateOverviewDisplayMode", PdfFormatter.estateOverviewDisplayModeForPostPdf(ihtReturn))
     transformer
   }
 
