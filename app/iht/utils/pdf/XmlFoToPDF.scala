@@ -180,10 +180,15 @@ trait XmlFoToPDF {
   }
 
   private def setupCommonTransformerParameters(transformer: Transformer, messages: Messages): Unit = {
-
     transformer.setParameter("versionParam", "2.0")
     transformer.setParameter("translator", XSLScalaBridge(messages))
     transformer.setParameter("pdfFormatter", PdfFormatter)
+    val hmrcLogoFile = if (messages.lang.code == "en") {
+      "pdf/logo/hmrc_logo_en.jpg"
+    } else {
+      "pdf/logo/hmrc_logo_cy.jpg"
+    }
+    transformer.setParameter("hmrcLogo", hmrcLogoFile)
   }
 
   private def setupCommonTransformerParametersPreAndPost(transformer: Transformer,
@@ -203,7 +208,7 @@ trait XmlFoToPDF {
     transformer.setParameter("giftsTotal", totalPastYearsGiftsValue)
     transformer.setParameter("deceasedName", registrationDetails.deceasedDetails.fold("")(_.name))
     transformer.setParameter("preDeceasedName", preDeceasedName)
-    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage))
+    transformer.setParameter("marriageLabel", TnrbHelper.marriageOrCivilPartnerShipLabelForPdf(dateOfMarriage)(messages))
   }
 
   private def fop(pdfoutStream: ByteArrayOutputStream): Fop = {

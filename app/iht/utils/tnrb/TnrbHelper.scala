@@ -139,10 +139,10 @@ object TnrbHelper {
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label",
       dateOfPreDeceased = dateOfPreDeceased)(messages)
 
-  def marriageOrCivilPartnerShipLabelForPdf(date: Option[LocalDate]): String =
+  def marriageOrCivilPartnerShipLabelForPdf(date: Option[LocalDate])(implicit messages:Messages): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.tnrbEligibilty.partner.marriage.label",
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label",
-      dateOfPreDeceased = date)
+      dateOfPreDeceased = date)(messages)
 
   def successfulTnrbRedirect(appDetails: ApplicationDetails, linkHash: Option[String] = None): Result = {
     if(appDetails.isSuccessfulTnrbCase) {

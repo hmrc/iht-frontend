@@ -66,11 +66,6 @@ class PdfFormatterTest extends FormTestHelper {
       val result = PdfFormatter.getYearFromDate("1990-06-05")
       result shouldBe 1990
     }
-
-    "must return Australia fo AU" in {
-      val result = PdfFormatter.countryName("AU")
-      result shouldBe "Australia"
-    }
   }
 
   "transform asset descriptions correctly for display" in {
@@ -110,6 +105,18 @@ class PdfFormatterTest extends FormTestHelper {
       val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
       val result = rd.deceasedDetails.flatMap(_.maritalStatus).fold("")(identity)
       result shouldBe messagesApi("page.iht.registration.deceasedDetails.maritalStatus.civilPartnership.label")
+    }
+
+    "transform the deceased country code to country name" in {
+      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
+      val result = rd.deceasedDetails.flatMap(_.ukAddress).map(_.countryCode).fold("")(identity)
+      result shouldBe messagesApi("country.GB")
+    }
+
+    "transform the applicant country code to country name" in {
+      val rd = PdfFormatter.transform(CommonBuilder.buildRegistrationDetails4, messages)
+      val result = rd.applicantDetails.flatMap(_.ukAddress).map(_.countryCode).fold("")(identity)
+      result shouldBe messagesApi("country.GB")
     }
 
     "map the tenure value from messages file" in {

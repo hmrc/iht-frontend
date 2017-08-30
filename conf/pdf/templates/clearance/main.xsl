@@ -13,7 +13,7 @@
     <xsl:param name="pdfFormatter"/>
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="declaration-date"/>
-
+    <xsl:param name="hmrcLogo"/>
 
 
     <xsl:template match="RegistrationDetails">
@@ -43,7 +43,11 @@
             <fo:page-sequence master-reference="simple">
                 <fo:static-content flow-name="xsl-region-before">
                     <fo:block border-bottom-style="solid">
-                        <fo:external-graphic src="url('pdf/logo/hmrc_logo.jpg')" height="50px" content-width="scale-to-fit"/>
+                        <fo:external-graphic height="50px" content-width="scale-to-fit">
+                            <xsl:attribute name="src">
+                                <xsl:value-of select="$hmrcLogo" />
+                            </xsl:attribute>
+                        </fo:external-graphic>
                     </fo:block>
                 </fo:static-content>
 
@@ -84,7 +88,9 @@
 
                     <fo:block xsl:use-attribute-sets="copy">
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part1')"/>
+                        <xsl:text> </xsl:text>
                         <xsl:value-of select="concat(' ', deceasedDetails/firstName,' ', deceasedDetails/lastName)" />
+                        <xsl:text> </xsl:text>
                         <xsl:value-of select="scala:getMessagesText($translator, 'pdf.clearanceCertificate.firstParagraph.part2')" />
                     </fo:block>
 

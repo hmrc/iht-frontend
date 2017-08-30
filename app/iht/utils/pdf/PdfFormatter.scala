@@ -20,12 +20,16 @@ import javax.inject.{Inject, Singleton}
 
 import iht.utils.GiftsHelper
 import iht.constants.FieldMappings.maritalStatusMap
+import iht.constants.FieldMappings.domicileMap
+import iht.constants.FieldMappings.applicantCountryMap
 import iht.constants.{Constants, FieldMappings}
-import iht.models.RegistrationDetails
+import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn.{Asset, Exemption, Gift, IHTReturn}
 import iht.utils.{CommonHelper, GiftsHelper}
+import iht.views.html.filter
+import iht.views.html.filter.domicile
 import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages
@@ -43,34 +47,21 @@ object PdfFormatter {
     jodadate.getYear
   }
 
-  /*
-   * Get country name from country code
-   */
-  def countryName(countryCode: String): String = {
-    val input = s"country.$countryCode"
-    Messages(s"country.$countryCode") match {
-      case `input` => {
-        ""
-      }
-      case x => x
-    }
-  }
-
-  def updateETMPOptionSet[B](optionSetOfB:Option[Set[B]],
-                             getExprToLookupAsOption:B=>Option[String],
-                             lookupItems:ListMap[String,String],
-                             applyLookedUpItemToB:(B,String)=>B):Option[Set[B]] =
+  def updateETMPOptionSet[B](optionSetOfB: Option[Set[B]],
+                             getExprToLookupAsOption: B => Option[String],
+                             lookupItems: ListMap[String, String],
+                             applyLookedUpItemToB: (B, String) => B): Option[Set[B]] =
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
       lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
-  def updateETMPOptionSeq[B](optionSetOfB:Option[Seq[B]],
-                             getExprToLookupAsOption:B=>Option[String],
-                             lookupItems:ListMap[String,String],
-                             applyLookedUpItemToB:(B,String)=>B):Option[Seq[B]] =
+  def updateETMPOptionSeq[B](optionSetOfB: Option[Seq[B]],
+                             getExprToLookupAsOption: B => Option[String],
+                             lookupItems: ListMap[String, String],
+                             applyLookedUpItemToB: (B, String) => B): Option[Seq[B]] =
     optionSetOfB.map(_.map(b => getExprToLookupAsOption(b).fold(b)(ac =>
       lookupItems.get(ac).fold(b)(newValue => applyLookedUpItemToB(b, newValue)))))
 
-  def combineGiftSets(masterSet:Seq[Gift], subSet: Seq[Gift]):Seq[Gift] = {
+  def combineGiftSets(masterSet: Seq[Gift], subSet: Seq[Gift]): Seq[Gift] = {
     masterSet.map { masterGift =>
       subSet.find(_.dateOfGift == masterGift.dateOfGift) match {
         case None => masterGift
@@ -79,17 +70,17 @@ object PdfFormatter {
     }
   }
 
-  def padGifts(setOfGifts:Seq[Gift], dateOfDeath: LocalDate):Seq[Gift] = {
+  def padGifts(setOfGifts: Seq[Gift], dateOfDeath: LocalDate): Seq[Gift] = {
     val allPreviousYearsGifts: Seq[Gift] = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath).map { previousYearsGifts =>
-      val endDate = previousYearsGifts.endDate.map( s => LocalDate.parse(s))
+      val endDate = previousYearsGifts.endDate.map(s => LocalDate.parse(s))
       val giftValueOrZero = Option(previousYearsGifts.value.fold(BigDecimal(0))(identity))
       val exemptionValueOrZero = Option(previousYearsGifts.exemptions.fold(BigDecimal(0))(identity))
       val netGiftValue = giftValueOrZero.fold(BigDecimal(0))(identity) - exemptionValueOrZero.fold(BigDecimal(0))(identity)
 
       Gift(
-        assetCode=Some("9095"),
-        assetDescription=Some("Rolled up gifts"),
-        assetID=Some("null"),
+        assetCode = Some("9095"),
+        assetDescription = Some("Rolled up gifts"),
+        assetID = Some("null"),
         assetTotalValue = Some(netGiftValue),
         valuePrevOwned = giftValueOrZero,
         percentageSharePrevOwned = Some(BigDecimal(100)),
@@ -100,10 +91,10 @@ object PdfFormatter {
         dateOfGift = endDate
       )
     }
-    combineGiftSets( allPreviousYearsGifts, setOfGifts)
+    combineGiftSets(allPreviousYearsGifts, setOfGifts)
   }
 
-  def transform(ihtReturn:IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
+  def transform(ihtReturn: IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
 
     val deceasedName: String = registrationDetails.deceasedDetails.fold("")(_.name)
     val dateOfDeath: LocalDate = CommonHelper.getOrException(registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath))
@@ -120,13 +111,13 @@ object PdfFormatter {
       (exemption, newDescription) => exemption.copy(exemptionType = Option(messages(newDescription, deceasedName)))
     )
 
-    val optionFreeEstate = ihtReturn.freeEstate.map(_ copy (
+    val optionFreeEstate = ihtReturn.freeEstate.map(_ copy(
       estateAssets = optionSetAsset,
       estateExemptions = optionSeqExemption
     )
     )
 
-    val optionSetSetGift = ihtReturn.gifts.map( _.map( setGift => padGifts(setGift, dateOfDeath)))
+    val optionSetSetGift = ihtReturn.gifts.map(_.map(setGift => padGifts(setGift, dateOfDeath)))
 
     ihtReturn copy(
       freeEstate = optionFreeEstate,
@@ -134,11 +125,50 @@ object PdfFormatter {
     )
   }
 
+  private def transformCountryCodeToCountryName(countryCode: String, messages: Messages): String = {
+    val input = s"country.$countryCode"
+    messages(s"country.$countryCode") match {
+      case `input` =>
+        ""
+      case x => x
+    }
+  }
+
   def transform(rd: RegistrationDetails, messages: Messages): RegistrationDetails = {
     val optionDeceasedDetails = rd.deceasedDetails.map { dd =>
-      dd copy (maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(messages)(ms)))
+      dd copy(
+        maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(messages)(ms)),
+        domicile = dd.domicile.map(ms => domicileMap(messages)(ms)),
+        ukAddress = dd.ukAddress.map{ (addr: UkAddress) =>
+          addr copy (
+            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
+            )
+        }
+      )
     }
-    rd copy (deceasedDetails = optionDeceasedDetails)
+
+    val coExecutors = rd.coExecutors.map { coExec =>
+      coExec copy (
+        ukAddress = coExec.ukAddress.map{ (addr: UkAddress) =>
+          addr copy (
+            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
+            )
+        }
+      )
+    }
+
+    val optionApplicantDetails: Option[ApplicantDetails] = rd.applicantDetails.map { ad =>
+      ad copy (
+        country = ad.country.map(ms => applicantCountryMap(messages)(ms)),
+        ukAddress = ad.ukAddress.map{ (addr: UkAddress) =>
+          addr copy (
+            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
+            )
+        }
+        )
+    }
+
+    rd copy(deceasedDetails = optionDeceasedDetails, applicantDetails = optionApplicantDetails, coExecutors = coExecutors)
   }
 
   def transform(ad: ApplicationDetails, rd: RegistrationDetails, messages: Messages): ApplicationDetails = {
@@ -146,12 +176,12 @@ object PdfFormatter {
 
     val transformedSeqProperties = ad.propertyList.map { p =>
       val optionTransformedTenure: Option[String] = p.tenure.map(t => FieldMappings.tenures(deceasedName)(messages)(t)._1)
-      val optionTransformedHowheld: Option[String] = p.typeOfOwnership.map{
+      val optionTransformedHowheld: Option[String] = p.typeOfOwnership.map {
         hh => FieldMappings.typesOfOwnership(deceasedName)(messages)(hh)._1
       }
       val optionTransformedPropertyType: Option[String] = p.propertyType.map(pt => FieldMappings.propertyType(messages)(pt))
 
-      p copy (tenure = optionTransformedTenure, typeOfOwnership = optionTransformedHowheld, propertyType = optionTransformedPropertyType)
+      p copy(tenure = optionTransformedTenure, typeOfOwnership = optionTransformedHowheld, propertyType = optionTransformedPropertyType)
     }
     ad copy (propertyList = transformedSeqProperties)
   }
@@ -170,7 +200,7 @@ object PdfFormatter {
     * If none of scenarios 2)-6) apply then it should fall back to scenario 1).
     */
   // scalastyle:off magic.number
-  def estateOverviewDisplayMode(ad:ApplicationDetails):Int = {
+  def estateOverviewDisplayMode(ad: ApplicationDetails): Int = {
     val isExemptionsUnlocked: Boolean = ad.hasSeenExemptionGuidance.fold(false)(identity)
     val exemptionsValue = ad.totalExemptionsValue
     val isTnrbCompleted = ad.isSuccessfulTnrbCase

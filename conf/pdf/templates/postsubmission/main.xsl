@@ -9,6 +9,7 @@
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:param name="declarationDate"/>
     <xsl:param name="deceasedName"/>
+    <xsl:param name="hmrcLogo"/>
 
     <xsl:include href="pdf/templates/common/table-row.xsl"/>
     <xsl:include href="pdf/templates/common/registration/case-details.xsl"/>
@@ -61,7 +62,11 @@
             <fo:page-sequence master-reference="main">
                 <fo:static-content flow-name="xsl-region-before">
                     <fo:block xsl:use-attribute-sets="page-header">
-                        <fo:external-graphic src="url('pdf/logo/hmrc_logo.jpg')" height="50px" content-width="scale-to-fit"/>
+                        <fo:external-graphic height="50px" content-width="scale-to-fit">
+                            <xsl:attribute name="src">
+                                <xsl:value-of select="$hmrcLogo" />
+                            </xsl:attribute>
+                        </fo:external-graphic>
                     </fo:block>
                 </fo:static-content>
 

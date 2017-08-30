@@ -127,7 +127,10 @@
                                                     <fo:table-row>
                                                         <fo:table-cell xsl:use-attribute-sets="tabular-cell">
                                                             <fo:block>
-                                                                <xsl:value-of select="startDate"/> to
+                                                                <xsl:value-of select="startDate"/>
+                                                                <xsl:text> </xsl:text>
+                                                                <xsl:value-of select="scala:getMessagesText($translator, 'iht.to')"/>
+                                                                <xsl:text> </xsl:text>
                                                                 <xsl:value-of select="endDate"/>
                                                             </fo:block>
                                                         </fo:table-cell>
