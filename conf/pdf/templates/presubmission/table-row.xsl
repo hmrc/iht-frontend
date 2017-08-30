@@ -28,7 +28,7 @@
                     <xsl:value-of select="$address/postCode"/>
                 </fo:block>
                 <fo:block>
-                    <xsl:value-of select="formatter:countryName($pdfFormatter,$address/countryCode)"/>
+                    <xsl:value-of select="$address/countryCode"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">
@@ -68,7 +68,7 @@
                     <xsl:value-of select="$address/postCode"/>
                 </fo:block>
                 <fo:block>
-                    <xsl:value-of select="formatter:countryName($pdfFormatter,$address/countryCode)"/>
+                    <xsl:value-of select="$address/countryCode"/>
                 </fo:block>
             </fo:table-cell>
             <fo:table-cell text-align="left" padding-left="4pt" padding-top="6pt" padding-bottom="6pt">

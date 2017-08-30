@@ -280,7 +280,7 @@
                     <xsl:value-of select="$value/postCode"/>
                 </fo:block>
                 <fo:block>
-                    <xsl:value-of select="formatter:countryName($pdfFormatter,$value/countryCode)"/>
+                    <xsl:value-of select="$value/countryCode"/>
                 </fo:block>
             </fo:table-cell>
         </fo:table-row>

@@ -23,7 +23,7 @@ import iht.constants.FieldMappings.maritalStatusMap
 import iht.constants.FieldMappings.domicileMap
 import iht.constants.FieldMappings.applicantCountryMap
 import iht.constants.{Constants, FieldMappings}
-import iht.models.{RegistrationDetails, UkAddress}
+import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn.{Asset, Exemption, Gift, IHTReturn}
@@ -47,18 +47,18 @@ object PdfFormatter {
     jodadate.getYear
   }
 
-  /*
-   * Get country name from country code
-   */
-  def countryName(countryCode: String): String = {
-    val input = s"country.$countryCode"
-    Messages(s"country.$countryCode") match {
-      case `input` => {
-        ""
-      }
-      case x => x
-    }
-  }
+//  /*
+//   * Get country name from country code
+//   */
+//  def countryName(countryCode: String): String = {
+//    val input = s"country.$countryCode"
+//    Messages(s"country.$countryCode") match {
+//      case `input` => {
+//        ""
+//      }
+//      case x => x
+//    }
+//  }
 
   def updateETMPOptionSet[B](optionSetOfB: Option[Set[B]],
                              getExprToLookupAsOption: B => Option[String],
@@ -141,9 +141,8 @@ object PdfFormatter {
   def tempCountryName(countryCode: String, messages: Messages): String = {
     val input = s"country.$countryCode"
     messages(s"country.$countryCode") match {
-      case `input` => {
+      case `input` =>
         ""
-      }
       case x => x
     }
   }
@@ -161,13 +160,28 @@ object PdfFormatter {
       )
     }
 
-    val optionApplicantDetails = rd.applicantDetails.map { ad =>
+    val coExecutors = rd.coExecutors.map { coExec =>
+      coExec copy (
+        ukAddress = coExec.ukAddress.map{ (addr: UkAddress) =>
+          addr copy (
+            countryCode = tempCountryName(addr.countryCode, messages)
+            )
+        }
+      )
+    }
+
+    val optionApplicantDetails: Option[ApplicantDetails] = rd.applicantDetails.map { ad =>
       ad copy (
-        country = ad.country.map(ms => applicantCountryMap(messages)(ms))
+        country = ad.country.map(ms => applicantCountryMap(messages)(ms)),
+        ukAddress = ad.ukAddress.map{ (addr: UkAddress) =>
+          addr copy (
+            countryCode = tempCountryName(addr.countryCode, messages)
+            )
+        }
         )
     }
 
-    rd copy(deceasedDetails = optionDeceasedDetails, applicantDetails = optionApplicantDetails)
+    rd copy(deceasedDetails = optionDeceasedDetails, applicantDetails = optionApplicantDetails, coExecutors = coExecutors)
   }
 
   def transform(ad: ApplicationDetails, rd: RegistrationDetails, messages: Messages): ApplicationDetails = {
