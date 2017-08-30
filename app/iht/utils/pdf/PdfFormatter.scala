@@ -47,19 +47,6 @@ object PdfFormatter {
     jodadate.getYear
   }
 
-//  /*
-//   * Get country name from country code
-//   */
-//  def countryName(countryCode: String): String = {
-//    val input = s"country.$countryCode"
-//    Messages(s"country.$countryCode") match {
-//      case `input` => {
-//        ""
-//      }
-//      case x => x
-//    }
-//  }
-
   def updateETMPOptionSet[B](optionSetOfB: Option[Set[B]],
                              getExprToLookupAsOption: B => Option[String],
                              lookupItems: ListMap[String, String],
@@ -138,7 +125,7 @@ object PdfFormatter {
     )
   }
 
-  def tempCountryName(countryCode: String, messages: Messages): String = {
+  private def transformCountryCodeToCountryName(countryCode: String, messages: Messages): String = {
     val input = s"country.$countryCode"
     messages(s"country.$countryCode") match {
       case `input` =>
@@ -154,7 +141,7 @@ object PdfFormatter {
         domicile = dd.domicile.map(ms => domicileMap(messages)(ms)),
         ukAddress = dd.ukAddress.map{ (addr: UkAddress) =>
           addr copy (
-            countryCode = tempCountryName(addr.countryCode, messages)
+            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
             )
         }
       )
@@ -164,7 +151,7 @@ object PdfFormatter {
       coExec copy (
         ukAddress = coExec.ukAddress.map{ (addr: UkAddress) =>
           addr copy (
-            countryCode = tempCountryName(addr.countryCode, messages)
+            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
             )
         }
       )
@@ -175,7 +162,7 @@ object PdfFormatter {
         country = ad.country.map(ms => applicantCountryMap(messages)(ms)),
         ukAddress = ad.ukAddress.map{ (addr: UkAddress) =>
           addr copy (
-            countryCode = tempCountryName(addr.countryCode, messages)
+            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
             )
         }
         )
