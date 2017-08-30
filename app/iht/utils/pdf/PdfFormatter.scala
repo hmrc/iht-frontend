@@ -23,7 +23,7 @@ import iht.constants.FieldMappings.maritalStatusMap
 import iht.constants.FieldMappings.domicileMap
 import iht.constants.FieldMappings.applicantCountryMap
 import iht.constants.{Constants, FieldMappings}
-import iht.models.RegistrationDetails
+import iht.models.{RegistrationDetails, UkAddress}
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn.{Asset, Exemption, Gift, IHTReturn}
@@ -138,11 +138,26 @@ object PdfFormatter {
     )
   }
 
+  def tempCountryName(countryCode: String, messages: Messages): String = {
+    val input = s"country.$countryCode"
+    messages(s"country.$countryCode") match {
+      case `input` => {
+        ""
+      }
+      case x => x
+    }
+  }
+
   def transform(rd: RegistrationDetails, messages: Messages): RegistrationDetails = {
     val optionDeceasedDetails = rd.deceasedDetails.map { dd =>
       dd copy(
         maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(messages)(ms)),
-        domicile = dd.domicile.map(ms => domicileMap(messages)(ms))
+        domicile = dd.domicile.map(ms => domicileMap(messages)(ms)),
+        ukAddress = dd.ukAddress.map{ (addr: UkAddress) =>
+          addr copy (
+            countryCode = tempCountryName(addr.countryCode, messages)
+            )
+        }
       )
     }
 
