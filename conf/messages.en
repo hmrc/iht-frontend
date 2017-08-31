@@ -194,9 +194,9 @@ page.iht.filter.agent.content = There is no change to how agents report estate v
 
 page.iht.filter.filter.choice.main.continue = I want to continue an estate report that I have already started
 page.iht.filter.filter.choice.main.register = I want to register so I can tell HMRC about a person’s estate
-page.iht.filter.filter.choice.main.register.hint = You will be asked a couple of questions first to make sure you are using the right service.
-page.iht.filter.filter.choice.main.alreadyStarted = I have already started registration and want to continue
-page.iht.filter.filter.choice.main.agent = I am an agent and reporting on behalf of a client
+page.iht.filter.filter.choice.main.register.hint = You will need to answer some questions about the estate to make sure you are using the right service.
+page.iht.filter.filter.choice.main.alreadyStarted = I have already started registration and I have the details I need to continue
+page.iht.filter.filter.choice.main.agent = I am a professional and I am reporting the value of an estate for an executor
 
 page.iht.filter.domicile.choice.other = Other country
 page.iht.filter.domicile.return.link = Return to what do you want to do
