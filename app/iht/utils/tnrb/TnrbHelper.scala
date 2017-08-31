@@ -17,17 +17,15 @@
 package iht.utils.tnrb
 
 import iht.constants.IhtProperties
-import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
 import iht.models.RegistrationDetails
+import iht.models.application.ApplicationDetails
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.CommonHelper
+import iht.views.html._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{Call, Result}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.views.html._
 
 /**
   * Created by vineet on 27/04/16.
@@ -37,21 +35,22 @@ object TnrbHelper {
   val tnrbOverviewPage= iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
   val deceasedWidowCheckDatePage= iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
   val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
-  
-  def spouseOrCivilPartnerLabelWithOptions(optionTnrbModel: Option[TnrbEligibiltyModel],
-                                optionWidowCheck: Option[WidowCheck],
-                                optionPrefixText: Option[String]=None)(implicit messages: Messages): String  = {
-    optionTnrbModel.flatMap{tnrbModel=>
-      val name = tnrbModel.Name.toString.trim
-      if(name.length==0) None else Some(name)
-    }.fold{
-      val dateOfPreDeceased = optionWidowCheck.flatMap(_.dateOfPreDeceased)
 
-      val prefixText = optionPrefixText.fold("")(identity) // John Smith's previous
+  def previousSpouseOrCivilPartner(optionTnrbModel: Option[TnrbEligibiltyModel],
+                                   optionWidowCheck: Option[WidowCheck],
+                                   deceasedName: String)(implicit messages: Messages): String  = {
 
-      messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson",
-        prefixText, messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)))
-    }(identity)
+    val predeceasedName = optionTnrbModel.map(_.Name.toString.trim).fold("")(identity)
+    if (predeceasedName.nonEmpty) {
+      predeceasedName
+    } else {
+      spouseOrCivilPartnerMessageText(
+        "page.iht.application.tnrb.kickout.previousSpouse",
+        "page.iht.application.tnrb.kickout.previousSpouseOrCivilPartner",
+        optionWidowCheck.flatMap(_.dateOfPreDeceased),
+        deceasedName
+      )(messages)
+    }
   }
 
   /**
@@ -166,13 +165,15 @@ object TnrbHelper {
 
   private def spouseOrCivilPartnerMessageText(messagesKeySpouse:String,
                                               messagesKeyPartner:String,
-                                              dateOfPreDeceased: Option[LocalDate])(implicit messages: Messages) =
+                                              dateOfPreDeceased: Option[LocalDate],
+                                              params: String*
+                                             )(implicit messages: Messages) =
   {
     val key = dateOfPreDeceased match {
       case Some(date) if isBeforeCivilPartnershipDate(date) => messagesKeySpouse
       case _ => messagesKeyPartner
     }
-    messages(key)
+    messages(key, params : _*)
   }
 
   private def isBeforeCivilPartnershipDate(dateOfPreDeceased: LocalDate): Boolean = {
