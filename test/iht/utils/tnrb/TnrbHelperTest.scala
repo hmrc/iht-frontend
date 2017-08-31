@@ -44,28 +44,40 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
   lazy val spouseOrCivilPartnerFirstName = CommonBuilder.firstNameGenerator
   lazy val spouseOrCivilPartnerLastName = CommonBuilder.surnameGenerator
 
-  "spouseOrCivilPartnerLabelWithOptions" must {
-    "return spouse or CivilPartner name when name has been entered" in {
-      val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = Some(spouseOrCivilPartnerFirstName), lastName = Some(spouseOrCivilPartnerLastName))
+  val deceasedName = CommonBuilder.firstNameGenerator
+
+  "previousSpouseOrCivilPartner" must {
+    "return previous spouse or civil partner name when it exists" in {
+      val tnrbModel = CommonBuilder.buildTnrbEligibility
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
-      val result = TnrbHelper.spouseOrCivilPartnerLabelWithOptions(Some(tnrbModel), Some(widowCheck))
-      result should be(spouseOrCivilPartnerFirstName + " " + spouseOrCivilPartnerLastName)
+      val result = TnrbHelper.previousSpouseOrCivilPartner(Some(tnrbModel), Some(widowCheck), deceasedName)
+      result should be(tnrbModel.Name.toString)
     }
 
-    "return prefix plus spouse or CivilPartner message when name has not been entered and date of death is after " +
-      "Civil Partnership Inclusion date" in {
+    "return \"dd's previous spouse or civil partner\" when no name exists and date after cp date" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDatePlusOne))
-      val result = TnrbHelper.spouseOrCivilPartnerLabelWithOptions(Some(tnrbModel), Some(widowCheck), Some("prefix"))
-      result should be("prefix " + messagesApi(spouseOrCivilPartnerMessageKey))
+      val result = TnrbHelper.previousSpouseOrCivilPartner(Some(tnrbModel), Some(widowCheck), deceasedName)
+      result should be(s"$deceasedName’s previous spouse or civil partner")
     }
 
-    "return prefix plus spouse message when name has not been entered and date of death is before " +
-      "Civil Partnership Inclusion date" in {
+    "return \"dd's previous spouse\" when no name exists and date before cp date" in {
       val tnrbModel = CommonBuilder.buildTnrbEligibility copy(firstName = None, lastName = None)
       val widowCheck = CommonBuilder.buildWidowedCheck copy (dateOfPreDeceased = Some(civilPartnershipExclusionDateMinusOne))
-      val result = TnrbHelper.spouseOrCivilPartnerLabelWithOptions(Some(tnrbModel), Some(widowCheck), Some("prefix"))
-      result should be("prefix " + messagesApi(spouseMessageKey))
+      val result = TnrbHelper.previousSpouseOrCivilPartner(Some(tnrbModel), Some(widowCheck), deceasedName)
+      result should be(s"$deceasedName’s previous spouse")
+    }
+  }
+
+  "mutateContent" must {
+    "not mutate when english" in {
+      val content = "abc gan priod ghi"
+      TnrbHelper.mutateContent(content, "en") shouldBe content
+    }
+
+    "mutate when welsh" in {
+      val content = "abc gan priod ghi"
+      TnrbHelper.mutateContent(content, "cy") shouldBe "abc gan briod ghi"
     }
   }
 
