@@ -18,6 +18,7 @@
 @import iht.utils.{KickOutReason => KickOut}
 @import iht.utils.ApplicationKickOutSummaryHelper
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.utils.tnrb.TnrbHelper
 
 @( kickoutReason: String,
 applicationDetails: ApplicationDetails,
@@ -36,7 +37,9 @@ deceasedName: String)(implicit request:Request[_], messages: Messages, ihtFormPa
     browserTitle = Some(Messages("iht.notPossibleToUseService"))) {
     <div class="panel-indent">
         @ApplicationKickOutSummaryHelper.summary.find( _._1 == kickoutReason).map{summary =>
-            <p id="kickout-message">@Messages(summary._2, summaryParameter1, deceasedName)</p>}
+            <p id="kickout-message">
+                @TnrbHelper.mutateContent(Messages(summary._2, summaryParameter1, deceasedName), messages.lang.code)
+            </p>}
         @if(!ApplicationKickOutSummaryHelper.summaryBullets(kickoutReason).isEmpty) {
         <ul class="bullets" id="summary-bullets">
             @ApplicationKickOutSummaryHelper.summaryBullets(kickoutReason).map{txt=>
