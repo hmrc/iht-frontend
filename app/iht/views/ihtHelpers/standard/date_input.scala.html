@@ -54,6 +54,7 @@
             @if(!labelAfter && elements.args.contains('_label)) { @elements.label }
         @if(labelHighlight){</strong>}
     </span>
+    </label>
 
     <input
     @if(elements.args.contains('_type)){type="@elements.args.get('_type)" }else{type="text" }
@@ -68,5 +69,5 @@
     value="@value"
     />
 
-    </label>
+
 </div>
