@@ -16,55 +16,54 @@
 
 package iht.utils.tnrb
 
-import iht.constants.IhtProperties
-import iht.models.application.ApplicationDetails
-import iht.models.application.tnrb.{WidowCheck, TnrbEligibiltyModel}
+import iht.constants.{Constants, IhtProperties}
 import iht.models.RegistrationDetails
+import iht.models.application.ApplicationDetails
+import iht.models.application.tnrb.{TnrbEligibiltyModel, WidowCheck}
 import iht.utils.CommonHelper
+import iht.views.html._
 import org.joda.time.LocalDate
 import play.api.i18n.Messages
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{Call, Result}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import iht.views.html._
 
 /**
   * Created by vineet on 27/04/16.
   */
 object TnrbHelper {
 
-  val tnrbOverviewPage= iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
-  val deceasedWidowCheckDatePage= iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
+  val tnrbOverviewPage = iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad()
+  val deceasedWidowCheckDatePage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckDateController.onPageLoad()
   val deceasedWidowCheckQuestionPage = iht.controllers.application.tnrb.routes.DeceasedWidowCheckQuestionController.onPageLoad()
-  
-  def spouseOrCivilPartnerLabelWithOptions(optionTnrbModel: Option[TnrbEligibiltyModel],
-                                optionWidowCheck: Option[WidowCheck],
-                                optionPrefixText: Option[String]=None)(implicit messages: Messages): String  = {
-    optionTnrbModel.flatMap{tnrbModel=>
-      val name = tnrbModel.Name.toString.trim
-      if(name.length==0) None else Some(name)
-    }.fold{
-      val dateOfPreDeceased = optionWidowCheck.flatMap(_.dateOfPreDeceased)
 
-      val prefixText = optionPrefixText.fold("")(identity) // John Smith's previous
+  def previousSpouseOrCivilPartner(optionTnrbModel: Option[TnrbEligibiltyModel],
+                                   optionWidowCheck: Option[WidowCheck],
+                                   deceasedName: String)(implicit messages: Messages): String = {
 
-      messages("page.iht.application.TnrbEligibilty.spouseOrCivilPartner.notOfPerson",
-        prefixText, messages(spouseOrCivilPartnerMessage(dateOfPreDeceased)(messages)))
-    }(identity)
+    val predeceasedName = optionTnrbModel.map(_.Name.toString.trim).fold("")(identity)
+    if (predeceasedName.nonEmpty) {
+      predeceasedName
+    } else {
+      spouseOrCivilPartnerMessageText(
+        "page.iht.application.tnrb.kickout.previousSpouse",
+        "page.iht.application.tnrb.kickout.previousSpouseOrCivilPartner",
+        optionWidowCheck.flatMap(_.dateOfPreDeceased),
+        deceasedName
+      )(messages)
+    }
   }
 
   /**
     * This produces content like: <prefix>'s spouse or civil partner, i.e. genitive grammatical case.
     */
   def spouseOrCivilPartnerLabelGenitive(tnrbModel: TnrbEligibiltyModel,
-                                widowCheck: WidowCheck,
-                                prefixText: String="",
-                                wrapName: Boolean = false)(implicit messages: Messages): String  = {
-    if(tnrbModel.Name.toString.trim!=""){
-      if(wrapName) {
+                                        widowCheck: WidowCheck,
+                                        prefixText: String = "",
+                                        wrapName: Boolean = false)(implicit messages: Messages): String = {
+    if (tnrbModel.Name.toString.trim != "") {
+      if (wrapName) {
         ihtHelpers.custom.name(tnrbModel.Name.toString).toString
-      }else{
+      } else {
         tnrbModel.Name.toString
       }
     } else {
@@ -77,13 +76,13 @@ object TnrbHelper {
     * This produces content like: <prefix> (e.g. their) spouse or civil partner, i.e. possessive.
     */
   def spouseOrCivilPartnerLabelPossessive(tnrbModel: TnrbEligibiltyModel,
-                                widowCheck: WidowCheck,
-                                prefixText: String="",
-                                wrapName: Boolean = false)(implicit messages: Messages): String  = {
-    if(tnrbModel.Name.toString.trim!=""){
-      if(wrapName) {
+                                          widowCheck: WidowCheck,
+                                          prefixText: String = "",
+                                          wrapName: Boolean = false)(implicit messages: Messages): String = {
+    if (tnrbModel.Name.toString.trim != "") {
+      if (wrapName) {
         ihtHelpers.custom.name(tnrbModel.Name.toString).toString
-      }else{
+      } else {
         tnrbModel.Name.toString
       }
     } else {
@@ -95,11 +94,15 @@ object TnrbHelper {
     * Returns the Spouse name (if exists) otherwise returns the pretext string
     */
   def spouseOrCivilPartnerName(tnrbModel: TnrbEligibiltyModel,
-                                prefixText: String="",
-                               wrapName: Boolean = true): String  = {
+                               prefixText: String = "",
+                               wrapName: Boolean = true): String = {
     CommonHelper.withValue(tnrbModel.Name.toString.trim) {
       case name if name.isEmpty => prefixText
-      case name => if(wrapName) {ihtHelpers.custom.name(name).toString}else{name}
+      case name => if (wrapName) {
+        ihtHelpers.custom.name(name).toString
+      } else {
+        name
+      }
     }
   }
 
@@ -111,8 +114,8 @@ object TnrbHelper {
 
   def spouseOrCivilPartnerNameLabel(tnrbModel: TnrbEligibiltyModel,
                                     widowCheck: WidowCheck,
-                                    prefixText: String="")(implicit messages: Messages): String={
-    if(tnrbModel.Name.toString.trim!=""){
+                                    prefixText: String = "")(implicit messages: Messages): String = {
+    if (tnrbModel.Name.toString.trim != "") {
       messages("iht.name.upperCaseInitial")
     } else {
       prefixText + " " + messages(spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)(messages))
@@ -121,7 +124,7 @@ object TnrbHelper {
 
   def preDeceasedMaritalStatusLabel(tnrbModel: TnrbEligibiltyModel,
                                     widowCheck: WidowCheck)(implicit messages: Messages): String = {
-    if(tnrbModel.Name.toString.trim!=""){
+    if (tnrbModel.Name.toString.trim != "") {
       tnrbModel.Name.toString + " " + messages("page.iht.application.tnrbEligibilty.partner.married.label")
     } else {
       messages("iht.the.deceased") + " " +
@@ -131,48 +134,61 @@ object TnrbHelper {
 
   def spouseOrCivilPartnerMessage(dateOfPreDeceased: Option[LocalDate])(implicit messages: Messages): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.TnrbEligibilty.spouse.commonText",
-    messagesKeyPartner = "page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText",
-    dateOfPreDeceased = dateOfPreDeceased)(messages)
+      messagesKeyPartner = "page.iht.application.TnrbEligibilty.spouseOrCivilPartner.commonText",
+      dateOfPreDeceased = dateOfPreDeceased)(messages)
 
-  def preDeceasedMaritalStatusSubLabel(dateOfPreDeceased: Option[LocalDate])(implicit messages:Messages): String =
+  def preDeceasedMaritalStatusSubLabel(dateOfPreDeceased: Option[LocalDate])(implicit messages: Messages): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.tnrbEligibilty.partner.married.label",
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label",
       dateOfPreDeceased = dateOfPreDeceased)(messages)
 
-  def marriageOrCivilPartnerShipLabelForPdf(date: Option[LocalDate])(implicit messages:Messages): String =
+  def marriageOrCivilPartnerShipLabelForPdf(date: Option[LocalDate])(implicit messages: Messages): String =
     spouseOrCivilPartnerMessageText(messagesKeySpouse = "page.iht.application.tnrbEligibilty.partner.marriage.label",
       messagesKeyPartner = "page.iht.application.tnrbEligibilty.partner.marriageOrCivilPartnership.label",
       dateOfPreDeceased = date)(messages)
 
   def successfulTnrbRedirect(appDetails: ApplicationDetails, linkHash: Option[String] = None): Result = {
-    if(appDetails.isSuccessfulTnrbCase) {
+    if (appDetails.isSuccessfulTnrbCase) {
       Redirect(iht.controllers.application.tnrb.routes.TnrbSuccessController.onPageLoad())
     } else {
       Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad(), linkHash))
     }
   }
 
-  def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails, linkHash: Option[String] = None) = if(appDetails.isWidowCheckSectionCompleted) {
+  def cancelLinkUrlForWidowCheckPages(appDetails: ApplicationDetails, linkHash: Option[String] = None) = if (appDetails.isWidowCheckSectionCompleted) {
     CommonHelper.addFragmentIdentifier(iht.controllers.application.tnrb.routes.TnrbOverviewController.onPageLoad, linkHash)
-  }else {
+  } else {
     iht.controllers.application.routes.EstateOverviewController.onPageLoadWithIhtRef(CommonHelper.getOrException(appDetails.ihtRef))
   }
 
-  def cancelLinkTextForWidowCheckPages(appDetails: ApplicationDetails)(implicit messages:Messages) = if(appDetails.isWidowCheckSectionCompleted) {
+  def cancelLinkTextForWidowCheckPages(appDetails: ApplicationDetails)(implicit messages: Messages) = if (appDetails.isWidowCheckSectionCompleted) {
     messages("page.iht.application.tnrb.returnToIncreasingThreshold")
-  }else {
+  } else {
     messages("iht.estateReport.returnToEstateOverview")
   }
 
-  private def spouseOrCivilPartnerMessageText(messagesKeySpouse:String,
-                                              messagesKeyPartner:String,
-                                              dateOfPreDeceased: Option[LocalDate])(implicit messages: Messages) =
-  {
+  private def spouseOrCivilPartnerMessageText(messagesKeySpouse: String,
+                                              messagesKeyPartner: String,
+                                              dateOfPreDeceased: Option[LocalDate],
+                                              params: String*
+                                             )(implicit messages: Messages) = {
     val key = dateOfPreDeceased match {
       case Some(date) if isBeforeCivilPartnershipDate(date) => messagesKeySpouse
       case _ => messagesKeyPartner
     }
-    messages(key)
+    messages(key, params: _*)
+  }
+
+  /*
+    Due to the welsh grammatical rule of "consonant soft mutation" the word
+    "priod" ("marriage") changes to "briod" when preceded by the word "gan".
+ */
+  def mutateContent(s:String, language:String) = {
+    if (language == "cy") {
+      s.replace(Constants.contentMutation._1, Constants.contentMutation._2)
+    } else {
+      s
+    }
   }
 
   private def isBeforeCivilPartnershipDate(dateOfPreDeceased: LocalDate): Boolean = {
@@ -188,20 +204,20 @@ object TnrbHelper {
     * @return
     */
   def getEntryPointForTnrb(rd: RegistrationDetails,
-                              ad: ApplicationDetails) = {
+                           ad: ApplicationDetails) = {
     ad.isWidowCheckSectionCompleted match {
       case true => tnrbOverviewPage
       case _ => urlForIncreasingThreshold(CommonHelper.getOrException(rd.deceasedDetails.flatMap(_.maritalStatus)))
-        }
     }
+  }
 
   /**
     * Partial function, which will throw an exception if Marital Status value is not in range
     */
   val urlForIncreasingThreshold: PartialFunction[String, Call] = {
-      case IhtProperties.statusWidowed => deceasedWidowCheckDatePage
-      case maritalStatus if maritalStatus == IhtProperties.statusMarried || maritalStatus ==IhtProperties.statusDivorced =>
-        deceasedWidowCheckQuestionPage
+    case IhtProperties.statusWidowed => deceasedWidowCheckDatePage
+    case maritalStatus if maritalStatus == IhtProperties.statusMarried || maritalStatus == IhtProperties.statusDivorced =>
+      deceasedWidowCheckQuestionPage
   }
 
 }
