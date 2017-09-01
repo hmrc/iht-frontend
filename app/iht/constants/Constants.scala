@@ -137,4 +137,10 @@ object Constants {
 
   lazy val DisplayModeExemption = "exemption"
   lazy val DisplayModeNoExemption = "noExemption"
+
+  /*
+  Due to the welsh grammatical rule of "consonant soft mutation" the word
+  "priod" ("marriage") changes to "briod" when preceded by the word "gan".
+ */
+  lazy val contentMutation = "gan priod" -> "gan briod"
 }

@@ -67,10 +67,11 @@ trait KickoutController extends ApplicationController {
                 val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)
                 lazy val summaryParameter1 = ApplicationKickOutHelper.sources
                   .find(source => source._1 == kickoutReason && source._2 == KickOutSource.TNRB).map(_ =>
-                  TnrbHelper.spouseOrCivilPartnerLabelWithOptions(
+                  TnrbHelper.previousSpouseOrCivilPartner(
                     applicationDetails.increaseIhtThreshold,
                     applicationDetails.widowCheck,
-                    Some(Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased.previous", deceasedName)))
+                    deceasedName
+                  )
                 ).fold(deceasedName)(identity)
 
                 Ok(iht.views.html.application.iht_kickout_application(kickoutReason, applicationDetails,
