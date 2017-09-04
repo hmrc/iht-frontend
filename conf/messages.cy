@@ -1813,6 +1813,10 @@ country.ZW = Simbabwe
 country.JM = Jamaica
 country.EE = Estonia
 
+page.iht.filter.filter.choice.main.register.hint = Bydd angen i chi ateb ychydig o gwestiynau ynglŷn â'r ystâd er mwyn sicrhau eich bod yn defnyddio'r gwasanaeth cywir.
+page.iht.filter.filter.choice.main.alreadyStarted = Rwyf eisoes wedi dechrau'r cofrestriad ac mae gennyf y manylion sydd eu hangen arnaf i barhau
+page.iht.filter.filter.choice.main.agent = Rwy'n weithiwr proffesiynol ac yn eich hysbysu am werth ystâd ar gyfer ysgutor
+
 page.iht.application.tnrb.kickout.previousSpouse = priod blaenorol {0}
 page.iht.application.tnrb.kickout.previousSpouseOrCivilPartner = priod neu bartner sifil blaenorol {0}
 page.iht.application.tnrb.kickout.jointAssetPassed.summary = Y rheswm dros hynny yw ni phasiwyd holl asedion mewn cydberchnogaeth {0} i {1}

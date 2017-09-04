@@ -88,9 +88,9 @@ object FieldMappings {
   )
 
   def filterChoices(implicit messages: Messages) = ListMap(
-    continueEstateReport -> Tuple3(messages("page.iht.filter.filter.choice.main.continue"), None, None),
     register -> Tuple3(messages("page.iht.filter.filter.choice.main.register"), Some(messages("page.iht.filter.filter.choice.main.register.hint")), None),
     alreadyStarted -> Tuple3(messages("page.iht.filter.filter.choice.main.alreadyStarted"), None, None),
+    continueEstateReport -> Tuple3(messages("page.iht.filter.filter.choice.main.continue"), None, None),
     agent -> Tuple3(messages("page.iht.filter.filter.choice.main.agent"), None, None))
 
   def domicileChoices(implicit messages: Messages) =
