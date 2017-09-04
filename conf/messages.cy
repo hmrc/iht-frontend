@@ -1813,10 +1813,7 @@ country.ZM = Sambia
 country.ZW = Simbabwe
 country.JM = Jamaica
 country.EE = Estonia
-<<<<<<< HEAD
 pdf.meta.author = Cyllid a Thollau EM
-=======
-
 page.iht.application.tnrb.kickout.previousSpouse = priod blaenorol {0}
 page.iht.application.tnrb.kickout.previousSpouseOrCivilPartner = priod neu bartner sifil blaenorol {0}
 page.iht.application.tnrb.kickout.jointAssetPassed.summary = Y rheswm dros hynny yw ni phasiwyd holl asedion mewn cydberchnogaeth {0} i {1}
@@ -1826,4 +1823,4 @@ page.iht.application.tnrb.kickout.partnerBenFromTrust.summary = Y rheswm dros hy
 page.iht.application.tnrb.kickout.giftMadeBeforeDeath.summary = Y rheswm dros hynny yw rhoddodd {0} roddion nad oeddent wedi''u heithrio.
 page.iht.application.tnrb.kickout.partnerGiftWithResToOther.summary = Y rheswm dros hynny yw rhoddodd {0} rodd â budd wedi''i gadw.
 page.iht.application.tnrb.kickout.partnerNotLivingInUk.summary = Y rheswm dros hynny yw nid oedd cartref parhaol {0} yn y DU.
->>>>>>> master
+
