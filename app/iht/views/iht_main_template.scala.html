@@ -35,7 +35,6 @@
 signOutText: String = "",
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
-subTitle: Option[String] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
 jsFile: Option[String]= None,
@@ -48,7 +47,8 @@ signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = "",
-isRegistration: Boolean = false
+isRegistration: Boolean = false,
+isUserResearchBannerVisible:Boolean = false
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -120,10 +120,6 @@ isRegistration: Boolean = false
 }
 
 @commonContentHeader = {
-    @subTitle.map{ st =>
-        <h3 class="heading-medium subTitle">@st</h3>
-    }
-
     @if(ApplicationConfig.isWelshEnabled){
         @{
             views.html.language_selection(
@@ -141,13 +137,16 @@ isRegistration: Boolean = false
 }
 
 @afterHeader = {
-    <div class="notice-banner">
-        <div class="notice-banner__wrapper">
-            <h3 class="notice-banner__content">@messages("site.userResearchLink.title")</h3>
-            <a class="notice-banner__content trackLink" href='@IhtProperties.linkUserResearch' target="_blank">@messages("site.userResearchLink.link")</a>
-            <span class="notice-banner__content font-xtrasmall">@messages("site.userResearchLink.text")</span>
+    @if(isUserResearchBannerVisible) {
+        <div class="notice-banner">
+            <div class="notice-banner__wrapper">
+                <h3 class="notice-banner__content">@messages("site.userResearchLink.title")</h3>
+                <a class="notice-banner__content trackLink" href='@IhtProperties.linkUserResearch' target="_blank">@messages("site.userResearchLink.link")</a>
+                <span class="notice-banner__content font-xtrasmall">@messages("site.userResearchLink.text")</span>
+                <span class="notice-banner__content font-xtrasmall">@messages("site.userResearchLink.notAvailableInWelsh")</span>
+            </div>
         </div>
-    </div>
+    }
 }
 
 @mainContentIht = {
