@@ -282,7 +282,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetMoney = {
+  def buildAssetMoney = {
     Asset(
       // General asset
       assetCode= Some("9001"),
@@ -296,7 +296,7 @@ object IHTReturnTestHelper {
   }
 
   // Create Jointly owed money asset
-  private def buildJointAssetMoney = {
+  def buildJointAssetMoney = {
     Asset(
       // General asset
       assetCode= Some("9001"),
@@ -310,7 +310,7 @@ object IHTReturnTestHelper {
   }
 
   // Household and personal goods plus motor vehicles, caravans and boats
-  private def buildAssetHouseholdAndPersonalItems = {
+  def buildAssetHouseholdAndPersonalItems = {
     Asset(
       // General asset
       assetCode= Some("9004"),
@@ -324,7 +324,7 @@ object IHTReturnTestHelper {
   }
 
   // Create joint household and personal items
-  private def buildJointAssetHouseholdAndPersonalItems = {
+  def buildJointAssetHouseholdAndPersonalItems = {
     Asset(
       // General asset
       assetCode= Some("9004"),
@@ -338,7 +338,7 @@ object IHTReturnTestHelper {
   }
 
   // Create joint household and personal items
-  private def buildJointAssetMotorVehicle = {
+  def buildJointAssetMotorVehicle = {
     Asset(
       // General asset
       assetCode= Some("9004"),
@@ -351,7 +351,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetPrivatePensions = {
+  def buildAssetPrivatePensions = {
     Asset(
       // General asset
       assetCode= Some("9005"),
@@ -365,7 +365,7 @@ object IHTReturnTestHelper {
   }
 
   // Create jointly owen private pensions
-  private def buildJointAssetPrivatePensions = {
+  def buildJointAssetPrivatePensions = {
     Asset(
       // General asset
       assetCode= Some("9005"),
@@ -378,7 +378,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetStocksAndSharesNotListed = {
+  def buildAssetStocksAndSharesNotListed = {
     Asset(
       // General asset
       assetCode= Some("9010"),
@@ -391,7 +391,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetStocksAndSharesListed = {
+  def buildAssetStocksAndSharesListed = {
     Asset(
       // General asset
       assetCode= Some("9008"),
@@ -404,7 +404,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetInsurancePoliciesOwned = {
+  def buildAssetInsurancePoliciesOwned = {
     Asset(
       // General asset
       assetCode= Some("9006"),
@@ -418,7 +418,7 @@ object IHTReturnTestHelper {
   }
 
   // Create jointly owed insurance policy
-  private def buildJointAssetInsurancePoliciesOwned = {
+  def buildJointAssetInsurancePoliciesOwned = {
     Asset(
       // General asset
       assetCode= Some("9006"),
@@ -431,7 +431,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetBusinessInterests = {
+  def buildAssetBusinessInterests = {
     Asset(
       // General asset
       assetCode= Some("9021"),
@@ -444,7 +444,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetNominatedAssets = {
+  def buildAssetNominatedAssets = {
 
     Asset(
       // General asset
@@ -458,7 +458,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetForeignAssets = {
+  def buildAssetForeignAssets = {
     Asset(
       // General asset
       assetCode= Some("9098"),
@@ -471,7 +471,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetMoneyOwed = {
+  def buildAssetMoneyOwed = {
     Asset(
       // General asset
       assetCode= Some("9013"),
@@ -484,7 +484,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetOther = {
+  def buildAssetOther = {
     Asset(
       // General asset
       assetCode= Some("9015"),
@@ -497,7 +497,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetsPropertiesDeceasedsHome = {
+  def buildAssetsPropertiesDeceasedsHome = {
     val addressOrOtherLandLocation = AddressOrOtherLandLocation(
       address = Some(models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
         addressLine3= None, addressLine4= None,
@@ -528,7 +528,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetsPropertiesOtherResidentialBuilding = {
+  def buildAssetsPropertiesOtherResidentialBuilding = {
     val addressOrOtherLandLocation = AddressOrOtherLandLocation(
       address = Some(models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
         addressLine3= None, addressLine4= None,
@@ -560,7 +560,7 @@ object IHTReturnTestHelper {
     )
   }
 
-  private def buildAssetsPropertiesLandNonRes = {
+  def buildAssetsPropertiesLandNonRes = {
     val addressOrOtherLandLocation = AddressOrOtherLandLocation(
       address = Some(models.des.Address(addressLine1= "addr1", addressLine2= "addr2",
         addressLine3= None, addressLine4= None,

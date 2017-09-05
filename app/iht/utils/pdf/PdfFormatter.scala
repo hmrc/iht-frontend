@@ -26,7 +26,7 @@ import iht.constants.{Constants, FieldMappings}
 import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.models.application.ApplicationDetails
 import iht.models.application.gifts.PreviousYearsGifts
-import iht.models.des.ihtReturn.{Asset, Exemption, Gift, IHTReturn}
+import iht.models.des.ihtReturn._
 import iht.utils.{CommonHelper, GiftsHelper}
 import iht.views.html.filter
 import iht.views.html.filter.domicile
@@ -94,12 +94,23 @@ object PdfFormatter {
     combineGiftSets(allPreviousYearsGifts, setOfGifts)
   }
 
+  def padAssets(optionSetAsset: Option[Set[Asset]]): Option[Set[Asset]] = {
+    optionSetAsset.map { actualAssetSet =>
+      PDFAssetHelper.blankSetAsset.map { blankAsset =>
+        actualAssetSet.find(x => x.assetCode == blankAsset.assetCode && x.howheld == blankAsset.howheld) match {
+          case None => blankAsset
+          case Some(aa) => aa
+        }
+      }
+    }
+  }
+
   def transform(ihtReturn: IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
 
     val deceasedName: String = registrationDetails.deceasedDetails.fold("")(_.name)
     val dateOfDeath: LocalDate = CommonHelper.getOrException(registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath))
 
-    val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
+    val optionSetAsset = updateETMPOptionSet[Asset](padAssets(ihtReturn.freeEstate.flatMap(_.estateAssets)),
       _.assetCode,
       Constants.ETMPAssetCodesToIHTMessageKeys,
       (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
@@ -139,7 +150,7 @@ object PdfFormatter {
       dd copy(
         maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(messages)(ms)),
         domicile = dd.domicile.map(ms => domicileMap(messages)(ms)),
-        ukAddress = dd.ukAddress.map{ (addr: UkAddress) =>
+        ukAddress = dd.ukAddress.map { (addr: UkAddress) =>
           addr copy (
             countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
             )
@@ -149,23 +160,23 @@ object PdfFormatter {
 
     val coExecutors = rd.coExecutors.map { coExec =>
       coExec copy (
-        ukAddress = coExec.ukAddress.map{ (addr: UkAddress) =>
-          addr copy (
-            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
-            )
-        }
-      )
-    }
-
-    val optionApplicantDetails: Option[ApplicantDetails] = rd.applicantDetails.map { ad =>
-      ad copy (
-        country = ad.country.map(ms => applicantCountryMap(messages)(ms)),
-        ukAddress = ad.ukAddress.map{ (addr: UkAddress) =>
+        ukAddress = coExec.ukAddress.map { (addr: UkAddress) =>
           addr copy (
             countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
             )
         }
         )
+    }
+
+    val optionApplicantDetails: Option[ApplicantDetails] = rd.applicantDetails.map { ad =>
+      ad copy(
+        country = ad.country.map(ms => applicantCountryMap(messages)(ms)),
+        ukAddress = ad.ukAddress.map { (addr: UkAddress) =>
+          addr copy (
+            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
+            )
+        }
+      )
     }
 
     rd copy(deceasedDetails = optionDeceasedDetails, applicantDetails = optionApplicantDetails, coExecutors = coExecutors)
@@ -223,5 +234,6 @@ object PdfFormatter {
       Constants.DisplayModeNoExemption
     }
   }
+
   // scalastyle:on magic.number
 }
