@@ -68,37 +68,41 @@ class PdfFormatterTest extends FormTestHelper {
     }
   }
 
-//  "transform asset descriptions correctly for display" in {
-//    val etmpTitlesMappedToPDFMessageKeys = ListMap(
-//      "Rolled up bank and building society accounts" -> "iht.estateReport.assets.money.upperCaseInitial",
-//      "Rolled up household and personal goods" -> "iht.estateReport.assets.householdAndPersonalItems.title",
-//      "Rolled up pensions" -> "iht.estateReport.assets.privatePensions",
-//      "Rolled up unlisted stocks and shares" -> "iht.estateReport.assets.stocksAndSharesNotListed",
-//      "Rolled up quoted stocks and shares" -> "iht.estateReport.assets.stocksAndSharesListed",
-//      "Rolled up life assurance policies" -> "iht.estateReport.assets.insurancePolicies",
-//      "Rolled up business assets" -> "iht.estateReport.assets.businessInterests.title",
-//      "Rolled up nominated assets" -> "iht.estateReport.assets.nominated",
-//      "Rolled up trust assets" -> "iht.estateReport.assets.heldInATrust.title",
-//      "Rolled up foreign assets" -> "iht.estateReport.assets.foreign.title",
-//      "Rolled up money owed to deceased" -> "iht.estateReport.assets.moneyOwed",
-//      "Rolled up other assets" -> "page.iht.application.assets.main-section.other.title",
-//      "Deceased's residence" -> "page.iht.application.assets.propertyType.deceasedHome.label"
-//    )
-//    val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "")
-//    val expectedSetOfAssets = ihtReturn.freeEstate.flatMap(_.estateAssets)
-//      .fold[Set[Asset]](Set.empty)(identity).map { asset =>
-//      val newAssetDescription = asset.assetDescription.map(x =>
-//        etmpTitlesMappedToPDFMessageKeys.get(x) match {
-//          case None => x
-//          case Some(newMessageKey) => messagesApi(newMessageKey, regDetails.deceasedDetails.fold("")(_.name))
-//        }
-//      )
-//      asset copy (assetDescription = newAssetDescription)
-//    }
-//    val result = PdfFormatter.transform(ihtReturn, regDetails, messages)
-//    val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
-//    setOfAssets shouldBe expectedSetOfAssets
-//  }
+  "transform asset descriptions correctly for display" in {
+    val etmpTitlesMappedToPDFMessageKeys = ListMap(
+      "Rolled up bank and building society accounts" -> "iht.estateReport.assets.money.upperCaseInitial",
+      "Rolled up household and personal goods" -> "iht.estateReport.assets.householdAndPersonalItems.title",
+      "Rolled up pensions" -> "iht.estateReport.assets.privatePensions",
+      "Rolled up unlisted stocks and shares" -> "iht.estateReport.assets.stocksAndSharesNotListed",
+      "Rolled up quoted stocks and shares" -> "iht.estateReport.assets.stocksAndSharesListed",
+      "Rolled up life assurance policies" -> "iht.estateReport.assets.insurancePolicies",
+      "Rolled up business assets" -> "iht.estateReport.assets.businessInterests.title",
+      "Rolled up nominated assets" -> "iht.estateReport.assets.nominated",
+      "Rolled up trust assets" -> "iht.estateReport.assets.heldInATrust.title",
+      "Rolled up foreign assets" -> "iht.estateReport.assets.foreign.title",
+      "Rolled up money owed to deceased" -> "iht.estateReport.assets.moneyOwed",
+      "Rolled up other assets" -> "page.iht.application.assets.main-section.other.title",
+      "Deceased's residence" -> "page.iht.application.assets.propertyType.deceasedHome.label"
+    )
+    val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "")
+    val expectedSetOfAssets = ihtReturn.freeEstate.flatMap(_.estateAssets)
+      .fold[Set[Asset]](Set.empty)(identity).map { asset =>
+      val newAssetDescription = asset.assetDescription.map(x =>
+        etmpTitlesMappedToPDFMessageKeys.get(x) match {
+          case None => x
+          case Some(newMessageKey) => messagesApi(newMessageKey, regDetails.deceasedDetails.fold("")(_.name))
+        }
+      )
+      asset copy (assetDescription = newAssetDescription)
+    }
+    val result = PdfFormatter.transform(ihtReturn, regDetails, messages)
+    val setOfAssets = result.freeEstate.flatMap(_.estateAssets).fold[Set[Asset]](Set.empty)(identity)
+    setOfAssets.foreach { asset =>
+      val expectedAssetDescription = expectedSetOfAssets
+        .find(x => x.assetCode == asset.assetCode && x.howheld == asset.howheld).flatMap(_.assetDescription)
+      asset.assetDescription shouldBe expectedAssetDescription
+    }
+  }
 
   "transform" must {
     "transform the marital status" in {
@@ -357,8 +361,6 @@ class PdfFormatterTest extends FormTestHelper {
         blankAsset(buildAssetMoneyOwed),
         buildAssetOther,
         blankAsset(buildAssetsPropertiesDeceasedsHome)
-//        blankAsset(buildAssetsPropertiesOtherResidentialBuilding),
-//        blankAsset(buildAssetsPropertiesLandNonRes)
       )
       val setAsset = Set(IHTReturnTestHelper.buildAssetMoney,
         IHTReturnTestHelper.buildAssetPrivatePensions,
@@ -366,9 +368,6 @@ class PdfFormatterTest extends FormTestHelper {
 
       val expectedResult: Option[Set[Asset]] = Some(expectedSetAsset)
       val result: Option[Set[Asset]] = PdfFormatter.padAssets(Some(setAsset))
-
-      expectedResult.foreach(x=>println("expected=" + x.count(_=>true)))
-      result.foreach(x=>println("result=" + x.count(_=>true)))
 
       result shouldBe expectedResult
     }

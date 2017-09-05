@@ -344,7 +344,5 @@ object PDFAssetHelper {
     buildAssetMoneyOwed,
     buildAssetOther,
     buildAssetsPropertiesDeceasedsHome
-   // buildAssetsPropertiesOtherResidentialBuilding,
-//    buildAssetsPropertiesLandNonRes
   )
 }
