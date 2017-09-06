@@ -106,7 +106,6 @@ object PdfFormatter {
   }
 
   def transform(ihtReturn: IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
-
     val deceasedName: String = registrationDetails.deceasedDetails.fold("")(_.name)
     val dateOfDeath: LocalDate = CommonHelper.getOrException(registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath))
 
@@ -115,6 +114,12 @@ object PdfFormatter {
       Constants.ETMPAssetCodesToIHTMessageKeys,
       (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
     )
+
+//    val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
+//      _.assetCode,
+//      Constants.ETMPAssetCodesToIHTMessageKeys,
+//      (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
+//    )
 
     val optionSeqExemption = updateETMPOptionSeq[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
       _.exemptionType,
