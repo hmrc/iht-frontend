@@ -15,3 +15,50 @@
 @import 'partials/_utilities';
 
 @import 'partials/_shame';
+
+
+
+.full-width-panel-wrapper {
+    background-color: #005ea5;
+    color: #fff;
+
+    #panel-container {
+        padding-bottom: 20px;
+        padding-top: 20px;
+        position: relative;
+
+        a {
+            color: #fff;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .close-panel {
+            color: #fff;
+            font-size: 14px;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+        }
+
+        .external-link-warning {
+            display: inline-block;
+            font-size: 14px;
+        }
+    }
+
+}
+
+@media (min-width: 641px) {
+    .full-width-panel-wrapper {
+        #panel-container {
+            .close-panel {
+                right: 35px;
+            }
+        }
+    }
+}

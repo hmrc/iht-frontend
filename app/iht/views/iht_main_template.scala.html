@@ -31,6 +31,9 @@
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.constants.IhtProperties
 
+@import uk.gov.hmrc.play.views.html._
+@import uk.gov.hmrc.play.views.html.layouts._
+
 @(title: String = "",
 signOutText: String = "",
 browserTitle: Option[String] = None,
@@ -138,14 +141,25 @@ isUserResearchBannerVisible:Boolean = false
 
 @afterHeader = {
     @if(isUserResearchBannerVisible) {
-        <div class="notice-banner">
-            <div class="notice-banner__wrapper">
-                <h3 class="notice-banner__content">@messages("site.userResearchLink.title")</h3>
-                <a class="notice-banner__content trackLink" href='@IhtProperties.linkUserResearch' target="_blank">@messages("site.userResearchLink.link")</a>
-                <span class="notice-banner__content font-xtrasmall">@messages("site.userResearchLink.text")</span>
-                <span class="notice-banner__content font-xtrasmall">@messages("site.userResearchLink.notAvailableInWelsh")</span>
-            </div>
-        </div>
+    @fullWidthBanner(Some(fullWidthBannerContentB(
+                messages("site.userResearchLink.title"),
+                None,
+                messages("site.userResearchLink.link"),
+                IhtProperties.linkUserResearch,
+                Some(messages("site.userResearchLink.text"))
+            )
+        )
+    )
+
+
+        <!--<div class="notice-banner">-->
+            <!--<div class="notice-banner__wrapper">-->
+                <!--<h3 class="notice-banner__content">@messages("site.userResearchLink.title")</h3>-->
+                <!--<a class="notice-banner__content trackLink" href='@IhtProperties.linkUserResearch' target="_blank">@messages("site.userResearchLink.link")</a>-->
+                <!--<span class="notice-banner__content font-xtrasmall">@messages("site.userResearchLink.text")</span>-->
+                <!--<span class="notice-banner__content font-xtrasmall">@messages("site.userResearchLink.notAvailableInWelsh")</span>-->
+            <!--</div>-->
+        <!--</div>-->
     }
 }
 
