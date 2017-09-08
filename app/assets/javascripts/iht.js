@@ -117,7 +117,7 @@ if($('[data-enhanced-select]').length > 0){
 
 
 // =====================================================
-// ??????
+// Handle the IHT UR panel dismiss link functionality
 // =====================================================
     var cookieData=GOVUK.getCookie("iht_ur_panel");
     if (cookieData == null) {
@@ -128,10 +128,6 @@ if($('[data-enhanced-select]').length > 0){
          GOVUK.setCookie("iht_ur_panel", 1, 99999999999);
          $("#ur-panel").css("display", "none");
     });
-
-
-
-
   // end of on doc ready
 });
 
