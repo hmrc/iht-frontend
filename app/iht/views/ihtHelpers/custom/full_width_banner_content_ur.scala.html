@@ -14,8 +14,17 @@
 * limitations under the License.
 *@
 @(panelTitle: String,
-panelContent: String
+linkText: String,
+linkUrl: String,
+externalLinkWarning: Option[String]
 )(implicit messages: Messages)
 
 <div class="panel-title">@panelTitle</div>
-<div class="panel-content">@panelContent</div>
+<div class="panel-content">
+    <a id="panel-link"
+       href="@linkUrl"
+       data-sso="false"
+       data-journey-click="other-global:Click:Feedback"
+       target="_blank"
+    >@linkText</a>@externalLinkWarning.map{ extLinkText => <span class="external-link-warning">@extLinkText</span> }
+</div>
