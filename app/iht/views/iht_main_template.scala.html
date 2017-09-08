@@ -31,8 +31,7 @@
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 @import iht.constants.IhtProperties
 
-@import uk.gov.hmrc.play.views.html._
-@import uk.gov.hmrc.play.views.html.layouts._
+@import ihtHelpers.custom._
 
 @(title: String = "",
 signOutText: String = "",
@@ -141,7 +140,7 @@ isUserResearchBannerVisible:Boolean = false
 
 @afterHeader = {
     @if(isUserResearchBannerVisible) {
-    @fullWidthBanner(Some(fullWidthBannerContentB(
+    @full_width_banner(Some(full_width_banner_contentB(
                 messages("site.userResearchLink.title"),
                 None,
                 messages("site.userResearchLink.link"),
