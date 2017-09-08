@@ -115,6 +115,23 @@ if($('[data-enhanced-select]').length > 0){
   numberInputs();
 
 
+
+// =====================================================
+// ??????
+// =====================================================
+    var cookieData=GOVUK.getCookie("iht_ur_panel");
+    if (cookieData == null) {
+        $("#ur-panel").css("display", "block");
+    }
+
+    $(".close-panel").on("click", function(e) {
+         GOVUK.setCookie("iht_ur_panel", 1, 99999999999);
+         $("#ur-panel").css("display", "none");
+    });
+
+
+
+
   // end of on doc ready
 });
 

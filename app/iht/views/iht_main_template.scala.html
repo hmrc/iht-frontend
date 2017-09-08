@@ -140,6 +140,9 @@ isUserResearchBannerVisible:Boolean = false
 
 @afterHeader = {
     @if(isUserResearchBannerVisible) {
+
+
+
         @full_width_banner(Some(full_width_banner_content_ur(
                     messages("site.userResearchLink.title"),
                     messages("site.userResearchLink.link"),
