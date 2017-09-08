@@ -1828,5 +1828,5 @@ page.iht.filter.filter.choice.main.agent = Rwy'n weithiwr proffesiynol ac yn eic
 pdf.meta.author = Cyllid a Thollau EM
 
 site.userResearchLink.title = Helpwch i wella GOV.UK
-site.userResearchLink.link = Atebwch ychydig o gwestiynau am eich hunan er mwyn ymuno â'r panel ymchwil.
-site.userResearchLink.text = Mae'r cysylltiad hwn yn agor tab newydd. Sylwer – nid yw'r gwasanaeth hwn ar gael yn Gymraeg.
+site.userResearchLink.link = Atebwch ychydig o gwestiynau am eich hunan er mwyn ymuno â''r panel ymchwil.
+site.userResearchLink.text = Mae''r cysylltiad hwn yn agor tab newydd. Sylwer – nid yw''r gwasanaeth hwn ar gael yn Gymraeg.

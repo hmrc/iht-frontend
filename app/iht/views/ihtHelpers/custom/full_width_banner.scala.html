@@ -15,9 +15,9 @@
 *@
 @(fullWithBannerContent: Option[Html])(implicit messages: Messages)
 
-<div id="ur-panel" class="full-width-panel-wrapper">
-    <section id="panel-container" class="centered-content visible" aria-hidden="false">
+<div id="ur-panel" class="banner-panel">
+    <section class="centered-content visible banner-panel__container" aria-hidden="false">
         @fullWithBannerContent
-        <a class="close-panel" href="#" aria-labelledby="user-panel-close" id="user-panel-close" role="button">@Messages("site.dismissBanner")</a>
+        <a class="banner-panel__close" href="#" role="button"><span aria-hidden="true">@Messages("site.dismissBanner")</span><span class="visually-hidden">[I don't want to help improve Gov UK]</span></a>
     </section>
 </div>
