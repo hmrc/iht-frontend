@@ -10,6 +10,9 @@ Full width panel used at top of page to contain UR recruitment notice
     background-color: #005ea5;
     color: #fff;
 }
+.banner-panel--show {
+    display: block;
+}
 .banner-panel__container {
     padding: 20px .78947em;
     position: relative;

@@ -20,14 +20,6 @@ p.font-xsmall{
   text-transform:none
 }
 
-p.font-xtrasmall{
-  font-family:"nta",Arial,sans-serif;
-  font-size:8px;
-  line-height:1.25;
-  font-weight:300;
-  text-transform:none
-}
-
 @media (max-width: 640px){
   p.font-xsmall{
     font-size:14px;
