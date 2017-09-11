@@ -80,7 +80,7 @@ site.headers.overview.values = Information Provided
 site.headers.overview.action = Action
 
 site.dismissBanner = No thanks
-site.dismissBanner.screenreader = I don't want to answer any questions about joining the research panel
+site.dismissBanner.screenreader = I don’t want to answer any questions about joining the research panel
 site.userResearchLink.title = Help improve GOV.UK
 site.userResearchLink.link = Answer some questions about yourself to join the research panel.
 site.userResearchLink.text = This link opens in a new tab. Please note that this service is not available in Welsh.
