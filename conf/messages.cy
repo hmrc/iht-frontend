@@ -1963,3 +1963,9 @@ page.iht.application.assets.trusts.moreThanOne.browserTitle =Sawl ymddiriedolaet
 page.iht.application.assets.trusts.value.browserTitle =Gwerth yr ymddiriedolaeth
 page.iht.application.assets.vehicles.deceased.browserTitle =Cerbydau modur a berchenogwyd
 page.iht.application.assets.vehicles.jointly.owned.browserTitle =Cerbydau modur mewn perchenogaeth ar y cyd
+
+site.userResearchLink.title = Helpwch i wella GOV.UK
+site.userResearchLink.link = Atebwch ychydig o gwestiynau am eich hunan er mwyn ymuno â''r panel ymchwil.
+site.userResearchLink.text = Mae''r cysylltiad hwn yn agor tab newydd. Sylwer – nid yw''r gwasanaeth hwn ar gael yn Gymraeg.
+site.dismissBanner = Dim diolch
+site.dismissBanner.screenreader = Dydw i ddim eisiau ateb unrhyw gwestiynau ynglŷn ag ymuno â''r panel ymchwil.

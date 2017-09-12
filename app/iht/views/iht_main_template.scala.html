@@ -29,12 +29,14 @@
 @import iht.config.IhtFormPartialRetriever
 @import iht.config.ApplicationConfig
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
+@import iht.constants.IhtProperties
+
+@import ihtHelpers.custom._
 
 @(title: String = "",
 signOutText: String = "",
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
-subTitle: Option[String] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
 jsFile: Option[String]= None,
@@ -47,7 +49,8 @@ signOutUrl: Option[Call],
 headerTitle: Option[String],
 headingClass: String = "",
 headingName: String = "",
-isRegistration: Boolean = false
+isRegistration: Boolean = false,
+isUserResearchBannerVisible:Boolean = false
 )(mainContent: Html)(implicit  request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @lc = @{Application.instanceCache[CustomLanguageController].apply(current) }
@@ -119,10 +122,6 @@ isRegistration: Boolean = false
 }
 
 @commonContentHeader = {
-    @subTitle.map{ st =>
-        <h3 class="heading-medium subTitle">@st</h3>
-    }
-
     @if(ApplicationConfig.isWelshEnabled){
         @{
             views.html.language_selection(
@@ -140,7 +139,19 @@ isRegistration: Boolean = false
 }
 
 @afterHeader = {
+    @if(isUserResearchBannerVisible) {
 
+
+
+        @full_width_banner(Some(full_width_banner_content_ur(
+                    messages("site.userResearchLink.title"),
+                    messages("site.userResearchLink.link"),
+                    IhtProperties.linkUserResearch,
+                    Some(messages("site.userResearchLink.text"))
+                )
+            )
+        )
+    }
 }
 
 @mainContentIht = {
