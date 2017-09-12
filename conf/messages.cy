@@ -1830,3 +1830,5 @@ pdf.meta.author = Cyllid a Thollau EM
 site.userResearchLink.title = Helpwch i wella GOV.UK
 site.userResearchLink.link = Atebwch ychydig o gwestiynau am eich hunan er mwyn ymuno â''r panel ymchwil.
 site.userResearchLink.text = Mae''r cysylltiad hwn yn agor tab newydd. Sylwer – nid yw''r gwasanaeth hwn ar gael yn Gymraeg.
+site.dismissBanner = Dim diolch
+site.dismissBanner.screenreader = Dydw i ddim eisiau ateb unrhyw gwestiynau ynglŷn ag ymuno â''r panel ymchwil.
