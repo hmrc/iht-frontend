@@ -92,13 +92,3 @@ Welsh/English language selector
 .translate + .content__body h1 {
   margin-top: 0.8em;
 }
-
-/*
-====================================
-User research link is on blue background so we
-don't want the visited colour to be blue too.
-====================================
-*/
-.notice-banner__wrapper a:visited {
-    color: white;
-}

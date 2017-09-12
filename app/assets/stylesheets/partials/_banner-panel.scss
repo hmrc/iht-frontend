@@ -37,6 +37,9 @@ Full width panel used at top of page to contain UR recruitment notice
     font-size: 14px;
 }
 
+.notice-banner__wrapper a:visited {
+    color: #fff;
+}
 
 @media (min-width: 641px) {
     .banner-panel__close {
