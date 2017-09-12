@@ -142,7 +142,6 @@ class FilterViewTest extends ViewTestHelper {
       content should include(messagesApi("site.userResearchLink.title"))
       content should include(messagesApi("site.userResearchLink.link"))
       content should include(messagesApi("site.userResearchLink.text"))
-      content should include(messagesApi("site.userResearchLink.notAvailableInWelsh"))
     }
   }
 }
