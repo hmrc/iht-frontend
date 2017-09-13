@@ -25,11 +25,14 @@ import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
 import iht.utils.{SessionHelper, StringHelper}
 import iht.views.html.registration.{applicant => views}
+import org.apache.http.HttpStatus
 import play.api.Play.current
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{AnyContent, Request, Result}
+import play.api.mvc.{AnyContent, Call, Request, Result}
 import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.play.http.NotFoundException
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -90,15 +93,24 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   def onwardRoute(rd: RegistrationDetails) = routes.ProbateLocationController.onPageLoad
 
+  def routeForSubmit(ad: ApplicantDetails, mode: Mode.Value): Call = ad.doesLiveInUK match {
+    case Some(true) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadUk()
+    case Some(false) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadAbroad()
+    case _ => registrationRoutes.RegistrationSummaryController.onPageLoad()
+  }
+
   override def submit(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request => {
+//       val nino = Nino(StringHelper.getNino(user))
+      val nino = Nino("AB123456C")
+      val citizenDetailsPersonFuture: Future[CidPerson] = citizenDetailsConnector.getCitizenDetails(nino)
+
       withRegistrationDetails { rd =>
         val formType = if (mode == Mode.Standard) {
             applicantTellUsAboutYourselfForm
           } else {
             applicantTellUsAboutYourselfEditForm
           }
-
         val boundForm = formType.bindFromRequest
         boundForm.fold(
           formWithErrors => {
@@ -107,11 +119,9 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
             } else {
               Future.successful(badRequestForEditSubmit(formWithErrors))
             }
-          },
+          }, // end of form with errors
           ad => {
-            val nino = Nino(StringHelper.getNino(user))
-
-            val applicantDetailsFuture = citizenDetailsConnector.getCitizenDetails(nino).map {
+            val applicantDetailsFuture = citizenDetailsPersonFuture.map {
               person: CidPerson => {
                 if (mode == Mode.Standard) {
                   rd.applicantDetails.getOrElse(new ApplicantDetails) copy(firstName = person.firstName,
@@ -121,24 +131,25 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
                   rd.applicantDetails.getOrElse(new ApplicantDetails) copy (phoneNo = ad.phoneNo)
                 }
               }
-            }
-
+            } // end of creating applicant details future
             applicantDetailsFuture.flatMap {
-              case result => {
+              result =>
                 val copyOfRD = rd copy (applicantDetails = Some(result))
-                val route = ad.doesLiveInUK match {
-                  case Some(true) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadUk
-                  case Some(false) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadAbroad
-                  case _ => registrationRoutes.RegistrationSummaryController.onPageLoad
-                }
+                val route = routeForSubmit(ad, mode)
                 storeRegistrationDetails(copyOfRD,
                   route,
                   "Fails to store registration details during application tell us about yourself submission")
-              }
-            }
-          }
-        )
+            } recover cdFailure
+          } // end of form without errors
+        ) // end of boundForm fold
       }
     }
   }
+
+  def cdFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
+      case ex: NotFoundException => {
+        BadRequest(iht.views.html.registration.registration_error_citizenDetails("aaaa", "bbbb", ex.message))
+      }
+  }
+
 }
