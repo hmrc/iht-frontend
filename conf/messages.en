@@ -364,6 +364,10 @@ page.iht.registration.applicantDetails.countrycode.help = If your address is not
 page.iht.registration.applicantAddress.title = Your address
 page.iht.registration.applicantAddress.hint = This is where HMRC can contact you.
 
+page.iht.registration.applicantDetails.citizenDetailsNotFound.title = There is a problem finding your details
+page.iht.registration.applicantDetails.citizenDetailsNotFound.subtitle = The details that HMRC have about you could not be found.
+page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Ring the Inheritance Tax helpline to get this problem fixed. Contact the helpline on 0300 123 1072. If you are outside of the UK, ring +44 300 123 1072.
+
 #Registration - Applicant Apply for probate
 page.iht.registration.applicant.probateLocation.title = Where are you going to apply for probate?
 page.iht.registration.applicant.probateLocation.browserTitle = Probate location
