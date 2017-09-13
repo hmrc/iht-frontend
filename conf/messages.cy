@@ -1995,3 +1995,6 @@ page.iht.application.tnrb.guidance.system.p1 = Efallai ei fod yn bosibl cynyddu'
 page.iht.application.tnrb.guidance.system.title = Mae gwerth yr ystâd yn uwch na''r trothwy Treth Etifeddiant
 page.iht.application.tnrb.permanentHome.question.hint = Gellir hefyd adnabod hon fel gwlad y domisil.
 page.iht.application.tnrbEligibilty.returnToTnrbEligibilty = Yn ôl i''r dudalen Cynyddu''r trothwy Treth Etifeddiant
+
+site.language.english = English
+site.language.welsh = Cymraeq

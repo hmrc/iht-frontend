@@ -23,6 +23,7 @@ import play.api.Play
 import play.api.i18n.{Lang, MessagesApi}
 import play.api.mvc.{Action, AnyContent, Call}
 import uk.gov.hmrc.play.config.RunMode
+import uk.gov.hmrc.play.frontend.controller.UnauthorisedAction
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
 
@@ -57,4 +58,12 @@ class CustomLanguageController @Inject()(implicit val messagesApi: MessagesApi) 
   /** Returns a mapping between strings and the corresponding Lang object. **/
   override def languageMap: Map[String, Lang] = Map("english" -> Lang("en"),
     "cymraeg" -> Lang("cy"))
+
+  def cyGb(redirectUrl: String): Action[AnyContent] =  Action { implicit request =>
+    Redirect(redirectUrl).withLang(Lang("cy"))
+  }
+
+  def enGb(redirectUrl: String): Action[AnyContent] =  Action { implicit request =>
+    Redirect(redirectUrl).withLang(Lang("en"))
+  }
 }

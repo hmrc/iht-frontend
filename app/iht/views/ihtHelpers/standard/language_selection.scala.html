@@ -1,0 +1,45 @@
+@*
+* Copyright 2017 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import uk.gov.hmrc.urls.Link
+
+@(langMap: Map[String, Lang], langToCall: (String => Call), customClass: Option[String] = None, appName: Option[String] = None)(implicit messages: Messages)
+
+<p class="@if(customClass.isDefined) {@customClass.get}">
+    @langMap.map { case (key: String, value: Lang) =>
+        @if(messages.lang.code != value.code) {
+            @defining(s"$key-switch"){id =>
+                @defining(s"${langToCall(key)}"){url=>
+                    @defining(key.capitalize){value=>
+                        <a  class="ga-track-anchor-click"
+                            data-ga-event-category="link - click"
+                            data-ga-event-action="lang-select"
+                            data-ga-event-label='@value'
+                            id='@id' href='@url'
+                            target="_self"
+                            data-sso="false">@value
+                        </a>
+                    }
+                }
+            }
+        } else {
+            @key.capitalize
+        }
+        @if(key != langMap.last._1) {
+            @Html(" | ")
+        }
+    }
+</p>
