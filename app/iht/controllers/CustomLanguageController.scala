@@ -23,9 +23,7 @@ import play.api.Play
 import play.api.i18n.{Lang, MessagesApi}
 import play.api.mvc.{Action, AnyContent, Call}
 import uk.gov.hmrc.play.config.RunMode
-import uk.gov.hmrc.play.frontend.controller.UnauthorisedAction
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
-
 
 @Singleton
 class CustomLanguageController @Inject()(implicit val messagesApi: MessagesApi) extends LanguageController with RunMode {
