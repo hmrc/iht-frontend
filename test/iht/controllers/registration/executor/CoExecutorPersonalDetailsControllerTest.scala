@@ -465,10 +465,9 @@ class CoExecutorPersonalDetailsControllerTest extends RegistrationControllerTest
 
       createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
 
-      intercept[Exception] {
         val result = controller(coExecutorForms).onSubmit(Some("1"))(request)
-        status(result)
-      }
+        redirectLocation(result) should be(
+        Some(iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad().url))
     }
 
     "raise an error when trying to save a new co-executor and the maximum number already exist" in {
