@@ -1,4 +1,3 @@
-
 $(".ga-track-anchor-click").click(function(event) {
   var target = $(this).attr('target')
   if ( $(this).is('a') && (target == '' || target == '_self') ) {
