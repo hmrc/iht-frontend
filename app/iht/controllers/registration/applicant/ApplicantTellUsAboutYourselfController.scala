@@ -101,8 +101,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   override def submit(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request => {
-//       val nino = Nino(StringHelper.getNino(user))
-      val nino = Nino("AB123456C")
+    val nino = Nino(StringHelper.getNino(user))
       val citizenDetailsPersonFuture: Future[CidPerson] = citizenDetailsConnector.getCitizenDetails(nino)
 
       withRegistrationDetails { rd =>
@@ -119,7 +118,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
             } else {
               Future.successful(badRequestForEditSubmit(formWithErrors))
             }
-          }, // end of form with errors
+          },
           ad => {
             val applicantDetailsFuture = citizenDetailsPersonFuture.map {
               person: CidPerson => {
@@ -131,7 +130,7 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
                   rd.applicantDetails.getOrElse(new ApplicantDetails) copy (phoneNo = ad.phoneNo)
                 }
               }
-            } // end of creating applicant details future
+            }
             applicantDetailsFuture.flatMap {
               result =>
                 val copyOfRD = rd copy (applicantDetails = Some(result))
@@ -139,17 +138,20 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
                 storeRegistrationDetails(copyOfRD,
                   route,
                   "Fails to store registration details during application tell us about yourself submission")
-            } recover cdFailure
-          } // end of form without errors
-        ) // end of boundForm fold
+            } recover citizenDetailsFailure
+          }
+        )
       }
     }
   }
 
-  def cdFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
-      case ex: NotFoundException => {
-        BadRequest(iht.views.html.registration.registration_error_citizenDetails("aaaa", "bbbb", ex.message))
-      }
+  def citizenDetailsFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
+    case ex: NotFoundException => {
+      BadRequest(iht.views.html.registration.registration_error_citizenDetails(
+        "page.iht.registration.applicantDetails.citizenDetailsNotFound.title",
+        "page.iht.registration.applicantDetails.citizenDetailsNotFound.subtitle",
+        "page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance"))
+  }
   }
 
 }
