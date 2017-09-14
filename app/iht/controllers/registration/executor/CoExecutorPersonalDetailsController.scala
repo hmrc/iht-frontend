@@ -26,6 +26,7 @@ import iht.forms.registration.CoExecutorForms._
 import iht.metrics.Metrics
 import iht.models.{CoExecutor, RegistrationDetails}
 import iht.views.html.registration.{executor => views}
+import play.api.Logger
 import play.api.data.Form
 import play.api.mvc.Call
 import uk.gov.hmrc.play.http.HeaderCarrier
@@ -92,7 +93,8 @@ trait CoExecutorPersonalDetailsController extends RegistrationController {
   private def submitEditOfExistingCoExecutor(rd: RegistrationDetails, id: String, coExecutor: CoExecutor, mode: Mode.Value)(implicit hc: HeaderCarrier) = {
     val index = rd.coExecutors.indexWhere(c => c.id.contains(id))
     if (index == -1) {
-      throw new Exception(s"Could not find co-executor with id: $id")
+      Logger.info(s"Coexecutor id $id not found, redirecting user to coexecutor overview")
+      Future(Redirect(iht.controllers.registration.executor.routes.ExecutorOverviewController.onPageLoad()))
     } else {
       val updatedCoExec = rd.coExecutors(index).updatePersonalDetails(coExecutor)
       val route = getRoute(coExecutor.isAddressInUk.getOrElse(true), id, mode)

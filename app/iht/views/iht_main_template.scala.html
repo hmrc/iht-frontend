@@ -91,6 +91,26 @@ isUserResearchBannerVisible:Boolean = false
 }
 
 @scriptElement = {
+    @if(ApplicationConfig.analyticsToken == Some("N/A")) {
+        <script type="text/javascript">
+          var ga = function(send, event, category, action, label, args) {
+            console.log(JSON.stringify({
+              call: 'ga',
+              send: send,
+              event: event,
+              category: category,
+              action: action,
+              label: label
+            }));
+
+            if (typeof args['hitCallback'] === 'function' ) {
+              args['hitCallback']();
+            }
+          };
+        </script>
+    }
+
+    <script src='@routes.Assets.versioned("javascripts/gaTracking.js")' type="text/javascript"></script>
 
     <script src='@routes.Assets.versioned("javascripts/iht-app.min.js")'> </script>
     @jsFile.map{js => <script src='@routes.Assets.versioned("javascripts/" + js)'> </script>}
@@ -124,7 +144,7 @@ isUserResearchBannerVisible:Boolean = false
 @commonContentHeader = {
     @if(ApplicationConfig.isWelshEnabled){
         @{
-            views.html.language_selection(
+            ihtHelpers.standard.language_selection(
                 lc.languageMap,
                 lc.langToCall,
                 Some("translate u-align--right")

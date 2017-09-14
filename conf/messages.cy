@@ -1970,6 +1970,35 @@ site.userResearchLink.text = Mae''r cysylltiad hwn yn agor tab newydd. Sylwer �
 site.dismissBanner = Dim diolch
 site.dismissBanner.screenreader = Dydw i ddim eisiau ateb unrhyw gwestiynau ynglŷn ag ymuno â''r panel ymchwil.
 
+error.dateOfBirth.giveCorrectDayMonth =Rhowch ddiwrnod cywir a mis cywir ar gyfer y dyddiad geni
+error.dateOfBirth.giveCorrectDayYear = Rhowch ddiwrnod cywir a blwyddyn gywir ar gyfer y dyddiad geni
+error.dateOfBirth.giveCorrectMonthYear = Rhowch fis cywir a blwyddyn gywir ar gyfer y dyddiad geni
+error.dateOfMarriage.giveCorrectDayMonth = Rhowch ddiwrnod cywir a mis cywir ar gyfer dyddiad y briodas neu ffurfio partneriaeth sifil
+error.dateOfMarriage.giveCorrectDayYear = Rhowch ddiwrnod cywir a blwyddyn gywir ar gyfer dyddiad y briodas neu ffurfio partneriaeth sifil
+error.dateOfMarriage.giveCorrectMonthYear = Rhowch fis cywir a blwyddyn gywir ar gyfer dyddiad y briodas neu ffurfio partneriaeth sifil
+iht.estateReport.noInheritanceTaxPayable = Dim Treth Etifeddiant yn daladwy
+iht.estateReport.qualifyingBodies.qualifyingBodyName = Enw''r corff cymwys
+iht.roughEstimateEstateWorth = Yn eich barn chi, faint yw gwerth yr ystâd?
+iht.roughEstimateEstateWorth.guidance = Dylech gynnwys amcangyfrif o werth unrhyw dai neu arian mewn cyfrifon banc y mae''n bosibl yr oedd y person a fu farw yn berchen arno.
+iht.timeoutDialog.button = Ewch yn eich blaen gydag adroddiad yr ystâd
+iht.timeoutDialog.minute = munud
+iht.timeoutDialog.minutes = munud
+iht.timeoutDialog.minutes.two = munud
+iht.timeoutDialog.p1 = Er eich diogelwch, cewch eich allgofnodi mewn:
+iht.timeoutDialog.registration.button = Ewch yn eich blaen gyda''r broses o gofrestru
+iht.timeoutDialog.registration.p1 = Er eich diogelwch, cewch eich allgofnodi a bydd yn rhaid i chi ddechrau''r broses o gofrestru o''r newydd mewn:
+iht.timeoutDialog.seconds = eiliad
+iht.timeoutDialog.title = Rydych ar fin cael eich allgofnodi
+page.iht.application.assets.main-section.properties.delete.warning = Bydd hyn hefyd yn dileu unrhyw forgais sydd wedi''i ychwanegu at yr eiddo hwn.
+page.iht.application.assets.money.inputLabel1 = Gwerth yr arian yr oedd yr ymadawedig yn berchen arno yn enw''i hun yn unig
+page.iht.application.tnrb.guidance.system.p1 = Efallai ei fod yn bosibl cynyddu''r trothwy Treth Etifeddiant i £650,000 os oedd {0} yn briod neu mewn partneriaeth sifil ar unrhyw adeg, a bod y priod neu bartner sifil wedi marw.
+page.iht.application.tnrb.guidance.system.title = Mae gwerth yr ystâd yn uwch na''r trothwy Treth Etifeddiant
+page.iht.application.tnrb.permanentHome.question.hint = Gellir hefyd adnabod hon fel gwlad y domisil.
+page.iht.application.tnrbEligibilty.returnToTnrbEligibilty = Yn ôl i''r dudalen Cynyddu''r trothwy Treth Etifeddiant
+
+site.language.english = English
+site.language.welsh = Cymraeq
+
 page.iht.registration.applicantDetails.citizenDetailsNotFound.title = Mae yna broblem gyda dod o hyd i''ch manylion
 page.iht.registration.applicantDetails.citizenDetailsNotFound.subtitle = Ni ellir dod o hyd i''r manylion sydd gan CThEM amdanoch.
 page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Ffoniwch y llinell gymorth Treth Etifeddiant i ddatrys y broblem hon. Ffoniwch y llinell gymorth ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
