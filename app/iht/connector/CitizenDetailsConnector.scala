@@ -42,13 +42,5 @@ object CitizenDetailsConnector extends CitizenDetailsConnector with ServicesConf
   def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier): Future[CidPerson] = {
     Logger.info("Calling Citizen Details service to retrieve personal details")
     http.GET[CidPerson](s"$serviceUrl/citizen-details/nino/$nino")
-
-//      .recover{
-//      case throwable: Throwable => {
-//        Logger.warn(s"Error calling Citizen Details service to retrieve personal details")
-//        throw new RuntimeException("Person details could not be retrieved!")
-//      }
-//    }
-
   }
 }
