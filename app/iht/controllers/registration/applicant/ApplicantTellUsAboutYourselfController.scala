@@ -101,9 +101,6 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   override def submit(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request => {
-    val nino = Nino(StringHelper.getNino(user))
-      val citizenDetailsPersonFuture: Future[CidPerson] = citizenDetailsConnector.getCitizenDetails(nino)
-
       withRegistrationDetails { rd =>
         val formType = if (mode == Mode.Standard) {
             applicantTellUsAboutYourselfForm
@@ -120,6 +117,8 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
             }
           },
           ad => {
+            val nino = Nino(StringHelper.getNino(user))
+            val citizenDetailsPersonFuture: Future[CidPerson] = citizenDetailsConnector.getCitizenDetails(nino)
             val applicantDetailsFuture = citizenDetailsPersonFuture.map {
               person: CidPerson => {
                 if (mode == Mode.Standard) {
@@ -148,10 +147,10 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
   def citizenDetailsFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
     case ex: NotFoundException => {
       BadRequest(iht.views.html.registration.registration_error_citizenDetails(
-        "page.iht.registration.applicantDetails.citizenDetailsNotFound.title",
         "page.iht.registration.applicantDetails.citizenDetailsNotFound.subtitle",
+        "page.iht.registration.applicantDetails.citizenDetailsNotFound.title",
         "page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance"))
-  }
+    }
   }
 
 }

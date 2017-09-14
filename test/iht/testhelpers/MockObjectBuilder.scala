@@ -19,11 +19,12 @@ package iht.testhelpers
 import iht.connector.{CachingConnector, CitizenDetailsConnector, IhtConnector}
 import iht.constants.Constants
 import iht.models._
-import iht.models.application.{IhtApplication, ApplicationDetails, ProbateDetails}
+import iht.models.application.{ApplicationDetails, IhtApplication, ProbateDetails}
 import iht.models.des.ihtReturn.IHTReturn
 import iht.testhelpers.CommonBuilder._
 import org.mockito.Matchers._
 import org.mockito.Mockito._
+import uk.gov.hmrc.play.http.NotFoundException
 
 import scala.concurrent.Future
 
@@ -59,6 +60,9 @@ object MockObjectBuilder {
 
   def createMockToThrowExceptionWhenGettingCitizenDetails(connector: CitizenDetailsConnector) =
     when(connector.getCitizenDetails(any())(any())).thenThrow(new RuntimeException)
+
+  def createMockToThrowNotFoundExceptionWhenGettingCitizenDetails(connector: CitizenDetailsConnector) =
+    when(connector.getCitizenDetails(any())(any())).thenReturn(Future.failed(new NotFoundException("")))
 
   /**
     * Creates mock to get the RegistrationDetails from the cache using CachingConnector

@@ -31,6 +31,7 @@ trait CitizenDetailsConnector {
 
   def serviceUrl: String
 
+  @throws[NotFoundException]
   def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier): Future[CidPerson]
 }
 
@@ -39,6 +40,7 @@ object CitizenDetailsConnector extends CitizenDetailsConnector with ServicesConf
 
   lazy val serviceUrl = baseUrl("citizen-details")
 
+  @throws[NotFoundException]
   def getCitizenDetails(nino: Nino)(implicit hc: HeaderCarrier): Future[CidPerson] = {
     Logger.info("Calling Citizen Details service to retrieve personal details")
     http.GET[CidPerson](s"$serviceUrl/citizen-details/nino/$nino")
