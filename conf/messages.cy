@@ -1969,3 +1969,7 @@ site.userResearchLink.link = Atebwch ychydig o gwestiynau am eich hunan er mwyn 
 site.userResearchLink.text = Mae''r cysylltiad hwn yn agor tab newydd. Sylwer – nid yw''r gwasanaeth hwn ar gael yn Gymraeg.
 site.dismissBanner = Dim diolch
 site.dismissBanner.screenreader = Dydw i ddim eisiau ateb unrhyw gwestiynau ynglŷn ag ymuno â''r panel ymchwil.
+
+page.iht.registration.applicantDetails.citizenDetailsNotFound.title = Mae yna broblem gyda dod o hyd i''ch manylion
+page.iht.registration.applicantDetails.citizenDetailsNotFound.subtitle = Ni ellir dod o hyd i''r manylion sydd gan CThEM amdanoch.
+page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Ffoniwch y llinell gymorth Treth Etifeddiant i ddatrys y broblem hon. Ffoniwch y llinell gymorth ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
