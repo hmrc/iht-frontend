@@ -2397,3 +2397,10 @@ page.iht.application.tnrb.kickout.previousSpouseOrCivilPartner = {0}’s previou
 
 site.language.english = English
 site.language.welsh = Cymraeq
+
+# BETA header
+label.beta = BETA
+label.beta.newservice =  This is a new service
+label.beta.improve =  will help us to improve it.
+label.beta.feedback = feedback
+label.beta.yours = - your
