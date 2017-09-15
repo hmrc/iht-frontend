@@ -63,7 +63,8 @@ trait PermanentHomeController extends EstateController {
                   filledForm,
                   appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                   appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpousePermanentHomeInUKID)))
+                  CommonHelper.addFragmentIdentifier(cancelUrl, Some(TnrbSpousePermanentHomeInUKID)),
+                  registrationDetails)
                 )
               }
               case _ => InternalServerError("Application details not found")
@@ -93,7 +94,8 @@ trait PermanentHomeController extends EstateController {
                   Future.successful(BadRequest(iht.views.html.application.tnrb.permanent_home(formWithErrors,
                     appDetails.increaseIhtThreshold.fold(TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
                     appDetails.widowCheck.fold(WidowCheck(None, None))(identity),
-                    cancelUrl)))
+                    cancelUrl,
+                    regDetails)))
                 },
                 tnrbModel => {
                   saveApplication(StringHelper.getNino(user), tnrbModel, appDetails, regDetails)
