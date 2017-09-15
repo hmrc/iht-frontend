@@ -24,27 +24,16 @@
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @import iht.views.html.iht_main_template_registration
-@(pageTitle: String,
-        heading: String,
+@(title: String,
         message: String)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@contentHeader = {
- <h1>@messages(translateToPreferredLanguage(heading, messages, preferredLanguageCode))</h1>
+@iht_main_template_registration(title = messages(title), browserTitle = Some(messages(title)),
+ hasTimeOut=true) {
+
+   <p>@messages(message)</p>
+
+   <div id="continue-button">
+   <a class="button" href="@iht.controllers.routes.SessionManagementController.signOut.url">@messages("site.button.signOut")</a>
+   </div>
+
 }
-
-@preferredLanguageCode = @{applicationMessagesApi.preferred(request).lang.code.substring(0,2)}
-@msg = @{messagesForLang(messages, preferredLanguageCode)}
-
-@mainContent = {
- <p>@messages(translateToPreferredLanguage(message, messages, preferredLanguageCode))</p>
-
- <br>
- <div id="continue-button">
-  <a class="button" href="@iht.controllers.routes.SessionManagementController.signOut.url">@Messages("site.button.signOut")</a>
- </div>
-}
-
-@iht_main_template_registration(
- title = messages(translateToPreferredLanguage(pageTitle, messages, preferredLanguageCode)),
- browserTitle = Some(messages(translateToPreferredLanguage(pageTitle, messages, preferredLanguageCode))),
- contentHeader = Some(contentHeader))(mainContent)(request, msg, ihtFormPartialRetriever)

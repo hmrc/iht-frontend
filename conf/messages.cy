@@ -1985,6 +1985,3 @@ site.threshold.value.display = £325,000.00
 site.tnrb.value.display = £650,000.00
 site.tnrb.value = 650,000
 
-page.iht.registration.applicantDetails.citizenDetailsNotFound.title = Mae yna broblem gyda dod o hyd i''ch manylion
-page.iht.registration.applicantDetails.citizenDetailsNotFound.subtitle = Ni ellir dod o hyd i''r manylion sydd gan CThEM amdanoch.
-page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Ffoniwch y llinell gymorth Treth Etifeddiant i ddatrys y broblem hon. Ffoniwch y llinell gymorth ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
