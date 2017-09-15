@@ -65,7 +65,7 @@ object ApplicationKickOutNonSummaryHelper {
     * Get sequence of values for section.
     */
   def getSectionTotal(applicationSection: Option[String], applicationID: Option[String], ad: ApplicationDetails): Seq[BigDecimal] =
-    CommonHelper.getOrException(sectionTotal.find(_._1 == applicationSection))._2(ad, applicationID)
+    sectionTotal.find(_._1 == applicationSection).fold[Seq[BigDecimal]](Nil)(_._2(ad, applicationID))
 
   /**
     * First paragraph of the "Next steps" section.

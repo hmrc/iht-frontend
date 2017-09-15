@@ -25,7 +25,7 @@ import iht.utils.AddressHelper._
 import iht.utils.CommonHelper._
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Call
+import play.api.mvc.{Call, Result}
 
 import scala.concurrent.Future
 
@@ -42,61 +42,69 @@ trait OthersApplyingForProbateController extends RegistrationController {
 
   private def submitRoute(arrivedFromOverview: Boolean) =
     if (arrivedFromOverview) {
-      routes.OthersApplyingForProbateController.onSubmitFromOverview
+      routes.OthersApplyingForProbateController.onSubmitFromOverview()
     } else {
-      routes.OthersApplyingForProbateController.onSubmit
+      routes.OthersApplyingForProbateController.onSubmit()
     }
 
-  def onPageLoad() = pageLoad(false)
+  def onPageLoad() = pageLoad(arrivedFromOverview = false)
 
-  def onPageLoadFromOverview() = pageLoad(true)
+  def onPageLoadFromOverview() = pageLoad(arrivedFromOverview = true)
 
   def onEditPageLoad() = pageLoad(arrivedFromOverview = false, cancelToRegSummary)
 
   private def pageLoad(arrivedFromOverview: Boolean, cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user => implicit request =>
-      withRegistrationDetailsRedirectOnGuardCondition { rd =>
-        Future.successful(Ok(iht.views.html.registration.executor.others_applying_for_probate(
-          othersApplyingForProbateForm.fill(rd.areOthersApplyingForProbate),
-          submitRoute(arrivedFromOverview), cancelCall)))
-      }
+    implicit user =>
+      implicit request =>
+        withRegistrationDetailsRedirectOnGuardCondition { rd =>
+          Future.successful(Ok(iht.views.html.registration.executor.others_applying_for_probate(
+            othersApplyingForProbateForm.fill(rd.areOthersApplyingForProbate),
+            submitRoute(arrivedFromOverview), cancelCall)))
+        }
   }
 
-  def onSubmit() = submit(false)
+  def onSubmit() = submit(arrivedFromOverview = false)
 
-  def onSubmitFromOverview() = submit(true)
+  def onSubmitFromOverview() = submit(arrivedFromOverview = true)
 
   def onEditSubmit() = submit(arrivedFromOverview = false, cancelToRegSummary)
 
-  def submit(arrivedFromOverview: Boolean, cancelCall: Option[Call] = None) = authorisedForIht {
-    implicit user => implicit request => {
-      withRegistrationDetails { (rd: RegistrationDetails) =>
-        val boundForm = othersApplyingForProbateForm.bindFromRequest
-        boundForm.fold(
-          formWithErrors => {
-            Future.successful(BadRequest(iht.views.html.registration.executor.others_applying_for_probate(formWithErrors,
-              submitRoute(arrivedFromOverview), cancelCall)))
-          },
+  private def submitOnwardResult(othersApplying: Boolean, arrivedFromOverview: Boolean, rd: RegistrationDetails): Result = {
+    othersApplying match {
+      case true if arrivedFromOverview && rd.coExecutors.isEmpty => Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
+      case true if arrivedFromOverview => Redirect(routes.ExecutorOverviewController.onPageLoad())
+      case true if !arrivedFromOverview => Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
+      case false => Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad())
+    }
+  }
 
-          areOthersApplying => {
-            val rdUpdated = getOrException(areOthersApplying) match {
-              case true => rd copy(areOthersApplyingForProbate = Some(true), coExecutors = rd.coExecutors)
-              case false => rd copy(areOthersApplyingForProbate = Some(false), coExecutors = Seq())
-            }
-            cachingConnector.storeRegistrationDetails(rdUpdated).flatMap(storeResult => {
-              val route = getOrException(rdUpdated.areOthersApplyingForProbate) match {
-                case true if arrivedFromOverview && rd.coExecutors.isEmpty => Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
-                case true if arrivedFromOverview => Redirect(routes.ExecutorOverviewController.onPageLoad())
-                case true if !arrivedFromOverview => Redirect(routes.CoExecutorPersonalDetailsController.onPageLoad(None))
-                case false => Redirect(registrationRoutes.RegistrationSummaryController.onPageLoad())
+  def submit(arrivedFromOverview: Boolean, cancelCall: Option[Call] = None) = authorisedForIht {
+    implicit user =>
+      implicit request => {
+        withRegistrationDetails { (rd: RegistrationDetails) =>
+          val boundForm = othersApplyingForProbateForm.bindFromRequest
+          boundForm.fold(
+            formWithErrors => {
+              Future.successful(BadRequest(iht.views.html.registration.executor.others_applying_for_probate(formWithErrors,
+                submitRoute(arrivedFromOverview), cancelCall)))
+            },
+
+            areOthersApplying => {
+              val rdUpdated = if (getOrException(areOthersApplying)) {
+                rd copy(areOthersApplyingForProbate = Some(true), coExecutors = rd.coExecutors)
+              } else {
+                rd copy(areOthersApplyingForProbate = Some(false), coExecutors = Seq())
               }
-              storeResult match {
-                case Some(_) => Future.successful(route)
+              cachingConnector.storeRegistrationDetails(rdUpdated).flatMap({
+                case Some(_) => Future.successful(submitOnwardResult(
+                  othersApplying = getOrException(rdUpdated.areOthersApplyingForProbate),
+                  arrivedFromOverview = arrivedFromOverview,
+                  rd = rd))
                 case None => Future.successful(InternalServerError)
               }
+              )
             })
-        })
+        }
       }
-    }
   }
 }
