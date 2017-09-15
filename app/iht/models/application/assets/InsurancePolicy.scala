@@ -34,6 +34,15 @@ case class InsurancePolicy(isAnnuitiesBought: Option[Boolean],
                            moreThanMaxValue: Option[Boolean]
                           ) extends ShareableEstateElement {
 
+  def isPremiumsBoughtForSomeoneElseComplete: Boolean = (isInsurancePremiumsPayedForSomeoneElse,
+  moreThanMaxValue, isAnnuitiesBought, isInTrust) match {
+    case (Some(true), None, _, _) => false
+    case (Some(true), _, None, _) => false
+    case (Some(true), _, _, None) => false
+    case (Some(false), _,_, _) => true
+    case _ => true
+  }
+
   def isComplete: Option[Boolean] =
     (policyInDeceasedName, value, isJointlyOwned, shareValue, isInsurancePremiumsPayedForSomeoneElse,
       moreThanMaxValue, isAnnuitiesBought, isInTrust) match {
@@ -43,10 +52,7 @@ case class InsurancePolicy(isAnnuitiesBought: Option[Boolean],
       case (Some(true), None, _, _, _, _, _, _) => Some(false)
       case (_, _, Some(true), None, _, _, _, _) => Some(false)
       case (_, _, _, _, None, _, _, _) => Some(false)
-      case (_, _, _, _, Some(true), None, _, _) => Some(false)
-      case (_, _, _, _, Some(true), _, None, _) => Some(false)
-      case (_, _, _, _, Some(true), _, _, None) => Some(false)
-      case _ => Some(true)
+      case _ => if(isPremiumsBoughtForSomeoneElseComplete) Some(true) else Some(false)
     }
 }
 
