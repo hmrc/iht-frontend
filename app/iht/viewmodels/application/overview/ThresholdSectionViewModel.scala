@@ -97,11 +97,6 @@ object ThresholdSectionViewModel {
       messages("page.iht.application.overview.threshold.screenReader.value.link")
     )
 
-    val thresholdValueMessage = thresholdIncreased match {
-      case true => messages("site.tnrb.value.display")
-      case _ => messages("site.threshold.value.display")
-    }
-
     lazy val thresholdRowValue = if (thresholdIncreased) {
       messages("page.iht.application.estateOverview.increaseThreshold.increased")
     } else if (thresholdIncreaseNotAvailable) {
