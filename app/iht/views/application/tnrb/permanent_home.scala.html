@@ -26,9 +26,10 @@
 @(partnerLivingInUkForm:Form[TnrbEligibiltyModel],
 tnrbModel: TnrbEligibiltyModel,
 widowCheck: WidowCheck,
-cancelUrl:Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+cancelUrl:Call, registrationDetails: RegistrationDetails)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck,Messages("page.iht.application.tnrbEligibilty.partner.additional.label.the"), true)}
+@deceasedName() = @{CommonHelper.getOrException(registrationDetails.deceasedDetails).name}
+@partnerName() = @{TnrbHelper.spouseOrCivilPartnerLabelGenitive(tnrbModel, widowCheck, deceasedName, true)}
 
 @iht_main_template_application(
     title = "",

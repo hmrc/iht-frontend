@@ -26,6 +26,7 @@ import play.api.mvc.Request
 import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.collection.immutable.ListMap
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
@@ -35,17 +36,32 @@ object IhtFormValidator extends IhtFormValidator
 trait IhtFormValidator extends FormValidator {
   def cachingConnector: CachingConnector = CachingConnector
 
+  def getGiftValueOrErrors(errors: ListBuffer[FormError], data: Map[String, String], key: String): Either[List[FormError], Option[String]] = {
+    if (errors.isEmpty) {
+      try {
+        data.get(key) match {
+          case Some(value) => Right(Some(value))
+          case None => Right(None)
+        }
+      } catch {
+        case _: IllegalArgumentException => Left(List(FormError(key, "error.invalid")))
+      }
+    } else {
+      Left(errors.toList)
+    }
+  }
+
   def validateGiftsDetails(valueKey: String, exemptionsValueKey: String) = new Formatter[Option[String]] {
     override def bind(key: String, data: Map[String, String]) = {
       import scala.util.Try
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
-      val value = toCurrency(data.get(valueKey)).replace(",", "")
-      val exemptionsValue = toCurrency(data.get(exemptionsValueKey)).replace(",", "")
+      val value: String = toCurrency(data.get(valueKey)).replace(",", "")
+      val exemptionsValue: String = toCurrency(data.get(exemptionsValueKey)).replace(",", "")
+      val theValue: Try[BigDecimal] = Try(BigDecimal(cleanMoneyString(value.trim)))
+      val theExemptionsValue: Try[BigDecimal] = Try(BigDecimal(cleanMoneyString(exemptionsValue.trim)))
+      val isValueAndExemptionsValueSuccess = theValue.isSuccess && theExemptionsValue.isSuccess
 
-      val theValue = Try(BigDecimal(cleanMoneyString(value.trim)))
-      val theExemptionsValue = Try(BigDecimal(cleanMoneyString(exemptionsValue.trim)))
-
-      if (theValue.isSuccess && theExemptionsValue.isSuccess) {
+      if (isValueAndExemptionsValueSuccess) {
         if (BigDecimal(value) < BigDecimal(exemptionsValue)) {
           errors += FormError(exemptionsValueKey, "error.giftsDetails.exceedsGivenAway")
         } else if (BigDecimal(exemptionsValue) > IhtProperties.giftsInYearMaxExemptionsValue) {
@@ -54,19 +70,7 @@ trait IhtFormValidator extends FormValidator {
       } else if (value.length == 0 && theExemptionsValue.isSuccess) {
         errors += FormError(valueKey, "error.giftsDetails.noValue")
       }
-
-      if (errors.isEmpty) {
-        try {
-          data.get(key) match {
-            case Some(value) => Right(Some(value))
-            case None => Right(None)
-          }
-        } catch {
-          case _: IllegalArgumentException => Left(List(FormError(key, "error.invalid")))
-        }
-      } else {
-        Left(errors.toList)
-      }
+      getGiftValueOrErrors(errors, data, key)
     }
 
     override def unbind(key: String, value: Option[String]): Map[String, String] = {
@@ -77,7 +81,6 @@ trait IhtFormValidator extends FormValidator {
   def validateBasicEstateElementLiabilities(currencyValueKey: String) = new Formatter[Option[Boolean]] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
-      val isOwned = toBoolean(data.get(key))
       val currencyValue = toCurrency(data.get(currencyValueKey))
 
       if (currencyValue == "") {
@@ -159,28 +162,12 @@ trait IhtFormValidator extends FormValidator {
       data.getOrElse(countryCodeKey, ""))
   }
 
-  private def getAddrDetailsAsAddr(data: Map[String, String],
-                                   addr1Key: String,
-                                   addr2Key: String,
-                                   addr3Key: String,
-                                   addr4Key: String,
-                                   postcodeKey: String,
-                                   countryCodeKey: String): UkAddress = {
-    UkAddress(
-      data.getOrElse(addr1Key, ""),
-      data.getOrElse(addr2Key, ""),
-      data.get(addr3Key),
-      data.get(addr4Key),
-      data.getOrElse(postcodeKey, ""),
-      data.getOrElse(countryCodeKey, IhtProperties.ukIsoCountryCode))
-  }
-
   private def validateOptionalAddressLine(addrKey: String, addr: String, maxLength: Int,
                                           invalidAddressLineMessageKey: String,
                                           errors: scala.collection.mutable.ListBuffer[FormError]): Unit = {
     addr match {
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
-      case _ => {}
+      case _ =>
     }
   }
 
@@ -191,7 +178,7 @@ trait IhtFormValidator extends FormValidator {
     addr match {
       case a if a.length == 0 => errors += FormError(addrKey, blankMessageKey)
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
-      case _ => {}
+      case _ =>
     }
   }
 
@@ -204,7 +191,7 @@ trait IhtFormValidator extends FormValidator {
         errors += FormError(postcodeKey, invalidPostcodeMessageKey)
       case a if a.length > 0 && !ihtIsPostcodeLengthValid(a) =>
         errors += FormError(postcodeKey, invalidPostcodeMessageKey)
-      case _ => {}
+      case _ =>
     }
   }
 
@@ -213,18 +200,7 @@ trait IhtFormValidator extends FormValidator {
     countryCode match {
       case a if a.length == 0 => errors += FormError(countryCodeKey, errorMessageKey)
       case a if !validateInternationalCountryCode(a)(lang, messages) => errors += FormError(countryCodeKey, errorMessageKey)
-      case _ => {}
-    }
-  }
-
-  private def getCountryCodeErrors(countryCode: String, countryCodeKey: String, blankCountryCodeMessageKey: String,
-                                   invalidCountryCodeMessageKey: String): Option[FormError] = {
-    if (countryCode.trim.isEmpty) {
-      Some(FormError(countryCodeKey, blankCountryCodeMessageKey))
-    } else if (countryCode != IhtProperties.ukIsoCountryCode) {
-      Some(FormError(countryCodeKey, invalidCountryCodeMessageKey))
-    } else {
-      None
+      case _ =>
     }
   }
 
@@ -318,7 +294,7 @@ trait IhtFormValidator extends FormValidator {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
       val radioValue = data.get(key)
-      if (radioValue == None) {
+      if (radioValue.isEmpty) {
         errors += FormError(key, noSelectionMessagesKey)
       } else {
         if (items != ListMap.empty && !IhtFormValidator.existsInKeys(radioValue.getOrElse(""), items)) {
@@ -404,7 +380,6 @@ trait IhtFormValidator extends FormValidator {
 
   private def optionalYesNoQuestionFormatter(blankMessageKey: String) = new Formatter[Option[Boolean]] {
     override def bind(key: String, data: Map[String, String]) = {
-      val errors = new scala.collection.mutable.ListBuffer[FormError]()
       val dataItem = data.get(key)
       val dataItemValue = toBoolean(dataItem)
 
@@ -437,9 +412,9 @@ trait IhtFormValidator extends FormValidator {
         lazy val valueMinusSpaces = value.replaceAll("\\s", "")
         value match {
           case n if n.isEmpty => Left(Seq(FormError(key, blankMessageKey)))
-          case n if valueMinusSpaces.length < IhtProperties.validationMinLengthNINO ||
+          case _ if valueMinusSpaces.length < IhtProperties.validationMinLengthNINO ||
             valueMinusSpaces.length > IhtProperties.validationMaxLengthNINO => Left(Seq(FormError(key, lengthMessageKey)))
-          case n if !valueMinusSpaces.matches(ninoRegex) => Left(Seq(FormError(key, formatMessageKey)))
+          case _ if !valueMinusSpaces.matches(ninoRegex) => Left(Seq(FormError(key, formatMessageKey)))
           case n => Right(n)
         }
       }
