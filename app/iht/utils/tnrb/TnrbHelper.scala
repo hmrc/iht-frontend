@@ -193,12 +193,11 @@ object TnrbHelper {
   }
 
   def vowelConsciousAnd(predeceasedName: String, language:String) = {
-    val vowels: Set[Char] = Set('a', 'e', 'i', 'o', 'u')
     val firstLetterOfPDName = predeceasedName.trim.toLowerCase.charAt(0)
     if(language == "en") {
       "page.iht.application.tnrbEligibilty.partner.additional.label.and"
     } else {
-      if(vowels.contains(firstLetterOfPDName)) {
+      if(Constants.vowels.contains(firstLetterOfPDName)) {
         "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
       } else {
         "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"

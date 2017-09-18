@@ -143,4 +143,6 @@ object Constants {
   "priod" ("marriage") changes to "briod" when preceded by the word "gan".
  */
   lazy val contentMutation = "gan priod" -> "gan briod"
+
+  val vowels: Set[Char] = Set('a', 'e', 'i', 'o', 'u')
 }
