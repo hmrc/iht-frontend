@@ -80,10 +80,11 @@ object TnrbHelper {
                                           prefixText: String = "",
                                           wrapName: Boolean = false)(implicit messages: Messages): String = {
     if (tnrbModel.Name.toString.trim != "") {
+      val and = messages(vowelConsciousAnd(tnrbModel.Name.toString, messages.lang.code))
       if (wrapName) {
-        ihtHelpers.custom.name(tnrbModel.Name.toString).toString
+        and + " " + ihtHelpers.custom.name(tnrbModel.Name.toString).toString
       } else {
-        tnrbModel.Name.toString
+        and + " " + tnrbModel.Name.toString
       }
     } else {
       prefixText + " " + spouseOrCivilPartnerMessage(widowCheck.dateOfPreDeceased)(messages)
@@ -188,6 +189,19 @@ object TnrbHelper {
       s.replace(Constants.contentMutation._1, Constants.contentMutation._2)
     } else {
       s
+    }
+  }
+
+  def vowelConsciousAnd(predeceasedName: String, language:String) = {
+    val firstLetterOfPDName = predeceasedName.trim.toLowerCase.charAt(0)
+    if(language == "en") {
+      "page.iht.application.tnrbEligibilty.partner.additional.label.and"
+    } else {
+      if(Constants.vowels.contains(firstLetterOfPDName)) {
+        "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
+      } else {
+        "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"
+      }
     }
   }
 

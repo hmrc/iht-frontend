@@ -26,6 +26,8 @@ import models.des.EventRegistration
 import play.api.Logger
 import play.api.http.Status._
 import play.api.libs.json.{JsError, JsValue, Json}
+import play.api.mvc.Result
+import play.api.mvc.Request
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.{HeaderCarrier, _}
 
@@ -190,7 +192,7 @@ object IhtConnector extends IhtConnector with ServicesConfig {
             Logger.info("Returned Case Details")
             val js: JsValue = Json.parse(response.body)
             Json.fromJson[RegistrationDetails](js) match {
-              case JsError(e) => {
+              case JsError(_) => {
                 Logger.warn("JSON parse error. Although returned - Failure to create Registration Details")
                 throw new RuntimeException("JSON parse error. Although returned - Failure to create Registration Details")
               }
@@ -252,6 +254,18 @@ object IhtConnector extends IhtConnector with ServicesConfig {
     }
   }
 
+  def realtimeRiskingMessageResponseMatch(response: HttpResponse): Option[String] = {
+    response.status match {
+      case status if status == OK =>
+        if (response.body.nonEmpty) {
+          Some(response.body)
+        } else {
+          None
+        }
+      case NO_CONTENT => None
+    }
+  }
+
   /**
    * Get the real-time risking information from the IHT service. If none found then
    * returns None, else returns a message indicating the problem.
@@ -260,17 +274,8 @@ object IhtConnector extends IhtConnector with ServicesConfig {
                                         (implicit headerCarrier: HeaderCarrier): Future[Option[String]] = {
     Logger.info("Getting realtime risking message")
     http.GET(s"$serviceUrl/iht/$nino/application/getRealtimeRiskingMessage/$ihtAppReference") map {
-      response => response.status match {
-        case status if (status == OK) => {
-          if (response.body.nonEmpty) {
-            Some(response.body)
-          } else {
-            None
-          }
-        }
-        case NO_CONTENT => None
-      }
-    }recoverWith {
+      response => realtimeRiskingMessageResponseMatch(response)
+    } recoverWith {
       case e: GatewayTimeoutException => {
         Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
         Future.failed(new GatewayTimeoutException(e.message))
@@ -318,27 +323,34 @@ object IhtConnector extends IhtConnector with ServicesConfig {
     }
   }
 
+  def returnProbateDetails(js: JsValue): Some[ProbateDetails] = {
+    Json.fromJson[ProbateDetails](js) match {
+      case JsError(_) =>
+        Logger.warn("JSON parse error. Although returned - Failure to create Probate Details")
+        throw new RuntimeException("JSON parse error. Although returned - Failure to create Probate Details")
+      case x =>
+        Logger.info("Correctly returned for Probate Details")
+        Some(x.get)
+    }
+  }
+
+  def retrieveProbateDetails(response: HttpResponse): Some[ProbateDetails] = {
+    response.status match {
+      case OK =>
+        Logger.info("Returned Probate Details")
+        val js: JsValue = Json.parse(response.body)
+        returnProbateDetails(js)
+      case (_) =>
+        Logger.warn("Problem retrieving Probate Details")
+        throw new RuntimeException("Problem retrieving Probate Details")
+    }
+  }
+
   override def getProbateDetails(nino: String, ihtReference: String, ihtReturnId: String)(implicit headerCarrier: HeaderCarrier):
   Future[Option[ProbateDetails]] = {
     Logger.info("Getting Probate Details")
-    http.GET(s"$serviceUrl/iht/$nino/application/probateDetails/$ihtReference/$ihtReturnId") map {response=>response.status match {
-        case OK =>
-          Logger.info("Returned Probate Details")
-          val js: JsValue = Json.parse(response.body)
-          Json.fromJson[ProbateDetails](js) match {
-            case JsError(e) => {
-              Logger.warn("JSON parse error. Although returned - Failure to create Probate Details")
-              throw new RuntimeException("JSON parse error. Although returned - Failure to create Probate Details")
-            }
-            case x => {
-              Logger.info("Correctly returned for Probate Details")
-              Some(x.get)
-            }
-          }
-        case (_) =>
-          Logger.warn("Problem retrieving Probate Details")
-          throw new RuntimeException("Problem retrieving Probate Details")
-      }
+    http.GET(s"$serviceUrl/iht/$nino/application/probateDetails/$ihtReference/$ihtReturnId") map { response =>
+      retrieveProbateDetails(response)
     } recoverWith {
       case e: GatewayTimeoutException =>
         Logger.warn("Gateway Timeout Response Returned ::: " + e.getMessage)
@@ -373,7 +385,7 @@ object IhtConnector extends IhtConnector with ServicesConfig {
           Logger.info("getSubmittedApplicationDetails response OK")
           val js: JsValue = Json.parse(response.body)
           Json.fromJson[IHTReturn](js) match {
-            case JsError(e) => {
+            case JsError(_) => {
               Logger.warn("JSON parse error. Although returned - Failure to create an IHTReturn")
               throw new RuntimeException("JSON parse error. Although returned - Failure to create an IHTReturn")
             }

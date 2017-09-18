@@ -147,16 +147,21 @@ object EstateOverviewViewModel {
     (applicationDetails.hasSeenExemptionGuidance, applicationDetails.isValueEnteredForExemptions) match {
       case (Some(hasSeen), isEntered) if hasSeen || isEntered => Some(OverviewRowWithoutLink(
         id = "grand-total-section",
-        label = applicationDetails.totalExemptionsValueOption match {
-          case Some(x) if x > 0 => Messages("page.iht.application.estateOverview.totalValueOfTheEstate")
-          case _ => Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")
-        },
-        value = applicationDetails.totalExemptionsValueOption match {
-          case Some(x) if x > 0 => DisplayValue(CurrentValue(applicationDetails.totalNetValue.max(0)))
-          case _ => DisplayValue(CurrentValue(applicationDetails.totalValue))
-        },
+        label = createTotalRowLabel(applicationDetails),
+        value = createTotalRowValue(applicationDetails),
         qualifyingText = ""))
       case _ => None
     }
   }
+
+  def createTotalRowLabel(applicationDetails: ApplicationDetails): String = applicationDetails.totalExemptionsValueOption match {
+    case Some(x) if x > 0 => Messages("page.iht.application.estateOverview.totalValueOfTheEstate")
+    case _ => Messages("page.iht.application.estateOverview.valueOfAssetsAndGifts")
+  }
+
+  def createTotalRowValue(applicationDetails: ApplicationDetails): String = applicationDetails.totalExemptionsValueOption match {
+    case Some(x) if x > 0 => DisplayValue(CurrentValue(applicationDetails.totalNetValue.max(0)))
+    case _ => DisplayValue(CurrentValue(applicationDetails.totalValue))
+  }
+
 }

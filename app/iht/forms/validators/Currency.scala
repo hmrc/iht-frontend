@@ -37,8 +37,10 @@ trait Currency {
   protected lazy val isInvalidCommaPosition:String => Boolean = s => valueWithCommaFormatRegEx.findFirstMatchIn(s.trim).fold(true)(_ => false)
   protected lazy val hasSpaces: String => Boolean = s => stringWithSpacesRegEx.findFirstIn(s.trim).fold(false)(_ => true)
 
-  protected def cleanMoneyString(moneyString: String) =
+  protected def cleanMoneyString(moneyString: String): String =
     moneyFormatSimple.findFirstIn(convertToValidCurrencyValue(moneyString.trim.replace(",", "").replace("-", ""))).getOrElse("")
+
+  def generateError(key: String, customKey: String):Option[Seq[FormError]] =  Some(Seq(FormError(key, customKey)))
 
   protected def validationErrors(key: String,
                                  value: String,
@@ -46,13 +48,20 @@ trait Currency {
                                  errorInvalidCharsKey: String,
                                  errorInvalidPenceKey: String,
                                  errorInvalidSpacesKey: String,
-                                 errorInvalidCommaPositionKey: String): Option[Seq[FormError]] = value match {
-    case v if isInvalidLength(v) => Some(Seq(FormError(key, errorLengthKey)))
-    case v if isInvalidNumericCharacters(v) => Some(Seq(FormError(key, errorInvalidCharsKey)))
-    case v if isInvalidPence(v) => Some(Seq(FormError(key, errorInvalidPenceKey)))
-    case v if hasSpaces(v) => Some(Seq(FormError(key, errorInvalidSpacesKey)))
-    case v if isInvalidCommaPosition(v) => Some(Seq(FormError(key, errorInvalidCommaPositionKey)))
-    case _ => None
+                                 errorInvalidCommaPositionKey: String): Option[Seq[FormError]] =  {
+    if(isInvalidLength(value)) {
+      generateError(key, errorLengthKey)
+    } else if(isInvalidNumericCharacters(value)) {
+      generateError(key, errorInvalidCharsKey)
+    } else if(isInvalidPence(value)) {
+      generateError(key, errorInvalidPenceKey)
+    } else if(hasSpaces(value)) {
+      generateError(key, errorInvalidSpacesKey)
+    } else if(isInvalidCommaPosition(value)) {
+      generateError(key, errorInvalidCommaPositionKey)
+    } else {
+      None
+    }
   }
 
   /**
@@ -62,17 +71,16 @@ trait Currency {
     */
   private def convertToValidCurrencyValue(moneyValue: String) = {
     val hasDecimal = moneyValue.contains('.')
-    hasDecimal match {
-      case true => {
-        val index = moneyValue.indexOf(".")
-        val stringAfterDecimal = moneyValue.substring(index + 1)
-        if (stringAfterDecimal.isEmpty) {
-          moneyValue.replace(".", ".00")
-        } else {
-          moneyValue
-        }
+    if (hasDecimal) {
+      val index = moneyValue.indexOf(".")
+      val stringAfterDecimal = moneyValue.substring(index + 1)
+      if (stringAfterDecimal.isEmpty) {
+        moneyValue.replace(".", ".00")
+      } else {
+        moneyValue
       }
-      case _ => moneyValue
+    } else {
+      moneyValue
     }
 
   }

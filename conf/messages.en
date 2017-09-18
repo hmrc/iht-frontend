@@ -1586,7 +1586,10 @@ page.iht.application.tnrbEligibilty.partner.marriedOrCivilPartnership.label = ma
 page.iht.application.tnrbEligibilty.partner.additional.label.the = the
 page.iht.application.tnrbEligibilty.partner.additional.label.the.deceased = {0}’s
 page.iht.application.tnrbEligibilty.partner.additional.label.name.of.the = Name of the
-page.iht.application.tnrbEligibilty.partner.additional.label.their = their
+page.iht.application.tnrbEligibilty.partner.additional.label.andTheir = and their
+page.iht.application.tnrbEligibilty.partner.additional.label.and = and
+page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel = and
+page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant = and
 
 page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.yes.screenReader.link.value = Yes, the spouse or civil partner have their permanent home in the UK.
 page.iht.application.tnrbEligibilty.overview.partner.homeInUk.question1.no.screenReader.link.value = No, Did the spouse or civil partner have their permanent home in the UK. Change this answer.
@@ -1598,7 +1601,7 @@ page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph1 = {0}’s 
 page.iht.application.tnrbEligibilty.increasedTnrbThreshold.paragraph2 = The estate value is now under the Inheritance Tax threshold and there is no Inheritance Tax to pay.
 iht.estateReport.tnrb.benefitFromTrust.question = Did {0} have the right to benefit from a trust during their lifetime?
 iht.estateReport.tnrb.dateOfMarriage = Date of {0}
-iht.estateReport.tnrb.dateOfMarriage.hint = This is the date of {0} between {1} and {2}
+iht.estateReport.tnrb.dateOfMarriage.hint = This is the date of {0} between {1} {2}
 iht.estateReport.tnrb.giftsMadeBeforeDeath.question = Were any gifts that were not exempt given away in the 7 years before {0} died?
 iht.estateReport.tnrb.giftsWithReservationOfBenefit.question = Were any gifts with the reservation of benefit given to anyone apart from {0}?
 iht.estateReport.tnrb.increasingIHTThreshold = Increasing the Inheritance Tax threshold
@@ -2400,3 +2403,10 @@ page.iht.application.tnrb.kickout.previousSpouseOrCivilPartner = {0}’s previou
 
 site.language.english = English
 site.language.welsh = Cymraeq
+
+# BETA header
+label.beta = BETA
+label.beta.newservice =  This is a new service
+label.beta.improve =  will help us to improve it.
+label.beta.feedback = feedback
+label.beta.yours = - your
