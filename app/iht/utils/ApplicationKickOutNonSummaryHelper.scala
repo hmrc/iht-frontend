@@ -16,12 +16,13 @@
 
 package iht.utils
 
+import akka.actor.FSM.->
 import iht.constants.IhtProperties
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.basicElements.ShareableBasicEstateElement
-import iht.utils.ApplicationKickOutHelper._
+import iht.utils.ApplicationKickOutHelper.{ApplicationSectionAssetsBusinessInterests, ApplicationSectionAssetsForeign, ApplicationSectionAssetsHouseholdDeceasedOwned, ApplicationSectionAssetsHouseholdJointlyOwned, ApplicationSectionAssetsInTrust, ApplicationSectionAssetsInsurancePoliciesJointlyOwned, ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased, ApplicationSectionAssetsMoneyDeceasedOwned, ApplicationSectionAssetsMoneyJointlyOwned, ApplicationSectionAssetsMoneyOwed, ApplicationSectionAssetsNominatedAssets, ApplicationSectionAssetsOther, ApplicationSectionAssetsPensionsValue, ApplicationSectionAssetsStocksAndSharesListed, ApplicationSectionAssetsStocksAndSharesNotListed, ApplicationSectionAssetsVehiclesDeceasedOwned, ApplicationSectionAssetsVehiclesJointlyOwned, ApplicationSectionGiftDetails, ApplicationSectionProperties, _}
 import iht.utils.CommonHelper._
 import iht.utils.KickOutReason._
 import iht.utils.{ApplicationStatus => AppStatus, KickOutReason => KickOut}
@@ -32,47 +33,44 @@ import play.api.i18n.Messages
 import scala.collection.immutable.ListMap
 
 object ApplicationKickOutNonSummaryHelper {
+  private val stockAndShareValues: Option[StockAndShare] => Seq[BigDecimal] =
+    _.fold[Seq[BigDecimal]](Nil)(xx => Seq(getOrZero(xx.valueListed), getOrZero(xx.valueNotListed)))
+
+  private val sectionTotal: ListMap[Option[String], (ApplicationDetails, Option[String]) => Seq[BigDecimal]] = ListMap(
+    Some(ApplicationSectionProperties) -> ((ad, optionID) => optionID.map(id => ad.propertyList.filter(_.id == optionID).map(_.value.getOrElse(BigDecimal(0))).sum)
+      .fold[Seq[BigDecimal]](Nil)(xx => Seq(xx))),
+    Some(ApplicationSectionAssetsMoneyDeceasedOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.money).flatMap(xx => xx.value)))),
+    Some(ApplicationSectionAssetsMoneyJointlyOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.money).flatMap(xx => xx.shareValue)))),
+    Some(ApplicationSectionAssetsHouseholdDeceasedOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.household).flatMap(xx => xx.value)))),
+    Some(ApplicationSectionAssetsHouseholdJointlyOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.household).flatMap(xx => xx.shareValue)))),
+    Some(ApplicationSectionAssetsVehiclesDeceasedOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.vehicles).flatMap(xx => xx.value)))),
+    Some(ApplicationSectionAssetsVehiclesJointlyOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.vehicles).flatMap(xx => xx.shareValue)))),
+    Some(ApplicationSectionAssetsPensionsValue) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.privatePension).flatMap(xx => xx.value)))),
+    Some(ApplicationSectionAssetsStocksAndSharesListed) -> ((ad, _) => stockAndShareValues(ad.allAssets.flatMap(_.stockAndShare))),
+    Some(ApplicationSectionAssetsStocksAndSharesNotListed) -> ((ad, _) => stockAndShareValues(ad.allAssets.flatMap(_.stockAndShare))),
+    Some(ApplicationSectionAssetsInsurancePoliciesJointlyOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.insurancePolicy).flatMap(xx => xx.shareValue)))),
+    Some(ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.insurancePolicy).flatMap(xx => xx.value)))),
+    Some(ApplicationSectionAssetsBusinessInterests) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.businessInterest).flatMap(xx => xx.totalValue)))),
+    Some(ApplicationSectionAssetsNominatedAssets) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.nominated).flatMap(xx => xx.totalValue)))),
+    Some(ApplicationSectionAssetsInTrust) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.heldInTrust).flatMap(xx => xx.totalValue)))),
+    Some(ApplicationSectionAssetsForeign) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.foreign).flatMap(xx => xx.totalValue)))),
+    Some(ApplicationSectionAssetsMoneyOwed) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.moneyOwed).flatMap(xx => xx.value)))),
+    Some(ApplicationSectionAssetsOther) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.other).flatMap(xx => xx.totalValue)))),
+    Some(ApplicationSectionGiftDetails) -> ((ad, optionID) => Seq(getOrZero(optionID.flatMap(id => ad.giftsList.map(xx => xx.filter(_.yearId == optionID)
+      .map(_.value.fold(BigDecimal(0))(identity)).sum))))),
+    None -> ((_, _) => Nil)
+  )
 
   /**
     * Get sequence of values for section.
     */
-  def getSectionTotal(applicationSection: Option[String], applicationID: Option[String], ad: ApplicationDetails): Seq[BigDecimal] = {
-    def shareableValues: Option[ShareableBasicEstateElement] => Seq[BigDecimal] =
-      _.fold[Seq[BigDecimal]](Nil)(xx => Seq(getOrZero(xx.value), getOrZero(xx.shareValue)))
-
-    def stockAndShareValues: Option[StockAndShare] => Seq[BigDecimal] =
-      _.fold[Seq[BigDecimal]](Nil)(xx => Seq(getOrZero(xx.valueListed), getOrZero(xx.valueNotListed)))
-
-    applicationSection.fold[Seq[BigDecimal]](Nil) {
-      case ApplicationSectionProperties => applicationID.map(id => ad.propertyList.filter(_.id == applicationID).map(_.value.getOrElse(BigDecimal(0))).sum)
-        .fold[Seq[BigDecimal]](Nil)(xx => Seq(xx))
-      case ApplicationSectionAssetsMoneyDeceasedOwned => Seq(getOrZero(ad.allAssets.flatMap(_.money).flatMap(xx => xx.value)))
-      case ApplicationSectionAssetsMoneyJointlyOwned => Seq(getOrZero(ad.allAssets.flatMap(_.money).flatMap(xx => xx.shareValue)))
-      case ApplicationSectionAssetsHouseholdDeceasedOwned => Seq(getOrZero(ad.allAssets.flatMap(_.household).flatMap(xx => xx.value)))
-      case ApplicationSectionAssetsHouseholdJointlyOwned => Seq(getOrZero(ad.allAssets.flatMap(_.household).flatMap(xx => xx.shareValue)))
-      case ApplicationSectionAssetsVehiclesDeceasedOwned => Seq(getOrZero(ad.allAssets.flatMap(_.vehicles).flatMap(xx => xx.value)))
-      case ApplicationSectionAssetsVehiclesJointlyOwned => Seq(getOrZero(ad.allAssets.flatMap(_.vehicles).flatMap(xx => xx.shareValue)))
-      case ApplicationSectionAssetsPensionsValue => Seq(getOrZero(ad.allAssets.flatMap(_.privatePension).flatMap(xx => xx.value)))
-      case ApplicationSectionAssetsStocksAndSharesListed => stockAndShareValues(ad.allAssets.flatMap(_.stockAndShare))
-      case ApplicationSectionAssetsStocksAndSharesNotListed => stockAndShareValues(ad.allAssets.flatMap(_.stockAndShare))
-      case ApplicationSectionAssetsInsurancePoliciesJointlyOwned => Seq(getOrZero(ad.allAssets.flatMap(_.insurancePolicy).flatMap(xx => xx.shareValue)))
-      case ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased => Seq(getOrZero(ad.allAssets.flatMap(_.insurancePolicy).flatMap(xx => xx.value)))
-      case ApplicationSectionAssetsBusinessInterests => Seq(getOrZero(ad.allAssets.flatMap(_.businessInterest).flatMap(xx => xx.totalValue)))
-      case ApplicationSectionAssetsNominatedAssets => Seq(getOrZero(ad.allAssets.flatMap(_.nominated).flatMap(xx => xx.totalValue)))
-      case ApplicationSectionAssetsInTrust => Seq(getOrZero(ad.allAssets.flatMap(_.heldInTrust).flatMap(xx => xx.totalValue)))
-      case ApplicationSectionAssetsForeign => Seq(getOrZero(ad.allAssets.flatMap(_.foreign).flatMap(xx => xx.totalValue)))
-      case ApplicationSectionAssetsMoneyOwed => Seq(getOrZero(ad.allAssets.flatMap(_.moneyOwed).flatMap(xx => xx.value)))
-      case ApplicationSectionAssetsOther => Seq(getOrZero(ad.allAssets.flatMap(_.other).flatMap(xx => xx.totalValue)))
-      case ApplicationSectionGiftDetails => Seq(getOrZero(applicationID.flatMap(id => ad.giftsList.map(xx => xx.filter(_.yearId == applicationID)
-        .map(_.value.fold(BigDecimal(0))(identity)).sum))))
-      case _ => Nil
-    }
-  }
+  def getSectionTotal(applicationSection: Option[String], applicationID: Option[String], ad: ApplicationDetails): Seq[BigDecimal] =
+    sectionTotal.find(_._1 == applicationSection).fold[Seq[BigDecimal]](Nil)(_._2(ad, applicationID))
 
   /**
     * First paragraph of the "Next steps" section.
     */
-  def nextSteps1(implicit messages:Messages) = ListMap(
+  def nextSteps1(implicit messages: Messages) = ListMap(
     /* Assets */
     TrustsMoreThanOne -> messages("iht.estateReport.kickout.nextSteps"),
     ForeignAssetsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
@@ -135,7 +133,7 @@ object ApplicationKickOutNonSummaryHelper {
   /**
     * Second paragraph of the "Next steps" section.
     */
-  def nextSteps2(implicit messages:Messages) = ListMap(
+  def nextSteps2(implicit messages: Messages) = ListMap(
     /* Assets */
     TrustsMoreThanOne -> messages("iht.ifYouWantToChangeYourAnswer"),
     ForeignAssetsValueMoreThanMax -> messages("iht.ifYouWantToChangeValue"),
@@ -190,7 +188,7 @@ object ApplicationKickOutNonSummaryHelper {
   /**
     * Return Link texts for Second paragraph of the "Next steps" section.
     */
-  def nextSteps2ReturnLinkText(implicit messages:Messages) = ListMap(
+  def nextSteps2ReturnLinkText(implicit messages: Messages) = ListMap(
     /* Assets */
     TrustsMoreThanOne -> messages("iht.estateReport.assets.trusts.kickout.returnToHeldInTrust.linkText"),
     ForeignAssetsValueMoreThanMax -> messages("iht.estateReport.assets.kickOut.foreignAssetsValueMoreThanMax.returnLinkText"),
