@@ -25,11 +25,14 @@ import iht.metrics.Metrics
 import iht.models.{ApplicantDetails, CidPerson, RegistrationDetails}
 import iht.utils.{SessionHelper, StringHelper}
 import iht.views.html.registration.{applicant => views}
+import org.apache.http.HttpStatus
 import play.api.Play.current
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{AnyContent, Request, Result}
+import play.api.mvc.{AnyContent, Call, Request, Result}
 import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.play.http.NotFoundException
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -90,6 +93,12 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
 
   def onwardRoute(rd: RegistrationDetails) = routes.ProbateLocationController.onPageLoad
 
+  def routeForSubmit(ad: ApplicantDetails, mode: Mode.Value): Call = ad.doesLiveInUK match {
+    case Some(true) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadUk()
+    case Some(false) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadAbroad()
+    case _ => registrationRoutes.RegistrationSummaryController.onPageLoad()
+  }
+
   override def submit(mode: Mode.Value) = authorisedForIht {
     implicit user => implicit request => {
       withRegistrationDetails { rd =>
@@ -98,7 +107,6 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
           } else {
             applicantTellUsAboutYourselfEditForm
           }
-
         val boundForm = formType.bindFromRequest
         boundForm.fold(
           formWithErrors => {
@@ -110,8 +118,8 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
           },
           ad => {
             val nino = Nino(StringHelper.getNino(user))
-
-            val applicantDetailsFuture = citizenDetailsConnector.getCitizenDetails(nino).map {
+            val citizenDetailsPersonFuture: Future[CidPerson] = citizenDetailsConnector.getCitizenDetails(nino)
+            val applicantDetailsFuture = citizenDetailsPersonFuture.map {
               person: CidPerson => {
                 if (mode == Mode.Standard) {
                   rd.applicantDetails.getOrElse(new ApplicantDetails) copy(firstName = person.firstName,
@@ -122,23 +130,26 @@ trait ApplicantTellUsAboutYourselfController extends RegistrationApplicantContro
                 }
               }
             }
-
             applicantDetailsFuture.flatMap {
-              case result => {
+              result =>
                 val copyOfRD = rd copy (applicantDetails = Some(result))
-                val route = ad.doesLiveInUK match {
-                  case Some(true) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadUk
-                  case Some(false) if mode == Mode.Standard => routes.ApplicantAddressController.onPageLoadAbroad
-                  case _ => registrationRoutes.RegistrationSummaryController.onPageLoad
-                }
+                val route = routeForSubmit(ad, mode)
                 storeRegistrationDetails(copyOfRD,
                   route,
                   "Fails to store registration details during application tell us about yourself submission")
-              }
-            }
+            } recover citizenDetailsFailure
           }
         )
       }
     }
   }
+
+  def citizenDetailsFailure()(implicit request: Request[_]): PartialFunction[Throwable, Result] = {
+    case ex: NotFoundException => {
+      BadRequest(iht.views.html.registration.registration_error_citizenDetails(
+        "page.iht.registration.applicantDetails.citizenDetailsNotFound.title",
+        "page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance"))
+    }
+  }
+
 }

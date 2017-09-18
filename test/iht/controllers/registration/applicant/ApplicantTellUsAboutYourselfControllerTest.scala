@@ -267,6 +267,24 @@ class ApplicantTellUsAboutYourselfControllerTest
       }
     }
 
+    "raise a not found error when the citizen details service can't find nino" in {
+      createMockToThrowNotFoundExceptionWhenGettingCitizenDetails(mockCitizenDetailsConnector)
+
+      val applicantDetails = CommonBuilder.buildApplicantDetails
+      val registrationDetails = RegistrationDetails(None, Some(applicantDetails), None)
+      val form = applicantTellUsAboutYourselfForm.fill(applicantDetails)
+      val request =
+        createFakeRequestWithReferrerWithBody(referrerURL=referrerURL,host=host, data=form.data.toSeq)
+
+      createMockToGetRegDetailsFromCacheNoOption(mockCachingConnector, registrationDetails)
+      createMockToGetRegDetailsFromCache(mockCachingConnector, Some(registrationDetails))
+      createMockToStoreRegDetailsInCache(mockCachingConnector, Some(registrationDetails))
+
+      val result = await(controller.onSubmit()(request))
+      status(result) shouldBe BAD_REQUEST
+      contentAsString(result) should include(Messages("page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance"))
+    }
+
     "save valid data correctly including citizen details when coming to this screen for the first time" in {
       val applicantDetails = CommonBuilder.buildApplicantDetails copy (doesLiveInUK = Some(false),
         phoneNo = Some("SomePhoneNumber"))
