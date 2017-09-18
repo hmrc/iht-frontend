@@ -34,19 +34,24 @@ case class InsurancePolicy(isAnnuitiesBought: Option[Boolean],
                            moreThanMaxValue: Option[Boolean]
                           ) extends ShareableEstateElement {
 
+  def isPremiumsBoughtForSomeoneElseComplete: Boolean = {
+    if(isInsurancePremiumsPayedForSomeoneElse.isEmpty) {
+      false
+    } else if(isInsurancePremiumsPayedForSomeoneElse.get) {
+      moreThanMaxValue.isDefined && isAnnuitiesBought.isDefined && isInTrust.isDefined
+    } else {
+      true
+    }
+  }
+
   def isComplete: Option[Boolean] =
-    (policyInDeceasedName, value, isJointlyOwned, shareValue, isInsurancePremiumsPayedForSomeoneElse,
-      moreThanMaxValue, isAnnuitiesBought, isInTrust) match {
-      case (None, None, None, None, None, None, None, None) => None
-      case (None, _, _, _, _, _, _, _) => Some(false)
-      case (_, _, None, _, _, _, _, _) => Some(false)
-      case (Some(true), None, _, _, _, _, _, _) => Some(false)
-      case (_, _, Some(true), None, _, _, _, _) => Some(false)
-      case (_, _, _, _, None, _, _, _) => Some(false)
-      case (_, _, _, _, Some(true), None, _, _) => Some(false)
-      case (_, _, _, _, Some(true), _, None, _) => Some(false)
-      case (_, _, _, _, Some(true), _, _, None) => Some(false)
-      case _ => Some(true)
+    (policyInDeceasedName, value, isJointlyOwned, shareValue) match {
+      case (None, None, None, None) => None
+      case (None, _, _, _) => Some(false)
+      case (_, _, None, _) => Some(false)
+      case (Some(true), None, _, _) => Some(false)
+      case (_, _, Some(true), None) => Some(false)
+      case _ => Some(isPremiumsBoughtForSomeoneElseComplete)
     }
 }
 
