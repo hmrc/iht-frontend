@@ -49,7 +49,7 @@ trait DateOfMarriageController extends EstateController {
       tnrbModel = appDetails.increaseIhtThreshold.fold(
         TnrbEligibiltyModel(None, None, None, None, None, None, None, None, None, None, None))(identity),
       widowCheck = CommonHelper.getOrException(appDetails.widowCheck),
-      prefixText = messages("page.iht.application.tnrbEligibilty.partner.additional.label.their"),
+      prefixText = messages("page.iht.application.tnrbEligibilty.partner.additional.label.andTheir"),
       wrapName = true)(messages)
   }
 
