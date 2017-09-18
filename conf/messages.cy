@@ -1391,7 +1391,10 @@ iht.giveMoreDetails=Rhowch ragor o fanylion
 global.error.InternalServerError500.link.gov-uk.text=Chwilio drwy GOV.UK.
 iht.estateReport.declaration.title=Datganiad
 iht.estateReport.tnrb.dateOfMarriage.hint=Hwn yw dyddiad y {0} rhwng {1} {2}
-page.iht.application.tnrbEligibilty.partner.additional.label.their = a''r
+page.iht.application.tnrbEligibilty.partner.additional.label.andTheir = a''r
+page.iht.application.tnrbEligibilty.partner.additional.label.and = a
+page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel = ac
+page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant = a
 
 iht.estateReport.assets.household.deceasedOwnedValue=Gwerth yr hyn yr oedd {0} yn berchen arno yn ei enw''i hun
 iht.registration.applicant.tellUsAboutYourself=Eich manylion cyswllt
