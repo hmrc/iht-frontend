@@ -1820,9 +1820,7 @@ page.iht.questionnaire.fullName.p1 = We are looking for people to help us with u
 page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
 page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 
-page.iht.sign-out.title = You have signed out
-page.iht.sign-out.p1 = You have signed out from Inheritance Tax Online.
-page.iht.sign-out.p2 = Use the link in your Inheritance Tax email that you were sent if you want to sign back in.
+page.iht.sign-out.p1 = Sign back in through GOV.UK
 page.iht.sign-out.button.gov-uk.text = Explore GOV.UK
 
 page.iht.registration.timeout.p2 = You will need to sign back in to Government Gateway and start to register to use Inheritance Tax Online again.
