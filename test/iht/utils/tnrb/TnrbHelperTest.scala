@@ -89,10 +89,12 @@ class TnrbHelperTest extends UnitSpec with FakeIhtApp with MockitoSugar {
 
     "return 'ac' when Welsh language is selected and the predeceased name starts with a vowel" in {
       TnrbHelper.vowelConsciousAnd("Anne Smith", "cy") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
+      TnrbHelper.vowelConsciousAnd("Yvonne Smith", "cy") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
     }
 
     "return 'a' when Welsh language is selected and the predeceased name starts with a consonant" in {
       TnrbHelper.vowelConsciousAnd("John Smith", "cy") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"
+      TnrbHelper.vowelConsciousAnd("Sarah Smith", "cy") shouldBe "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"
     }
 
   }
