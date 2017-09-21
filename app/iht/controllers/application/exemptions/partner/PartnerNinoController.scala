@@ -34,7 +34,8 @@ object PartnerNinoController extends PartnerNinoController with IhtConnectors {
 }
 
 trait PartnerNinoController extends EstateController {
-  val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNinoID))
+  val submitUrl = addFragmentIdentifier(
+    iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerNinoID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

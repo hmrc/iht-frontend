@@ -52,7 +52,8 @@ trait PropertyAddressController extends EstateController {
 
   def editSubmitUrl(id: String) = routes.PropertyAddressController.onEditSubmit(id)
 
-  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyAddressID))
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
+    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyAddressID))
 
   val cancelUrl = routes.PropertyDetailsOverviewController.onPageLoad()
   val submitUrl = routes.PropertyAddressController.onSubmit()

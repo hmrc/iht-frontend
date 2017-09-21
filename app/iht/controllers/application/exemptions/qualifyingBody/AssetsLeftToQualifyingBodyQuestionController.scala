@@ -37,9 +37,11 @@ object AssetsLeftToQualifyingBodyQuestionController extends AssetsLeftToQualifyi
 }
 
 trait AssetsLeftToQualifyingBodyQuestionController extends EstateController {
-  val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))
+  val exemptionsOverviewPage: Call = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.exemptions.routes.ExemptionsOverviewController.onPageLoad(), Some(ExemptionsOtherID))
   val qualifyingBodyOverviewPage: Call =
-    CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAssetsID))
+    CommonHelper.addFragmentIdentifier(
+      iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAssetsID))
   val qualifyingBodyDetailsOverviewPage: Call =
     iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 

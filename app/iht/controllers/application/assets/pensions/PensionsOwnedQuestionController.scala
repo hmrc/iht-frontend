@@ -34,7 +34,8 @@ object PensionsOwnedQuestionController extends PensionsOwnedQuestionController w
 }
 
 trait PensionsOwnedQuestionController extends EstateController {
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionsOwnedID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionsOwnedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

@@ -82,7 +82,8 @@ trait DeletePropertyController extends ApplicationController {
               registrationData.acknowledgmentReference)
           } yield {
             storedApplication match {
-              case Some(_) => Redirect(CommonHelper.addFragmentIdentifier(routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesAddPropertyID)))
+              case Some(_) => Redirect(CommonHelper.addFragmentIdentifier(
+                routes.PropertiesOverviewController.onPageLoad(), Some(AssetsPropertiesAddPropertyID)))
               case _ => {
                 Logger.warn("Problem storing Application details. Redirecting to InternalServerError")
                 InternalServerError

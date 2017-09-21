@@ -28,9 +28,12 @@ import play.api.i18n.Messages.Implicits._
   */
 object DeclarationViewHelper {
 
-  def haveProvidedNonMatchingDetailsMsg(messages: Messages, deceasedName:String) = messages("iht.estateReport.declaration.haveProvidedNonMatchingDetails", deceasedName)
-  def completedAllReasonableEnquiriesMsg(messages: Messages, deceasedName:String) = messages("iht.estateReport.declaration.completedAllReasonableEnquiries", deceasedName)
-  def deceasedMarriedWhenPartnerDied(messages: Messages, deceasedName: String) = messages("iht.estateReport.declaration.deceasedMarriedWhenPartnerDied", deceasedName)
+  def haveProvidedNonMatchingDetailsMsg(messages: Messages, deceasedName:String) = messages(
+    "iht.estateReport.declaration.haveProvidedNonMatchingDetails", deceasedName)
+  def completedAllReasonableEnquiriesMsg(messages: Messages, deceasedName:String) = messages(
+    "iht.estateReport.declaration.completedAllReasonableEnquiries", deceasedName)
+  def deceasedMarriedWhenPartnerDied(messages: Messages, deceasedName: String) = messages(
+    "iht.estateReport.declaration.deceasedMarriedWhenPartnerDied", deceasedName)
   def correctAndCompleteMsg(messages: Messages) = messages("iht.estateReport.declaration.correctAndComplete")
   def didNotUseAnyOfThresholdMsg(messages: Messages) = messages("iht.estateReport.declaration.didntUseAnyOfThreshold")
   def noInheritanceTaxPayableMsg(messages: Messages)= messages("iht.estateReport.noInheritanceTaxPayable")

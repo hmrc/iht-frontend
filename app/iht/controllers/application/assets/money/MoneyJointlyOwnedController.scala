@@ -37,7 +37,8 @@ object MoneyJointlyOwnedController extends MoneyJointlyOwnedController with IhtC
 
 trait MoneyJointlyOwnedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoneyJointlyOwned)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneySharedID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.money.routes.MoneyOverviewController.onPageLoad(), Some(AssetsMoneySharedID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>

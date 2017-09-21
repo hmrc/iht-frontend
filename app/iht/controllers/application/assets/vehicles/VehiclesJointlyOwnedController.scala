@@ -36,7 +36,9 @@ object VehiclesJointlyOwnedController extends VehiclesJointlyOwnedController wit
 
 trait VehiclesJointlyOwnedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsVehiclesJointlyOwned)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(), Some(AssetsVehiclesSharedID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.vehicles.routes.VehiclesOverviewController.onPageLoad(),
+    Some(AssetsVehiclesSharedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
