@@ -68,29 +68,29 @@ object ApplicationKickOutNonSummaryHelper {
   def getSectionTotal(applicationSection: Option[String], applicationID: Option[String], ad: ApplicationDetails): Seq[BigDecimal] =
     sectionTotal.find(_._1 == applicationSection).fold[Seq[BigDecimal]](Nil)(_._2(ad, applicationID))
 
+  def nextStepsAssets(implicit messages: Messages): ListMap[String, String] = ListMap(
+  TrustsMoreThanOne -> messages("iht.estateReport.kickout.nextSteps"),
+  ForeignAssetsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  TrustValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  AnnuitiesOnInsurance -> messages("iht.estateReport.kickout.nextSteps"),
+  PensionDisposedLastTwoYears -> messages("iht.estateReport.kickout.nextSteps"),
+  PensionsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  InTrustLessThanSevenYears -> messages("iht.estateReport.kickout.nextSteps"),
+  SingleSectionMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsTotalValueMoreThanMax -> messages("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"),
+  InsuranceMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsMoneyOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsDeceasedMoneyOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsMoneyJointlyOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsHouseholdDeceasedOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsHouseholdJointlyOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsVehiclesDeceasedOwned -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsVehiclesJointlyOwned -> messages("iht.estateReport.kickout.nextSteps"))
+
   /**
     * First paragraph of the "Next steps" section.
     */
-  def nextSteps1(implicit messages: Messages) = ListMap(
-    /* Assets */
-    TrustsMoreThanOne -> messages("iht.estateReport.kickout.nextSteps"),
-    ForeignAssetsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    TrustValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    AnnuitiesOnInsurance -> messages("iht.estateReport.kickout.nextSteps"),
-    PensionDisposedLastTwoYears -> messages("iht.estateReport.kickout.nextSteps"),
-    PensionsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    InTrustLessThanSevenYears -> messages("iht.estateReport.kickout.nextSteps"),
-    SingleSectionMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsTotalValueMoreThanMax -> messages("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"),
-    InsuranceMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsMoneyOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsDeceasedMoneyOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsMoneyJointlyOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsHouseholdDeceasedOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsHouseholdJointlyOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsVehiclesDeceasedOwned -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsVehiclesJointlyOwned -> messages("iht.estateReport.kickout.nextSteps"),
-
+  def nextSteps1(implicit messages: Messages) = nextStepsAssets ++ ListMap(
     /* Gifts */
     GiftsWithReservationOfBenefit -> messages("iht.estateReport.kickout.nextSteps"),
     GiftsGivenInPast -> messages("iht.estateReport.kickout.nextSteps"),
