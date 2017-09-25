@@ -35,7 +35,9 @@ object StocksAndSharesListedController extends StocksAndSharesListedController w
 
 trait StocksAndSharesListedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsStocksAndSharesListed)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(), Some(AssetsStocksListedID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(),
+    Some(AssetsStocksListedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

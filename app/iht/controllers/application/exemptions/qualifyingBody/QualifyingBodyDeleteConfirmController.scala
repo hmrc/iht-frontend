@@ -65,7 +65,9 @@ trait QualifyingBodyDeleteConfirmController extends EstateController {
 
             ihtConnector.saveApplication(nino, newAppDetails, rd.acknowledgmentReference).map {
               case Some(_) =>
-                Redirect(CommonHelper.addFragmentIdentifier(iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(), Some(ExemptionsOtherAddID)))
+                Redirect(CommonHelper.addFragmentIdentifier(
+                  iht.controllers.application.exemptions.qualifyingBody.routes.QualifyingBodiesOverviewController.onPageLoad(),
+                  Some(ExemptionsOtherAddID)))
               case _ => {
                 Logger.warn("Save of app details fails with id = " + id
                   + " during save of app details during onSubmit of delete confirmation")

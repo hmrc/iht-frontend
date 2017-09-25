@@ -49,7 +49,8 @@ trait PropertyTenureController extends EstateController {
   val submitUrl = iht.controllers.application.assets.properties.routes.PropertyTenureController.onSubmit()
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyTenureController.onEditSubmit(id)
-  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesTenureID))
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
+    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesTenureID))
 
   def ihtConnector: IhtConnector
 

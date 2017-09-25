@@ -36,7 +36,9 @@ object PartnerValueController extends PartnerValueController with IhtConnectors 
 }
 
 trait PartnerValueController extends EstateController {
-  val submitUrl = addFragmentIdentifier(iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(), Some(ExemptionsPartnerValueID))
+  val submitUrl = addFragmentIdentifier(
+    iht.controllers.application.exemptions.partner.routes.PartnerOverviewController.onPageLoad(),
+    Some(ExemptionsPartnerValueID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {

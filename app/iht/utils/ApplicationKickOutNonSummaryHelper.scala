@@ -20,7 +20,7 @@ import iht.constants.IhtProperties
 import iht.models._
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
-import iht.utils.ApplicationKickOutHelper.{ApplicationSectionAssetsBusinessInterests, ApplicationSectionAssetsForeign, ApplicationSectionAssetsHouseholdDeceasedOwned, ApplicationSectionAssetsHouseholdJointlyOwned, ApplicationSectionAssetsInTrust, ApplicationSectionAssetsInsurancePoliciesJointlyOwned, ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased, ApplicationSectionAssetsMoneyDeceasedOwned, ApplicationSectionAssetsMoneyJointlyOwned, ApplicationSectionAssetsMoneyOwed, ApplicationSectionAssetsNominatedAssets, ApplicationSectionAssetsOther, ApplicationSectionAssetsPensionsValue, ApplicationSectionAssetsStocksAndSharesListed, ApplicationSectionAssetsStocksAndSharesNotListed, ApplicationSectionAssetsVehiclesDeceasedOwned, ApplicationSectionAssetsVehiclesJointlyOwned, ApplicationSectionGiftDetails, ApplicationSectionProperties, _}
+import iht.utils.ApplicationKickOutHelper._
 import iht.utils.CommonHelper._
 import iht.utils.KickOutReason._
 import iht.utils.{ApplicationStatus => AppStatus, KickOutReason => KickOut}
@@ -35,7 +35,8 @@ object ApplicationKickOutNonSummaryHelper {
     _.fold[Seq[BigDecimal]](Nil)(xx => Seq(getOrZero(xx.valueListed), getOrZero(xx.valueNotListed)))
 
   private val sectionTotal: ListMap[Option[String], (ApplicationDetails, Option[String]) => Seq[BigDecimal]] = ListMap(
-    Some(ApplicationSectionProperties) -> ((ad, optionID) => optionID.map(id => ad.propertyList.filter(_.id == optionID).map(_.value.getOrElse(BigDecimal(0))).sum)
+    Some(ApplicationSectionProperties) -> ((ad, optionID) => optionID.map(id =>
+      ad.propertyList.filter(_.id == optionID).map(_.value.getOrElse(BigDecimal(0))).sum)
       .fold[Seq[BigDecimal]](Nil)(xx => Seq(xx))),
     Some(ApplicationSectionAssetsMoneyDeceasedOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.money).flatMap(xx => xx.value)))),
     Some(ApplicationSectionAssetsMoneyJointlyOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.money).flatMap(xx => xx.shareValue)))),
@@ -46,8 +47,10 @@ object ApplicationKickOutNonSummaryHelper {
     Some(ApplicationSectionAssetsPensionsValue) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.privatePension).flatMap(xx => xx.value)))),
     Some(ApplicationSectionAssetsStocksAndSharesListed) -> ((ad, _) => stockAndShareValues(ad.allAssets.flatMap(_.stockAndShare))),
     Some(ApplicationSectionAssetsStocksAndSharesNotListed) -> ((ad, _) => stockAndShareValues(ad.allAssets.flatMap(_.stockAndShare))),
-    Some(ApplicationSectionAssetsInsurancePoliciesJointlyOwned) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.insurancePolicy).flatMap(xx => xx.shareValue)))),
-    Some(ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.insurancePolicy).flatMap(xx => xx.value)))),
+    Some(ApplicationSectionAssetsInsurancePoliciesJointlyOwned) -> ((ad, _) =>
+      Seq(getOrZero(ad.allAssets.flatMap(_.insurancePolicy).flatMap(xx => xx.shareValue)))),
+    Some(ApplicationSectionAssetsInsurancePoliciesOwnedByDeceased) -> ((ad, _) =>
+      Seq(getOrZero(ad.allAssets.flatMap(_.insurancePolicy).flatMap(xx => xx.value)))),
     Some(ApplicationSectionAssetsBusinessInterests) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.businessInterest).flatMap(xx => xx.totalValue)))),
     Some(ApplicationSectionAssetsNominatedAssets) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.nominated).flatMap(xx => xx.totalValue)))),
     Some(ApplicationSectionAssetsInTrust) -> ((ad, _) => Seq(getOrZero(ad.allAssets.flatMap(_.heldInTrust).flatMap(xx => xx.totalValue)))),
@@ -65,29 +68,29 @@ object ApplicationKickOutNonSummaryHelper {
   def getSectionTotal(applicationSection: Option[String], applicationID: Option[String], ad: ApplicationDetails): Seq[BigDecimal] =
     sectionTotal.find(_._1 == applicationSection).fold[Seq[BigDecimal]](Nil)(_._2(ad, applicationID))
 
+  def nextStepsAssets(implicit messages: Messages): ListMap[String, String] = ListMap(
+  TrustsMoreThanOne -> messages("iht.estateReport.kickout.nextSteps"),
+  ForeignAssetsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  TrustValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  AnnuitiesOnInsurance -> messages("iht.estateReport.kickout.nextSteps"),
+  PensionDisposedLastTwoYears -> messages("iht.estateReport.kickout.nextSteps"),
+  PensionsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  InTrustLessThanSevenYears -> messages("iht.estateReport.kickout.nextSteps"),
+  SingleSectionMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsTotalValueMoreThanMax -> messages("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"),
+  InsuranceMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsMoneyOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsDeceasedMoneyOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsMoneyJointlyOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsHouseholdDeceasedOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsHouseholdJointlyOwed -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsVehiclesDeceasedOwned -> messages("iht.estateReport.kickout.nextSteps"),
+  AssetsVehiclesJointlyOwned -> messages("iht.estateReport.kickout.nextSteps"))
+
   /**
     * First paragraph of the "Next steps" section.
     */
-  def nextSteps1(implicit messages: Messages) = ListMap(
-    /* Assets */
-    TrustsMoreThanOne -> messages("iht.estateReport.kickout.nextSteps"),
-    ForeignAssetsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    TrustValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    AnnuitiesOnInsurance -> messages("iht.estateReport.kickout.nextSteps"),
-    PensionDisposedLastTwoYears -> messages("iht.estateReport.kickout.nextSteps"),
-    PensionsValueMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    InTrustLessThanSevenYears -> messages("iht.estateReport.kickout.nextSteps"),
-    SingleSectionMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsTotalValueMoreThanMax -> messages("page.iht.application.assets.kickout.assetsTotalValueMoreThanMax.nextSteps1"),
-    InsuranceMoreThanMax -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsMoneyOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsDeceasedMoneyOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsMoneyJointlyOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsHouseholdDeceasedOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsHouseholdJointlyOwed -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsVehiclesDeceasedOwned -> messages("iht.estateReport.kickout.nextSteps"),
-    AssetsVehiclesJointlyOwned -> messages("iht.estateReport.kickout.nextSteps"),
-
+  def nextSteps1(implicit messages: Messages) = nextStepsAssets ++ ListMap(
     /* Gifts */
     GiftsWithReservationOfBenefit -> messages("iht.estateReport.kickout.nextSteps"),
     GiftsGivenInPast -> messages("iht.estateReport.kickout.nextSteps"),

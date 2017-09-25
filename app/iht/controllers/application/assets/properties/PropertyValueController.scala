@@ -50,7 +50,8 @@ trait PropertyValueController extends EstateController {
 
   def editSubmitUrl(id: String) = iht.controllers.application.assets.properties.routes.PropertyValueController.onEditSubmit(id)
 
-  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyValueID))
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
+    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyValueID))
 
   def ihtConnector: IhtConnector
 

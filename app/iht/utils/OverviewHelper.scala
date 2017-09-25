@@ -65,15 +65,44 @@ object OverviewHelper {
     }
   }
 
-  private def overviewDisplayValues(implicit lang: Lang): ListMap[String, ApplicationDetails => String] = ListMap(
-    AppSectionProperties -> { (ad) =>
-      if (ad.propertyList.filter(_.value.isDefined).isEmpty) {
-        ""
+  private def createPropertiesDisplayValue(ad: ApplicationDetails) = {
+    if (!ad.propertyList.exists(_.value.isDefined)) {
+      ""
+    }
+    else {
+      "£" + numberWithCommas(ad.propertyList.map(_.value.getOrElse(BigDecimal(0))).sum)
+    }
+  }
+
+  private def createMortgagesDisplayValue(ad: ApplicationDetails) = {
+    ad.allLiabilities.flatMap(_.mortgages).flatMap(_ =>
+      if (ad.propertyList.isEmpty) {
+        None
       }
       else {
-        "£" + numberWithCommas(ad.propertyList.map(_.value.getOrElse(BigDecimal(0))).sum)
-      }
-    },
+        ad.allLiabilities.map(_.mortgageValue)
+      })
+      .fold("")("£" + numberWithCommas(_))
+  }
+
+  private def createCharitiesDisplayValue(ad: ApplicationDetails) = {
+    if (!ad.charities.exists(_.totalValue.isDefined)) {
+      ""
+    } else {
+      "£" + numberWithCommas(ad.charities.map(_.totalValue.getOrElse(BigDecimal(0))).sum)
+    }
+  }
+
+  private def createQualifyingBodiesDisplayValue(ad: ApplicationDetails) = {
+    if (!ad.qualifyingBodies.exists(_.totalValue.isDefined)) {
+      ""
+    } else {
+      "£" + numberWithCommas(ad.qualifyingBodies.map(_.totalValue.getOrElse(BigDecimal(0))).sum)
+    }
+  }
+
+  private def overviewDisplayValues(implicit lang: Lang): ListMap[String, ApplicationDetails => String] = ListMap(
+    AppSectionProperties -> { (ad) => createPropertiesDisplayValue(ad)},
     AppSectionMoney -> { ad => ad.allAssets.flatMap(_.money).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
     AppSectionHousehold -> { ad => ad.allAssets.flatMap(_.household).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
     AppSectionVehicles -> { ad => ad.allAssets.flatMap(_.vehicles).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_)) },
@@ -86,20 +115,10 @@ object OverviewHelper {
     AppSectionForeign -> { ad => ad.allAssets.flatMap(_.foreign).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
     AppSectionMoneyOwed -> { ad => ad.allAssets.flatMap(_.moneyOwed).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
     AppSectionOther -> { ad => ad.allAssets.flatMap(_.other).flatMap(_.value).fold("")("£" + numberWithCommas(_)) },
-    AppSectionMortgages -> { ad =>
-      ad.allLiabilities.flatMap(_.mortgages).flatMap(_ =>
-        if (ad.propertyList.isEmpty) {
-          None
-        }
-        else {
-          ad.allLiabilities.map(_.mortgageValue)
-        })
-        .fold("")("£" + numberWithCommas(_))
-    },
+    AppSectionMortgages -> { ad => createMortgagesDisplayValue(ad)},
     AppSectionFuneralExpenses -> {
       _.allLiabilities.flatMap(_.funeralExpenses).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
     },
-
     AppSectionDebtsOwedFromTrust -> {
       _.allLiabilities.flatMap(_.trust).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
     },
@@ -112,7 +131,6 @@ object OverviewHelper {
     AppSectionDebtsOther -> {
       _.allLiabilities.flatMap(_.other).flatMap(_.totalValue).fold("")("£" + numberWithCommas(_))
     },
-
     AppSectionExemptionsPartnerIsAssetForDeceasedPartner -> { ad =>
       getMessageKeyValueOrBlank(
         getBooleanDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.isAssetForDeceasedPartner)))
@@ -125,32 +143,12 @@ object OverviewHelper {
     AppSectionExemptionsPartnerDateOfBirth -> { ad => getDateDisplayValue(ad.allExemptions.flatMap(_.partner).flatMap(_.dateOfBirth)) },
     AppSectionExemptionsPartnerNino -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.nino).fold("")(identity) },
     AppSectionExemptionsPartnerTotalAssets -> { ad => ad.allExemptions.flatMap(_.partner).flatMap(_.totalAssets).fold("")("£" + numberWithCommas(_)) },
-    AppSectionExemptionsCharityValue -> { (ad) =>
-      if (ad.charities.filter(_.totalValue.isDefined).isEmpty) {
-        ""
-      } else {
-        "£" + numberWithCommas(ad.charities.map(_.totalValue.getOrElse(BigDecimal(0))).sum)
-      }
-    },
-    AppSectionExemptionsQualifyingBodyValue -> { (ad) =>
-      if (ad.qualifyingBodies.filter(_.totalValue.isDefined).isEmpty) {
-        ""
-      } else {
-        "£" + numberWithCommas(ad.qualifyingBodies.map(_.totalValue.getOrElse(BigDecimal(0))).sum)
-      }
-    },
-    AppSectionEstateAssets -> { ad =>
-      totalAssetsValueOption(ad).fold("")(assetsValue =>
-        "£" + numberWithCommas(assetsValue))
-    },
-    AppSectionEstateGifts -> { ad =>
-      ad.totalPastYearsGiftsOption.fold("")(giftsValue =>
-        "£" + numberWithCommas(giftsValue))
-    },
-    AppSectionEstateDebts -> { ad =>
-      ad.totalLiabilitiesValueOption.fold("")(debtValue =>
-        (if (ad.totalExemptionsValue > BigDecimal(0)) "-£" else "£") + numberWithCommas(debtValue))
-    }
+    AppSectionExemptionsCharityValue -> { (ad) => createCharitiesDisplayValue(ad) },
+    AppSectionExemptionsQualifyingBodyValue -> { (ad) => createQualifyingBodiesDisplayValue(ad) },
+    AppSectionEstateAssets -> { ad => totalAssetsValueOption(ad).fold("")(assetsValue => "£" + numberWithCommas(assetsValue))},
+    AppSectionEstateGifts -> { ad => ad.totalPastYearsGiftsOption.fold("")(giftsValue => "£" + numberWithCommas(giftsValue)) },
+    AppSectionEstateDebts -> { ad => ad.totalLiabilitiesValueOption.fold("")(debtValue => (if (
+      ad.totalExemptionsValue > BigDecimal(0)) { "-£" } else { "£" }) + numberWithCommas(debtValue))}
   )
 
   def displayValue(appDetails: ApplicationDetails,
@@ -193,7 +191,7 @@ object OverviewHelper {
     if (inputValue) messagesFileYesValue else messagesFileNoValue
 
   def getDateDisplayValue(optDate: Option[LocalDate])(implicit lang: Lang): String =
-    optDate.fold("")(Dates.formatDate(_))
+    optDate.fold("")(Dates.formatDate)
 
   def getBigDecimalDisplayValue(optBigDecimal: Option[BigDecimal]) =
     optBigDecimal.fold("")("£" + CommonHelper.numberWithCommas(_))
@@ -293,7 +291,9 @@ object OverviewHelper {
             Seq(Question(
               id = id + "-value",
               title = questionTitleValueMessage,
-              link = if(questionAnswerExprValue.isDefined) Link(messagesFileChange, questionLevelLinkAccessibilityTextValue, linkUrl) else Link(messagesFileGiveAnswer, questionLevelLinkAccessibilityTextValue, linkUrl),
+              link = if(questionAnswerExprValue.isDefined) { Link(
+                messagesFileChange, questionLevelLinkAccessibilityTextValue, linkUrl) } else { Link(
+                messagesFileGiveAnswer, questionLevelLinkAccessibilityTextValue, linkUrl) },
               value = getBigDecimalDisplayValue(questionAnswerExprValue),
               linkId = answerLinkID
             ))

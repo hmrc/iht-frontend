@@ -35,11 +35,14 @@ object StocksAndSharesNotListedController extends StocksAndSharesNotListedContro
 
 trait StocksAndSharesNotListedController extends EstateController {
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsStocksAndSharesNotListed)
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(), Some(AssetsStocksNotListedID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.stocksAndShares.routes.StocksAndSharesOverviewController.onPageLoad(),
+    Some(AssetsStocksNotListedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request => {
-      estateElementOnPageLoad[StockAndShare](stockAndShareNotListedForm, stocks_and_shares_not_listed.apply,_.allAssets.flatMap(_.stockAndShare))
+      estateElementOnPageLoad[StockAndShare](stockAndShareNotListedForm, stocks_and_shares_not_listed.apply,
+        _.allAssets.flatMap(_.stockAndShare))
     }
   }
 

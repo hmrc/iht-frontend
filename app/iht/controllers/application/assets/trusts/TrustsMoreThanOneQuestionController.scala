@@ -36,7 +36,8 @@ object TrustsMoreThanOneQuestionController extends TrustsMoreThanOneQuestionCont
 
 trait TrustsMoreThanOneQuestionController extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsMultipleID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsMultipleID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsMoreThanOneTrust)
 
   def onPageLoad = authorisedForIht {
