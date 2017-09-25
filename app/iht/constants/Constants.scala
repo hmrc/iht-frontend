@@ -144,5 +144,5 @@ object Constants {
  */
   lazy val contentMutation = "gan priod" -> "gan briod"
 
-  val vowels: Set[Char] = Set('a', 'e', 'i', 'o', 'u')
+  val welshVowels: Set[Char] = Set('a', 'e', 'i', 'o', 'u', 'w', 'y')
 }

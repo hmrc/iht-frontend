@@ -197,7 +197,7 @@ object TnrbHelper {
     if(language == "en") {
       "page.iht.application.tnrbEligibilty.partner.additional.label.and"
     } else {
-      if(Constants.vowels.contains(firstLetterOfPDName)) {
+      if(Constants.welshVowels.contains(firstLetterOfPDName)) {
         "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterVowel"
       } else {
         "page.iht.application.tnrbEligibilty.partner.additional.label.andAfterConsonant"
