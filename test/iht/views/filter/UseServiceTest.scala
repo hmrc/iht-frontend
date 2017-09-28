@@ -60,6 +60,13 @@ class UseServiceTest extends ViewTestHelper {
       paragraph0.text() should be(messagesApi("page.iht.filter.useService.under325000.paragraph0"))
     }
 
+    "display content about other ways to report the value of the estate when value is under 325000" in {
+      val result = use_service(under325000)(fakeRequest, applicationMessages, formPartialRetriever)
+      val doc = asDocument(contentAsString(result))
+      val h2 = doc.getElementById("other-ways-to-report")
+      h2.text() should be(messagesApi("page.iht.filter.useService.under325000.otherWaysToReportValue"))
+    }
+
     "generate content for the between 325000 and 1 million paragraph zero when given the between parameter" in {
       val result = use_service(between325000and1million)(fakeRequest, applicationMessages, formPartialRetriever)
       val doc = asDocument(contentAsString(result))

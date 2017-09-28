@@ -41,5 +41,11 @@
     <a href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url" class="button" id="continue">@Messages("iht.continue")</a>
   </div>
 
-  @previous_answers(Messages("iht.countries.englandOrWales"), Some(estimatedValue))
+  @if(estimatedValue == under325000) {
+    <h2 id="other-ways-to-report">@Messages("page.iht.filter.useService.under325000.otherWaysToReportValue")</h2>
+    <p id="paragraph2">@Messages("page.iht.filter.useService.under325000.p1")</p>
+    <p id="paragraph3">@Messages("page.iht.filter.useService.under325000.p2")</p>
+  }
+
+    @previous_answers(Messages("iht.countries.englandOrWales"), Some(estimatedValue))
 }
