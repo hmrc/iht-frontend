@@ -1995,3 +1995,6 @@ label.beta.yours = - bydd eich
 
 page.iht.registration.applicantDetails.citizenDetailsNotFound.title = Ni all CThEM ddod o hyd i unrhyw fanylion amdanoch.
 page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Mae''n rhaid i chi ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Ffoniwch +44 300 123 1072 os ydych y tu allan i''r DU.
+
+page.iht.questionnaire.contactDetails = ???
+page.iht.questionnaire.stageInService = ???

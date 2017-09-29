@@ -1818,6 +1818,9 @@ page.iht.questionnaire.improve.p2 = Please do not include any personal or financ
 
 page.iht.questionnaire.fullName.p1 = We are looking for people to help us with user research.
 page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
+page.iht.questionnaire.contactDetails = Email address / phone number
+page.iht.questionnaire.stageInService = Stage in service
+
 page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 
 page.iht.sign-out.p1 = Sign back in through GOV.UK

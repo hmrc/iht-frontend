@@ -63,6 +63,16 @@
     '_labelTextClass -> "bold",
     '_label -> Html(Messages("site.fullName")))
 
+    @ihtHelpers.standard.input_with_help(form("contactDetails"),
+    '_divClass -> "form-group",
+    '_inputClass -> "form-control",
+    '_labelTextClass -> "bold",
+    '_label -> Html(Messages("page.iht.questionnaire.contactDetails")))
+
+    @helpers.textArea(form("stageInService"),
+    '_label -> Messages("page.iht.questionnaire.stageInService"),
+    '_labelClass -> "form-label-bold",
+    '_inputClass -> "full-width feedback-text-area")
 
     <input class="button" type="submit" value = "@Messages("page.iht.questionnaire.button.submit-and-signout")" />
 </div>
