@@ -1996,6 +1996,9 @@ label.beta.yours = - bydd eich
 page.iht.registration.applicantDetails.citizenDetailsNotFound.title = Ni all CThEM ddod o hyd i unrhyw fanylion amdanoch.
 page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Mae''n rhaid i chi ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Ffoniwch +44 300 123 1072 os ydych y tu allan i''r DU.
 
-page.iht.filter.useService.under325000.otherWaysToReportValue = ???
-page.iht.filter.useService.under325000.p1 = ???
-page.iht.filter.useService.under325000.p2 = ???
+page.iht.filter.useService.under325000.otherWaysToReportValue = Ffyrdd eraill i roi gwybod am werth ystâd
+page.iht.filter.useService.under325000.p1.a = Gallwch
+page.iht.filter.useService.under325000.p1.b = ddefnyddio''r ffurflen bapur IHT205
+page.iht.filter.useService.under325000.p1.c = os na allwch roi gwybod ar-lein am werth yr ystâd.
+page.iht.filter.useService.under325000.p2 = Os na allwch lawrlwytho neu argraffu''r ffurflen, gallwch ofyn bod copi''n cael ei anfon atoch drwy ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
+
