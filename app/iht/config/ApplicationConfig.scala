@@ -38,7 +38,6 @@ trait AppConfig {
   val notAuthorisedRedirectUrlApplication:String
   val ivUpliftConfidenceLevel: Int
   val ivUrl: String
-  val twoFactorUrl: String
   val ggSignInUrl: String
   val ggSignInFullUrlRegistration: String
   val ggSignInFullUrlApplication: String
@@ -85,7 +84,6 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override val ivUrlJourney:String = baseUrl("identity-verification") + "/mdtp/journey/journeyId/"
   override val ivUrl: String =  readOrEmpty(s"$env.microservice.iv.identity-verification-frontend.host")
   override val ivUrlUplift:String = s"$ivUrl/mdtp/uplift?origin=IHT&"
-  override val twoFactorUrl: String = readFromConfig(s"$env.microservice.iv.two-factor.host")
   override val ggSignInUrl: String = readFromConfig(s"$env.microservice.iv.government-gateway-sign-in.host")
   override val ggSignInFullUrlRegistration: String = s"$ggSignInUrl?" +
     s"continue=${URLEncoder.encode(postSignInRedirectUrlRegistration, "UTF-8")}&origin=iht-frontend&accountType=individual"
