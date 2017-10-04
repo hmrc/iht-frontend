@@ -42,9 +42,7 @@
         </p>
       </div>
       <div class="form-field form-field--submit">
-        <a id="continue" class="button" href="@routes.EstateOverviewController.onContinueOrDeclarationRedirect(model.ihtReference)">
-            @Messages("iht.continue")
-        </a>
+        <a id="continue" class="button" href="@routes.EstateOverviewController.onContinueOrDeclarationRedirect(model.ihtReference)">@Messages("iht.continue")</a>
       </div>
     }
     case Declarable => {
@@ -54,9 +52,7 @@
         </p>
       </div>
       <div class="form-field form-field--submit">
-        <a id="continue-to-declaration" class="button"  href="@routes.EstateOverviewController.onContinueOrDeclarationRedirect(model.ihtReference)">
-            @Messages("iht.continue")
-        </a>
+        <a id="continue-to-declaration" class="button"  href="@routes.EstateOverviewController.onContinueOrDeclarationRedirect(model.ihtReference)">@Messages("iht.continue")</a>
       </div>
     }
    }
