@@ -1997,4 +1997,13 @@ page.iht.registration.applicantDetails.citizenDetailsNotFound.title = Ni all CTh
 page.iht.registration.applicantDetails.citizenDetailsNotFound.guidance = Mae''n rhaid i chi ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Ffoniwch +44 300 123 1072 os ydych y tu allan i''r DU.
 
 page.iht.questionnaire.contactDetails = ???
-page.iht.questionnaire.stageInService = ???
+page.iht.questionnaire.activity.question= ???
+page.iht.questionnaire.activity.register= ???
+page.iht.questionnaire.activity.gift= ???
+page.iht.questionnaire.activity.asset= ???
+page.iht.questionnaire.activity.debt= ???
+page.iht.questionnaire.activity.exemption= ???
+page.iht.questionnaire.activity.increase-threshold= ???
+page.iht.questionnaire.activity.check-estate= ???
+page.iht.questionnaire.activity.declare-app= ???
+page.iht.questionnaire.activity.clearance= ???

@@ -1818,8 +1818,19 @@ page.iht.questionnaire.improve.p2 = Please do not include any personal or financ
 
 page.iht.questionnaire.fullName.p1 = We are looking for people to help us with user research.
 page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
-page.iht.questionnaire.contactDetails = Email address / phone number
-page.iht.questionnaire.stageInService = Stage in service
+
+page.iht.questionnaire.contactDetails = Email address or phone number
+
+page.iht.questionnaire.activity.question=What did you do when you used Inheritance Tax Online today?
+page.iht.questionnaire.activity.register=Completed registration to complete an estate report
+page.iht.questionnaire.activity.gift=Entered details about a gift
+page.iht.questionnaire.activity.asset=Entered details about an asset
+page.iht.questionnaire.activity.debt=Entered details about debts
+page.iht.questionnaire.activity.exemption=Entered details about an exemption
+page.iht.questionnaire.activity.increase-threshold=Entered details to increase the Inheritance Tax threshold
+page.iht.questionnaire.activity.check-estate=Checked details already entered on an estate report
+page.iht.questionnaire.activity.declare-app=Completed your declaration and sent an estate report to HMRC
+page.iht.questionnaire.activity.clearance=Requested clearance of an estate report
 
 page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 

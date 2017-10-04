@@ -20,15 +20,16 @@ import iht.models.QuestionnaireModel
 import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.ihtHelpers.custom.questionnaire_form
+import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.data.Forms.{mapping, number, optional, text}
 import play.api.i18n.Messages
 import play.api.mvc.Call
+import play.twirl.api.HtmlFormat
 
 class QuestionnaireFormViewTest extends ViewTestHelper {
 
-  private lazy val viewAsDocument = {
-    implicit val messages: Messages = app.injector.instanceOf[Messages]
+  private lazy val viewAsDocument: Document = {
     implicit val request = createFakeRequest()
 
     val call: Call = CommonBuilder.DefaultCall1
@@ -42,7 +43,8 @@ class QuestionnaireFormViewTest extends ViewTestHelper {
         "stageInService" -> optional(text(minLength = 1, maxLength = 1200))
       )(QuestionnaireModel.apply)(QuestionnaireModel.unapply))
 
-    asDocument(questionnaire_form(form, call).toString)
+    val view: HtmlFormat.Appendable = questionnaire_form(form, call)(request, messagesApi.preferred(request))
+    asDocument(view.toString)
   }
 
   "QuestionnaireForm View" must {
@@ -51,12 +53,9 @@ class QuestionnaireFormViewTest extends ViewTestHelper {
       noMessageKeysShouldBePresent(viewAsDocument.toString)
     }
 
-    "have an input for users contact details" in {
-      viewAsDocument.getElementById("contactDetails").text shouldBe messagesApi("page.iht.questionnaire.contactDetails")
-    }
-
-    "have an input for the stage in the service the user has reached" in {
-      viewAsDocument.getElementById("stageInService").text shouldBe messagesApi("page.iht.questionnaire.stageInService")
+    "have an input for users contact details and activity user has completed" in {
+     viewAsDocument.toString should include(messagesApi("page.iht.questionnaire.contactDetails"))
+     viewAsDocument.toString should include(messagesApi("page.iht.questionnaire.activity.question"))
     }
 
   }

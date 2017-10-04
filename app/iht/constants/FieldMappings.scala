@@ -87,6 +87,18 @@ object FieldMappings {
     createMapEntry(questionnaireFeelingAboutExperienceVeryDissatisfied,"page.iht.questionnaire.feelingAboutExperience.veryDissatisfied")(messages)
   )
 
+  def questionnaireActivity(implicit messages: Messages) = ListMap(
+    createMapEntry(questionnaireActivityRegister, "page.iht.questionnaire.activity.register")(messages),
+    createMapEntry(questionnaireActivityGifts, "page.iht.questionnaire.activity.gift")(messages),
+    createMapEntry(questionnaireActivityAssets, "page.iht.questionnaire.activity.asset")(messages),
+    createMapEntry(questionnaireActivityDebts, "page.iht.questionnaire.activity.debt")(messages),
+    createMapEntry(questionnaireActivityExemptions, "page.iht.questionnaire.activity.exemption")(messages),
+    createMapEntry(questionnaireActivityThresholdIncrease, "page.iht.questionnaire.activity.increase-threshold")(messages),
+    createMapEntry(questionnaireActivityCheckEstate, "page.iht.questionnaire.activity.check-estate")(messages),
+    createMapEntry(questionnaireActivityDeclareApp, "page.iht.questionnaire.activity.declare-app")(messages),
+    createMapEntry(questionnaireActivityClearance, "page.iht.questionnaire.activity.clearance")(messages)
+  )
+
   def filterChoices(implicit messages: Messages) = ListMap(
     register -> Tuple3(messages("page.iht.filter.filter.choice.main.register"), Some(messages("page.iht.filter.filter.choice.main.register.hint")), None),
     alreadyStarted -> Tuple3(messages("page.iht.filter.filter.choice.main.alreadyStarted"), None, None),
