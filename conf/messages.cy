@@ -2002,3 +2002,7 @@ page.iht.filter.useService.under325000.p1.b = ddefnyddio''r ffurflen bapur IHT20
 page.iht.filter.useService.under325000.p1.c = os na allwch roi gwybod ar-lein am werth yr ystâd.
 page.iht.filter.useService.under325000.p2 = Os na allwch lawrlwytho neu argraffu''r ffurflen, gallwch ofyn bod copi''n cael ei anfon atoch drwy ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
 
+page.iht.filter.jointlyowned.question = ???
+page.iht.filter.jointlyowned.guidance = ???
+page.iht.filter.jointlyowned.yes = ???
+page.iht.filter.jointlyowned.no = ???

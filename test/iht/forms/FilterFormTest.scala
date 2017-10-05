@@ -57,4 +57,27 @@ class FilterFormTest extends FormTestHelper with FakeIhtApp {
       checkForError(domicileForm(messages), data, expectedErrors)
     }
   }
+
+  "Filter Jointly Owned Form" must {
+    "give an error when no value is provided" in {
+      val data = Map[String, String]()
+      val expectedErrors = Seq(FormError(filterJointlyOwned, "error.selectAnswer"))
+
+      checkForError(filterJointlyOwnedForm(messages), data, expectedErrors)
+    }
+
+    "give an error when blank value is provided" in {
+      val data = Map[String, String](filterJointlyOwned -> "")
+      val expectedErrors = Seq(FormError(filterJointlyOwned, "error.invalid"))
+
+      checkForError(filterJointlyOwnedForm(messages), data, expectedErrors)
+    }
+
+    "not give an error when a valid answer is provided" in {
+      val data = Map[String, String](filterJointlyOwned -> filterJointlyOwnedYes)
+
+      formWithNoError(filterJointlyOwnedForm(messages), data)
+    }
+
+  }
 }

@@ -193,6 +193,11 @@ page.iht.filter.filter.choice.main.agent = I am a professional and I am reportin
 page.iht.filter.domicile.choice.other = Other country
 page.iht.filter.domicile.return.link = Return to what do you want to do
 
+page.iht.filter.jointlyowned.question = Did the person who has died jointly own anything with someone else?
+page.iht.filter.jointlyowned.guidance = This could be owning a home with someone else or having any joint bank accounts.
+page.iht.filter.jointlyowned.yes = Yes, they owned something with someone else
+page.iht.filter.jointlyowned.no = No, they did not own anything with someone else
+
 page.iht.filter.estimate.choice.under = Under £325,000
 page.iht.filter.estimate.choice.between = Between £325,000 and £1 million
 page.iht.filter.estimate.choice.over = More than £1 million

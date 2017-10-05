@@ -49,7 +49,7 @@ trait DomicileController extends FrontendController {
         formWithErrors => Future.successful(BadRequest(iht.views.html.filter.domicile(formWithErrors))),
         choice => choice.getOrElse("") match {
           case Constants.englandOrWales =>
-            Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoad()))
+            Future.successful(Redirect(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad()))
           case Constants.scotland =>
             Future.successful(Redirect(iht.controllers.filter.routes.TransitionController.onPageLoadScotland()))
           case Constants.northernIreland =>

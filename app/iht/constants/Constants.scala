@@ -103,6 +103,10 @@ object Constants {
   lazy val northernIreland = "northern-ireland"
   lazy val otherCountry = "other"
 
+  lazy val filterJointlyOwned = "filter-jointly-owned"
+  lazy val filterJointlyOwnedYes = "filter-jointly-owned-yes"
+  lazy val filterJointlyOwnedNo = "filter-jointly-owned-no"
+
   lazy val estimate = "estimate"
   lazy val under325000 = "under-325000"
   lazy val between325000and1million = "between-325000-and-1million"

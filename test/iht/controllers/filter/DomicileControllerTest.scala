@@ -60,13 +60,13 @@ class DomicileControllerTest extends ApplicationControllerTest with HtmlSpec {
       assertRenderedById(doc, "errors")
     }
 
-    "redirect to the Estimate page if 'England or Wales' is selected" in {
+    "redirect to the Jointly Owned page if 'England or Wales' is selected" in {
       val form = domicileForm(messages).fill(Some(englandOrWales))
       val request = createFakeRequestWithBody(isAuthorised = false, data = form.data.toSeq)
       val result = controller.onSubmit()(request)
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some(iht.controllers.filter.routes.EstimateController.onPageLoad().url))
+      redirectLocation(result) should be(Some(iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad().url))
     }
 
     "redirect to the 'Scotland transition' page if 'Scotland' is selected" in {

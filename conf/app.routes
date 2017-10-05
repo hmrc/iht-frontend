@@ -28,6 +28,9 @@ POST        /what-do-you-want-to-do                                  iht.control
 GET         /domicile                                                iht.controllers.filter.DomicileController.onPageLoad
 POST        /domicile                                                iht.controllers.filter.DomicileController.onSubmit
 
+GET         /any-joint-assets                                        iht.controllers.filter.FilterJointlyOwnedController.onPageLoad
+POST        /any-joint-assets                                        iht.controllers.filter.FilterJointlyOwnedController.onSubmit
+
 GET         /estimate                                                iht.controllers.filter.EstimateController.onPageLoad
 POST        /estimate                                                iht.controllers.filter.EstimateController.onSubmit
 
