@@ -16,6 +16,8 @@
 
 package iht.views
 
+import iht.constants.IhtProperties
+import iht.testhelpers.TestHelper
 import iht.views.html.deadlines
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
@@ -37,7 +39,7 @@ class DeadlinesViewTest extends GenericNonSubmittablePageBehaviour {
 
   override def exitComponent = Some(
     ExitComponent(
-      Call("GET", "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"),
+      Call("GET", TestHelper.LinkEstateReportKickOut),
       messagesApi("page.iht.filter.paperform.million.exit")
     )
   )
@@ -49,7 +51,7 @@ class DeadlinesViewTest extends GenericNonSubmittablePageBehaviour {
     behave like nonSubmittablePage()
 
     behave like link("pay-early",
-      "https://www.gov.uk/paying-inheritance-tax/pay-early",
+      TestHelper.LinkPayEarly,
       messagesApi("page.iht.deadlines.anchorText"))
   }
 }

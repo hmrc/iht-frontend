@@ -18,6 +18,7 @@
 @import iht.views.html._
 @import iht.controllers.ControllerHelper
 @import iht.utils._
+@import iht.constants.IhtProperties
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
@@ -28,12 +29,12 @@
     <h2 class="heading-medium">@messages("page.iht.deadlines.title")</h2>
     <p>@messages("page.iht.deadlines.p1")</p>
     <p>@messages("page.iht.deadlines.p2")</p>
-    <a id="pay-early" href="https://www.gov.uk/paying-inheritance-tax/pay-early">
+    <a id="pay-early" href="@IhtProperties.linkPayEarly">
         @messages("page.iht.deadlines.anchorText")
     </a>.
     <p>@messages("page.iht.deadlines.p3")</p>
 
-    <a id="exit-to-iht400" class="button" href="https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400">
+    <a id="exit-to-iht400" class="button" href="@IhtProperties.linkEstateReportKickOut">
         @messages("page.iht.filter.paperform.million.exit")
     </a>
 
