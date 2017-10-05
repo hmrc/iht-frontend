@@ -2414,3 +2414,10 @@ label.beta.newservice =  This is a new service
 label.beta.improve =  will help us to improve it.
 label.beta.feedback = feedback
 label.beta.yours = - your
+
+# DEADLINES
+page.iht.deadlines.title = Deadlines for completing the IHT400 form
+page.iht.deadlines.p1 = You have 1 year from the date of death to fill in the IHT400 form if there is any Inheritance Tax to form.
+page.iht.deadlines.p2 = You will have to start paying Inheritance Tax by the end of the sixth month after the death, whether you have completed the form or not. You can
+page.iht.deadlines.anchorText = make a payment before you finish valuing the estate
+page.iht.deadlines.p3 = When you have finished the IHT400 form, it will tell you if there is any Inheritance Tax to pay and, if so, how much it is.
