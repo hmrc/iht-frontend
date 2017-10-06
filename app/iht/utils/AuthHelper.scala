@@ -31,21 +31,6 @@ object IhtSection extends Enumeration {
   val Registration, Application = Value
 }
 
-private class IhtStrongCredentialPredicate(twoFactorAuthenticationUri: URI) extends PageVisibilityPredicate {
-  override def apply(authContext: AuthContext, request: Request[AnyContent]): Future[PageVisibilityResult] = {
-    if (hasStrongCredentials(authContext)) {
-      Future.successful(PageIsVisible)
-    } else {
-      Future.successful(PageBlocked(failedCredentialResult))
-    }
-  }
-
-  private val failedCredentialResult = Future.successful(Redirect(twoFactorAuthenticationUri.toString))
-
-  private def hasStrongCredentials(authContext: AuthContext) =
-    authContext.user.credentialStrength == CredentialStrength.Strong
-}
-
 object AuthHelper {
 
   private def getCompositePageVisibilityPredicate(postSignInUrl: String, notAuthorisedUrl: String, requiredConfidenceLevel: Int) = {
@@ -56,12 +41,7 @@ object AuthHelper {
           s"failureURL=${URLEncoder.encode(notAuthorisedUrl, "UTF-8")}" +
           s"&confidenceLevel=$requiredConfidenceLevel")
 
-      private val twoFactorURI: URI =
-        new URI(s"${ApplicationConfig.twoFactorUrl}?" +
-          s"continue=${URLEncoder.encode(postSignInUrl, "UTF-8")}&" +
-          s"failure=${URLEncoder.encode(notAuthorisedUrl, "UTF-8")}")
       override def children: Seq[PageVisibilityPredicate] = Seq(
-        new IhtStrongCredentialPredicate(twoFactorURI),
         new UpliftingIdentityConfidencePredicate(ConfidenceLevel.fromInt(requiredConfidenceLevel), ivUpliftURI)
       )
     }

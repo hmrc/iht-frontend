@@ -110,7 +110,7 @@ trait GiftsOverviewController extends EstateController {
 
   private def createIsGivenAwayQuestion(regDetails: RegistrationDetails,
                                 ad: ApplicationDetails,
-                                allGifts: AllGifts, deceasedName: String)(implicit messages:Messages) = createSectionFromYesNoQuestions(
+                                allGifts: AllGifts, deceasedName: String, messages: Messages) = createSectionFromYesNoQuestions(
     id = "givenAway",
     title = None,
     linkUrl = routes.GivenAwayController.onPageLoad(),
@@ -124,7 +124,7 @@ trait GiftsOverviewController extends EstateController {
 
   private def createReservationQuestion(regDetails: RegistrationDetails,
                                 ad: ApplicationDetails,
-                                allGifts: AllGifts, deceasedName: String)(implicit messages:Messages) = createSectionFromYesNoQuestions(
+                                allGifts: AllGifts, deceasedName: String, messages: Messages) = createSectionFromYesNoQuestions(
     id = "reservation",
     title = Some(messages("iht.estateReport.gifts.withReservation.title", deceasedName)),
     linkUrl = routes.WithReservationOfBenefitController.onPageLoad(),
@@ -139,7 +139,7 @@ trait GiftsOverviewController extends EstateController {
 
   private def createSevenYearsQuestion(regDetails: RegistrationDetails,
                                ad: ApplicationDetails,
-                               allGifts: AllGifts, deceasedName: String)(implicit messages:Messages) = createSectionFromYesNoQuestions(
+                               allGifts: AllGifts, deceasedName: String, messages: Messages) = createSectionFromYesNoQuestions(
     id = "sevenYear",
     title = Some("iht.estateReport.gifts.givenAwayIn7YearsBeforeDeath"),
     linkUrl = routes.SevenYearsGivenInLast7YearsController.onPageLoad(),
@@ -155,7 +155,7 @@ trait GiftsOverviewController extends EstateController {
 
   private def createValueGivenAwayQuestion(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
-                                   allGifts: AllGifts, deceasedName: String)(implicit messages:Messages) = createSectionFromValueQuestions(
+                                   allGifts: AllGifts, deceasedName: String) = createSectionFromValueQuestions(
     id = "value",
     title = Some("iht.estateReport.gifts.valueOfGiftsGivenAway"),
     linkUrl = routes.SevenYearsGiftsValuesController.onPageLoad(),
@@ -175,13 +175,13 @@ trait GiftsOverviewController extends EstateController {
 
   private def createSeqOfQuestions(regDetails: RegistrationDetails,
                                    ad: ApplicationDetails,
-                                   allGifts: AllGifts) = {
+                                   allGifts: AllGifts)(implicit messages: Messages) = {
 
     val deceasedName = DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, wrapName = true)
 
-    lazy val sectionIsGivenAway = createIsGivenAwayQuestion(regDetails, ad, allGifts, deceasedName)
-    lazy val sectionReservation = createReservationQuestion(regDetails, ad, allGifts, deceasedName)
-    lazy val sectionSevenYears = createSevenYearsQuestion(regDetails, ad, allGifts, deceasedName)
+    lazy val sectionIsGivenAway = createIsGivenAwayQuestion(regDetails, ad, allGifts, deceasedName, messages)
+    lazy val sectionReservation = createReservationQuestion(regDetails, ad, allGifts, deceasedName, messages)
+    lazy val sectionSevenYears = createSevenYearsQuestion(regDetails, ad, allGifts, deceasedName, messages)
     lazy val sectionValueGivenAway = createValueGivenAwayQuestion(regDetails, ad, allGifts, deceasedName)
 
     allGifts.isGivenAway match {
