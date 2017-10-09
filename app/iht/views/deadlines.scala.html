@@ -22,8 +22,8 @@
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 @(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
-    <p>@messages("page.iht.deadlines.p1")</p>
-    <p>@messages("page.iht.deadlines.p2") <a id="pay-early" href="@IhtProperties.linkPayEarly">@messages("page.iht.deadlines.anchorText")</a>.</p>
-    <p>@messages("page.iht.deadlines.p3")</p>
+<p>@messages("page.iht.deadlines.p1")</p>
+<p>@messages("page.iht.deadlines.p2") <a id="pay-early" href="@IhtProperties.linkPayEarly">@messages("page.iht.deadlines.anchorText")</a>.</p>
+<p>@messages("page.iht.deadlines.p3")</p>
 
-    <a id="exit-to-iht400" class="button" href="@IhtProperties.linkEstateReportKickOut">@messages("page.iht.filter.paperform.million.exit")</a>
+<a id="exit-to-iht400" class="button" href="@CommonHelper.getEnglishOrWelsh(IhtProperties.linkEstateReportKickOut, IhtProperties.linkEstateReportKickOutWelsh, messages.lang)">@messages("page.iht.filter.paperform.million.exit")</a>
