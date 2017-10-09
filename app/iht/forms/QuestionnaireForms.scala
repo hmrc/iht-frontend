@@ -32,7 +32,7 @@ object QuestionnaireForms {
       "howcanyouimprove" -> optional(text(minLength = 1, maxLength = 1200)),
       "fullName" -> optional(text),
       "contactDetails" -> optional(text),
-      "stageInService" -> optional(text(minLength = 1, maxLength = 1200))
+      "stageInService" -> optional(text)
     )(QuestionnaireModel.apply)(QuestionnaireModel.unapply)
   )
 }
