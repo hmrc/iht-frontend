@@ -31,20 +31,8 @@ import scala.util.{Failure, Success, Try}
 object GuidancePDFController extends GuidancePDFController
 
 trait GuidancePDFController extends FrontendController {
-//  def loadPDF = UnauthorisedAction {
-//    implicit request => {
-//     Try(Constants.PDFHMRCGuidance.openStream) match {
-//        case Success(fileInputStream) =>
-//          val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(fileInputStream)
-//          Result(
-//            header = ResponseHeader(OK),
-//            body = fileContent
-//          ).as("application/pdf")
-//        case Failure(e) => throw new FileNotFoundException("Unable to retrieve guidance PDF:" + e.getMessage)
-//      }
-//    }
-//  }
 
+  // scalastyle:off magic.number
   def loadPDF = UnauthorisedAction {
    implicit request => {
      val source: Source[ByteString, _] = FileIO.fromPath(Constants.pDFHMRCGuidance)

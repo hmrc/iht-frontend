@@ -25,7 +25,6 @@ import play.api.mvc.{Action, AnyContent, Call}
 import uk.gov.hmrc.play.config.RunMode
 import uk.gov.hmrc.play.language.{LanguageController, LanguageUtils}
 
-
 @Singleton
 class CustomLanguageController @Inject()(implicit val messagesApi: MessagesApi) extends LanguageController with RunMode {
   /** Converts a string to a URL, using the route to this controller. **/

@@ -36,7 +36,8 @@ object PensionsChangedQuestionController extends PensionsChangedQuestionControll
 
 trait PensionsChangedQuestionController extends EstateController {
 
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionChangesID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.pensions.routes.PensionsOverviewController.onPageLoad(), Some(AssetsPensionChangesID))
   override val applicationSection = Some(ApplicationKickOutHelper.ApplicationSectionAssetsPensions)
 
   def onPageLoad = authorisedForIht {

@@ -81,7 +81,7 @@ object GiftsHelper {
 
     noOfIteration match {
       case `MaxIterationValueForGiftYears` =>
-        sevenYearsPriorDate.getYear + "-" + sevenYearsPriorDate.monthOfYear().get()+ "-" + sevenYearsPriorDate.getDayOfMonth
+        sevenYearsPriorDate.getYear + "-" + sevenYearsPriorDate.monthOfYear().get() + "-" + sevenYearsPriorDate.getDayOfMonth
       case _ => s"${(periodDate.getYear - (noOfIteration - 1))}${"-" + startDateString}"
     }
   }

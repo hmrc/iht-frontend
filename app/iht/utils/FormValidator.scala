@@ -39,7 +39,8 @@ trait FormValidator {
 
   def validateCountryCode(x: String) = countryCodes.contains(x.toUpperCase)
 
-  def validateInternationalCountryCode(code: String)(implicit lang: Lang, messages: Messages) = internationalCountries(lang, messages).map(_._1).contains(code.toUpperCase)
+  def validateInternationalCountryCode(code: String)(implicit lang: Lang, messages: Messages) =
+    internationalCountries(lang, messages).map(_._1).contains(code.toUpperCase)
 
   def isNotFutureDate = {
     date: LocalDate => !date.isAfter(LocalDate.now())

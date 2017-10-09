@@ -46,7 +46,6 @@ trait MortgageValueController extends ApplicationController {
   def onPageLoad(id: String) = authorisedForIht {
     implicit user =>
       implicit request => {
-
         withRegistrationDetails { regDetails =>
           for {
             applicationDetails <- ihtConnector.getApplication(StringHelper.getNino(user),
@@ -54,48 +53,40 @@ trait MortgageValueController extends ApplicationController {
               regDetails.acknowledgmentReference)
           } yield {
             applicationDetails match {
-              case Some(applicationDetails) => {
-
-                val propertyList = applicationDetails.propertyList
-                val matchedProperty = applicationDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
+              case Some(appDetails) =>
+                val propertyList = appDetails.propertyList
+                val matchedProperty: Property = appDetails.propertyList.find(property => property.id.getOrElse("") equals id).fold {
                   throw new RuntimeException("No Property found for the id")
                 }(identity)
-
-                val allLiabilities = applicationDetails.allLiabilities.getOrElse(new AllLiabilities())
+                val allLiabilities = appDetails.allLiabilities.getOrElse(new AllLiabilities())
                 val mortgageList = allLiabilities.mortgages.map(x => x.mortgageList).getOrElse(List.empty[Mortgage])
-
                 val updatedMortgageList = updateMortgageListFromPropertyList(propertyList, mortgageList)
 
-                updatedMortgageList match {
-                  case Some(mortList) => {
-                    mortList.find(mortgage => mortgage.id equals id).fold {
-                      throw new RuntimeException("No Mortgage found for the id")
-                    } {
-                      (matchedMortgage) =>
-                        Ok(iht.views.html.application.debts.mortgage_value(
-                          mortgagesForm.fill(matchedMortgage),
-                          matchedProperty,
-                          onSubmitUrl(id),
-                          regDetails))
-                    }
-                  }
-                  case _ => Ok(iht.views.html.application.debts.mortgage_value(
-                    mortgagesForm.fill(Mortgage(id, None, None)),
-                    matchedProperty,
-                    onSubmitUrl(id),
-                    regDetails))
-                }
-              }
-              case _ => {
+                resultOnUpdateMortgageList(updatedMortgageList, id, matchedProperty, regDetails)
+              case _ =>
                 Logger.warn("Problem retrieving Application Details. Redirecting to Internal Server Error")
                 InternalServerError("No Application Details found")
-              }
             }
           }
         }
       }
   }
 
+  def resultOnUpdateMortgageList(updatedMortgageList: Option[List[Mortgage]], id: String,
+                                 matchedProperty: Property, regDetails: RegistrationDetails)(implicit request: Request[_]): Result = {
+    updatedMortgageList match {
+      case Some(mortList) =>
+        mortList.find(mortgage => mortgage.id equals id).fold {
+          throw new RuntimeException("No Mortgage found for the id")
+        }((matchedMortgage) => Ok(iht.views.html.application.debts.mortgage_value(mortgagesForm.fill(matchedMortgage),
+          matchedProperty, onSubmitUrl(id), regDetails)))
+      case _ => Ok(iht.views.html.application.debts.mortgage_value(
+        mortgagesForm.fill(Mortgage(id, None, None)),
+        matchedProperty,
+        onSubmitUrl(id),
+        regDetails))
+    }
+  }
 
   def onSubmit(id: String) = authorisedForIht {
     implicit user =>

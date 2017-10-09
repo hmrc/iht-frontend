@@ -20,7 +20,6 @@
 @(title: String,
 browserTitle: Option[String] = None,
 contentHeader: Option[Html] = None,
-subTitle: Option[String] = None,
 isFullWidth: Boolean = false,
 backUrl: Option[Call] = None,
 jsFile: Option[String]= None,
@@ -31,7 +30,8 @@ hasSignOut: Boolean = true,
 hasTimeOut:Boolean = true,
 sidebarLinks: Html = HtmlFormat.empty,
 headingClass: String = "",
-headingName: String = ""
+headingName: String = "",
+isUserResearchBannerVisible:Boolean = false
 )(mainContent: Html)(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template(
@@ -39,7 +39,6 @@ headingName: String = ""
     signOutText = Messages("common.signOut"),
     browserTitle = browserTitle,
     contentHeader = contentHeader,
-    subTitle = subTitle,
     isFullWidth = isFullWidth,
     backUrl = backUrl,
     jsFile = jsFile,
@@ -52,5 +51,6 @@ headingName: String = ""
     headerTitle = Some(Messages("site.registration.title")),
     headingClass = headingClass,
     headingName = headingName,
-    isRegistration = true
+    isRegistration = true,
+    isUserResearchBannerVisible = isUserResearchBannerVisible
 )(mainContent)

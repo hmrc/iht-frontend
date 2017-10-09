@@ -42,7 +42,8 @@ trait QualifyingBodyValueController extends EstateController {
   val cancelUrl = routes.QualifyingBodyDetailsOverviewController.onPageLoad()
 
   private def editCancelUrl(id: String) = routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)
-  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(routes.QualifyingBodyValueController.onEditSubmit(id), Some(ExemptionsOtherValueID))
+  private def editSubmitUrl(id: String) = CommonHelper.addFragmentIdentifier(
+    routes.QualifyingBodyValueController.onEditSubmit(id), Some(ExemptionsOtherValueID))
 
   def locationAfterSuccessfulSave(optionID: Option[String]) = CommonHelper.getOrException(
     optionID.map(id => routes.QualifyingBodyDetailsOverviewController.onEditPageLoad(id)))

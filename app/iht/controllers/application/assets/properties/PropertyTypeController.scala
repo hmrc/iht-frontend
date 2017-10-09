@@ -52,7 +52,8 @@ trait PropertyTypeController extends EstateController {
 
   def cachingConnector: CachingConnector
 
-  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyKindID))
+  def locationAfterSuccessfulSave(id: String) = CommonHelper.addFragmentIdentifier(
+    routes.PropertyDetailsOverviewController.onEditPageLoad(id), Some(AssetsPropertiesPropertyKindID))
 
   def onPageLoad = authorisedForIht {
     implicit user =>

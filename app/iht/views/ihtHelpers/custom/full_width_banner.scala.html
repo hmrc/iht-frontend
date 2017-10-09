@@ -1,5 +1,5 @@
 @*
-* Copyright 2016 HM Revenue & Customs
+* Copyright 2015 HM Revenue & Customs
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,18 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *@
+@(fullWithBannerContent: Option[Html])(implicit messages: Messages)
 
-@import iht.constants.IhtProperties
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
-
-@message={
-    <p>@Messages("iht.iv.unableToContinue")</p>
-    <p>@Messages("iht.iv.tryAgainLater")</p>
-}
-
-@iv_failure_template(pageTitle = Messages("error.problem"),
-    message=message,
-    exitLinkHref=iht.controllers.filter.routes.FilterController.onPageLoad.url,
-    exitLinkText=Messages("iht.iv.tryAgain"))
+<div id="ur-panel" class="banner-panel">
+    <section class="centered-content visible banner-panel__container" aria-hidden="false">
+        @fullWithBannerContent
+        <a class="banner-panel__close" href="#" role="button"><span aria-hidden="true">@Messages("site.dismissBanner")</span><span class="visually-hidden">@Messages("site.dismissBanner.screenreader")</span></a>
+    </section>
+</div>

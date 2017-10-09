@@ -69,7 +69,6 @@ class GiftsOverviewViewTest extends ViewTestHelper {
       messagesShouldBePresent(view.toString, messagesApi("page.iht.application.gifts.overview.guidance1",
                                                       DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails),
                                                       DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)))
-      assertNotContainsText(view, messagesApi("iht.estateReport.saved.estate"))
       assertContainsText(view, messagesApi("iht.estateReport.completeEverySection"))
     }
 

@@ -65,6 +65,22 @@ object DateMapping {
         }
     )
 
+  private def dayMonthYearCombinationsInvalidKey(day: Int, month: Int, year: Int,
+                                            errorInvalidDayMonthKey: String,
+                                            errorInvalidDayYearKey: String,
+                                            errorInvalidMonthYearKey: String
+                                           ): Option[String] = {
+    if (!isDayValidPredicate(day) && !isMonthValidPredicate(month)) {
+      Some(errorInvalidDayMonthKey)
+    } else if (!isDayValidPredicate(day) && !isYearValidPredicate(year)) {
+      Some(errorInvalidDayYearKey)
+    } else if (!isMonthValidPredicate(month) && !isYearValidPredicate(year)) {
+      Some(errorInvalidMonthYearKey)
+    } else {
+      None
+    }
+  }
+
   private def dateConstraint(errorBlankFieldKey: String,
                              errorInvalidCharsKey: String,
                              errorInvalidDayKey: String,
@@ -89,15 +105,12 @@ object DateMapping {
             lazy val day = numericElements.head
             lazy val month = numericElements(1)
             lazy val year = numericElements(2)
-
+            lazy val dmyChecksInvalidKey = dayMonthYearCombinationsInvalidKey(day, month, year,
+              errorInvalidDayMonthKey, errorInvalidDayYearKey, errorInvalidMonthYearKey)
             if (!isYearValidPredicate(year) && !isMonthValidPredicate(month) && !isDayValidPredicate(day)) {
               Invalid(errorInvalidAllKey)
-            } else if (!isDayValidPredicate(day) && !isMonthValidPredicate(month)) {
-              Invalid(errorInvalidDayMonthKey)
-            } else if (!isDayValidPredicate(day) && !isYearValidPredicate(year)) {
-              Invalid(errorInvalidDayYearKey)
-            } else if (!isMonthValidPredicate(month) && !isYearValidPredicate(year)) {
-              Invalid(errorInvalidMonthYearKey)
+            } else if (dmyChecksInvalidKey.isDefined) {
+              Invalid(CommonHelper.getOrException(dmyChecksInvalidKey))
             } else if (!isYearValidPredicate(year)) {
               Invalid(errorInvalidYearKey)
             } else if (!isMonthValidPredicate(month)) {
@@ -108,7 +121,7 @@ object DateMapping {
               checkDateElementsMakeValidNonFutureDate(dateAsTuple, errorInvalidDayForMonthKey, errorDateInFutureKey)
             }
         }
-}
+      }
     )
 
   private def checkDateElementsMakeValidNonFutureDate(dateAsTuple: (String, String, String),
@@ -154,21 +167,21 @@ object DateMapping {
             errorInvalidDayMonthKey: String,
             errorInvalidDayYearKey: String,
             errorInvalidMonthYearKey: String) =
-  dateMapping(
-    dateConstraint(
-      errorBlankFieldKey,
-      errorInvalidCharsKey,
-      errorInvalidDayKey,
-      errorInvalidDayForMonthKey,
-      errorInvalidMonthKey,
-      errorInvalidYearKey,
-      errorInvalidAllKey,
-      errorDateInFutureKey,
-      errorInvalidDayMonthKey,
-      errorInvalidDayYearKey,
-      errorInvalidMonthYearKey
+    dateMapping(
+      dateConstraint(
+        errorBlankFieldKey,
+        errorInvalidCharsKey,
+        errorInvalidDayKey,
+        errorInvalidDayForMonthKey,
+        errorInvalidMonthKey,
+        errorInvalidYearKey,
+        errorInvalidAllKey,
+        errorDateInFutureKey,
+        errorInvalidDayMonthKey,
+        errorInvalidDayYearKey,
+        errorInvalidMonthYearKey
+      )
     )
-  )
 
   val dateOfBirth: Mapping[LocalDate] = DateMapping(
     "error.dateOfBirth.giveFull",

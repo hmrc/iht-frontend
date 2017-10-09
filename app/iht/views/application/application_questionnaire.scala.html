@@ -23,7 +23,7 @@
 
 @(form: Form[_])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_application(title = Messages("iht.signedOut"), hasSignOut=false) {
+@iht_main_template_application(title = Messages("iht.signedOut"), browserTitle = Some(Messages("iht.signedOut")), hasSignOut=false) {
 <div>
     <p>@Messages("page.iht.estateReport.allDetailsSaved")</p>
 </div>

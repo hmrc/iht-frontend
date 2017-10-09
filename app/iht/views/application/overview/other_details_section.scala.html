@@ -29,8 +29,6 @@
     </ul>
 
     @if(model.showClaimExemptionLink) {
-        <a class="font-xsmall" id="exemptions-link" href="@iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onPageLoad(model.ihtReference)">
-            @Messages("page.iht.application.estateOverview.claimExemptions.link")
-        </a>
+        <a class="font-xsmall" id="exemptions-link" href="@iht.controllers.application.exemptions.routes.ExemptionsGuidanceController.onPageLoad(model.ihtReference)">@Messages("page.iht.application.estateOverview.claimExemptions.link")</a>
     }
 </section>

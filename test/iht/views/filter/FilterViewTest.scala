@@ -18,9 +18,9 @@ package iht.views.filter
 
 import iht.forms.FilterForms.filterForm
 import iht.views.ViewTestHelper
-import iht.views.html.filter.filter_view
+import iht.views.html.filter.{filter_view, use_iht400}
 import play.api.i18n.Messages.Implicits._
-import play.api.test.Helpers._
+import play.api.test.Helpers.{contentAsString, _}
 
 /**
   * Created by adwelly on 20/10/2016.
@@ -134,6 +134,14 @@ class FilterViewTest extends ViewTestHelper {
       val formElement = doc.getElementsByTag("form").first
 
       formElement.attr("action") should be(iht.controllers.filter.routes.FilterController.onSubmit().url)
+    }
+
+    "contain content related to user research" in {
+      val result = filter_view(filterForm)(fakeRequest, applicationMessages, formPartialRetriever)
+      val content = contentAsString(result)
+      content should include(messagesApi("site.userResearchLink.title"))
+      content should include(messagesApi("site.userResearchLink.link"))
+      content should include(messagesApi("site.userResearchLink.text"))
     }
   }
 }

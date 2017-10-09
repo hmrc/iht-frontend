@@ -1,5 +1,5 @@
 @*
-* Copyright 2016 HM Revenue & Customs
+* Copyright 2015 HM Revenue & Customs
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,18 +13,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *@
+@(panelTitle: String,
+linkText: String,
+linkUrl: String,
+externalLinkWarning: Option[String]
+)(implicit messages: Messages)
 
-@import iht.constants.IhtProperties
-@import uk.gov.hmrc.play.partials.FormPartialRetriever
-
-@()(implicit request : Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
-
-@message={
-    <p>@Messages("iht.iv.unableToContinue")</p>
-    <p>@Messages("iht.iv.tryAgainLater")</p>
-}
-
-@iv_failure_template(pageTitle = Messages("error.problem"),
-    message=message,
-    exitLinkHref=iht.controllers.filter.routes.FilterController.onPageLoad.url,
-    exitLinkText=Messages("iht.iv.tryAgain"))
+<div class="banner-panel__title">@panelTitle</div>
+    <a href="@linkUrl"
+       data-sso="false"
+       data-journey-click="other-global:Click:Feedback"
+       target="_blank"
+    >@linkText</a>@externalLinkWarning.map{ extLinkText => <p class="banner-panel__small-copy">@extLinkText</p> }

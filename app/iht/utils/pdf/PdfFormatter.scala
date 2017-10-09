@@ -70,6 +70,7 @@ object PdfFormatter {
     }
   }
 
+  // scalastyle:off magic.number
   def padGifts(setOfGifts: Seq[Gift], dateOfDeath: LocalDate): Seq[Gift] = {
     val allPreviousYearsGifts: Seq[Gift] = GiftsHelper.createPreviousYearsGiftsLists(dateOfDeath).map { previousYearsGifts =>
       val endDate = previousYearsGifts.endDate.map(s => LocalDate.parse(s))

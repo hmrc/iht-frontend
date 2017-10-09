@@ -18,11 +18,13 @@ package iht
 
 package object models {
 
+  //scalastyle:off structural.type
   /**
     * Provides the next Id for a list of any elements that have an
     * optional string id. Note that I do not consider use of ID's in
     * this structure to be good practice.
     */
+
   def nextId(ts : Seq[{def id : Option[String]}]) =
   {(0 :: ts.toList.flatMap(x => x.id).map(_.toInt)).max + 1}.toString
 }

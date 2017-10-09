@@ -34,7 +34,8 @@ object TrustsOwnedQuestionController extends TrustsOwnedQuestionController with 
 }
 
 trait TrustsOwnedQuestionController extends EstateController {
-  val submitUrl = CommonHelper.addFragmentIdentifier(iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsBenefitedID))
+  val submitUrl = CommonHelper.addFragmentIdentifier(
+    iht.controllers.application.assets.trusts.routes.TrustsOverviewController.onPageLoad(), Some(AssetsTrustsBenefitedID))
 
   def onPageLoad = authorisedForIht {
     implicit user => implicit request =>

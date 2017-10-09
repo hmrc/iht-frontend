@@ -35,7 +35,7 @@ class FailedMatchingViewTest extends GenericNonSubmittablePageBehaviour {
 
   override def exitComponent = Some(
     ExitComponent(
-      iht.controllers.routes.PrivateBetaLandingPageController.showLandingPage(),
+      iht.controllers.filter.routes.FilterController.onPageLoad(),
       messagesApi("iht.iv.exit")
     )
   )

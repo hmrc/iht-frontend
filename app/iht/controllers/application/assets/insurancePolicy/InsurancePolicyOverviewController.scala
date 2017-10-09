@@ -101,17 +101,28 @@ trait InsurancePolicyOverviewController extends EstateController {
   private def createSection1(regDetails: RegistrationDetails, insurancePolicy: InsurancePolicy)(implicit messages:Messages): Section = {
     createSectionFromYesNoValueQuestions(
       id = "deceased",
-      title = Some(messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true))),
+      title = Some(messages("iht.estateReport.assets.insurancePolicies.payingOutToDeceased",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true))),
       linkUrl = routes.InsurancePolicyDetailsDeceasedOwnController.onPageLoad(),
-      sectionLevelLinkAccessibilityText = messages("page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
-      questionLevelLinkAccessibilityTextYes = messages("page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
-      questionLevelLinkAccessibilityTextNo = messages("page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
+      sectionLevelLinkAccessibilityText = messages(
+        "page.iht.application.assets.insurance.policies.overview.deceased.giveAnswer.screenReader.link.value",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextYes = messages(
+        "page.iht.application.assets.insurance.policies.overview.deceased.yes.screenReader.link.value",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextNo = messages(
+        "page.iht.application.assets.insurance.policies.overview.deceased.no.screenReader.link.value",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
       questionLevelLinkAccessibilityTextValue =
-        if(insurancePolicy.value.isDefined) "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value" else "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.novalue",
+        if(insurancePolicy.value.isDefined) {
+          "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.value" }
+        else { "page.iht.application.assets.insurance.policies.overview.deceased.amount.screenReader.link.novalue" },
       questionAnswerExprYesNo = insurancePolicy.policyInDeceasedName,
       questionAnswerExprValue = insurancePolicy.value,
-      questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.ownName.question", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)),
-      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.ownName.question",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)),
+      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOwnedAndPayingOut",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
       sectionLinkId = InsurancePayingToDeceasedSectionID,
       questionLinkID = InsurancePayingToDeceasedYesNoID,
       answerLinkID = InsurancePayingToDeceasedValueID
@@ -124,15 +135,25 @@ trait InsurancePolicyOverviewController extends EstateController {
       title = Some(messages("page.iht.application.assets.insurance.policies.overview.joint.title")),
       linkUrl = routes.InsurancePolicyDetailsJointController.onPageLoad(),
 
-      sectionLevelLinkAccessibilityText = messages("page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
-      questionLevelLinkAccessibilityTextYes = messages("page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
-      questionLevelLinkAccessibilityTextNo = messages("page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
+      sectionLevelLinkAccessibilityText = messages(
+        "page.iht.application.assets.insurance.policies.overview.joint.giveAnswer.screenReader.link.value",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextYes = messages(
+        "page.iht.application.assets.insurance.policies.overview.joint.yes.screenReader.link.value",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionLevelLinkAccessibilityTextNo = messages(
+        "page.iht.application.assets.insurance.policies.overview.joint.no.screenReader.link.value",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
       questionLevelLinkAccessibilityTextValue =
-        if(insurancePolicy.shareValue.isDefined) "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value" else "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.novalue",
+        if(insurancePolicy.shareValue.isDefined) {
+          "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.value" }
+        else { "page.iht.application.assets.insurance.policies.overview.joint.amount.screenReader.link.novalue" },
       questionAnswerExprYesNo = insurancePolicy.isJointlyOwned,
       questionAnswerExprValue = insurancePolicy.shareValue,
-      questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.jointlyHeld.question", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)),
-      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare", DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
+      questionTitleYesNoMessage = messages("iht.estateReport.insurancePolicies.jointlyHeld.question",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails, true)),
+      questionTitleValueMessage = messages("iht.estateReport.assets.insurancePolicies.totalValueOfDeceasedsShare",
+        DeceasedInfoHelper.getDeceasedNameOrDefaultString(regDetails)),
       sectionLinkId = InsuranceJointlyHeldSectionID,
       questionLinkID = InsuranceJointlyHeldYesNoID,
       answerLinkID = InsuranceJointlyHeldValueID
