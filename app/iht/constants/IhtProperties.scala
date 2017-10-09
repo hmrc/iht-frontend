@@ -114,14 +114,8 @@ object IhtProperties {
   lazy val dateOfCivilPartnershipInclusion: LocalDate = getPropertyAsDate("dateOfCivilPartnershipInclusion")
 
   lazy val questionnaireActivityRegister: String = getProperty("questionnaireActivityRegister")
-  lazy val questionnaireActivityGifts: String = getProperty("questionnaireActivityGift")
-  lazy val questionnaireActivityAssets: String = getProperty("questionnaireActivityAsset")
-  lazy val questionnaireActivityDebts: String = getProperty("questionnaireActivityDebt")
-  lazy val questionnaireActivityExemptions: String = getProperty("questionnaireActivityExemption")
-  lazy val questionnaireActivityThresholdIncrease: String = getProperty("questionnaireActivityIncreaseThreshold")
-  lazy val questionnaireActivityCheckEstate: String = getProperty("questionnaireActivityCheckEstate")
+  lazy val questionnaireActivityEstateReport: String = getProperty("questionnaireActivityEstateReport")
   lazy val questionnaireActivityDeclareApp: String = getProperty("questionnaireActivityDeclareApp")
-  lazy val questionnaireActivityClearance: String = getProperty("questionnaireActivityClearance")
 
   lazy val ETMPAssetCodeMoney: String = getProperty("etmpAssetCodeMoney")
   lazy val ETMPAssetCodeHouseHold: String = getProperty("etmpAssetCodeHouseHold")

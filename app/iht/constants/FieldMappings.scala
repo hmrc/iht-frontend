@@ -89,14 +89,8 @@ object FieldMappings {
 
   def questionnaireActivity(implicit messages: Messages) = ListMap(
     createMapEntry(questionnaireActivityRegister, "page.iht.questionnaire.activity.register")(messages),
-    createMapEntry(questionnaireActivityGifts, "page.iht.questionnaire.activity.gift")(messages),
-    createMapEntry(questionnaireActivityAssets, "page.iht.questionnaire.activity.asset")(messages),
-    createMapEntry(questionnaireActivityDebts, "page.iht.questionnaire.activity.debt")(messages),
-    createMapEntry(questionnaireActivityExemptions, "page.iht.questionnaire.activity.exemption")(messages),
-    createMapEntry(questionnaireActivityThresholdIncrease, "page.iht.questionnaire.activity.increase-threshold")(messages),
-    createMapEntry(questionnaireActivityCheckEstate, "page.iht.questionnaire.activity.check-estate")(messages),
-    createMapEntry(questionnaireActivityDeclareApp, "page.iht.questionnaire.activity.declare-app")(messages),
-    createMapEntry(questionnaireActivityClearance, "page.iht.questionnaire.activity.clearance")(messages)
+    createMapEntry(questionnaireActivityEstateReport, "page.iht.questionnaire.activity.estateReport")(messages),
+    createMapEntry(questionnaireActivityDeclareApp, "page.iht.questionnaire.activity.declare-app")(messages)
   )
 
   def filterChoices(implicit messages: Messages) = ListMap(

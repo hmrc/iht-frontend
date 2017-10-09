@@ -2004,12 +2004,6 @@ page.iht.filter.useService.under325000.p2 = Os na allwch lawrlwytho neu argraffu
 
 page.iht.questionnaire.contactDetails = Cyfeiriad e-bost neu rif ffôn
 page.iht.questionnaire.activity.question=Beth wnaethoch pan ddefnyddio''ch y gwasanaeth Treth Etifeddiant Ar-lein heddiw?
-page.iht.questionnaire.activity.register=Cwblhau cofrestriad er mwyn cwblhau adroddiad ynghylch yr ystâd
-page.iht.questionnaire.activity.gift=Nodi manylion ynghylch rhodd
-page.iht.questionnaire.activity.asset=Nodi manylion ynghylch ased
-page.iht.questionnaire.activity.debt=Nodi manylion ynghylch dyledion
-page.iht.questionnaire.activity.exemption=Nodi manylion ynghylch eithriad
-page.iht.questionnaire.activity.increase-threshold=Nodi manylion er mwyn cynyddu''r trothwy Treth Etifeddiant
-page.iht.questionnaire.activity.check-estate=Gwirio manylion sydd eisoes wedi''u nodi ar adroddiad ynghylch yr ystâd
+page.iht.questionnaire.activity.register=???
+page.iht.questionnaire.activity.estateReport=???
 page.iht.questionnaire.activity.declare-app=Cwblhau''ch datganiad ac anfon adroddiad ynghylch yr ystâd i CThEM
-page.iht.questionnaire.activity.clearance=Gwneud cais yn gofyn bod adroddiad ynghylch yr ystâd yn cael ei glirio
