@@ -146,7 +146,8 @@ iht.notPossibleToUseService = It is not possible for you to use this service
 iht.postcode = Postcode
 iht.returnToLastQuestion = Return to last question
 iht.roughEstimateEstateWorth = How much do you think the estate is worth?
-iht.roughEstimateEstateWorth.guidance = Include an estimate of the value of any houses or money in bank accounts that the person who has died might have owned.
+iht.roughEstimateEstateWorth.guidance.p1 = Include an estimate of the value of any houses or money in bank accounts that the person who has died might have owned.
+iht.roughEstimateEstateWorth.guidance.p2 = You should only include the part of the value that the person who has died actually owned. For anything jointly owned with someone else, do not include the part of the value that the other person owned.
 
 iht.saveAndContinue = Save and continue
 iht.shouldUseOnlineService = You can use the online service
@@ -197,6 +198,7 @@ page.iht.filter.jointlyowned.question = Did the person who has died jointly own 
 page.iht.filter.jointlyowned.guidance = This could be owning a home with someone else or having any joint bank accounts.
 page.iht.filter.jointlyowned.yes = Yes, they owned something with someone else
 page.iht.filter.jointlyowned.no = No, they did not own anything with someone else
+page.iht.filter.jointlyowned.previousanswers = Did the person who has died own any properties or have any joint bank accounts with someone else?
 
 page.iht.filter.estimate.choice.under = Under £325,000
 page.iht.filter.estimate.choice.between = Between £325,000 and £1 million

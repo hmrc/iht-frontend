@@ -31,12 +31,15 @@ POST        /domicile                                                iht.control
 GET         /any-joint-assets                                        iht.controllers.filter.FilterJointlyOwnedController.onPageLoad
 POST        /any-joint-assets                                        iht.controllers.filter.FilterJointlyOwnedController.onSubmit
 
-GET         /estimate                                                iht.controllers.filter.EstimateController.onPageLoad
-POST        /estimate                                                iht.controllers.filter.EstimateController.onSubmit
+GET         /estimate                                                iht.controllers.filter.EstimateController.onPageLoadWithoutJointAssets
+GET         /estimate-joint-assets                                   iht.controllers.filter.EstimateController.onPageLoadJointAssets
+POST        /estimate                                                iht.controllers.filter.EstimateController.onSubmitWithoutJointAssets
+POST        /estimate-joint-assets                                   iht.controllers.filter.EstimateController.onSubmitJointAssets
 
 GET         /agent-no-change                                         iht.controllers.filter.AgentController.onPageLoad
 
-GET         /use-iht400                                              iht.controllers.filter.UseIHT400Controller.onPageLoad
+GET         /use-iht400                                              iht.controllers.filter.UseIHT400Controller.onPageLoadWithoutJointAssets
+GET         /joint-assets-use-iht400                                 iht.controllers.filter.UseIHT400Controller.onPageLoadWithJointAssets
 
 GET         /language/:lang                                          @iht.controllers.CustomLanguageController.switchToLanguage(lang: String)
 
@@ -44,4 +47,6 @@ GET         /transition-scotland                                     iht.control
 GET         /transition-northern-ireland                             iht.controllers.filter.TransitionController.onPageLoadNorthernIreland
 GET         /transition-other                                        iht.controllers.filter.TransitionController.onPageLoadOtherCountry
 GET         /use-service-under-325000                                iht.controllers.filter.UseServiceController.onPageLoadUnder
+GET         /joint-assets-use-service-under-325000                   iht.controllers.filter.UseServiceController.onPageLoadUnderWithJointAssets
 GET         /use-service-over-325000                                 iht.controllers.filter.UseServiceController.onPageLoadOver
+GET         /joint-assets-use-service-over-325000                    iht.controllers.filter.UseServiceController.onPageLoadOverWithJointAssets

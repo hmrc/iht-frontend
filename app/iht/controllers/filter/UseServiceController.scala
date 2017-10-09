@@ -41,13 +41,15 @@ trait UseServiceController extends FrontendController {
 
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
-  private def onPageLoad(estimatedValue: String) = UnauthorisedAction.async {
+  private def onPageLoad(estimatedValue: String, jointAssets: Boolean) = UnauthorisedAction.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.use_service(estimatedValue)))
+      Future.successful(Ok(iht.views.html.filter.use_service(estimatedValue, jointAssets)))
     }
   }
 
-  def onPageLoadUnder = onPageLoad(under325000)
+  def onPageLoadUnder = onPageLoad(under325000, jointAssets = false)
+  def onPageLoadUnderWithJointAssets = onPageLoad(under325000, jointAssets = true)
 
-  def onPageLoadOver = onPageLoad(between325000and1million)
+  def onPageLoadOver = onPageLoad(between325000and1million, jointAssets = false)
+  def onPageLoadOverWithJointAssets = onPageLoad(between325000and1million, jointAssets = true)
 }

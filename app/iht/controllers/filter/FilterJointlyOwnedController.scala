@@ -17,6 +17,7 @@
 package iht.controllers.filter
 
 import iht.config.IhtFormPartialRetriever
+import iht.constants.Constants
 import iht.forms.FilterForms._
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
@@ -45,7 +46,8 @@ trait FilterJointlyOwnedController extends FrontendController {
       boundForm.fold(
         formWithErrors => Future.successful(BadRequest(iht.views.html.filter.filter_jointly_owned(formWithErrors))),
         choice => choice.getOrElse("") match {
-          case _ => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoad()))
+          case Constants.filterJointlyOwnedNo => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets()))
+          case Constants.filterJointlyOwnedYes => Future.successful(Redirect(iht.controllers.filter.routes.EstimateController.onPageLoadJointAssets()))
         }
       )
     }

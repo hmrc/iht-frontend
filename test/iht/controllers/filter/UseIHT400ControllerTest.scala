@@ -43,7 +43,7 @@ class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec {
   "UseIHT400Controller" must {
 
     "show the 'you should use an IHT-400 paper form' page when accessed by an unauthorized person" in {
-      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
+      val result = controller.onPageLoadWithoutJointAssets()(createFakeRequest(isAuthorised = false))
       status(result) should be(OK)
 
       val doc = asDocument(contentAsString(result))
