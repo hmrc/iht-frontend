@@ -16,13 +16,12 @@
 
 package iht.views
 
-import iht.constants.IhtProperties
 import iht.testhelpers.TestHelper
-import iht.views.html.deadlines
+import iht.views.html.{deadlines_application, deadlines_registration}
 import play.api.mvc.{AnyContentAsEmpty, Call}
 import play.api.test.FakeRequest
 
-class DeadlinesViewTest extends GenericNonSubmittablePageBehaviour {
+class DeadlinesApplicationViewTest extends GenericNonSubmittablePageBehaviour {
   implicit def request: FakeRequest[AnyContentAsEmpty.type] = createFakeRequest()
 
   override val exitId: String = "exit-to-iht400"
@@ -45,7 +44,7 @@ class DeadlinesViewTest extends GenericNonSubmittablePageBehaviour {
   )
 
   override def view =
-    deadlines(request, messagesApi.preferred(request), formPartialRetriever).toString
+    deadlines_application(request, messagesApi.preferred(request), formPartialRetriever).toString
 
   "Deadlines view" must {
     behave like nonSubmittablePage()
