@@ -391,21 +391,24 @@ class PdfFormatterTest extends FormTestHelper {
       money = Some(createShareableBasicEstateElementSharedOnly(BigDecimal(1))),
       household = Some(createShareableBasicEstateElementNoShared(BigDecimal(8))),
       vehicles = None,
-      privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isChanged = Some(true),
-        value = Some(BigDecimal(7)), isOwned = Some(true))),
+      privatePension = None,
+//      privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isChanged = Some(true),
+//        value = Some(BigDecimal(7)), isOwned = Some(true))),
       stockAndShare = Some(CommonBuilder.buildStockAndShare.copy(
         valueNotListed = Some(BigDecimal(9)),
         valueListed = Some(BigDecimal(10)),
         value = Some(BigDecimal(100)),
         isNotListed = Some(true),
         isListed = Some(true))),
-      insurancePolicy = Some(CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName = Some(false),
-        isJointlyOwned = Some(false), isInsurancePremiumsPayedForSomeoneElse = Some(false),
-        value = Some(BigDecimal(12)), shareValue = Some(BigDecimal(13))
-      )),
+      insurancePolicy = None,
+//      insurancePolicy = Some(CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName = Some(false),
+//        isJointlyOwned = Some(false), isInsurancePremiumsPayedForSomeoneElse = Some(false),
+//        value = Some(BigDecimal(12)), shareValue = Some(BigDecimal(13))
+//      )),
       businessInterest = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(14)), isOwned = Some(true))),
       nominated = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(16)), isOwned = Some(true))),
-      heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = Some(true), value = Some(BigDecimal(100)))),
+      heldInTrust = None,
+//      heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = Some(true), value = Some(BigDecimal(100)))),
       foreign = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(18)), isOwned = Some(true))),
       moneyOwed = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(15)), isOwned = Some(true))),
       other = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(19)), isOwned = Some(true))),
@@ -417,6 +420,7 @@ class PdfFormatterTest extends FormTestHelper {
   Missing:
     properties
     Booleans on insurance policies and private pension
+    held in trust
    */
   "transformAssets" must {
     "transform each asset type appropriately" in {
@@ -425,11 +429,11 @@ class PdfFormatterTest extends FormTestHelper {
       val optionSetAsset = Some(Set(
         IHTReturnTestHelper.buildJointAssetMoney,
         IHTReturnTestHelper.buildAssetHouseholdAndPersonalItems,
-        IHTReturnTestHelper.buildAssetPrivatePensions,
+//        IHTReturnTestHelper.buildAssetPrivatePensions,
         IHTReturnTestHelper.buildAssetStocksAndSharesListed,
         IHTReturnTestHelper.buildAssetStocksAndSharesNotListed,
-        IHTReturnTestHelper.buildAssetInsurancePoliciesOwned,
-        IHTReturnTestHelper.buildJointAssetInsurancePoliciesOwned,
+//        IHTReturnTestHelper.buildAssetInsurancePoliciesOwned,
+//        IHTReturnTestHelper.buildJointAssetInsurancePoliciesOwned,
         IHTReturnTestHelper.buildAssetBusinessInterests,
         IHTReturnTestHelper.buildAssetNominatedAssets,
         IHTReturnTestHelper.buildAssetForeignAssets,
