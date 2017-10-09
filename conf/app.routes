@@ -43,4 +43,5 @@ GET         /transition-other                                        iht.control
 GET         /use-service-under-325000                                iht.controllers.filter.UseServiceController.onPageLoadUnder
 GET         /use-service-over-325000                                 iht.controllers.filter.UseServiceController.onPageLoadOver
 
-GET         /waa                                                     iht.controllers.DeadlinesController.onPageLoad
+GET         /deadlines-to-pay-inheritance-tax                        iht.controllers.DeadlinesController.onPageLoadRegistration
+GET         /deadlines-for-paying-inheritance-tax                    iht.controllers.DeadlinesController.onPageLoadApplication
