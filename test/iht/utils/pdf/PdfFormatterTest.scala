@@ -18,10 +18,10 @@ package iht.utils.pdf
 
 import iht.forms.FormTestHelper
 import iht.models.application.ApplicationDetails
-import iht.models.application.gifts.PreviousYearsGifts
+import iht.models.application.assets.{AllAssets, Properties}
 import iht.models.des.ihtReturn.Asset
-import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper}
 import iht.testhelpers.IHTReturnTestHelper.{buildIHTReturnCorrespondingToApplicationDetailsAllFields, _}
+import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper}
 import org.joda.time.LocalDate
 
 import scala.collection.immutable.ListMap
@@ -339,10 +339,10 @@ class PdfFormatterTest extends FormTestHelper {
     "pad with assets when less than max" in {
 
       def blankAsset(asset: Asset): Asset = {
-        asset copy (
+        asset copy(
           assetTotalValue = Some(BigDecimal(0)),
           liabilities = None
-          )
+        )
       }
 
       val expectedSetAsset = Set(
@@ -368,6 +368,80 @@ class PdfFormatterTest extends FormTestHelper {
 
       val expectedResult: Option[Set[Asset]] = Some(expectedSetAsset)
       val result: Option[Set[Asset]] = PdfFormatter.padAssets(Some(setAsset))
+
+      result shouldBe expectedResult
+    }
+  }
+
+  private def createShareableBasicEstateElementNoShared(value: BigDecimal) =
+    CommonBuilder.buildShareableBasicElementExtended.copy(
+      value = Some(value), shareValue = None, isOwned = Some(true), isOwnedShare = Some(false)
+    )
+
+  private def createShareableBasicEstateElementSharedOnly(value: BigDecimal) =
+    CommonBuilder.buildShareableBasicElementExtended.copy(
+      value = None, shareValue = Some(value), isOwned = Some(false), isOwnedShare = Some(true)
+    )
+
+  private def createShareableBasicEstateElement(value: BigDecimal, shareValue: BigDecimal) =
+    CommonBuilder.buildShareableBasicElementExtended.copy(value = Some(value), shareValue = Some(shareValue), isOwned = Some(true), isOwnedShare = Some(true))
+
+  private val buildAllAssetsWithAllSectionsFilled = {
+    AllAssets(
+      money = Some(createShareableBasicEstateElementSharedOnly(BigDecimal(1))),
+      household = Some(createShareableBasicEstateElementNoShared(BigDecimal(8))),
+      vehicles = None,
+      privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isChanged = Some(true),
+        value = Some(BigDecimal(7)), isOwned = Some(true))),
+      stockAndShare = Some(CommonBuilder.buildStockAndShare.copy(
+        valueNotListed = Some(BigDecimal(9)),
+        valueListed = Some(BigDecimal(10)),
+        value = Some(BigDecimal(100)),
+        isNotListed = Some(true),
+        isListed = Some(true))),
+      insurancePolicy = Some(CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName = Some(false),
+        isJointlyOwned = Some(false), isInsurancePremiumsPayedForSomeoneElse = Some(false),
+        value = Some(BigDecimal(12)), shareValue = Some(BigDecimal(13))
+      )),
+      businessInterest = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(14)), isOwned = Some(true))),
+      nominated = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(16)), isOwned = Some(true))),
+      heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = Some(true), value = Some(BigDecimal(100)))),
+      foreign = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(18)), isOwned = Some(true))),
+      moneyOwed = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(15)), isOwned = Some(true))),
+      other = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(19)), isOwned = Some(true))),
+      properties = Some(Properties(isOwned = Some(false)))
+    )
+  }
+
+  /*
+  Missing:
+    properties
+    Booleans on insurance policies and private pension
+   */
+  "transformAssets" must {
+    "transform each asset type appropriately" in {
+      val expectedResult = Some(buildAllAssetsWithAllSectionsFilled)
+
+      val optionSetAsset = Some(Set(
+        IHTReturnTestHelper.buildJointAssetMoney,
+        IHTReturnTestHelper.buildAssetHouseholdAndPersonalItems,
+        IHTReturnTestHelper.buildAssetPrivatePensions,
+        IHTReturnTestHelper.buildAssetStocksAndSharesListed,
+        IHTReturnTestHelper.buildAssetStocksAndSharesNotListed,
+        IHTReturnTestHelper.buildAssetInsurancePoliciesOwned,
+        IHTReturnTestHelper.buildJointAssetInsurancePoliciesOwned,
+        IHTReturnTestHelper.buildAssetBusinessInterests,
+        IHTReturnTestHelper.buildAssetNominatedAssets,
+        IHTReturnTestHelper.buildAssetForeignAssets,
+        IHTReturnTestHelper.buildAssetMoneyOwed,
+        IHTReturnTestHelper.buildAssetOther
+//        IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome,
+//        IHTReturnTestHelper.buildAssetsPropertiesLandNonRes,
+//        IHTReturnTestHelper.buildAssetsPropertiesOtherResidentialBuilding
+      )
+      )
+
+      val result = PdfFormatter.transformAssets(optionSetAsset)
 
       result shouldBe expectedResult
     }

@@ -25,6 +25,7 @@ import iht.constants.FieldMappings.applicantCountryMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.models.application.ApplicationDetails
+import iht.models.application.assets.AllAssets
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn._
 import iht.utils.{CommonHelper, GiftsHelper}
@@ -102,6 +103,18 @@ object PdfFormatter {
           case None => blankAsset
           case Some(aa) => aa
         }
+      }
+    }
+  }
+
+  def transformAssets(optionSetAsset: Option[Set[Asset]]): Option[AllAssets] = {
+    val emptyAllAssets: AllAssets = AllAssets()
+    optionSetAsset.map { actualAssetSet =>
+      actualAssetSet.foldLeft[AllAssets](emptyAllAssets){ (currentAllAssets, currentAsset) =>
+        (currentAsset.assetCode, currentAsset.howheld) match {
+          case (Some("9001"), Some("Standard")) => currentAllAssets
+        }
+        currentAllAssets
       }
     }
   }

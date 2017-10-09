@@ -22,7 +22,7 @@ import iht.models.des.ihtReturn.{AddressOrOtherLandLocation, Asset, Liability}
   * Created by grant on 05/09/17.
   */
 object PDFAssetHelper {
-  val blankBigDecimalValue = Some(BigDecimal(0))
+  val blankBigDecimalValue = None //Some(BigDecimal(0))
   val DefaultPostCode = "AA1 1AA"
 
 
