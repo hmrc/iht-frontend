@@ -37,6 +37,7 @@ import org.joda.time.LocalDate
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.views.html.helpers.address
 
 import scala.collection.immutable.ListMap
 
@@ -203,6 +204,34 @@ object PdfFormatter {
       case Some("9098") => Some(currentAllAssets copy (foreign = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.foreign)))
       case Some("9013") => Some(currentAllAssets copy (moneyOwed = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.moneyOwed)))
       case Some("9015") => Some(currentAllAssets copy (other = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.other)))
+      case Some("0016") => Some(currentAllAssets copy (properties = Some(Properties(isOwned = Some(true))) ))
+      case _ => None
+    }
+  }
+
+  /*
+  id: Option[String],
+                    address: Option[UkAddress],
+                    propertyType: Option[String],
+                    typeOfOwnership: Option[String],
+                    tenure: Option[String],
+                    value
+   */
+
+  private def propertyFromAsset(asset: Asset, nextId:Option[String]): Property = {
+    Property(
+      id = None,
+      address = None,
+      propertyType = None,
+      typeOfOwnership = None,
+      tenure = None,
+      value = None
+    )
+  }
+
+  private def transformProperties(currentProperties: List[Property], currentAsset:Asset): Option[List[Property]] = {
+    currentAsset.assetCode match {
+      case Some("0016") => Some(currentProperties :+ propertyFromAsset(currentAsset, None))
       case _ => None
     }
   }
@@ -264,7 +293,8 @@ object PdfFormatter {
       heldInTrust = optionEmptyHeldInTrust,
       foreign = optionEmptyBasicEstateElement,
       moneyOwed = optionEmptyBasicEstateElement,
-      other = optionEmptyBasicEstateElement
+      other = optionEmptyBasicEstateElement,
+      properties = Some(Properties(isOwned = Some(false)))
     )
     optionSetAsset.map { actualAssetSet =>
       actualAssetSet.foldLeft[AllAssets](emptyAllAssets) { (currentAllAssets, currentAsset) =>
@@ -275,8 +305,19 @@ object PdfFormatter {
     }.fold(emptyAllAssets)(identity)
   }
 
+  private def ook(optionSetAsset: Option[Set[Asset]]): List[Property] = {
+    val emptyProperties = List[Property]()
+    optionSetAsset.map { actualAssetSet =>
+      actualAssetSet.foldLeft[List[Property]](emptyProperties) { (currentProperties, currentAsset) =>
+        transformProperties(currentProperties, currentAsset)
+          .fold(currentProperties)(identity)
+      }
+    }.fold(emptyProperties)(identity)
+  }
+
   def createApplicationDetails(optionSetAsset: Option[Set[Asset]], optionSetTrust: Option[Set[Trust]]): ApplicationDetails = {
     val allAssetsNonTrust = tranformAssets(optionSetAsset)
+    val propertyList = ook(optionSetAsset)
     val allAssets = optionSetTrust.map { actualTrustSet =>
       actualTrustSet.foldLeft[AllAssets](allAssetsNonTrust) { (currentAllAssets, currentTrust) =>
         val allAssetsForTrusts = tranformAssets(currentTrust.trustAssets)
@@ -284,7 +325,8 @@ object PdfFormatter {
       }
     }.fold(allAssetsNonTrust)(identity)
     ApplicationDetails(
-      allAssets = Some(allAssets)
+      allAssets = Some(allAssets),
+      propertyList = propertyList
     )
   }
 

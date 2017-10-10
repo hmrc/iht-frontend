@@ -18,10 +18,10 @@ package iht.utils.pdf
 
 import iht.forms.FormTestHelper
 import iht.models.application.ApplicationDetails
-import iht.models.application.assets.{AllAssets, Properties}
+import iht.models.application.assets.{AllAssets, Properties, Property}
 import iht.models.des.ihtReturn.{Asset, Trust}
 import iht.testhelpers.IHTReturnTestHelper.{buildIHTReturnCorrespondingToApplicationDetailsAllFields, _}
-import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper}
+import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper, TestHelper}
 import iht.views.html.application.asset.{foreign, nominated, other}
 import org.joda.time.LocalDate
 
@@ -417,10 +417,19 @@ class PdfFormatterTest extends FormTestHelper {
       heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = None, value = Some(BigDecimal(17)))),
       foreign = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(18)), isOwned = Some(true))),
       moneyOwed = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(15)), isOwned = Some(true))),
-      other = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(19)), isOwned = Some(true)))
-//      properties = Some(Properties(isOwned = Some(true)))
+      other = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(19)), isOwned = Some(true))),
+      properties = Some(Properties(isOwned = Some(true)))
     )
   }
+
+  private val propertyDeceasedHome = Property(
+    id = Some("1"),
+    address = Some(CommonBuilder.DefaultUkAddress),
+    propertyType = TestHelper.PropertyTypeDeceasedHome,
+    typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly,
+    tenure = TestHelper.TenureFreehold,
+    value = Some(100)
+  )
 
   /*
   Missing:
@@ -430,7 +439,8 @@ class PdfFormatterTest extends FormTestHelper {
   "transformAssets" must {
     "transform each asset type appropriately" in {
       val expectedResult = ApplicationDetails(
-        allAssets = Some(buildAllAssetsWithAllSectionsFilled)
+        allAssets = Some(buildAllAssetsWithAllSectionsFilled),
+        propertyList = List(propertyDeceasedHome)
       )
 
       val optionSetAsset = Some(Set(
@@ -445,8 +455,8 @@ class PdfFormatterTest extends FormTestHelper {
         IHTReturnTestHelper.buildAssetNominatedAssets,
         IHTReturnTestHelper.buildAssetForeignAssets,
         IHTReturnTestHelper.buildAssetMoneyOwed,
-        IHTReturnTestHelper.buildAssetOther
-//        IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome
+        IHTReturnTestHelper.buildAssetOther,
+        IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome
 //        IHTReturnTestHelper.buildAssetsPropertiesLandNonRes,
 //        IHTReturnTestHelper.buildAssetsPropertiesOtherResidentialBuilding
       )
