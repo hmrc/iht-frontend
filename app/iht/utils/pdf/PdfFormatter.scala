@@ -158,6 +158,14 @@ object PdfFormatter {
         )
   }
 
+  private def updateFromAssetHeldInTrust(currentAsset: Asset, optionHeldInTrust: Option[HeldInTrust]) = {
+    optionHeldInTrust.map(_ copy(
+      isOwned = Some(true),
+      value = currentAsset.assetTotalValue
+    )
+    )
+  }
+
   private def updateFromAssetInsurancePolicy(currentAsset: Asset, optionInsurancePolicy: Option[InsurancePolicy]) = {
     currentAsset.howheld match {
       case Some("Standard") =>
@@ -191,6 +199,7 @@ object PdfFormatter {
     currentAsset.assetCode match {
       case Some("9021") => Some(currentAllAssets copy (businessInterest = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.businessInterest)))
       case Some("9099") => Some(currentAllAssets copy (nominated = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.nominated)))
+      case Some("9097") => Some(currentAllAssets copy (heldInTrust = updateFromAssetHeldInTrust(currentAsset, currentAllAssets.heldInTrust)))
       case Some("9098") => Some(currentAllAssets copy (foreign = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.foreign)))
       case Some("9013") => Some(currentAllAssets copy (moneyOwed = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.moneyOwed)))
       case Some("9015") => Some(currentAllAssets copy (other = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.other)))
@@ -270,7 +279,8 @@ object PdfFormatter {
     val allAssets = tranformAssets(optionSetAsset)
     optionSetTrust.map { actualTrustSet =>
       actualTrustSet.foldLeft[AllAssets](allAssets) { (currentAllAssets, currentTrust) =>
-        tranformAssets(currentTrust.trustAssets)
+        val allAssetsForTrusts = tranformAssets(currentTrust.trustAssets)
+        currentAllAssets copy (heldInTrust = allAssetsForTrusts.heldInTrust)
       }
     }.fold(allAssets)(identity)
   }

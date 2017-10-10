@@ -414,7 +414,7 @@ class PdfFormatterTest extends FormTestHelper {
       )),
       businessInterest = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(14)), isOwned = Some(true))),
       nominated = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(16)), isOwned = Some(true))),
-      heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = None, value = Some(BigDecimal(100)))),
+      heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = None, value = Some(BigDecimal(17)))),
       foreign = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(18)), isOwned = Some(true))),
       moneyOwed = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(15)), isOwned = Some(true))),
       other = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(19)), isOwned = Some(true))),
@@ -430,7 +430,7 @@ class PdfFormatterTest extends FormTestHelper {
    */
   "transformAssets" must {
     "transform each asset type appropriately" in {
-      val expectedResult = Some(buildAllAssetsWithAllSectionsFilled)
+      val expectedResult = buildAllAssetsWithAllSectionsFilled
 
       val optionSetAsset = Some(Set(
         IHTReturnTestHelper.buildJointAssetMoney,
