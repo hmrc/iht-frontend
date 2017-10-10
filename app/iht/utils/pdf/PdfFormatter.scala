@@ -25,7 +25,7 @@ import iht.constants.FieldMappings.applicantCountryMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.models.application.ApplicationDetails
-import iht.models.application.assets.{AllAssets, InsurancePolicy, PrivatePension, StockAndShare}
+import iht.models.application.assets._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn._
@@ -218,6 +218,12 @@ object PdfFormatter {
     isOwned = Some(false)
   ))
 
+  private val optionEmptyHeldInTrust = Some(HeldInTrust(
+    isMoreThanOne = None,
+    value = None,
+    isOwned = Some(false)
+  ))
+
   private val optionEmptyPrivatePension = Some(PrivatePension(
     isChanged = None,
     value = None,
@@ -237,7 +243,7 @@ object PdfFormatter {
     moreThanMaxValue = None
   ))
 
-  def transformAssets(optionSetAsset: Option[Set[Asset]]): Option[AllAssets] = {
+  private def tranformAssets(optionSetAsset: Option[Set[Asset]]): AllAssets = {
     val emptyAllAssets: AllAssets = AllAssets(
       money = optionEmptyShareableBasicEstateElement,
       household = optionEmptyShareableBasicEstateElement,
@@ -246,6 +252,7 @@ object PdfFormatter {
       insurancePolicy = optionEmptyInsurance,
       businessInterest = optionEmptyBasicEstateElement,
       nominated = optionEmptyBasicEstateElement,
+      heldInTrust = optionEmptyHeldInTrust,
       foreign = optionEmptyBasicEstateElement,
       moneyOwed = optionEmptyBasicEstateElement,
       other = optionEmptyBasicEstateElement
@@ -254,9 +261,18 @@ object PdfFormatter {
       actualAssetSet.foldLeft[AllAssets](emptyAllAssets) { (currentAllAssets, currentAsset) =>
         transformAssets1(currentAllAssets, currentAsset)
           .fold(transformAssets2(currentAllAssets, currentAsset))(Some(_))
-            .fold(currentAllAssets)(identity)
+          .fold(currentAllAssets)(identity)
       }
-    }
+    }.fold(emptyAllAssets)(identity)
+  }
+
+  def transformAssetsAndTrusts(optionSetAsset: Option[Set[Asset]], optionSetTrust: Option[Set[Trust]]): AllAssets = {
+    val allAssets = tranformAssets(optionSetAsset)
+    optionSetTrust.map { actualTrustSet =>
+      actualTrustSet.foldLeft[AllAssets](allAssets) { (currentAllAssets, currentTrust) =>
+        tranformAssets(currentTrust.trustAssets)
+      }
+    }.fold(allAssets)(identity)
   }
 
   def transform(ihtReturn: IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {

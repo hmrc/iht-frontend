@@ -19,7 +19,7 @@ package iht.utils.pdf
 import iht.forms.FormTestHelper
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.{AllAssets, Properties}
-import iht.models.des.ihtReturn.Asset
+import iht.models.des.ihtReturn.{Asset, Trust}
 import iht.testhelpers.IHTReturnTestHelper.{buildIHTReturnCorrespondingToApplicationDetailsAllFields, _}
 import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper}
 import iht.views.html.application.asset.{foreign, nominated, other}
@@ -414,12 +414,12 @@ class PdfFormatterTest extends FormTestHelper {
       )),
       businessInterest = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(14)), isOwned = Some(true))),
       nominated = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(16)), isOwned = Some(true))),
-      heldInTrust = None,
-//      heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = Some(true), value = Some(BigDecimal(100)))),
+      heldInTrust = Some(CommonBuilder.buildAssetsHeldInTrust.copy(isOwned = Some(true), isMoreThanOne = None, value = Some(BigDecimal(100)))),
       foreign = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(18)), isOwned = Some(true))),
       moneyOwed = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(15)), isOwned = Some(true))),
       other = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(19)), isOwned = Some(true))),
       properties = None
+//      properties = Some(Properties(isOwned = Some(true)))
     )
   }
 
@@ -445,13 +445,15 @@ class PdfFormatterTest extends FormTestHelper {
         IHTReturnTestHelper.buildAssetForeignAssets,
         IHTReturnTestHelper.buildAssetMoneyOwed,
         IHTReturnTestHelper.buildAssetOther
-//        IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome,
+//        IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome
 //        IHTReturnTestHelper.buildAssetsPropertiesLandNonRes,
 //        IHTReturnTestHelper.buildAssetsPropertiesOtherResidentialBuilding
       )
       )
 
-      val result = PdfFormatter.transformAssets(optionSetAsset)
+      val optionSetTrust = Some(IHTReturnTestHelper.buildTrusts)
+
+      val result = PdfFormatter.transformAssetsAndTrusts(optionSetAsset, optionSetTrust)
 
       result shouldBe expectedResult
     }

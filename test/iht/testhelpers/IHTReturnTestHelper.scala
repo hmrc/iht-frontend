@@ -91,7 +91,7 @@ object IHTReturnTestHelper {
     ))
   }
 
-  private def buildTrusts = {
+  def buildTrusts = {
     Set(
       makeTrust(17)
     )
