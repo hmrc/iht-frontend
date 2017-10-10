@@ -25,10 +25,12 @@ import iht.constants.FieldMappings.applicantCountryMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.models.application.ApplicationDetails
-import iht.models.application.assets.AllAssets
+import iht.models.application.assets.{AllAssets, StockAndShare}
+import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn._
 import iht.utils.{CommonHelper, GiftsHelper}
+import iht.views.html.application.asset.{foreign, nominated, other}
 import iht.views.html.filter
 import iht.views.html.filter.domicile
 import org.joda.time.LocalDate
@@ -96,25 +98,115 @@ object PdfFormatter {
     combineGiftSets(allPreviousYearsGifts, setOfGifts)
   }
 
-  def padAssets(optionSetAsset: Option[Set[Asset]]): Option[Set[Asset]] = {
-    optionSetAsset.map { actualAssetSet =>
-      PDFAssetHelper.blankSetAsset.map { blankAsset =>
-        actualAssetSet.find(x => x.assetCode == blankAsset.assetCode && x.howheld == blankAsset.howheld) match {
-          case None => blankAsset
-          case Some(aa) => aa
-        }
-      }
+//  def padAssets(optionSetAsset: Option[Set[Asset]]): Option[Set[Asset]] = {
+//    optionSetAsset.map { actualAssetSet =>
+//      PDFAssetHelper.blankSetAsset.map { blankAsset =>
+//        actualAssetSet.find(x => x.assetCode == blankAsset.assetCode && x.howheld == blankAsset.howheld) match {
+//          case None => blankAsset
+//          case Some(aa) => aa
+//        }
+//      }
+//    }
+//  }
+
+  private def updateFromAssetShareableBasicEstateElement(currentAsset: Asset, optionShareableBasicEstateElement: Option[ShareableBasicEstateElement]) = {
+    currentAsset.howheld match {
+      case Some("Standard") =>
+        optionShareableBasicEstateElement.map(_ copy(
+          isOwned = Some(true),
+          value = currentAsset.assetTotalValue
+        )
+        )
+      case _ =>
+        optionShareableBasicEstateElement.map(_ copy(
+          isOwnedShare = Some(true),
+          shareValue = currentAsset.assetTotalValue
+        )
+        )
     }
   }
 
+  private def updateFromAssetStockAndShareNotListed(currentAsset: Asset, optionStockAndShare: Option[StockAndShare]) = {
+        optionStockAndShare.map(_ copy(
+          isNotListed = Some(true),
+          valueNotListed = currentAsset.assetTotalValue
+        )
+        )
+  }
+
+  private def updateFromAssetStockAndShareListed(currentAsset: Asset, optionStockAndShare: Option[StockAndShare]) = {
+    optionStockAndShare.map(_ copy(
+      isListed = Some(true),
+      valueListed = currentAsset.assetTotalValue
+    )
+    )
+  }
+
+  private def updateFromAssetBasicEstateElement(currentAsset: Asset, optionBasicEstateElement: Option[BasicEstateElement]) = {
+    optionBasicEstateElement.map(_ copy(
+          isOwned = Some(true),
+          value = currentAsset.assetTotalValue
+        )
+        )
+  }
+
+  private def transformAssets1(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
+    currentAsset.assetCode match {
+      case Some("9001") => Some(currentAllAssets copy (money = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
+      case Some("9004") => Some(currentAllAssets copy (household = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
+      case Some("9008") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareListed(currentAsset, currentAllAssets.stockAndShare)))
+      case Some("9010") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareNotListed(currentAsset, currentAllAssets.stockAndShare)))
+      case _ => None
+    }
+  }
+
+  private def transformAssets2(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
+    currentAsset.assetCode match {
+      case Some("9021") => Some(currentAllAssets copy (businessInterest = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.businessInterest)))
+      case Some("9099") => Some(currentAllAssets copy (nominated = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.nominated)))
+      case Some("9098") => Some(currentAllAssets copy (foreign = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.foreign)))
+      case Some("9013") => Some(currentAllAssets copy (moneyOwed = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.moneyOwed)))
+      case Some("9015") => Some(currentAllAssets copy (other = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.other)))
+      case _ => None
+    }
+  }
+
+  private val optionEmptyShareableBasicEstateElement = Some(ShareableBasicEstateElement(
+    value = None,
+    shareValue = None,
+    isOwned = Some(false),
+    isOwnedShare = Some(false)
+  ))
+
+  private val optionEmptyStockAndShare = Some(StockAndShare(
+    value = None,
+    valueNotListed = None,
+    valueListed = None,
+    isListed = Some(false),
+    isNotListed = Some(false)
+  ))
+
+  private val optionEmptyBasicEstateElement = Some(BasicEstateElement(
+    value = None,
+    isOwned = Some(false)
+  ))
+
   def transformAssets(optionSetAsset: Option[Set[Asset]]): Option[AllAssets] = {
-    val emptyAllAssets: AllAssets = AllAssets()
+    val emptyAllAssets: AllAssets = AllAssets(
+      money = optionEmptyShareableBasicEstateElement,
+      household = optionEmptyShareableBasicEstateElement,
+      stockAndShare = optionEmptyStockAndShare,
+      businessInterest = optionEmptyBasicEstateElement,
+      nominated = optionEmptyBasicEstateElement,
+      foreign = optionEmptyBasicEstateElement,
+      moneyOwed = optionEmptyBasicEstateElement,
+      other = optionEmptyBasicEstateElement
+    )
     optionSetAsset.map { actualAssetSet =>
-      actualAssetSet.foldLeft[AllAssets](emptyAllAssets){ (currentAllAssets, currentAsset) =>
-        (currentAsset.assetCode, currentAsset.howheld) match {
-          case (Some("9001"), Some("Standard")) => currentAllAssets
-        }
-        currentAllAssets
+      actualAssetSet.foldLeft[AllAssets](emptyAllAssets) { (currentAllAssets, currentAsset) =>
+        transformAssets1(currentAllAssets, currentAsset)
+          .fold(transformAssets2(currentAllAssets, currentAsset))(Some(_))
+            .fold(currentAllAssets)(identity)
       }
     }
   }
@@ -123,17 +215,17 @@ object PdfFormatter {
     val deceasedName: String = registrationDetails.deceasedDetails.fold("")(_.name)
     val dateOfDeath: LocalDate = CommonHelper.getOrException(registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath))
 
-    val optionSetAsset = updateETMPOptionSet[Asset](padAssets(ihtReturn.freeEstate.flatMap(_.estateAssets)),
+    val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
       _.assetCode,
       Constants.ETMPAssetCodesToIHTMessageKeys,
       (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
     )
 
-//    val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
-//      _.assetCode,
-//      Constants.ETMPAssetCodesToIHTMessageKeys,
-//      (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
-//    )
+    //    val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
+    //      _.assetCode,
+    //      Constants.ETMPAssetCodesToIHTMessageKeys,
+    //      (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
+    //    )
 
     val optionSeqExemption = updateETMPOptionSeq[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
       _.exemptionType,

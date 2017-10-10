@@ -335,43 +335,43 @@ class PdfFormatterTest extends FormTestHelper {
     }
   }
 
-  "padAssets" must {
-    "pad with assets when less than max" in {
-
-      def blankAsset(asset: Asset): Asset = {
-        asset copy(
-          assetTotalValue = Some(BigDecimal(0)),
-          liabilities = None
-        )
-      }
-
-      val expectedSetAsset = Set(
-        buildAssetMoney,
-        blankAsset(buildJointAssetMoney),
-        blankAsset(buildAssetHouseholdAndPersonalItems),
-        blankAsset(buildJointAssetHouseholdAndPersonalItems),
-        blankAsset(buildAssetStocksAndSharesListed),
-        blankAsset(buildAssetStocksAndSharesNotListed),
-        buildAssetPrivatePensions,
-        blankAsset(buildAssetInsurancePoliciesOwned),
-        blankAsset(buildJointAssetInsurancePoliciesOwned),
-        blankAsset(buildAssetBusinessInterests),
-        blankAsset(buildAssetNominatedAssets),
-        blankAsset(buildAssetForeignAssets),
-        blankAsset(buildAssetMoneyOwed),
-        buildAssetOther,
-        blankAsset(buildAssetsPropertiesDeceasedsHome)
-      )
-      val setAsset = Set(IHTReturnTestHelper.buildAssetMoney,
-        IHTReturnTestHelper.buildAssetPrivatePensions,
-        IHTReturnTestHelper.buildAssetOther)
-
-      val expectedResult: Option[Set[Asset]] = Some(expectedSetAsset)
-      val result: Option[Set[Asset]] = PdfFormatter.padAssets(Some(setAsset))
-
-      result shouldBe expectedResult
-    }
-  }
+//  "padAssets" must {
+//    "pad with assets when less than max" in {
+//
+//      def blankAsset(asset: Asset): Asset = {
+//        asset copy(
+//          assetTotalValue = Some(BigDecimal(0)),
+//          liabilities = None
+//        )
+//      }
+//
+//      val expectedSetAsset = Set(
+//        buildAssetMoney,
+//        blankAsset(buildJointAssetMoney),
+//        blankAsset(buildAssetHouseholdAndPersonalItems),
+//        blankAsset(buildJointAssetHouseholdAndPersonalItems),
+//        blankAsset(buildAssetStocksAndSharesListed),
+//        blankAsset(buildAssetStocksAndSharesNotListed),
+//        buildAssetPrivatePensions,
+//        blankAsset(buildAssetInsurancePoliciesOwned),
+//        blankAsset(buildJointAssetInsurancePoliciesOwned),
+//        blankAsset(buildAssetBusinessInterests),
+//        blankAsset(buildAssetNominatedAssets),
+//        blankAsset(buildAssetForeignAssets),
+//        blankAsset(buildAssetMoneyOwed),
+//        buildAssetOther,
+//        blankAsset(buildAssetsPropertiesDeceasedsHome)
+//      )
+//      val setAsset = Set(IHTReturnTestHelper.buildAssetMoney,
+//        IHTReturnTestHelper.buildAssetPrivatePensions,
+//        IHTReturnTestHelper.buildAssetOther)
+//
+//      val expectedResult: Option[Set[Asset]] = Some(expectedSetAsset)
+//      val result: Option[Set[Asset]] = PdfFormatter.padAssets(Some(setAsset))
+//
+//      result shouldBe expectedResult
+//    }
+//  }
 
   private def createShareableBasicEstateElementNoShared(value: BigDecimal) =
     CommonBuilder.buildShareableBasicElementExtended.copy(
@@ -388,7 +388,7 @@ class PdfFormatterTest extends FormTestHelper {
 
   private val buildAllAssetsWithAllSectionsFilled = {
     AllAssets(
-      money = Some(createShareableBasicEstateElementSharedOnly(BigDecimal(1))),
+      money = Some(createShareableBasicEstateElementSharedOnly(BigDecimal(2))),
       household = Some(createShareableBasicEstateElementNoShared(BigDecimal(8))),
       vehicles = None,
       privatePension = None,
@@ -397,7 +397,7 @@ class PdfFormatterTest extends FormTestHelper {
       stockAndShare = Some(CommonBuilder.buildStockAndShare.copy(
         valueNotListed = Some(BigDecimal(9)),
         valueListed = Some(BigDecimal(10)),
-        value = Some(BigDecimal(100)),
+        value = None,
         isNotListed = Some(true),
         isListed = Some(true))),
       insurancePolicy = None,
@@ -412,7 +412,7 @@ class PdfFormatterTest extends FormTestHelper {
       foreign = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(18)), isOwned = Some(true))),
       moneyOwed = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(15)), isOwned = Some(true))),
       other = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(19)), isOwned = Some(true))),
-      properties = Some(Properties(isOwned = Some(false)))
+      properties = None
     )
   }
 
