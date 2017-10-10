@@ -275,14 +275,17 @@ object PdfFormatter {
     }.fold(emptyAllAssets)(identity)
   }
 
-  def transformAssetsAndTrusts(optionSetAsset: Option[Set[Asset]], optionSetTrust: Option[Set[Trust]]): AllAssets = {
-    val allAssets = tranformAssets(optionSetAsset)
-    optionSetTrust.map { actualTrustSet =>
-      actualTrustSet.foldLeft[AllAssets](allAssets) { (currentAllAssets, currentTrust) =>
+  def createApplicationDetails(optionSetAsset: Option[Set[Asset]], optionSetTrust: Option[Set[Trust]]): ApplicationDetails = {
+    val allAssetsNonTrust = tranformAssets(optionSetAsset)
+    val allAssets = optionSetTrust.map { actualTrustSet =>
+      actualTrustSet.foldLeft[AllAssets](allAssetsNonTrust) { (currentAllAssets, currentTrust) =>
         val allAssetsForTrusts = tranformAssets(currentTrust.trustAssets)
         currentAllAssets copy (heldInTrust = allAssetsForTrusts.heldInTrust)
       }
-    }.fold(allAssets)(identity)
+    }.fold(allAssetsNonTrust)(identity)
+    ApplicationDetails(
+      allAssets = Some(allAssets)
+    )
   }
 
   def transform(ihtReturn: IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
