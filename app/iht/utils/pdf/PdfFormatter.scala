@@ -126,6 +126,14 @@ object PdfFormatter {
     }
   }
 
+  private def updateFromAssetPrivatePension(currentAsset: Asset, optionPrivatePension: Option[PrivatePension]) = {
+    optionPrivatePension.map(_ copy(
+      isOwned = Some(true),
+      value = currentAsset.assetTotalValue
+    )
+    )
+  }
+
   private def updateFromAssetStockAndShareNotListed(currentAsset: Asset, optionStockAndShare: Option[StockAndShare]) = {
         optionStockAndShare.map(_ copy(
           isNotListed = Some(true),
@@ -171,6 +179,7 @@ object PdfFormatter {
     currentAsset.assetCode match {
       case Some("9001") => Some(currentAllAssets copy (money = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
       case Some("9004") => Some(currentAllAssets copy (household = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
+      case Some("9005") => Some(currentAllAssets copy (privatePension = updateFromAssetPrivatePension(currentAsset, currentAllAssets.privatePension)))
       case Some("9008") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareListed(currentAsset, currentAllAssets.stockAndShare)))
       case Some("9010") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareNotListed(currentAsset, currentAllAssets.stockAndShare)))
       case Some("9006") => Some(currentAllAssets copy (insurancePolicy = updateFromAssetInsurancePolicy(currentAsset, currentAllAssets.insurancePolicy)))
@@ -210,28 +219,29 @@ object PdfFormatter {
   ))
 
   private val optionEmptyPrivatePension = Some(PrivatePension(
-    isChanged = Some(false),
+    isChanged = None,
     value = None,
     isOwned = Some(false)
   ))
 
   private val optionEmptyInsurance = Some(InsurancePolicy(
-    isAnnuitiesBought = Some(false),
-    isInsurancePremiumsPayedForSomeoneElse = Some(false),
+    isAnnuitiesBought = None,
+    isInsurancePremiumsPayedForSomeoneElse = None,
     value = None,
     shareValue = None,
     policyInDeceasedName = Some(false),
     isJointlyOwned = Some(false),
-    isInTrust = Some(false),
-    coveredByExemption = Some(false),
-    sevenYearsBefore = Some(false),
-    moreThanMaxValue = Some(false)
+    isInTrust = None,
+    coveredByExemption = None,
+    sevenYearsBefore = None,
+    moreThanMaxValue = None
   ))
 
   def transformAssets(optionSetAsset: Option[Set[Asset]]): Option[AllAssets] = {
     val emptyAllAssets: AllAssets = AllAssets(
       money = optionEmptyShareableBasicEstateElement,
       household = optionEmptyShareableBasicEstateElement,
+      privatePension = optionEmptyPrivatePension,
       stockAndShare = optionEmptyStockAndShare,
       insurancePolicy = optionEmptyInsurance,
       businessInterest = optionEmptyBasicEstateElement,

@@ -392,9 +392,8 @@ class PdfFormatterTest extends FormTestHelper {
       money = Some(createShareableBasicEstateElementSharedOnly(BigDecimal(2))),
       household = Some(createShareableBasicEstateElementNoShared(BigDecimal(8))),
       vehicles = None,
-      privatePension = None,
-//      privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isChanged = Some(true),
-//        value = Some(BigDecimal(7)), isOwned = Some(true))),
+      privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isChanged = None,
+        value = Some(BigDecimal(7)), isOwned = Some(true))),
       stockAndShare = Some(CommonBuilder.buildStockAndShare.copy(
         valueNotListed = Some(BigDecimal(9)),
         valueListed = Some(BigDecimal(10)),
@@ -402,16 +401,16 @@ class PdfFormatterTest extends FormTestHelper {
         isNotListed = Some(true),
         isListed = Some(true))),
       insurancePolicy = Some(CommonBuilder.buildInsurancePolicy.copy(
-        isAnnuitiesBought = Some(false),
-        isInsurancePremiumsPayedForSomeoneElse = Some(false),
+        isAnnuitiesBought = None,
+        isInsurancePremiumsPayedForSomeoneElse = None,
         value = Some(BigDecimal(12)),
         shareValue = Some(BigDecimal(13)),
         policyInDeceasedName = Some(true),
         isJointlyOwned = Some(true),
-        isInTrust = Some(false),
-        coveredByExemption = Some(false),
-        sevenYearsBefore = Some(false),
-        moreThanMaxValue = Some(false)
+        isInTrust = None,
+        coveredByExemption = None,
+        sevenYearsBefore = None,
+        moreThanMaxValue = None
       )),
       businessInterest = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(14)), isOwned = Some(true))),
       nominated = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(16)), isOwned = Some(true))),
@@ -427,10 +426,6 @@ class PdfFormatterTest extends FormTestHelper {
   /*
   Missing:
     properties
-    Booleans on insurance policies
-    Booleans on private pension - can't infer answers to
-      "Did John Smith have any private pensions?" and
-      "Did John Smith make any changes to their private pension in the 2 years before they died?"
     held in trust
    */
   "transformAssets" must {
@@ -440,7 +435,7 @@ class PdfFormatterTest extends FormTestHelper {
       val optionSetAsset = Some(Set(
         IHTReturnTestHelper.buildJointAssetMoney,
         IHTReturnTestHelper.buildAssetHouseholdAndPersonalItems,
-//        IHTReturnTestHelper.buildAssetPrivatePensions,
+        IHTReturnTestHelper.buildAssetPrivatePensions,
         IHTReturnTestHelper.buildAssetStocksAndSharesListed,
         IHTReturnTestHelper.buildAssetStocksAndSharesNotListed,
         IHTReturnTestHelper.buildAssetInsurancePoliciesOwned,
