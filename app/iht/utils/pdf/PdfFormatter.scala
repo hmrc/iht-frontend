@@ -25,7 +25,7 @@ import iht.constants.FieldMappings.applicantCountryMap
 import iht.constants.{Constants, FieldMappings}
 import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.models.application.ApplicationDetails
-import iht.models.application.assets.{AllAssets, StockAndShare}
+import iht.models.application.assets.{AllAssets, InsurancePolicy, PrivatePension, StockAndShare}
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
 import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn._
@@ -150,12 +150,30 @@ object PdfFormatter {
         )
   }
 
+  private def updateFromAssetInsurancePolicy(currentAsset: Asset, optionInsurancePolicy: Option[InsurancePolicy]) = {
+    currentAsset.howheld match {
+      case Some("Standard") =>
+        optionInsurancePolicy.map(_ copy(
+          policyInDeceasedName = Some(true),
+          value = currentAsset.assetTotalValue
+        )
+        )
+      case _ =>
+        optionInsurancePolicy.map(_ copy(
+          isJointlyOwned = Some(true),
+          shareValue = currentAsset.assetTotalValue
+        )
+        )
+    }
+  }
+
   private def transformAssets1(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
     currentAsset.assetCode match {
       case Some("9001") => Some(currentAllAssets copy (money = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
       case Some("9004") => Some(currentAllAssets copy (household = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
       case Some("9008") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareListed(currentAsset, currentAllAssets.stockAndShare)))
       case Some("9010") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareNotListed(currentAsset, currentAllAssets.stockAndShare)))
+      case Some("9006") => Some(currentAllAssets copy (insurancePolicy = updateFromAssetInsurancePolicy(currentAsset, currentAllAssets.insurancePolicy)))
       case _ => None
     }
   }
@@ -191,11 +209,31 @@ object PdfFormatter {
     isOwned = Some(false)
   ))
 
+  private val optionEmptyPrivatePension = Some(PrivatePension(
+    isChanged = Some(false),
+    value = None,
+    isOwned = Some(false)
+  ))
+
+  private val optionEmptyInsurance = Some(InsurancePolicy(
+    isAnnuitiesBought = Some(false),
+    isInsurancePremiumsPayedForSomeoneElse = Some(false),
+    value = None,
+    shareValue = None,
+    policyInDeceasedName = Some(false),
+    isJointlyOwned = Some(false),
+    isInTrust = Some(false),
+    coveredByExemption = Some(false),
+    sevenYearsBefore = Some(false),
+    moreThanMaxValue = Some(false)
+  ))
+
   def transformAssets(optionSetAsset: Option[Set[Asset]]): Option[AllAssets] = {
     val emptyAllAssets: AllAssets = AllAssets(
       money = optionEmptyShareableBasicEstateElement,
       household = optionEmptyShareableBasicEstateElement,
       stockAndShare = optionEmptyStockAndShare,
+      insurancePolicy = optionEmptyInsurance,
       businessInterest = optionEmptyBasicEstateElement,
       nominated = optionEmptyBasicEstateElement,
       foreign = optionEmptyBasicEstateElement,

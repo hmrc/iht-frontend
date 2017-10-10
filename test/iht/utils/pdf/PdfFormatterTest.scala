@@ -22,6 +22,7 @@ import iht.models.application.assets.{AllAssets, Properties}
 import iht.models.des.ihtReturn.Asset
 import iht.testhelpers.IHTReturnTestHelper.{buildIHTReturnCorrespondingToApplicationDetailsAllFields, _}
 import iht.testhelpers.{CommonBuilder, IHTReturnTestHelper}
+import iht.views.html.application.asset.{foreign, nominated, other}
 import org.joda.time.LocalDate
 
 import scala.collection.immutable.ListMap
@@ -400,11 +401,18 @@ class PdfFormatterTest extends FormTestHelper {
         value = None,
         isNotListed = Some(true),
         isListed = Some(true))),
-      insurancePolicy = None,
-//      insurancePolicy = Some(CommonBuilder.buildInsurancePolicy.copy(policyInDeceasedName = Some(false),
-//        isJointlyOwned = Some(false), isInsurancePremiumsPayedForSomeoneElse = Some(false),
-//        value = Some(BigDecimal(12)), shareValue = Some(BigDecimal(13))
-//      )),
+      insurancePolicy = Some(CommonBuilder.buildInsurancePolicy.copy(
+        isAnnuitiesBought = Some(false),
+        isInsurancePremiumsPayedForSomeoneElse = Some(false),
+        value = Some(BigDecimal(12)),
+        shareValue = Some(BigDecimal(13)),
+        policyInDeceasedName = Some(true),
+        isJointlyOwned = Some(true),
+        isInTrust = Some(false),
+        coveredByExemption = Some(false),
+        sevenYearsBefore = Some(false),
+        moreThanMaxValue = Some(false)
+      )),
       businessInterest = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(14)), isOwned = Some(true))),
       nominated = Some(CommonBuilder.buildBasicElement.copy(value = Some(BigDecimal(16)), isOwned = Some(true))),
       heldInTrust = None,
@@ -419,7 +427,10 @@ class PdfFormatterTest extends FormTestHelper {
   /*
   Missing:
     properties
-    Booleans on insurance policies and private pension
+    Booleans on insurance policies
+    Booleans on private pension - can't infer answers to
+      "Did John Smith have any private pensions?" and
+      "Did John Smith make any changes to their private pension in the 2 years before they died?"
     held in trust
    */
   "transformAssets" must {
@@ -432,8 +443,8 @@ class PdfFormatterTest extends FormTestHelper {
 //        IHTReturnTestHelper.buildAssetPrivatePensions,
         IHTReturnTestHelper.buildAssetStocksAndSharesListed,
         IHTReturnTestHelper.buildAssetStocksAndSharesNotListed,
-//        IHTReturnTestHelper.buildAssetInsurancePoliciesOwned,
-//        IHTReturnTestHelper.buildJointAssetInsurancePoliciesOwned,
+        IHTReturnTestHelper.buildAssetInsurancePoliciesOwned,
+        IHTReturnTestHelper.buildJointAssetInsurancePoliciesOwned,
         IHTReturnTestHelper.buildAssetBusinessInterests,
         IHTReturnTestHelper.buildAssetNominatedAssets,
         IHTReturnTestHelper.buildAssetForeignAssets,
