@@ -109,7 +109,7 @@ trait KickoutController extends ApplicationController {
                   if (!isUpdated) {
                     Logger.info("Application deleted after a kickout but unable to update metrics")
                   }
-                  Future.successful(Redirect(IhtProperties.linkEstateReportKickOut))
+                  Future.successful(Redirect(iht.controllers.routes.DeadlinesController.onPageLoadApplication))
                 }
               })
             }

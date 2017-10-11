@@ -24,7 +24,7 @@ import iht.models.application.ApplicationDetails
 import iht.models.application.assets.InsurancePolicy
 import play.api.Play.current
 import play.api.data.{Form, FormError}
-import play.api.i18n.Messages
+import play.api.i18n.{Lang, Messages}
 import play.api.i18n.Messages.Implicits.applicationMessages
 import play.api.mvc.{Call, Request}
 
@@ -108,6 +108,12 @@ object CommonHelper {
 
   def getOrMinus1(value: Option[BigDecimal]): BigDecimal = value.fold(BigDecimal(-1))(identity)
 
+  def getEnglishOrWelsh(englishValue:String, welshValue: String, lang: Lang) =
+    if (lang.code == "en") {
+      englishValue
+    } else {
+      welshValue
+    }
 
   def isSectionComplete[T](inputSection: Seq[Option[T]]) = inputSection.forall(_.isDefined)
 
