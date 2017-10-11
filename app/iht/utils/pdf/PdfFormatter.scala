@@ -16,28 +16,16 @@
 
 package iht.utils.pdf
 
-import javax.inject.{Inject, Singleton}
-
-import iht.utils.GiftsHelper
-import iht.constants.FieldMappings.maritalStatusMap
-import iht.constants.FieldMappings.domicileMap
-import iht.constants.FieldMappings.applicantCountryMap
-import iht.constants.{Constants, FieldMappings}
-import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
+import iht.constants.FieldMappings.{applicantCountryMap, domicileMap, maritalStatusMap}
+import iht.constants.{Constants, FieldMappings, IhtProperties}
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets._
 import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
-import iht.models.application.gifts.PreviousYearsGifts
 import iht.models.des.ihtReturn._
+import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.utils.{CommonHelper, GiftsHelper}
-import iht.views.html.application.asset.{foreign, nominated, other}
-import iht.views.html.filter
-import iht.views.html.filter.domicile
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import uk.gov.hmrc.play.views.html.helpers.address
 
 import scala.collection.immutable.ListMap
 
@@ -98,17 +86,6 @@ object PdfFormatter {
     }
     combineGiftSets(allPreviousYearsGifts, setOfGifts)
   }
-
-//  def padAssets(optionSetAsset: Option[Set[Asset]]): Option[Set[Asset]] = {
-//    optionSetAsset.map { actualAssetSet =>
-//      PDFAssetHelper.blankSetAsset.map { blankAsset =>
-//        actualAssetSet.find(x => x.assetCode == blankAsset.assetCode && x.howheld == blankAsset.howheld) match {
-//          case None => blankAsset
-//          case Some(aa) => aa
-//        }
-//      }
-//    }
-//  }
 
   private def updateFromAssetShareableBasicEstateElement(currentAsset: Asset, optionShareableBasicEstateElement: Option[ShareableBasicEstateElement]) = {
     currentAsset.howheld match {
@@ -209,15 +186,6 @@ object PdfFormatter {
     }
   }
 
-  /*
-  id: Option[String],
-                    address: Option[UkAddress],
-                    propertyType: Option[String],
-                    typeOfOwnership: Option[String],
-                    tenure: Option[String],
-                    value
-   */
-
   private def propertyFromAsset(asset: Asset, nextId:Option[String]): Property = {
     val optionUkAddress = asset.propertyAddress.flatMap(_.address).map { addr =>
       UkAddress(addr.addressLine1, addr.addressLine2, addr.addressLine3, addr.addressLine4, addr.postalCode, addr.countryCode)
@@ -231,9 +199,9 @@ object PdfFormatter {
     val optionTypeOfOwnership = asset.howheld.flatMap( hh => IHTReturnHowHeld.get(hh))
 
     val optionPropertyType = asset.assetCode.map {
-      case "0016" => "Deceased's home"
-      case "0017" => "Other residential building"
-      case "0018" => "Land, non-residential or business building"
+      case "0016" => IhtProperties.propertyTypeDeceasedHome
+      case "0017" => IhtProperties.propertyTypeOtherResidentialBuilding
+      case "0018" => IhtProperties.propertyTypeNonResidential
     }
 
     Property(
@@ -363,12 +331,6 @@ object PdfFormatter {
       (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
     )
 
-    //    val optionSetAsset = updateETMPOptionSet[Asset](ihtReturn.freeEstate.flatMap(_.estateAssets),
-    //      _.assetCode,
-    //      Constants.ETMPAssetCodesToIHTMessageKeys,
-    //      (asset, newDescription) => asset.copy(assetDescription = Option(messages(newDescription, deceasedName)))
-    //    )
-
     val optionSeqExemption = updateETMPOptionSeq[Exemption](ihtReturn.freeEstate.flatMap(_.estateExemptions),
       _.exemptionType,
       Constants.ETMPExemptionTypesToIHTMessageKeys,
@@ -487,6 +449,5 @@ object PdfFormatter {
       Constants.DisplayModeNoExemption
     }
   }
-
   // scalastyle:on magic.number
 }
