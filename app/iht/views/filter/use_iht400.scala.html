@@ -33,7 +33,7 @@
     <p id="paragraph1">@Messages("page.iht.filter.paperform.million.p2")</p>
 
     <p>
-        <a href="@linkEstateReportKickOut" class="button"> @Messages("page.iht.filter.paperform.million.exit")</a>
+        <a id="continue" href="@iht.controllers.routes.DeadlinesController.onPageLoadRegistration" class="button">@Messages("iht.continue")</a>
     </p>
 
     @previous_answers(Messages("iht.countries.englandOrWales"), Some(jointAssets), Some(moreThan1million))

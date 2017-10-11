@@ -19,40 +19,64 @@
 @import iht.views.html._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(estimatedValue: String, jointAssets: Boolean)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(estimatedValue: String, jointAssets: Boolean, titleStr: String)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
-@iht_main_template_registration(title = Messages("iht.shouldUseOnlineService"),
-  browserTitle = Some(Messages("iht.shouldUseOnlineService")),
+@iht_main_template_registration(title = Messages(titleStr),
+  browserTitle = Some(Messages(titleStr)),
   isFullWidth = false,
   hasSignOut = false,
   hasTimeOut = false) {
 
   @if(estimatedValue == under325000) {
     <p id="paragraph0">@Messages("page.iht.filter.useService.under325000.paragraph0")</p>
+    <p id="paragraph-final">@Messages("page.iht.filter.useService.paragraphFinal")</p>
   }
+
   @if(estimatedValue == between325000and1million) {
-    <p id="paragraph0">@Messages("page.iht.filter.useService.between325000And1Million.paragraph0")</p>
-    <p id="paragraph1">@Messages("page.iht.filter.useService.between325000And1Million.paragraph1")</p>
+ <div class="subsection">
+   <p id="paragraph0">@Messages("page.iht.filter.useService.between325000And1Million.paragraph0")</p>
+ </div>
+ <div class="subsection">
+   <h2>@Messages("page.iht.filter.useService.between325000And1Million.section1.title")</h2>
+   <p>@Messages("page.iht.filter.useService.between325000And1Million.section1.p1")</p>
+ </div>
+ <div class="subsection">
+    <h2>@Messages("page.iht.filter.useService.between325000And1Million.section2.title")</h2>
+    <p>@Messages("page.iht.filter.useService.between325000And1Million.section2.p1.start") <a id="tnrb-link" href="https://www.gov.uk/guidance/inheritance-tax-transfer-of-threshold">@Messages("page.iht.filter.useService.between325000And1Million.section2.p1.link")</a>@Messages("page.iht.filter.useService.between325000And1Million.section2.p1.end")</p>
+    <ul class="list-bullet">
+      <li>@Messages("page.iht.filter.useService.between325000And1Million.section2.bullet1")</li>
+      <li>@Messages("page.iht.filter.useService.between325000And1Million.section2.bullet2")</li>
+    </ul>
+    <p>@Messages("page.iht.filter.useService.between325000And1Million.section2.p2")</p>
+ </div>
+ <div class="subsection">
+    <h2>@Messages("page.iht.filter.useService.between325000And1Million.section3.title")</h2>
+    <p>@Messages("page.iht.filter.useService.between325000And1Million.section3.p1.start") <a id="rnrb-link" href="https://www.gov.uk/guidance/inheritance-tax-residence-nil-rate-band">@Messages("page.iht.filter.useService.between325000And1Million.section3.p1.link")</a>@Messages("page.iht.filter.useService.between325000And1Million.section3.p1.end")</p>
+    <div class="panel-indent">
+      <p>@Messages("page.iht.filter.useService.between325000And1Million.section3.p2")</p>
+    </div>
+ </div>
   }
 
-  <p id="paragraph-final">@Messages("page.iht.filter.useService.paragraphFinal")</p>
+ <div class="subsection">
+    <a href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url" class="button" id="continue">
+    @if(estimatedValue == under325000) { @Messages("iht.continue") } else { @Messages("page.iht.filter.useService.between325000And1Million.report") }
+    </a>
+ </div>
 
-  <div class="subsection">
-    <a href="@iht.controllers.registration.routes.RegistrationChecklistController.onPageLoad().url" class="button" id="continue">@Messages("iht.continue")</a>
-  </div>
-
-  @if(estimatedValue == under325000) {
-    @defining("https://www.gov.uk/government/publications/inheritance-tax-return-of-estate-information-iht205-2011") { formlink =>
-
-      <h2 id="other-ways-to-report">@Messages("page.iht.filter.useService.under325000.otherWaysToReportValue")</h2>
+ @defining("https://www.gov.uk/government/publications/inheritance-tax-return-of-estate-information-iht205-2011") { formlink =>
+ <div class="subsection">
+   <h2 id="other-ways-to-report">@Messages("page.iht.filter.useService.under325000.otherWaysToReportValue")</h2>
+   @if(estimatedValue == between325000and1million) {
+      <p>@Messages("page.iht.filter.useService.between325000And1Million.otherWaysToReport") <a id="400-link" href="https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400">@Messages("page.iht.filter.useService.between325000And1Million.iht400link")</a>.</p>
+   }
       <p id="paragraph2">@Messages("page.iht.filter.useService.under325000.p1.a")
-        <a href=@if(messages.lang.language=="cy"){ @formlink.concat(".cy") } else { @formlink }>
+      <a href=@if(messages.lang.language=="cy"){ @formlink.concat(".cy") } else { @formlink }>
       @Messages("page.iht.filter.useService.under325000.p1.b")</a>
-        @Messages("page.iht.filter.useService.under325000.p1.c")</p>
+      @Messages("page.iht.filter.useService.under325000.p1.c")</p>
       <p id="paragraph3">@Messages("page.iht.filter.useService.under325000.p2")</p>
-    }
-  }
-
+ </div>
+ }
 
     @previous_answers(Messages("iht.countries.englandOrWales"), Some(jointAssets), Some(estimatedValue))
 }

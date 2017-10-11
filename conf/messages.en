@@ -232,8 +232,26 @@ page.iht.filter.paperform.iht400.link.text = IHT-400 form
 
 page.iht.filter.useService.under325000.paragraph0 = Because you think the estate might be worth less than £325,000, you can use the online service to report the estate value to HMRC.
 page.iht.filter.useService.paragraphFinal = You will need to register to use the service first, but before that, you will need to confirm who you are with HMRC.
-page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the estate might be worth between £325,000 and £1 million, you can use the online service to report the estate value to HMRC.
-page.iht.filter.useService.between325000And1Million.paragraph1 = The service will work out the estate value for you. If the value is above £325,000, you will be able to claim any estate exemptions or transfer the unused threshold if there was a spouse or civil partner whose death was before the person who has died.
+page.iht.filter.useService.between325000And1Million.paragraph0 = Because you think the value of the estate is between £325,000 and £1 million, you should think about some other things before you start completing any details.
+
+page.iht.filter.useService.between325000And1Million.title = You need to check if you can use the online service
+page.iht.filter.useService.between325000And1Million.section1.title = Who the estate has been left to
+page.iht.filter.useService.between325000And1Million.section1.p1 = If all of the estate has been left to a spouse, a civil partner, a charity or to another qualifying body, like a sports club, then you can use the online service as long as the value of the estate is less than £1 million.
+page.iht.filter.useService.between325000And1Million.section2.title = If the person who has died was ever married or in a civil partnership and their spouse or civil partner died before them
+page.iht.filter.useService.between325000And1Million.section2.p1.start = If the person who has died had been married or was in a civil partnership during their lifetime and
+page.iht.filter.useService.between325000And1Million.section2.p1.link = their spouse or civil partner died first
+page.iht.filter.useService.between325000And1Million.section2.p1.end = , you can use the online service if:
+page.iht.filter.useService.between325000And1Million.section2.bullet1 = all of the spouse’s or civil partner’s estate had passed to the person whose estate you are now reporting on
+page.iht.filter.useService.between325000And1Million.section2.bullet2 = the value of the estate is less than £650,000
+page.iht.filter.useService.between325000And1Million.section2.p2 = If the value of the estate is more than £650,000 and it has not all been left to a spouse, a civil partner, a charity or another qualifying body, you should report the value of the estate using a paper IHT400 form.
+page.iht.filter.useService.between325000And1Million.section3.title = If you want to claim any other additional thresholds to use with this service
+page.iht.filter.useService.between325000And1Million.section3.p1.start = If you already know the value of the estate and want to
+page.iht.filter.useService.between325000And1Million.section3.p1.link = claim the additional residence nil rate band threshold
+page.iht.filter.useService.between325000And1Million.section3.p1.end = , you should report the value of the estate using a paper IHT400 form.
+page.iht.filter.useService.between325000And1Million.section3.p2 = If you are using the online service to report the estate value, you will need to register to use it, but before that, you will need to confirm who you are with HMRC.
+page.iht.filter.useService.between325000And1Million.report = Report the value of the estate online
+page.iht.filter.useService.between325000And1Million.otherWaysToReport = If you need to report the value of the estate using the paper IHT400 form, you can
+page.iht.filter.useService.between325000And1Million.iht400link = download and print it from GOV.UK
 
 page.iht.filter.useService.under325000.otherWaysToReportValue = Other ways to report the value of an estate
 page.iht.filter.useService.under325000.p1.a = You can
@@ -2421,3 +2439,10 @@ label.beta.newservice =  This is a new service
 label.beta.improve =  will help us to improve it.
 label.beta.feedback = feedback
 label.beta.yours = - your
+
+# DEADLINES
+page.iht.deadlines.title = Deadlines for completing the IHT400 form
+page.iht.deadlines.p1 = You have 1 year from the date of death to fill in the IHT400 form if there is any Inheritance Tax to pay.
+page.iht.deadlines.p2 = You will have to start paying Inheritance Tax by the end of the sixth month after the death, whether you have completed the form or not. You can
+page.iht.deadlines.anchorText = make a payment before you finish valuing the estate
+page.iht.deadlines.p3 = When you have finished the IHT400 form, it will tell you if there is any Inheritance Tax to pay and, if so, how much it is.
