@@ -337,44 +337,6 @@ class PdfFormatterTest extends FormTestHelper {
     }
   }
 
-//  "padAssets" must {
-//    "pad with assets when less than max" in {
-//
-//      def blankAsset(asset: Asset): Asset = {
-//        asset copy(
-//          assetTotalValue = Some(BigDecimal(0)),
-//          liabilities = None
-//        )
-//      }
-//
-//      val expectedSetAsset = Set(
-//        buildAssetMoney,
-//        blankAsset(buildJointAssetMoney),
-//        blankAsset(buildAssetHouseholdAndPersonalItems),
-//        blankAsset(buildJointAssetHouseholdAndPersonalItems),
-//        blankAsset(buildAssetStocksAndSharesListed),
-//        blankAsset(buildAssetStocksAndSharesNotListed),
-//        buildAssetPrivatePensions,
-//        blankAsset(buildAssetInsurancePoliciesOwned),
-//        blankAsset(buildJointAssetInsurancePoliciesOwned),
-//        blankAsset(buildAssetBusinessInterests),
-//        blankAsset(buildAssetNominatedAssets),
-//        blankAsset(buildAssetForeignAssets),
-//        blankAsset(buildAssetMoneyOwed),
-//        buildAssetOther,
-//        blankAsset(buildAssetsPropertiesDeceasedsHome)
-//      )
-//      val setAsset = Set(IHTReturnTestHelper.buildAssetMoney,
-//        IHTReturnTestHelper.buildAssetPrivatePensions,
-//        IHTReturnTestHelper.buildAssetOther)
-//
-//      val expectedResult: Option[Set[Asset]] = Some(expectedSetAsset)
-//      val result: Option[Set[Asset]] = PdfFormatter.padAssets(Some(setAsset))
-//
-//      result shouldBe expectedResult
-//    }
-//  }
-
   private def createShareableBasicEstateElementNoShared(value: BigDecimal) =
     CommonBuilder.buildShareableBasicElementExtended.copy(
       value = Some(value), shareValue = None, isOwned = Some(true), isOwnedShare = Some(false)
@@ -464,7 +426,6 @@ class PdfFormatterTest extends FormTestHelper {
         IHTReturnTestHelper.buildAssetMoneyOwed,
         IHTReturnTestHelper.buildAssetOther,
         IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome,
-//        IHTReturnTestHelper.buildAssetsPropertiesLandNonRes
         IHTReturnTestHelper.buildAssetsPropertiesOtherResidentialBuilding
       )
       )
