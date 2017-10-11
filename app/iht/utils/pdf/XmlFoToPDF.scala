@@ -70,8 +70,11 @@ trait XmlFoToPDF {
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails,
                               ihtReturn: IHTReturn, messages: Messages): Array[Byte] = {
     val rd = PdfFormatter.transform(registrationDetails, messages)
+    val ad = PdfFormatter.createApplicationDetails(
+      ihtReturn.freeEstate.flatMap(_.estateAssets),
+      ihtReturn.trusts)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
-      getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
+      getPostSubmissionDetailsXMLSource(rd, ihtReturn, ad)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 

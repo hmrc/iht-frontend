@@ -43,10 +43,11 @@ trait ModelToXMLSource {
     clearanceXML.getBytes
   }
 
-  def getPostSubmissionDetailsXMLSource(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
+  def getPostSubmissionDetailsXMLSource(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn, applicationDetails: ApplicationDetails): Array[Byte] = {
     val regDetailsXMLString = getXMLSource(registrationDetails)
     val ihtReturnXMLString = getXMLSource(ihtReturn)
-    val postSubmissionXML = s"<$XMLRootPostSubmission>" + regDetailsXMLString + ihtReturnXMLString + s"</$XMLRootPostSubmission>"
+    val applicationDetailsXML = getXMLSource(applicationDetails)
+    val postSubmissionXML = s"<$XMLRootPostSubmission>" + regDetailsXMLString + ihtReturnXMLString + applicationDetailsXML + s"</$XMLRootPostSubmission>"
     postSubmissionXML.getBytes
   }
 
