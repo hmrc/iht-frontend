@@ -497,6 +497,10 @@ object IHTReturnTestHelper {
     )
   }
 
+  def buildAddr = {
+
+  }
+
   def buildAssetsPropertiesDeceasedsHome = {
     val addressOrOtherLandLocation = AddressOrOtherLandLocation(
       address = Some(models.des.Address(addressLine1= "addr1", addressLine2= "addr2",

@@ -17,6 +17,7 @@
 package iht.utils.pdf
 
 import iht.forms.FormTestHelper
+import iht.models.UkAddress
 import iht.models.application.ApplicationDetails
 import iht.models.application.assets.{AllAssets, Properties, Property}
 import iht.models.des.ihtReturn.{Asset, Trust}
@@ -422,20 +423,17 @@ class PdfFormatterTest extends FormTestHelper {
     )
   }
 
+  private val optionUkAddress = Some(UkAddress("addr1", "addr2", None, None, CommonBuilder.DefaultPostCode))
+
   private val propertyDeceasedHome = Property(
     id = Some("1"),
-    address = Some(CommonBuilder.DefaultUkAddress),
+    address = optionUkAddress,
     propertyType = TestHelper.PropertyTypeDeceasedHome,
     typeOfOwnership = TestHelper.TypesOfOwnershipDeceasedOnly,
     tenure = TestHelper.TenureFreehold,
     value = Some(100)
   )
 
-  /*
-  Missing:
-    properties
-    held in trust
-   */
   "transformAssets" must {
     "transform each asset type appropriately" in {
       val expectedResult = ApplicationDetails(
@@ -467,6 +465,7 @@ class PdfFormatterTest extends FormTestHelper {
       val result = PdfFormatter.createApplicationDetails(optionSetAsset, optionSetTrust)
 
       result.allAssets shouldBe expectedResult.allAssets
+      result.propertyList shouldBe expectedResult.propertyList
     }
   }
 }

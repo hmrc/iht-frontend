@@ -219,19 +219,38 @@ object PdfFormatter {
    */
 
   private def propertyFromAsset(asset: Asset, nextId:Option[String]): Property = {
+    val optionUkAddress = asset.propertyAddress.flatMap(_.address).map { addr =>
+      UkAddress(addr.addressLine1, addr.addressLine2, addr.addressLine3, addr.addressLine4, addr.postalCode, addr.countryCode)
+    }
+
+    val IHTReturnHowHeld = ListMap(
+      "Standard" -> "Deceased only",
+      "Joint - Beneficial Joint Tenants" -> "Joint",
+      "Joint - Tenants In Common" -> "In common" )
+
+    val optionTypeOfOwnership = asset.howheld.flatMap( hh => IHTReturnHowHeld.get(hh))
+
+    val optionPropertyType = asset.assetCode.map {
+      case "0016" => "Deceased's home"
+      case "0017" => "Other residential building"
+      case "0018" => "Land, non-residential or business building"
+    }
+
     Property(
-      id = None,
-      address = None,
-      propertyType = None,
-      typeOfOwnership = None,
-      tenure = None,
-      value = None
+      id = nextId,
+      address = optionUkAddress,
+      propertyType = optionPropertyType,
+      typeOfOwnership = optionTypeOfOwnership,
+      tenure = asset.tenure,
+      value = asset.assetTotalValue
     )
   }
 
-  private def transformProperties(currentProperties: List[Property], currentAsset:Asset): Option[List[Property]] = {
+  private def addIfProperty(currentProperties: List[Property], currentAsset:Asset): Option[List[Property]] = {
     currentAsset.assetCode match {
-      case Some("0016") => Some(currentProperties :+ propertyFromAsset(currentAsset, None))
+      case Some("0016") =>
+        val nextId = Some((currentProperties.size + 1).toString)
+        Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
       case _ => None
     }
   }
@@ -305,11 +324,11 @@ object PdfFormatter {
     }.fold(emptyAllAssets)(identity)
   }
 
-  private def ook(optionSetAsset: Option[Set[Asset]]): List[Property] = {
+  private def transformProperties(optionSetAsset: Option[Set[Asset]]): List[Property] = {
     val emptyProperties = List[Property]()
     optionSetAsset.map { actualAssetSet =>
       actualAssetSet.foldLeft[List[Property]](emptyProperties) { (currentProperties, currentAsset) =>
-        transformProperties(currentProperties, currentAsset)
+        addIfProperty(currentProperties, currentAsset)
           .fold(currentProperties)(identity)
       }
     }.fold(emptyProperties)(identity)
@@ -317,7 +336,7 @@ object PdfFormatter {
 
   def createApplicationDetails(optionSetAsset: Option[Set[Asset]], optionSetTrust: Option[Set[Trust]]): ApplicationDetails = {
     val allAssetsNonTrust = tranformAssets(optionSetAsset)
-    val propertyList = ook(optionSetAsset)
+    val propertyList = transformProperties(optionSetAsset)
     val allAssets = optionSetTrust.map { actualTrustSet =>
       actualTrustSet.foldLeft[AllAssets](allAssetsNonTrust) { (currentAllAssets, currentTrust) =>
         val allAssetsForTrusts = tranformAssets(currentTrust.trustAssets)
