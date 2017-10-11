@@ -22,13 +22,6 @@
 
     <xsl:template match="IHTReturn">
         <xsl:call-template name="estate-summary"/>
-    </xsl:template>
-    <xsl:template match="ApplicationDetails">
-        <xsl:comment>Free Estate section starts</xsl:comment>
-        <xsl:call-template name="pre-assets"/>
-        <xsl:comment>Free Estate section ends</xsl:comment>
-    </xsl:template>
-    <xsl:template match="IHTReturn">
         <xsl:comment>Gifts section starts</xsl:comment>
         <xsl:call-template name="gifts">
             <xsl:with-param name="value" select="gifts"></xsl:with-param>
@@ -53,4 +46,11 @@
         </xsl:call-template>
         <xsl:comment>TNRB section ends</xsl:comment>
     </xsl:template>
+
+    <xsl:template match="ApplicationDetails">
+        <xsl:comment>Free Estate section starts</xsl:comment>
+        <xsl:call-template name="pre-assets"/>
+        <xsl:comment>Free Estate section ends</xsl:comment>
+    </xsl:template>
+
 </xsl:stylesheet>
