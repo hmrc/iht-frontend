@@ -20,6 +20,10 @@
     <xsl:include href="pdf/templates/postsubmission/exemptions.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/tnrb.xsl"/>
 
+    <xsl:template match="PostSubmissionXML/IHTReturnSummary">
+        <xsl:call-template name="estate-summary"/>
+    </xsl:template>
+
     <xsl:template match="PostSubmissionXML/ApplicationDetails">
         <xsl:comment>Assets section starts</xsl:comment>
         <xsl:call-template name="pre-assets"/>
@@ -27,7 +31,6 @@
     </xsl:template>
 
     <xsl:template match="PostSubmissionXML/IHTReturn">
-        <xsl:call-template name="estate-summary"/>
         <xsl:comment>Gifts section starts</xsl:comment>
         <xsl:call-template name="gifts">
             <xsl:with-param name="value" select="gifts"></xsl:with-param>
