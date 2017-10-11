@@ -24,7 +24,7 @@
     <xsl:param name="giftsExemptionsTotal"/>
 
     <xsl:include href="pdf/templates/presubmission/estate-summary.xsl"/>
-    <xsl:include href="pdf/templates/presubmission/assets.xsl"/>
+    <xsl:include href="pdf/templates/common/estate-report/assets.xsl"/>
     <xsl:include href="pdf/templates/presubmission/gifts.xsl"/>
     <xsl:include href="pdf/templates/presubmission/debts.xsl"/>
     <xsl:include href="pdf/templates/presubmission/exemptions.xsl"/>

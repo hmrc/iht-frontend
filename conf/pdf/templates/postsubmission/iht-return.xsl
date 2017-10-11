@@ -13,7 +13,7 @@
     <xsl:param name="estateValue"/>
     <xsl:param name="thresholdValue"/>
 
-    <xsl:include href="pdf/templates/presubmission/assets.xsl"/>
+    <xsl:include href="pdf/templates/common/estate-report/assets.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/estate-summary.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/gifts.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/debts.xsl"/>
