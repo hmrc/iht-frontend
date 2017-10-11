@@ -21,10 +21,9 @@ import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
-import iht.constants.Constants
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.models.des.ihtReturn.{Asset, IHTReturn}
+import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import iht.utils.{CommonHelper, _}
