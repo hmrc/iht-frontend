@@ -19,9 +19,10 @@ package iht.controllers.filter
 import iht.config.IhtFormPartialRetriever
 import iht.constants.Constants
 import iht.forms.FilterForms._
-import uk.gov.hmrc.play.frontend.controller.{UnauthorisedAction, FrontendController}
+import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.Call
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -31,28 +32,45 @@ object EstimateController extends EstimateController
 trait EstimateController extends FrontendController {
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
-  def onPageLoad = UnauthorisedAction.async {
+  def onPageLoad(jointAssets: Boolean, submitRoute: Call) = UnauthorisedAction.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.estimate(estimateForm)))
+      Future.successful(Ok(iht.views.html.filter.estimate(estimateForm, jointAssets,
+        submitRoute)))
     }
   }
 
-  def onSubmit = UnauthorisedAction.async {
+  def onPageLoadJointAssets = onPageLoad(jointAssets = true, iht.controllers.filter.routes.EstimateController.onSubmitJointAssets())
+
+  def onPageLoadWithoutJointAssets = onPageLoad(jointAssets = false, iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets())
+
+  private def onSubmit(jointAssets: Boolean, submitRoute: Call) = UnauthorisedAction.async {
     implicit request => {
       val boundForm = estimateForm.bindFromRequest()
 
       boundForm.fold(
-        formWithErrors => Future.successful(BadRequest(iht.views.html.filter.estimate(formWithErrors))), {
-          choice => choice.getOrElse("") match {
-            case Constants.under325000 =>
+        formWithErrors => Future.successful(BadRequest(iht.views.html.filter.estimate(formWithErrors, jointAssets,
+          submitRoute))), {
+          choice => (choice.getOrElse(""), jointAssets) match {
+            case (Constants.under325000, false) =>
               Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnder()))
-            case Constants.between325000and1million =>
+            case (Constants.under325000, true) =>
+              Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadUnderWithJointAssets()))
+            case (Constants.between325000and1million, false) =>
               Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadOver()))
-            case Constants.moreThan1million =>
-              Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoad()))
+            case (Constants.between325000and1million, true) =>
+              Future.successful(Redirect(iht.controllers.filter.routes.UseServiceController.onPageLoadOverWithJointAssets()))
+            case (Constants.moreThan1million, false) =>
+              Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithoutJointAssets()))
+            case (Constants.moreThan1million, true) =>
+              Future.successful(Redirect(iht.controllers.filter.routes.UseIHT400Controller.onPageLoadWithJointAssets()))
           }
         }
       )
     }
   }
+
+  def onSubmitJointAssets = onSubmit(jointAssets = true, iht.controllers.filter.routes.EstimateController.onSubmitJointAssets())
+
+  def onSubmitWithoutJointAssets = onSubmit(jointAssets = false, iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets())
+
 }

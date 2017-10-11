@@ -725,7 +725,6 @@ iht.estateReport.declaration.checkedEverything.p2=Os ydych wedi gwneud yr holl w
 page.iht.application.assets.nominated.question=A oedd gan {0} unrhyw asedion wedi''u penodi?
 iht.estateReport.goToEstateReports=Ewch i''ch adroddiadau Treth Etifeddiant ynghylch yr ystâd
 page.iht.registration.checklist.applicant.reveal.label1=Y lleoliad lle rydych yn bwriadu gwneud cais i''r Gwasanaeth Profiant yw''r man lle rydych yn anfon eich PA1 - ffurflen gais ar gyfer Profiant. Mae gwahanol lefydd ar draws y DU ond gallwch ond ddefnyddio''r gwasanaeth hwn os ydych yn bwriadu gwneud cais yng Nghymru neu Loegr.
-page.iht.filter.useService.between325000And1Million.paragraph1=Bydd y gwasanaeth yn cyfrifo gwerth yr ystâd ar eich rhan. Os yw''r gwerth dros £325,000, byddwch yn gallu gwneud cais am unrhyw eithriadau neu drosglwyddo''r trothwy sydd heb ei ddefnyddio os oedd yna briod neu bartner sifil, a bu farw cyn yr ymadawedig.
 error.value.blank=Dylid nodi gwerth.
 page.iht.application.assets.property.value.screenReader=Gwerth {0}{1} yw £{2}
 error.currency.assets.policies.summary=nodwch werth ar gyfer polisïau yswiriant gan ddefnyddio rhifau''n unig
@@ -1957,7 +1956,8 @@ error.dateOfMarriage.giveCorrectMonthYear = Rhowch fis cywir a blwyddyn gywir ar
 iht.estateReport.noInheritanceTaxPayable = does dim Treth Etifeddiant yn daladwy
 iht.estateReport.qualifyingBodies.qualifyingBodyName = Enw''r corff cymwys
 iht.roughEstimateEstateWorth = Yn eich barn chi, beth yw gwerth yr ystâd?
-iht.roughEstimateEstateWorth.guidance = Dylech gynnwys amcangyfrif o werth unrhyw dai neu arian mewn cyfrifon banc y mae''n bosibl yr oedd y person a fu farw yn berchen arnynt.
+iht.roughEstimateEstateWorth.guidance.p1 = Dylech gynnwys amcangyfrif o werth unrhyw dai neu arian mewn cyfrifon banc y mae''n bosibl yr oedd y person a fu farw yn berchen arnynt.
+iht.roughEstimateEstateWorth.guidance.p2 = ???
 iht.timeoutDialog.button = Ewch yn eich blaen gydag adroddiad yr ystâd
 iht.timeoutDialog.minute = munud
 iht.timeoutDialog.minutes = munud
@@ -2002,6 +2002,12 @@ page.iht.filter.useService.under325000.p1.b = ddefnyddio''r ffurflen bapur IHT20
 page.iht.filter.useService.under325000.p1.c = os na allwch roi gwybod ar-lein am werth yr ystâd.
 page.iht.filter.useService.under325000.p2 = Os na allwch lawrlwytho neu argraffu''r ffurflen, gallwch ofyn bod copi''n cael ei anfon atoch drwy ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
 
+page.iht.filter.jointlyowned.question = A oedd y person a fu farw yn berchen ar unrhyw beth ar y cyd â rhywun arall?
+page.iht.filter.jointlyowned.guidance = Gallai hyn fod yn berchen ar gartref gyda rhywun arall neu gael cyfrif banc ar y cyd.
+page.iht.filter.jointlyowned.yes = Oedd, roedd yn berchen ar rywbeth ar y cyd â rhywun arall
+page.iht.filter.jointlyowned.no = Nac oedd, nid oedd yn berchen ar rywbeth ar y cyd â rhywun arall
+page.iht.filter.jointlyowned.previousanswers = ???
+
 page.iht.filter.useService.between325000And1Million.title = ???
 page.iht.filter.useService.between325000And1Million.section1.title = ???
 page.iht.filter.useService.between325000And1Million.section1.p1 = ???
@@ -2026,4 +2032,3 @@ page.iht.deadlines.p1 = Mae gennych 1 flwyddyn o ddyddiad y farwolaeth i lenwi''
 page.iht.deadlines.p2 = Bydd yn rhaid i chi ddechrau talu Treth Etifeddiant cyn pen diwedd y chweched mis ar ôl y farwolaeth, p''un a'ch bod wedi llenwi''r ffurflen ai peidio. Gallwch
 page.iht.deadlines.anchorText = wneud taliad cyn i chi orffen prisio''r ystâd
 page.iht.deadlines.p3 = Pan fyddwch wedi gorffen gyda''r ffurflen IHT400, fe fydd yn dangos a oes unrhyw Dreth Etifeddiant i''w thalu.
-

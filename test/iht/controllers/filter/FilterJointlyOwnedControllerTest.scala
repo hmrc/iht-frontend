@@ -16,39 +16,46 @@
 
 package iht.controllers.filter
 
-import iht.connector.{CachingConnector, IhtConnector}
 import iht.controllers.application.ApplicationControllerTest
+import iht.forms.FilterForms._
 import iht.testhelpers.MockFormPartialRetriever
 import iht.views.HtmlSpec
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import play.api.i18n.MessagesApi
+import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-/**
- * Created by adwelly on 24/10/2016.
- */
-class UseIHT400ControllerTest extends ApplicationControllerTest with HtmlSpec {
-  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-  val mockCachingConnector = mock[CachingConnector]
-  val mockIhtConnector = mock[IhtConnector]
+class FilterJointlyOwnedControllerTest extends ApplicationControllerTest with HtmlSpec {
 
-  def controller = new UseIHT400Controller {
-    override val cachingConnector = mockCachingConnector
-    override val ihtConnector = mockIhtConnector
+  override implicit val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
+  implicit val request = FakeRequest()
+  val messages = messagesApi.preferred(request)
+
+  def controller = new FilterJointlyOwnedController {
     override implicit val formPartialRetriever: FormPartialRetriever = MockFormPartialRetriever
   }
 
-  "UseIHT400Controller" must {
+  "Filter Jointly Owned Controller" must {
 
-    "show the 'you should use an IHT-400 paper form' page when accessed by an unauthorized person" in {
-      val result = controller.onPageLoadWithoutJointAssets()(createFakeRequest(isAuthorised = false))
+    "show the Filter Jointly Owned page when access by an unauthorised person" in {
+      val result = controller.onPageLoad()(createFakeRequest(isAuthorised = false))
       status(result) should be(OK)
 
       val doc = asDocument(contentAsString(result))
       val titleElement = doc.getElementsByTag("h1").first
-      titleElement.text() should be(messagesApi("iht.useIHT400PaperForm"))
+      titleElement.text() should be(messages("page.iht.filter.jointlyowned.question"))
     }
+
+    "show an error if no radio button is selected" in {
+      val request = createFakeRequestWithBody(isAuthorised = false, data = filterJointlyOwnedForm(messages).data.toSeq)
+      val result = controller.onSubmit()(request)
+
+      status(result) should be(BAD_REQUEST)
+
+      val doc = asDocument(contentAsString(result))
+      assertRenderedById(doc, "errors")
+    }
+    
   }
+
 }

@@ -101,6 +101,11 @@ object FieldMappings {
       createMapEntry(otherCountry, "page.iht.filter.domicile.choice.other")(messages)
     )
 
+  def filterJointlyOwnedChoices(implicit messages: Messages) = ListMap(
+    createMapEntry(filterJointlyOwnedYes, "page.iht.filter.jointlyowned.yes")(messages),
+    createMapEntry(filterJointlyOwnedNo, "page.iht.filter.jointlyowned.no")(messages)
+  )
+
   def estimateChoices(implicit messages: Messages) = ListMap(
     createMapEntry(under325000, "page.iht.filter.estimate.choice.under")(messages),
     createMapEntry(between325000and1million, "page.iht.filter.estimate.choice.between")(messages),

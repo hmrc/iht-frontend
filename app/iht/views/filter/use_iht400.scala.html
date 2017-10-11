@@ -21,7 +21,7 @@
 @import iht.constants.IhtProperties._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@()(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(jointAssets: Boolean = false)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.useIHT400PaperForm"),
     browserTitle = Some(Messages("iht.useIHT400PaperForm")),
@@ -36,6 +36,6 @@
         <a id="continue" href="@iht.controllers.routes.DeadlinesController.onPageLoadRegistration" class="button">@Messages("iht.continue")</a>
     </p>
 
-    @previous_answers(Messages("iht.countries.englandOrWales"), Some(moreThan1million))
+    @previous_answers(Messages("iht.countries.englandOrWales"), Some(jointAssets), Some(moreThan1million))
 
 }

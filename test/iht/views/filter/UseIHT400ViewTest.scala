@@ -140,7 +140,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
       link.text() should be(messagesApi("iht.change"))
-      link.attr("href") should be(iht.controllers.filter.routes.EstimateController.onPageLoad().url)
+      link.attr("href") should be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
     }
 
   }

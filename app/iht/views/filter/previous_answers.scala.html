@@ -21,7 +21,7 @@
 @import iht.constants.IhtProperties._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(country: String,
+@(country: String, jointAssets: Option[Boolean] = None,
 estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 <section class="section">
@@ -53,12 +53,37 @@ estimatedValue: Option[String] = None)(implicit request:Request[_], messages: Me
               }
             </div>
             <div class="tabular-data__data tabular-data__data--3-12">
-              <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoad().url">
-                  <span>@Messages("iht.change")</span>
-              </a>
+                @if(jointAssets.get) {
+                    <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoadJointAssets().url">
+                        <span>@Messages("iht.change")</span>
+                    </a>
+                } else {
+                    <a id="change-estimate" href="@iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url">
+                        <span>@Messages("iht.change")</span>
+                    </a>
+                }
             </div>
         </li>
         }
+
+        @if(jointAssets.isDefined) {
+            <li id="joint-assets-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
+                <div class="tabular-data__data tabular-data__data--6-12">
+                @Messages("page.iht.filter.jointlyowned.previousanswers")
+                </div>
+                <div class="tabular-data__data tabular-data__data--3-12">
+                    @if(jointAssets.get) { @Messages("iht.yes") } else { @Messages("iht.no") }
+                </div>
+                <div class="tabular-data__data tabular-data__data--3-12">
+                    <a id="change-joint-assets" href="@iht.controllers.filter.routes.FilterJointlyOwnedController.onPageLoad().url">
+                        <span>@Messages("iht.change")</span>
+                    </a>
+                </div>
+            </li>
+
+
+        }
+
         <li id="domicile-row" class="tabular-data__entry tabular-data__entry--grouped divider--bottom">
             <div class="tabular-data__data tabular-data__data--6-12">
               @Messages("page.iht.registration.deceasedPermanentHome.title")
