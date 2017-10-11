@@ -48,6 +48,7 @@ trait ModelToXMLSource {
     val ihtReturnXMLString = getXMLSource(ihtReturn)
     val applicationDetailsXML = getXMLSource(applicationDetails)
     val postSubmissionXML = s"<$XMLRootPostSubmission>" + regDetailsXMLString + ihtReturnXMLString + applicationDetailsXML + s"</$XMLRootPostSubmission>"
+    println( "\nXML:-\n" + postSubmissionXML)
     postSubmissionXML.getBytes
   }
 
