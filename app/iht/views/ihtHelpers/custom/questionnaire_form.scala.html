@@ -25,7 +25,7 @@
     @ihtHelpers.standard.input_radio_group(
         form("feelingAboutExperience"),
         questionnaireFeelingAboutExperience.toSeq,
-        '_legend -> Messages("page.iht.questionnaire.feelingAboutExperience.question"),
+        '_legend -> messages("page.iht.questionnaire.feelingAboutExperience.question"),
         '_fieldsetId -> "feeling-about-experience",
         '_groupClass -> "form-group ",
         '_labelClass -> "block-label",
@@ -36,7 +36,7 @@
     @ihtHelpers.standard.input_radio_group(
         form("easytouse"),
         questionnaireEasyToUse.toSeq,
-        '_legend -> Messages("page.iht.questionnaire.easy-to-use.question"),
+        '_legend -> messages("page.iht.questionnaire.easy-to-use.question"),
         '_fieldsetId -> "easy-to-use",
         '_groupClass -> "form-group ",
         '_labelClass -> "block-label",
@@ -47,23 +47,39 @@
 <div class = "grid-2-3">
 
     @helpers.textArea(form("howcanyouimprove"),
-        '_label -> Messages("page.iht.questionnaire.improve.question"),
+        '_label -> messages("page.iht.questionnaire.improve.question"),
         '_labelClass -> "form-label-bold",
         '_inputClass -> "full-width feedback-text-area")
 
-    <p class="font-xsmall">@Messages("page.iht.questionnaire.improve.p1")</p>
-    <p>@Messages("page.iht.questionnaire.improve.p2")</p>
+    <p class="font-xsmall">@messages("page.iht.questionnaire.improve.p1")</p>
+    <p>@messages("page.iht.questionnaire.improve.p2")</p>
     <br/>
-    <p><strong>@Messages("page.iht.questionnaire.fullName.p1")</strong></p>
-    <p>@Messages("page.iht.questionnaire.fullName.p2")</p>
+    <p><strong>@messages("page.iht.questionnaire.fullName.p1")</strong></p>
+    <p>@messages("page.iht.questionnaire.fullName.p2")</p>
 
     @ihtHelpers.standard.input_with_help(form("fullName"),
     '_divClass -> "form-group",
     '_inputClass -> "form-control",
     '_labelTextClass -> "bold",
-    '_label -> Html(Messages("site.fullName")))
+    '_label -> Html(messages("site.fullName")))
 
+    @ihtHelpers.standard.input_with_help(form("contactDetails"),
+    '_divClass -> "form-group",
+    '_inputClass -> "form-control",
+    '_labelTextClass -> "bold",
+    '_label -> Html(messages("page.iht.questionnaire.contactDetails")))
 
-    <input class="button" type="submit" value = "@Messages("page.iht.questionnaire.button.submit-and-signout")" />
+    @ihtHelpers.standard.input_radio_group(
+        form("stageInService"),
+        questionnaireActivity.toSeq,
+        '_legend -> messages("page.iht.questionnaire.activity.question"),
+        '_fieldsetId -> "stageInService",
+        '_groupClass -> "form-group ",
+        '_labelClass -> "block-label",
+        '_labelTextClass -> "form-label",
+        '_legendClass -> "form-label-bold"
+    )
+
+    <input class="button" type="submit" value = "@messages("page.iht.questionnaire.button.submit-and-signout")" />
 </div>
 }

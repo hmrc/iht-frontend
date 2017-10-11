@@ -115,6 +115,10 @@ object IhtProperties {
   lazy val dateOfPredeceasedForTnrbEligibility: LocalDate = getPropertyAsDate("dateOfPredeceasedForTnrbEligibility")
   lazy val dateOfCivilPartnershipInclusion: LocalDate = getPropertyAsDate("dateOfCivilPartnershipInclusion")
 
+  lazy val questionnaireActivityRegister: String = getProperty("questionnaireActivityRegister")
+  lazy val questionnaireActivityEstateReport: String = getProperty("questionnaireActivityEstateReport")
+  lazy val questionnaireActivityDeclareApp: String = getProperty("questionnaireActivityDeclareApp")
+
   lazy val ETMPAssetCodeMoney: String = getProperty("etmpAssetCodeMoney")
   lazy val ETMPAssetCodeHouseHold: String = getProperty("etmpAssetCodeHouseHold")
   lazy val ETMPAssetCodePrivatePension: String = getProperty("etmpAssetCodePrivatePension")

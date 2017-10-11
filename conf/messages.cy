@@ -2032,3 +2032,9 @@ page.iht.deadlines.p1 = Mae gennych 1 flwyddyn o ddyddiad y farwolaeth i lenwi''
 page.iht.deadlines.p2 = Bydd yn rhaid i chi ddechrau talu Treth Etifeddiant cyn pen diwedd y chweched mis ar ôl y farwolaeth, p''un a'ch bod wedi llenwi''r ffurflen ai peidio. Gallwch
 page.iht.deadlines.anchorText = wneud taliad cyn i chi orffen prisio''r ystâd
 page.iht.deadlines.p3 = Pan fyddwch wedi gorffen gyda''r ffurflen IHT400, fe fydd yn dangos a oes unrhyw Dreth Etifeddiant i''w thalu.
+
+page.iht.questionnaire.contactDetails = Cyfeiriad e-bost neu rif ffôn
+page.iht.questionnaire.activity.question=Beth wnaethoch pan ddefnyddio''ch y gwasanaeth Treth Etifeddiant Ar-lein heddiw?
+page.iht.questionnaire.activity.register=???
+page.iht.questionnaire.activity.estateReport=???
+page.iht.questionnaire.activity.declare-app=Cwblhau''ch datganiad ac anfon adroddiad ynghylch yr ystâd i CThEM

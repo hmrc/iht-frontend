@@ -30,7 +30,9 @@ object QuestionnaireForms {
       "feelingAboutExperience" -> optional(number(1,5)),
       "easytouse" -> optional(number(1,5)),
       "howcanyouimprove" -> optional(text(minLength = 1, maxLength = 1200)),
-      "fullName" -> optional(text)
+      "fullName" -> optional(text),
+      "contactDetails" -> optional(text),
+      "stageInService" -> optional(text)
     )(QuestionnaireModel.apply)(QuestionnaireModel.unapply)
   )
 }

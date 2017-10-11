@@ -1849,6 +1849,14 @@ page.iht.questionnaire.improve.p2 = Please do not include any personal or financ
 
 page.iht.questionnaire.fullName.p1 = We are looking for people to help us with user research.
 page.iht.questionnaire.fullName.p2 = This will help improve the service. If you would like to be contacted with more details about the user research, enter your name below.
+
+page.iht.questionnaire.contactDetails = Email address or phone number
+
+page.iht.questionnaire.activity.question=What did you do when you used Inheritance Tax Online today?
+page.iht.questionnaire.activity.register=Completed registration but not started estate report
+page.iht.questionnaire.activity.estateReport=Started your estate report
+page.iht.questionnaire.activity.declare-app=Completed your declaration and sent an estate report to HMRC
+
 page.iht.questionnaire.button.submit-and-signout = Send feedback and exit
 
 page.iht.sign-out.p1 = Sign back in through GOV.UK

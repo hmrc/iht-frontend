@@ -87,6 +87,12 @@ object FieldMappings {
     createMapEntry(questionnaireFeelingAboutExperienceVeryDissatisfied,"page.iht.questionnaire.feelingAboutExperience.veryDissatisfied")(messages)
   )
 
+  def questionnaireActivity(implicit messages: Messages) = ListMap(
+    createMapEntry(questionnaireActivityRegister, "page.iht.questionnaire.activity.register")(messages),
+    createMapEntry(questionnaireActivityEstateReport, "page.iht.questionnaire.activity.estateReport")(messages),
+    createMapEntry(questionnaireActivityDeclareApp, "page.iht.questionnaire.activity.declare-app")(messages)
+  )
+
   def filterChoices(implicit messages: Messages) = ListMap(
     register -> Tuple3(messages("page.iht.filter.filter.choice.main.register"), Some(messages("page.iht.filter.filter.choice.main.register.hint")), None),
     alreadyStarted -> Tuple3(messages("page.iht.filter.filter.choice.main.alreadyStarted"), None, None),
