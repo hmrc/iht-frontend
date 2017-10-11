@@ -258,11 +258,11 @@
 
         <xsl:comment>Assets vehicles section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block  role="H3" xsl:use-attribute-sets="h3">
-                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.vehicles')"/>
-            </fo:block>
             <xsl:choose>
             <xsl:when test="allAssets/vehicles != ''">
+                <fo:block  role="H3" xsl:use-attribute-sets="h3">
+                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.vehicles')"/>
+                </fo:block>
                 <fo:block role="H4" xsl:use-attribute-sets="h4">
                     <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.vehiclesOwned', $deceasedName)"/>
                 </fo:block>
