@@ -253,6 +253,8 @@ object PdfFormatter {
         Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
       case Some("0017") =>
         Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
+      case Some("0018") =>
+        Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
       case _ => None
     }
   }
