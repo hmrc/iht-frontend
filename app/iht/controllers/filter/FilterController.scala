@@ -16,16 +16,18 @@
 
 package iht.controllers.filter
 
-import iht.config.{IhtFormPartialRetriever, FrontendAuthConnector}
+import iht.config.{FrontendAuthConnector, IhtFormPartialRetriever}
 import iht.connector.{CachingConnector, IhtConnector}
 import iht.constants.Constants
 import iht.forms.FilterForms._
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
-import uk.gov.hmrc.play.frontend.controller.{UnauthorisedAction, FrontendController}
+import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.play.partials.FormPartialRetriever
-import scala.concurrent.Future
+
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 
 /**
   * Created by adwelly on 21/10/2016.

@@ -21,7 +21,7 @@
 @import iht.constants.IhtProperties._
 @import uk.gov.hmrc.play.partials.FormPartialRetriever
 
-@(form: Form[Option[String]])(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
+@(form: Form[Option[String]], jointAssets: Boolean, submitRoute:  Call)(implicit request:Request[_], messages: Messages, ihtFormPartialRetriever: FormPartialRetriever)
 
 @iht_main_template_registration(title = Messages("iht.roughEstimateEstateWorth"),
 browserTitle = Some(Messages("iht.roughEstimateEstateWorth")),
@@ -30,9 +30,11 @@ hasSignOut = false,
 hasTimeOut = false,
 headingClass = "heading-medium"){
 
-@helpers.form(action = iht.controllers.filter.routes.EstimateController.onSubmit,'autoComplete -> "off") {
+@helpers.form(action = submitRoute,'autoComplete -> "off") {
 
-<p>@Html(Messages("iht.roughEstimateEstateWorth.guidance"))</p>
+<p>@Html(Messages("iht.roughEstimateEstateWorth.guidance.p1"))</p>
+
+@if(jointAssets) { <p>@Html(Messages("iht.roughEstimateEstateWorth.guidance.p2"))</p>  }
 
 @ihtHelpers.custom.error_summary(form)
 
@@ -50,6 +52,6 @@ FieldMappings.estimateChoices.toSeq,
     <input id='continue' class='button' type='submit' value='@Messages("iht.continue")'>
 </div>
 
-@previous_answers(Messages("iht.countries.englandOrWales"))
+@previous_answers(Messages("iht.countries.englandOrWales"), Some(jointAssets))
 }
 }

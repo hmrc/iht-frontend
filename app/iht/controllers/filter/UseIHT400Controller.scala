@@ -16,12 +16,13 @@
 
 package iht.controllers.filter
 
-import iht.config.{IhtFormPartialRetriever, FrontendAuthConnector}
+import iht.config.{FrontendAuthConnector, IhtFormPartialRetriever}
 import iht.connector.{CachingConnector, IhtConnector}
 import uk.gov.hmrc.play.frontend.auth.connectors.AuthConnector
-import uk.gov.hmrc.play.frontend.controller.{UnauthorisedAction, FrontendController}
+import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAction}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.{Action, AnyContent}
 import uk.gov.hmrc.play.partials.FormPartialRetriever
 
 import scala.concurrent.Future
@@ -42,9 +43,14 @@ trait UseIHT400Controller extends FrontendController {
 
   implicit val formPartialRetriever: FormPartialRetriever = IhtFormPartialRetriever
 
-  def onPageLoad = UnauthorisedAction.async {
+  def onPageLoad(jointAssets: Boolean): Action[AnyContent] = UnauthorisedAction.async {
     implicit request => {
-      Future.successful(Ok(iht.views.html.filter.use_iht400()))
+      Future.successful(Ok(iht.views.html.filter.use_iht400(jointAssets)))
     }
   }
+
+  def onPageLoadWithJointAssets: Action[AnyContent] = onPageLoad(true)
+
+  def onPageLoadWithoutJointAssets: Action[AnyContent] = onPageLoad(false)
+
 }

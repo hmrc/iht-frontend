@@ -48,7 +48,6 @@ object TestHelper {
   val AppStatusUnderEnquiry = "Under Enquiry"
   val AppStatusIneligibleApplication = "Ineligible Application"
 
-  //fieldMapping keys
   val ApplicantCountryEnglandOrWales = "England or Wales"
   val ApplicantCountryScotland = "Scotland"
   val ApplicantCountryNorthernIreland = "Northern Ireland"
@@ -81,11 +80,11 @@ object TestHelper {
   val LinkRegistrationKickOut = "https://www.gov.uk/inheritance-tax"
   val LinkEstateReportKickOut = "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"
 
-   // Exemptions
+  val LinkPayEarly = "https://www.gov.uk/paying-inheritance-tax/pay-early"
+
   val ExemptionsGuidanceSeen = "ExemptionGuidanceSeen"
   val charityLink = "https://www.gov.uk/government/organisations/charity-commission"
 
-  //Gifts
   val GiftsGuidanceSeen = "GiftsGuidanceSeen"
   val GiftsMaxValue = 150000
   val KickOutGiftsWithReservationOfBenefit= "Deceased has given gifts with reservation of benefits"

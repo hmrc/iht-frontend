@@ -16,6 +16,7 @@
 
 package iht.views.filter
 
+import iht.testhelpers.CommonBuilder
 import iht.views.ViewTestHelper
 import iht.views.html.filter.estimate
 import play.api.data.Form
@@ -29,9 +30,10 @@ class EstimateViewTest extends ViewTestHelper {
 
   val fakeRequest = createFakeRequest(isAuthorised = false)
   val fakeForm =  Form(single("s"-> optional(text)))
+  val submitRoute = iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets()
 
   def getPageAsDoc(form: Form[Option[String]] = fakeForm, request: FakeRequest[AnyContentAsEmpty.type] = fakeRequest) = {
-    val result = estimate(form)(request, applicationMessages, formPartialRetriever)
+    val result = estimate(form, false, submitRoute)(request, applicationMessages, formPartialRetriever)
     asDocument(contentAsString(result))
   }
 
@@ -89,7 +91,7 @@ class EstimateViewTest extends ViewTestHelper {
       val doc = getPageAsDoc()
       val formElement = doc.getElementsByTag("form").first
 
-      formElement.attr("action") should be(iht.controllers.filter.routes.EstimateController.onSubmit().url)
+      formElement.attr("action") should be(iht.controllers.filter.routes.EstimateController.onSubmitWithoutJointAssets().url)
     }
 
     "contain a 'Previous ansewrs' section" in {

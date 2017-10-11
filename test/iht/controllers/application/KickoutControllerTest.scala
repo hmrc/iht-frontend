@@ -171,8 +171,7 @@ class KickoutControllerTest extends ApplicationControllerTest {
         implicit val request = FakeRequest().withSession(SessionKeys.sessionId -> uuid)
         val result = kickoutController.onSubmit(createFakeRequest())
         status(result) shouldBe SEE_OTHER
-        redirectLocation(result) should be (Some(
-          "https://www.gov.uk/government/publications/inheritance-tax-inheritance-tax-account-iht400"))
+        redirectLocation(result) should be (Some(iht.controllers.routes.DeadlinesController.onPageLoadApplication().url))
     }
 
     "respond with INTERNAL_SERVER_ERROR on page submission when unable to store value in cache" in {

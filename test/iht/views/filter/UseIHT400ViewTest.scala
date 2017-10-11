@@ -78,7 +78,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.text() should be(messagesApi("page.iht.filter.paperform.million.exit"))
+      button.text() should be(messagesApi("iht.continue"))
     }
 
     "contain a link with the button class with href attribute pointing to ???" in {
@@ -86,7 +86,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val button = doc.select("a.button").first
 
-      button.attr("href") should be(IhtProperties.linkEstateReportKickOut)
+      button.attr("href") should be(iht.controllers.routes.DeadlinesController.onPageLoadRegistration().url)
     }
 
     "contain a 'Previous answers' section" in {
@@ -140,7 +140,7 @@ class UseIHT400ViewTest extends ViewTestHelper {
       val doc = asDocument(contentAsString(result))
       val link = doc.getElementById("change-estimate")
       link.text() should be(messagesApi("iht.change"))
-      link.attr("href") should be(iht.controllers.filter.routes.EstimateController.onPageLoad().url)
+      link.attr("href") should be(iht.controllers.filter.routes.EstimateController.onPageLoadWithoutJointAssets().url)
     }
 
   }

@@ -48,6 +48,18 @@ object FilterForms {
     )
   )
 
+  def filterJointlyOwnedForm(implicit messages: Messages) = Form(
+    mapping(
+      filterJointlyOwned -> of(radioOptionString("error.selectAnswer", FieldMappings.filterJointlyOwnedChoices))
+    )
+    (
+      identity
+    )
+    (
+      (choice) => Some(choice)
+    )
+  )
+
   def estimateForm (implicit messages: Messages) = Form(
     mapping(
       estimate -> of(radioOptionString("error.selectAnswer", FieldMappings.estimateChoices))
