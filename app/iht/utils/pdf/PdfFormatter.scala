@@ -247,9 +247,11 @@ object PdfFormatter {
   }
 
   private def addIfProperty(currentProperties: List[Property], currentAsset:Asset): Option[List[Property]] = {
+    def nextId = Some((currentProperties.size + 1).toString)
     currentAsset.assetCode match {
       case Some("0016") =>
-        val nextId = Some((currentProperties.size + 1).toString)
+        Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
+      case Some("0017") =>
         Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
       case _ => None
     }

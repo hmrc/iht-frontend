@@ -434,11 +434,20 @@ class PdfFormatterTest extends FormTestHelper {
     value = Some(100)
   )
 
+  private val propertyOtherResidentialBuilding = Property(
+    id = Some("2"),
+    address = optionUkAddress,
+    propertyType = TestHelper.PropertyTypeOtherResidentialBuilding,
+    typeOfOwnership = TestHelper.TypesOfOwnershipJoint,
+    tenure = TestHelper.TenureLeasehold,
+    value = Some(200)
+  )
+
   "transformAssets" must {
     "transform each asset type appropriately" in {
       val expectedResult = ApplicationDetails(
         allAssets = Some(buildAllAssetsWithAllSectionsFilled),
-        propertyList = List(propertyDeceasedHome)
+        propertyList = List(propertyDeceasedHome, propertyOtherResidentialBuilding)
       )
 
       val optionSetAsset = Some(Set(
@@ -454,9 +463,9 @@ class PdfFormatterTest extends FormTestHelper {
         IHTReturnTestHelper.buildAssetForeignAssets,
         IHTReturnTestHelper.buildAssetMoneyOwed,
         IHTReturnTestHelper.buildAssetOther,
-        IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome
-//        IHTReturnTestHelper.buildAssetsPropertiesLandNonRes,
-//        IHTReturnTestHelper.buildAssetsPropertiesOtherResidentialBuilding
+        IHTReturnTestHelper.buildAssetsPropertiesDeceasedsHome,
+//        IHTReturnTestHelper.buildAssetsPropertiesLandNonRes
+        IHTReturnTestHelper.buildAssetsPropertiesOtherResidentialBuilding
       )
       )
 
