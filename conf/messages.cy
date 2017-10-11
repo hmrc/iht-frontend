@@ -2002,8 +2002,28 @@ page.iht.filter.useService.under325000.p1.b = ddefnyddio''r ffurflen bapur IHT20
 page.iht.filter.useService.under325000.p1.c = os na allwch roi gwybod ar-lein am werth yr ystâd.
 page.iht.filter.useService.under325000.p2 = Os na allwch lawrlwytho neu argraffu''r ffurflen, gallwch ofyn bod copi''n cael ei anfon atoch drwy ffonio''r llinell gymorth Treth Etifeddiant ar 0300 123 1072. Os ydych y tu allan i''r DU, ffoniwch +44 300 123 1072.
 
+page.iht.filter.useService.between325000And1Million.title = ???
+page.iht.filter.useService.between325000And1Million.section1.title = ???
+page.iht.filter.useService.between325000And1Million.section1.p1 = ???
+page.iht.filter.useService.between325000And1Million.section2.title = ???
+page.iht.filter.useService.between325000And1Million.section2.p1.start = ???
+page.iht.filter.useService.between325000And1Million.section2.p1.link = ???
+page.iht.filter.useService.between325000And1Million.section2.p1.end = ???
+page.iht.filter.useService.between325000And1Million.section2.bullet1 = ???
+page.iht.filter.useService.between325000And1Million.section2.bullet2 = ???
+page.iht.filter.useService.between325000And1Million.section2.p2 = ???
+page.iht.filter.useService.between325000And1Million.section3.title = ???
+page.iht.filter.useService.between325000And1Million.section3.p1.start = ???
+page.iht.filter.useService.between325000And1Million.section3.p1.link = ???
+page.iht.filter.useService.between325000And1Million.section3.p1.end = ???
+page.iht.filter.useService.between325000And1Million.section3.p2 = ???
+page.iht.filter.useService.between325000And1Million.report = ???
+page.iht.filter.useService.between325000And1Million.otherWaysToReport = ???
+page.iht.filter.useService.between325000And1Million.iht400link = ???
+
 page.iht.deadlines.title = Dyddiadau cau ar gyfer llenwi''r ffurflen IHT400
 page.iht.deadlines.p1 = Mae gennych 1 flwyddyn o ddyddiad y farwolaeth i lenwi''r ffurflen IHT400 os oes unrhyw Dreth Etifeddiant i''w chreu.
 page.iht.deadlines.p2 = Bydd yn rhaid i chi ddechrau talu Treth Etifeddiant cyn pen diwedd y chweched mis ar ôl y farwolaeth, p''un a'ch bod wedi llenwi''r ffurflen ai peidio. Gallwch
 page.iht.deadlines.anchorText = wneud taliad cyn i chi orffen prisio''r ystâd
 page.iht.deadlines.p3 = Pan fyddwch wedi gorffen gyda''r ffurflen IHT400, fe fydd yn dangos a oes unrhyw Dreth Etifeddiant i''w thalu.
+
