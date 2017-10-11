@@ -254,7 +254,7 @@ object PdfFormatter {
   ))
 
   private val optionEmptyPrivatePension = Some(PrivatePension(
-    isChanged = None,
+    isChanged = Some(false),
     value = None,
     isOwned = Some(false)
   ))

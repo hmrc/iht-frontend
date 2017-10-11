@@ -405,8 +405,8 @@ class PdfFormatterTest extends FormTestHelper {
     value = Some(200)
   )
 
-  "transformAssets" must {
-    "transform each asset type appropriately" in {
+  "createApplicationDetails" must {
+    "create an app details object with info for each asset stored appropriately" in {
       val expectedResult = ApplicationDetails(
         allAssets = Some(buildAllAssetsWithAllSectionsFilled),
         propertyList = List(propertyDeceasedHome, propertyOtherResidentialBuilding)
