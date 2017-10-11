@@ -355,7 +355,7 @@ class PdfFormatterTest extends FormTestHelper {
       money = Some(createShareableBasicEstateElementSharedOnly(BigDecimal(2))),
       household = Some(createShareableBasicEstateElementNoShared(BigDecimal(8))),
       vehicles = None,
-      privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isChanged = None,
+      privatePension = Some(CommonBuilder.buildPrivatePensionExtended.copy(isChanged = Some(false),
         value = Some(BigDecimal(7)), isOwned = Some(true))),
       stockAndShare = Some(CommonBuilder.buildStockAndShare.copy(
         valueNotListed = Some(BigDecimal(9)),
