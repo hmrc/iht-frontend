@@ -2006,7 +2006,7 @@ page.iht.filter.jointlyowned.question = A oedd y person a fu farw yn berchen ar 
 page.iht.filter.jointlyowned.guidance = Gallai hyn fod yn berchen ar gartref gyda rhywun arall neu gael cyfrif banc ar y cyd.
 page.iht.filter.jointlyowned.yes = Oedd, roedd yn berchen ar rywbeth ar y cyd â rhywun arall
 page.iht.filter.jointlyowned.no = Nac oedd, nid oedd yn berchen ar rywbeth ar y cyd â rhywun arall
-page.iht.filter.jointlyowned.previousanswers = ???
+page.iht.filter.jointlyowned.previousanswers = A oedd y person a fu farw yn berchen ar unrhyw eiddo, neu a oedd ganddo gyfrifon banc ar y cyd â rhywun arall?
 
 page.iht.filter.useService.between325000And1Million.title = ???
 page.iht.filter.useService.between325000And1Million.section1.title = ???
