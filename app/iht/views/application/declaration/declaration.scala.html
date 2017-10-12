@@ -92,23 +92,23 @@ browserTitle = Some(Messages("iht.estateReport.declaration.title")) ) {
             <div class="important-notice">
                 <h2  id="main-text" class="heading-medium">@Messages("iht.estateReport.declaration.declaringThat")</h2>
                 <ul class="list-bullet">
-                    <li id="main-bullet1-text" class="bold">
+                    <li id="main-bullet1-text">
                         @DeclarationViewHelper.mainBullet1Text(model.declarationType, model.isMultipleExecutor, deceasedName)
                     </li>
-                    <li id="main-bullet2-text" class="bold">
+                    <li id="main-bullet2-text">
                         @DeclarationViewHelper.mainBullet2Text(model.declarationType, model.isMultipleExecutor)
                     </li>
-                    <li id="main-bullet3-text" class="bold">
+                    <li id="main-bullet3-text">
                         @DeclarationViewHelper.mainBullet3Text(model.declarationType, model.isMultipleExecutor, deceasedName)
                     </li>
                     @DeclarationViewHelper.mainBullet4Text(model.declarationType, model.isMultipleExecutor).map{text=>
-                        <li id="main-bullet4-text" class="bold">@text</li>
+                        <li id="main-bullet4-text">@text</li>
                     }
                     @DeclarationViewHelper.mainBullet5Text(model.declarationType, model.isMultipleExecutor).map{text=>
-                        <li id="main-bullet5-text" class="bold">@text</li>
+                        <li id="main-bullet5-text">@text</li>
                     }
                     @DeclarationViewHelper.mainBullet6Text(model.declarationType, model.isMultipleExecutor).map{text=>
-                        <li id="main-bullet6-text" class="bold">@text</li>
+                        <li id="main-bullet6-text">@text</li>
                     }
                 </ul>
             </div>
