@@ -32,7 +32,8 @@ abstract class IhtAuditEvent(auditType: String, detail: Map[String, String])(imp
     ))
 
 
-class QuestionnaireEvent(feelingAboutExperience: String, easyToUse: String,  howCanYouImprove: String, fullName: String, nino: String)
+class QuestionnaireEvent(feelingAboutExperience: String, easyToUse: String,  howCanYouImprove: String, fullName: String,
+                         nino: String, contactDetails: String, stageInService: String)
                         (implicit hc: HeaderCarrier)
   extends IhtAuditEvent("Questionnaire",
     Map(
@@ -41,6 +42,8 @@ class QuestionnaireEvent(feelingAboutExperience: String, easyToUse: String,  how
       "feelingAboutExperience" -> feelingAboutExperience,
       "easytouse" -> easyToUse.toString,
       "howcanyouimprove" -> howCanYouImprove,
-      "fullName" -> fullName
+      "fullName" -> fullName,
+      "contactDetails" -> contactDetails,
+      "stageInService" -> stageInService
     )
   )
