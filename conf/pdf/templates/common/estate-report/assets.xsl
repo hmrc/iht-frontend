@@ -367,7 +367,7 @@
                                 <xsl:if test="allAssets/privatePension/isChanged">
                                     <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'page.iht.application.assets.pensions.changed.question')"/>
+                                                        select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.pensions.changed.title', $deceasedName)"/>
                                         <xsl:with-param name="value">
                                             <xsl:choose>
                                                 <xsl:when test="allAssets/privatePension/isChanged='false'">
