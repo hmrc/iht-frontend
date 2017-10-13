@@ -258,11 +258,11 @@
 
         <xsl:comment>Assets vehicles section starts</xsl:comment>
         <fo:block xsl:use-attribute-sets="section" page-break-inside="avoid">
-            <fo:block  role="H3" xsl:use-attribute-sets="h3">
-                <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.vehicles')"/>
-            </fo:block>
             <xsl:choose>
             <xsl:when test="allAssets/vehicles != ''">
+                <fo:block  role="H3" xsl:use-attribute-sets="h3">
+                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.estateReport.assets.vehicles')"/>
+                </fo:block>
                 <fo:block role="H4" xsl:use-attribute-sets="h4">
                     <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.vehiclesOwned', $deceasedName)"/>
                 </fo:block>
@@ -367,7 +367,7 @@
                                 <xsl:if test="allAssets/privatePension/isChanged">
                                     <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
-                                                        select="scala:getMessagesText($translator, 'page.iht.application.assets.pensions.changed.question')"/>
+                                                        select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.pensions.changed.title', $deceasedName)"/>
                                         <xsl:with-param name="value">
                                             <xsl:choose>
                                                 <xsl:when test="allAssets/privatePension/isChanged='false'">
@@ -564,75 +564,79 @@
                     </fo:block>
                     <xsl:comment>Assets insurance premiums that wer paid by the deceased for someone</xsl:comment>
                     <fo:block>
-                        <fo:block role="H4" xsl:use-attribute-sets="h4">
-                            <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.premiumsPaidByOther', $deceasedName)"/>
-                        </fo:block>
-                        <fo:table>
-                            <fo:table-column column-number="1" column-width="70%"/>
-                            <fo:table-column column-number="2" column-width="30%"/>
-                            <fo:table-body>
-                                <xsl:call-template name="table-row">
-                                    <xsl:with-param name="label"
-                                                    select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.insurancePolicies.premiumsNotPayingOut.question', $deceasedName)"/>
-                                    <xsl:with-param name="value">
-                                        <xsl:choose>
-                                            <xsl:when test="allAssets/insurancePolicy/isInsurancePremiumsPayedForSomeoneElse='false'">
-                                                <xsl:value-of select="scala:getMessagesText($translator, 'iht.no')"/>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/>
-                                            </xsl:otherwise>
-                                        </xsl:choose>
-                                    </xsl:with-param>
-                                </xsl:call-template>
-                                <xsl:if test="allAssets/insurancePolicy/moreThanMaxValue">
+                        <xsl:choose>
+                        <xsl:when test="allAssets/insurancePolicy/isInsurancePremiumsPayedForSomeoneElse!=''">
+                            <fo:block role="H4" xsl:use-attribute-sets="h4">
+                                <xsl:value-of select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.premiumsPaidByOther', $deceasedName)"/>
+                            </fo:block>
+                            <fo:table>
+                                <fo:table-column column-number="1" column-width="70%"/>
+                                <fo:table-column column-number="2" column-width="30%"/>
+                                <fo:table-body>
                                     <xsl:call-template name="table-row">
                                         <xsl:with-param name="label"
-                                                        select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question', $deceasedName)"/>
+                                                        select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.insurancePolicies.premiumsNotPayingOut.question', $deceasedName)"/>
                                         <xsl:with-param name="value">
-                                            <xsl:if test="allAssets/insurancePolicy/moreThanMaxValue">
+                                            <xsl:choose>
+                                                <xsl:when test="allAssets/insurancePolicy/isInsurancePremiumsPayedForSomeoneElse='false'">
+                                                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.no')"/>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </xsl:with-param>
+                                    </xsl:call-template>
+                                    <xsl:if test="allAssets/insurancePolicy/moreThanMaxValue">
+                                        <xsl:call-template name="table-row">
+                                            <xsl:with-param name="label"
+                                                            select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.insurancePolicies.overLimitNotOwnEstate.question', $deceasedName)"/>
+                                            <xsl:with-param name="value">
+                                                <xsl:if test="allAssets/insurancePolicy/moreThanMaxValue">
+                                                    <xsl:choose>
+                                                        <xsl:when test="allAssets/insurancePolicy/moreThanMaxValue='false'">
+                                                            <xsl:value-of select="scala:getMessagesText($translator, 'iht.no')"/>
+                                                        </xsl:when>
+                                                        <xsl:otherwise>
+                                                            <xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/>
+                                                        </xsl:otherwise>
+                                                    </xsl:choose>
+                                                </xsl:if>
+                                            </xsl:with-param>
+                                        </xsl:call-template>
+                                        <xsl:call-template name="table-row">
+                                            <xsl:with-param name="label"
+                                                            select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.buyAnnuity.question', $deceasedName)"/>
+                                            <xsl:with-param name="value">
                                                 <xsl:choose>
-                                                    <xsl:when test="allAssets/insurancePolicy/moreThanMaxValue='false'">
+                                                    <xsl:when test="allAssets/insurancePolicy/isAnnuitiesBought='false'">
                                                         <xsl:value-of select="scala:getMessagesText($translator, 'iht.no')"/>
                                                     </xsl:when>
                                                     <xsl:otherwise>
                                                         <xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/>
                                                     </xsl:otherwise>
                                                 </xsl:choose>
-                                            </xsl:if>
-                                        </xsl:with-param>
-                                    </xsl:call-template>
-                                    <xsl:call-template name="table-row">
-                                        <xsl:with-param name="label"
-                                                        select="scala:getMessagesTextWithParameter($translator, 'iht.estateReport.assets.insurancePolicies.buyAnnuity.question', $deceasedName)"/>
-                                        <xsl:with-param name="value">
-                                            <xsl:choose>
-                                                <xsl:when test="allAssets/insurancePolicy/isAnnuitiesBought='false'">
-                                                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.no')"/>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </xsl:with-param>
-                                    </xsl:call-template>
-                                    <xsl:call-template name="table-row">
-                                        <xsl:with-param name="label"
-                                                        select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.insurance.policies.overview.other.question4', $deceasedName)"/>
-                                        <xsl:with-param name="value">
-                                            <xsl:choose>
-                                                <xsl:when test="allAssets/insurancePolicy/isInTrust='false'">
-                                                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.no')"/>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </xsl:with-param>
-                                    </xsl:call-template>
-                                </xsl:if>
-                            </fo:table-body>
-                        </fo:table>
+                                            </xsl:with-param>
+                                        </xsl:call-template>
+                                        <xsl:call-template name="table-row">
+                                            <xsl:with-param name="label"
+                                                            select="scala:getMessagesTextWithParameter($translator, 'page.iht.application.assets.insurance.policies.overview.other.question4', $deceasedName)"/>
+                                            <xsl:with-param name="value">
+                                                <xsl:choose>
+                                                    <xsl:when test="allAssets/insurancePolicy/isInTrust='false'">
+                                                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.no')"/>
+                                                    </xsl:when>
+                                                    <xsl:otherwise>
+                                                        <xsl:value-of select="scala:getMessagesText($translator, 'iht.yes')"/>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
+                                            </xsl:with-param>
+                                        </xsl:call-template>
+                                    </xsl:if>
+                                </fo:table-body>
+                            </fo:table>
+                            </xsl:when>
+                        </xsl:choose>
                     </fo:block>
                 </xsl:when>
             </xsl:choose>

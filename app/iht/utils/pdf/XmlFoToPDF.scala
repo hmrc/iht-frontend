@@ -21,10 +21,9 @@ import javax.xml.transform.sax.SAXResult
 import javax.xml.transform.stream.StreamSource
 import javax.xml.transform.{ErrorListener, Transformer, TransformerException, TransformerFactory}
 
-import iht.constants.Constants
 import iht.models.RegistrationDetails
 import iht.models.application.ApplicationDetails
-import iht.models.des.ihtReturn.{Asset, IHTReturn}
+import iht.models.des.ihtReturn.IHTReturn
 import iht.utils.tnrb.TnrbHelper
 import iht.utils.xml.ModelToXMLSource
 import iht.utils.{CommonHelper, _}
@@ -70,8 +69,11 @@ trait XmlFoToPDF {
   def createPostSubmissionPDF(registrationDetails: RegistrationDetails,
                               ihtReturn: IHTReturn, messages: Messages): Array[Byte] = {
     val rd = PdfFormatter.transform(registrationDetails, messages)
+    val ad = PdfFormatter.createApplicationDetails(
+      ihtReturn.freeEstate.flatMap(_.estateAssets),
+      ihtReturn.trusts)
     val modelAsXMLStream: StreamSource = new StreamSource(new ByteArrayInputStream(ModelToXMLSource.
-      getPostSubmissionDetailsXMLSource(rd, ihtReturn)))
+      getPostSubmissionDetailsXMLSource(rd, ihtReturn, ad)))
 
     val pdfoutStream = new ByteArrayOutputStream()
 

@@ -16,24 +16,16 @@
 
 package iht.utils.pdf
 
-import javax.inject.{Inject, Singleton}
-
-import iht.utils.GiftsHelper
-import iht.constants.FieldMappings.maritalStatusMap
-import iht.constants.FieldMappings.domicileMap
-import iht.constants.FieldMappings.applicantCountryMap
-import iht.constants.{Constants, FieldMappings}
-import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
+import iht.constants.FieldMappings.{applicantCountryMap, domicileMap, maritalStatusMap}
+import iht.constants.{Constants, FieldMappings, IhtProperties}
 import iht.models.application.ApplicationDetails
-import iht.models.application.gifts.PreviousYearsGifts
-import iht.models.des.ihtReturn.{Asset, Exemption, Gift, IHTReturn}
+import iht.models.application.assets._
+import iht.models.application.basicElements.{BasicEstateElement, ShareableBasicEstateElement}
+import iht.models.des.ihtReturn._
+import iht.models.{ApplicantDetails, RegistrationDetails, UkAddress}
 import iht.utils.{CommonHelper, GiftsHelper}
-import iht.views.html.filter
-import iht.views.html.filter.domicile
 import org.joda.time.LocalDate
-import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
 
 import scala.collection.immutable.ListMap
 
@@ -95,8 +87,241 @@ object PdfFormatter {
     combineGiftSets(allPreviousYearsGifts, setOfGifts)
   }
 
-  def transform(ihtReturn: IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
+  private def updateFromAssetShareableBasicEstateElement(currentAsset: Asset, optionShareableBasicEstateElement: Option[ShareableBasicEstateElement]) = {
+    currentAsset.howheld match {
+      case Some("Standard") =>
+        optionShareableBasicEstateElement.map(_ copy(
+          isOwned = Some(true),
+          value = currentAsset.assetTotalValue
+        )
+        )
+      case _ =>
+        optionShareableBasicEstateElement.map(_ copy(
+          isOwnedShare = Some(true),
+          shareValue = currentAsset.assetTotalValue
+        )
+        )
+    }
+  }
 
+  private def updateFromAssetPrivatePension(currentAsset: Asset, optionPrivatePension: Option[PrivatePension]) = {
+    optionPrivatePension.map(_ copy(
+      isOwned = Some(true),
+      value = currentAsset.assetTotalValue
+    )
+    )
+  }
+
+  private def updateFromAssetStockAndShareNotListed(currentAsset: Asset, optionStockAndShare: Option[StockAndShare]) = {
+        optionStockAndShare.map(_ copy(
+          isNotListed = Some(true),
+          valueNotListed = currentAsset.assetTotalValue
+        )
+        )
+  }
+
+  private def updateFromAssetStockAndShareListed(currentAsset: Asset, optionStockAndShare: Option[StockAndShare]) = {
+    optionStockAndShare.map(_ copy(
+      isListed = Some(true),
+      valueListed = currentAsset.assetTotalValue
+    )
+    )
+  }
+
+  private def updateFromAssetBasicEstateElement(currentAsset: Asset, optionBasicEstateElement: Option[BasicEstateElement]) = {
+    optionBasicEstateElement.map(_ copy(
+          isOwned = Some(true),
+          value = currentAsset.assetTotalValue
+        )
+        )
+  }
+
+  private def updateFromAssetHeldInTrust(currentAsset: Asset, optionHeldInTrust: Option[HeldInTrust]) = {
+    optionHeldInTrust.map(_ copy(
+      isOwned = Some(true),
+      value = currentAsset.assetTotalValue
+    )
+    )
+  }
+
+  private def updateFromAssetInsurancePolicy(currentAsset: Asset, optionInsurancePolicy: Option[InsurancePolicy]) = {
+    currentAsset.howheld match {
+      case Some("Standard") =>
+        optionInsurancePolicy.map(_ copy(
+          policyInDeceasedName = Some(true),
+          value = currentAsset.assetTotalValue
+        )
+        )
+      case _ =>
+        optionInsurancePolicy.map(_ copy(
+          isJointlyOwned = Some(true),
+          shareValue = currentAsset.assetTotalValue
+        )
+        )
+    }
+  }
+
+  private def transformAssets1(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
+    currentAsset.assetCode match {
+      case Some("9001") => Some(currentAllAssets copy (money = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
+      case Some("9004") => Some(currentAllAssets copy (household = updateFromAssetShareableBasicEstateElement(currentAsset, currentAllAssets.money)))
+      case Some("9005") => Some(currentAllAssets copy (privatePension = updateFromAssetPrivatePension(currentAsset, currentAllAssets.privatePension)))
+      case Some("9008") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareListed(currentAsset, currentAllAssets.stockAndShare)))
+      case Some("9010") => Some(currentAllAssets copy (stockAndShare = updateFromAssetStockAndShareNotListed(currentAsset, currentAllAssets.stockAndShare)))
+      case Some("9006") => Some(currentAllAssets copy (insurancePolicy = updateFromAssetInsurancePolicy(currentAsset, currentAllAssets.insurancePolicy)))
+      case _ => None
+    }
+  }
+
+  private def transformAssets2(currentAllAssets: AllAssets, currentAsset:Asset): Option[AllAssets] = {
+    currentAsset.assetCode match {
+      case Some("9021") => Some(currentAllAssets copy (businessInterest = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.businessInterest)))
+      case Some("9099") => Some(currentAllAssets copy (nominated = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.nominated)))
+      case Some("9097") => Some(currentAllAssets copy (heldInTrust = updateFromAssetHeldInTrust(currentAsset, currentAllAssets.heldInTrust)))
+      case Some("9098") => Some(currentAllAssets copy (foreign = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.foreign)))
+      case Some("9013") => Some(currentAllAssets copy (moneyOwed = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.moneyOwed)))
+      case Some("9015") => Some(currentAllAssets copy (other = updateFromAssetBasicEstateElement(currentAsset, currentAllAssets.other)))
+      case Some("0016") => Some(currentAllAssets copy (properties = Some(Properties(isOwned = Some(true))) ))
+      case _ => None
+    }
+  }
+
+  private def propertyFromAsset(asset: Asset, nextId:Option[String]): Property = {
+    val optionUkAddress = asset.propertyAddress.flatMap(_.address).map { addr =>
+      UkAddress(addr.addressLine1, addr.addressLine2, addr.addressLine3, addr.addressLine4, addr.postalCode, addr.countryCode)
+    }
+
+    val IHTReturnHowHeld = ListMap(
+      "Standard" -> "Deceased only",
+      "Joint - Beneficial Joint Tenants" -> "Joint",
+      "Joint - Tenants In Common" -> "In common" )
+
+    val optionTypeOfOwnership = asset.howheld.flatMap( hh => IHTReturnHowHeld.get(hh))
+
+    val optionPropertyType = asset.assetCode.map {
+      case "0016" => IhtProperties.propertyTypeDeceasedHome
+      case "0017" => IhtProperties.propertyTypeOtherResidentialBuilding
+      case "0018" => IhtProperties.propertyTypeNonResidential
+    }
+
+    Property(
+      id = nextId,
+      address = optionUkAddress,
+      propertyType = optionPropertyType,
+      typeOfOwnership = optionTypeOfOwnership,
+      tenure = asset.tenure,
+      value = asset.assetTotalValue
+    )
+  }
+
+  private def addIfProperty(currentProperties: List[Property], currentAsset:Asset): Option[List[Property]] = {
+    def nextId = Some((currentProperties.size + 1).toString)
+    currentAsset.assetCode match {
+      case Some("0016") =>
+        Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
+      case Some("0017") =>
+        Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
+      case Some("0018") =>
+        Some(currentProperties :+ propertyFromAsset(currentAsset, nextId))
+      case _ => None
+    }
+  }
+
+  private val optionEmptyShareableBasicEstateElement = Some(ShareableBasicEstateElement(
+    value = None,
+    shareValue = None,
+    isOwned = Some(false),
+    isOwnedShare = Some(false)
+  ))
+
+  private val optionEmptyStockAndShare = Some(StockAndShare(
+    value = None,
+    valueNotListed = None,
+    valueListed = None,
+    isListed = Some(false),
+    isNotListed = Some(false)
+  ))
+
+  private val optionEmptyBasicEstateElement = Some(BasicEstateElement(
+    value = None,
+    isOwned = Some(false)
+  ))
+
+  private val optionEmptyHeldInTrust = Some(HeldInTrust(
+    isMoreThanOne = None,
+    value = None,
+    isOwned = Some(false)
+  ))
+
+  private val optionEmptyPrivatePension = Some(PrivatePension(
+    isChanged = Some(false),
+    value = None,
+    isOwned = Some(false)
+  ))
+
+  private val optionEmptyInsurance = Some(InsurancePolicy(
+    isAnnuitiesBought = None,
+    isInsurancePremiumsPayedForSomeoneElse = None,
+    value = None,
+    shareValue = None,
+    policyInDeceasedName = Some(false),
+    isJointlyOwned = Some(false),
+    isInTrust = None,
+    coveredByExemption = None,
+    sevenYearsBefore = None,
+    moreThanMaxValue = None
+  ))
+
+  private def tranformAssets(optionSetAsset: Option[Set[Asset]]): AllAssets = {
+    val emptyAllAssets: AllAssets = AllAssets(
+      money = optionEmptyShareableBasicEstateElement,
+      household = optionEmptyShareableBasicEstateElement,
+      privatePension = optionEmptyPrivatePension,
+      stockAndShare = optionEmptyStockAndShare,
+      insurancePolicy = optionEmptyInsurance,
+      businessInterest = optionEmptyBasicEstateElement,
+      nominated = optionEmptyBasicEstateElement,
+      heldInTrust = optionEmptyHeldInTrust,
+      foreign = optionEmptyBasicEstateElement,
+      moneyOwed = optionEmptyBasicEstateElement,
+      other = optionEmptyBasicEstateElement,
+      properties = Some(Properties(isOwned = Some(false)))
+    )
+    optionSetAsset.map { actualAssetSet =>
+      actualAssetSet.foldLeft[AllAssets](emptyAllAssets) { (currentAllAssets, currentAsset) =>
+        transformAssets1(currentAllAssets, currentAsset)
+          .fold(transformAssets2(currentAllAssets, currentAsset))(Some(_))
+          .fold(currentAllAssets)(identity)
+      }
+    }.fold(emptyAllAssets)(identity)
+  }
+
+  private def transformProperties(optionSetAsset: Option[Set[Asset]]): List[Property] = {
+    val emptyProperties = List[Property]()
+    optionSetAsset.map { actualAssetSet =>
+      actualAssetSet.foldLeft[List[Property]](emptyProperties) { (currentProperties, currentAsset) =>
+        addIfProperty(currentProperties, currentAsset)
+          .fold(currentProperties)(identity)
+      }
+    }.fold(emptyProperties)(identity)
+  }
+
+  def createApplicationDetails(optionSetAsset: Option[Set[Asset]], optionSetTrust: Option[Set[Trust]]): ApplicationDetails = {
+    val allAssetsNonTrust = tranformAssets(optionSetAsset)
+    val propertyList = transformProperties(optionSetAsset)
+    val allAssets = optionSetTrust.map { actualTrustSet =>
+      actualTrustSet.foldLeft[AllAssets](allAssetsNonTrust) { (currentAllAssets, currentTrust) =>
+        val allAssetsForTrusts = tranformAssets(currentTrust.trustAssets)
+        currentAllAssets copy (heldInTrust = allAssetsForTrusts.heldInTrust)
+      }
+    }.fold(allAssetsNonTrust)(identity)
+    ApplicationDetails(
+      allAssets = Some(allAssets),
+      propertyList = propertyList
+    )
+  }
+
+  def transform(ihtReturn: IHTReturn, registrationDetails: RegistrationDetails, messages: Messages): IHTReturn = {
     val deceasedName: String = registrationDetails.deceasedDetails.fold("")(_.name)
     val dateOfDeath: LocalDate = CommonHelper.getOrException(registrationDetails.deceasedDateOfDeath.map(_.dateOfDeath))
 
@@ -140,7 +365,7 @@ object PdfFormatter {
       dd copy(
         maritalStatus = dd.maritalStatus.map(ms => maritalStatusMap(messages)(ms)),
         domicile = dd.domicile.map(ms => domicileMap(messages)(ms)),
-        ukAddress = dd.ukAddress.map{ (addr: UkAddress) =>
+        ukAddress = dd.ukAddress.map { (addr: UkAddress) =>
           addr copy (
             countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
             )
@@ -150,23 +375,23 @@ object PdfFormatter {
 
     val coExecutors = rd.coExecutors.map { coExec =>
       coExec copy (
-        ukAddress = coExec.ukAddress.map{ (addr: UkAddress) =>
-          addr copy (
-            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
-            )
-        }
-      )
-    }
-
-    val optionApplicantDetails: Option[ApplicantDetails] = rd.applicantDetails.map { ad =>
-      ad copy (
-        country = ad.country.map(ms => applicantCountryMap(messages)(ms)),
-        ukAddress = ad.ukAddress.map{ (addr: UkAddress) =>
+        ukAddress = coExec.ukAddress.map { (addr: UkAddress) =>
           addr copy (
             countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
             )
         }
         )
+    }
+
+    val optionApplicantDetails: Option[ApplicantDetails] = rd.applicantDetails.map { ad =>
+      ad copy(
+        country = ad.country.map(ms => applicantCountryMap(messages)(ms)),
+        ukAddress = ad.ukAddress.map { (addr: UkAddress) =>
+          addr copy (
+            countryCode = transformCountryCodeToCountryName(addr.countryCode, messages)
+            )
+        }
+      )
     }
 
     rd copy(deceasedDetails = optionDeceasedDetails, applicantDetails = optionApplicantDetails, coExecutors = coExecutors)

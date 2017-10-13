@@ -30,6 +30,7 @@ import play.api.libs.json.Json
 object ModelToXMLSource extends ModelToXMLSource
 
 trait ModelToXMLSource {
+  private val XMLRootIhtReturnSummary = "IHTReturnSummary"
   private val XMLRootIhtReturn = "IHTReturn"
   private val XMLRootRegistrationDetails = "RegistrationDetails"
   private val XMLRootPostSubmission = "PostSubmissionXML"
@@ -43,10 +44,13 @@ trait ModelToXMLSource {
     clearanceXML.getBytes
   }
 
-  def getPostSubmissionDetailsXMLSource(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn): Array[Byte] = {
+  def getPostSubmissionDetailsXMLSource(registrationDetails: RegistrationDetails, ihtReturn: IHTReturn, applicationDetails: ApplicationDetails): Array[Byte] = {
     val regDetailsXMLString = getXMLSource(registrationDetails)
-    val ihtReturnXMLString = getXMLSource(ihtReturn)
-    val postSubmissionXML = s"<$XMLRootPostSubmission>" + regDetailsXMLString + ihtReturnXMLString + s"</$XMLRootPostSubmission>"
+    val ihtReturnSummaryXMLString = getXMLSource(ihtReturn, XMLRootIhtReturnSummary)
+    val ihtReturnXMLString = getXMLSource(ihtReturn, XMLRootIhtReturn)
+    val applicationDetailsXML = getXMLSource(applicationDetails)
+    val postSubmissionXML = s"<$XMLRootPostSubmission>" + regDetailsXMLString + ihtReturnSummaryXMLString + applicationDetailsXML +
+      ihtReturnXMLString + s"</$XMLRootPostSubmission>"
     postSubmissionXML.getBytes
   }
 
@@ -54,16 +58,14 @@ trait ModelToXMLSource {
     val regDetailsXML = getXMLSource(registrationDetails)
     val applicationDetailsXML = getXMLSource(applicationDetails)
     val preSubmissionXML = s"<$XMLRootPreSubmission>" + regDetailsXML + applicationDetailsXML + s"</$XMLRootPreSubmission>"
-
     preSubmissionXML.getBytes
   }
 
   def getXMLSource(applicationDetails: ApplicationDetails): String =
     s"<$XMLRootApplicationDetails>" + XML.toString(new JSONObject(Json.toJson(applicationDetails).toString())) + s"</$XMLRootApplicationDetails>"
 
-  def getXMLSource(ihtReturn: IHTReturn): String =
-    s"<$XMLRootIhtReturn>" + XML.toString(new JSONObject(Json.toJson(sortByGiftDate(ihtReturn)).toString())) + s"</$XMLRootIhtReturn>"
-
+  def getXMLSource(ihtReturn: IHTReturn, section: String): String =
+    s"<$section>" + XML.toString(new JSONObject(Json.toJson(sortByGiftDate(ihtReturn)).toString())) + s"</$section>"
 
   def getXMLSource(registrationDetails: RegistrationDetails): String =
     s"<$XMLRootRegistrationDetails>" + XML.toString(new JSONObject(Json.toJson(registrationDetails).toString())) + s"</$XMLRootRegistrationDetails>"

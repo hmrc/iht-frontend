@@ -30,7 +30,7 @@ class ModelToXMLSourceTest extends UnitSpec with MockitoSugar with iht.FakeIhtAp
 
     "return correct XML corresponding to a fully completed IHT Return object" in {
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      val result = ModelToXMLSource.getXMLSource(ihtReturn)
+      val result = ModelToXMLSource.getXMLSource(ihtReturn, "IHTReturn")
       val printer = new scala.xml.PrettyPrinter(80, 2)
       val xmlActual = printer.format(XML.loadString(result))
       val survivingSpouse = ihtReturn.deceased.get.survivingSpouse.get
@@ -58,7 +58,8 @@ class ModelToXMLSourceTest extends UnitSpec with MockitoSugar with iht.FakeIhtAp
     "return correct XML corresponding to a fully completed RegistrationDetails object concatenated to iht return object" in {
       val regDetails = CommonBuilder.buildRegistrationDetails1
       val ihtReturn = buildIHTReturnCorrespondingToApplicationDetailsAllFields(new LocalDate(2016, 6, 13), "111222333444")
-      val result: Array[Byte] = ModelToXMLSource.getPostSubmissionDetailsXMLSource(regDetails, ihtReturn)
+      val appDetails = CommonBuilder.buildApplicationDetails2
+      val result: Array[Byte] = ModelToXMLSource.getPostSubmissionDetailsXMLSource(regDetails, ihtReturn, appDetails)
       result.length > 13000 shouldBe true
     }
 

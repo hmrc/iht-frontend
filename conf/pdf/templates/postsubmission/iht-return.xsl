@@ -13,22 +13,24 @@
     <xsl:param name="estateValue"/>
     <xsl:param name="thresholdValue"/>
 
+    <xsl:include href="pdf/templates/common/estate-report/assets.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/estate-summary.xsl"/>
-    <xsl:include href="pdf/templates/postsubmission/assets.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/gifts.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/debts.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/exemptions.xsl"/>
     <xsl:include href="pdf/templates/postsubmission/tnrb.xsl"/>
 
-    <xsl:template match="IHTReturn">
+    <xsl:template match="PostSubmissionXML/IHTReturnSummary">
         <xsl:call-template name="estate-summary"/>
+    </xsl:template>
 
-        <xsl:comment>Free Estate section starts</xsl:comment>
-        <xsl:call-template name="assets">
-            <xsl:with-param name="value" select="freeEstate"></xsl:with-param>
-        </xsl:call-template>
-        <xsl:comment>Free Estate section ends</xsl:comment>
+    <xsl:template match="PostSubmissionXML/ApplicationDetails">
+        <xsl:comment>Assets section starts</xsl:comment>
+        <xsl:call-template name="pre-assets"/>
+        <xsl:comment>Assets section ends</xsl:comment>
+    </xsl:template>
 
+    <xsl:template match="PostSubmissionXML/IHTReturn">
         <xsl:comment>Gifts section starts</xsl:comment>
         <xsl:call-template name="gifts">
             <xsl:with-param name="value" select="gifts"></xsl:with-param>
@@ -46,11 +48,14 @@
             <xsl:with-param name="value" select="freeEstate"></xsl:with-param>
         </xsl:call-template>
         <xsl:comment>Exemptions section ends</xsl:comment>
-        
+
         <xsl:comment>TNRB section starts</xsl:comment>
         <xsl:call-template name="tnrb">
             <xsl:with-param name="value" select="deceased"></xsl:with-param>
         </xsl:call-template>
         <xsl:comment>TNRB section ends</xsl:comment>
     </xsl:template>
+
+
+
 </xsl:stylesheet>
