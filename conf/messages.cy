@@ -2035,6 +2035,6 @@ page.iht.deadlines.p3 = Pan fyddwch wedi gorffen gyda''r ffurflen IHT400, fe fyd
 
 page.iht.questionnaire.contactDetails = Cyfeiriad e-bost neu rif ffôn
 page.iht.questionnaire.activity.question=Beth wnaethoch pan ddefnyddio''ch y gwasanaeth Treth Etifeddiant Ar-lein heddiw?
-page.iht.questionnaire.activity.register=???
-page.iht.questionnaire.activity.estateReport=???
+page.iht.questionnaire.activity.register=Wedi cwblhau''r cofrestriad ond heb ddechrau''r adroddiad ynghylch yr ystâd
+page.iht.questionnaire.activity.estateReport=Wedi dechrau''ch adroddiad ynghylch yr ystâd
 page.iht.questionnaire.activity.declare-app=Cwblhau''ch datganiad ac anfon adroddiad ynghylch yr ystâd i CThEM
