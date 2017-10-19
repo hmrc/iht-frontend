@@ -164,9 +164,12 @@ trait IhtFormValidator extends FormValidator {
 
   private def validateOptionalAddressLine(addrKey: String, addr: String, maxLength: Int,
                                           invalidAddressLineMessageKey: String,
+                                          invalidChars: String,
                                           errors: scala.collection.mutable.ListBuffer[FormError]): Unit = {
     addr match {
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
+      case a if addresslineRegex.findFirstIn(a).fold(true)(_=>false) =>
+        errors += FormError(addrKey, invalidChars)
       case _ =>
     }
   }
@@ -174,10 +177,13 @@ trait IhtFormValidator extends FormValidator {
   private def validateMandatoryAddressLine(addrKey: String, addr: String, maxLength: Int,
                                            blankMessageKey: String,
                                            invalidAddressLineMessageKey: String,
+                                           invalidChars: String,
                                            errors: scala.collection.mutable.ListBuffer[FormError]): Unit = {
     addr match {
       case a if a.length == 0 => errors += FormError(addrKey, blankMessageKey)
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
+      case a if addresslineRegex.findFirstIn(a).fold(true)(_=>false) =>
+        errors += FormError(addrKey, invalidChars)
       case _ =>
     }
   }
@@ -207,33 +213,42 @@ trait IhtFormValidator extends FormValidator {
   def ihtAddress(addr2Key: String, addr3Key: String, addr4Key: String,
                  postcodeKey: String, countryCodeKey: String, allLinesBlankMessageKey: String,
                  blankFirstTwoAddrLinesMessageKey: String, invalidAddressLineMessageKey: String,
+                 invalidCharsMessageKey: String,
                  blankPostcodeMessageKey: String, invalidPostcodeMessageKey: String,
                  blankCountryCode: String) = new Formatter[String] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
       val addr = getAddrDetails(data, key, addr2Key, addr3Key, addr4Key, postcodeKey, countryCodeKey)
-
       if (addr._1.length == 0 && addr._2.length == 0) {
         errors += FormError(key, allLinesBlankMessageKey)
         errors += FormError(addr2Key, "")
       } else {
         validateMandatoryAddressLine(key, addr._1,
-          IhtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
-          invalidAddressLineMessageKey, errors)
+          IhtProperties.validationMaxLengthAddresslines,
+          blankFirstTwoAddrLinesMessageKey,
+          invalidAddressLineMessageKey,
+          invalidCharsMessageKey,
+          errors)
         validateMandatoryAddressLine(addr2Key, addr._2,
-          IhtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
-          invalidAddressLineMessageKey, errors)
+          IhtProperties.validationMaxLengthAddresslines,
+          blankFirstTwoAddrLinesMessageKey,
+          invalidAddressLineMessageKey,
+          invalidCharsMessageKey,
+          errors)
         validateOptionalAddressLine(addr3Key, addr._3,
-          IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
+          IhtProperties.validationMaxLengthAddresslines,
+          invalidAddressLineMessageKey,
+          invalidCharsMessageKey,
+          errors)
         validateOptionalAddressLine(addr4Key, addr._4,
-          IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
+          IhtProperties.validationMaxLengthAddresslines,
+          invalidAddressLineMessageKey,
+          invalidCharsMessageKey,
+          errors)
       }
-
       if (addr._6.length == 0 || addr._6 == IhtProperties.ukIsoCountryCode) {
         validatePostcode(addr._5, postcodeKey, blankPostcodeMessageKey, invalidPostcodeMessageKey, errors)
       }
-
-
       if (errors.isEmpty) {
         Right(addr._1)
       } else {
@@ -246,16 +261,15 @@ trait IhtFormValidator extends FormValidator {
     }
   }
 
-
   def ihtInternationalAddress(addr2Key: String, addr3Key: String, addr4Key: String,
                               countryCodeKey: String, allLinesBlankMessageKey: String,
-                              blankFirstTwoAddrLinesMessageKey: String, invalidAddressLineMessageKey: String,
+                              blankFirstTwoAddrLinesMessageKey: String,
+                              invalidAddressLineMessageKey: String, invalidChars: String,
                               blankCountryCode: String,
                               blankBothFirstTwoAddrLinesMessageKey: Option[String] = None)(implicit lang: Lang, messages: Messages) = new Formatter[String] {
     override def bind(key: String, data: Map[String, String]) = {
       val errors = new scala.collection.mutable.ListBuffer[FormError]()
       val addr = getIntlAddrDetails(data, key, addr2Key, addr3Key, addr4Key, countryCodeKey)
-
       if (addr._1.length == 0 && addr._2.length == 0) {
         errors += FormError(key, allLinesBlankMessageKey)
         errors += FormError(addr2Key, "")
@@ -265,26 +279,35 @@ trait IhtFormValidator extends FormValidator {
         errors += FormError(addr2Key, "")
       } else {
         validateMandatoryAddressLine(key, addr._1,
-          IhtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
-          invalidAddressLineMessageKey, errors)
+          IhtProperties.validationMaxLengthAddresslines,
+          blankFirstTwoAddrLinesMessageKey,
+          invalidAddressLineMessageKey,
+          invalidChars,
+          errors)
         validateMandatoryAddressLine(addr2Key, addr._2,
-          IhtProperties.validationMaxLengthAddresslines, blankFirstTwoAddrLinesMessageKey,
-          invalidAddressLineMessageKey, errors)
+          IhtProperties.validationMaxLengthAddresslines,
+          blankFirstTwoAddrLinesMessageKey,
+          invalidAddressLineMessageKey,
+          invalidChars,
+          errors)
         validateOptionalAddressLine(addr3Key, addr._3,
-          IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
+          IhtProperties.validationMaxLengthAddresslines,
+          invalidAddressLineMessageKey,
+          invalidChars,
+          errors)
         validateOptionalAddressLine(addr4Key, addr._4,
-          IhtProperties.validationMaxLengthAddresslines, invalidAddressLineMessageKey, errors)
+          IhtProperties.validationMaxLengthAddresslines,
+          invalidAddressLineMessageKey,
+          invalidChars,
+          errors)
       }
-
       validateIntlCountryCode(countryCodeKey, addr._5, blankCountryCode, errors)(lang, messages)
-
       if (errors.isEmpty) {
         Right(addr._1)
       } else {
         Left(errors.toList)
       }
     }
-
     override def unbind(key: String, value: String): Map[String, String] = {
       Map(key -> value.toString)
     }

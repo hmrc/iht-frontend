@@ -97,7 +97,8 @@ trait DeceasedForms {
         "ukAddress.ukAddressLine2", "ukAddress.ukAddressLine3",
         "ukAddress.ukAddressLine4", "ukAddress.postCode", "ukAddress.countryCode",
         "error.address.give", "error.address.giveInLine1And2",
-        "error.address.giveUsing35CharsOrLess", "error.address.givePostcode",
+        "error.address.giveUsing35CharsOrLess", "error.address.giveUsingOnlyValidChars",
+        "error.address.givePostcode",
         "error.address.givePostcodeUsingNumbersAndLetters", "error.country.select"
       ))  ,
       "ukAddress.ukAddressLine2" -> text,

@@ -2203,6 +2203,7 @@ error.address.giveInLine1And2 = Give an address in both address lines 1 and 2
 error.address.givePostcode = Give a postcode
 error.address.givePostcodeUsingNumbersAndLetters = Give a postcode using numbers and letters
 error.address.giveUsing35CharsOrLess = Give an address using 35 characters or less
+error.address.giveUsingOnlyValidChars = Give an address using only valid characters
 error.address.invalid.character = This line contains an invalid character. Valid characters are: A-Z a-z 0-9 - ’ , / & space
 error.address.length = Enter an address of less than 36 characters
 
