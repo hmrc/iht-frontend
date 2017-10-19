@@ -67,11 +67,11 @@ trait CoExecutorForms {
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess",
           f => f.length <= IhtProperties.validationMaxLengthFirstName)
-        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameRegex.findFirstIn(f).fold(false)(_=>true)),
+        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "lastName" -> ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess",
           f => f.length <= IhtProperties.validationMaxLengthLastName)
-        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameRegex.findFirstIn(f).fold(false)(_=>true)),
+        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "dateOfBirth" -> DateMapping(
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",
@@ -106,19 +106,17 @@ trait CoExecutorForms {
     )
   )
 
-  private lazy val nameRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
-
   def coExecutorPersonalDetailsEditForm(implicit request: Request[_], hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "id" -> optional(text),
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess",
           f => f.length <= IhtProperties.validationMaxLengthFirstName)
-        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameRegex.findFirstIn(f).fold(false)(_=>true)),
+        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "lastName" -> ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess",
           f => f.length <= IhtProperties.validationMaxLengthLastName)
-        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameRegex.findFirstIn(f).fold(false)(_=>true)),
+        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "dateOfBirth" -> DateMapping(
         "error.dateOfBirth.giveFull",
         "error.dateOfBirth.giveCorrectDateUsingOnlyNumbers",

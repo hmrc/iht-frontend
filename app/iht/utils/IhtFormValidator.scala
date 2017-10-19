@@ -168,7 +168,7 @@ trait IhtFormValidator extends FormValidator {
                                           errors: scala.collection.mutable.ListBuffer[FormError]): Unit = {
     addr match {
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
-      case a if addresslineRegex.findFirstIn(a).fold(true)(_=>false) =>
+      case a if nameAndAddressRegex.findFirstIn(a).fold(true)(_=>false) =>
         errors += FormError(addrKey, invalidChars)
       case _ =>
     }
@@ -182,7 +182,7 @@ trait IhtFormValidator extends FormValidator {
     addr match {
       case a if a.length == 0 => errors += FormError(addrKey, blankMessageKey)
       case a if a.length > maxLength => errors += FormError(addrKey, invalidAddressLineMessageKey)
-      case a if addresslineRegex.findFirstIn(a).fold(true)(_=>false) =>
+      case a if nameAndAddressRegex.findFirstIn(a).fold(true)(_=>false) =>
         errors += FormError(addrKey, invalidChars)
       case _ =>
     }

@@ -54,17 +54,15 @@ trait DeceasedForms {
     )
   )
 
-  private lazy val nameRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
-
   def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now())(implicit messages: Messages, request: Request[_],
                                                                   hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "firstName" -> ihtNonEmptyText("error.firstName.give")
         .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthFirstName)
-        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameRegex.findFirstIn(f).fold(false)(_=>true)),
+        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "lastName" -> ihtNonEmptyText("error.lastName.give")
         .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthLastName)
-        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameRegex.findFirstIn(f).fold(false)(_=>true)),
+        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameAndAddressRegex.findFirstIn(f).fold(false)(_=>true)),
       "nino" -> ihtFormValidator.ninoForDeceased(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers"),
       "dateOfBirth" -> DateMapping.dateOfBirth.verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => isDobBeforeDod(dateOfDeath, x)),
@@ -127,12 +125,22 @@ trait DeceasedForms {
     )
   )
 
+  private lazy val addressRegex = """^[A-Za-z0-9,. \(\)\&\-']*$""".r
+
   val deceasedAddressDetailsOutsideUKForm = Form(
     mapping(
-      "ukAddress.ukAddressLine1" -> ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
-      "ukAddress.ukAddressLine2" -> ihtNonEmptyText("error.address.give").verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36),
-      "ukAddress.ukAddressLine3" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
-      "ukAddress.ukAddressLine4" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
+      "ukAddress.ukAddressLine1" -> ihtNonEmptyText("error.address.give")
+        .verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36)
+        .verifying("error.address.giveUsingOnlyValidChars", f => addressRegex.findFirstIn(f).fold(false)(_=>true)),
+      "ukAddress.ukAddressLine2" -> ihtNonEmptyText("error.address.give")
+        .verifying("error.address.giveUsing35CharsOrLess", x => x.trim.length < 36)
+        .verifying("error.address.giveUsingOnlyValidChars", f => addressRegex.findFirstIn(f).fold(false)(_=>true)),
+      "ukAddress.ukAddressLine3" -> optional(text)
+        .verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36)
+        .verifying("error.address.giveUsingOnlyValidChars", f => f.fold(true)(xx => addressRegex.findFirstIn(xx).fold(false)(_=>true))),
+      "ukAddress.ukAddressLine4" -> optional(text)
+        .verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36)
+        .verifying("error.address.giveUsingOnlyValidChars", f => f.fold(true)(xx => addressRegex.findFirstIn(xx).fold(false)(_=>true))),
       "ukAddress.countryCode" -> ihtNonEmptyText("error.country.select")
     )
     (
