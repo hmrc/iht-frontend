@@ -93,7 +93,7 @@ trait DeceasedForms {
 
   val deceasedAddressDetailsUKForm = Form(
     mapping(
-      "ukAddress.addressLine1" -> of(ihtAddress(
+      "ukAddress.ukAddressLine1" -> of(ihtAddress(
         "ukAddress.ukAddressLine2", "ukAddress.ukAddressLine3",
         "ukAddress.ukAddressLine4", "ukAddress.postCode", "ukAddress.countryCode",
         "error.address.give", "error.address.giveInLine1And2",
@@ -102,8 +102,8 @@ trait DeceasedForms {
         "error.address.givePostcodeUsingNumbersAndLetters", "error.country.select"
       ))  ,
       "ukAddress.ukAddressLine2" -> text,
-      "ukAddress.addressLine3" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
-      "ukAddress.addressLine4" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
+      "ukAddress.ukAddressLine3" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
+      "ukAddress.ukAddressLine4" -> optional(text).verifying("error.address.giveUsing35CharsOrLess", x => x.getOrElse("").trim.length < 36),
       "ukAddress.postCode" -> text,
       "ukAddress.countryCode" -> default(text, "GB")
     )
