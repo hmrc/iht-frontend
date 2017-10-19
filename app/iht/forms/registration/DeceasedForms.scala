@@ -54,13 +54,17 @@ trait DeceasedForms {
     )
   )
 
+  private lazy val nameRegex = """^[A-Za-z0-9,. \(\)\&\-]*$""".r
+
   def aboutDeceasedForm(dateOfDeath: LocalDate = LocalDate.now())(implicit messages: Messages, request: Request[_],
                                                                   hc: HeaderCarrier, ec: ExecutionContext) = Form(
     mapping(
       "firstName" -> ihtNonEmptyText("error.firstName.give")
-        .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthFirstName),
+        .verifying("error.firstName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthFirstName)
+        .verifying("error.firstName.giveUsingOnlyValidChars", f => nameRegex.findFirstIn(f).fold(false)(_=>true)),
       "lastName" -> ihtNonEmptyText("error.lastName.give")
-        .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthLastName),
+        .verifying("error.lastName.giveUsingXCharsOrLess", f => f.length <= IhtProperties.validationMaxLengthLastName)
+        .verifying("error.lastName.giveUsingOnlyValidChars", f => nameRegex.findFirstIn(f).fold(false)(_=>true)),
       "nino" -> ihtFormValidator.ninoForDeceased(
         "error.nino.give","error.nino.giveUsing8Or9Characters","error.nino.giveUsingOnlyLettersAndNumbers"),
       "dateOfBirth" -> DateMapping.dateOfBirth.verifying("error.deceasedDateOfBirth.giveBeforeDateOfDeath", x => isDobBeforeDod(dateOfDeath, x)),

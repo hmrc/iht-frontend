@@ -2149,6 +2149,7 @@ error.address.wasInUK.give = Give an answer for if the address was in the UK
 error.lastName.blank = Enter a last name
 error.lastName.blank.summary = enter a last name
 error.lastName.give = Give a last name
+error.lastName.giveUsingOnlyValidChars = Give a last name using only valid characters
 error.lastName.giveUsingXCharsOrLess = Give a last name using 40 characters or less
 error.lastName.length = Enter a last name using less than 40 characters
 error.lastName.length.summary = enter a last name using less than 40 characters
@@ -2204,6 +2205,7 @@ error.address.givePostcode = Give a postcode
 error.address.givePostcodeUsingNumbersAndLetters = Give a postcode using numbers and letters
 error.address.giveUsing35CharsOrLess = Give an address using 35 characters or less
 error.address.giveUsingOnlyValidChars = Give an address using only valid characters
+
 error.address.invalid.character = This line contains an invalid character. Valid characters are: A-Z a-z 0-9 - ’ , / & space
 error.address.length = Enter an address of less than 36 characters
 
@@ -2261,6 +2263,7 @@ error.dateOfMarriage.giveCorrectMonthYear = Give a correct month and year for da
 error.email = Enter a valid email address.
 
 error.firstName.give = Give a first name
+error.firstName.giveUsingOnlyValidChars = Give a first name using only valid characters
 error.firstName.giveUsingXCharsOrLess = Give a first name using 40 characters or less
 
 #Errors - Registration
